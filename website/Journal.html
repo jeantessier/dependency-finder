@@ -17,6 +17,52 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	February 16, 2005
+    </dt>
+    <dd>
+	<p>Fixed <code>build.xml</code> to use <code>&lt;junit&gt;</code> and
+	<code>&lt;junitreport&gt;</code> tasks to run the unit tests and get a
+	nice HTML report.  It works fine on MacOS, but not on Windows XP, for
+	some reason.  I get an <code>OutOfMemoryError</code> no matter how much
+	memory I put in <code>ANT_OPTS</code>.</p>
+
+	<p>I'm also going to use spaces only for indenting
+	<code>build.xml</code>.  I was using combinations of tabs and spaces,
+	but it looks very strange in some editors that show tabs as four
+	spaces.  Eventually, I might do the same in Java files, too.</p>
+    </dd>
+    <dt>
+	February 05, 2005
+    </dt>
+    <dd>
+	<p>Started to work out how to have <code>DependencyFinder</code> use
+	the new <code>Monitor</code>.  That GUI code is a mess!</p>
+    </dd>
+    <dt>
+	February 04, 2005
+    </dt>
+    <dd>
+	<p>Compiles and passes all tests with JDK 1.5.0 on Alienware.  Compiles
+	in 15 seconds and tests run in 10.203 secs.  My laptop, with JDK 1.4.2,
+	would take 31 seconds to compile it and the tests would take 20 secs.
+	to run.</p>
+    </dd>
+    <dt>
+	February 03, 2005
+    </dt>
+    <dd>
+	<p>Started thinking about reorganizing the build process to compile
+	everything into a <code>build</code> directory, like many other
+	projects do.  I must investigate further what the current Ant best
+	practices are like.</p>
+    </dd>
+    <dt>
+	February 02, 2005
+    </dt>
+    <dd>
+	<p>New hardware: Alienware.</p>
+    </dd>
+    <dt>
 	January 29, 2005
     </dt>
     <dd>
