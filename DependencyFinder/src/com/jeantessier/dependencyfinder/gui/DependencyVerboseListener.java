@@ -32,55 +32,17 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-
 import javax.swing.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.dependency.*;
 
-public class RefreshDependencyGraphAction extends AbstractAction implements Runnable {
-	private DependencyFinder model = null;
-	
-	public RefreshDependencyGraphAction(DependencyFinder model) {
-		this.model = model;
-
-		putValue(Action.LONG_DESCRIPTION, "Re-extract the current dependency graph");
-		putValue(Action.NAME, "Refresh");
-		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/refresh.gif")));
+public class DependencyVerboseListener extends VerboseListener {
+	public DependencyVerboseListener(StatusLine status_line, JProgressBar progress_bar) {
+		super(status_line, progress_bar);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		new Thread(this).start();
-	}
-
-	public void run() {
-		Date start = new Date();
-		
-		model.ClearDependencyResult();
-		model.ClearClosureResult();
-		model.ClearMetricsResult();
-
-		model.NodeFactory(new NodeFactory());
-		Collector collector = new CodeDependencyCollector(model.NodeFactory());
-
-		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(new DependencyVerboseListener(model.StatusLine(), model.ProgressBar()));
-		loader.addLoadListener(collector);
-		loader.Load(Collections.singleton(model.InputFile()));
-
-		if (model.Maximize()) {
-			model.StatusLine().ShowInfo("Maximizing ...");
-			new LinkMaximizer().TraverseNodes(model.Packages());
-		} else if (model.Minimize()) {
-			model.StatusLine().ShowInfo("Minimizing ...");
-			new LinkMinimizer().TraverseNodes(model.Packages());
-		}
-		
-		Date stop = new Date();
-		
-		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+	public void EndGroup(LoadEvent event) {
+		ProgressBar().setValue(0);
+		ProgressBar().setStringPainted(false);
 	}
 }

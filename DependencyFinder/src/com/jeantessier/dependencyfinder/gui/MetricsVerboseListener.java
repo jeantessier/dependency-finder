@@ -32,55 +32,37 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.dependency.*;
+import com.jeantessier.metrics.*;
 
-public class RefreshDependencyGraphAction extends AbstractAction implements Runnable {
-	private DependencyFinder model = null;
+public class MetricsVerboseListener extends VerboseListener implements MetricsListener {
+	public MetricsVerboseListener(StatusLine status_line, JProgressBar progress_bar) {
+		super(status_line, progress_bar);
+	}
 	
-	public RefreshDependencyGraphAction(DependencyFinder model) {
-		this.model = model;
-
-		putValue(Action.LONG_DESCRIPTION, "Re-extract the current dependency graph");
-		putValue(Action.NAME, "Refresh");
-		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/refresh.gif")));
+	public void BeginGroup(LoadEvent event) {
+		super.BeginGroup(event);
+		
+		ProgressBar().setMaximum(2 * event.Size());
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		new Thread(this).start();
+	public void StartClass(MetricsEvent event) {
+		StatusLine().ShowInfo("Computing metrics for " + event.Classfile() + " ...");
 	}
 
-	public void run() {
-		Date start = new Date();
-		
-		model.ClearDependencyResult();
-		model.ClearClosureResult();
-		model.ClearMetricsResult();
+	public void StartMethod(MetricsEvent event) {
+		// Do nothing
+	}
 
-		model.NodeFactory(new NodeFactory());
-		Collector collector = new CodeDependencyCollector(model.NodeFactory());
+	public void StopMethod(MetricsEvent event) {
+		// Do nothing
+	}
 
-		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(new DependencyVerboseListener(model.StatusLine(), model.ProgressBar()));
-		loader.addLoadListener(collector);
-		loader.Load(Collections.singleton(model.InputFile()));
-
-		if (model.Maximize()) {
-			model.StatusLine().ShowInfo("Maximizing ...");
-			new LinkMaximizer().TraverseNodes(model.Packages());
-		} else if (model.Minimize()) {
-			model.StatusLine().ShowInfo("Minimizing ...");
-			new LinkMinimizer().TraverseNodes(model.Packages());
-		}
-		
-		Date stop = new Date();
-		
-		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+	public void StopClass(MetricsEvent event) {
+		ProgressBar().setValue(ProgressBar().getValue() + 1);
 	}
 }

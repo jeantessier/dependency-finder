@@ -41,7 +41,7 @@ import javax.swing.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
-public class DependencyExtractAction extends AbstractAction implements Runnable, LoadListener {
+public class DependencyExtractAction extends AbstractAction implements Runnable {
 	private DependencyFinder model;
 	private File[]           files;
 
@@ -72,7 +72,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 		Collector collector = new CodeDependencyCollector(model.NodeFactory());
 
 		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(this);
+		loader.addLoadListener(new DependencyVerboseListener(model.StatusLine(), model.ProgressBar()));
 		loader.addLoadListener(collector);
 		loader.Load(Arrays.asList(files));
 
@@ -88,46 +88,5 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 		
 		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		model.setTitle("Dependency Finder - Extractor");
-	}
-
-	public void BeginSession(LoadEvent event) {
-		model.StatusLine().ShowInfo("Searching for classes ...");
-	}
-
-	public void BeginGroup(LoadEvent event) {
-		model.ProgressBar().setMaximum(event.Size());
-		model.ProgressBar().setValue(0);
-		model.ProgressBar().setStringPainted(true);
-		
-		model.StatusLine().ShowInfo("Loading " + event.GroupName() + " ...");
-	}
-	
-	public void BeginFile(LoadEvent event) {
-		if (event.Filename().startsWith(event.GroupName())) {
-			model.StatusLine().ShowInfo("Found " + event.Filename() + " ...");
-		} else {
-			model.StatusLine().ShowInfo("Found " + event.GroupName() + " >> " + event.Filename() + " ...");
-		}
-	}
-
-	public void BeginClassfile(LoadEvent event) {
-		// Do nothing
-	}
-
-	public void EndClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndFile(LoadEvent event) {
-		model.ProgressBar().setValue(model.ProgressBar().getValue() + 1);
-	}
-
-	public void EndGroup(LoadEvent event) {
-		model.ProgressBar().setValue(0);
-		model.ProgressBar().setStringPainted(false);
-	}
-
-	public void EndSession(LoadEvent event) {
-		// Do nothing
 	}
 }

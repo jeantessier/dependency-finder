@@ -41,7 +41,7 @@ import javax.swing.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
 
-public class MetricsExtractAction extends AbstractAction implements Runnable, LoadListener, MetricsListener {
+public class MetricsExtractAction extends AbstractAction implements Runnable {
 	private OOMetrics model;
 	private File[]    files;
 
@@ -70,13 +70,15 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 
 	public void run() {
 		Date start = new Date();
+
+		MetricsVerboseListener verbose_listener = new MetricsVerboseListener(model.StatusLine(), model.ProgressBar());
 		
 		loader = new AggregatingClassfileLoader();
-		loader.addLoadListener(this);
+		loader.addLoadListener(verbose_listener);
 		loader.Load(Arrays.asList(files));
 		
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.MetricsFactory());
-		gatherer.addMetricsListener(this);
+		gatherer.addMetricsListener(verbose_listener);
 		
 		Iterator i = loader.Classfiles().iterator();
 		while (i.hasNext()) {
@@ -109,61 +111,5 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		// JDK 1.4 feature
 		// model.ProgressBar().setIndeterminate(false);
 		model.setTitle("OO Metrics - Extractor");
-	}
-	
-	public void BeginSession(LoadEvent event) {
-		model.StatusLine().ShowInfo("Searching for classes ...");
-	}
-	
-	public void BeginGroup(LoadEvent event) {
-		model.ProgressBar().setMaximum(2 * event.Size());
-		model.ProgressBar().setValue(0);
-		model.ProgressBar().setStringPainted(true);
-		
-		model.StatusLine().ShowInfo("Loading " + event.GroupName() + " ...");
-	}
-	
-	public void BeginFile(LoadEvent event) {
-		if (event.Filename().startsWith(event.GroupName())) {
-			model.StatusLine().ShowInfo("Found " + event.Filename() + " ...");
-		} else {
-			model.StatusLine().ShowInfo("Found " + event.GroupName() + " >> " + event.Filename() + " ...");
-		}
-	}
-	
-	public void BeginClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndFile(LoadEvent event) {
-		model.ProgressBar().setValue(model.ProgressBar().getValue() + 1);
-	}
-	
-	public void EndGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndSession(LoadEvent event) {
-		// Do nothing
-	}
-
-	public void StartClass(MetricsEvent event) {
-		model.StatusLine().ShowInfo("Computing metrics for " + event.Classfile() + " ...");
-	}
-
-	public void StartMethod(MetricsEvent event) {
-		// Do nothing
-	}
-
-	public void StopMethod(MetricsEvent event) {
-		// Do nothing
-	}
-
-	public void StopClass(MetricsEvent event) {
-		model.ProgressBar().setValue(model.ProgressBar().getValue() + 1);
 	}
 }
