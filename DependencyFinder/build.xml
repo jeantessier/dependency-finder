@@ -17,7 +17,7 @@
 
     <target name="init">
 	<tstamp>
-	    <format property="TODAY_CVS" pattern="yyyy-MM-dd"/>
+	    <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
 	</tstamp>
 
 	<property name="packageNames"     value="com.jeantessier.*"/>
@@ -421,7 +421,7 @@
 	<cvstagdiff cvsroot="${cvsroot}"
 		    package="DependencyFinder"
 		    startTag="release-${last.release}"
-		    endDate="${TODAY_CVS}"
+		    endDate="'${NOW_CVS}'"
 		    destFile="${last.release}-now.xml"/>
 	<style in="${last.release}-now.xml"
 	       out="${last.release}-now.html"
@@ -433,3 +433,4 @@
     </target>
 
 </project>
+
