@@ -70,7 +70,7 @@ public class TextPrinter extends Printer {
         
         if (shouldShowPackageNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
-            indent().append(node.getName()).eol();
+            indent().printNodeName(node).eol();
             raiseIndent();
         }
         
@@ -128,7 +128,7 @@ public class TextPrinter extends Printer {
         
         if (shouldShowClassNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
-            indent().append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
+            indent().printNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
             raiseIndent();
         }
 
@@ -189,11 +189,11 @@ public class TextPrinter extends Printer {
         if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
             if (perl().match("/([^\\.]*\\(.*\\))$/", node.getName())) {
-                indent().append(perl().group(1)).eol();
+                indent().printNodeName(node, perl().group(1)).eol();
             } else if (perl().match("/([^\\.]*)$/", node.getName())) {
-                indent().append(perl().group(1)).eol();
+                indent().printNodeName(node, perl().group(1)).eol();
             } else {
-                indent().append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
+                indent().printNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
             }
             raiseIndent();
         }
@@ -240,11 +240,11 @@ public class TextPrinter extends Printer {
         while (i.hasNext()) {
             Map.Entry entry = (Map.Entry) i.next();
             if (((Integer) entry.getValue()).intValue() < 0) {
-                indent().append("<-- ").append(entry.getKey()).eol();
+                indent().append("<-- ").printNodeName((Node) entry.getKey()).eol();
             } else if (((Integer) entry.getValue()).intValue() > 0) {
-                indent().append("--> ").append(entry.getKey()).eol();
+                indent().append("--> ").printNodeName((Node) entry.getKey()).eol();
             } else {
-                indent().append("<-> ").append(entry.getKey()).eol();
+                indent().append("<-> ").printNodeName((Node) entry.getKey()).eol();
             }
         }
     }

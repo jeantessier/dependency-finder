@@ -88,7 +88,7 @@ public class XMLPrinter extends Printer {
         if (shouldShowPackageNode(node)) {
             indent().append("<package>").eol();
             raiseIndent();
-            indent().append("<name>").append(node.getName()).append("</name>").eol();
+            indent().append("<name>").printNodeName(node).append("</name>").eol();
         }
     }
 
@@ -117,7 +117,7 @@ public class XMLPrinter extends Printer {
         if (shouldShowClassNode(node)) {
             indent().append("<class>").eol();
             raiseIndent();
-            indent().append("<name>").append(node.getName()).append("</name>").eol();
+            indent().append("<name>").printNodeName(node).append("</name>").eol();
         }
     }
 
@@ -146,7 +146,7 @@ public class XMLPrinter extends Printer {
         if (shouldShowFeatureNode(node)) {
             indent().append("<feature>").eol();
             raiseIndent();
-            indent().append("<name>").append(node.getName()).append("</name>").eol();
+            indent().append("<name>").printNodeName(node).append("</name>").eol();
         }
     }
 

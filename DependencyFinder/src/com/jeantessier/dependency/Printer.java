@@ -144,6 +144,14 @@ public abstract class Printer extends VisitorBase {
         return this;
     }
 
+    protected Printer printNodeName(Node node) {
+        return printNodeName(node, node.getName());
+    }
+
+    protected Printer printNodeName(Node node, String name) {
+        return append(name);
+    }
+    
     protected void raiseIndent() {
         indentLevel++;
     }
