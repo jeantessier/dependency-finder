@@ -187,6 +187,10 @@ public class VerboseListener extends PrintWriter implements LoadListener, Depend
 		flush();
 	}
 	
+	public void BeginFile(LoadEvent event) {
+		// Do nothing
+	}
+	
 	public void BeginClassfile(LoadEvent event) {
 		print("Loading ");
 		print(event.Filename());
@@ -202,6 +206,10 @@ public class VerboseListener extends PrintWriter implements LoadListener, Depend
 	}
 	
 	public void EndClassfile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void EndFile(LoadEvent event) {
 		// Do nothing
 	}
 	

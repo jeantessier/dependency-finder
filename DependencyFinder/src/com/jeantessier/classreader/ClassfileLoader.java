@@ -59,18 +59,20 @@ public abstract class ClassfileLoader {
 		fireEndSession();
 	}
 
-	protected abstract void Load(String filename);
+	// Protected contract for Decorator Pattern
+	protected abstract void      Load(String filename);
+	protected abstract void      Load(String filename, InputStream in) throws IOException;
+	protected abstract Classfile Load(DataInputStream in)              throws IOException;
 
 	// Event stuff
 	public abstract void addLoadListener(LoadListener listener);
 	public abstract void removeLoadListener(LoadListener listener);
 	protected abstract void fireBeginSession();
-	protected abstract void fireBeginGroup(String filename, int size);
-	protected abstract void fireBeginClassfile(String filename, String element);
-	protected abstract void fireEndClassfile(String filename, String element, Classfile classfile);
-	protected abstract void fireEndGroup(String filename);
+	protected abstract void fireBeginGroup(String group_name, int size);
+	protected abstract void fireBeginClassfile(String filename);
+	protected abstract void fireBeginFile(String filename);
+	protected abstract void fireEndClassfile(String filename, Classfile classfile);
+	protected abstract void fireEndFile(String filename);
+	protected abstract void fireEndGroup(String group_name);
 	protected abstract void fireEndSession();
-
-	// Protected contract for Decorator Pattern
-	protected abstract Classfile Load(DataInputStream in) throws IOException;
 }

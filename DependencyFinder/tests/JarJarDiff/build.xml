@@ -4,6 +4,8 @@
 	<include name="**/*.java"/>
     </patternset>
 
+    <target name="all" depends="archives, olddoc, newdoc"/>
+
     <target name="old">
         <javac>
 	    <src path="old"/>
@@ -48,12 +50,45 @@
 	</javadoc>
     </target>
 
-    <target name="all" depends="old, new, olddoc, newdoc"/>
+    <target name="archives" depends="old, new">
+        <zip zipfile="onelevel.zip">
+	    <zipfileset dir="old"/>
+	</zip>
+        <jar jarfile="onelevel.jar">
+	    <zipfileset dir="old"/>
+	</jar>
+        <zip zipfile="onelevel.mis">
+	    <zipfileset dir="old"/>
+	</zip>
+        <zip zipfile="twolevel.zip">
+	    <zipfileset dir=".">
+		<patternset>
+		    <include name="onelevel.zip"/>
+		</patternset>
+	    </zipfileset>
+	</zip>
+        <jar jarfile="twolevel.jar">
+	    <zipfileset dir=".">
+		<patternset>
+		    <include name="onelevel.zip"/>
+		</patternset>
+	    </zipfileset>
+	</jar>
+        <zip zipfile="twolevel.mis">
+	    <zipfileset dir=".">
+		<patternset>
+		    <include name="onelevel.zip"/>
+		</patternset>
+	    </zipfileset>
+	</zip>
+    </target>
 
     <target name="clean">
         <delete verbose="true">
 	    <fileset dir="." defaultexcludes="no">
 		<patternset>
+		    <include name="**/onelevel.*"/>
+		    <include name="**/twolevel.*"/>
 		    <include name="**/*.txt"/>
 		    <include name="**/*~"/>
 		    <include name="**/*.bak"/>

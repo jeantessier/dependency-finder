@@ -32,60 +32,103 @@
 
 package com.jeantessier.classreader;
 
+import java.io.*;
 import java.util.*;
 
-public abstract class CollectorBase extends VisitorBase implements Collector {
-	private Collection collection;
+import junit.framework.*;
 
-	public CollectorBase() {
-		this(new TreeSet());
+import org.apache.log4j.*;
+
+public class TestClassfileLoader extends TestCase implements LoadListener {
+	public static final String TEST_DIR = "tests" + File.separator + "JarJarDiff";
+
+	private LinkedList begin_session;
+	private LinkedList begin_group;
+	private LinkedList begin_file;
+	private LinkedList begin_classfile;
+	private LinkedList end_classfile;
+	private LinkedList end_file;
+	private LinkedList end_group;
+	private LinkedList end_session;
+	
+	protected void setUp() throws Exception {
+		Logger.getLogger(getClass()).info("Starting test: " + getName());
+
+		begin_session   = new LinkedList();
+		begin_group     = new LinkedList();
+		begin_file      = new LinkedList();
+		begin_classfile = new LinkedList();
+		end_classfile   = new LinkedList();
+		end_file        = new LinkedList();
+		end_group       = new LinkedList();
+		end_session     = new LinkedList();
 	}
 
-	public CollectorBase(Collection collection) {
-		this.collection = collection;
+	protected void tearDown() throws Exception {
+		Logger.getLogger(getClass()).info("End of " + getName());
 	}
 
-	protected void Add(Object obj) {
-		collection.add(obj);
+	protected LinkedList BeginSession() {
+		return begin_session;
 	}
 
-	protected void Remove(Object obj) {
-		collection.remove(obj);
+	protected LinkedList BeginGroup() {
+		return begin_group;
 	}
 
-	public Collection Collection() {
-		return collection;
+	protected LinkedList BeginFile() {
+		return begin_file;
 	}
 
+	protected LinkedList BeginClassfile() {
+		return begin_classfile;
+	}
+
+	protected LinkedList EndClassfile() {
+		return end_classfile;
+	}
+
+	protected LinkedList EndFile() {
+		return end_file;
+	}
+
+	protected LinkedList EndGroup() {
+		return end_group;
+	}
+
+	protected LinkedList EndSession() {
+		return end_session;
+	}
+	
 	public void BeginSession(LoadEvent event) {
-		// Do nothing
+		BeginSession().add(event);
 	}
-
+	
 	public void BeginGroup(LoadEvent event) {
-		// Do nothing
+		BeginGroup().add(event);
 	}
 	
 	public void BeginFile(LoadEvent event) {
-		// Do nothing
+		BeginFile().add(event);
 	}
 	
 	public void BeginClassfile(LoadEvent event) {
-		// Do nothing
+		BeginClassfile().add(event);
 	}
 	
 	public void EndClassfile(LoadEvent event) {
-		event.Classfile().Accept(this);
+		EndClassfile().add(event);
 	}
 	
 	public void EndFile(LoadEvent event) {
-		// Do nothing
+		EndFile().add(event);
 	}
 	
 	public void EndGroup(LoadEvent event) {
-		// Do nothing
+		EndGroup().add(event);
 	}
 	
 	public void EndSession(LoadEvent event) {
-		// Do nothing
+		EndSession().add(event);
 	}
 }

@@ -70,20 +70,28 @@ public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
 		Loader().fireBeginSession();
 	}
 	
-	protected void fireBeginGroup(String filename, int size) {
-		Loader().fireBeginGroup(filename, size);
+	protected void fireBeginGroup(String group_name, int size) {
+		Loader().fireBeginGroup(group_name, size);
 	}
 	
-	protected void fireBeginClassfile(String filename, String element) {
-		Loader().fireBeginClassfile(filename, element);
+	protected void fireBeginFile(String filename) {
+		Loader().fireBeginFile(filename);
 	}
 	
-	protected void fireEndClassfile(String filename, String element, Classfile classfile) {
-		Loader().fireEndClassfile(filename, element, classfile);
+	protected void fireBeginClassfile(String filename) {
+		Loader().fireBeginClassfile(filename);
 	}
 	
-	protected void fireEndGroup(String filename) {
-		Loader().fireEndGroup(filename);
+	protected void fireEndClassfile(String filename, Classfile classfile) {
+		Loader().fireEndClassfile(filename, classfile);
+	}
+	
+	protected void fireEndFile(String filename) {
+		Loader().fireEndFile(filename);
+	}
+	
+	protected void fireEndGroup(String group_name) {
+		Loader().fireEndGroup(group_name);
 	}
 
 	protected void fireEndSession() {

@@ -305,8 +305,16 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		// Do nothing
 	}
 	
+	public void BeginFile(LoadEvent event) {
+		// Do nothing
+	}
+	
 	public void EndClassfile(LoadEvent event) {
 		event.Classfile().Accept(this);
+	}
+	
+	public void EndFile(LoadEvent event) {
+		// Do nothing
 	}
 	
 	public void EndGroup(LoadEvent event) {

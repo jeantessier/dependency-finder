@@ -38,6 +38,14 @@ import java.util.*;
 public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
 	private Map classfiles = new TreeMap();
 
+	public AggregatingClassfileLoader() {
+		super();
+	}
+
+	public AggregatingClassfileLoader(ClassfileLoaderDispatcher dispatcher) {
+		super(dispatcher);
+	}
+
 	public Classfile Classfile(String name) {
 		return (Classfile) classfiles.get(name);
 	}

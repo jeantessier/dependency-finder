@@ -36,6 +36,14 @@ import java.io.*;
 import java.util.*;
 
 public class TransientClassfileLoader extends ClassfileLoaderEventSource {
+	public TransientClassfileLoader() {
+		super();
+	}
+
+	public TransientClassfileLoader(ClassfileLoaderDispatcher dispatcher) {
+		super(dispatcher);
+	}
+
 	public Classfile Classfile(String name) {
 		return null;
 	}

@@ -51,6 +51,21 @@ public interface LoadListener extends EventListener {
 	public void BeginGroup(LoadEvent event);
 	
 	/**
+	 *  <p>The loader is starting on a new file.</p>
+	 *
+	 *  <p>The event's element attribute contains the name of
+	 *  the file being processed.</p>
+	 *  
+	 *  <p>The event's filename attribute points to the group
+	 *  of files that contains the current file.  For
+	 *  example, the JAR file's name or the root directory
+	 *  of loose files.</p>
+	 *
+	 *  <p>The classfile attribute is null.</p>
+	 */
+	public void BeginFile(LoadEvent event);
+	
+	/**
 	 *  <p>The loader is starting on a new <code>.class</code>
 	 *  file.</p>
 	 *
@@ -62,7 +77,7 @@ public interface LoadListener extends EventListener {
 	 *  example, the JAR file's name or the root directory
 	 *  of loose files.</p>
 	 *
-	 *  <p>The classfile attributes is null.</p>
+	 *  <p>The classfile attribute is null.</p>
 	 */
 	public void BeginClassfile(LoadEvent event);
 	
@@ -79,9 +94,25 @@ public interface LoadListener extends EventListener {
 	 *  example, the JAR file's name or the root directory
 	 *  of loose files.</p>
 	 *
-	 *  <p>The element attributes is null.</p>
+	 *  <p>The element attribute is null.</p>
 	 */
 	public void EndClassfile(LoadEvent event);
+	
+	/**
+	 *  <p>The loader is finished with a file.</p>
+	 *
+	 *  <p>The event's element attribute contains the name of
+	 *  the file being processed.</p>
+	 *  
+	 *  <p>The event's filename attribute points to the group
+	 *  of files that contains the current file.  For
+	 *  example, the JAR file's name or the root directory
+	 *  of loose files.</p>
+	 *
+	 *  <p>The event's classfile attribute may contains a newly
+	 *  loaded Classfile instance from the file.</p>
+	 */
+	public void EndFile(LoadEvent event);
 
 	/**
 	 *  <p>The loader finished the group of files. For

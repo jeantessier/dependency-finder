@@ -32,22 +32,12 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+public interface ClassfileLoaderDispatcher {
+	public static final int ACTION_IGNORE    = 1;
+	public static final int ACTION_DIRECTORY = 2;
+	public static final int ACTION_ZIP       = 3;
+	public static final int ACTION_JAR       = 4;
+	public static final int ACTION_CLASS     = 5;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
-
-		result.addTestSuite(TestBitFormat.class);
-		result.addTestSuite(TestDirectoryExplorer.class);
-		result.addTestSuite(TestAggregatingClassfileLoader.class);
-		result.addTestSuite(TestTransientClassfileLoader.class);
-		result.addTestSuite(TestDirectoryClassfileLoader.class);
-		result.addTestSuite(TestClassfile.class);
-		result.addTestSuite(TestZipClassfileLoader.class);
-		result.addTestSuite(TestJarClassfileLoader.class);
-		result.addTestSuite(TestClassfileLoaderDispatch.class);
-
-		return result;
-	}
+	public int Dispatch(String filename);
 }

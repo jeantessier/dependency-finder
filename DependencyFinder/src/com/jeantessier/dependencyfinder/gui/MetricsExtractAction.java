@@ -123,6 +123,10 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 	}
 	
+	public void BeginFile(LoadEvent event) {
+		// Do nothing
+	}
+	
 	public void BeginClassfile(LoadEvent event) {
 		if (event.Element() == null) {
 			model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
@@ -132,6 +136,10 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	}
 	
 	public void EndClassfile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void EndFile(LoadEvent event) {
 		model.ProgressBar().setValue(model.ProgressBar().getValue() + 1);
 	}
 	

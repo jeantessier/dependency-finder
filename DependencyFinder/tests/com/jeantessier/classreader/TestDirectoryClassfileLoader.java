@@ -35,248 +35,102 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-import junit.framework.*;
-
-import org.apache.log4j.*;
-
-public class TestDirectoryClassfileLoader extends TestCase implements LoadListener {
+public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 	public static final String TEST_CLASS          = "test";
 	public static final String TEST_FILENAME       = "classes" + File.separator + "test.class";
 	public static final String BOGUS_TEST_FILENAME = "classes" + File.separator + "bogus" + File.separator + "test.class";
 	public static final String TEST_DIRNAME        = "classes" + File.separator + "testpackage";
 	public static final String OTHER_DIRNAME       = "classes" + File.separator + "otherpackage";
-
-	private LinkedList begin_session;
-	private LinkedList begin_group;
-	private LinkedList begin_classfile;
-	private LinkedList end_classfile;
-	private LinkedList end_group;
-	private LinkedList end_session;
+	
+	private ClassfileLoader loader;
 
 	protected void setUp() throws Exception {
-		Logger.getLogger(getClass()).info("Starting test: " + getName());
+		super.setUp();
 
-		begin_session   = new LinkedList();
-		begin_group     = new LinkedList();
-		begin_classfile = new LinkedList();
-		end_classfile   = new LinkedList();
-		end_group       = new LinkedList();
-		end_session     = new LinkedList();
+		ClassfileLoader event_source = new TransientClassfileLoader();
+		event_source.addLoadListener(this);
+		loader = new DirectoryClassfileLoader(event_source);
 	}
 
-	protected void tearDown() throws Exception {
-		Logger.getLogger(getClass()).info("End of " + getName());
-	}
-	
-	public void testCreateWithAggregatingClassfileLoader() {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+	public void testLoadClassFile() throws IOException {
+		loader.Load(TEST_FILENAME);
 
-		assertEquals("Different number of class names",
-					 0,
-					 loader.Classnames().size());
-		assertNull(TEST_CLASS + " should have been null",
-				   loader.Classfile(TEST_CLASS));
-	}
-	
-	public void testLoadWithAggregatingClassfileLoader() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+		assertEquals("Begin Session",   0, BeginSession().size());
+		assertEquals("Begin Group",     1, BeginGroup().size());
+		assertEquals("Begin File",      1, BeginFile().size());
+		assertEquals("Begin Classfile", 1, BeginClassfile().size());
+		assertEquals("End Classfile",   1, EndClassfile().size());
+		assertEquals("End File",        1, EndFile().size());
+		assertEquals("End Group",       1, EndGroup().size());
+		assertEquals("End Session",     0, EndSession().size());
 
-		assertEquals("Different number of class names",
-					 0,
-					 loader.Classnames().size());
-		assertNull(TEST_CLASS + " should have been null",
-				   loader.Classfile(TEST_CLASS));
-
-		loader.Load(Collections.singleton(TEST_FILENAME));
-		
-		assertEquals("Different number of class names",
-					 1,
-					 loader.Classnames().size());
-		assertTrue("Missing class name \"" + TEST_CLASS + "\"",
-				   loader.Classnames().contains(TEST_CLASS));
-		assertNotNull(TEST_CLASS + " should not have been null",
-					  loader.Classfile(TEST_CLASS));
-	}
-	
-	public void testEventsWithAggregatingClassfileLoader() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		loader.addLoadListener(this);
-
-		loader.Load(Collections.singleton(TEST_FILENAME));
-
-		assertEquals("Begin Session",   1, begin_session.size());
-		assertEquals("Begin Group",     1, begin_group.size());
-		assertEquals("Begin Classfile", 1, begin_classfile.size());
-		assertEquals("End Classfile",   1, end_classfile.size());
-		assertEquals("End Group",       1, end_group.size());
-		assertEquals("End Session",     1, end_session.size());
-
-		assertEquals(TEST_FILENAME, ((LoadEvent) end_classfile.getLast()).Filename());
-		assertNotNull("Classfile", ((LoadEvent) end_classfile.getLast()).Classfile());
-	}	
-	
-	public void testMultipleEventsWithAggregatingClassfileLoader() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		loader.addLoadListener(this);
-
-		Collection dirs = new ArrayList(2);
-		dirs.add(TEST_DIRNAME);
-		dirs.add(OTHER_DIRNAME);
-		loader.Load(dirs);
-
-		assertEquals("Begin Session",   1, begin_session.size());
-		assertEquals("Begin Group",     2, begin_group.size());
-		assertEquals("Begin Classfile", 6, begin_classfile.size());
-		assertEquals("End Classfile",   6, end_classfile.size());
-		assertEquals("End Group",       2, end_group.size());
-		assertEquals("End Session",     1, end_session.size());
-	}	
-	
-	public void testEventsWithAggregatingClassfileLoaderWithFailures() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		loader.addLoadListener(this);
-
-		loader.Load(Collections.singleton(BOGUS_TEST_FILENAME));
-
-		assertEquals("Begin Session",   1, begin_session.size());
-		assertEquals("Begin Group",     1, begin_group.size());
-		assertEquals("Begin Classfile", 1, begin_classfile.size());
-		assertEquals("End Classfile",   1, end_classfile.size());
-		assertEquals("End Group",       1, end_group.size());
-		assertEquals("End Session",     1, end_session.size());
-
-		assertEquals(BOGUS_TEST_FILENAME, ((LoadEvent) end_classfile.getLast()).Filename());
-		assertNull("Classfile", ((LoadEvent) end_classfile.getLast()).Classfile());
-	}	
-	
-	public void testEventsWithAggregatingClassfileLoaderWithNothing() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		loader.addLoadListener(this);
-
-		loader.Load(Collections.EMPTY_SET);
-
-		assertEquals("Begin Session",   1, begin_session.size());
-		assertEquals("Begin Group",     0, begin_group.size());
-		assertEquals("Begin Classfile", 0, begin_classfile.size());
-		assertEquals("End Classfile",   0, end_classfile.size());
-		assertEquals("End Group",       0, end_group.size());
-		assertEquals("End Session",     1, end_session.size());
+		assertEquals(TEST_FILENAME, ((LoadEvent) EndClassfile().getLast()).Filename());
+		assertNotNull("Classfile", ((LoadEvent) EndClassfile().getLast()).Classfile());
 	}	
 
-	public void testCreateWithTransientClassfileLoader() {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
+	public void testLoadClassInputStream() throws IOException {
+		loader.Load(TEST_FILENAME, new FileInputStream(TEST_FILENAME));
 
-		assertEquals("Different number of class names",
-					 0,
-					 loader.Classnames().size());
-		assertNull(TEST_CLASS + " should have been null",
-				   loader.Classfile(TEST_CLASS));
-	}
-	
-	public void testLoadWithTransientClassfileLoader() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
-
-		assertEquals("Different number of class names",
-					 0,
-					 loader.Classnames().size());
-		assertNull(TEST_CLASS + " should have been null",
-				   loader.Classfile(TEST_CLASS));
-
-		loader.Load(Collections.singleton(TEST_FILENAME));
-		
-		assertEquals("Different number of class names",
-					 0,
-					 loader.Classnames().size());
-		assertNull(TEST_CLASS + " should not have remained null",
-				   loader.Classfile(TEST_CLASS));
-	}
-	
-	public void testEventsWithTransientClassfileLoader() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
-		loader.addLoadListener(this);
-
-		loader.Load(Collections.singleton(TEST_FILENAME));
-
-		assertEquals("Begin Session",   1, begin_session.size());
-		assertEquals("Begin Group",     1, begin_group.size());
-		assertEquals("Begin Classfile", 1, begin_classfile.size());
-		assertEquals("End Classfile",   1, end_classfile.size());
-		assertEquals("End Group",       1, end_group.size());
-		assertEquals("End Session",     1, end_session.size());
-
-		assertEquals(TEST_FILENAME, ((LoadEvent) end_classfile.getLast()).Filename());
-		assertNotNull("Classfile", ((LoadEvent) end_classfile.getLast()).Classfile());
-	}	
-	
-	public void testMultipleEventsWithTransientClassfileLoader() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
-		loader.addLoadListener(this);
-
-		Collection dirs = new ArrayList(2);
-		dirs.add(TEST_DIRNAME);
-		dirs.add(OTHER_DIRNAME);
-		loader.Load(dirs);
-
-		assertEquals("Begin Session",   1, begin_session.size());
-		assertEquals("Begin Group",     2, begin_group.size());
-		assertEquals("Begin Classfile", 6, begin_classfile.size());
-		assertEquals("End Classfile",   6, end_classfile.size());
-		assertEquals("End Group",       2, end_group.size());
-		assertEquals("End Session",     1, end_session.size());
-	}	
-	
-	public void testEventsWithTransientClassfileLoaderWithFailures() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
-		loader.addLoadListener(this);
-
-		loader.Load(Collections.singleton(BOGUS_TEST_FILENAME));
-
-		assertEquals("Begin Session",   1, begin_session.size());
-		assertEquals("Begin Group",     1, begin_group.size());
-		assertEquals("Begin Classfile", 1, begin_classfile.size());
-		assertEquals("End Classfile",   1, end_classfile.size());
-		assertEquals("End Group",       1, end_group.size());
-		assertEquals("End Session",     1, end_session.size());
-
-		assertEquals(BOGUS_TEST_FILENAME, ((LoadEvent) end_classfile.getLast()).Filename());
-		assertNull("Classfile", ((LoadEvent) end_classfile.getLast()).Classfile());
-	}	
-	
-	public void testEventsWithTransientClassfileLoaderWithNothing() throws IOException {
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
-		loader.addLoadListener(this);
-
-		loader.Load(Collections.EMPTY_SET);
-
-		assertEquals("Begin Session",   1, begin_session.size());
-		assertEquals("Begin Group",     0, begin_group.size());
-		assertEquals("Begin Classfile", 0, begin_classfile.size());
-		assertEquals("End Classfile",   0, end_classfile.size());
-		assertEquals("End Group",       0, end_group.size());
-		assertEquals("End Session",     1, end_session.size());
+		assertEquals("Begin Session",   0, BeginSession().size());
+		assertEquals("Begin Group",     0, BeginGroup().size());
+		assertEquals("Begin File",      0, BeginFile().size());
+		assertEquals("Begin Classfile", 0, BeginClassfile().size());
+		assertEquals("End Classfile",   0, EndClassfile().size());
+		assertEquals("End File",        0, EndFile().size());
+		assertEquals("End Group",       0, EndGroup().size());
+		assertEquals("End Session",     0, EndSession().size());
 	}	
 
-	public void BeginSession(LoadEvent event) {
-		begin_session.add(event);
-	}
+	public void testLoadBogusFile() throws IOException {
+		loader.Load(BOGUS_TEST_FILENAME);
+
+		assertEquals("Begin Session",   0, BeginSession().size());
+		assertEquals("Begin Group",     1, BeginGroup().size());
+		assertEquals("Begin File",      0, BeginFile().size());
+		assertEquals("Begin Classfile", 0, BeginClassfile().size());
+		assertEquals("End Classfile",   0, EndClassfile().size());
+		assertEquals("End File",        0, EndFile().size());
+		assertEquals("End Group",       1, EndGroup().size());
+		assertEquals("End Session",     0, EndSession().size());
+	}	
+
+	public void testLoadBogusInputStream() throws IOException {
+		loader.Load(BOGUS_TEST_FILENAME, new FileInputStream(TEST_FILENAME));
+
+		assertEquals("Begin Session",   0, BeginSession().size());
+		assertEquals("Begin Group",     0, BeginGroup().size());
+		assertEquals("Begin File",      0, BeginFile().size());
+		assertEquals("Begin Classfile", 0, BeginClassfile().size());
+		assertEquals("End Classfile",   0, EndClassfile().size());
+		assertEquals("End File",        0, EndFile().size());
+		assertEquals("End Group",       0, EndGroup().size());
+		assertEquals("End Session",     0, EndSession().size());
+	}	
+
+	public void testLoadDirectory() throws IOException {
+		loader.Load(TEST_DIRNAME);
+
+		assertEquals("Begin Session",   0, BeginSession().size());
+		assertEquals("Begin Group",     1, BeginGroup().size());
+		assertEquals("Begin File",      5, BeginFile().size());
+		assertEquals("Begin Classfile", 4, BeginClassfile().size());
+		assertEquals("End Classfile",   4, EndClassfile().size());
+		assertEquals("End File",        5, EndFile().size());
+		assertEquals("End Group",       1, EndGroup().size());
+		assertEquals("End Session",     0, EndSession().size());
+	}	
 	
-	public void BeginGroup(LoadEvent event) {
-		begin_group.add(event);
-	}
-	
-	public void BeginClassfile(LoadEvent event) {
-		begin_classfile.add(event);
-	}
-	
-	public void EndClassfile(LoadEvent event) {
-		end_classfile.add(event);
-	}
-	
-	public void EndGroup(LoadEvent event) {
-		end_group.add(event);
-	}
-	
-	public void EndSession(LoadEvent event) {
-		end_session.add(event);
-	}
+	public void testMultipleDirectories() throws IOException {
+		loader.Load(TEST_DIRNAME);
+		loader.Load(OTHER_DIRNAME);
+
+		assertEquals("Begin Session",   0, BeginSession().size());
+		assertEquals("Begin Group",     2, BeginGroup().size());
+		assertEquals("Begin File",      8, BeginFile().size());
+		assertEquals("Begin Classfile", 6, BeginClassfile().size());
+		assertEquals("End Classfile",   6, EndClassfile().size());
+		assertEquals("End File",        8, EndFile().size());
+		assertEquals("End Group",       2, EndGroup().size());
+		assertEquals("End Session",     0, EndSession().size());
+	}	
 }

@@ -36,11 +36,7 @@ import java.io.*;
 import java.util.*;
 
 public class DirectoryExplorer {
-	private Collection collection = new TreeSet();
-
-	public DirectoryExplorer() {
-		// Do nothing
-	}
+	private Collection collection = new LinkedList();
 
 	public DirectoryExplorer(String[] filenames) throws IOException {
 		for (int i=0; i<filenames.length; i++) {
@@ -63,42 +59,24 @@ public class DirectoryExplorer {
 		Explore(file);
 	}
 
-	public void Explore(File file) throws IOException {
-		if (file.isDirectory()) {
-			ExploreDirectory(file);
-		} else {
-			ExploreFile(file);
+	private void Explore(File file) throws IOException {
+		if (file.exists()) {
+			collection.add(file);
+			
+			if (file.isDirectory()) {
+				ExploreDirectory(file);
+			}
 		}
 	}
 
-	public void ExploreDirectory(File dir) throws IOException {
+	private void ExploreDirectory(File dir) throws IOException {
 		String[] entries = dir.list();
 		for (int i=0; i<entries.length; i++) {
 			Explore(new File(dir, entries[i]));
 		}
 	}
 
-	public void ExploreFile(File file) throws IOException {
-		if (file.getName().endsWith(".class")) {
-			collection.add(file.getPath());
-		}
-	}
-
 	public Collection Collection() {
 		return collection;
-	}
-
-	public static void main(String[] args) throws IOException {
-		DirectoryExplorer explorer;
-		if (args.length != 0) {
-			explorer = new DirectoryExplorer(args);
-		} else {
-			explorer = new DirectoryExplorer(".");
-		}
-
-		Iterator i = explorer.Collection().iterator();
-		while (i.hasNext()) {
-			System.out.println(i.next());
-		}
 	}
 }

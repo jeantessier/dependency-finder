@@ -32,22 +32,31 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+import java.io.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+import org.apache.log4j.*;
 
-		result.addTestSuite(TestBitFormat.class);
-		result.addTestSuite(TestDirectoryExplorer.class);
-		result.addTestSuite(TestAggregatingClassfileLoader.class);
-		result.addTestSuite(TestTransientClassfileLoader.class);
-		result.addTestSuite(TestDirectoryClassfileLoader.class);
-		result.addTestSuite(TestClassfile.class);
-		result.addTestSuite(TestZipClassfileLoader.class);
-		result.addTestSuite(TestJarClassfileLoader.class);
-		result.addTestSuite(TestClassfileLoaderDispatch.class);
-
+public class StrictDispatcher implements ClassfileLoaderDispatcher {
+	public int Dispatch(String filename) {
+		int result;
+		
+		if (filename.endsWith(".jar")) {
+			result = ACTION_JAR;
+			Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_JAR");
+		} else if (filename.endsWith(".zip")) {
+			result = ACTION_ZIP;
+			Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_ZIP");
+		} else if (filename.endsWith(".class")) {
+			result = ACTION_CLASS;
+			Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_CLASS");
+		} else if (new File(filename).exists()) {
+			result = ACTION_DIRECTORY;
+			Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_DIRECTORY");
+		} else {
+			result = ACTION_IGNORE;
+			Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_IGNORE");
+		}
+		
 		return result;
 	}
 }

@@ -101,6 +101,10 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 		
 		model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 	}
+	
+	public void BeginFile(LoadEvent event) {
+		// Do nothing
+	}
 
 	public void BeginClassfile(LoadEvent event) {
 		if (event.Element() == null) {
@@ -111,6 +115,10 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	}
 
 	public void EndClassfile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void EndFile(LoadEvent event) {
 		model.ProgressBar().setValue(model.ProgressBar().getValue() + 1);
 	}
 

@@ -44,22 +44,46 @@ public class JarClassfileLoader extends ZipClassfileLoader {
 	}
 
 	protected void Load(String filename) {
-		if (filename.endsWith(".jar")) {
-			Logger.getLogger(getClass()).debug("Reading " + filename);
+		Logger.getLogger(getClass()).debug("Reading " + filename);
 
-			JarFile in = null;
-			try {
-				in = new JarFile(filename);
-				Load(in);
-			} catch (IOException ex) {
-				Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
-			} finally {
-				if (in != null) {
-					try {
-						in.close();
-					} catch (IOException ex) {
-						// Ignore
-					}
+		JarFile jarfile = null;
+		try {
+			jarfile = new JarFile(filename);
+
+			fireBeginGroup(filename, jarfile.size());
+			Load(jarfile);
+			fireEndGroup(filename);
+		} catch (IOException ex) {
+			Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
+		} finally {
+			if (jarfile != null) {
+				try {
+					jarfile.close();
+				} catch (IOException ex) {
+					// Ignore
+				}
+			}
+		}
+	}
+
+	protected void Load(String filename, InputStream in) {
+		Logger.getLogger(getClass()).debug("Reading " + filename);
+		
+		JarInputStream jarfile = null;
+		try {
+			jarfile = new JarInputStream(in);
+
+			fireBeginGroup(filename, -1);
+			Load(jarfile);
+			fireEndGroup(filename);
+		} catch (IOException ex) {
+			Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
+		} finally {
+			if (jarfile != null) {
+				try {
+					jarfile.close();
+				} catch (IOException ex) {
+					// Ignore
 				}
 			}
 		}

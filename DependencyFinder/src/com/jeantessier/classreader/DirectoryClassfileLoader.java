@@ -1,4 +1,4 @@
-/*
+ /*
  *  Copyright (c) 2001-2003, Jean Tessier
  *  All rights reserved.
  *  
@@ -43,6 +43,8 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 	}
 
 	protected void Load(String filename) {
+		Logger.getLogger(getClass()).debug("Starting group from path " + filename);
+		
 		try {
 			DirectoryExplorer explorer = new DirectoryExplorer(filename);
 
@@ -50,23 +52,24 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 
 			Iterator i = explorer.Collection().iterator();
 			while (i.hasNext()) {
-				String classfilename = (String) i.next();
-				Logger.getLogger(getClass()).debug("Reading " + classfilename);
+				File file = (File) i.next();
 				
-				DataInputStream in        = null;
-				Classfile       classfile = null;
+				fireBeginFile(file.getPath());
+
+				Logger.getLogger(getClass()).debug("Starting file " + file.getPath() + " (" + file.length() + " bytes)");
+
+				InputStream in = null;
 				try {
-					fireBeginClassfile(classfilename, null);
-					in = new DataInputStream(new FileInputStream(classfilename));
-					classfile = Load(in);
+					in = new FileInputStream(file);
+					Loader().Load(file.getPath(), in);
 				} catch (IOException ex) {
-					Logger.getLogger(getClass()).error("Cannot load classfile \"" + classfilename + "\"", ex);
+					Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
 				} finally {
 					if (in != null) {
 						in.close();
 					}
 
-					fireEndClassfile(classfilename, null, classfile);
+					fireEndFile(file.getPath());
 				}
 			}
 		} catch (IOException ex) {
@@ -74,5 +77,9 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 		} finally {
 			fireEndGroup(filename);
 		}
+	}
+	
+	protected void Load(String filename, InputStream in) throws IOException {
+		// Do nothing
 	}
 }

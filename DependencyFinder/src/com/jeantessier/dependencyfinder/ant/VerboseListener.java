@@ -53,6 +53,10 @@ public class VerboseListener implements LoadListener, DependencyListener, Metric
 		task.log("Searching " + event.Filename() + " ...", Project.MSG_VERBOSE);
 	}
 	
+	public void BeginFile(LoadEvent event) {
+		// Do nothing
+	}
+	
 	public void BeginClassfile(LoadEvent event) {
 		if (event.Element() != null) {
 			task.log("Loading " + event.Filename() + " >> " + event.Element() + " ...", Project.MSG_VERBOSE);
@@ -62,6 +66,10 @@ public class VerboseListener implements LoadListener, DependencyListener, Metric
 	}
 	
 	public void EndClassfile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void EndFile(LoadEvent event) {
 		// Do nothing
 	}
 	

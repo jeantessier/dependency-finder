@@ -36,19 +36,74 @@ import java.io.*;
 import java.util.*;
 
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
+	private static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new StrictDispatcher();
+
+	private ClassfileLoaderDispatcher dispatcher;
+	
 	private ClassfileLoader dir_loader = new DirectoryClassfileLoader(this);
 	private ClassfileLoader jar_loader = new JarClassfileLoader(this);
 	private ClassfileLoader zip_loader = new ZipClassfileLoader(this);
 
-	private HashSet load_listeners = new HashSet();
+	private HashSet    load_listeners = new HashSet();
 
+	private LinkedList group_names = new LinkedList();
+
+	public ClassfileLoaderEventSource() {
+		this(DEFAULT_DISPATCHER);
+	}
+
+	public ClassfileLoaderEventSource(ClassfileLoaderDispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
+	
 	protected void Load(String filename) {
-		if (filename.endsWith(".jar")) {
-			jar_loader.Load(filename);
-		} else if (filename.endsWith(".zip")) {
-			zip_loader.Load(filename);
-		} else {
-			dir_loader.Load(filename);
+		switch (dispatcher.Dispatch(filename)) {
+			case ClassfileLoaderDispatcher.ACTION_IGNORE:
+				break;
+
+			case ClassfileLoaderDispatcher.ACTION_CLASS:
+			case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
+				dir_loader.Load(filename);
+				break;
+
+			case ClassfileLoaderDispatcher.ACTION_ZIP:
+				zip_loader.Load(filename);
+				break;
+
+			case ClassfileLoaderDispatcher.ACTION_JAR:
+				jar_loader.Load(filename);
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	protected void Load(String filename, InputStream in) throws IOException {
+		switch (dispatcher.Dispatch(filename)) {
+			case ClassfileLoaderDispatcher.ACTION_IGNORE:
+				break;
+
+			case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
+				dir_loader.Load(filename, in);
+				break;
+
+			case ClassfileLoaderDispatcher.ACTION_ZIP:
+				zip_loader.Load(filename, in);
+				break;
+
+			case ClassfileLoaderDispatcher.ACTION_JAR:
+				jar_loader.Load(filename, in);
+				break;
+
+			case ClassfileLoaderDispatcher.ACTION_CLASS:
+				fireBeginClassfile(filename);
+				Classfile classfile = Load(new DataInputStream(in));
+				fireEndClassfile(filename, classfile);
+				break;
+				
+			default:
+				break;
 		}
 	}
 
@@ -78,8 +133,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		}
 	}
 
-	protected void fireBeginGroup(String filename, int size) {
-		LoadEvent event = new LoadEvent(this, filename, size);
+	protected void fireBeginGroup(String group_name, int size) {
+		LoadEvent event = new LoadEvent(this, group_name, size);
 
 		HashSet listeners;
 		synchronized(load_listeners) {
@@ -90,10 +145,26 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		while(i.hasNext()) {
 			((LoadListener) i.next()).BeginGroup(event);
 		}
+
+		PushGroupName(group_name);
 	}
 	
-	protected void fireBeginClassfile(String filename, String element) {
-		LoadEvent event = new LoadEvent(this, filename, element, null);
+	protected void fireBeginFile(String filename) {
+		LoadEvent event = new LoadEvent(this, TopGroupName(), filename, null);
+
+		HashSet listeners;
+		synchronized(load_listeners) {
+			listeners = (HashSet) load_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((LoadListener) i.next()).BeginFile(event);
+		}
+	}
+	
+	protected void fireBeginClassfile(String filename) {
+		LoadEvent event = new LoadEvent(this, TopGroupName(), filename, null);
 
 		HashSet listeners;
 		synchronized(load_listeners) {
@@ -106,8 +177,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		}
 	}
 
-	protected void fireEndClassfile(String filename, String element, Classfile classfile) {
-		LoadEvent event = new LoadEvent(this, filename, element, classfile);
+	protected void fireEndClassfile(String filename, Classfile classfile) {
+		LoadEvent event = new LoadEvent(this, TopGroupName(), filename, classfile);
 
 		HashSet listeners;
 		synchronized(load_listeners) {
@@ -120,8 +191,22 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		}
 	}
 
-	protected void fireEndGroup(String filename) {
-		LoadEvent event = new LoadEvent(this, filename, null, null);
+	protected void fireEndFile(String filename) {
+		LoadEvent event = new LoadEvent(this, TopGroupName(), filename, null);
+
+		HashSet listeners;
+		synchronized(load_listeners) {
+			listeners = (HashSet) load_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((LoadListener) i.next()).EndFile(event);
+		}
+	}
+
+	protected void fireEndGroup(String group_name) {
+		LoadEvent event = new LoadEvent(this, group_name, null, null);
 
 		HashSet listeners;
 		synchronized(load_listeners) {
@@ -132,6 +217,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		while(i.hasNext()) {
 			((LoadListener) i.next()).EndGroup(event);
 		}
+
+		PopGroupName();
 	}
 
 	protected void fireEndSession() {
@@ -146,5 +233,23 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		while(i.hasNext()) {
 			((LoadListener) i.next()).EndSession(event);
 		}
+	}
+
+	private String TopGroupName() {
+		String result = null;
+
+		if (!group_names.isEmpty()) {
+			result = (String) group_names.getLast();
+		}
+
+		return result;
+	}
+
+	private void PushGroupName(String group_name) {
+		group_names.addLast(group_name);
+	}
+
+	private String PopGroupName() {
+		return (String) group_names.removeLast();
 	}
 }

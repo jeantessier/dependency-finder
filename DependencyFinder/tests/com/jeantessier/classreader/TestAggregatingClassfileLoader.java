@@ -33,6 +33,7 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
+import java.util.*;
 
 import junit.framework.*;
 
@@ -78,5 +79,11 @@ public class TestAggregatingClassfileLoader extends TestCase {
 				   loader.Classnames().contains(TEST_CLASS));
 		assertNotNull(TEST_CLASS + " should not have been null",
 					  loader.Classfile(TEST_CLASS));
+	}
+
+	public void testClassfile() throws IOException {
+		loader.Load(Collections.singleton(TEST_FILENAME));
+
+		assertNotNull("No Classfile from " + TEST_FILENAME, loader.Classfile(TEST_CLASS));
 	}
 }
