@@ -62,12 +62,12 @@ public class ListDiffPrinter {
 		this(compress, DEFAULT_DTD_PREFIX);
 	}
 	
-	public ListDiffPrinter(String default_dtd) {
-		this(DEFAULT_COMPRESS, default_dtd);
+	public ListDiffPrinter(String dtd_prefix) {
+		this(DEFAULT_COMPRESS, dtd_prefix);
 	}
 	
 	public ListDiffPrinter(boolean compress, String dtd_prefix) {
-		this.compress    = compress;
+		this.compress = compress;
 
 		AppendHeader(dtd_prefix);
 	}
