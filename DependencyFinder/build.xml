@@ -104,6 +104,7 @@
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
+        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
     </target>
 
     <target name="compiletestsdebug" depends="compiledebug"
