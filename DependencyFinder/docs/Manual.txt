@@ -1097,6 +1097,22 @@ or
     C:\>ant tests
     C:\>textjunit TestAll
 
+---+++ Making a Release
+
+    1 =cvs tag release-20030101=
+    1 =ant realclean=
+    1 Generate the documentation using perl script (Manual, Tools)
+    1 =ant jar clean docs dist war src=
+    1 =ant ftp=
+    1 =cvs log -rrelease-20020711:release-20030101=
+    1 Create new release on SourceForge.net
+    1 Notify monitoring people
+    1 Close bugs
+    1 Close feature requests
+    1 New news item
+    1 Post to news groups (=comp.lang.java=, =comp.lang.java.announce=, =comp.lang.java.softwaretools=, =comp.software.measurement=, =comp.software-eng=)
+    1 Generate sample files
+
 ----
 
 ---++ Support
