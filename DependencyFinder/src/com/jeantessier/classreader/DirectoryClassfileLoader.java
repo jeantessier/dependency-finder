@@ -58,19 +58,18 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 
 				Logger.getLogger(getClass()).debug("Starting file " + file.getPath() + " (" + file.length() + " bytes)");
 
-				InputStream in = null;
-				try {
-					in = new FileInputStream(file);
-					Loader().Load(file.getPath(), in);
-				} catch (IOException ex) {
-					Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
-				} finally {
-					if (in != null) {
+				if (!file.isDirectory()) {
+					InputStream in = null;
+					try {
+						in = new FileInputStream(file);
+						Loader().Load(file.getPath(), in);
 						in.close();
+					} catch (IOException ex) {
+						Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
 					}
-
-					fireEndFile(file.getPath());
 				}
+
+				fireEndFile(file.getPath());
 			}
 		} catch (IOException ex) {
 			Logger.getLogger(getClass()).error("Cannot load group \"" + filename + "\"", ex);

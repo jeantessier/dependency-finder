@@ -181,28 +181,28 @@ public class VerboseListener extends PrintWriter implements LoadListener, Depend
 	
 	public void BeginGroup(LoadEvent event) {
 		print("Searching ");
-		print(event.Filename());
+		print(event.GroupName());
 		print(" ...");
 		println();
 		flush();
 	}
 	
 	public void BeginFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void BeginClassfile(LoadEvent event) {
-		print("Loading ");
-		print(event.Filename());
+		print("Found ");
 
-		if (event.Element() != null) {
+		if (!event.Filename().startsWith(event.GroupName())) {
+			print(event.GroupName());
 			print(" >> ");
-			print(event.Element());
 		}
 
+		print(event.Filename());
 		print(" ...");
 		println();
 		flush();
+	}
+	
+	public void BeginClassfile(LoadEvent event) {
+		// Do nothing
 	}
 	
 	public void EndClassfile(LoadEvent event) {

@@ -61,10 +61,14 @@
 	    group_count = 0;
 		
 	    try {
-		out.println("Extracting from " + event.Filename() + " (" + group_size + " classes) ...");
+		out.println("Extracting from " + event.GroupName() + " (" + group_size + " classes) ...");
 	    } catch (IOException ex) {
 		// Do nothing
 	    }
+	}
+
+	public void BeginFile(LoadEvent event) {
+	    // Do nothing
 	}
 
 	public void BeginClassfile(LoadEvent event) {
@@ -92,6 +96,10 @@
 		// Do nothing
 	    }
 	    count++;
+	}
+
+	public void EndFile(LoadEvent event) {
+	    // Do nothing
 	}
 
 	public void EndGroup(LoadEvent event) {

@@ -93,19 +93,19 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 		model.ProgressBar().setValue(0);
 		model.ProgressBar().setStringPainted(true);
 		
-		model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
+		model.StatusLine().ShowInfo("Loading " + event.GroupName() + " ...");
 	}
 	
 	public void BeginFile(LoadEvent event) {
-		// Do nothing
+		if (event.Filename().startsWith(event.GroupName())) {
+			model.StatusLine().ShowInfo("Found " + event.Filename() + " ...");
+		} else {
+			model.StatusLine().ShowInfo("Found " + event.GroupName() + " >> " + event.Filename() + " ...");
+		}
 	}
 
 	public void BeginClassfile(LoadEvent event) {
-		if (event.Element() == null) {
-			model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
-		} else {
-			model.StatusLine().ShowInfo("Loading " + event.Filename() + " >> " + event.Element() + " ...");
-		}
+		// Do nothing
 	}
 
 	public void EndClassfile(LoadEvent event) {

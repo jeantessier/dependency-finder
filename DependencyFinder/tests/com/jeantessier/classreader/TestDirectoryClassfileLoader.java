@@ -64,7 +64,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 		assertEquals("End Group",       1, EndGroup().size());
 		assertEquals("End Session",     0, EndSession().size());
 
-		assertEquals(TEST_FILENAME, ((LoadEvent) EndClassfile().getLast()).Filename());
+		assertEquals(TEST_FILENAME, ((LoadEvent) EndClassfile().getLast()).GroupName());
 		assertNotNull("Classfile", ((LoadEvent) EndClassfile().getLast()).Classfile());
 	}	
 

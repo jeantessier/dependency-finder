@@ -35,34 +35,34 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class LoadEvent extends EventObject {
+	private String    group_name;
 	private String    filename;
-	private String    element;
 	private Classfile classfile;
 	private int       size;
 
-	public LoadEvent(Object source, String filename, int size) {
-		this(source, filename, null, null, size);
+	public LoadEvent(Object source, String group_name, int size) {
+		this(source, group_name, null, null, size);
 	}
 	
-	public LoadEvent(Object source, String filename, String element, Classfile classfile) {
-		this(source, filename, element, classfile, -1);
+	public LoadEvent(Object source, String group_name, String filename, Classfile classfile) {
+		this(source, group_name, filename, classfile, -1);
 	}
 	
-	public LoadEvent(Object source, String filename, String element, Classfile classfile, int size) {
+	public LoadEvent(Object source, String group_name, String filename, Classfile classfile, int size) {
 		super(source);
 
-		this.filename  = filename;
-		this.element   = element;
-		this.classfile = classfile;
-		this.size      = size;
+		this.group_name = group_name;
+		this.filename   = filename;
+		this.classfile  = classfile;
+		this.size       = size;
+	}
+
+	public String GroupName() {
+		return group_name;
 	}
 
 	public String Filename() {
 		return filename;
-	}
-
-	public String Element() {
-		return element;
 	}
 
 	public Classfile Classfile() {
