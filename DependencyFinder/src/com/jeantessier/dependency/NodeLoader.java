@@ -45,8 +45,8 @@ public class NodeLoader {
 	private static final String  DEFAULT_READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
 	private static final boolean DEFAULT_VALIDATE         = false;
 
-	private String      reader_classname;
 	private NodeHandler handler;
+	private String      reader_classname;
 	private boolean     validate;
 
 	public NodeLoader() {
@@ -78,22 +78,33 @@ public class NodeLoader {
 	}
 	
 	public NodeLoader(NodeFactory factory, String reader_classname, boolean validate) {
-		this.reader_classname = reader_classname;
 		this.handler          = new NodeHandler(factory);
+		this.reader_classname = reader_classname;
 		this.validate         = validate;
 	}
 
 	public Map Load(String filename) throws IOException, SAXException {
-		Map result;
+		Map result = null;
 
-		FileReader in = (new FileReader(filename));
-		result = Load(in);
-		in.close();
+		FileReader in = null;
+
+		try {
+			in = (new FileReader(filename));
+			result = Load(in);
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
 
 		return result;
 	}
 
-	public Map Load(FileReader in) throws IOException, SAXException {
+	public Map Load(InputStream in) throws IOException, SAXException {
+		return Load(new InputSource(in));
+	}
+
+	public Map Load(Reader in) throws IOException, SAXException {
 		return Load(new InputSource(in));
 	}
 
@@ -106,7 +117,6 @@ public class NodeLoader {
 		try {
 			if (validate) {
 				Logger.getLogger(getClass()).warn("XML validation turned on");
-				System.out.println("XML validation turned on");
 				reader.setFeature("http://xml.org/sax/features/validation", true);
 			}
 		} catch (Exception ex) {
