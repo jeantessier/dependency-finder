@@ -53,50 +53,50 @@ public class GraphCopier extends VisitorBase {
     }
 
     protected void preprocessPackageNode(PackageNode node) {
-        super.preprocessPackageNode(getScopeFactory().createPackage(node.getName()));
+        super.preprocessPackageNode(getScopeFactory().createPackage(node.getName(), node.isConfirmed()));
     }
 
     public void visitInboundPackageNode(PackageNode node) {
         if (getStrategy().isInFilter(node)) {
-            getFilterFactory().createPackage(node.getName()).addDependency(getCurrentNode());
+            getFilterFactory().createPackage(node.getName(), node.isConfirmed()).addDependency(getCurrentNode());
         }
     }
 
     public void visitOutboundPackageNode(PackageNode node) {
         if (getStrategy().isInFilter(node)) {
-            getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName()));
+            getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName(), node.isConfirmed()));
         }
     }
 
     protected void preprocessClassNode(ClassNode node) {
-        super.preprocessClassNode(getScopeFactory().createClass(node.getName()));
+        super.preprocessClassNode(getScopeFactory().createClass(node.getName(), node.isConfirmed()));
     }
 
     public void visitInboundClassNode(ClassNode node) {
         if (getStrategy().isInFilter(node)) {
-            getFilterFactory().createClass(node.getName()).addDependency(getCurrentNode());
+            getFilterFactory().createClass(node.getName(), node.isConfirmed()).addDependency(getCurrentNode());
         }
     }
 
     public void visitOutboundClassNode(ClassNode node) {
         if (getStrategy().isInFilter(node)) {
-            getCurrentNode().addDependency(getFilterFactory().createClass(node.getName()));
+            getCurrentNode().addDependency(getFilterFactory().createClass(node.getName(), node.isConfirmed()));
         }
     }
 
     protected void preprocessFeatureNode(FeatureNode node) {
-        super.preprocessFeatureNode(getScopeFactory().createFeature(node.getName()));
+        super.preprocessFeatureNode(getScopeFactory().createFeature(node.getName(), node.isConfirmed()));
     }
 
     public void visitInboundFeatureNode(FeatureNode node) {
         if (getStrategy().isInFilter(node)) {
-            getFilterFactory().createFeature(node.getName()).addDependency(getCurrentNode());
+            getFilterFactory().createFeature(node.getName(), node.isConfirmed()).addDependency(getCurrentNode());
         }
     }
 
     public void visitOutboundFeatureNode(FeatureNode node) {
         if (getStrategy().isInFilter(node)) {
-            getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName()));
+            getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName(), node.isConfirmed()));
         }
     }
 }

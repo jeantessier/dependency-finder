@@ -61,6 +61,7 @@ public class NodeFactory {
 
         if (confirmed && !result.isConfirmed()) {
             result.setConfirmed(confirmed);
+            Logger.getLogger(getClass()).debug("Package \"" + packageName + "\" is confirmed");
         }
 
         return result;
@@ -101,6 +102,7 @@ public class NodeFactory {
 
         if (confirmed && !result.isConfirmed()) {
             result.setConfirmed(confirmed);
+            Logger.getLogger(getClass()).debug("Class \"" + className + "\" is confirmed");
         }
 
         return result;
@@ -147,6 +149,7 @@ public class NodeFactory {
 
         if (confirmed && !result.isConfirmed()) {
             result.setConfirmed(confirmed);
+            Logger.getLogger(getClass()).debug("Feature \"" + featureName + "\" is confirmed");
         }
 
         return result;
