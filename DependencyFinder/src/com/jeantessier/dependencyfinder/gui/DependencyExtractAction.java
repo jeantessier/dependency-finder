@@ -73,25 +73,12 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	public void run() {
 		Date start = new Date();
 		
-		if (model.NodeFactory() == null && model.Collector() == null) {
-			NodeFactory factory = new NodeFactory();
-			CodeDependencyCollector collector = new CodeDependencyCollector(factory);
-
-			model.NodeFactory(factory);
-			model.Collector(collector);
-		}
+		Collector collector = new CodeDependencyCollector(model.NodeFactory());
 
 		loader = new TransientClassfileLoader();
 		loader.addLoadListener(this);
-		loader.addLoadListener(model.Collector());
+		loader.addLoadListener(collector);
 		loader.Load(Arrays.asList(files));
-
-		Iterator i = loader.Classfiles().iterator();
-		while (i.hasNext()) {
-			((Classfile) i.next()).Accept(model.Collector());
-		}
-
-		model.Packages(model.NodeFactory().Packages().values());
 
 		if (model.Maximize()) {
 			model.StatusLine().ShowInfo("Maximizing ...");

@@ -78,7 +78,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 			loader.addDependencyListener(this);
 			
 			model.StatusLine().ShowInfo("Loading " + filename + " ...");
-			model.Packages(loader.Load(filename).values());
+			model.NodeFactory(loader.Load(filename));
 			model.setTitle("Dependency Finder - " + filename);
 			
 			model.StatusLine().ShowInfo("Maximizing ...");
