@@ -110,7 +110,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	}
 
 	private void Extract(AggregatingClassfileLoader target_loader, File file) {
-	    model.InputFile(file);
+		model.InputFile(file);
 		String filename = model.InputFile().toString();
 
 		try {

@@ -47,8 +47,8 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.metrics.*;
 
 public class OOMetrics extends JFrame {
-    public static final String DEFAULT_LOGFILE   = "System.out";
-    public static final String DEFAULT_TRACEFILE = "System.out";
+	public static final String DEFAULT_LOGFILE   = "System.out";
+	public static final String DEFAULT_TRACEFILE = "System.out";
 
 	private MetricsFactory    factory       = new MetricsFactory("Project");
 	
@@ -239,14 +239,14 @@ public class OOMetrics extends JFrame {
 		return StatusLine();
 	}
 	
-    public static void Error(CommandLineUsage clu, String msg) {
+	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
-    }
+	}
 
-    public static void Error(CommandLineUsage clu) {
+	public static void Error(CommandLineUsage clu) {
 		System.err.println(clu);
-    }
+	}
 
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line

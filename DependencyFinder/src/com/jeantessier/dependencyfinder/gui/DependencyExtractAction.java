@@ -89,7 +89,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	}
 
 	private void Extract(File file) {
-	    model.InputFile(file);
+		model.InputFile(file);
 		String filename = model.InputFile().toString();
 
 		if (model.NodeFactory() == null && model.Collector() == null) {

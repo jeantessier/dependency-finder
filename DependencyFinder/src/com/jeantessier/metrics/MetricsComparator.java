@@ -112,7 +112,13 @@ public class MetricsComparator implements Comparator {
 				double v1 = ExtractValue(m1);
 				double v2 = ExtractValue(m2);
 				
-				if (v1 < v2) {
+				if (Double.isNaN(v1) && !Double.isNaN(v2)) {
+					result = 1 * Direction();
+				} else if (!Double.isNaN(v1) && Double.isNaN(v2)) {
+					result = -1 * Direction();
+				} else if (Double.isNaN(v1) && Double.isNaN(v2)) {
+					result = 0;
+				} else if (v1 < v2) {
 					result = -1;
 				} else if (v1 > v2) {
 					result = 1;

@@ -99,12 +99,48 @@ public class TestMetricsComparator extends TestCase {
 		m2.TrackMetric("bar", 2);
 		m2.TrackMetric("baz", 1);
 		
-		Comparator c1 = new MetricsComparator("foo");
-		Comparator c2 = new MetricsComparator("bar");
-		Comparator c3 = new MetricsComparator("baz");
+		MetricsComparator c1 = new MetricsComparator("foo");
+		MetricsComparator c2 = new MetricsComparator("bar");
+		MetricsComparator c3 = new MetricsComparator("baz");
 
 		assertTrue(c1.compare(m1, m2) < 0);
 		assertTrue(c2.compare(m1, m2) == 0);
 		assertTrue(c3.compare(m1, m2) > 0);
+
+		c1.Reverse();
+		c2.Reverse();
+		c3.Reverse();
+
+		assertTrue(c1.compare(m1, m2) > 0);
+		assertTrue(c2.compare(m1, m2) == 0);
+		assertTrue(c3.compare(m1, m2) < 0);
+	}
+	
+	public void testCompareNaN() {
+		Metrics m1 = new Metrics("m1");
+		Metrics m2 = new Metrics("m2");
+
+		m1.TrackMetric("foo", Double.NaN);
+		m2.TrackMetric("foo", Double.NaN);
+		m1.TrackMetric("bar", Double.NaN);
+		m2.TrackMetric("bar", 1);
+		m1.TrackMetric("baz", 1);
+		m2.TrackMetric("baz", Double.NaN);
+		
+		MetricsComparator c1 = new MetricsComparator("foo");
+		MetricsComparator c2 = new MetricsComparator("bar");
+		MetricsComparator c3 = new MetricsComparator("baz");
+
+		assertTrue(c1.compare(m1, m2) == 0);
+		assertTrue(c2.compare(m1, m2) > 0);
+		assertTrue(c3.compare(m1, m2) < 0);
+
+		c1.Reverse();
+		c2.Reverse();
+		c3.Reverse();
+
+		assertTrue(c1.compare(m1, m2) == 0);
+		assertTrue(c2.compare(m1, m2) > 0);
+		assertTrue(c3.compare(m1, m2) < 0);
 	}
 }

@@ -42,7 +42,7 @@ import com.jeantessier.metrics.*;
 
 public class OOMetricsTableModel extends AbstractTableModel {
 	private static final Perl5Util perl = new Perl5Util();
-    
+
 	private static final Integer LOCAL_DISPOSE_IGNORE         = new Integer(StatisticalMeasurement.DISPOSE_IGNORE);
 	private static final Integer LOCAL_DISPOSE_MINIMUM        = new Integer(StatisticalMeasurement.DISPOSE_MINIMUM);
 	private static final Integer LOCAL_DISPOSE_MEDIAN         = new Integer(StatisticalMeasurement.DISPOSE_MEDIAN);

@@ -66,7 +66,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 	}
 
 	public void run() {
-	    model.InputFile(file);
+		model.InputFile(file);
 		model.NewDependencyGraph();
 		
 		try {
@@ -80,7 +80,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 			model.StatusLine().ShowInfo("Loading " + filename + " ...");
 			model.Packages(loader.Load(filename).values());
 			model.setTitle("Dependency Finder - " + filename);
-	    
+			
 			model.StatusLine().ShowInfo("Maximizing ...");
 			LinkMaximizer maximizer = new LinkMaximizer();
 			maximizer.TraverseNodes(model.Packages());
