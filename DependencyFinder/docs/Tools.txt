@@ -299,6 +299,8 @@ and read them.
 
 <blockquote>
 
+Lists all classes it could find, based on parameters.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -308,6 +310,7 @@ and read them.
     	-out filename
     	-time
     	-verbose [filename]
+	[param ...]
 
 ---+++ Description
 
@@ -685,7 +688,7 @@ Prints how long it took to run the command.
 
 <blockquote>
 
-Produce XML output instead of the default textual.
+Writes the =.class= file information as an XML document.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1558,6 +1561,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1897,6 +1902,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Writes the dependency graph as serialized Java objects.
+
+At this time, Dependency Finder cannot deserialize a saved graph, so this
+switch is pretty useless.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1948,6 +1958,8 @@ Validate the input XML against its DTD.
 ---++++ =-xml=
 
 <blockquote>
+
+Writes the dependency graph as an XML document.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2047,6 +2059,8 @@ See also:
 
 <blockquote>
 
+The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2142,6 +2156,11 @@ it is created.  If it already exists, its content is overwritten.
 
 <blockquote>
 
+Writes the dependency graph as serialized Java objects.
+
+At this time, Dependency Finder cannot deserialize a saved graph, so this
+switch is pretty useless.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2179,6 +2198,8 @@ Prints how long it took to run the command.
 ---++++ =-xml=
 
 <blockquote>
+
+Writes the dependency graph as an XML document.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2287,6 +2308,8 @@ It combines the functionalities of the following tools:
 ---++++ =-dtd-prefix uri=
 
 <blockquote>
+
+The prefix of the DTD URL for the saving dependency graphs to XML documents.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3397,6 +3420,8 @@ See also:
 
 <blockquote>
 
+The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3760,6 +3785,11 @@ See also:
 
 <blockquote>
 
+Writes the dependency graph as serialized Java objects.
+
+At this time, Dependency Finder cannot deserialize a saved graph, so this
+switch is pretty useless.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3811,6 +3841,8 @@ Validate the input XML against its DTD.
 ---++++ =-xml=
 
 <blockquote>
+
+Writes the dependency graph as an XML document.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4212,6 +4244,8 @@ report to "public" changes.
 ---++++ =-dtd-prefix uri=
 
 <blockquote>
+
+The prefix of the DTD URL for the XML output document.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4847,6 +4881,8 @@ See =-out= above.
 ---++++ =-dtd-prefix uri=
 
 <blockquote>
+
+The prefix of the DTD URL for the XML output document.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5586,6 +5622,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -5776,6 +5814,8 @@ Validate the input XML against its DTD.
 ---++++ =-xml=
 
 <blockquote>
+
+Writes the metrics report as an XML document.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
