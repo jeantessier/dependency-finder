@@ -500,7 +500,7 @@
 	<measurement>
 	    <short-name>A</short-name>
 	    <long-name>Attributes</long-name>
-	    <class>com.jeantessier.metrics.NbSubMetricsMeasurement</class>
+	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	</measurement>
 	<measurement>
 	    <short-name>PUBA</short-name>
