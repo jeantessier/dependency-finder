@@ -168,7 +168,6 @@
 	    <init>
 		OIP
 		OEP
-		INCLUDES-LIST deprecated.txt
 	    </init>
 	</measurement>
 	<measurement>
@@ -188,16 +187,6 @@
 		OIP
 		OEP
 		FDistOut
-		INCLUDES-LIST deprecated.txt
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>Fout</short-name>
-	    <long-name>Features' outbound dependencies accumulator</long-name>
-	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
-	    <init>
-		Out
-		DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement visible="no">
@@ -238,7 +227,6 @@
 		OIPC
 		OEPF
 		OEPC
-		INCLUDES-LIST deprecated.txt
 	    </init>
 	</measurement>
 	<measurement>

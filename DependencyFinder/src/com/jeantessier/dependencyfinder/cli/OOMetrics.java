@@ -87,30 +87,32 @@ public class OOMetrics {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
-		command_line.AddSingleValueSwitch("project-name",       DEFAULT_PROJECT_NAME);
+		command_line.AddSingleValueSwitch("project-name",           DEFAULT_PROJECT_NAME);
 		command_line.AddSingleValueSwitch("default-configuration", true);
 		command_line.AddSingleValueSwitch("configuration");
 		command_line.AddToggleSwitch("csv");
 		command_line.AddToggleSwitch("txt");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
-		command_line.AddSingleValueSwitch("encoding",           com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING);
-		command_line.AddSingleValueSwitch("dtd-prefix",         com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
+		command_line.AddSingleValueSwitch("encoding",               com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING);
+		command_line.AddSingleValueSwitch("dtd-prefix",             com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("all");
 		command_line.AddToggleSwitch("project");
 		command_line.AddToggleSwitch("groups");
 		command_line.AddToggleSwitch("classes");
 		command_line.AddToggleSwitch("methods");
+		command_line.AddMultipleValuesSwitch("filter-includes-list");
+		command_line.AddMultipleValuesSwitch("filter-excludes-list");
 		command_line.AddToggleSwitch("show-empty-metrics");
 		command_line.AddToggleSwitch("show-hidden-measurements");
-		command_line.AddSingleValueSwitch("sort",               DEFAULT_SORT);
+		command_line.AddSingleValueSwitch("sort",                   DEFAULT_SORT);
 		command_line.AddToggleSwitch("expand");
 		command_line.AddToggleSwitch("reverse");
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose",          DEFAULT_LOGFILE);
+		command_line.AddOptionalValueSwitch("verbose",              DEFAULT_LOGFILE);
 		command_line.AddToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("OOMetrics");
@@ -200,6 +202,9 @@ public class OOMetrics {
 		Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
 
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
+		if (command_line.IsPresent("filter-includes-list") || command_line.IsPresent("filter-excludes-list")) {
+			gatherer.FilterIncludes(CreateCollection(command_line.MultipleSwitch("filter-includes-list"), command_line.MultipleSwitch("filter-excludes-list")));
+		}
 		gatherer.addMetricsListener(verbose_listener);
 		gatherer.VisitClassfiles(loader.Classfiles());
 
@@ -223,6 +228,33 @@ public class OOMetrics {
 		}
 
 		verbose_listener.Close();
+	}
+
+	private static Collection CreateCollection(Collection includes, Collection excludes) throws IOException {
+		Collection result = new HashSet();
+		Iterator   i;
+			
+		i = includes.iterator();
+		while (i.hasNext()) {
+			BufferedReader reader = new BufferedReader(new FileReader(i.next().toString()));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				result.add(line);
+			}
+			reader.close();
+		}
+		
+		i = excludes.iterator();
+		while (i.hasNext()) {
+			BufferedReader reader = new BufferedReader(new FileReader(i.next().toString()));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				result.remove(line);
+			}
+			reader.close();
+		}
+		
+		return result;
 	}
 
 	private static void PrintCSVFiles(Date start, CommandLine command_line, MetricsFactory factory) throws IOException {

@@ -48,6 +48,8 @@ public class MetricsGatherer extends VisitorBase {
 	private String         project_name;
 	private MetricsFactory factory;
 
+	private Collection filter = null;
+	
 	private Metrics current_project;
 	private Metrics current_group;
 	private Metrics current_class;
@@ -73,6 +75,10 @@ public class MetricsGatherer extends VisitorBase {
 		return factory;
 	}
 
+	public void FilterIncludes(Collection filter) {
+		this.filter = filter;
+	}
+	
 	private Metrics CurrentProject() {
 		return current_project;
 	}
@@ -530,7 +536,7 @@ public class MetricsGatherer extends VisitorBase {
 	private void AddClassDependency(String name) {
 		Logger.getLogger(getClass()).debug("AddClassDependency(\"" + name + "\") ...");
 
-		if (!CurrentClass().Name().equals(name)) {
+		if (!CurrentClass().Name().equals(name) && FilterMatchClass(name)) {
 			Metrics other = MetricsFactory().CreateClassMetrics(name);
 				
 			if (CurrentMethod() != null) {
@@ -564,7 +570,7 @@ public class MetricsGatherer extends VisitorBase {
 	private void AddMethodDependency(String name) {
 		Logger.getLogger(getClass()).debug("AddMethodDependency " + CurrentMethod().Name() + " -> " + name + " ...");
 
-		if (!CurrentMethod().Name().equals(name)) {
+		if (!CurrentMethod().Name().equals(name) && FilterMatchMethod(name)) {
 			Metrics other = MetricsFactory().CreateMethodMetrics(name);
 			
 			if (CurrentClass().equals(other.Parent())) {
@@ -581,6 +587,56 @@ public class MetricsGatherer extends VisitorBase {
 				other.AddToMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, CurrentMethod().Name());
 			}
 		}
+	}
+
+	private boolean FilterMatchPackage(String name) {
+		boolean result = true;
+
+		if (filter != null) {
+			result = filter.contains(name);
+		}
+		
+		Logger.getLogger(getClass()).debug("\"" + name + "\" in " + filter + ": " + result);
+
+		return result;
+	}
+	
+	private boolean FilterMatchClass(String name) {
+		boolean result = true;
+
+		if (filter != null) {
+			result = filter.contains(name);
+		}
+
+		if (!result) {
+			int pos = name.lastIndexOf('.');
+			result = FilterMatchPackage(name.substring(0, pos));
+		}
+		
+		Logger.getLogger(getClass()).debug("\"" + name + "\" in " + filter + ": " + result);
+
+		return result;
+	}
+	
+	private boolean FilterMatchMethod(String name) {
+		boolean result = true;
+
+		if (filter != null) {
+			result = filter.contains(name);
+		}
+
+		if (!result) {
+			int pos;
+
+			pos = name.lastIndexOf('(');
+			String class_name = name.substring(0, pos);
+			pos = class_name.lastIndexOf('.');
+			result = FilterMatchClass(class_name.substring(0, pos));
+		}
+		
+		Logger.getLogger(getClass()).debug("\"" + name + "\" in " + filter + ": " + result);
+
+		return result;
 	}
 
 	public void addMetricsListener(MetricsListener listener) {

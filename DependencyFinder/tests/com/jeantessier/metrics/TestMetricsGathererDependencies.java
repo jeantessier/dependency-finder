@@ -61,11 +61,7 @@ public class TestMetricsGathererDependencies extends TestCase {
 		loader.Load(dirs);
 
 		MetricsGatherer gatherer = new MetricsGatherer("test", factory);
-		
-		Iterator i = loader.Classfiles().iterator();
-		while (i.hasNext()) {
-			((Classfile) i.next()).Accept(gatherer);
-		}
+		gatherer.VisitClassfiles(loader.Classfiles());
 	}
 
 	protected void tearDown() throws Exception {

@@ -60,6 +60,8 @@ public class OOMetrics extends Task {
 	private boolean group_metrics            = false;
 	private boolean class_metrics            = false;
 	private boolean method_metrics           = false;
+	private Path    filter_includes_list;
+	private Path    filter_excludes_list;
 	private boolean show_empty_metrics       = false;
 	private boolean show_hidden_measurements = false;
 	private String  sort                     = DEFAULT_SORT;
@@ -178,6 +180,30 @@ public class OOMetrics extends Task {
 		setClassmetrics(all_metrics);
 		setMethodmetrics(all_metrics);
 	}
+	
+	public Path createFilterincludeslist() {
+		if (filter_includes_list == null) {
+			filter_includes_list = new Path(getProject());
+		}
+
+		return filter_includes_list;
+	}
+	
+	public Path getFilterincludeslist() {
+		return filter_includes_list;
+	}
+	
+	public Path createFilterexcludeslist() {
+		if (filter_excludes_list == null) {
+			filter_excludes_list = new Path(getProject());
+		}
+
+		return filter_excludes_list;
+	}
+	
+	public Path getFilterexcludeslist() {
+		return filter_excludes_list;
+	}
 
 	public boolean getShowemptymetrics() {
 		return show_empty_metrics;
@@ -275,6 +301,9 @@ public class OOMetrics extends Task {
 			
 			com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
 			gatherer.addMetricsListener(verbose_listener);
+			if (getFilterincludeslist() != null || getFilterexcludeslist() != null) {
+				gatherer.FilterIncludes(CreateCollection(getFilterincludeslist(), getFilterexcludeslist()));
+			}
 			gatherer.VisitClassfiles(loader.Classfiles());
 			
 			if (getCsv()) {
@@ -289,6 +318,36 @@ public class OOMetrics extends Task {
 		} catch (IOException ex) {
 			throw new BuildException(ex);
 		}
+	}
+
+	private Collection CreateCollection(Path includes, Path excludes) throws IOException {
+		Collection result = new HashSet();
+
+		if (includes != null) {
+			String[] filenames = includes.list();
+			for (int i=0; i<filenames.length; i++) {
+				BufferedReader reader = new BufferedReader(new FileReader(filenames[i]));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					result.add(line);
+				}
+				reader.close();
+			}
+		}
+		
+		if (excludes != null) {
+			String[] filenames = excludes.list();
+			for (int i=0; i<filenames.length; i++) {
+				BufferedReader reader = new BufferedReader(new FileReader(filenames[i]));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					result.remove(line);
+				}
+				reader.close();
+			}
+		}
+		
+		return result;
 	}
 
 	private void PrintCSVFiles(MetricsFactory factory) throws IOException {
