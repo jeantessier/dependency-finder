@@ -49,10 +49,10 @@ public class TestDeprecatableDifferences extends TestCase {
 		factory = new DifferencesFactory(validator, validator);
 		
 		old_loader = new AggregatingClassfileLoader();
-		old_loader.Load("tests\\JarJarDiff\\old");
+		old_loader.Load(Collections.singleton("tests\\JarJarDiff\\old"));
 
 		new_loader = new AggregatingClassfileLoader();
-		new_loader.Load("tests\\JarJarDiff\\new");
+		new_loader.Load(Collections.singleton("tests\\JarJarDiff\\new"));
 	}
 
 	public void testNotDeprecatedNotDeprecatedDifferent() {

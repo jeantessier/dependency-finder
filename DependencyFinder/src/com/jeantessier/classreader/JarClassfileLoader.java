@@ -43,7 +43,7 @@ public class JarClassfileLoader extends ZipClassfileLoader {
 		super(loader);
 	}
 
-	public void Load(String filename) throws IOException {
+	protected void Load(String filename) {
 		if (filename.endsWith(".jar")) {
 			Logger.getLogger(getClass()).debug("Reading " + filename);
 
@@ -51,9 +51,15 @@ public class JarClassfileLoader extends ZipClassfileLoader {
 			try {
 				in = new JarFile(filename);
 				Load(in);
+			} catch (IOException ex) {
+				Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
 			} finally {
 				if (in != null) {
-					in.close();
+					try {
+						in.close();
+					} catch (IOException ex) {
+						// Ignore
+					}
 				}
 			}
 		}

@@ -48,22 +48,28 @@ public abstract class ClassfileLoader {
 	public abstract Collection Classfiles();
 	public abstract Collection Classnames();
 
-	public void Load(Collection filenames) throws IOException {
+	public void Load(Collection filenames) {
+		fireBeginSession();
+		
 		Iterator i = filenames.iterator();
 		while (i.hasNext()) {
-			Load((String) i.next());
+			Load(i.next().toString());
 		}
+
+		fireEndSession();
 	}
 
-	public abstract void Load(String filename) throws IOException;
+	protected abstract void Load(String filename);
 
 	// Event stuff
 	public abstract void addLoadListener(LoadListener listener);
 	public abstract void removeLoadListener(LoadListener listener);
-	protected abstract void fireLoadStart(String filename);
-	protected abstract void fireLoadElement(String filename, String element);
-	protected abstract void fireLoadedClassfile(String filename, Classfile classfile);
-	protected abstract void fireLoadStop(String filename);
+	protected abstract void fireBeginSession();
+	protected abstract void fireBeginGroup(String filename, int size);
+	protected abstract void fireBeginClassfile(String filename, String element);
+	protected abstract void fireEndClassfile(String filename, String element, Classfile classfile);
+	protected abstract void fireEndGroup(String filename);
+	protected abstract void fireEndSession();
 
 	// Protected contract for Decorator Pattern
 	protected abstract Classfile Load(DataInputStream in) throws IOException;

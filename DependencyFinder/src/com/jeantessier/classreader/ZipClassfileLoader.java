@@ -43,7 +43,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 		super(loader);
 	}
 
-	public void Load(String filename) throws IOException {
+	protected void Load(String filename) {
 		if (filename.endsWith(".zip")) {
 			Logger.getLogger(getClass()).debug("Reading " + filename);
 
@@ -51,23 +51,29 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 			try {
 				in = new ZipFile(filename);
 				Load(in);
+			} catch (IOException ex) {
+				Logger.getLogger(getClass()).error("Cannot load Zip file \"" + filename + "\"", ex);
 			} finally {
 				if (in != null) {
-					in.close();
+					try {
+						in.close();
+					} catch (IOException ex) {
+						// Ignore
+					}
 				}
 			}
 		}
 	}
 
 	protected void Load(ZipFile zipfile) {
-		fireLoadStart(zipfile.getName());
+		fireBeginGroup(zipfile.getName(), zipfile.size());
 		
 		Enumeration entries = zipfile.entries();
 		while(entries.hasMoreElements()) {
 			ZipEntry entry = (ZipEntry) entries.nextElement();
 			if (entry.getName().endsWith(".class")) {
 				Logger.getLogger(getClass()).debug("Reading " + entry.getName());
-				fireLoadElement(zipfile.getName(), entry.getName());
+				fireBeginClassfile(zipfile.getName(), entry.getName());
 			
 				try {
 					byte[] bytes = new byte[(int) entry.getSize()];
@@ -81,13 +87,13 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 						left_to_read -= read_this_turn;
 					}
 
-					fireLoadedClassfile(zipfile.getName(), Load(new DataInputStream(new ByteArrayInputStream(bytes))));
+					fireEndClassfile(zipfile.getName(), entry.getName(), Load(new DataInputStream(new ByteArrayInputStream(bytes))));
 				} catch (IOException ex) {
 					Logger.getLogger(getClass()).debug("Error loading " + entry.getName() + ": " + ex);
 				}
 			}
 		}
 
-		fireLoadStop(zipfile.getName());
+		fireEndGroup(zipfile.getName());
 	}
 }

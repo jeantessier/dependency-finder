@@ -113,7 +113,7 @@ public class TestDependencyExtractor extends TestCase {
 		test_test_feature.AddDependency(java_lang_Object_Object_feature);
 
 		loader = new AggregatingClassfileLoader();
-		loader.Load(TEST_FILENAME);
+		loader.Load(Collections.singleton(TEST_FILENAME));
 
 		test_factory = new NodeFactory();
 		loader.Classfile(TEST_CLASS).Accept(new CodeDependencyCollector(test_factory));
@@ -190,7 +190,7 @@ public class TestDependencyExtractor extends TestCase {
 		ClassfileLoader loader  = new AggregatingClassfileLoader();
 		NodeFactory     factory = new NodeFactory();
 		
-		loader.Load("classes" + File.separator + "StaticInitializerTest.class");
+		loader.Load(Collections.singleton("classes" + File.separator + "StaticInitializerTest.class"));
 
 		Classfile classfile = loader.Classfile("StaticInitializerTest");
 		classfile.Accept(new CodeDependencyCollector(factory));

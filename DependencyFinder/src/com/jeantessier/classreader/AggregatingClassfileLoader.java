@@ -50,7 +50,7 @@ public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
 		return Collections.unmodifiableCollection(classfiles.keySet());
 	}
 
-	public Classfile Load(DataInputStream in) throws IOException {
+	protected Classfile Load(DataInputStream in) throws IOException {
 		Classfile result = new Classfile(this, in);
 
 		classfiles.put(result.Class(), result);

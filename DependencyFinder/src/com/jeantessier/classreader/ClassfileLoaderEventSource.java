@@ -38,7 +38,7 @@ import java.util.*;
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 	private HashSet load_listeners = new HashSet();
 
-	public void Load(String filename) throws IOException {
+	protected void Load(String filename) {
 		ClassfileLoader loader;
 
 		if (filename.endsWith(".jar")) {
@@ -64,8 +64,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		}
 	}
 
-	protected void fireLoadStart(String filename) {
-		LoadEvent event = new LoadEvent(this, filename);
+	protected void fireBeginSession() {
+		LoadEvent event = new LoadEvent(this, null, null, null);
 
 		HashSet listeners;
 		synchronized(load_listeners) {
@@ -74,12 +74,26 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).LoadStart(event);
+			((LoadListener) i.next()).BeginSession(event);
+		}
+	}
+
+	protected void fireBeginGroup(String filename, int size) {
+		LoadEvent event = new LoadEvent(this, filename, size);
+
+		HashSet listeners;
+		synchronized(load_listeners) {
+			listeners = (HashSet) load_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((LoadListener) i.next()).BeginGroup(event);
 		}
 	}
 	
-	protected void fireLoadElement(String filename, String element) {
-		LoadEvent event = new LoadEvent(this, filename, element);
+	protected void fireBeginClassfile(String filename, String element) {
+		LoadEvent event = new LoadEvent(this, filename, element, null);
 
 		HashSet listeners;
 		synchronized(load_listeners) {
@@ -88,12 +102,12 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).LoadElement(event);
+			((LoadListener) i.next()).BeginClassfile(event);
 		}
 	}
 
-	protected void fireLoadedClassfile(String filename, Classfile classfile) {
-		LoadEvent event = new LoadEvent(this, filename, classfile);
+	protected void fireEndClassfile(String filename, String element, Classfile classfile) {
+		LoadEvent event = new LoadEvent(this, filename, element, classfile);
 
 		HashSet listeners;
 		synchronized(load_listeners) {
@@ -102,12 +116,12 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).LoadedClassfile(event);
+			((LoadListener) i.next()).EndClassfile(event);
 		}
 	}
 
-	protected void fireLoadStop(String filename) {
-		LoadEvent event = new LoadEvent(this, filename);
+	protected void fireEndGroup(String filename) {
+		LoadEvent event = new LoadEvent(this, filename, null, null);
 
 		HashSet listeners;
 		synchronized(load_listeners) {
@@ -116,7 +130,21 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).LoadStop(event);
+			((LoadListener) i.next()).EndGroup(event);
+		}
+	}
+
+	protected void fireEndSession() {
+		LoadEvent event = new LoadEvent(this, null, null, null);
+
+		HashSet listeners;
+		synchronized(load_listeners) {
+			listeners = (HashSet) load_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((LoadListener) i.next()).EndSession(event);
 		}
 	}
 }

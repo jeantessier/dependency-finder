@@ -48,7 +48,7 @@ public class TransientClassfileLoader extends ClassfileLoaderEventSource {
 		return Collections.EMPTY_LIST;
 	}
 
-	public Classfile Load(DataInputStream in) throws IOException {
+	protected Classfile Load(DataInputStream in) throws IOException {
 		return new Classfile(this, in);
 	}
 }

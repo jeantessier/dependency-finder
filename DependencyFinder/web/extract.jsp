@@ -15,6 +15,9 @@
 	private JspWriter out;
 
 	private int count = 0;
+
+	private int group_size;
+	private int group_count;
 	
 	public MyListener(JspWriter out) {
 	    this.out = out;
@@ -23,29 +26,56 @@
 	public int Count() {
 	    return count;
 	}
+
+	public void BeginSession(LoadEvent event) {
+	    // Do nothing
+	}
 	
-	public void LoadStart(LoadEvent event) {
+	public void BeginGroup(LoadEvent event) {
+	    group_size = event.Size();
+	    group_count = 0;
+		
 	    try {
-		out.println("Extracting from " + event.Filename() + " ...");
+		out.println("Extracting from " + event.Filename() + " (" + group_size + " classes) ...");
 	    } catch (IOException ex) {
 		// Do nothing
 	    }
 	}
 
-	public void LoadElement(LoadEvent event) {
+	public void BeginClassfile(LoadEvent event) {
 	    // Do nothing
 	}
 
-	public void LoadedClassfile(LoadEvent event) {
+	public void EndClassfile(LoadEvent event) {
 	    try {
-		out.println("    Getting dependencies from " + event.Classfile() + " ...");
+		int previous_ratio = group_count * 100 / group_size;
+		group_count++;
+		int new_ratio = group_count * 100 / group_size;
+
+		if (previous_ratio != new_ratio) {
+		    if (new_ratio < 10) {
+			out.print("(" + new_ratio + "%)   ");
+		    } else if (new_ratio < 100) {
+			out.print("(" + new_ratio + "%)  ");
+		    } else {
+			out.print("(" + new_ratio + "%) ");
+		    }
+		} else {
+		    out.print("       ");
+		}
+
+		out.println("Getting dependencies from " + event.Classfile() + " ...");
 	    } catch (IOException ex) {
 		// Do nothing
 	    }
 	    count++;
 	}
 
-	public void LoadStop(LoadEvent event) {
+	public void EndGroup(LoadEvent event) {
+	    // Do nothing
+	}
+
+	public void EndSession(LoadEvent event) {
 	    // Do nothing
 	}
     }
@@ -130,17 +160,7 @@
 	ClassfileLoader loader = new TransientClassfileLoader();
 	loader.addLoadListener(listener);
 	loader.addLoadListener(collector);
-		
-	Iterator i = sources.iterator();
-	while (i.hasNext()) {
-	    String filename = (String) i.next();
-
-	    try {
-		loader.Load(filename);
-	    } catch (IOException ex) {
-		out.println("Cannot extract from " + filename + ": " + ex.getClass().getName() + ": " + ex.getMessage());
-	    }
-	}
+	loader.Load(sources);
 
 	if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 	    out.println("Maximizing ...");

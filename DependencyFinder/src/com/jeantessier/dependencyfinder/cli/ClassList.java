@@ -134,7 +134,7 @@ public class ClassList {
 			out.println(filename + ":");
 			
 			ClassfileLoader loader = new AggregatingClassfileLoader();
-			loader.Load(filename);
+			loader.Load(Collections.singleton(filename));
 
 			Iterator j = loader.Classfiles().iterator();
 			while (j.hasNext()) {

@@ -38,23 +38,23 @@ public class LoadEvent extends EventObject {
 	private String    filename;
 	private String    element;
 	private Classfile classfile;
+	private int       size;
 
-	public LoadEvent(Object source, String filename) {
+	public LoadEvent(Object source, String filename, int size) {
+		this(source, filename, null, null, size);
+	}
+	
+	public LoadEvent(Object source, String filename, String element, Classfile classfile) {
+		this(source, filename, element, classfile, -1);
+	}
+	
+	public LoadEvent(Object source, String filename, String element, Classfile classfile, int size) {
 		super(source);
 
-		this.filename = filename;
-	}
-
-	public LoadEvent(Object source, String filename, String element) {
-		this(source, filename);
-
-		this.element = element;
-	}
-
-	public LoadEvent(Object source, String filename, Classfile classfile) {
-		this(source, filename);
-
+		this.filename  = filename;
+		this.element   = element;
 		this.classfile = classfile;
+		this.size      = size;
 	}
 
 	public String Filename() {
@@ -67,5 +67,9 @@ public class LoadEvent extends EventObject {
 
 	public Classfile Classfile() {
 		return classfile;
+	}
+
+	public int Size() {
+		return size;
 	}
 }

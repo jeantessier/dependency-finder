@@ -42,7 +42,7 @@ public class TestClassfile extends TestCase {
 
 	protected void setUp() throws Exception {
 		loader = new AggregatingClassfileLoader();
-		loader.Load("tests\\JarJarDiff\\new");
+		loader.Load(Collections.singleton("tests\\JarJarDiff\\new"));
 	}
 
 	public void testDeprecated() {

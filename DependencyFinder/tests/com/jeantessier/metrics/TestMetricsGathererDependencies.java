@@ -55,8 +55,10 @@ public class TestMetricsGathererDependencies extends TestCase {
 		factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml"));
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
-		loader.Load(TEST_DIRNAME);
-		loader.Load(OTHER_DIRNAME);
+		Collection dirs = new ArrayList(2);
+		dirs.add(TEST_DIRNAME);
+		dirs.add(OTHER_DIRNAME);
+		loader.Load(dirs);
 
 		MetricsGatherer gatherer = new MetricsGatherer("test", factory);
 		

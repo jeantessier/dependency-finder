@@ -46,6 +46,8 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	private File[]    files;
 
 	private ClassfileLoader loader;
+	private int             group_size;
+	private int             count;
 
 	public MetricsExtractAction(OOMetrics model) {
 		this.model = model;
@@ -63,6 +65,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		int returnValue = chooser.showDialog(model, "Extract");
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			files = chooser.getSelectedFiles();
+			model.InputFile(files[0]);
 			new Thread(this).start();
 		}
 	}
@@ -72,11 +75,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		
 		loader = new AggregatingClassfileLoader();
 		loader.addLoadListener(this);
-		
-		for (int i=0; i<files.length; i++) {
-			model.StatusLine().ShowInfo("Looking for classes in " + files[i] + " ...");
-			Extract(files[i]);
-		}
+		loader.Load(Arrays.asList(files));
 		
 		model.StatusLine().ShowInfo("Computing metrics ...");
 		
@@ -110,37 +109,39 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		model.setTitle("OO Metrics - Extractor");
 	}
+	
+	public void BeginSession(LoadEvent event) {
+		model.StatusLine().ShowInfo("Loading classes ...");
+	}
+	
+	public void BeginGroup(LoadEvent event) {
+		group_size = event.Size();
+		count = 0;
+		
+		model.StatusLine().ShowInfo("Loading " + event.Filename() + " (" + group_size + " classes) ...");
+	}
+	
+	public void BeginClassfile(LoadEvent event) {
+		count++;
 
-	private void Extract(File file) {
-		model.InputFile(file);
-		String filename = model.InputFile().toString();
+	    int ratio = count * 100 / group_size;
 		
-		try {
-			loader.Load(filename);
-		} catch (IOException ex) {
-			model.StatusLine().ShowError("Cannot extract from " + filename + ": " + ex.getClass().getName() + ": " + ex.getMessage());
-		}
-		
-		model.StatusLine().ShowInfo("Done with " + filename + ".");
-	}
-	
-	public void LoadStart(LoadEvent event) {
-		model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
-	}
-	
-	public void LoadElement(LoadEvent event) {
 		if (event.Element() == null) {
-			model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
+			model.StatusLine().ShowInfo("(" + ratio + "%) Loading " + event.Filename() + " ...");
 		} else {
-			model.StatusLine().ShowInfo("Loading " + event.Filename() + " >> " + event.Element() + " ...");
+			model.StatusLine().ShowInfo("(" + ratio + "%) Loading " + event.Filename() + " >> " + event.Element() + " ...");
 		}
 	}
 	
-	public void LoadedClassfile(LoadEvent event) {
+	public void EndClassfile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void LoadStop(LoadEvent event) {
+	public void EndGroup(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void EndSession(LoadEvent event) {
 		// Do nothing
 	}
 }

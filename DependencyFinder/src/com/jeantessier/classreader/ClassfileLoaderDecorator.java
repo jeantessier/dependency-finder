@@ -66,22 +66,30 @@ public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
 		Loader().removeLoadListener(listener);
 	}
 
-	protected void fireLoadStart(String filename) {
-		Loader().fireLoadStart(filename);
+	protected void fireBeginSession() {
+		Loader().fireBeginSession();
 	}
 	
-	protected void fireLoadElement(String filename, String element) {
-		Loader().fireLoadElement(filename, element);
+	protected void fireBeginGroup(String filename, int size) {
+		Loader().fireBeginGroup(filename, size);
 	}
 	
-	protected void fireLoadedClassfile(String filename, Classfile classfile) {
-		Loader().fireLoadedClassfile(filename, classfile);
+	protected void fireBeginClassfile(String filename, String element) {
+		Loader().fireBeginClassfile(filename, element);
 	}
 	
-	protected void fireLoadStop(String filename) {
-		Loader().fireLoadStop(filename);
+	protected void fireEndClassfile(String filename, String element, Classfile classfile) {
+		Loader().fireEndClassfile(filename, element, classfile);
+	}
+	
+	protected void fireEndGroup(String filename) {
+		Loader().fireEndGroup(filename);
 	}
 
+	protected void fireEndSession() {
+		Loader().fireEndSession();
+	}
+	
 	protected Classfile Load(DataInputStream in) throws IOException {
 		return Loader().Load(in);
 	}

@@ -35,6 +35,8 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface LoadListener extends EventListener {
+	public void BeginSession(LoadEvent event);
+
 	/**
 	 *  <p>The loader is starting on a new group of files.
 	 *  For example, this can be a new JAR file or a
@@ -46,7 +48,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The element and classfile attributes are null.</p>
 	 */
-	public void LoadStart(LoadEvent event);
+	public void BeginGroup(LoadEvent event);
 	
 	/**
 	 *  <p>The loader is starting on a new <code>.class</code>
@@ -62,7 +64,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The classfile attributes is null.</p>
 	 */
-	public void LoadElement(LoadEvent event);
+	public void BeginClassfile(LoadEvent event);
 	
 	/**
 	 *  <p>The loader is finished loading a <code>.class</code>
@@ -79,7 +81,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The element attributes is null.</p>
 	 */
-	public void LoadedClassfile(LoadEvent event);
+	public void EndClassfile(LoadEvent event);
 
 	/**
 	 *  <p>The loader finished the group of files. For
@@ -92,5 +94,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The element and classfile attributes are null.</p>
 	 */
-	public void LoadStop(LoadEvent event);
+	public void EndGroup(LoadEvent event);
+
+	public void EndSession(LoadEvent event);
 }
