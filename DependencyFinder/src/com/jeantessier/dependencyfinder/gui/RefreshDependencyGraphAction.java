@@ -41,15 +41,15 @@ import javax.swing.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
-public class ReloadDependencyGraphAction extends AbstractAction implements Runnable, LoadListener {
+public class RefreshDependencyGraphAction extends AbstractAction implements Runnable, LoadListener {
 	private DependencyFinder model = null;
 	
-	public ReloadDependencyGraphAction(DependencyFinder model) {
+	public RefreshDependencyGraphAction(DependencyFinder model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Reloads the current dependency graph");
-		putValue(Action.NAME, "Reload");
-		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/extract.gif")));
+		putValue(Action.LONG_DESCRIPTION, "Re-extract the current dependency graph");
+		putValue(Action.NAME, "Refresh");
+		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/refresh.gif")));
 	}
 
 	public void actionPerformed(ActionEvent e) {
