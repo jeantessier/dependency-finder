@@ -18,6 +18,17 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	August 11, 2003
+    </dt>
+    <dd>
+	<p>Figured a way to get at the information in the JAR file's
+	<code>/META-INF/MANIFEST.MF</code> entry.  I now use it in the web
+	application's JSPs to generate the "Powered by ..." branding with a URL
+	back to the Dependency Finder website.  I will soon refactor it into a
+	class I can use with <code>-version</code> switches in the CLI and in
+	an About box in the GUI.</p>
+    </dd>
+    <dt>
 	August 09, 2003
     </dt>
     <dd>
@@ -41,6 +52,11 @@
 	    </tr>
 	</table>
 	</blockquote>
+
+	<p>For Xalan, I used  the distribution with two JAR files,
+	<code>xalan.jar</code> and <code>xsltc.jar</code>.  I don't need the
+	material in the second one, so I only ship <code>xalan.jar</code> and
+	this keeps the size of the distribution down.</p>
     </dd>
     <dt>
 	August 05, 2003
