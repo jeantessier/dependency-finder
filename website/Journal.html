@@ -18,6 +18,31 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	August 12, 2003
+    </dt>
+    <dd>
+	<p>Moved the version stuff to a its own class, but since it reads
+	information from its JAR file's manifest, I cannot find a way to test
+	it properly.  The good news is that with its no-args constructor, I
+	can use it in JSPs with the &lt;jsp:useBean&gt; tag.  Next, I will
+	outfit the CLI tools with a <code>-version</code> switch.  And maybe
+	I can even get an "About" box for the GUI.</p>
+
+	<p>On the downside, I am not too sure where to put this new class.  It
+	is in the new package <code>com.jeantessier.dependencyfinder</code>,
+	soon to be joined by tools to group the cut and pasted code that ends
+	up duplicated between the CLI, the GUI, the JSPs, and the Ant tasks.
+	I might even go as far as creating custom tags for the JSPs, or at
+	least JavaBeans for the parameters to the query, closure, and
+	dependency metrics engines.</p>
+
+	<p>I created a feature request to address the start scripts for Unix
+	(#787904).  Since I don't have an environment setup to develop and
+	tests and package on Unix (yet), I am going to leave these scripts in a
+	patch for now. These scripts don't use the contribution from Jonathan
+	Doughty because I am not done studying it, yet.  More on this later.</p>
+    </dd>
+    <dt>
 	August 11, 2003
     </dt>
     <dd>
@@ -27,6 +52,14 @@
 	back to the Dependency Finder website.  I will soon refactor it into a
 	class I can use with <code>-version</code> switches in the CLI and in
 	an About box in the GUI.</p>
+
+	<p>I tried to use
+	<code>getClass().getResourceAsStream("/META-INF/MANIFEST.MF")</code>,
+	but the classloader has to defer to its parent first, before it tries
+	to resolve anything.  So I alsways go the manifest for the JDK itself.
+	I had to get the resource URL for the class itself first, and parse it
+	to extract the path to the JAR file instead, and extract its manifest
+	via the <code>java.util.jar</code> package.</p>
     </dd>
     <dt>
 	August 09, 2003
