@@ -279,8 +279,8 @@ public class DependencyFinder extends JFrame {
 
 		action = new AllQueriesAction(this);
 		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
-		menu_item.setMnemonic('q');
+		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+		menu_item.setMnemonic('a');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
