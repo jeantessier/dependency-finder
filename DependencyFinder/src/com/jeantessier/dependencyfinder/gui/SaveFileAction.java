@@ -75,6 +75,8 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 	
 	public void run() {
 		try {
+			model.getStatusLine().showInfo("Saving " + file.getName() + " ...");
+
 			PrintWriter out = new PrintWriter(new FileWriter(file));
 			com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, encoding, dtdPrefix);
 			if (indentText != null) {
@@ -84,6 +86,8 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 			printer.traverseNodes(model.getPackages());
 
 			out.close();
+
+			model.getStatusLine().showInfo("Saved " + file.getName());
 		} catch (IOException ex) {
 			model.getStatusLine().showError("Cannot save: " + ex.getClass().getName() + ": " + ex.getMessage());
 		}
