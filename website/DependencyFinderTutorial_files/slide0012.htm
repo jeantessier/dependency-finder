@@ -1,0 +1,321 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../DependencyFinderTutorial.html">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Dependency Management with Dependency Finder</title>
+<meta name=Description content="30-Mar-04: Transitive Closure">
+<link rel=Stylesheet href="master03_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0012.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]><o:shapelayout v:ext="edit">
+ <o:idmap v:ext="edit" data="15"/>
+</o:shapelayout>
+</head>
+
+<body lang=EN-US style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:#FFFFCC;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFCC,#583B00,#808080,#000000,#FFFF00,#3333CC,#F4B400,#B2B2B2"
+ masterhref="master03.xml">
+ <p:shaperange href="master03.xml#_x0000_s1025"/><![if !ppt]><p:shaperange
+  href="master03.xml#_x0000_s1030"/>
+ <div v:shape="_x0000_s1030" class=O>
+ <div style='text-align:right;position:absolute;top:94.25%;left:72.65%;
+ width:24.9%;height:2.25%'><span style='font-size:42%;mso-field-code:meta16'>14</span><span
+ style='font-size:42%;mso-special-format:lastCR;display:none'>&#13;</span></div>
+ </div>
+ <p:shaperange href="master03.xml#_x0000_s1033"/>
+ <div v:shape="_x0000_s1033" class=O>
+ <div style='position:absolute;top:4.25%;left:41.76%;width:19.66%;height:3.0%'><span
+ style='font-size:58%'><b><p:onmouseclick hyperlinktype="url"
+  href="http://depfind.sourceforge.net/"/><a
+ href="http://depfind.sourceforge.net/" target="_parent"
+ onclick="window.event.cancelBubble=true;">Dependency Finder</a></b></span><span
+ style='font-size:58%;mso-special-format:lastCR;display:none'><b>&#13;</b></span></div>
+ </div>
+ <p:shaperange href="master03.xml#_x0000_s1034"/><map name="map_m10"><area
+  href="http://depfind.sourceforge.net/" target="_parent"
+  onclick="window.event.cancelBubble=true;" shape=rect
+  coords="0, 0, 49, 34"></map><![if !vml]><img border=0 v:shapes="_x0000_s1034"
+ src="master03_image002.jpg" usemap="#map_m10" style='position:absolute;
+ top:0%;left:90.82%;width:9.17%;height:8.5%'><![endif]><![endif]><p:shaperange
+  href="master03.xml#_x0000_m1026"/><v:shape id="_x0000_s15362" type="#_x0000_m1026"
+  style='position:absolute;left:54pt;top:54pt;width:612pt;height:48pt'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <p:placeholder type="title"/></v:shape><v:oval id="_x0000_s15363" style='position:absolute;
+  left:48pt;top:222pt;width:78pt;height:78pt;mso-wrap-style:none;
+  v-text-anchor:middle' fillcolor="yellow [4]" strokecolor="#c90"
+  strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><![if !vml]><img border=0 v:shapes="_x0000_s15363"
+ src="slide0012_image039.gif" style='position:absolute;top:40.75%;left:6.36%;
+ width:11.61%;height:15.5%'><![endif]>
+ <div v:shape="_x0000_s15362" class=T style='position:absolute;top:11.0%;
+ left:8.42%;width:83.14%;height:7.5%'>Transitive Closure</div>
+ <div v:shape="_x0000_s15363" class=O style='text-align:center'><span
+ style='position:absolute;top:46.0%;left:9.17%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <v:oval id="_x0000_s15364" style='position:absolute;left:318pt;top:264pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#583b00 [1]" strokeweight="5pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><![if !vml]><img border=0 v:shapes="_x0000_s15364"
+ src="slide0012_image040.gif" style='position:absolute;top:48.5%;left:43.82%;
+ width:11.79%;height:15.75%'><![endif]>
+ <div v:shape="_x0000_s15364" class=O style='text-align:center'><span
+ style='position:absolute;top:53.75%;left:46.62%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <v:oval id="_x0000_s15365" style='position:absolute;left:186pt;top:354pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><![if !vml]><img border=0 v:shapes="_x0000_s15365"
+ src="slide0012_image041.gif" style='position:absolute;top:65.25%;left:25.46%;
+ width:11.61%;height:15.5%'><![endif]>
+ <div v:shape="_x0000_s15365" class=O style='text-align:center'><span
+ style='position:absolute;top:70.5%;left:28.27%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <v:line id="_x0000_s15366" style='position:absolute' from="264pt,240pt" to="318pt,270pt"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s15366"
+ src="slide0012_image042.gif" style='position:absolute;top:44.0%;left:36.32%;
+ width:8.42%;height:6.75%'><![endif]><v:oval id="_x0000_s15368" style='position:absolute;
+  left:48pt;top:132pt;width:78pt;height:78pt;mso-wrap-style:none;
+  v-text-anchor:middle' fillcolor="yellow [4]" strokecolor="#c90"
+  strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><![if !vml]><img border=0 v:shapes="_x0000_s15368"
+ src="slide0012_image043.gif" style='position:absolute;top:24.0%;left:6.36%;
+ width:11.61%;height:15.5%'><![endif]>
+ <div v:shape="_x0000_s15368" class=O style='text-align:center'><span
+ style='position:absolute;top:29.25%;left:9.17%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <v:oval id="_x0000_s15369" style='position:absolute;left:48pt;top:402pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><v:oval id="_x0000_s15370" style='position:absolute;left:48pt;top:312pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><![if !vml]><img border=0 v:shapes="_x0000_s15369,_x0000_s15370"
+ src="slide0012_image044.gif" style='position:absolute;top:57.5%;left:6.36%;
+ width:11.61%;height:32.25%'><![endif]>
+ <div v:shape="_x0000_s15369" class=O style='text-align:center'><span
+ style='position:absolute;top:79.25%;left:9.17%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <div v:shape="_x0000_s15370" class=O style='text-align:center'><span
+ style='position:absolute;top:62.75%;left:9.17%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <v:oval id="_x0000_s15371" style='position:absolute;left:186pt;top:180pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><v:line id="_x0000_s15372" style='position:absolute' from="132pt,186pt"
+  to="180pt,204pt" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><v:line id="_x0000_s15373" style='position:absolute;flip:y' from="132pt,228pt"
+  to="180pt,246pt" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><![if !vml]><img border=0
+ v:shapes="_x0000_s15371,_x0000_s15372,_x0000_s15373"
+ src="slide0012_image045.gif" style='position:absolute;top:33.0%;left:17.97%;
+ width:19.28%;height:15.5%'><![endif]>
+ <div v:shape="_x0000_s15371" class=O style='text-align:center'><span
+ style='position:absolute;top:38.25%;left:28.27%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <v:line id="_x0000_s15374" style='position:absolute' from="132pt,5in" to="180pt,378pt"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><v:line id="_x0000_s15375" style='position:absolute;flip:y' from="132pt,402pt"
+  to="180pt,420pt" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s15374,_x0000_s15375"
+ src="slide0012_image046.gif" style='position:absolute;top:66.25%;left:17.97%;
+ width:7.67%;height:12.25%'><![endif]><v:line id="_x0000_s15376" style='position:absolute;
+  flip:y' from="264pt,336pt" to="318pt,372pt" strokecolor="#c90"
+  strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s15376"
+ src="slide0012_image047.gif" style='position:absolute;top:61.75%;left:36.32%;
+ width:8.42%;height:8.0%'><![endif]><v:oval id="_x0000_s15389" style='position:absolute;
+  left:456pt;top:354pt;width:78pt;height:78pt;mso-wrap-style:none;
+  v-text-anchor:middle' fillcolor="yellow [4]" strokecolor="#c90"
+  strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><v:oval id="_x0000_s15390" style='position:absolute;left:456pt;top:180pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><![if !vml]><img border=0 v:shapes="_x0000_s15389,_x0000_s15390"
+ src="slide0012_image048.gif" style='position:absolute;top:33.0%;left:63.1%;
+ width:11.61%;height:47.75%'><![endif]>
+ <div v:shape="_x0000_s15389" class=O style='text-align:center'><span
+ style='position:absolute;top:70.5%;left:65.91%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <div v:shape="_x0000_s15390" class=O style='text-align:center'><span
+ style='position:absolute;top:38.25%;left:65.91%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <v:oval id="_x0000_s15393" style='position:absolute;left:594pt;top:222pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><v:oval id="_x0000_s15394" style='position:absolute;left:594pt;top:132pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><v:oval id="_x0000_s15395" style='position:absolute;left:594pt;top:402pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><v:oval id="_x0000_s15396" style='position:absolute;left:594pt;top:312pt;
+  width:78pt;height:78pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="yellow [4]"
+  strokecolor="#c90" strokeweight="4pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+ </v:oval><![if !vml]><img border=0
+ v:shapes="_x0000_s15393,_x0000_s15394,_x0000_s15395,_x0000_s15396"
+ src="slide0012_image049.gif" style='position:absolute;top:24.0%;left:82.2%;
+ width:11.61%;height:65.5%'><![endif]>
+ <div v:shape="_x0000_s15393" class=O style='text-align:center'><span
+ style='position:absolute;top:46.0%;left:85.01%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <div v:shape="_x0000_s15394" class=O style='text-align:center'><span
+ style='position:absolute;top:29.25%;left:85.01%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <div v:shape="_x0000_s15395" class=O style='text-align:center'><span
+ style='position:absolute;top:79.25%;left:85.01%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <div v:shape="_x0000_s15396" class=O style='text-align:center'><span
+ style='position:absolute;top:62.75%;left:85.01%;width:5.99%'><span
+ style='mso-special-format:lastCR;display:none'><b>&#13;</b></span></span></div>
+ <v:line id="_x0000_s15397" style='position:absolute;flip:y' from="396pt,246pt"
+  to="450pt,276pt" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><v:line id="_x0000_s15398" style='position:absolute' from="396pt,330pt"
+  to="450pt,366pt" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s15397,_x0000_s15398"
+ src="slide0012_image050.gif" style='position:absolute;top:45.25%;left:54.68%;
+ width:8.42%;height:23.5%'><![endif]><v:line id="_x0000_s15399" style='position:absolute'
+  from="540pt,234pt" to="588pt,252pt" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><v:line id="_x0000_s15400" style='position:absolute;flip:y' from="540pt,180pt"
+  to="588pt,198pt" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s15399,_x0000_s15400"
+ src="slide0012_image051.gif" style='position:absolute;top:32.5%;left:74.71%;
+ width:7.67%;height:15.25%'><![endif]><v:line id="_x0000_s15401" style='position:absolute'
+  from="540pt,414pt" to="588pt,6in" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><v:line id="_x0000_s15402" style='position:absolute;flip:y' from="540pt,5in"
+  to="588pt,378pt" strokecolor="#c90" strokeweight="4pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="gray [2]"/>
+ </v:line><v:shape id="_x0000_s15403" style='position:absolute;left:12pt;top:96pt;
+  width:308pt;height:438pt' coordsize="2464,3504" path="m0,0c584,56,1168,112,1536,288,1904,464,2112,672,2208,1056,2304,1440,2464,2184,2112,2592,1760,3000,496,3352,96,3504e"
+  filled="f" fillcolor="yellow [4]" strokecolor="blue" strokeweight="5pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:stroke dashstyle="dash"/>
+  <v:shadow color="gray [2]"/>
+  <v:path arrowok="t"/>
+ </v:shape><v:shape id="_x0000_s15404" style='position:absolute;left:396pt;
+  top:96pt;width:308pt;height:438pt;flip:x' coordsize="2464,3504" path="m0,0c584,56,1168,112,1536,288,1904,464,2112,672,2208,1056,2304,1440,2464,2184,2112,2592,1760,3000,496,3352,96,3504e"
+  filled="f" fillcolor="yellow [4]" strokecolor="blue" strokeweight="5pt">
+  <v:fill color2="#ffc [0]"/>
+  <v:stroke dashstyle="dash"/>
+  <v:shadow color="gray [2]"/>
+  <v:path arrowok="t"/>
+ </v:shape><v:shape id="_x0000_s15405" type="#_x0000_t202" style='position:absolute;
+  left:150pt;top:462pt;width:122.375pt;height:64.75pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' filled="f" fillcolor="yellow [4]" stroked="f"
+  strokecolor="#583b00 [1]">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><v:shape id="_x0000_s15407" type="#_x0000_t202" style='position:absolute;
+  left:402pt;top:474pt;width:143.625pt;height:36pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' filled="f" fillcolor="yellow [4]" stroked="f"
+  strokecolor="#583b00 [1]">
+  <v:fill color2="#ffc [0]"/>
+  <v:shadow color="gray [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><![if !vml]><img border=0
+ v:shapes="_x0000_s15401,_x0000_s15402,_x0000_s15403,_x0000_s15404"
+ src="slide0012_image052.gif" style='position:absolute;top:17.25%;left:1.31%;
+ width:97.19%;height:82.5%'><![endif]>
+ <div v:shape="_x0000_s15405" class=O style='text-align:right'><span
+ style='position:absolute;top:86.5%;left:21.91%;width:15.16%'><span
+ style='color:#060082'>callers<br>
+ </span></span><span style='position:absolute;
+ top:92.0%;left:18.72%;width:18.16%'><span style='color:#060082'>dependents</span></span></div>
+ <div v:shape="_x0000_s15407" class=O style='text-align:right;position:absolute;
+ top:88.75%;left:53.18%;width:21.72%;height:5.25%'><span style='color:#060082'>dependencies</span></div>
+</p:slide></div>
+
+</body>
+
+</html>
