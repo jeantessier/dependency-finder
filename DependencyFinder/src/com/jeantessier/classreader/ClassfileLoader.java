@@ -61,7 +61,7 @@ public abstract class ClassfileLoader {
 
 	// Protected contract for Decorator Pattern
 	protected abstract void      Load(String filename);
-	protected abstract void      Load(String filename, InputStream in) throws IOException;
+	protected abstract void      Load(String filename, InputStream in);
 	protected abstract Classfile Load(DataInputStream in)              throws IOException;
 
 	// Event stuff

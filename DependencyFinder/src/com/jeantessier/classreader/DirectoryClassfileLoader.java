@@ -59,9 +59,11 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 				Logger.getLogger(getClass()).debug("Starting file " + file.getPath() + " (" + file.length() + " bytes)");
 
 				if (!file.isDirectory()) {
-					InputStream in = null;
+					// No need to close "in" in finally block.  Only problems can
+					// be with opening "file".
+					// Errors with contents format will be handled and logged by Load().
 					try {
-						in = new FileInputStream(file);
+						InputStream in = new FileInputStream(file);
 						Loader().Load(file.getPath(), in);
 						in.close();
 					} catch (IOException ex) {
@@ -78,7 +80,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 		}
 	}
 	
-	protected void Load(String filename, InputStream in) throws IOException {
+	protected void Load(String filename, InputStream in) {
 		// Do nothing
 	}
 }

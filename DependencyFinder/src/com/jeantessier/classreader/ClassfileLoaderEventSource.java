@@ -35,6 +35,8 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
+import org.apache.log4j.*;
+
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 	private static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();
 
@@ -79,7 +81,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		}
 	}
 
-	protected void Load(String filename, InputStream in) throws IOException {
+	protected void Load(String filename, InputStream in) {
 		switch (dispatcher.Dispatch(filename)) {
 			case ClassfileLoaderDispatcher.ACTION_IGNORE:
 				break;
@@ -97,9 +99,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 				break;
 
 			case ClassfileLoaderDispatcher.ACTION_CLASS:
-				fireBeginClassfile(filename);
-				Classfile classfile = Load(new DataInputStream(in));
-				fireEndClassfile(filename, classfile);
+				try {
+					fireBeginClassfile(filename);
+					Classfile classfile = Load(new DataInputStream(in));
+					fireEndClassfile(filename, classfile);
+				} catch (IOException ex) {
+					Logger.getLogger(getClass()).warn("Cannot load class from file \"" + filename + "\"", ex);
+				}
 				break;
 				
 			default:

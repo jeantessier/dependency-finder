@@ -68,6 +68,10 @@ public class Classfile implements Deprecatable, Visitable {
 		magic_number = in.readInt();
 		Logger.getLogger(getClass()).debug("magic number = " + magic_number);
 
+		if (magic_number != 0xCAFEBABE) {
+			throw new IOException("Bad magic number");
+		}
+		
 		// Reading the file format's version number
 		minor_version = in.readUnsignedShort();
 		Logger.getLogger(getClass()).debug("minor version = " + minor_version);
