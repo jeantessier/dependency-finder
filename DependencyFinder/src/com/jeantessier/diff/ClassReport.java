@@ -626,7 +626,7 @@ public class ClassReport extends Printer implements Comparable {
 			if (element.IsDeprecated())   result.append(" deprecated=\"yes\"");
 
 			if (!element.Name().equals("<init>") && !element.Name().equals("<clinit>")) {
-				result.append(" return-type=\"").append((element.ReturnType() != null) ? element.ReturnType() : "void").append("\"");
+				result.append(" return-type=\"").append(element.ReturnType()).append("\"");
 			}
 	    
 			result.append(" signature=\"").append(element.Signature()).append("\"");

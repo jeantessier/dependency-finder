@@ -50,6 +50,7 @@ public final class SignatureHelper {
 		conversion.put("I", "int");
 		conversion.put("J", "long");
 		conversion.put("S", "short");
+		conversion.put("V", "void");
 		conversion.put("Z", "boolean");
 	}
 
