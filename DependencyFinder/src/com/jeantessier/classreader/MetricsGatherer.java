@@ -316,10 +316,7 @@ public class MetricsGatherer extends VisitorBase {
 			transient_fields.add(entry);
 		}
 
-		Iterator i = entry.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
+		super.VisitField_info(entry);
 	}
 
 	public void VisitMethod_info(Method_info entry) {
@@ -355,10 +352,7 @@ public class MetricsGatherer extends VisitorBase {
 			abstract_methods.add(entry);
 		}
 
-		Iterator i = entry.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
+		super.VisitMethod_info(entry);
 	}
 
 	// Attributes

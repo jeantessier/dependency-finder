@@ -68,10 +68,7 @@ public class FeatureDependencyCollector extends CollectorBase {
     public void VisitMethod_info(Method_info entry) {
 		ProcessSignature(entry.Descriptor());
 	
-		Iterator i = entry.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
+		super.VisitMethod_info(entry);
     }
 
     public void VisitCode_attribute(Code_attribute attribute) {

@@ -134,19 +134,13 @@ public class ClassDependencyCollector extends CollectorBase {
     public void VisitField_info(Field_info entry) {
 		ProcessSignature(entry.Descriptor());
 	
-		Iterator i = entry.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
+		super.VisitField_info(entry);
     }
 
     public void VisitMethod_info(Method_info entry) {
 		ProcessSignature(entry.Descriptor());
 	
-		Iterator i = entry.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
+		super.VisitMethod_info(entry);
     }
 
     public void VisitCode_attribute(Code_attribute attribute) {

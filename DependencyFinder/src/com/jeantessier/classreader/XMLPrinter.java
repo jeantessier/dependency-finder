@@ -363,6 +363,12 @@ public class XMLPrinter extends Printer {
 		
 		Indent().Append("<type>").Append(entry.Type()).Append("</type>").EOL();
 
+		Indent().Append("<attributes>").EOL();
+		RaiseIndent();
+		super.VisitField_info(entry);
+		LowerIndent();
+		Indent().Append("</attributes>").EOL();
+
 		LowerIndent();
 		Indent().Append("</field-info>").EOL();
     }
@@ -393,10 +399,7 @@ public class XMLPrinter extends Printer {
 
 		Indent().Append("<attributes>").EOL();
 		RaiseIndent();
-		Iterator i = entry.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
+		super.VisitMethod_info(entry);
 		LowerIndent();
 		Indent().Append("</attributes>").EOL();
 
