@@ -2389,11 +2389,6 @@ This table summarizes which CLI tool shows which information.
 </table>
 </blockquote>
 
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
-
 ---+++ Dealing with a Very Large Codebase
 
 Sometimes the codebase can be too large for Dependency Finder to deal with it
@@ -2473,11 +2468,6 @@ run DependencyReporter on the subfolders.
 This approach shows an 80%-90% reduction in number of nodes and about 80% in
 the number of edges (dependencies).  Taken together, that's a 98% reduction in
 complexity.  This should help with both memory footprint and processing time.
-
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
 
 ---+++ Transitive Closure
 
@@ -3715,20 +3705,23 @@ deprecated classes and methods.
 
 ---+++ Narrowing API Differences to Actually Used API
 
-We often use third party libraries for specific functions.  For example,
-Dependency Finder use Log4J for logging and Jakarta-ORO for regular expression
-matching.  When these third-party libraries are upgraded, we need to figure out
-the impact on our own code.
+You often rely on third-party libraries for speciic functions in your own
+software.  For example, Dependency Finder uses Log4J for logging and
+Jakarta-ORO for regular expression matching.  When these third-party libraries
+release new versions, you need to figure out the impact upgrading to the newer
+version will have on your code.
 
 This is where =JarJarDiff= can help.  But it reports _all_ changes in the
-library, a lot of which may be internal changes or changes in areas that we are
-not using.  We can run the output through =PublishedDiffToHTML= to limit it to
+library, many of which may be internal changes or changes in areas that we are
+not using.  You can run the output through =PublishedDiffToHTML= to limit it to
 externally visible elements (public and protected), but that may not be enough.
 The third-party library provider may not provide a list of their published API
-to further restrict =PublishedDiffToHTML=, but we can build our own using
-Dependency Finder.
+to further restrict =PublishedDiffToHTML=, but you can build your own using
+Dependency Finder, customized to your own usage of the library.
 
-For example, to find Dependency Finder's usage of Log4J:
+For example, to find Dependency Finder's usage of Log4J, you first extract
+Dependency Finder's dependency graph and restrict it to the part that involves
+Log4J elements.
 
     % DependencyExtractor -xml -out df.xml DependencyFinder.jar
 
@@ -3740,8 +3733,13 @@ For example, to find Dependency Finder's usage of Log4J:
 
     % DependencyGraphToText -in df-log4j.xml -out df-log4j.txt
 
+If you use multiple third-party libraries, you don't have to to repeat all the
+steps for each one.  You can supply multiple =-scope-includes= switches to
+=DependencyReporter= to get a single text file that has all the symbols across
+all third-party libraries.
+
 Now, =df-log4j.txt= has the list of all Log4J elements used in Dependency
-Finder.  I can supply it to =JarJarDiff= and =PublishedDiffToHTML= to limit the
+Finder.  You can pass it to =JarJarDiff= and =PublishedDiffToHTML= to limit the
 report to these elements only.
 
     % JarJarDiff -out log4j-1.2.8-1.2.9.xml                          \
@@ -3755,11 +3753,11 @@ report to these elements only.
                           -out log4j-1.2.8-1.2.9.html           \
                           -param validation-list df-log4j.txt
 
-If you use multiple third-party libraries, you don't have to to repeat all the
-steps for each one.  You can supply multiple =-scope-includes= switches to
-=DependencyReporter= to get a single text file that has all the symbols across
-all third-party libraries.  Then, run =JarJarDiff= and =PublishedDiffToHTML= on
-each library that has an upgrade.
+If you run =DiffToHTML=, you will get a full report on what changed in the
+library.  If you run =PublishedDiffToHTML=, but without a validation list, you
+will get a smaller report that focuses on the public view of the library.  The
+example shown above, with the validation list, focuses exclusively on those
+parts of the library that you are actually using.
 
 ---+++ Computing the D' Metric
 
