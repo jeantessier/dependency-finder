@@ -53,7 +53,7 @@
 	    <long-name>Uses APIs</long-name>
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
-		Out
+		Out DISPOSE_SUM
 	        DISPOSE_SUM
 	    </init>
 	</measurement>
@@ -62,7 +62,7 @@
 	    <long-name>Uses distinct APIs</long-name>
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
-		DistOut
+		DistOut DISPOSE_SUM
 	        DISPOSE_SUM
 	    </init>
 	</measurement>
@@ -89,9 +89,10 @@
 	<measurement>
 	    <short-name>DistOut</short-name>
 	    <long-name>Uses distinct APIs</long-name>
-	    <class>com.jeantessier.metrics.SumMeasurement</class>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
-		CDistOut
+		DistOutA
+		DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
@@ -101,14 +102,6 @@
 	    <init>
 		DistOut
 		Out
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>CDistOut</short-name>
-	    <long-name>Distinct outbound dependencies accumulator</long-name>
-	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
-	    <init>
-		DistOutA
 	    </init>
 	</measurement>
     </group-measurements>
