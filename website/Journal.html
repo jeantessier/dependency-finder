@@ -17,12 +17,68 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	February 18, 2003
+    </dt>
+    <dd>
+	<p>Someone has been having a number of issues.  I'll be able to fix
+	some of them, but not all.</p>
+
+	<p>First, they analyzed classes with non-ASCII characters in
+	identifiers.  For example, a class name or method name that includes an
+	"&eacute;" character.  I was surprised that <code>javac</code> will let
+	you do such a thing; it turns out this is perfectly legal.  Anyway, the
+	encoding for XML output is UTF-8.  XML parsers cannot read the data
+	correctly because the characters in the stream do not correspond to the
+	UTF-8 encoding.  They would like me to ad an option to specify a custom
+	encoding.</p>
+
+	<p>I looked into this an since Dependency Finder simply write out
+	String objects, maybe I should simply use Java's default encoding
+	instead.  The documentation says this should be UTF-16, but when I try
+	it, Xerces complains about byte ordering.  And IE complains about the
+	encoding not being supported.  More thought needed.</p>
+
+	<p>Second, the <code>.class</code> file parser throws a
+	<code>ClassCastException</code> when it encounters unknown, illegally
+	constructed <code>attribute_info</code> structures.  Apparently, this
+	was with output from Visual Age for Java.  I logged it as bug
+	#900060.</p>
+
+	<p>I fixed it immediately as
+	<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=900062&group_id=43305&atid=435886">patch #90062</a>.</p>
+
+	<p>Third, they encountered the situation I described on
+	February 03, 2004.  I am starting to think that maybe I should do
+	something about it.  But what?</p>
+
+	<p>Fourth, and last, they tried to run <code>ClassReader</code> on a
+	whole JAR file.  It is designed for use on one file at a time (in
+	spite of what the documentation says), not on a whole codebase.  The
+	result is an invalid XML document with repeated DOCTYPE and no root
+	tag.  I'll try to fix that tomorrow.</p>
+
+	<p>Ran this journal throught a spelling checker.</p>
+    </dd>
+    <dt>
 	February 17, 2003
     </dt>
     <dd>
 	<p>Fixed a broken link to
 	<a href="http://www.gentleware.com?redirect=products">Poseidon for UML</a>
 	in the user manual.</p>
+    </dd>
+    <dt>
+	February 16, 2003
+    </dt>
+    <dd>
+	<p>Someone at work brought
+	<a href="http://www.touchgraph.com/index.html">TouchGraph</a> to my
+	attention.  It's a graph package for complex graphs that lay themselves
+	out.  You can collapse nodes and stretch things around.  It looks very
+	cool and maybe I could make use of it in Dependency Finder for some
+	kind of rendering of dependency graphs.  I looked at the code on
+	SourceForge, but there is no documentation and I don't have the time to
+	investigate further right now.  Maybe later...</p>
     </dd>
     <dt>
 	February 09, 2003
@@ -64,8 +120,8 @@
 	interesting things done by the Java compiler.  I touched upon it back on
 	January 07, 2004, but I'll elaborate further here.</p>
 
-	<p>First, suppose you have classes <code>A</code> and <code>B</code>
-	as follows:</p>
+	<p>First, suppose you have the following classes <code>A</code> and
+	<code>B</code>:</p>
 
 	<table><tr>
 	<td valign="top">
@@ -89,8 +145,8 @@
 	</td>
 	</tr></table>
 
-	<p>Now, imagine for a second that we have a class <code>C</code> as
-	follows:</p>
+	<p>Now, imagine for a second that we have the following class
+	<code>C</code>:</p>
 
 	<table><tr>
 	<td valign="bottom">
@@ -120,7 +176,7 @@
 	in subclasses of <code>B</code>, like <code>A</code> for instance.
 	Imagine that someone overrides <code>b()</code> in <code>A</code> but
 	does not recompile <code>C</code>, maybe because this client code was
-	developped by someone else and the person making the change is unaware
+	developed by someone else and the person making the change is unaware
 	of its existence.  Now <code>C</code> will go on calling "<i>method
 	<code>b()</code> in class definition <code>B</code></i>", even though
 	the instance <code>a</code> is of type <code>A</code> and now has a new
@@ -170,7 +226,7 @@
 	JarJarDiff on AS/400.  I have never even seen as AS/400 system, so all
 	I could do was to point them to the current Windows and Unix scripts,
 	and what it is that the JarJarDiff tool classes do, in the hope that
-	they are able to fix it fo their system.</p>
+	they are able to fix it for their system.</p>
     </dd>
     <dt>
 	February 02, 2003
@@ -179,21 +235,21 @@
 	<p>Looking at the release plan, I think I'm a little dispersed right
 	now.  I need to focus and get things rolling again.  The holiday break
 	really threw me off and left me with a couple of unfinished tasks.  I'm
-	gonna complete the documentation and fix these dependency closure and
-	ship the net release ASAP.</p>
+	going to complete the documentation and fix the dependency closure bugs
+	and ship the net release ASAP.</p>
     </dd>
     <dt>
 	January 30, 2004
     </dt>
     <dd>
-	<p>Turns out the dicussion on
+	<p>Turns out the discussion on
 	<a href="http://groups.yahoo.com/group/pragprog/">praprog</a> was aimed
 	at code analyzers that are part of the language compilers and how they
 	traverse parse trees to determine the type of expressions in loosely
 	typed languages.  It was not directly related to the work done by
 	Dependency Finder, but there were still some interesting ideas.  Like
 	Tarjan's algorithm for finding minimum spanning trees using depth-first
-	search.  It was a good excercise, even if the knowledge will not be
+	search.  It was a good exercise, even if the knowledge will not be
 	immediately useful.</p>
     </dd>
     <dt>
@@ -207,10 +263,10 @@
 	that would be the parent of <code>PackageNode</code>.  But this
 	assumes that packages are wholly contained in one location, which is
 	not necessarily the case.  An alternative would be for groups to be
-	made of arbitrary sets of classfiles, kinda like the group functionality
-	in <code>OOMetrics</code>, where classes can be part of more than one
-	grouping.  Some groups represent packages while others could represent
-	JAR files.  Still needs more thought.</p>
+	made of arbitrary sets of classfiles, kind of like the group
+	functionality in <code>OOMetrics</code>, where classes can be part of
+	more than one grouping.  Some groups represent packages while others
+	could represent JAR files.  Still needs more thought.</p>
 
 	<p>The <a href="http://groups.yahoo.com/group/pragprog/">praprog</a>
 	mailing list had a discussion on dependency cycles and some of the
@@ -245,7 +301,7 @@
 	Dependency Finder because the original message asked for tools to
 	evaluate code style and unused variables/methods.  Dependency Finder
 	can't do much about style, and while it can find elements that are not
-	referenced directly, that does not necessariy mean they are not used.
+	referenced directly, that does not necessarily mean they are not used.
 	They could be interface methods or things called via reflection.  But
 	then, someone else brought up JDepend, so I had to say something.
 	Some of the other tools mentioned:</p>
@@ -277,7 +333,7 @@
 	<code>SelectiveTraversalStrategy</code> to use the new
 	<code>SelectionCriteria</code> to determine both scope and filter.
 	This is getting to be quite an undertaking, but it will help the new
-	closure logic figure out starting nodes and stoping conditions.</p>
+	closure logic figure out starting nodes and stopping conditions.</p>
     </dd>
     <dt>
 	January 21, 2004
@@ -338,7 +394,7 @@
 	<a href="http://osswin.sourceforge.net/">OSSwin</a> project page.  They
 	had mistakenly listed the licensing scheme as GPL when it is actually
 	BSD, but it has all been fixed now.  This project is a nice,
-	comprehensive list of open source software for the Windows paltform.</p>
+	comprehensive list of open source software for the Windows platform.</p>
 
 	<p>I also found someone who listed Dependency Finder in their resume
 	under a "tools used" heading.  I will take it as a testimony to the
@@ -371,10 +427,10 @@
 
 	<p>Actually, looking at the links on the download page, the links for
 	the various <code>DependencyFinder.zip</code> files are identical.  I
-	wonder what people are downloading?  The most recent file on one from
+	wonder what people are downloading?  The most recent file or one from
 	over 18 months ago?  A quick download at least reassured me that they
 	are indeed sending the most recent file, but that's regardless of which
-	link I click.  I cannot download any of the previous versions, I always
+	link I click.  I cannot download any of the previous versions; I always
 	end up with the most recent file.</p>
 
 	<p>So I always download the <i>most recent</i> file by a given name,
@@ -403,11 +459,11 @@
 	January 11, 2004
     </dt>
     <dd>
-	<p>I fixed my HTML scaper to account for the new HTML on SourceForge's
-	download page.  It now seems to work just fine.  But the data on
-	SourceForge is stale.  The statistics page only go to December 30,
-	2003.  I fear that SourceForge is having problems with its statistics
-	collection again.</p>
+	<p>I fixed my HTML scraper to account for the new HTML on
+	SourceForge's download page.  It now seems to work just fine.  But the
+	data on SourceForge is stale.  The statistics page only go to
+	December 30, 2003.  I fear that SourceForge is having problems with its
+	statistics collection again.</p>
 
 	<p>Apparently, there were over 50 downloads of release 20020127 during
 	the holidays.  I don't see why people would be interested in that old
@@ -483,7 +539,7 @@
 	<p>They also asked to track database calls.  I hope they meant calls on
 	the JDBC API.  It is <b>very</b> difficult to track the actual SQL from
 	within Java.  You need to setup dynamic proxies to trap all calls to
-	statement objects and resolve parameters all all other kinds of
+	statement objects and resolve parameters and all other kinds of
 	transformations.  This is way beyond the capabilities of Dependency
 	Finder, and well nigh impossible with static analysis alone.</p>
     </dd>
@@ -510,7 +566,7 @@
 	<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=860191&group_id=43305&atid=435886">patch #860191</a>.</p>
 
 	<p>Fixed Ant tasks that are subclasses of <code>GraphTask</code> to
-	accept multiple graph.  Like <code>&lt;javac&gt;</code> and others,
+	accept multiple graphs.  Like <code>&lt;javac&gt;</code> and others,
 	you can use either the <code>srcfile</code> attribute or a nested
 	<code>&lt;src&gt;</code> element, or you can even use both.  It uses a
 	path-like structure, but I wanted to use a <code>FileSet</code>
@@ -604,8 +660,8 @@
 	<code>OOMetrics</code> instead.  It has a whole group of oddly named
 	measurements (OEP, IIPM, etc.) that already track dependencies.  As I
 	was reviewing them especially in the context of
-	<code>MartinConfig.xml</code>, I realized they were kinda cryptic and I
-	need to document what each one does and how you can combine them to
+	<code>MartinConfig.xml</code>, I realized they were kind of cryptic and
+	I need to document what each one does and how you can combine them to
 	arrive at the counts you're interested in.</p>
 
 	<p>I noticed that measurement IEPM and OEPF had the wrong long name.
@@ -671,8 +727,8 @@
     </dt>
     <dd>
 	<p>Added a feature to <code>ClassMetrics</code> that counts the
-	occurence of each VM instruction in the analyzed codebase.  I had to do
-	some minor refactoring of classes <code>Hex</code> and
+	occurrence of each VM instruction in the analyzed codebase.  I had to
+	do some minor refactoring of classes <code>Hex</code> and
 	<code>Instruction</code>.  The feature is actually in the class
 	<code>com.jeantessier.classreader.MetricsGatherer</code> and used by
 	the UI classes for the CLI and the matching Ant task.</p>
@@ -726,7 +782,7 @@
 	graph.  I guess they then use logic similar to dependency closures to
 	figure out if methods are called directly from unit tests or if
 	indirectly, how many degrees are they removed from the tests.  Since
-	they only analyse <code>.class</code> files and then use XSL transforms
+	they only analyze <code>.class</code> files and then use XSL transforms
 	for rendering the information, they cannot take into account
 	conditional logic.  As far as I can see, the information can only be an
 	educated guess at best.  I think you'd be better off using a code
@@ -801,12 +857,12 @@
 
 	<p>I was about to say that if the project is small enough, you can
 	always do the jar-to-jar analysis manually with the help of some
-	package-to-package reports.  I was gonna show an exemple using
-	Dependency Finder, but even this small exemple ends up being quite
+	package-to-package reports.  I was going to show an example using
+	Dependency Finder, but even this small example ends up being quite
 	big.  In the end, I don't think this would work on anything beyond
-	a trivial exemple.</p>
+	a trivial example.</p>
 
-	<p>For exemple, if I run this against Dependency Finder, I get:</p>
+	<p>For example, if I run this against Dependency Finder, I get:</p>
 
 	<pre>
 	    % DependencyExtractor -xml -out df.xml DependencyFinder.jar
@@ -911,7 +967,7 @@
     <dd>
 	<p>Svetlin Stanchev brought up the idea of having the web application
 	produce HTML instead of pre-formatted text.  I already have an
-	unscheduled task for this, so now I must decide wether or not to move
+	unscheduled task for this, so now I must decide whether or not to move
 	it forward.  I could use a dedicated <code>Printer</code> subclass,
 	like I do for text rendering.  This has the disadvantage of
 	duplicating the logic of rendering a dependency graph to a Java class
@@ -989,7 +1045,7 @@
 	heading.</p>
 
 	<p>As I was preparing a reply to the original call for help, I noticed
-	that wether or not Log4J is configured properly can have a huge impact
+	that whether or not Log4J is configured properly can have a huge impact
 	on the performance of the tasks.  In one test, running
 	<code>DependencyExtractor</code> on Dependency Finder itself took over
 	7 minutes with the missing Log4J configuration versus 14 <b>seconds</b>
@@ -1048,7 +1104,7 @@
 	<p>Added copyright dates to the version information.  I will need to do
 	something about the code duplication in all the CLI tools.</p>
 
-	<p>I want to nominate Dependency Finder for the next Jold Awards.  I
+	<p>I want to nominate Dependency Finder for the next Jolt Awards.  I
 	couldn't last year because products needed to have had a major release
 	in the year, but now with 1.0 out and 1.0.1 on the way, I'm in the
 	clear.</p>
@@ -1109,7 +1165,7 @@
 	output multiple formats in one call.  You could call it with
 	<code>-cvs</code>, <code>-txt</code>, and <code>-xml</code> to generate
 	all three formats at the same time.  And I could do the same thing with
-	other tools thant generate multiple output formats.  I finally decided
+	other tools than generate multiple output formats.  I finally decided
 	against.  There is very little value in this feature and it would need
 	broad sweeping changes in the way tools interpret command-line
 	arguments, such as figuring out the extension for the output filename.
@@ -1261,7 +1317,7 @@
 
 	<p>Someone has mentioned that API diff reports still list modified
 	methods even when the class is deprecated.  Would it not be better if
-	a class that is now deprecated simply repress all futher modifications
+	a class that is now deprecated simply repress all further modifications
 	to it?  I say no.  Even though the class is now deprecated, it is
 	still part of your supported API until it is completely removed.  As
 	such, its modifications should still be listed since users of the
@@ -1452,8 +1508,8 @@
 	August 20, 2003
     </dt>
     <dd>
-	<p>When extracting from ZIP or JAR files, the progress reports alsways
-	fall short of 100%.  I realized that this is because the size extimates
+	<p>When extracting from ZIP or JAR files, the progress reports always
+	fall short of 100%.  I realized that this is because the size estimates
 	include directory entries and non-<code>.class</code> files.  The
 	progress function only counts <code>.class</code> files, and therefore
 	always comes up short a bit.  So I have added two new load-time events
@@ -1508,7 +1564,7 @@
 	August 12, 2003
     </dt>
     <dd>
-	<p>Moved the version stuff to a its own class, but since it reads
+	<p>Moved the version stuff to its own class, but since it reads
 	information from its JAR file's manifest, I cannot find a way to test
 	it properly.  The good news is that with its no-args constructor, I
 	can use it in JSPs with the &lt;jsp:useBean&gt; tag.  Next, I will
@@ -1543,7 +1599,7 @@
 	<p>I tried to use
 	<code>getClass().getResourceAsStream("/META-INF/MANIFEST.MF")</code>,
 	but the classloader has to defer to its parent first, before it tries
-	to resolve anything.  So I alsways go the manifest for the JDK itself.
+	to resolve anything.  So I always go the manifest for the JDK itself.
 	I had to get the resource URL for the class itself first, and parse it
 	to extract the path to the JAR file instead, and extract its manifest
 	via the <code>java.util.jar</code> package.</p>
@@ -1866,11 +1922,11 @@
 	and JDK 1.3 vs. JDK 1.4.  I cannot use Perl because the machine where
 	you want to install it might not have Perl installed.  I cannot write
 	the installer as a DOS script either because string substitution would
-	just be too hard, and the Windows 98 version is quite limiting.  But I
+	just be too hard, or the Windows 98 version is quite limiting.  But I
 	could make it as a simple Java program.  And this way, it could figure
 	out the JVM version by itself, and even the OS from system properties.
 	Unless I have an epiphany, I won't delay the 1.0 release for this;
-	it'll go in the the next release.</p>
+	it'll go in the next release.</p>
     </dd>
     <dt>
 	June 03, 2003
@@ -1927,14 +1983,14 @@
     <dd>
 	<p>Someone found a problem with the </code>.bat</code> files.  If
 	<code>DEPENDENCYFINDER_HOME</code> contains any spaces, they don't
-	work.  I need to put quotes arond variable uses in each and every
+	work.  I need to put quotes around variable uses in each and every
 	file.</p>
     </dd>
     <dt>
 	May 29, 2003
     </dt>
     <dd>
-	<p>I have been thinking about adding a another set of JSPs to the web
+	<p>I have been thinking about adding another set of JSPs to the web
 	app to duplicate the functionality in <code>DependencyMetrics</code>.
 	I am also thinking of putting in a navigation structure to switch
 	between the query, closure, and now the metrics tools.  I would also
@@ -1970,7 +2026,7 @@
     <dd>
 	<p>Memorial Day has come and gone and I was too busy with other things
 	to spend much time with Dependency Finder, let alone do the 1.0
-	release as I had hoped.  In the meantinme, the number of daily
+	release as I had hoped.  In the meantime, the number of daily
 	downloads is still at zero; I must get this release out quickly so the
 	downloads start up again.</p>
     </dd>
@@ -2022,7 +2078,7 @@
 	<code>OOMetrics</code>.  First, the number of classes are the same.
 	But this is where the similarities end.</p>
 
-	<p>Second, Clover counts the numer of methods explicitly defined in
+	<p>Second, Clover counts the number of methods explicitly defined in
 	the source code.  Dependency Finder counts all methods in the compiled
 	<code>.class</code> file, which includes default constructors added
 	by the compiler and <i>synthetic</i> methods.  So the Dependency
@@ -2105,7 +2161,7 @@
 	on Dependency Finder.  Overall coverage is at 52.2%.  About 16 tests
 	in the <code>com.jeantessier.metrics</code> package failed because the
 	code instrumentation from Clover messed with the expected metrics.  I
-	have put the premilinary results
+	have put the preliminary results
 	<a target="_blank" href="clover/">here</a>.  I can move the tests for
 	<code>com.jeantessier.commandline</code> package from the
 	<code>main()</code> methods to proper JUnit tests.  That should raise
@@ -2180,7 +2236,7 @@
 	I have to open a ticket with SourceForge admins and wait until the
 	next day for them to get to it and blast his locks.</p>
 
-	<p>"billfan", if your listening, <b>GET OUT OF MY REPOSITORY!!!</b></p>
+	<p>"billfan", if you're listening, <b>GET OUT OF MY REPOSITORY!!!</b></p>
 
 	<p>Thanks to "billfan", you all have to wait until tomorrow for the
 	beta.</p>
@@ -2318,10 +2374,10 @@
     <dd>
 	<p>I decided not to make an Ant task for <code>ClassReader</code>, but
 	I will need one for <code>ListDiff</code> to complete the workflow
-	outlined in the manual.  Now I'm gonna pay for not separating behavior
+	outlined in the manual.  Now I'm going to pay for not separating behavior
 	properly.  <code>ListDiff</code> has all the behavior and a utility
 	class that is in the <code>com.jeantessier.dependencyfinder.cli</code>
-	package.  How am I gonna reuse this from the
+	package.  How am I going to reuse this from the
 	<code>com.jeantessier.dependencyfinder.ant</code> package?</p>
     </dd>
     <dt>
@@ -2354,7 +2410,7 @@
 	I decided to stick with the Ant naming convention and use
 	<code>destfile</code> for the output attribute.</p>
 
-	<p>Introduced a new tool, <code>ClassClassDiff</code>, that compares
+	<p>Introduced a new tool, <code>ClassClassDiff</code>, which compares
 	two classes, even if they don't have the same name.  I found a need
 	for it when a renamed one class to work on temporarily and wanted
 	to see later on what differences I had introduced.  The class was
@@ -2376,7 +2432,7 @@
 	March 21, 2003
     </dt>
     <dd>
-	<p>Getting familiar with writting Ant tasks.</p>
+	<p>Getting familiar with writing Ant tasks.</p>
     </dd>
     <dt>
 	March 20, 2003
@@ -2658,7 +2714,7 @@
 	task work from "now" instead of "last midnight".  It turns out
 	that adding the time to the date screws up how Ant generates
 	the resulting CVS command.  There is an open bug report with
-	Apache, so maybe they'lll fix it in the future.  While we are
+	Apache, so maybe they'll fix it in the future.  While we are
 	waiting, I had to add the quotes in the tag's attribute myself.</p>
 
 	<p>I'm thinking of getting rid of the <code>-plain</code> switch
@@ -2678,7 +2734,7 @@
 	you want that level of details, edit <code>log4j.properties</code>.</p>
 
 	<p>Reworked the <code>-verbose</code> command-line switch.  It
-	prints progress as files are read and data is created, kinda like
+	prints progress as files are read and data is created, kind of like
 	the status bar in the Swing applications.  The tools use the new
 	<code>VerboseListener</code> to trap events and print them to the
 	specified output stream or file.  This has helped simplify the
@@ -2908,7 +2964,7 @@
 	<code>toString()</code>, yielding the default stringification
 	from <code>java.lang.Object</code>.  I added an implementation
 	of <code>toString()</code> to <code>MeasurementBase</code> so
-	that measurements pring their numerical value by default.  It
+	that measurements print their numerical value by default.  It
 	works well, except for <code>StatisticalMeasurement</code>
 	which ends up displaying itself five times.</p>
 
@@ -2971,7 +3027,7 @@
     </dt>
     <dd>
 	<p>Found and fixed bug #667642 about <code>MetricsFactory</code> not
-	recognizing static initilizers of the form "<code>static {}</code>".</p>
+	recognizing static initializers of the form "<code>static {}</code>".</p>
 
 	<p>Switched <code>log4j.properties</code> to use CHAINSAW instead
 	of log files.</code>
@@ -3010,10 +3066,10 @@
     <dd>
 	<p>I now have progress bars on the GUIs!</p>
 
- 	<p>I am going to do one more release release before the beta,
-	either tomorrow (12/31) or the day after (1/1).  Like I said
-	before, this will let people out there use the new features
-	and bug fixes without having to wait on the user guide.</p>
+ 	<p>I am going to do one more release before the beta, either
+	tomorrow (12/31) or the day after (1/1).  Like I said before,
+	this will let people out there use the new features and bug
+	fixes without having to wait on the user guide.</p>
     </dd>
    <dt>
 	December 28, 2002
@@ -3027,7 +3083,7 @@
 	<p>For a while, Jakarta ORO had two versions of
 	<code>Perl5Util.split()</code> that differed in how they
 	split the empty string "".  They seem to have fixed the
-	discrepency in their latest version, so I moved my code
+	discrepancy in their latest version, so I moved my code
 	to the new version that uses <code>java.util.Collection</code>
 	instead of <code>java.util.Vector</code>, which is
 	deprecated.</p>
@@ -3289,7 +3345,7 @@
 	that uses breadth-first search through the dependency graph.
 	It is not based on <code>com.jeantessier.dependency.Visitor</code>
 	and uses the Strategy pattern to decide how far to go from the
-	the scope, either up to a given path length or unbounded, with
+	scope, either up to a given path length or unbounded, with
 	separate strategies for following inbound versus outbound
 	dependencies.</p>
 
@@ -3308,9 +3364,9 @@
 
 	<p>I also found out that <a href="http://sdmagazine.com/">Software
 	Development</a> magazine is taking nominations for its Jolt Awards.
-	I'm gonna submit Dependency Finder.  But they don't want betas, so
+	I'm going to submit Dependency Finder.  But they don't want betas, so
 	I will have to push up my release schedule.  I'll have a very
-	short beta period and a release in december.  ;-)</p>
+	short beta period and a release in December.  ;-)</p>
     </dd>
     <dt>
 	November 11, 2002
@@ -3328,7 +3384,7 @@
 
 	<p>The book also has an algorithm for finding a path between two
 	<i>vertices</i> (nodes) in a graph.  I will modify it to find
-	paths betweeen two groupes of vertices.</p>
+	paths between two groups of vertices.</p>
 
 	<p>Before I forget, the books are:</p>
 
@@ -3556,7 +3612,7 @@
 	it requires me to explicitly specify the system property
 	<code>org.xml.sax.driver</code>.  I need to dig further to
 	figure out which version they're shipping and how I can
-	force it to use the lastest Xerces that I ship with
+	force it to use the latest Xerces that I ship with
 	Dependency Finder.  Maybe some day, in the far future, when
 	I don't support JDK 1.3 anymore, I can stop shipping Xerces
 	with Dependency Finder altogether.  But for now, I'm stuck.</p>
@@ -3564,7 +3620,7 @@
 	<p>Maybe I can weasel out of it by requiring users to install
 	JAXP 1.2 from Sun.  The documentation claims that JDK 1.4
 	ships with JAXP 1.1.  Maybe JAXP 1.2 uses something close to
-	the lastest Xerces; and it also includes Xalan!  I will
+	the latest Xerces; and it also includes Xalan!  I will
 	investigate further.</p>
 
 	<p>Also, the compiler in JDK 1.4 behaves slightly differently
@@ -3709,7 +3765,7 @@
 	<code>com.jeantessier.classreader.Visitor</code> interface.
 	This solved the bug, but I had to change the DTD for
 	classfiles.  I don't know how that will impact validity
-	of outputs once I change it the the web site that the tools
+	of outputs once I change it the web site that the tools
 	point to by default.</p>
 
 	<p>I worked out the problem with
@@ -3728,9 +3784,9 @@
 	recognize my extension for <code>PublishedDiffToHTML.xsl</code>
 	for the <code>Validator</code>.  It used to work just fine.
 	I can't find anything in the documentation regarding
-	changes on on to specify extensions.  The release notes
-	hint at improvements regarding detection of extensions,
-	but there are no specifics.</p>
+	changes on to specify extensions.  The release notes hint at
+	improvements regarding detection of extensions, but there are
+	no specifics.</p>
 
 	<p>I have downgraded Xalan from 2.4.0 back to 2.3.1.</p>
 
@@ -3757,8 +3813,8 @@
 	<p>I put (most of) the website in CVS as a new module.</p>
 
 	<p>I also had an idea for a possible layout of classes, by
-	package, for a dependency graph.  Classes in a package are layed
-	out in a circle, forming a cluster.  The clusters are they layed
+	package, for a dependency graph.  Classes in a package are laid
+	out in a circle, forming a cluster.  The clusters are they laid
 	out in a larger circle.  This way, one can zoom in on a cluster
 	to explore dependencies within a package.  If you zoom out far
 	enough, inter-package dependencies dominate and packages with
@@ -3858,7 +3914,7 @@
 	<p>Turns out <code>ListDiff</code> is not as easy to fix
 	as I first expected.  I know I have to be smarter than
 	just doing a prefix check in <code>ListDiffPrinter</code>,
-	but how do I distinguish betweeen a package name, a class
+	but how do I distinguish between a package name, a class
 	name, and a field name?  The answer will drive how far the
 	prefix match has to go.</p>
 
@@ -3983,9 +4039,9 @@
 	<p>I found out that <code>CodeDependencyCollector</code> treats
 	dependencies coming from a class' static analyzer as if the
 	dependencies emanated from the class itself.  This means that
-	dependencies from the static initilizer to features show up as
+	dependencies from the static initializer to features show up as
 	class-to-feature dependencies, something I said in the manual
-	did not exist.  Now I must decide if I'm gonna amend the
+	did not exist.  Now I must decide if I'm going to amend the
 	documentation or treat the static initializer like a feature.
 	And if the latter, how am I going to name it?  I'm thinking
 	maybe <code>package.Class.{}</code> or something similar.</p>
@@ -4074,7 +4130,7 @@
 	and <a target="_blank" href="http://www.headwaysoftware.com/">reView</a>.</p>
 
 	<p>Faced with the declining number of downloads of Dependency
-	Finder recently, I'm gonna have to start advertising.  I'm gonna
+	Finder recently, I'm going to have to start advertising.  I'm going to
 	start by spamming newsgroups...  See you in comp.lang.java.*  :-)</p>
     </dd>
     <dt>
@@ -4180,7 +4236,7 @@
 	June 10, 2002
     </dt>
     <dd>
-	<p>I'm not gonna make it.  I wanted to finish the first
+	<p>I'm not going to make it.  I wanted to finish the first
 	beta release before going on vacation next week, but I'm
 	not done with the coding and there is a lot of documentation
 	to write still.  I'll do a date-tagged release with all the
@@ -4257,7 +4313,7 @@
 	<code>JTable</code> instances in <code>OOMetricsGUI</code>
 	to draw out-of-bound measurements in red.  I also tried
 	to set the background to create bands of three rows of
-	alternating colors, but is is not working perfectly yet.</p>
+	alternating colors, but it is not working perfectly yet.</p>
 
 	<p>Added a <i>new metrics</i> tool to <code>OOMetricsGUI</code>
 	to reset the list of measurements.</p>
@@ -4317,8 +4373,8 @@
 	<p>I've been looking at using tool tips in the header of the
 	result tables in <code>OOMetricsGUI</code> to expand the
 	measurement names.  Each header has an associated
-	<code>JComponent</code>, but getting to is is proving
-	rather difficult.  I'd almost have to provide a custom
+	<code>JComponent</code>, but getting to is proving rather
+	difficult.  I'd almost have to provide a custom
 	implementation of <code>TableColumnModel</code>, but I
 	only need to override a tiny piece of the behavior.  More
 	on this later.</p>
@@ -4344,7 +4400,7 @@
     <dd>
 	<p>I'm working out <code>MetricsGatherer</code> to bring it
 	closer to the old, hard-coded <code>MetricsFactory</code>.
-	This is gonna take a while ...</p>
+	This is going to take a while ...</p>
 
 	<p>The optional validation was not enough when working in a
 	disconnected environment.  It still tried to load the DTD,
@@ -4705,7 +4761,7 @@
 	limitation in <code>DiffToExternalHTML.xsl</code>.  I have added
 	a <code>full-signature</code> attribute to <code>declaration</code>
 	nodes in the DTD for differences.  This keeps the size of the
-	expression somewhat lower, but is is still a behemoth.</p>
+	expression somewhat lower, but it is still a behemoth.</p>
 
 	<p>I am now done with the higher-resolution validation feature.</p>
 
@@ -5069,7 +5125,7 @@
 		<b><code>source</code></b>
 	    </dt>
 	    <dd>
-		The compiled Java code to to be extracted.  You can
+		The compiled Java code to be extracted.  You can
 		specify multiple locations by separating them with
 		commas.
 	    </dd>
@@ -5077,7 +5133,7 @@
 		<b><code>mode</code></b>
 	    </dt>
 	    <dd>
-		Wether to maximize or minimize the graph, or leave
+		Whether to maximize or minimize the graph, or leave
 		it in raw form.
 	    </dd>
 	</dl>
@@ -5115,7 +5171,7 @@
 	<p>I have a plan for making a web application version.  The
 	<code>application</code> implicit object can hold on to the
 	dependency factory and a query JSP can run queries and format
-	the results.  This is gonna be cool!</p>
+	the results.  This is going to be cool!</p>
     </dd>
     <dt>
 	January 23, 2002
@@ -5144,7 +5200,7 @@
 	January 21, 2002
     </dt>
     <dd>
-	<p>It turns out the problem with XSL was my fault.  Appearently,
+	<p>It turns out the problem with XSL was my fault.  Apparently,
 	I was not supposed to use the string "--" in comments the way
 	I did to format the copyright notice.  I'll put the fix in the
 	next release.  In the mean time, people can either edit the files
@@ -5201,7 +5257,7 @@
 	January 15, 2002
     </dt>
     <dd>
-	<p>Added feature <code>502554 "Sorting doens't work on NaN"</code>.
+	<p>Added feature <code>502554 "Sorting doesn't work on NaN"</code>.
 	I changed <code>com.jeantessier.metrics.MetricsComparator</code>
 	so that <code>NaN</code> always appears at the bottom of the
 	list.</p>
@@ -5213,7 +5269,7 @@
 	<p>I am going to switch to SourceForge's project management
 	tools for keeping track of status and downloads.  It provides
 	more information and is easier to maintain than my
-	<a href="Status.html">little manual HTML page</a>.  I'm gonna
+	<a href="Status.html">little manual HTML page</a>.  I'm going to
 	merge it with this journal and then merge it.</p>
     </dd>
     <dt>
@@ -5240,7 +5296,7 @@
 
 	<p>I looked at <a target="_blank" href="http://jakarta.apache.org/bcel/">BCEL</a>.
 	It looks too complex for me to bother with right now.
-	I already have something that works.  I'm gonna stick with
+	I already have something that works.  I'm going to stick with
 	it for now.  I like how my code uses the <code>Visitor</code>
 	pattern to provide hooks for traversing the structure.</p>
     </dd>
@@ -5261,7 +5317,7 @@
 	<p>I requested a SourceForge project and had it approved the
 	same day.  I got SSH to work, but CVS still eludes me.</p>
 
-	<p>I'm going to change the licensing.  I'm gonna move away
+	<p>I'm going to change the licensing.  I'm going to move away
 	from <a target="_blank" href="http://www.gnu.org/licenses/lgpl.html">LGPL</a>
 	to a <a target="_blank" href="http://www.opensource.org/licenses/bsd-license.html">BSD-style</a>
 	license.</p>
@@ -5521,7 +5577,7 @@
 	metrics.</p>
 
 	<p>I also fixed a bug when processing static class initializers.
-	They were getting attached to a noname class in the default
+	They were getting attached to a no name class in the default
 	package.  Parsing the name correctly fixed the problem.</p>
 
 	<p>I might have to have two sets of parsed classes, one for
@@ -5735,7 +5791,7 @@
 	GUI for <code>DependencyReporter</code>.  It is still a
 	little buggy, but it works.</p>
 
-	<p>I also reorganiazed the <code>jt.dependency</code>
+	<p>I also reorganized the <code>jt.dependency</code>
 	package to isolate the UI-related stuff in subpackages.
 	The package hierarchy may still need some tweaking.</p>
     </dd>
@@ -5767,7 +5823,7 @@
 	April 26, 2001
     </dt>
     <dd>
-	<p>I udgraded the package <code>jt.classreader</code> so I could
+	<p>I upgraded the package <code>jt.classreader</code> so I could
 	get signatures from all methods references.  I also upgraded the
 	package <code>jt.dependency</code> to track methods by signature,
 	instead of only by name.</p>
@@ -5808,10 +5864,10 @@
 	be showed as removed if it cannot be obtained from a superclass
 	or supported interface.</li>
 	<li>A method removed from an interface will only be showed as
-	removed if it cannot be obtrained from a supported interface
+	removed if it cannot be obtained from a supported interface
 	(superinterface).</li>
 	<li>A constructor or method removed from a class will only be
-	showed as removed if it cannot be obtrained from a superclass.
+	showed as removed if it cannot be obtained from a superclass.
 	It will not consider a matching method that would be obtained
 	from an interfaces, since this interface would not provide an
 	implementation for that method.</li>
@@ -5824,7 +5880,7 @@
 	April 04, 2001
     </dt>
     <dd>
-	<p>I adjsuted <code>JarJarDiff</code> so that when it detects a
+	<p>I adjusted <code>JarJarDiff</code> so that when it detects a
 	feature that has been removed, it looks in the superclasses of
 	the class for a matching signature or proper visibility.  This
 	can happen when refactoring pushes a method up the inheritance
@@ -5851,7 +5907,7 @@
 
 	<p>I also fixed bugs in <code>DiffToExternalHTML.xsl</code> dealing
 	with restricting the processing to public or protected features,
-	as well as correctly detecting changes in visiility from protected
+	as well as correctly detecting changes in visibility from protected
 	to package or private.</p>
    </dd>
     <dt>
@@ -6227,7 +6283,7 @@
     <dd>
         <p>Refactored the
 	<code>jt.dependencyfinder.model</code>
-	pacakge to have a <code>Node</code> hierarchy and
+	package to have a <code>Node</code> hierarchy and
 	<code>Visitor</code> classes.  This way, I will be
 	able to use visitors to implement reporting functions
 	in Java.</p>
@@ -6254,11 +6310,11 @@
 	(<code>-g</code> switch).  This is required in order to
 	capture dependencies created by the type of local variables
 	in methods.  The compiler verifies the legality of type
-	assignements and then discards the type information.
-	When the compiler is called with <code>-g</code>, it
-	keeps the type information to create the <code>LocalVariableTable</code>
+	assignments and then discards the type information.  When
+	the compiler is called with <code>-g</code>, it keeps the
+	type information to create the <code>LocalVariableTable</code>
 	attribute of <code>Code</code> attributes.  If the
-	assignement is legal, then it meets all the dependency
+	assignment is legal, then it meets all the dependency
 	requirements.  It either uses the same dependency, or creates
 	a new one which is more restrictive than the initial
 	dependency (i.e., it transitively includes the former).
