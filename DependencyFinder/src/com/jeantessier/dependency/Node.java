@@ -35,18 +35,30 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class Node implements Comparable {
-	private String     name     = "";
+	private String  name     = "";
+	private boolean concrete = false;
+	
 	private Collection inbound  = new HashSet();
 	private Collection outbound = new HashSet();
 
-	public Node(String name) {
-		this.name = name;
+	public Node(String name, boolean concrete) {
+		this.name     = name;
+		this.concrete = concrete;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public boolean isConcrete() {
+		return concrete;
+	}
+
+	// Only to be used by NodeFactory
+	void makeConcrete() {
+		concrete = true;
+	}
+	
 	public boolean canAddDependencyTo(Node node) {
 		return !equals(node);
 	}

@@ -37,8 +37,8 @@ import java.util.*;
 public class PackageNode extends Node {
 	private Collection classes = new HashSet();
 
-	public PackageNode(String name) {
-		super(name);
+	public PackageNode(String name, boolean concrete) {
+		super(name, concrete);
 	}
 
 	public void addClass(ClassNode node) {

@@ -37,9 +37,15 @@ import java.util.*;
 public class FeatureNode extends Node {
 	private ClassNode parent;
 
-	public FeatureNode(ClassNode parent, String name) {
-		super(name);
+	public FeatureNode(ClassNode parent, String name, boolean concrete) {
+		super(name, concrete);
 		this.parent = parent;
+	}
+
+	// Only to be used by NodeFactory
+	void makeConcrete() {
+		super.makeConcrete();
+		getClassNode().makeConcrete();
 	}
 
 	public ClassNode getClassNode() {

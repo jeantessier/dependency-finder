@@ -38,9 +38,15 @@ public class ClassNode extends Node {
 	private PackageNode parent;
 	private Collection  features = new HashSet();
 
-	public ClassNode(PackageNode parent, String name) {
-		super(name);
+	public ClassNode(PackageNode parent, String name, boolean concrete) {
+		super(name, concrete);
 		this.parent = parent;
+	}
+
+	// Only to be used by NodeFactory
+	void makeConcrete() {
+		super.makeConcrete();
+		getPackageNode().makeConcrete();
 	}
 
 	public PackageNode getPackageNode() {

@@ -45,13 +45,21 @@ public class NodeFactory {
 	private Map features = new HashMap();
 
 	public PackageNode createPackage(String packageName) {
+		return createPackage(packageName, false);
+	}
+	
+	public PackageNode createPackage(String packageName, boolean concrete) {
 		Logger.getLogger(getClass()).debug("Create package \"" + packageName + "\"");
 		PackageNode result = (PackageNode) packages.get(packageName);
 
 		if (result == null) {
-			result = new PackageNode(packageName);
+			result = new PackageNode(packageName, concrete);
 			packages.put(packageName, result);
 			Logger.getLogger(getClass()).debug("Added package \"" + packageName + "\"");
+		}
+
+		if (concrete && !result.isConcrete()) {
+			result.makeConcrete();
 		}
 
 		return result;
@@ -62,6 +70,10 @@ public class NodeFactory {
 	}
 
 	public ClassNode createClass(String className) {
+		return createClass(className, false);
+	}
+	
+	public ClassNode createClass(String className, boolean concrete) {
 		Logger.getLogger(getClass()).debug("Create class \"" + className + "\"");
 		ClassNode result = (ClassNode) classes.get(className);
 
@@ -71,11 +83,15 @@ public class NodeFactory {
 			if (pos != -1) {
 				packageName = className.substring(0, pos);
 			}
-			PackageNode parent = createPackage(packageName);
-			result = new ClassNode(parent, className);
+			PackageNode parent = createPackage(packageName, concrete);
+			result = new ClassNode(parent, className, concrete);
 			parent.addClass(result);
 			classes.put(className, result);
 			Logger.getLogger(getClass()).debug("Added class \"" + className + "\"");
+		}
+
+		if (concrete && !result.isConcrete()) {
+			result.makeConcrete();
 		}
 
 		return result;
@@ -86,6 +102,10 @@ public class NodeFactory {
 	}
 
 	public FeatureNode createFeature(String featureName) {
+		return createFeature(featureName, false);
+	}
+	
+	public FeatureNode createFeature(String featureName, boolean concrete) {
 		Logger.getLogger(getClass()).debug("Create feature \"" + featureName + "\"");
 		FeatureNode result = (FeatureNode) features.get(featureName);
 
@@ -100,11 +120,15 @@ public class NodeFactory {
 				parentName = "";
 			}
 
-			ClassNode parent = createClass(parentName);
-			result = new FeatureNode(parent, featureName);
+			ClassNode parent = createClass(parentName, concrete);
+			result = new FeatureNode(parent, featureName, concrete);
 			parent.addFeature(result);
 			features.put(featureName, result);
 			Logger.getLogger(getClass()).debug("Added feature \"" + featureName + "\"");
+		}
+
+		if (concrete && !result.isConcrete()) {
+			result.makeConcrete();
 		}
 
 		return result;

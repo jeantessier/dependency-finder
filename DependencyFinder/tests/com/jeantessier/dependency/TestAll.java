@@ -38,6 +38,7 @@ public class TestAll extends TestCase {
 	public static Test suite() {
 		TestSuite result = new TestSuite();
 
+		result.addTestSuite(TestNodeFactory.class);
 		result.addTestSuite(TestNode.class);
 		result.addTestSuite(TestComprehensiveSelectionCriteria.class);
 		result.addTestSuite(TestAndCompositeSelectionCriteria.class);
