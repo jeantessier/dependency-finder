@@ -167,6 +167,11 @@
     if (request.getParameter("submit") == null) {
 	show_empty_nodes = true;
     }
+
+    boolean copy_only = "on".equals(request.getParameter("copy-only"));
+    if (request.getParameter("submit") == null) {
+	copy_only = false;
+    }
 %>
 
 <body>
@@ -309,6 +314,8 @@ Show dependencies
 <input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" OnMouseOut="window.status=''">&nbsp;to element
 <input type="checkbox" name="show-outbounds" <%= show_outbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that originate from the selected packages, classes, methods, or fields'" OnMouseOut="window.status=''">&nbsp;from element
 <input type="checkbox" name="show-empty-nodes" <%= show_empty_nodes ? "checked" : "" %> onMouseOver="window.status='Show selected packages, classes, methods, and fields even if they do not have dependencies'" OnMouseOut="window.status=''">&nbsp;(empty elements)
+<br />
+Only&nbsp;copy&nbsp;<input type="checkbox" name="copy-only" <%= copy_only ? "checked" : "" %> onMouseOver="window.status='Only copy explicit dependencies to the result graph, do not introduce implicit dependencies where explicit dependencies match the regular expressions but are otherwise out of scope'" onMouseOut="window.status=''">&nbsp;explicit dependencies
 
         </td>
     </tr>
@@ -367,7 +374,7 @@ Show dependencies
 	    strategy.FeatureFilterExcludes(feature_filter_excludes);
 
 	    GraphCopier dependencies_query = new GraphSummarizer(strategy);
-	    if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
+	    if (copy_only || "maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 		dependencies_query = new GraphCopier(strategy);
 	    }
 	
@@ -382,6 +389,8 @@ Show dependencies
 	    printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
 
 	    Date stop = new Date();
+
+	    out.println();
 %>
 
 </pre>

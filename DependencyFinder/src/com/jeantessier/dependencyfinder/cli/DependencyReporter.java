@@ -132,6 +132,7 @@ public class DependencyReporter {
 		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("minimize");
 		command_line.AddToggleSwitch("maximize");
+		command_line.AddToggleSwitch("copy-only");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
@@ -252,7 +253,7 @@ public class DependencyReporter {
 		}
 
 		GraphCopier copier;
-		if (command_line.ToggleSwitch("maximize")) {
+		if (command_line.ToggleSwitch("copy-only") || command_line.ToggleSwitch("maximize")) {
 			copier = new GraphCopier(strategy);
 		} else {
 			copier = new GraphSummarizer(strategy);

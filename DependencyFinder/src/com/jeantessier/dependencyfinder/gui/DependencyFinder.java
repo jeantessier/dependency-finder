@@ -52,7 +52,7 @@ public class DependencyFinder extends JFrame {
 	private boolean minimize;
 	private boolean maximize;
 
-	private boolean advanced_mode = true;
+	private boolean advanced_mode;
 	private JPanel  query_panel   = new JPanel();
 	
 	private JMenuBar          menu_bar                 = new JMenuBar();
@@ -96,6 +96,7 @@ public class DependencyFinder extends JFrame {
 	private JCheckBox  show_inbounds           = new JCheckBox("inbounds");
 	private JCheckBox  show_outbounds          = new JCheckBox("outbounds");
 	private JCheckBox  show_empty_nodes        = new JCheckBox("empty nodes");
+	private JCheckBox  copy_only               = new JCheckBox("copy only");
 
 	private JTextField maximum_inbound_depth   = new JTextField("0", 2);
 	private JTextField maximum_outbound_depth  = new JTextField(2);
@@ -138,9 +139,12 @@ public class DependencyFinder extends JFrame {
 		show_inbounds.setToolTipText("Show dependencies that point to the selected packages, classes, methods, or fields");
 		show_outbounds.setToolTipText("Show dependencies that originate from the selected packages, classes, methods, or fields");
 		show_empty_nodes.setToolTipText("Show selected packages, classes, methods, and fields even if they do not have dependencies");
+		copy_only.setToolTipText("<html>Only copy explicit dependencies to the result graph.<br>Do not introduce implicit dependencies<br>where explicit dependencies match the regular expressions<br>but are otherwise out of scope</html>");
 		
 		maximum_inbound_depth.setToolTipText("Maximum hops against the direction dependencies.  Empty field means no limit.");
 		maximum_outbound_depth.setToolTipText("Maximum hops in the direction of dependencies.  Empty field means no limit.");
+
+		AdvancedMode(false);
 		
 		BuildMenus(command_line);
 		BuildUI();
@@ -155,6 +159,16 @@ public class DependencyFinder extends JFrame {
 		status_line.ShowInfo("Ready.");
 	}
 
+	private boolean AdvancedMode() {
+		return advanced_mode;
+	}
+
+	void AdvancedMode(boolean advanced_mode) {
+		this.advanced_mode = advanced_mode;
+
+		copy_only.setVisible(advanced_mode);
+	}
+	
 	public boolean Maximize() {
 		return maximize;
 	}
@@ -330,13 +344,13 @@ public class DependencyFinder extends JFrame {
 
 		result.setLayout(new BorderLayout());
 		result.add(toolbar, BorderLayout.NORTH);
-		result.add(BuildQueryPanel(false), BorderLayout.CENTER);
+		result.add(BuildQueryPanel(), BorderLayout.CENTER);
 		
 		return result;
 	}
 	
-	JComponent BuildQueryPanel(boolean advanced_mode) {
-		if (advanced_mode) {
+	JComponent BuildQueryPanel() {
+		if (AdvancedMode()) {
 			BuildAdvancedQueryPanel();
 		} else {
 			BuildSimpleQueryPanel();
@@ -346,25 +360,19 @@ public class DependencyFinder extends JFrame {
 	}
 	
 	private void BuildSimpleQueryPanel() {
-		if (advanced_mode) {
-			query_panel.removeAll();
-			query_panel.setLayout(new GridLayout(1, 2));
-			query_panel.add(BuildSimpleScopePanel());
-			query_panel.add(BuildSimpleFilterPanel());
-			query_panel.revalidate();
-			advanced_mode = false;
-		}
+		query_panel.removeAll();
+		query_panel.setLayout(new GridLayout(1, 2));
+		query_panel.add(BuildSimpleScopePanel());
+		query_panel.add(BuildSimpleFilterPanel());
+		query_panel.revalidate();
 	}
 	
 	private void BuildAdvancedQueryPanel() {
-		if (!advanced_mode) {
-			query_panel.removeAll();
-			query_panel.setLayout(new GridLayout(1, 2));
-			query_panel.add(BuildAdvancedScopePanel());
-			query_panel.add(BuildAdvancedFilterPanel());
-			query_panel.revalidate();
-			advanced_mode = true;
-		}
+		query_panel.removeAll();
+		query_panel.setLayout(new GridLayout(1, 2));
+		query_panel.add(BuildAdvancedScopePanel());
+		query_panel.add(BuildAdvancedFilterPanel());
+		query_panel.revalidate();
 	}
 
 	private JComponent BuildSimpleScopePanel() {
@@ -882,7 +890,7 @@ public class DependencyFinder extends JFrame {
 
 	private JComponent BuildDependenciesPanel() {
 		JPanel result = new JPanel();
-		
+
 		result.setLayout(new BorderLayout());
 		result.add(BuildPrinterControlPanel(),     BorderLayout.NORTH);
 		result.add(BuildDependenciesResultPanel(), BorderLayout.CENTER);
@@ -892,17 +900,18 @@ public class DependencyFinder extends JFrame {
 	
 	private JComponent BuildPrinterControlPanel() {
 		JPanel result = new JPanel();
-		
+
 		result.add(new JLabel("Show: "));
 		result.add(show_inbounds);
 		result.add(show_outbounds);
 		result.add(show_empty_nodes);
+		result.add(copy_only);
 
 		PrinterControlAction action = new PrinterControlAction(this);
 		show_inbounds.addActionListener(action);
 		show_outbounds.addActionListener(action);
 		show_empty_nodes.addActionListener(action);
-		
+
 		return result;
 	}
 	
@@ -1011,6 +1020,7 @@ public class DependencyFinder extends JFrame {
 		show_inbounds.setSelected(true);
 		show_outbounds.setSelected(true);
 		show_empty_nodes.setSelected(true);
+		copy_only.setSelected(false);
 	}
 	
 	void ClearDependencyResult() {
@@ -1033,7 +1043,7 @@ public class DependencyFinder extends JFrame {
 		strategy.FilterIncludes(filter_includes.getText());
 		strategy.FilterExcludes(filter_excludes.getText());
 
-		if (advanced_mode) {
+		if (AdvancedMode()) {
 			strategy.PackageScopeIncludes(package_scope_includes.getText());
 			strategy.ClassScopeIncludes(class_scope_includes.getText());
 			strategy.FeatureScopeIncludes(feature_scope_includes.getText());
@@ -1048,7 +1058,7 @@ public class DependencyFinder extends JFrame {
 			strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
 		}
 
-		if (Maximize()) {
+		if ((AdvancedMode() && copy_only.isSelected()) || Maximize()) {
 			dependencies_query = new GraphCopier(strategy);
 		} else {
 			dependencies_query = new GraphSummarizer(strategy);
@@ -1093,7 +1103,7 @@ public class DependencyFinder extends JFrame {
 		strategy.FilterIncludes(filter_includes.getText());
 		strategy.FilterExcludes(filter_excludes.getText());
 
-		if (advanced_mode) {
+		if (AdvancedMode()) {
 			strategy.PackageScopeIncludes(package_scope_includes.getText());
 			strategy.ClassScopeIncludes(class_scope_includes.getText());
 			strategy.FeatureScopeIncludes(feature_scope_includes.getText());
@@ -1149,7 +1159,7 @@ public class DependencyFinder extends JFrame {
 		strategy.FilterIncludes(filter_includes.getText());
 		strategy.FilterExcludes(filter_excludes.getText());
 
-		if (advanced_mode) {
+		if (AdvancedMode()) {
 			strategy.PackageScopeIncludes(package_scope_includes.getText());
 			strategy.ClassScopeIncludes(class_scope_includes.getText());
 			strategy.FeatureScopeIncludes(feature_scope_includes.getText());

@@ -46,6 +46,7 @@ public class DependencyReporter extends GraphTask {
 
 	private boolean minimize   = false;
 	private boolean maximize   = false;
+	private boolean copy_only  = false;
 	private boolean serialize  = false;
 	private boolean xml        = false;
 	private String  dtd_prefix = XMLPrinter.DEFAULT_DTD_PREFIX;
@@ -65,6 +66,14 @@ public class DependencyReporter extends GraphTask {
 
 	public void setMaximize(boolean maximize) {
 		this.maximize = maximize;
+	}
+
+	public boolean getCopyOnly() {
+		return copy_only;
+	}
+
+	public void setCopyOnly(boolean copy_only) {
+		this.copy_only = copy_only;
 	}
 
 	public boolean getSerialize() {
@@ -107,7 +116,7 @@ public class DependencyReporter extends GraphTask {
 
 		try {
 			GraphCopier copier;
-			if (getMaximize()) {
+			if (getCopyOnly() || getMaximize()) {
 				copier = new GraphCopier(Strategy());
 			} else {
 				copier = new GraphSummarizer(Strategy());
