@@ -48,75 +48,71 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyFinder extends JFrame {
-    public static final String DEFAULT_LOGFILE   = "System.out";
-    public static final String DEFAULT_TRACEFILE = "System.out";
+	public static final String DEFAULT_LOGFILE   = "System.out";
+	public static final String DEFAULT_TRACEFILE = "System.out";
 
 	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
-    private boolean minimize;
-    private boolean maximize;
+	private boolean minimize;
+	private boolean maximize;
 
 	private boolean advanced_mode = true;
 	private JPanel  query_panel   = new JPanel();
 	
-    private JMenuBar          menu_bar                 = new JMenuBar();
-    private JMenu             file_menu                = new JMenu();
-    private JMenu             view_menu                = new JMenu();
-    private JToolBar          toolbar                  = new JToolBar();
-    private JTextArea         dependencies_result_area = new JTextArea();
-    private JTextArea         closure_result_area      = new JTextArea();
-    private JTextArea         metrics_result_area      = new JTextArea();
-    private MetricsTableModel metrics_chart_model      = new MetricsTableModel();
-    private StatusLine        status_line              = new StatusLine(420);
+	private JMenuBar          menu_bar                 = new JMenuBar();
+	private JMenu             file_menu                = new JMenu();
+	private JMenu             view_menu                = new JMenu();
+	private JToolBar          toolbar                  = new JToolBar();
+	private JTextArea         dependencies_result_area = new JTextArea();
+	private JTextArea         closure_result_area      = new JTextArea();
+	private JTextArea         metrics_result_area      = new JTextArea();
+	private MetricsTableModel metrics_chart_model      = new MetricsTableModel();
+	private StatusLine        status_line              = new StatusLine(420);
 
-    private File        input_file   = new File(".");
-    private Collection  packages     = Collections.EMPTY_LIST;
-    private NodeFactory node_factory = null;
-    private Collector   collector    = null;
+	private File        input_file   = new File(".");
+	private NodeFactory node_factory = null;
 
-    private JCheckBox  package_scope           = new JCheckBox("packages", true);
-    private JCheckBox  class_scope             = new JCheckBox("classes",  false);
-    private JCheckBox  feature_scope           = new JCheckBox("features", false);
-    private JTextField scope_includes          = new JTextField("//");
-    private JTextField package_scope_includes  = new JTextField();
-    private JTextField class_scope_includes    = new JTextField();
-    private JTextField feature_scope_includes  = new JTextField();
-    private JTextField scope_excludes          = new JTextField();
-    private JTextField package_scope_excludes  = new JTextField();
-    private JTextField class_scope_excludes    = new JTextField();
-    private JTextField feature_scope_excludes  = new JTextField();
+	private JCheckBox  package_scope           = new JCheckBox("packages");
+	private JCheckBox  class_scope             = new JCheckBox("classes");
+	private JCheckBox  feature_scope           = new JCheckBox("features");
+	private JTextField scope_includes          = new JTextField();
+	private JTextField package_scope_includes  = new JTextField();
+	private JTextField class_scope_includes    = new JTextField();
+	private JTextField feature_scope_includes  = new JTextField();
+	private JTextField scope_excludes          = new JTextField();
+	private JTextField package_scope_excludes  = new JTextField();
+	private JTextField class_scope_excludes    = new JTextField();
+	private JTextField feature_scope_excludes  = new JTextField();
 	
-    private JCheckBox  package_filter          = new JCheckBox("packages", true);
-    private JCheckBox  class_filter            = new JCheckBox("classes",  false);
-    private JCheckBox  feature_filter          = new JCheckBox("features", false);
-    private JTextField filter_includes         = new JTextField("//");
-    private JTextField package_filter_includes = new JTextField();
-    private JTextField class_filter_includes   = new JTextField();
-    private JTextField feature_filter_includes = new JTextField();
-    private JTextField filter_excludes         = new JTextField();
-    private JTextField package_filter_excludes = new JTextField();
-    private JTextField class_filter_excludes   = new JTextField();
-    private JTextField feature_filter_excludes = new JTextField();
+	private JCheckBox  package_filter          = new JCheckBox("packages");
+	private JCheckBox  class_filter            = new JCheckBox("classes");
+	private JCheckBox  feature_filter          = new JCheckBox("features");
+	private JTextField filter_includes         = new JTextField();
+	private JTextField package_filter_includes = new JTextField();
+	private JTextField class_filter_includes   = new JTextField();
+	private JTextField feature_filter_includes = new JTextField();
+	private JTextField filter_excludes         = new JTextField();
+	private JTextField package_filter_excludes = new JTextField();
+	private JTextField class_filter_excludes   = new JTextField();
+	private JTextField feature_filter_excludes = new JTextField();
 
-    private JCheckBox  show_inbounds           = new JCheckBox("inbounds",    true);
-    private JCheckBox  show_outbounds          = new JCheckBox("outbounds",   true);
-    private JCheckBox  show_empty_nodes        = new JCheckBox("empty nodes", true);
+	private JCheckBox  show_inbounds           = new JCheckBox("inbounds");
+	private JCheckBox  show_outbounds          = new JCheckBox("outbounds");
+	private JCheckBox  show_empty_nodes        = new JCheckBox("empty nodes");
 
 	private JTextField maximum_inbound_depth   = new JTextField("0", 2);
 	private JTextField maximum_outbound_depth  = new JTextField(2);
 
-    private GraphCopier dependencies_query     = null;
+	private GraphCopier dependencies_query     = null;
 	
-    public DependencyFinder(CommandLine command_line) {
+	public DependencyFinder(CommandLine command_line) {
 		this.setSize(new Dimension(800, 600));
 		this.setTitle("Dependency Finder");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.addWindowListener(new WindowAdapter() {
-				public void windowClosed(WindowEvent e) {
-					System.exit(0);
-				}
-			});
+		this.addWindowListener(new WindowKiller());
 
+		NewDependencyGraph();
+		
 		package_scope.setToolTipText("Select packages");
 		class_scope.setToolTipText("Select classes (with their package)");
 		feature_scope.setToolTipText("Select methods and fields (with their class and package)");
@@ -159,68 +155,56 @@ public class DependencyFinder extends JFrame {
 		}
 		
 		status_line.ShowInfo("Ready.");
-    }
+	}
 
-    public boolean Maximize() {
+	public boolean Maximize() {
 		return maximize;
-    }
+	}
 
-    public void Maximize(boolean maximize) {
+	public void Maximize(boolean maximize) {
 		this.maximize = maximize;
-    }
+	}
 
-    public boolean Minimize() {
+	public boolean Minimize() {
 		return minimize;
-    }
+	}
 
-    public void Minimize(boolean minimize) {
+	public void Minimize(boolean minimize) {
 		this.minimize = minimize;
-    }
+	}
 	
-    public File InputFile() {
+	public File InputFile() {
 		return input_file;
-    }
+	}
 
-    public void InputFile(File input_file) {
+	public void InputFile(File input_file) {
 		this.input_file = input_file;
-    }
+	}
 
-    public Collection Packages() {
-		return packages;
-    }
+	public Collection Packages() {
+		return NodeFactory().Packages().values();
+	}
 
-    public void Packages(Collection packages) {
-		this.packages = packages;
-    }
-
-    public NodeFactory NodeFactory() {
+	public NodeFactory NodeFactory() {
 		return node_factory;
-    }
+	}
 
-    public void NodeFactory(NodeFactory node_factory) {
+	public void NodeFactory(NodeFactory node_factory) {
 		this.node_factory = node_factory;
-    }
-
-    public Collector Collector() {
-		return collector;
-    }
-
-    public void Collector(Collector collector) {
-		this.collector = collector;
-    }
+	}
 	
-    StatusLine StatusLine() {
+	StatusLine StatusLine() {
 		return status_line;
-    }
+	}
 	
-    private void BuildMenus(CommandLine command_line) {
+	private void BuildMenus(CommandLine command_line) {
 		BuildFileMenu(command_line);
 		BuildViewMenu(command_line);
 
 		this.setJMenuBar(menu_bar);
 	}
 	
-    private void BuildFileMenu(CommandLine command_line) {
+	private void BuildFileMenu(CommandLine command_line) {
 		menu_bar.add(file_menu);
 
 		file_menu.setText("File");
@@ -305,11 +289,9 @@ public class DependencyFinder extends JFrame {
 		menu_item = file_menu.add(action);
 		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
 		menu_item.setMnemonic('x');
-		// button = toolbar.add(action);
-		// button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
-    }
+	}
 
-    private void BuildViewMenu(CommandLine command_line) {
+	private void BuildViewMenu(CommandLine command_line) {
 		menu_bar.add(view_menu);
 
 		view_menu.setText("View");
@@ -325,16 +307,16 @@ public class DependencyFinder extends JFrame {
 		menu_item = new JRadioButtonMenuItem(new AdvancedQueryPanelAction(this));
 		group.add(menu_item);
 		view_menu.add(menu_item);
-    }
+	}
 	
-    private void BuildUI() {
+	private void BuildUI() {
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(BuildControlPanel(), BorderLayout.NORTH);
 		this.getContentPane().add(BuildResultPanel(), BorderLayout.CENTER);
 		this.getContentPane().add(BuildStatusPanel(), BorderLayout.SOUTH);
-    }
+	}
 
-    private JComponent BuildControlPanel() {
+	private JComponent BuildControlPanel() {
 		JPanel result = new JPanel();
 
 		result.setLayout(new BorderLayout());
@@ -342,9 +324,9 @@ public class DependencyFinder extends JFrame {
 		result.add(BuildQueryPanel(false), BorderLayout.CENTER);
 		
 		return result;
-    }
+	}
 	
-    JComponent BuildQueryPanel(boolean advanced_mode) {
+	JComponent BuildQueryPanel(boolean advanced_mode) {
 		if (advanced_mode) {
 			BuildAdvancedQueryPanel();
 		} else {
@@ -352,9 +334,9 @@ public class DependencyFinder extends JFrame {
 		}
 		
 		return query_panel;
-    }
+	}
 	
-    private void BuildSimpleQueryPanel() {
+	private void BuildSimpleQueryPanel() {
 		if (advanced_mode) {
 			query_panel.removeAll();
 			query_panel.setLayout(new GridLayout(1, 2));
@@ -363,9 +345,9 @@ public class DependencyFinder extends JFrame {
 			query_panel.revalidate();
 			advanced_mode = false;
 		}
-    }
+	}
 	
-    private void BuildAdvancedQueryPanel() {
+	private void BuildAdvancedQueryPanel() {
 		if (!advanced_mode) {
 			query_panel.removeAll();
 			query_panel.setLayout(new GridLayout(1, 2));
@@ -374,9 +356,9 @@ public class DependencyFinder extends JFrame {
 			query_panel.revalidate();
 			advanced_mode = true;
 		}
-    }
+	}
 
-    private JComponent BuildSimpleScopePanel() {
+	private JComponent BuildSimpleScopePanel() {
 		JPanel result = new JPanel();
 
 		result.setBorder(BorderFactory.createTitledBorder("Select programming elements"));
@@ -439,9 +421,9 @@ public class DependencyFinder extends JFrame {
 		gbl.setConstraints(scope_excludes, c);
 
 		return result;
-    }
+	}
 
-    private JComponent BuildSimpleScopePanelCheckboxes() {
+	private JComponent BuildSimpleScopePanelCheckboxes() {
 		JPanel result = new JPanel();
 
 		GridBagLayout      gbl = new GridBagLayout();
@@ -481,9 +463,9 @@ public class DependencyFinder extends JFrame {
 		gbl.setConstraints(feature_scope, c);
 
 		return result;
-    }
+	}
 	
-    private JComponent BuildSimpleFilterPanel() {
+	private JComponent BuildSimpleFilterPanel() {
 		JPanel result = new JPanel();
 
 		result.setBorder(BorderFactory.createTitledBorder("Show dependencies"));
@@ -496,7 +478,7 @@ public class DependencyFinder extends JFrame {
 		return result;
 	}
 	
-    private JComponent BuildSimpleFilterPanelTextFields() {
+	private JComponent BuildSimpleFilterPanelTextFields() {
 		JPanel result = new JPanel();
 
 		GridBagLayout      gbl = new GridBagLayout();
@@ -546,9 +528,9 @@ public class DependencyFinder extends JFrame {
 		gbl.setConstraints(filter_excludes, c);
 
 		return result;
-    }
+	}
 	
-    private JComponent BuildSimpleFilterPanelCheckboxes() {
+	private JComponent BuildSimpleFilterPanelCheckboxes() {
 		JPanel result = new JPanel();
 
 		GridBagLayout      gbl = new GridBagLayout();
@@ -588,9 +570,9 @@ public class DependencyFinder extends JFrame {
 		gbl.setConstraints(feature_filter, c);
 
 		return result;
-    }
+	}
 
-    private JComponent BuildAdvancedScopePanel() {
+	private JComponent BuildAdvancedScopePanel() {
 		JPanel result = new JPanel();
 
 		result.setBorder(BorderFactory.createTitledBorder("Select programming elements"));
@@ -732,9 +714,9 @@ public class DependencyFinder extends JFrame {
 		gbl.setConstraints(feature_scope_excludes, c);
 
 		return result;
-    }
+	}
 	
-    private JComponent BuildAdvancedFilterPanel() {
+	private JComponent BuildAdvancedFilterPanel() {
 		JPanel result = new JPanel();
 
 		result.setBorder(BorderFactory.createTitledBorder("Show dependencies"));
@@ -876,9 +858,9 @@ public class DependencyFinder extends JFrame {
 		gbl.setConstraints(feature_filter_excludes, c);
 
 		return result;
-    }
+	}
 	
-    private JComponent BuildResultPanel() {
+	private JComponent BuildResultPanel() {
 		JTabbedPane result = new JTabbedPane();
 
 		result.setBorder(BorderFactory.createTitledBorder("Results"));
@@ -887,9 +869,9 @@ public class DependencyFinder extends JFrame {
 		result.addTab("Metrics",      BuildMetricsPanel());
 		
 		return result;
-    }
+	}
 
-    private JComponent BuildDependenciesPanel() {
+	private JComponent BuildDependenciesPanel() {
 		JPanel result = new JPanel();
 		
 		result.setLayout(new BorderLayout());
@@ -897,9 +879,9 @@ public class DependencyFinder extends JFrame {
 		result.add(BuildDependenciesResultPanel(), BorderLayout.CENTER);
 		
 		return result;
-    }
+	}
 	
-    private JComponent BuildPrinterControlPanel() {
+	private JComponent BuildPrinterControlPanel() {
 		JPanel result = new JPanel();
 		
 		result.add(new JLabel("Show: "));
@@ -913,17 +895,17 @@ public class DependencyFinder extends JFrame {
 		show_empty_nodes.addActionListener(action);
 		
 		return result;
-    }
+	}
 	
-    private JComponent BuildDependenciesResultPanel() {
+	private JComponent BuildDependenciesResultPanel() {
 		JComponent result = new JScrollPane(dependencies_result_area);
 		
 		dependencies_result_area.setEditable(false);
 		
 		return result;
-    }
+	}
 	
-    private JComponent BuildClosurePanel() {
+	private JComponent BuildClosurePanel() {
 		JPanel result = new JPanel();
 		
 		result.setLayout(new BorderLayout());
@@ -933,7 +915,7 @@ public class DependencyFinder extends JFrame {
 		return result;
 	}
 	
-    private JComponent BuildClosureControlPanel() {
+	private JComponent BuildClosureControlPanel() {
 		JPanel result = new JPanel();
 		
 		result.add(new JLabel("Follow inbounds: "));
@@ -942,7 +924,7 @@ public class DependencyFinder extends JFrame {
 		result.add(maximum_outbound_depth);
 		
 		return result;
-    }
+	}
 
 	private JComponent BuildClosureResultPanel() {
 		JComponent result = new JScrollPane(closure_result_area);
@@ -950,21 +932,21 @@ public class DependencyFinder extends JFrame {
 		closure_result_area.setEditable(false);
 		
 		return result;
-    }
+	}
 	
-    private JComponent BuildMetricsPanel() {
+	private JComponent BuildMetricsPanel() {
 		return new JSplitPane(JSplitPane.VERTICAL_SPLIT, BuildMetricsResultPanel(), BuildMetricsChartPanel());
-    }
+	}
 
-    private JComponent BuildMetricsResultPanel() {
+	private JComponent BuildMetricsResultPanel() {
 		JComponent result = new JScrollPane(metrics_result_area);
 
 		metrics_result_area.setEditable(false);
 		
 		return result;
-    }
+	}
 
-    private JComponent BuildMetricsChartPanel() {
+	private JComponent BuildMetricsChartPanel() {
 		JComponent result;
 
 		JTable table = new JTable(metrics_chart_model);
@@ -975,16 +957,16 @@ public class DependencyFinder extends JFrame {
 		result = new JScrollPane(table);
 
 		return result;
-    }
+	}
 	
-    private JComponent BuildStatusPanel() {
+	private JComponent BuildStatusPanel() {
 		return StatusLine();
-    }
+	}
 	
-    public void ResetQuery() {
+	public void ResetQuery() {
 		package_scope.setSelected(true);
-		class_scope.setSelected(true);
-		feature_scope.setSelected(true);
+		class_scope.setSelected(false);
+		feature_scope.setSelected(false);
 		scope_includes.setText("//");
 		package_scope_includes.setText("");
 		class_scope_includes.setText("");
@@ -995,8 +977,8 @@ public class DependencyFinder extends JFrame {
 		feature_scope_excludes.setText("");
 	
 		package_filter.setSelected(true);
-		class_filter.setSelected(true);
-		feature_filter.setSelected(true);
+		class_filter.setSelected(false);
+		feature_filter.setSelected(false);
 		filter_includes.setText("//");
 		package_filter_includes.setText("");
 		class_filter_includes.setText("");
@@ -1005,14 +987,18 @@ public class DependencyFinder extends JFrame {
 		package_filter_excludes.setText("");
 		class_filter_excludes.setText("");
 		feature_filter_excludes.setText("");
-    }
+
+		show_inbounds.setSelected(true);
+		show_outbounds.setSelected(true);
+		show_empty_nodes.setSelected(true);
+	}
 	
-    void ClearDependencyResult() {
+	void ClearDependencyResult() {
 		dependencies_query = null;
 		dependencies_result_area.setText("");
-    }
+	}
 	
-    void DependencyQuery() {
+	void DependencyQuery() {
 		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
 		
 		strategy.PackageScope(package_scope.isSelected());
@@ -1051,9 +1037,9 @@ public class DependencyFinder extends JFrame {
 		dependencies_query.TraverseNodes(Packages());
 
 		RefreshDependenciesDisplay();
-    }
+	}
 
-    void RefreshDependenciesDisplay() {
+	void RefreshDependenciesDisplay() {
 		if (dependencies_query != null) {
 			com.jeantessier.dependency.PrettyPrinter printer = new com.jeantessier.dependency.PrettyPrinter();
 
@@ -1065,13 +1051,13 @@ public class DependencyFinder extends JFrame {
 			
 			dependencies_result_area.setText(printer.toString());
 		}
-    }		
+	}		
 	
-    void ClearClosureResult() {
+	void ClearClosureResult() {
 		closure_result_area.setText("");
-    }
+	}
 	
-    void ClosureQuery() {
+	void ClosureQuery() {
 		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
 		
 		strategy.PackageScope(package_scope.isSelected());
@@ -1120,13 +1106,13 @@ public class DependencyFinder extends JFrame {
 		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.PrettyPrinter();
 		printer.TraverseNodes(selector.Factory().Packages().values());
 		closure_result_area.setText(printer.toString());
-    }		
+	}		
 	
-    void ClearMetricsResult() {
+	void ClearMetricsResult() {
 		metrics_result_area.setText("");
-    }
+	}
 	
-    void MetricsQuery() {
+	void MetricsQuery() {
 		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
 		
 		strategy.PackageScope(package_scope.isSelected());
@@ -1161,26 +1147,16 @@ public class DependencyFinder extends JFrame {
 		metrics.TraverseNodes(Packages());
 
 		MetricsReport report = new MetricsReport();
-		// report.ClassesPerPackageChart(true);
-		// report.FeaturesPerClassChart(true);
-		// report.InboundsPerPackageChart(true);
-		// report.OutboundsPerPackageChart(true);
-		// report.InboundsPerClassChart(true);
-		// report.OutboundsPerClassChart(true);
-		// report.InboundsPerFeatureChart(true);
-		// report.OutboundsPerFeatureChart(true);
 		report.Process(metrics);
 		
 		metrics_result_area.setText(report.toString());
 		metrics_chart_model.Metrics(metrics);
-    }		
+	}		
 
-    void NewDependencyGraph() {
-		Packages(Collections.EMPTY_SET);
+	void NewDependencyGraph() {
+		NodeFactory(new NodeFactory());
 		ResetQuery();
-		NodeFactory(null);
-		Collector(null);
-    }
+	}
 
 	public static void Log(Logger logger, String filename) throws IOException {
 		Log(logger, filename, Level.DEBUG);
@@ -1196,16 +1172,16 @@ public class DependencyFinder extends JFrame {
 		}
 	}
 
-    public static void Error(CommandLineUsage clu, String msg) {
+	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
-    }
+	}
 
-    public static void Error(CommandLineUsage clu) {
+	public static void Error(CommandLineUsage clu) {
 		System.err.println(clu);
-    }
+	}
 
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
 		command_line.AddToggleSwitch("minimize");
@@ -1262,5 +1238,5 @@ public class DependencyFinder extends JFrame {
 		model.Maximize(command_line.ToggleSwitch("maximize"));
 		model.Minimize(command_line.ToggleSwitch("minimize"));
 		model.setVisible(true);
-    }
+	}
 }
