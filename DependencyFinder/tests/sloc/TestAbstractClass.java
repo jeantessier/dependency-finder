@@ -11,7 +11,7 @@ public abstract class TestAbstractClass implements TestInterface {
 	 *  All 'case X:' statements are folded in the switch()
 	 *  instruction.  The last break is ignored.
 	 */
-	public void Method1() {
+	public void method1() {
 		switch (5) {
 			case 1:
 				System.out.println(1);

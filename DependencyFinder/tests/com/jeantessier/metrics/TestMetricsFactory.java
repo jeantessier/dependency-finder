@@ -132,16 +132,16 @@ public class TestMetricsFactory extends TestCase {
 	}
 
 	public void testCreateStructure() {
-		Metrics method_metrics  = factory.createMethodMetrics("a.A.a()");
-		Metrics class_metrics   = factory.createClassMetrics("a.A");
-		Metrics package_metrics = factory.createGroupMetrics("a");
-		Metrics project_metrics = factory.createProjectMetrics();
+		Metrics methodMetrics  = factory.createMethodMetrics("a.A.a()");
+		Metrics classMetrics   = factory.createClassMetrics("a.A");
+		Metrics packageMetrics = factory.createGroupMetrics("a");
+		Metrics projectMetrics = factory.createProjectMetrics();
 
-		factory.includeMethodMetrics(method_metrics);
+		factory.includeMethodMetrics(methodMetrics);
 		
-		assertTrue(project_metrics.getSubMetrics().contains(package_metrics));
-		assertTrue(package_metrics.getSubMetrics().contains(class_metrics));
-		assertTrue(class_metrics.getSubMetrics().contains(method_metrics));
+		assertTrue(projectMetrics.getSubMetrics().contains(packageMetrics));
+		assertTrue(packageMetrics.getSubMetrics().contains(classMetrics));
+		assertTrue(classMetrics.getSubMetrics().contains(methodMetrics));
 	}
 
 	public void testGroupDefinitionsWithInternal() {
@@ -200,10 +200,10 @@ public class TestMetricsFactory extends TestCase {
 		configuration.addGroupDefinition("foo", "/foo/");
 		configuration.addGroupDefinition("baz", "/baz/");
 
-		Metrics foo_metrics    = factory.createClassMetrics("com.foo.Foo");
-		Metrics foobaz_metrics = factory.createClassMetrics("com.baz.Foobaz");
+		Metrics fooMetrics    = factory.createClassMetrics("com.foo.Foo");
+		Metrics foobazMetrics = factory.createClassMetrics("com.baz.Foobaz");
 
-		factory.includeClassMetrics(foo_metrics);
+		factory.includeClassMetrics(fooMetrics);
 
 		assertEquals("Number of groups",     2, factory.getGroupMetrics().size());
 
@@ -212,8 +212,8 @@ public class TestMetricsFactory extends TestCase {
 		assertTrue("Group com.foo missing",  factory.getGroupNames().contains("com.foo"));
 		assertFalse("Group com.baz missing", factory.getGroupNames().contains("com.baz"));
 
-		assertTrue("Not in foo",     factory.createGroupMetrics("foo").getSubMetrics().contains(foo_metrics));
-		assertTrue("Not in com.foo", factory.createGroupMetrics("com.foo").getSubMetrics().contains(foo_metrics));
+		assertTrue("Not in foo",     factory.createGroupMetrics("foo").getSubMetrics().contains(fooMetrics));
+		assertTrue("Not in com.foo", factory.createGroupMetrics("com.foo").getSubMetrics().contains(fooMetrics));
 
 		assertEquals("foo.size()",     1, factory.createGroupMetrics("foo").getSubMetrics().size());
 		assertEquals("com.foo.size()", 1, factory.createGroupMetrics("com.foo").getSubMetrics().size());
@@ -225,11 +225,11 @@ public class TestMetricsFactory extends TestCase {
 		assertTrue("Group com.foo missing", factory.getAllGroupNames().contains("com.foo"));
 		assertTrue("Group com.baz missing", factory.getAllGroupNames().contains("com.baz"));
 
-		assertFalse("In com.baz", factory.createGroupMetrics("com.baz").getSubMetrics().contains(foobaz_metrics));
+		assertFalse("In com.baz", factory.createGroupMetrics("com.baz").getSubMetrics().contains(foobazMetrics));
 		
 		assertEquals("com.baz.size()", 0, factory.createGroupMetrics("com.baz").getSubMetrics().size());
 
-		assertEquals("Wrong parent", factory.createGroupMetrics("com.foo"), foo_metrics.getParent());
-		assertEquals("Wrong parent", factory.createGroupMetrics("com.baz"), foobaz_metrics.getParent());
+		assertEquals("Wrong parent", factory.createGroupMetrics("com.foo"), fooMetrics.getParent());
+		assertEquals("Wrong parent", factory.createGroupMetrics("com.baz"), foobazMetrics.getParent());
 	}
 }

@@ -42,93 +42,93 @@ import org.apache.log4j.*;
 public class TestClassfileLoader extends TestCase implements LoadListener {
 	public static final String TEST_DIR = "tests" + File.separator + "JarJarDiff";
 
-	private LinkedList begin_session;
-	private LinkedList begin_group;
-	private LinkedList begin_file;
-	private LinkedList begin_classfile;
-	private LinkedList end_classfile;
-	private LinkedList end_file;
-	private LinkedList end_group;
-	private LinkedList end_session;
+	private LinkedList beginSessionEvents;
+	private LinkedList beginGroupEvents;
+	private LinkedList beginFileEvents;
+	private LinkedList beginClassfileEvents;
+	private LinkedList endClassfileEvents;
+	private LinkedList endFileEvents;
+	private LinkedList endGroupEvents;
+	private LinkedList endSessionEvents;
 	
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
-		begin_session   = new LinkedList();
-		begin_group     = new LinkedList();
-		begin_file      = new LinkedList();
-		begin_classfile = new LinkedList();
-		end_classfile   = new LinkedList();
-		end_file        = new LinkedList();
-		end_group       = new LinkedList();
-		end_session     = new LinkedList();
+		beginSessionEvents   = new LinkedList();
+		beginGroupEvents     = new LinkedList();
+		beginFileEvents      = new LinkedList();
+		beginClassfileEvents = new LinkedList();
+		endClassfileEvents   = new LinkedList();
+		endFileEvents        = new LinkedList();
+		endGroupEvents       = new LinkedList();
+		endSessionEvents     = new LinkedList();
 	}
 
 	protected void tearDown() throws Exception {
 		Logger.getLogger(getClass()).info("End of " + getName());
 	}
 
-	protected LinkedList BeginSession() {
-		return begin_session;
+	protected LinkedList getBeginSessionEvents() {
+		return beginSessionEvents;
 	}
 
-	protected LinkedList BeginGroup() {
-		return begin_group;
+	protected LinkedList getBeginGroupEvents() {
+		return beginGroupEvents;
 	}
 
-	protected LinkedList BeginFile() {
-		return begin_file;
+	protected LinkedList getBeginFileEvents() {
+		return beginFileEvents;
 	}
 
-	protected LinkedList BeginClassfile() {
-		return begin_classfile;
+	protected LinkedList getBeginClassfileEvents() {
+		return beginClassfileEvents;
 	}
 
-	protected LinkedList EndClassfile() {
-		return end_classfile;
+	protected LinkedList getEndClassfileEvents() {
+		return endClassfileEvents;
 	}
 
-	protected LinkedList EndFile() {
-		return end_file;
+	protected LinkedList getEndFileEvents() {
+		return endFileEvents;
 	}
 
-	protected LinkedList EndGroup() {
-		return end_group;
+	protected LinkedList getEndGroupEvents() {
+		return endGroupEvents;
 	}
 
-	protected LinkedList EndSession() {
-		return end_session;
+	protected LinkedList getEndSessionEvents() {
+		return endSessionEvents;
 	}
 	
 	public void beginSession(LoadEvent event) {
-		BeginSession().add(event);
+		getBeginSessionEvents().add(event);
 	}
 	
 	public void beginGroup(LoadEvent event) {
-		BeginGroup().add(event);
+		getBeginGroupEvents().add(event);
 	}
 	
 	public void beginFile(LoadEvent event) {
-		BeginFile().add(event);
+		getBeginFileEvents().add(event);
 	}
 	
 	public void beginClassfile(LoadEvent event) {
-		BeginClassfile().add(event);
+		getBeginClassfileEvents().add(event);
 	}
 	
 	public void endClassfile(LoadEvent event) {
-		EndClassfile().add(event);
+		getEndClassfileEvents().add(event);
 	}
 	
 	public void endFile(LoadEvent event) {
-		EndFile().add(event);
+		getEndFileEvents().add(event);
 	}
 	
 	public void endGroup(LoadEvent event) {
-		EndGroup().add(event);
+		getEndGroupEvents().add(event);
 	}
 	
 	public void endSession(LoadEvent event) {
-		EndSession().add(event);
+		getEndSessionEvents().add(event);
 	}
 }

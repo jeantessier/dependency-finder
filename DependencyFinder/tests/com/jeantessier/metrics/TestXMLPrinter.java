@@ -75,68 +75,68 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	public void testDefaultDTDPrefix() {
 		printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
-		String xml_document = buffer.toString();
-		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
+		String xmlDocument = buffer.toString();
+		assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
 		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX));
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
-			fail("Parsed non-existant document\n" + xml_document);
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
+			fail("Parsed non-existant document\n" + xmlDocument);
 		} catch (SAXException ex) {
 			// Ignore
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 	
 	public void testSpecificDTDPrefix() {
 		printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-		String xml_document = buffer.toString();
-		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
+		String xmlDocument = buffer.toString();
+		assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
 		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
-			fail("Parsed non-existant document\n" + xml_document);
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
+			fail("Parsed non-existant document\n" + xmlDocument);
 		} catch (SAXException ex) {
 			// Ignore
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 
 	public void testDefaultEncoding() {
 		printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
-		String xml_document = buffer.toString();
-		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
+		String xmlDocument = buffer.toString();
+		assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
 		assertEquals("Encoding", XMLPrinter.DEFAULT_ENCODING, perl.group(1));
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
-			fail("Parsed non-existant document\n" + xml_document);
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
+			fail("Parsed non-existant document\n" + xmlDocument);
 		} catch (SAXException ex) {
 			// Ignore
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 
 	public void testSpecificEncoding() {
 		printer = new XMLPrinter(new PrintWriter(buffer), configuration, SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
-		String xml_document = buffer.toString();
-		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
+		String xmlDocument = buffer.toString();
+		assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
 		assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
-			fail("Parsed non-existant document\n" + xml_document);
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
+			fail("Parsed non-existant document\n" + xmlDocument);
 		} catch (SAXException ex) {
 			// Ignore
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 
@@ -150,14 +150,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 		printer = new XMLPrinter(new PrintWriter(buffer), configuration, com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 		printer.visitMetrics(factory.getProjectMetrics());
 
-		String xml_document = buffer.toString();
+		String xmlDocument = buffer.toString();
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
 		} catch (SAXException ex) {
-			fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 

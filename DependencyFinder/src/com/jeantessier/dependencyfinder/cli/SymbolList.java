@@ -79,6 +79,10 @@ public class SymbolList {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine commandLine = new CommandLine();
+		commandLine.addToggleSwitch("class-names");
+		commandLine.addToggleSwitch("field-names");
+		commandLine.addToggleSwitch("method-names");
+		commandLine.addToggleSwitch("local-names");
 		commandLine.addToggleSwitch("time");
 		commandLine.addSingleValueSwitch("out");
 		commandLine.addToggleSwitch("help");
@@ -137,7 +141,36 @@ public class SymbolList {
 			parameters.add(".");
 		}
 
-		Collector collector = new SymbolGatherer();
+		SymbolGatherer collector = new SymbolGatherer();
+
+		// Since SymbolGatherer lists everything by default,
+		// we turn them all off if any of the switches are
+		// present.  This way, if you pass nothing, you get
+		// the default behavior and the tool shows everything.
+		// If you pass in one or more, you only see symbols
+		// of the kind(s) you specified.
+		if (commandLine.isPresent("class-names") || commandLine.isPresent("field-names") || commandLine.isPresent("method-names") || commandLine.isPresent("local-names")) {
+			collector.setCollectingClassNames(false);
+			collector.setCollectingFieldNames(false);
+			collector.setCollectingMethodNames(false);
+			collector.setCollectingLocalNames(false);
+		}
+
+		if (commandLine.isPresent("class-names")) {
+			collector.setCollectingClassNames(true);
+		}
+
+		if (commandLine.isPresent("field-names")) {
+			collector.setCollectingFieldNames(true);
+		}
+
+		if (commandLine.isPresent("method-names")) {
+			collector.setCollectingMethodNames(true);
+		}
+
+		if (commandLine.isPresent("local-names")) {
+			collector.setCollectingLocalNames(true);
+		}
 		
 		Iterator i;
 

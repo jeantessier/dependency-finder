@@ -70,4 +70,44 @@ public class TestSymbolGatherer extends TestCase {
 		assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
 		assertEquals("Different number of symbols in " + gatherer.getCollection(), 7, gatherer.getCollection().size());
 	}
+	
+	public void testClassNamesOnly() throws IOException {
+		gatherer.setCollectingClassNames(true);
+		gatherer.setCollectingFieldNames(false);
+		gatherer.setCollectingMethodNames(false);
+		gatherer.setCollectingLocalNames(false);
+		
+		loader.load(Collections.singleton(TEST_FILENAME));
+
+		assertTrue("Missing test class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test"));
+		assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
+	}
+	
+	public void testMethodNamesOnly() throws IOException {
+		gatherer.setCollectingClassNames(false);
+		gatherer.setCollectingFieldNames(false);
+		gatherer.setCollectingMethodNames(true);
+		gatherer.setCollectingLocalNames(false);
+		
+		loader.load(Collections.singleton(TEST_FILENAME));
+
+		assertTrue("Missing test.main() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[])"));
+		assertTrue("Missing test.test() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test()"));
+		assertEquals("Different number of symbols in " + gatherer.getCollection(), 2, gatherer.getCollection().size());
+	}
+	
+	public void testLocalNamesOnly() throws IOException {
+		gatherer.setCollectingClassNames(false);
+		gatherer.setCollectingFieldNames(false);
+		gatherer.setCollectingMethodNames(false);
+		gatherer.setCollectingLocalNames(true);
+		
+		loader.load(Collections.singleton(TEST_FILENAME));
+
+		assertTrue("Missing args parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): args"));
+		assertTrue("Missing c local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): c"));
+		assertTrue("Missing ex local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): ex"));
+		assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
+		assertEquals("Different number of symbols in " + gatherer.getCollection(), 4, gatherer.getCollection().size());
+	}
 }

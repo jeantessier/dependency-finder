@@ -40,8 +40,8 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
 	private Metrics metrics;
 	private Measurement visited;
 
-	private MeasurementDescriptor name_list;
-	private MeasurementDescriptor number_list;
+	private MeasurementDescriptor nameList;
+	private MeasurementDescriptor numberList;
 	private MeasurementDescriptor counter;
 
 	private Metrics m1;
@@ -53,36 +53,36 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
 		m2 = new Metrics("m2");
 		m3 = new Metrics("m3");
 
-		name_list = new MeasurementDescriptor();
-		name_list.setShortName("NL");
-		name_list.setLongName("name list");
-		name_list.setClassFor(NameListMeasurement.class);
+		nameList = new MeasurementDescriptor();
+		nameList.setShortName("NL");
+		nameList.setLongName("name list");
+		nameList.setClassFor(NameListMeasurement.class);
 
-		number_list = new MeasurementDescriptor();
-		number_list.setShortName("NbL");
-		number_list.setLongName("number list");
-		number_list.setClassFor(NameListMeasurement.class);
+		numberList = new MeasurementDescriptor();
+		numberList.setShortName("NbL");
+		numberList.setLongName("number list");
+		numberList.setClassFor(NameListMeasurement.class);
 
 		counter = new MeasurementDescriptor();
 		counter.setShortName("NL");
 		counter.setLongName("counter");
 		counter.setClassFor(CounterMeasurement.class);
 
-		m1.track(name_list.createMeasurement(m1));
+		m1.track(nameList.createMeasurement(m1));
 		m1.addToMeasurement("NL", "abc");
 		m1.addToMeasurement("NL", "def");
 		m1.addToMeasurement("NL", "ghi");
 
-		m1.track(number_list.createMeasurement(m1));
+		m1.track(numberList.createMeasurement(m1));
 		m1.addToMeasurement("NbL", "123");
 		m1.addToMeasurement("NbL", "456");
 		m1.addToMeasurement("NbL", "789");
 
-		m2.track(name_list.createMeasurement(m2));
+		m2.track(nameList.createMeasurement(m2));
 		m2.addToMeasurement("NL", "jkl");
 		m2.addToMeasurement("NL", "abc");
 
-		m2.track(number_list.createMeasurement(m2));
+		m2.track(numberList.createMeasurement(m2));
 		m2.addToMeasurement("NbL", "159");
 		m2.addToMeasurement("NbL", "248");
 
@@ -246,10 +246,10 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
 		descriptor.setInitText("NL");
 
 		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-		metrics.track(name_list.createMeasurement(metrics));
+		metrics.track(nameList.createMeasurement(metrics));
 
 		Metrics submetrics = new Metrics("submetrics");
-		submetrics.track(name_list.createMeasurement(submetrics));
+		submetrics.track(nameList.createMeasurement(submetrics));
 		metrics.addSubMetrics(submetrics);
 		
 		assertTrue("Before Add()", measurement.isEmpty());

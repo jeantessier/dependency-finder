@@ -50,12 +50,12 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 	private ClassfileLoader loader;
 	private MetricsGatherer gatherer;
 
-	private LinkedList begin_session;
-	private LinkedList begin_class;
-	private LinkedList begin_method;
-	private LinkedList end_method;
-	private LinkedList end_class;
-	private LinkedList end_session;
+	private LinkedList beginSessionEvents;
+	private LinkedList beginClassEvents;
+	private LinkedList beginMethodEvents;
+	private LinkedList endMethodEvents;
+	private LinkedList endClassEvents;
+	private LinkedList endSessionEvents;
 
 	protected void setUp() throws Exception {
 		loader  = new AggregatingClassfileLoader();
@@ -64,12 +64,12 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 		gatherer = new MetricsGatherer("test", factory);
 		gatherer.addMetricsListener(this);
 
-		begin_session = new LinkedList();
-		begin_class   = new LinkedList();
-		begin_method  = new LinkedList();
-		end_method    = new LinkedList();
-		end_class     = new LinkedList();
-		end_session   = new LinkedList();
+		beginSessionEvents = new LinkedList();
+		beginClassEvents   = new LinkedList();
+		beginMethodEvents  = new LinkedList();
+		endMethodEvents    = new LinkedList();
+		endClassEvents     = new LinkedList();
+		endSessionEvents   = new LinkedList();
 	}
 	
 	public void testEvents() throws IOException {
@@ -77,15 +77,15 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 
 		gatherer.visitClassfiles(loader.getAllClassfiles());
 
-		assertEquals("Begin Session",  1, begin_session.size());
-		assertEquals("Begin Class",    1, begin_class.size());
-		assertEquals("Begin Method",   2, begin_method.size());
-		assertEquals("End Method",     2, end_method.size());
-		assertEquals("End Class",      1, end_class.size());
-		assertEquals("End Session",    1, end_session.size());
+		assertEquals("Begin Session",  1, beginSessionEvents.size());
+		assertEquals("Begin Class",    1, beginClassEvents.size());
+		assertEquals("Begin Method",   2, beginMethodEvents.size());
+		assertEquals("End Method",     2, endMethodEvents.size());
+		assertEquals("End Class",      1, endClassEvents.size());
+		assertEquals("End Session",    1, endSessionEvents.size());
 
-		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) begin_class.getLast()).getClassfile());
-		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) end_class.getLast()).getClassfile());
+		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) beginClassEvents.getLast()).getClassfile());
+		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) endClassEvents.getLast()).getClassfile());
 	}
 	
 	public void testMultipleEvents() throws IOException {
@@ -96,12 +96,12 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 
 		gatherer.visitClassfiles(loader.getAllClassfiles());
 
-		assertEquals("Begin Session",  1, begin_session.size());
-		assertEquals("Begin Class",    9, begin_class.size());
-		assertEquals("Begin Method",  16, begin_method.size());
-		assertEquals("End Method",    16, end_method.size());
-		assertEquals("End Class",      9, end_class.size());
-		assertEquals("End Session",    1, end_session.size());
+		assertEquals("Begin Session",  1, beginSessionEvents.size());
+		assertEquals("Begin Class",    9, beginClassEvents.size());
+		assertEquals("Begin Method",  16, beginMethodEvents.size());
+		assertEquals("End Method",    16, endMethodEvents.size());
+		assertEquals("End Class",      9, endClassEvents.size());
+		assertEquals("End Session",    1, endSessionEvents.size());
 	}	
 	
 	public void testEventsWithNothing() throws IOException {
@@ -109,35 +109,35 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 
 		gatherer.visitClassfiles(loader.getAllClassfiles());
 
-		assertEquals("Begin Session",  1, begin_session.size());
-		assertEquals("Begin Class",    0, begin_class.size());
-		assertEquals("Begin Method",   0, begin_method.size());
-		assertEquals("End Method",     0, end_method.size());
-		assertEquals("End Class",      0, end_class.size());
-		assertEquals("End Session",    1, end_session.size());
+		assertEquals("Begin Session",  1, beginSessionEvents.size());
+		assertEquals("Begin Class",    0, beginClassEvents.size());
+		assertEquals("Begin Method",   0, beginMethodEvents.size());
+		assertEquals("End Method",     0, endMethodEvents.size());
+		assertEquals("End Class",      0, endClassEvents.size());
+		assertEquals("End Session",    1, endSessionEvents.size());
 	}	
 	
 	public void beginSession(MetricsEvent event) {
-		begin_session.add(event);
+		beginSessionEvents.add(event);
 	}
 	
 	public void beginClass(MetricsEvent event) {
-		begin_class.add(event);
+		beginClassEvents.add(event);
 	}
 	
 	public void beginMethod(MetricsEvent event) {
-		begin_method.add(event);
+		beginMethodEvents.add(event);
 	}
 	
 	public void endMethod(MetricsEvent event) {
-		end_method.add(event);
+		endMethodEvents.add(event);
 	}
 	
 	public void endClass(MetricsEvent event) {
-		end_class.add(event);
+		endClassEvents.add(event);
 	}
 	
 	public void endSession(MetricsEvent event) {
-		end_session.add(event);
+		endSessionEvents.add(event);
 	}
 }

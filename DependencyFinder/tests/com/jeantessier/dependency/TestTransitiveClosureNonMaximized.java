@@ -39,8 +39,8 @@ import junit.framework.*;
 import org.apache.log4j.*;
 
 public class TestTransitiveClosureNonMaximized extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
+	private RegularExpressionSelectionCriteria scopeCriteria;
+	private RegularExpressionSelectionCriteria filterCriteria;
 	private NodeFactory                        factory;
 
 	private FeatureNode in2;
@@ -52,9 +52,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	private TransitiveClosure          selector;
 	
 	protected void setUp() {
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		scopeCriteria  = new RegularExpressionSelectionCriteria();
+		filterCriteria = new RegularExpressionSelectionCriteria();
+		factory        = new NodeFactory();
 
 		in2  = factory.createFeature("in2.In2.In2()");
 		in1  = factory.createFeature("in1.In1.In1()");
@@ -67,28 +67,28 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		base.addDependency(out1);
 		out1.addDependency(out2);
 		
-		List scope_includes = new ArrayList(1);
-		scope_includes.add("/^base/");
-		List filder_includes = new ArrayList(1);
-		filder_includes.add("//");
+		List scopeIncludes = new ArrayList(1);
+		scopeIncludes.add("/^base/");
+		List filderIncludes = new ArrayList(1);
+		filderIncludes.add("//");
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		scope_criteria.setGlobalIncludes(scope_includes);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
-		filter_criteria.setGlobalIncludes(filder_includes);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		scopeCriteria.setGlobalIncludes(scopeIncludes);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
+		filterCriteria.setGlobalIncludes(filderIncludes);
 		
-		selector = new TransitiveClosure(new SortedTraversalStrategy(new SelectiveTraversalStrategy(scope_criteria, filter_criteria)));
+		selector = new TransitiveClosure(new SortedTraversalStrategy(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria)));
 		selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 	}
 
 	public void testFeatureToFeatureFromFeature() {
-		scope_criteria.setMatchingFeatures(true);
-		filter_criteria.setMatchingFeatures(true);
+		scopeCriteria.setMatchingFeatures(true);
+		filterCriteria.setMatchingFeatures(true);
 
 		Logger.getLogger(getClass()).info("Start f2f test from feature ...");
 		base.accept(selector);
@@ -136,8 +136,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testFeatureToFeatureFromPackages() {
-		scope_criteria.setMatchingFeatures(true);
-		filter_criteria.setMatchingFeatures(true);
+		scopeCriteria.setMatchingFeatures(true);
+		filterCriteria.setMatchingFeatures(true);
 
 		Logger.getLogger(getClass()).info("Start f2f test from package list ...");
 		selector.traverseNodes(factory.getPackages().values());
@@ -185,8 +185,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testClassToClassFromClass() {
-		scope_criteria.setMatchingClasses(true);
-		filter_criteria.setMatchingClasses(true);
+		scopeCriteria.setMatchingClasses(true);
+		filterCriteria.setMatchingClasses(true);
 
 		Logger.getLogger(getClass()).info("Start c2c test from class ...");
 		base.getClassNode().accept(selector);
@@ -225,8 +225,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testClassToClassFromPackageList() {
-		scope_criteria.setMatchingClasses(true);
-		filter_criteria.setMatchingClasses(true);
+		scopeCriteria.setMatchingClasses(true);
+		filterCriteria.setMatchingClasses(true);
 
 		Logger.getLogger(getClass()).info("Start c2c test from package list ...");
 		selector.traverseNodes(factory.getPackages().values());
@@ -265,8 +265,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testPackageToPackageFromPackage() {
-		scope_criteria.setMatchingPackages(true);
-		filter_criteria.setMatchingPackages(true);
+		scopeCriteria.setMatchingPackages(true);
+		filterCriteria.setMatchingPackages(true);
 
 		Logger.getLogger(getClass()).info("Start p2p test from package ...");
 		base.getClassNode().getPackageNode().accept(selector);
@@ -296,8 +296,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testPackageToPackageFromPackageList() {
-		scope_criteria.setMatchingPackages(true);
-		filter_criteria.setMatchingPackages(true);
+		scopeCriteria.setMatchingPackages(true);
+		filterCriteria.setMatchingPackages(true);
 
 		Logger.getLogger(getClass()).info("Start p2p test from package list ...");
 		selector.traverseNodes(factory.getPackages().values());

@@ -56,13 +56,13 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    <-- outbound", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <-- outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -76,12 +76,12 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -95,16 +95,16 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        <-- outbound.Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -118,15 +118,15 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -140,19 +140,19 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "        empty()", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            <-- outbound.Outbound.outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -166,18 +166,18 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "        empty()", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -191,13 +191,13 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    --> inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    --> inbound", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -211,12 +211,12 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -230,16 +230,16 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        --> inbound.Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        --> inbound.Inbound", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -253,15 +253,15 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -275,19 +275,19 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "        empty()", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            --> inbound.Inbound.inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -301,18 +301,18 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "        empty()", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -327,22 +327,22 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    <-- outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        <-- outbound.Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            <-- outbound.Outbound.outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    --> inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        --> inbound.Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            --> inbound.Inbound.inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <-- outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    --> inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        --> inbound.Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -357,21 +357,21 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    <-- outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        <-- outbound.Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            <-- outbound.Outbound.outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    --> inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        --> inbound.Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            --> inbound.Inbound.inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <-- outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    --> inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        --> inbound.Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -385,21 +385,21 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        <-- outbound.Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            <-- outbound.Outbound.outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        --> inbound.Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            --> inbound.Inbound.inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        --> inbound.Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -413,19 +413,19 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        <-- outbound.Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            <-- outbound.Outbound.outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        --> inbound.Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            --> inbound.Inbound.inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        --> inbound.Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -438,20 +438,20 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "empty", in.readLine());
-		assertEquals("line " + ++line_number, "    Empty", in.readLine());
-		assertEquals("line " + ++line_number, "        empty()", in.readLine());
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            <-- outbound.Outbound.outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            --> inbound.Inbound.inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
+		assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -464,17 +464,17 @@ public class TestTextPrinter extends TestCase {
 
 		visitor.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "inbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Inbound", in.readLine());
-		assertEquals("line " + ++line_number, "        inbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            <-- outbound.Outbound.outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "outbound", in.readLine());
-		assertEquals("line " + ++line_number, "    Outbound", in.readLine());
-		assertEquals("line " + ++line_number, "        outbound()", in.readLine());
-		assertEquals("line " + ++line_number, "            --> inbound.Inbound.inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+		assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+		assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}

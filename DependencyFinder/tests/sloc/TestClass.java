@@ -8,7 +8,7 @@ public class TestClass extends TestAbstractClass {
 	/*
 	 *  This method has 2 useful lines.
 	 */
-	public void Method2() {
+	public void method2() {
 		System.out.println("foobar");
 	}
 }

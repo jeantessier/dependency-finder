@@ -38,8 +38,8 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestGraphSummarizerWithScoping extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
+	private RegularExpressionSelectionCriteria scopeCriteria;
+	private RegularExpressionSelectionCriteria filterCriteria;
 	private NodeFactory                        factory;
 	
 	private Node a;
@@ -51,14 +51,14 @@ public class TestGraphSummarizerWithScoping extends TestCase {
 	private Node b_B;
 	private Node b_B_b;
 	
-	private List include_scope;
+	private List includeScope;
 
 	private GraphSummarizer summarizer;
 
 	protected void setUp() throws Exception {
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		scopeCriteria  = new RegularExpressionSelectionCriteria();
+		filterCriteria = new RegularExpressionSelectionCriteria();
+		factory        = new NodeFactory();
 
 		a     = factory.createPackage("a");
 		a_A   = factory.createClass("a.A");
@@ -72,16 +72,16 @@ public class TestGraphSummarizerWithScoping extends TestCase {
 		a_A_a.addDependency(a_A_b);
 		a_A_a.addDependency(b_B_b);
 
-		include_scope = new LinkedList();
-		include_scope.add("/^a/");
+		includeScope = new LinkedList();
+		includeScope.add("/^a/");
 
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		scope_criteria.setGlobalIncludes(include_scope);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		scopeCriteria.setGlobalIncludes(includeScope);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 
-		summarizer = new GraphSummarizer(scope_criteria, filter_criteria);
+		summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
 	}
 
 	public void testIncludeF2F() {

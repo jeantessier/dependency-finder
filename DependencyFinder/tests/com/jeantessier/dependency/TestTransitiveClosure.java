@@ -37,8 +37,8 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestTransitiveClosure extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
+	private RegularExpressionSelectionCriteria scopeCriteria;
+	private RegularExpressionSelectionCriteria filterCriteria;
 	private NodeFactory                        factory;
 
 	private ClassNode A;
@@ -51,9 +51,9 @@ public class TestTransitiveClosure extends TestCase {
 	private TransitiveClosure selector;
 
 	protected void setUp() throws Exception {
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		scopeCriteria  = new RegularExpressionSelectionCriteria();
+		filterCriteria = new RegularExpressionSelectionCriteria();
+		factory        = new NodeFactory();
 
 		A = factory.createClass("A");
 		B = factory.createClass("B");
@@ -79,14 +79,14 @@ public class TestTransitiveClosure extends TestCase {
 		includes = new ArrayList(1);
 		includes.add("//");
 
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingFeatures(false);
-		scope_criteria.setGlobalIncludes(includes);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingFeatures(false);
-		filter_criteria.setGlobalIncludes(includes);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingFeatures(false);
+		scopeCriteria.setGlobalIncludes(includes);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingFeatures(false);
+		filterCriteria.setGlobalIncludes(includes);
 
-		selector = new TransitiveClosure(new SortedTraversalStrategy(new SelectiveTraversalStrategy(scope_criteria, filter_criteria)));
+		selector = new TransitiveClosure(new SortedTraversalStrategy(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria)));
 	}
 	
 	public void testFullConnectivity() {

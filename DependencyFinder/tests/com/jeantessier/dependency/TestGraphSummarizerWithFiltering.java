@@ -38,8 +38,8 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestGraphSummarizerWithFiltering extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
+	private RegularExpressionSelectionCriteria scopeCriteria;
+	private RegularExpressionSelectionCriteria filterCriteria;
 	private NodeFactory                        factory;
 	
 	private Node a;
@@ -54,16 +54,16 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 	private Node c_C;
 	private Node c_C_c;
 
-	private List include_scope;
-	private List include_filter;
-	private List exclude_filter;
+	private List includeScope;
+	private List includeFilter;
+	private List excludeFilter;
 
 	private GraphCopier copier;
 
 	protected void setUp() throws Exception {
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		scopeCriteria  = new RegularExpressionSelectionCriteria();
+		filterCriteria = new RegularExpressionSelectionCriteria();
+		factory        = new NodeFactory();
 
 		a     = factory.createPackage("a");
 		a_A   = factory.createClass("a.A");
@@ -77,27 +77,27 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 		c_C   = factory.createClass("c.C");
 		c_C_c = factory.createFeature("c.C.c");
 		
-		include_scope = new LinkedList();
-		include_scope.add("/^a/");
+		includeScope = new LinkedList();
+		includeScope.add("/^a/");
 		
-		include_filter = new LinkedList();
-		include_filter.add("/^b/");
+		includeFilter = new LinkedList();
+		includeFilter.add("/^b/");
 		
-		exclude_filter = new LinkedList();
-		exclude_filter.add("/^c/");
+		excludeFilter = new LinkedList();
+		excludeFilter.add("/^c/");
 
-		copier = new GraphSummarizer(scope_criteria, filter_criteria);
+		copier = new GraphSummarizer(scopeCriteria, filterCriteria);
 	}
 
 	public void testIncludeFilterF2FtoP2P() {
 		a_A_a.addDependency(b_B_b);
 		a_A_a.addDependency(c_C_c);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
-		filter_criteria.setGlobalIncludes(include_filter);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
+		filterCriteria.setGlobalIncludes(includeFilter);
 		
 		copier.traverseNodes(factory.getPackages().values());
 
@@ -112,14 +112,14 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 		a_A_a.addDependency(b_B_b);
 		a_A_a.addDependency(c_C_c);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		scope_criteria.setGlobalIncludes(include_scope);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
-		filter_criteria.setGlobalExcludes(exclude_filter);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		scopeCriteria.setGlobalIncludes(includeScope);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
+		filterCriteria.setGlobalExcludes(excludeFilter);
 
-		assertTrue(!filter_criteria.matchesFeatureName(c_C_c.getName()));
+		assertTrue(!filterCriteria.matchesFeatureName(c_C_c.getName()));
 		
 		copier.traverseNodes(factory.getPackages().values());
 

@@ -33,24 +33,67 @@
 package com.jeantessier.classreader;
 
 public class SymbolGatherer extends CollectorBase {
+	private boolean collectingClassNames  = true;
+	private boolean collectingFieldNames  = true;
+	private boolean collectingMethodNames = true;
+	private boolean collectingLocalNames  = true;
+	
 	private Method_info currentMethod = null;
+
+	public boolean isCollectingClassNames() {
+		return collectingClassNames;
+	}
+
+	public void setCollectingClassNames(boolean collectingClassNames) {
+		this.collectingClassNames = collectingClassNames;
+	}
+
+	public boolean isCollectingFieldNames() {
+		return collectingFieldNames;
+	}
+
+	public void setCollectingFieldNames(boolean collectingFieldNames) {
+		this.collectingFieldNames = collectingFieldNames;
+	}
+
+	public boolean isCollectingMethodNames() {
+		return collectingMethodNames;
+	}
+
+	public void setCollectingMethodNames(boolean collectingMethodNames) {
+		this.collectingMethodNames = collectingMethodNames;
+	}
+
+	public boolean isCollectingLocalNames() {
+		return collectingLocalNames;
+	}
+
+	public void setCollectingLocalNames(boolean collectingLocalNames) {
+		this.collectingLocalNames = collectingLocalNames;
+	}
 	
 	// Classfile
 	public void visitClassfile(Classfile classfile) {
-		add(classfile.getClassName());
+		if (isCollectingClassNames()) {
+			add(classfile.getClassName());
+		}
 
 		super.visitClassfile(classfile);
 	}
 
 	// Features
 	public void visitField_info(Field_info entry) {
-		add(entry.getFullSignature());
-
+		if (isCollectingFieldNames()) {
+			add(entry.getFullSignature());
+		}
+		
 		super.visitField_info(entry);
 	}
 
 	public void visitMethod_info(Method_info entry) {
-		add(entry.getFullSignature());
+		if (isCollectingMethodNames()) {
+			add(entry.getFullSignature());
+		}
 
 		Method_info previousMethod = currentMethod;
 		currentMethod = entry;
@@ -59,7 +102,9 @@ public class SymbolGatherer extends CollectorBase {
 	}
 
 	public void visitLocalVariable(LocalVariable helper) {
-		add(currentMethod.getFullSignature() + ": " + helper.getName());
+		if (isCollectingLocalNames()) {
+			add(currentMethod.getFullSignature() + ": " + helper.getName());
+		}
 
 		super.visitLocalVariable(helper);
 	}

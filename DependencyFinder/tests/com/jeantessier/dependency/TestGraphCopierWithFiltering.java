@@ -38,8 +38,8 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestGraphCopierWithFiltering extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
+	private RegularExpressionSelectionCriteria scopeCriteria;
+	private RegularExpressionSelectionCriteria filterCriteria;
 	private NodeFactory                        factory;
 	
 	private Node a;
@@ -54,15 +54,15 @@ public class TestGraphCopierWithFiltering extends TestCase {
 	private Node c_C;
 	private Node c_C_c;
 
-	private List include_filter;
-	private List exclude_filter;
+	private List includeFilter;
+	private List excludeFilter;
 
 	private GraphCopier copier;
 
 	protected void setUp() throws Exception {
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		scopeCriteria  = new RegularExpressionSelectionCriteria();
+		filterCriteria = new RegularExpressionSelectionCriteria();
+		factory        = new NodeFactory();
 
 		a     = factory.createPackage("a");
 		a_A   = factory.createClass("a.A");
@@ -76,24 +76,24 @@ public class TestGraphCopierWithFiltering extends TestCase {
 		c_C   = factory.createClass("c.C");
 		c_C_c = factory.createFeature("c.C.c");
 		
-		include_filter = new LinkedList();
-		include_filter.add("/^b/");
+		includeFilter = new LinkedList();
+		includeFilter.add("/^b/");
 		
-		exclude_filter = new LinkedList();
-		exclude_filter.add("/^c/");
+		excludeFilter = new LinkedList();
+		excludeFilter.add("/^c/");
 
-		copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
+		copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 	}
 
 	public void testIncludeFilterF2FtoP2P() {
 		a_A_a.addDependency(b_B_b);
 		a_A_a.addDependency(c_C_c);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
-		filter_criteria.setGlobalIncludes(include_filter);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
+		filterCriteria.setGlobalIncludes(includeFilter);
 		
 		copier.traverseNodes(factory.getPackages().values());
 
@@ -105,11 +105,11 @@ public class TestGraphCopierWithFiltering extends TestCase {
 		a_A_a.addDependency(b_B_b);
 		a_A_a.addDependency(c_C_c);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
-		filter_criteria.setGlobalExcludes(exclude_filter);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
+		filterCriteria.setGlobalExcludes(excludeFilter);
 		
 		copier.traverseNodes(factory.getPackages().values());
 

@@ -1,9 +1,9 @@
 package testpackage;
 
 public class TargetClass {
-	public Object target_attribute;
+	public Object targetAttribute;
 
-	public void TargetMethod() {
+	public void targetMethod() {
 	}
 }
 

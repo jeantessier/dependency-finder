@@ -40,8 +40,8 @@ import junit.framework.*;
 import org.apache.log4j.*;
 
 public class TestGraphSummarizer extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
+	private RegularExpressionSelectionCriteria scopeCriteria;
+	private RegularExpressionSelectionCriteria filterCriteria;
 	private NodeFactory                        factory;
 	
 	private Node a_package;
@@ -58,9 +58,9 @@ public class TestGraphSummarizer extends TestCase {
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		scopeCriteria  = new RegularExpressionSelectionCriteria();
+		filterCriteria = new RegularExpressionSelectionCriteria();
+		factory        = new NodeFactory();
 
 		a_package = factory.createPackage("a");
 		a_A_class = factory.createClass("a.A");
@@ -71,7 +71,7 @@ public class TestGraphSummarizer extends TestCase {
 		b_B_class = factory.createClass("b.B");
 		b_B_b_method = factory.createFeature("b.B.b");
 		
-		summarizer = new GraphSummarizer(scope_criteria, filter_criteria);
+		summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
 	}
 
 	protected void tearDown() throws Exception {
@@ -81,10 +81,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testP2PasP2P() {
 		a_package.addDependency(b_package);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -104,10 +104,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testP2PasC2C() {
 		a_package.addDependency(b_package);
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -131,10 +131,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testP2PasF2F() {
 		a_package.addDependency(b_package);
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -164,10 +164,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testC2CasP2P() {
 		a_A_class.addDependency(b_B_class);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -187,10 +187,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testC2CasP2CSamePackage() {
 		a_A_class.addDependency(a_B_class);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -208,10 +208,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testC2CasC2C() {
 		a_A_class.addDependency(b_B_class);
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -237,10 +237,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testC2CasF2F() {
 		a_A_class.addDependency(b_B_class);
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -270,10 +270,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2FasP2P() {
 		a_A_a_method.addDependency(b_B_b_method);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -293,10 +293,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2FasC2C() {
 		a_A_a_method.addDependency(b_B_b_method);
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -322,10 +322,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2FasF2F() {
 		a_A_a_method.addDependency(b_B_b_method);
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -357,10 +357,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2CasP2P() {
 		a_A_a_method.addDependency(b_B_class);
 		
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -380,10 +380,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2CasC2C() {
 		a_A_a_method.addDependency(b_B_class);
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingFeatures(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 
@@ -409,10 +409,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2CasF2F() {
 		a_A_a_method.addDependency(b_B_class);
 		
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
 
 		summarizer.traverseNodes(factory.getPackages().values());
 

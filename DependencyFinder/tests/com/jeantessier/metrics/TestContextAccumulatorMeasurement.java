@@ -40,8 +40,8 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 	private Metrics metrics;
 	private Measurement visited;
 
-	private MeasurementDescriptor name_list;
-	private MeasurementDescriptor number_list;
+	private MeasurementDescriptor nameList;
+	private MeasurementDescriptor numberList;
 	private MeasurementDescriptor counter;
 	
 	private Metrics m1;
@@ -53,36 +53,36 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 		m2 = new Metrics("m2");
 		m3 = new Metrics("m3");
 
-		name_list = new MeasurementDescriptor();
-		name_list.setShortName("NL");
-		name_list.setLongName("name list");
-		name_list.setClassFor(NameListMeasurement.class);
+		nameList = new MeasurementDescriptor();
+		nameList.setShortName("NL");
+		nameList.setLongName("name list");
+		nameList.setClassFor(NameListMeasurement.class);
 
-		number_list = new MeasurementDescriptor();
-		number_list.setShortName("NbL");
-		number_list.setLongName("number list");
-		number_list.setClassFor(NameListMeasurement.class);
+		numberList = new MeasurementDescriptor();
+		numberList.setShortName("NbL");
+		numberList.setLongName("number list");
+		numberList.setClassFor(NameListMeasurement.class);
 
 		counter = new MeasurementDescriptor();
 		counter.setShortName("NL");
 		counter.setLongName("counter");
 		counter.setClassFor(CounterMeasurement.class);
 
-		m1.track(name_list.createMeasurement(m1));
+		m1.track(nameList.createMeasurement(m1));
 		m1.addToMeasurement("NL", "abc");
 		m1.addToMeasurement("NL", "def");
 		m1.addToMeasurement("NL", "ghi");
 
-		m1.track(number_list.createMeasurement(m1));
+		m1.track(numberList.createMeasurement(m1));
 		m1.addToMeasurement("NbL", "123");
 		m1.addToMeasurement("NbL", "456");
 		m1.addToMeasurement("NbL", "789");
 
-		m2.track(name_list.createMeasurement(m2));
+		m2.track(nameList.createMeasurement(m2));
 		m2.addToMeasurement("NL", "jkl");
 		m2.addToMeasurement("NL", "abc");
 
-		m2.track(number_list.createMeasurement(m2));
+		m2.track(numberList.createMeasurement(m2));
 		m2.addToMeasurement("NbL", "159");
 		m2.addToMeasurement("NbL", "248");
 
@@ -144,7 +144,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.track(name_list.createMeasurement(metrics));
+		metrics.track(nameList.createMeasurement(metrics));
 		metrics.addToMeasurement("NL", "foo");
 		metrics.addToMeasurement("NL", "bar");
 
@@ -165,7 +165,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.track(name_list.createMeasurement(metrics));
+		metrics.track(nameList.createMeasurement(metrics));
 		metrics.addToMeasurement("NL", "foo");
 		metrics.addToMeasurement("NL", "bar");
 
@@ -184,7 +184,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.track(name_list.createMeasurement(metrics));
+		metrics.track(nameList.createMeasurement(metrics));
 		metrics.addToMeasurement("NL", "foo");
 		metrics.addToMeasurement("NL", "bar");
 
@@ -203,7 +203,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.track(name_list.createMeasurement(metrics));
+		metrics.track(nameList.createMeasurement(metrics));
 		metrics.addToMeasurement("NL", "foo");
 		metrics.addToMeasurement("NL", "bar");
 
@@ -223,7 +223,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.track(name_list.createMeasurement(metrics));
+		metrics.track(nameList.createMeasurement(metrics));
 		metrics.addToMeasurement("NL", "foo");
 		metrics.addToMeasurement("NL", "bar");
 
@@ -242,11 +242,11 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.track(name_list.createMeasurement(metrics));
+		metrics.track(nameList.createMeasurement(metrics));
 		metrics.addToMeasurement("NL", "foo");
 		metrics.addToMeasurement("NL", "bar");
 
-		metrics.track(number_list.createMeasurement(metrics));
+		metrics.track(numberList.createMeasurement(metrics));
 		metrics.addToMeasurement("NbL", "1234");
 		metrics.addToMeasurement("NbL", "5678");
 
@@ -271,7 +271,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 		descriptor.setInitText("NL");
 
 		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-		metrics.track(name_list.createMeasurement(metrics));
+		metrics.track(nameList.createMeasurement(metrics));
 
 		assertTrue("Before Add()", measurement.isEmpty());
 

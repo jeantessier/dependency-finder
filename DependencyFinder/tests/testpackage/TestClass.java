@@ -1,25 +1,25 @@
 package testpackage;
 
 public class TestClass implements TargetInterface {
-	public Object    test_attribute;
+	public Object    testAttribute;
 
-	public TestClass source_attribute;
-	public TestClass target_attribute;
+	public TestClass sourceAttribute;
+	public TestClass targetAttribute;
 	
-	public TestClass SourceMethod() {
-		TestMethod("foobar");
+	public TestClass sourceMethod() {
+		testMethod("foobar");
 		return this;
 	}
 
-	public void TargetMethod() {
+	public void targetMethod() {
 	}
 	
-	public void TestMethod(String text) {
-		target_attribute = this;
-		TargetMethod();
+	public void testMethod(String text) {
+		targetAttribute = this;
+		targetMethod();
 
 		TargetClass target = new TargetClass();
-		target.TargetMethod();
-		target.target_attribute = new Object();
+		target.targetMethod();
+		target.targetAttribute = new Object();
 	}
 }

@@ -1,11 +1,11 @@
 package testpackage;
 
 public class SourceClass extends TestClass {
-	public TestClass source_attribute;
+	public TestClass sourceAttribute;
 
-	public TestClass SourceMethod() {
-		target_attribute = this;
-		super.TestMethod("foobar");
+	public TestClass sourceMethod() {
+		targetAttribute = this;
+		super.testMethod("foobar");
 		return this;
 	}
 }

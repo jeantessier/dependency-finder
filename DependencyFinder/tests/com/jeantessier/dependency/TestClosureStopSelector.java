@@ -74,44 +74,44 @@ public class TestClosureStopSelector extends TestCase {
 	}
 
 	public void testEmpty() {
-		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.setGlobalIncludes("/b.B.b/");
+		RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+		localCriteria.setGlobalIncludes("/b.B.b/");
 
-		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
+		ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
 		selector.traverseNodes(Collections.EMPTY_SET);
 
 		assertTrue("Failed to recognize empty collection", selector.isDone());
 	}
 
 	public void testPositive() {
-		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.setGlobalIncludes("/b.B.b/");
+		RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+		localCriteria.setGlobalIncludes("/b.B.b/");
 
-		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
+		ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
 		selector.traverseNodes(Collections.singleton(b_B_b));
 
 		assertTrue("Failed to recognize target", selector.isDone());
 	}
 
 	public void testNegative() {
-		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.setGlobalIncludes("/b.B.b/");
+		RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+		localCriteria.setGlobalIncludes("/b.B.b/");
 
-		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
+		ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
 		selector.traverseNodes(Collections.singleton(a_A_a));
 
 		assertFalse("Failed to ignore non-target", selector.isDone());
 	}
 
 	public void testMultiple() {
-		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.setGlobalIncludes("/b.B.b/");
+		RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+		localCriteria.setGlobalIncludes("/b.B.b/");
 
 		Collection targets = new ArrayList();
 		targets.add(a_A_a);
 		targets.add(b_B_b);
 		
-		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
+		ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
 		selector.traverseNodes(targets);
 
 		assertTrue("Failed to recognize target", selector.isDone());

@@ -91,10 +91,10 @@ public class TestVerboseListener extends TestCase {
 	}
 
 	public void testPrintWriter() {
-		String test_text = "foobar";
+		String testText = "foobar";
 		
-		listener.print(test_text);
+		listener.print(testText);
 
-		assertEquals(test_text + System.getProperty("line.separator"), writer.toString());
+		assertEquals(testText + System.getProperty("line.separator"), writer.toString());
 	}
 }

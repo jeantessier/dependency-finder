@@ -38,8 +38,8 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestGraphCopier extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
+	private RegularExpressionSelectionCriteria scopeCriteria;
+	private RegularExpressionSelectionCriteria filterCriteria;
 	private NodeFactory                        factory;
 	
 	private Node _package;
@@ -59,9 +59,9 @@ public class TestGraphCopier extends TestCase {
     private GraphCopier copier;
 
 	protected void setUp() throws Exception {
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		scopeCriteria  = new RegularExpressionSelectionCriteria();
+		filterCriteria = new RegularExpressionSelectionCriteria();
+		factory        = new NodeFactory();
 
 		_package = factory.createPackage("");
 		test_class = factory.createClass("test");
@@ -84,7 +84,7 @@ public class TestGraphCopier extends TestCase {
 		test_main_method.addDependency(java_util_Collections_singleton_method);
 		test_Test_method.addDependency(java_lang_Object_Object_method);
 
-		copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
+		copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 	}
 
 	public void testCopyFullGraph() {
@@ -137,9 +137,9 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyAllNodesOnly() {
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 		
 		copier.traverseNodes(factory.getPackages().values());
 
@@ -184,11 +184,11 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyPackageNodesOnly() {
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 		
 		copier.traverseNodes(factory.getPackages().values());
 
@@ -211,11 +211,11 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyClassNodesOnly() {
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingFeatures(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingFeatures(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 		
 		copier.traverseNodes(factory.getPackages().values());
 
@@ -249,11 +249,11 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyFeatureNodesOnly() {
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 		
 		copier.traverseNodes(factory.getPackages().values());
 
@@ -298,9 +298,9 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyNothing() {
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
 		
 		copier.traverseNodes(factory.getPackages().values());
 
@@ -310,22 +310,23 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testC2CasP2CSamePackage() {
-		NodeFactory factory   = new NodeFactory();
-		Node        a_package = factory.createPackage("a");
-		Node        a_A_class = factory.createClass("a.A");
-		Node        a_B_class = factory.createClass("a.B");
+		NodeFactory factory = new NodeFactory();
+
+		Node a   = factory.createPackage("a");
+		Node a_A = factory.createClass("a.A");
+		Node a_B = factory.createClass("a.B");
 	
-		a_A_class.addDependency(a_B_class);
+		a_A.addDependency(a_B);
 
-		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
+		RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
 
-		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingFeatures(false);
+		RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingFeatures(false);
 		
-		GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
+		GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 
 		copier.traverseNodes(factory.getPackages().values());
 

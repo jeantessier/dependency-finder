@@ -40,8 +40,8 @@ import junit.framework.*;
 import org.apache.oro.text.perl.*;
 
 public class TestTransitiveClosureWithTestClass extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
+	private RegularExpressionSelectionCriteria scopeCriteria;
+	private RegularExpressionSelectionCriteria filterCriteria;
 	private NodeFactory                        factory;
 	
 	private Node _package;
@@ -58,14 +58,14 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	private Node java_util_Collections_class;
 	private Node java_util_Collections_singleton_method;
 
-	private List scope_includes;
+	private List scopeIncludes;
 	
 	private TransitiveClosure selector;
 
 	protected void setUp() throws Exception {
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		scopeCriteria  = new RegularExpressionSelectionCriteria();
+		filterCriteria = new RegularExpressionSelectionCriteria();
+		factory        = new NodeFactory();
 
 		_package = factory.createPackage("");
 		test_class = factory.createClass("test");
@@ -88,14 +88,14 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		test_main_method.addDependency(java_util_Collections_singleton_method);
 		test_Test_method.addDependency(java_lang_Object_Object_method);
 
-		scope_includes = new ArrayList(1);
-		scope_includes.add("/test/");
+		scopeIncludes = new ArrayList(1);
+		scopeIncludes.add("/test/");
 		
-		selector = new TransitiveClosure(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
+		selector = new TransitiveClosure(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 	}
 
 	public void testCompleteClosure() {
-		scope_criteria.setGlobalIncludes(scope_includes) ;
+		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
 		
 		selector.traverseNodes(factory.getPackages().values());
 
@@ -152,10 +152,10 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyAllNodesOnly() {
-		scope_criteria.setGlobalIncludes(scope_includes) ;
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 		
 		selector.traverseNodes(factory.getPackages().values());
 
@@ -200,12 +200,12 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyPackageNodesOnly() {
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
-		scope_criteria.setGlobalIncludes(scope_includes) ;
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
+		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 		
 		selector.traverseNodes(factory.getPackages().values());
 
@@ -215,12 +215,12 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyClassNodesOnly() {
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingFeatures(false);
-		scope_criteria.setGlobalIncludes(scope_includes) ;
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingFeatures(false);
+		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 		
 		selector.traverseNodes(factory.getPackages().values());
 
@@ -254,12 +254,12 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyFeatureNodesOnly() {
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setGlobalIncludes(scope_includes) ;
-		filter_criteria.setMatchingPackages(false);
-		filter_criteria.setMatchingClasses(false);
-		filter_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
+		filterCriteria.setMatchingPackages(false);
+		filterCriteria.setMatchingClasses(false);
+		filterCriteria.setMatchingFeatures(false);
 		
 		selector.traverseNodes(factory.getPackages().values());
 
@@ -304,9 +304,9 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyNothing() {
-		scope_criteria.setMatchingPackages(false);
-		scope_criteria.setMatchingClasses(false);
-		scope_criteria.setMatchingFeatures(false);
+		scopeCriteria.setMatchingPackages(false);
+		scopeCriteria.setMatchingClasses(false);
+		scopeCriteria.setMatchingFeatures(false);
 		
 		selector.traverseNodes(factory.getPackages().values());
 

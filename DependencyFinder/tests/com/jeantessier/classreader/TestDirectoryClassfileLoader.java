@@ -47,90 +47,90 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		ClassfileLoader event_source = new TransientClassfileLoader();
-		event_source.addLoadListener(this);
-		loader = new DirectoryClassfileLoader(event_source);
+		ClassfileLoader eventSource = new TransientClassfileLoader();
+		eventSource.addLoadListener(this);
+		loader = new DirectoryClassfileLoader(eventSource);
 	}
 
 	public void testLoadClassFile() throws IOException {
 		loader.load(TEST_FILENAME);
 
-		assertEquals("Begin Session",   0, BeginSession().size());
-		assertEquals("Begin Group",     1, BeginGroup().size());
-		assertEquals("Begin File",      1, BeginFile().size());
-		assertEquals("Begin Classfile", 1, BeginClassfile().size());
-		assertEquals("End Classfile",   1, EndClassfile().size());
-		assertEquals("End File",        1, EndFile().size());
-		assertEquals("End Group",       1, EndGroup().size());
-		assertEquals("End Session",     0, EndSession().size());
+		assertEquals("Begin Session",   0, getBeginSessionEvents().size());
+		assertEquals("Begin Group",     1, getBeginGroupEvents().size());
+		assertEquals("Begin File",      1, getBeginFileEvents().size());
+		assertEquals("Begin Classfile", 1, getBeginClassfileEvents().size());
+		assertEquals("End Classfile",   1, getEndClassfileEvents().size());
+		assertEquals("End File",        1, getEndFileEvents().size());
+		assertEquals("End Group",       1, getEndGroupEvents().size());
+		assertEquals("End Session",     0, getEndSessionEvents().size());
 
-		assertEquals(TEST_FILENAME, ((LoadEvent) EndClassfile().getLast()).getGroupName());
-		assertNotNull("Classfile", ((LoadEvent) EndClassfile().getLast()).getClassfile());
+		assertEquals(TEST_FILENAME, ((LoadEvent) getEndClassfileEvents().getLast()).getGroupName());
+		assertNotNull("Classfile", ((LoadEvent) getEndClassfileEvents().getLast()).getClassfile());
 	}	
 
 	public void testLoadClassInputStream() throws IOException {
 		loader.load(TEST_FILENAME, new FileInputStream(TEST_FILENAME));
 
-		assertEquals("Begin Session",   0, BeginSession().size());
-		assertEquals("Begin Group",     0, BeginGroup().size());
-		assertEquals("Begin File",      0, BeginFile().size());
-		assertEquals("Begin Classfile", 0, BeginClassfile().size());
-		assertEquals("End Classfile",   0, EndClassfile().size());
-		assertEquals("End File",        0, EndFile().size());
-		assertEquals("End Group",       0, EndGroup().size());
-		assertEquals("End Session",     0, EndSession().size());
+		assertEquals("Begin Session",   0, getBeginSessionEvents().size());
+		assertEquals("Begin Group",     0, getBeginGroupEvents().size());
+		assertEquals("Begin File",      0, getBeginFileEvents().size());
+		assertEquals("Begin Classfile", 0, getBeginClassfileEvents().size());
+		assertEquals("End Classfile",   0, getEndClassfileEvents().size());
+		assertEquals("End File",        0, getEndFileEvents().size());
+		assertEquals("End Group",       0, getEndGroupEvents().size());
+		assertEquals("End Session",     0, getEndSessionEvents().size());
 	}	
 
 	public void testLoadBogusFile() throws IOException {
 		loader.load(BOGUS_TEST_FILENAME);
 
-		assertEquals("Begin Session",   0, BeginSession().size());
-		assertEquals("Begin Group",     1, BeginGroup().size());
-		assertEquals("Begin File",      0, BeginFile().size());
-		assertEquals("Begin Classfile", 0, BeginClassfile().size());
-		assertEquals("End Classfile",   0, EndClassfile().size());
-		assertEquals("End File",        0, EndFile().size());
-		assertEquals("End Group",       1, EndGroup().size());
-		assertEquals("End Session",     0, EndSession().size());
+		assertEquals("Begin Session",   0, getBeginSessionEvents().size());
+		assertEquals("Begin Group",     1, getBeginGroupEvents().size());
+		assertEquals("Begin File",      0, getBeginFileEvents().size());
+		assertEquals("Begin Classfile", 0, getBeginClassfileEvents().size());
+		assertEquals("End Classfile",   0, getEndClassfileEvents().size());
+		assertEquals("End File",        0, getEndFileEvents().size());
+		assertEquals("End Group",       1, getEndGroupEvents().size());
+		assertEquals("End Session",     0, getEndSessionEvents().size());
 	}	
 
 	public void testLoadBogusInputStream() throws IOException {
 		loader.load(BOGUS_TEST_FILENAME, new FileInputStream(TEST_FILENAME));
 
-		assertEquals("Begin Session",   0, BeginSession().size());
-		assertEquals("Begin Group",     0, BeginGroup().size());
-		assertEquals("Begin File",      0, BeginFile().size());
-		assertEquals("Begin Classfile", 0, BeginClassfile().size());
-		assertEquals("End Classfile",   0, EndClassfile().size());
-		assertEquals("End File",        0, EndFile().size());
-		assertEquals("End Group",       0, EndGroup().size());
-		assertEquals("End Session",     0, EndSession().size());
+		assertEquals("Begin Session",   0, getBeginSessionEvents().size());
+		assertEquals("Begin Group",     0, getBeginGroupEvents().size());
+		assertEquals("Begin File",      0, getBeginFileEvents().size());
+		assertEquals("Begin Classfile", 0, getBeginClassfileEvents().size());
+		assertEquals("End Classfile",   0, getEndClassfileEvents().size());
+		assertEquals("End File",        0, getEndFileEvents().size());
+		assertEquals("End Group",       0, getEndGroupEvents().size());
+		assertEquals("End Session",     0, getEndSessionEvents().size());
 	}	
 
 	public void testLoadDirectory() throws IOException {
 		loader.load(TEST_DIRNAME);
 
-		assertEquals("Begin Session",   0, BeginSession().size());
-		assertEquals("Begin Group",     1, BeginGroup().size());
-		assertEquals("Begin File",      7, BeginFile().size());
-		assertEquals("Begin Classfile", 6, BeginClassfile().size());
-		assertEquals("End Classfile",   6, EndClassfile().size());
-		assertEquals("End File",        7, EndFile().size());
-		assertEquals("End Group",       1, EndGroup().size());
-		assertEquals("End Session",     0, EndSession().size());
+		assertEquals("Begin Session",   0, getBeginSessionEvents().size());
+		assertEquals("Begin Group",     1, getBeginGroupEvents().size());
+		assertEquals("Begin File",      7, getBeginFileEvents().size());
+		assertEquals("Begin Classfile", 6, getBeginClassfileEvents().size());
+		assertEquals("End Classfile",   6, getEndClassfileEvents().size());
+		assertEquals("End File",        7, getEndFileEvents().size());
+		assertEquals("End Group",       1, getEndGroupEvents().size());
+		assertEquals("End Session",     0, getEndSessionEvents().size());
 	}	
 	
 	public void testMultipleDirectories() throws IOException {
 		loader.load(TEST_DIRNAME);
 		loader.load(OTHER_DIRNAME);
 
-		assertEquals("Begin Session",    0, BeginSession().size());
-		assertEquals("Begin Group",      2, BeginGroup().size());
-		assertEquals("Begin File",      11, BeginFile().size());
-		assertEquals("Begin Classfile",  9, BeginClassfile().size());
-		assertEquals("End Classfile",    9, EndClassfile().size());
-		assertEquals("End File",        11, EndFile().size());
-		assertEquals("End Group",        2, EndGroup().size());
-		assertEquals("End Session",      0, EndSession().size());
+		assertEquals("Begin Session",    0, getBeginSessionEvents().size());
+		assertEquals("Begin Group",      2, getBeginGroupEvents().size());
+		assertEquals("Begin File",      11, getBeginFileEvents().size());
+		assertEquals("Begin Classfile",  9, getBeginClassfileEvents().size());
+		assertEquals("End Classfile",    9, getEndClassfileEvents().size());
+		assertEquals("End File",        11, getEndFileEvents().size());
+		assertEquals("End Group",        2, getEndGroupEvents().size());
+		assertEquals("End Session",      0, getEndSessionEvents().size());
 	}	
 }

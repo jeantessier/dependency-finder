@@ -74,11 +74,11 @@ public class TestClosureStartSelector extends TestCase {
 	}
 
 	public void testOneSelectedNode() {
-		NodeFactory                        local_factory  = new NodeFactory();
-		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.setGlobalIncludes("/b.B.b/");
+		NodeFactory                        localFactory  = new NodeFactory();
+		RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+		localCriteria.setGlobalIncludes("/b.B.b/");
 
-		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
+		ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
 		selector.traverseNodes(factory.getPackages().values());
 
 		assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
@@ -87,37 +87,37 @@ public class TestClosureStartSelector extends TestCase {
 	}
 
 	public void testOneCopiedNode() {
-		NodeFactory                        local_factory  = new NodeFactory();
-		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.setGlobalIncludes("/b.B.b/");
+		NodeFactory                        localFactory  = new NodeFactory();
+		RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+		localCriteria.setGlobalIncludes("/b.B.b/");
 
-		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
+		ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
 		selector.traverseNodes(factory.getPackages().values());
 
-		assertEquals("packages in scope", 1, local_factory.getPackages().size());
-		assertEquals("classes in scope" , 1, local_factory.getClasses().size());
-		assertEquals("features in scope", 1, local_factory.getFeatures().size());
+		assertEquals("packages in scope", 1, localFactory.getPackages().size());
+		assertEquals("classes in scope" , 1, localFactory.getClasses().size());
+		assertEquals("features in scope", 1, localFactory.getFeatures().size());
 
-		assertEquals("package b in scope"    , b,     local_factory.getPackages().get("b"));
-		assertEquals("class b.B in scope"    , b_B,   local_factory.getClasses().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, local_factory.getFeatures().get("b.B.b"));
+		assertEquals("package b in scope"    , b,     localFactory.getPackages().get("b"));
+		assertEquals("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
 
-		assertNotSame("package b in scope"    , b,     local_factory.getPackages().get("b"));
-		assertNotSame("class b.B in scope"    , b_B,   local_factory.getClasses().get("b.B"));
-		assertNotSame("feature b.B.b in scope", b_B_b, local_factory.getFeatures().get("b.B.b"));
+		assertNotSame("package b in scope"    , b,     localFactory.getPackages().get("b"));
+		assertNotSame("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
+		assertNotSame("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
 
 		assertEquals("nodes in selection", 1, selector.getCopiedNodes().size());
 		assertEquals("b.B.b in selection", b_B_b, selector.getCopiedNodes().iterator().next());
 		assertNotSame("b.B.b in selection", b_B_b, selector.getCopiedNodes().iterator().next());
-		assertSame("b.B.b in selection", local_factory.getFeatures().get("b.B.b"), selector.getCopiedNodes().iterator().next());
+		assertSame("b.B.b in selection", localFactory.getFeatures().get("b.B.b"), selector.getCopiedNodes().iterator().next());
 	}
 
 	public void testMultipleSelectedNodes() {
-		NodeFactory                        local_factory  = new NodeFactory();
-		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.setGlobalIncludes("/a.A.a/, /^b/");
+		NodeFactory                        localFactory  = new NodeFactory();
+		RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+		localCriteria.setGlobalIncludes("/a.A.a/, /^b/");
 
-		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
+		ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
 		selector.traverseNodes(factory.getPackages().values());
 
 		assertEquals("nodes in selection", 4, selector.getSelectedNodes().size());
@@ -128,30 +128,30 @@ public class TestClosureStartSelector extends TestCase {
 	}
 
 	public void testMultipleCopiedNodes() {
-		NodeFactory                        local_factory  = new NodeFactory();
-		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.setGlobalIncludes("/a.A.a/, /^b/");
+		NodeFactory                        localFactory  = new NodeFactory();
+		RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+		localCriteria.setGlobalIncludes("/a.A.a/, /^b/");
 
-		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
+		ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
 		selector.traverseNodes(factory.getPackages().values());
 
-		assertEquals("packages in scope", 2, local_factory.getPackages().size());
-		assertEquals("classes in scope" , 2, local_factory.getClasses().size());
-		assertEquals("features in scope", 2, local_factory.getFeatures().size());
+		assertEquals("packages in scope", 2, localFactory.getPackages().size());
+		assertEquals("classes in scope" , 2, localFactory.getClasses().size());
+		assertEquals("features in scope", 2, localFactory.getFeatures().size());
 
-		assertEquals("package a in scope"    , a,     local_factory.getPackages().get("a"));
-		assertEquals("class a.A in scope"    , a_A,   local_factory.getClasses().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, local_factory.getFeatures().get("a.A.a"));
-		assertEquals("package b in scope"    , b,     local_factory.getPackages().get("b"));
-		assertEquals("class b.B in scope"    , b_B,   local_factory.getClasses().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, local_factory.getFeatures().get("b.B.b"));
+		assertEquals("package a in scope"    , a,     localFactory.getPackages().get("a"));
+		assertEquals("class a.A in scope"    , a_A,   localFactory.getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, localFactory.getFeatures().get("a.A.a"));
+		assertEquals("package b in scope"    , b,     localFactory.getPackages().get("b"));
+		assertEquals("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
 
-		assertNotSame("package a in scope"    , a,     local_factory.getPackages().get("a"));
-		assertNotSame("class a.A in scope"    , a_A,   local_factory.getClasses().get("a.A"));
-		assertNotSame("feature a.A.a in scope", a_A_a, local_factory.getFeatures().get("a.A.a"));
-		assertNotSame("package b in scope"    , b,     local_factory.getPackages().get("b"));
-		assertNotSame("class b.B in scope"    , b_B,   local_factory.getClasses().get("b.B"));
-		assertNotSame("feature b.B.b in scope", b_B_b, local_factory.getFeatures().get("b.B.b"));
+		assertNotSame("package a in scope"    , a,     localFactory.getPackages().get("a"));
+		assertNotSame("class a.A in scope"    , a_A,   localFactory.getClasses().get("a.A"));
+		assertNotSame("feature a.A.a in scope", a_A_a, localFactory.getFeatures().get("a.A.a"));
+		assertNotSame("package b in scope"    , b,     localFactory.getPackages().get("b"));
+		assertNotSame("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
+		assertNotSame("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
 
 		assertEquals("nodes in selection", 4, selector.getCopiedNodes().size());
 		assertTrue("a.A.a in selection", selector.getCopiedNodes().contains(a_A_a));

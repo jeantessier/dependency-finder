@@ -69,68 +69,68 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	public void testDefaultDTDPrefix() {
 		printer = new XMLPrinter(new PrintWriter(out));
 
-		String xml_document = out.toString();
-		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
+		String xmlDocument = out.toString();
+		assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
 		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX));
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
-			fail("Parsed non-existant document\n" + xml_document);
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
+			fail("Parsed non-existant document\n" + xmlDocument);
 		} catch (SAXException ex) {
 			// Ignore
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 	
 	public void testSpecificDTDPrefix() {
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-		String xml_document = out.toString();
-		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
+		String xmlDocument = out.toString();
+		assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
 		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
-			fail("Parsed non-existant document\n" + xml_document);
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
+			fail("Parsed non-existant document\n" + xmlDocument);
 		} catch (SAXException ex) {
 			// Ignore
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 
 	public void testDefaultEncoding() {
 		printer = new XMLPrinter(new PrintWriter(out));
 
-		String xml_document = out.toString();
-		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
+		String xmlDocument = out.toString();
+		assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
 		assertEquals("Encoding", XMLPrinter.DEFAULT_ENCODING, perl.group(1));
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
-			fail("Parsed non-existant document\n" + xml_document);
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
+			fail("Parsed non-existant document\n" + xmlDocument);
 		} catch (SAXException ex) {
 			// Ignore
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 
 	public void testSpecificEncoding() {
 		printer = new XMLPrinter(new PrintWriter(out), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
-		String xml_document = out.toString();
-		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
+		String xmlDocument = out.toString();
+		assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
 		assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
 		
 		try {
-			reader.parse(new InputSource(new StringReader(xml_document)));
-			fail("Parsed non-existant document\n" + xml_document);
+			reader.parse(new InputSource(new StringReader(xmlDocument)));
+			fail("Parsed non-existant document\n" + xmlDocument);
 		} catch (SAXException ex) {
 			// Ignore
 		} catch (IOException ex) {
-			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
 		}
 	}
 
@@ -144,25 +144,25 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <inbound type=\"package\">outbound</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <inbound type=\"package\">outbound</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -177,24 +177,24 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -209,34 +209,34 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -251,33 +251,33 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -292,43 +292,43 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>empty.Empty.empty()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>empty.Empty.empty()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -343,42 +343,42 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>empty.Empty.empty()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>empty.Empty.empty()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -393,25 +393,25 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <outbound type=\"package\">inbound</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <outbound type=\"package\">inbound</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -426,24 +426,24 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -458,34 +458,34 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -500,33 +500,33 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -541,43 +541,43 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>empty.Empty.empty()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>empty.Empty.empty()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -592,42 +592,42 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>empty.Empty.empty()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>empty.Empty.empty()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -643,42 +643,42 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <inbound type=\"package\">outbound</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <outbound type=\"package\">inbound</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <inbound type=\"package\">outbound</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <outbound type=\"package\">inbound</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -694,39 +694,39 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <inbound type=\"package\">outbound</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <outbound type=\"package\">inbound</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <inbound type=\"package\">outbound</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <outbound type=\"package\">inbound</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -741,43 +741,43 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -792,37 +792,37 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <inbound type=\"class\">outbound.Outbound</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <outbound type=\"class\">inbound.Inbound</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -836,44 +836,44 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>empty.Empty</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>empty.Empty.empty()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>empty.Empty</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>empty.Empty.empty()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}
@@ -887,35 +887,35 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 		printer.traverseNodes(factory.getPackages().values());
 
-		int            line_number = 0;
+		int            lineNumber = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-		assertEquals("line " + ++line_number, "", in.readLine());
-		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>inbound.Inbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-		assertEquals("line " + ++line_number, "        <name>outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-		assertEquals("line " + ++line_number, "            <name>outbound.Outbound</name>", in.readLine());
-		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-		assertEquals("line " + ++line_number, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
-		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
-		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
+		assertEquals("line " + ++lineNumber, "", in.readLine());
+		assertEquals("line " + ++lineNumber, "<dependencies>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>inbound.Inbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>inbound.Inbound.inbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <inbound type=\"feature\">outbound.Outbound.outbound()</inbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    <package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <name>outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        <class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <name>outbound.Outbound</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            <feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <name>outbound.Outbound.outbound()</name>", in.readLine());
+		assertEquals("line " + ++lineNumber, "                <outbound type=\"feature\">inbound.Inbound.inbound()</outbound>", in.readLine());
+		assertEquals("line " + ++lineNumber, "            </feature>", in.readLine());
+		assertEquals("line " + ++lineNumber, "        </class>", in.readLine());
+		assertEquals("line " + ++lineNumber, "    </package>", in.readLine());
+		assertEquals("line " + ++lineNumber, "</dependencies>", in.readLine());
 
 		assertEquals("End of file", null, in.readLine());
 	}

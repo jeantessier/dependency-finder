@@ -61,7 +61,7 @@ public class TestDeprecationPrinter extends TestCase {
 	public void testOneDeprecatedClass() throws IOException {
 		loader.getClassfile("ModifiedPackage.DeprecatedInterface").accept(printer);
 
-		Collection entries = Parse(writer.toString());
+		Collection entries = parse(writer.toString());
 		
 		assertTrue("Deprecated class", entries.contains("ModifiedPackage.DeprecatedInterface"));
 		assertEquals("Deprecated class", 1, entries.size());
@@ -70,7 +70,7 @@ public class TestDeprecationPrinter extends TestCase {
 	public void testDeprecatedMethods() throws IOException {
 		loader.getClassfile("ModifiedPackage.ModifiedClass").accept(printer);
 
-		Collection entries = Parse(writer.toString());
+		Collection entries = parse(writer.toString());
 		
 		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedClass.deprecated_field"));
 		assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.ModifiedClass.ModifiedClass(int)"));
@@ -83,7 +83,7 @@ public class TestDeprecationPrinter extends TestCase {
 		loader.addLoadListener(printer);
 		loader.load(NEW_CLASSPATH);
 
-		Collection entries = Parse(writer.toString());
+		Collection entries = parse(writer.toString());
 		
 		assertTrue("Deprecated class",       entries.contains("ModifiedPackage.DeprecatedClass"));
 		assertTrue("Deprecated interface",   entries.contains("ModifiedPackage.DeprecatedInterface"));
@@ -96,7 +96,7 @@ public class TestDeprecationPrinter extends TestCase {
 		assertEquals("Classpath " + entries, 8, entries.size());
 	}
 
-	private Collection Parse(String text) throws IOException {
+	private Collection parse(String text) throws IOException {
 		Collection result = new HashSet();
 		
 		BufferedReader in = new BufferedReader(new StringReader(text));
