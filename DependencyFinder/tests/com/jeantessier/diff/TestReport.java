@@ -55,8 +55,8 @@ public class TestReport extends TestCase implements ErrorHandler {
 	private static final String SPECIFIC_ENCODING   = "iso-latin-1";
 	private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
-	public static final String OLD_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
-	public static final String NEW_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
+	private static final String OLD_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
+	private static final String NEW_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
 
 	private Visitor   printer;
 	private XMLReader reader;
@@ -67,11 +67,9 @@ public class TestReport extends TestCase implements ErrorHandler {
 		reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
 		reader.setFeature("http://xml.org/sax/features/validation", true);
 		reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
-// 		reader.setErrorHandler(this);
+		reader.setErrorHandler(this);
 
 		perl = new Perl5Util();
-
-		System.out.println(">>>>>>>>>> " + getName() + " <<<<<<<<<<");
 	}
 
 	public void testDefaultDTDPrefix() {
