@@ -49,9 +49,9 @@
 
 	<property name="tomcat.home"      value="/language/Java/Jakarta/jakarta-tomcat-4.1.18-LE-jdk14"/>
 
-	<property name="previous.release" value="20030101"/>
-	<property name="last.release"     value="10beta"/>
-	<property name="this.release"     value="10"/>
+	<property name="previous.release" value="10beta"/>
+	<property name="last.release"     value="10"/>
+	<property name="this.release"     value="11"/>
 
 	<property name="cvsroot"          value=":pserver:anonymous@cvs.depfind.sourceforge.net:/cvsroot/depfind"/>
 	<property name="cvsweb"           value="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/"/>
