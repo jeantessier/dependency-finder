@@ -21,41 +21,43 @@
 	    <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
 	</tstamp>
 
-	<property name="packageNames"     value="com.jeantessier.*"/>
+	<property name="packageNames"         value="com.jeantessier.*"/>
 
-	<property name="srcDir"           value="src"/>
-	<property name="testsDir"         value="tests"/>
-	<property name="binDir"           value="bin"/>
-	<property name="classesDir"       value="classes"/>
-	<property name="libDir"           value="lib"/>
-	<property name="etcDir"           value="etc"/>
-	<property name="webDir"           value="web"/>
-	<property name="docsDir"          value="docs"/>
-	<property name="apiDir"           value="${docsDir}/api"/>
-	<property name="logsDir"          value="logs"/>
+	<property name="srcDir"               value="src"/>
+	<property name="testsDir"             value="tests"/>
+	<property name="binDir"               value="bin"/>
+	<property name="classesDir"           value="classes"/>
+	<property name="libDir"               value="lib"/>
+	<property name="etcDir"               value="etc"/>
+	<property name="webDir"               value="web"/>
+	<property name="docsDir"              value="docs"/>
+	<property name="apiDir"               value="${docsDir}/api"/>
+	<property name="logsDir"              value="logs"/>
 
-	<property name="srcFiles"         value="${srcDir}/**"/>
-	<property name="testsFiles"       value="${testsDir}/**"/>
-	<property name="binFiles"         value="${binDir}/**"/>
-	<property name="libFiles"         value="${libDir}/**"/>
-	<property name="etcFiles"         value="${etcDir}/**"/>
-	<property name="webFiles"         value="${webDir}/**"/>
-	<property name="docsFiles"        value="${docsDir}/**"/>
+	<property name="srcFiles"             value="${srcDir}/**"/>
+	<property name="testsFiles"           value="${testsDir}/**"/>
+	<property name="binFiles"             value="${binDir}/**"/>
+	<property name="libFiles"             value="${libDir}/**"/>
+	<property name="etcFiles"             value="${etcDir}/**"/>
+	<property name="webFiles"             value="${webDir}/**"/>
+	<property name="docsFiles"            value="${docsDir}/**"/>
 
-	<property name="jarFile"          value="${libDir}/${ant.project.name}.jar"/>
-	<property name="warFile"          value="${ant.project.name}.war"/>
-	<property name="zipFile"          value="${ant.project.name}.src.zip"/>
-	<property name="distFile"         value="${ant.project.name}.zip"/>
+	<property name="jarFile"              value="${libDir}/${ant.project.name}.jar"/>
+	<property name="warFile"              value="${ant.project.name}.war"/>
+	<property name="zipFile"              value="${ant.project.name}.src.zip"/>
+	<property name="distFile"             value="${ant.project.name}.zip"/>
 
-	<property name="tomcat.home"      value="/language/Java/Jakarta/jakarta-tomcat-4.1.18-LE-jdk14"/>
+	<property name="tomcat.home"          value="/language/Java/Jakarta/jakarta-tomcat-4.1.18-LE-jdk14"/>
 
-	<property name="previous.release" value="10beta"/>
-	<property name="last.release"     value="10"/>
-	<property name="this.release"     value="11"/>
+	<property name="previous.release"     value="1.0beta"/>
+	<property name="previous.release.tag" value="10beta"/>
+	<property name="last.release"         value="1.0"/>
+	<property name="last.release.tag"     value="10"/>
+	<property name="this.release"         value="1.0.1"/>
 
-	<property name="cvsroot"          value=":pserver:anonymous@cvs.depfind.sourceforge.net:/cvsroot/depfind"/>
-	<property name="cvsweb"           value="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/"/>
-	<property name="cvsmodule"        value="DependencyFinder"/>
+	<property name="cvsroot"              value=":pserver:anonymous@cvs.depfind.sourceforge.net:/cvsroot/depfind"/>
+	<property name="cvsweb"               value="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/"/>
+	<property name="cvsmodule"            value="DependencyFinder"/>
 
 	<mkdir dir="${classesDir}"/>
 	<mkdir dir="${apiDir}"/>
