@@ -107,13 +107,16 @@
     <target name="jar" depends="compile">
         <jar jarfile="${jarFile}">
 	    <manifest>
-		<attribute name="Specification-Vendor" value="Jean Tessier"/>
-		<attribute name="Specification-Title" value="Dependency Finder"/>
-		<attribute name="Specification-Version" value="${DSTAMP}"/>
-		<attribute name="Implementation-Vendor" value="Jean Tessier"/>
-		<attribute name="Implementation-Title" value="Dependency Finder"/>
+		<attribute name="Specification-Vendor"   value="Jean Tessier"/>
+		<attribute name="Specification-Title"    value="Dependency Finder"/>
+		<attribute name="Specification-Version"  value="${DSTAMP}"/>
+		<attribute name="Implementation-Vendor"  value="Jean Tessier"/>
+		<attribute name="Implementation-Title"   value="Dependency Finder"/>
 		<attribute name="Implementation-Version" value="${DSTAMP}"/> 
-		<attribute name="Implementation-URL" value="http://depfind.sourceforge.net/"/>
+		<attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
+		<attribute name="Compiler-Vendor"        value="${java.vendor}"/>
+		<attribute name="Compiler-Title"         value="${java.runtime.name}"/>
+		<attribute name="Compiler-Version"       value="${java.version}"/>
 	    </manifest>
 	    <zipfileset dir="${classesDir}" prefix="" includes="**/*.class"/>
 	    <zipfileset dir="${srcDir}"     prefix="" includes="**/*.gif"/>
