@@ -8,11 +8,14 @@
 	<include name="**/*.java"/>
     </patternset>
 
+    <property environment="env"/>
+
     <path id="libs">
 	<fileset dir="lib">
 	    <include name="**/*.jar"/>
 	</fileset>
 	<pathelement location="classes"/>
+	<pathelement location="${env.JUNIT_HOME}/junit.jar"/>
     </path>
 
     <target name="init">
@@ -47,13 +50,11 @@
 	<property name="zipFile"              value="${ant.project.name}.src.zip"/>
 	<property name="distFile"             value="${ant.project.name}.zip"/>
 
-	<property name="tomcat.home"          value="/language/Java/Jakarta/jakarta-tomcat-4.1.18-LE-jdk14"/>
-
-	<property name="previous.release"     value="1.0beta"/>
-	<property name="previous.release.tag" value="10beta"/>
-	<property name="last.release"         value="1.0"/>
-	<property name="last.release.tag"     value="10"/>
-	<property name="this.release"         value="1.0.1"/>
+	<property name="previous.release"     value="1.0"/>
+	<property name="previous.release.tag" value="10"/>
+	<property name="last.release"         value="1.0.1"/>
+	<property name="last.release.tag"     value="101"/>
+	<property name="this.release"         value="1.0.2 beta"/>
 
 	<property name="cvsroot"              value=":pserver:anonymous@cvs.depfind.sourceforge.net:/cvsroot/depfind"/>
 	<property name="cvsweb"               value="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/"/>
@@ -146,6 +147,7 @@
 	                prefix="">
 		<include name="dependencyfindertasks.properties"/>
 		<include name="**/*.gif"/>
+		<include name="**/*.jpg"/>
 		<exclude name="**/doc-files/**"/>
 	    </zipfileset>
 	</jar>
@@ -168,21 +170,21 @@
     </target>
 
     <target name="undeploy" depends="init">
-        <delete dir="${tomcat.home}/work/Standalone/localhost/${ant.project.name}"
+        <delete dir="${env.CATALINA_HOME}/work/Standalone/localhost/${ant.project.name}"
 		includeEmptyDirs="true"
 		failonerror="false"
 	        verbose="true"/>
-        <delete dir="${tomcat.home}/webapps/${ant.project.name}"
+        <delete dir="${env.CATALINA_HOME}/webapps/${ant.project.name}"
 		includeEmptyDirs="true"
 		failonerror="false"
 	        verbose="true"/>
-	<delete file="${tomcat.home}/webapps/${warFile}"
+	<delete file="${env.CATALINA_HOME}/webapps/${warFile}"
 		failonerror="false"
 	        verbose="true"/>
     </target>
 
     <target name="deploy" depends="war">
-	<copy file="${warFile}" tofile="${tomcat.home}/webapps/${warFile}"
+	<copy file="${warFile}" tofile="${env.CATALINA_HOME}/webapps/${warFile}"
 	      overwrite="true"/>
     </target>
 
@@ -376,43 +378,6 @@
 	    </path>
 	</extractor>
 	<xslt style="etc/DependenciesToHTML.xsl" in="${this.release}.xml" out="${this.release}.html"/>
-    </target>
-
-    <target name="jarjardiff" depends="init">
-	<taskdef name="jarjardiff" classname="com.jeantessier.dependencyfinder.ant.JarJarDiff">
-	    <classpath>
-		<path refid="libs"/>
-		<pathelement location="${srcDir}"/>
-	    </classpath>
-	</taskdef>
-	<jarjardiff name="Dependency Finder" oldlabel="${last.release}" newlabel="${this.release}" destfile="${last.release}-${this.release}.xml">
-	    <old>
-		<pathelement location="info/${last.release}.jar"/>
-	    </old>
-	    <new>
-		<pathelement location="${jarFile}"/>
-	    </new>
-	</jarjardiff>
-	<xslt style="etc/DiffToHTML.xsl" in="${last.release}-${this.release}.xml" out="${last.release}-${this.release}.html"/>
-    </target>
-
-    <target name="oometrics" depends="init">
-	<taskdef name="oometrics" classname="com.jeantessier.dependencyfinder.ant.OOMetrics">
-	    <classpath>
-		<path refid="libs"/>
-		<pathelement location="${srcDir}"/>
-	    </classpath>
-	</taskdef>
-	<oometrics allmetrics="yes" destprefix="metrics-${this.release}" txt="yes" configuration="etc\MetricsConfig.xml">
-	    <path>
-		<pathelement location="${jarFile}"/>
-	    </path>
-	</oometrics>
-	<oometrics allmetrics="yes" destprefix="metrics-${this.release}" xml="yes" configuration="etc\MetricsConfig.xml">
-	    <path>
-		<pathelement location="${jarFile}"/>
-	    </path>
-	</oometrics>
     </target>
 
     <target name="clearlogs" depends="init">
