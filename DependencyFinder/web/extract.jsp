@@ -22,6 +22,8 @@
     NodeFactory factory = new NodeFactory();
     CodeDependencyCollector collector = new CodeDependencyCollector(factory);
 
+    ClassfileLoader loader = new AggregatingClassfileLoader();
+		
     Iterator i = sources.iterator();
     while (i.hasNext()) {
 	String filename = (String) i.next();
@@ -29,26 +31,26 @@
 	out.println("Extracting from " + filename + " ...");
 
 	try {
-	    ClassfileLoader loader;
 	    if (filename.endsWith(".jar")) {
-		loader = new JarClassfileLoader(new String[] {filename});
+		JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
+		jar_loader.Load(filename);
 	    } else if (filename.endsWith(".zip")) {
-		loader = new ZipClassfileLoader(new String[] {filename});
+		ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
+		zip_loader.Load(filename);
 	    } else {
-		loader = new DirectoryClassfileLoader(new String[] {filename});
-	    }
-
-	    loader.Start();
-
-	    Iterator j = loader.Classfiles().iterator();
-	    while (j.hasNext()) {
-		Classfile classfile = (Classfile) j.next();
-		out.println("    Getting dependencies from " + classfile + " ...");
-		classfile.Accept(collector);
+		DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
+		directory_loader.Load(new DirectoryExplorer(filename));
 	    }
 	} catch (IOException ex) {
 	    out.println("Cannot extract from " + filename + ": " + ex.getClass().getName() + ": " + ex.getMessage());
 	}
+    }
+
+    Iterator j = loader.Classfiles().iterator();
+    while (j.hasNext()) {
+	Classfile classfile = (Classfile) j.next();
+	out.println("    Getting dependencies from " + classfile + " ...");
+	classfile.Accept(collector);
     }
 
     if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
