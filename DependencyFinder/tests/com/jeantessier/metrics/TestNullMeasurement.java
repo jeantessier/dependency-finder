@@ -43,60 +43,60 @@ public class TestNullMeasurement extends TestCase implements MeasurementVisitor 
 	}
 	
 	public void testMeasurementDescriptor() throws Exception {
-		assertNull(measurement.Descriptor());
-		assertNull(measurement.ShortName());
-		assertNull(measurement.LongName());
+		assertNull(measurement.getDescriptor());
+		assertNull(measurement.getShortName());
+		assertNull(measurement.getLongName());
 	}
 
 	public void testAdd() {
-		measurement.Add(null);
-		measurement.Add(new Object());
-		measurement.Add(measurement);
+		measurement.add(null);
+		measurement.add(new Object());
+		measurement.add(measurement);
 	}
 
 	public void testEmpty() {
-		assertTrue("Before Add()", measurement.Empty());
+		assertTrue("Before Add()", measurement.isEmpty());
 
-		measurement.Add(new Object());
+		measurement.add(new Object());
 
-		assertTrue("After Add()", measurement.Empty());
+		assertTrue("After Add()", measurement.isEmpty());
 	}
 
 	public void testAccept() {
 		visited = null;
-		measurement.Accept(this);
+		measurement.accept(this);
 		assertNull(visited);
 	}
 	
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		visited = measurement;
 	}
 	
-	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+	public void visitRatioMeasurement(RatioMeasurement measurement) {
 		visited = measurement;
 	}
 	
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
 		visited = measurement;
 	}
 	
-	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+	public void visitCounterMeasurement(CounterMeasurement measurement) {
 		visited = measurement;
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSumMeasurement(SumMeasurement measurement) {
+	public void visitSumMeasurement(SumMeasurement measurement) {
 		visited = measurement;
 	}
 }

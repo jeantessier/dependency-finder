@@ -37,16 +37,16 @@ import java.util.*;
 import com.jeantessier.classreader.*;
 
 public class VerboseListenerBase implements LoadListener {
-	private int        class_count     = 0;
-	private LinkedList groups          = new LinkedList();
-	private Collection visited_files   = new HashSet();
-	private String     ratio_indicator = "";
+	private int        classCount     = 0;
+	private LinkedList groups         = new LinkedList();
+	private Collection visitedFiles   = new HashSet();
+	private String     ratioIndicator = "";
 	
-	public int ClassCount() {
-		return class_count;
+	public int getClassCount() {
+		return classCount;
 	}
 	
-	protected GroupData CurrentGroup() {
+	protected GroupData getCurrentGroup() {
 		GroupData result = null;
 
 		if (!groups.isEmpty()) {
@@ -56,16 +56,16 @@ public class VerboseListenerBase implements LoadListener {
 		return result;
 	}
 
-	protected Collection VisitedFiles() {
-		return visited_files;
+	protected Collection getVisitedFiles() {
+		return visitedFiles;
 	}
 	
-	protected String RatioIndicator() {
-		return ratio_indicator;
+	protected String getRatioIndicator() {
+		return ratioIndicator;
 	}
 	
-	private void RatioIndicator(String ratio_indicator) {
-		this.ratio_indicator = ratio_indicator;
+	private void setRatioIndicator(String ratioIndicator) {
+		this.ratioIndicator = ratioIndicator;
 	}
 	
 	public void beginSession(LoadEvent event) {
@@ -77,26 +77,26 @@ public class VerboseListenerBase implements LoadListener {
 	}
 
 	public void beginFile(LoadEvent event) {
-		int previous_ratio = CurrentGroup().Ratio();
-		CurrentGroup().IncrementCount();
+		int previousRatio = getCurrentGroup().getRatio();
+		getCurrentGroup().incrementCount();
 		
-		if (CurrentGroup().Size() > 0) {
-			int new_ratio = CurrentGroup().Ratio();
+		if (getCurrentGroup().getSize() > 0) {
+			int newRatio = getCurrentGroup().getRatio();
 			
-			if (previous_ratio != new_ratio) {
+			if (previousRatio != newRatio) {
 				StringBuffer buffer = new StringBuffer(4);
 
-				if (new_ratio < 10) {
+				if (newRatio < 10) {
 					buffer.append(" ");
 				}
-				if (new_ratio < 100) {
+				if (newRatio < 100) {
 					buffer.append(" ");
 				}
-				buffer.append(new_ratio).append("%");
+				buffer.append(newRatio).append("%");
 
-				RatioIndicator(buffer.toString());
+				setRatioIndicator(buffer.toString());
 			} else {
-				RatioIndicator("");
+				setRatioIndicator("");
 			}
 		}
 	}
@@ -106,8 +106,8 @@ public class VerboseListenerBase implements LoadListener {
 	}
 
 	public void endClassfile(LoadEvent event) {
-		visited_files.add(event.getFilename());
-		class_count++;
+		visitedFiles.add(event.getFilename());
+		classCount++;
 	}
 
 	public void endFile(LoadEvent event) {
@@ -115,7 +115,7 @@ public class VerboseListenerBase implements LoadListener {
 	}
 
 	public void endGroup(LoadEvent event) {
-		visited_files.add(event.getGroupName());
+		visitedFiles.add(event.getGroupName());
 		groups.removeLast();
 	}
 

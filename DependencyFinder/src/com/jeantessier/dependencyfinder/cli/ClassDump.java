@@ -40,36 +40,36 @@ public class ClassDump {
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
 			System.out.println(ClassDump.class.getName() + ":");
-			DumpClass(ClassDump.class);
+			dumpClass(ClassDump.class);
 		} else {
 			for (int i=0; i<args.length; i++) {
 				System.out.println(args[i] + ":");
-				DumpClass(args[i]);
+				dumpClass(args[i]);
 			}
 		}
 	}
 
-	public static void DumpClass(String classname) throws ClassNotFoundException, IOException  {
-		DumpClass(Class.forName(classname));
+	public static void dumpClass(String classname) throws ClassNotFoundException, IOException  {
+		dumpClass(Class.forName(classname));
 	}
 
-	public static void DumpClass(Class c) throws IOException {
+	public static void dumpClass(Class c) throws IOException {
 		String resource = c.getName().substring(c.getName().lastIndexOf(".") + 1) + ".class";
 		System.out.println(resource + " -> " + c.getResource(resource));
-		DumpClass(c.getResourceAsStream(resource));
+		dumpClass(c.getResourceAsStream(resource));
 	}
 
-	public static void DumpClass(InputStream in) throws IOException {
-		DumpClass(new DataInputStream(in));
+	public static void dumpClass(InputStream in) throws IOException {
+		dumpClass(new DataInputStream(in));
 	}
 
-	public static void DumpClass(DataInputStream in) {
+	public static void dumpClass(DataInputStream in) {
 		int count = 0;
 		try {
 			while (true) {
 				byte b = in.readByte();
 		
-				Hex.Print(System.out, b);
+				Hex.print(System.out, b);
 
 				count++;
 

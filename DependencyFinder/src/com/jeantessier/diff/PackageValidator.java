@@ -40,26 +40,26 @@ import org.apache.oro.text.perl.*;
 public class PackageValidator implements Validator {
 	private static final Perl5Util perl = new Perl5Util();
 
-	private Collection allowed_packages = new HashSet();
+	private Collection allowedPackages = new HashSet();
 
 	public PackageValidator(String filename) throws IOException {
 		try {
-			Initialize(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
+			init(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
 		} catch (FileNotFoundException ex) {
 			// Ignore
 		}
 	}
 
 	public PackageValidator(BufferedReader in) throws IOException {
-		Initialize(in);
+		init(in);
 	}
 	
-	private void Initialize(BufferedReader in) throws IOException {
+	private void init(BufferedReader in) throws IOException {
 		try {
 			String line;
 			while ((line = in.readLine()) != null) {
 				if (line.length() > 0) {
-					allowed_packages.add(line.trim());
+					allowedPackages.add(line.trim());
 				}
 			}
 		} catch (FileNotFoundException ex) {
@@ -71,21 +71,21 @@ public class PackageValidator implements Validator {
 		}
 	}
 
-	public boolean IsPackageAllowed(String name) {
-		return IsAllowed(name);
+	public boolean isPackageAllowed(String name) {
+		return isAllowed(name);
 	}
 
-	public boolean IsClassAllowed(String name) {
+	public boolean isClassAllowed(String name) {
 		String package_name = "";
 		int pos = name.lastIndexOf('.');
 		if (pos != -1) {
 			package_name = name.substring(0, pos);
 		}
 		
-		return IsPackageAllowed(package_name);
+		return isPackageAllowed(package_name);
 	}
 
-	public boolean IsFeatureAllowed(String name) {
+	public boolean isFeatureAllowed(String name) {
 		boolean result = false;
 		
 		String class_name = "";
@@ -98,13 +98,13 @@ public class PackageValidator implements Validator {
 		}
 
 		if (!class_name.equals("")) {
-			result = IsClassAllowed(class_name);
+			result = isClassAllowed(class_name);
 		}
 
 		return result;
 	}
 
-	public boolean IsAllowed(String name) {
-		return allowed_packages.size() == 0 || allowed_packages.contains(name);
+	public boolean isAllowed(String name) {
+		return allowedPackages.size() == 0 || allowedPackages.contains(name);
 	}
 }

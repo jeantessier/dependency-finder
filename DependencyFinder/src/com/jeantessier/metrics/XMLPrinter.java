@@ -45,163 +45,163 @@ public class XMLPrinter extends Printer {
 		this(out, configuration, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
-	public XMLPrinter(PrintWriter out, MetricsConfiguration configuration, String encoding, String dtd_prefix) {
+	public XMLPrinter(PrintWriter out, MetricsConfiguration configuration, String encoding, String dtdPrefix) {
 		super(out);
 		
 		this.configuration = configuration;
 
-		AppendHeader(encoding, dtd_prefix);
+		appendHeader(encoding, dtdPrefix);
 	}
 
-	private void AppendHeader(String encoding, String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
-		EOL();
-		Append("<!DOCTYPE metrics SYSTEM \"").Append(dtd_prefix).Append("/metrics.dtd\">").EOL();
-		EOL();
+	private void appendHeader(String encoding, String dtdPrefix) {
+		append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>").eol();
+		eol();
+		append("<!DOCTYPE metrics SYSTEM \"").append(dtdPrefix).append("/metrics.dtd\">").eol();
+		eol();
 	}
 
-	public void VisitMetrics(Metrics metrics) {
-		Indent().Append("<metrics>").EOL();
-		RaiseIndent();
+	public void visitMetrics(Metrics metrics) {
+		indent().append("<metrics>").eol();
+		raiseIndent();
 		
-		VisitProjectMetrics(metrics);
+		visitProjectMetrics(metrics);
 				
-		LowerIndent();
-		Indent().Append("</metrics>").EOL();
+		lowerIndent();
+		indent().append("</metrics>").eol();
 	}
 
-	private void VisitProjectMetrics(Metrics metrics) {
-		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
-			Indent().Append("<project>").EOL();
-			RaiseIndent();
-			Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
+	private void visitProjectMetrics(Metrics metrics) {
+		if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+			indent().append("<project>").eol();
+			raiseIndent();
+			indent().append("<name>").append(metrics.getName()).append("</name>").eol();
 			
-			VisitMeasurements(metrics, configuration.ProjectMeasurements());
+			visitMeasurements(metrics, configuration.getProjectMeasurements());
 			
-			Iterator i = metrics.SubMetrics().iterator();
+			Iterator i = metrics.getSubMetrics().iterator();
 			while (i.hasNext()) {
-				VisitGroupMetrics((Metrics) i.next());
+				visitGroupMetrics((Metrics) i.next());
 			}
 			
-			LowerIndent();
-			Indent().Append("</project>").EOL();
+			lowerIndent();
+			indent().append("</project>").eol();
 		}
 	}
 
-	private void VisitGroupMetrics(Metrics metrics) {
-		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
-			Indent().Append("<group>").EOL();
-			RaiseIndent();
-			Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
+	private void visitGroupMetrics(Metrics metrics) {
+		if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+			indent().append("<group>").eol();
+			raiseIndent();
+			indent().append("<name>").append(metrics.getName()).append("</name>").eol();
 			
-			VisitMeasurements(metrics, configuration.GroupMeasurements());
+			visitMeasurements(metrics, configuration.getGroupMeasurements());
 			
-			Iterator i = metrics.SubMetrics().iterator();
+			Iterator i = metrics.getSubMetrics().iterator();
 			while (i.hasNext()) {
-				VisitClassMetrics((Metrics) i.next());
+				visitClassMetrics((Metrics) i.next());
 			}
 			
-			LowerIndent();
-			Indent().Append("</group>").EOL();
+			lowerIndent();
+			indent().append("</group>").eol();
 		}
 	}
 
-	private void VisitClassMetrics(Metrics metrics) {
-		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
-			Indent().Append("<class>").EOL();
-			RaiseIndent();
-			Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
+	private void visitClassMetrics(Metrics metrics) {
+		if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+			indent().append("<class>").eol();
+			raiseIndent();
+			indent().append("<name>").append(metrics.getName()).append("</name>").eol();
 			
-			VisitMeasurements(metrics, configuration.ClassMeasurements());
+			visitMeasurements(metrics, configuration.getClassMeasurements());
 			
-			Iterator i = metrics.SubMetrics().iterator();
+			Iterator i = metrics.getSubMetrics().iterator();
 			while (i.hasNext()) {
-				VisitMethodMetrics((Metrics) i.next());
+				visitMethodMetrics((Metrics) i.next());
 			}
 			
-			LowerIndent();
-			Indent().Append("</class>").EOL();
+			lowerIndent();
+			indent().append("</class>").eol();
 		}
 	}
 
-	private void VisitMethodMetrics(Metrics metrics) {
-		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
-			Indent().Append("<method>").EOL();
-			RaiseIndent();
-			Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
+	private void visitMethodMetrics(Metrics metrics) {
+		if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+			indent().append("<method>").eol();
+			raiseIndent();
+			indent().append("<name>").append(metrics.getName()).append("</name>").eol();
 			
-			VisitMeasurements(metrics, configuration.MethodMeasurements());
+			visitMeasurements(metrics, configuration.getMethodMeasurements());
 			
-			LowerIndent();
-			Indent().Append("</method>").EOL();
+			lowerIndent();
+			indent().append("</method>").eol();
 		}
 	}
 
-	private void VisitMeasurements(Metrics metrics, List descriptors) {
+	private void visitMeasurements(Metrics metrics, List descriptors) {
 		Iterator i = descriptors.iterator();
 		while (i.hasNext()) {
 			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (ShowHiddenMeasurements() || descriptor.Visible()) {
-				metrics.Measurement(descriptor.ShortName()).Accept(this);
+			if (isShowHiddenMeasurements() || descriptor.isVisible()) {
+				metrics.getMeasurement(descriptor.getShortName()).accept(this);
 			}
 		}
 	}
 
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
-		Indent().Append("<measurement>").EOL();
-		RaiseIndent();
-		Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>").EOL();
-		Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>").EOL();
-		Indent().Append("<value>").Append(measurement.doubleValue()).Append("</value>").EOL();
-		Indent().Append("<minimum>").Append(measurement.Minimum()).Append("</minimum>").EOL();
-		Indent().Append("<median>").Append(measurement.Median()).Append("</median>").EOL();
-		Indent().Append("<average>").Append(measurement.Average()).Append("</average>").EOL();
-		Indent().Append("<standard-deviation>").Append(measurement.StandardDeviation()).Append("</standard-deviation>").EOL();
-		Indent().Append("<maximum>").Append(measurement.Maximum()).Append("</maximum>").EOL();
-		Indent().Append("<sum>").Append(measurement.Sum()).Append("</sum>").EOL();
-		Indent().Append("<nb-data-points>").Append(measurement.NbDataPoints()).Append("</nb-data-points>").EOL();
-		LowerIndent();
-		Indent().Append("</measurement>").EOL();
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
+		indent().append("<measurement>").eol();
+		raiseIndent();
+		indent().append("<short-name>").append(measurement.getShortName()).append("</short-name>").eol();
+		indent().append("<long-name>").append(measurement.getLongName()).append("</long-name>").eol();
+		indent().append("<value>").append(measurement.doubleValue()).append("</value>").eol();
+		indent().append("<minimum>").append(measurement.getMinimum()).append("</minimum>").eol();
+		indent().append("<median>").append(measurement.getMedian()).append("</median>").eol();
+		indent().append("<average>").append(measurement.getAverage()).append("</average>").eol();
+		indent().append("<standard-deviation>").append(measurement.getStandardDeviation()).append("</standard-deviation>").eol();
+		indent().append("<maximum>").append(measurement.getMaximum()).append("</maximum>").eol();
+		indent().append("<sum>").append(measurement.getSum()).append("</sum>").eol();
+		indent().append("<nb-data-points>").append(measurement.getNbDataPoints()).append("</nb-data-points>").eol();
+		lowerIndent();
+		indent().append("</measurement>").eol();
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-		VisitCollectionMeasurement(measurement);
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+		visitCollectionMeasurement(measurement);
 	}
 		
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
-		VisitCollectionMeasurement(measurement);
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
+		visitCollectionMeasurement(measurement);
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-		VisitCollectionMeasurement(measurement);
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+		visitCollectionMeasurement(measurement);
 	}
 	
-	protected void VisitCollectionMeasurement(CollectionMeasurement measurement) {
-		Indent().Append("<measurement>").EOL();
-		RaiseIndent();
-		Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>").EOL();
-		Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>").EOL();
-		Indent().Append("<value>").Append(measurement.Value()).Append("</value>").EOL();
-		Indent().Append("<members>").EOL();
-		RaiseIndent();
-		Iterator i = measurement.Values().iterator();
+	protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
+		indent().append("<measurement>").eol();
+		raiseIndent();
+		indent().append("<short-name>").append(measurement.getShortName()).append("</short-name>").eol();
+		indent().append("<long-name>").append(measurement.getLongName()).append("</long-name>").eol();
+		indent().append("<value>").append(measurement.getValue()).append("</value>").eol();
+		indent().append("<members>").eol();
+		raiseIndent();
+		Iterator i = measurement.getValues().iterator();
 		while (i.hasNext()) {
-			Indent().Append("<member>").Append(i.next()).Append("</member>").EOL();
+			indent().append("<member>").append(i.next()).append("</member>").eol();
 		}
-		LowerIndent();
-		Indent().Append("</members>").EOL();
-		LowerIndent();
-		Indent().Append("</measurement>").EOL();
+		lowerIndent();
+		indent().append("</members>").eol();
+		lowerIndent();
+		indent().append("</measurement>").eol();
 	}
 	
-	protected void VisitMeasurement(Measurement measurement) {
-		Indent().Append("<measurement>").EOL();
-		RaiseIndent();
-		Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>").EOL();
-		Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>").EOL();
-		Indent().Append("<value>").Append(measurement.Value()).Append("</value>").EOL();
-		LowerIndent();
-		Indent().Append("</measurement>").EOL();
+	protected void visitMeasurement(Measurement measurement) {
+		indent().append("<measurement>").eol();
+		raiseIndent();
+		indent().append("<short-name>").append(measurement.getShortName()).append("</short-name>").eol();
+		indent().append("<long-name>").append(measurement.getLongName()).append("</long-name>").eol();
+		indent().append("<value>").append(measurement.getValue()).append("</value>").eol();
+		lowerIndent();
+		indent().append("</measurement>").eol();
 	}
 }

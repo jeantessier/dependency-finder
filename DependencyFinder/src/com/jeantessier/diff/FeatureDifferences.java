@@ -44,56 +44,56 @@ import com.jeantessier.classreader.*;
  *  @see Visitor
  */
 public abstract class FeatureDifferences extends RemovableDifferences {
-	private Feature_info old_feature;
-	private Feature_info new_feature;
+	private Feature_info oldFeature;
+	private Feature_info newFeature;
 	
 	private boolean inherited = false;
 
 	/**
 	 *  Only the DifferencesFactory can create instances of this class.
 	 */
-	protected FeatureDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
+	protected FeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
 		super(name);
 
-		OldFeature(old_feature);
-		NewFeature(new_feature);
+		setOldFeature(oldFeature);
+		setNewFeature(newFeature);
 					
-		if (old_feature != null) {
-			OldDeclaration(old_feature.getDeclaration());
+		if (oldFeature != null) {
+			setOldDeclaration(oldFeature.getDeclaration());
 		}
 		
-		if (new_feature != null) {
-			NewDeclaration(new_feature.getDeclaration());
+		if (newFeature != null) {
+			setNewDeclaration(newFeature.getDeclaration());
 		}
 	
-		if (IsModified()) {
-			Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
+		if (isModified()) {
+			Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
 		} else {
-			Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
+			Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
 		}
 	}
 
-	public Feature_info OldFeature() {
-		return old_feature;
+	public Feature_info getOldFeature() {
+		return oldFeature;
 	}
 
-	protected void OldFeature(Feature_info old_feature) {
-		this.old_feature = old_feature;
+	protected void setOldFeature(Feature_info oldFeature) {
+		this.oldFeature = oldFeature;
 	}
 
-	public Feature_info NewFeature() {
-		return new_feature;
+	public Feature_info getNewFeature() {
+		return newFeature;
 	}
 
-	protected void NewFeature(Feature_info new_feature) {
-		this.new_feature = new_feature;
+	protected void setNewFeature(Feature_info newFeature) {
+		this.newFeature = newFeature;
 	}
 
-	public boolean Inherited() {
+	public boolean isInherited() {
 		return inherited;
 	}
 
-	public void Inherited(boolean inherited) {
+	public void setInherited(boolean inherited) {
 		this.inherited = inherited;
 	}
 }

@@ -39,7 +39,7 @@ import com.jeantessier.text.*;
 public abstract class MeasurementBase implements Measurement {
 	private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-	protected static Perl5Util Perl() {
+	protected static Perl5Util perl() {
 		return perl;
 	}
 	
@@ -49,16 +49,16 @@ public abstract class MeasurementBase implements Measurement {
 	private boolean               cached     = false;
 	private boolean               empty      = true;
 
-	public MeasurementBase(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+	public MeasurementBase(MeasurementDescriptor descriptor, Metrics context, String initText) {
 		this.descriptor = descriptor;
 		this.context    = context;
 	}
 	
-	public MeasurementDescriptor Descriptor() {
+	public MeasurementDescriptor getDescriptor() {
 		return descriptor;
 	}
 	
-	public Metrics Context() {
+	public Metrics getContext() {
 		return context;
 	}
 
@@ -66,7 +66,7 @@ public abstract class MeasurementBase implements Measurement {
 	 *  Tells this instance if it should reuse a previously
 	 *  computed value or if it should regenerate it.
 	 */
-	protected boolean Cached() {
+	protected boolean isCached() {
 		return cached;
 	}
 
@@ -76,78 +76,78 @@ public abstract class MeasurementBase implements Measurement {
 	 *  conditional to caching being enabled in the
 	 *  corresponding descriptor.
 	 */
-	protected void Cached(boolean cached) {
-		this.cached = cached && Descriptor().Cached();
+	protected void setCached(boolean cached) {
+		this.cached = cached && getDescriptor().isCached();
 	}
 
-	public boolean Empty() {
+	public boolean isEmpty() {
 		return empty;
 	}
 
-	protected void Empty(boolean empty) {
+	protected void setEmpty(boolean empty) {
 		this.empty = empty;
 	}
 	
-	public String ShortName() {
-		return Descriptor().ShortName();
+	public String getShortName() {
+		return getDescriptor().getShortName();
 	}
 	
-	public String LongName() {
-		return Descriptor().LongName();
+	public String getLongName() {
+		return getDescriptor().getLongName();
 	}
 	
-	public Number Value() {
-		return new Double(Compute());
+	public Number getValue() {
+		return new Double(compute());
 	}
 
 	public int intValue() {
-		return (int) Compute();
+		return (int) compute();
 	}
 
 	public long longValue() {
-		return (long) Compute();
+		return (long) compute();
 	}
 
 	public float floatValue() {
-		return (float) Compute();
+		return (float) compute();
 	}
 
 	public double doubleValue() {
-		return Compute();
+		return compute();
 	}
 	
-	public boolean InRange() {
+	public boolean isInRange() {
 		boolean result = true;
 
-		if (Descriptor() != null) {
-			Comparable lower_threshold = Descriptor().LowerThreshold();
-			Comparable upper_threshold = Descriptor().UpperThreshold();
+		if (getDescriptor() != null) {
+			Comparable lower_threshold = getDescriptor().getLowerThreshold();
+			Comparable upper_threshold = getDescriptor().getUpperThreshold();
 
 			if (result && lower_threshold != null) {
 				if (lower_threshold instanceof String) {
 					try {
-						result = Double.parseDouble((String) lower_threshold) <= Compute();
+						result = Double.parseDouble((String) lower_threshold) <= compute();
 					} catch (NumberFormatException ex) {
 						// Ignore
 					}
 				} else if (lower_threshold instanceof Number) {
-					result = ((Number) lower_threshold).doubleValue() <= Compute();
+					result = ((Number) lower_threshold).doubleValue() <= compute();
 				} else {
-					result = lower_threshold.compareTo(Value()) <= 0;
+					result = lower_threshold.compareTo(getValue()) <= 0;
 				}
 			}
 			
 			if (result && upper_threshold != null) {
 				if (upper_threshold instanceof String) {
 					try {
-						result = Double.parseDouble((String) upper_threshold) >= Compute();
+						result = Double.parseDouble((String) upper_threshold) >= compute();
 					} catch (NumberFormatException ex) {
 						// Ignore
 					}
 				} else if (upper_threshold instanceof Number) {
-					result = ((Number) upper_threshold).doubleValue() >= Compute();
+					result = ((Number) upper_threshold).doubleValue() >= compute();
 				} else {
-					result = upper_threshold.compareTo(Value()) >= 0;
+					result = upper_threshold.compareTo(getValue()) >= 0;
 				}
 			}
 		}
@@ -155,29 +155,29 @@ public abstract class MeasurementBase implements Measurement {
 		return result;
 	}
 	
-	public void Add(Object object) {
+	public void add(Object object) {
 		// Do nothing
 	}
 
-	public void Add(int i) {
+	public void add(int i) {
 		// Do nothing
 	}
 	
-	public void Add(long l) {
+	public void add(long l) {
 		// Do nothing
 	}
 	
-	public void Add(float f) {
+	public void add(float f) {
 		// Do nothing
 	}
 	
-	public void Add(double d) {
+	public void add(double d) {
 		// Do nothing
 	}
 	
-	protected abstract double Compute();
+	protected abstract double compute();
 
 	public String toString() {
-		return Value().toString();
+		return getValue().toString();
 	}
 }

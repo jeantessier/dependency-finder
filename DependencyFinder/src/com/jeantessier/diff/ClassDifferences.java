@@ -46,60 +46,60 @@ import com.jeantessier.classreader.*;
  *  @see Visitor
  */
 public class ClassDifferences extends RemovableDifferences {
-	private Classfile old_class;
-	private Classfile new_class;
+	private Classfile oldClass;
+	private Classfile newClass;
 
-	private Collection feature_differences = new LinkedList();
+	private Collection featureDifferences = new LinkedList();
 
 	/**
 	 *  Only the DifferencesFactory can create instances of this class.
 	 */
-	ClassDifferences(String name, Classfile old_class, Classfile new_class) {
+	ClassDifferences(String name, Classfile oldClass, Classfile newClass) {
 		super(name);
 
-		OldClass(old_class);
-		NewClass(new_class);
+		setOldClass(oldClass);
+		setNewClass(newClass);
 		
-		if (old_class != null) {
-			OldDeclaration(old_class.getDeclaration());
+		if (oldClass != null) {
+			setOldDeclaration(oldClass.getDeclaration());
 		}
 
-		if (new_class != null) {
-			NewDeclaration(new_class.getDeclaration());
+		if (newClass != null) {
+			setNewDeclaration(newClass.getDeclaration());
 		}
 	
-		if (IsModified()) {
-			Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
+		if (isModified()) {
+			Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
 		} else {
-			Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
+			Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
 		}
 	}
 
-	public Classfile OldClass() {
-		return old_class;
+	public Classfile getOldClass() {
+		return oldClass;
 	}
 
-	protected void OldClass(Classfile old_class) {
-		this.old_class = old_class;
+	protected void setOldClass(Classfile oldClass) {
+		this.oldClass = oldClass;
 	}
 
-	public Classfile NewClass() {
-		return new_class;
+	public Classfile getNewClass() {
+		return newClass;
 	}
 
-	protected void NewClass(Classfile new_class) {
-		this.new_class = new_class;
+	protected void setNewClass(Classfile newClass) {
+		this.newClass = newClass;
 	}
 
-	public Collection FeatureDifferences() {
-		return feature_differences;
+	public Collection getFeatureDifferences() {
+		return featureDifferences;
 	}
 
-	public boolean IsModified() {
-		return super.IsModified() || (FeatureDifferences().size() != 0);
+	public boolean isModified() {
+		return super.isModified() || (getFeatureDifferences().size() != 0);
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitClassDifferences(this);
+	public void accept(Visitor visitor) {
+		visitor.visitClassDifferences(this);
 	}
 }

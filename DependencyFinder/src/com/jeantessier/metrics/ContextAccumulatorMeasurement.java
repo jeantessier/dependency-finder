@@ -53,15 +53,15 @@ package com.jeantessier.metrics;
  *  </pre>
  */
 public class ContextAccumulatorMeasurement extends AccumulatorMeasurement {
-	public ContextAccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
-		super(descriptor, context, init_text);
+	public ContextAccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+		super(descriptor, context, initText);
 	}
 	
-	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitContextAccumulatorMeasurement(this);
+	public void accept(MeasurementVisitor visitor) {
+		visitor.visitContextAccumulatorMeasurement(this);
 	}
 
-	protected void PopulateValues() {
-		FilterMetrics(Context());
+	protected void populateValues() {
+		filterMetrics(getContext());
 	}
 }

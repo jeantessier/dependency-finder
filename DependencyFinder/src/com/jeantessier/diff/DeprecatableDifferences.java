@@ -42,54 +42,54 @@ import com.jeantessier.classreader.*;
  *  tags.
  */
 public class DeprecatableDifferences extends DecoratorDifferences {
-	private boolean new_deprecation;
-	private boolean removed_deprecation;
+	private boolean newDeprecation;
+	private boolean removedDeprecation;
 
 	/**
 	 *  Only the DifferencesFactory can create instances of this class.
 	 */
-	DeprecatableDifferences(Differences component, Deprecatable old_deprecatable, Deprecatable new_deprecatable) {
+	DeprecatableDifferences(Differences component, Deprecatable oldDeprecatable, Deprecatable newDeprecatable) {
 		super(component);
 
-		Logger.getLogger(getClass()).debug("Begin " + Name());
+		Logger.getLogger(getClass()).debug("Begin " + getName());
 
-		if (old_deprecatable != null && new_deprecatable != null) {
-			Logger.getLogger(getClass()).debug("      old_deprecatable: " + old_deprecatable.isDeprecated());
-			Logger.getLogger(getClass()).debug("      new_deprecatable: " + new_deprecatable.isDeprecated());
+		if (oldDeprecatable != null && newDeprecatable != null) {
+			Logger.getLogger(getClass()).debug("      old deprecatable: " + oldDeprecatable.isDeprecated());
+			Logger.getLogger(getClass()).debug("      new deprecatable: " + newDeprecatable.isDeprecated());
 
-			RemovedDeprecation(old_deprecatable.isDeprecated() && !new_deprecatable.isDeprecated());
-			NewDeprecation(!old_deprecatable.isDeprecated() && new_deprecatable.isDeprecated());
+			setRemovedDeprecation(oldDeprecatable.isDeprecated() && !newDeprecatable.isDeprecated());
+			setNewDeprecation(!oldDeprecatable.isDeprecated() && newDeprecatable.isDeprecated());
 		}
 
-		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
+		Logger.getLogger(getClass()).debug("End   " + getName() + ": " + (isEmpty() ? "empty" : "not empty"));
 	}
 
-	public boolean NewDeprecation() {
-		Logger.getLogger(getClass()).debug(Name() + " NewDeprecation(): " + new_deprecation);
-		return new_deprecation;
+	public boolean isNewDeprecation() {
+		Logger.getLogger(getClass()).debug(getName() + " NewDeprecation(): " + newDeprecation);
+		return newDeprecation;
 	}
 
-	public void NewDeprecation(boolean new_deprecation) {
-		this.new_deprecation = new_deprecation;
+	public void setNewDeprecation(boolean newDeprecation) {
+		this.newDeprecation = newDeprecation;
 	}
 
-	public boolean RemovedDeprecation() {
-		Logger.getLogger(getClass()).debug(Name() + " RemovedDeprecation(): " + removed_deprecation);
-		return removed_deprecation;
+	public boolean isRemovedDeprecation() {
+		Logger.getLogger(getClass()).debug(getName() + " RemovedDeprecation(): " + removedDeprecation);
+		return removedDeprecation;
 	}
 
-	public void RemovedDeprecation(boolean removed_deprecation) {
-		this.removed_deprecation = removed_deprecation;
+	public void setRemovedDeprecation(boolean removedDeprecation) {
+		this.removedDeprecation = removedDeprecation;
 	}
 
-	public boolean IsEmpty() {
+	public boolean isEmpty() {
 		return
-			!NewDeprecation() &&
-			!RemovedDeprecation() &&
-			Component().IsEmpty();
+			!isNewDeprecation() &&
+			!isRemovedDeprecation() &&
+			getComponent().isEmpty();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitDeprecatableDifferences(this);
+	public void accept(Visitor visitor) {
+		visitor.visitDeprecatableDifferences(this);
 	}
 }

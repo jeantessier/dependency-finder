@@ -53,12 +53,12 @@ public class NewDependencyGraphAction extends AbstractAction implements Runnable
 	}
 
 	public void run() {
-		model.StatusLine().ShowInfo("");
+		model.getStatusLine().showInfo("");
 
-		model.ClearDependencyResult();
-		model.ClearClosureResult();
-		model.ClearMetricsResult();
+		model.clearDependencyResult();
+		model.clearClosureResult();
+		model.clearMetricsResult();
 
-		model.NewDependencyGraph();
+		model.setNewDependencyGraph();
 	}
 }

@@ -61,14 +61,14 @@ public class TestDeprecatableDifferences extends TestCase {
 		assertNotNull(old_classfile);
 		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
-		Differences component_differences = factory.CreateClassDifferences(name, old_classfile, new_classfile);
-		assertTrue("component IsEmpty()", !component_differences.IsEmpty());
+		Differences component_differences = factory.createClassDifferences(name, old_classfile, new_classfile);
+		assertTrue("component IsEmpty()", !component_differences.isEmpty());
 
 		DeprecatableDifferences deprecated_differences = new DeprecatableDifferences(component_differences, old_classfile, new_classfile);
 		
-		assertTrue("deprecated NewDeprecation()",     !deprecated_differences.NewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()", !deprecated_differences.RemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",            !deprecated_differences.IsEmpty());
+		assertTrue("deprecated NewDeprecation()",     !deprecated_differences.isNewDeprecation());
+		assertTrue("deprecated RemovedDeprecation()", !deprecated_differences.isRemovedDeprecation());
+		assertTrue("deprecated IsEmpty()",            !deprecated_differences.isEmpty());
 	}
 
 	public void testNotDeprecatedNotDeprecatedSame() {
@@ -78,13 +78,13 @@ public class TestDeprecatableDifferences extends TestCase {
 		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = new ClassDifferences(name, old_classfile, new_classfile);
-		assertTrue("component IsEmpty()", component_differences.IsEmpty());
+		assertTrue("component IsEmpty()", component_differences.isEmpty());
 
 		DeprecatableDifferences deprecated_differences = new DeprecatableDifferences(component_differences, old_classfile, new_classfile);
 		
-		assertTrue("deprecated NewDeprecation()",     !deprecated_differences.NewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()", !deprecated_differences.RemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",             deprecated_differences.IsEmpty());
+		assertTrue("deprecated NewDeprecation()",     !deprecated_differences.isNewDeprecation());
+		assertTrue("deprecated RemovedDeprecation()", !deprecated_differences.isRemovedDeprecation());
+		assertTrue("deprecated IsEmpty()",             deprecated_differences.isEmpty());
 	}
 
 	public void testDeprecatedNotDeprecated() {
@@ -94,13 +94,13 @@ public class TestDeprecatableDifferences extends TestCase {
 		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = new ClassDifferences(name, old_classfile, new_classfile);
-		assertTrue("component not empty", component_differences.IsEmpty());
+		assertTrue("component not empty", component_differences.isEmpty());
 
 		DeprecatableDifferences deprecated_differences = new DeprecatableDifferences(component_differences, old_classfile, new_classfile);
 		
-		assertTrue("deprecated NewDeprecation()",     !deprecated_differences.NewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()",  deprecated_differences.RemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",            !deprecated_differences.IsEmpty());
+		assertTrue("deprecated NewDeprecation()",     !deprecated_differences.isNewDeprecation());
+		assertTrue("deprecated RemovedDeprecation()",  deprecated_differences.isRemovedDeprecation());
+		assertTrue("deprecated IsEmpty()",            !deprecated_differences.isEmpty());
 	}
 
 	public void testNotDeprecatedDeprecated() {
@@ -110,13 +110,13 @@ public class TestDeprecatableDifferences extends TestCase {
 		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = new ClassDifferences(name, old_classfile, new_classfile);
-		assertTrue("component not empty", component_differences.IsEmpty());
+		assertTrue("component not empty", component_differences.isEmpty());
 
 		DeprecatableDifferences deprecated_differences = new DeprecatableDifferences(component_differences, old_classfile, new_classfile);
 		
-		assertTrue("deprecated NewDeprecation()",      deprecated_differences.NewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()", !deprecated_differences.RemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",            !deprecated_differences.IsEmpty());
+		assertTrue("deprecated NewDeprecation()",      deprecated_differences.isNewDeprecation());
+		assertTrue("deprecated RemovedDeprecation()", !deprecated_differences.isRemovedDeprecation());
+		assertTrue("deprecated IsEmpty()",            !deprecated_differences.isEmpty());
 	}
 
 	public void testDeprecatedDeprecated() {
@@ -126,12 +126,12 @@ public class TestDeprecatableDifferences extends TestCase {
 		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = new ClassDifferences(name, old_classfile, new_classfile);
-		assertTrue("component not empty", component_differences.IsEmpty());
+		assertTrue("component not empty", component_differences.isEmpty());
 
 		DeprecatableDifferences deprecated_differences = new DeprecatableDifferences(component_differences, old_classfile, new_classfile);
 		
-		assertTrue("deprecated NewDeprecation()",     !deprecated_differences.NewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()", !deprecated_differences.RemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",             deprecated_differences.IsEmpty());
+		assertTrue("deprecated NewDeprecation()",     !deprecated_differences.isNewDeprecation());
+		assertTrue("deprecated RemovedDeprecation()", !deprecated_differences.isRemovedDeprecation());
+		assertTrue("deprecated IsEmpty()",             deprecated_differences.isEmpty());
 	}
 }

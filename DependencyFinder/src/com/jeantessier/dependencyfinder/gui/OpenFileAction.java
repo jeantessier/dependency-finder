@@ -56,7 +56,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.InputFile());
+		JFileChooser chooser = new JFileChooser(model.getInputFile());
 		chooser.addChoosableFileFilter(new XMLFileFilter());
 		int returnValue = chooser.showOpenDialog(model);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -66,13 +66,13 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 	}
 
 	public void run() {
-		model.InputFile(file);
-		model.NewDependencyGraph();
+		model.setInputFile(file);
+		model.setNewDependencyGraph();
 		
 		try {
 			Date start = new Date();
 
-			String filename = model.InputFile().getCanonicalPath();
+			String filename = model.getInputFile().getCanonicalPath();
 
 			NodeLoader loader = new NodeLoader();
 			loader.addDependencyListener(this);
@@ -80,32 +80,32 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 			// JDK 1.4 feature
 			// model.ProgressBar().setIndeterminate(true);
 			
-			model.StatusLine().ShowInfo("Loading " + filename + " ...");
+			model.getStatusLine().showInfo("Loading " + filename + " ...");
 			ProgressMonitorInputStream in = new ProgressMonitorInputStream(model, "Reading " + filename, new FileInputStream(filename));
 			in.getProgressMonitor().setMillisToDecideToPopup(0);
-			model.NodeFactory(loader.load(in));
+			model.setNodeFactory(loader.load(in));
 			model.setTitle("Dependency Finder - " + filename);
 
-			if (model.Maximize()) {
-				model.StatusLine().ShowInfo("Maximizing ...");
-				new LinkMaximizer().traverseNodes(model.Packages());
-			} else if (model.Minimize()) {
-				model.StatusLine().ShowInfo("Minimizing ...");
-				new LinkMinimizer().traverseNodes(model.Packages());
+			if (model.getMaximize()) {
+				model.getStatusLine().showInfo("Maximizing ...");
+				new LinkMaximizer().traverseNodes(model.getPackages());
+			} else if (model.getMinimize()) {
+				model.getStatusLine().showInfo("Minimizing ...");
+				new LinkMinimizer().traverseNodes(model.getPackages());
 			}
 
 			Date stop = new Date();
 
-			model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+			model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		} catch (SAXException ex) {
-			model.StatusLine().ShowError("Cannot parse: " + ex.getClass().getName() + ": " + ex.getMessage());
+			model.getStatusLine().showError("Cannot parse: " + ex.getClass().getName() + ": " + ex.getMessage());
 		} catch (IOException ex) {
-			model.StatusLine().ShowError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());
+			model.getStatusLine().showError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());
 		} finally {
 			// JDK 1.4 feature
 			// model.ProgressBar().setIndeterminate(false);
 			
-			if (model.Packages() == null) {
+			if (model.getPackages() == null) {
 				model.setTitle("Dependency Finder");
 			}
 		}
@@ -116,7 +116,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 	}
 
 	public void beginClass(DependencyEvent event) {
-		model.StatusLine().ShowInfo("Loading dependencies for " + event.getClassName() + " ...");
+		model.getStatusLine().showInfo("Loading dependencies for " + event.getClassName() + " ...");
 	}
 	
 	public void dependency(DependencyEvent event) {

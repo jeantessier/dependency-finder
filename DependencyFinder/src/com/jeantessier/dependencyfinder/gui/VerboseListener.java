@@ -38,56 +38,56 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.dependencyfinder.*;
 
 public class VerboseListener extends VerboseListenerBase {
-	private StatusLine   status_line;
-	private JProgressBar progress_bar;
+	private StatusLine   statusLine;
+	private JProgressBar progressBar;
 
-	public VerboseListener(StatusLine status_line, JProgressBar progress_bar) {
-		this.status_line  = status_line;
-		this.progress_bar = progress_bar;
+	public VerboseListener(StatusLine statusLine, JProgressBar progressBar) {
+		this.statusLine  = statusLine;
+		this.progressBar = progressBar;
 	}
 
-	protected StatusLine StatusLine() {
-		return status_line;
+	protected StatusLine getStatusLine() {
+		return statusLine;
 	}
 
-	protected JProgressBar ProgressBar() {
-		return progress_bar;
+	protected JProgressBar getProgressBar() {
+		return progressBar;
 	}
 	
 	public void beginSession(LoadEvent event) {
 		super.beginSession(event);
 		
-		StatusLine().ShowInfo("Searching for classes ...");
-		ProgressBar().setValue(0);
-		ProgressBar().setStringPainted(true);
+		getStatusLine().showInfo("Searching for classes ...");
+		getProgressBar().setValue(0);
+		getProgressBar().setStringPainted(true);
 	}
 	
 	public void beginGroup(LoadEvent event) {
 		super.beginGroup(event);
 
-		StatusLine().ShowInfo("Loading from " + event.getGroupName() + " ...");
+		getStatusLine().showInfo("Loading from " + event.getGroupName() + " ...");
 	}
 	
 	public void beginFile(LoadEvent event) {
 		super.beginFile(event);
 		
 		if (event.getFilename().startsWith(event.getGroupName())) {
-			StatusLine().ShowInfo("Found " + event.getFilename() + " ...");
+			getStatusLine().showInfo("Found " + event.getFilename() + " ...");
 		} else {
-			StatusLine().ShowInfo("Found " + event.getGroupName() + " >> " + event.getFilename() + " ...");
+			getStatusLine().showInfo("Found " + event.getGroupName() + " >> " + event.getFilename() + " ...");
 		}
 	}
 	
 	public void endFile(LoadEvent event) {
 		super.endFile(event);
 		
-		ProgressBar().setValue(ProgressBar().getValue() + 1);
+		getProgressBar().setValue(getProgressBar().getValue() + 1);
 	}
 	
 	public void endSession(LoadEvent event) {
 		super.endSession(event);
 		
-		ProgressBar().setValue(0);
-		ProgressBar().setStringPainted(false);
+		getProgressBar().setValue(0);
+		getProgressBar().setStringPainted(false);
 	}
 }

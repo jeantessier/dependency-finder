@@ -40,31 +40,31 @@ import javax.swing.*;
 public class SaveFileAction extends AbstractAction implements Runnable {
 	private DependencyFinder model;
 	private String           encoding;
-	private String           dtd_prefix;
+	private String           dtdPrefix;
 
-	private String indent_text;
+	private String indentText;
 	private File   file;
 
-	public SaveFileAction(DependencyFinder model, String encoding, String dtd_prefix) {
-		this.model      = model;
-		this.encoding   = encoding;
-		this.dtd_prefix = dtd_prefix;
+	public SaveFileAction(DependencyFinder model, String encoding, String dtdPrefix) {
+		this.model     = model;
+		this.encoding  = encoding;
+		this.dtdPrefix = dtdPrefix;
 
 		putValue(Action.LONG_DESCRIPTION, "Save current graph to XML file");
 		putValue(Action.NAME, "Save");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.gif")));
 	}
 
-	public String IndentText() {
-		return indent_text;
+	public String getIndentText() {
+		return indentText;
 	}
 
-	public void IndentText(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIndentText(String indentText) {
+		this.indentText = indentText;
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.InputFile());
+		JFileChooser chooser = new JFileChooser(model.getInputFile());
 		chooser.addChoosableFileFilter(new XMLFileFilter());
 		int returnValue = chooser.showSaveDialog(model);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -76,16 +76,16 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 	public void run() {
 		try {
 			PrintWriter out = new PrintWriter(new FileWriter(file));
-			com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, encoding, dtd_prefix);
-			if (indent_text != null) {
-				printer.setIndentText(indent_text);
+			com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, encoding, dtdPrefix);
+			if (indentText != null) {
+				printer.setIndentText(indentText);
 			}
 		
-			printer.traverseNodes(model.Packages());
+			printer.traverseNodes(model.getPackages());
 
 			out.close();
 		} catch (IOException ex) {
-			model.StatusLine().ShowError("Cannot save: " + ex.getClass().getName() + ": " + ex.getMessage());
+			model.getStatusLine().showError("Cannot save: " + ex.getClass().getName() + ": " + ex.getMessage());
 		}
 	}
 }

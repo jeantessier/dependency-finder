@@ -55,18 +55,18 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 	public void beginGroup(LoadEvent event) {
 		super.beginGroup(event);
 
-		switch (CurrentGroup().Size()) {
+		switch (getCurrentGroup().getSize()) {
 			case -1:
-				task.log("Searching " + CurrentGroup().Name() + " ...", Project.MSG_VERBOSE);
+				task.log("Searching " + getCurrentGroup().getName() + " ...", Project.MSG_VERBOSE);
 				break;
 
 			case 0:
 			case 1:
-				task.log("Searching " + CurrentGroup().Name() + " (" + CurrentGroup().Size() + " file) ...", Project.MSG_VERBOSE);
+				task.log("Searching " + getCurrentGroup().getName() + " (" + getCurrentGroup().getSize() + " file) ...", Project.MSG_VERBOSE);
 				break;
 
 			default:
-				task.log("Searching " + CurrentGroup().Name() + " (" + CurrentGroup().Size() + " files) ...", Project.MSG_VERBOSE);
+				task.log("Searching " + getCurrentGroup().getName() + " (" + getCurrentGroup().getSize() + " files) ...", Project.MSG_VERBOSE);
 				break;
 		}
 	}
@@ -80,7 +80,7 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 	public void endFile(LoadEvent event) {
 		super.endFile(event);
 
-		if (!VisitedFiles().contains(event.getFilename())) {
+		if (!getVisitedFiles().contains(event.getFilename())) {
 			task.log("Skipping " + event.getFilename() + " ...", Project.MSG_VERBOSE);
 		}
 	}
@@ -105,27 +105,27 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		// Do nothing
 	}
 
-	public void BeginSession(MetricsEvent event) {
+	public void beginSession(MetricsEvent event) {
 		// Do nothing
 	}
 
-	public void BeginClass(MetricsEvent event) {
-		task.log("Computing metrics for " + event.Classfile() + " ...", Project.MSG_VERBOSE);
+	public void beginClass(MetricsEvent event) {
+		task.log("Computing metrics for " + event.getClassfile() + " ...", Project.MSG_VERBOSE);
 	}
 	
-	public void BeginMethod(MetricsEvent event) {
+	public void beginMethod(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void EndMethod(MetricsEvent event) {
+	public void endMethod(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void EndClass(MetricsEvent event) {
+	public void endClass(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void EndSession(MetricsEvent event) {
+	public void endSession(MetricsEvent event) {
 		// Do nothing
 	}
 }

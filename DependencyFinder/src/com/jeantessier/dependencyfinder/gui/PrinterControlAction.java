@@ -44,6 +44,6 @@ public class PrinterControlAction extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		model.RefreshDependenciesDisplay();
+		model.refreshDependenciesDisplay();
 	}
 }

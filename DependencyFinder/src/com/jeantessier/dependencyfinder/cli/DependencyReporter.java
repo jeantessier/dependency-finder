@@ -47,12 +47,12 @@ public class DependencyReporter {
 	public static final String DEFAULT_FILTER_INCLUDES = "//";
 	public static final String DEFAULT_LOGFILE         = "System.out";
 
-	public static void Error(CommandLineUsage clu, String msg) {
+	public static void showError(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
-		Error(clu);
+		showError(clu);
 	}
 
-	public static void Error(CommandLineUsage clu) {
+	public static void showError(CommandLineUsage clu) {
 		System.err.println(clu);
 		System.err.println();
 		System.err.println("-all shorthand for the combination:");
@@ -96,128 +96,128 @@ public class DependencyReporter {
 		System.err.println();
 	}
 
-	public static void Version() throws IOException {
+	public static void showVersion() throws IOException {
 		Version version = new Version();
 		
-		System.err.print(version.ImplementationTitle());
+		System.err.print(version.getImplementationTitle());
 		System.err.print(" ");
-		System.err.print(version.ImplementationVersion());
+		System.err.print(version.getImplementationVersion());
 		System.err.print(" (c) ");
-		System.err.print(version.CopyrightDate());
+		System.err.print(version.getCopyrightDate());
 		System.err.print(" ");
-		System.err.print(version.CopyrightHolder());
+		System.err.print(version.getCopyrightHolder());
 		System.err.println();
 		
-		System.err.print(version.ImplementationURL());
+		System.err.print(version.getImplementationURL());
 		System.err.println();
 		
 		System.err.print("Compiled on ");
-		System.err.print(version.ImplementationDate());
+		System.err.print(version.getImplementationDate());
 		System.err.println();
 	}
 	
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
-		CommandLine command_line = new CommandLine(new AtLeastParameterStrategy(1));
-		command_line.addMultipleValuesSwitch("scope-includes",          DEFAULT_SCOPE_INCLUDES);
-		command_line.addMultipleValuesSwitch("scope-excludes");
-		command_line.addToggleSwitch("package-scope");
-		command_line.addMultipleValuesSwitch("package-scope-includes");
-		command_line.addMultipleValuesSwitch("package-scope-excludes");
-		command_line.addToggleSwitch("class-scope");
-		command_line.addMultipleValuesSwitch("class-scope-includes");
-		command_line.addMultipleValuesSwitch("class-scope-excludes");
-		command_line.addToggleSwitch("feature-scope");
-		command_line.addMultipleValuesSwitch("feature-scope-includes");
-		command_line.addMultipleValuesSwitch("feature-scope-excludes");
-		command_line.addMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
-		command_line.addMultipleValuesSwitch("filter-excludes");
-		command_line.addToggleSwitch("package-filter");
-		command_line.addMultipleValuesSwitch("package-filter-includes");
-		command_line.addMultipleValuesSwitch("package-filter-excludes");
-		command_line.addToggleSwitch("class-filter");
-		command_line.addMultipleValuesSwitch("class-filter-includes");
-		command_line.addMultipleValuesSwitch("class-filter-excludes");
-		command_line.addToggleSwitch("feature-filter");
-		command_line.addMultipleValuesSwitch("feature-filter-includes");
-		command_line.addMultipleValuesSwitch("feature-filter-excludes");
+		CommandLine commandLine = new CommandLine(new AtLeastParameterStrategy(1));
+		commandLine.addMultipleValuesSwitch("scope-includes",          DEFAULT_SCOPE_INCLUDES);
+		commandLine.addMultipleValuesSwitch("scope-excludes");
+		commandLine.addToggleSwitch("package-scope");
+		commandLine.addMultipleValuesSwitch("package-scope-includes");
+		commandLine.addMultipleValuesSwitch("package-scope-excludes");
+		commandLine.addToggleSwitch("class-scope");
+		commandLine.addMultipleValuesSwitch("class-scope-includes");
+		commandLine.addMultipleValuesSwitch("class-scope-excludes");
+		commandLine.addToggleSwitch("feature-scope");
+		commandLine.addMultipleValuesSwitch("feature-scope-includes");
+		commandLine.addMultipleValuesSwitch("feature-scope-excludes");
+		commandLine.addMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
+		commandLine.addMultipleValuesSwitch("filter-excludes");
+		commandLine.addToggleSwitch("package-filter");
+		commandLine.addMultipleValuesSwitch("package-filter-includes");
+		commandLine.addMultipleValuesSwitch("package-filter-excludes");
+		commandLine.addToggleSwitch("class-filter");
+		commandLine.addMultipleValuesSwitch("class-filter-includes");
+		commandLine.addMultipleValuesSwitch("class-filter-excludes");
+		commandLine.addToggleSwitch("feature-filter");
+		commandLine.addMultipleValuesSwitch("feature-filter-includes");
+		commandLine.addMultipleValuesSwitch("feature-filter-excludes");
 
-		command_line.addToggleSwitch("all");
-		command_line.addToggleSwitch("p2p");
-		command_line.addToggleSwitch("c2p");
-		command_line.addToggleSwitch("c2c");
-		command_line.addToggleSwitch("f2f");
-		command_line.addMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
-		command_line.addMultipleValuesSwitch("excludes");
+		commandLine.addToggleSwitch("all");
+		commandLine.addToggleSwitch("p2p");
+		commandLine.addToggleSwitch("c2p");
+		commandLine.addToggleSwitch("c2c");
+		commandLine.addToggleSwitch("f2f");
+		commandLine.addMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
+		commandLine.addMultipleValuesSwitch("excludes");
 
-		command_line.addMultipleValuesSwitch("scope-includes-list");
-		command_line.addMultipleValuesSwitch("scope-excludes-list");
-		command_line.addMultipleValuesSwitch("filter-includes-list");
-		command_line.addMultipleValuesSwitch("filter-excludes-list");
+		commandLine.addMultipleValuesSwitch("scope-includes-list");
+		commandLine.addMultipleValuesSwitch("scope-excludes-list");
+		commandLine.addMultipleValuesSwitch("filter-includes-list");
+		commandLine.addMultipleValuesSwitch("filter-excludes-list");
 
-		command_line.addToggleSwitch("show-all");
-		command_line.addToggleSwitch("show-inbounds");
-		command_line.addToggleSwitch("show-outbounds");
-		command_line.addToggleSwitch("show-empty-nodes");
+		commandLine.addToggleSwitch("show-all");
+		commandLine.addToggleSwitch("show-inbounds");
+		commandLine.addToggleSwitch("show-outbounds");
+		commandLine.addToggleSwitch("show-empty-nodes");
 		
-		command_line.addToggleSwitch("xml");
-		command_line.addToggleSwitch("validate");
-		command_line.addSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
-		command_line.addSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
-		command_line.addSingleValueSwitch("indent-text");
-		command_line.addToggleSwitch("minimize");
-		command_line.addToggleSwitch("maximize");
-		command_line.addToggleSwitch("copy-only");
-		command_line.addToggleSwitch("time");
-		command_line.addSingleValueSwitch("out");
-		command_line.addToggleSwitch("help");
-		command_line.addOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
-		command_line.addToggleSwitch("version");
+		commandLine.addToggleSwitch("xml");
+		commandLine.addToggleSwitch("validate");
+		commandLine.addSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
+		commandLine.addSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
+		commandLine.addSingleValueSwitch("indent-text");
+		commandLine.addToggleSwitch("minimize");
+		commandLine.addToggleSwitch("maximize");
+		commandLine.addToggleSwitch("copy-only");
+		commandLine.addToggleSwitch("time");
+		commandLine.addSingleValueSwitch("out");
+		commandLine.addToggleSwitch("help");
+		commandLine.addOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
+		commandLine.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("DependencyReporter");
-		command_line.accept(usage);
+		commandLine.accept(usage);
 
 		try {
-			command_line.parse(args);
+			commandLine.parse(args);
 		} catch (IllegalArgumentException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		} catch (CommandLineException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		}
 
-		if (command_line.getToggleSwitch("help")) {
-			Error(usage);
+		if (commandLine.getToggleSwitch("help")) {
+			showError(usage);
 		}
 		
-		if (command_line.getToggleSwitch("version")) {
-			Version();
+		if (commandLine.getToggleSwitch("version")) {
+			showVersion();
 		}
 
-		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
+		if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
-		VerboseListener verbose_listener = new VerboseListener();
-		if (command_line.isPresent("verbose")) {
-			if ("System.out".equals(command_line.getOptionalSwitch("verbose"))) {
-				verbose_listener.Writer(System.out);
+		VerboseListener verboseListener = new VerboseListener();
+		if (commandLine.isPresent("verbose")) {
+			if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
+				verboseListener.getWriter(System.out);
 			} else {
-				verbose_listener.Writer(new FileWriter(command_line.getOptionalSwitch("verbose")));
+				verboseListener.getWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
 			}
 		}
 
-		if (command_line.getToggleSwitch("maximize") && command_line.getToggleSwitch("minimize")) {
-			Error(usage, "Only one of -maximize or -minimize allowed");
+		if (commandLine.getToggleSwitch("maximize") && commandLine.getToggleSwitch("minimize")) {
+			showError(usage, "Only one of -maximize or -minimize allowed");
 		}
 
-		if (HasScopeRegularExpressionSwitches(command_line) && HasScopeListSwitches(command_line)) {
-			Error(usage, "You can use switches for regular expressions or lists for scope, but not at the same time");
+		if (hasScopeRegularExpressionSwitches(commandLine) && hasScopeListSwitches(commandLine)) {
+			showError(usage, "You can use switches for regular expressions or lists for scope, but not at the same time");
 		}
 
-		if (HasFilterRegularExpressionSwitches(command_line) && HasFilterListSwitches(command_line)) {
-			Error(usage, "You can use switches for regular expressions or lists for filter, but not at the same time");
+		if (hasFilterRegularExpressionSwitches(commandLine) && hasFilterListSwitches(commandLine)) {
+			showError(usage, "You can use switches for regular expressions or lists for filter, but not at the same time");
 		}
 		
 		/*
@@ -226,144 +226,144 @@ public class DependencyReporter {
 
 		Date start = new Date();
 
-		SelectionCriteria scope_criteria = new ComprehensiveSelectionCriteria();
+		SelectionCriteria scopeCriteria = new ComprehensiveSelectionCriteria();
 
-		if (HasScopeRegularExpressionSwitches(command_line)) {
-			RegularExpressionSelectionCriteria regular_expression_scope_criteria = new RegularExpressionSelectionCriteria();
+		if (hasScopeRegularExpressionSwitches(commandLine)) {
+			RegularExpressionSelectionCriteria regularExpressionScopeCriteria = new RegularExpressionSelectionCriteria();
 			
-			regular_expression_scope_criteria.setMatchingPackages(command_line.getToggleSwitch("package-scope"));
-			regular_expression_scope_criteria.setMatchingClasses(command_line.getToggleSwitch("class-scope"));
-			regular_expression_scope_criteria.setMatchingFeatures(command_line.getToggleSwitch("feature-scope"));
+			regularExpressionScopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
+			regularExpressionScopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
+			regularExpressionScopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
 			
-			if (command_line.isPresent("scope-includes") || (!command_line.isPresent("package-scope-includes") && !command_line.isPresent("class-scope-includes") && !command_line.isPresent("feature-scope-includes"))) {
+			if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
 				// Only use the default if nothing else has been specified.
-				regular_expression_scope_criteria.setGlobalIncludes(command_line.getMultipleSwitch("scope-includes"));
+				regularExpressionScopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("scope-includes"));
 			}
-			regular_expression_scope_criteria.setGlobalExcludes(command_line.getMultipleSwitch("scope-excludes"));
-			regular_expression_scope_criteria.setPackageIncludes(command_line.getMultipleSwitch("package-scope-includes"));
-			regular_expression_scope_criteria.setPackageExcludes(command_line.getMultipleSwitch("package-scope-excludes"));
-			regular_expression_scope_criteria.setClassIncludes(command_line.getMultipleSwitch("class-scope-includes"));
-			regular_expression_scope_criteria.setClassExcludes(command_line.getMultipleSwitch("class-scope-excludes"));
-			regular_expression_scope_criteria.setFeatureIncludes(command_line.getMultipleSwitch("feature-scope-includes"));
-			regular_expression_scope_criteria.setFeatureExcludes(command_line.getMultipleSwitch("feature-scope-excludes"));
+			regularExpressionScopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("scope-excludes"));
+			regularExpressionScopeCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-scope-includes"));
+			regularExpressionScopeCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-scope-excludes"));
+			regularExpressionScopeCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-scope-includes"));
+			regularExpressionScopeCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-scope-excludes"));
+			regularExpressionScopeCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-scope-includes"));
+			regularExpressionScopeCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-scope-excludes"));
 			
-			if (command_line.getToggleSwitch("all")) {
-				regular_expression_scope_criteria.setMatchingPackages(true);
-				regular_expression_scope_criteria.setMatchingClasses(true);
-				regular_expression_scope_criteria.setMatchingFeatures(true);
-			}
-			
-			if (command_line.getToggleSwitch("p2p")) {
-				regular_expression_scope_criteria.setMatchingPackages(true);
+			if (commandLine.getToggleSwitch("all")) {
+				regularExpressionScopeCriteria.setMatchingPackages(true);
+				regularExpressionScopeCriteria.setMatchingClasses(true);
+				regularExpressionScopeCriteria.setMatchingFeatures(true);
 			}
 			
-			if (command_line.getToggleSwitch("c2p")) {
-				regular_expression_scope_criteria.setMatchingClasses(true);
+			if (commandLine.getToggleSwitch("p2p")) {
+				regularExpressionScopeCriteria.setMatchingPackages(true);
 			}
 			
-			if (command_line.getToggleSwitch("c2c")) {
-				regular_expression_scope_criteria.setMatchingClasses(true);
+			if (commandLine.getToggleSwitch("c2p")) {
+				regularExpressionScopeCriteria.setMatchingClasses(true);
 			}
 			
-			if (command_line.getToggleSwitch("f2f")) {
-				regular_expression_scope_criteria.setMatchingFeatures(true);
+			if (commandLine.getToggleSwitch("c2c")) {
+				regularExpressionScopeCriteria.setMatchingClasses(true);
 			}
 			
-			if (command_line.isPresent("includes")) {
-				regular_expression_scope_criteria.setGlobalIncludes(command_line.getMultipleSwitch("includes"));
+			if (commandLine.getToggleSwitch("f2f")) {
+				regularExpressionScopeCriteria.setMatchingFeatures(true);
 			}
 			
-			if (command_line.isPresent("excludes")) {
-				regular_expression_scope_criteria.setGlobalExcludes(command_line.getMultipleSwitch("excludes"));
+			if (commandLine.isPresent("includes")) {
+				regularExpressionScopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
+			}
+			
+			if (commandLine.isPresent("excludes")) {
+				regularExpressionScopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
 			}
 
-			scope_criteria = regular_expression_scope_criteria;
-		} else if (HasScopeListSwitches(command_line)) {
-			scope_criteria = CreateCollectionSelectionCriteria(command_line.getMultipleSwitch("scope-includes-list"), command_line.getMultipleSwitch("scope-excludes-list"));
+			scopeCriteria = regularExpressionScopeCriteria;
+		} else if (hasScopeListSwitches(commandLine)) {
+			scopeCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("scope-includes-list"), commandLine.getMultipleSwitch("scope-excludes-list"));
 		}
 
-		SelectionCriteria filter_criteria = new ComprehensiveSelectionCriteria();
+		SelectionCriteria filterCriteria = new ComprehensiveSelectionCriteria();
 
-		if (HasFilterRegularExpressionSwitches(command_line)) {
-			RegularExpressionSelectionCriteria regular_expression_filter_criteria = new RegularExpressionSelectionCriteria();
+		if (hasFilterRegularExpressionSwitches(commandLine)) {
+			RegularExpressionSelectionCriteria regularExpressionFilterCriteria = new RegularExpressionSelectionCriteria();
 			
-			regular_expression_filter_criteria.setMatchingPackages(command_line.getToggleSwitch("package-filter"));
-			regular_expression_filter_criteria.setMatchingClasses(command_line.getToggleSwitch("class-filter"));
-			regular_expression_filter_criteria.setMatchingFeatures(command_line.getToggleSwitch("feature-filter"));
+			regularExpressionFilterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
+			regularExpressionFilterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
+			regularExpressionFilterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
 			
-			if (command_line.isPresent("filter-includes") || (!command_line.isPresent("package-filter-includes") && !command_line.isPresent("class-filter-includes") && !command_line.isPresent("feature-filter-includes"))) {
+			if (commandLine.isPresent("filter-includes") || (!commandLine.isPresent("package-filter-includes") && !commandLine.isPresent("class-filter-includes") && !commandLine.isPresent("feature-filter-includes"))) {
 				// Only use the default if nothing else has been specified.
-				regular_expression_filter_criteria.setGlobalIncludes(command_line.getMultipleSwitch("filter-includes"));
+				regularExpressionFilterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("filter-includes"));
 			}
-			regular_expression_filter_criteria.setGlobalExcludes(command_line.getMultipleSwitch("filter-excludes"));
-			regular_expression_filter_criteria.setPackageIncludes(command_line.getMultipleSwitch("package-filter-includes"));
-			regular_expression_filter_criteria.setPackageExcludes(command_line.getMultipleSwitch("package-filter-excludes"));
-			regular_expression_filter_criteria.setClassIncludes(command_line.getMultipleSwitch("class-filter-includes"));
-			regular_expression_filter_criteria.setClassExcludes(command_line.getMultipleSwitch("class-filter-excludes"));
-			regular_expression_filter_criteria.setFeatureIncludes(command_line.getMultipleSwitch("feature-filter-includes"));
-			regular_expression_filter_criteria.setFeatureExcludes(command_line.getMultipleSwitch("feature-filter-excludes"));
+			regularExpressionFilterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("filter-excludes"));
+			regularExpressionFilterCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-filter-includes"));
+			regularExpressionFilterCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-filter-excludes"));
+			regularExpressionFilterCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-filter-includes"));
+			regularExpressionFilterCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-filter-excludes"));
+			regularExpressionFilterCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-filter-includes"));
+			regularExpressionFilterCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-filter-excludes"));
 			
-			if (command_line.getToggleSwitch("all")) {
-				regular_expression_filter_criteria.setMatchingPackages(true);
-				regular_expression_filter_criteria.setMatchingClasses(true);
-				regular_expression_filter_criteria.setMatchingFeatures(true);
-			}
-			
-			if (command_line.getToggleSwitch("p2p")) {
-				regular_expression_filter_criteria.setMatchingPackages(true);
+			if (commandLine.getToggleSwitch("all")) {
+				regularExpressionFilterCriteria.setMatchingPackages(true);
+				regularExpressionFilterCriteria.setMatchingClasses(true);
+				regularExpressionFilterCriteria.setMatchingFeatures(true);
 			}
 			
-			if (command_line.getToggleSwitch("c2p")) {
-				regular_expression_filter_criteria.setMatchingPackages(true);
+			if (commandLine.getToggleSwitch("p2p")) {
+				regularExpressionFilterCriteria.setMatchingPackages(true);
 			}
 			
-			if (command_line.getToggleSwitch("c2c")) {
-				regular_expression_filter_criteria.setMatchingClasses(true);
+			if (commandLine.getToggleSwitch("c2p")) {
+				regularExpressionFilterCriteria.setMatchingPackages(true);
 			}
 			
-			if (command_line.getToggleSwitch("f2f")) {
-				regular_expression_filter_criteria.setMatchingFeatures(true);
+			if (commandLine.getToggleSwitch("c2c")) {
+				regularExpressionFilterCriteria.setMatchingClasses(true);
 			}
 			
-			if (command_line.isPresent("includes")) {
-				regular_expression_filter_criteria.setGlobalIncludes(command_line.getMultipleSwitch("includes"));
+			if (commandLine.getToggleSwitch("f2f")) {
+				regularExpressionFilterCriteria.setMatchingFeatures(true);
 			}
 			
-			if (command_line.isPresent("excludes")) {
-				regular_expression_filter_criteria.setGlobalExcludes(command_line.getMultipleSwitch("excludes"));
+			if (commandLine.isPresent("includes")) {
+				regularExpressionFilterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
+			}
+			
+			if (commandLine.isPresent("excludes")) {
+				regularExpressionFilterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
 			}
 
-			filter_criteria = regular_expression_filter_criteria;
-		} else if (HasFilterListSwitches(command_line)) {
-			filter_criteria = CreateCollectionSelectionCriteria(command_line.getMultipleSwitch("filter-includes-list"), command_line.getMultipleSwitch("filter-excludes-list"));
+			filterCriteria = regularExpressionFilterCriteria;
+		} else if (hasFilterListSwitches(commandLine)) {
+			filterCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("filter-includes-list"), commandLine.getMultipleSwitch("filter-excludes-list"));
 		}
 
 		GraphCopier copier;
-		if (command_line.getToggleSwitch("copy-only") || command_line.getToggleSwitch("maximize")) {
-			copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
+		if (commandLine.getToggleSwitch("copy-only") || commandLine.getToggleSwitch("maximize")) {
+			copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 		} else {
-			copier = new GraphSummarizer(scope_criteria, filter_criteria);
+			copier = new GraphSummarizer(scopeCriteria, filterCriteria);
 		}
 		
-		Iterator i = command_line.getParameters().iterator();
+		Iterator i = commandLine.getParameters().iterator();
 		while (i.hasNext()) {
 			String filename = (String) i.next();
 			Logger.getLogger(DependencyReporter.class).info("Reading " + filename);
-			verbose_listener.Print("Reading " + filename);
+			verboseListener.print("Reading " + filename);
 
 			Collection packages = Collections.EMPTY_LIST;
 
 			if (filename.endsWith(".xml")) {
-				NodeLoader loader = new NodeLoader(command_line.getToggleSwitch("validate"));
-				loader.addDependencyListener(verbose_listener);
+				NodeLoader loader = new NodeLoader(commandLine.getToggleSwitch("validate"));
+				loader.addDependencyListener(verboseListener);
 				packages = loader.load(filename).getPackages().values();
 			}
 
 			Logger.getLogger(DependencyReporter.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
 
-			if (command_line.getToggleSwitch("maximize")) {
+			if (commandLine.getToggleSwitch("maximize")) {
 				new LinkMaximizer().traverseNodes(packages);
-			} else if (command_line.getToggleSwitch("minimize")) {
+			} else if (commandLine.getToggleSwitch("minimize")) {
 				new LinkMinimizer().traverseNodes(packages);
 			}
 
@@ -372,29 +372,29 @@ public class DependencyReporter {
 
 		Logger.getLogger(DependencyReporter.class).info("Reporting " + copier.getScopeFactory().getPackages().values().size() + " package(s) ...");
 	
-		verbose_listener.Print("Printing the graph ...");
+		verboseListener.print("Printing the graph ...");
 
 		PrintWriter out;
-		if (command_line.isPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
+		if (commandLine.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(System.out);
 		}
 
 		Printer printer;
-		if (command_line.isPresent("xml")) {
-			printer = new XMLPrinter(out, command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
+		if (commandLine.isPresent("xml")) {
+			printer = new XMLPrinter(out, commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
 		} else {
 			printer = new TextPrinter(out);
 		}
 			
-		if (command_line.isPresent("indent-text")) {
-			printer.setIndentText(command_line.getSingleSwitch("indent-text"));
+		if (commandLine.isPresent("indent-text")) {
+			printer.setIndentText(commandLine.getSingleSwitch("indent-text"));
 		}
 
-		printer.setShowInbounds(command_line.isPresent("show-all") || command_line.isPresent("show-inbounds"));
-		printer.setShowOutbounds(command_line.isPresent("show-all") || command_line.isPresent("show-outbounds"));
-		printer.setShowEmptyNodes(command_line.isPresent("show-all") || command_line.isPresent("show-empty-nodes"));
+		printer.setShowInbounds(commandLine.isPresent("show-all") || commandLine.isPresent("show-inbounds"));
+		printer.setShowOutbounds(commandLine.isPresent("show-all") || commandLine.isPresent("show-outbounds"));
+		printer.setShowEmptyNodes(commandLine.isPresent("show-all") || commandLine.isPresent("show-empty-nodes"));
 
 		printer.traverseNodes(copier.getScopeFactory().getPackages().values());
 
@@ -402,15 +402,15 @@ public class DependencyReporter {
 
 		Date end = new Date();
 
-		if (command_line.getToggleSwitch("time")) {
+		if (commandLine.getToggleSwitch("time")) {
 			System.err.println(DependencyReporter.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
-		verbose_listener.Close();
+		verboseListener.close();
 	}
 
-	private static boolean HasScopeRegularExpressionSwitches(CommandLine command_line) {
-		Collection switches = command_line.getPresentSwitches();
+	private static boolean hasScopeRegularExpressionSwitches(CommandLine commandLine) {
+		Collection switches = commandLine.getPresentSwitches();
 
 		return
 			switches.contains("scope-includes") ||
@@ -433,16 +433,16 @@ public class DependencyReporter {
 			switches.contains("excludes");
 	}
 
-	private static boolean HasScopeListSwitches(CommandLine command_line) {
-		Collection switches = command_line.getPresentSwitches();
+	private static boolean hasScopeListSwitches(CommandLine commandLine) {
+		Collection switches = commandLine.getPresentSwitches();
 
 		return
 			switches.contains("scope-includes-list") ||
 			switches.contains("scope-excludes-list");
 	}
 
-	private static boolean HasFilterRegularExpressionSwitches(CommandLine command_line) {
-		Collection switches = command_line.getPresentSwitches();
+	private static boolean hasFilterRegularExpressionSwitches(CommandLine commandLine) {
+		Collection switches = commandLine.getPresentSwitches();
 
 		return
 			switches.contains("filter-includes") ||
@@ -465,19 +465,19 @@ public class DependencyReporter {
 			switches.contains("excludes");
 	}
 
-	private static boolean HasFilterListSwitches(CommandLine command_line) {
-		Collection switches = command_line.getPresentSwitches();
+	private static boolean hasFilterListSwitches(CommandLine commandLine) {
+		Collection switches = commandLine.getPresentSwitches();
 
 		return
 			switches.contains("filter-includes-list") ||
 			switches.contains("filter-excludes-list");
 	}
 
-	private static CollectionSelectionCriteria CreateCollectionSelectionCriteria(Collection includes, Collection excludes) throws IOException {
-		return new CollectionSelectionCriteria(LoadCollection(includes), LoadCollection(excludes));
+	private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection includes, Collection excludes) throws IOException {
+		return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
 	}
 
-	private static Collection LoadCollection(Collection filenames) {
+	private static Collection loadCollection(Collection filenames) {
 		Collection result = null;
 
 		if (!filenames.isEmpty()) {

@@ -47,38 +47,38 @@ public class OOMetrics extends Task {
 	public static final String DEFAULT_PROJECT_NAME = "Project";
 	public static final String DEFAULT_SORT         = "name";
 
-	private String  project_name             = DEFAULT_PROJECT_NAME;
+	private String  projectName            = DEFAULT_PROJECT_NAME;
 	private File    configuration;
-	private boolean csv                      = false;
-	private boolean txt                      = false;
-	private boolean xml                      = false;
-	private boolean validate                 = false;
-	private String  encoding                 = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;
-	private String  dtd_prefix               = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;
-	private String  indent_text;
-	private boolean project_metrics          = false;
-	private boolean group_metrics            = false;
-	private boolean class_metrics            = false;
-	private boolean method_metrics           = false;
-	private Path    scope_includes_list;
-	private Path    scope_excludes_list;
-	private Path    filter_includes_list;
-	private Path    filter_excludes_list;
-	private boolean show_all_metrics         = false;
-	private boolean show_empty_metrics       = false;
-	private boolean show_hidden_measurements = false;
-	private String  sort                     = DEFAULT_SORT;
-	private boolean expand                   = false;
-	private boolean reverse                  = false;
+	private boolean csv                    = false;
+	private boolean txt                    = false;
+	private boolean xml                    = false;
+	private boolean validate               = false;
+	private String  encoding               = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;
+	private String  dtdPrefix              = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;
+	private String  indentText;
+	private boolean projectMetrics         = false;
+	private boolean groupMetrics           = false;
+	private boolean classMetrics           = false;
+	private boolean methodMetrics          = false;
+	private Path    scopeIncludesList;
+	private Path    scopeExcludesList;
+	private Path    filterIncludesList;
+	private Path    filterExcludesList;
+	private boolean showAllMetrics         = false;
+	private boolean showEmptyMetrics       = false;
+	private boolean showHiddenMeasurements = false;
+	private String  sort                   = DEFAULT_SORT;
+	private boolean expand                 = false;
+	private boolean reverse                = false;
 	private File    destprefix;
 	private Path    path;
 
 	public String getProjectname() {
-		return project_name;
+		return projectName;
 	}
 	
-	public void setProjectname(String project_name) {
-		this.project_name = project_name;
+	public void setProjectname(String projectName) {
+		this.projectName = projectName;
 	}
 
 	public File getConfiguration() {
@@ -130,130 +130,130 @@ public class OOMetrics extends Task {
 	}
 
 	public String getDtdprefix() {
-		return dtd_prefix;
+		return dtdPrefix;
 	}
 	
-	public void setDtdprefix(String dtd_prefix) {
-		this.dtd_prefix = dtd_prefix;
+	public void setDtdprefix(String dtdPrefix) {
+		this.dtdPrefix = dtdPrefix;
 	}
 
 	public String getIndenttext() {
-		return indent_text;
+		return indentText;
 	}
 	
-	public void setIntenttext(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIntenttext(String indentText) {
+		this.indentText = indentText;
 	}
 
 	public boolean getProjectmetrics() {
-		return project_metrics;
+		return projectMetrics;
 	}
 	
-	public void setProjectmetrics(boolean project_metrics) {
-		this.project_metrics = project_metrics;
+	public void setProjectmetrics(boolean projectMetrics) {
+		this.projectMetrics = projectMetrics;
 	}
 
 	public boolean getGroupmetrics() {
-		return group_metrics;
+		return groupMetrics;
 	}
 	
-	public void setGroupmetrics(boolean group_metrics) {
-		this.group_metrics = group_metrics;
+	public void setGroupmetrics(boolean groupMetrics) {
+		this.groupMetrics = groupMetrics;
 	}
 
 	public boolean getClassmetrics() {
-		return class_metrics;
+		return classMetrics;
 	}
 	
-	public void setClassmetrics(boolean class_metrics) {
-		this.class_metrics = class_metrics;
+	public void setClassmetrics(boolean classMetrics) {
+		this.classMetrics = classMetrics;
 	}
 
 	public boolean getMethodmetrics() {
-		return method_metrics;
+		return methodMetrics;
 	}
 	
-	public void setMethodmetrics(boolean method_metrics) {
-		this.method_metrics = method_metrics;
+	public void setMethodmetrics(boolean methodMetrics) {
+		this.methodMetrics = methodMetrics;
 	}
 
-	public void setAllmetrics(boolean all_metrics) {
-		setProjectmetrics(all_metrics);
-		setGroupmetrics(all_metrics);
-		setClassmetrics(all_metrics);
-		setMethodmetrics(all_metrics);
+	public void setAllmetrics(boolean allMetrics) {
+		setProjectmetrics(allMetrics);
+		setGroupmetrics(allMetrics);
+		setClassmetrics(allMetrics);
+		setMethodmetrics(allMetrics);
 	}
 	
 	public Path createScopeincludeslist() {
-		if (scope_includes_list == null) {
-			scope_includes_list = new Path(getProject());
+		if (scopeIncludesList == null) {
+			scopeIncludesList = new Path(getProject());
 		}
 
-		return scope_includes_list;
+		return scopeIncludesList;
 	}
 	
 	public Path getScopeincludeslist() {
-		return scope_includes_list;
+		return scopeIncludesList;
 	}
 	
 	public Path createScopeexcludeslist() {
-		if (scope_excludes_list == null) {
-			scope_excludes_list = new Path(getProject());
+		if (scopeExcludesList == null) {
+			scopeExcludesList = new Path(getProject());
 		}
 
-		return scope_excludes_list;
+		return scopeExcludesList;
 	}
 	
 	public Path getScopeexcludeslist() {
-		return scope_excludes_list;
+		return scopeExcludesList;
 	}
 	
 	public Path createFilterincludeslist() {
-		if (filter_includes_list == null) {
-			filter_includes_list = new Path(getProject());
+		if (filterIncludesList == null) {
+			filterIncludesList = new Path(getProject());
 		}
 
-		return filter_includes_list;
+		return filterIncludesList;
 	}
 	
 	public Path getFilterincludeslist() {
-		return filter_includes_list;
+		return filterIncludesList;
 	}
 	
 	public Path createFilterexcludeslist() {
-		if (filter_excludes_list == null) {
-			filter_excludes_list = new Path(getProject());
+		if (filterExcludesList == null) {
+			filterExcludesList = new Path(getProject());
 		}
 
-		return filter_excludes_list;
+		return filterExcludesList;
 	}
 	
 	public Path getFilterexcludeslist() {
-		return filter_excludes_list;
+		return filterExcludesList;
 	}
 
 	public boolean getShowallmetrics() {
-		return show_all_metrics;
+		return showAllMetrics;
 	}
 	
-	public void setShowallmetrics(boolean show_all_metrics) {
-		this.show_all_metrics = show_all_metrics;
+	public void setShowallmetrics(boolean showAllMetrics) {
+		this.showAllMetrics = showAllMetrics;
 	}
 
 	public boolean getShowemptymetrics() {
-		return show_empty_metrics;
+		return showEmptyMetrics;
 	}
 	
-	public void setShowemptymetrics(boolean show_empty_metrics) {
-		this.show_empty_metrics = show_empty_metrics;
+	public void setShowemptymetrics(boolean showEmptyMetrics) {
+		this.showEmptyMetrics = showEmptyMetrics;
 	}
 
 	public boolean getShowhiddenmeasurements() {
-		return show_hidden_measurements;
+		return showHiddenMeasurements;
 	}
 	
-	public void setShowhiddenmeasurements(boolean show_hidden_measurements) {
-		this.show_hidden_measurements = show_hidden_measurements;
+	public void setShowhiddenmeasurements(boolean showHiddenMeasurements) {
+		this.showHiddenMeasurements = showHiddenMeasurements;
 	}
 	
 	public String getSort() {
@@ -326,44 +326,44 @@ public class OOMetrics extends Task {
 		try {
 			log("Reading classes from path " + getPath());
 
-			VerboseListener verbose_listener = new VerboseListener(this);
+			VerboseListener verboseListener = new VerboseListener(this);
 			
-			MetricsFactory factory = new MetricsFactory(getProjectname(), new MetricsConfigurationLoader(getValidate()).Load(getConfiguration().getAbsolutePath()));
+			MetricsFactory factory = new MetricsFactory(getProjectname(), new MetricsConfigurationLoader(getValidate()).load(getConfiguration().getAbsolutePath()));
 			
 			ClassfileLoader loader = new AggregatingClassfileLoader();
-			loader.addLoadListener(verbose_listener);
+			loader.addLoadListener(verboseListener);
 			loader.load(Arrays.asList(getPath().list()));
 			
-			com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
-			gatherer.addMetricsListener(verbose_listener);
+			com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(projectName, factory);
+			gatherer.addMetricsListener(verboseListener);
 			if (getScopeincludeslist() != null || getScopeexcludeslist() != null) {
-				gatherer.ScopeIncludes(CreateCollection(getScopeincludeslist(), getScopeexcludeslist()));
+				gatherer.setScopeIncludes(createCollection(getScopeincludeslist(), getScopeexcludeslist()));
 			}
 			if (getFilterincludeslist() != null || getFilterexcludeslist() != null) {
-				gatherer.FilterIncludes(CreateCollection(getFilterincludeslist(), getFilterexcludeslist()));
+				gatherer.setFilterIncludes(createCollection(getFilterincludeslist(), getFilterexcludeslist()));
 			}
 			gatherer.visitClassfiles(loader.getAllClassfiles());
 		
 			if (getShowallmetrics()) {
 				Iterator i;
 				
-				i = gatherer.MetricsFactory().AllClassMetrics().iterator();
+				i = gatherer.getMetricsFactory().getAllClassMetrics().iterator();
 				while (i.hasNext()) {
-					gatherer.MetricsFactory().IncludeClassMetrics((Metrics) i.next());
+					gatherer.getMetricsFactory().includeClassMetrics((Metrics) i.next());
 				}
 				
-				i = gatherer.MetricsFactory().AllMethodMetrics().iterator();
+				i = gatherer.getMetricsFactory().getAllMethodMetrics().iterator();
 				while (i.hasNext()) {
-					gatherer.MetricsFactory().IncludeMethodMetrics((Metrics) i.next());
+					gatherer.getMetricsFactory().includeMethodMetrics((Metrics) i.next());
 				}
 			}
 			
 			if (getCsv()) {
-				PrintCSVFiles(gatherer.MetricsFactory());
+				printCSVFiles(gatherer.getMetricsFactory());
 			} else if (getTxt()) {
-				PrintTextFile(gatherer.MetricsFactory());
+				printTextFile(gatherer.getMetricsFactory());
 			} else if (getXml()) {
-				PrintXMLFile(gatherer.MetricsFactory());
+				printXMLFile(gatherer.getMetricsFactory());
 			}
 		} catch (SAXException ex) {
 			throw new BuildException(ex);
@@ -372,7 +372,7 @@ public class OOMetrics extends Task {
 		}
 	}
 
-	private Collection CreateCollection(Path includes, Path excludes) throws IOException {
+	private Collection createCollection(Path includes, Path excludes) throws IOException {
 		Collection result = new HashSet();
 
 		if (includes != null) {
@@ -402,14 +402,14 @@ public class OOMetrics extends Task {
 		return result;
 	}
 
-	private void PrintCSVFiles(MetricsFactory factory) throws IOException {
+	private void printCSVFiles(MetricsFactory factory) throws IOException {
 		MetricsComparator comparator = new MetricsComparator(getSort());
 		if (getReverse()) {
-			comparator.Reverse();
+			comparator.reverse();
 		}
 
-		List               metrics;
-		Iterator           i;
+		List                            metrics;
+		Iterator                        i;
 		com.jeantessier.metrics.Printer printer;
 
 		if (getProjectmetrics()) {
@@ -418,16 +418,16 @@ public class OOMetrics extends Task {
 
 			PrintWriter out = new PrintWriter(new FileWriter(filename));
 			
-			metrics = new ArrayList(factory.ProjectMetrics());
+			metrics = new ArrayList(factory.getProjectMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ProjectMeasurements());
-			printer.ShowEmptyMetrics(getShowemptymetrics());
-			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getProjectMeasurements());
+			printer.setShowEmptyMetrics(getShowemptymetrics());
+			printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.VisitMetrics(metrics);
+			printer.visitMetrics(metrics);
 
 			out.close();
 		}
@@ -438,16 +438,16 @@ public class OOMetrics extends Task {
 
 			PrintWriter out = new PrintWriter(new FileWriter(filename));
 
-			metrics = new ArrayList(factory.GroupMetrics());
+			metrics = new ArrayList(factory.getGroupMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().GroupMeasurements());
-			printer.ShowEmptyMetrics(getShowemptymetrics());
-			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getGroupMeasurements());
+			printer.setShowEmptyMetrics(getShowemptymetrics());
+			printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.VisitMetrics(metrics);
+			printer.visitMetrics(metrics);
 
 			out.close();
 		}
@@ -458,16 +458,16 @@ public class OOMetrics extends Task {
 
 			PrintWriter out = new PrintWriter(new FileWriter(filename));
 
-			metrics = new ArrayList(factory.ClassMetrics());
+			metrics = new ArrayList(factory.getClassMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ClassMeasurements());
-			printer.ShowEmptyMetrics(getShowemptymetrics());
-			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getClassMeasurements());
+			printer.setShowEmptyMetrics(getShowemptymetrics());
+			printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.VisitMetrics(metrics);
+			printer.visitMetrics(metrics);
 
 			out.close();
 		}
@@ -478,25 +478,25 @@ public class OOMetrics extends Task {
 
 			PrintWriter out = new PrintWriter(new FileWriter(filename));
 
-			metrics = new ArrayList(factory.MethodMetrics());
+			metrics = new ArrayList(factory.getMethodMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().MethodMeasurements());
-			printer.ShowEmptyMetrics(getShowemptymetrics());
-			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getMethodMeasurements());
+			printer.setShowEmptyMetrics(getShowemptymetrics());
+			printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.VisitMetrics(metrics);
+			printer.visitMetrics(metrics);
 
 			out.close();
 		}
 	}
 
-	private void PrintTextFile(MetricsFactory factory) throws IOException {
+	private void printTextFile(MetricsFactory factory) throws IOException {
 		MetricsComparator comparator = new MetricsComparator(getSort());
 		if (getReverse()) {
-			comparator.Reverse();
+			comparator.reverse();
 		}
 
 		String filename = getDestprefix().getAbsolutePath() + ".txt";
@@ -510,17 +510,17 @@ public class OOMetrics extends Task {
 		if (getProjectmetrics()) {
 			out.println("Project metrics");
 			out.println("---------------");
-			metrics = new ArrayList(factory.ProjectMetrics());
+			metrics = new ArrayList(factory.getProjectMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ProjectMeasurements());
-			printer.ShowEmptyMetrics(getShowemptymetrics());
-			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
-			printer.ExpandCollectionMeasurements(getExpand());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getProjectMeasurements());
+			printer.setShowEmptyMetrics(getShowemptymetrics());
+			printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
+			printer.setExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.VisitMetrics(metrics);
+			printer.visitMetrics(metrics);
 
 			out.println();
 		}
@@ -528,17 +528,17 @@ public class OOMetrics extends Task {
 		if (getGroupmetrics()) {
 			out.println("Group metrics");
 			out.println("-------------");
-			metrics = new ArrayList(factory.GroupMetrics());
+			metrics = new ArrayList(factory.getGroupMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().GroupMeasurements());
-			printer.ShowEmptyMetrics(getShowemptymetrics());
-			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
-			printer.ExpandCollectionMeasurements(getExpand());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getGroupMeasurements());
+			printer.setShowEmptyMetrics(getShowemptymetrics());
+			printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
+			printer.setExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.VisitMetrics(metrics);
+			printer.visitMetrics(metrics);
 
 			out.println();
 		}
@@ -546,17 +546,17 @@ public class OOMetrics extends Task {
 		if (getClassmetrics()) {
 			out.println("Class metrics");
 			out.println("-------------");
-			metrics = new ArrayList(factory.ClassMetrics());
+			metrics = new ArrayList(factory.getClassMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ClassMeasurements());
-			printer.ShowEmptyMetrics(getShowemptymetrics());
-			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
-			printer.ExpandCollectionMeasurements(getExpand());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getClassMeasurements());
+			printer.setShowEmptyMetrics(getShowemptymetrics());
+			printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
+			printer.setExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.VisitMetrics(metrics);
+			printer.visitMetrics(metrics);
 
 			out.println();
 		}
@@ -564,17 +564,17 @@ public class OOMetrics extends Task {
 		if (getMethodmetrics()) {
 			out.println("Method metrics");
 			out.println("--------------");
-			metrics = new ArrayList(factory.MethodMetrics());
+			metrics = new ArrayList(factory.getMethodMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().MethodMeasurements());
-			printer.ShowEmptyMetrics(getShowemptymetrics());
-			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
-			printer.ExpandCollectionMeasurements(getExpand());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getMethodMeasurements());
+			printer.setShowEmptyMetrics(getShowemptymetrics());
+			printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
+			printer.setExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.VisitMetrics(metrics);
+			printer.visitMetrics(metrics);
 
 			out.println();
 		}
@@ -582,10 +582,10 @@ public class OOMetrics extends Task {
 		out.close();
 	}
 
-	private void PrintXMLFile(MetricsFactory factory) throws IOException {
+	private void printXMLFile(MetricsFactory factory) throws IOException {
 		MetricsComparator comparator = new MetricsComparator(getSort());
 		if (getReverse()) {
-			comparator.Reverse();
+			comparator.reverse();
 		}
 
 		String filename = getDestprefix().getAbsolutePath() + ".xml";
@@ -593,16 +593,16 @@ public class OOMetrics extends Task {
 		
 		PrintWriter out = new PrintWriter(new FileWriter(filename));
 
-		List metrics = new ArrayList(factory.ProjectMetrics());
+		List metrics = new ArrayList(factory.getProjectMetrics());
 		Collections.sort(metrics, comparator);
-		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), getEncoding(), getDtdprefix());
-		printer.ShowEmptyMetrics(getShowemptymetrics());
-		printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
+		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.getConfiguration(), getEncoding(), getDtdprefix());
+		printer.setShowEmptyMetrics(getShowemptymetrics());
+		printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
 		if (getIndenttext() != null) {
-			printer.IndentText(getIndenttext());
+			printer.setIndentText(getIndenttext());
 		}
 
-		printer.VisitMetrics(metrics);
+		printer.visitMetrics(metrics);
 
 		out.close();
 	}

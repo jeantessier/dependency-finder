@@ -38,30 +38,30 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class ListBasedValidator implements Validator {
-	private Collection allowed_elements = new HashSet();
+	private Collection allowedElements = new HashSet();
 
 	public ListBasedValidator() {
 		// Do nothing
 	}
 
 	public ListBasedValidator(String filename) throws IOException {
-		Load(filename);
+		load(filename);
 	}
 
 	public ListBasedValidator(File file) throws IOException {
-		Load(file);
+		load(file);
 	}
 
 	public ListBasedValidator(BufferedReader in) throws IOException {
-		Load(in);
+		load(in);
 	}
 	
-	public void Load(String filename) throws IOException {
+	public void load(String filename) throws IOException {
 		BufferedReader in = null;
 		
 		try {
 			in = new BufferedReader(new FileReader(filename));
-			Load(in);
+			load(in);
 		} catch (FileNotFoundException ex) {
 			// Ignore
 		} finally {
@@ -71,12 +71,12 @@ public class ListBasedValidator implements Validator {
 		}
 	}
 		
-	public void Load(File file) throws IOException {
+	public void load(File file) throws IOException {
 		BufferedReader in = null;
 		
 		try {
 			in = new BufferedReader(new FileReader(file));
-			Load(in);
+			load(in);
 		} catch (FileNotFoundException ex) {
 			// Ignore
 		} finally {
@@ -86,37 +86,37 @@ public class ListBasedValidator implements Validator {
 		}
 	}
 
-	public void Load(BufferedReader in) throws IOException {
+	public void load(BufferedReader in) throws IOException {
 		String line;
 		while ((line = in.readLine()) != null) {
 			if (line.length() > 0) {
 				line = line.trim();
 				int pos = line.lastIndexOf(" [");
 				if (pos != -1) {
-					allowed_elements.add(line.substring(0, pos));
+					allowedElements.add(line.substring(0, pos));
 				} else {
-					allowed_elements.add(line);
+					allowedElements.add(line);
 				}
 			}
 		}
 	}
 	
-	public boolean IsPackageAllowed(String name) {
-		return IsAllowed(name);
+	public boolean isPackageAllowed(String name) {
+		return isAllowed(name);
 	}
 
-	public boolean IsClassAllowed(String name) {
-		return IsAllowed(name);
+	public boolean isClassAllowed(String name) {
+		return isAllowed(name);
 	}
 
-	public boolean IsFeatureAllowed(String name) {
-		return IsAllowed(name);
+	public boolean isFeatureAllowed(String name) {
+		return isAllowed(name);
 	}
 
-	public boolean IsAllowed(String name) {
+	public boolean isAllowed(String name) {
 		Logger.getLogger(getClass()).debug("IsAllowed(\"" + name + "\")");
-		Logger.getLogger(getClass()).debug("allowed_elements.size() = " + allowed_elements.size());
-		Logger.getLogger(getClass()).debug("allowed_elements.contains(\"" + name + "\") = " + allowed_elements.contains(name));
-		return allowed_elements.size() == 0 || allowed_elements.contains(name);
+		Logger.getLogger(getClass()).debug("allowed_elements.size() = " + allowedElements.size());
+		Logger.getLogger(getClass()).debug("allowed_elements.contains(\"" + name + "\") = " + allowedElements.contains(name));
+		return allowedElements.size() == 0 || allowedElements.contains(name);
 	}
 }

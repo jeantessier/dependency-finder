@@ -44,192 +44,192 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		metrics = new Metrics("foo");
 
 		descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
-		descriptor.Cached(false);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(NbSubMetricsMeasurement.class);
+		descriptor.setCached(false);
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement();
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement();
 		
 		assertNotNull(measurement);
-		assertEquals(descriptor, measurement.Descriptor());
-		assertSame(descriptor, measurement.Descriptor());
+		assertEquals(descriptor, measurement.getDescriptor());
+		assertSame(descriptor, measurement.getDescriptor());
 		assertEquals(NbSubMetricsMeasurement.class, measurement.getClass());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("bar", measurement.LongName());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("bar", measurement.getLongName());
 	}
 
 	public void testAddSubMetrics() throws Exception {
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		
 		assertEquals(0, measurement.intValue());
 		assertEquals(0.0, measurement.doubleValue(), 0.01);
-		assertEquals(0, measurement.Value().intValue());
+		assertEquals(0, measurement.getValue().intValue());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-
-		assertEquals(1, measurement.intValue());
-		assertEquals(1.0, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
-
-		metrics.AddSubMetrics(new Metrics("bar"));
+		metrics.addSubMetrics(new Metrics("bar"));
 
 		assertEquals(1, measurement.intValue());
 		assertEquals(1.0, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
+		assertEquals(1, measurement.getValue().intValue());
 
-		metrics.AddSubMetrics(new Metrics("baz"));
+		metrics.addSubMetrics(new Metrics("bar"));
+
+		assertEquals(1, measurement.intValue());
+		assertEquals(1.0, measurement.doubleValue(), 0.01);
+		assertEquals(1, measurement.getValue().intValue());
+
+		metrics.addSubMetrics(new Metrics("baz"));
 
 		assertEquals(2, measurement.intValue());
 		assertEquals(2.0, measurement.doubleValue(), 0.01);
-		assertEquals(2, measurement.Value().intValue());
+		assertEquals(2, measurement.getValue().intValue());
 	}
 
 	public void testInUndefinedRange() throws Exception {
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		metrics.addSubMetrics(new Metrics("foo"));
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		metrics.addSubMetrics(new Metrics("bar"));
+		metrics.addSubMetrics(new Metrics("baz"));
 
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInOpenRange() throws Exception {
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		metrics.addSubMetrics(new Metrics("foo"));
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		metrics.addSubMetrics(new Metrics("bar"));
+		metrics.addSubMetrics(new Metrics("baz"));
 
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInLowerBoundRange() throws Exception {
-		descriptor.LowerThreshold(new Integer(1));
+		descriptor.setLowerThreshold(new Integer(1));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		metrics.addSubMetrics(new Metrics("foo"));
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		metrics.addSubMetrics(new Metrics("bar"));
+		metrics.addSubMetrics(new Metrics("baz"));
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInUpperBoundRange() throws Exception {
-		descriptor.UpperThreshold(new Float(1.5));
+		descriptor.setUpperThreshold(new Float(1.5));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		metrics.addSubMetrics(new Metrics("foo"));
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		metrics.addSubMetrics(new Metrics("bar"));
+		metrics.addSubMetrics(new Metrics("baz"));
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testInBoundRange() throws Exception {
-		descriptor.LowerThreshold(new Integer(1));
-		descriptor.UpperThreshold(new Float(1.5));
+		descriptor.setLowerThreshold(new Integer(1));
+		descriptor.setUpperThreshold(new Float(1.5));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		metrics.addSubMetrics(new Metrics("foo"));
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		metrics.addSubMetrics(new Metrics("bar"));
+		metrics.addSubMetrics(new Metrics("baz"));
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testCachedValue() throws Exception {
-		descriptor.Cached(true);
+		descriptor.setCached(true);
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 
 		assertEquals("empty metrics", 0, measurement.intValue());
 		
-		metrics.AddSubMetrics(new Metrics("foo"));
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		metrics.addSubMetrics(new Metrics("foo"));
+		metrics.addSubMetrics(new Metrics("bar"));
+		metrics.addSubMetrics(new Metrics("baz"));
 
 		assertEquals("empty metrics", 0, measurement.intValue());
 	}
 
 	public void testAccept() throws Exception {
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		
 		visited = null;
-		measurement.Accept(this);
+		measurement.accept(this);
 		assertSame(measurement, visited);
 	}
 
 	public void testEmpty() throws Exception {
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 
-		assertTrue("Before AddSubMetrics()", measurement.Empty());
+		assertTrue("Before AddSubMetrics()", measurement.isEmpty());
 		
-		metrics.AddSubMetrics(new Metrics("foo"));
+		metrics.addSubMetrics(new Metrics("foo"));
 
-		assertFalse("After AddSubMetrics()", measurement.Empty());
+		assertFalse("After AddSubMetrics()", measurement.isEmpty());
 	}
 	
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+	public void visitRatioMeasurement(RatioMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
 		visited = measurement;
 	}
 	
-	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+	public void visitCounterMeasurement(CounterMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSumMeasurement(SumMeasurement measurement) {
+	public void visitSumMeasurement(SumMeasurement measurement) {
 		// Do nothing
 	}
 }

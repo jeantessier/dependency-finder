@@ -42,32 +42,32 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	
 	protected void setUp() {
 		descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("FOO");
-		descriptor.Class(SumMeasurement.class);
-		descriptor.Cached(false);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("FOO");
+		descriptor.setClassFor(SumMeasurement.class);
+		descriptor.setCached(false);
 
 		metrics = new Metrics("foobar");
 	}
 
 	public void testMeasurementDescriptor() throws Exception {
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 		
-		assertNotNull(measurement.Descriptor());
-		assertEquals(SumMeasurement.class, measurement.Descriptor().Class());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("FOO", measurement.LongName());
+		assertNotNull(measurement.getDescriptor());
+		assertEquals(SumMeasurement.class, measurement.getDescriptor().getClassFor());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("FOO", measurement.getLongName());
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 		
 		assertNotNull(measurement);
-		assertEquals(descriptor, measurement.Descriptor());
-		assertSame(descriptor, measurement.Descriptor());
+		assertEquals(descriptor, measurement.getDescriptor());
+		assertSame(descriptor, measurement.getDescriptor());
 		assertEquals(SumMeasurement.class, measurement.getClass());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("FOO", measurement.LongName());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("FOO", measurement.getLongName());
 	}
 
 	public void testCreateDefault() {
@@ -77,229 +77,229 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testEmptyInitText() throws Exception {
-		descriptor.InitText("");
+		descriptor.setInitText("");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(0, measurement.doubleValue(), 0.01);
 	}
 
 	public void testEmptyLineInitText() throws Exception {
-		descriptor.InitText("\n");
+		descriptor.setInitText("\n");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(0, measurement.doubleValue(), 0.01);
 	}
 
 	public void testDashInitText() throws Exception {
-		descriptor.InitText("-");
+		descriptor.setInitText("-");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(0, measurement.doubleValue(), 0.01);
 	}
 
 	public void testConstant() throws Exception {
-		descriptor.InitText("2");
+		descriptor.setInitText("2");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(2, measurement.doubleValue(), 0.01);
 	}
 
 	public void testConstantAndEmptyLine() throws Exception {
-		descriptor.InitText("\n2\n");
+		descriptor.setInitText("\n2\n");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(2, measurement.doubleValue(), 0.01);
 	}
 
 	public void testAddition() throws Exception {
-		descriptor.InitText("1\n1");
+		descriptor.setInitText("1\n1");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(2, measurement.doubleValue(), 0.01);
 	}
 
 	public void testNegative() throws Exception {
-		descriptor.InitText("-2");
+		descriptor.setInitText("-2");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(-2, measurement.doubleValue(), 0.01);
 	}
 
 	public void testSubstraction() throws Exception {
-		descriptor.InitText("2\n-1");
+		descriptor.setInitText("2\n-1");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(1, measurement.doubleValue(), 0.01);
 
-		descriptor.InitText("1\n-2");
+		descriptor.setInitText("1\n-2");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		measurement = (SumMeasurement) descriptor.createMeasurement();
 
 		assertEquals(-1, measurement.doubleValue(), 0.01);
 	}
 
 	public void testSubMeasurement() throws Exception {
-		descriptor.InitText("bar");
+		descriptor.setInitText("bar");
 
-		metrics.Track("bar", new CounterMeasurement(null, metrics, "2"));
+		metrics.track("bar", new CounterMeasurement(null, metrics, "2"));
 		
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
 		assertEquals(2, measurement.doubleValue(), 0.01);
 	}
 
 	public void testStatisticalMeasurement() throws Exception {
-		descriptor.InitText("bar DISPOSE_SUM");
+		descriptor.setInitText("bar DISPOSE_SUM");
 
-		metrics.Track("bar", new StatisticalMeasurement(null, metrics, "bar"));
+		metrics.track("bar", new StatisticalMeasurement(null, metrics, "bar"));
 
 		Metrics submetrics = new Metrics("submetrics");
-		submetrics.Track("bar", new CounterMeasurement(null, submetrics, "2"));
-		metrics.AddSubMetrics(submetrics);
+		submetrics.track("bar", new CounterMeasurement(null, submetrics, "2"));
+		metrics.addSubMetrics(submetrics);
 		
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
 		assertEquals(2, measurement.doubleValue(), 0.01);
 	}
 
 	public void testAddMeasurements() throws Exception {
-		descriptor.InitText("bar\nbaz");
+		descriptor.setInitText("bar\nbaz");
 
-		metrics.Track("bar", new CounterMeasurement(null, metrics, "1"));
-		metrics.Track("baz", new CounterMeasurement(null, metrics, "1"));
+		metrics.track("bar", new CounterMeasurement(null, metrics, "1"));
+		metrics.track("baz", new CounterMeasurement(null, metrics, "1"));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
 		assertEquals(2, measurement.doubleValue(), 0.01);
 	}
 
 	public void testSubstractMeasurements() throws Exception {
-		descriptor.InitText("bar\n-baz");
+		descriptor.setInitText("bar\n-baz");
 
-		metrics.Track("bar", new CounterMeasurement(null, metrics, "1"));
-		metrics.Track("baz", new CounterMeasurement(null, metrics, "2"));
+		metrics.track("bar", new CounterMeasurement(null, metrics, "1"));
+		metrics.track("baz", new CounterMeasurement(null, metrics, "2"));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
 		assertEquals(-1, measurement.doubleValue(), 0.01);
 	}
 
 	public void testInUndefinedRange() throws Exception {
-		descriptor.InitText("bar");
+		descriptor.setInitText("bar");
 
-		metrics.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.track("bar", new CounterMeasurement(null, null, null));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInOpenRange() throws Exception {
-		descriptor.InitText("bar");
+		descriptor.setInitText("bar");
 
-		metrics.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.track("bar", new CounterMeasurement(null, null, null));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInLowerBoundRange() throws Exception {
-		descriptor.InitText("bar");
-		descriptor.LowerThreshold(new Integer(1));
+		descriptor.setInitText("bar");
+		descriptor.setLowerThreshold(new Integer(1));
 
-		metrics.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.track("bar", new CounterMeasurement(null, null, null));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 		
 		assertEquals(0, measurement.intValue());
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
 		assertEquals(1, measurement.intValue());
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
 		assertEquals(2, measurement.intValue());
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInUpperBoundRange() throws Exception {
-		descriptor.InitText("bar");
-		descriptor.UpperThreshold(new Float(1.5));
+		descriptor.setInitText("bar");
+		descriptor.setUpperThreshold(new Float(1.5));
 
-		metrics.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.track("bar", new CounterMeasurement(null, null, null));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testInBoundRange() throws Exception {
-		descriptor.InitText("bar");
-		descriptor.LowerThreshold(new Integer(1));
-		descriptor.UpperThreshold(new Float(1.5));
+		descriptor.setInitText("bar");
+		descriptor.setLowerThreshold(new Integer(1));
+		descriptor.setUpperThreshold(new Float(1.5));
 
-		metrics.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.track("bar", new CounterMeasurement(null, null, null));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testCachedValue() throws Exception {
-		descriptor.InitText("bar");
-		descriptor.Cached(true);
+		descriptor.setInitText("bar");
+		descriptor.setCached(true);
 
-		metrics.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.track("bar", new CounterMeasurement(null, null, null));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 		
 		assertEquals(0, measurement.doubleValue(), 0.01);
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
 		assertEquals(0, measurement.doubleValue(), 0.01);
 	}
@@ -308,90 +308,90 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		measurement = new SumMeasurement(null, null, null);
 
 		visited = null;
-		measurement.Accept(this);
+		measurement.accept(this);
 		assertSame(measurement, visited);
 	}
 
 	public void testEmptyWithOneMeasurement() throws Exception {
-		descriptor.InitText("bar");
+		descriptor.setInitText("bar");
 
-		metrics.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.track("bar", new CounterMeasurement(null, null, null));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue("Before Add()", measurement.Empty());
+		assertTrue("Before Add()", measurement.isEmpty());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
-		assertFalse("After Add(1)", measurement.Empty());
+		assertFalse("After Add(1)", measurement.isEmpty());
 
-		metrics.AddToMeasurement("bar", -1);
+		metrics.addToMeasurement("bar", -1);
 
-		assertFalse("After Add(-1)", measurement.Empty());
+		assertFalse("After Add(-1)", measurement.isEmpty());
 	}
 
 	public void testEmptyWithTwoMeasurements() throws Exception {
-		descriptor.InitText("bar\nbaz");
+		descriptor.setInitText("bar\nbaz");
 
-		metrics.Track("bar", new CounterMeasurement(null, null, null));
-		metrics.Track("baz", new CounterMeasurement(null, null, null));
+		metrics.track("bar", new CounterMeasurement(null, null, null));
+		metrics.track("baz", new CounterMeasurement(null, null, null));
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-		assertTrue("bar is not empty", metrics.Measurement("bar").Empty());
-		assertTrue("baz is not empty", metrics.Measurement("baz").Empty());
-		assertTrue("Before Add()", measurement.Empty());
+		assertTrue("bar is not empty", metrics.getMeasurement("bar").isEmpty());
+		assertTrue("baz is not empty", metrics.getMeasurement("baz").isEmpty());
+		assertTrue("Before Add()", measurement.isEmpty());
 
-		metrics.AddToMeasurement("bar", 1);
+		metrics.addToMeasurement("bar", 1);
 		
-		assertFalse("bar is empty", metrics.Measurement("bar").Empty());
-		assertTrue("baz is not empty", metrics.Measurement("baz").Empty());
-		assertFalse("After Add(1)", measurement.Empty());
+		assertFalse("bar is empty", metrics.getMeasurement("bar").isEmpty());
+		assertTrue("baz is not empty", metrics.getMeasurement("baz").isEmpty());
+		assertFalse("After Add(1)", measurement.isEmpty());
 
-		metrics.AddToMeasurement("bar", -1);
+		metrics.addToMeasurement("bar", -1);
 
-		assertFalse("bar is empty", metrics.Measurement("bar").Empty());
-		assertTrue("baz is not empty", metrics.Measurement("baz").Empty());
-		assertFalse("After Add(-1)", measurement.Empty());
+		assertFalse("bar is empty", metrics.getMeasurement("bar").isEmpty());
+		assertTrue("baz is not empty", metrics.getMeasurement("baz").isEmpty());
+		assertFalse("After Add(-1)", measurement.isEmpty());
 	}
 
 	public void testEmptyWithConstant() throws Exception {
-		descriptor.InitText("2");
+		descriptor.setInitText("2");
 
-		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-		assertTrue("with constants", measurement.Empty());
+		assertTrue("with constants", measurement.isEmpty());
 	}
 	
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+	public void visitRatioMeasurement(RatioMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+	public void visitCounterMeasurement(CounterMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSumMeasurement(SumMeasurement measurement) {
+	public void visitSumMeasurement(SumMeasurement measurement) {
 		visited = measurement;
 	}
 }

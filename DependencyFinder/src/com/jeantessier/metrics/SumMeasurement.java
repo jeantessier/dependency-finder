@@ -55,11 +55,11 @@ public class SumMeasurement extends MeasurementBase {
 
 	private double value = 0.0;
 
-	public SumMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
-		super(descriptor, context, init_text);
+	public SumMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+		super(descriptor, context, initText);
 
 		try {
-			BufferedReader in   = new BufferedReader(new StringReader(init_text));
+			BufferedReader in   = new BufferedReader(new StringReader(initText));
 			String         line;
 
 			while ((line = in.readLine()) != null) {
@@ -68,110 +68,110 @@ public class SumMeasurement extends MeasurementBase {
 
 			in.close();
 		} catch (Exception ex) {
-			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
+			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
 			terms.clear();
 		}
 	}
 
-	public List Terms() {
+	public List getTerms() {
 		return terms;
 	}
 
-	public boolean Empty() {
-		Compute();
+	public boolean isEmpty() {
+		compute();
 
-		return super.Empty();
+		return super.isEmpty();
 	}
 	
-	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitSumMeasurement(this);
+	public void accept(MeasurementVisitor visitor) {
+		visitor.visitSumMeasurement(this);
 	}
 
-	protected double Compute() {
-		if (!Cached()) {
+	protected double compute() {
+		if (!isCached()) {
 			synchronized (this) {
-				if (!Cached()) {
+				if (!isCached()) {
 					value = 0.0;
-					Empty(true);
+					setEmpty(true);
 
-					if (Context() != null) {
-						Logger.getLogger(getClass()).debug("Start computing \"" + ShortName() + "\" on \"" + Context().Name() + "\": value=" + value);
+					if (getContext() != null) {
+						Logger.getLogger(getClass()).debug("Start computing \"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
 					} else {
-						Logger.getLogger(getClass()).debug("Start computing \"" + ShortName() + "\" on null: value=" + value);
+						Logger.getLogger(getClass()).debug("Start computing \"" + getShortName() + "\" on null: value=" + value);
 					}
 					
-					Iterator i = Terms().iterator();
+					Iterator i = getTerms().iterator();
 					while (i.hasNext()) {
 						String term = (String) i.next();
 						
 						Logger.getLogger(getClass()).debug("Evaluating term \"" + term + "\"");
 						
-						double term_value = Double.NaN;
+						double termValue = Double.NaN;
 						
 						try {
-							term_value = Double.parseDouble(term);
+							termValue = Double.parseDouble(term);
 						} catch (NumberFormatException ex) {
 							if (term.startsWith("-")) {
-								term_value = -1 * EvaluateMeasurement(term.substring(1));
+								termValue = -1 * evaluateMeasurement(term.substring(1));
 							} else {
-								term_value = EvaluateMeasurement(term);
+								termValue = evaluateMeasurement(term);
 							}
 						}
 						
-						Logger.getLogger(getClass()).debug("term \"" + term + "\" is " + term_value);
+						Logger.getLogger(getClass()).debug("term \"" + term + "\" is " + termValue);
 						
-						value += term_value;
+						value += termValue;
 						
 						Logger.getLogger(getClass()).debug("value=" + value);
 					}
 					
-					if (Context() != null) {
-						Logger.getLogger(getClass()).debug("Stop computing \"" + ShortName() + "\" on \"" + Context().Name() + "\": value=" + value);
+					if (getContext() != null) {
+						Logger.getLogger(getClass()).debug("Stop computing \"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
 					} else {
-						Logger.getLogger(getClass()).debug("Stop computing \"" + ShortName() + "\" on null: value=" + value);
+						Logger.getLogger(getClass()).debug("Stop computing \"" + getShortName() + "\" on null: value=" + value);
 					}
 					
-					Cached(true);
+					setCached(true);
 				}
 			}
 		}
 
-		if (Context() != null) {
-			Logger.getLogger(getClass()).debug("\"" + ShortName() + "\" on \"" + Context().Name() + "\": value=" + value);
+		if (getContext() != null) {
+			Logger.getLogger(getClass()).debug("\"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
 		} else {
-			Logger.getLogger(getClass()).debug("\"" + ShortName() + "\" on null: value=" + value);
+			Logger.getLogger(getClass()).debug("\"" + getShortName() + "\" on null: value=" + value);
 		}
 
 		return value;
 	}
 
-	private double EvaluateMeasurement(String name) {
+	private double evaluateMeasurement(String name) {
 		double result = 0;
 
 		if (name.length() != 0) {
 			int dispose;
 			
-			synchronized (Perl()) {
-				if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {
-					name = Perl().group(1);
+			synchronized (perl()) {
+				if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {
+					name = perl().group(1);
 					
-					String dispose_text = Perl().group(2);
+					String disposeText = perl().group(2);
 					
-					if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
+					if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
 						dispose = StatisticalMeasurement.DISPOSE_IGNORE;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
 						dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
 						dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
 						dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
 						dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
 						dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_SUM")) {
 						dispose = StatisticalMeasurement.DISPOSE_SUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
 						dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
 					} else {
 						dispose = StatisticalMeasurement.DISPOSE_IGNORE;
@@ -181,32 +181,32 @@ public class SumMeasurement extends MeasurementBase {
 				}
 			}
 			
-			Measurement measurement = Context().Measurement(name);
+			Measurement measurement = getContext().getMeasurement(name);
 			
 			if (measurement instanceof StatisticalMeasurement) {
 				StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
 				
 				switch (dispose) {
 					case StatisticalMeasurement.DISPOSE_MINIMUM:
-						result = stats.Minimum();
+						result = stats.getMinimum();
 						break;
 					case StatisticalMeasurement.DISPOSE_MEDIAN:
-						result = stats.Median();
+						result = stats.getMedian();
 						break;
 					case StatisticalMeasurement.DISPOSE_AVERAGE:
-						result = stats.Average();
+						result = stats.getAverage();
 						break;
 					case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-						result = stats.StandardDeviation();
+						result = stats.getStandardDeviation();
 						break;
 					case StatisticalMeasurement.DISPOSE_MAXIMUM:
-						result = stats.Maximum();
+						result = stats.getMaximum();
 						break;
 					case StatisticalMeasurement.DISPOSE_SUM:
-						result = stats.Sum();
+						result = stats.getSum();
 						break;
 					case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-						result = stats.NbDataPoints();
+						result = stats.getNbDataPoints();
 						break;
 					case StatisticalMeasurement.DISPOSE_IGNORE:
 					default:
@@ -217,8 +217,8 @@ public class SumMeasurement extends MeasurementBase {
 				result = measurement.doubleValue();
 			}
 
-			if (super.Empty()) {
-				Empty(measurement.Empty());
+			if (super.isEmpty()) {
+				setEmpty(measurement.isEmpty());
 			}
 		}
 				

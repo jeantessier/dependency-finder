@@ -45,100 +45,100 @@ import com.jeantessier.dependency.*;
 
 public class DependencyReporter extends GraphTask {
 
-	private Path    scope_includes_list;
-	private Path    scope_excludes_list;
-	private Path    filter_includes_list;
-	private Path    filter_excludes_list;
+	private Path    scopeIncludesList;
+	private Path    scopeExcludesList;
+	private Path    filterIncludesList;
+	private Path    filterExcludesList;
 
-	private boolean show_inbounds    = false;
-	private boolean show_outbounds   = false;
-	private boolean show_empty_nodes = false;
-	private boolean show_all         = false;
+	private boolean showInbounds   = false;
+	private boolean showOutbounds  = false;
+	private boolean showEmptyNodes = false;
+	private boolean showAll        = false;
 
 	private boolean minimize   = false;
 	private boolean maximize   = false;
-	private boolean copy_only  = false;
+	private boolean copyOnly   = false;
 	private boolean xml        = false;
 	private String  encoding   = XMLPrinter.DEFAULT_ENCODING;
-	private String  dtd_prefix = XMLPrinter.DEFAULT_DTD_PREFIX;
-	private String  indent_text;
+	private String  dtdPrefix  = XMLPrinter.DEFAULT_DTD_PREFIX;
+	private String  indentText;
 	
 	public Path createScopeincludeslist() {
-		if (scope_includes_list == null) {
-			scope_includes_list = new Path(getProject());
+		if (scopeIncludesList == null) {
+			scopeIncludesList = new Path(getProject());
 		}
 
-		return scope_includes_list;
+		return scopeIncludesList;
 	}
 	
 	public Path getScopeincludeslist() {
-		return scope_includes_list;
+		return scopeIncludesList;
 	}
 	
 	public Path createScopeexcludeslist() {
-		if (scope_excludes_list == null) {
-			scope_excludes_list = new Path(getProject());
+		if (scopeExcludesList == null) {
+			scopeExcludesList = new Path(getProject());
 		}
 
-		return scope_excludes_list;
+		return scopeExcludesList;
 	}
 	
 	public Path getScopeexcludeslist() {
-		return scope_excludes_list;
+		return scopeExcludesList;
 	}
 	
 	public Path createFilterincludeslist() {
-		if (filter_includes_list == null) {
-			filter_includes_list = new Path(getProject());
+		if (filterIncludesList == null) {
+			filterIncludesList = new Path(getProject());
 		}
 
-		return filter_includes_list;
+		return filterIncludesList;
 	}
 	
 	public Path getFilterincludeslist() {
-		return filter_includes_list;
+		return filterIncludesList;
 	}
 	
 	public Path createFilterexcludeslist() {
-		if (filter_excludes_list == null) {
-			filter_excludes_list = new Path(getProject());
+		if (filterExcludesList == null) {
+			filterExcludesList = new Path(getProject());
 		}
 
-		return filter_excludes_list;
+		return filterExcludesList;
 	}
 	
 	public Path getFilterexcludeslist() {
-		return filter_excludes_list;
+		return filterExcludesList;
 	}
 	
 	public boolean getShowinbounds() {
-		return show_inbounds;
+		return showInbounds;
 	}
 
-	public void setShowinbounds(boolean show_inbounds) {
-		this.show_inbounds = show_inbounds;
+	public void setShowinbounds(boolean showInbounds) {
+		this.showInbounds = showInbounds;
 	}
 	
 	public boolean getShowoutbounds() {
-		return show_outbounds;
+		return showOutbounds;
 	}
 
-	public void setShowoutbounds(boolean show_outbounds) {
-		this.show_outbounds = show_outbounds;
+	public void setShowoutbounds(boolean showOutbounds) {
+		this.showOutbounds = showOutbounds;
 	}
 	
 	public boolean getShowemptynodes() {
-		return show_empty_nodes;
+		return showEmptyNodes;
 	}
 
-	public void setShowemptynodes(boolean show_empty_nodes) {
-		this.show_empty_nodes = show_empty_nodes;
+	public void setShowemptynodes(boolean showEmptyNodes) {
+		this.showEmptyNodes = showEmptyNodes;
 	}
 	
-	public void setShowAll(boolean show_all) {
-		setShowinbounds(show_all);
-		setShowoutbounds(show_all);
-		setShowemptynodes(show_all);
+	public void setShowAll(boolean showAll) {
+		setShowinbounds(showAll);
+		setShowoutbounds(showAll);
+		setShowemptynodes(showAll);
 	}
 	
 	public boolean getMinimize() {
@@ -158,11 +158,11 @@ public class DependencyReporter extends GraphTask {
 	}
 
 	public boolean getCopyOnly() {
-		return copy_only;
+		return copyOnly;
 	}
 
-	public void setCopyOnly(boolean copy_only) {
-		this.copy_only = copy_only;
+	public void setCopyOnly(boolean copyOnly) {
+		this.copyOnly = copyOnly;
 	}
 
 	public boolean getXml() {
@@ -182,45 +182,45 @@ public class DependencyReporter extends GraphTask {
 	}
 
 	public String getDtdprefix() {
-		return dtd_prefix;
+		return dtdPrefix;
 	}
 	
-	public void setDtdprefix(String dtd_prefix) {
-		this.dtd_prefix = dtd_prefix;
+	public void setDtdprefix(String dtdPrefix) {
+		this.dtdPrefix = dtdPrefix;
 	}
 
 	public String getIndenttext() {
-		return indent_text;
+		return indentText;
 	}
 	
-	public void setIntenttext(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIntenttext(String indentText) {
+		this.indentText = indentText;
 	}
 
-	protected void CheckParameters() throws BuildException {
-		super.CheckParameters();
+	protected void validateParameters() throws BuildException {
+		super.validateParameters();
 
-		if (HasScopeRegularExpressionSwitches() && HasScopeListSwitches()) {
+		if (hasScopeRegularExpressionSwitches() && hasScopeListSwitches()) {
 			throw new BuildException("Cannot have scope attributes for regular expressions and lists at the same time!");
 		}
 
-		if (HasFilterRegularExpressionSwitches() && HasFilterListSwitches()) {
+		if (hasFilterRegularExpressionSwitches() && hasFilterListSwitches()) {
 			throw new BuildException("Cannot have filter attributes for regular expressions and lists at the same time!");
 		}
 	}
 	
 	public void execute() throws BuildException {
 		// first off, make sure that we've got what we need
-		CheckParameters();
+		validateParameters();
 
-		VerboseListener verbose_listener = new VerboseListener(this);
+		VerboseListener verboseListener = new VerboseListener(this);
 
 		try {
 			GraphCopier copier;
 			if (getCopyOnly() || getMaximize()) {
-				copier = new GraphCopier(Strategy());
+				copier = new GraphCopier(getStrategy());
 			} else {
-				copier = new GraphSummarizer(ScopeCriteria(), FilterCriteria());
+				copier = new GraphSummarizer(getScopeCriteria(), getFilterCriteria());
 			}
 
 			String[] filenames = getSrc().list();
@@ -231,7 +231,7 @@ public class DependencyReporter extends GraphTask {
 				
 				if (filenames[i].endsWith(".xml")) {
 					NodeLoader loader = new NodeLoader(getValidate());
-					loader.addDependencyListener(verbose_listener);
+					loader.addDependencyListener(verboseListener);
 					packages = loader.load(filenames[i]).getPackages().values();
 				}
 				
@@ -275,14 +275,14 @@ public class DependencyReporter extends GraphTask {
 		}
 	}
 
-	protected SelectionCriteria ScopeCriteria() throws BuildException {
+	protected SelectionCriteria getScopeCriteria() throws BuildException {
 		SelectionCriteria result = new ComprehensiveSelectionCriteria();
 
 		try {
-			if (HasScopeRegularExpressionSwitches()) {
-				result = super.ScopeCriteria();
-			} else if (HasScopeListSwitches()) {
-				result = CreateCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());
+			if (hasScopeRegularExpressionSwitches()) {
+				result = super.getScopeCriteria();
+			} else if (hasScopeListSwitches()) {
+				result = createCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());
 			}
 		} catch (IOException ex) {
 			throw new BuildException(ex);
@@ -291,14 +291,14 @@ public class DependencyReporter extends GraphTask {
 		return result;
 	}
 
-	protected SelectionCriteria FilterCriteria() throws BuildException {
+	protected SelectionCriteria getFilterCriteria() throws BuildException {
 		SelectionCriteria result = new ComprehensiveSelectionCriteria();
 		
 		try {
-			if (HasFilterRegularExpressionSwitches()) {
-				result = super.FilterCriteria();
-			} else if (HasFilterListSwitches()) {
-				result = CreateCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());
+			if (hasFilterRegularExpressionSwitches()) {
+				result = super.getFilterCriteria();
+			} else if (hasFilterListSwitches()) {
+				result = createCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());
 			}
 		} catch (IOException ex) {
 			throw new BuildException(ex);
@@ -307,7 +307,7 @@ public class DependencyReporter extends GraphTask {
 		return result;
 	}
 	
-	private boolean HasScopeRegularExpressionSwitches() {
+	private boolean hasScopeRegularExpressionSwitches() {
 		return
 			!getScopeincludes().equals("//") ||
 			!getScopeexcludes().equals("") ||
@@ -322,13 +322,13 @@ public class DependencyReporter extends GraphTask {
 			!getFeaturescopeexcludes().equals("");
 	}
 
-	private boolean HasScopeListSwitches() {
+	private boolean hasScopeListSwitches() {
 		return
 			getScopeincludeslist() != null ||
 			getScopeexcludeslist() != null;
 	}
 
-	private boolean HasFilterRegularExpressionSwitches() {
+	private boolean hasFilterRegularExpressionSwitches() {
 		return
 			!getFilterincludes().equals("//") ||
 			!getFilterexcludes().equals("") ||
@@ -343,17 +343,17 @@ public class DependencyReporter extends GraphTask {
 			!getFeaturefilterexcludes().equals("");
 	}
 
-	private boolean HasFilterListSwitches() {
+	private boolean hasFilterListSwitches() {
 		return
 			getFilterincludeslist() != null ||
 			getFilterexcludeslist() != null;
 	}
 
-	private CollectionSelectionCriteria CreateCollectionSelectionCriteria(Path includes, Path excludes) throws IOException {
-		return new CollectionSelectionCriteria(LoadCollection(includes), LoadCollection(excludes));
+	private CollectionSelectionCriteria createCollectionSelectionCriteria(Path includes, Path excludes) throws IOException {
+		return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
 	}
 
-	private Collection LoadCollection(Path path) {
+	private Collection loadCollection(Path path) {
 		Collection result = null;
 
 		if (path != null) {

@@ -56,32 +56,32 @@ public class AllQueriesAction extends AbstractAction implements Runnable {
 
 	public void run() {
 		try {
-			model.StatusLine().ShowInfo("Processing all queries ...");
+			model.getStatusLine().showInfo("Processing all queries ...");
 			
 			Date start = new Date();
 			
-			model.ClearDependencyResult();
-			model.ClearClosureResult();
-			model.ClearMetricsResult();
+			model.clearDependencyResult();
+			model.clearClosureResult();
+			model.clearMetricsResult();
 			
-			model.StatusLine().ShowInfo("Processing dependency query ...");
-			model.DependencyQuery();
-			model.StatusLine().ShowInfo("Processing closure query ...");
-			model.ClosureQuery();
-			model.StatusLine().ShowInfo("Processing metrics query ...");
-			model.MetricsQuery();
+			model.getStatusLine().showInfo("Processing dependency query ...");
+			model.doDependencyQuery();
+			model.getStatusLine().showInfo("Processing closure query ...");
+			model.doClosureQuery();
+			model.getStatusLine().showInfo("Processing metrics query ...");
+			model.doMetricsQuery();
 			
 			Date stop = new Date();
 			
-			model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+			model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		} catch (MalformedPerl5PatternException ex) {
 			JOptionPane dialog = new JOptionPane();
 			dialog.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
-			model.StatusLine().ShowInfo("Ready.");
+			model.getStatusLine().showInfo("Ready.");
 		} catch (Exception ex) {
 			JOptionPane dialog = new JOptionPane();
 			dialog.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			model.StatusLine().ShowInfo("Ready.");
+			model.getStatusLine().showInfo("Ready.");
 		}
 	}
 }

@@ -58,113 +58,113 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
 		m6 = new Metrics("m6");
 		
 		MeasurementDescriptor present = new MeasurementDescriptor();
-		present.ShortName("P");
-		present.LongName("present");
-		present.Class(CounterMeasurement.class);
+		present.setShortName("P");
+		present.setLongName("present");
+		present.setClassFor(CounterMeasurement.class);
 
 		MeasurementDescriptor counter = new MeasurementDescriptor();
-		counter.ShortName("C");
-		counter.LongName("counter");
-		counter.Class(CounterMeasurement.class);
+		counter.setShortName("C");
+		counter.setLongName("counter");
+		counter.setClassFor(CounterMeasurement.class);
 
-		m1.Track(present.CreateMeasurement(m1));
+		m1.track(present.createMeasurement(m1));
 
-		m2.Track(present.CreateMeasurement(m2));
-		m2.Track(counter.CreateMeasurement(m2));
-		m2.AddToMeasurement("C", 0);
+		m2.track(present.createMeasurement(m2));
+		m2.track(counter.createMeasurement(m2));
+		m2.addToMeasurement("C", 0);
 
-		m3.Track(counter.CreateMeasurement(m3));
-		m3.AddToMeasurement("C", 1);
+		m3.track(counter.createMeasurement(m3));
+		m3.addToMeasurement("C", 1);
 
-		m4.Track(counter.CreateMeasurement(m4));
-		m4.AddToMeasurement("C", 2);
+		m4.track(counter.createMeasurement(m4));
+		m4.addToMeasurement("C", 2);
 
-		m5.Track(counter.CreateMeasurement(m5));
-		m5.AddToMeasurement("C", 3);
+		m5.track(counter.createMeasurement(m5));
+		m5.addToMeasurement("C", 3);
 
-		m6.Track(counter.CreateMeasurement(m6));
-		m6.AddToMeasurement("C", 4);
+		m6.track(counter.createMeasurement(m6));
+		m6.addToMeasurement("C", 4);
 
 		metrics = new Metrics("metrics");
 		
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
-		metrics.AddSubMetrics(m4);
-		metrics.AddSubMetrics(m5);
-		metrics.AddSubMetrics(m6);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
+		metrics.addSubMetrics(m4);
+		metrics.addSubMetrics(m5);
+		metrics.addSubMetrics(m6);
 
 		descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("Nb");
-		descriptor.LongName("Number");
-		descriptor.Class(NbSubMetricsMeasurement.class);
+		descriptor.setShortName("Nb");
+		descriptor.setLongName("Number");
+		descriptor.setClassFor(NbSubMetricsMeasurement.class);
 	}
 
 	public void testDefault() throws Exception {
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("default", 6, measurement.intValue());
 	}
 
 	public void testPresence() throws Exception {
-		descriptor.InitText("P");
+		descriptor.setInitText("P");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("presence", 2, measurement.intValue());
 	}
 
 	public void testLesserThan() throws Exception {
-		descriptor.InitText("C < 3");
+		descriptor.setInitText("C < 3");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("lesser than", 3, measurement.intValue());
 	}
 
 	public void testLesserThanOrEqual() throws Exception {
-		descriptor.InitText("C <= 3");
+		descriptor.setInitText("C <= 3");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("lesser than or equal", 4, measurement.intValue());
 	}
 
 	public void testGreaterThan() throws Exception {
-		descriptor.InitText("C > 1");
+		descriptor.setInitText("C > 1");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("greater than", 3, measurement.intValue());
 	}
 
 	public void testGreaterThanOrEqual() throws Exception {
-		descriptor.InitText("C >= 1");
+		descriptor.setInitText("C >= 1");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("greater than or equal", 4, measurement.intValue());
 	}
 
 	public void testEqual() throws Exception {
-		descriptor.InitText("C == 1");
+		descriptor.setInitText("C == 1");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("equal", 1, measurement.intValue());
 	}
 
 	public void testNotEqual() throws Exception {
-		descriptor.InitText("C != 1");
+		descriptor.setInitText("C != 1");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("not equal", 4, measurement.intValue());
 	}
 
 	public void testAnd() throws Exception {
-		descriptor.InitText("1 <= C <= 3");
+		descriptor.setInitText("1 <= C <= 3");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("and", 3, measurement.intValue());
 	}
 
 	public void testOr() throws Exception {
-		descriptor.InitText("C == 1\nC == 2");
+		descriptor.setInitText("C == 1\nC == 2");
 
-		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals("or", 2, measurement.intValue());
 	}
 

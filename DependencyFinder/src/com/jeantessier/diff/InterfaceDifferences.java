@@ -42,11 +42,11 @@ public class InterfaceDifferences extends ClassDifferences {
 	/**
 	 *  Only the DifferencesFactory can create instances of this class.
 	 */
-	InterfaceDifferences(String name, Classfile old_class, Classfile new_class) {
-		super(name, old_class, new_class);
+	InterfaceDifferences(String name, Classfile oldClass, Classfile newClass) {
+		super(name, oldClass, newClass);
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitInterfaceDifferences(this);
+	public void accept(Visitor visitor) {
+		visitor.visitInterfaceDifferences(this);
 	}
 }

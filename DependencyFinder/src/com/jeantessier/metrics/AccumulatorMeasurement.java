@@ -61,19 +61,19 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
 	private Map        terms  = new HashMap();
 	private Collection values = new TreeSet();
 
-	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
-		super(descriptor, context, init_text);
+	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+		super(descriptor, context, initText);
 
-		if (init_text != null) {
+		if (initText != null) {
 			try {
-				BufferedReader in   = new BufferedReader(new StringReader(init_text));
+				BufferedReader in   = new BufferedReader(new StringReader(initText));
 				String         line;
 				
 				while ((line = in.readLine()) != null) {
-					synchronized (Perl()) {
-						if (Perl().match("/^\\s*(\\S+)\\s*(.*)/", line)) {
-							String name = Perl().group(1);
-							String re   = Perl().group(2);
+					synchronized (perl()) {
+						if (perl().match("/^\\s*(\\S+)\\s*(.*)/", line)) {
+							String name = perl().group(1);
+							String re   = perl().group(2);
 
 							Collection res = (Collection) terms.get(name);
 							if (res == null) {
@@ -90,16 +90,16 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
 				
 				in.close();
 			} catch (Exception ex) {
-				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
+				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
 				terms.clear();
 			}
 		}
 
-		LogTerms(init_text);
+		logTerms(initText);
 	}
 
-	private void LogTerms(String init_text) {
-		Logger.getLogger(getClass()).debug("Initialize with\n" + init_text);
+	private void logTerms(String initText) {
+		Logger.getLogger(getClass()).debug("Initialize with\n" + initText);
 		Logger.getLogger(getClass()).debug("Terms:");
 
 		Iterator i = terms.entrySet().iterator();
@@ -114,73 +114,73 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
 		}
 	}
 
-	public Number Value() {
-		return new Integer(Values().size());
+	public Number getValue() {
+		return new Integer(getValues().size());
 	}
 
-	public boolean Empty() {
-		return Values().isEmpty();
+	public boolean isEmpty() {
+		return getValues().isEmpty();
 	}
 	
-	protected double Compute() {
-		return Values().size();
+	protected double compute() {
+		return getValues().size();
 	}
 
-	public Collection Values() {
-		if (!Cached()) {
+	public Collection getValues() {
+		if (!isCached()) {
 			values.clear();
 			
-			PopulateValues();
+			populateValues();
 
-			Cached(true);
+			setCached(true);
 		}
 		
 		return Collections.unmodifiableCollection(values);
 	}
 
-	protected abstract void PopulateValues();
+	protected abstract void populateValues();
 
-	protected void FilterMetrics(Metrics metrics) {
+	protected void filterMetrics(Metrics metrics) {
 		Iterator i = terms.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry  entry = (Map.Entry)  i.next();
 			String     name  = (String)     entry.getKey();
 			Collection res   = (Collection) entry.getValue();
 		
-			Measurement measurement = metrics.Measurement(name);
+			Measurement measurement = metrics.getMeasurement(name);
 			if (measurement instanceof CollectionMeasurement) {
-				FilterMeasurement((CollectionMeasurement) measurement, res);
+				filterMeasurement((CollectionMeasurement) measurement, res);
 			}
 		}
 	}
 	
-	private void FilterMeasurement(CollectionMeasurement measurement, Collection res) {
+	private void filterMeasurement(CollectionMeasurement measurement, Collection res) {
 		if (res.isEmpty()) {
-			values.addAll(measurement.Values());
+			values.addAll(measurement.getValues());
 		} else {
-			Iterator i = measurement.Values().iterator();
+			Iterator i = measurement.getValues().iterator();
 			while (i.hasNext()) {
-				FilterElement((String) i.next(), res);
+				filterElement((String) i.next(), res);
 			}
 		}
 	}
 	
-	private void FilterElement(String element, Collection res) {
+	private void filterElement(String element, Collection res) {
 		boolean found = false;
 		Iterator i = res.iterator();
 		while (!found && i.hasNext()) {
-			found = EvaluateRE((String) i.next(), element);
+			found = evaluateRE((String) i.next(), element);
 		}
 	}
 	
-	private boolean EvaluateRE(String re, String element) {
+	private boolean evaluateRE(String re, String element) {
 		boolean result = false;
 
-		synchronized (Perl()) {
-			if (Perl().match(re, element)) {
+		synchronized (perl()) {
+			if (perl().match(re, element)) {
 				result = true;
-				if (Perl().group(1) != null) {
-					values.add(Perl().group(1));
+				if (perl().group(1) != null) {
+					values.add(perl().group(1));
 				} else {
 					values.add(element);
 				}

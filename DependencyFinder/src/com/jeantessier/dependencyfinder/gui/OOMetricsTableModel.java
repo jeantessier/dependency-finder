@@ -49,67 +49,67 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS     = new Integer(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS);
 
 	private List   descriptors;
-	private List   metrics_list;
+	private List   metricsList;
 	
-	private String[]                measurement_names;
-	private MeasurementDescriptor[] measurement_descriptors;
-	private int[]                   measurement_dispose;
-	private Object[][]              measurement_values;
+	private String[]                measurementNames;
+	private MeasurementDescriptor[] measurementDescriptors;
+	private int[]                   measurementDispose;
+	private Object[][]              measurementValues;
 
 	private MetricsComparator comparator = new MetricsComparator("name");
 
 	public OOMetricsTableModel(List descriptors) {
 		this.descriptors = descriptors;
 		
-		BuildMetricNames();
-		BuildMetricValues();
+		buildMetricNames();
+		buildMetricValues();
 	}
 	
-	public void Metrics(Collection metrics_list) {
-		this.metrics_list = new ArrayList(metrics_list);
+	public void getMetrics(Collection metricsList) {
+		this.metricsList = new ArrayList(metricsList);
 		
-		if (metrics_list.isEmpty()) {
-			BuildMetricValues();
+		if (metricsList.isEmpty()) {
+			buildMetricValues();
 		} else {
-			Collections.sort(this.metrics_list, comparator);
-			BuildMetricValues(this.metrics_list);
+			Collections.sort(this.metricsList, comparator);
+			buildMetricValues(this.metricsList);
 		}
 		
 		fireTableStructureChanged();
 	}
 
-	public MeasurementDescriptor ColumnDescriptor(int column) {
-		return measurement_descriptors[column];
+	public MeasurementDescriptor getColumnDescriptor(int column) {
+		return measurementDescriptors[column];
 	}
 	
-	public void UpdateMetrics(Collection metrics_list) {
-		this.metrics_list = new ArrayList(metrics_list);
+	public void updateMetrics(Collection metricsList) {
+		this.metricsList = new ArrayList(metricsList);
 		
-		if (metrics_list.isEmpty()) {
-			BuildMetricValues();
+		if (metricsList.isEmpty()) {
+			buildMetricValues();
 		} else {
-			Collections.sort(this.metrics_list, comparator);
-			BuildMetricValues(this.metrics_list);
+			Collections.sort(this.metricsList, comparator);
+			buildMetricValues(this.metricsList);
 		}
 		
 		fireTableDataChanged();
 	}
 	
-	public void SortOn(String name, int dispose) {
-		comparator.SortOn(name, dispose);
+	public void sortOn(String name, int dispose) {
+		comparator.sortOn(name, dispose);
 		
-		Collections.sort(metrics_list, comparator);
-		BuildMetricValues(metrics_list);
+		Collections.sort(metricsList, comparator);
+		buildMetricValues(metricsList);
 		
 		fireTableDataChanged();
 	}
 
-	private void BuildMetricNames() {
+	private void buildMetricNames() {
 		List names = new LinkedList();
 		names.add("name");
 
-		List column_descriptors = new LinkedList();
-		column_descriptors.add(null);
+		List columnDescriptors = new LinkedList();
+		columnDescriptors.add(null);
 
 		List dispose = new LinkedList();
 		dispose.add(LOCAL_DISPOSE_IGNORE);
@@ -118,116 +118,116 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		while (i.hasNext()) {
 			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (descriptor.Visible()) {
-				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
-					names.add(descriptor.ShortName());
-					column_descriptors.add(descriptor);
+			if (descriptor.isVisible()) {
+				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+					names.add(descriptor.getShortName());
+					columnDescriptors.add(descriptor);
 					dispose.add(LOCAL_DISPOSE_MINIMUM);
-					names.add(descriptor.ShortName());
-					column_descriptors.add(descriptor);
+					names.add(descriptor.getShortName());
+					columnDescriptors.add(descriptor);
 					dispose.add(LOCAL_DISPOSE_MEDIAN);
-					names.add(descriptor.ShortName());
-					column_descriptors.add(descriptor);
+					names.add(descriptor.getShortName());
+					columnDescriptors.add(descriptor);
 					dispose.add(LOCAL_DISPOSE_AVERAGE);
-					names.add(descriptor.ShortName());
-					column_descriptors.add(descriptor);
+					names.add(descriptor.getShortName());
+					columnDescriptors.add(descriptor);
 					dispose.add(LOCAL_DISPOSE_STANDARD_DEVIATION);
-					names.add(descriptor.ShortName());
-					column_descriptors.add(descriptor);
+					names.add(descriptor.getShortName());
+					columnDescriptors.add(descriptor);
 					dispose.add(LOCAL_DISPOSE_MAXIMUM);
-					names.add(descriptor.ShortName());
-					column_descriptors.add(descriptor);
+					names.add(descriptor.getShortName());
+					columnDescriptors.add(descriptor);
 					dispose.add(LOCAL_DISPOSE_SUM);
 				} else {
-					names.add(descriptor.ShortName());
-					column_descriptors.add(descriptor);
+					names.add(descriptor.getShortName());
+					columnDescriptors.add(descriptor);
 					dispose.add(LOCAL_DISPOSE_IGNORE);
 				}
 			}
 		}
 		
-		measurement_names = (String[]) names.toArray(new String[0]);
-		measurement_descriptors  = (MeasurementDescriptor[]) column_descriptors.toArray(new MeasurementDescriptor[0]);
-		measurement_dispose = new int[dispose.size()];
+		measurementNames = (String[]) names.toArray(new String[0]);
+		measurementDescriptors  = (MeasurementDescriptor[]) columnDescriptors.toArray(new MeasurementDescriptor[0]);
+		measurementDispose = new int[dispose.size()];
 		for (int j=0; j<dispose.size(); j++) {
-			measurement_dispose[j] = ((Integer) dispose.get(j)).intValue();
+			measurementDispose[j] = ((Integer) dispose.get(j)).intValue();
 		}
 	}
 
-	private void BuildMetricValues() {
-		measurement_values  = new Object[0][];
+	private void buildMetricValues() {
+		measurementValues  = new Object[0][];
 	}
 
-	private void BuildMetricValues(Collection metrics_list) {
-		List values = new ArrayList(metrics_list.size());
+	private void buildMetricValues(Collection metricsList) {
+		List values = new ArrayList(metricsList.size());
 		
-		Iterator i = metrics_list.iterator();
+		Iterator i = metricsList.iterator();
 		while (i.hasNext()) {
-			Metrics current_metrics = (Metrics) i.next();
+			Metrics currentMetrics = (Metrics) i.next();
 			
-			Collection current_values = new ArrayList(measurement_names.length);
-			values.add(current_values);
+			Collection currentValues = new ArrayList(measurementNames.length);
+			values.add(currentValues);
 			
-			current_values.add(current_metrics);
+			currentValues.add(currentMetrics);
 			
 			Iterator j = descriptors.iterator();
 			while (j.hasNext()) {
 				MeasurementDescriptor descriptor = (MeasurementDescriptor) j.next();
 
-				if (descriptor.Visible()) {
-					Measurement measurement = current_metrics.Measurement(descriptor.ShortName());
+				if (descriptor.isVisible()) {
+					Measurement measurement = currentMetrics.getMeasurement(descriptor.getShortName());
 					
 					if (measurement instanceof StatisticalMeasurement) {
-						current_values.add(measurement);
-						current_values.add(measurement);
-						current_values.add(measurement);
-						current_values.add(measurement);
-						current_values.add(measurement);
-						current_values.add(measurement);
+						currentValues.add(measurement);
+						currentValues.add(measurement);
+						currentValues.add(measurement);
+						currentValues.add(measurement);
+						currentValues.add(measurement);
+						currentValues.add(measurement);
 					} else {
-						current_values.add(measurement);
+						currentValues.add(measurement);
 					}
 				}
 			}
 		}
 		
-		measurement_values = new Object[values.size()][];
+		measurementValues = new Object[values.size()][];
 		for (int j=0; j<values.size(); j++) {
-			measurement_values[j] = ((Collection) values.get(j)).toArray();
+			measurementValues[j] = ((Collection) values.get(j)).toArray();
 		}
 	}
 	
 	public int getColumnCount() {
-		return measurement_names.length;
+		return measurementNames.length;
 	}
 
 	public int getRowCount() {
-		return measurement_values.length;
+		return measurementValues.length;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return measurement_values[rowIndex][columnIndex];
+		return measurementValues[rowIndex][columnIndex];
 	}
 
-	public String RawColumnName(int column) {
-		return measurement_names[column];
+	public String getRawColumnName(int column) {
+		return measurementNames[column];
 	}
 
-	public int RawColumnDispose(int column) {
-		return measurement_dispose[column];
+	public int getRawColumnDispose(int column) {
+		return measurementDispose[column];
 	}
 
 	public String getColumnName(int column) {
-		String result  = RawColumnName(column);
+		String result  = getRawColumnName(column);
 
-		switch (RawColumnDispose(column)) {
+		switch (getRawColumnDispose(column)) {
 			case StatisticalMeasurement.DISPOSE_MINIMUM:
 			case StatisticalMeasurement.DISPOSE_MEDIAN:
 			case StatisticalMeasurement.DISPOSE_AVERAGE:
 			case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
 			case StatisticalMeasurement.DISPOSE_MAXIMUM:
 			case StatisticalMeasurement.DISPOSE_SUM:
-				result += " (" + StatisticalMeasurement.DisposeAbbreviation(RawColumnDispose(column)) + ")";
+				result += " (" + StatisticalMeasurement.getDisposeAbbreviation(getRawColumnDispose(column)) + ")";
 				break;
 			case StatisticalMeasurement.DISPOSE_IGNORE:
 			case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:

@@ -59,34 +59,34 @@ public class FilterActionListener implements Runnable, ActionListener {
 		try {
 			Date start = new Date();
 			
-			model.StatusLine().ShowInfo("Filtering ...");
-			model.GroupsModel().UpdateMetrics(FilterMetrics(model.MetricsFactory().GroupMetrics()));
-			model.ClassesModel().UpdateMetrics(FilterMetrics(model.MetricsFactory().ClassMetrics()));
-			model.MethodsModel().UpdateMetrics(FilterMetrics(model.MetricsFactory().MethodMetrics()));
+			model.getStatusLine().showInfo("Filtering ...");
+			model.getGroupsModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getGroupMetrics()));
+			model.getClassesModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getClassMetrics()));
+			model.getMethodsModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getMethodMetrics()));
 			
 			Date stop = new Date();
 			
-			model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+			model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 			model.setTitle("OO Metrics - Extractor");
 		} catch (MalformedPerl5PatternException ex) {
 			JOptionPane dialog = new JOptionPane();
 			dialog.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
-			model.StatusLine().ShowInfo("Ready.");
+			model.getStatusLine().showInfo("Ready.");
 		} catch (Exception ex) {
 			JOptionPane dialog = new JOptionPane();
 			dialog.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			model.StatusLine().ShowInfo("Ready.");
+			model.getStatusLine().showInfo("Ready.");
 		}
 	}
 
-	private Collection FilterMetrics(Collection metrics_list) {
-		Collection result = new ArrayList(metrics_list.size());
+	private Collection getFilterMetrics(Collection metricsList) {
+		Collection result = new ArrayList(metricsList.size());
 
-		Iterator i = metrics_list.iterator();
+		Iterator i = metricsList.iterator();
 		while (i.hasNext()) {
 			Metrics metrics = (Metrics) i.next();
 
-			if (perl.match(model.FilterField().getText(), metrics.Name())) {
+			if (perl.match(model.getFilterField().getText(), metrics.getName())) {
 				result.add(metrics);
 			}
 		}

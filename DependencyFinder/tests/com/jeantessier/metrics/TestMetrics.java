@@ -38,29 +38,29 @@ public class TestMetrics extends TestCase {
 	public void testCreate() {
 		Metrics metrics = new Metrics("test");
 
-		assertEquals("test", metrics.Name());
-		assertNotNull(metrics.Measurement("test"));
-		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertTrue(metrics.SubMetrics().isEmpty());
+		assertEquals("test", metrics.getName());
+		assertNotNull(metrics.getMeasurement("test"));
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
+		assertTrue(metrics.getSubMetrics().isEmpty());
 	}
 
 	public void testTrack() throws Exception {
 		Metrics metrics = new Metrics("test");
 
-		metrics.Track("test1", new CounterMeasurement(null, null, null));
+		metrics.track("test1", new CounterMeasurement(null, null, null));
 
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("test2");
-		descriptor.Class(CounterMeasurement.class);
+		descriptor.setShortName("test2");
+		descriptor.setClassFor(CounterMeasurement.class);
 
-		metrics.Track(descriptor.CreateMeasurement());
+		metrics.track(descriptor.createMeasurement());
 
-		assertNotNull(metrics.Measurement("test1"));
-		assertNotNull(metrics.Measurement("test2"));
+		assertNotNull(metrics.getMeasurement("test1"));
+		assertNotNull(metrics.getMeasurement("test2"));
 
-		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(0, metrics.Measurement("test1").intValue());
-		assertEquals(0, metrics.Measurement("test2").intValue());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
+		assertEquals(0, metrics.getMeasurement("test1").intValue());
+		assertEquals(0, metrics.getMeasurement("test2").intValue());
 	}
 
 	public void testAddToMeasurement() {
@@ -70,56 +70,56 @@ public class TestMetrics extends TestCase {
 		Measurement m1 = new CounterMeasurement(null, null, null);
 		Measurement m2 = new CounterMeasurement(null, null, null);
 
-		m1.Add(1);
-		m2.Add(2.5);
+		m1.add(1);
+		m2.add(2.5);
 		
-		metrics.Track("test0", m0);
-		metrics.Track("test1", m1);
-		metrics.Track("test2", m2);
+		metrics.track("test0", m0);
+		metrics.track("test1", m1);
+		metrics.track("test2", m2);
 
-		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(0.0, metrics.Measurement("test0").doubleValue(), 0.01);
-		assertEquals(1.0, metrics.Measurement("test1").doubleValue(), 0.01);
-		assertEquals(2.5, metrics.Measurement("test2").doubleValue(), 0.01);
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
+		assertEquals(0.0, metrics.getMeasurement("test0").doubleValue(), 0.01);
+		assertEquals(1.0, metrics.getMeasurement("test1").doubleValue(), 0.01);
+		assertEquals(2.5, metrics.getMeasurement("test2").doubleValue(), 0.01);
 
-		metrics.AddToMeasurement("test",  1.0);
-		metrics.AddToMeasurement("test0", 1.0);
-		metrics.AddToMeasurement("test1", 1.0);
-		metrics.AddToMeasurement("test2", 1.0);
+		metrics.addToMeasurement("test",  1.0);
+		metrics.addToMeasurement("test0", 1.0);
+		metrics.addToMeasurement("test1", 1.0);
+		metrics.addToMeasurement("test2", 1.0);
 		
-		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(1.0, metrics.Measurement("test0").doubleValue(), 0.01);
-		assertEquals(2.0, metrics.Measurement("test1").doubleValue(), 0.01);
-		assertEquals(3.5, metrics.Measurement("test2").doubleValue(), 0.01);
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
+		assertEquals(1.0, metrics.getMeasurement("test0").doubleValue(), 0.01);
+		assertEquals(2.0, metrics.getMeasurement("test1").doubleValue(), 0.01);
+		assertEquals(3.5, metrics.getMeasurement("test2").doubleValue(), 0.01);
 
-		metrics.AddToMeasurement("test",  new Double(1.0));
-		metrics.AddToMeasurement("test0", new Double(1.0));
-		metrics.AddToMeasurement("test1", new Double(1.0));
-		metrics.AddToMeasurement("test2", new Double(1.0));
+		metrics.addToMeasurement("test",  new Double(1.0));
+		metrics.addToMeasurement("test0", new Double(1.0));
+		metrics.addToMeasurement("test1", new Double(1.0));
+		metrics.addToMeasurement("test2", new Double(1.0));
 		
-		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(2.0, metrics.Measurement("test0").doubleValue(), 0.01);
-		assertEquals(3.0, metrics.Measurement("test1").doubleValue(), 0.01);
-		assertEquals(4.5, metrics.Measurement("test2").doubleValue(), 0.01);
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
+		assertEquals(2.0, metrics.getMeasurement("test0").doubleValue(), 0.01);
+		assertEquals(3.0, metrics.getMeasurement("test1").doubleValue(), 0.01);
+		assertEquals(4.5, metrics.getMeasurement("test2").doubleValue(), 0.01);
 
-		metrics.AddToMeasurement("test",  1);
-		metrics.AddToMeasurement("test0", 1);
-		metrics.AddToMeasurement("test1", 1);
-		metrics.AddToMeasurement("test2", 1);
+		metrics.addToMeasurement("test",  1);
+		metrics.addToMeasurement("test0", 1);
+		metrics.addToMeasurement("test1", 1);
+		metrics.addToMeasurement("test2", 1);
 		
-		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(3.0, metrics.Measurement("test0").doubleValue(), 0.01);
-		assertEquals(4.0, metrics.Measurement("test1").doubleValue(), 0.01);
-		assertEquals(5.5, metrics.Measurement("test2").doubleValue(), 0.01);
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
+		assertEquals(3.0, metrics.getMeasurement("test0").doubleValue(), 0.01);
+		assertEquals(4.0, metrics.getMeasurement("test1").doubleValue(), 0.01);
+		assertEquals(5.5, metrics.getMeasurement("test2").doubleValue(), 0.01);
 	}
 
 	public void testAddSubMetrics() {
 		Metrics metrics = new Metrics("test");
 
-		metrics.AddSubMetrics(new Metrics("a"));
-		metrics.AddSubMetrics(new Metrics("b"));
+		metrics.addSubMetrics(new Metrics("a"));
+		metrics.addSubMetrics(new Metrics("b"));
 		
-		assertEquals(2, metrics.SubMetrics().size());
+		assertEquals(2, metrics.getSubMetrics().size());
 	}
 
 	public void testMetricsInSubMetrics() {
@@ -142,247 +142,247 @@ public class TestMetrics extends TestCase {
 		Metrics bBf = new Metrics("test.b.B.f");
 		Metrics bBg = new Metrics("test.b.B.g");
 
-		metrics.AddSubMetrics(a);
-		metrics.AddSubMetrics(b);
+		metrics.addSubMetrics(a);
+		metrics.addSubMetrics(b);
 
-		a.AddSubMetrics(aA);
-		a.AddSubMetrics(aB);
-		b.AddSubMetrics(bA);
-		b.AddSubMetrics(bB);
+		a.addSubMetrics(aA);
+		a.addSubMetrics(aB);
+		b.addSubMetrics(bA);
+		b.addSubMetrics(bB);
 		
-		aA.AddSubMetrics(aAf);
-		aA.AddSubMetrics(aAg);
-		aB.AddSubMetrics(aBf);
-		aB.AddSubMetrics(aBg);
-		bA.AddSubMetrics(bAf);
-		bA.AddSubMetrics(bAg);
-		bB.AddSubMetrics(bBf);
-		bB.AddSubMetrics(bBg);
+		aA.addSubMetrics(aAf);
+		aA.addSubMetrics(aAg);
+		aB.addSubMetrics(aBf);
+		aB.addSubMetrics(aBg);
+		bA.addSubMetrics(bAf);
+		bA.addSubMetrics(bAg);
+		bB.addSubMetrics(bBf);
+		bB.addSubMetrics(bBg);
 
-		aAf.Track("0001", new CounterMeasurement(null, null, null));
-		aAf.Track("0011", new CounterMeasurement(null, null, null));
-		aAf.Track("0101", new CounterMeasurement(null, null, null));
-		aAf.Track("0111", new CounterMeasurement(null, null, null));
-		aAg.Track("0001", new CounterMeasurement(null, null, null));
-		aAg.Track("0011", new CounterMeasurement(null, null, null));
-		aAg.Track("0101", new CounterMeasurement(null, null, null));
-		aAg.Track("0111", new CounterMeasurement(null, null, null));
-		aBf.Track("0001", new CounterMeasurement(null, null, null));
-		aBf.Track("0011", new CounterMeasurement(null, null, null));
-		aBf.Track("0101", new CounterMeasurement(null, null, null));
-		aBf.Track("0111", new CounterMeasurement(null, null, null));
-		aBg.Track("0001", new CounterMeasurement(null, null, null));
-		aBg.Track("0011", new CounterMeasurement(null, null, null));
-		aBg.Track("0101", new CounterMeasurement(null, null, null));
-		aBg.Track("0111", new CounterMeasurement(null, null, null));
-		bAf.Track("1001", new CounterMeasurement(null, null, null));
-		bAf.Track("1011", new CounterMeasurement(null, null, null));
-		bAf.Track("1101", new CounterMeasurement(null, null, null));
-		bAf.Track("1111", new CounterMeasurement(null, null, null));
-		bAg.Track("1001", new CounterMeasurement(null, null, null));
-		bAg.Track("1011", new CounterMeasurement(null, null, null));
-		bAg.Track("1101", new CounterMeasurement(null, null, null));
-		bAg.Track("1111", new CounterMeasurement(null, null, null));
-		bBf.Track("1001", new CounterMeasurement(null, null, null));
-		bBf.Track("1011", new CounterMeasurement(null, null, null));
-		bBf.Track("1101", new CounterMeasurement(null, null, null));
-		bBf.Track("1111", new CounterMeasurement(null, null, null));
-		bBg.Track("1001", new CounterMeasurement(null, null, null));
-		bBg.Track("1011", new CounterMeasurement(null, null, null));
-		bBg.Track("1101", new CounterMeasurement(null, null, null));
-		bBg.Track("1111", new CounterMeasurement(null, null, null));
+		aAf.track("0001", new CounterMeasurement(null, null, null));
+		aAf.track("0011", new CounterMeasurement(null, null, null));
+		aAf.track("0101", new CounterMeasurement(null, null, null));
+		aAf.track("0111", new CounterMeasurement(null, null, null));
+		aAg.track("0001", new CounterMeasurement(null, null, null));
+		aAg.track("0011", new CounterMeasurement(null, null, null));
+		aAg.track("0101", new CounterMeasurement(null, null, null));
+		aAg.track("0111", new CounterMeasurement(null, null, null));
+		aBf.track("0001", new CounterMeasurement(null, null, null));
+		aBf.track("0011", new CounterMeasurement(null, null, null));
+		aBf.track("0101", new CounterMeasurement(null, null, null));
+		aBf.track("0111", new CounterMeasurement(null, null, null));
+		aBg.track("0001", new CounterMeasurement(null, null, null));
+		aBg.track("0011", new CounterMeasurement(null, null, null));
+		aBg.track("0101", new CounterMeasurement(null, null, null));
+		aBg.track("0111", new CounterMeasurement(null, null, null));
+		bAf.track("1001", new CounterMeasurement(null, null, null));
+		bAf.track("1011", new CounterMeasurement(null, null, null));
+		bAf.track("1101", new CounterMeasurement(null, null, null));
+		bAf.track("1111", new CounterMeasurement(null, null, null));
+		bAg.track("1001", new CounterMeasurement(null, null, null));
+		bAg.track("1011", new CounterMeasurement(null, null, null));
+		bAg.track("1101", new CounterMeasurement(null, null, null));
+		bAg.track("1111", new CounterMeasurement(null, null, null));
+		bBf.track("1001", new CounterMeasurement(null, null, null));
+		bBf.track("1011", new CounterMeasurement(null, null, null));
+		bBf.track("1101", new CounterMeasurement(null, null, null));
+		bBf.track("1111", new CounterMeasurement(null, null, null));
+		bBg.track("1001", new CounterMeasurement(null, null, null));
+		bBg.track("1011", new CounterMeasurement(null, null, null));
+		bBg.track("1101", new CounterMeasurement(null, null, null));
+		bBg.track("1111", new CounterMeasurement(null, null, null));
 
-		aA.Track("0011", new CounterMeasurement(null, null, null));
-		aA.Track("0010", new CounterMeasurement(null, null, null));
-		aA.Track("0111", new CounterMeasurement(null, null, null));
-		aA.Track("0110", new CounterMeasurement(null, null, null));
-		aB.Track("0011", new CounterMeasurement(null, null, null));
-		aB.Track("0010", new CounterMeasurement(null, null, null));
-		aB.Track("0111", new CounterMeasurement(null, null, null));
-		aB.Track("0110", new CounterMeasurement(null, null, null));
-		bA.Track("1011", new CounterMeasurement(null, null, null));
-		bA.Track("1010", new CounterMeasurement(null, null, null));
-		bA.Track("1111", new CounterMeasurement(null, null, null));
-		bA.Track("1110", new CounterMeasurement(null, null, null));
-		bB.Track("1011", new CounterMeasurement(null, null, null));
-		bB.Track("1010", new CounterMeasurement(null, null, null));
-		bB.Track("1111", new CounterMeasurement(null, null, null));
-		bB.Track("1110", new CounterMeasurement(null, null, null));
+		aA.track("0011", new CounterMeasurement(null, null, null));
+		aA.track("0010", new CounterMeasurement(null, null, null));
+		aA.track("0111", new CounterMeasurement(null, null, null));
+		aA.track("0110", new CounterMeasurement(null, null, null));
+		aB.track("0011", new CounterMeasurement(null, null, null));
+		aB.track("0010", new CounterMeasurement(null, null, null));
+		aB.track("0111", new CounterMeasurement(null, null, null));
+		aB.track("0110", new CounterMeasurement(null, null, null));
+		bA.track("1011", new CounterMeasurement(null, null, null));
+		bA.track("1010", new CounterMeasurement(null, null, null));
+		bA.track("1111", new CounterMeasurement(null, null, null));
+		bA.track("1110", new CounterMeasurement(null, null, null));
+		bB.track("1011", new CounterMeasurement(null, null, null));
+		bB.track("1010", new CounterMeasurement(null, null, null));
+		bB.track("1111", new CounterMeasurement(null, null, null));
+		bB.track("1110", new CounterMeasurement(null, null, null));
 
-		aA.AddToMeasurement("0011", 1);
-		aA.AddToMeasurement("0010", 1);
-		aA.AddToMeasurement("0111", 1);
-		aA.AddToMeasurement("0110", 1);
-		aB.AddToMeasurement("0011", 1);
-		aB.AddToMeasurement("0010", 1);
-		aB.AddToMeasurement("0111", 1);
-		aB.AddToMeasurement("0110", 1);
-		bA.AddToMeasurement("1011", 1);
-		bA.AddToMeasurement("1010", 1);
-		bA.AddToMeasurement("1111", 1);
-		bA.AddToMeasurement("1110", 1);
-		bB.AddToMeasurement("1011", 1);
-		bB.AddToMeasurement("1010", 1);
-		bB.AddToMeasurement("1111", 1);
-		bB.AddToMeasurement("1110", 1);
+		aA.addToMeasurement("0011", 1);
+		aA.addToMeasurement("0010", 1);
+		aA.addToMeasurement("0111", 1);
+		aA.addToMeasurement("0110", 1);
+		aB.addToMeasurement("0011", 1);
+		aB.addToMeasurement("0010", 1);
+		aB.addToMeasurement("0111", 1);
+		aB.addToMeasurement("0110", 1);
+		bA.addToMeasurement("1011", 1);
+		bA.addToMeasurement("1010", 1);
+		bA.addToMeasurement("1111", 1);
+		bA.addToMeasurement("1110", 1);
+		bB.addToMeasurement("1011", 1);
+		bB.addToMeasurement("1010", 1);
+		bB.addToMeasurement("1111", 1);
+		bB.addToMeasurement("1110", 1);
 
-		a.Track("0100", new CounterMeasurement(null, null, null));
-		a.Track("0101", new CounterMeasurement(null, null, null));
-		a.Track("0110", new CounterMeasurement(null, null, null));
-		a.Track("0111", new CounterMeasurement(null, null, null));
-		b.Track("1100", new CounterMeasurement(null, null, null));
-		b.Track("1101", new CounterMeasurement(null, null, null));
-		b.Track("1110", new CounterMeasurement(null, null, null));
-		b.Track("1111", new CounterMeasurement(null, null, null));
+		a.track("0100", new CounterMeasurement(null, null, null));
+		a.track("0101", new CounterMeasurement(null, null, null));
+		a.track("0110", new CounterMeasurement(null, null, null));
+		a.track("0111", new CounterMeasurement(null, null, null));
+		b.track("1100", new CounterMeasurement(null, null, null));
+		b.track("1101", new CounterMeasurement(null, null, null));
+		b.track("1110", new CounterMeasurement(null, null, null));
+		b.track("1111", new CounterMeasurement(null, null, null));
 
-		a.AddToMeasurement("0100", 2);
-		a.AddToMeasurement("0101", 2);
-		a.AddToMeasurement("0110", 2);
-		a.AddToMeasurement("0111", 2);
-		b.AddToMeasurement("1100", 2);
-		b.AddToMeasurement("1101", 2);
-		b.AddToMeasurement("1110", 2);
-		b.AddToMeasurement("1111", 2);
+		a.addToMeasurement("0100", 2);
+		a.addToMeasurement("0101", 2);
+		a.addToMeasurement("0110", 2);
+		a.addToMeasurement("0111", 2);
+		b.addToMeasurement("1100", 2);
+		b.addToMeasurement("1101", 2);
+		b.addToMeasurement("1110", 2);
+		b.addToMeasurement("1111", 2);
 
-		metrics.Track("1100", new CounterMeasurement(null, null, null));
-		metrics.Track("1101", new CounterMeasurement(null, null, null));
-		metrics.Track("1110", new CounterMeasurement(null, null, null));
-		metrics.Track("1111", new CounterMeasurement(null, null, null));
+		metrics.track("1100", new CounterMeasurement(null, null, null));
+		metrics.track("1101", new CounterMeasurement(null, null, null));
+		metrics.track("1110", new CounterMeasurement(null, null, null));
+		metrics.track("1111", new CounterMeasurement(null, null, null));
 
-		metrics.AddToMeasurement("1100", 3);
-		metrics.AddToMeasurement("1101", 3);
-		metrics.AddToMeasurement("1110", 3);
-		metrics.AddToMeasurement("1111", 3);
+		metrics.addToMeasurement("1100", 3);
+		metrics.addToMeasurement("1101", 3);
+		metrics.addToMeasurement("1110", 3);
+		metrics.addToMeasurement("1111", 3);
 
-		assertEquals(2, metrics.SubMetrics().size());
-		assertEquals(NullMeasurement.class, metrics.Measurement("0000").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("0001").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("0010").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("0011").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("0100").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("0101").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("0110").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("0111").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("1000").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("1001").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("1010").getClass());
-		assertEquals(NullMeasurement.class, metrics.Measurement("1011").getClass());
-		assertEquals(3.0, metrics.Measurement("1100").doubleValue(), 0.01);
-		assertEquals(3.0, metrics.Measurement("1101").doubleValue(), 0.01);
-		assertEquals(3.0, metrics.Measurement("1110").doubleValue(), 0.01);
-		assertEquals(3.0, metrics.Measurement("1111").doubleValue(), 0.01);
+		assertEquals(2, metrics.getSubMetrics().size());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("0000").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("0001").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("0010").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("0011").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("0100").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("0101").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("0110").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("0111").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("1000").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("1001").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("1010").getClass());
+		assertEquals(NullMeasurement.class, metrics.getMeasurement("1011").getClass());
+		assertEquals(3.0, metrics.getMeasurement("1100").doubleValue(), 0.01);
+		assertEquals(3.0, metrics.getMeasurement("1101").doubleValue(), 0.01);
+		assertEquals(3.0, metrics.getMeasurement("1110").doubleValue(), 0.01);
+		assertEquals(3.0, metrics.getMeasurement("1111").doubleValue(), 0.01);
 	}
 
 	public void testInRange() throws Exception {
 		Metrics metrics = new Metrics("test");
 
-		assertTrue(metrics.InRange());
+		assertTrue(metrics.isInRange());
 
 		MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
-		descriptor1.ShortName("foo");
-		descriptor1.LongName("foo");
-		descriptor1.Class(CounterMeasurement.class);
-		descriptor1.UpperThreshold(new Integer(1));
+		descriptor1.setShortName("foo");
+		descriptor1.setLongName("foo");
+		descriptor1.setClassFor(CounterMeasurement.class);
+		descriptor1.setUpperThreshold(new Integer(1));
 
-		metrics.Track(descriptor1.CreateMeasurement(metrics));
+		metrics.track(descriptor1.createMeasurement(metrics));
 
 		MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
-		descriptor2.ShortName("bar");
-		descriptor2.LongName("bar");
-		descriptor2.Class(CounterMeasurement.class);
+		descriptor2.setShortName("bar");
+		descriptor2.setLongName("bar");
+		descriptor2.setClassFor(CounterMeasurement.class);
 
-		metrics.Track(descriptor2.CreateMeasurement(metrics));
+		metrics.track(descriptor2.createMeasurement(metrics));
 
-		assertTrue(metrics.InRange());
+		assertTrue(metrics.isInRange());
 
-		metrics.AddToMeasurement("foo", 2);
+		metrics.addToMeasurement("foo", 2);
 
-		assertFalse(metrics.InRange());
+		assertFalse(metrics.isInRange());
 	}
 
 	public void testEmptyWithOneNonEmptyMeasurement() throws Exception {
 		Metrics metrics = new Metrics("test");
 
-		assertTrue("Before Track(foo)", metrics.Empty());
+		assertTrue("Before Track(foo)", metrics.isEmpty());
 
 		MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
-		descriptor1.ShortName("foo");
-		descriptor1.LongName("foo");
-		descriptor1.Class(CounterMeasurement.class);
+		descriptor1.setShortName("foo");
+		descriptor1.setLongName("foo");
+		descriptor1.setClassFor(CounterMeasurement.class);
 
-		metrics.Track(descriptor1.CreateMeasurement(metrics));
+		metrics.track(descriptor1.createMeasurement(metrics));
 
-		assertTrue("After Track(foo)", metrics.Empty());
+		assertTrue("After Track(foo)", metrics.isEmpty());
 		
 		MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
-		descriptor2.ShortName("bar");
-		descriptor2.LongName("bar");
-		descriptor2.Class(CounterMeasurement.class);
+		descriptor2.setShortName("bar");
+		descriptor2.setLongName("bar");
+		descriptor2.setClassFor(CounterMeasurement.class);
 
-		metrics.Track(descriptor2.CreateMeasurement(metrics));
+		metrics.track(descriptor2.createMeasurement(metrics));
 
-		assertTrue("After Track(bar)", metrics.Empty());
+		assertTrue("After Track(bar)", metrics.isEmpty());
 		
-		metrics.AddToMeasurement("foo", 2);
+		metrics.addToMeasurement("foo", 2);
 
-		assertFalse("After Add()", metrics.Empty());
+		assertFalse("After Add()", metrics.isEmpty());
 	}
 
 	public void testEmptyWithOtherNonEmptyMeasurement() throws Exception {
 		Metrics metrics = new Metrics("test");
 
-		assertTrue("Before Track(foo)", metrics.Empty());
+		assertTrue("Before Track(foo)", metrics.isEmpty());
 
 		MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
-		descriptor1.ShortName("foo");
-		descriptor1.LongName("foo");
-		descriptor1.Class(CounterMeasurement.class);
+		descriptor1.setShortName("foo");
+		descriptor1.setLongName("foo");
+		descriptor1.setClassFor(CounterMeasurement.class);
 
-		metrics.Track(descriptor1.CreateMeasurement(metrics));
+		metrics.track(descriptor1.createMeasurement(metrics));
 
-		assertTrue("After Track(foo)", metrics.Empty());
+		assertTrue("After Track(foo)", metrics.isEmpty());
 		
 		MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
-		descriptor2.ShortName("bar");
-		descriptor2.LongName("bar");
-		descriptor2.Class(CounterMeasurement.class);
+		descriptor2.setShortName("bar");
+		descriptor2.setLongName("bar");
+		descriptor2.setClassFor(CounterMeasurement.class);
 
-		metrics.Track(descriptor2.CreateMeasurement(metrics));
+		metrics.track(descriptor2.createMeasurement(metrics));
 
-		assertTrue("After Track(bar)", metrics.Empty());
+		assertTrue("After Track(bar)", metrics.isEmpty());
 		
-		metrics.AddToMeasurement("bar", 2);
+		metrics.addToMeasurement("bar", 2);
 
-		assertFalse("After Add()", metrics.Empty());
+		assertFalse("After Add()", metrics.isEmpty());
 	}
 
 	public void testEmptyWithOneNonVisibleNonEmptyMeasurement() throws Exception {
 		Metrics metrics = new Metrics("test");
 
-		assertTrue("Before Track(foo)", metrics.Empty());
+		assertTrue("Before Track(foo)", metrics.isEmpty());
 
 		MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
-		descriptor1.ShortName("foo");
-		descriptor1.LongName("foo");
-		descriptor1.Class(CounterMeasurement.class);
-		descriptor1.Visible(false);
+		descriptor1.setShortName("foo");
+		descriptor1.setLongName("foo");
+		descriptor1.setClassFor(CounterMeasurement.class);
+		descriptor1.setVisible(false);
 
-		metrics.Track(descriptor1.CreateMeasurement(metrics));
+		metrics.track(descriptor1.createMeasurement(metrics));
 
-		assertTrue("After Track(foo)", metrics.Empty());
+		assertTrue("After Track(foo)", metrics.isEmpty());
 		
 		MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
-		descriptor2.ShortName("bar");
-		descriptor2.LongName("bar");
-		descriptor2.Class(CounterMeasurement.class);
+		descriptor2.setShortName("bar");
+		descriptor2.setLongName("bar");
+		descriptor2.setClassFor(CounterMeasurement.class);
 
-		metrics.Track(descriptor2.CreateMeasurement(metrics));
+		metrics.track(descriptor2.createMeasurement(metrics));
 
-		assertTrue("After Track(bar)", metrics.Empty());
+		assertTrue("After Track(bar)", metrics.isEmpty());
 		
-		metrics.AddToMeasurement("foo", 2);
+		metrics.addToMeasurement("foo", 2);
 
-		assertTrue("After Add()", metrics.Empty());
+		assertTrue("After Add()", metrics.isEmpty());
 	}
 
 	public void testEmptyWithOneNonEmptySubMetrics() throws Exception {
@@ -390,26 +390,26 @@ public class TestMetrics extends TestCase {
 		Metrics submetrics1 = new Metrics("submetrics1");
 		Metrics submetrics2 = new Metrics("submetrics2");
 
-		metrics.AddSubMetrics(submetrics1);
-		metrics.AddSubMetrics(submetrics2);
+		metrics.addSubMetrics(submetrics1);
+		metrics.addSubMetrics(submetrics2);
 		
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("foo");
-		descriptor.Class(CounterMeasurement.class);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("foo");
+		descriptor.setClassFor(CounterMeasurement.class);
 
-		submetrics1.Track(descriptor.CreateMeasurement(submetrics1));
-		submetrics2.Track(descriptor.CreateMeasurement(submetrics2));
+		submetrics1.track(descriptor.createMeasurement(submetrics1));
+		submetrics2.track(descriptor.createMeasurement(submetrics2));
 
-		assertTrue("Before Add() to submetrics1", submetrics1.Empty());
-		assertTrue("Before Add() to submetrics1", submetrics2.Empty());
-		assertTrue("Before Add() to submetrics1", metrics.Empty());
+		assertTrue("Before Add() to submetrics1", submetrics1.isEmpty());
+		assertTrue("Before Add() to submetrics1", submetrics2.isEmpty());
+		assertTrue("Before Add() to submetrics1", metrics.isEmpty());
 		
-		submetrics1.AddToMeasurement("foo", 2);
+		submetrics1.addToMeasurement("foo", 2);
 
-		assertFalse("After Add() to submetrics1", submetrics1.Empty());
-		assertTrue("After Add() to submetrics1", submetrics2.Empty());
-		assertFalse("After Add() to submetrics1", metrics.Empty());
+		assertFalse("After Add() to submetrics1", submetrics1.isEmpty());
+		assertTrue("After Add() to submetrics1", submetrics2.isEmpty());
+		assertFalse("After Add() to submetrics1", metrics.isEmpty());
 	}
 
 	public void testEmptyWithOtherNonEmptySubMetrics() throws Exception {
@@ -417,25 +417,25 @@ public class TestMetrics extends TestCase {
 		Metrics submetrics1 = new Metrics("submetrics1");
 		Metrics submetrics2 = new Metrics("submetrics2");
 
-		metrics.AddSubMetrics(submetrics1);
-		metrics.AddSubMetrics(submetrics2);
+		metrics.addSubMetrics(submetrics1);
+		metrics.addSubMetrics(submetrics2);
 		
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("foo");
-		descriptor.Class(CounterMeasurement.class);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("foo");
+		descriptor.setClassFor(CounterMeasurement.class);
 
-		submetrics1.Track(descriptor.CreateMeasurement(submetrics1));
-		submetrics2.Track(descriptor.CreateMeasurement(submetrics2));
+		submetrics1.track(descriptor.createMeasurement(submetrics1));
+		submetrics2.track(descriptor.createMeasurement(submetrics2));
 
-		assertTrue("Before Add() to submetrics1", submetrics1.Empty());
-		assertTrue("Before Add() to submetrics1", submetrics2.Empty());
-		assertTrue("Before Add() to submetrics2", metrics.Empty());
+		assertTrue("Before Add() to submetrics1", submetrics1.isEmpty());
+		assertTrue("Before Add() to submetrics1", submetrics2.isEmpty());
+		assertTrue("Before Add() to submetrics2", metrics.isEmpty());
 		
-		submetrics2.AddToMeasurement("foo", 2);
+		submetrics2.addToMeasurement("foo", 2);
 
-		assertTrue("After Add() to submetrics1", submetrics1.Empty());
-		assertFalse("After Add() to submetrics1", submetrics2.Empty());
-		assertFalse("After Add() to submetrics2", metrics.Empty());
+		assertTrue("After Add() to submetrics1", submetrics1.isEmpty());
+		assertFalse("After Add() to submetrics1", submetrics2.isEmpty());
+		assertFalse("After Add() to submetrics2", metrics.isEmpty());
 	}
 }

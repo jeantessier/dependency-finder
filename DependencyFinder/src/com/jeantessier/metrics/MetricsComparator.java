@@ -47,46 +47,46 @@ public class MetricsComparator implements Comparator {
 	}
 		
 	public MetricsComparator(String name, int dispose) {
-		Name(name);
-		Dispose(dispose);
-		Direction(ASCENDING);
+		setName(name);
+		setDispose(dispose);
+		setDirection(ASCENDING);
 	}
 
-	public String Name() {
+	public String getName() {
 		return name;
 	}
 
-	public void Name(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public int Direction() {
+	public int getDirection() {
 		return direction;
 	}
 
-	public void Direction(int direction) {
+	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 
-	public int Dispose() {
+	public int getDispose() {
 		return dispose;
 	}
 
-	public void Dispose(int dispose) {
+	public void setDispose(int dispose) {
 		this.dispose = dispose;
 	}
 
-	public void SortOn(String name, int dispose) {
+	public void sortOn(String name, int dispose) {
 		if (name.equals(this.name) && dispose == this.dispose) {
-			Reverse();
+			reverse();
 		} else {
-			Name(name);
-			Direction(ASCENDING);
-			Dispose(dispose);
+			setName(name);
+			setDirection(ASCENDING);
+			setDispose(dispose);
 		}
 	}
 	
-	public void Reverse() {
+	public void reverse() {
 		direction *= -1;
 	}
 	
@@ -97,10 +97,10 @@ public class MetricsComparator implements Comparator {
 		Metrics metrics2 = (Metrics) o2;
 
 		if ("name".equals(name)) {
-			result = metrics1.Name().compareTo(metrics2.Name());
+			result = metrics1.getName().compareTo(metrics2.getName());
 		} else {
-			Measurement m1 = metrics1.Measurement(name);
-			Measurement m2 = metrics2.Measurement(name);
+			Measurement m1 = metrics1.getMeasurement(name);
+			Measurement m2 = metrics2.getMeasurement(name);
 			
 			if (m1 == null && m2 != null) {
 				result = -1;
@@ -109,13 +109,13 @@ public class MetricsComparator implements Comparator {
 			} else if (m1 == m2) {
 				result = 0;
 			} else {
-				double v1 = ExtractValue(m1);
-				double v2 = ExtractValue(m2);
+				double v1 = extractValue(m1);
+				double v2 = extractValue(m2);
 				
 				if (Double.isNaN(v1) && !Double.isNaN(v2)) {
-					result = 1 * Direction();
+					result = 1 * getDirection();
 				} else if (!Double.isNaN(v1) && Double.isNaN(v2)) {
-					result = -1 * Direction();
+					result = -1 * getDirection();
 				} else if (Double.isNaN(v1) && Double.isNaN(v2)) {
 					result = 0;
 				} else if (v1 < v2) {
@@ -128,43 +128,43 @@ public class MetricsComparator implements Comparator {
 			}
 		}
 		
-		result *= Direction();
+		result *= getDirection();
 
 		return result;
 	}
 
-	private double ExtractValue(Measurement m) {
+	private double extractValue(Measurement m) {
 		double result = Double.NaN;
 
 		if (m instanceof StatisticalMeasurement) {
 			StatisticalMeasurement sm = (StatisticalMeasurement) m;
-			switch (Dispose()) {
+			switch (getDispose()) {
 				case StatisticalMeasurement.DISPOSE_MINIMUM:
-					result = sm.Minimum();
+					result = sm.getMinimum();
 					break;
 					
 				case StatisticalMeasurement.DISPOSE_MEDIAN:
-					result = sm.Median();
+					result = sm.getMedian();
 					break;
 					
 				case StatisticalMeasurement.DISPOSE_AVERAGE:
-					result = sm.Average();
+					result = sm.getAverage();
 					break;
 					
 				case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-					result = sm.StandardDeviation();
+					result = sm.getStandardDeviation();
 					break;
 					
 				case StatisticalMeasurement.DISPOSE_MAXIMUM:
-					result = sm.Maximum();
+					result = sm.getMaximum();
 					break;
 					
 				case StatisticalMeasurement.DISPOSE_SUM:
-					result = sm.Sum();
+					result = sm.getSum();
 					break;
 					
 				case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-					result = sm.NbDataPoints();
+					result = sm.getNbDataPoints();
 					break;
 
 				default:

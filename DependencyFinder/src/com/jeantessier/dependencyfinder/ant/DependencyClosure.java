@@ -44,27 +44,27 @@ import com.jeantessier.dependency.*;
 
 public class DependencyClosure extends GraphTask {
 
-	private String  maximum_inbound_depth  = "";
-	private String  maximum_outbound_depth = "";
-	private boolean xml                    = false;
-	private String  encoding               = XMLPrinter.DEFAULT_ENCODING;
-	private String  dtd_prefix             = XMLPrinter.DEFAULT_DTD_PREFIX;
-	private String  indent_text;
+	private String  maximumInboundDepth  = "";
+	private String  maximumOutboundDepth = "";
+	private boolean xml                  = false;
+	private String  encoding             = XMLPrinter.DEFAULT_ENCODING;
+	private String  dtdPrefix            = XMLPrinter.DEFAULT_DTD_PREFIX;
+	private String  indentText;
 
 	public String getMaximuminbounddepth() {
-		return maximum_inbound_depth;
+		return maximumInboundDepth;
 	}
 
-	public void setMaximuminbounddepth(String maximum_inbound_depth) {
-		this.maximum_inbound_depth = maximum_inbound_depth;
+	public void setMaximuminbounddepth(String maximumInboundDepth) {
+		this.maximumInboundDepth = maximumInboundDepth;
 	}
 	
 	public String getMaximumoutbounddepth() {
-		return maximum_outbound_depth;
+		return maximumOutboundDepth;
 	}
 
-	public void setMaximumoutbounddepth(String maximum_outbound_depth) {
-		this.maximum_outbound_depth = maximum_outbound_depth;
+	public void setMaximumoutbounddepth(String maximumOutboundDepth) {
+		this.maximumOutboundDepth = maximumOutboundDepth;
 	}
 
 	public boolean getXml() {
@@ -84,29 +84,29 @@ public class DependencyClosure extends GraphTask {
 	}
 
 	public String getDtdprefix() {
-		return dtd_prefix;
+		return dtdPrefix;
 	}
 	
-	public void setDtdprefix(String dtd_prefix) {
-		this.dtd_prefix = dtd_prefix;
+	public void setDtdprefix(String dtdPrefix) {
+		this.dtdPrefix = dtdPrefix;
 	}
 
 	public String getIndenttext() {
-		return indent_text;
+		return indentText;
 	}
 	
-	public void setIntenttext(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIntenttext(String indentText) {
+		this.indentText = indentText;
 	}
 	
 	public void execute() throws BuildException {
 		// first off, make sure that we've got what we need
-		CheckParameters();
+		validateParameters();
 
-		VerboseListener verbose_listener = new VerboseListener(this);
+		VerboseListener verboseListener = new VerboseListener(this);
 
 		try {
-			TransitiveClosure selector = new TransitiveClosure(Strategy());
+			TransitiveClosure selector = new TransitiveClosure(getStrategy());
 
 			try {
 				if (getMaximuminbounddepth() != null) {
@@ -132,7 +132,7 @@ public class DependencyClosure extends GraphTask {
 				
 				if (filenames[i].endsWith(".xml")) {
 					NodeLoader loader = new NodeLoader(getValidate());
-					loader.addDependencyListener(verbose_listener);
+					loader.addDependencyListener(verboseListener);
 					packages = loader.load(filenames[i]).getPackages().values();
 				}
 				

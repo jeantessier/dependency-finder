@@ -51,44 +51,44 @@ public class TestMetricsConfigurationLoader extends TestCase {
 		Reader in = new StringReader("");
 
 		try {
-			loader.Load(in);
+			loader.load(in);
 			fail("Read empty file");
 		} catch (SAXParseException ex) {
 			// Ignore
 		}
 
-		assertEquals("ProjectMeasurements", 0, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   0, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   0, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  0, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 	}
 
 	public void testEmptyDocument() throws IOException, SAXException {
 		Reader in = new StringReader("<metrics-configuration/>");
 
-		MetricsConfiguration configuration2 = loader.Load(in);
+		MetricsConfiguration configuration2 = loader.load(in);
 		assertSame(configuration, configuration2);
 
-		assertEquals("ProjectMeasurements", 0, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   0, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   0, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  0, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 	}
 
 	public void testNonWellFormedDocument() throws IOException, SAXException {
 		Reader in = new StringReader("<metrics-configuration>");
 
 		try {
-			loader.Load(in);
+			loader.load(in);
 			fail("Read non well formed file");
 		} catch (SAXParseException ex) {
 			// Ignore
 		}
 
-		assertEquals("ProjectMeasurements", 0, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   0, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   0, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  0, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 	}
 
 	public void testValidation() throws IOException, SAXException {
@@ -104,13 +104,13 @@ public class TestMetricsConfigurationLoader extends TestCase {
 
 		Reader in = new StringReader(document.toString());
 
-		MetricsConfiguration configuration2 = loader.Load(in);
+		MetricsConfiguration configuration2 = loader.load(in);
 		assertSame(configuration, configuration2);
 
-		assertEquals("ProjectMeasurements", 0, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   0, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   0, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  0, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 	}
 
 	public void testPackageMeasurement() throws IOException, SAXException {
@@ -136,21 +136,21 @@ public class TestMetricsConfigurationLoader extends TestCase {
 
 		Reader in = new StringReader(document.toString());
 
-		MetricsConfiguration configuration2 = loader.Load(in);
+		MetricsConfiguration configuration2 = loader.load(in);
 		assertSame(configuration, configuration2);
 
-		assertEquals("ProjectMeasurements", 1, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   0, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   0, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  0, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 1, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 
-		MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.ProjectMeasurements().get(0);
-		assertEquals("SLOC", descriptor.ShortName());
-		assertEquals("Single Lines of Code", descriptor.LongName());
-		assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.Class());
-		assertEquals("SLOC\n                DISPOSE_SUM", descriptor.InitText());
-		assertNull("descriptor.LowerThreshold()", descriptor.LowerThreshold());
-		assertNull("descriptor.UpperThreshold()", descriptor.UpperThreshold());
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.getProjectMeasurements().get(0);
+		assertEquals("SLOC", descriptor.getShortName());
+		assertEquals("Single Lines of Code", descriptor.getLongName());
+		assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
+		assertEquals("SLOC\n                DISPOSE_SUM", descriptor.getInitText());
+		assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
+		assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
 	}
 
 	public void testGroupMeasurement() throws IOException, SAXException {
@@ -176,21 +176,21 @@ public class TestMetricsConfigurationLoader extends TestCase {
 
 		Reader in = new StringReader(document.toString());
 
-		MetricsConfiguration configuration2 = loader.Load(in);
+		MetricsConfiguration configuration2 = loader.load(in);
 		assertSame(configuration, configuration2);
 
-		assertEquals("ProjectMeasurements", 0, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   1, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   0, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  0, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   1, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 
-		MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.GroupMeasurements().get(0);
-		assertEquals("SLOC", descriptor.ShortName());
-		assertEquals("Single Lines of Code", descriptor.LongName());
-		assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.Class());
-		assertEquals("SLOC\n                DISPOSE_SUM", descriptor.InitText());
-		assertNull("descriptor.LowerThreshold()", descriptor.LowerThreshold());
-		assertNull("descriptor.UpperThreshold()", descriptor.UpperThreshold());
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.getGroupMeasurements().get(0);
+		assertEquals("SLOC", descriptor.getShortName());
+		assertEquals("Single Lines of Code", descriptor.getLongName());
+		assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
+		assertEquals("SLOC\n                DISPOSE_SUM", descriptor.getInitText());
+		assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
+		assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
 	}
 
 	public void testClassMeasurement() throws IOException, SAXException {
@@ -215,21 +215,21 @@ public class TestMetricsConfigurationLoader extends TestCase {
 
 		Reader in = new StringReader(document.toString());
 
-		MetricsConfiguration configuration2 = loader.Load(in);
+		MetricsConfiguration configuration2 = loader.load(in);
 		assertSame(configuration, configuration2);
 
-		assertEquals("ProjectMeasurements", 0, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   0, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   1, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  0, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   1, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 
-		MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.ClassMeasurements().get(0);
-		assertEquals("SLOC", descriptor.ShortName());
-		assertEquals("Single Lines of Code", descriptor.LongName());
-		assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.Class());
-		assertEquals("SLOC", descriptor.InitText());
-		assertNull("descriptor.LowerThreshold()", descriptor.LowerThreshold());
-		assertNull("descriptor.UpperThreshold()", descriptor.UpperThreshold());
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.getClassMeasurements().get(0);
+		assertEquals("SLOC", descriptor.getShortName());
+		assertEquals("Single Lines of Code", descriptor.getLongName());
+		assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
+		assertEquals("SLOC", descriptor.getInitText());
+		assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
+		assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
 	}
 
 	public void testMethodMeasurement() throws IOException, SAXException {
@@ -252,21 +252,21 @@ public class TestMetricsConfigurationLoader extends TestCase {
 
 		Reader in = new StringReader(document.toString());
 
-		MetricsConfiguration configuration2 = loader.Load(in);
+		MetricsConfiguration configuration2 = loader.load(in);
 		assertSame(configuration, configuration2);
 
-		assertEquals("ProjectMeasurements", 0, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   0, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   0, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  1, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  1, configuration.getMethodMeasurements().size());
 
-		MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.MethodMeasurements().get(0);
-		assertEquals("SLOC", descriptor.ShortName());
-		assertEquals("Single Lines of Code", descriptor.LongName());
-		assertEquals(com.jeantessier.metrics.CounterMeasurement.class, descriptor.Class());
-		assertNull("descriptor.Init()", descriptor.InitText());
-		assertNull("descriptor.LowerThreshold()", descriptor.LowerThreshold());
-		assertEquals("descriptor.UpperThreshold()", "50", descriptor.UpperThreshold());
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.getMethodMeasurements().get(0);
+		assertEquals("SLOC", descriptor.getShortName());
+		assertEquals("Single Lines of Code", descriptor.getLongName());
+		assertEquals(com.jeantessier.metrics.CounterMeasurement.class, descriptor.getClassFor());
+		assertNull("descriptor.Init()", descriptor.getInitText());
+		assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
+		assertEquals("descriptor.UpperThreshold()", "50", descriptor.getUpperThreshold());
 	}
 
 	public void testGroupDefinitions() throws IOException, SAXException {
@@ -288,16 +288,16 @@ public class TestMetricsConfigurationLoader extends TestCase {
 
 		Reader in = new StringReader(document.toString());
 
-		MetricsConfiguration configuration2 = loader.Load(in);
+		MetricsConfiguration configuration2 = loader.load(in);
 		assertSame(configuration, configuration2);
 
-		assertEquals("ProjectMeasurements", 0, configuration.ProjectMeasurements().size());
-		assertEquals("GroupMeasurements",   0, configuration.GroupMeasurements().size());
-		assertEquals("ClassMeasurements",   0, configuration.ClassMeasurements().size());
-		assertEquals("MethodMeasurements",  0, configuration.MethodMeasurements().size());
+		assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
+		assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
+		assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
+		assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 
-		assertEquals("groups for foobar",                  0, configuration.Groups("foobar").size());
-		assertEquals("groups for com.jeantessier.metrics", 1, configuration.Groups("com.jeantessier.metrics").size());
-		assertEquals("Jean Tessier", configuration.Groups("com.jeantessier.metrics").iterator().next());
+		assertEquals("groups for foobar",                  0, configuration.getGroups("foobar").size());
+		assertEquals("groups for com.jeantessier.metrics", 1, configuration.getGroups("com.jeantessier.metrics").size());
+		assertEquals("Jean Tessier", configuration.getGroups("com.jeantessier.metrics").iterator().next());
 	}
 }

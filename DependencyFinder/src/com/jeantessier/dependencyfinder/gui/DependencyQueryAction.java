@@ -56,24 +56,24 @@ public class DependencyQueryAction extends AbstractAction implements Runnable {
 
 	public void run() {
 		try {
-			model.StatusLine().ShowInfo("Processing dependency query ...");
+			model.getStatusLine().showInfo("Processing dependency query ...");
 			
 			Date start = new Date();
 			
-			model.ClearDependencyResult();
-			model.DependencyQuery();
+			model.clearDependencyResult();
+			model.doDependencyQuery();
 			
 			Date stop = new Date();
 			
-			model.StatusLine().ShowInfo("Dependency query done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+			model.getStatusLine().showInfo("Dependency query done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		} catch (MalformedPerl5PatternException ex) {
 			JOptionPane dialog = new JOptionPane();
 			dialog.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
-			model.StatusLine().ShowInfo("Ready.");
+			model.getStatusLine().showInfo("Ready.");
 		} catch (Exception ex) {
 			JOptionPane dialog = new JOptionPane();
 			dialog.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			model.StatusLine().ShowInfo("Ready.");
+			model.getStatusLine().showInfo("Ready.");
 		}
 	}
 }

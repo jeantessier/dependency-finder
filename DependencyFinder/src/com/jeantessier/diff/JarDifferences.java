@@ -44,45 +44,45 @@ import com.jeantessier.dependency.*;
  */
 public class JarDifferences implements Differences {
 	private String name;
-	private String old_version;
-	private String new_version;
+	private String oldVersion;
+	private String newVersion;
 
-	private Collection package_differences = new LinkedList();
+	private Collection packageDifferences = new LinkedList();
 
 	/**
 	 *  Only the DifferencesFactory can create instances of this class.
 	 */
-	JarDifferences(String name, String old_version, String new_version) {
-		this.name        = name;
-		this.old_version = old_version;
-		this.new_version = new_version;
+	JarDifferences(String name, String oldVersion, String newVersion) {
+		this.name       = name;
+		this.oldVersion = oldVersion;
+		this.newVersion = newVersion;
 	}
 
-	public String Name() {
+	public String getName() {
 		return name;
 	}
 
-	public String OldVersion() {
-		return old_version;
+	public String getOldVersion() {
+		return oldVersion;
 	}
 
-	public String NewVersion() {
-		return new_version;
+	public String getNewVersion() {
+		return newVersion;
 	}
 
-	public Collection PackageDifferences() {
-		return package_differences;
+	public Collection getPackageDifferences() {
+		return packageDifferences;
 	}
 
-	public boolean IsEmpty() {
-		return PackageDifferences().size() == 0;
+	public boolean isEmpty() {
+		return getPackageDifferences().size() == 0;
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitJarDifferences(this);
+	public void accept(Visitor visitor) {
+		visitor.visitJarDifferences(this);
 	}
 
 	public String toString() {
-		return Name();
+		return getName();
 	}
 }

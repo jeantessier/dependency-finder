@@ -43,38 +43,38 @@ import com.jeantessier.dependency.*;
  *  Documents the difference, if any, for a given package.
  */
 public class PackageDifferences extends RemovableDifferences {
-	private Collection class_differences = new LinkedList();
+	private Collection classDifferences = new LinkedList();
 
 	/**
 	 *  Only the DifferencesFactory can create instances of this class.
 	 */
-	PackageDifferences(String name, PackageNode old_package, PackageNode new_package) {
+	PackageDifferences(String name, PackageNode oldPackage, PackageNode newPackage) {
 		super(name);
 
-		if (old_package != null) {
-			OldDeclaration(old_package.getName());
+		if (oldPackage != null) {
+			setOldDeclaration(oldPackage.getName());
 		}
 
-		if (new_package != null) {
-			NewDeclaration(new_package.getName());
+		if (newPackage != null) {
+			setNewDeclaration(newPackage.getName());
 		}
 	
-		if (IsModified()) {
-			Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
+		if (isModified()) {
+			Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
 		} else {
-			Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
+			Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
 		}
 	}
 
-	public Collection ClassDifferences() {
-		return class_differences;
+	public Collection getClassDifferences() {
+		return classDifferences;
 	}
 
-	public boolean IsModified() {
-		return super.IsModified() || (ClassDifferences().size() != 0);
+	public boolean isModified() {
+		return super.isModified() || (getClassDifferences().size() != 0);
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitPackageDifferences(this);
+	public void accept(Visitor visitor) {
+		visitor.visitPackageDifferences(this);
 	}
 }

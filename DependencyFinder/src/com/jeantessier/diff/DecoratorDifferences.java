@@ -46,27 +46,27 @@ public abstract class DecoratorDifferences implements Differences {
 		this.component = component;
 	}
 
-	public Differences Component() {
+	public Differences getComponent() {
 		return component;
 	}
 
-	public Differences LeafComponent() {
+	public Differences getLeafComponent() {
 		Differences result = null;
 		
-		if (Component() instanceof DecoratorDifferences) {
-			result = ((DecoratorDifferences) Component()).LeafComponent();
+		if (getComponent() instanceof DecoratorDifferences) {
+			result = ((DecoratorDifferences) getComponent()).getLeafComponent();
 		} else {
-			result = Component();
+			result = getComponent();
 		}
 		
 		return result;
 	}
 
-	public String Name() {
-		return Component().Name();
+	public String getName() {
+		return getComponent().getName();
 	}
 	
 	public String toString() {
-		return Component().toString();
+		return getComponent().toString();
 	}
 }

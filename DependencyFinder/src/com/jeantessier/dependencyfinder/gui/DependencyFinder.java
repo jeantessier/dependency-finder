@@ -52,103 +52,103 @@ public class DependencyFinder extends JFrame {
 	private boolean minimize;
 	private boolean maximize;
 
-	private boolean advanced_mode;
-	private JPanel  query_panel   = new JPanel();
+	private boolean advancedMode;
+	private JPanel  queryPanel   = new JPanel();
 	
-	private JMenuBar          menu_bar                 = new JMenuBar();
-	private JMenu             file_menu                = new JMenu();
-	private JMenu             view_menu                = new JMenu();
-	private JMenu             help_menu                = new JMenu();
-	private JToolBar          toolbar                  = new JToolBar();
-	private JTextArea         dependencies_result_area = new JTextArea();
-	private JTextArea         closure_result_area      = new JTextArea();
-	private JTextArea         metrics_result_area      = new JTextArea();
-	private MetricsTableModel metrics_chart_model      = new MetricsTableModel();
-	private StatusLine        status_line              = new StatusLine(420);
-	private JProgressBar      progress_bar             = new JProgressBar();
+	private JMenuBar          menuBar                = new JMenuBar();
+	private JMenu             fileMenu               = new JMenu();
+	private JMenu             viewMenu               = new JMenu();
+	private JMenu             helpMenu               = new JMenu();
+	private JToolBar          toolbar                = new JToolBar();
+	private JTextArea         dependenciesResultArea = new JTextArea();
+	private JTextArea         closureResultArea      = new JTextArea();
+	private JTextArea         metricsResultArea      = new JTextArea();
+	private MetricsTableModel metricsChartModel      = new MetricsTableModel();
+	private StatusLine        statusLine             = new StatusLine(420);
+	private JProgressBar      progressBar            = new JProgressBar();
 
-	private File        input_file   = new File(".");
-	private NodeFactory node_factory = null;
+	private File        inputFile   = new File(".");
+	private NodeFactory nodeFactory = null;
 
-	private JCheckBox  package_scope           = new JCheckBox("packages");
-	private JCheckBox  class_scope             = new JCheckBox("classes");
-	private JCheckBox  feature_scope           = new JCheckBox("features");
-	private JTextField scope_includes          = new JTextField();
-	private JTextField package_scope_includes  = new JTextField();
-	private JTextField class_scope_includes    = new JTextField();
-	private JTextField feature_scope_includes  = new JTextField();
-	private JTextField scope_excludes          = new JTextField();
-	private JTextField package_scope_excludes  = new JTextField();
-	private JTextField class_scope_excludes    = new JTextField();
-	private JTextField feature_scope_excludes  = new JTextField();
+	private JCheckBox  packageScope          = new JCheckBox("packages");
+	private JCheckBox  classScope            = new JCheckBox("classes");
+	private JCheckBox  featureScope          = new JCheckBox("features");
+	private JTextField scopeIncludes         = new JTextField();
+	private JTextField packageScopeIncludes  = new JTextField();
+	private JTextField classScopeIncludes    = new JTextField();
+	private JTextField featureScopeIncludes  = new JTextField();
+	private JTextField scopeExcludes         = new JTextField();
+	private JTextField packageScopeExcludes  = new JTextField();
+	private JTextField classScopeExcludes    = new JTextField();
+	private JTextField featureScopeExcludes  = new JTextField();
 	
-	private JCheckBox  package_filter          = new JCheckBox("packages");
-	private JCheckBox  class_filter            = new JCheckBox("classes");
-	private JCheckBox  feature_filter          = new JCheckBox("features");
-	private JTextField filter_includes         = new JTextField();
-	private JTextField package_filter_includes = new JTextField();
-	private JTextField class_filter_includes   = new JTextField();
-	private JTextField feature_filter_includes = new JTextField();
-	private JTextField filter_excludes         = new JTextField();
-	private JTextField package_filter_excludes = new JTextField();
-	private JTextField class_filter_excludes   = new JTextField();
-	private JTextField feature_filter_excludes = new JTextField();
+	private JCheckBox  packageFilter         = new JCheckBox("packages");
+	private JCheckBox  classFilter           = new JCheckBox("classes");
+	private JCheckBox  featureFilter         = new JCheckBox("features");
+	private JTextField filterIncludes        = new JTextField();
+	private JTextField packageFilterIncludes = new JTextField();
+	private JTextField classFilterIncludes   = new JTextField();
+	private JTextField featureFilterIncludes = new JTextField();
+	private JTextField filterExcludes        = new JTextField();
+	private JTextField packageFilterExcludes = new JTextField();
+	private JTextField classFilterExcludes   = new JTextField();
+	private JTextField featureFilterExcludes = new JTextField();
 
-	private JCheckBox  show_inbounds           = new JCheckBox("inbounds");
-	private JCheckBox  show_outbounds          = new JCheckBox("outbounds");
-	private JCheckBox  show_empty_nodes        = new JCheckBox("empty nodes");
-	private JCheckBox  copy_only               = new JCheckBox("copy only");
+	private JCheckBox  showInbounds          = new JCheckBox("inbounds");
+	private JCheckBox  showOutbounds         = new JCheckBox("outbounds");
+	private JCheckBox  showEmptyNodes        = new JCheckBox("empty nodes");
+	private JCheckBox  copyOnly              = new JCheckBox("copy only");
 
-	private JTextField maximum_inbound_depth   = new JTextField("0", 2);
-	private JTextField maximum_outbound_depth  = new JTextField(2);
+	private JTextField maximumInboundDepth   = new JTextField("0", 2);
+	private JTextField maximumOutboundDepth  = new JTextField(2);
 
-	private GraphCopier dependencies_query     = null;
+	private GraphCopier dependenciesQuery    = null;
 	
-	public DependencyFinder(CommandLine command_line) {
+	public DependencyFinder(CommandLine commandLine) {
 		this.setSize(new Dimension(800, 600));
 		this.setTitle("Dependency Finder");
 		this.setIconImage(new ImageIcon(getClass().getResource("icons/logoicon.gif")).getImage());
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.addWindowListener(new WindowKiller());
 
-		NewDependencyGraph();
+		setNewDependencyGraph();
 		
-		package_scope.setToolTipText("Select packages");
-		class_scope.setToolTipText("Select classes (with their package)");
-		feature_scope.setToolTipText("Select methods and fields (with their class and package)");
-		scope_includes.setToolTipText("Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
-		package_scope_includes.setToolTipText("Package must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
-		class_scope_includes.setToolTipText("Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
-		feature_scope_includes.setToolTipText("Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
-		scope_excludes.setToolTipText("Package, class, method, or field must NOT match any of these expressions. E.g., /Test/");
-		package_scope_excludes.setToolTipText("Package must NOT match any of these expressions. E.g., /Test/");
-		class_scope_excludes.setToolTipText("Class must NOT match any of these expressions. E.g., /Test/");
-		feature_scope_excludes.setToolTipText("Method or field must NOT match any of these expressions. E.g., /Test/");
+		packageScope.setToolTipText("Select packages");
+		classScope.setToolTipText("Select classes (with their package)");
+		featureScope.setToolTipText("Select methods and fields (with their class and package)");
+		scopeIncludes.setToolTipText("Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		packageScopeIncludes.setToolTipText("Package must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		classScopeIncludes.setToolTipText("Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		featureScopeIncludes.setToolTipText("Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		scopeExcludes.setToolTipText("Package, class, method, or field must NOT match any of these expressions. E.g., /Test/");
+		packageScopeExcludes.setToolTipText("Package must NOT match any of these expressions. E.g., /Test/");
+		classScopeExcludes.setToolTipText("Class must NOT match any of these expressions. E.g., /Test/");
+		featureScopeExcludes.setToolTipText("Method or field must NOT match any of these expressions. E.g., /Test/");
 		
-		package_filter.setToolTipText("Show dependencies to/from packages");
-		class_filter.setToolTipText("Show dependencies to/from classes");
-		feature_filter.setToolTipText("Show dependencies to/from methods and fields");
-		filter_includes.setToolTipText("Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
-		package_filter_includes.setToolTipText("Package at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
-		class_filter_includes.setToolTipText("Class at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
-		feature_filter_includes.setToolTipText("Method or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
-		filter_excludes.setToolTipText("Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
-		package_filter_excludes.setToolTipText("Package at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
-		class_filter_excludes.setToolTipText("Class at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
-		feature_filter_excludes.setToolTipText("Method or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
+		packageFilter.setToolTipText("Show dependencies to/from packages");
+		classFilter.setToolTipText("Show dependencies to/from classes");
+		featureFilter.setToolTipText("Show dependencies to/from methods and fields");
+		filterIncludes.setToolTipText("Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		packageFilterIncludes.setToolTipText("Package at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		classFilterIncludes.setToolTipText("Class at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		featureFilterIncludes.setToolTipText("Method or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		filterExcludes.setToolTipText("Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
+		packageFilterExcludes.setToolTipText("Package at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
+		classFilterExcludes.setToolTipText("Class at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
+		featureFilterExcludes.setToolTipText("Method or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
 		
-		show_inbounds.setToolTipText("Show dependencies that point to the selected packages, classes, methods, or fields");
-		show_outbounds.setToolTipText("Show dependencies that originate from the selected packages, classes, methods, or fields");
-		show_empty_nodes.setToolTipText("Show selected packages, classes, methods, and fields even if they do not have dependencies");
-		copy_only.setToolTipText("<html>Only copy explicit dependencies to the result graph.<br>Do not introduce implicit dependencies<br>where explicit dependencies match the regular expressions<br>but are otherwise out of scope</html>");
+		showInbounds.setToolTipText("Show dependencies that point to the selected packages, classes, methods, or fields");
+		showOutbounds.setToolTipText("Show dependencies that originate from the selected packages, classes, methods, or fields");
+		showEmptyNodes.setToolTipText("Show selected packages, classes, methods, and fields even if they do not have dependencies");
+		copyOnly.setToolTipText("<html>Only copy explicit dependencies to the result graph.<br>Do not introduce implicit dependencies<br>where explicit dependencies match the regular expressions<br>but are otherwise out of scope</html>");
 		
-		maximum_inbound_depth.setToolTipText("Maximum hops against the direction dependencies.  Empty field means no limit.");
-		maximum_outbound_depth.setToolTipText("Maximum hops in the direction of dependencies.  Empty field means no limit.");
+		maximumInboundDepth.setToolTipText("Maximum hops against the direction dependencies.  Empty field means no limit.");
+		maximumOutboundDepth.setToolTipText("Maximum hops in the direction of dependencies.  Empty field means no limit.");
 
-		AdvancedMode(false);
+		setAdvancedMode(false);
 		
-		BuildMenus(command_line);
-		BuildUI();
+		buildMenus(commandLine);
+		buildUI();
 
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -157,253 +157,253 @@ public class DependencyFinder extends JFrame {
 			Logger.getLogger(DependencyFinder.class).error("Unable to set look and feel", ex);
 		}
 		
-		status_line.ShowInfo("Ready.");
+		statusLine.showInfo("Ready.");
 	}
 
-	private boolean AdvancedMode() {
-		return advanced_mode;
+	private boolean isAdvancedMode() {
+		return advancedMode;
 	}
 
-	void AdvancedMode(boolean advanced_mode) {
-		this.advanced_mode = advanced_mode;
+	void setAdvancedMode(boolean advancedMode) {
+		this.advancedMode = advancedMode;
 
-		copy_only.setVisible(advanced_mode);
+		copyOnly.setVisible(advancedMode);
 	}
 	
-	public boolean Maximize() {
+	public boolean getMaximize() {
 		return maximize;
 	}
 
-	public void Maximize(boolean maximize) {
+	public void setMaximize(boolean maximize) {
 		this.maximize = maximize;
 	}
 
-	public boolean Minimize() {
+	public boolean getMinimize() {
 		return minimize;
 	}
 
-	public void Minimize(boolean minimize) {
+	public void setMinimize(boolean minimize) {
 		this.minimize = minimize;
 	}
 	
-	public File InputFile() {
-		return input_file;
+	public File getInputFile() {
+		return inputFile;
 	}
 
-	public void InputFile(File input_file) {
-		this.input_file = input_file;
+	public void setInputFile(File inputFile) {
+		this.inputFile = inputFile;
 	}
 
-	public Collection Packages() {
-		return NodeFactory().getPackages().values();
+	public Collection getPackages() {
+		return getNodeFactory().getPackages().values();
 	}
 
-	public NodeFactory NodeFactory() {
-		return node_factory;
+	public NodeFactory getNodeFactory() {
+		return nodeFactory;
 	}
 
-	public void NodeFactory(NodeFactory node_factory) {
-		this.node_factory = node_factory;
+	public void setNodeFactory(NodeFactory nodeFactory) {
+		this.nodeFactory = nodeFactory;
 	}
 	
-	StatusLine StatusLine() {
-		return status_line;
+	StatusLine getStatusLine() {
+		return statusLine;
 	}
 		
-	JProgressBar ProgressBar() {
-		return progress_bar;
+	JProgressBar getProgressBar() {
+		return progressBar;
 	}
 
-	private void BuildMenus(CommandLine command_line) {
-		BuildFileMenu(command_line);
-		BuildViewMenu(command_line);
-		BuildHelpMenu(command_line);
+	private void buildMenus(CommandLine commandLine) {
+		buildFileMenu(commandLine);
+		buildViewMenu(commandLine);
+		buildHelpMenu(commandLine);
 
-		this.setJMenuBar(menu_bar);
+		this.setJMenuBar(menuBar);
 	}
 	
-	private void BuildFileMenu(CommandLine command_line) {
-		menu_bar.add(file_menu);
+	private void buildFileMenu(CommandLine commandLine) {
+		menuBar.add(fileMenu);
 
-		file_menu.setText("File");
+		fileMenu.setText("File");
 
-		Action action;
-		JMenuItem menu_item;
-		JButton button;
+		Action    action;
+		JMenuItem menuItem;
+		JButton   button;
 
 		action = new DependencyExtractAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK));
-		menu_item.setMnemonic('e');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK));
+		menuItem.setMnemonic('e');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		action = new RefreshDependencyGraphAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK));
-		menu_item.setMnemonic('r');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK));
+		menuItem.setMnemonic('r');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		toolbar.addSeparator();
-		file_menu.addSeparator();
+		fileMenu.addSeparator();
 		
 		action = new OpenFileAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
-		menu_item.setMnemonic('o');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
+		menuItem.setMnemonic('o');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 		
-		action = new SaveFileAction(this, command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
-		menu_item.setMnemonic('s');
+		action = new SaveFileAction(this, commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+		menuItem.setMnemonic('s');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
-		if (command_line.isPresent("indent-text")) {
-			((SaveFileAction) action).IndentText(command_line.getSingleSwitch("indent-text"));
+		if (commandLine.isPresent("indent-text")) {
+			((SaveFileAction) action).setIndentText(commandLine.getSingleSwitch("indent-text"));
 		}
 		
 		toolbar.addSeparator();
-		file_menu.addSeparator();
+		fileMenu.addSeparator();
 		
 		action = new NewDependencyGraphAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
-		menu_item.setMnemonic('n');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+		menuItem.setMnemonic('n');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		toolbar.addSeparator();
-		file_menu.addSeparator();
+		fileMenu.addSeparator();
 		
 		action = new DependencyQueryAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK));
-		menu_item.setMnemonic('d');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK));
+		menuItem.setMnemonic('d');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		action = new ClosureQueryAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Event.CTRL_MASK));
-		menu_item.setMnemonic('c');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Event.CTRL_MASK));
+		menuItem.setMnemonic('c');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		action = new MetricsQueryAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, Event.CTRL_MASK));
-		menu_item.setMnemonic('m');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, Event.CTRL_MASK));
+		menuItem.setMnemonic('m');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		action = new AllQueriesAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
-		menu_item.setMnemonic('a');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+		menuItem.setMnemonic('a');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		toolbar.addSeparator();
-		file_menu.addSeparator();
+		fileMenu.addSeparator();
 
 		action = new ExitAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
-		menu_item.setMnemonic('x');
+		menuItem = fileMenu.add(action);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
+		menuItem.setMnemonic('x');
 	}
 	
-	private void BuildViewMenu(CommandLine command_line) {
-		menu_bar.add(view_menu);
+	private void buildViewMenu(CommandLine commandLine) {
+		menuBar.add(viewMenu);
 
-		view_menu.setText("View");
+		viewMenu.setText("View");
 
 		ButtonGroup group = new ButtonGroup();
-		JMenuItem menu_item;
+		JMenuItem menuItem;
 		
-		menu_item = new JRadioButtonMenuItem(new SimpleQueryPanelAction(this));
-		menu_item.setSelected(true);
-		group.add(menu_item);
-		view_menu.add(menu_item);
+		menuItem = new JRadioButtonMenuItem(new SimpleQueryPanelAction(this));
+		menuItem.setSelected(true);
+		group.add(menuItem);
+		viewMenu.add(menuItem);
 		
-		menu_item = new JRadioButtonMenuItem(new AdvancedQueryPanelAction(this));
-		group.add(menu_item);
-		view_menu.add(menu_item);
+		menuItem = new JRadioButtonMenuItem(new AdvancedQueryPanelAction(this));
+		group.add(menuItem);
+		viewMenu.add(menuItem);
 	}
 
-	private void BuildHelpMenu(CommandLine command_line) {
-		menu_bar.add(help_menu);
+	private void buildHelpMenu(CommandLine commandLine) {
+		menuBar.add(helpMenu);
 
-		help_menu.setText("Help");
+		helpMenu.setText("Help");
 
 		Action action;
-		JMenuItem menu_item;
+		JMenuItem menuItem;
 
 		action = new AboutAction(this);
-		menu_item = help_menu.add(action);
-		menu_item.setMnemonic('a');
+		menuItem = helpMenu.add(action);
+		menuItem.setMnemonic('a');
 	}
 
-	private void BuildUI() {
+	private void buildUI() {
 		this.getContentPane().setLayout(new BorderLayout());
-		this.getContentPane().add(BuildControlPanel(), BorderLayout.NORTH);
-		this.getContentPane().add(BuildResultPanel(), BorderLayout.CENTER);
-		this.getContentPane().add(BuildStatusPanel(), BorderLayout.SOUTH);
+		this.getContentPane().add(buildControlPanel(), BorderLayout.NORTH);
+		this.getContentPane().add(buildResultPanel(), BorderLayout.CENTER);
+		this.getContentPane().add(buildStatusPanel(), BorderLayout.SOUTH);
 	}
 
-	private JComponent BuildControlPanel() {
+	private JComponent buildControlPanel() {
 		JPanel result = new JPanel();
 
 		result.setLayout(new BorderLayout());
 		result.add(toolbar, BorderLayout.NORTH);
-		result.add(BuildQueryPanel(), BorderLayout.CENTER);
+		result.add(buildQueryPanel(), BorderLayout.CENTER);
 		
 		return result;
 	}
 	
-	JComponent BuildQueryPanel() {
-		if (AdvancedMode()) {
-			BuildAdvancedQueryPanel();
+	JComponent buildQueryPanel() {
+		if (isAdvancedMode()) {
+			buildAdvancedQueryPanel();
 		} else {
-			BuildSimpleQueryPanel();
+			buildSimpleQueryPanel();
 		}
 		
-		return query_panel;
+		return queryPanel;
 	}
 	
-	private void BuildSimpleQueryPanel() {
-		query_panel.removeAll();
-		query_panel.setLayout(new GridLayout(1, 2));
-		query_panel.add(BuildSimpleScopePanel());
-		query_panel.add(BuildSimpleFilterPanel());
-		query_panel.revalidate();
+	private void buildSimpleQueryPanel() {
+		queryPanel.removeAll();
+		queryPanel.setLayout(new GridLayout(1, 2));
+		queryPanel.add(buildSimpleScopePanel());
+		queryPanel.add(buildSimpleFilterPanel());
+		queryPanel.revalidate();
 	}
 	
-	private void BuildAdvancedQueryPanel() {
-		query_panel.removeAll();
-		query_panel.setLayout(new GridLayout(1, 2));
-		query_panel.add(BuildAdvancedScopePanel());
-		query_panel.add(BuildAdvancedFilterPanel());
-		query_panel.revalidate();
+	private void buildAdvancedQueryPanel() {
+		queryPanel.removeAll();
+		queryPanel.setLayout(new GridLayout(1, 2));
+		queryPanel.add(buildAdvancedScopePanel());
+		queryPanel.add(buildAdvancedFilterPanel());
+		queryPanel.revalidate();
 	}
 
-	private JComponent BuildSimpleScopePanel() {
+	private JComponent buildSimpleScopePanel() {
 		JPanel result = new JPanel();
 
 		result.setBorder(BorderFactory.createTitledBorder("Select programming elements"));
 
 		result.setLayout(new BorderLayout());
 
-		result.add(BuildSimpleScopePanelCheckboxes(), BorderLayout.NORTH);
-		result.add(BuildSimpleScopePanelTextFields(), BorderLayout.SOUTH);
+		result.add(buildSimpleScopePanelCheckboxes(), BorderLayout.NORTH);
+		result.add(buildSimpleScopePanelTextFields(), BorderLayout.SOUTH);
 
 		return result;
 	}
 	
-	private JComponent BuildSimpleScopePanelTextFields() {
+	private JComponent buildSimpleScopePanelTextFields() {
 		JPanel result = new JPanel();
 
 		GridBagLayout      gbl = new GridBagLayout();
@@ -412,25 +412,25 @@ public class DependencyFinder extends JFrame {
 		
 		result.setLayout(gbl);
 
-		JLabel scope_includes_label = new JLabel("including:");
+		JLabel scopeIncludesLabel = new JLabel("including:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(scope_includes_label);
-		gbl.setConstraints(scope_includes_label, c);
+		result.add(scopeIncludesLabel);
+		gbl.setConstraints(scopeIncludesLabel, c);
 
-		JLabel scope_excludes_label = new JLabel("excluding:");
+		JLabel scopeExcludesLabel = new JLabel("excluding:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(scope_excludes_label);
-		gbl.setConstraints(scope_excludes_label, c);
+		result.add(scopeExcludesLabel);
+		gbl.setConstraints(scopeExcludesLabel, c);
 
 		// -scope-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -439,8 +439,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(scope_includes);
-		gbl.setConstraints(scope_includes, c);
+		result.add(scopeIncludes);
+		gbl.setConstraints(scopeIncludes, c);
 		
 		// -scope-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -449,13 +449,13 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(scope_excludes);
-		gbl.setConstraints(scope_excludes, c);
+		result.add(scopeExcludes);
+		gbl.setConstraints(scopeExcludes, c);
 
 		return result;
 	}
 
-	private JComponent BuildSimpleScopePanelCheckboxes() {
+	private JComponent buildSimpleScopePanelCheckboxes() {
 		JPanel result = new JPanel();
 
 		GridBagLayout      gbl = new GridBagLayout();
@@ -471,8 +471,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 0;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(package_scope);
-		gbl.setConstraints(package_scope, c);
+		result.add(packageScope);
+		gbl.setConstraints(packageScope, c);
 
 		// -class-scope
 		c.anchor = GridBagConstraints.CENTER;
@@ -481,8 +481,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(class_scope);
-		gbl.setConstraints(class_scope, c);
+		result.add(classScope);
+		gbl.setConstraints(classScope, c);
 
 		// -feature-scope
 		c.anchor = GridBagConstraints.WEST;
@@ -491,26 +491,26 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 0;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(feature_scope);
-		gbl.setConstraints(feature_scope, c);
+		result.add(featureScope);
+		gbl.setConstraints(featureScope, c);
 
 		return result;
 	}
 	
-	private JComponent BuildSimpleFilterPanel() {
+	private JComponent buildSimpleFilterPanel() {
 		JPanel result = new JPanel();
 
 		result.setBorder(BorderFactory.createTitledBorder("Show dependencies"));
 
 		result.setLayout(new BorderLayout());
 
-		result.add(BuildSimpleFilterPanelCheckboxes(), BorderLayout.NORTH);
-		result.add(BuildSimpleFilterPanelTextFields(), BorderLayout.SOUTH);
+		result.add(buildSimpleFilterPanelCheckboxes(), BorderLayout.NORTH);
+		result.add(buildSimpleFilterPanelTextFields(), BorderLayout.SOUTH);
 
 		return result;
 	}
 	
-	private JComponent BuildSimpleFilterPanelTextFields() {
+	private JComponent buildSimpleFilterPanelTextFields() {
 		JPanel result = new JPanel();
 
 		GridBagLayout      gbl = new GridBagLayout();
@@ -519,25 +519,25 @@ public class DependencyFinder extends JFrame {
 		
 		result.setLayout(gbl);
 
-		JLabel filter_includes_label = new JLabel("including:");
+		JLabel filterIncludesLabel = new JLabel("including:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(filter_includes_label);
-		gbl.setConstraints(filter_includes_label, c);
+		result.add(filterIncludesLabel);
+		gbl.setConstraints(filterIncludesLabel, c);
 
-		JLabel filter_excludes_label = new JLabel("excluding:");
+		JLabel filterExcludesLabel = new JLabel("excluding:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(filter_excludes_label);
-		gbl.setConstraints(filter_excludes_label, c);
+		result.add(filterExcludesLabel);
+		gbl.setConstraints(filterExcludesLabel, c);
 
 		// -filter-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -546,8 +546,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(filter_includes);
-		gbl.setConstraints(filter_includes, c);
+		result.add(filterIncludes);
+		gbl.setConstraints(filterIncludes, c);
 
 		// -filter-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -556,13 +556,13 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(filter_excludes);
-		gbl.setConstraints(filter_excludes, c);
+		result.add(filterExcludes);
+		gbl.setConstraints(filterExcludes, c);
 
 		return result;
 	}
 	
-	private JComponent BuildSimpleFilterPanelCheckboxes() {
+	private JComponent buildSimpleFilterPanelCheckboxes() {
 		JPanel result = new JPanel();
 
 		GridBagLayout      gbl = new GridBagLayout();
@@ -578,8 +578,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 0;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(package_filter);
-		gbl.setConstraints(package_filter, c);
+		result.add(packageFilter);
+		gbl.setConstraints(packageFilter, c);
 
 		// -class-filter
 		c.anchor = GridBagConstraints.CENTER;
@@ -588,8 +588,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(class_filter);
-		gbl.setConstraints(class_filter, c);
+		result.add(classFilter);
+		gbl.setConstraints(classFilter, c);
 
 		// -feature-filter
 		c.anchor = GridBagConstraints.WEST;
@@ -598,13 +598,13 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 0;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(feature_filter);
-		gbl.setConstraints(feature_filter, c);
+		result.add(featureFilter);
+		gbl.setConstraints(featureFilter, c);
 
 		return result;
 	}
 
-	private JComponent BuildAdvancedScopePanel() {
+	private JComponent buildAdvancedScopePanel() {
 		JPanel result = new JPanel();
 
 		result.setBorder(BorderFactory.createTitledBorder("Select programming elements"));
@@ -622,8 +622,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 2;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(package_scope);
-		gbl.setConstraints(package_scope, c);
+		result.add(packageScope);
+		gbl.setConstraints(packageScope, c);
 
 		// -class-scope
 		c.anchor = GridBagConstraints.WEST;
@@ -632,8 +632,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 3;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(class_scope);
-		gbl.setConstraints(class_scope, c);
+		result.add(classScope);
+		gbl.setConstraints(classScope, c);
 
 		// -feature-scope
 		c.anchor = GridBagConstraints.WEST;
@@ -642,18 +642,18 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 4;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(feature_scope);
-		gbl.setConstraints(feature_scope, c);
+		result.add(featureScope);
+		gbl.setConstraints(featureScope, c);
 
-		JLabel scope_includes_label = new JLabel("including:");
+		JLabel scopeIncludesLabel = new JLabel("including:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(scope_includes_label);
-		gbl.setConstraints(scope_includes_label, c);
+		result.add(scopeIncludesLabel);
+		gbl.setConstraints(scopeIncludesLabel, c);
 
 		// -scope-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -662,8 +662,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(scope_includes);
-		gbl.setConstraints(scope_includes, c);
+		result.add(scopeIncludes);
+		gbl.setConstraints(scopeIncludes, c);
 
 		// -package-scope-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -672,8 +672,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 2;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(package_scope_includes);
-		gbl.setConstraints(package_scope_includes, c);
+		result.add(packageScopeIncludes);
+		gbl.setConstraints(packageScopeIncludes, c);
 
 		// -class-scope-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -682,8 +682,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 3;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(class_scope_includes);
-		gbl.setConstraints(class_scope_includes, c);
+		result.add(classScopeIncludes);
+		gbl.setConstraints(classScopeIncludes, c);
 
 		// -feature-scope-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -692,18 +692,18 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 4;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(feature_scope_includes);
-		gbl.setConstraints(feature_scope_includes, c);
+		result.add(featureScopeIncludes);
+		gbl.setConstraints(featureScopeIncludes, c);
 
-		JLabel scope_excludes_label = new JLabel("excluding:");
+		JLabel scopeExcludesLabel = new JLabel("excluding:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 2;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(scope_excludes_label);
-		gbl.setConstraints(scope_excludes_label, c);
+		result.add(scopeExcludesLabel);
+		gbl.setConstraints(scopeExcludesLabel, c);
 
 		// -scope-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -712,8 +712,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(scope_excludes);
-		gbl.setConstraints(scope_excludes, c);
+		result.add(scopeExcludes);
+		gbl.setConstraints(scopeExcludes, c);
 
 		// -package-scope-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -722,8 +722,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 2;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(package_scope_excludes);
-		gbl.setConstraints(package_scope_excludes, c);
+		result.add(packageScopeExcludes);
+		gbl.setConstraints(packageScopeExcludes, c);
 
 		// -class-scope-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -732,8 +732,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 3;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(class_scope_excludes);
-		gbl.setConstraints(class_scope_excludes, c);
+		result.add(classScopeExcludes);
+		gbl.setConstraints(classScopeExcludes, c);
 
 		// -feature-scope-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -742,13 +742,13 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 4;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(feature_scope_excludes);
-		gbl.setConstraints(feature_scope_excludes, c);
+		result.add(featureScopeExcludes);
+		gbl.setConstraints(featureScopeExcludes, c);
 
 		return result;
 	}
 	
-	private JComponent BuildAdvancedFilterPanel() {
+	private JComponent buildAdvancedFilterPanel() {
 		JPanel result = new JPanel();
 
 		result.setBorder(BorderFactory.createTitledBorder("Show dependencies"));
@@ -766,8 +766,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 2;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(package_filter);
-		gbl.setConstraints(package_filter, c);
+		result.add(packageFilter);
+		gbl.setConstraints(packageFilter, c);
 
 		// -class-filter
 		c.anchor = GridBagConstraints.WEST;
@@ -776,8 +776,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 3;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(class_filter);
-		gbl.setConstraints(class_filter, c);
+		result.add(classFilter);
+		gbl.setConstraints(classFilter, c);
 
 		// -feature-filter
 		c.anchor = GridBagConstraints.WEST;
@@ -786,18 +786,18 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 4;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(feature_filter);
-		gbl.setConstraints(feature_filter, c);
+		result.add(featureFilter);
+		gbl.setConstraints(featureFilter, c);
 
-		JLabel filter_includes_label = new JLabel("including:");
+		JLabel filterIncludesLabel = new JLabel("including:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(filter_includes_label);
-		gbl.setConstraints(filter_includes_label, c);
+		result.add(filterIncludesLabel);
+		gbl.setConstraints(filterIncludesLabel, c);
 
 		// -filter-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -806,8 +806,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(filter_includes);
-		gbl.setConstraints(filter_includes, c);
+		result.add(filterIncludes);
+		gbl.setConstraints(filterIncludes, c);
 
 		// -package-filter-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -816,8 +816,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 2;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(package_filter_includes);
-		gbl.setConstraints(package_filter_includes, c);
+		result.add(packageFilterIncludes);
+		gbl.setConstraints(packageFilterIncludes, c);
 
 		// -class-filter-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -826,8 +826,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 3;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(class_filter_includes);
-		gbl.setConstraints(class_filter_includes, c);
+		result.add(classFilterIncludes);
+		gbl.setConstraints(classFilterIncludes, c);
 
 		// -feature-filter-includes
 		c.anchor = GridBagConstraints.WEST;
@@ -836,18 +836,18 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 4;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(feature_filter_includes);
-		gbl.setConstraints(feature_filter_includes, c);
+		result.add(featureFilterIncludes);
+		gbl.setConstraints(featureFilterIncludes, c);
 
-		JLabel filter_excludes_label = new JLabel("excluding:");
+		JLabel filterExcludesLabel = new JLabel("excluding:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 2;
 		c.gridy = 0;
 		c.weightx = 0;
 		c.weighty = 0;
-		result.add(filter_excludes_label);
-		gbl.setConstraints(filter_excludes_label, c);
+		result.add(filterExcludesLabel);
+		gbl.setConstraints(filterExcludesLabel, c);
 
 		// -filter-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -856,8 +856,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(filter_excludes);
-		gbl.setConstraints(filter_excludes, c);
+		result.add(filterExcludes);
+		gbl.setConstraints(filterExcludes, c);
 
 		// -package-filter-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -866,8 +866,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 2;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(package_filter_excludes);
-		gbl.setConstraints(package_filter_excludes, c);
+		result.add(packageFilterExcludes);
+		gbl.setConstraints(packageFilterExcludes, c);
 
 		// -class-filter-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -876,8 +876,8 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 3;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(class_filter_excludes);
-		gbl.setConstraints(class_filter_excludes, c);
+		result.add(classFilterExcludes);
+		gbl.setConstraints(classFilterExcludes, c);
 
 		// -feature-filter-excludes
 		c.anchor = GridBagConstraints.WEST;
@@ -886,103 +886,103 @@ public class DependencyFinder extends JFrame {
 		c.gridy = 4;
 		c.weightx = 1;
 		c.weighty = 0;
-		result.add(feature_filter_excludes);
-		gbl.setConstraints(feature_filter_excludes, c);
+		result.add(featureFilterExcludes);
+		gbl.setConstraints(featureFilterExcludes, c);
 
 		return result;
 	}
 	
-	private JComponent BuildResultPanel() {
+	private JComponent buildResultPanel() {
 		JTabbedPane result = new JTabbedPane();
 
 		result.setBorder(BorderFactory.createTitledBorder("Results"));
-		result.addTab("Dependencies", BuildDependenciesPanel());
-		result.addTab("Closure",      BuildClosurePanel());
-		result.addTab("Metrics",      BuildMetricsPanel());
+		result.addTab("Dependencies", buildDependenciesPanel());
+		result.addTab("Closure",      buildClosurePanel());
+		result.addTab("Metrics",      buildMetricsPanel());
 		
 		return result;
 	}
 
-	private JComponent BuildDependenciesPanel() {
+	private JComponent buildDependenciesPanel() {
 		JPanel result = new JPanel();
 
 		result.setLayout(new BorderLayout());
-		result.add(BuildPrinterControlPanel(),     BorderLayout.NORTH);
-		result.add(BuildDependenciesResultPanel(), BorderLayout.CENTER);
+		result.add(buildPrinterControlPanel(),     BorderLayout.NORTH);
+		result.add(buildDependenciesResultPanel(), BorderLayout.CENTER);
 		
 		return result;
 	}
 	
-	private JComponent BuildPrinterControlPanel() {
+	private JComponent buildPrinterControlPanel() {
 		JPanel result = new JPanel();
 
 		result.add(new JLabel("Show: "));
-		result.add(show_inbounds);
-		result.add(show_outbounds);
-		result.add(show_empty_nodes);
-		result.add(copy_only);
+		result.add(showInbounds);
+		result.add(showOutbounds);
+		result.add(showEmptyNodes);
+		result.add(copyOnly);
 
 		PrinterControlAction action = new PrinterControlAction(this);
-		show_inbounds.addActionListener(action);
-		show_outbounds.addActionListener(action);
-		show_empty_nodes.addActionListener(action);
+		showInbounds.addActionListener(action);
+		showOutbounds.addActionListener(action);
+		showEmptyNodes.addActionListener(action);
 
 		return result;
 	}
 	
-	private JComponent BuildDependenciesResultPanel() {
-		JComponent result = new JScrollPane(dependencies_result_area);
+	private JComponent buildDependenciesResultPanel() {
+		JComponent result = new JScrollPane(dependenciesResultArea);
 		
-		dependencies_result_area.setEditable(false);
+		dependenciesResultArea.setEditable(false);
 		
 		return result;
 	}
 	
-	private JComponent BuildClosurePanel() {
+	private JComponent buildClosurePanel() {
 		JPanel result = new JPanel();
 		
 		result.setLayout(new BorderLayout());
-		result.add(BuildClosureControlPanel(), BorderLayout.NORTH);
-		result.add(BuildClosureResultPanel(),  BorderLayout.CENTER);
+		result.add(buildClosureControlPanel(), BorderLayout.NORTH);
+		result.add(buildClosureResultPanel(),  BorderLayout.CENTER);
 		
 		return result;
 	}
 	
-	private JComponent BuildClosureControlPanel() {
+	private JComponent buildClosureControlPanel() {
 		JPanel result = new JPanel();
 		
 		result.add(new JLabel("Follow inbounds: "));
-		result.add(maximum_inbound_depth);
+		result.add(maximumInboundDepth);
 		result.add(new JLabel("Follow outbounds: "));
-		result.add(maximum_outbound_depth);
+		result.add(maximumOutboundDepth);
 		
 		return result;
 	}
 
-	private JComponent BuildClosureResultPanel() {
-		JComponent result = new JScrollPane(closure_result_area);
+	private JComponent buildClosureResultPanel() {
+		JComponent result = new JScrollPane(closureResultArea);
 		
-		closure_result_area.setEditable(false);
+		closureResultArea.setEditable(false);
 		
 		return result;
 	}
 	
-	private JComponent BuildMetricsPanel() {
-		return new JSplitPane(JSplitPane.VERTICAL_SPLIT, BuildMetricsResultPanel(), BuildMetricsChartPanel());
+	private JComponent buildMetricsPanel() {
+		return new JSplitPane(JSplitPane.VERTICAL_SPLIT, buildMetricsResultPanel(), buildMetricsChartPanel());
 	}
 
-	private JComponent BuildMetricsResultPanel() {
-		JComponent result = new JScrollPane(metrics_result_area);
+	private JComponent buildMetricsResultPanel() {
+		JComponent result = new JScrollPane(metricsResultArea);
 
-		metrics_result_area.setEditable(false);
+		metricsResultArea.setEditable(false);
 		
 		return result;
 	}
 
-	private JComponent BuildMetricsChartPanel() {
+	private JComponent buildMetricsChartPanel() {
 		JComponent result;
 
-		JTable table = new JTable(metrics_chart_model);
+		JTable table = new JTable(metricsChartModel);
 
 		table.setCellSelectionEnabled(true);
 		table.setColumnSelectionAllowed(true);
@@ -992,277 +992,277 @@ public class DependencyFinder extends JFrame {
 		return result;
 	}
 	
-	private JComponent BuildStatusPanel() {
+	private JComponent buildStatusPanel() {
 		JPanel result = new JPanel();
 
-		Dimension size = ProgressBar().getPreferredSize();
+		Dimension size = getProgressBar().getPreferredSize();
 		size.width = 100;
-		ProgressBar().setPreferredSize(size);
-		ProgressBar().setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		getProgressBar().setPreferredSize(size);
+		getProgressBar().setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		
 		result.setLayout(new BorderLayout());
-		result.add(StatusLine(),  BorderLayout.CENTER);
-		result.add(ProgressBar(), BorderLayout.EAST);
+		result.add(getStatusLine(),  BorderLayout.CENTER);
+		result.add(getProgressBar(), BorderLayout.EAST);
 		
 		return result;
 	}
 	
-	public void ResetQuery() {
-		package_scope.setSelected(true);
-		class_scope.setSelected(false);
-		feature_scope.setSelected(false);
-		scope_includes.setText("//");
-		package_scope_includes.setText("");
-		class_scope_includes.setText("");
-		feature_scope_includes.setText("");
-		scope_excludes.setText("");
-		package_scope_excludes.setText("");
-		class_scope_excludes.setText("");
-		feature_scope_excludes.setText("");
+	public void resetQuery() {
+		packageScope.setSelected(true);
+		classScope.setSelected(false);
+		featureScope.setSelected(false);
+		scopeIncludes.setText("//");
+		packageScopeIncludes.setText("");
+		classScopeIncludes.setText("");
+		featureScopeIncludes.setText("");
+		scopeExcludes.setText("");
+		packageScopeExcludes.setText("");
+		classScopeExcludes.setText("");
+		featureScopeExcludes.setText("");
 	
-		package_filter.setSelected(true);
-		class_filter.setSelected(false);
-		feature_filter.setSelected(false);
-		filter_includes.setText("//");
-		package_filter_includes.setText("");
-		class_filter_includes.setText("");
-		feature_filter_includes.setText("");
-		filter_excludes.setText("");
-		package_filter_excludes.setText("");
-		class_filter_excludes.setText("");
-		feature_filter_excludes.setText("");
+		packageFilter.setSelected(true);
+		classFilter.setSelected(false);
+		featureFilter.setSelected(false);
+		filterIncludes.setText("//");
+		packageFilterIncludes.setText("");
+		classFilterIncludes.setText("");
+		featureFilterIncludes.setText("");
+		filterExcludes.setText("");
+		packageFilterExcludes.setText("");
+		classFilterExcludes.setText("");
+		featureFilterExcludes.setText("");
 
-		show_inbounds.setSelected(true);
-		show_outbounds.setSelected(true);
-		show_empty_nodes.setSelected(true);
-		copy_only.setSelected(false);
+		showInbounds.setSelected(true);
+		showOutbounds.setSelected(true);
+		showEmptyNodes.setSelected(true);
+		copyOnly.setSelected(false);
 	}
 	
-	void ClearDependencyResult() {
-		dependencies_query = null;
-		dependencies_result_area.setText("");
+	void clearDependencyResult() {
+		dependenciesQuery = null;
+		dependenciesResultArea.setText("");
 	}
 	
-	void DependencyQuery() {
-		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
+	void doDependencyQuery() {
+		RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.setMatchingPackages(package_scope.isSelected());
-		scope_criteria.setMatchingClasses(class_scope.isSelected());
-		scope_criteria.setMatchingFeatures(feature_scope.isSelected());
-		scope_criteria.setGlobalIncludes(scope_includes.getText());
-		scope_criteria.setGlobalExcludes(scope_excludes.getText());
+		scopeCriteria.setMatchingPackages(packageScope.isSelected());
+		scopeCriteria.setMatchingClasses(classScope.isSelected());
+		scopeCriteria.setMatchingFeatures(featureScope.isSelected());
+		scopeCriteria.setGlobalIncludes(scopeIncludes.getText());
+		scopeCriteria.setGlobalExcludes(scopeExcludes.getText());
 
-		if (AdvancedMode()) {
-			scope_criteria.setPackageIncludes(package_scope_includes.getText());
-			scope_criteria.setClassIncludes(class_scope_includes.getText());
-			scope_criteria.setFeatureIncludes(feature_scope_includes.getText());
-			scope_criteria.setPackageExcludes(package_scope_excludes.getText());
-			scope_criteria.setClassExcludes(class_scope_excludes.getText());
-			scope_criteria.setFeatureExcludes(feature_scope_excludes.getText());
+		if (isAdvancedMode()) {
+			scopeCriteria.setPackageIncludes(packageScopeIncludes.getText());
+			scopeCriteria.setClassIncludes(classScopeIncludes.getText());
+			scopeCriteria.setFeatureIncludes(featureScopeIncludes.getText());
+			scopeCriteria.setPackageExcludes(packageScopeExcludes.getText());
+			scopeCriteria.setClassExcludes(classScopeExcludes.getText());
+			scopeCriteria.setFeatureExcludes(featureScopeExcludes.getText());
 		}
 	
-		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+		RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
 		
-		filter_criteria.setMatchingPackages(package_filter.isSelected());
-		filter_criteria.setMatchingClasses(class_filter.isSelected());
-		filter_criteria.setMatchingFeatures(feature_filter.isSelected());
-		filter_criteria.setGlobalIncludes(filter_includes.getText());
-		filter_criteria.setGlobalExcludes(filter_excludes.getText());
+		filterCriteria.setMatchingPackages(packageFilter.isSelected());
+		filterCriteria.setMatchingClasses(classFilter.isSelected());
+		filterCriteria.setMatchingFeatures(featureFilter.isSelected());
+		filterCriteria.setGlobalIncludes(filterIncludes.getText());
+		filterCriteria.setGlobalExcludes(filterExcludes.getText());
 
-		if (AdvancedMode()) {
-			filter_criteria.setPackageIncludes(package_filter_includes.getText());
-			filter_criteria.setClassIncludes(class_filter_includes.getText());
-			filter_criteria.setFeatureIncludes(feature_filter_includes.getText());
-			filter_criteria.setPackageExcludes(package_filter_excludes.getText());
-			filter_criteria.setClassExcludes(class_filter_excludes.getText());
-			filter_criteria.setFeatureExcludes(feature_filter_excludes.getText());
+		if (isAdvancedMode()) {
+			filterCriteria.setPackageIncludes(packageFilterIncludes.getText());
+			filterCriteria.setClassIncludes(classFilterIncludes.getText());
+			filterCriteria.setFeatureIncludes(featureFilterIncludes.getText());
+			filterCriteria.setPackageExcludes(packageFilterExcludes.getText());
+			filterCriteria.setClassExcludes(classFilterExcludes.getText());
+			filterCriteria.setFeatureExcludes(featureFilterExcludes.getText());
 		}
 
-		if ((AdvancedMode() && copy_only.isSelected()) || Maximize()) {
-			TraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
-			dependencies_query = new GraphCopier(strategy);
+		if ((isAdvancedMode() && copyOnly.isSelected()) || getMaximize()) {
+			TraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+			dependenciesQuery = new GraphCopier(strategy);
 		} else {
-			dependencies_query = new GraphSummarizer(scope_criteria, filter_criteria);
+			dependenciesQuery = new GraphSummarizer(scopeCriteria, filterCriteria);
 		}
 		
-		dependencies_query.traverseNodes(Packages());
+		dependenciesQuery.traverseNodes(getPackages());
 
-		RefreshDependenciesDisplay();
+		refreshDependenciesDisplay();
 	}
 
-	void RefreshDependenciesDisplay() {
-		if (dependencies_query != null) {
+	void refreshDependenciesDisplay() {
+		if (dependenciesQuery != null) {
 			StringWriter out = new StringWriter();
 			com.jeantessier.dependency.TextPrinter printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
 
-			printer.setShowInbounds(show_inbounds.isSelected());
-			printer.setShowOutbounds(show_outbounds.isSelected());
-			printer.setShowEmptyNodes(show_empty_nodes.isSelected());
+			printer.setShowInbounds(showInbounds.isSelected());
+			printer.setShowOutbounds(showOutbounds.isSelected());
+			printer.setShowEmptyNodes(showEmptyNodes.isSelected());
 			
-			printer.traverseNodes(dependencies_query.getScopeFactory().getPackages().values());
+			printer.traverseNodes(dependenciesQuery.getScopeFactory().getPackages().values());
 			
-			dependencies_result_area.setText(out.toString());
+			dependenciesResultArea.setText(out.toString());
 		}
 	}		
 	
-	void ClearClosureResult() {
-		closure_result_area.setText("");
+	void clearClosureResult() {
+		closureResultArea.setText("");
 	}
 	
-	void ClosureQuery() {
-		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
+	void doClosureQuery() {
+		RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.setMatchingPackages(package_scope.isSelected());
-		scope_criteria.setMatchingClasses(class_scope.isSelected());
-		scope_criteria.setMatchingFeatures(feature_scope.isSelected());
-		scope_criteria.setGlobalIncludes(scope_includes.getText());
-		scope_criteria.setGlobalExcludes(scope_excludes.getText());
+		scopeCriteria.setMatchingPackages(packageScope.isSelected());
+		scopeCriteria.setMatchingClasses(classScope.isSelected());
+		scopeCriteria.setMatchingFeatures(featureScope.isSelected());
+		scopeCriteria.setGlobalIncludes(scopeIncludes.getText());
+		scopeCriteria.setGlobalExcludes(scopeExcludes.getText());
 
-		if (AdvancedMode()) {
-			scope_criteria.setPackageIncludes(package_scope_includes.getText());
-			scope_criteria.setClassIncludes(class_scope_includes.getText());
-			scope_criteria.setFeatureIncludes(feature_scope_includes.getText());
-			scope_criteria.setPackageExcludes(package_scope_excludes.getText());
-			scope_criteria.setClassExcludes(class_scope_excludes.getText());
-			scope_criteria.setFeatureExcludes(feature_scope_excludes.getText());
+		if (isAdvancedMode()) {
+			scopeCriteria.setPackageIncludes(packageScopeIncludes.getText());
+			scopeCriteria.setClassIncludes(classScopeIncludes.getText());
+			scopeCriteria.setFeatureIncludes(featureScopeIncludes.getText());
+			scopeCriteria.setPackageExcludes(packageScopeExcludes.getText());
+			scopeCriteria.setClassExcludes(classScopeExcludes.getText());
+			scopeCriteria.setFeatureExcludes(featureScopeExcludes.getText());
 		}
 	
-		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+		RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
 		
-		filter_criteria.setMatchingPackages(package_filter.isSelected());
-		filter_criteria.setMatchingClasses(class_filter.isSelected());
-		filter_criteria.setMatchingFeatures(feature_filter.isSelected());
-		filter_criteria.setGlobalIncludes(filter_includes.getText());
-		filter_criteria.setGlobalExcludes(filter_excludes.getText());
+		filterCriteria.setMatchingPackages(packageFilter.isSelected());
+		filterCriteria.setMatchingClasses(classFilter.isSelected());
+		filterCriteria.setMatchingFeatures(featureFilter.isSelected());
+		filterCriteria.setGlobalIncludes(filterIncludes.getText());
+		filterCriteria.setGlobalExcludes(filterExcludes.getText());
 
-		if (AdvancedMode()) {
-			filter_criteria.setPackageIncludes(package_filter_includes.getText());
-			filter_criteria.setClassIncludes(class_filter_includes.getText());
-			filter_criteria.setFeatureIncludes(feature_filter_includes.getText());
-			filter_criteria.setPackageExcludes(package_filter_excludes.getText());
-			filter_criteria.setClassExcludes(class_filter_excludes.getText());
-			filter_criteria.setFeatureExcludes(feature_filter_excludes.getText());
+		if (isAdvancedMode()) {
+			filterCriteria.setPackageIncludes(packageFilterIncludes.getText());
+			filterCriteria.setClassIncludes(classFilterIncludes.getText());
+			filterCriteria.setFeatureIncludes(featureFilterIncludes.getText());
+			filterCriteria.setPackageExcludes(packageFilterExcludes.getText());
+			filterCriteria.setClassExcludes(classFilterExcludes.getText());
+			filterCriteria.setFeatureExcludes(featureFilterExcludes.getText());
 		}
 
-		TraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
+		TraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
 		TransitiveClosure selector = new TransitiveClosure(strategy);
 
 		try {
-			selector.setMaximumInboundDepth(Long.parseLong(maximum_inbound_depth.getText()));
+			selector.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth.getText()));
 		} catch (NumberFormatException ex) {
 			selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 
 		try {
-			selector.setMaximumOutboundDepth(Long.parseLong(maximum_outbound_depth.getText()));
+			selector.setMaximumOutboundDepth(Long.parseLong(maximumOutboundDepth.getText()));
 		} catch (NumberFormatException ex) {
 			selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 		
-		selector.traverseNodes(Packages());
+		selector.traverseNodes(getPackages());
 
 		StringWriter out = new StringWriter();
 		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
 		printer.traverseNodes(selector.getFactory().getPackages().values());
-		closure_result_area.setText(out.toString());
+		closureResultArea.setText(out.toString());
 	}		
 	
-	void ClearMetricsResult() {
-		metrics_result_area.setText("");
+	void clearMetricsResult() {
+		metricsResultArea.setText("");
 	}
 	
-	void MetricsQuery() {
-		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
+	void doMetricsQuery() {
+		RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.setMatchingPackages(package_scope.isSelected());
-		scope_criteria.setMatchingClasses(class_scope.isSelected());
-		scope_criteria.setMatchingFeatures(feature_scope.isSelected());
-		scope_criteria.setGlobalIncludes(scope_includes.getText());
-		scope_criteria.setGlobalExcludes(scope_excludes.getText());
+		scopeCriteria.setMatchingPackages(packageScope.isSelected());
+		scopeCriteria.setMatchingClasses(classScope.isSelected());
+		scopeCriteria.setMatchingFeatures(featureScope.isSelected());
+		scopeCriteria.setGlobalIncludes(scopeIncludes.getText());
+		scopeCriteria.setGlobalExcludes(scopeExcludes.getText());
 
-		if (AdvancedMode()) {
-			scope_criteria.setPackageIncludes(package_scope_includes.getText());
-			scope_criteria.setClassIncludes(class_scope_includes.getText());
-			scope_criteria.setFeatureIncludes(feature_scope_includes.getText());
-			scope_criteria.setPackageExcludes(package_scope_excludes.getText());
-			scope_criteria.setClassExcludes(class_scope_excludes.getText());
-			scope_criteria.setFeatureExcludes(feature_scope_excludes.getText());
+		if (isAdvancedMode()) {
+			scopeCriteria.setPackageIncludes(packageScopeIncludes.getText());
+			scopeCriteria.setClassIncludes(classScopeIncludes.getText());
+			scopeCriteria.setFeatureIncludes(featureScopeIncludes.getText());
+			scopeCriteria.setPackageExcludes(packageScopeExcludes.getText());
+			scopeCriteria.setClassExcludes(classScopeExcludes.getText());
+			scopeCriteria.setFeatureExcludes(featureScopeExcludes.getText());
 		}
 	
-		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+		RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
 		
-		filter_criteria.setMatchingPackages(package_filter.isSelected());
-		filter_criteria.setMatchingClasses(class_filter.isSelected());
-		filter_criteria.setMatchingFeatures(feature_filter.isSelected());
-		filter_criteria.setGlobalIncludes(filter_includes.getText());
-		filter_criteria.setGlobalExcludes(filter_excludes.getText());
+		filterCriteria.setMatchingPackages(packageFilter.isSelected());
+		filterCriteria.setMatchingClasses(classFilter.isSelected());
+		filterCriteria.setMatchingFeatures(featureFilter.isSelected());
+		filterCriteria.setGlobalIncludes(filterIncludes.getText());
+		filterCriteria.setGlobalExcludes(filterExcludes.getText());
 
-		if (AdvancedMode()) {
-			filter_criteria.setPackageIncludes(package_filter_includes.getText());
-			filter_criteria.setClassIncludes(class_filter_includes.getText());
-			filter_criteria.setFeatureIncludes(feature_filter_includes.getText());
-			filter_criteria.setPackageExcludes(package_filter_excludes.getText());
-			filter_criteria.setClassExcludes(class_filter_excludes.getText());
-			filter_criteria.setFeatureExcludes(feature_filter_excludes.getText());
+		if (isAdvancedMode()) {
+			filterCriteria.setPackageIncludes(packageFilterIncludes.getText());
+			filterCriteria.setClassIncludes(classFilterIncludes.getText());
+			filterCriteria.setFeatureIncludes(featureFilterIncludes.getText());
+			filterCriteria.setPackageExcludes(packageFilterExcludes.getText());
+			filterCriteria.setClassExcludes(classFilterExcludes.getText());
+			filterCriteria.setFeatureExcludes(featureFilterExcludes.getText());
 		}
 
-		TraversalStrategy                          strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
+		TraversalStrategy                          strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
 		com.jeantessier.dependency.MetricsGatherer metrics  = new com.jeantessier.dependency.MetricsGatherer(strategy);
 		
-		metrics.traverseNodes(Packages());
+		metrics.traverseNodes(getPackages());
 
 		StringWriter out = new StringWriter();
 		MetricsReport report = new MetricsReport(new PrintWriter(out));
 		report.process(metrics);
 		
-		metrics_result_area.setText(out.toString());
-		metrics_chart_model.Metrics(metrics);
+		metricsResultArea.setText(out.toString());
+		metricsChartModel.setMetrics(metrics);
 	}		
 
-	void NewDependencyGraph() {
-		NodeFactory(new NodeFactory());
-		ResetQuery();
+	void setNewDependencyGraph() {
+		setNodeFactory(new NodeFactory());
+		resetQuery();
 	}
 
-	public static void Error(CommandLineUsage clu, String msg) {
+	public static void showError(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
-		Error(clu);
+		showError(clu);
 	}
 
-	public static void Error(CommandLineUsage clu) {
+	public static void showError(CommandLineUsage clu) {
 		System.err.println(clu);
 	}
 
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
-		CommandLine command_line = new CommandLine(new NullParameterStrategy());
-		command_line.addToggleSwitch("minimize");
-		command_line.addToggleSwitch("maximize");
-		command_line.addSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
-		command_line.addSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
-		command_line.addSingleValueSwitch("indent-text");
-		command_line.addToggleSwitch("help");
+		CommandLine commandLine = new CommandLine(new NullParameterStrategy());
+		commandLine.addToggleSwitch("minimize");
+		commandLine.addToggleSwitch("maximize");
+		commandLine.addSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
+		commandLine.addSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
+		commandLine.addSingleValueSwitch("indent-text");
+		commandLine.addToggleSwitch("help");
 
 		CommandLineUsage usage = new CommandLineUsage("DependencyFinder");
-		command_line.accept(usage);
+		commandLine.accept(usage);
 
 		try {
-			command_line.parse(args);
+			commandLine.parse(args);
 		} catch (IllegalArgumentException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		} catch (CommandLineException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		}
 
-		if (command_line.getToggleSwitch("help")) {
-			Error(usage);
+		if (commandLine.getToggleSwitch("help")) {
+			showError(usage);
 			System.exit(1);
 		}
 
-		if (command_line.getToggleSwitch("maximize") && command_line.getToggleSwitch("minimize")) {
-			Error(usage, "Only one of -maximize or -minimize allowed");
+		if (commandLine.getToggleSwitch("maximize") && commandLine.getToggleSwitch("minimize")) {
+			showError(usage, "Only one of -maximize or -minimize allowed");
 		}
 
 		/*
@@ -1275,9 +1275,9 @@ public class DependencyFinder extends JFrame {
 			// Ignore
 		}
 
-		DependencyFinder model = new DependencyFinder(command_line);
-		model.Maximize(command_line.getToggleSwitch("maximize"));
-		model.Minimize(command_line.getToggleSwitch("minimize"));
+		DependencyFinder model = new DependencyFinder(commandLine);
+		model.setMaximize(commandLine.getToggleSwitch("maximize"));
+		model.setMinimize(commandLine.getToggleSwitch("minimize"));
 		model.setVisible(true);
 	}
 }

@@ -53,13 +53,13 @@ public class NewMetricsAction extends AbstractAction implements Runnable {
 	}
 
 	public void run() {
-		model.StatusLine().ShowInfo("");
+		model.getStatusLine().showInfo("");
 
-		model.MetricsFactory().Clear();
+		model.getMetricsFactory().clear();
 		
-		model.ProjectArea().setText("");
-		model.GroupsModel().Metrics(Collections.EMPTY_LIST);
-		model.ClassesModel().Metrics(Collections.EMPTY_LIST);
-		model.MethodsModel().Metrics(Collections.EMPTY_LIST);
+		model.getProjectArea().setText("");
+		model.getGroupsModel().getMetrics(Collections.EMPTY_LIST);
+		model.getClassesModel().getMetrics(Collections.EMPTY_LIST);
+		model.getMethodsModel().getMetrics(Collections.EMPTY_LIST);
 	}
 }

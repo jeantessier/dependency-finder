@@ -56,14 +56,14 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.InputFile());
+		JFileChooser chooser = new JFileChooser(model.getInputFile());
 		chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
 		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		chooser.setMultiSelectionEnabled(true);
 		int returnValue = chooser.showDialog(model, "Extract");
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			files = chooser.getSelectedFiles();
-			model.InputFile(files[0]);
+			model.setInputFile(files[0]);
 			new Thread(this).start();
 		}
 	}
@@ -71,43 +71,43 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 	public void run() {
 		Date start = new Date();
 
-		model.StatusLine().ShowInfo("Scanning ...");
+		model.getStatusLine().showInfo("Scanning ...");
 		ClassfileScanner scanner = new ClassfileScanner();
 		scanner.load(Arrays.asList(files));
 
-		model.ProgressBar().setMaximum(scanner.getNbFiles() + scanner.getNbClasses());
+		model.getProgressBar().setMaximum(scanner.getNbFiles() + scanner.getNbClasses());
 
-		MetricsVerboseListener verbose_listener = new MetricsVerboseListener(model.StatusLine(), model.ProgressBar());
+		MetricsVerboseListener verbose_listener = new MetricsVerboseListener(model.getStatusLine(), model.getProgressBar());
 		
 		loader = new AggregatingClassfileLoader();
 		loader.addLoadListener(verbose_listener);
 		loader.load(Arrays.asList(files));
 		
-		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.MetricsFactory());
+		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.getMetricsFactory());
 		gatherer.addMetricsListener(verbose_listener);
 		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		// JDK 1.4 feature
 		// model.ProgressBar().setIndeterminate(true);
 		
-		model.StatusLine().ShowInfo("Generating method results ...");
-		model.MethodsModel().Metrics(model.MetricsFactory().MethodMetrics());
+		model.getStatusLine().showInfo("Generating method results ...");
+		model.getMethodsModel().getMetrics(model.getMetricsFactory().getMethodMetrics());
 		
-		model.StatusLine().ShowInfo("Generating class results ...");
-		model.ClassesModel().Metrics(model.MetricsFactory().ClassMetrics());
+		model.getStatusLine().showInfo("Generating class results ...");
+		model.getClassesModel().getMetrics(model.getMetricsFactory().getClassMetrics());
 		
-		model.StatusLine().ShowInfo("Generating group results ...");
-		model.GroupsModel().Metrics(model.MetricsFactory().GroupMetrics());
+		model.getStatusLine().showInfo("Generating group results ...");
+		model.getGroupsModel().getMetrics(model.getMetricsFactory().getGroupMetrics());
 		
-		model.StatusLine().ShowInfo("Generating project results ...");
+		model.getStatusLine().showInfo("Generating project results ...");
 		StringWriter out = new StringWriter();
-		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.TextPrinter(new PrintWriter(out), model.MetricsFactory().Configuration().ProjectMeasurements());
-		printer.VisitMetrics(model.MetricsFactory().ProjectMetrics());
-		model.ProjectArea().setText(out.toString());
+		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.TextPrinter(new PrintWriter(out), model.getMetricsFactory().getConfiguration().getProjectMeasurements());
+		printer.visitMetrics(model.getMetricsFactory().getProjectMetrics());
+		model.getProjectArea().setText(out.toString());
 		
 		Date stop = new Date();
 		
-		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+		model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		// JDK 1.4 feature
 		// model.ProgressBar().setIndeterminate(false);
 		model.setTitle("OO Metrics - Extractor");

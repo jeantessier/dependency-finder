@@ -41,64 +41,64 @@ import com.jeantessier.text.*;
 public class MetricsConfiguration {
 	private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 	
-	private List project_measurements = new LinkedList();
-	private List group_measurements   = new LinkedList();
-	private List class_measurements   = new LinkedList();
-	private List method_measurements  = new LinkedList();
-	private Map  group_definitions    = new HashMap();
+	private List projectMeasurements = new LinkedList();
+	private List groupMeasurements   = new LinkedList();
+	private List classMeasurements   = new LinkedList();
+	private List methodMeasurements  = new LinkedList();
+	private Map  groupDefinitions    = new HashMap();
 	
-	public List ProjectMeasurements() {
-		return Collections.unmodifiableList(project_measurements);
+	public List getProjectMeasurements() {
+		return Collections.unmodifiableList(projectMeasurements);
 	}
 
-	public void AddProjectMeasurement(MeasurementDescriptor descriptor) {
-		project_measurements.add(descriptor);
-	}
-	
-	public List GroupMeasurements() {
-		return Collections.unmodifiableList(group_measurements);
-	}
-
-	public void AddGroupMeasurement(MeasurementDescriptor descriptor) {
-		group_measurements.add(descriptor);
+	public void addProjectMeasurement(MeasurementDescriptor descriptor) {
+		projectMeasurements.add(descriptor);
 	}
 	
-	public List ClassMeasurements() {
-		return Collections.unmodifiableList(class_measurements);
+	public List getGroupMeasurements() {
+		return Collections.unmodifiableList(groupMeasurements);
 	}
 
-	public void AddClassMeasurement(MeasurementDescriptor descriptor) {
-		class_measurements.add(descriptor);
+	public void addGroupMeasurement(MeasurementDescriptor descriptor) {
+		groupMeasurements.add(descriptor);
 	}
 	
-	public List MethodMeasurements() {
-		return Collections.unmodifiableList(method_measurements);
+	public List getClassMeasurements() {
+		return Collections.unmodifiableList(classMeasurements);
 	}
 
-	public void AddMethodMeasurement(MeasurementDescriptor descriptor) {
-		method_measurements.add(descriptor);
+	public void addClassMeasurement(MeasurementDescriptor descriptor) {
+		classMeasurements.add(descriptor);
+	}
+	
+	public List getMethodMeasurements() {
+		return Collections.unmodifiableList(methodMeasurements);
 	}
 
-	public void AddGroupDefinition(String name, String pattern) {
-		Collection bucket = (Collection) group_definitions.get(name);
+	public void addMethodMeasurement(MeasurementDescriptor descriptor) {
+		methodMeasurements.add(descriptor);
+	}
+
+	public void addGroupDefinition(String name, String pattern) {
+		Collection bucket = (Collection) groupDefinitions.get(name);
 
 		if (bucket == null) {
 			bucket = new LinkedList();
-			group_definitions.put(name, bucket);
+			groupDefinitions.put(name, bucket);
 		}
 
 		bucket.add(pattern);
 	}
 
-	public Collection Groups(String name) {
+	public Collection getGroups(String name) {
 		Collection result = new HashSet();
 
-		Iterator i = group_definitions.keySet().iterator();
+		Iterator i = groupDefinitions.keySet().iterator();
 		while (i.hasNext()) {
 			String key = (String) i.next();
 
-			if (group_definitions.get(key) != null) {
-				Iterator j = ((Collection) group_definitions.get(key)).iterator();
+			if (groupDefinitions.get(key) != null) {
+				Iterator j = ((Collection) groupDefinitions.get(key)).iterator();
 				while (j.hasNext()) {
 					if (perl.match((String) j.next(), name)) {
 						result.add(key);

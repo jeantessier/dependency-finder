@@ -42,77 +42,77 @@ import com.jeantessier.dependencyfinder.*;
 import com.jeantessier.diff.*;
 
 public class ListDiff {
-	public static void Error(CommandLineUsage clu, String msg) {
+	public static void showError(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
-		Error(clu);
+		showError(clu);
 	}
 
-	public static void Error(CommandLineUsage clu) {
+	public static void showError(CommandLineUsage clu) {
 		System.err.println(clu);
 		System.err.println();
 		System.err.println("Defaults is text output to the console.");
 		System.err.println();
 	}
 
-	public static void Version() throws IOException {
+	public static void showVersion() throws IOException {
 		Version version = new Version();
 		
-		System.err.print(version.ImplementationTitle());
+		System.err.print(version.getImplementationTitle());
 		System.err.print(" ");
-		System.err.print(version.ImplementationVersion());
+		System.err.print(version.getImplementationVersion());
 		System.err.print(" (c) ");
-		System.err.print(version.CopyrightDate());
+		System.err.print(version.getCopyrightDate());
 		System.err.print(" ");
-		System.err.print(version.CopyrightHolder());
+		System.err.print(version.getCopyrightHolder());
 		System.err.println();
 		
-		System.err.print(version.ImplementationURL());
+		System.err.print(version.getImplementationURL());
 		System.err.println();
 		
 		System.err.print("Compiled on ");
-		System.err.print(version.ImplementationDate());
+		System.err.print(version.getImplementationDate());
 		System.err.println();
 	}
 
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
-		CommandLine command_line = new CommandLine(new NullParameterStrategy());
-		command_line.addSingleValueSwitch("name");
-		command_line.addSingleValueSwitch("old-label");
-		command_line.addSingleValueSwitch("old", true);
-		command_line.addSingleValueSwitch("new-label");
-		command_line.addSingleValueSwitch("new", true);
-		command_line.addToggleSwitch("compress");
-		command_line.addSingleValueSwitch("encoding",   ListDiffPrinter.DEFAULT_ENCODING);
-		command_line.addSingleValueSwitch("dtd-prefix", ListDiffPrinter.DEFAULT_DTD_PREFIX);
-		command_line.addSingleValueSwitch("indent-text");
-		command_line.addToggleSwitch("time");
-		command_line.addSingleValueSwitch("out");
-		command_line.addToggleSwitch("help");
-		command_line.addToggleSwitch("version");
+		CommandLine commandLine = new CommandLine(new NullParameterStrategy());
+		commandLine.addSingleValueSwitch("name");
+		commandLine.addSingleValueSwitch("old-label");
+		commandLine.addSingleValueSwitch("old", true);
+		commandLine.addSingleValueSwitch("new-label");
+		commandLine.addSingleValueSwitch("new", true);
+		commandLine.addToggleSwitch("compress");
+		commandLine.addSingleValueSwitch("encoding",   ListDiffPrinter.DEFAULT_ENCODING);
+		commandLine.addSingleValueSwitch("dtd-prefix", ListDiffPrinter.DEFAULT_DTD_PREFIX);
+		commandLine.addSingleValueSwitch("indent-text");
+		commandLine.addToggleSwitch("time");
+		commandLine.addSingleValueSwitch("out");
+		commandLine.addToggleSwitch("help");
+		commandLine.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("ListDiff");
-		command_line.accept(usage);
+		commandLine.accept(usage);
 
 		try {
-			command_line.parse(args);
+			commandLine.parse(args);
 		} catch (IllegalArgumentException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		} catch (CommandLineException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		}
 
-		if (command_line.getToggleSwitch("help")) {
-			Error(usage);
+		if (commandLine.getToggleSwitch("help")) {
+			showError(usage);
 		}
 		
-		if (command_line.getToggleSwitch("version")) {
-			Version();
+		if (commandLine.getToggleSwitch("version")) {
+			showVersion();
 		}
 
-		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
+		if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
@@ -126,49 +126,49 @@ public class ListDiff {
 		
 		Logger.getLogger(ListDiff.class).info("Loading data ...");
 		
-		Collection old_api = new TreeSet();
-		BufferedReader old_in = new BufferedReader(new FileReader(command_line.getSingleSwitch("old")));
-		while((line = old_in.readLine()) != null) {
-			old_api.add(line);
+		Collection oldAPI = new TreeSet();
+		BufferedReader oldIn = new BufferedReader(new FileReader(commandLine.getSingleSwitch("old")));
+		while((line = oldIn.readLine()) != null) {
+			oldAPI.add(line);
 		}
 		
-		Collection new_api = new TreeSet();
-		BufferedReader new_in = new BufferedReader(new FileReader(command_line.getSingleSwitch("new")));
-		while((line = new_in.readLine()) != null) {
-			new_api.add(line);
+		Collection newAPI = new TreeSet();
+		BufferedReader newIn = new BufferedReader(new FileReader(commandLine.getSingleSwitch("new")));
+		while((line = newIn.readLine()) != null) {
+			newAPI.add(line);
 		}
 		
-		ListDiffPrinter printer = new ListDiffPrinter(command_line.getToggleSwitch("compress"), command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
-		printer.Name(command_line.getSingleSwitch("name"));
-		printer.OldVersion(command_line.getSingleSwitch("old-label"));
-		printer.NewVersion(command_line.getSingleSwitch("new-label"));
-		if (command_line.isPresent("indent-text")) {
-			printer.IndentText(command_line.getSingleSwitch("indent-text"));
+		ListDiffPrinter printer = new ListDiffPrinter(commandLine.getToggleSwitch("compress"), commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
+		printer.setName(commandLine.getSingleSwitch("name"));
+		printer.setOldVersion(commandLine.getSingleSwitch("old-label"));
+		printer.setNewVersion(commandLine.getSingleSwitch("new-label"));
+		if (commandLine.isPresent("indent-text")) {
+			printer.setIndentText(commandLine.getSingleSwitch("indent-text"));
 		}
 		
 		Iterator i;
 
-		i = old_api.iterator();
+		i = oldAPI.iterator();
 		while (i.hasNext()) {
 			line = (String) i.next();
-			if (!new_api.contains(line)) {
-				printer.Remove(line);
+			if (!newAPI.contains(line)) {
+				printer.remove(line);
 			}
 		}
 
-		i = new_api.iterator();
+		i = newAPI.iterator();
 		while (i.hasNext()) {
 			line = (String) i.next();
-			if (!old_api.contains(line)) {
-				printer.Add(line);
+			if (!oldAPI.contains(line)) {
+				printer.add(line);
 			}
 		}
 
 		Logger.getLogger(ListDiff.class).info("Printing results ...");
 		
 		PrintWriter out;
-		if (command_line.isPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
+		if (commandLine.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
@@ -177,7 +177,7 @@ public class ListDiff {
 
 		Date end = new Date();
 
-		if (command_line.getToggleSwitch("time")) {
+		if (commandLine.getToggleSwitch("time")) {
 			System.err.println(ListDiff.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 	}

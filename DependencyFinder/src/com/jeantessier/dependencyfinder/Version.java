@@ -46,19 +46,19 @@ public class Version {
 	public static final String DEFAULT_COPYRIGHT_HOLDER = "Jean Tessier";
 	public static final String DEFAULT_COPYRIGHT_DATE   = "2001-2004";
 
-    private String resource_url = null;
-	private String jar_name     = null;
+    private String resourceURL = null;
+	private String jarName     = null;
 
 	private Attributes attributes = null;
 	
 	public Version() {
-		resource_url = getClass().getResource("Version.class").toString();
+		resourceURL = getClass().getResource("Version.class").toString();
 		
-		if (resource_url.startsWith("jar:file:")) {
-			jar_name = resource_url.substring(9, resource_url.indexOf(".jar!") + 4);
+		if (resourceURL.startsWith("jar:file:")) {
+			jarName = resourceURL.substring(9, resourceURL.indexOf(".jar!") + 4);
 
 			try {
-				JarFile  jar      = new JarFile(jar_name);
+				JarFile  jar      = new JarFile(jarName);
 				Manifest manifest = jar.getManifest();
 				
 				attributes = manifest.getMainAttributes();
@@ -68,15 +68,15 @@ public class Version {
 		}
 	}
 	
-	public String ResourceURL() {
-		return resource_url;
+	public String getResourceURL() {
+		return resourceURL;
 	}
 
-	public String JarName() {
-		return jar_name;
+	public String getJarName() {
+		return jarName;
 	}
 
-	public String ImplementationURL() {
+	public String getImplementationURL() {
 		String result = DEFAULT_URL;
 
 		if (attributes != null) {
@@ -86,7 +86,7 @@ public class Version {
 		return result;
 	}
 
-	public String ImplementationTitle() {
+	public String getImplementationTitle() {
 		String result = DEFAULT_TITLE;
 
 		if (attributes != null) {
@@ -96,7 +96,7 @@ public class Version {
 		return result;
 	}
 
-	public String ImplementationVersion() {
+	public String getImplementationVersion() {
 		String result = DEFAULT_VERSION;
 
 		if (attributes != null) {
@@ -106,7 +106,7 @@ public class Version {
 		return result;
 	}
 
-	public String ImplementationVendor() {
+	public String getImplementationVendor() {
 		String result = DEFAULT_VENDOR;
 
 		if (attributes != null) {
@@ -116,7 +116,7 @@ public class Version {
 		return result;
 	}
 
-	public String ImplementationDate() {
+	public String getImplementationDate() {
 		String result = DEFAULT_DATE;
 
 		if (attributes != null) {
@@ -126,7 +126,7 @@ public class Version {
 		return result;
 	}
 
-	public String SpecificationTitle() {
+	public String getSpecificationTitle() {
 		String result = DEFAULT_TITLE;
 
 		if (attributes != null) {
@@ -136,7 +136,7 @@ public class Version {
 		return result;
 	}
 
-	public String SpecificationVersion() {
+	public String getSpecificationVersion() {
 		String result = DEFAULT_VERSION;
 
 		if (attributes != null) {
@@ -146,7 +146,7 @@ public class Version {
 		return result;
 	}
 
-	public String SpecificationVendor() {
+	public String getSpecificationVendor() {
 		String result = DEFAULT_VENDOR;
 
 		if (attributes != null) {
@@ -156,7 +156,7 @@ public class Version {
 		return result;
 	}
 
-	public String SpecificationDate() {
+	public String getSpecificationDate() {
 		String result = DEFAULT_DATE;
 
 		if (attributes != null) {
@@ -166,7 +166,7 @@ public class Version {
 		return result;
 	}
 
-	public String CopyrightHolder() {
+	public String getCopyrightHolder() {
 		String result = DEFAULT_COPYRIGHT_HOLDER;
 
 		if (attributes != null) {
@@ -176,7 +176,7 @@ public class Version {
 		return result;
 	}
 
-	public String CopyrightDate() {
+	public String getCopyrightDate() {
 		String result = DEFAULT_COPYRIGHT_DATE;
 
 		if (attributes != null) {

@@ -49,54 +49,54 @@ public class TestPackageValidator extends TestCase {
 
 		validator = new PackageValidator(new BufferedReader(new StringReader("")));
 
-		assertTrue("package", validator.IsPackageAllowed("foobar"));
-		assertTrue("class",   validator.IsClassAllowed("foobar"));
-		assertTrue("class",   validator.IsClassAllowed("foobar.foobar"));
-		assertTrue("feature", !validator.IsFeatureAllowed("foobar"));
-		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar"));
-		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar.foobar"));
+		assertTrue("package", validator.isPackageAllowed("foobar"));
+		assertTrue("class",   validator.isClassAllowed("foobar"));
+		assertTrue("class",   validator.isClassAllowed("foobar.foobar"));
+		assertTrue("feature", !validator.isFeatureAllowed("foobar"));
+		assertTrue("feature", validator.isFeatureAllowed("foobar.foobar"));
+		assertTrue("feature", validator.isFeatureAllowed("foobar.foobar.foobar"));
 
-		assertTrue("package", validator.IsPackageAllowed("barfoo"));
-		assertTrue("class",   validator.IsClassAllowed("barfoo"));
-		assertTrue("class",   validator.IsClassAllowed("barfoo.barfoo"));
-		assertTrue("feature", !validator.IsFeatureAllowed("barfoo"));
-		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo"));
-		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
+		assertTrue("package", validator.isPackageAllowed("barfoo"));
+		assertTrue("class",   validator.isClassAllowed("barfoo"));
+		assertTrue("class",   validator.isClassAllowed("barfoo.barfoo"));
+		assertTrue("feature", !validator.isFeatureAllowed("barfoo"));
+		assertTrue("feature", validator.isFeatureAllowed("barfoo.barfoo"));
+		assertTrue("feature", validator.isFeatureAllowed("barfoo.barfoo.barfoo"));
 	}
 
 	public void testConstructor() throws IOException {
 		Validator validator = new PackageValidator(new BufferedReader(new StringReader("foobar\n")));
 
-		assertTrue("package", validator.IsPackageAllowed("foobar"));
-		assertTrue("class",   !validator.IsClassAllowed("foobar"));
-		assertTrue("class",   validator.IsClassAllowed("foobar.foobar"));
-		assertTrue("feature", !validator.IsFeatureAllowed("foobar"));
-		assertTrue("feature", !validator.IsFeatureAllowed("foobar.foobar"));
-		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar.foobar"));
+		assertTrue("package", validator.isPackageAllowed("foobar"));
+		assertTrue("class",   !validator.isClassAllowed("foobar"));
+		assertTrue("class",   validator.isClassAllowed("foobar.foobar"));
+		assertTrue("feature", !validator.isFeatureAllowed("foobar"));
+		assertTrue("feature", !validator.isFeatureAllowed("foobar.foobar"));
+		assertTrue("feature", validator.isFeatureAllowed("foobar.foobar.foobar"));
 
-		assertTrue("package", !validator.IsPackageAllowed("barfoo"));
-		assertTrue("class",   !validator.IsClassAllowed("barfoo"));
-		assertTrue("class",   !validator.IsClassAllowed("barfoo.barfoo"));
-		assertTrue("feature", !validator.IsFeatureAllowed("barfoo"));
-		assertTrue("feature", !validator.IsFeatureAllowed("barfoo.barfoo"));
-		assertTrue("feature", !validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
+		assertTrue("package", !validator.isPackageAllowed("barfoo"));
+		assertTrue("class",   !validator.isClassAllowed("barfoo"));
+		assertTrue("class",   !validator.isClassAllowed("barfoo.barfoo"));
+		assertTrue("feature", !validator.isFeatureAllowed("barfoo"));
+		assertTrue("feature", !validator.isFeatureAllowed("barfoo.barfoo"));
+		assertTrue("feature", !validator.isFeatureAllowed("barfoo.barfoo.barfoo"));
 	}
 
 	public void testMissingFile() throws IOException {
 		Validator validator = new PackageValidator("no such file");
 
-		assertTrue("package", validator.IsPackageAllowed("foobar"));
-		assertTrue("class",   validator.IsClassAllowed("foobar"));
-		assertTrue("class",   validator.IsClassAllowed("foobar.foobar"));
-		assertTrue("feature", !validator.IsFeatureAllowed("foobar"));
-		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar"));
-		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar.foobar"));
+		assertTrue("package", validator.isPackageAllowed("foobar"));
+		assertTrue("class",   validator.isClassAllowed("foobar"));
+		assertTrue("class",   validator.isClassAllowed("foobar.foobar"));
+		assertTrue("feature", !validator.isFeatureAllowed("foobar"));
+		assertTrue("feature", validator.isFeatureAllowed("foobar.foobar"));
+		assertTrue("feature", validator.isFeatureAllowed("foobar.foobar.foobar"));
 
-		assertTrue("package", validator.IsPackageAllowed("barfoo"));
-		assertTrue("class",   validator.IsClassAllowed("barfoo"));
-		assertTrue("class",   validator.IsClassAllowed("barfoo.barfoo"));
-		assertTrue("feature", !validator.IsFeatureAllowed("barfoo"));
-		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo"));
-		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
+		assertTrue("package", validator.isPackageAllowed("barfoo"));
+		assertTrue("class",   validator.isClassAllowed("barfoo"));
+		assertTrue("class",   validator.isClassAllowed("barfoo.barfoo"));
+		assertTrue("feature", !validator.isFeatureAllowed("barfoo"));
+		assertTrue("feature", validator.isFeatureAllowed("barfoo.barfoo"));
+		assertTrue("feature", validator.isFeatureAllowed("barfoo.barfoo.barfoo"));
 	}
 }

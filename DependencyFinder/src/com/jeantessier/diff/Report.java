@@ -43,412 +43,412 @@ public class Report extends Printer {
 	public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
 
 	private String name;
-	private String old_version;
-	private String new_version;
+	private String oldVersion;
+	private String newVersion;
 
-	private Collection removed_packages        = new TreeSet();
-	private Collection undocumented_packages   = new TreeSet();
+	private Collection removedPackages        = new TreeSet();
+	private Collection undocumentedPackages   = new TreeSet();
 
-	private Collection removed_interfaces      = new TreeSet();
-	private Collection removed_classes         = new TreeSet();
+	private Collection removedInterfaces      = new TreeSet();
+	private Collection removedClasses         = new TreeSet();
 
-	private Collection deprecated_interfaces   = new TreeSet();
-	private Collection deprecated_classes      = new TreeSet();
+	private Collection deprecatedInterfaces   = new TreeSet();
+	private Collection deprecatedClasses      = new TreeSet();
 	
-	private Collection undocumented_interfaces = new TreeSet();
-	private Collection undocumented_classes    = new TreeSet();
+	private Collection undocumentedInterfaces = new TreeSet();
+	private Collection undocumentedClasses    = new TreeSet();
 
-	private Collection modified_interfaces     = new TreeSet();
-	private Collection modified_classes        = new TreeSet();
+	private Collection modifiedInterfaces     = new TreeSet();
+	private Collection modifiedClasses        = new TreeSet();
 
-	private Collection documented_interfaces   = new TreeSet();
-	private Collection documented_classes      = new TreeSet();
+	private Collection documentedInterfaces   = new TreeSet();
+	private Collection documentedClasses      = new TreeSet();
 	
-	private Collection undeprecated_interfaces = new TreeSet();
-	private Collection undeprecated_classes    = new TreeSet();
+	private Collection undeprecatedInterfaces = new TreeSet();
+	private Collection undeprecatedClasses    = new TreeSet();
 	
-	private Collection new_packages            = new TreeSet();
-	private Collection documented_packages     = new TreeSet();
+	private Collection newPackages            = new TreeSet();
+	private Collection documentedPackages     = new TreeSet();
 
-	private Collection new_interfaces          = new TreeSet();
-	private Collection new_classes             = new TreeSet();
+	private Collection newInterfaces          = new TreeSet();
+	private Collection newClasses             = new TreeSet();
 
 	public Report() {
 		this(DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
-	public Report(String encoding, String dtd_header) {
-		AppendHeader(encoding, dtd_header);
+	public Report(String encoding, String dtdPrefix) {
+		appendHeader(encoding, dtdPrefix);
 	}
 
-	private void AppendHeader(String encoding, String dtd_header) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
-		EOL();
-		Append("<!DOCTYPE differences SYSTEM \"").Append(dtd_header).Append("/differences.dtd\">").EOL();
-		EOL();
+	private void appendHeader(String encoding, String dtdPrefix) {
+		append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>").eol();
+		eol();
+		append("<!DOCTYPE differences SYSTEM \"").append(dtdPrefix).append("/differences.dtd\">").eol();
+		eol();
 	}
 
-	public void VisitJarDifferences(JarDifferences differences) {
-		name        = differences.Name();
-		old_version = differences.OldVersion();
-		new_version = differences.NewVersion();
+	public void visitJarDifferences(JarDifferences differences) {
+		name       = differences.getName();
+		oldVersion = differences.getOldVersion();
+		newVersion = differences.getNewVersion();
 
-		Iterator i = differences.PackageDifferences().iterator();
+		Iterator i = differences.getPackageDifferences().iterator();
 		while (i.hasNext()) {
-			((Differences) i.next()).Accept(this);
+			((Differences) i.next()).accept(this);
 		}
 	}
 
-	public void VisitPackageDifferences(PackageDifferences differences) {
-		if (differences.IsRemoved()) {
-			removed_packages.add(differences);
+	public void visitPackageDifferences(PackageDifferences differences) {
+		if (differences.isRemoved()) {
+			removedPackages.add(differences);
 		}
 	
-		Iterator i = differences.ClassDifferences().iterator();
+		Iterator i = differences.getClassDifferences().iterator();
 		while (i.hasNext()) {
-			((Differences) i.next()).Accept(this);
+			((Differences) i.next()).accept(this);
 		}
 
-		if (differences.IsNew()) {
-			new_packages.add(differences);
+		if (differences.isNew()) {
+			newPackages.add(differences);
 		}
 
-		if (Documented()) {
-			documented_packages.add(differences);
+		if (isDocumented()) {
+			documentedPackages.add(differences);
 		}
 
-		if (Undocumented()) {
-			undocumented_packages.add(differences);
+		if (isUndocumented()) {
+			undocumentedPackages.add(differences);
 		}
 	}
 
-	public void VisitClassDifferences(ClassDifferences differences) {
-		if (differences.IsRemoved()) {
-			removed_classes.add(differences);
+	public void visitClassDifferences(ClassDifferences differences) {
+		if (differences.isRemoved()) {
+			removedClasses.add(differences);
 		}
 	
-		if (differences.IsModified()) {
+		if (differences.isModified()) {
 			ClassReport visitor = new ClassReport();
-			visitor.IndentText(IndentText());
-			differences.Accept(visitor);
-			modified_classes.add(visitor);
+			visitor.setIndentText(getIndentText());
+			differences.accept(visitor);
+			modifiedClasses.add(visitor);
 		}
 	
-		if (differences.IsNew()) {
-			new_classes.add(differences);
+		if (differences.isNew()) {
+			newClasses.add(differences);
 		}
 
-		if (Deprecated()) {
-			deprecated_classes.add(differences);
+		if (isDeprecated()) {
+			deprecatedClasses.add(differences);
 		}
 
-		if (Undeprecated()) {
-			undeprecated_classes.add(differences);
+		if (isUndeprecated()) {
+			undeprecatedClasses.add(differences);
 		}
 
-		if (Documented()) {
-			documented_classes.add(differences);
+		if (isDocumented()) {
+			documentedClasses.add(differences);
 		}
 
-		if (Undocumented()) {
-			undocumented_classes.add(differences);
+		if (isUndocumented()) {
+			undocumentedClasses.add(differences);
 		}
 	}
 
-	public void VisitInterfaceDifferences(InterfaceDifferences differences) {
-		if (differences.IsRemoved()) {
-			removed_interfaces.add(differences);
+	public void visitInterfaceDifferences(InterfaceDifferences differences) {
+		if (differences.isRemoved()) {
+			removedInterfaces.add(differences);
 		}
 	
-		if (differences.IsModified()) {
+		if (differences.isModified()) {
 			ClassReport visitor = new ClassReport();
-			visitor.IndentText(IndentText());
-			differences.Accept(visitor);
-			modified_interfaces.add(visitor);
+			visitor.setIndentText(getIndentText());
+			differences.accept(visitor);
+			modifiedInterfaces.add(visitor);
 		}
 	
-		if (differences.IsNew()) {
-			new_interfaces.add(differences);
+		if (differences.isNew()) {
+			newInterfaces.add(differences);
 		}
 
-		if (Deprecated()) {
-			deprecated_interfaces.add(differences);
+		if (isDeprecated()) {
+			deprecatedInterfaces.add(differences);
 		}
 
-		if (Undeprecated()) {
-			undeprecated_interfaces.add(differences);
+		if (isUndeprecated()) {
+			undeprecatedInterfaces.add(differences);
 		}
 
-		if (Documented()) {
-			documented_interfaces.add(differences);
+		if (isDocumented()) {
+			documentedInterfaces.add(differences);
 		}
 
-		if (Undocumented()) {
-			undocumented_interfaces.add(differences);
+		if (isUndocumented()) {
+			undocumentedInterfaces.add(differences);
 		}
 	}
 
 	public String toString() {
-		Indent().Append("<differences>").EOL();
-		RaiseIndent();
+		indent().append("<differences>").eol();
+		raiseIndent();
 
-		Indent().Append("<name>").Append(name).Append("</name>").EOL();
-		Indent().Append("<old>").Append(old_version).Append("</old>").EOL();
-		Indent().Append("<new>").Append(new_version).Append("</new>").EOL();
+		indent().append("<name>").append(name).append("</name>").eol();
+		indent().append("<old>").append(oldVersion).append("</old>").eol();
+		indent().append("<new>").append(newVersion).append("</new>").eol();
 	
-		if (removed_packages.size() !=0) {
-			Indent().Append("<removed-packages>").EOL();
-			RaiseIndent();
+		if (removedPackages.size() !=0) {
+			indent().append("<removed-packages>").eol();
+			raiseIndent();
 
-			Iterator i = removed_packages.iterator();
+			Iterator i = removedPackages.iterator();
 			while (i.hasNext()) {
-				Indent().Append("<name>").Append(i.next()).Append("</name>").EOL();
+				indent().append("<name>").append(i.next()).append("</name>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</removed-packages>").EOL();
-		}
-	
-		if (undocumented_packages.size() !=0) {
-			Indent().Append("<undocumented-packages>").EOL();
-			RaiseIndent();
-
-			Iterator i = undocumented_packages.iterator();
-			while (i.hasNext()) {
-				Indent().Append("<name>").Append(i.next()).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</undocumented-packages>").EOL();
-		}
-
-		if (removed_interfaces.size() !=0) {
-			Indent().Append("<removed-interfaces>").EOL();
-			RaiseIndent();
-
-			Iterator i = removed_interfaces.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.OldClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</removed-interfaces>").EOL();
-		}
-
-		if (removed_classes.size() !=0) {
-			Indent().Append("<removed-classes>").EOL();
-			RaiseIndent();
-
-			Iterator i = removed_classes.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.OldClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</removed-classes>").EOL();
-		}
-
-		if (deprecated_interfaces.size() !=0) {
-			Indent().Append("<deprecated-interfaces>").EOL();
-			RaiseIndent();
-
-			Iterator i = deprecated_interfaces.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</deprecated-interfaces>").EOL();
-		}
-
-		if (deprecated_classes.size() !=0) {
-			Indent().Append("<deprecated-classes>").EOL();
-			RaiseIndent();
-
-			Iterator i = deprecated_classes.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</deprecated-classes>").EOL();
-		}
-
-		if (undocumented_interfaces.size() !=0) {
-			Indent().Append("<undocumented-interfaces>").EOL();
-			RaiseIndent();
-
-			Iterator i = undocumented_interfaces.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</undocumented-interfaces>").EOL();
-		}
-
-		if (undocumented_classes.size() !=0) {
-			Indent().Append("<undocumented-classes>").EOL();
-			RaiseIndent();
-
-			Iterator i = undocumented_classes.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</undocumented-classes>").EOL();
-		}
-
-		if (modified_interfaces.size() !=0) {
-			Indent().Append("<modified-interfaces>").EOL();
-			RaiseIndent();
-
-			Iterator i = modified_interfaces.iterator();
-			while (i.hasNext()) {
-				Append(i.next());
-			}
-
-			LowerIndent();
-			Indent().Append("</modified-interfaces>").EOL();
-		}
-
-		if (modified_classes.size() !=0) {
-			Indent().Append("<modified-classes>").EOL();
-			RaiseIndent();
-
-			Iterator i = modified_classes.iterator();
-			while (i.hasNext()) {
-				Append(i.next());
-			}
-
-			LowerIndent();
-			Indent().Append("</modified-classes>").EOL();
-		}
-
-		if (documented_interfaces.size() !=0) {
-			Indent().Append("<documented-interfaces>").EOL();
-			RaiseIndent();
-
-			Iterator i = documented_interfaces.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</documented-interfaces>").EOL();
-		}
-
-		if (documented_classes.size() !=0) {
-			Indent().Append("<documented-classes>").EOL();
-			RaiseIndent();
-
-			Iterator i = documented_classes.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</documented-classes>").EOL();
-		}
-
-		if (undeprecated_interfaces.size() !=0) {
-			Indent().Append("<undeprecated-interfaces>").EOL();
-			RaiseIndent();
-
-			Iterator i = undeprecated_interfaces.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</undeprecated-interfaces>").EOL();
-		}
-
-		if (undeprecated_classes.size() !=0) {
-			Indent().Append("<undeprecated-classes>").EOL();
-			RaiseIndent();
-
-			Iterator i = undeprecated_classes.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</undeprecated-classes>").EOL();
-		}
-
-		if (new_packages.size() !=0) {
-			Indent().Append("<new-packages>").EOL();
-			RaiseIndent();
-
-			Iterator i = new_packages.iterator();
-			while (i.hasNext()) {
-				Indent().Append("<name>").Append(i.next()).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</new-packages>").EOL();
+			lowerIndent();
+			indent().append("</removed-packages>").eol();
 		}
 	
-		if (documented_packages.size() !=0) {
-			Indent().Append("<documented-packages>").EOL();
-			RaiseIndent();
+		if (undocumentedPackages.size() !=0) {
+			indent().append("<undocumented-packages>").eol();
+			raiseIndent();
 
-			Iterator i = documented_packages.iterator();
+			Iterator i = undocumentedPackages.iterator();
 			while (i.hasNext()) {
-				Indent().Append("<name>").Append(i.next()).Append("</name>").EOL();
+				indent().append("<name>").append(i.next()).append("</name>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</documented-packages>").EOL();
+			lowerIndent();
+			indent().append("</undocumented-packages>").eol();
 		}
 
-		if (new_interfaces.size() !=0) {
-			Indent().Append("<new-interfaces>").EOL();
-			RaiseIndent();
+		if (removedInterfaces.size() !=0) {
+			indent().append("<removed-interfaces>").eol();
+			raiseIndent();
 
-			Iterator i = new_interfaces.iterator();
-			while (i.hasNext()) {
-				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
-			}
-
-			LowerIndent();
-			Indent().Append("</new-interfaces>").EOL();
-		}
-
-		if (new_classes.size() !=0) {
-			Indent().Append("<new-classes>").EOL();
-			RaiseIndent();
-
-			Iterator i = new_classes.iterator();
+			Iterator i = removedInterfaces.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
+				indent().append("<name").append(breakdownDeclaration(cd.getOldClass())).append(">").append(cd).append("</name>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</new-classes>").EOL();
+			lowerIndent();
+			indent().append("</removed-interfaces>").eol();
 		}
 
-		LowerIndent();
-		Indent().Append("</differences>").EOL();
+		if (removedClasses.size() !=0) {
+			indent().append("<removed-classes>").eol();
+			raiseIndent();
+
+			Iterator i = removedClasses.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getOldClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</removed-classes>").eol();
+		}
+
+		if (deprecatedInterfaces.size() !=0) {
+			indent().append("<deprecated-interfaces>").eol();
+			raiseIndent();
+
+			Iterator i = deprecatedInterfaces.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</deprecated-interfaces>").eol();
+		}
+
+		if (deprecatedClasses.size() !=0) {
+			indent().append("<deprecated-classes>").eol();
+			raiseIndent();
+
+			Iterator i = deprecatedClasses.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</deprecated-classes>").eol();
+		}
+
+		if (undocumentedInterfaces.size() !=0) {
+			indent().append("<undocumented-interfaces>").eol();
+			raiseIndent();
+
+			Iterator i = undocumentedInterfaces.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</undocumented-interfaces>").eol();
+		}
+
+		if (undocumentedClasses.size() !=0) {
+			indent().append("<undocumented-classes>").eol();
+			raiseIndent();
+
+			Iterator i = undocumentedClasses.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</undocumented-classes>").eol();
+		}
+
+		if (modifiedInterfaces.size() !=0) {
+			indent().append("<modified-interfaces>").eol();
+			raiseIndent();
+
+			Iterator i = modifiedInterfaces.iterator();
+			while (i.hasNext()) {
+				append(i.next());
+			}
+
+			lowerIndent();
+			indent().append("</modified-interfaces>").eol();
+		}
+
+		if (modifiedClasses.size() !=0) {
+			indent().append("<modified-classes>").eol();
+			raiseIndent();
+
+			Iterator i = modifiedClasses.iterator();
+			while (i.hasNext()) {
+				append(i.next());
+			}
+
+			lowerIndent();
+			indent().append("</modified-classes>").eol();
+		}
+
+		if (documentedInterfaces.size() !=0) {
+			indent().append("<documented-interfaces>").eol();
+			raiseIndent();
+
+			Iterator i = documentedInterfaces.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</documented-interfaces>").eol();
+		}
+
+		if (documentedClasses.size() !=0) {
+			indent().append("<documented-classes>").eol();
+			raiseIndent();
+
+			Iterator i = documentedClasses.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</documented-classes>").eol();
+		}
+
+		if (undeprecatedInterfaces.size() !=0) {
+			indent().append("<undeprecated-interfaces>").eol();
+			raiseIndent();
+
+			Iterator i = undeprecatedInterfaces.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</undeprecated-interfaces>").eol();
+		}
+
+		if (undeprecatedClasses.size() !=0) {
+			indent().append("<undeprecated-classes>").eol();
+			raiseIndent();
+
+			Iterator i = undeprecatedClasses.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</undeprecated-classes>").eol();
+		}
+
+		if (newPackages.size() !=0) {
+			indent().append("<new-packages>").eol();
+			raiseIndent();
+
+			Iterator i = newPackages.iterator();
+			while (i.hasNext()) {
+				indent().append("<name>").append(i.next()).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</new-packages>").eol();
+		}
+	
+		if (documentedPackages.size() !=0) {
+			indent().append("<documented-packages>").eol();
+			raiseIndent();
+
+			Iterator i = documentedPackages.iterator();
+			while (i.hasNext()) {
+				indent().append("<name>").append(i.next()).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</documented-packages>").eol();
+		}
+
+		if (newInterfaces.size() !=0) {
+			indent().append("<new-interfaces>").eol();
+			raiseIndent();
+
+			Iterator i = newInterfaces.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</new-interfaces>").eol();
+		}
+
+		if (newClasses.size() !=0) {
+			indent().append("<new-classes>").eol();
+			raiseIndent();
+
+			Iterator i = newClasses.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
+			}
+
+			lowerIndent();
+			indent().append("</new-classes>").eol();
+		}
+
+		lowerIndent();
+		indent().append("</differences>").eol();
 
 		return super.toString();
 	}
 
-	private static final String DeclarationBreakdown(Classfile element) {
+	private static final String breakdownDeclaration(Classfile element) {
 		StringBuffer result = new StringBuffer();
 
 		if (element != null) {

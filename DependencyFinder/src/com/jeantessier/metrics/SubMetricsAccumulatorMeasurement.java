@@ -59,14 +59,14 @@ public class SubMetricsAccumulatorMeasurement extends AccumulatorMeasurement {
 		super(descriptor, context, init_text);
 	}
 	
-	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitSubMetricsAccumulatorMeasurement(this);
+	public void accept(MeasurementVisitor visitor) {
+		visitor.visitSubMetricsAccumulatorMeasurement(this);
 	}
 
-	protected void PopulateValues() {
-		Iterator i = Context().SubMetrics().iterator();
+	protected void populateValues() {
+		Iterator i = getContext().getSubMetrics().iterator();
 		while (i.hasNext()) {
-			FilterMetrics((Metrics) i.next());
+			filterMetrics((Metrics) i.next());
 		}
 	}
 }

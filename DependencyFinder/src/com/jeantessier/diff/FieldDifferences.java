@@ -42,11 +42,11 @@ public class FieldDifferences extends FeatureDifferences {
 	/**
 	 *  Only the DifferencesFactory can create instances of this class.
 	 */
-	FieldDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
-		super(name, old_feature, new_feature);
+	FieldDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
+		super(name, oldFeature, newFeature);
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitFieldDifferences(this);
+	public void accept(Visitor visitor) {
+		visitor.visitFieldDifferences(this);
 	}
 }

@@ -128,19 +128,19 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	public void testDefault() {
 		ListDiffPrinter printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-		printer.Remove("java.lang.Object");
-		printer.Remove("java.lang.Object.Object()");
-		printer.Remove("java.lang.String");
-		printer.Remove("java.util");
-		printer.Remove("java.util.Collection.add(java.lang.Object)");
-		printer.Remove("java.util.Collection.addAll(java.util.Collection)");
+		printer.remove("java.lang.Object");
+		printer.remove("java.lang.Object.Object()");
+		printer.remove("java.lang.String");
+		printer.remove("java.util");
+		printer.remove("java.util.Collection.add(java.lang.Object)");
+		printer.remove("java.util.Collection.addAll(java.util.Collection)");
 
-		printer.Add("java.lang.Thread");
-		printer.Add("java.lang.Thread.Thread()");
-		printer.Add("java.lang.System");
-		printer.Add("java.io");
-		printer.Add("java.io.PrintStream.println(java.lang.Object)");
-		printer.Add("java.io.PrintWriter.println(java.lang.Object)");
+		printer.add("java.lang.Thread");
+		printer.add("java.lang.Thread.Thread()");
+		printer.add("java.lang.System");
+		printer.add("java.io");
+		printer.add("java.io.PrintStream.println(java.lang.Object)");
+		printer.add("java.io.PrintWriter.println(java.lang.Object)");
 
 		String xml_document = printer.toString();
 		
@@ -170,19 +170,19 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	public void testFullList() {
 		ListDiffPrinter printer = new ListDiffPrinter(false, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-		printer.Remove("java.lang.Object");
-		printer.Remove("java.lang.Object.Object()");
-		printer.Remove("java.lang.String");
-		printer.Remove("java.util");
-		printer.Remove("java.util.Collection.add(java.lang.Object)");
-		printer.Remove("java.util.Collection.addAll(java.util.Collection)");
+		printer.remove("java.lang.Object");
+		printer.remove("java.lang.Object.Object()");
+		printer.remove("java.lang.String");
+		printer.remove("java.util");
+		printer.remove("java.util.Collection.add(java.lang.Object)");
+		printer.remove("java.util.Collection.addAll(java.util.Collection)");
 
-		printer.Add("java.lang.Thread");
-		printer.Add("java.lang.Thread.Thread()");
-		printer.Add("java.lang.System");
-		printer.Add("java.io");
-		printer.Add("java.io.PrintStream.println(java.lang.Object)");
-		printer.Add("java.io.PrintWriter.println(java.lang.Object)");
+		printer.add("java.lang.Thread");
+		printer.add("java.lang.Thread.Thread()");
+		printer.add("java.lang.System");
+		printer.add("java.io");
+		printer.add("java.io.PrintStream.println(java.lang.Object)");
+		printer.add("java.io.PrintWriter.println(java.lang.Object)");
 
 		String xml_document = printer.toString();
 		
@@ -212,19 +212,19 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	public void testCompressedList() {
 		ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-		printer.Remove("java.lang.Object [C]");
-		printer.Remove("java.lang.Object.Object() [F]");
-		printer.Remove("java.lang.String [C]");
-		printer.Remove("java.util [P]");
-		printer.Remove("java.util.Collection.add(java.lang.Object) [F]");
-		printer.Remove("java.util.Collection.addAll(java.util.Collection) [F]");
+		printer.remove("java.lang.Object [C]");
+		printer.remove("java.lang.Object.Object() [F]");
+		printer.remove("java.lang.String [C]");
+		printer.remove("java.util [P]");
+		printer.remove("java.util.Collection.add(java.lang.Object) [F]");
+		printer.remove("java.util.Collection.addAll(java.util.Collection) [F]");
 
-		printer.Add("java.lang.Thread [C]");
-		printer.Add("java.lang.Thread.Thread() [F]");
-		printer.Add("java.lang.System [C]");
-		printer.Add("java.io [P]");
-		printer.Add("java.io.PrintStream.println(java.lang.Object) [F]");
-		printer.Add("java.io.PrintWriter.println(java.lang.Object) [F]");
+		printer.add("java.lang.Thread [C]");
+		printer.add("java.lang.Thread.Thread() [F]");
+		printer.add("java.lang.System [C]");
+		printer.add("java.io [P]");
+		printer.add("java.io.PrintStream.println(java.lang.Object) [F]");
+		printer.add("java.io.PrintWriter.println(java.lang.Object) [F]");
 
 		String xml_document = printer.toString();
 		
@@ -254,19 +254,19 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	public void testCompressedListWithoutSuffixes() {
 		ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-		printer.Remove("java.lang.Object");
-		printer.Remove("java.lang.Object.Object()");
-		printer.Remove("java.lang.String");
-		printer.Remove("java.util");
-		printer.Remove("java.util.Collection.add(java.lang.Object)");
-		printer.Remove("java.util.Collection.addAll(java.util.Collection)");
+		printer.remove("java.lang.Object");
+		printer.remove("java.lang.Object.Object()");
+		printer.remove("java.lang.String");
+		printer.remove("java.util");
+		printer.remove("java.util.Collection.add(java.lang.Object)");
+		printer.remove("java.util.Collection.addAll(java.util.Collection)");
 
-		printer.Add("java.lang.Thread");
-		printer.Add("java.lang.Thread.Thread()");
-		printer.Add("java.lang.System");
-		printer.Add("java.io");
-		printer.Add("java.io.PrintStream.println(java.lang.Object)");
-		printer.Add("java.io.PrintWriter.println(java.lang.Object)");
+		printer.add("java.lang.Thread");
+		printer.add("java.lang.Thread.Thread()");
+		printer.add("java.lang.System");
+		printer.add("java.io");
+		printer.add("java.io.PrintStream.println(java.lang.Object)");
+		printer.add("java.io.PrintWriter.println(java.lang.Object)");
 
 		String xml_document = printer.toString();
 		
@@ -296,29 +296,29 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	public void testLegitimateSuffixes() {
 		ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-		printer.Remove("removed [P]");                                    // not compressed
-		printer.Remove("removed.Removed [C]");                            //     compressed
-		printer.Remove("removed.Removed.Removed() [F]");                  //     compressed
-		printer.Remove("removed.Removed.removed [F]");                    //     compressed
-		printer.Remove("removed.OtherRemoved.OtherRemoved() [F]");        //     compressed
-		printer.Remove("removed.OtherRemoved.other_removed [F]");         //     compressed
-		printer.Remove("removedpackage [P]");                             // not compressed
-		printer.Remove("removed.package.internal [P]");                   // not compressed
-		printer.Remove("other.removed.Removed [C]");                      // not compressed
-		printer.Remove("other.removed.Removed.Removed() [F]");            //     compressed
-		printer.Remove("other.removed.OtherRemoved.OtherRemoved() [F]");  // not compressed
+		printer.remove("removed [P]");                                    // not compressed
+		printer.remove("removed.Removed [C]");                            //     compressed
+		printer.remove("removed.Removed.Removed() [F]");                  //     compressed
+		printer.remove("removed.Removed.removed [F]");                    //     compressed
+		printer.remove("removed.OtherRemoved.OtherRemoved() [F]");        //     compressed
+		printer.remove("removed.OtherRemoved.other_removed [F]");         //     compressed
+		printer.remove("removedpackage [P]");                             // not compressed
+		printer.remove("removed.package.internal [P]");                   // not compressed
+		printer.remove("other.removed.Removed [C]");                      // not compressed
+		printer.remove("other.removed.Removed.Removed() [F]");            //     compressed
+		printer.remove("other.removed.OtherRemoved.OtherRemoved() [F]");  // not compressed
 
-		printer.Add("add [P]");                                           // not compressed
-		printer.Add("add.Add [C]");                                       //     compressed
-		printer.Add("add.Add.Add() [F]");                                 //     compressed
-		printer.Add("add.Add.add [F]");                                   //     compressed
-		printer.Add("add.OtherAdd.OtherAdd() [F]");                       //     compressed
-		printer.Add("add.OtherAdd.add [F]");                              //     compressed
-		printer.Add("addpackage [P]");                                    // not compressed
-		printer.Add("add.package.internal [P]");                          // not compressed
-		printer.Add("other.add.Add [C]");                                 // not compressed
-		printer.Add("other.add.Add.Add() [F]");                           //     compressed
-		printer.Add("other.add.OtherAdd.OtherAdd() [F]");                 // not compressed
+		printer.add("add [P]");                                           // not compressed
+		printer.add("add.Add [C]");                                       //     compressed
+		printer.add("add.Add.Add() [F]");                                 //     compressed
+		printer.add("add.Add.add [F]");                                   //     compressed
+		printer.add("add.OtherAdd.OtherAdd() [F]");                       //     compressed
+		printer.add("add.OtherAdd.add [F]");                              //     compressed
+		printer.add("addpackage [P]");                                    // not compressed
+		printer.add("add.package.internal [P]");                          // not compressed
+		printer.add("other.add.Add [C]");                                 // not compressed
+		printer.add("other.add.Add.Add() [F]");                           //     compressed
+		printer.add("other.add.OtherAdd.OtherAdd() [F]");                 // not compressed
 
 		String xml_document = printer.toString();
 		
@@ -358,29 +358,29 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	public void testNoSuffixes() {
 		ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-		printer.Remove("removed");                                    // not compressed
-		printer.Remove("removed.Removed");                            // not compressed
-		printer.Remove("removed.Removed.Removed()");                  // not compressed
-		printer.Remove("removed.Removed.removed");                    // not compressed
-		printer.Remove("removed.OtherRemoved.OtherRemoved()");        // not compressed
-		printer.Remove("removed.OtherRemoved.other_removed");         // not compressed
-		printer.Remove("removedpackage");                             // not compressed
-		printer.Remove("removed.package.internal");                   // not compressed
-		printer.Remove("other.removed.Removed");                      // not compressed
-		printer.Remove("other.removed.Removed.Removed()");            // not compressed
-		printer.Remove("other.removed.OtherRemoved.OtherRemoved()");  // not compressed
+		printer.remove("removed");                                    // not compressed
+		printer.remove("removed.Removed");                            // not compressed
+		printer.remove("removed.Removed.Removed()");                  // not compressed
+		printer.remove("removed.Removed.removed");                    // not compressed
+		printer.remove("removed.OtherRemoved.OtherRemoved()");        // not compressed
+		printer.remove("removed.OtherRemoved.other_removed");         // not compressed
+		printer.remove("removedpackage");                             // not compressed
+		printer.remove("removed.package.internal");                   // not compressed
+		printer.remove("other.removed.Removed");                      // not compressed
+		printer.remove("other.removed.Removed.Removed()");            // not compressed
+		printer.remove("other.removed.OtherRemoved.OtherRemoved()");  // not compressed
 
-		printer.Add("add");                                           // not compressed
-		printer.Add("add.Add");                                       // not compressed
-		printer.Add("add.Add.Add()");                                 // not compressed
-		printer.Add("add.Add.add");                                   // not compressed
-		printer.Add("add.OtherAdd.OtherAdd()");                       // not compressed
-		printer.Add("add.OtherAdd.other_add");                        // not compressed
-		printer.Add("addpackage");                                    // not compressed
-		printer.Add("add.package.internal");                          // not compressed
-		printer.Add("other.add.Add");                                 // not compressed
-		printer.Add("other.add.Add.Add()");                           // not compressed
-		printer.Add("other.add.OtherAdd.OtherAdd()");                 // not compressed
+		printer.add("add");                                           // not compressed
+		printer.add("add.Add");                                       // not compressed
+		printer.add("add.Add.Add()");                                 // not compressed
+		printer.add("add.Add.add");                                   // not compressed
+		printer.add("add.OtherAdd.OtherAdd()");                       // not compressed
+		printer.add("add.OtherAdd.other_add");                        // not compressed
+		printer.add("addpackage");                                    // not compressed
+		printer.add("add.package.internal");                          // not compressed
+		printer.add("other.add.Add");                                 // not compressed
+		printer.add("other.add.Add.Add()");                           // not compressed
+		printer.add("other.add.OtherAdd.OtherAdd()");                 // not compressed
 
 		String xml_document = printer.toString();
 		

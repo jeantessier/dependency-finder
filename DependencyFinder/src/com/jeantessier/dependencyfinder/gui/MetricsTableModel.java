@@ -39,11 +39,11 @@ import com.jeantessier.dependency.*;
 public class MetricsTableModel extends AbstractTableModel {
 	MetricsGatherer metrics = new MetricsGatherer();
 
-	public MetricsGatherer Metrics() {
+	public MetricsGatherer getMetrics() {
 		return metrics;
 	}
 
-	public void Metrics(MetricsGatherer metrics) {
+	public void setMetrics(MetricsGatherer metrics) {
 		this.metrics = metrics;
 		fireTableStructureChanged();
 	}
@@ -53,11 +53,11 @@ public class MetricsTableModel extends AbstractTableModel {
 	}
 
 	public int getRowCount() {
-		return Metrics().getChartMaximum() + 1;
+		return getMetrics().getChartMaximum() + 1;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return new Long(Metrics().getChartData(rowIndex)[columnIndex]);
+		return new Long(getMetrics().getChartData(rowIndex)[columnIndex]);
 	}
 
 	public String getColumnName(int column) {

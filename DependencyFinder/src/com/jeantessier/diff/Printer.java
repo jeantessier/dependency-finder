@@ -35,85 +35,85 @@ package com.jeantessier.diff;
 public abstract class Printer extends VisitorBase {
 	private StringBuffer buffer = new StringBuffer();
 
-	private String  indent_text  = "    ";
-	private int     indent_level = 0;
+	private String indentText  = "    ";
+	private int    indentLevel = 0;
 
-	public String IndentText() {
-		return indent_text;
+	public String getIndentText() {
+		return indentText;
 	}
 
-	public void IndentText(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIndentText(String indentText) {
+		this.indentText = indentText;
 	}
 
-	protected Printer Append(boolean b) {
+	protected Printer append(boolean b) {
 		buffer.append(b);
 		return this;
 	}
 
-	protected Printer Append(char c) {
+	protected Printer append(char c) {
 		buffer.append(c);
 		return this;
 	}
 
-	protected Printer Append(char[] str) {
+	protected Printer append(char[] str) {
 		buffer.append(str);
 		return this;
 	}
 
-	protected Printer Append(char[] str, int offset, int len) {
+	protected Printer append(char[] str, int offset, int len) {
 		buffer.append(str, offset, len);
 		return this;
 	}
 
-	protected Printer Append(double d) {
+	protected Printer append(double d) {
 		buffer.append(d);
 		return this;
 	}
 
-	protected Printer Append(float f) {
+	protected Printer append(float f) {
 		buffer.append(f);
 		return this;
 	}
 
-	protected Printer Append(int i) {
+	protected Printer append(int i) {
 		buffer.append(i);
 		return this;
 	}
 
-	protected Printer Append(long l) {
+	protected Printer append(long l) {
 		buffer.append(l);
 		return this;
 	}
 
-	protected Printer Append(Object obj) {
+	protected Printer append(Object obj) {
 		buffer.append(obj);
 		return this;
 	}
 
-	protected Printer Append(String str) {
+	protected Printer append(String str) {
 		buffer.append(str);
 		return this;
 	}
 
-	protected Printer Indent() {
-		for (int i=0; i<indent_level; i++) {
-			Append(IndentText());
+	protected Printer indent() {
+		for (int i=0; i<indentLevel; i++) {
+			append(getIndentText());
 		}
 
 		return this;
 	}
 
-	protected Printer EOL() {
-		return Append(System.getProperty("line.separator", "\n"));
+	protected Printer eol() {
+		return append(System.getProperty("line.separator", "\n"));
 	}
 
-	protected void RaiseIndent() {
-		indent_level++;
+	protected void raiseIndent() {
+		indentLevel++;
 	}
 
-	protected void LowerIndent() {
-		indent_level--;
+	protected void lowerIndent() {
+		indentLevel--;
 	}
 
 	public String toString() {

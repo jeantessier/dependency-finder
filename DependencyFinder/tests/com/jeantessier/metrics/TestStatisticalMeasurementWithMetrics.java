@@ -68,150 +68,150 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		m7 = new Metrics("b.B.a");
 		m8 = new Metrics("b.B.b");
 
-		m1.Track("001", new CounterMeasurement(null, null, null));
-		m1.Track("011", new CounterMeasurement(null, null, null));
-		m1.Track("101", new CounterMeasurement(null, null, null));
-		m1.Track("111", new CounterMeasurement(null, null, null));
-		m2.Track("001", new CounterMeasurement(null, null, null));
-		m2.Track("011", new CounterMeasurement(null, null, null));
-		m2.Track("101", new CounterMeasurement(null, null, null));
-		m2.Track("111", new CounterMeasurement(null, null, null));
-		m3.Track("001", new CounterMeasurement(null, null, null));
-		m3.Track("011", new CounterMeasurement(null, null, null));
-		m3.Track("101", new CounterMeasurement(null, null, null));
-		m3.Track("111", new CounterMeasurement(null, null, null));
-		m4.Track("001", new CounterMeasurement(null, null, null));
-		m4.Track("011", new CounterMeasurement(null, null, null));
-		m4.Track("101", new CounterMeasurement(null, null, null));
-		m4.Track("111", new CounterMeasurement(null, null, null));
-		m5.Track("001", new CounterMeasurement(null, null, null));
-		m5.Track("011", new CounterMeasurement(null, null, null));
-		m5.Track("101", new CounterMeasurement(null, null, null));
-		m5.Track("111", new CounterMeasurement(null, null, null));
-		m6.Track("001", new CounterMeasurement(null, null, null));
-		m6.Track("011", new CounterMeasurement(null, null, null));
-		m6.Track("101", new CounterMeasurement(null, null, null));
-		m6.Track("111", new CounterMeasurement(null, null, null));
-		m7.Track("001", new CounterMeasurement(null, null, null));
-		m7.Track("011", new CounterMeasurement(null, null, null));
-		m7.Track("101", new CounterMeasurement(null, null, null));
-		m7.Track("111", new CounterMeasurement(null, null, null));
-		m8.Track("001", new CounterMeasurement(null, null, null));
-		m8.Track("011", new CounterMeasurement(null, null, null));
-		m8.Track("101", new CounterMeasurement(null, null, null));
-		m8.Track("111", new CounterMeasurement(null, null, null));
+		m1.track("001", new CounterMeasurement(null, null, null));
+		m1.track("011", new CounterMeasurement(null, null, null));
+		m1.track("101", new CounterMeasurement(null, null, null));
+		m1.track("111", new CounterMeasurement(null, null, null));
+		m2.track("001", new CounterMeasurement(null, null, null));
+		m2.track("011", new CounterMeasurement(null, null, null));
+		m2.track("101", new CounterMeasurement(null, null, null));
+		m2.track("111", new CounterMeasurement(null, null, null));
+		m3.track("001", new CounterMeasurement(null, null, null));
+		m3.track("011", new CounterMeasurement(null, null, null));
+		m3.track("101", new CounterMeasurement(null, null, null));
+		m3.track("111", new CounterMeasurement(null, null, null));
+		m4.track("001", new CounterMeasurement(null, null, null));
+		m4.track("011", new CounterMeasurement(null, null, null));
+		m4.track("101", new CounterMeasurement(null, null, null));
+		m4.track("111", new CounterMeasurement(null, null, null));
+		m5.track("001", new CounterMeasurement(null, null, null));
+		m5.track("011", new CounterMeasurement(null, null, null));
+		m5.track("101", new CounterMeasurement(null, null, null));
+		m5.track("111", new CounterMeasurement(null, null, null));
+		m6.track("001", new CounterMeasurement(null, null, null));
+		m6.track("011", new CounterMeasurement(null, null, null));
+		m6.track("101", new CounterMeasurement(null, null, null));
+		m6.track("111", new CounterMeasurement(null, null, null));
+		m7.track("001", new CounterMeasurement(null, null, null));
+		m7.track("011", new CounterMeasurement(null, null, null));
+		m7.track("101", new CounterMeasurement(null, null, null));
+		m7.track("111", new CounterMeasurement(null, null, null));
+		m8.track("001", new CounterMeasurement(null, null, null));
+		m8.track("011", new CounterMeasurement(null, null, null));
+		m8.track("101", new CounterMeasurement(null, null, null));
+		m8.track("111", new CounterMeasurement(null, null, null));
 	
-		m1.AddToMeasurement("001", 1);
-		m1.AddToMeasurement("011", 1);
-		m1.AddToMeasurement("101", 1);
-		m1.AddToMeasurement("111", 1);
-		m2.AddToMeasurement("001", 1);
-		m2.AddToMeasurement("011", 1);
-		m2.AddToMeasurement("101", 1);
-		m2.AddToMeasurement("111", 1);
-		m3.AddToMeasurement("001", 1);
-		m3.AddToMeasurement("011", 1);
-		m3.AddToMeasurement("101", 1);
-		m3.AddToMeasurement("111", 1);
-		m4.AddToMeasurement("001", 1);
-		m4.AddToMeasurement("011", 1);
-		m4.AddToMeasurement("101", 1);
-		m4.AddToMeasurement("111", 1);
-		m5.AddToMeasurement("001", 1);
-		m5.AddToMeasurement("011", 1);
-		m5.AddToMeasurement("101", 1);
-		m5.AddToMeasurement("111", 1);
-		m6.AddToMeasurement("001", 1);
-		m6.AddToMeasurement("011", 1);
-		m6.AddToMeasurement("101", 1);
-		m6.AddToMeasurement("111", 1);
-		m7.AddToMeasurement("001", 1);
-		m7.AddToMeasurement("011", 1);
-		m7.AddToMeasurement("101", 1);
-		m7.AddToMeasurement("111", 1);
-		m8.AddToMeasurement("001", 1);
-		m8.AddToMeasurement("011", 1);
-		m8.AddToMeasurement("101", 1);
-		m8.AddToMeasurement("111", 1);
+		m1.addToMeasurement("001", 1);
+		m1.addToMeasurement("011", 1);
+		m1.addToMeasurement("101", 1);
+		m1.addToMeasurement("111", 1);
+		m2.addToMeasurement("001", 1);
+		m2.addToMeasurement("011", 1);
+		m2.addToMeasurement("101", 1);
+		m2.addToMeasurement("111", 1);
+		m3.addToMeasurement("001", 1);
+		m3.addToMeasurement("011", 1);
+		m3.addToMeasurement("101", 1);
+		m3.addToMeasurement("111", 1);
+		m4.addToMeasurement("001", 1);
+		m4.addToMeasurement("011", 1);
+		m4.addToMeasurement("101", 1);
+		m4.addToMeasurement("111", 1);
+		m5.addToMeasurement("001", 1);
+		m5.addToMeasurement("011", 1);
+		m5.addToMeasurement("101", 1);
+		m5.addToMeasurement("111", 1);
+		m6.addToMeasurement("001", 1);
+		m6.addToMeasurement("011", 1);
+		m6.addToMeasurement("101", 1);
+		m6.addToMeasurement("111", 1);
+		m7.addToMeasurement("001", 1);
+		m7.addToMeasurement("011", 1);
+		m7.addToMeasurement("101", 1);
+		m7.addToMeasurement("111", 1);
+		m8.addToMeasurement("001", 1);
+		m8.addToMeasurement("011", 1);
+		m8.addToMeasurement("101", 1);
+		m8.addToMeasurement("111", 1);
 	
 		c1 = new Metrics("a.A");
 		c2 = new Metrics("a.B");
 		c3 = new Metrics("b.A");
 		c4 = new Metrics("b.B");
 
-		c1.Track("010", new CounterMeasurement(null, null, null));
-		c1.Track("011", new CounterMeasurement(null, null, null));
-		c1.Track("110", new CounterMeasurement(null, null, null));
-		c1.Track("111", new CounterMeasurement(null, null, null));
-		c2.Track("010", new CounterMeasurement(null, null, null));
-		c2.Track("011", new CounterMeasurement(null, null, null));
-		c2.Track("110", new CounterMeasurement(null, null, null));
-		c2.Track("111", new CounterMeasurement(null, null, null));
-		c3.Track("010", new CounterMeasurement(null, null, null));
-		c3.Track("011", new CounterMeasurement(null, null, null));
-		c3.Track("110", new CounterMeasurement(null, null, null));
-		c3.Track("111", new CounterMeasurement(null, null, null));
-		c4.Track("010", new CounterMeasurement(null, null, null));
-		c4.Track("011", new CounterMeasurement(null, null, null));
-		c4.Track("110", new CounterMeasurement(null, null, null));
-		c4.Track("111", new CounterMeasurement(null, null, null));
+		c1.track("010", new CounterMeasurement(null, null, null));
+		c1.track("011", new CounterMeasurement(null, null, null));
+		c1.track("110", new CounterMeasurement(null, null, null));
+		c1.track("111", new CounterMeasurement(null, null, null));
+		c2.track("010", new CounterMeasurement(null, null, null));
+		c2.track("011", new CounterMeasurement(null, null, null));
+		c2.track("110", new CounterMeasurement(null, null, null));
+		c2.track("111", new CounterMeasurement(null, null, null));
+		c3.track("010", new CounterMeasurement(null, null, null));
+		c3.track("011", new CounterMeasurement(null, null, null));
+		c3.track("110", new CounterMeasurement(null, null, null));
+		c3.track("111", new CounterMeasurement(null, null, null));
+		c4.track("010", new CounterMeasurement(null, null, null));
+		c4.track("011", new CounterMeasurement(null, null, null));
+		c4.track("110", new CounterMeasurement(null, null, null));
+		c4.track("111", new CounterMeasurement(null, null, null));
 	
-		c1.AddToMeasurement("010", 10);
-		c1.AddToMeasurement("011", 10);
-		c1.AddToMeasurement("110", 10);
-		c1.AddToMeasurement("111", 10);
-		c2.AddToMeasurement("010", 10);
-		c2.AddToMeasurement("011", 10);
-		c2.AddToMeasurement("110", 10);
-		c2.AddToMeasurement("111", 10);
-		c3.AddToMeasurement("010", 10);
-		c3.AddToMeasurement("011", 10);
-		c3.AddToMeasurement("110", 10);
-		c3.AddToMeasurement("111", 10);
-		c4.AddToMeasurement("010", 10);
-		c4.AddToMeasurement("011", 10);
-		c4.AddToMeasurement("110", 10);
-		c4.AddToMeasurement("111", 10);
+		c1.addToMeasurement("010", 10);
+		c1.addToMeasurement("011", 10);
+		c1.addToMeasurement("110", 10);
+		c1.addToMeasurement("111", 10);
+		c2.addToMeasurement("010", 10);
+		c2.addToMeasurement("011", 10);
+		c2.addToMeasurement("110", 10);
+		c2.addToMeasurement("111", 10);
+		c3.addToMeasurement("010", 10);
+		c3.addToMeasurement("011", 10);
+		c3.addToMeasurement("110", 10);
+		c3.addToMeasurement("111", 10);
+		c4.addToMeasurement("010", 10);
+		c4.addToMeasurement("011", 10);
+		c4.addToMeasurement("110", 10);
+		c4.addToMeasurement("111", 10);
 	
-		c1.AddSubMetrics(m1);
-		c1.AddSubMetrics(m2);
-		c2.AddSubMetrics(m3);
-		c2.AddSubMetrics(m4);
-		c3.AddSubMetrics(m5);
-		c3.AddSubMetrics(m6);
-		c4.AddSubMetrics(m7);
-		c4.AddSubMetrics(m8);
+		c1.addSubMetrics(m1);
+		c1.addSubMetrics(m2);
+		c2.addSubMetrics(m3);
+		c2.addSubMetrics(m4);
+		c3.addSubMetrics(m5);
+		c3.addSubMetrics(m6);
+		c4.addSubMetrics(m7);
+		c4.addSubMetrics(m8);
 
 		g1 = new Metrics("a");
 		g2 = new Metrics("b");
 
-		g1.Track("100", new CounterMeasurement(null, null, null));
-		g1.Track("101", new CounterMeasurement(null, null, null));
-		g1.Track("110", new CounterMeasurement(null, null, null));
-		g1.Track("111", new CounterMeasurement(null, null, null));
-		g2.Track("100", new CounterMeasurement(null, null, null));
-		g2.Track("101", new CounterMeasurement(null, null, null));
-		g2.Track("110", new CounterMeasurement(null, null, null));
-		g2.Track("111", new CounterMeasurement(null, null, null));
+		g1.track("100", new CounterMeasurement(null, null, null));
+		g1.track("101", new CounterMeasurement(null, null, null));
+		g1.track("110", new CounterMeasurement(null, null, null));
+		g1.track("111", new CounterMeasurement(null, null, null));
+		g2.track("100", new CounterMeasurement(null, null, null));
+		g2.track("101", new CounterMeasurement(null, null, null));
+		g2.track("110", new CounterMeasurement(null, null, null));
+		g2.track("111", new CounterMeasurement(null, null, null));
 		
-		g1.AddToMeasurement("100", 100);
-		g1.AddToMeasurement("101", 100);
-		g1.AddToMeasurement("110", 100);
-		g1.AddToMeasurement("111", 100);
-		g2.AddToMeasurement("100", 100);
-		g2.AddToMeasurement("101", 100);
-		g2.AddToMeasurement("110", 100);
-		g2.AddToMeasurement("111", 100);
+		g1.addToMeasurement("100", 100);
+		g1.addToMeasurement("101", 100);
+		g1.addToMeasurement("110", 100);
+		g1.addToMeasurement("111", 100);
+		g2.addToMeasurement("100", 100);
+		g2.addToMeasurement("101", 100);
+		g2.addToMeasurement("110", 100);
+		g2.addToMeasurement("111", 100);
 		
-		g1.AddSubMetrics(c1);
-		g1.AddSubMetrics(c2);
-		g2.AddSubMetrics(c3);
-		g2.AddSubMetrics(c4);
+		g1.addSubMetrics(c1);
+		g1.addSubMetrics(c2);
+		g2.addSubMetrics(c3);
+		g2.addSubMetrics(c4);
 
 		p = new Metrics("test");
 		
-		p.AddSubMetrics(g1);
-		p.AddSubMetrics(g2);
+		p.addSubMetrics(g1);
+		p.addSubMetrics(g2);
 	}
 
 	protected void tearDown() throws Exception {
@@ -228,14 +228,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		StatisticalMeasurement m110 = new StatisticalMeasurement(null, p, "110");
 		StatisticalMeasurement m111 = new StatisticalMeasurement(null, p, "111");
 
-		assertEquals("000", 0, m000.NbDataPoints());
-		assertEquals("001", 8, m001.NbDataPoints());
-		assertEquals("010", 4, m010.NbDataPoints());
-		assertEquals("011", 4, m011.NbDataPoints());
-		assertEquals("100", 2, m100.NbDataPoints());
-		assertEquals("101", 2, m101.NbDataPoints());
-		assertEquals("110", 2, m110.NbDataPoints());
-		assertEquals("111", 2, m111.NbDataPoints());
+		assertEquals("000", 0, m000.getNbDataPoints());
+		assertEquals("001", 8, m001.getNbDataPoints());
+		assertEquals("010", 4, m010.getNbDataPoints());
+		assertEquals("011", 4, m011.getNbDataPoints());
+		assertEquals("100", 2, m100.getNbDataPoints());
+		assertEquals("101", 2, m101.getNbDataPoints());
+		assertEquals("110", 2, m110.getNbDataPoints());
+		assertEquals("111", 2, m111.getNbDataPoints());
 	}
 
 	public void testGroup() {
@@ -248,14 +248,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		StatisticalMeasurement m110 = new StatisticalMeasurement(null, g1, "110");
 		StatisticalMeasurement m111 = new StatisticalMeasurement(null, g1, "111");
 
-		assertEquals("000", 0, m000.NbDataPoints());
-		assertEquals("001", 4, m001.NbDataPoints());
-		assertEquals("010", 2, m010.NbDataPoints());
-		assertEquals("011", 2, m011.NbDataPoints());
-		assertEquals("100", 0, m100.NbDataPoints());
-		assertEquals("101", 4, m101.NbDataPoints());
-		assertEquals("110", 2, m110.NbDataPoints());
-		assertEquals("111", 2, m111.NbDataPoints());
+		assertEquals("000", 0, m000.getNbDataPoints());
+		assertEquals("001", 4, m001.getNbDataPoints());
+		assertEquals("010", 2, m010.getNbDataPoints());
+		assertEquals("011", 2, m011.getNbDataPoints());
+		assertEquals("100", 0, m100.getNbDataPoints());
+		assertEquals("101", 4, m101.getNbDataPoints());
+		assertEquals("110", 2, m110.getNbDataPoints());
+		assertEquals("111", 2, m111.getNbDataPoints());
 	}
 
 	public void testClass() {
@@ -268,14 +268,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		StatisticalMeasurement m110 = new StatisticalMeasurement(null, c1, "110");
 		StatisticalMeasurement m111 = new StatisticalMeasurement(null, c1, "111");
 
-		assertEquals("000", 0, m000.NbDataPoints());
-		assertEquals("001", 2, m001.NbDataPoints());
-		assertEquals("010", 0, m010.NbDataPoints());
-		assertEquals("011", 2, m011.NbDataPoints());
-		assertEquals("100", 0, m100.NbDataPoints());
-		assertEquals("101", 2, m101.NbDataPoints());
-		assertEquals("110", 0, m110.NbDataPoints());
-		assertEquals("111", 2, m111.NbDataPoints());
+		assertEquals("000", 0, m000.getNbDataPoints());
+		assertEquals("001", 2, m001.getNbDataPoints());
+		assertEquals("010", 0, m010.getNbDataPoints());
+		assertEquals("011", 2, m011.getNbDataPoints());
+		assertEquals("100", 0, m100.getNbDataPoints());
+		assertEquals("101", 2, m101.getNbDataPoints());
+		assertEquals("110", 0, m110.getNbDataPoints());
+		assertEquals("111", 2, m111.getNbDataPoints());
 	}
 
 	public void testMethod() {
@@ -288,14 +288,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		StatisticalMeasurement m110 = new StatisticalMeasurement(null, m1, "110");
 		StatisticalMeasurement m111 = new StatisticalMeasurement(null, m1, "111");
 
-		assertEquals("000", 0, m000.NbDataPoints());
-		assertEquals("001", 0, m001.NbDataPoints());
-		assertEquals("010", 0, m010.NbDataPoints());
-		assertEquals("011", 0, m011.NbDataPoints());
-		assertEquals("100", 0, m100.NbDataPoints());
-		assertEquals("101", 0, m101.NbDataPoints());
-		assertEquals("110", 0, m110.NbDataPoints());
-		assertEquals("111", 0, m111.NbDataPoints());
+		assertEquals("000", 0, m000.getNbDataPoints());
+		assertEquals("001", 0, m001.getNbDataPoints());
+		assertEquals("010", 0, m010.getNbDataPoints());
+		assertEquals("011", 0, m011.getNbDataPoints());
+		assertEquals("100", 0, m100.getNbDataPoints());
+		assertEquals("101", 0, m101.getNbDataPoints());
+		assertEquals("110", 0, m110.getNbDataPoints());
+		assertEquals("111", 0, m111.getNbDataPoints());
 	}
 
 	public void testIrregular() {
@@ -307,24 +307,24 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		Metrics c1 = new Metrics("c1");
 		Metrics c2 = new Metrics("c2");
 
-		c1.AddSubMetrics(m11);
-		c1.AddSubMetrics(m12);
-		c2.AddSubMetrics(m21);
-		c2.AddSubMetrics(m22);
+		c1.addSubMetrics(m11);
+		c1.addSubMetrics(m12);
+		c2.addSubMetrics(m21);
+		c2.addSubMetrics(m22);
 		
 		Metrics g = new Metrics("g");
 		
-		g.AddSubMetrics(c1);
-		g.AddSubMetrics(c2);
+		g.addSubMetrics(c1);
+		g.addSubMetrics(c2);
 
-		m11.Track("bar", new CounterMeasurement(null, null, null));
-		m12.Track("bar", new CounterMeasurement(null, null, null));
-		m21.Track("bar", new CounterMeasurement(null, null, null));
-		m22.Track("bar", new CounterMeasurement(null, null, null));
+		m11.track("bar", new CounterMeasurement(null, null, null));
+		m12.track("bar", new CounterMeasurement(null, null, null));
+		m21.track("bar", new CounterMeasurement(null, null, null));
+		m22.track("bar", new CounterMeasurement(null, null, null));
 
-		c1.Track("bar", new CounterMeasurement(null, null, null));
+		c1.track("bar", new CounterMeasurement(null, null, null));
 
 		StatisticalMeasurement sm = new StatisticalMeasurement(null, g, "bar");
-		assertEquals(3, sm.NbDataPoints());
+		assertEquals(3, sm.getNbDataPoints());
 	}
 }

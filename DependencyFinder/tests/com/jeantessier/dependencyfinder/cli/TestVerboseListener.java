@@ -56,7 +56,7 @@ public class TestVerboseListener extends TestCase {
 		writer   = new StringWriter();
 		listener = new VerboseListener();
 
-		listener.Writer(writer);
+		listener.getWriter(writer);
 	}
 	
 	public void testLoadListener() {
@@ -82,7 +82,7 @@ public class TestVerboseListener extends TestCase {
 		AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
 		loader.load(Collections.singleton(TEST_FILENAME));
 
-		MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml"));
+		MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("test", factory);
 		gatherer.addMetricsListener(listener);
 		loader.getClassfile(TEST_CLASS).accept(gatherer);
@@ -93,7 +93,7 @@ public class TestVerboseListener extends TestCase {
 	public void testPrintWriter() {
 		String test_text = "foobar";
 		
-		listener.Print(test_text);
+		listener.print(test_text);
 
 		assertEquals(test_text + System.getProperty("line.separator"), writer.toString());
 	}

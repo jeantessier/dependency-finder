@@ -33,12 +33,12 @@
 package com.jeantessier.metrics;
 
 public interface MeasurementVisitor {
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement);
-	public void VisitCounterMeasurement(CounterMeasurement measurement);
-	public void VisitNameListMeasurement(NameListMeasurement measurement);
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement);
-	public void VisitRatioMeasurement(RatioMeasurement measurement);
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement);
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement);
-	public void VisitSumMeasurement(SumMeasurement measurement);
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement);
+	public void visitCounterMeasurement(CounterMeasurement measurement);
+	public void visitNameListMeasurement(NameListMeasurement measurement);
+	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement);
+	public void visitRatioMeasurement(RatioMeasurement measurement);
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement);
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement);
+	public void visitSumMeasurement(SumMeasurement measurement);
 }

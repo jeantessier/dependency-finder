@@ -43,16 +43,16 @@ import com.jeantessier.dependency.*;
 import com.jeantessier.diff.*;
 
 public class JarJarDiff extends Task {
-	private String name              = "";
-	private Path   old_path;
-	private String old_label;
-	private File   old_documentation = new File("old_documentation.txt");
-	private Path   new_path;
-	private String new_label;
-	private File   new_documentation = new File("new_documentation.txt");
-	private String encoding          = Report.DEFAULT_ENCODING;
-	private String dtd_prefix        = Report.DEFAULT_DTD_PREFIX;
-	private String indent_text;
+	private String name             = "";
+	private Path   oldPath;
+	private String oldLabel;
+	private File   oldDocumentation = new File("old_documentation.txt");
+	private Path   newPath;
+	private String newLabel;
+	private File   newDocumentation = new File("new_documentation.txt");
+	private String encoding         = Report.DEFAULT_ENCODING;
+	private String dtdPrefix        = Report.DEFAULT_DTD_PREFIX;
+	private String indentText;
 	private File   destfile;
 
 	public String getName() {
@@ -64,59 +64,59 @@ public class JarJarDiff extends Task {
 	}
 	
 	public Path createOld() {
-		if (old_path == null) {
-			old_path = new Path(getProject());
+		if (oldPath == null) {
+			oldPath = new Path(getProject());
 		}
 
-		return old_path;
+		return oldPath;
 	}
 	
 	public Path getOld() {
-		return old_path;
+		return oldPath;
 	}
 
 	public String getOldlabel() {
-		return old_label;
+		return oldLabel;
 	}
 	
-	public void setOldlabel(String old_label) {
-		this.old_label = old_label;
+	public void setOldlabel(String oldLabel) {
+		this.oldLabel = oldLabel;
 	}
 
 	public File getOlddocumentation() {
-		return old_documentation;
+		return oldDocumentation;
 	}
 	
-	public void setOlddocumentation(File old_documentation) {
-		this.old_documentation = old_documentation;
+	public void setOlddocumentation(File oldDocumentation) {
+		this.oldDocumentation = oldDocumentation;
 	}
 	
 	public Path createNew() {
-		if (new_path == null) {
-			new_path = new Path(getProject());
+		if (newPath == null) {
+			newPath = new Path(getProject());
 		}
 
-		return new_path;
+		return newPath;
 	}
 	
 	public Path getNew() {
-		return new_path;
+		return newPath;
 	}
 
 	public String getNewlabel() {
-		return new_label;
+		return newLabel;
 	}
 	
-	public void setNewlabel(String new_label) {
-		this.new_label = new_label;
+	public void setNewlabel(String newLabel) {
+		this.newLabel = newLabel;
 	}
 
 	public File getNewdocumentation() {
-		return new_documentation;
+		return newDocumentation;
 	}
 	
-	public void setNewdocumentation(File new_documentation) {
-		this.new_documentation = new_documentation;
+	public void setNewdocumentation(File newDocumentation) {
+		this.newDocumentation = newDocumentation;
 	}
 
 	public String getEncoding() {
@@ -128,19 +128,19 @@ public class JarJarDiff extends Task {
 	}
 
 	public String getDtdprefix() {
-		return dtd_prefix;
+		return dtdPrefix;
 	}
 	
-	public void setDtdprefix(String dtd_prefix) {
-		this.dtd_prefix = dtd_prefix;
+	public void setDtdprefix(String dtdPrefix) {
+		this.dtdPrefix = dtdPrefix;
 	}
 
 	public String getIndenttext() {
-		return indent_text;
+		return indentText;
 	}
 	
-	public void setIntenttext(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIntenttext(String indentText) {
+		this.indentText = indentText;
 	}
 
 	public File getDestfile() {
@@ -166,23 +166,23 @@ public class JarJarDiff extends Task {
 			throw new BuildException("destfile must be set!");
 		}
 
-		VerboseListener verbose_listener = new VerboseListener(this);
+		VerboseListener verboseListener = new VerboseListener(this);
 
 		try {
 			// Collecting data, first classfiles from JARs,
 			// then package/class trees using NodeFactory.
 			
 			log("Loading old classes from path " + getOld());
-			Validator old_validator = new ListBasedValidator(getOlddocumentation());
-			ClassfileLoader old_jar = new AggregatingClassfileLoader();
-			old_jar.addLoadListener(verbose_listener);
-			old_jar.load(Arrays.asList(getOld().list()));
+			Validator oldValidator = new ListBasedValidator(getOlddocumentation());
+			ClassfileLoader oldJar = new AggregatingClassfileLoader();
+			oldJar.addLoadListener(verboseListener);
+			oldJar.load(Arrays.asList(getOld().list()));
 			
 			log("Loading new classes from path " + getNew());
-			Validator new_validator = new ListBasedValidator(getNewdocumentation());
-			ClassfileLoader new_jar = new AggregatingClassfileLoader();
-			new_jar.addLoadListener(verbose_listener);
-			new_jar.load(Arrays.asList(getNew().list()));
+			Validator newValidator = new ListBasedValidator(getNewdocumentation());
+			ClassfileLoader newJar = new AggregatingClassfileLoader();
+			newJar.addLoadListener(verboseListener);
+			newJar.load(Arrays.asList(getNew().list()));
 			
 			// Starting to compare, first at package level,
 			// then descending to class level for packages
@@ -190,21 +190,21 @@ public class JarJarDiff extends Task {
 			
 			log("Comparing old and new classes ...");
 			
-			String name      = getName();
-			String old_label = (getOldlabel() != null) ? getOldlabel() : getOld().toString();
-			String new_label = (getNewlabel() != null) ? getNewlabel() : getNew().toString();
+			String name     = getName();
+			String oldLabel = (getOldlabel() != null) ? getOldlabel() : getOld().toString();
+			String newLabel = (getNewlabel() != null) ? getNewlabel() : getNew().toString();
 			
-			DifferencesFactory factory = new DifferencesFactory(old_validator, new_validator);
-			Differences differences = factory.CreateJarDifferences(name, old_label, old_jar, new_label, new_jar);
+			DifferencesFactory factory = new DifferencesFactory(oldValidator, newValidator);
+			Differences differences = factory.createJarDifferences(name, oldLabel, oldJar, newLabel, newJar);
 			
 			log("Saving difference report to " + getDestfile().getAbsolutePath());
 			
 			com.jeantessier.diff.Printer printer = new Report(getEncoding(), getDtdprefix());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 			
-			differences.Accept(printer);
+			differences.accept(printer);
 			
 			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 			out.print(printer);

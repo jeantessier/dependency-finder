@@ -55,16 +55,16 @@ import org.apache.log4j.*;
 public class NameListMeasurement extends MeasurementBase implements CollectionMeasurement {
 	private Collection values;
 
-	public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
-		super(descriptor, context, init_text);
+	public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+		super(descriptor, context, initText);
 
-		if (init_text != null) {
-			if (init_text.trim().equalsIgnoreCase("list")) {
+		if (initText != null) {
+			if (initText.trim().equalsIgnoreCase("list")) {
 				values = new LinkedList();
-			} else if (init_text.trim().equalsIgnoreCase("set")) {
+			} else if (initText.trim().equalsIgnoreCase("set")) {
 				values = new HashSet();
 			} else {
-				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\", using default value of SET instead");
+				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\", using default value of SET instead");
 				values = new HashSet();
 			}
 		} else {
@@ -73,27 +73,27 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
 		}
 	}
 
-	public void Add(Object object) {
+	public void add(Object object) {
 		values.add(object);
 	}
 
-	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitNameListMeasurement(this);
+	public void accept(MeasurementVisitor visitor) {
+		visitor.visitNameListMeasurement(this);
 	}
 
-	public Number Value() {
+	public Number getValue() {
 		return new Integer(values.size());
 	}
 
-	public boolean Empty() {
+	public boolean isEmpty() {
 		return values.isEmpty();
 	}
 
-	protected double Compute() {
+	protected double compute() {
 		return values.size();
 	}
 
-	public Collection Values() {
+	public Collection getValues() {
 		return Collections.unmodifiableCollection(values);
 	}
 }

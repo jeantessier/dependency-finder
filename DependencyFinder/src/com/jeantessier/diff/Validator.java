@@ -33,8 +33,8 @@
 package com.jeantessier.diff;
 
 public interface Validator {
-	public boolean IsPackageAllowed(String name);
-	public boolean IsClassAllowed(String name);
-	public boolean IsFeatureAllowed(String name);
-	public boolean IsAllowed(String name);
+	public boolean isPackageAllowed(String name);
+	public boolean isClassAllowed(String name);
+	public boolean isFeatureAllowed(String name);
+	public boolean isAllowed(String name);
 }

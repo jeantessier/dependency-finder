@@ -59,34 +59,34 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 	public void run() {
 		Date start = new Date();
 		
-		model.ClearDependencyResult();
-		model.ClearClosureResult();
-		model.ClearMetricsResult();
+		model.clearDependencyResult();
+		model.clearClosureResult();
+		model.clearMetricsResult();
 
-		model.StatusLine().ShowInfo("Scanning ...");
+		model.getStatusLine().showInfo("Scanning ...");
 		ClassfileScanner scanner = new ClassfileScanner();
-		scanner.load(Collections.singleton(model.InputFile()));
+		scanner.load(Collections.singleton(model.getInputFile()));
 
-		model.ProgressBar().setMaximum(scanner.getNbFiles());
+		model.getProgressBar().setMaximum(scanner.getNbFiles());
 
-		model.NodeFactory(new NodeFactory());
-		Collector collector = new CodeDependencyCollector(model.NodeFactory());
+		model.setNodeFactory(new NodeFactory());
+		Collector collector = new CodeDependencyCollector(model.getNodeFactory());
 
 		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(new VerboseListener(model.StatusLine(), model.ProgressBar()));
+		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
 		loader.addLoadListener(collector);
-		loader.load(Collections.singleton(model.InputFile()));
+		loader.load(Collections.singleton(model.getInputFile()));
 
-		if (model.Maximize()) {
-			model.StatusLine().ShowInfo("Maximizing ...");
-			new LinkMaximizer().traverseNodes(model.Packages());
-		} else if (model.Minimize()) {
-			model.StatusLine().ShowInfo("Minimizing ...");
-			new LinkMinimizer().traverseNodes(model.Packages());
+		if (model.getMaximize()) {
+			model.getStatusLine().showInfo("Maximizing ...");
+			new LinkMaximizer().traverseNodes(model.getPackages());
+		} else if (model.getMinimize()) {
+			model.getStatusLine().showInfo("Minimizing ...");
+			new LinkMinimizer().traverseNodes(model.getPackages());
 		}
 		
 		Date stop = new Date();
 		
-		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+		model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 	}
 }

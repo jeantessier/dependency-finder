@@ -42,27 +42,27 @@ public class TestMeasurementDescriptor extends TestCase {
 	}
 	
 	public void testCreate() {
-		assertNull("descriptor.ShortName() not initialized to null", descriptor.ShortName());
-		assertNull("descriptor.LongName() not initialized to null", descriptor.LongName());
-		assertNull("descriptor.Class() not initialized to null", descriptor.Class());
+		assertNull("descriptor.ShortName() not initialized to null", descriptor.getShortName());
+		assertNull("descriptor.LongName() not initialized to null", descriptor.getLongName());
+		assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
 	}
 
 	public void testShortName() {
-		assertNull("descriptor.ShortName() not initialized to null", descriptor.ShortName());
-		descriptor.ShortName("foo");
-		assertEquals("descriptor.ShortName()", "foo", descriptor.ShortName());
+		assertNull("descriptor.ShortName() not initialized to null", descriptor.getShortName());
+		descriptor.setShortName("foo");
+		assertEquals("descriptor.ShortName()", "foo", descriptor.getShortName());
 	}
 	
 	public void testLongName() {
-		assertNull("descriptor.LongName() not initialized to null", descriptor.LongName());
-		descriptor.LongName("bar");
-		assertEquals("descriptor.LongName()", "bar", descriptor.LongName());
+		assertNull("descriptor.LongName() not initialized to null", descriptor.getLongName());
+		descriptor.setLongName("bar");
+		assertEquals("descriptor.LongName()", "bar", descriptor.getLongName());
 	}
 
 	public void testNonExistingClass() {
-		assertNull("descriptor.Class() not initialized to null", descriptor.Class());
+		assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
 		try {
-			descriptor.Class("nop such class");
+			descriptor.getClassForByName("nop such class");
 			fail("set class to non-existing class");
 		} catch (ClassNotFoundException ex) {
 			// Do nothing
@@ -70,9 +70,9 @@ public class TestMeasurementDescriptor extends TestCase {
 	}
 
 	public void testNullClass() {
-		assertNull("descriptor.Class() not initialized to null", descriptor.Class());
+		assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
 		try {
-			descriptor.Class((Class) null);
+			descriptor.setClassFor((Class) null);
 			fail("set class to null");
 		} catch (IllegalArgumentException ex) {
 			// Do nothing
@@ -80,13 +80,13 @@ public class TestMeasurementDescriptor extends TestCase {
 	}
 	
 	public void testClass() {
-		assertNull("descriptor.Class() not initialized to null", descriptor.Class());
-		descriptor.Class(com.jeantessier.metrics.CounterMeasurement.class);
-		assertEquals("descriptor.Class()", com.jeantessier.metrics.CounterMeasurement.class, descriptor.Class());
+		assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
+		descriptor.setClassFor(com.jeantessier.metrics.CounterMeasurement.class);
+		assertEquals("descriptor.Class()", com.jeantessier.metrics.CounterMeasurement.class, descriptor.getClassFor());
 	}
 
 	public void testClassByName() throws ClassNotFoundException {
-		descriptor.Class(com.jeantessier.metrics.CounterMeasurement.class.getName());
-		assertEquals("descriptor.Class()", com.jeantessier.metrics.CounterMeasurement.class, descriptor.Class());
+		descriptor.getClassForByName(com.jeantessier.metrics.CounterMeasurement.class.getName());
+		assertEquals("descriptor.Class()", com.jeantessier.metrics.CounterMeasurement.class, descriptor.getClassFor());
 	}
 }

@@ -33,13 +33,13 @@
 package com.jeantessier.diff;
 
 public interface Visitor {
-	public void VisitJarDifferences(JarDifferences differences);
-	public void VisitPackageDifferences(PackageDifferences differences);
-	public void VisitInterfaceDifferences(InterfaceDifferences differences);
-	public void VisitClassDifferences(ClassDifferences differences);
-	public void VisitFieldDifferences(FieldDifferences differences);
-	public void VisitConstructorDifferences(ConstructorDifferences differences);
-	public void VisitMethodDifferences(MethodDifferences differences);
-	public void VisitDeprecatableDifferences(DeprecatableDifferences differences);
-	public void VisitDocumentableDifferences(DocumentableDifferences differences);
+	public void visitJarDifferences(JarDifferences differences);
+	public void visitPackageDifferences(PackageDifferences differences);
+	public void visitInterfaceDifferences(InterfaceDifferences differences);
+	public void visitClassDifferences(ClassDifferences differences);
+	public void visitFieldDifferences(FieldDifferences differences);
+	public void visitConstructorDifferences(ConstructorDifferences differences);
+	public void visitMethodDifferences(MethodDifferences differences);
+	public void visitDeprecatableDifferences(DeprecatableDifferences differences);
+	public void visitDocumentableDifferences(DocumentableDifferences differences);
 }

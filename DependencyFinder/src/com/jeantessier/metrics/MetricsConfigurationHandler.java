@@ -53,7 +53,7 @@ public class MetricsConfigurationHandler extends DefaultHandler {
 	private String                name;
 	private String                pattern;
 	
-	private StringBuffer current_name = new StringBuffer();
+	private StringBuffer currentName = new StringBuffer();
 
 	public MetricsConfigurationHandler() {
 		this(new MetricsConfiguration());
@@ -63,7 +63,7 @@ public class MetricsConfigurationHandler extends DefaultHandler {
 		this.configuration = configuration;
 	}
 
-	public MetricsConfiguration MetricsConfiguration() {
+	public MetricsConfiguration getMetricsConfiguration() {
 		return configuration;
 	}
 	
@@ -74,7 +74,7 @@ public class MetricsConfigurationHandler extends DefaultHandler {
 			Logger.getLogger(getClass()).debug("    " + atts.getQName(i) + ": " + atts.getValue(i));
 		}
 
-		current_name.delete(0, current_name.length());
+		currentName.delete(0, currentName.length());
 
 		if (qName.equals("project-measurements")) {
 			section = PROJECT;
@@ -88,29 +88,29 @@ public class MetricsConfigurationHandler extends DefaultHandler {
 			descriptor = new MeasurementDescriptor();
 
 			if (atts.getValue("visible") != null) {
-				descriptor.Visible("true".equalsIgnoreCase(atts.getValue("visible")) ||
+				descriptor.setVisible("true".equalsIgnoreCase(atts.getValue("visible")) ||
 								   "yes".equalsIgnoreCase(atts.getValue("visible")) ||
 								   "on".equalsIgnoreCase(atts.getValue("visible")));
 			}
 
 			if (atts.getValue("cached") != null) {
-				descriptor.Cached("true".equalsIgnoreCase(atts.getValue("cached")) ||
+				descriptor.setCached("true".equalsIgnoreCase(atts.getValue("cached")) ||
 								   "yes".equalsIgnoreCase(atts.getValue("cached")) ||
 								   "on".equalsIgnoreCase(atts.getValue("cached")));
 			}
 			
 			switch (section) {
 				case PROJECT:
-					configuration.AddProjectMeasurement(descriptor);
+					configuration.addProjectMeasurement(descriptor);
 					break;
 				case GROUP:
-					configuration.AddGroupMeasurement(descriptor);
+					configuration.addGroupMeasurement(descriptor);
 					break;
 				case CLASS:
-					configuration.AddClassMeasurement(descriptor);
+					configuration.addClassMeasurement(descriptor);
 					break;
 				case METHOD:
-					configuration.AddMethodMeasurement(descriptor);
+					configuration.addMethodMeasurement(descriptor);
 					break;
 			}
 		}
@@ -118,34 +118,34 @@ public class MetricsConfigurationHandler extends DefaultHandler {
 
 	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
 		if (qName.equals("short-name")) {
-			descriptor.ShortName(current_name.toString().trim());
+			descriptor.setShortName(currentName.toString().trim());
 		} else if (qName.equals("long-name")) {
-			descriptor.LongName(current_name.toString().trim());
+			descriptor.setLongName(currentName.toString().trim());
 		} else if (qName.equals("class")) {
 			try {
-				descriptor.Class(current_name.toString().trim());
+				descriptor.getClassForByName(currentName.toString().trim());
 			} catch (ClassNotFoundException ex) {
-				throw new SAXException("Class not found: " + current_name.toString().trim());
+				throw new SAXException("Class not found: " + currentName.toString().trim());
 			}
 		} else if (qName.equals("init")) {
-			descriptor.InitText(current_name.toString().trim());
+			descriptor.setInitText(currentName.toString().trim());
 		} else if (qName.equals("lower-threshold")) {
-			descriptor.LowerThreshold(current_name.toString().trim());
+			descriptor.setLowerThreshold(currentName.toString().trim());
 		} else if (qName.equals("upper-threshold")) {
-			descriptor.UpperThreshold(current_name.toString().trim());
+			descriptor.setUpperThreshold(currentName.toString().trim());
 		} else if (qName.equals("name")) {
-			name = current_name.toString().trim();
+			name = currentName.toString().trim();
 		} else if (qName.equals("pattern")) {
-			pattern = current_name.toString().trim();
+			pattern = currentName.toString().trim();
 		} else if (qName.equals("group-definition")) {
-			configuration.AddGroupDefinition(name, pattern);
+			configuration.addGroupDefinition(name, pattern);
 		}
 		
-		Logger.getLogger(getClass()).debug("endElement qName = " + qName + " (\"" + current_name.toString().trim() + "\")");
+		Logger.getLogger(getClass()).debug("endElement qName = " + qName + " (\"" + currentName.toString().trim() + "\")");
 	}
 
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		current_name.append(ch, start, length);
+		currentName.append(ch, start, length);
 		Logger.getLogger(getClass()).debug("characters: \"" + new String(ch, start, length) + "\"");
 	}
 }

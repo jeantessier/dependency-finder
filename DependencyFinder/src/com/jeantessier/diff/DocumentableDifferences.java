@@ -42,49 +42,49 @@ import com.jeantessier.classreader.*;
  *  documentation for the API.
  */
 public class DocumentableDifferences extends DecoratorDifferences {
-	private boolean new_documentation;
-	private boolean removed_documentation;
+	private boolean newDocumentation;
+	private boolean removedDocumentation;
 
 	/**
 	 *  Only the DifferencesFactory can create instances of this class.
 	 */
-	DocumentableDifferences(Differences component, Validator old_validator, Validator new_validator) {
+	DocumentableDifferences(Differences component, Validator oldValidator, Validator newValidator) {
 		super(component);
 
-		Logger.getLogger(getClass()).debug("Begin " + Name());
+		Logger.getLogger(getClass()).debug("Begin " + getName());
 
-		NewDocumentation(!old_validator.IsAllowed(component.Name()) && new_validator.IsAllowed(component.Name()));
-		RemovedDocumentation(old_validator.IsAllowed(component.Name()) && !new_validator.IsAllowed(component.Name()));
+		setNewDocumentation(!oldValidator.isAllowed(component.getName()) && newValidator.isAllowed(component.getName()));
+		setRemovedDocumentation(oldValidator.isAllowed(component.getName()) && !newValidator.isAllowed(component.getName()));
 
-		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
+		Logger.getLogger(getClass()).debug("End   " + getName() + ": " + (isEmpty() ? "empty" : "not empty"));
 	}
 
-	public boolean NewDocumentation() {
-		Logger.getLogger(getClass()).debug(Name() + " NewDocumentation(): " + new_documentation);
-		return new_documentation;
+	public boolean isNewDocumentation() {
+		Logger.getLogger(getClass()).debug(getName() + " NewDocumentation(): " + newDocumentation);
+		return newDocumentation;
 	}
 
-	public void NewDocumentation(boolean new_documentation) {
-		this.new_documentation = new_documentation;
+	public void setNewDocumentation(boolean newDocumentation) {
+		this.newDocumentation = newDocumentation;
 	}
 
-	public boolean RemovedDocumentation() {
-		Logger.getLogger(getClass()).debug(Name() + " RemovedDocumentation(): " + removed_documentation);
-		return removed_documentation;
+	public boolean isRemovedDocumentation() {
+		Logger.getLogger(getClass()).debug(getName() + " RemovedDocumentation(): " + removedDocumentation);
+		return removedDocumentation;
 	}
 
-	public void RemovedDocumentation(boolean removed_documentation) {
-		this.removed_documentation = removed_documentation;
+	public void setRemovedDocumentation(boolean removedDocumentation) {
+		this.removedDocumentation = removedDocumentation;
 	}
 
-	public boolean IsEmpty() {
+	public boolean isEmpty() {
 		return
-			!NewDocumentation() &&
-			!RemovedDocumentation() &&
-			Component().IsEmpty();
+			!isNewDocumentation() &&
+			!isRemovedDocumentation() &&
+			getComponent().isEmpty();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitDocumentableDifferences(this);
+	public void accept(Visitor visitor) {
+		visitor.visitDocumentableDifferences(this);
 	}
 }

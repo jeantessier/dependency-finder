@@ -45,15 +45,15 @@ public class ListDiffPrinter {
 	
 	private StringBuffer buffer = new StringBuffer();
 
-	private String  indent_text  = "    ";
-	private int     indent_level = 0;
+	private String  indentText  = "    ";
+	private int     indentLevel = 0;
 	private boolean compress;
 
-	private String     name        = "";
-	private String     old_version = "";
-	private String     new_version = "";
-	private Collection removed     = new TreeSet();
-	private Collection added       = new TreeSet();
+	private String     name       = "";
+	private String     oldVersion = "";
+	private String     newVersion = "";
+	private Collection removed    = new TreeSet();
+	private Collection added      = new TreeSet();
 	
 	public ListDiffPrinter() {
 		this(DEFAULT_COMPRESS, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
@@ -63,190 +63,190 @@ public class ListDiffPrinter {
 		this(compress, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
-	public ListDiffPrinter(String encoding, String dtd_prefix) {
-		this(DEFAULT_COMPRESS, encoding, dtd_prefix);
+	public ListDiffPrinter(String encoding, String dtdPrefix) {
+		this(DEFAULT_COMPRESS, encoding, dtdPrefix);
 	}
 	
-	public ListDiffPrinter(boolean compress, String encoding, String dtd_prefix) {
+	public ListDiffPrinter(boolean compress, String encoding, String dtdPrefix) {
 		this.compress = compress;
 
-		AppendHeader(encoding, dtd_prefix);
+		appendHeader(encoding, dtdPrefix);
 	}
 
-	public String IndentText() {
-		return indent_text;
+	public String getIndentText() {
+		return indentText;
 	}
 
-	public void IndentText(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIndentText(String indentText) {
+		this.indentText = indentText;
 	}
 
-	private void AppendHeader(String encoding, String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
-		EOL();
-		Append("<!DOCTYPE list-diff SYSTEM \"").Append(dtd_prefix).Append("/list-diff.dtd\">").EOL();
-		EOL();
+	private void appendHeader(String encoding, String dtdPrefix) {
+		append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>").eol();
+		eol();
+		append("<!DOCTYPE list-diff SYSTEM \"").append(dtdPrefix).append("/list-diff.dtd\">").eol();
+		eol();
 	}
 
-	public String Name() {
+	public String getName() {
 		return name;
 	}
 
-	public void Name(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String OldVersion() {
-		return old_version;
+	public String getOldVersion() {
+		return oldVersion;
 	}
 
-	public void OldVersion(String old_version) {
-		this.old_version = old_version;
+	public void setOldVersion(String oldVersion) {
+		this.oldVersion = oldVersion;
 	}
 
-	public String NewVersion() {
-		return new_version;
+	public String getNewVersion() {
+		return newVersion;
 	}
 
-	public void NewVersion(String new_version) {
-		this.new_version = new_version;
+	public void setNewVersion(String newVersion) {
+		this.newVersion = newVersion;
 	}
 	
-	public Collection Removed() {
+	public Collection getRemoved() {
 		return Collections.unmodifiableCollection(removed);
 	}
 	
-	public void RemoveAll(Collection removed) {
+	public void removeAll(Collection removed) {
 		this.removed.addAll(removed);
 	}
 	
-	public void Remove(String line) {
+	public void remove(String line) {
 		this.removed.add(line);
 	}
 	
-	public Collection Added() {
+	public Collection getAdded() {
 		return Collections.unmodifiableCollection(added);
 	}
 
-	public void AddAll(Collection added) {
+	public void addAll(Collection added) {
 		this.added.addAll(added);
 	}
 	
-	public void Add(String line) {
+	public void add(String line) {
 		this.added.add(line);
 	}
 
-	protected ListDiffPrinter Append(boolean b) {
+	protected ListDiffPrinter append(boolean b) {
 		buffer.append(b);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(char c) {
+	protected ListDiffPrinter append(char c) {
 		buffer.append(c);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(char[] str) {
+	protected ListDiffPrinter append(char[] str) {
 		buffer.append(str);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(char[] str, int offset, int len) {
+	protected ListDiffPrinter append(char[] str, int offset, int len) {
 		buffer.append(str, offset, len);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(double d) {
+	protected ListDiffPrinter append(double d) {
 		buffer.append(d);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(float f) {
+	protected ListDiffPrinter append(float f) {
 		buffer.append(f);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(int i) {
+	protected ListDiffPrinter append(int i) {
 		buffer.append(i);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(long l) {
+	protected ListDiffPrinter append(long l) {
 		buffer.append(l);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(Object obj) {
+	protected ListDiffPrinter append(Object obj) {
 		buffer.append(obj);
 		return this;
 	}
 
-	protected ListDiffPrinter Append(String str) {
+	protected ListDiffPrinter append(String str) {
 		buffer.append(str);
 		return this;
 	}
 
-	protected ListDiffPrinter Indent() {
-		for (int i=0; i<indent_level; i++) {
-			Append(IndentText());
+	protected ListDiffPrinter indent() {
+		for (int i=0; i<indentLevel; i++) {
+			append(getIndentText());
 		}
 
 		return this;
 	}
 
-	protected ListDiffPrinter EOL() {
-		return Append(System.getProperty("line.separator", "\n"));
+	protected ListDiffPrinter eol() {
+		return append(System.getProperty("line.separator", "\n"));
 	}
 
-	protected void RaiseIndent() {
-		indent_level++;
+	protected void raiseIndent() {
+		indentLevel++;
 	}
 
-	protected void LowerIndent() {
-		indent_level--;
+	protected void lowerIndent() {
+		indentLevel--;
 	}
 
 	public String toString() {
-		Indent().Append("<list-diff>").EOL();
-		RaiseIndent();
+		indent().append("<list-diff>").eol();
+		raiseIndent();
 		
-		Indent().Append("<name>").Append(Name()).Append("</name>").EOL();
-		Indent().Append("<old>").Append(OldVersion()).Append("</old>").EOL();
-		Indent().Append("<new>").Append(NewVersion()).Append("</new>").EOL();
+		indent().append("<name>").append(getName()).append("</name>").eol();
+		indent().append("<old>").append(getOldVersion()).append("</old>").eol();
+		indent().append("<new>").append(getNewVersion()).append("</new>").eol();
 		
-		Indent().Append("<removed>").EOL();
-		RaiseIndent();
-		PrintLines(buffer, compress ? Compress(Removed()) : Removed());
-		LowerIndent();
-		Indent().Append("</removed>").EOL();
+		indent().append("<removed>").eol();
+		raiseIndent();
+		printLines(buffer, compress ? compress(getRemoved()) : getRemoved());
+		lowerIndent();
+		indent().append("</removed>").eol();
 		
-		Indent().Append("<added>").EOL();
-		RaiseIndent();
-		PrintLines(buffer, compress ? Compress(Added()) : Added());
-		LowerIndent();
-		Indent().Append("</added>").EOL();
+		indent().append("<added>").eol();
+		raiseIndent();
+		printLines(buffer, compress ? compress(getAdded()) : getAdded());
+		lowerIndent();
+		indent().append("</added>").eol();
 		
-		LowerIndent();
-		Indent().Append("</list-diff>").EOL();
+		lowerIndent();
+		indent().append("</list-diff>").eol();
 		
 		return buffer.toString();
 	}
 
-	private void PrintLines(StringBuffer buffer, Collection lines) {
+	private void printLines(StringBuffer buffer, Collection lines) {
 		Iterator i = lines.iterator();
 		while (i.hasNext()) {
 			String line = (String) i.next();
 
 			int pos = line.lastIndexOf(" [");
 			if (pos != -1) {
-				Indent().Append("<line>").Append(line.substring(0, pos)).Append("</line>").EOL();
+				indent().append("<line>").append(line.substring(0, pos)).append("</line>").eol();
 			} else {
-				Indent().Append("<line>").Append(line).Append("</line>").EOL();
+				indent().append("<line>").append(line).append("</line>").eol();
 			}
 		}
 	}
 
-	private Collection Compress(Collection lines) {
+	private Collection compress(Collection lines) {
 		Collection result = new TreeSet();
 
 		Iterator i = lines.iterator();
@@ -255,14 +255,14 @@ public class ListDiffPrinter {
 
 			boolean add = true;
 			if (line.endsWith(" [C]")) {
-				String package_name = PackageName(line);
+				String packageName = extractPackageName(line);
 				
-				add = !lines.contains(package_name + " [P]");
+				add = !lines.contains(packageName + " [P]");
 			} else if (line.endsWith(" [F]")) {
-				String class_name   = ClassName(line);
-				String package_name = PackageName(class_name);
+				String className   = extractClassName(line);
+				String packageName = extractPackageName(className);
 
-				add = !lines.contains(package_name + " [P]") && !lines.contains(class_name + " [C]");
+				add = !lines.contains(packageName + " [P]") && !lines.contains(className + " [C]");
 			}
 			
 			if (add) {
@@ -273,24 +273,24 @@ public class ListDiffPrinter {
 		return result;
 	}
 
-	private String PackageName(String class_name) {
+	private String extractPackageName(String className) {
 		String result = "";
 
-		int pos = class_name.lastIndexOf('.');
+		int pos = className.lastIndexOf('.');
 		if (pos != -1) {
-			result = class_name.substring(0, pos);
+			result = className.substring(0, pos);
 		}
 		
 		return result;
 	}
 
-	private String ClassName(String feature_name) {
+	private String extractClassName(String featureName) {
 		String result = "";
 
 		synchronized (perl) {
-			if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)/", feature_name)) {
+			if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)/", featureName)) {
 				result = perl.group(1);
-			} else if (perl.match("/^(.*)\\.[\\^.]*/", feature_name)) {
+			} else if (perl.match("/^(.*)\\.[\\^.]*/", featureName)) {
 				result = perl.group(1);
 			}
 		}

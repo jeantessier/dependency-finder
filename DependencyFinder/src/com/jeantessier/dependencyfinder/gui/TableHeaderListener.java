@@ -52,8 +52,8 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
 	public void mouseClicked(MouseEvent event) {
 		int    view_column    = table.getColumnModel().getColumnIndexAtX(event.getX()); 
 		int    column         = table.convertColumnIndexToModel(view_column); 
-		String column_name    = model.RawColumnName(column);
-		int    column_dispose = model.RawColumnDispose(column);
+		String column_name    = model.getRawColumnName(column);
+		int    column_dispose = model.getRawColumnDispose(column);
 
 		Logger.getLogger(getClass()).debug("mouseClicked");
 		Logger.getLogger(getClass()).debug("event.getX()       = " + event.getX());
@@ -62,7 +62,7 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
 		Logger.getLogger(getClass()).debug("raw column_name    = " + column_name);
 		Logger.getLogger(getClass()).debug("raw column_dispose = " + column_dispose);
 
-		model.SortOn(column_name, column_dispose);
+		model.sortOn(column_name, column_dispose);
 	}
 	
 	public void mouseEntered(MouseEvent event) {
@@ -91,17 +91,17 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
 			
 			int                   view_column    = table.getColumnModel().getColumnIndexAtX(event.getX()); 
 			int                   column         = table.convertColumnIndexToModel(view_column); 
-			MeasurementDescriptor descriptor     = model.ColumnDescriptor(column);
-			int                   column_dispose = model.RawColumnDispose(column);
+			MeasurementDescriptor descriptor     = model.getColumnDescriptor(column);
+			int                   column_dispose = model.getRawColumnDispose(column);
 			
 			String text = null;
 			
 			if (descriptor != null) {
 				StringBuffer tooltip = new StringBuffer();
 				tooltip.append("<html><body><p>");
-				tooltip.append(descriptor.LongName());
+				tooltip.append(descriptor.getLongName());
 				
-				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
+				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
 					switch (column_dispose) {
 						case StatisticalMeasurement.DISPOSE_MINIMUM:
 						case StatisticalMeasurement.DISPOSE_MEDIAN:
@@ -109,7 +109,7 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
 						case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
 						case StatisticalMeasurement.DISPOSE_MAXIMUM:
 						case StatisticalMeasurement.DISPOSE_SUM:
-							tooltip.append(", ").append(StatisticalMeasurement.DisposeLabel(column_dispose));
+							tooltip.append(", ").append(StatisticalMeasurement.getDisposeLabel(column_dispose));
 							break;
 						case StatisticalMeasurement.DISPOSE_IGNORE:
 						case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
@@ -119,7 +119,7 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
 					}
 				}
 				
-				tooltip.append("<br>valid range: ").append(descriptor.Range());
+				tooltip.append("<br>valid range: ").append(descriptor.getRangeAsString());
 				
 				tooltip.append("</p></body></html>");
 

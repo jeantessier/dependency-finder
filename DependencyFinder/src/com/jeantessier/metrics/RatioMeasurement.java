@@ -53,200 +53,200 @@ import org.apache.log4j.*;
  *  <p>If either is missing, this measurement will be NaN.</p>
  */
 public class RatioMeasurement extends MeasurementBase {
-	private String base_name;
-	private int    base_dispose;
-	private String divider_name;
-	private int    divider_dispose;
+	private String baseName;
+	private int    baseDispose;
+	private String dividerName;
+	private int    dividerDispose;
 
 	private double value = 0.0;
 	
-	public RatioMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
-		super(descriptor, context, init_text);
+	public RatioMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+		super(descriptor, context, initText);
 
 		try {
-			BufferedReader in = new BufferedReader(new StringReader(init_text));
+			BufferedReader in = new BufferedReader(new StringReader(initText));
 
-			synchronized (Perl()) {
-				base_name = in.readLine().trim();
-				if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", base_name)) {
-					base_name = Perl().group(1);
+			synchronized (perl()) {
+				baseName = in.readLine().trim();
+				if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", baseName)) {
+					baseName = perl().group(1);
 					
-					String dispose_text = Perl().group(2);
+					String disposeText = perl().group(2);
 					
-					if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
-						base_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-						base_dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-						base_dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-						base_dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
-						base_dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-						base_dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
-						base_dispose = StatisticalMeasurement.DISPOSE_SUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-						base_dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+					if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
+						baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+						baseDispose = StatisticalMeasurement.DISPOSE_MINIMUM;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+						baseDispose = StatisticalMeasurement.DISPOSE_MEDIAN;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+						baseDispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+						baseDispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+						baseDispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_SUM")) {
+						baseDispose = StatisticalMeasurement.DISPOSE_SUM;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+						baseDispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
 					} else {
-						base_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+						baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;
 					}
 				} else {
-					base_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;
 				}
 				
-				divider_name = in.readLine().trim();
-				if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", divider_name)) {
-					divider_name = Perl().group(1);
+				dividerName = in.readLine().trim();
+				if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", dividerName)) {
+					dividerName = perl().group(1);
 					
-					String dispose_text = Perl().group(2);
+					String disposeText = perl().group(2);
 					
-					if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
-						divider_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-						divider_dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-						divider_dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-						divider_dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
-						divider_dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-						divider_dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
-						divider_dispose = StatisticalMeasurement.DISPOSE_SUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-						divider_dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+					if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
+						dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+						dividerDispose = StatisticalMeasurement.DISPOSE_MINIMUM;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+						dividerDispose = StatisticalMeasurement.DISPOSE_MEDIAN;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+						dividerDispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+						dividerDispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+						dividerDispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_SUM")) {
+						dividerDispose = StatisticalMeasurement.DISPOSE_SUM;
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+						dividerDispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
 					} else {
-						divider_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+						dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;
 					}
 				} else {
-					divider_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;
 				}
 			}
 
 			in.close();
 		} catch (Exception ex) {
-			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
-			base_name    = null;
-			divider_name = null;
+			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+			baseName    = null;
+			dividerName = null;
 		}
 	}
 	
-	public String BaseName() {
-		return base_name;
+	public String getBaseName() {
+		return baseName;
 	}
 	
-	public int BaseDispose() {
-		return base_dispose;
+	public int getBaseDispose() {
+		return baseDispose;
 	}
 
-	public String DividerName() {
-		return divider_name;
+	public String getDividerName() {
+		return dividerName;
 	}
 
-	public int DividerDispose() {
-		return divider_dispose;
+	public int getDividerDispose() {
+		return dividerDispose;
 	}
 
-	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitRatioMeasurement(this);
+	public void accept(MeasurementVisitor visitor) {
+		visitor.visitRatioMeasurement(this);
 	}
 
-	public boolean Empty() {
-		if (!Cached()) {
-			Compute();
+	public boolean isEmpty() {
+		if (!isCached()) {
+			compute();
 		}
 
-		return super.Empty();
+		return super.isEmpty();
 	}
 
-	protected double Compute() {
-		if (!Cached()) {
+	protected double compute() {
+		if (!isCached()) {
 			value = Double.NaN;
 
-			if (Context() != null && BaseName() != null && DividerName() != null) {
-				Measurement base    = Context().Measurement(BaseName());
-				Measurement divider = Context().Measurement(DividerName());
+			if (getContext() != null && getBaseName() != null && getDividerName() != null) {
+				Measurement base    = getContext().getMeasurement(getBaseName());
+				Measurement divider = getContext().getMeasurement(getDividerName());
 				
-				double base_value    = Double.NaN;
-				double divider_value = Double.NaN;
+				double baseValue    = Double.NaN;
+				double dividerValue = Double.NaN;
 				
 				if (base instanceof StatisticalMeasurement) {
 					StatisticalMeasurement stats = (StatisticalMeasurement) base;
 					
-					switch (BaseDispose()) {
+					switch (getBaseDispose()) {
 						case StatisticalMeasurement.DISPOSE_MINIMUM:
-							base_value = stats.Minimum();
+							baseValue = stats.getMinimum();
 							break;
 						case StatisticalMeasurement.DISPOSE_MEDIAN:
-							base_value = stats.Median();
+							baseValue = stats.getMedian();
 							break;
 						case StatisticalMeasurement.DISPOSE_AVERAGE:
-							base_value = stats.Average();
+							baseValue = stats.getAverage();
 							break;
 						case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-							base_value = stats.StandardDeviation();
+							baseValue = stats.getStandardDeviation();
 							break;
 						case StatisticalMeasurement.DISPOSE_MAXIMUM:
-							base_value = stats.Maximum();
+							baseValue = stats.getMaximum();
 							break;
 						case StatisticalMeasurement.DISPOSE_SUM:
-							base_value = stats.Sum();
+							baseValue = stats.getSum();
 							break;
 						case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-							base_value = stats.NbDataPoints();
+							baseValue = stats.getNbDataPoints();
 							break;
 						case StatisticalMeasurement.DISPOSE_IGNORE:
 						default:
-							base_value = stats.doubleValue();
+							baseValue = stats.doubleValue();
 							break;
 					}
 				} else if (base != null) {
-					base_value = base.doubleValue();
+					baseValue = base.doubleValue();
 				}
 				
 				if (divider instanceof StatisticalMeasurement) {
 					StatisticalMeasurement stats = (StatisticalMeasurement) divider;
 					
-					switch (DividerDispose()) {
+					switch (getDividerDispose()) {
 						case StatisticalMeasurement.DISPOSE_MINIMUM:
-							divider_value = stats.Minimum();
+							dividerValue = stats.getMinimum();
 							break;
 						case StatisticalMeasurement.DISPOSE_MEDIAN:
-							divider_value = stats.Median();
+							dividerValue = stats.getMedian();
 							break;
 						case StatisticalMeasurement.DISPOSE_AVERAGE:
-							divider_value = stats.Average();
+							dividerValue = stats.getAverage();
 							break;
 						case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-							divider_value = stats.StandardDeviation();
+							dividerValue = stats.getStandardDeviation();
 							break;
 						case StatisticalMeasurement.DISPOSE_MAXIMUM:
-							divider_value = stats.Maximum();
+							dividerValue = stats.getMaximum();
 							break;
 						case StatisticalMeasurement.DISPOSE_SUM:
-							divider_value = stats.Sum();
+							dividerValue = stats.getSum();
 							break;
 						case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-							divider_value = stats.NbDataPoints();
+							dividerValue = stats.getNbDataPoints();
 							break;
 						case StatisticalMeasurement.DISPOSE_IGNORE:
 						default:
-							divider_value = stats.doubleValue();
+							dividerValue = stats.doubleValue();
 							break;
 					}
 				} else if (divider != null) {
-					divider_value = divider.doubleValue();
+					dividerValue = divider.doubleValue();
 				}
 				
-				value = base_value / divider_value;
+				value = baseValue / dividerValue;
 			}
 
-			Empty(Double.isNaN(value) || Double.isInfinite(value));
+			setEmpty(Double.isNaN(value) || Double.isInfinite(value));
 
-			Cached(true);
+			setCached(true);
 		}
 		
 		return value;

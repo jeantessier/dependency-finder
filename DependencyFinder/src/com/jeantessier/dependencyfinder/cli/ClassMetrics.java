@@ -44,12 +44,12 @@ import com.jeantessier.dependencyfinder.*;
 public class ClassMetrics {
 	public static final String DEFAULT_LOGFILE = "System.out";
 
-	public static void Error(CommandLineUsage clu, String msg) {
+	public static void showError(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
-		Error(clu);
+		showError(clu);
 	}
 
-	public static void Error(CommandLineUsage clu) {
+	public static void showError(CommandLineUsage clu) {
 		System.err.println(clu);
 		System.err.println();
 		System.err.println("If no files are specified, it processes the current directory.");
@@ -61,68 +61,68 @@ public class ClassMetrics {
 		System.err.println();
 	}
 
-	public static void Version() throws IOException {
+	public static void showVersion() throws IOException {
 		Version version = new Version();
 		
-		System.err.print(version.ImplementationTitle());
+		System.err.print(version.getImplementationTitle());
 		System.err.print(" ");
-		System.err.print(version.ImplementationVersion());
+		System.err.print(version.getImplementationVersion());
 		System.err.print(" (c) ");
-		System.err.print(version.CopyrightDate());
+		System.err.print(version.getCopyrightDate());
 		System.err.print(" ");
-		System.err.print(version.CopyrightHolder());
+		System.err.print(version.getCopyrightHolder());
 		System.err.println();
 		
-		System.err.print(version.ImplementationURL());
+		System.err.print(version.getImplementationURL());
 		System.err.println();
 		
 		System.err.print("Compiled on ");
-		System.err.print(version.ImplementationDate());
+		System.err.print(version.getImplementationDate());
 		System.err.println();
 	}
 
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
-		CommandLine command_line = new CommandLine();
-		command_line.addToggleSwitch("list");
-		command_line.addToggleSwitch("instruction-counts");
-		command_line.addToggleSwitch("time");
-		command_line.addSingleValueSwitch("out");
-		command_line.addToggleSwitch("help");
-		command_line.addOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
-		command_line.addToggleSwitch("version");
+		CommandLine commandLine = new CommandLine();
+		commandLine.addToggleSwitch("list");
+		commandLine.addToggleSwitch("instruction-counts");
+		commandLine.addToggleSwitch("time");
+		commandLine.addSingleValueSwitch("out");
+		commandLine.addToggleSwitch("help");
+		commandLine.addOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
+		commandLine.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("ClassMetrics");
-		command_line.accept(usage);
+		commandLine.accept(usage);
 
 		try {
-			command_line.parse(args);
+			commandLine.parse(args);
 		} catch (IllegalArgumentException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		} catch (CommandLineException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		}
 
-		if (command_line.getToggleSwitch("help")) {
-			Error(usage);
+		if (commandLine.getToggleSwitch("help")) {
+			showError(usage);
 		}
 		
-		if (command_line.getToggleSwitch("version")) {
-			Version();
+		if (commandLine.getToggleSwitch("version")) {
+			showVersion();
 		}
 
-		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
+		if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
-		VerboseListener verbose_listener = new VerboseListener();
-		if (command_line.isPresent("verbose")) {
-			if ("System.out".equals(command_line.getOptionalSwitch("verbose"))) {
-				verbose_listener.Writer(System.out);
+		VerboseListener verboseListener = new VerboseListener();
+		if (commandLine.isPresent("verbose")) {
+			if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
+				verboseListener.getWriter(System.out);
 			} else {
-				verbose_listener.Writer(new FileWriter(command_line.getOptionalSwitch("verbose")));
+				verboseListener.getWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
 			}
 		}
 
@@ -132,26 +132,26 @@ public class ClassMetrics {
 
 		Date start = new Date();
 
-		boolean list               = command_line.getToggleSwitch("list");
-		boolean instruction_counts = command_line.getToggleSwitch("instruction-counts");
+		boolean list              = commandLine.getToggleSwitch("list");
+		boolean instructionCounts = commandLine.getToggleSwitch("instruction-counts");
 
-		List parameters = command_line.getParameters();
+		List parameters = commandLine.getParameters();
 		if (parameters.size() == 0) {
 			parameters.add(".");
 		}
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
-		loader.addLoadListener(verbose_listener);
+		loader.addLoadListener(verboseListener);
 		loader.load(parameters);
 
 		MetricsGatherer metrics = new MetricsGatherer();
 		metrics.visitClassfiles(loader.getAllClassfiles());
 
-		verbose_listener.Print("Printing report ...");
+		verboseListener.print("Printing report ...");
 		
 		PrintWriter out;
-		if (command_line.isPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
+		if (commandLine.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
@@ -177,16 +177,16 @@ public class ClassMetrics {
 		out.println(metrics.getFields().size() + " field(s) (average " + (metrics.getFields().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
 		out.println();
 
-		PrintCFM(out, " synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods(), list);
-		PrintCFM(out, " deprecated element(s)", metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods(), list);
-		PrintCFMIC(out, " public element(s)", metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses(), list);
-		PrintFMIC(out, " protected element(s)", metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses(), list);
-		PrintFMIC(out, " private element(s)", metrics.getPrivateFields(), metrics.getPrivateMethods(), metrics.getPrivateInnerClasses(), list);
-		PrintCFMIC(out, " package element(s)", metrics.getPackageClasses(), metrics.getPackageFields(), metrics.getPackageMethods(), metrics.getPackageInnerClasses(), list);
-		PrintCMIC(out, " abstract element(s)", metrics.getAbstractClasses(), metrics.getAbstractMethods(), metrics.getAbstractInnerClasses(), list);
+		printCFM(out, " synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods(), list);
+		printCFM(out, " deprecated element(s)", metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods(), list);
+		printCFMIC(out, " public element(s)", metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses(), list);
+		printFMIC(out, " protected element(s)", metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses(), list);
+		printFMIC(out, " private element(s)", metrics.getPrivateFields(), metrics.getPrivateMethods(), metrics.getPrivateInnerClasses(), list);
+		printCFMIC(out, " package element(s)", metrics.getPackageClasses(), metrics.getPackageFields(), metrics.getPackageMethods(), metrics.getPackageInnerClasses(), list);
+		printCMIC(out, " abstract element(s)", metrics.getAbstractClasses(), metrics.getAbstractMethods(), metrics.getAbstractInnerClasses(), list);
 
-		PrintFMIC(out, " static element(s)", metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses(), list);
-		PrintCFMIC(out, " final element(s)", metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses(), list);
+		printFMIC(out, " static element(s)", metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses(), list);
+		printCFMIC(out, " final element(s)", metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses(), list);
 
 		out.println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
 		if (list) {
@@ -228,12 +228,12 @@ public class ClassMetrics {
 			}
 		}
 
-		if (instruction_counts) {
+		if (instructionCounts) {
 			out.println();
 			out.println("Instruction counts:");
 			for (int opcode=0; opcode<256; opcode++) {
 				out.print("        0x");
-				Hex.Print(out, (byte) opcode);
+				Hex.print(out, (byte) opcode);
 				out.println(" " + Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
 			}
 		}
@@ -242,17 +242,17 @@ public class ClassMetrics {
 		
 		Date end = new Date();
 
-		if (command_line.getToggleSwitch("time")) {
+		if (commandLine.getToggleSwitch("time")) {
 			System.err.println(ClassMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
-		verbose_listener.Close();
+		verboseListener.close();
 	}
 
-	private static void PrintCMIC(PrintWriter out, String label, Collection classes, Collection methods, Collection inner_classes, boolean list) {
+	private static void printCMIC(PrintWriter out, String label, Collection classes, Collection methods, Collection innerClasses, boolean list) {
 		out.println((classes.size() +
 					 methods.size() +
-					 inner_classes.size()) + label);
+					 innerClasses.size()) + label);
 		if (list) {
 			Iterator j;
 
@@ -268,23 +268,23 @@ public class ClassMetrics {
 				out.println("        " + j.next());
 			}
 
-			out.println("    " + inner_classes.size() + " inner class(es)");
-			j = inner_classes.iterator();
+			out.println("    " + innerClasses.size() + " inner class(es)");
+			j = innerClasses.iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
 		} else {
 			out.println("    " + classes.size() + " class(es)");
 			out.println("    " + methods.size() + " method(s)");
-			out.println("    " + inner_classes.size() + " inner class(es)");
+			out.println("    " + innerClasses.size() + " inner class(es)");
 		}
 	}
 
-	private static void PrintCFMIC(PrintWriter out, String label, Collection classes, Collection fields, Collection methods, Collection inner_classes, boolean list) {
+	private static void printCFMIC(PrintWriter out, String label, Collection classes, Collection fields, Collection methods, Collection innerClasses, boolean list) {
 		out.println((classes.size() +
 					 fields.size() +
 					 methods.size() +
-					 inner_classes.size()) + label);
+					 innerClasses.size()) + label);
 		if (list) {
 			Iterator j;
 
@@ -306,8 +306,8 @@ public class ClassMetrics {
 				out.println("        " + j.next());
 			}
 
-			out.println("    " + inner_classes.size() + " inner class(es)");
-			j = inner_classes.iterator();
+			out.println("    " + innerClasses.size() + " inner class(es)");
+			j = innerClasses.iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
@@ -315,11 +315,11 @@ public class ClassMetrics {
 			out.println("    " + classes.size() + " class(es)");
 			out.println("    " + fields.size() + " fields(s)");
 			out.println("    " + methods.size() + " method(s)");
-			out.println("    " + inner_classes.size() + " inner class(es)");
+			out.println("    " + innerClasses.size() + " inner class(es)");
 		}
 	}
 
-	private static void PrintCFM(PrintWriter out, String label, Collection classes, Collection fields, Collection methods, boolean list) {
+	private static void printCFM(PrintWriter out, String label, Collection classes, Collection fields, Collection methods, boolean list) {
 		out.println((classes.size() +
 					 fields.size() +
 					 methods.size()) + label);
@@ -350,10 +350,10 @@ public class ClassMetrics {
 		}
 	}
 
-	private static void PrintFMIC(PrintWriter out, String label, Collection fields, Collection methods, Collection inner_classes, boolean list) {
+	private static void printFMIC(PrintWriter out, String label, Collection fields, Collection methods, Collection innerClasses, boolean list) {
 		out.println((fields.size() +
 					 methods.size() +
-					 inner_classes.size()) + label);
+					 innerClasses.size()) + label);
 		if (list) {
 			Iterator j;
 
@@ -369,15 +369,15 @@ public class ClassMetrics {
 				out.println("        " + j.next());
 			}
 
-			out.println("    " + inner_classes.size() + " inner class(es)");
-			j = inner_classes.iterator();
+			out.println("    " + innerClasses.size() + " inner class(es)");
+			j = innerClasses.iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
 		} else {
 			out.println("    " + fields.size() + " fields(s)");
 			out.println("    " + methods.size() + " method(s)");
-			out.println("    " + inner_classes.size() + " inner class(es)");
+			out.println("    " + innerClasses.size() + " inner class(es)");
 		}
 	}
 }

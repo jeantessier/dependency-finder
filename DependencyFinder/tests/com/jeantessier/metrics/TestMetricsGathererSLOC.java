@@ -51,7 +51,7 @@ public class TestMetricsGathererSLOC extends TestCase {
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).debug("Starting " + getName() + " ...");
 		
-		factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml"));
+		factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
 
 		ClassfileLoader loader =new AggregatingClassfileLoader();
 		loader.load(Collections.singleton(TEST_DIRNAME));
@@ -69,62 +69,62 @@ public class TestMetricsGathererSLOC extends TestCase {
 	}
 	
 	public void test_sloc_TestInterface() {
-		assertEquals(Metrics.SLOC, 3, factory.CreateClassMetrics("sloc.TestInterface").Measurement(Metrics.SLOC).intValue());
-		assertEquals("M", 2, factory.CreateClassMetrics("sloc.TestInterface").Measurement("M").intValue());
-		assertEquals("AM", 2, factory.CreateClassMetrics("sloc.TestInterface").Measurement("AM").intValue());
-		assertEquals("SynthM", 0, factory.CreateClassMetrics("sloc.TestInterface").Measurement("SynthM").intValue());
+		assertEquals(Metrics.SLOC, 3, factory.createClassMetrics("sloc.TestInterface").getMeasurement(Metrics.SLOC).intValue());
+		assertEquals("M", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("M").intValue());
+		assertEquals("AM", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("AM").intValue());
+		assertEquals("SynthM", 0, factory.createClassMetrics("sloc.TestInterface").getMeasurement("SynthM").intValue());
 	}
 	
 	public void test_sloc_TestInterface_Method1() {
-		assertEquals(Metrics.SLOC, 1, factory.CreateMethodMetrics("sloc.TestInterface.Method1()").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.Method1()").getMeasurement(Metrics.SLOC).intValue());
 	}
 	
 	public void test_sloc_TestInterface_Method2() {
-		assertEquals(Metrics.SLOC, 1, factory.CreateMethodMetrics("sloc.TestInterface.Method2()").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.Method2()").getMeasurement(Metrics.SLOC).intValue());
 	}
 	
 	public void test_sloc_TestAbstractClass() {
-		assertEquals(Metrics.SLOC, 15, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement(Metrics.SLOC).intValue());
-		assertEquals("M", 2, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement("M").intValue());
-		assertEquals("AM", 0, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement("AM").intValue());
-		assertEquals("SynthM", 0, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement("SynthM").intValue());
+		assertEquals(Metrics.SLOC, 15, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement(Metrics.SLOC).intValue());
+		assertEquals("M", 2, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("M").intValue());
+		assertEquals("AM", 0, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("AM").intValue());
+		assertEquals("SynthM", 0, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("SynthM").intValue());
 	}
 	
 	public void test_sloc_TestAbstractClass_Method1() {
-		assertEquals(Metrics.SLOC, 13, factory.CreateMethodMetrics("sloc.TestAbstractClass.Method1()").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 13, factory.createMethodMetrics("sloc.TestAbstractClass.Method1()").getMeasurement(Metrics.SLOC).intValue());
 	}
 	
 	public void test_sloc_TestAbstractClass_Method2() {
-		assertEquals(Metrics.SLOC, 0, factory.CreateMethodMetrics("sloc.TestAbstractClass.Method2()").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 0, factory.createMethodMetrics("sloc.TestAbstractClass.Method2()").getMeasurement(Metrics.SLOC).intValue());
 	}
 	
 	public void test_sloc_TestSuperClass() {
-		assertEquals(Metrics.SLOC, 2, factory.CreateClassMetrics("sloc.TestSuperClass").Measurement(Metrics.SLOC).intValue());
-		assertEquals("M", 1, factory.CreateClassMetrics("sloc.TestSuperClass").Measurement("M").intValue());
-		assertEquals("ABSM", 0, factory.CreateClassMetrics("sloc.TestSuperClass").Measurement("ABSM").intValue());
-		assertEquals("SYNTHM", 0, factory.CreateClassMetrics("sloc.TestSuperClass").Measurement("SYNTHM").intValue());
+		assertEquals(Metrics.SLOC, 2, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement(Metrics.SLOC).intValue());
+		assertEquals("M", 1, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("M").intValue());
+		assertEquals("ABSM", 0, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("ABSM").intValue());
+		assertEquals("SYNTHM", 0, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("SYNTHM").intValue());
 	}
 	
 	public void test_sloc_TestClass() {
-		assertEquals(Metrics.SLOC, 4, factory.CreateClassMetrics("sloc.TestClass").Measurement(Metrics.SLOC).intValue());
-		assertEquals("M", 2, factory.CreateClassMetrics("sloc.TestClass").Measurement("M").intValue());
-		assertEquals("ABSM", 0, factory.CreateClassMetrics("sloc.TestClass").Measurement("ABSM").intValue());
-		assertEquals("SYNTHM", 0, factory.CreateClassMetrics("sloc.TestClass").Measurement("SYNTHM").intValue());
+		assertEquals(Metrics.SLOC, 4, factory.createClassMetrics("sloc.TestClass").getMeasurement(Metrics.SLOC).intValue());
+		assertEquals("M", 2, factory.createClassMetrics("sloc.TestClass").getMeasurement("M").intValue());
+		assertEquals("ABSM", 0, factory.createClassMetrics("sloc.TestClass").getMeasurement("ABSM").intValue());
+		assertEquals("SYNTHM", 0, factory.createClassMetrics("sloc.TestClass").getMeasurement("SYNTHM").intValue());
 	}
 	
 	public void test_sloc_TestClass_Method1() {
-		assertEquals(Metrics.SLOC, 0, factory.CreateMethodMetrics("sloc.TestClass.Method1()").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 0, factory.createMethodMetrics("sloc.TestClass.Method1()").getMeasurement(Metrics.SLOC).intValue());
 	}
 	
 	public void test_sloc_TestClass_Method2() {
-		assertEquals(Metrics.SLOC, 2, factory.CreateMethodMetrics("sloc.TestClass.Method2()").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 2, factory.createMethodMetrics("sloc.TestClass.Method2()").getMeasurement(Metrics.SLOC).intValue());
 	}
 
 	public void test_sloc() {
-		assertEquals(Metrics.SLOC, 24, factory.CreateGroupMetrics("sloc").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 24, factory.createGroupMetrics("sloc").getMeasurement(Metrics.SLOC).intValue());
 	}
 
 	public void testProject() {
-		assertEquals(Metrics.SLOC, 24, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 24, factory.createProjectMetrics("test").getMeasurement(Metrics.SLOC).intValue());
 	}
 }

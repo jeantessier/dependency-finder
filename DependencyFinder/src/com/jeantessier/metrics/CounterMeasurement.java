@@ -60,41 +60,41 @@ public class CounterMeasurement extends MeasurementBase {
 		}
 	}
 
-	public void Add(Object object) {
+	public void add(Object object) {
 		if (object instanceof Number) {
 			value += ((Number) object).doubleValue();
 		} else {
 			value++;
 		}
 
-		Empty(false);
+		setEmpty(false);
 	}
 
-	public void Add(int i) {
+	public void add(int i) {
 		value += i;
-		Empty(false);
+		setEmpty(false);
 	}
 	
-	public void Add(long l) {
+	public void add(long l) {
 		value += l;
-		Empty(false);
+		setEmpty(false);
 	}
 	
-	public void Add(float f) {
+	public void add(float f) {
 		value += f;
-		Empty(false);
+		setEmpty(false);
 	}
 	
-	public void Add(double d) {
+	public void add(double d) {
 		value += d;
-		Empty(false);
+		setEmpty(false);
 	}
 
-	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitCounterMeasurement(this);
+	public void accept(MeasurementVisitor visitor) {
+		visitor.visitCounterMeasurement(this);
 	}
 
-	protected double Compute() {
+	protected double compute() {
 		return value;
 	}
 }

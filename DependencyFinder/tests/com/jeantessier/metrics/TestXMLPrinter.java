@@ -62,7 +62,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 
 	protected void setUp() throws Exception {
 		buffer        = new StringWriter();
-		configuration = new MetricsConfigurationLoader().Load(CONFIGURATION_FILENAME);
+		configuration = new MetricsConfigurationLoader().load(CONFIGURATION_FILENAME);
 
 		reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
 		reader.setFeature("http://xml.org/sax/features/validation", true);
@@ -148,7 +148,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 		loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer("test", factory));
 
 		printer = new XMLPrinter(new PrintWriter(buffer), configuration, com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.VisitMetrics(factory.ProjectMetrics());
+		printer.visitMetrics(factory.getProjectMetrics());
 
 		String xml_document = buffer.toString();
 		

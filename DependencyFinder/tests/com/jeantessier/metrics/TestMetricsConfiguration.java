@@ -49,95 +49,95 @@ public class TestMetricsConfiguration extends TestCase {
 	}
 	
 	public void testCreate() {
-		assertNotNull("ProjectMeasurements is null",  config.ProjectMeasurements());
-		assertTrue("ProjectMeasurements is not emty", config.ProjectMeasurements().isEmpty());
-		assertNotNull("GroupMeasurements is null",    config.GroupMeasurements());
-		assertTrue("GroupMeasurements is not emty",   config.GroupMeasurements().isEmpty());
-		assertNotNull("ClassMeasurements is null",    config.ClassMeasurements());
-		assertTrue("ClassMeasurements is not emty",   config.ClassMeasurements().isEmpty());
-		assertNotNull("MethodMeasurements is null",   config.MethodMeasurements());
-		assertTrue("MethodMeasurements is not emty",  config.MethodMeasurements().isEmpty());
+		assertNotNull("ProjectMeasurements is null",  config.getProjectMeasurements());
+		assertTrue("ProjectMeasurements is not emty", config.getProjectMeasurements().isEmpty());
+		assertNotNull("GroupMeasurements is null",    config.getGroupMeasurements());
+		assertTrue("GroupMeasurements is not emty",   config.getGroupMeasurements().isEmpty());
+		assertNotNull("ClassMeasurements is null",    config.getClassMeasurements());
+		assertTrue("ClassMeasurements is not emty",   config.getClassMeasurements().isEmpty());
+		assertNotNull("MethodMeasurements is null",   config.getMethodMeasurements());
+		assertTrue("MethodMeasurements is not emty",  config.getMethodMeasurements().isEmpty());
 	}
 
 	public void testAddProjectMeasurement() {
-		assertEquals(0, config.ProjectMeasurements().size());
+		assertEquals(0, config.getProjectMeasurements().size());
 
-		config.AddProjectMeasurement(d1);
-		assertEquals(1, config.ProjectMeasurements().size());
-		assertTrue(config.ProjectMeasurements().contains(d1));
+		config.addProjectMeasurement(d1);
+		assertEquals(1, config.getProjectMeasurements().size());
+		assertTrue(config.getProjectMeasurements().contains(d1));
 
-		config.AddProjectMeasurement(d2);
-		assertEquals(2, config.ProjectMeasurements().size());
-		assertTrue(config.ProjectMeasurements().contains(d2));
+		config.addProjectMeasurement(d2);
+		assertEquals(2, config.getProjectMeasurements().size());
+		assertTrue(config.getProjectMeasurements().contains(d2));
 
-		assertEquals(d1, config.ProjectMeasurements().get(0));
-		assertEquals(d2, config.ProjectMeasurements().get(1));
+		assertEquals(d1, config.getProjectMeasurements().get(0));
+		assertEquals(d2, config.getProjectMeasurements().get(1));
 	}
 
 	public void testAddGroupMeasurement() {
-		assertEquals(0, config.GroupMeasurements().size());
+		assertEquals(0, config.getGroupMeasurements().size());
 
-		config.AddGroupMeasurement(d1);
-		assertEquals(1, config.GroupMeasurements().size());
-		assertTrue(config.GroupMeasurements().contains(d1));
+		config.addGroupMeasurement(d1);
+		assertEquals(1, config.getGroupMeasurements().size());
+		assertTrue(config.getGroupMeasurements().contains(d1));
 
-		config.AddGroupMeasurement(d2);
-		assertEquals(2, config.GroupMeasurements().size());
-		assertTrue(config.GroupMeasurements().contains(d2));
+		config.addGroupMeasurement(d2);
+		assertEquals(2, config.getGroupMeasurements().size());
+		assertTrue(config.getGroupMeasurements().contains(d2));
 
-		assertEquals(d1, config.GroupMeasurements().get(0));
-		assertEquals(d2, config.GroupMeasurements().get(1));
+		assertEquals(d1, config.getGroupMeasurements().get(0));
+		assertEquals(d2, config.getGroupMeasurements().get(1));
 	}
 
 	public void testAddClassMeasurement() {
-		assertEquals(0, config.ClassMeasurements().size());
+		assertEquals(0, config.getClassMeasurements().size());
 
-		config.AddClassMeasurement(d1);
-		assertEquals(1, config.ClassMeasurements().size());
-		assertTrue(config.ClassMeasurements().contains(d1));
+		config.addClassMeasurement(d1);
+		assertEquals(1, config.getClassMeasurements().size());
+		assertTrue(config.getClassMeasurements().contains(d1));
 
-		config.AddClassMeasurement(d2);
-		assertEquals(2, config.ClassMeasurements().size());
-		assertTrue(config.ClassMeasurements().contains(d2));
+		config.addClassMeasurement(d2);
+		assertEquals(2, config.getClassMeasurements().size());
+		assertTrue(config.getClassMeasurements().contains(d2));
 
-		assertEquals(d1, config.ClassMeasurements().get(0));
-		assertEquals(d2, config.ClassMeasurements().get(1));
+		assertEquals(d1, config.getClassMeasurements().get(0));
+		assertEquals(d2, config.getClassMeasurements().get(1));
 	}
 
 	public void testAddMethodMeasurement() {
-		assertEquals(0, config.MethodMeasurements().size());
+		assertEquals(0, config.getMethodMeasurements().size());
 
-		config.AddMethodMeasurement(d1);
-		assertEquals(1, config.MethodMeasurements().size());
-		assertTrue(config.MethodMeasurements().contains(d1));
+		config.addMethodMeasurement(d1);
+		assertEquals(1, config.getMethodMeasurements().size());
+		assertTrue(config.getMethodMeasurements().contains(d1));
 
-		config.AddMethodMeasurement(d2);
-		assertEquals(2, config.MethodMeasurements().size());
-		assertTrue(config.MethodMeasurements().contains(d2));
+		config.addMethodMeasurement(d2);
+		assertEquals(2, config.getMethodMeasurements().size());
+		assertTrue(config.getMethodMeasurements().contains(d2));
 
-		assertEquals(d1, config.MethodMeasurements().get(0));
-		assertEquals(d2, config.MethodMeasurements().get(1));
+		assertEquals(d1, config.getMethodMeasurements().get(0));
+		assertEquals(d2, config.getMethodMeasurements().get(1));
 	}
 
 	public void testGroupDefinitions() {
 		Collection groups;
 
-		groups = config.Groups("foobar");
+		groups = config.getGroups("foobar");
 		assertEquals(0, groups.size());
 		
-		config.AddGroupDefinition("foo", "/foo/");
-		groups = config.Groups("foobar");
+		config.addGroupDefinition("foo", "/foo/");
+		groups = config.getGroups("foobar");
 		assertEquals(1, groups.size());
 		assertTrue(groups.contains("foo"));
 
-		config.AddGroupDefinition("bar", "/bar/");
-		groups = config.Groups("foobar");
+		config.addGroupDefinition("bar", "/bar/");
+		groups = config.getGroups("foobar");
 		assertEquals(2, groups.size());
 		assertTrue(groups.contains("foo"));
 		assertTrue(groups.contains("bar"));
 
-		config.AddGroupDefinition("baz", "/baz/");
-		groups = config.Groups("foobar");
+		config.addGroupDefinition("baz", "/baz/");
+		groups = config.getGroups("foobar");
 		assertEquals(2, groups.size());
 		assertTrue(groups.contains("foo"));
 		assertTrue(groups.contains("bar"));
@@ -146,17 +146,17 @@ public class TestMetricsConfiguration extends TestCase {
 	public void testGroupDefinitionsWithMultipleREs() {
 		Collection groups;
 
-		groups = config.Groups("foobar");
+		groups = config.getGroups("foobar");
 		assertEquals(0, groups.size());
 		
-		config.AddGroupDefinition("foo", "/foo/");
-		config.AddGroupDefinition("foo", "/bar/");
+		config.addGroupDefinition("foo", "/foo/");
+		config.addGroupDefinition("foo", "/bar/");
 
-		groups = config.Groups("foo only");
+		groups = config.getGroups("foo only");
 		assertEquals(1, groups.size());
 		assertTrue(groups.contains("foo"));
 
-		groups = config.Groups("bar only");
+		groups = config.getGroups("bar only");
 		assertEquals(1, groups.size());
 		assertTrue(groups.contains("foo"));
 	}

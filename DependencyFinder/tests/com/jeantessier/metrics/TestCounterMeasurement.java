@@ -44,32 +44,32 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 
 	public void testMeasurementDescriptor() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertNotNull(measurement.Descriptor());
-		assertEquals(CounterMeasurement.class, measurement.Descriptor().Class());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("bar", measurement.LongName());
+		assertNotNull(measurement.getDescriptor());
+		assertEquals(CounterMeasurement.class, measurement.getDescriptor().getClassFor());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("bar", measurement.getLongName());
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
 		assertNotNull(measurement);
-		assertEquals(descriptor, measurement.Descriptor());
-		assertSame(descriptor, measurement.Descriptor());
+		assertEquals(descriptor, measurement.getDescriptor());
+		assertSame(descriptor, measurement.getDescriptor());
 		assertEquals(CounterMeasurement.class, measurement.getClass());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("bar", measurement.LongName());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("bar", measurement.getLongName());
 	}
 	
 	public void testCreateNumber() {
@@ -99,283 +99,283 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 	}
 	
 	public void testAddObject() {
-		measurement.Add(new Object());
+		measurement.add(new Object());
 
 		assertEquals(1, measurement.intValue());
 		assertEquals(1, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
+		assertEquals(1, measurement.getValue().intValue());
 
-		measurement.Add(new Object());
+		measurement.add(new Object());
 
-		assertEquals(2, measurement.Value().intValue());
-		assertEquals(2, measurement.Value().doubleValue(), 0.01);
+		assertEquals(2, measurement.getValue().intValue());
+		assertEquals(2, measurement.getValue().doubleValue(), 0.01);
 	}
 	
 	public void testAddNumber() {
-		measurement.Add(new Integer(1));
+		measurement.add(new Integer(1));
 
 		assertEquals(1, measurement.intValue());
 		assertEquals(1, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
+		assertEquals(1, measurement.getValue().intValue());
 
-		measurement.Add(new Float(0.5));
+		measurement.add(new Float(0.5));
 
-		assertEquals(1, measurement.Value().intValue());
-		assertEquals(1.5, measurement.Value().doubleValue(), 0.01);
+		assertEquals(1, measurement.getValue().intValue());
+		assertEquals(1.5, measurement.getValue().doubleValue(), 0.01);
 	}
 	
 	public void testAddInt() {
-		measurement.Add(1);
+		measurement.add(1);
 
 		assertEquals(1, measurement.intValue());
 		assertEquals(1, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
+		assertEquals(1, measurement.getValue().intValue());
 
-		measurement.Add(2);
+		measurement.add(2);
 
 		assertEquals(3, measurement.intValue());
 		assertEquals(3, measurement.doubleValue(), 0.01);
-		assertEquals(3, measurement.Value().intValue());
+		assertEquals(3, measurement.getValue().intValue());
 	}
 	
 	public void testAddFloat() {
-		measurement.Add(1.0);
+		measurement.add(1.0);
 
 		assertEquals(1, measurement.intValue());
 		assertEquals(1, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
+		assertEquals(1, measurement.getValue().intValue());
 
-		measurement.Add(0.5);
+		measurement.add(0.5);
 
 		assertEquals(1, measurement.intValue());
 		assertEquals(1.5, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
+		assertEquals(1, measurement.getValue().intValue());
 	}
 
 	public void testSubstract() {
-		measurement.Add(new Integer(-1));
+		measurement.add(new Integer(-1));
 
-		assertEquals(-1, measurement.Value().intValue());
-		assertEquals(-1, measurement.Value().doubleValue(), 0.01);
+		assertEquals(-1, measurement.getValue().intValue());
+		assertEquals(-1, measurement.getValue().doubleValue(), 0.01);
 
-		measurement.Add(new Float(0.4));
+		measurement.add(new Float(0.4));
 
-		assertEquals(0, measurement.Value().intValue());
-		assertEquals(-0.6, measurement.Value().doubleValue(), 0.01);
+		assertEquals(0, measurement.getValue().intValue());
+		assertEquals(-0.6, measurement.getValue().doubleValue(), 0.01);
 
-		measurement.Add(new Float(0.1));
+		measurement.add(new Float(0.1));
 
-		assertEquals(0, measurement.Value().intValue());
-		assertEquals(-0.5, measurement.Value().doubleValue(), 0.01);
+		assertEquals(0, measurement.getValue().intValue());
+		assertEquals(-0.5, measurement.getValue().doubleValue(), 0.01);
 	}
 
 	public void testInUndefinedRange() {
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(2);
+		measurement.add(2);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInOpenRange() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(2);
+		measurement.add(2);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInLowerBoundRange() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
-		descriptor.LowerThreshold(new Integer(1));
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
+		descriptor.setLowerThreshold(new Integer(1));
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(2);
+		measurement.add(2);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInStringLowerBoundRange() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
-		descriptor.LowerThreshold("1");
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
+		descriptor.setLowerThreshold("1");
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(2);
+		measurement.add(2);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInUpperBoundRange() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
-		descriptor.UpperThreshold(new Float(1.5));
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
+		descriptor.setUpperThreshold(new Float(1.5));
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(2);
+		measurement.add(2);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testInStringUpperBoundRange() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
-		descriptor.UpperThreshold("1.5");
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
+		descriptor.setUpperThreshold("1.5");
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(2);
+		measurement.add(2);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testInBoundRange() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
-		descriptor.LowerThreshold(new Integer(1));
-		descriptor.UpperThreshold(new Float(1.5));
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
+		descriptor.setLowerThreshold(new Integer(1));
+		descriptor.setUpperThreshold(new Float(1.5));
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(2);
+		measurement.add(2);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testInStringBoundRange() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
-		descriptor.LowerThreshold("1");
-		descriptor.UpperThreshold("1.5");
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
+		descriptor.setLowerThreshold("1");
+		descriptor.setUpperThreshold("1.5");
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		measurement.Add(2);
+		measurement.add(2);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testAccept() {
 		visited = null;
-		measurement.Accept(this);
+		measurement.accept(this);
 		assertSame(measurement, visited);
 	}
 
 	public void testEmpty() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(CounterMeasurement.class);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(CounterMeasurement.class);
 
-		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		measurement = (CounterMeasurement) descriptor.createMeasurement();
 		
-		assertTrue("Before Add()", measurement.Empty());
+		assertTrue("Before Add()", measurement.isEmpty());
 
-		measurement.Add(1);
+		measurement.add(1);
 		
-		assertFalse("After Add(1)", measurement.Empty());
+		assertFalse("After Add(1)", measurement.isEmpty());
 
-		measurement.Add(-1);
+		measurement.add(-1);
 		
-		assertFalse("After Add(-1)", measurement.Empty());
+		assertFalse("After Add(-1)", measurement.isEmpty());
 	}
 	
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+	public void visitRatioMeasurement(RatioMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+	public void visitCounterMeasurement(CounterMeasurement measurement) {
 		visited = measurement;
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSumMeasurement(SumMeasurement measurement) {
+	public void visitSumMeasurement(SumMeasurement measurement) {
 		// Do nothing
 	}
 }

@@ -50,38 +50,38 @@ public class StatusLine extends JTextField {
 		setPreferredSize(d);
 	}
 	
-	public void ShowInfo(String message) {
+	public void showInfo(String message) {
 		SwingUtilities.invokeLater(new StatusLineUpdater(this, PLAIN_FONT, Color.black, message, message));
 	}
 	
-	public void ShowError(String status) {
+	public void showError(String status) {
 		SwingUtilities.invokeLater(new StatusLineUpdater(this, BOLD_FONT, Color.red, status, status));
 	}
 	
-	public void Clear() {
+	public void clear() {
 		SwingUtilities.invokeLater(new StatusLineUpdater(this, PLAIN_FONT, Color.black, "", null));
 	}
 }
 
 class StatusLineUpdater implements Runnable {
-	private StatusLine status_line;
+	private StatusLine statusLine;
 	private Font       font;
 	private Color      color;
 	private String     message;
 	private String     tooltip;
 
-	public StatusLineUpdater(StatusLine status_line, Font font, Color color, String message, String tooltip) {
-		this.status_line = status_line;
-		this.font        = font;
-		this.color       = color;
-		this.message     = message;
-		this.tooltip     = tooltip;
+	public StatusLineUpdater(StatusLine statusLine, Font font, Color color, String message, String tooltip) {
+		this.statusLine = statusLine;
+		this.font       = font;
+		this.color      = color;
+		this.message    = message;
+		this.tooltip    = tooltip;
 	}
 	
 	public void run() {
-		status_line.setFont(font);
-		status_line.setForeground(color);
-		status_line.setText(message);
-		status_line.setToolTipText(tooltip);
+		statusLine.setFont(font);
+		statusLine.setForeground(color);
+		statusLine.setText(message);
+		statusLine.setToolTipText(tooltip);
 	}
 }

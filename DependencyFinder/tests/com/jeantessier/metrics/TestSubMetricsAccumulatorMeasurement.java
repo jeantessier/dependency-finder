@@ -54,240 +54,240 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
 		m3 = new Metrics("m3");
 
 		name_list = new MeasurementDescriptor();
-		name_list.ShortName("NL");
-		name_list.LongName("name list");
-		name_list.Class(NameListMeasurement.class);
+		name_list.setShortName("NL");
+		name_list.setLongName("name list");
+		name_list.setClassFor(NameListMeasurement.class);
 
 		number_list = new MeasurementDescriptor();
-		number_list.ShortName("NbL");
-		number_list.LongName("number list");
-		number_list.Class(NameListMeasurement.class);
+		number_list.setShortName("NbL");
+		number_list.setLongName("number list");
+		number_list.setClassFor(NameListMeasurement.class);
 
 		counter = new MeasurementDescriptor();
-		counter.ShortName("NL");
-		counter.LongName("counter");
-		counter.Class(CounterMeasurement.class);
+		counter.setShortName("NL");
+		counter.setLongName("counter");
+		counter.setClassFor(CounterMeasurement.class);
 
-		m1.Track(name_list.CreateMeasurement(m1));
-		m1.AddToMeasurement("NL", "abc");
-		m1.AddToMeasurement("NL", "def");
-		m1.AddToMeasurement("NL", "ghi");
+		m1.track(name_list.createMeasurement(m1));
+		m1.addToMeasurement("NL", "abc");
+		m1.addToMeasurement("NL", "def");
+		m1.addToMeasurement("NL", "ghi");
 
-		m1.Track(number_list.CreateMeasurement(m1));
-		m1.AddToMeasurement("NbL", "123");
-		m1.AddToMeasurement("NbL", "456");
-		m1.AddToMeasurement("NbL", "789");
+		m1.track(number_list.createMeasurement(m1));
+		m1.addToMeasurement("NbL", "123");
+		m1.addToMeasurement("NbL", "456");
+		m1.addToMeasurement("NbL", "789");
 
-		m2.Track(name_list.CreateMeasurement(m2));
-		m2.AddToMeasurement("NL", "jkl");
-		m2.AddToMeasurement("NL", "abc");
+		m2.track(name_list.createMeasurement(m2));
+		m2.addToMeasurement("NL", "jkl");
+		m2.addToMeasurement("NL", "abc");
 
-		m2.Track(number_list.CreateMeasurement(m2));
-		m2.AddToMeasurement("NbL", "159");
-		m2.AddToMeasurement("NbL", "248");
+		m2.track(number_list.createMeasurement(m2));
+		m2.addToMeasurement("NbL", "159");
+		m2.addToMeasurement("NbL", "248");
 
-		m3.Track(counter.CreateMeasurement(m3));
-		m3.AddToMeasurement("NL", 1);
+		m3.track(counter.createMeasurement(m3));
+		m3.addToMeasurement("NL", 1);
 
 		metrics = new Metrics("metrics");
 
 		descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(SubMetricsAccumulatorMeasurement.class);
-		descriptor.Cached(false);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(SubMetricsAccumulatorMeasurement.class);
+		descriptor.setCached(false);
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 
 		assertNotNull(measurement);
-		assertEquals(descriptor, measurement.Descriptor());
-		assertSame(descriptor, measurement.Descriptor());
+		assertEquals(descriptor, measurement.getDescriptor());
+		assertSame(descriptor, measurement.getDescriptor());
 		assertEquals(SubMetricsAccumulatorMeasurement.class, measurement.getClass());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("bar", measurement.LongName());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("bar", measurement.getLongName());
 	}
 
 	public void testNullInit() throws Exception {
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
 
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 	}
 
 	public void testEmptyInit() throws Exception {
-		descriptor.InitText("");
+		descriptor.setInitText("");
 
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
 
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 	}
 
 	public void testRawValues() throws Exception {
-		descriptor.InitText("NL");
+		descriptor.setInitText("NL");
 
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
 
 		assertEquals(4, measurement.intValue());
-		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
-		assertTrue("\"def\" not in " + measurement.Values(), measurement.Values().contains("def"));
-		assertTrue("\"ghi\" not in " + measurement.Values(), measurement.Values().contains("ghi"));
-		assertTrue("\"jkl\" not in " + measurement.Values(), measurement.Values().contains("jkl"));
+		assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
+		assertTrue("\"def\" not in " + measurement.getValues(), measurement.getValues().contains("def"));
+		assertTrue("\"ghi\" not in " + measurement.getValues(), measurement.getValues().contains("ghi"));
+		assertTrue("\"jkl\" not in " + measurement.getValues(), measurement.getValues().contains("jkl"));
 	}
 
 	public void testCachedValues() throws Exception {
-		descriptor.InitText("NL");
-		descriptor.Cached(true);
+		descriptor.setInitText("NL");
+		descriptor.setCached(true);
 
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
 
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 	}
 
 	public void testSingleFiltered() throws Exception {
-		descriptor.InitText("NL /a/");
+		descriptor.setInitText("NL /a/");
 
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
 
 		assertEquals(1, measurement.intValue());
-		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
+		assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
 	}
 
 	public void testMultiFilterFiltered() throws Exception {
-		descriptor.InitText("NL /a/\nNL /k/");
+		descriptor.setInitText("NL /a/\nNL /k/");
 
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
 
 		assertEquals(2, measurement.intValue());
-		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
-		assertTrue("\"jkl\" not in " + measurement.Values(), measurement.Values().contains("jkl"));
+		assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
+		assertTrue("\"jkl\" not in " + measurement.getValues(), measurement.getValues().contains("jkl"));
 	}
 
 	public void testModifiedValues() throws Exception {
-		descriptor.InitText("NL /(a)/");
+		descriptor.setInitText("NL /(a)/");
 
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
 
 		assertEquals(1, measurement.intValue());
-		assertTrue("\"a\" not in " + measurement.Values(), measurement.Values().contains("a"));
+		assertTrue("\"a\" not in " + measurement.getValues(), measurement.getValues().contains("a"));
 	}
 
 	public void testMultiMeasurements() throws Exception {
-		descriptor.InitText("NL /a/\nNbL /2/");
+		descriptor.setInitText("NL /a/\nNbL /2/");
 
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
-		assertTrue(measurement.Values().isEmpty());
+		assertTrue(measurement.getValues().isEmpty());
 
-		metrics.AddSubMetrics(m1);
-		metrics.AddSubMetrics(m2);
-		metrics.AddSubMetrics(m3);
+		metrics.addSubMetrics(m1);
+		metrics.addSubMetrics(m2);
+		metrics.addSubMetrics(m3);
 
 		assertEquals(3, measurement.intValue());
-		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
-		assertTrue("\"123\" not in " + measurement.Values(), measurement.Values().contains("123"));
-		assertTrue("\"248\" not in " + measurement.Values(), measurement.Values().contains("248"));
+		assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
+		assertTrue("\"123\" not in " + measurement.getValues(), measurement.getValues().contains("123"));
+		assertTrue("\"248\" not in " + measurement.getValues(), measurement.getValues().contains("248"));
 	}
 
 	public void testAccept() throws Exception {
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
 
 		visited = null;
-		measurement.Accept(this);
+		measurement.accept(this);
 		assertSame(measurement, visited);
 	}
 
 	public void testEmpty() throws Exception {
-		descriptor.InitText("NL");
+		descriptor.setInitText("NL");
 
-		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
-		metrics.Track(name_list.CreateMeasurement(metrics));
+		measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+		metrics.track(name_list.createMeasurement(metrics));
 
 		Metrics submetrics = new Metrics("submetrics");
-		submetrics.Track(name_list.CreateMeasurement(submetrics));
-		metrics.AddSubMetrics(submetrics);
+		submetrics.track(name_list.createMeasurement(submetrics));
+		metrics.addSubMetrics(submetrics);
 		
-		assertTrue("Before Add()", measurement.Empty());
+		assertTrue("Before Add()", measurement.isEmpty());
 
-		submetrics.AddToMeasurement("NL", "foo");
+		submetrics.addToMeasurement("NL", "foo");
 
-		assertFalse("After Add()", measurement.Empty());
+		assertFalse("After Add()", measurement.isEmpty());
 	}
 	
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+	public void visitRatioMeasurement(RatioMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+	public void visitCounterMeasurement(CounterMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 		
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		visited = measurement;
 	}
 
-	public void VisitSumMeasurement(SumMeasurement measurement) {
+	public void visitSumMeasurement(SumMeasurement measurement) {
 		// Do nothing
 	}
 }

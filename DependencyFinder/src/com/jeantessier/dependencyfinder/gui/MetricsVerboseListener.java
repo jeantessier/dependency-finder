@@ -46,28 +46,28 @@ public class MetricsVerboseListener extends VerboseListener implements MetricsLi
 		// Do nothing
 	}
 
-	public void BeginSession(MetricsEvent event) {
+	public void beginSession(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginClass(MetricsEvent event) {
-		StatusLine().ShowInfo("Computing metrics for " + event.Classfile() + " ...");
+	public void beginClass(MetricsEvent event) {
+		getStatusLine().showInfo("Computing metrics for " + event.getClassfile() + " ...");
 	}
 
-	public void BeginMethod(MetricsEvent event) {
+	public void beginMethod(MetricsEvent event) {
 		// Do nothing
 	}
 
-	public void EndMethod(MetricsEvent event) {
+	public void endMethod(MetricsEvent event) {
 		// Do nothing
 	}
 
-	public void EndClass(MetricsEvent event) {
-		ProgressBar().setValue(ProgressBar().getValue() + 1);
+	public void endClass(MetricsEvent event) {
+		getProgressBar().setValue(getProgressBar().getValue() + 1);
 	}
 
-	public void EndSession(MetricsEvent event) {
-		ProgressBar().setValue(0);
-		ProgressBar().setStringPainted(false);
+	public void endSession(MetricsEvent event) {
+		getProgressBar().setValue(0);
+		getProgressBar().setStringPainted(false);
 	}
 }

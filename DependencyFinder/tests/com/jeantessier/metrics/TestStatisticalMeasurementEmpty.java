@@ -53,44 +53,44 @@ public class TestStatisticalMeasurementEmpty extends TestCase {
 
 	public void testDirect() {
 		Metrics m = new Metrics("m");
-		m.Track("bar", new CounterMeasurement(null, null, null));
-		metrics.AddSubMetrics(m);
+		m.track("bar", new CounterMeasurement(null, null, null));
+		metrics.addSubMetrics(m);
 
-		assertTrue("Before AddToMeasurement()", measurement.Empty());
+		assertTrue("Before AddToMeasurement()", measurement.isEmpty());
 		
-		m.AddToMeasurement("bar", 1);
+		m.addToMeasurement("bar", 1);
 
-		assertFalse("After AddToMeasurement()", !measurement.Empty());
+		assertFalse("After AddToMeasurement()", !measurement.isEmpty());
 	}
 
 	public void testIndirect() {
 		Metrics m = new Metrics("m");
-		metrics.AddSubMetrics(m);
+		metrics.addSubMetrics(m);
 
 		Metrics sm = new Metrics("sm");
-		sm.Track("bar", new CounterMeasurement(null, null, null));
-		m.AddSubMetrics(sm);
+		sm.track("bar", new CounterMeasurement(null, null, null));
+		m.addSubMetrics(sm);
 
-		assertTrue("Before AddToMeasurement()", measurement.Empty());
+		assertTrue("Before AddToMeasurement()", measurement.isEmpty());
 		
-		sm.AddToMeasurement("bar", 1);
+		sm.addToMeasurement("bar", 1);
 
-		assertFalse("After AddToMeasurement()", !measurement.Empty());
+		assertFalse("After AddToMeasurement()", !measurement.isEmpty());
 	}
 
 	public void testViaStatisticalMeasurement() {
 		Metrics m = new Metrics("m");
-		m.Track("bar", new StatisticalMeasurement(null, m, "bar"));
-		metrics.AddSubMetrics(m);
+		m.track("bar", new StatisticalMeasurement(null, m, "bar"));
+		metrics.addSubMetrics(m);
 
 		Metrics sm = new Metrics("sm");
-		sm.Track("bar", new CounterMeasurement(null, null, null));
-		m.AddSubMetrics(sm);
+		sm.track("bar", new CounterMeasurement(null, null, null));
+		m.addSubMetrics(sm);
 
-		assertTrue("Before AddToMeasurement()", measurement.Empty());
+		assertTrue("Before AddToMeasurement()", measurement.isEmpty());
 		
-		sm.AddToMeasurement("bar", 1);
+		sm.addToMeasurement("bar", 1);
 
-		assertFalse("After AddToMeasurement()", !measurement.Empty());
+		assertFalse("After AddToMeasurement()", !measurement.isEmpty());
 	}
 }

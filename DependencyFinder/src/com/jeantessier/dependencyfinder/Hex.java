@@ -40,43 +40,43 @@ public final class Hex {
 		// Do nothing
 	}
 
-	public static void Print(PrintStream out, byte[] bytes) {
+	public static void print(PrintStream out, byte[] bytes) {
 		for (int i=0; i<bytes.length; i++) {
-			Print(out, bytes[i]);
+			print(out, bytes[i]);
 		}
 	}
 
-	public static void Print(PrintWriter out, byte[] bytes) {
+	public static void print(PrintWriter out, byte[] bytes) {
 		for (int i=0; i<bytes.length; i++) {
-			Print(out, bytes[i]);
+			print(out, bytes[i]);
 		}
 	}
 
-	public static void Print(PrintStream out, byte b) {
-		int high_bits = (b & 0xF0) >> 4;
-		int low_bits  = (b & 0x0F);
+	public static void print(PrintStream out, byte b) {
+		int highBits = (b & 0xF0) >> 4;
+		int lowBits  = (b & 0x0F);
 	
-		Print(out, high_bits);
-		Print(out, low_bits);
+		print(out, highBits);
+		print(out, lowBits);
 	}
 
-	public static void Print(PrintWriter out, byte b) {
-		int high_bits = (b & 0xF0) >> 4;
-		int low_bits  = (b & 0x0F);
+	public static void print(PrintWriter out, byte b) {
+		int highBits = (b & 0xF0) >> 4;
+		int lowBits  = (b & 0x0F);
 	
-		Print(out, high_bits);
-		Print(out, low_bits);
+		print(out, highBits);
+		print(out, lowBits);
 	}
 
-	public static void Print(PrintStream out, int n) {
-		out.print(HexChar(n));
+	public static void print(PrintStream out, int n) {
+		out.print(toHexChar(n));
 	}
 
-	public static void Print(PrintWriter out, int n) {
-		out.print(HexChar(n));
+	public static void print(PrintWriter out, int n) {
+		out.print(toHexChar(n));
 	}
 
-	public static String HexChar(int n) {
+	public static String toHexChar(int n) {
 		return Integer.toHexString(n).toUpperCase();
 	}
 }

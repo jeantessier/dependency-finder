@@ -42,86 +42,86 @@ import com.jeantessier.metrics.*;
 public class VerboseListener extends VerboseListenerBase implements DependencyListener, MetricsListener {
 	private PrintWriter writer = new NullPrintWriter();
 	
-	public PrintWriter Writer() {
+	public PrintWriter getWriter() {
 		return writer;
 	}
 
-	public void Writer(OutputStream stream) {
-		Writer(new PrintWriter(stream));
+	public void getWriter(OutputStream stream) {
+		getWriter(new PrintWriter(stream));
 	}
 
-	public void Writer(Writer writer) {
-		Writer(new PrintWriter(writer));
+	public void getWriter(Writer writer) {
+		getWriter(new PrintWriter(writer));
 	}
 
-	public void Writer(PrintWriter writer) {
+	public void getWriter(PrintWriter writer) {
 		this.writer = writer;
 	}
 
-	public void Close() {
-		Writer().close();
+	public void close() {
+		getWriter().close();
 	}
 	
-	public void Print(String x) {
-		Writer().println(x);
+	public void print(String s) {
+		getWriter().println(s);
 	}
 	
 	public void beginSession(LoadEvent event) {
 		super.beginSession(event);
 		
-		Writer().print("Searching for classes ...");
-		Writer().println();
-		Writer().flush();
+		getWriter().print("Searching for classes ...");
+		getWriter().println();
+		getWriter().flush();
 	}
 	
 	public void beginGroup(LoadEvent event) {
 		super.beginGroup(event);
 		
-		Writer().print("Searching ");
-		Writer().print(event.getGroupName());
+		getWriter().print("Searching ");
+		getWriter().print(event.getGroupName());
 
-		switch (CurrentGroup().Size()) {
+		switch (getCurrentGroup().getSize()) {
 			case -1:
 				break;
 
 			case 0:
 			case 1:
-				Writer().print(" (");
-				Writer().print(CurrentGroup().Size());
-				Writer().print(" file)");
+				getWriter().print(" (");
+				getWriter().print(getCurrentGroup().getSize());
+				getWriter().print(" file)");
 				break;
 
 			default:
-				Writer().print(" (");
-				Writer().print(CurrentGroup().Size());
-				Writer().print(" files)");
+				getWriter().print(" (");
+				getWriter().print(getCurrentGroup().getSize());
+				getWriter().print(" files)");
 				break;
 		}
 		
-		Writer().print(" ...");
-		Writer().println();
-		Writer().flush();
+		getWriter().print(" ...");
+		getWriter().println();
+		getWriter().flush();
 	}
 
 	public void endClassfile(LoadEvent event) {
 	    super.endClassfile(event);
 
-		Writer().print("Loading ");
-		Writer().print(event.getClassfile());
-		Writer().print(" ...");
-		Writer().println();
-		Writer().flush();
+		getWriter().print("Loading ");
+		getWriter().print(event.getClassfile());
+		getWriter().print(" ...");
+		getWriter().println();
+		getWriter().flush();
 	}
 	
 	public void endFile(LoadEvent event) {
 		super.endFile(event);
 		
-		if (!VisitedFiles().contains(event.getFilename())) {
-			Writer().print("Skipping ");
-			Writer().print(event.getFilename());
-			Writer().print(" ...");
-			Writer().println();
-			Writer().flush();
+		if (!getVisitedFiles().contains(event.getFilename())) {
+			getWriter().print("Skipping ");
+			getWriter().print(event.getFilename());
+			getWriter().print(" ...");
+			getWriter().println();
+			getWriter().flush();
 		}
 	}
 	
@@ -130,11 +130,11 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 	}
 
 	public void beginClass(DependencyEvent event) {
-		Writer().print("Getting dependencies from ");
-		Writer().print(event.getClassName());
-		Writer().print(" ...");
-		Writer().println();
-		Writer().flush();
+		getWriter().print("Getting dependencies from ");
+		getWriter().print(event.getClassName());
+		getWriter().print(" ...");
+		getWriter().println();
+		getWriter().flush();
 	}
 	
 	public void dependency(DependencyEvent event) {
@@ -149,31 +149,31 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		// Do nothing
 	}
 
-	public void BeginSession(MetricsEvent event) {
+	public void beginSession(MetricsEvent event) {
 		// Do nothing
 	}
 
-	public void BeginClass(MetricsEvent event) {
-		Writer().print("Computing metrics for ");
-		Writer().print(event.Classfile());
-		Writer().print(" ...");
-		Writer().println();
-		Writer().flush();
+	public void beginClass(MetricsEvent event) {
+		getWriter().print("Computing metrics for ");
+		getWriter().print(event.getClassfile());
+		getWriter().print(" ...");
+		getWriter().println();
+		getWriter().flush();
 	}
 	
-	public void BeginMethod(MetricsEvent event) {
+	public void beginMethod(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void EndMethod(MetricsEvent event) {
+	public void endMethod(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void EndClass(MetricsEvent event) {
+	public void endClass(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void EndSession(MetricsEvent event) {
+	public void endSession(MetricsEvent event) {
 		// Do nothing
 	}
 }

@@ -41,15 +41,15 @@ import org.apache.tools.ant.types.*;
 import com.jeantessier.diff.*;
 
 public class ListDiff extends Task {
-	private String  name        = "";
-	private File    old_file;
-	private String  old_label;
-	private File    new_file;
-	private String  new_label;
-	private boolean compress    = false;
-	private String  encoding    = ListDiffPrinter.DEFAULT_ENCODING;
-	private String  dtd_prefix  = ListDiffPrinter.DEFAULT_DTD_PREFIX;
-	private String  indent_text;
+	private String  name       = "";
+	private File    oldFile;
+	private String  oldLabel;
+	private File    newFile;
+	private String  newLabel;
+	private boolean compress   = false;
+	private String  encoding   = ListDiffPrinter.DEFAULT_ENCODING;
+	private String  dtdPrefix  = ListDiffPrinter.DEFAULT_DTD_PREFIX;
+	private String  indentText;
 	private File    destfile;
 
 	public String getName() {
@@ -61,35 +61,35 @@ public class ListDiff extends Task {
 	}
 	
 	public File getOld() {
-		return old_file;
+		return oldFile;
 	}
 	
-	public void setOld(File old_file) {
-		this.old_file = old_file;
+	public void setOld(File oldFile) {
+		this.oldFile = oldFile;
 	}
 
 	public String getOldlabel() {
-		return old_label;
+		return oldLabel;
 	}
 	
-	public void setOldlabel(String old_label) {
-		this.old_label = old_label;
+	public void setOldlabel(String oldLabel) {
+		this.oldLabel = oldLabel;
 	}
 	
 	public File getNew() {
-		return new_file;
+		return newFile;
 	}
 	
-	public void setNew(File new_file) {
-		this.new_file = new_file;
+	public void setNew(File newFile) {
+		this.newFile = newFile;
 	}
 
 	public String getNewlabel() {
-		return new_label;
+		return newLabel;
 	}
 	
-	public void setNewlabel(String new_label) {
-		this.new_label = new_label;
+	public void setNewlabel(String newLabel) {
+		this.newLabel = newLabel;
 	}
 
 	public boolean getCompress() {
@@ -101,7 +101,7 @@ public class ListDiff extends Task {
 	}
 	
 	public String getEncoding() {
-		return dtd_prefix;
+		return dtdPrefix;
 	}
 	
 	public void setEncoding(String encoding) {
@@ -109,19 +109,19 @@ public class ListDiff extends Task {
 	}
 	
 	public String getDtdprefix() {
-		return dtd_prefix;
+		return dtdPrefix;
 	}
 	
-	public void setDtdprefix(String dtd_prefix) {
-		this.dtd_prefix = dtd_prefix;
+	public void setDtdprefix(String dtdPrefix) {
+		this.dtdPrefix = dtdPrefix;
 	}
 
 	public String getIndenttext() {
-		return indent_text;
+		return indentText;
 	}
 	
-	public void setIntenttext(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIntenttext(String indentText) {
+		this.indentText = indentText;
 	}
 
 	public File getDestfile() {
@@ -163,50 +163,52 @@ public class ListDiff extends Task {
 			throw new BuildException("destfile must be set!");
 		}
 
-		VerboseListener verbose_listener = new VerboseListener(this);
+		VerboseListener verboseListener = new VerboseListener(this);
 
 		try {
 			String line;
 			
 			log("Loading old list from " + getOld().getAbsolutePath());
-			Collection old_api = new TreeSet();
-			BufferedReader old_in = new BufferedReader(new FileReader(getOld()));
-			while((line = old_in.readLine()) != null) {
-				old_api.add(line);
+			Collection oldAPI = new TreeSet();
+			BufferedReader oldIn = new BufferedReader(new FileReader(getOld()));
+			while((line = oldIn.readLine()) != null) {
+				oldAPI.add(line);
 			}
+			oldIn.close();
 			
 			log("Loading new list from " + getNew().getAbsolutePath());
-			Collection new_api = new TreeSet();
-			BufferedReader new_in = new BufferedReader(new FileReader(getNew()));
-			while((line = new_in.readLine()) != null) {
-				new_api.add(line);
+			Collection newAPI = new TreeSet();
+			BufferedReader newIn = new BufferedReader(new FileReader(getNew()));
+			while((line = newIn.readLine()) != null) {
+				newAPI.add(line);
 			}
+			newIn.close();
 			
 			log("Comparing old and new lists ...");
 
 			ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getEncoding(), getDtdprefix());
-			printer.Name(getName());
-			printer.OldVersion(getOldlabel());
-			printer.NewVersion(getNewlabel());
+			printer.setName(getName());
+			printer.setOldVersion(getOldlabel());
+			printer.setNewVersion(getNewlabel());
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 			
 			Iterator i;
 			
-			i = old_api.iterator();
+			i = oldAPI.iterator();
 			while (i.hasNext()) {
 				line = (String) i.next();
-				if (!new_api.contains(line)) {
-					printer.Remove(line);
+				if (!newAPI.contains(line)) {
+					printer.remove(line);
 				}
 			}
 			
-			i = new_api.iterator();
+			i = newAPI.iterator();
 			while (i.hasNext()) {
 				line = (String) i.next();
-				if (!old_api.contains(line)) {
-					printer.Add(line);
+				if (!oldAPI.contains(line)) {
+					printer.add(line);
 				}
 			}
 

@@ -49,86 +49,86 @@ public class ClassClassDiff {
 	public static final String DEFAULT_NEW_DOCUMENTATION = "new_documentation.txt";
 	public static final String DEFAULT_LOGFILE           = "System.out";
 
-	public static void Error(CommandLineUsage clu, String msg) {
+	public static void showError(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
-		Error(clu);
+		showError(clu);
 	}
 
-	public static void Error(CommandLineUsage clu) {
+	public static void showError(CommandLineUsage clu) {
 		System.err.println(clu);
 		System.err.println();
 		System.err.println("Defaults is text output to the console.");
 		System.err.println();
 	}
 
-	public static void Version() throws IOException {
+	public static void showVersion() throws IOException {
 		Version version = new Version();
 		
-		System.err.print(version.ImplementationTitle());
+		System.err.print(version.getImplementationTitle());
 		System.err.print(" ");
-		System.err.print(version.ImplementationVersion());
+		System.err.print(version.getImplementationVersion());
 		System.err.print(" (c) ");
-		System.err.print(version.CopyrightDate());
+		System.err.print(version.getCopyrightDate());
 		System.err.print(" ");
-		System.err.print(version.CopyrightHolder());
+		System.err.print(version.getCopyrightHolder());
 		System.err.println();
 		
-		System.err.print(version.ImplementationURL());
+		System.err.print(version.getImplementationURL());
 		System.err.println();
 		
 		System.err.print("Compiled on ");
-		System.err.print(version.ImplementationDate());
+		System.err.print(version.getImplementationDate());
 		System.err.println();
 	}
 	
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
-		CommandLine command_line = new CommandLine(new NullParameterStrategy());
-		command_line.addSingleValueSwitch("name");
-		command_line.addMultipleValuesSwitch("old", true);
-		command_line.addSingleValueSwitch("old-documentation", DEFAULT_OLD_DOCUMENTATION);
-		command_line.addMultipleValuesSwitch("new", true);
-		command_line.addSingleValueSwitch("new-documentation", DEFAULT_NEW_DOCUMENTATION);
-		command_line.addSingleValueSwitch("encoding",          Report.DEFAULT_ENCODING);
-		command_line.addSingleValueSwitch("dtd-prefix",        Report.DEFAULT_DTD_PREFIX);
-		command_line.addSingleValueSwitch("indent-text");
-		command_line.addToggleSwitch("time");
-		command_line.addSingleValueSwitch("out");
-		command_line.addToggleSwitch("help");
-		command_line.addOptionalValueSwitch("verbose",         DEFAULT_LOGFILE);
-		command_line.addToggleSwitch("version");
+		CommandLine commandLine = new CommandLine(new NullParameterStrategy());
+		commandLine.addSingleValueSwitch("name");
+		commandLine.addMultipleValuesSwitch("old", true);
+		commandLine.addSingleValueSwitch("old-documentation", DEFAULT_OLD_DOCUMENTATION);
+		commandLine.addMultipleValuesSwitch("new", true);
+		commandLine.addSingleValueSwitch("new-documentation", DEFAULT_NEW_DOCUMENTATION);
+		commandLine.addSingleValueSwitch("encoding",          Report.DEFAULT_ENCODING);
+		commandLine.addSingleValueSwitch("dtd-prefix",        Report.DEFAULT_DTD_PREFIX);
+		commandLine.addSingleValueSwitch("indent-text");
+		commandLine.addToggleSwitch("time");
+		commandLine.addSingleValueSwitch("out");
+		commandLine.addToggleSwitch("help");
+		commandLine.addOptionalValueSwitch("verbose",         DEFAULT_LOGFILE);
+		commandLine.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("ClassClassDiff");
-		command_line.accept(usage);
+		commandLine.accept(usage);
 
 		try {
-			command_line.parse(args);
+			commandLine.parse(args);
 		} catch (IllegalArgumentException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		} catch (CommandLineException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		}
 
-		if (command_line.getToggleSwitch("help")) {
-			Error(usage);
+		if (commandLine.getToggleSwitch("help")) {
+			showError(usage);
 		}
 		
-		if (command_line.getToggleSwitch("version")) {
-			Version();
+		if (commandLine.getToggleSwitch("version")) {
+			showVersion();
 		}
 
-		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
+		if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
-		VerboseListener verbose_listener = new VerboseListener();
-		if (command_line.isPresent("verbose")) {
-			if ("System.out".equals(command_line.getOptionalSwitch("verbose"))) {
-				verbose_listener.Writer(System.out);
+		VerboseListener verboseListener = new VerboseListener();
+		if (commandLine.isPresent("verbose")) {
+			if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
+				verboseListener.getWriter(System.out);
 			} else {
-				verbose_listener.Writer(new FileWriter(command_line.getOptionalSwitch("verbose")));
+				verboseListener.getWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
 			}
 		}
 
@@ -141,56 +141,56 @@ public class ClassClassDiff {
 		// Collecting data, first classfiles from JARs,
 		// then package/class trees using NodeFactory.
 
-		Validator old_validator = new ListBasedValidator(command_line.getSingleSwitch("old-documentation"));
-		ClassfileLoader old_jar = new AggregatingClassfileLoader();
-		old_jar.addLoadListener(verbose_listener);
-		old_jar.load(command_line.getMultipleSwitch("old"));
+		Validator oldValidator = new ListBasedValidator(commandLine.getSingleSwitch("old-documentation"));
+		ClassfileLoader oldJar = new AggregatingClassfileLoader();
+		oldJar.addLoadListener(verboseListener);
+		oldJar.load(commandLine.getMultipleSwitch("old"));
 
-		Validator new_validator = new ListBasedValidator(command_line.getSingleSwitch("new-documentation"));
-		ClassfileLoader new_jar = new AggregatingClassfileLoader();
-		new_jar.addLoadListener(verbose_listener);
-		new_jar.load(command_line.getMultipleSwitch("new"));
+		Validator newValidator = new ListBasedValidator(commandLine.getSingleSwitch("new-documentation"));
+		ClassfileLoader newJar = new AggregatingClassfileLoader();
+		newJar.addLoadListener(verboseListener);
+		newJar.load(commandLine.getMultipleSwitch("new"));
 
 		// Starting to compare, first at package level,
 		// then descending to class level for packages
 		// that are in both the old and the new codebase.
 	
 		Logger.getLogger(JarJarDiff.class).info("Comparing ...");
-		verbose_listener.Print("Comparing ...");
+		verboseListener.print("Comparing ...");
 
-		String name = command_line.getSingleSwitch("name");
-		Classfile old_class = (Classfile) old_jar.getAllClassfiles().iterator().next();
-		Classfile new_class = (Classfile) new_jar.getAllClassfiles().iterator().next();
+		String name = commandLine.getSingleSwitch("name");
+		Classfile oldClass = (Classfile) oldJar.getAllClassfiles().iterator().next();
+		Classfile newClass = (Classfile) newJar.getAllClassfiles().iterator().next();
 
-		DifferencesFactory factory = new DifferencesFactory(old_validator, new_validator);
-		Differences differences = factory.CreateClassDifferences(name, old_class, new_class);
+		DifferencesFactory factory = new DifferencesFactory(oldValidator, newValidator);
+		Differences differences = factory.createClassDifferences(name, oldClass, newClass);
 
 		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
-		verbose_listener.Print("Printing results ...");
+		verboseListener.print("Printing results ...");
 
 		PrintWriter out;
-		if (command_line.isPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
+		if (commandLine.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		com.jeantessier.diff.Printer printer = new Report(command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
-		if (command_line.isPresent("indent-text")) {
-			printer.IndentText(command_line.getSingleSwitch("indent-text"));
+		com.jeantessier.diff.Printer printer = new Report(commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
+		if (commandLine.isPresent("indent-text")) {
+			printer.setIndentText(commandLine.getSingleSwitch("indent-text"));
 		}
 
-		differences.Accept(printer);
+		differences.accept(printer);
 		out.print(printer);
 
 		Date end = new Date();
 
-		if (command_line.getToggleSwitch("time")) {
+		if (commandLine.getToggleSwitch("time")) {
 			System.err.println(JarJarDiff.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
 		out.close();
 
-		verbose_listener.Close();
+		verboseListener.close();
 	}
 }

@@ -38,141 +38,141 @@ import java.util.*;
 public abstract class Printer implements MeasurementVisitor {
 	private PrintWriter out;
 
-	private boolean show_empty_metrics       = false;
-	private boolean show_hidden_measurements = false;
-	private String  indent_text              = "    ";
-	private int     indent_level             = 0;
+	private boolean showEmptyMetrics       = false;
+	private boolean showHiddenMeasurements = false;
+	private String  indentText             = "    ";
+	private int     indentLevel            = 0;
 
 	public Printer(PrintWriter out) {
 		this.out = out;
 	}
 	
-	public String IndentText() {
-		return indent_text;
+	public String getIndentText() {
+		return indentText;
 	}
 
-	public void IndentText(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIndentText(String indentText) {
+		this.indentText = indentText;
 	}
 
-	public boolean ShowEmptyMetrics() {
-		return show_empty_metrics;
+	public boolean isShowEmptyMetrics() {
+		return showEmptyMetrics;
 	}
 
-	public void ShowEmptyMetrics(boolean show_empty_metrics) {
-		this.show_empty_metrics = show_empty_metrics;
+	public void setShowEmptyMetrics(boolean showEmptyMetrics) {
+		this.showEmptyMetrics = showEmptyMetrics;
 	}
 
-	public boolean ShowHiddenMeasurements() {
-		return show_hidden_measurements;
+	public boolean isShowHiddenMeasurements() {
+		return showHiddenMeasurements;
 	}
 
-	public void ShowHiddenMeasurements(boolean show_hidden_measurements) {
-		this.show_hidden_measurements = show_hidden_measurements;
+	public void setShowHiddenMeasurements(boolean showHiddenMeasurements) {
+		this.showHiddenMeasurements = showHiddenMeasurements;
 	}
 	
-	protected Printer Append(boolean b) {
+	protected Printer append(boolean b) {
 		out.print(b);
 		return this;
 	}
 
-	protected Printer Append(char c) {
+	protected Printer append(char c) {
 		out.print(c);
 		return this;
 	}
 
-	protected Printer Append(char[] s) {
+	protected Printer append(char[] s) {
 		out.print(s);
 		return this;
 	}
 
-	protected Printer Append(double d) {
+	protected Printer append(double d) {
 		out.print(d);
 		return this;
 	}
 
-	protected Printer Append(float f) {
+	protected Printer append(float f) {
 		out.print(f);
 		return this;
 	}
 
-	protected Printer Append(int i) {
+	protected Printer append(int i) {
 		out.print(i);
 		return this;
 	}
 
-	protected Printer Append(long l) {
+	protected Printer append(long l) {
 		out.print(l);
 		return this;
 	}
 
-	protected Printer Append(Object obj) {
+	protected Printer append(Object obj) {
 		out.print(obj);
 		return this;
 	}
 
-	protected Printer Append(String s) {
+	protected Printer append(String s) {
 		out.print(s);
 		return this;
 	}
 
-	protected Printer Indent() {
-		for (int i=0; i<indent_level; i++) {
-			Append(IndentText());
+	protected Printer indent() {
+		for (int i=0; i<indentLevel; i++) {
+			append(getIndentText());
 		}
 
 		return this;
 	}
 
-	protected Printer EOL() {
+	protected Printer eol() {
 		out.println();
 		return this;
 	}
 	
-	protected void RaiseIndent() {
-		indent_level++;
+	protected void raiseIndent() {
+		indentLevel++;
 	}
 
-	protected void LowerIndent() {
-		indent_level--;
+	protected void lowerIndent() {
+		indentLevel--;
 	}
 
-	public void VisitMetrics(Collection metrics) {
+	public void visitMetrics(Collection metrics) {
 		Iterator i = metrics.iterator();
 		while(i.hasNext()) {
-			VisitMetrics((Metrics) i.next());
+			visitMetrics((Metrics) i.next());
 		}
 	}
 	
-	public abstract void VisitMetrics(Metrics metrics);
+	public abstract void visitMetrics(Metrics metrics);
 	
-	public void VisitRatioMeasurement(RatioMeasurement measurement) {
-		VisitMeasurement(measurement);
+	public void visitRatioMeasurement(RatioMeasurement measurement) {
+		visitMeasurement(measurement);
 	}
 	
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
-		VisitMeasurement(measurement);
+	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+		visitMeasurement(measurement);
 	}
 	
-	public void VisitCounterMeasurement(CounterMeasurement measurement) {
-		VisitMeasurement(measurement);
+	public void visitCounterMeasurement(CounterMeasurement measurement) {
+		visitMeasurement(measurement);
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-		VisitMeasurement(measurement);
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+		visitMeasurement(measurement);
 	}
 		
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
-		VisitMeasurement(measurement);
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
+		visitMeasurement(measurement);
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-		VisitMeasurement(measurement);
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+		visitMeasurement(measurement);
 	}
 
-	public void VisitSumMeasurement(SumMeasurement measurement) {
-		VisitMeasurement(measurement);
+	public void visitSumMeasurement(SumMeasurement measurement) {
+		visitMeasurement(measurement);
 	}
 
-	protected abstract void VisitMeasurement(Measurement measurement);
+	protected abstract void visitMeasurement(Measurement measurement);
 }

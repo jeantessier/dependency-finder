@@ -44,30 +44,30 @@ public class GroupData {
 		this.count = 0;
 	}
 
-	public String Name() {
+	public String getName() {
 		return name;
 	}
 
-	public int Size() {
+	public int getSize() {
 		return size;
 	}
 
-	public int Count() {
+	public int getCount() {
 		return count;
 	}
 
-	public void IncrementCount() {
+	public void incrementCount() {
 		count++;
 	}
 
-	public int Ratio() {
-		return Count() * 100 / Size();
+	public int getRatio() {
+		return getCount() * 100 / getSize();
 	}
 
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		result.append("Group \"" + Name() + "\" (" + Count() + "/" + Size() + ")");
+		result.append("Group \"" + getName() + "\" (" + getCount() + "/" + getSize() + ")");
 
 		return result.toString();
 	}

@@ -33,101 +33,101 @@
 package com.jeantessier.diff;
 
 public abstract class VisitorBase implements Visitor {
-	private int deprecatable_level = 0;
-	private int documentable_level = 0;
+	private int deprecatableLevel = 0;
+	private int documentableLevel = 0;
 	
 	private boolean deprecated[]   = new boolean[4];
 	private boolean undeprecated[] = new boolean[4];
 	private boolean documented[]   = new boolean[4];
 	private boolean undocumented[] = new boolean[4];
 
-	private void RaiseDeprecatableLevel() {
-		deprecatable_level++;
+	private void raiseDeprecatableLevel() {
+		deprecatableLevel++;
 	}
 
-	private void LowerDeprecatableLevel() {
-		deprecatable_level--;
+	private void lowerDeprecatableLevel() {
+		deprecatableLevel--;
 	}
 
-	private void RaiseDocumentableLevel() {
-		documentable_level++;
+	private void raiseDocumentableLevel() {
+		documentableLevel++;
 	}
 
-	private void LowerDocumentableLevel() {
-		documentable_level--;
+	private void lowerDocumentableLevel() {
+		documentableLevel--;
 	}
 	
-	public boolean Deprecated() {
-		return deprecated[deprecatable_level];
+	public boolean isDeprecated() {
+		return deprecated[deprecatableLevel];
 	}
 
-	public void Deprecated(boolean deprecated) {
-		this.deprecated[deprecatable_level] = deprecated;
+	public void setDeprecated(boolean deprecated) {
+		this.deprecated[deprecatableLevel] = deprecated;
 	}
 	
-	public boolean Undeprecated() {
-		return undeprecated[deprecatable_level];
+	public boolean isUndeprecated() {
+		return undeprecated[deprecatableLevel];
 	}
 
-	public void Undeprecated(boolean undeprecated) {
-		this.undeprecated[deprecatable_level] = undeprecated;
+	public void setUndeprecated(boolean undeprecated) {
+		this.undeprecated[deprecatableLevel] = undeprecated;
 	}
 
-	public boolean Documented() {
-		return documented[documentable_level];
+	public boolean isDocumented() {
+		return documented[documentableLevel];
 	}
 
-	public void Documented(boolean documented) {
-		this.documented[documentable_level] = documented;
+	public void setDocumented(boolean documented) {
+		this.documented[documentableLevel] = documented;
 	}
 	
-	public boolean Undocumented() {
-		return undocumented[documentable_level];
+	public boolean isUndocumented() {
+		return undocumented[documentableLevel];
 	}
 
-	public void Undocumented(boolean undocumented) {
-		this.undocumented[documentable_level] = undocumented;
+	public void setUndocumented(boolean undocumented) {
+		this.undocumented[documentableLevel] = undocumented;
 	}
 	
-	public void VisitJarDifferences(JarDifferences differences) {
+	public void visitJarDifferences(JarDifferences differences) {
 		// Do nothing
 	}
 		
-	public void VisitPackageDifferences(PackageDifferences differences) {
+	public void visitPackageDifferences(PackageDifferences differences) {
 		// Do nothing
 	}
 
-	public void VisitFieldDifferences(FieldDifferences differences) {
+	public void visitFieldDifferences(FieldDifferences differences) {
 		// Do nothing
 	}
 	
-	public void VisitConstructorDifferences(ConstructorDifferences differences) {
+	public void visitConstructorDifferences(ConstructorDifferences differences) {
 		// Do nothing
 	}
 
-	public void VisitMethodDifferences(MethodDifferences differences) {
+	public void visitMethodDifferences(MethodDifferences differences) {
 		// Do nothing
 	}
 
-	public void VisitDeprecatableDifferences(DeprecatableDifferences differences) {
-		RaiseDeprecatableLevel();
+	public void visitDeprecatableDifferences(DeprecatableDifferences differences) {
+		raiseDeprecatableLevel();
 		
-		Deprecated(differences.NewDeprecation());
-		Undeprecated(differences.RemovedDeprecation());
+		setDeprecated(differences.isNewDeprecation());
+		setUndeprecated(differences.isRemovedDeprecation());
 
-		differences.Component().Accept(this);
+		differences.getComponent().accept(this);
 		
-		LowerDeprecatableLevel();
+		lowerDeprecatableLevel();
 	}
 	
-	public void VisitDocumentableDifferences(DocumentableDifferences differences) {
-		RaiseDocumentableLevel();
+	public void visitDocumentableDifferences(DocumentableDifferences differences) {
+		raiseDocumentableLevel();
 		
-		Documented(differences.NewDocumentation());
-		Undocumented(differences.RemovedDocumentation());
+		setDocumented(differences.isNewDocumentation());
+		setUndocumented(differences.isRemovedDocumentation());
 
-		differences.Component().Accept(this);
+		differences.getComponent().accept(this);
 		
-		LowerDocumentableLevel();
+		lowerDocumentableLevel();
 	}
 }

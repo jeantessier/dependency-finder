@@ -45,12 +45,12 @@ import com.jeantessier.dependencyfinder.*;
 public class DependencyExtractor {
 	public static final String DEFAULT_LOGFILE = "System.out";
 
-	public static void Error(CommandLineUsage clu, String msg) {
+	public static void showError(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
-		Error(clu);
+		showError(clu);
 	}
 
-	public static void Error(CommandLineUsage clu) {
+	public static void showError(CommandLineUsage clu) {
 		System.err.println(clu);
 		System.err.println();
 		System.err.println("If no files are specified, it processes the current directory.");
@@ -62,72 +62,72 @@ public class DependencyExtractor {
 		System.err.println();
 	}
 
-	public static void Version() throws IOException {
+	public static void showVersion() throws IOException {
 		Version version = new Version();
 		
-		System.err.print(version.ImplementationTitle());
+		System.err.print(version.getImplementationTitle());
 		System.err.print(" ");
-		System.err.print(version.ImplementationVersion());
+		System.err.print(version.getImplementationVersion());
 		System.err.print(" (c) ");
-		System.err.print(version.CopyrightDate());
+		System.err.print(version.getCopyrightDate());
 		System.err.print(" ");
-		System.err.print(version.CopyrightHolder());
+		System.err.print(version.getCopyrightHolder());
 		System.err.println();
 		
-		System.err.print(version.ImplementationURL());
+		System.err.print(version.getImplementationURL());
 		System.err.println();
 		
 		System.err.print("Compiled on ");
-		System.err.print(version.ImplementationDate());
+		System.err.print(version.getImplementationDate());
 		System.err.println();
 	}
 
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
-		CommandLine command_line = new CommandLine();
-		command_line.addToggleSwitch("xml");
-		command_line.addToggleSwitch("maximize");
-		command_line.addToggleSwitch("minimize");
-		command_line.addSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
-		command_line.addSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
-		command_line.addSingleValueSwitch("indent-text");
-		command_line.addToggleSwitch("time");
-		command_line.addSingleValueSwitch("out");
-		command_line.addToggleSwitch("help");
-		command_line.addOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
-		command_line.addToggleSwitch("version");
+		CommandLine commandLine = new CommandLine();
+		commandLine.addToggleSwitch("xml");
+		commandLine.addToggleSwitch("maximize");
+		commandLine.addToggleSwitch("minimize");
+		commandLine.addSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
+		commandLine.addSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
+		commandLine.addSingleValueSwitch("indent-text");
+		commandLine.addToggleSwitch("time");
+		commandLine.addSingleValueSwitch("out");
+		commandLine.addToggleSwitch("help");
+		commandLine.addOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
+		commandLine.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("DependencyExtractor");
-		command_line.accept(usage);
+		commandLine.accept(usage);
 
 		try {
-			command_line.parse(args);
+			commandLine.parse(args);
 		} catch (IllegalArgumentException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		} catch (CommandLineException ex) {
-			Error(usage, ex.toString());
+			showError(usage, ex.toString());
 			System.exit(1);
 		}
 
-		if (command_line.getToggleSwitch("help")) {
-			Error(usage);
+		if (commandLine.getToggleSwitch("help")) {
+			showError(usage);
 		}
 		
-		if (command_line.getToggleSwitch("version")) {
-			Version();
+		if (commandLine.getToggleSwitch("version")) {
+			showVersion();
 		}
 
-		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
+		if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
-		VerboseListener verbose_listener = new VerboseListener();
-		if (command_line.isPresent("verbose")) {
-			if ("System.out".equals(command_line.getOptionalSwitch("verbose"))) {
-				verbose_listener.Writer(System.out);
+		VerboseListener verboseListener = new VerboseListener();
+		if (commandLine.isPresent("verbose")) {
+			if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
+				verboseListener.getWriter(System.out);
 			} else {
-				verbose_listener.Writer(new FileWriter(command_line.getOptionalSwitch("verbose")));
+				verboseListener.getWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
 			}
 		}
 
@@ -137,7 +137,7 @@ public class DependencyExtractor {
 
 		Date start = new Date();
 
-		List parameters = command_line.getParameters();
+		List parameters = commandLine.getParameters();
 		if (parameters.size() == 0) {
 			parameters.add(".");
 		}
@@ -147,35 +147,35 @@ public class DependencyExtractor {
 		
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(collector);
-		loader.addLoadListener(verbose_listener);
+		loader.addLoadListener(verboseListener);
 		loader.load(parameters);
 
-		if (command_line.isPresent("minimize")) {
+		if (commandLine.isPresent("minimize")) {
 			LinkMinimizer minimizer = new LinkMinimizer();
 			minimizer.traverseNodes(factory.getPackages().values());
-		} else if (command_line.isPresent("maximize")) {
+		} else if (commandLine.isPresent("maximize")) {
 			LinkMaximizer maximizer = new LinkMaximizer();
 			maximizer.traverseNodes(factory.getPackages().values());
 		}
 
-		verbose_listener.Print("Printing the graph ...");
+		verboseListener.print("Printing the graph ...");
 
 		PrintWriter out;
-		if (command_line.isPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
+		if (commandLine.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(System.out);
 		}
 			
 		com.jeantessier.dependency.Printer printer;
-		if (command_line.getToggleSwitch("xml")) {
-			printer = new com.jeantessier.dependency.XMLPrinter(out, command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
+		if (commandLine.getToggleSwitch("xml")) {
+			printer = new com.jeantessier.dependency.XMLPrinter(out, commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
 		} else {
 			printer = new com.jeantessier.dependency.TextPrinter(out);
 		}
 			
-		if (command_line.isPresent("indent-text")) {
-			printer.setIndentText(command_line.getSingleSwitch("indent-text"));
+		if (commandLine.isPresent("indent-text")) {
+			printer.setIndentText(commandLine.getSingleSwitch("indent-text"));
 		}
 
 		printer.traverseNodes(factory.getPackages().values());
@@ -184,10 +184,10 @@ public class DependencyExtractor {
 
 		Date end = new Date();
 
-		if (command_line.getToggleSwitch("time")) {
+		if (commandLine.getToggleSwitch("time")) {
 			System.err.println(DependencyExtractor.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
-		verbose_listener.Close();
+		verboseListener.close();
 	}
 }

@@ -49,54 +49,54 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		m1 = new CounterMeasurement(null, metrics, null);
 		m2 = new CounterMeasurement(null, metrics, null);
 
-		metrics.Track("base", m1);
-		metrics.Track("divider", m2);
+		metrics.track("base", m1);
+		metrics.track("divider", m2);
 
 		descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(RatioMeasurement.class);
-		descriptor.InitText("base\ndivider");
-		descriptor.Cached(false);
+		descriptor.setShortName("foo");
+		descriptor.setLongName("bar");
+		descriptor.setClassFor(RatioMeasurement.class);
+		descriptor.setInitText("base\ndivider");
+		descriptor.setCached(false);
 	}
 
 	public void testMeasurementDescriptor() throws Exception {
 		measurement = new RatioMeasurement(descriptor, metrics, "base\ndivider");
 		
-		assertNotNull(measurement.Descriptor());
-		assertEquals(RatioMeasurement.class, measurement.Descriptor().Class());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("bar", measurement.LongName());
+		assertNotNull(measurement.getDescriptor());
+		assertEquals(RatioMeasurement.class, measurement.getDescriptor().getClassFor());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("bar", measurement.getLongName());
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
-		descriptor.InitText(null);
+		descriptor.setInitText(null);
 
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement();
+		measurement = (RatioMeasurement) descriptor.createMeasurement();
 		
 		assertNotNull(measurement);
-		assertEquals(descriptor, measurement.Descriptor());
-		assertSame(descriptor, measurement.Descriptor());
+		assertEquals(descriptor, measurement.getDescriptor());
+		assertSame(descriptor, measurement.getDescriptor());
 		assertEquals(RatioMeasurement.class, measurement.getClass());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("bar", measurement.LongName());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("bar", measurement.getLongName());
 
-		assertNull(measurement.BaseName());
-		assertNull(measurement.DividerName());
+		assertNull(measurement.getBaseName());
+		assertNull(measurement.getDividerName());
 		assertTrue(Double.isNaN(measurement.doubleValue()));
 	}
 	
 	public void testCreateAndInitFromMeasurementDescriptor() throws Exception {
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement();
+		measurement = (RatioMeasurement) descriptor.createMeasurement();
 		
 		assertNotNull(measurement);
-		assertEquals(descriptor, measurement.Descriptor());
-		assertSame(descriptor, measurement.Descriptor());
+		assertEquals(descriptor, measurement.getDescriptor());
+		assertSame(descriptor, measurement.getDescriptor());
 		assertEquals(RatioMeasurement.class, measurement.getClass());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("bar", measurement.LongName());
-		assertEquals("base", measurement.BaseName());
-		assertEquals("divider", measurement.DividerName());
+		assertEquals("foo", measurement.getShortName());
+		assertEquals("bar", measurement.getLongName());
+		assertEquals("base", measurement.getBaseName());
+		assertEquals("divider", measurement.getDividerName());
 
 		assertTrue(Double.isNaN(measurement.doubleValue()));
 	}
@@ -104,52 +104,52 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	public void testCreate() {
 		measurement = new RatioMeasurement(null, null, null);
 		
-		assertNull(measurement.BaseName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
-		assertNull(measurement.DividerName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
+		assertNull(measurement.getBaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
+		assertNull(measurement.getDividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
 
 		measurement = new RatioMeasurement(null, null, "base\ndivider");
 
-		assertEquals("base",    measurement.BaseName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
-		assertEquals("divider", measurement.DividerName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
+		assertEquals("base",    measurement.getBaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
+		assertEquals("divider", measurement.getDividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
 
 		measurement = new RatioMeasurement(null, null, "base");
 
-		assertNull(measurement.BaseName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
-		assertNull(measurement.DividerName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
+		assertNull(measurement.getBaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
+		assertNull(measurement.getDividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
 
 		measurement = new RatioMeasurement(null, null, null);
 
-		assertNull(measurement.BaseName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
-		assertNull(measurement.DividerName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
+		assertNull(measurement.getBaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
+		assertNull(measurement.getDividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
 
 		measurement = new RatioMeasurement(null, null, "foo\nbar");
 
-		assertEquals("foo", measurement.BaseName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
-		assertEquals("bar", measurement.DividerName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
+		assertEquals("foo", measurement.getBaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
+		assertEquals("bar", measurement.getDividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
 
 		measurement = new RatioMeasurement(null, null, "foo\nbar");
 
-		assertEquals("foo", measurement.BaseName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
-		assertEquals("bar", measurement.DividerName());
-		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
+		assertEquals("foo", measurement.getBaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
+		assertEquals("bar", measurement.getDividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
 
 		measurement = new RatioMeasurement(null, null, "foo DISPOSE_MINIMUM\nbar DISPOSE_AVERAGE");
 
-		assertEquals("foo", measurement.BaseName());
-		assertEquals(StatisticalMeasurement.DISPOSE_MINIMUM, measurement.BaseDispose());
-		assertEquals("bar", measurement.DividerName());
-		assertEquals(StatisticalMeasurement.DISPOSE_AVERAGE, measurement.DividerDispose());
+		assertEquals("foo", measurement.getBaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_MINIMUM, measurement.getBaseDispose());
+		assertEquals("bar", measurement.getDividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_AVERAGE, measurement.getDividerDispose());
 	}
 
 	public void testStatistical() {
@@ -157,21 +157,21 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		Metrics m1 = new Metrics("foo");
 		Metrics m2 = new Metrics("bar");
 
-		c.AddSubMetrics(m1);
-		c.AddSubMetrics(m2);
+		c.addSubMetrics(m1);
+		c.addSubMetrics(m2);
 
-		m1.Track("base",    new CounterMeasurement(null, null, null));
-		m1.Track("divider", new CounterMeasurement(null, null, null));
-		m2.Track("base",    new CounterMeasurement(null, null, null));
-		m2.Track("divider", new CounterMeasurement(null, null, null));
+		m1.track("base",    new CounterMeasurement(null, null, null));
+		m1.track("divider", new CounterMeasurement(null, null, null));
+		m2.track("base",    new CounterMeasurement(null, null, null));
+		m2.track("divider", new CounterMeasurement(null, null, null));
 
-		m1.AddToMeasurement("base",    1);
-		m1.AddToMeasurement("divider", 2);
-		m2.AddToMeasurement("base",    3);
-		m2.AddToMeasurement("divider", 4);
+		m1.addToMeasurement("base",    1);
+		m1.addToMeasurement("divider", 2);
+		m2.addToMeasurement("base",    3);
+		m2.addToMeasurement("divider", 4);
 
-		c.Track("base",    new StatisticalMeasurement(null, c, "base"));
-		c.Track("divider", new StatisticalMeasurement(null, c, "divider"));
+		c.track("base",    new StatisticalMeasurement(null, c, "base"));
+		c.track("divider", new StatisticalMeasurement(null, c, "divider"));
 		
 		measurement = new RatioMeasurement(descriptor, c, "base DISPOSE_MINIMUM\ndivider DISPOSE_MINIMUM");
 		assertEquals(0.5, measurement.doubleValue(), 0.01);
@@ -184,224 +184,224 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	}
 	
 	public void testNormal() throws Exception {
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		m1.Add(10);
-		m2.Add(1);
+		m1.add(10);
+		m2.add(1);
 
 		assertEquals(10 / 1, measurement.intValue());
 		assertEquals(10 / 1, measurement.doubleValue(), 0.01);
-		assertEquals(10 / 1, measurement.Value().intValue());
+		assertEquals(10 / 1, measurement.getValue().intValue());
 
-		m2.Add(1);
+		m2.add(1);
 
 		assertEquals(10 / 2, measurement.intValue());
 		assertEquals(10 / 2, measurement.doubleValue(), 0.01);
-		assertEquals(10 / 2, measurement.Value().intValue());
+		assertEquals(10 / 2, measurement.getValue().intValue());
 
-		m1.Add(m1.Value());
+		m1.add(m1.getValue());
 
 		assertEquals(20 / 2, measurement.intValue());
 		assertEquals(20 / 2, measurement.doubleValue(), 0.01);
-		assertEquals(20 / 2, measurement.Value().intValue());
+		assertEquals(20 / 2, measurement.getValue().intValue());
 	}
 	
 	public void testDevideByZero() throws Exception {
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue("0/0 not NaN", Double.isNaN(measurement.Value().doubleValue()));
+		assertTrue("0/0 not NaN", Double.isNaN(measurement.getValue().doubleValue()));
 
-		m1.Add(1);
+		m1.add(1);
 
-		assertTrue("1/0 not infitity", Double.isInfinite(measurement.Value().doubleValue()));
+		assertTrue("1/0 not infitity", Double.isInfinite(measurement.getValue().doubleValue()));
 
-		m1.Add(-2);
+		m1.add(-2);
 
-		assertTrue("-1/0 not infitity", Double.isInfinite(measurement.Value().doubleValue()));
+		assertTrue("-1/0 not infitity", Double.isInfinite(measurement.getValue().doubleValue()));
 	}
 	
 	public void testZeroDevidedBy() throws Exception {
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue("0/0 not NaN", Double.isNaN(measurement.Value().doubleValue()));
+		assertTrue("0/0 not NaN", Double.isNaN(measurement.getValue().doubleValue()));
 
-		m2.Add(1);
+		m2.add(1);
 
-		assertEquals("0/1 not zero", 0.0, measurement.Value().doubleValue(), 0.01);
+		assertEquals("0/1 not zero", 0.0, measurement.getValue().doubleValue(), 0.01);
 
-		m2.Add(-2);
+		m2.add(-2);
 
-		assertEquals("0/-1 not zero", 0.0, measurement.Value().doubleValue(), 0.01);
+		assertEquals("0/-1 not zero", 0.0, measurement.getValue().doubleValue(), 0.01);
 	}
 
 	public void testInUndefinedRange() throws Exception {
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		m2.Add(1);
+		m2.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		m1.Add(1);
+		m1.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		m1.Add(2);
+		m1.add(2);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInOpenRange() throws Exception {
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		m2.Add(1);
+		m2.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		m1.Add(1);
+		m1.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		m1.Add(2);
+		m1.add(2);
 
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInLowerBoundRange() throws Exception {
-		descriptor.LowerThreshold(new Integer(1));
+		descriptor.setLowerThreshold(new Integer(1));
 
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		m2.Add(1);
+		m2.add(1);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		m1.Add(1);
+		m1.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		m1.Add(2);
+		m1.add(2);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 	}
 
 	public void testInUpperBoundRange() throws Exception {
-		descriptor.UpperThreshold(new Float(1.5));
+		descriptor.setUpperThreshold(new Float(1.5));
 
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		m2.Add(1);
+		m2.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		m1.Add(1);
+		m1.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		m1.Add(2);
+		m1.add(2);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testInBoundRange() throws Exception {
-		descriptor.LowerThreshold(new Integer(1));
-		descriptor.UpperThreshold(new Float(1.5));
+		descriptor.setLowerThreshold(new Integer(1));
+		descriptor.setUpperThreshold(new Float(1.5));
 
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		m2.Add(1);
+		m2.add(1);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 
-		m1.Add(1);
+		m1.add(1);
 		
-		assertTrue(measurement.InRange());
+		assertTrue(measurement.isInRange());
 
-		m1.Add(2);
+		m1.add(2);
 		
-		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.isInRange());
 	}
 
 	public void testCachedValue() throws Exception {
-		descriptor.Cached(true);
+		descriptor.setCached(true);
 
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
-		assertTrue("0/0 not NaN", Double.isNaN(measurement.Value().doubleValue()));
+		assertTrue("0/0 not NaN", Double.isNaN(measurement.getValue().doubleValue()));
 
-		m2.Add(1);
+		m2.add(1);
 		
-		assertTrue("cached 0/0 not NaN", Double.isNaN(measurement.Value().doubleValue()));
+		assertTrue("cached 0/0 not NaN", Double.isNaN(measurement.getValue().doubleValue()));
 	}
 
 	public void testAccept() throws Exception {
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 		
 		visited = null;
-		measurement.Accept(this);
+		measurement.accept(this);
 		assertSame(measurement, visited);
 	}
 
 	public void testEmpty() throws Exception {
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 
 		assertEquals("base == 0", 0, m1.intValue());
 		assertEquals("divider == 0", 0, m2.intValue());
-		assertTrue("0/0", measurement.Empty());
+		assertTrue("0/0", measurement.isEmpty());
 
-		m1.Add(1);
+		m1.add(1);
 
 		assertEquals("base != 1", 1, m1.intValue());
 		assertEquals("divider != 0", 0, m2.intValue());
-		assertTrue("1/0", measurement.Empty());
+		assertTrue("1/0", measurement.isEmpty());
 
-		m2.Add(1);
+		m2.add(1);
 
 		assertEquals("base != 1", 1, m1.intValue());
 		assertEquals("divider != 1", 1, m2.intValue());
-		assertFalse("1/1", measurement.Empty());
+		assertFalse("1/1", measurement.isEmpty());
 
-		m1.Add(-1);
+		m1.add(-1);
 
 		assertEquals("base != 0", 0, m1.intValue());
 		assertEquals("divider != 1", 1, m2.intValue());
-		assertFalse("0/1", measurement.Empty());
+		assertFalse("0/1", measurement.isEmpty());
 
-		m2.Add(-1);
+		m2.add(-1);
 
 		assertEquals("base != 0", 0, m1.intValue());
 		assertEquals("divider != 0", 0, m2.intValue());
-		assertTrue("0/0", measurement.Empty());
+		assertTrue("0/0", measurement.isEmpty());
 	}
 	
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+	public void visitRatioMeasurement(RatioMeasurement measurement) {
 		visited = measurement;
 	}
 	
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+	public void visitCounterMeasurement(CounterMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
 		// Do nothing
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 
-	public void VisitSumMeasurement(SumMeasurement measurement) {
+	public void visitSumMeasurement(SumMeasurement measurement) {
 		// Do nothing
 	}
 }

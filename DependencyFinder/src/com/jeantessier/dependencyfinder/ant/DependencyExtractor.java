@@ -42,12 +42,12 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyExtractor extends Task {
-	private boolean xml         = false;
-	private boolean minimize    = false;
-	private boolean maximize    = false;
-	private String  encoding    = com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING;
-	private String  dtd_prefix  = com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX;
-	private String  indent_text;
+	private boolean xml        = false;
+	private boolean minimize   = false;
+	private boolean maximize   = false;
+	private String  encoding   = com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING;
+	private String  dtdPrefix  = com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX;
+	private String  indentText;
 	private File    destfile;
 	private Path    path;
 
@@ -84,19 +84,19 @@ public class DependencyExtractor extends Task {
 	}
 
 	public String getDtdprefix() {
-		return dtd_prefix;
+		return dtdPrefix;
 	}
 	
-	public void setDtdprefix(String dtd_prefix) {
-		this.dtd_prefix = dtd_prefix;
+	public void setDtdprefix(String dtdPrefix) {
+		this.dtdPrefix = dtdPrefix;
 	}
 
 	public String getIndenttext() {
-		return indent_text;
+		return indentText;
 	}
 	
-	public void setIntenttext(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIntenttext(String indentText) {
+		this.indentText = indentText;
 	}
 
 	public File getDestfile() {
@@ -132,14 +132,14 @@ public class DependencyExtractor extends Task {
 
 		log("Reading classes from path " + getPath());
 
-		VerboseListener verbose_listener = new VerboseListener(this);
+		VerboseListener verboseListener = new VerboseListener(this);
 
 		NodeFactory factory = new NodeFactory();
 		CodeDependencyCollector collector = new CodeDependencyCollector(factory);
 		
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(collector);
-		loader.addLoadListener(verbose_listener);
+		loader.addLoadListener(verboseListener);
 		loader.load(Arrays.asList(getPath().list()));
 
 		if (getMinimize()) {

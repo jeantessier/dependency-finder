@@ -56,24 +56,24 @@ public class ClosureQueryAction extends AbstractAction implements Runnable {
 
 	public void run() {
 		try {
-			model.StatusLine().ShowInfo("Processing closure query ...");
+			model.getStatusLine().showInfo("Processing closure query ...");
 			
 			Date start = new Date();
 			
-			model.ClearClosureResult();
-			model.ClosureQuery();
+			model.clearClosureResult();
+			model.doClosureQuery();
 			
 			Date stop = new Date();
 			
-			model.StatusLine().ShowInfo("Closure query done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+			model.getStatusLine().showInfo("Closure query done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		} catch (MalformedPerl5PatternException ex) {
 			JOptionPane dialog = new JOptionPane();
 			dialog.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
-			model.StatusLine().ShowInfo("Ready.");
+			model.getStatusLine().showInfo("Ready.");
 		} catch (Exception ex) {
 			JOptionPane dialog = new JOptionPane();
 			dialog.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			model.StatusLine().ShowInfo("Ready.");
+			model.getStatusLine().showInfo("Ready.");
 		}
 	}
 }

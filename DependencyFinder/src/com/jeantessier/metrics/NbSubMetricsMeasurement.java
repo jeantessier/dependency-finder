@@ -71,11 +71,11 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 	private List terms = new LinkedList();
 	private int  value = 0;
 
-	public NbSubMetricsMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
-		super(descriptor, context, init_text);
+	public NbSubMetricsMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+		super(descriptor, context, initText);
 
 		try {
-			BufferedReader in   = new BufferedReader(new StringReader(init_text));
+			BufferedReader in   = new BufferedReader(new StringReader(initText));
 			String         line;
 
 			while ((line = in.readLine()) != null) {
@@ -84,49 +84,49 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
 			in.close();
 		} catch (Exception ex) {
-			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
+			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
 			terms.clear();
 		}
 	}
 
-	public List Terms() {
+	public List getTerms() {
 		return terms;
 	}
 	
-	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitNbSubMetricsMeasurement(this);
+	public void accept(MeasurementVisitor visitor) {
+		visitor.visitNbSubMetricsMeasurement(this);
 	}
 
-	public boolean Empty() {
-		if (!Cached()) {
-			Compute();
+	public boolean isEmpty() {
+		if (!isCached()) {
+			compute();
 		}
 
-		return super.Empty();
+		return super.isEmpty();
 	}
 	
-	protected double Compute() {
-		if (!Cached()) {
+	protected double compute() {
+		if (!isCached()) {
 			synchronized (this) {
-				if (!Cached()) {
+				if (!isCached()) {
 					value = 0;
 					
-					if (Terms().isEmpty()) {
-						value = Context().SubMetrics().size();
+					if (getTerms().isEmpty()) {
+						value = getContext().getSubMetrics().size();
 					} else {
-						Iterator i = Context().SubMetrics().iterator();
+						Iterator i = getContext().getSubMetrics().iterator();
 						while (i.hasNext()) {
 							Metrics metrics = (Metrics) i.next();
 							
-							if (SelectMetrics(metrics)) {
+							if (getSelectMetrics(metrics)) {
 								value++;
 							}
 						}
 					}
 
-					Empty(value == 0);
+					setEmpty(value == 0);
 
-					Cached(true);
+					setCached(true);
 				}
 			}
 		}
@@ -134,52 +134,52 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 		return value;
 	}
 
-	private boolean SelectMetrics(Metrics metrics) {
-		boolean result = Terms().isEmpty();
+	private boolean getSelectMetrics(Metrics metrics) {
+		boolean result = getTerms().isEmpty();
 		
-		Iterator i = Terms().iterator();
+		Iterator i = getTerms().iterator();
 		while (!result && i.hasNext()) {
-			result = EvaluateTerm((String) i.next(), metrics);
+			result = evaluateTerm((String) i.next(), metrics);
 		}
 
 		return result;
 	}
 
-	private boolean EvaluateTerm(String term, Metrics metrics) {
+	private boolean evaluateTerm(String term, Metrics metrics) {
 		boolean result;
 
 		Logger.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + ")");
 		
 		List elements = new ArrayList();
-		Perl().split(elements, OPERATORS, term);
+		perl().split(elements, OPERATORS, term);
 
 		result = (elements.size() > 0) && ((elements.size() % 2) == 1);
 		
 		if (elements.size() == 1) {
-			result = metrics.HasMeasurement((String) elements.remove(0));
+			result = metrics.hasMeasurement((String) elements.remove(0));
 		} else {
 			while (result && (elements.size() > 2) && ((elements.size() % 2) == 1)) {
-				String left_string  = (String) elements.remove(0);
+				String leftString  = (String) elements.remove(0);
 				String operator     = (String) elements.remove(0);
-				String right_string = (String) elements.get(0);
+				String rightString = (String) elements.get(0);
 
-				double left_operand = 0;
+				double leftOperand = 0;
 				try {
-					left_operand = Double.parseDouble(left_string);
+					leftOperand = Double.parseDouble(leftString);
 				} catch (NumberFormatException ex) {
 					try {
-						left_operand = ResolveOperand(left_string, metrics);
+						leftOperand = resolveOperand(leftString, metrics);
 					} catch (NullPointerException ex2) {
 						result = false;
 					}
 				}
 
-				double right_operand = 0;
+				double rightOperand = 0;
 				try {
-					right_operand = Double.parseDouble(right_string);
+					rightOperand = Double.parseDouble(rightString);
 				} catch (NumberFormatException ex) {
 					try {
-						right_operand = ResolveOperand(right_string, metrics);
+						rightOperand = resolveOperand(rightString, metrics);
 					} catch (NullPointerException ex2) {
 						result = false;
 					}
@@ -187,17 +187,17 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
 				if (result) {
 					if (operator.equals(LESSER_THAN)) {
-						result = left_operand < right_operand;
+						result = leftOperand < rightOperand;
 					} else if (operator.equals(LESSER_THAN_OR_EQUAL)) {
-						result = left_operand <= right_operand;
+						result = leftOperand <= rightOperand;
 					} else if (operator.equals(GREATER_THAN)) {
-						result = left_operand > right_operand;
+						result = leftOperand > rightOperand;
 					} else if (operator.equals(GREATER_THAN_OR_EQUAL)) {
-						result = left_operand >= right_operand;
+						result = leftOperand >= rightOperand;
 					} else if (operator.equals(EQUALS)) {
-						result = Math.abs(left_operand - right_operand) <= DELTA;
+						result = Math.abs(leftOperand - rightOperand) <= DELTA;
 					} else if (operator.equals(NOT_EQUALS)) {
-						result = Math.abs(left_operand - right_operand) > DELTA;
+						result = Math.abs(leftOperand - rightOperand) > DELTA;
 					}
 				}
 			}
@@ -208,7 +208,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 		return result;
 	}
 
-	private double ResolveOperand(String name, Metrics metrics) {
+	private double resolveOperand(String name, Metrics metrics) {
 		double result = 0;
 			
 		name = name.trim();
@@ -218,27 +218,27 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 		if (name.length() != 0) {
 			int dispose;
 
-			synchronized (Perl()) {
-				if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {
-					name = Perl().group(1);
+			synchronized (perl()) {
+				if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {
+					name = perl().group(1);
 					
-					String dispose_text = Perl().group(2);
+					String disposeText = perl().group(2);
 					
-					if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
+					if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
 						dispose = StatisticalMeasurement.DISPOSE_IGNORE;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
 						dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
 						dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
 						dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
 						dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
 						dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_SUM")) {
 						dispose = StatisticalMeasurement.DISPOSE_SUM;
-					} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+					} else if (disposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
 						dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
 					} else {
 						dispose = StatisticalMeasurement.DISPOSE_IGNORE;
@@ -248,32 +248,32 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 				}
 			}
 			
-			Measurement measurement = metrics.Measurement(name);
+			Measurement measurement = metrics.getMeasurement(name);
 			
 			if (measurement instanceof StatisticalMeasurement) {
 				StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
 				
 				switch (dispose) {
 					case StatisticalMeasurement.DISPOSE_MINIMUM:
-						result = stats.Minimum();
+						result = stats.getMinimum();
 						break;
 					case StatisticalMeasurement.DISPOSE_MEDIAN:
-						result = stats.Median();
+						result = stats.getMedian();
 						break;
 					case StatisticalMeasurement.DISPOSE_AVERAGE:
-						result = stats.Average();
+						result = stats.getAverage();
 						break;
 					case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-						result = stats.StandardDeviation();
+						result = stats.getStandardDeviation();
 						break;
 					case StatisticalMeasurement.DISPOSE_MAXIMUM:
-						result = stats.Maximum();
+						result = stats.getMaximum();
 						break;
 					case StatisticalMeasurement.DISPOSE_SUM:
-						result = stats.Sum();
+						result = stats.getSum();
 						break;
 					case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-						result = stats.NbDataPoints();
+						result = stats.getNbDataPoints();
 						break;
 					case StatisticalMeasurement.DISPOSE_IGNORE:
 					default:

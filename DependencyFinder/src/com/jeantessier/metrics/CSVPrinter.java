@@ -43,134 +43,134 @@ public class CSVPrinter extends Printer {
 		
 		this.descriptors = descriptors;
 
-		AppendHeader();
+		appendHeader();
 	}
 
-	private void AppendHeader() {
-		AppendLongNames();
-		AppendShortNames();
-		AppendStatSubNames();
+	private void appendHeader() {
+		appendLongNames();
+		appendShortNames();
+		appendStatSubNames();
 	}
 	
-	private void AppendLongNames() {
-		Append("\"name\", ");
+	private void appendLongNames() {
+		append("\"name\", ");
 		
 		Iterator i = descriptors.iterator();
 		while (i.hasNext()) {
 			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (descriptor.Visible()) {
-				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
-					Append("\"").Append(descriptor.LongName()).Append("\", ");
-					Append("\"").Append(descriptor.LongName()).Append("\", ");
-					Append("\"").Append(descriptor.LongName()).Append("\", ");
-					Append("\"").Append(descriptor.LongName()).Append("\", ");
-					Append("\"").Append(descriptor.LongName()).Append("\", ");
-					Append("\"").Append(descriptor.LongName()).Append("\", ");
-					Append("\"").Append(descriptor.LongName()).Append("\"");
+			if (descriptor.isVisible()) {
+				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+					append("\"").append(descriptor.getLongName()).append("\", ");
+					append("\"").append(descriptor.getLongName()).append("\", ");
+					append("\"").append(descriptor.getLongName()).append("\", ");
+					append("\"").append(descriptor.getLongName()).append("\", ");
+					append("\"").append(descriptor.getLongName()).append("\", ");
+					append("\"").append(descriptor.getLongName()).append("\", ");
+					append("\"").append(descriptor.getLongName()).append("\"");
 				} else {
-					Append("\"").Append(descriptor.LongName()).Append("\"");
+					append("\"").append(descriptor.getLongName()).append("\"");
 				}
 				
 				if (i.hasNext()) {
-					Append(", ");
+					append(", ");
 				}
 			}
 		}
 		
-		EOL();
+		eol();
 	}
 
-	private void AppendShortNames() {
-		Append(", ");
+	private void appendShortNames() {
+		append(", ");
 		
 		Iterator i = descriptors.iterator();
 		while (i.hasNext()) {
 			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (descriptor.Visible()) {
-				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
-					Append("\"").Append(descriptor.ShortName()).Append("\", ");
-					Append("\"").Append(descriptor.ShortName()).Append("\", ");
-					Append("\"").Append(descriptor.ShortName()).Append("\", ");
-					Append("\"").Append(descriptor.ShortName()).Append("\", ");
-					Append("\"").Append(descriptor.ShortName()).Append("\", ");
-					Append("\"").Append(descriptor.ShortName()).Append("\", ");
-					Append("\"").Append(descriptor.ShortName()).Append("\"");
+			if (descriptor.isVisible()) {
+				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+					append("\"").append(descriptor.getShortName()).append("\", ");
+					append("\"").append(descriptor.getShortName()).append("\", ");
+					append("\"").append(descriptor.getShortName()).append("\", ");
+					append("\"").append(descriptor.getShortName()).append("\", ");
+					append("\"").append(descriptor.getShortName()).append("\", ");
+					append("\"").append(descriptor.getShortName()).append("\", ");
+					append("\"").append(descriptor.getShortName()).append("\"");
 				} else {
-					Append("\"").Append(descriptor.ShortName()).Append("\"");
+					append("\"").append(descriptor.getShortName()).append("\"");
 				}
 				
 				if (i.hasNext()) {
-					Append(", ");
+					append(", ");
 				}
 			}
 		}
 		
-		EOL();
+		eol();
 	}
 
-	private void AppendStatSubNames() {
-		Append(", ");
+	private void appendStatSubNames() {
+		append(", ");
 		
 		Iterator i = descriptors.iterator();
 		while (i.hasNext()) {
 			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (descriptor.Visible()) {
-				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
-					Append("minimum, ");
-					Append("median, ");
-					Append("average, ");
-					Append("std dev, ");
-					Append("maxium, ");
-					Append("sum, ");
-					Append("nb");
+			if (descriptor.isVisible()) {
+				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+					append("minimum, ");
+					append("median, ");
+					append("average, ");
+					append("std dev, ");
+					append("maxium, ");
+					append("sum, ");
+					append("nb");
 				}
 				
 				if (i.hasNext()) {
-					Append(", ");
+					append(", ");
 				}
 			}
 		}
 		
-		EOL();
+		eol();
 	}
 			
-	public void VisitMetrics(Metrics metrics) {
-		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
-			Append("\"").Append(metrics.Name()).Append("\", ");
+	public void visitMetrics(Metrics metrics) {
+		if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+			append("\"").append(metrics.getName()).append("\", ");
 			
 			Iterator i = descriptors.iterator();
 			while (i.hasNext()) {
 				MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 				
-				if (ShowHiddenMeasurements() || descriptor.Visible()) {
-					Measurement measurement = metrics.Measurement(descriptor.ShortName());
+				if (isShowHiddenMeasurements() || descriptor.isVisible()) {
+					Measurement measurement = metrics.getMeasurement(descriptor.getShortName());
 					
-					measurement.Accept(this);
+					measurement.accept(this);
 					
 					if (i.hasNext()) {
-						Append(", ");
+						append(", ");
 					}
 				}
 			}
 			
-			EOL();
+			eol();
 		}
 	}
 
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
-		Append(measurement.Minimum()).Append(", ");
-		Append(measurement.Median()).Append(", ");
-		Append(measurement.Average()).Append(", ");
-		Append(measurement.StandardDeviation()).Append(", ");
-		Append(measurement.Maximum()).Append(", ");
-		Append(measurement.Sum()).Append(", ");
-		Append(measurement.NbDataPoints());
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
+		append(measurement.getMinimum()).append(", ");
+		append(measurement.getMedian()).append(", ");
+		append(measurement.getAverage()).append(", ");
+		append(measurement.getStandardDeviation()).append(", ");
+		append(measurement.getMaximum()).append(", ");
+		append(measurement.getSum()).append(", ");
+		append(measurement.getNbDataPoints());
 	}
 	
-	protected void VisitMeasurement(Measurement measurement) {
-		Append(measurement.Value());
+	protected void visitMeasurement(Measurement measurement) {
+		append(measurement.getValue());
 	}
 }

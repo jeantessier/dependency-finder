@@ -42,8 +42,8 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.dependencyfinder.*;
 
 public class ClassMetrics extends Task {
-	private boolean list               = false;
-	private boolean instruction_counts = false;
+	private boolean list              = false;
+	private boolean instructionCounts = false;
 	private File    destfile;
 	private Path    path;
 
@@ -56,11 +56,11 @@ public class ClassMetrics extends Task {
 	}
 
 	public boolean getInstructioncounts() {
-		return instruction_counts;
+		return instructionCounts;
 	}
 	
-	public void setInstructioncounts(boolean instruction_counts) {
-		this.instruction_counts = instruction_counts;
+	public void setInstructioncounts(boolean instructionCounts) {
+		this.instructionCounts = instructionCounts;
 	}
 
 	public File getDestfile() {
@@ -96,10 +96,10 @@ public class ClassMetrics extends Task {
 
 		log("Reading classes from path " + getPath());
 
-		VerboseListener verbose_listener = new VerboseListener(this);
+		VerboseListener verboseListener = new VerboseListener(this);
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
-		loader.addLoadListener(verbose_listener);
+		loader.addLoadListener(verboseListener);
 		loader.load(Arrays.asList(getPath().list()));
 
 		MetricsGatherer metrics = new MetricsGatherer();
@@ -131,16 +131,16 @@ public class ClassMetrics extends Task {
 			out.println(metrics.getFields().size() + " field(s) (average " + (metrics.getFields().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
 			out.println();
 			
-			PrintCFM(out, " synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods());
-			PrintCFM(out, " deprecated element(s)", metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods());
-			PrintCFMIC(out, " public element(s)", metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses());
-			PrintFMIC(out, " protected element(s)", metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses());
-			PrintFMIC(out, " private element(s)", metrics.getPrivateFields(), metrics.getPrivateMethods(), metrics.getPrivateInnerClasses());
-			PrintCFMIC(out, " package element(s)", metrics.getPackageClasses(), metrics.getPackageFields(), metrics.getPackageMethods(), metrics.getPackageInnerClasses());
-			PrintCMIC(out, " abstract element(s)", metrics.getAbstractClasses(), metrics.getAbstractMethods(), metrics.getAbstractInnerClasses());
+			printCFM(out, " synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods());
+			printCFM(out, " deprecated element(s)", metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods());
+			printCFMIC(out, " public element(s)", metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses());
+			printFMIC(out, " protected element(s)", metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses());
+			printFMIC(out, " private element(s)", metrics.getPrivateFields(), metrics.getPrivateMethods(), metrics.getPrivateInnerClasses());
+			printCFMIC(out, " package element(s)", metrics.getPackageClasses(), metrics.getPackageFields(), metrics.getPackageMethods(), metrics.getPackageInnerClasses());
+			printCMIC(out, " abstract element(s)", metrics.getAbstractClasses(), metrics.getAbstractMethods(), metrics.getAbstractInnerClasses());
 			
-			PrintFMIC(out, " static element(s)", metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses());
-			PrintCFMIC(out, " final element(s)", metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses());
+			printFMIC(out, " static element(s)", metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses());
+			printCFMIC(out, " final element(s)", metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses());
 			
 			out.println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
 			if (getList()) {
@@ -187,7 +187,7 @@ public class ClassMetrics extends Task {
 				out.println("Instruction counts:");
 				for (int opcode=0; opcode<256; opcode++) {
 					out.print("        0x");
-					Hex.Print(out, (byte) opcode);
+					Hex.print(out, (byte) opcode);
 					out.println(" " + Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
 				}
 			}
@@ -198,10 +198,10 @@ public class ClassMetrics extends Task {
 		}
 	}
 
-	private void PrintCMIC(PrintWriter out, String label, Collection classes, Collection methods, Collection inner_classes) {
+	private void printCMIC(PrintWriter out, String label, Collection classes, Collection methods, Collection innerClasses) {
 		out.println((classes.size() +
 					 methods.size() +
-					 inner_classes.size()) + label);
+					 innerClasses.size()) + label);
 		if (getList()) {
 			Iterator j;
 
@@ -217,23 +217,23 @@ public class ClassMetrics extends Task {
 				out.println("        " + j.next());
 			}
 
-			out.println("    " + inner_classes.size() + " inner class(es)");
-			j = inner_classes.iterator();
+			out.println("    " + innerClasses.size() + " inner class(es)");
+			j = innerClasses.iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
 		} else {
 			out.println("    " + classes.size() + " class(es)");
 			out.println("    " + methods.size() + " method(s)");
-			out.println("    " + inner_classes.size() + " inner class(es)");
+			out.println("    " + innerClasses.size() + " inner class(es)");
 		}
 	}
 
-	private void PrintCFMIC(PrintWriter out, String label, Collection classes, Collection fields, Collection methods, Collection inner_classes) {
+	private void printCFMIC(PrintWriter out, String label, Collection classes, Collection fields, Collection methods, Collection innerClasses) {
 		out.println((classes.size() +
 					 fields.size() +
 					 methods.size() +
-					 inner_classes.size()) + label);
+					 innerClasses.size()) + label);
 		if (getList()) {
 			Iterator j;
 
@@ -255,8 +255,8 @@ public class ClassMetrics extends Task {
 				out.println("        " + j.next());
 			}
 
-			out.println("    " + inner_classes.size() + " inner class(es)");
-			j = inner_classes.iterator();
+			out.println("    " + innerClasses.size() + " inner class(es)");
+			j = innerClasses.iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
@@ -264,11 +264,11 @@ public class ClassMetrics extends Task {
 			out.println("    " + classes.size() + " class(es)");
 			out.println("    " + fields.size() + " fields(s)");
 			out.println("    " + methods.size() + " method(s)");
-			out.println("    " + inner_classes.size() + " inner class(es)");
+			out.println("    " + innerClasses.size() + " inner class(es)");
 		}
 	}
 
-	private void PrintCFM(PrintWriter out, String label, Collection classes, Collection fields, Collection methods) {
+	private void printCFM(PrintWriter out, String label, Collection classes, Collection fields, Collection methods) {
 		out.println((classes.size() +
 					 fields.size() +
 					 methods.size()) + label);
@@ -299,10 +299,10 @@ public class ClassMetrics extends Task {
 		}
 	}
 
-	private void PrintFMIC(PrintWriter out, String label, Collection fields, Collection methods, Collection inner_classes) {
+	private void printFMIC(PrintWriter out, String label, Collection fields, Collection methods, Collection innerClasses) {
 		out.println((fields.size() +
 					 methods.size() +
-					 inner_classes.size()) + label);
+					 innerClasses.size()) + label);
 		if (getList()) {
 			Iterator j;
 
@@ -318,15 +318,15 @@ public class ClassMetrics extends Task {
 				out.println("        " + j.next());
 			}
 
-			out.println("    " + inner_classes.size() + " inner class(es)");
-			j = inner_classes.iterator();
+			out.println("    " + innerClasses.size() + " inner class(es)");
+			j = innerClasses.iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
 		} else {
 			out.println("    " + fields.size() + " fields(s)");
 			out.println("    " + methods.size() + " method(s)");
-			out.println("    " + inner_classes.size() + " inner class(es)");
+			out.println("    " + innerClasses.size() + " inner class(es)");
 		}
 	}
 }

@@ -38,14 +38,14 @@ import java.util.*;
 import com.sun.javadoc.*;
 
 public class ListDocumentedElements {
-	private static String      tag_name       = null;
-	private static Collection  valid_values   = new HashSet();
-	private static Collection  invalid_values = new HashSet();
-	private static PrintWriter out            = new PrintWriter(System.out);
+	private static String      tagName       = null;
+	private static Collection  validValues   = new HashSet();
+	private static Collection  invalidValues = new HashSet();
+	private static PrintWriter out           = new PrintWriter(System.out);
 	
 	public static boolean start(RootDoc root) {
-		Process(root.specifiedPackages());
-		Process(root.classes());
+		process(root.specifiedPackages());
+		process(root.classes());
 		out.close();
 		return true;
 	}
@@ -71,16 +71,16 @@ public class ListDocumentedElements {
 		
 		for (int i=0; valid && i<options.length; i++) {
 			if (options[i][0].equals("-tag")) {
-				if (tag_name == null) {
-					tag_name = options[i][1];
+				if (tagName == null) {
+					tagName = options[i][1];
 				} else {
 					reporter.printError("Only one -tag option allowed.");
 					valid = false;
 				}
 			} else if (options[i][0].equals("-valid")) {
-				valid_values.add(options[i][1]);
+				validValues.add(options[i][1]);
 			} else if (options[i][0].equals("-invalid")) {
-				invalid_values.add(options[i][1]);
+				invalidValues.add(options[i][1]);
 			} else if (options[i][0].equals("-out")) {
 				try {
 					out = new PrintWriter(new FileWriter(options[i][1]));
@@ -91,7 +91,7 @@ public class ListDocumentedElements {
 			}
 		}
 
-		valid = valid && tag_name != null;
+		valid = valid && tagName != null;
 		
 		if (!valid) {
 			reporter.printError("Usage: javadoc -tag mytag [-valid value]* [-invalid value]* -doclet ListPublicElements ...");
@@ -100,50 +100,48 @@ public class ListDocumentedElements {
 		return valid;
 	}
 	
-	private static void Process(PackageDoc[] docs) {
+	private static void process(PackageDoc[] docs) {
 		for (int i = 0; i < docs.length; ++i) {
-			Process(docs[i]);
+			process(docs[i]);
 		}
 	}
 	
-	private static void Process(PackageDoc doc) {
+	private static void process(PackageDoc doc) {
 		out.print(doc.name());
 		out.println(" [P]");
 	}
 	
-	private static void Process(ProgramElementDoc[] docs) {
+	private static void process(ProgramElementDoc[] docs) {
 		for (int i = 0; i < docs.length; ++i) {
-			Process(docs[i]);
+			process(docs[i]);
 		}
 	}
 
-	private static void Process(ProgramElementDoc doc) {
-		// boolean is_visible = doc.isPublic() || doc.isProtected();
-		// boolean is_visible = true;
-		boolean is_visible = !doc.name().equals("<clinit>");
+	private static void process(ProgramElementDoc doc) {
+		boolean isVisible = !doc.name().equals("<clinit>");
 
-		Tag[] tags = doc.tags(tag_name);
+		Tag[] tags = doc.tags(tagName);
 
-		if (is_visible) {
-			if (!valid_values.isEmpty()) {
+		if (isVisible) {
+			if (!validValues.isEmpty()) {
 				// If it contains at least one valid value, then it will be visible
-				is_visible = false;
+				isVisible = false;
 				for (int i = 0; i < tags.length; ++i) {
-					if (valid_values.contains(tags[i].text())) {
-						is_visible = true;
+					if (validValues.contains(tags[i].text())) {
+						isVisible = true;
 					}
 				}
-			} else if (!invalid_values.isEmpty()) {
+			} else if (!invalidValues.isEmpty()) {
 				// Else if it contains at least one invalid value, then it will not be visible
 				for (int i = 0; i < tags.length; ++i) {
-					if (invalid_values.contains(tags[i].text())) {
-						is_visible = false;
+					if (invalidValues.contains(tags[i].text())) {
+						isVisible = false;
 					}
 				}
 			}
 		}
 
-		if (is_visible) {
+		if (isVisible) {
 			out.print(doc.qualifiedName());
 			if (doc instanceof ConstructorDoc) {
 				out.print(".");
@@ -155,10 +153,10 @@ public class ListDocumentedElements {
 
 			if (doc instanceof ClassDoc) {
 				out.println(" [C]");
-				Process(((ClassDoc) doc).fields());
-				Process(((ClassDoc) doc).constructors());
-				Process(((ClassDoc) doc).methods());
-				Process(((ClassDoc) doc).innerClasses());
+				process(((ClassDoc) doc).fields());
+				process(((ClassDoc) doc).constructors());
+				process(((ClassDoc) doc).methods());
+				process(((ClassDoc) doc).innerClasses());
 			} else {
 				out.println(" [F]");
 			}

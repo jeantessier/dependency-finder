@@ -54,11 +54,11 @@ public class AboutAction extends AbstractAction {
 		Version version = new Version();
 		
 		Object[] message = new Object[3];
-		message[0] = "<html><b>" + version.ImplementationTitle() + " " + version.ImplementationVersion() + "</b></html>";
-		message[1] = "<html>&copy; " + version.CopyrightDate() + " " + version.CopyrightHolder() + "</html>";
-		message[2] = "Compiled on " + version.ImplementationDate();
+		message[0] = "<html><b>" + version.getImplementationTitle() + " " + version.getImplementationVersion() + "</b></html>";
+		message[1] = "<html>&copy; " + version.getCopyrightDate() + " " + version.getCopyrightHolder() + "</html>";
+		message[2] = "Compiled on " + version.getImplementationDate();
 		
-		String title = "About " + version.ImplementationTitle();
+		String title = "About " + version.getImplementationTitle();
 		
 		Icon icon = new ImageIcon(getClass().getResource("icons/logo.jpg"));
 		

@@ -46,7 +46,7 @@ public class MetricsConfigurationLoader {
 	private static final boolean DEFAULT_VALIDATE         = false;
 
 	private MetricsConfigurationHandler handler;
-	private String                      reader_classname;
+	private String                      readerClassname;
 	private boolean                     validate;
 
 	public MetricsConfigurationLoader() {
@@ -57,40 +57,40 @@ public class MetricsConfigurationLoader {
 		this(configuration, DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
 	}
 
-	public MetricsConfigurationLoader(String reader_classname) {
-		this(new MetricsConfiguration(), reader_classname, DEFAULT_VALIDATE);
+	public MetricsConfigurationLoader(String readerClassname) {
+		this(new MetricsConfiguration(), readerClassname, DEFAULT_VALIDATE);
 	}
 
 	public MetricsConfigurationLoader(boolean validate) {
 		this(new MetricsConfiguration(), DEFAULT_READER_CLASSNAME, validate);
 	}
 
-	public MetricsConfigurationLoader(MetricsConfiguration configuration, String reader_classname) {
-		this(configuration, reader_classname, DEFAULT_VALIDATE);
+	public MetricsConfigurationLoader(MetricsConfiguration configuration, String readerClassname) {
+		this(configuration, readerClassname, DEFAULT_VALIDATE);
 	}
 
 	public MetricsConfigurationLoader(MetricsConfiguration configuration, boolean validate) {
 		this(configuration, DEFAULT_READER_CLASSNAME, validate);
 	}
 
-	public MetricsConfigurationLoader(String reader_classname, boolean validate) {
-		this(new MetricsConfiguration(), reader_classname, validate);
+	public MetricsConfigurationLoader(String readerClassname, boolean validate) {
+		this(new MetricsConfiguration(), readerClassname, validate);
 	}
 	
-	public MetricsConfigurationLoader(MetricsConfiguration configuration, String reader_classname, boolean validate) {
+	public MetricsConfigurationLoader(MetricsConfiguration configuration, String readerClassname, boolean validate) {
 		this.handler          = new MetricsConfigurationHandler(configuration);
-		this.reader_classname = reader_classname;
+		this.readerClassname = readerClassname;
 		this.validate         = validate;
 	}
 
-	public MetricsConfiguration Load(String filename) throws IOException, SAXException {
+	public MetricsConfiguration load(String filename) throws IOException, SAXException {
 		MetricsConfiguration result = null;
 
 		FileReader in = null;
 
 		try {
 			in = new FileReader(filename);
-			result = Load(in);
+			result = load(in);
 		} finally {
 			if (in != null) {
 				in.close();
@@ -100,16 +100,16 @@ public class MetricsConfigurationLoader {
 		return result;
 	}
 
-	public MetricsConfiguration Load(InputStream in) throws IOException, SAXException {
-		return Load(new InputSource(in));
+	public MetricsConfiguration load(InputStream in) throws IOException, SAXException {
+		return load(new InputSource(in));
 	}
 
-	public MetricsConfiguration Load(Reader in) throws IOException, SAXException {
-		return Load(new InputSource(in));
+	public MetricsConfiguration load(Reader in) throws IOException, SAXException {
+		return load(new InputSource(in));
 	}
 
-	public MetricsConfiguration Load(InputSource in) throws IOException, SAXException {
-		XMLReader reader = XMLReaderFactory.createXMLReader(reader_classname);
+	public MetricsConfiguration load(InputSource in) throws IOException, SAXException {
+		XMLReader reader = XMLReaderFactory.createXMLReader(readerClassname);
 		reader.setDTDHandler(handler);
 		reader.setContentHandler(handler);
 		reader.setErrorHandler(handler);
@@ -130,6 +130,6 @@ public class MetricsConfigurationLoader {
 	
 		reader.parse(in);
 	
-		return handler.MetricsConfiguration();
+		return handler.getMetricsConfiguration();
 	}
 }

@@ -60,7 +60,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 	protected void setUp() throws Exception {
 		loader  = new AggregatingClassfileLoader();
 
-		MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml"));
+		MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
 		gatherer = new MetricsGatherer("test", factory);
 		gatherer.addMetricsListener(this);
 
@@ -84,8 +84,8 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 		assertEquals("End Class",      1, end_class.size());
 		assertEquals("End Session",    1, end_session.size());
 
-		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) begin_class.getLast()).Classfile());
-		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) end_class.getLast()).Classfile());
+		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) begin_class.getLast()).getClassfile());
+		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) end_class.getLast()).getClassfile());
 	}
 	
 	public void testMultipleEvents() throws IOException {
@@ -117,27 +117,27 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 		assertEquals("End Session",    1, end_session.size());
 	}	
 	
-	public void BeginSession(MetricsEvent event) {
+	public void beginSession(MetricsEvent event) {
 		begin_session.add(event);
 	}
 	
-	public void BeginClass(MetricsEvent event) {
+	public void beginClass(MetricsEvent event) {
 		begin_class.add(event);
 	}
 	
-	public void BeginMethod(MetricsEvent event) {
+	public void beginMethod(MetricsEvent event) {
 		begin_method.add(event);
 	}
 	
-	public void EndMethod(MetricsEvent event) {
+	public void endMethod(MetricsEvent event) {
 		end_method.add(event);
 	}
 	
-	public void EndClass(MetricsEvent event) {
+	public void endClass(MetricsEvent event) {
 		end_class.add(event);
 	}
 	
-	public void EndSession(MetricsEvent event) {
+	public void endSession(MetricsEvent event) {
 		end_session.add(event);
 	}
 }

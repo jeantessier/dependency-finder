@@ -48,8 +48,8 @@ public class AdvancedQueryPanelAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		if (model != null) {
-			model.AdvancedMode(true);
-			model.BuildQueryPanel();
+			model.setAdvancedMode(true);
+			model.buildQueryPanel();
 		}
 	}
 }

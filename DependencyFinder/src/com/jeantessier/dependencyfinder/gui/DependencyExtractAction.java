@@ -54,14 +54,14 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.InputFile());
+		JFileChooser chooser = new JFileChooser(model.getInputFile());
 		chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
 		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		chooser.setMultiSelectionEnabled(true);
 		int returnValue = chooser.showDialog(model, "Extract");
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			files = chooser.getSelectedFiles();
-			model.InputFile(files[0]);
+			model.setInputFile(files[0]);
 			new Thread(this).start();
 		}
 	}
@@ -69,30 +69,30 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 	public void run() {
 		Date start = new Date();
 
-		model.StatusLine().ShowInfo("Scanning ...");
+		model.getStatusLine().showInfo("Scanning ...");
 		ClassfileScanner scanner = new ClassfileScanner();
 		scanner.load(Arrays.asList(files));
 
-		model.ProgressBar().setMaximum(scanner.getNbFiles());
+		model.getProgressBar().setMaximum(scanner.getNbFiles());
 		
-		Collector collector = new CodeDependencyCollector(model.NodeFactory());
+		Collector collector = new CodeDependencyCollector(model.getNodeFactory());
 
 		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(new VerboseListener(model.StatusLine(), model.ProgressBar()));
+		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
 		loader.addLoadListener(collector);
 		loader.load(Arrays.asList(files));
 
-		if (model.Maximize()) {
-			model.StatusLine().ShowInfo("Maximizing ...");
-			new LinkMaximizer().traverseNodes(model.Packages());
-		} else if (model.Minimize()) {
-			model.StatusLine().ShowInfo("Minimizing ...");
-			new LinkMinimizer().traverseNodes(model.Packages());
+		if (model.getMaximize()) {
+			model.getStatusLine().showInfo("Maximizing ...");
+			new LinkMaximizer().traverseNodes(model.getPackages());
+		} else if (model.getMinimize()) {
+			model.getStatusLine().showInfo("Minimizing ...");
+			new LinkMinimizer().traverseNodes(model.getPackages());
 		}
 		
 		Date stop = new Date();
 		
-		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+		model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		model.setTitle("Dependency Finder - Extractor");
 	}
 }

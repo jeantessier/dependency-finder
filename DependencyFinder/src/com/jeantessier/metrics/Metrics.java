@@ -127,11 +127,11 @@ public class Metrics {
 		if (parent == null) {
 			Logger.getLogger(getClass()).debug("Created top-level metrics \"" + name + "\"");
 		} else {
-			Logger.getLogger(getClass()).debug("Created metrics \"" + name + "\" under \"" + parent.Name() + "\"");
+			Logger.getLogger(getClass()).debug("Created metrics \"" + name + "\" under \"" + parent.getName() + "\"");
 		}
 	}
 
-	public Metrics Parent() {
+	public Metrics getParent() {
 		return parent;
 	}
 
@@ -139,70 +139,70 @@ public class Metrics {
 	 *  @return The name of the element being measured
 	 *          (e.g., class name, method name).
 	 */
-	public String Name() {
+	public String getName() {
 		return name;
 	}
 
-	void Track(Measurement measurement) {
-		Track(measurement.ShortName(), measurement);
+	void track(Measurement measurement) {
+		track(measurement.getShortName(), measurement);
 	}
 	
-	void Track(String name, Measurement measurement) {
+	void track(String name, Measurement measurement) {
 		measurements.put(name, measurement);
 	}
 
-	public void AddToMeasurement(String name) {
-		AddToMeasurement(name, 1);
+	public void addToMeasurement(String name) {
+		addToMeasurement(name, 1);
 	}
 	
-	public void AddToMeasurement(String name, int delta) {
-		Measurement(name).Add(delta);
+	public void addToMeasurement(String name, int delta) {
+		getMeasurement(name).add(delta);
 	}
 	
-	public void AddToMeasurement(String name, long delta) {
-		Measurement(name).Add(delta);
+	public void addToMeasurement(String name, long delta) {
+		getMeasurement(name).add(delta);
 	}
 	
-	public void AddToMeasurement(String name, float delta) {
-		Measurement(name).Add(delta);
+	public void addToMeasurement(String name, float delta) {
+		getMeasurement(name).add(delta);
 	}
 	
-	public void AddToMeasurement(String name, double delta) {
-		Measurement(name).Add(delta);
+	public void addToMeasurement(String name, double delta) {
+		getMeasurement(name).add(delta);
 	}
 	
-	public void AddToMeasurement(String name, Object delta) {
-		Measurement(name).Add(delta);
+	public void addToMeasurement(String name, Object delta) {
+		getMeasurement(name).add(delta);
 	}
 
-	public Measurement Measurement(String name) {
+	public Measurement getMeasurement(String name) {
 		Measurement result = (Measurement) measurements.get(name);
 		
 		if (result == null) {
 			result = NULL_MEASUREMENT;
-			Logger.getLogger(getClass()).info("Null measurement \"" + name + "\" on \"" + Name() + "\"");
+			Logger.getLogger(getClass()).info("Null measurement \"" + name + "\" on \"" + getName() + "\"");
 		}
 
 		return result;
 	}
 
-	public boolean HasMeasurement(String name) {
+	public boolean hasMeasurement(String name) {
 		return measurements.get(name) != null;
 	}
 	
-	public Collection MeasurementNames() {
+	public Collection getMeasurementNames() {
 		return Collections.unmodifiableCollection(new TreeSet(measurements.keySet()));
 	}
 	
-	public Metrics AddSubMetrics(Metrics metrics) {
-		return (Metrics) submetrics.put(metrics.Name(), metrics);
+	public Metrics addSubMetrics(Metrics metrics) {
+		return (Metrics) submetrics.put(metrics.getName(), metrics);
 	}
 	
-	public Collection SubMetrics() {
+	public Collection getSubMetrics() {
 		return Collections.unmodifiableCollection(submetrics.values());
 	}
 
-	public boolean Empty() {
+	public boolean isEmpty() {
 		boolean result = true;
 
 		Iterator i;
@@ -210,25 +210,25 @@ public class Metrics {
 		i = measurements.values().iterator();
 		while (result && i.hasNext()) {
 			Measurement measurement = (Measurement) i.next();
-			if (measurement.Descriptor().Visible()) {
-				result = measurement.Empty();
+			if (measurement.getDescriptor().isVisible()) {
+				result = measurement.isEmpty();
 			}
 		}
 
 		i = submetrics.values().iterator();
 		while (result && i.hasNext()) {
-			result = ((Metrics) i.next()).Empty();
+			result = ((Metrics) i.next()).isEmpty();
 		}
 		
 		return result;
 	}
 
-	public boolean InRange() {
+	public boolean isInRange() {
 		boolean result = true;
 
 		Iterator i = measurements.values().iterator();
 		while (result && i.hasNext()) {
-			result = ((Measurement) i.next()).InRange();
+			result = ((Measurement) i.next()).isInRange();
 		}
 		
 		return result;
@@ -237,12 +237,12 @@ public class Metrics {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		result.append(getClass().getName()).append(" ").append(Name()).append(" with [");
+		result.append(getClass().getName()).append(" ").append(getName()).append(" with [");
 
-		Iterator i = MeasurementNames().iterator();
+		Iterator i = getMeasurementNames().iterator();
 		while(i.hasNext()) {
 			String name = (String) i.next();
-			Measurement measure = Measurement(name);
+			Measurement measure = getMeasurement(name);
 
 			result.append("\"").append(name).append("\"(").append(measure.getClass().getName()).append(")");
 			if (i.hasNext()) {

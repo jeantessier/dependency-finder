@@ -147,10 +147,10 @@ public class TestReport extends TestCase implements ErrorHandler {
 		Validator new_validator = new ListBasedValidator(new BufferedReader(new FileReader(NEW_CLASSPATH + ".txt")));
 
 		DifferencesFactory factory = new DifferencesFactory(old_validator, new_validator);
-		JarDifferences jar_differences = (JarDifferences) factory.CreateJarDifferences("test", "old", old_jar, "new", new_jar);
+		JarDifferences jar_differences = (JarDifferences) factory.createJarDifferences("test", "old", old_jar, "new", new_jar);
 
 		printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		jar_differences.Accept(printer);
+		jar_differences.accept(printer);
 
 		String xml_document = printer.toString();
 
@@ -168,8 +168,6 @@ public class TestReport extends TestCase implements ErrorHandler {
 		assertNotNull("//differences", XPathAPI.selectSingleNode(doc, "//differences"));
 		assertNotNull("*/old[text()='old']", XPathAPI.selectSingleNode(doc, "*/old[text()='old']"));
 		assertEquals("*/modified-classes/class", 1, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
-// 		assertEquals("*/name", 0, XPathAPI.selectNodeList(doc, "*/name").getLength());
-// 		assertEquals("*/modified-methods/feature", 1, XPathAPI.selectNodeList(doc, "*/modified-methods/feature").getLength());
 	}
 	
 	public void error(SAXParseException ex) {

@@ -41,505 +41,505 @@ import com.jeantessier.classreader.*;
 public class ClassReport extends Printer implements Comparable {
 	private ClassDifferences differences;
 
-	private Collection removed_fields            = new TreeSet();
-	private Collection removed_constructors      = new TreeSet();
-	private Collection removed_methods           = new TreeSet();
+	private Collection removedFields            = new TreeSet();
+	private Collection removedConstructors      = new TreeSet();
+	private Collection removedMethods           = new TreeSet();
 
-	private Collection deprecated_fields         = new TreeSet();
-	private Collection deprecated_constructors   = new TreeSet();
-	private Collection deprecated_methods        = new TreeSet();
+	private Collection deprecatedFields         = new TreeSet();
+	private Collection deprecatedConstructors   = new TreeSet();
+	private Collection deprecatedMethods        = new TreeSet();
 
-	private Collection undocumented_fields       = new TreeSet();
-	private Collection undocumented_constructors = new TreeSet();
-	private Collection undocumented_methods      = new TreeSet();
+	private Collection undocumentedFields       = new TreeSet();
+	private Collection undocumentedConstructors = new TreeSet();
+	private Collection undocumentedMethods      = new TreeSet();
 
-	private Collection modified_fields           = new TreeSet();
-	private Collection modified_constructors     = new TreeSet();
-	private Collection modified_methods          = new TreeSet();
+	private Collection modifiedFields           = new TreeSet();
+	private Collection modifiedConstructors     = new TreeSet();
+	private Collection modifiedMethods          = new TreeSet();
 
-	private Collection documented_fields         = new TreeSet();
-	private Collection documented_constructors   = new TreeSet();
-	private Collection documented_methods        = new TreeSet();
+	private Collection documentedFields         = new TreeSet();
+	private Collection documentedConstructors   = new TreeSet();
+	private Collection documentedMethods        = new TreeSet();
 
-	private Collection undeprecated_fields       = new TreeSet();
-	private Collection undeprecated_constructors = new TreeSet();
-	private Collection undeprecated_methods      = new TreeSet();
+	private Collection undeprecatedFields       = new TreeSet();
+	private Collection undeprecatedConstructors = new TreeSet();
+	private Collection undeprecatedMethods      = new TreeSet();
 
-	private Collection new_fields                = new TreeSet();
-	private Collection new_constructors          = new TreeSet();
-	private Collection new_methods               = new TreeSet();
+	private Collection newFields                = new TreeSet();
+	private Collection newConstructors          = new TreeSet();
+	private Collection newMethods               = new TreeSet();
 
-	public void VisitClassDifferences(ClassDifferences differences) {
+	public void visitClassDifferences(ClassDifferences differences) {
 		this.differences = differences;
 
-		Iterator i = differences.FeatureDifferences().iterator();
+		Iterator i = differences.getFeatureDifferences().iterator();
 		while (i.hasNext()) {
-			((Differences) i.next()).Accept(this);
+			((Differences) i.next()).accept(this);
 		}
 	}
 
-	public void VisitInterfaceDifferences(InterfaceDifferences differences) {
+	public void visitInterfaceDifferences(InterfaceDifferences differences) {
 		this.differences = differences;
 
-		Iterator i = differences.FeatureDifferences().iterator();
+		Iterator i = differences.getFeatureDifferences().iterator();
 		while (i.hasNext()) {
-			((Differences) i.next()).Accept(this);
+			((Differences) i.next()).accept(this);
 		}
 	}
 
-	public void VisitFieldDifferences(FieldDifferences differences) {
-		if (differences.IsRemoved()) {
-			removed_fields.add(differences);
+	public void visitFieldDifferences(FieldDifferences differences) {
+		if (differences.isRemoved()) {
+			removedFields.add(differences);
 		}
 	
-		if (differences.IsModified()) {
-			modified_fields.add(differences);
+		if (differences.isModified()) {
+			modifiedFields.add(differences);
 		}
 	
-		if (differences.IsNew()) {
-			new_fields.add(differences);
+		if (differences.isNew()) {
+			newFields.add(differences);
 		}
 
-		if (Deprecated()) {
-			deprecated_fields.add(differences);
+		if (isDeprecated()) {
+			deprecatedFields.add(differences);
 		}
 
-		if (Undeprecated()) {
-			undeprecated_fields.add(differences);
+		if (isUndeprecated()) {
+			undeprecatedFields.add(differences);
 		}
 
-		if (Documented()) {
-			documented_fields.add(differences);
+		if (isDocumented()) {
+			documentedFields.add(differences);
 		}
 
-		if (Undocumented()) {
-			undocumented_fields.add(differences);
+		if (isUndocumented()) {
+			undocumentedFields.add(differences);
 		}
 	}
 
-	public void VisitConstructorDifferences(ConstructorDifferences differences) {
-		if (differences.IsRemoved()) {
-			removed_constructors.add(differences);
+	public void visitConstructorDifferences(ConstructorDifferences differences) {
+		if (differences.isRemoved()) {
+			removedConstructors.add(differences);
 		}
 	
-		if (differences.IsModified()) {
-			modified_constructors.add(differences);
+		if (differences.isModified()) {
+			modifiedConstructors.add(differences);
 		}
 	
-		if (differences.IsNew()) {
-			new_constructors.add(differences);
+		if (differences.isNew()) {
+			newConstructors.add(differences);
 		}
 
-		if (Deprecated()) {
-			deprecated_constructors.add(differences);
+		if (isDeprecated()) {
+			deprecatedConstructors.add(differences);
 		}
 
-		if (Undeprecated()) {
-			undeprecated_constructors.add(differences);
+		if (isUndeprecated()) {
+			undeprecatedConstructors.add(differences);
 		}
 
-		if (Documented()) {
-			documented_constructors.add(differences);
+		if (isDocumented()) {
+			documentedConstructors.add(differences);
 		}
 
-		if (Undocumented()) {
-			undocumented_constructors.add(differences);
+		if (isUndocumented()) {
+			undocumentedConstructors.add(differences);
 		}
 	}
 
-	public void VisitMethodDifferences(MethodDifferences differences) {
-		if (differences.IsRemoved()) {
-			removed_methods.add(differences);
+	public void visitMethodDifferences(MethodDifferences differences) {
+		if (differences.isRemoved()) {
+			removedMethods.add(differences);
 		}
 	
-		if (differences.IsModified()) {
-			modified_methods.add(differences);
+		if (differences.isModified()) {
+			modifiedMethods.add(differences);
 		}
 	
-		if (differences.IsNew()) {
-			new_methods.add(differences);
+		if (differences.isNew()) {
+			newMethods.add(differences);
 		}
 
-		if (Deprecated()) {
-			deprecated_methods.add(differences);
+		if (isDeprecated()) {
+			deprecatedMethods.add(differences);
 		}
 
-		if (Undeprecated()) {
-			undeprecated_methods.add(differences);
+		if (isUndeprecated()) {
+			undeprecatedMethods.add(differences);
 		}
 
-		if (Documented()) {
-			documented_methods.add(differences);
+		if (isDocumented()) {
+			documentedMethods.add(differences);
 		}
 
-		if (Undocumented()) {
-			undocumented_methods.add(differences);
+		if (isUndocumented()) {
+			undocumentedMethods.add(differences);
 		}
 	}
 
 	public String toString() {
-		RaiseIndent();
-		RaiseIndent();
+		raiseIndent();
+		raiseIndent();
 
-		Indent().Append("<class>").EOL();
-		RaiseIndent();
+		indent().append("<class>").eol();
+		raiseIndent();
 
-		Indent().Append("<name>").Append(differences.Name()).Append("</name>").EOL();
+		indent().append("<name>").append(differences.getName()).append("</name>").eol();
 
-		if (!differences.OldDeclaration().equals(differences.NewDeclaration())) {
-			Indent().Append("<modified-declaration>").EOL();
-			RaiseIndent();
+		if (!differences.getOldDeclaration().equals(differences.getNewDeclaration())) {
+			indent().append("<modified-declaration>").eol();
+			raiseIndent();
 
-			Indent().Append("<old-declaration").Append(DeclarationBreakdown(differences.OldClass())).Append(">").Append(differences.OldDeclaration()).Append("</old-declaration>").EOL();
-			Indent().Append("<new-declaration").Append(DeclarationBreakdown(differences.NewClass())).Append(">").Append(differences.NewDeclaration()).Append("</new-declaration>").EOL();
+			indent().append("<old-declaration").append(breakdownDeclaration(differences.getOldClass())).append(">").append(differences.getOldDeclaration()).append("</old-declaration>").eol();
+			indent().append("<new-declaration").append(breakdownDeclaration(differences.getNewClass())).append(">").append(differences.getNewDeclaration()).append("</new-declaration>").eol();
 
-			LowerIndent();
-			Indent().Append("</modified-declaration>").EOL();
+			lowerIndent();
+			indent().append("</modified-declaration>").eol();
 		}
 
-		if (removed_fields.size() != 0) {
-			Indent().Append("<removed-fields>").EOL();
-			RaiseIndent();
+		if (removedFields.size() != 0) {
+			indent().append("<removed-fields>").eol();
+			raiseIndent();
 
-			Iterator i = removed_fields.iterator();
+			Iterator i = removedFields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.OldFeature())).Append(fd.Inherited() ? " inherited=\"yes\"" : "").Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getOldFeature())).append(fd.isInherited() ? " inherited=\"yes\"" : "").append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</removed-fields>").EOL();
+			lowerIndent();
+			indent().append("</removed-fields>").eol();
 		}
 
-		if (removed_constructors.size() != 0) {
-			Indent().Append("<removed-constructors>").EOL();
-			RaiseIndent();
+		if (removedConstructors.size() != 0) {
+			indent().append("<removed-constructors>").eol();
+			raiseIndent();
 
-			Iterator i = removed_constructors.iterator();
+			Iterator i = removedConstructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.OldFeature())).Append(fd.Inherited() ? " inherited=\"yes\"" : "").Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(fd.isInherited() ? " inherited=\"yes\"" : "").append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</removed-constructors>").EOL();
+			lowerIndent();
+			indent().append("</removed-constructors>").eol();
 		}
 
-		if (removed_methods.size() != 0) {
-			Indent().Append("<removed-methods>").EOL();
-			RaiseIndent();
+		if (removedMethods.size() != 0) {
+			indent().append("<removed-methods>").eol();
+			raiseIndent();
 
-			Iterator i = removed_methods.iterator();
+			Iterator i = removedMethods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.OldFeature())).Append(fd.Inherited() ? " inherited=\"yes\"" : "").Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(fd.isInherited() ? " inherited=\"yes\"" : "").append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</removed-methods>").EOL();
+			lowerIndent();
+			indent().append("</removed-methods>").eol();
 		}
 
-		if (deprecated_fields.size() != 0) {
-			Indent().Append("<deprecated-fields>").EOL();
-			RaiseIndent();
+		if (deprecatedFields.size() != 0) {
+			indent().append("<deprecated-fields>").eol();
+			raiseIndent();
 
-			Iterator i = deprecated_fields.iterator();
+			Iterator i = deprecatedFields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</deprecated-fields>").EOL();
+			lowerIndent();
+			indent().append("</deprecated-fields>").eol();
 		}
 
-		if (deprecated_constructors.size() != 0) {
-			Indent().Append("<deprecated-constructors>").EOL();
-			RaiseIndent();
+		if (deprecatedConstructors.size() != 0) {
+			indent().append("<deprecated-constructors>").eol();
+			raiseIndent();
 
-			Iterator i = deprecated_constructors.iterator();
+			Iterator i = deprecatedConstructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</deprecated-constructors>").EOL();
+			lowerIndent();
+			indent().append("</deprecated-constructors>").eol();
 		}
 
-		if (deprecated_methods.size() != 0) {
-			Indent().Append("<deprecated-methods>").EOL();
-			RaiseIndent();
+		if (deprecatedMethods.size() != 0) {
+			indent().append("<deprecated-methods>").eol();
+			raiseIndent();
 
-			Iterator i = deprecated_methods.iterator();
+			Iterator i = deprecatedMethods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</deprecated-methods>").EOL();
+			lowerIndent();
+			indent().append("</deprecated-methods>").eol();
 		}
 
-		if (undocumented_fields.size() != 0) {
-			Indent().Append("<undocumented-fields>").EOL();
-			RaiseIndent();
+		if (undocumentedFields.size() != 0) {
+			indent().append("<undocumented-fields>").eol();
+			raiseIndent();
 
-			Iterator i = undocumented_fields.iterator();
+			Iterator i = undocumentedFields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</undocumented-fields>").EOL();
+			lowerIndent();
+			indent().append("</undocumented-fields>").eol();
 		}
 
-		if (undocumented_constructors.size() != 0) {
-			Indent().Append("<undocumented-constructors>").EOL();
-			RaiseIndent();
+		if (undocumentedConstructors.size() != 0) {
+			indent().append("<undocumented-constructors>").eol();
+			raiseIndent();
 
-			Iterator i = undocumented_constructors.iterator();
+			Iterator i = undocumentedConstructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</undocumented-constructors>").EOL();
+			lowerIndent();
+			indent().append("</undocumented-constructors>").eol();
 		}
 
-		if (undocumented_methods.size() != 0) {
-			Indent().Append("<undocumented-methods>").EOL();
-			RaiseIndent();
+		if (undocumentedMethods.size() != 0) {
+			indent().append("<undocumented-methods>").eol();
+			raiseIndent();
 
-			Iterator i = undocumented_methods.iterator();
+			Iterator i = undocumentedMethods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</undocumented-methods>").EOL();
+			lowerIndent();
+			indent().append("</undocumented-methods>").eol();
 		}
 
-		if (modified_fields.size() != 0) {
-			Indent().Append("<modified-fields>").EOL();
-			RaiseIndent();
+		if (modifiedFields.size() != 0) {
+			indent().append("<modified-fields>").eol();
+			raiseIndent();
 
-			Iterator i = modified_fields.iterator();
+			Iterator i = modifiedFields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 
-				Indent().Append("<feature>").EOL();
-				RaiseIndent();
+				indent().append("<feature>").eol();
+				raiseIndent();
 		
-				Indent().Append("<name>").Append(fd.Name()).Append("</name>").EOL();
+				indent().append("<name>").append(fd.getName()).append("</name>").eol();
 
-				Indent().Append("<modified-declaration>").EOL();
-				RaiseIndent();
-				Indent().Append("<old-declaration").Append(DeclarationBreakdown((Field_info) fd.OldFeature())).Append(">").Append(fd.OldDeclaration()).Append("</old-declaration>").EOL();
-				Indent().Append("<new-declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.NewDeclaration()).Append("</new-declaration>").EOL();
-				LowerIndent();
-				Indent().Append("</modified-declaration>").EOL();
+				indent().append("<modified-declaration>").eol();
+				raiseIndent();
+				indent().append("<old-declaration").append(breakdownDeclaration((Field_info) fd.getOldFeature())).append(">").append(fd.getOldDeclaration()).append("</old-declaration>").eol();
+				indent().append("<new-declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</new-declaration>").eol();
+				lowerIndent();
+				indent().append("</modified-declaration>").eol();
 		
-				LowerIndent();
-				Indent().Append("</feature>").EOL();
+				lowerIndent();
+				indent().append("</feature>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</modified-fields>").EOL();
+			lowerIndent();
+			indent().append("</modified-fields>").eol();
 		}
 
-		if (modified_constructors.size() != 0) {
-			Indent().Append("<modified-constructors>").EOL();
-			RaiseIndent();
+		if (modifiedConstructors.size() != 0) {
+			indent().append("<modified-constructors>").eol();
+			raiseIndent();
 
-			Iterator i = modified_constructors.iterator();
+			Iterator i = modifiedConstructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 
-				Indent().Append("<feature>").EOL();
-				RaiseIndent();
+				indent().append("<feature>").eol();
+				raiseIndent();
 
-				Indent().Append("<name>").Append(fd.Name()).Append("</name>").EOL();
+				indent().append("<name>").append(fd.getName()).append("</name>").eol();
 		
-				Indent().Append("<modified-declaration>").EOL();
-				RaiseIndent();
-				Indent().Append("<old-declaration").Append(DeclarationBreakdown((Method_info) fd.OldFeature())).Append(">").Append(fd.OldDeclaration()).Append("</old-declaration>").EOL();
-				Indent().Append("<new-declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.NewDeclaration()).Append("</new-declaration>").EOL();
-				LowerIndent();
-				Indent().Append("</modified-declaration>").EOL();
+				indent().append("<modified-declaration>").eol();
+				raiseIndent();
+				indent().append("<old-declaration").append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(">").append(fd.getOldDeclaration()).append("</old-declaration>").eol();
+				indent().append("<new-declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</new-declaration>").eol();
+				lowerIndent();
+				indent().append("</modified-declaration>").eol();
 		
-				LowerIndent();
-				Indent().Append("</feature>").EOL();
+				lowerIndent();
+				indent().append("</feature>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</modified-constructors>").EOL();
+			lowerIndent();
+			indent().append("</modified-constructors>").eol();
 		}
 
-		if (modified_methods.size() != 0) {
-			Indent().Append("<modified-methods>").EOL();
-			RaiseIndent();
+		if (modifiedMethods.size() != 0) {
+			indent().append("<modified-methods>").eol();
+			raiseIndent();
 
-			Iterator i = modified_methods.iterator();
+			Iterator i = modifiedMethods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 
-				Indent().Append("<feature>").EOL();
-				RaiseIndent();
+				indent().append("<feature>").eol();
+				raiseIndent();
 		
-				Indent().Append("<name>").Append(fd.Name()).Append("</name>").EOL();
+				indent().append("<name>").append(fd.getName()).append("</name>").eol();
 
-				Indent().Append("<modified-declaration>").EOL();
-				RaiseIndent();
-				Indent().Append("<old-declaration").Append(DeclarationBreakdown((Method_info) fd.OldFeature())).Append(">").Append(fd.OldDeclaration()).Append("</old-declaration>").EOL();
-				Indent().Append("<new-declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.NewDeclaration()).Append("</new-declaration>").EOL();
-				LowerIndent();
-				Indent().Append("</modified-declaration>").EOL();
+				indent().append("<modified-declaration>").eol();
+				raiseIndent();
+				indent().append("<old-declaration").append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(">").append(fd.getOldDeclaration()).append("</old-declaration>").eol();
+				indent().append("<new-declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</new-declaration>").eol();
+				lowerIndent();
+				indent().append("</modified-declaration>").eol();
 		
-				LowerIndent();
-				Indent().Append("</feature>").EOL();
+				lowerIndent();
+				indent().append("</feature>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</modified-methods>").EOL();
+			lowerIndent();
+			indent().append("</modified-methods>").eol();
 		}
 
-		if (documented_fields.size() != 0) {
-			Indent().Append("<documented-fields>").EOL();
-			RaiseIndent();
+		if (documentedFields.size() != 0) {
+			indent().append("<documented-fields>").eol();
+			raiseIndent();
 
-			Iterator i = documented_fields.iterator();
+			Iterator i = documentedFields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</documented-fields>").EOL();
+			lowerIndent();
+			indent().append("</documented-fields>").eol();
 		}
 
-		if (documented_constructors.size() != 0) {
-			Indent().Append("<documented-constructors>").EOL();
-			RaiseIndent();
+		if (documentedConstructors.size() != 0) {
+			indent().append("<documented-constructors>").eol();
+			raiseIndent();
 
-			Iterator i = documented_constructors.iterator();
+			Iterator i = documentedConstructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</documented-constructors>").EOL();
+			lowerIndent();
+			indent().append("</documented-constructors>").eol();
 		}
 
-		if (documented_methods.size() != 0) {
-			Indent().Append("<documented-methods>").EOL();
-			RaiseIndent();
+		if (documentedMethods.size() != 0) {
+			indent().append("<documented-methods>").eol();
+			raiseIndent();
 
-			Iterator i = documented_methods.iterator();
+			Iterator i = documentedMethods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</documented-methods>").EOL();
+			lowerIndent();
+			indent().append("</documented-methods>").eol();
 		}
 
-		if (undeprecated_fields.size() != 0) {
-			Indent().Append("<undeprecated-fields>").EOL();
-			RaiseIndent();
+		if (undeprecatedFields.size() != 0) {
+			indent().append("<undeprecated-fields>").eol();
+			raiseIndent();
 
-			Iterator i = undeprecated_fields.iterator();
+			Iterator i = undeprecatedFields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</undeprecated-fields>").EOL();
+			lowerIndent();
+			indent().append("</undeprecated-fields>").eol();
 		}
 
-		if (undeprecated_constructors.size() != 0) {
-			Indent().Append("<undeprecated-constructors>").EOL();
-			RaiseIndent();
+		if (undeprecatedConstructors.size() != 0) {
+			indent().append("<undeprecated-constructors>").eol();
+			raiseIndent();
 
-			Iterator i = undeprecated_constructors.iterator();
+			Iterator i = undeprecatedConstructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</undeprecated-constructors>").EOL();
+			lowerIndent();
+			indent().append("</undeprecated-constructors>").eol();
 		}
 
-		if (undeprecated_methods.size() != 0) {
-			Indent().Append("<undeprecated-methods>").EOL();
-			RaiseIndent();
+		if (undeprecatedMethods.size() != 0) {
+			indent().append("<undeprecated-methods>").eol();
+			raiseIndent();
 
-			Iterator i = undeprecated_methods.iterator();
+			Iterator i = undeprecatedMethods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</undeprecated-methods>").EOL();
+			lowerIndent();
+			indent().append("</undeprecated-methods>").eol();
 		}
 
-		if (new_fields.size() != 0) {
-			Indent().Append("<new-fields>").EOL();
-			RaiseIndent();
+		if (newFields.size() != 0) {
+			indent().append("<new-fields>").eol();
+			raiseIndent();
 
-			Iterator i = new_fields.iterator();
+			Iterator i = newFields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.NewDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</new-fields>").EOL();
+			lowerIndent();
+			indent().append("</new-fields>").eol();
 		}
 
-		if (new_constructors.size() != 0) {
-			Indent().Append("<new-constructors>").EOL();
-			RaiseIndent();
+		if (newConstructors.size() != 0) {
+			indent().append("<new-constructors>").eol();
+			raiseIndent();
 
-			Iterator i = new_constructors.iterator();
+			Iterator i = newConstructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.NewDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</new-constructors>").EOL();
+			lowerIndent();
+			indent().append("</new-constructors>").eol();
 		}
 
-		if (new_methods.size() != 0) {
-			Indent().Append("<new-methods>").EOL();
-			RaiseIndent();
+		if (newMethods.size() != 0) {
+			indent().append("<new-methods>").eol();
+			raiseIndent();
 
-			Iterator i = new_methods.iterator();
+			Iterator i = newMethods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
-				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.NewDeclaration()).Append("</declaration>").EOL();
+				indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</declaration>").eol();
 			}
 
-			LowerIndent();
-			Indent().Append("</new-methods>").EOL();
+			lowerIndent();
+			indent().append("</new-methods>").eol();
 		}
 
-		LowerIndent();
-		Indent().Append("</class>").EOL();
+		lowerIndent();
+		indent().append("</class>").eol();
 
 		return super.toString();
 	}
 
-	private static final String DeclarationBreakdown(Classfile element) {
+	private static final String breakdownDeclaration(Classfile element) {
 		StringBuffer result = new StringBuffer();
 
 		if (element != null) {
@@ -584,7 +584,7 @@ public class ClassReport extends Printer implements Comparable {
 		return result.toString();
 	}
 
-	private static final String DeclarationBreakdown(Field_info element) {
+	private static final String breakdownDeclaration(Field_info element) {
 		StringBuffer result = new StringBuffer();
 
 		if (element != null) {
@@ -608,7 +608,7 @@ public class ClassReport extends Printer implements Comparable {
 		return result.toString();
 	}
 
-	private static String DeclarationBreakdown(Method_info element) {
+	private static String breakdownDeclaration(Method_info element) {
 		StringBuffer result = new StringBuffer();
 
 		if (element != null) {

@@ -41,207 +41,207 @@ import org.apache.tools.ant.types.*;
 import com.jeantessier.dependency.*;
 
 public abstract class GraphTask extends Task {
-	private String  scope_includes = "//";
-	private String  scope_excludes = "";
-	private boolean package_scope;
-	private String  package_scope_includes = "";
-	private String  package_scope_excludes = "";
-	private boolean class_scope;
-	private String  class_scope_includes = "";
-	private String  class_scope_excludes = "";
-	private boolean feature_scope;
-	private String  feature_scope_includes = "";
-	private String  feature_scope_excludes = "";
-	private String  filter_includes = "//";
-	private String  filter_excludes = "";
-	private boolean package_filter;
-	private String  package_filter_includes = "";
-	private String  package_filter_excludes = "";
-	private boolean class_filter;
-	private String  class_filter_includes = "";
-	private String  class_filter_excludes = "";
-	private boolean feature_filter;
-	private String  feature_filter_includes = "";
-	private String  feature_filter_excludes = "";
+	private String  scopeIncludes = "//";
+	private String  scopeExcludes = "";
+	private boolean packageScope;
+	private String  packageScopeIncludes = "";
+	private String  packageScopeExcludes = "";
+	private boolean classScope;
+	private String  classScopeIncludes = "";
+	private String  classScopeExcludes = "";
+	private boolean featureScope;
+	private String  featureScopeIncludes = "";
+	private String  featureScopeExcludes = "";
+	private String  filterIncludes = "//";
+	private String  filterExcludes = "";
+	private boolean packageFilter;
+	private String  packageFilterIncludes = "";
+	private String  packageFilterExcludes = "";
+	private boolean classFilter;
+	private String  classFilterIncludes = "";
+	private String  classFilterExcludes = "";
+	private boolean featureFilter;
+	private String  featureFilterIncludes = "";
+	private String  featureFilterExcludes = "";
 
-	private boolean validate   = false;
+	private boolean validate = false;
 	private Path    src;
 	private File    destfile;
 
 	public String getScopeincludes() {
-		return scope_includes;
+		return scopeIncludes;
 	}
 
-	public void setScopeincludes(String scope_includes) {
-		this.scope_includes = scope_includes;
+	public void setScopeincludes(String scopeIncludes) {
+		this.scopeIncludes = scopeIncludes;
 	}
 	
 	public String getScopeexcludes() {
-		return scope_excludes;
+		return scopeExcludes;
 	}
 
-	public void setScopeexcludes(String scope_excludes) {
-		this.scope_excludes = scope_excludes;
+	public void setScopeexcludes(String scopeExcludes) {
+		this.scopeExcludes = scopeExcludes;
 	}
 
 	public boolean getPackagescope() {
-		return package_scope;
+		return packageScope;
 	}
 
-	public void setPackagescope(boolean package_scope) {
-		this.package_scope = package_scope;
+	public void setPackagescope(boolean packageScope) {
+		this.packageScope = packageScope;
 	}
 	
 	public String getPackagescopeincludes() {
-		return package_scope_includes;
+		return packageScopeIncludes;
 	}
 
-	public void setPackagescopeincludes(String package_scope_includes) {
-		this.package_scope_includes = package_scope_includes;
+	public void setPackagescopeincludes(String packageScopeIncludes) {
+		this.packageScopeIncludes = packageScopeIncludes;
 	}
 	
 	public String getPackagescopeexcludes() {
-		return package_scope_excludes;
+		return packageScopeExcludes;
 	}
 
-	public void setPackagescopeexcludes(String package_scope_excludes) {
-		this.package_scope_excludes = package_scope_excludes;
+	public void setPackagescopeexcludes(String packageScopeExcludes) {
+		this.packageScopeExcludes = packageScopeExcludes;
 	}
 
 	public boolean getClassscope() {
-		return class_scope;
+		return classScope;
 	}
 
-	public void setClassscope(boolean class_scope) {
-		this.class_scope = class_scope;
+	public void setClassscope(boolean classScope) {
+		this.classScope = classScope;
 	}
 	
 	public String getClassscopeincludes() {
-		return class_scope_includes;
+		return classScopeIncludes;
 	}
 
-	public void setClassscopeincludes(String class_scope_includes) {
-		this.class_scope_includes = class_scope_includes;
+	public void setClassscopeincludes(String classScopeIncludes) {
+		this.classScopeIncludes = classScopeIncludes;
 	}
 	
 	public String getClassscopeexcludes() {
-		return class_scope_excludes;
+		return classScopeExcludes;
 	}
 
-	public void setClassscopeexcludes(String class_scope_excludes) {
-		this.class_scope_excludes = class_scope_excludes;
+	public void setClassscopeexcludes(String classScopeExcludes) {
+		this.classScopeExcludes = classScopeExcludes;
 	}
 
 	public boolean getFeaturescope() {
-		return feature_scope;
+		return featureScope;
 	}
 
-	public void setFeaturescope(boolean feature_scope) {
-		this.feature_scope = feature_scope;
+	public void setFeaturescope(boolean featureScope) {
+		this.featureScope = featureScope;
 	}
 	
 	public String getFeaturescopeincludes() {
-		return feature_scope_includes;
+		return featureScopeIncludes;
 	}
 
-	public void setFeaturescopeincludes(String feature_scope_includes) {
-		this.feature_scope_includes = feature_scope_includes;
+	public void setFeaturescopeincludes(String featureScopeIncludes) {
+		this.featureScopeIncludes = featureScopeIncludes;
 	}
 	
 	public String getFeaturescopeexcludes() {
-		return feature_scope_excludes;
+		return featureScopeExcludes;
 	}
 
-	public void setFeaturescopeexcludes(String feature_scope_excludes) {
-		this.feature_scope_excludes = feature_scope_excludes;
+	public void setFeaturescopeexcludes(String featureScopeExcludes) {
+		this.featureScopeExcludes = featureScopeExcludes;
 	}
 
 	public String getFilterincludes() {
-		return filter_includes;
+		return filterIncludes;
 	}
 
-	public void setFilterincludes(String filter_includes) {
-		this.filter_includes = filter_includes;
+	public void setFilterincludes(String filterIncludes) {
+		this.filterIncludes = filterIncludes;
 	}
 	
 	public String getFilterexcludes() {
-		return filter_excludes;
+		return filterExcludes;
 	}
 
-	public void setFilterexcludes(String filter_excludes) {
-		this.filter_excludes = filter_excludes;
+	public void setFilterexcludes(String filterExcludes) {
+		this.filterExcludes = filterExcludes;
 	}
 
 	public boolean getPackagefilter() {
-		return package_filter;
+		return packageFilter;
 	}
 
-	public void setPackagefilter(boolean package_filter) {
-		this.package_filter = package_filter;
+	public void setPackagefilter(boolean packageFilter) {
+		this.packageFilter = packageFilter;
 	}
 	
 	public String getPackagefilterincludes() {
-		return package_filter_includes;
+		return packageFilterIncludes;
 	}
 
-	public void setPackagefilterincludes(String package_filter_includes) {
-		this.package_filter_includes = package_filter_includes;
+	public void setPackagefilterincludes(String packageFilterIncludes) {
+		this.packageFilterIncludes = packageFilterIncludes;
 	}
 	
 	public String getPackagefilterexcludes() {
-		return package_filter_excludes;
+		return packageFilterExcludes;
 	}
 
-	public void setPackagefilterexcludes(String package_filter_excludes) {
-		this.package_filter_excludes = package_filter_excludes;
+	public void setPackagefilterexcludes(String packageFilterExcludes) {
+		this.packageFilterExcludes = packageFilterExcludes;
 	}
 
 	public boolean getClassfilter() {
-		return class_filter;
+		return classFilter;
 	}
 
-	public void setClassfilter(boolean class_filter) {
-		this.class_filter = class_filter;
+	public void setClassfilter(boolean classFilter) {
+		this.classFilter = classFilter;
 	}
 	
 	public String getClassfilterincludes() {
-		return class_filter_includes;
+		return classFilterIncludes;
 	}
 
-	public void setClassfilterincludes(String class_filter_includes) {
-		this.class_filter_includes = class_filter_includes;
+	public void setClassfilterincludes(String classFilterIncludes) {
+		this.classFilterIncludes = classFilterIncludes;
 	}
 	
 	public String getClassfilterexcludes() {
-		return class_filter_excludes;
+		return classFilterExcludes;
 	}
 
-	public void setClassfilterexcludes(String class_filter_excludes) {
-		this.class_filter_excludes = class_filter_excludes;
+	public void setClassfilterexcludes(String classFilterExcludes) {
+		this.classFilterExcludes = classFilterExcludes;
 	}
 
 	public boolean getFeaturefilter() {
-		return feature_filter;
+		return featureFilter;
 	}
 
-	public void setFeaturefilter(boolean feature_filter) {
-		this.feature_filter = feature_filter;
+	public void setFeaturefilter(boolean featureFilter) {
+		this.featureFilter = featureFilter;
 	}
 	
 	public String getFeaturefilterincludes() {
-		return feature_filter_includes;
+		return featureFilterIncludes;
 	}
 
-	public void setFeaturefilterincludes(String feature_filter_includes) {
-		this.feature_filter_includes = feature_filter_includes;
+	public void setFeaturefilterincludes(String featureFilterIncludes) {
+		this.featureFilterIncludes = featureFilterIncludes;
 	}
 	
 	public String getFeaturefilterexcludes() {
-		return feature_filter_excludes;
+		return featureFilterExcludes;
 	}
 
-	public void setFeaturefilterexcludes(String feature_filter_excludes) {
-		this.feature_filter_excludes = feature_filter_excludes;
+	public void setFeaturefilterexcludes(String featureFilterExcludes) {
+		this.featureFilterExcludes = featureFilterExcludes;
 	}
 
 	public void setAll(boolean value) {
@@ -323,7 +323,7 @@ public abstract class GraphTask extends Task {
 		this.destfile = destfile;
 	}
 
-	protected void CheckParameters() throws BuildException {
+	protected void validateParameters() throws BuildException {
 		if (getSrcfile() == null) {
 			throw new BuildException("src or srcfile must be set!");
 		}
@@ -337,7 +337,7 @@ public abstract class GraphTask extends Task {
 		}
 	}
 
-	protected SelectionCriteria ScopeCriteria() throws BuildException {
+	protected SelectionCriteria getScopeCriteria() throws BuildException {
 		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
 		result.setMatchingPackages(getPackagescope());
@@ -356,7 +356,7 @@ public abstract class GraphTask extends Task {
 		return result;
 	}
 
-	protected SelectionCriteria FilterCriteria() throws BuildException {
+	protected SelectionCriteria getFilterCriteria() throws BuildException {
 		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
 		result.setMatchingPackages(getPackagefilter());
@@ -375,7 +375,7 @@ public abstract class GraphTask extends Task {
 		return result;
 	}
 	
-	protected TraversalStrategy Strategy() throws BuildException {
-		return new SelectiveTraversalStrategy(ScopeCriteria(), FilterCriteria());
+	protected TraversalStrategy getStrategy() throws BuildException {
+		return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());
 	}
 }

@@ -41,7 +41,7 @@ import org.apache.oro.text.perl.*;
 public class MetricsFactory {
 	private static final Perl5Util perl = new Perl5Util();
 
-	private String               project_name;
+	private String               projectName;
 	private MetricsConfiguration configuration;
 
 	private Map projects = new HashMap();
@@ -49,240 +49,240 @@ public class MetricsFactory {
 	private Map classes  = new HashMap();
 	private Map methods  = new HashMap();
 
-	private Map included_projects = new HashMap();
-	private Map included_groups   = new HashMap();
-	private Map included_classes  = new HashMap();
-	private Map included_methods  = new HashMap();
+	private Map includedProjects = new HashMap();
+	private Map includedGroups   = new HashMap();
+	private Map includedClasses  = new HashMap();
+	private Map includedMethods  = new HashMap();
 	
-	public MetricsFactory(String project_name, MetricsConfiguration configuration) {
-		this.project_name  = project_name;
+	public MetricsFactory(String projectName, MetricsConfiguration configuration) {
+		this.projectName   = projectName;
 		this.configuration = configuration;
 	}
 
-	public String ProjectName() {
-		return project_name;
+	public String getProjectName() {
+		return projectName;
 	}
 
-	public MetricsConfiguration Configuration() {
+	public MetricsConfiguration getConfiguration() {
 		return configuration;
 	}
 	
-	public Metrics CreateProjectMetrics() {
-		return CreateProjectMetrics(ProjectName());
+	public Metrics createProjectMetrics() {
+		return createProjectMetrics(getProjectName());
 	}
 	
-	public Metrics CreateProjectMetrics(String name) {
+	public Metrics createProjectMetrics(String name) {
 		Metrics result = (Metrics) projects.get(name);
 
 		if (result == null) {
-			result = BuildProjectMetrics(name);
+			result = buildProjectMetrics(name);
 			projects.put(name, result);
 		}
 		
 		return result;
 	}
 
-	private Metrics BuildProjectMetrics(String name) {
+	private Metrics buildProjectMetrics(String name) {
 		Metrics result = new Metrics(name);
 
-		PopulateMetrics(result, Configuration().ProjectMeasurements());
+		populateMetrics(result, getConfiguration().getProjectMeasurements());
 		
 		return result;
 	}
 	
-	public void IncludeProjectMetrics(Metrics metrics) {
-		included_projects.put(metrics.Name(), metrics);
+	public void includeProjectMetrics(Metrics metrics) {
+		includedProjects.put(metrics.getName(), metrics);
 	}
 
-	public Collection ProjectNames() {
-		return Collections.unmodifiableCollection(included_projects.keySet());
+	public Collection getProjectNames() {
+		return Collections.unmodifiableCollection(includedProjects.keySet());
 	}
 	
-	public Collection ProjectMetrics() {
-		return Collections.unmodifiableCollection(included_projects.values());
+	public Collection getProjectMetrics() {
+		return Collections.unmodifiableCollection(includedProjects.values());
 	}
 	
-	public Collection AllProjectNames() {
+	public Collection getAllProjectNames() {
 		return Collections.unmodifiableCollection(projects.keySet());
 	}
 	
-	public Collection AllProjectMetrics() {
+	public Collection getAllProjectMetrics() {
 		return Collections.unmodifiableCollection(projects.values());
 	}
 
-	public Metrics CreateGroupMetrics(String name) {
+	public Metrics createGroupMetrics(String name) {
 		Metrics result = (Metrics) groups.get(name);
 
 		if (result == null) {
-			result = BuildGroupMetrics(name);
+			result = buildGroupMetrics(name);
 			groups.put(name, result);
 		}
 		
 		return result;
 	}
 
-	private Metrics BuildGroupMetrics(String name) {
-		Metrics project_metrics = CreateProjectMetrics();
-		Metrics result          = new Metrics(project_metrics, name);
+	private Metrics buildGroupMetrics(String name) {
+		Metrics projectMetrics = createProjectMetrics();
+		Metrics result         = new Metrics(projectMetrics, name);
 
-		PopulateMetrics(result, Configuration().GroupMeasurements());
+		populateMetrics(result, getConfiguration().getGroupMeasurements());
 
 		return result;
 	}
 	
-	public void IncludeGroupMetrics(Metrics metrics) {
-		included_groups.put(metrics.Name(), metrics);
-		metrics.Parent().AddSubMetrics(metrics);
-		IncludeProjectMetrics(metrics.Parent());
+	public void includeGroupMetrics(Metrics metrics) {
+		includedGroups.put(metrics.getName(), metrics);
+		metrics.getParent().addSubMetrics(metrics);
+		includeProjectMetrics(metrics.getParent());
 	}
 
-	public Collection GroupNames() {
-		return Collections.unmodifiableCollection(included_groups.keySet());
+	public Collection getGroupNames() {
+		return Collections.unmodifiableCollection(includedGroups.keySet());
 	}
 
-	public Collection GroupMetrics() {
-		return Collections.unmodifiableCollection(included_groups.values());
+	public Collection getGroupMetrics() {
+		return Collections.unmodifiableCollection(includedGroups.values());
 	}
 
-	public Collection AllGroupNames() {
+	public Collection getAllGroupNames() {
 		return Collections.unmodifiableCollection(groups.keySet());
 	}
 
-	public Collection AllGroupMetrics() {
+	public Collection getAllGroupMetrics() {
 		return Collections.unmodifiableCollection(groups.values());
 	}
 
-	public Metrics CreateClassMetrics(String name) {
+	public Metrics createClassMetrics(String name) {
 		Metrics result = (Metrics) classes.get(name);
 
 		if (result == null) {
-			result = BuildClassMetrics(name);
+			result = buildClassMetrics(name);
 			classes.put(name, result);
 		}
 		
 		return result;
 	}
 
-	private Metrics BuildClassMetrics(String name) {
-		String package_name = "";
+	private Metrics buildClassMetrics(String name) {
+		String packageName = "";
 		int pos = name.lastIndexOf('.');
 		if (pos != -1) {
-			package_name = name.substring(0, pos);
+			packageName = name.substring(0, pos);
 		}
-		Metrics package_metrics = CreateGroupMetrics(package_name);
-		Metrics result          = new Metrics(package_metrics, name);
+		Metrics packageMetrics = createGroupMetrics(packageName);
+		Metrics result         = new Metrics(packageMetrics, name);
 		
-		PopulateMetrics(result, Configuration().ClassMeasurements());
+		populateMetrics(result, getConfiguration().getClassMeasurements());
 
 		return result;
 	}
 	
-	public void IncludeClassMetrics(Metrics metrics) {
-		included_classes.put(metrics.Name(), metrics);
-		metrics.Parent().AddSubMetrics(metrics);
-		IncludeGroupMetrics(metrics.Parent());
+	public void includeClassMetrics(Metrics metrics) {
+		includedClasses.put(metrics.getName(), metrics);
+		metrics.getParent().addSubMetrics(metrics);
+		includeGroupMetrics(metrics.getParent());
 
-		Iterator i = Configuration().Groups(metrics.Name()).iterator();
+		Iterator i = getConfiguration().getGroups(metrics.getName()).iterator();
 		while (i.hasNext()) {
-			Metrics group_metrics = CreateGroupMetrics((String) i.next());
-			group_metrics.AddSubMetrics(metrics);
-			IncludeGroupMetrics(group_metrics);
+			Metrics groupMetrics = createGroupMetrics((String) i.next());
+			groupMetrics.addSubMetrics(metrics);
+			includeGroupMetrics(groupMetrics);
 		}
 	}
 
-	public Collection ClassNames() {
-		return Collections.unmodifiableCollection(included_classes.keySet());
+	public Collection getClassNames() {
+		return Collections.unmodifiableCollection(includedClasses.keySet());
 	}
 
-	public Collection ClassMetrics() {
-		return Collections.unmodifiableCollection(included_classes.values());
+	public Collection getClassMetrics() {
+		return Collections.unmodifiableCollection(includedClasses.values());
 	}
 
-	public Collection AllClassNames() {
+	public Collection getAllClassNames() {
 		return Collections.unmodifiableCollection(classes.keySet());
 	}
 	
-	public Collection AllClassMetrics() {
+	public Collection getAllClassMetrics() {
 		return Collections.unmodifiableCollection(classes.values());
 	}
 
-	public Metrics CreateMethodMetrics(String name) {
+	public Metrics createMethodMetrics(String name) {
 		Metrics result = (Metrics) methods.get(name);
 
 		if (result == null) {
-			result = BuildMethodMetrics(name);
+			result = buildMethodMetrics(name);
 			methods.put(name, result);
 		}
 		
 		return result;
 	}
 
-	private Metrics BuildMethodMetrics(String name) {
-		String class_name = "";
+	private Metrics buildMethodMetrics(String name) {
+		String className = "";
 		if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)$/", name)) {
-			class_name = perl.group(1);
+			className = perl.group(1);
 		} else if (perl.match("/^(.*)\\.static {}$/", name)) {
-			class_name = perl.group(1);
+			className = perl.group(1);
 		} else if (perl.match("/^(.*)\\.[\\^.]*$/", name)) {
-			class_name = perl.group(1);
+			className = perl.group(1);
 		}
-		Metrics class_metrics = CreateClassMetrics(class_name);
-		Metrics result        = new Metrics(class_metrics, name);
-		class_metrics.AddSubMetrics(result);
+		Metrics classMetrics = createClassMetrics(className);
+		Metrics result       = new Metrics(classMetrics, name);
+		classMetrics.addSubMetrics(result);
 
-		PopulateMetrics(result, Configuration().MethodMeasurements());
+		populateMetrics(result, getConfiguration().getMethodMeasurements());
 
 		return result;
 	}
 
-	public void IncludeMethodMetrics(Metrics metrics) {
-		included_methods.put(metrics.Name(), metrics);
-		metrics.Parent().AddSubMetrics(metrics);
-		IncludeClassMetrics(metrics.Parent());
+	public void includeMethodMetrics(Metrics metrics) {
+		includedMethods.put(metrics.getName(), metrics);
+		metrics.getParent().addSubMetrics(metrics);
+		includeClassMetrics(metrics.getParent());
 	}
 	
-	public Collection MethodNames() {
-		return Collections.unmodifiableCollection(included_methods.keySet());
+	public Collection getMethodNames() {
+		return Collections.unmodifiableCollection(includedMethods.keySet());
 	}
 
-	public Collection MethodMetrics() {
-		return Collections.unmodifiableCollection(included_methods.values());
+	public Collection getMethodMetrics() {
+		return Collections.unmodifiableCollection(includedMethods.values());
 	}
 	
-	public Collection AllMethodNames() {
+	public Collection getAllMethodNames() {
 		return Collections.unmodifiableCollection(methods.keySet());
 	}
 
-	public Collection AllMethodMetrics() {
+	public Collection getAllMethodMetrics() {
 		return Collections.unmodifiableCollection(methods.values());
 	}
 
-	public void Clear() {
+	public void clear() {
 		projects.clear();
 		groups.clear();
 		classes.clear();
 		methods.clear();
 		
-		included_projects.clear();
-		included_groups.clear();
-		included_classes.clear();
-		included_methods.clear();
+		includedProjects.clear();
+		includedGroups.clear();
+		includedClasses.clear();
+		includedMethods.clear();
 	}
 	
-	private void PopulateMetrics(Metrics metrics, Collection descriptors) {
+	private void populateMetrics(Metrics metrics, Collection descriptors) {
 		Iterator i = descriptors.iterator();
 		while (i.hasNext()) {
 			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 			try {
-				metrics.Track(descriptor.CreateMeasurement(metrics));
+				metrics.track(descriptor.createMeasurement(metrics));
 			} catch (InstantiationException ex) {
-				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
+				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
 			} catch (IllegalAccessException ex) {
-				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
+				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
 			} catch (NoSuchMethodException ex) {
-				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
+				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
 			} catch (InvocationTargetException ex) {
-				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
+				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
 			}
 		}
 	}
@@ -290,7 +290,7 @@ public class MetricsFactory {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		result.append("Factory for project \"").append(ProjectName()).append("\"").append(System.getProperty("line.separator", "\n"));
+		result.append("Factory for project \"").append(getProjectName()).append("\"").append(System.getProperty("line.separator", "\n"));
 
 		Iterator i;
 		
@@ -298,28 +298,28 @@ public class MetricsFactory {
 		i = projects.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
-			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("").append(System.getProperty("line.separator", "\n"));
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).getName()).append("").append(System.getProperty("line.separator", "\n"));
 		}
 		
 		result.append("groups:").append(System.getProperty("line.separator", "\n"));
 		i = groups.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
-			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("").append(System.getProperty("line.separator", "\n"));
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).getName()).append("").append(System.getProperty("line.separator", "\n"));
 		}
 		
 		result.append("classes:").append(System.getProperty("line.separator", "\n"));
 		i = classes.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
-			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("").append(System.getProperty("line.separator", "\n"));
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).getName()).append("").append(System.getProperty("line.separator", "\n"));
 		}
 		
 		result.append("methods:").append(System.getProperty("line.separator", "\n"));
 		i = methods.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
-			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("").append(System.getProperty("line.separator", "\n"));
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).getName()).append("").append(System.getProperty("line.separator", "\n"));
 		}
 		
 		return result.toString();

@@ -44,15 +44,15 @@ import com.jeantessier.dependency.*;
 
 public class DependencyMetrics extends GraphTask {
 
-	private boolean list                        = false;
-	private boolean chart_classes_per_package   = false;
-	private boolean chart_features_per_class    = false;
-	private boolean chart_inbounds_per_package  = false;
-	private boolean chart_outbounds_per_package = false;
-	private boolean chart_inbounds_per_class    = false;
-	private boolean chart_outbounds_per_class   = false;
-	private boolean chart_inbounds_per_feature  = false;
-	private boolean chart_outbounds_per_feature = false;
+	private boolean list                     = false;
+	private boolean chartClassesPerPackage   = false;
+	private boolean chartFeaturesPerClass    = false;
+	private boolean chartInboundsPerPackage  = false;
+	private boolean chartOutboundsPerPackage = false;
+	private boolean chartInboundsPerClass    = false;
+	private boolean chartOutboundsPerClass   = false;
+	private boolean chartInboundsPerFeature  = false;
+	private boolean chartOutboundsPerFeature = false;
 
 	public boolean getList() {
 		return list;
@@ -63,114 +63,114 @@ public class DependencyMetrics extends GraphTask {
 	}
 
 	public boolean getChartclassesperpackage() {
-		return chart_classes_per_package;
+		return chartClassesPerPackage;
 	}
 	
-	public void setChartclassesperpackage(boolean chart_classes_per_package) {
-		this.chart_classes_per_package = chart_classes_per_package;
+	public void setChartclassesperpackage(boolean chartClassesPerPackage) {
+		this.chartClassesPerPackage = chartClassesPerPackage;
 	}
 
 	public boolean getChartfeaturesperclass() {
-		return chart_features_per_class;
+		return chartFeaturesPerClass;
 	}
 	
-	public void setChartfeaturesperclass(boolean chart_features_per_class) {
-		this.chart_features_per_class = chart_features_per_class;
+	public void setChartfeaturesperclass(boolean chartFeaturesPerClass) {
+		this.chartFeaturesPerClass = chartFeaturesPerClass;
 	}
 
 	public boolean getChartinboundsperpackage() {
-		return chart_inbounds_per_package;
+		return chartInboundsPerPackage;
 	}
 	
-	public void setChartinboundsperpackage(boolean chart_inbounds_per_package) {
-		this.chart_inbounds_per_package = chart_inbounds_per_package;
+	public void setChartinboundsperpackage(boolean chartInboundsPerPackage) {
+		this.chartInboundsPerPackage = chartInboundsPerPackage;
 	}
 
 	public boolean getChartoutboundsperpackage() {
-		return chart_outbounds_per_package;
+		return chartOutboundsPerPackage;
 	}
 	
-	public void setChartoutboundsperpackage(boolean chart_outbounds_per_package) {
-		this.chart_outbounds_per_package = chart_outbounds_per_package;
+	public void setChartoutboundsperpackage(boolean chartOutboundsPerPackage) {
+		this.chartOutboundsPerPackage = chartOutboundsPerPackage;
 	}
 
 	public boolean getChartinboundsperclass() {
-		return chart_inbounds_per_class;
+		return chartInboundsPerClass;
 	}
 	
-	public void setChartinboundsperclass(boolean chart_inbounds_per_class) {
-		this.chart_inbounds_per_class = chart_inbounds_per_class;
+	public void setChartinboundsperclass(boolean chartInboundsPerClass) {
+		this.chartInboundsPerClass = chartInboundsPerClass;
 	}
 
 	public boolean getChartoutboundsperclass() {
-		return chart_outbounds_per_class;
+		return chartOutboundsPerClass;
 	}
 	
-	public void setChartoutboundsperclass(boolean chart_outbounds_per_class) {
-		this.chart_outbounds_per_class = chart_outbounds_per_class;
+	public void setChartoutboundsperclass(boolean chartOutboundsPerClass) {
+		this.chartOutboundsPerClass = chartOutboundsPerClass;
 	}
 	
 	public boolean getChartinboundsperfeature() {
-		return chart_inbounds_per_feature;
+		return chartInboundsPerFeature;
 	}
 	
-	public void setChartinboundsperfeature(boolean chart_inbounds_per_feature) {
-		this.chart_inbounds_per_feature = chart_inbounds_per_feature;
+	public void setChartinboundsperfeature(boolean chartInboundsPerFeature) {
+		this.chartInboundsPerFeature = chartInboundsPerFeature;
 	}
 
 	public boolean getChartoutboundsperfeature() {
-		return chart_outbounds_per_feature;
+		return chartOutboundsPerFeature;
 	}
 	
-	public void setChartoutboundsperfeature(boolean chart_outbounds_per_feature) {
-		this.chart_outbounds_per_feature = chart_outbounds_per_feature;
+	public void setChartoutboundsperfeature(boolean chartOutboundsPerFeature) {
+		this.chartOutboundsPerFeature = chartOutboundsPerFeature;
 	}
 
-	public void setChartinbounds(boolean chart_inbounds) {
-		setChartinboundsperpackage(chart_inbounds);
-		setChartinboundsperclass(chart_inbounds);
-		setChartinboundsperfeature(chart_inbounds);
+	public void setChartinbounds(boolean chartInbounds) {
+		setChartinboundsperpackage(chartInbounds);
+		setChartinboundsperclass(chartInbounds);
+		setChartinboundsperfeature(chartInbounds);
 	}
 
-	public void setChartoutbounds(boolean chart_outbounds) {
-		setChartoutboundsperpackage(chart_outbounds);
-		setChartoutboundsperclass(chart_outbounds);
-		setChartoutboundsperfeature(chart_outbounds);
+	public void setChartoutbounds(boolean chartOutbounds) {
+		setChartoutboundsperpackage(chartOutbounds);
+		setChartoutboundsperclass(chartOutbounds);
+		setChartoutboundsperfeature(chartOutbounds);
 	}
 
-	public void setChartpackages(boolean chart_packages) {
-		setChartclassesperpackage(chart_packages);
-		setChartinboundsperpackage(chart_packages);
-		setChartoutboundsperpackage(chart_packages);
+	public void setChartpackages(boolean chartPackages) {
+		setChartclassesperpackage(chartPackages);
+		setChartinboundsperpackage(chartPackages);
+		setChartoutboundsperpackage(chartPackages);
 	}
 
-	public void setChartclasses(boolean chart_classes) {
-		setChartfeaturesperclass(chart_classes);
-		setChartinboundsperclass(chart_classes);
-		setChartoutboundsperclass(chart_classes);
+	public void setChartclasses(boolean chartClasses) {
+		setChartfeaturesperclass(chartClasses);
+		setChartinboundsperclass(chartClasses);
+		setChartoutboundsperclass(chartClasses);
 	}
 
-	public void setChartfeatures(boolean chart_features) {
-		setChartinboundsperfeature(chart_features);
-		setChartoutboundsperfeature(chart_features);
+	public void setChartfeatures(boolean chartFeatures) {
+		setChartinboundsperfeature(chartFeatures);
+		setChartoutboundsperfeature(chartFeatures);
 	}
 
-	public void setChartall(boolean chart_all) {
-		setChartclassesperpackage(chart_all);
-		setChartfeaturesperclass(chart_all);
-		setChartinboundsperpackage(chart_all);
-		setChartoutboundsperpackage(chart_all);
-		setChartinboundsperclass(chart_all);
-		setChartoutboundsperclass(chart_all);
-		setChartinboundsperfeature(chart_all);
-		setChartoutboundsperfeature(chart_all);
+	public void setChartall(boolean chartAll) {
+		setChartclassesperpackage(chartAll);
+		setChartfeaturesperclass(chartAll);
+		setChartinboundsperpackage(chartAll);
+		setChartoutboundsperpackage(chartAll);
+		setChartinboundsperclass(chartAll);
+		setChartoutboundsperclass(chartAll);
+		setChartinboundsperfeature(chartAll);
+		setChartoutboundsperfeature(chartAll);
 	}
 	
 	public void execute() throws BuildException {
 		// first off, make sure that we've got what we need
-		CheckParameters();
+		validateParameters();
 
-		VerboseListener verbose_listener = new VerboseListener(this);
+		VerboseListener verboseListener = new VerboseListener(this);
 
 		try {
 			log("Saving metrics report to " + getDestfile().getAbsolutePath());
@@ -189,7 +189,7 @@ public class DependencyMetrics extends GraphTask {
 			reporter.setChartingInboundsPerFeature(getChartinboundsperfeature());
 			reporter.setChartingOutboundsPerFeature(getChartoutboundsperfeature());
 
-			MetricsGatherer metrics = new MetricsGatherer(Strategy());
+			MetricsGatherer metrics = new MetricsGatherer(getStrategy());
 
 			String[] filenames = getSrc().list();
 			for (int i=0; i<filenames.length; i++) {
@@ -199,7 +199,7 @@ public class DependencyMetrics extends GraphTask {
 				
 				if (filenames[i].endsWith(".xml")) {
 					NodeLoader loader = new NodeLoader(getValidate());
-					loader.addDependencyListener(verbose_listener);
+					loader.addDependencyListener(verboseListener);
 					packages = loader.load(filenames[i]).getPackages().values();
 				}
 				

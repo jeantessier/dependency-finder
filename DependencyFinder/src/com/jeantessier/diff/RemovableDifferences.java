@@ -43,73 +43,73 @@ import org.apache.log4j.*;
 public abstract class RemovableDifferences implements Differences, Comparable {
 	private String name;
 
-	private String old_declaration = null;
-	private String new_declaration = null;
+	private String oldDeclaration = null;
+	private String newDeclaration = null;
 
 	protected RemovableDifferences(String name) {
 		this.name = name;
 	}
 
-	public String Name() {
+	public String getName() {
 		return name;
 	}
 
-	public String OldDeclaration() {
-		return old_declaration;
+	public String getOldDeclaration() {
+		return oldDeclaration;
 	}
 
-	public void OldDeclaration(String old_declaration) {
-		this.old_declaration = old_declaration;
+	public void setOldDeclaration(String oldDeclaration) {
+		this.oldDeclaration = oldDeclaration;
 	}
 
-	public String NewDeclaration() {
-		return new_declaration;
+	public String getNewDeclaration() {
+		return newDeclaration;
 	}
 
-	public void NewDeclaration(String new_declaration) {
-		this.new_declaration = new_declaration;
+	public void setNewDeclaration(String newDeclaration) {
+		this.newDeclaration = newDeclaration;
 	}
 
-	public boolean IsRemoved() {
-		boolean result = (old_declaration != null) && (new_declaration == null);
+	public boolean isRemoved() {
+		boolean result = (oldDeclaration != null) && (newDeclaration == null);
 
-		Logger.getLogger(getClass()).debug(Name() + " IsRemoved(): " + result);
+		Logger.getLogger(getClass()).debug(getName() + " IsRemoved(): " + result);
 		
 		return result;
 	}
 
-	public boolean IsModified() {
-		boolean result = (old_declaration != null) && (new_declaration != null) && !old_declaration.equals(new_declaration);
+	public boolean isModified() {
+		boolean result = (oldDeclaration != null) && (newDeclaration != null) && !oldDeclaration.equals(newDeclaration);
 
-		Logger.getLogger(getClass()).debug(Name() + " IsModified(): " + result);
+		Logger.getLogger(getClass()).debug(getName() + " IsModified(): " + result);
 		
 		return result;
 	}
 
-	public boolean IsNew() {
-		boolean result = (old_declaration == null) && (new_declaration != null);
+	public boolean isNew() {
+		boolean result = (oldDeclaration == null) && (newDeclaration != null);
 
-		Logger.getLogger(getClass()).debug(Name() + " IsNew(): " + result);
+		Logger.getLogger(getClass()).debug(getName() + " IsNew(): " + result);
 		
 		return result;
 	}
 
-	public boolean IsEmpty() {
+	public boolean isEmpty() {
 		return
-			!IsNew() &&
-			!IsModified() &&
-			!IsRemoved();
+			!isNew() &&
+			!isModified() &&
+			!isRemoved();
 	}
 
 	public String toString() {
-		return Name();
+		return getName();
 	}
 
 	public int compareTo(Object other) {
 		int result = 0;
 
 		if (other instanceof RemovableDifferences) {
-			result = Name().compareTo(((RemovableDifferences) other).Name());
+			result = getName().compareTo(((RemovableDifferences) other).getName());
 		} else {
 			throw new ClassCastException("Unable to compare RemovableDifferences to " + other.getClass().getName());
 		}

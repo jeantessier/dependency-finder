@@ -33,23 +33,23 @@
 package com.jeantessier.metrics;
 
 public class NullMeasurement implements Measurement {
-	public MeasurementDescriptor Descriptor() {
+	public MeasurementDescriptor getDescriptor() {
 		return null;
 	}
 
-	public Metrics Context() {
+	public Metrics getContext() {
 		return null;
 	}
 	
-	public String ShortName() {
+	public String getShortName() {
 		return null;
 	}
 	
-	public String LongName() {
+	public String getLongName() {
 		return null;
 	}
 
-	public Number Value(){
+	public Number getValue(){
 		return null;
 	}
 	
@@ -69,35 +69,35 @@ public class NullMeasurement implements Measurement {
 		return 0;
 	}
 
-	public boolean Empty() {
+	public boolean isEmpty() {
 		return true;
 	}
 
-	public boolean InRange() {
+	public boolean isInRange() {
 		return false;
 	}
 	
-	public void Add(Object object) {
+	public void add(Object object) {
 		// Do nothing
 	}
 	
-	public void Add(int i) {
+	public void add(int i) {
 		// Do nothing
 	}
 	
-	public void Add(long l) {
+	public void add(long l) {
 		// Do nothing
 	}
 	
-	public void Add(float f) {
+	public void add(float f) {
 		// Do nothing
 	}
 	
-	public void Add(double d) {
+	public void add(double d) {
 		// Do nothing
 	}
 
-	public void Accept(MeasurementVisitor visitor) {
+	public void accept(MeasurementVisitor visitor) {
 		// Do nothing
 	}
 }

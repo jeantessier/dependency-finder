@@ -37,14 +37,14 @@ import java.text.*;
 import java.util.*;
 
 public class TextPrinter extends Printer {
-	private static final NumberFormat value_format = new DecimalFormat("#.##");
-	private static final NumberFormat ratio_format = new DecimalFormat("#%");
+	private static final NumberFormat valueFormat = new DecimalFormat("#.##");
+	private static final NumberFormat ratioFormat = new DecimalFormat("#%");
 
 	private List descriptors;
 
-	private boolean expand_collection_measurements;
+	private boolean expandCollectionMeasurements;
 	
-	private Metrics current_metrics = null;
+	private Metrics currentMetrics = null;
 	
 	public TextPrinter(PrintWriter out, List descriptors) {
 		super(out);
@@ -52,96 +52,96 @@ public class TextPrinter extends Printer {
 		this.descriptors = descriptors;
 	}
 
-	public boolean ExpandCollectionMeasurements() {
-		return expand_collection_measurements;
+	public boolean isExpandCollectionMeasurements() {
+		return expandCollectionMeasurements;
 	}
 
-	public void ExpandCollectionMeasurements(boolean expand_collection_measurements) {
-		this.expand_collection_measurements = expand_collection_measurements;
+	public void setExpandCollectionMeasurements(boolean expandCollectionMeasurements) {
+		this.expandCollectionMeasurements = expandCollectionMeasurements;
 	}
 	
-	public void VisitMetrics(Metrics metrics) {
-		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
-			current_metrics = metrics;
+	public void visitMetrics(Metrics metrics) {
+		if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+			currentMetrics = metrics;
 			
-			Indent().Append(metrics.Name()).EOL();
-			RaiseIndent();
+			indent().append(metrics.getName()).eol();
+			raiseIndent();
 			
 			Iterator i = descriptors.iterator();
 			while (i.hasNext()) {
 				MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 				
-				if (ShowHiddenMeasurements() || descriptor.Visible()) {
-					metrics.Measurement(descriptor.ShortName()).Accept(this);
+				if (isShowHiddenMeasurements() || descriptor.isVisible()) {
+					metrics.getMeasurement(descriptor.getShortName()).accept(this);
 				}
 			}
 			
-			LowerIndent();
+			lowerIndent();
 			
-			EOL();
+			eol();
 		}
 	}
 
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
-		Indent().Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("): ").Append(value_format.format(measurement.doubleValue()));
+	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
+		indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.doubleValue()));
 
 		try {
-			RatioMeasurement ratio = (RatioMeasurement) current_metrics.Measurement(measurement.ShortName() + "R");
-			Append(" (").Append(ratio_format.format(ratio.Value())).Append(")");
+			RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
+			append(" (").append(ratioFormat.format(ratio.getValue())).append(")");
 		} catch (ClassCastException ex) {
 			// Do nothing, no ratio for this measurement
 		}
 
-		Append(" ").Append(measurement);
+		append(" ").append(measurement);
 		
-		EOL();
+		eol();
 	}
 	
-	public void VisitRatioMeasurement(RatioMeasurement measurement) {
-		if (!measurement.ShortName().endsWith("R")) {
-			super.VisitRatioMeasurement(measurement);
+	public void visitRatioMeasurement(RatioMeasurement measurement) {
+		if (!measurement.getShortName().endsWith("R")) {
+			super.visitRatioMeasurement(measurement);
 		}
 	}
 	
-	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-		super.VisitContextAccumulatorMeasurement(measurement);
+	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+		super.visitContextAccumulatorMeasurement(measurement);
 
-		VisitCollectionMeasurement(measurement);
+		visitCollectionMeasurement(measurement);
 	}
 	
-	public void VisitNameListMeasurement(NameListMeasurement measurement) {
-		super.VisitNameListMeasurement(measurement);
+	public void visitNameListMeasurement(NameListMeasurement measurement) {
+		super.visitNameListMeasurement(measurement);
 
-		VisitCollectionMeasurement(measurement);
+		visitCollectionMeasurement(measurement);
 	}
 	
-	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-		super.VisitSubMetricsAccumulatorMeasurement(measurement);
+	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+		super.visitSubMetricsAccumulatorMeasurement(measurement);
 
-		VisitCollectionMeasurement(measurement);
+		visitCollectionMeasurement(measurement);
 	}
 	
-	protected void VisitCollectionMeasurement(CollectionMeasurement measurement) {
-		if (ExpandCollectionMeasurements()) {
-			RaiseIndent();
-			Iterator i = measurement.Values().iterator();
+	protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
+		if (isExpandCollectionMeasurements()) {
+			raiseIndent();
+			Iterator i = measurement.getValues().iterator();
 			while (i.hasNext()) {
-				Indent().Append(i.next()).EOL();
+				indent().append(i.next()).eol();
 			}
-			LowerIndent();
+			lowerIndent();
 		}
 	}
 	
-	protected void VisitMeasurement(Measurement measurement) {
-		Indent().Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("): ").Append(value_format.format(measurement.Value()));
+	protected void visitMeasurement(Measurement measurement) {
+		indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.getValue()));
 
 		try {
-			RatioMeasurement ratio = (RatioMeasurement) current_metrics.Measurement(measurement.ShortName() + "R");
-			Append(" (").Append(ratio_format.format(ratio.Value())).Append(")");
+			RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
+			append(" (").append(ratioFormat.format(ratio.getValue())).append(")");
 		} catch (ClassCastException ex) {
 			// Do nothing, no ratio for this measurement
 		}
 		
-		EOL();
+		eol();
 	}
 }

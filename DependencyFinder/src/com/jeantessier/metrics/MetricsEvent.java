@@ -75,19 +75,19 @@ public class MetricsEvent extends EventObject {
 		this.size      = size;
 	}
 
-	public Classfile Classfile() {
+	public Classfile getClassfile() {
 		return classfile;
 	}
 
-	public Method_info Method() {
+	public Method_info getMethod() {
 		return method;
 	}
 
-	public Metrics Metrics() {
+	public Metrics getMetrics() {
 		return metrics;
 	}
 
-	public int Size() {
+	public int getSize() {
 		return size;
 	}
 }
