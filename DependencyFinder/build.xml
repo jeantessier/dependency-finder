@@ -287,6 +287,7 @@
 		 destdir="${apiDir}"
 		 author="no"
 	         version="no"
+		 linksource="yes"
 		 doctitle="${ant.project.name}">
 	    <sourcepath path="${srcDir}"/>
 	    <classpath>
