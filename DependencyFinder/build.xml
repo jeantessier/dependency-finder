@@ -24,11 +24,11 @@
 	    <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
 	</tstamp>
 
-	<property name="previous.release"     value="1.0"/>
-	<property name="previous.release.tag" value="10"/>
-	<property name="last.release"         value="1.0.1"/>
-	<property name="last.release.tag"     value="101"/>
-	<property name="this.release"         value="1.1.0-beta2"/>
+	<property name="previous.release"     value="1.1.0-beta1"/>
+	<property name="previous.release.tag" value="110b1"/>
+	<property name="last.release"         value="1.1.0-beta2"/>
+	<property name="last.release.tag"     value="110b2"/>
+	<property name="this.release"         value="1.1.0-beta3"/>
 
 	<property name="packageNames"         value="com.jeantessier.*"/>
 
