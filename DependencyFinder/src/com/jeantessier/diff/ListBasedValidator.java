@@ -38,13 +38,19 @@ import java.util.*;
 public class ListBasedValidator implements Validator {
 	private Collection allowed_elements = new HashSet();
 
-	private String current_class;
-
 	public ListBasedValidator(String filename) throws IOException {
-		this(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
+		try {
+			Initialize(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
+		} catch (FileNotFoundException ex) {
+			// Ignore
+		}
 	}
 
 	public ListBasedValidator(BufferedReader in) throws IOException {
+		Initialize(in);
+	}
+	
+	private void Initialize(BufferedReader in) throws IOException {
 		try {
 			String line;
 			while ((line = in.readLine()) != null) {
@@ -52,15 +58,13 @@ public class ListBasedValidator implements Validator {
 					allowed_elements.add(line.trim());
 				}
 			}
+		} catch (FileNotFoundException ex) {
+			// Ignore
 		} finally {
 			if (in != null) {
 				in.close();
 			}
 		}
-	}
-
-	public void CurrentClass(String name) {
-		current_class = name;
 	}
 	
 	public boolean IsPackageAllowed(String name) {
@@ -72,14 +76,12 @@ public class ListBasedValidator implements Validator {
 	}
     
 	public boolean IsFeatureAllowed(String name) {
-		// return IsAllowed(current_class + "." + name);
 		return IsAllowed(name);
 	}
     
-	private boolean IsAllowed(String name) {
+	public boolean IsAllowed(String name) {
 		boolean result = allowed_elements.size() == 0 || allowed_elements.contains(name);
 
-		// System.err.println("Is " + name + " in " + allowed_elements + "? " + result);
 		System.err.println(name + "? " + result);
 		
 		return result;

@@ -34,9 +34,7 @@
 
 <!DOCTYPE differences [
 
-<!ELEMENT differences (product,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,modified-interfaces?,modified-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >
-
-<!ELEMENT product (#PCDATA)* >
+<!ELEMENT differences (name,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,documented-interfaces?,documented-classes?,modified-interfaces?,modified-classes?,undocumented-interfaces?,undocumented-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >
 
 <!ELEMENT old (#PCDATA)* >
 
@@ -52,9 +50,17 @@
 
 <!ELEMENT deprecated-classes (name)* >
 
+<!ELEMENT documented-interfaces (name)* >
+
+<!ELEMENT documented-classes (name)* >
+
 <!ELEMENT modified-interfaces (class)* >
 
 <!ELEMENT modified-classes (class)* >
+
+<!ELEMENT undocumented-interfaces (name)* >
+
+<!ELEMENT undocumented-classes (name)* >
 
 <!ELEMENT undeprecated-interfaces (name)* >
 
@@ -66,7 +72,7 @@
 
 <!ELEMENT new-classes (name)* >
 
-<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,modified-fields?,modified-constructors?,modified-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >
+<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,documented-fields?,documented-constructors?,documented-methods?,modified-fields?,modified-constructors?,modified-methods?,undocumented-fields?,undocumented-constructors?,undocumented-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >
 
 <!ELEMENT name (#PCDATA)* >
 <!ATTLIST name
@@ -99,11 +105,23 @@
 
 <!ELEMENT deprecated-methods (declaration)* >
 
+<!ELEMENT documented-fields (declaration)* >
+
+<!ELEMENT documented-constructors (declaration)* >
+
+<!ELEMENT documented-methods (declaration)* >
+
 <!ELEMENT modified-fields (feature)* >
 
 <!ELEMENT modified-constructors (feature)* >
 
 <!ELEMENT modified-methods (feature)* >
+
+<!ELEMENT undocumented-fields (declaration)* >
+
+<!ELEMENT undocumented-constructors (declaration)* >
+
+<!ELEMENT undocumented-methods (declaration)* >
 
 <!ELEMENT undeprecated-fields (declaration)* >
 

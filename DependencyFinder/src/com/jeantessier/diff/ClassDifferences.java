@@ -51,7 +51,7 @@ public class ClassDifferences extends RemovableDifferences {
 
 	private Collection feature_differences = new LinkedList();
 
-	public ClassDifferences(String name, Classfile old_class, Classfile new_class) {
+	public ClassDifferences(String name, Validator old_validator, Classfile old_class, Validator new_validator, Classfile new_class) {
 		super(name);
 
 		OldClass(old_class);
@@ -91,6 +91,7 @@ public class ClassDifferences extends RemovableDifferences {
 
 					FeatureDifferences feature_differences = new FieldDifferences(field_name, old_field, new_field);
 					Differences differences = new DeprecatableDifferences(feature_differences, old_field, new_field);
+					differences = new DocumentableDifferences(feature_differences, old_validator, new_validator);
 					if (!differences.IsEmpty()) {
 						FeatureDifferences().add(differences);
 						if (feature_differences.IsRemoved() && new_class.LocateField(field_name) != null) {

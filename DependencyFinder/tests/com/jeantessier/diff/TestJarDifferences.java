@@ -60,15 +60,18 @@ public class TestJarDifferences extends TestCase {
 		loader = new DirectoryClassfileLoader(new_jar);
 		loader.Load(new DirectoryExplorer(NEW_CLASSPATH));
 
-		jar_differences = new JarDifferences("test", "old", "new", old_jar, new_jar);
+		Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("")));
+
+		jar_differences = new JarDifferences("test", "old", validator, old_jar, "new", validator, new_jar);
 	}
 
-	public void testEmpty() {
-		JarDifferences empty_differences = new JarDifferences("test", "old", "new", new AggregatingClassfileLoader(), new AggregatingClassfileLoader());
+	public void testEmpty() throws IOException {
+		Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("")));
+		JarDifferences empty_differences = new JarDifferences("test", "old", validator, new AggregatingClassfileLoader(), "new", validator, new AggregatingClassfileLoader());
 
-		assertEquals("product",     "test", empty_differences.Product());
-		assertEquals("old product", "old",  empty_differences.OldVersion());
-		assertEquals("new product", "new",  empty_differences.NewVersion());
+		assertEquals("name",        "test", empty_differences.Name());
+		assertEquals("old version", "old",  empty_differences.OldVersion());
+		assertEquals("new version", "new",  empty_differences.NewVersion());
 
 		assertTrue("IsEmpty()", empty_differences.IsEmpty());
 

@@ -39,24 +39,32 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Report extends Printer {
-	private String product;
+	private String name;
 	private String old_version;
 	private String new_version;
 
-	private Collection removed_packages = new TreeSet();
-	private Collection removed_interfaces = new TreeSet();
-	private Collection removed_classes = new TreeSet();
-	private Collection deprecated_interfaces = new TreeSet();
-	private Collection deprecated_classes = new TreeSet();
+	private Collection removed_packages        = new TreeSet();
+	private Collection removed_interfaces      = new TreeSet();
+	private Collection removed_classes         = new TreeSet();
 
-	private Collection modified_interfaces = new TreeSet();
-	private Collection modified_classes = new TreeSet();
+	private Collection deprecated_interfaces   = new TreeSet();
+	private Collection deprecated_classes      = new TreeSet();
+	
+	private Collection documented_interfaces   = new TreeSet();
+	private Collection documented_classes      = new TreeSet();
 
+	private Collection modified_interfaces     = new TreeSet();
+	private Collection modified_classes        = new TreeSet();
+
+	private Collection undocumented_interfaces = new TreeSet();
+	private Collection undocumented_classes    = new TreeSet();
+	
 	private Collection undeprecated_interfaces = new TreeSet();
-	private Collection undeprecated_classes = new TreeSet();
-	private Collection new_packages = new TreeSet();
-	private Collection new_interfaces = new TreeSet();
-	private Collection new_classes = new TreeSet();
+	private Collection undeprecated_classes    = new TreeSet();
+	
+	private Collection new_packages            = new TreeSet();
+	private Collection new_interfaces          = new TreeSet();
+	private Collection new_classes             = new TreeSet();
 
 	public Report() {
 		super();
@@ -67,7 +75,7 @@ public class Report extends Printer {
 	}
 
 	public void VisitJarDifferences(JarDifferences differences) {
-		product     = differences.Product();
+		name        = differences.Name();
 		old_version = differences.OldVersion();
 		new_version = differences.NewVersion();
 
@@ -106,6 +114,22 @@ public class Report extends Printer {
 		if (differences.IsNew()) {
 			new_classes.add(differences);
 		}
+
+		if (Deprecated()) {
+			deprecated_classes.add(differences);
+		}
+
+		if (Undeprecated()) {
+			undeprecated_classes.add(differences);
+		}
+
+		if (Documented()) {
+			documented_classes.add(differences);
+		}
+
+		if (Undocumented()) {
+			undocumented_classes.add(differences);
+		}
 	}
 
 	public void VisitInterfaceDifferences(InterfaceDifferences differences) {
@@ -122,32 +146,22 @@ public class Report extends Printer {
 		if (differences.IsNew()) {
 			new_interfaces.add(differences);
 		}
-	}
-	
-	public void VisitDeprecatableDifferences(DeprecatableDifferences differences) {
-		Differences component = differences.Component();
-		
-		if (component instanceof InterfaceDifferences) {
-			if (differences.NewDeprecation()) {
-				deprecated_interfaces.add(component);
-			}
-			
-			if (differences.RemovedDeprecation()) {
-				undeprecated_interfaces.add(component);
-			}
-		} else if (component instanceof ClassDifferences) {
-			if (differences.NewDeprecation()) {
-				deprecated_classes.add(component);
-			}
-			
-			if (differences.RemovedDeprecation()) {
-				undeprecated_classes.add(component);
-			}
-		} else {
-			Logger.getLogger(getClass()).error("Invalid deprecatable, class is " + component.getClass().getName());
+
+		if (Deprecated()) {
+			deprecated_interfaces.add(differences);
 		}
 
-		component.Accept(this);
+		if (Undeprecated()) {
+			undeprecated_interfaces.add(differences);
+		}
+
+		if (Documented()) {
+			documented_interfaces.add(differences);
+		}
+
+		if (Undocumented()) {
+			undocumented_interfaces.add(differences);
+		}
 	}
 
 	public String toString() {
@@ -157,7 +171,7 @@ public class Report extends Printer {
 		Indent().Append("<differences>\n");
 		RaiseIndent();
 
-		Indent().Append("<product>").Append(product).Append("</product>\n");
+		Indent().Append("<name>").Append(name).Append("</name>\n");
 		Indent().Append("<old>").Append(old_version).Append("</old>\n");
 		Indent().Append("<new>").Append(new_version).Append("</new>\n");
 	
@@ -230,6 +244,34 @@ public class Report extends Printer {
 			Indent().Append("</deprecated-classes>\n");
 		}
 
+		if (documented_interfaces.size() !=0) {
+			Indent().Append("<documented-interfaces>\n");
+			RaiseIndent();
+
+			Iterator i = documented_interfaces.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</documented-interfaces>\n");
+		}
+
+		if (documented_classes.size() !=0) {
+			Indent().Append("<documented-classes>\n");
+			RaiseIndent();
+
+			Iterator i = documented_classes.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</documented-classes>\n");
+		}
+
 		if (modified_interfaces.size() !=0) {
 			Indent().Append("<modified-interfaces>\n");
 			RaiseIndent();
@@ -254,6 +296,34 @@ public class Report extends Printer {
 
 			LowerIndent();
 			Indent().Append("</modified-classes>\n");
+		}
+
+		if (undocumented_interfaces.size() !=0) {
+			Indent().Append("<undocumented-interfaces>\n");
+			RaiseIndent();
+
+			Iterator i = undocumented_interfaces.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</undocumented-interfaces>\n");
+		}
+
+		if (undocumented_classes.size() !=0) {
+			Indent().Append("<undocumented-classes>\n");
+			RaiseIndent();
+
+			Iterator i = undocumented_classes.iterator();
+			while (i.hasNext()) {
+				ClassDifferences cd = (ClassDifferences) i.next();
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</undocumented-classes>\n");
 		}
 
 		if (undeprecated_interfaces.size() !=0) {
@@ -338,9 +408,7 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!DOCTYPE differences [\n");
 		result.append("\n");
-		result.append("<!ELEMENT differences (product,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,modified-interfaces?,modified-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >\n");
-		result.append("\n");
-		result.append("<!ELEMENT product (#PCDATA)* >\n");
+		result.append("<!ELEMENT differences (name,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,documented-interfaces?,documented-classes?,modified-interfaces?,modified-classes?,undocumented-interfaces?,undocumented-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >\n");
 		result.append("\n");
 		result.append("<!ELEMENT old (#PCDATA)* >\n");
 		result.append("\n");
@@ -356,9 +424,17 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!ELEMENT deprecated-classes (name)* >\n");
 		result.append("\n");
+		result.append("<!ELEMENT documented-interfaces (name)* >\n");
+		result.append("\n");
+		result.append("<!ELEMENT documented-classes (name)* >\n");
+		result.append("\n");
 		result.append("<!ELEMENT modified-interfaces (class)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT modified-classes (class)* >\n");
+		result.append("\n");
+		result.append("<!ELEMENT undocumented-interfaces (name)* >\n");
+		result.append("\n");
+		result.append("<!ELEMENT undocumented-classes (name)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT undeprecated-interfaces (name)* >\n");
 		result.append("\n");
@@ -370,7 +446,7 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!ELEMENT new-classes (name)* >\n");
 		result.append("\n");
-		result.append("<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,modified-fields?,modified-constructors?,modified-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >\n");
+		result.append("<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,documented-fields?,documented-constructors?,documented-methods?,modified-fields?,modified-constructors?,modified-methods?,undocumented-fields?,undocumented-constructors?,undocumented-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >\n");
 		result.append("\n");
 		result.append("<!ELEMENT name (#PCDATA)* >\n");
 		result.append("<!ATTLIST name\n");
@@ -403,11 +479,23 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!ELEMENT deprecated-methods (declaration)* >\n");
 		result.append("\n");
+		result.append("<!ELEMENT documented-fields (declaration)* >\n");
+		result.append("\n");
+		result.append("<!ELEMENT documented-constructors (declaration)* >\n");
+		result.append("\n");
+		result.append("<!ELEMENT documented-methods (declaration)* >\n");
+		result.append("\n");
 		result.append("<!ELEMENT modified-fields (feature)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT modified-constructors (feature)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT modified-methods (feature)* >\n");
+		result.append("\n");
+		result.append("<!ELEMENT undocumented-fields (declaration)* >\n");
+		result.append("\n");
+		result.append("<!ELEMENT undocumented-constructors (declaration)* >\n");
+		result.append("\n");
+		result.append("<!ELEMENT undocumented-methods (declaration)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT undeprecated-fields (declaration)* >\n");
 		result.append("\n");

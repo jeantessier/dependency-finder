@@ -35,15 +35,45 @@ package com.jeantessier.diff;
 import com.jeantessier.classreader.*;
 
 /**
- *  Documents the difference, if any, for a given interface.
- *  All behavior is handled by superclasses.
+ *  Documents the difference, if any, for a given programming
+ *  element that can be deprecated through the use of javadoc
+ *  tags.
  */
-public class InterfaceDifferences extends ClassDifferences {
-	public InterfaceDifferences(String name, Validator old_validator, Classfile old_class, Validator new_validator, Classfile new_class) {
-		super(name, old_validator, old_class, new_validator, new_class);
+public class DocumentableDifferences extends DecoratorDifferences {
+	private boolean new_documentation;
+	private boolean removed_documentation;
+
+	public DocumentableDifferences(Differences component, Validator old_validator, Validator new_validator) {
+		super(component);
+
+		NewDocumentation(!old_validator.IsAllowed(component.Name()) && new_validator.IsAllowed(component.Name()));
+		RemovedDocumentation(old_validator.IsAllowed(component.Name()) && !new_validator.IsAllowed(component.Name()));
+	}
+
+	public boolean NewDocumentation() {
+		return new_documentation;
+	}
+
+	public void NewDocumentation(boolean new_documentation) {
+		this.new_documentation = new_documentation;
+	}
+
+	public boolean RemovedDocumentation() {
+		return removed_documentation;
+	}
+
+	public void RemovedDocumentation(boolean removed_documentation) {
+		this.removed_documentation = removed_documentation;
+	}
+
+	public boolean IsEmpty() {
+		return
+			!NewDocumentation() &&
+			!RemovedDocumentation() &&
+			Component().IsEmpty();
 	}
 
 	public void Accept(Visitor visitor) {
-		visitor.VisitInterfaceDifferences(this);
+		visitor.VisitDocumentableDifferences(this);
 	}
 }

@@ -37,7 +37,7 @@ import java.util.*;
 
 import com.sun.javadoc.*;
 
-public class ListVisibleElements {
+public class ListDocumentedElements {
 	private static String      tag_name       = null;
 	private static Collection  valid_values   = new HashSet();
 	private static Collection  invalid_values = new HashSet();
@@ -131,11 +131,7 @@ public class ListVisibleElements {
 		}
 
 		if (is_visible) {
-			if (doc instanceof MemberDoc) {
-				out.print(doc.name());
-			} else {
-				out.print(doc.qualifiedName());
-			}
+			out.print(doc.qualifiedName());
 			if (doc instanceof ExecutableMemberDoc) {
 				out.print(((ExecutableMemberDoc) doc).signature());
 			}

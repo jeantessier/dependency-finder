@@ -41,4 +41,5 @@ public interface Visitor {
 	public void VisitConstructorDifferences(ConstructorDifferences differences);
 	public void VisitMethodDifferences(MethodDifferences differences);
 	public void VisitDeprecatableDifferences(DeprecatableDifferences differences);
+	public void VisitDocumentableDifferences(DocumentableDifferences differences);
 }

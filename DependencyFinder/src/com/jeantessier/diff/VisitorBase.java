@@ -33,11 +33,80 @@
 package com.jeantessier.diff;
 
 public abstract class VisitorBase implements Visitor {
-	public void VisitJarDifferences(JarDifferences differences) {}
-	public void VisitPackageDifferences(PackageDifferences differences) {}
-	public void VisitInterfaceDifferences(InterfaceDifferences differences) {}
-	public void VisitClassDifferences(ClassDifferences differences) {}
-	public void VisitFieldDifferences(FieldDifferences differences) {}
-	public void VisitConstructorDifferences(ConstructorDifferences differences) {}
-	public void VisitMethodDifferences(MethodDifferences differences) {}
+	private boolean deprecated   = false;
+	private boolean undeprecated = false;
+	private boolean documented   = false;
+	private boolean undocumented = false;
+
+	public boolean Deprecated() {
+		return deprecated;
+	}
+
+	public void Deprecated(boolean deprecated) {
+		this.deprecated = deprecated;
+	}
+	
+	public boolean Undeprecated() {
+		return undeprecated;
+	}
+
+	public void Undeprecated(boolean undeprecated) {
+		this.undeprecated = undeprecated;
+	}
+
+	public boolean Documented() {
+		return documented;
+	}
+
+	public void Documented(boolean documented) {
+		this.documented = documented;
+	}
+	
+	public boolean Undocumented() {
+		return undocumented;
+	}
+
+	public void Undocumented(boolean undocumented) {
+		this.undocumented = undocumented;
+	}
+	
+	public void VisitJarDifferences(JarDifferences differences) {
+		// Do nothing
+	}
+		
+	public void VisitPackageDifferences(PackageDifferences differences) {
+		// Do nothing
+	}
+
+	public void VisitFieldDifferences(FieldDifferences differences) {
+		// Do nothing
+	}
+	
+	public void VisitConstructorDifferences(ConstructorDifferences differences) {
+		// Do nothing
+	}
+
+	public void VisitMethodDifferences(MethodDifferences differences) {
+		// Do nothing
+	}
+
+	public void VisitDeprecatableDifferences(DeprecatableDifferences differences) {
+		deprecated   = differences.NewDeprecation();
+		undeprecated = differences.RemovedDeprecation();
+
+		differences.Component().Accept(this);
+		
+		deprecated   = false;
+		undeprecated = false;
+	}
+	
+	public void VisitDocumentableDifferences(DocumentableDifferences differences) {
+		documented   = differences.NewDocumentation();
+		undocumented = differences.RemovedDocumentation();
+
+		differences.Component().Accept(this);
+		
+		documented   = false;
+		undocumented = false;
+	}
 }

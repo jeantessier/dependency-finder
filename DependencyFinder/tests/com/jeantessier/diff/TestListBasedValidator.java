@@ -36,8 +36,8 @@ import java.io.*;
 
 import junit.framework.*;
 
-public class TestPackageValidator extends TestCase {
-	public TestPackageValidator(String name) {
+public class TestListBasedValidator extends TestCase {
+	public TestListBasedValidator(String name) {
 		super(name);
 	}
 
@@ -45,38 +45,38 @@ public class TestPackageValidator extends TestCase {
 		Validator validator;
 
 		try {
-			validator = new PackageValidator((BufferedReader) null);
+			validator = new ListBasedValidator((BufferedReader) null);
 			fail("Created PackageValidator with null");
 		} catch (NullPointerException ex) {
 			// Ignore
 		}
 
-		validator = new PackageValidator(new BufferedReader(new StringReader("")));
+		validator = new ListBasedValidator(new BufferedReader(new StringReader("")));
 
 		assertTrue("package", validator.IsPackageAllowed("foobar"));
 		assertTrue("class",   validator.IsClassAllowed("foobar"));
 		assertTrue("class",   validator.IsClassAllowed("foobar.foobar"));
-		assertTrue("feature", !validator.IsFeatureAllowed("foobar"));
+		assertTrue("feature", validator.IsFeatureAllowed("foobar"));
 		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar"));
 		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar.foobar"));
 
 		assertTrue("package", validator.IsPackageAllowed("barfoo"));
 		assertTrue("class",   validator.IsClassAllowed("barfoo"));
 		assertTrue("class",   validator.IsClassAllowed("barfoo.barfoo"));
-		assertTrue("feature", !validator.IsFeatureAllowed("barfoo"));
+		assertTrue("feature", validator.IsFeatureAllowed("barfoo"));
 		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo"));
 		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
 	}
 
 	public void testConstructor() throws IOException {
-		Validator validator = new PackageValidator(new BufferedReader(new StringReader("foobar\n")));
+		Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("foobar\n")));
 
 		assertTrue("package", validator.IsPackageAllowed("foobar"));
-		assertTrue("class",   !validator.IsClassAllowed("foobar"));
-		assertTrue("class",   validator.IsClassAllowed("foobar.foobar"));
-		assertTrue("feature", !validator.IsFeatureAllowed("foobar"));
+		assertTrue("class",   validator.IsClassAllowed("foobar"));
+		assertTrue("class",   !validator.IsClassAllowed("foobar.foobar"));
+		assertTrue("feature", validator.IsFeatureAllowed("foobar"));
 		assertTrue("feature", !validator.IsFeatureAllowed("foobar.foobar"));
-		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar.foobar"));
+		assertTrue("feature", !validator.IsFeatureAllowed("foobar.foobar.foobar"));
 
 		assertTrue("package", !validator.IsPackageAllowed("barfoo"));
 		assertTrue("class",   !validator.IsClassAllowed("barfoo"));
@@ -87,19 +87,19 @@ public class TestPackageValidator extends TestCase {
 	}
 
 	public void testMissingFile() throws IOException {
-		Validator validator = new PackageValidator("no such file");
+		Validator validator = new ListBasedValidator("no such file");
 
 		assertTrue("package", validator.IsPackageAllowed("foobar"));
 		assertTrue("class",   validator.IsClassAllowed("foobar"));
 		assertTrue("class",   validator.IsClassAllowed("foobar.foobar"));
-		assertTrue("feature", !validator.IsFeatureAllowed("foobar"));
+		assertTrue("feature", validator.IsFeatureAllowed("foobar"));
 		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar"));
 		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar.foobar"));
 
 		assertTrue("package", validator.IsPackageAllowed("barfoo"));
 		assertTrue("class",   validator.IsClassAllowed("barfoo"));
 		assertTrue("class",   validator.IsClassAllowed("barfoo.barfoo"));
-		assertTrue("feature", !validator.IsFeatureAllowed("barfoo"));
+		assertTrue("feature", validator.IsFeatureAllowed("barfoo"));
 		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo"));
 		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
 	}

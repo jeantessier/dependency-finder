@@ -41,14 +41,14 @@ import com.jeantessier.dependency.*;
  *  Documents the difference, if any, between two codebases.
  */
 public class JarDifferences implements Differences {
-	private String     product;
-	private String     old_version;
-	private String     new_version;
+	private String name;
+	private String old_version;
+	private String new_version;
 
 	private Collection package_differences = new LinkedList();
 
-	public JarDifferences(String product, String old_version, String new_version, ClassfileLoader old_jar, ClassfileLoader new_jar) {
-		this.product     = product;
+	public JarDifferences(String name, String old_version, Validator old_validator, ClassfileLoader old_jar, String new_version, Validator new_validator, ClassfileLoader new_jar) {
+		this.name        = name;
 		this.old_version = old_version;
 		this.new_version = new_version;
 
@@ -77,15 +77,15 @@ public class JarDifferences implements Differences {
 			PackageNode old_package = (PackageNode) old_factory.Packages().get(package_name);
 			PackageNode new_package = (PackageNode) new_factory.Packages().get(package_name);
 	    
-			PackageDifferences differences = new PackageDifferences(package_name, old_jar, old_package, new_jar, new_package);
+			PackageDifferences differences = new PackageDifferences(package_name, old_validator, old_jar, old_package, new_validator, new_jar, new_package);
 			if (!differences.IsEmpty()) {
 				PackageDifferences().add(differences);
 			}
 		}
 	}
 
-	public String Product() {
-		return product;
+	public String Name() {
+		return name;
 	}
 
 	public String OldVersion() {
@@ -109,6 +109,6 @@ public class JarDifferences implements Differences {
 	}
 
 	public String toString() {
-		return Product();
+		return Name();
 	}
 }

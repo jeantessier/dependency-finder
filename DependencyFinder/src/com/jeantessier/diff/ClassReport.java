@@ -41,25 +41,33 @@ import com.jeantessier.classreader.*;
 public class ClassReport extends Printer implements Comparable {
 	private ClassDifferences differences;
 
-	private Collection removed_fields = new TreeSet();
-	private Collection removed_constructors = new TreeSet();
-	private Collection removed_methods = new TreeSet();
+	private Collection removed_fields            = new TreeSet();
+	private Collection removed_constructors      = new TreeSet();
+	private Collection removed_methods           = new TreeSet();
 
-	private Collection deprecated_fields = new TreeSet();
-	private Collection deprecated_constructors = new TreeSet();
-	private Collection deprecated_methods = new TreeSet();
+	private Collection deprecated_fields         = new TreeSet();
+	private Collection deprecated_constructors   = new TreeSet();
+	private Collection deprecated_methods        = new TreeSet();
 
-	private Collection modified_fields = new TreeSet();
-	private Collection modified_constructors = new TreeSet();
-	private Collection modified_methods = new TreeSet();
+	private Collection documented_fields         = new TreeSet();
+	private Collection documented_constructors   = new TreeSet();
+	private Collection documented_methods        = new TreeSet();
 
-	private Collection undeprecated_fields = new TreeSet();
+	private Collection modified_fields           = new TreeSet();
+	private Collection modified_constructors     = new TreeSet();
+	private Collection modified_methods          = new TreeSet();
+
+	private Collection undocumented_fields       = new TreeSet();
+	private Collection undocumented_constructors = new TreeSet();
+	private Collection undocumented_methods      = new TreeSet();
+
+	private Collection undeprecated_fields       = new TreeSet();
 	private Collection undeprecated_constructors = new TreeSet();
-	private Collection undeprecated_methods = new TreeSet();
+	private Collection undeprecated_methods      = new TreeSet();
 
-	private Collection new_fields = new TreeSet();
-	private Collection new_constructors = new TreeSet();
-	private Collection new_methods = new TreeSet();
+	private Collection new_fields                = new TreeSet();
+	private Collection new_constructors          = new TreeSet();
+	private Collection new_methods               = new TreeSet();
 
 	public ClassReport() {
 		super();
@@ -99,6 +107,22 @@ public class ClassReport extends Printer implements Comparable {
 		if (differences.IsNew()) {
 			new_fields.add(differences);
 		}
+
+		if (Deprecated()) {
+			deprecated_fields.add(differences);
+		}
+
+		if (Undeprecated()) {
+			undeprecated_fields.add(differences);
+		}
+
+		if (Documented()) {
+			documented_fields.add(differences);
+		}
+
+		if (Undocumented()) {
+			undocumented_fields.add(differences);
+		}
 	}
 
 	public void VisitConstructorDifferences(ConstructorDifferences differences) {
@@ -112,6 +136,22 @@ public class ClassReport extends Printer implements Comparable {
 	
 		if (differences.IsNew()) {
 			new_constructors.add(differences);
+		}
+
+		if (Deprecated()) {
+			deprecated_constructors.add(differences);
+		}
+
+		if (Undeprecated()) {
+			undeprecated_constructors.add(differences);
+		}
+
+		if (Documented()) {
+			documented_constructors.add(differences);
+		}
+
+		if (Undocumented()) {
+			undocumented_constructors.add(differences);
 		}
 	}
 
@@ -127,40 +167,22 @@ public class ClassReport extends Printer implements Comparable {
 		if (differences.IsNew()) {
 			new_methods.add(differences);
 		}
-	}
-	
-	public void VisitDeprecatableDifferences(DeprecatableDifferences differences) {
-		Differences component = differences.Component();
-		
-		if (component instanceof FieldDifferences) {
-			if (differences.NewDeprecation()) {
-				deprecated_fields.add(component);
-			}
-			
-			if (differences.RemovedDeprecation()) {
-				undeprecated_fields.add(component);
-			}
-		} else if (component instanceof ConstructorDifferences) {
-			if (differences.NewDeprecation()) {
-				deprecated_constructors.add(component);
-			}
-			
-			if (differences.RemovedDeprecation()) {
-				undeprecated_constructors.add(component);
-			}
-		} else if (component instanceof MethodDifferences) {
-			if (differences.NewDeprecation()) {
-				deprecated_methods.add(component);
-			}
-			
-			if (differences.RemovedDeprecation()) {
-				undeprecated_methods.add(component);
-			}
-		} else {
-			Logger.getLogger(getClass()).error("Invalid deprecatable, class is " + component.getClass().getName());
+
+		if (Deprecated()) {
+			deprecated_methods.add(differences);
 		}
 
-		component.Accept(this);
+		if (Undeprecated()) {
+			undeprecated_methods.add(differences);
+		}
+
+		if (Documented()) {
+			documented_methods.add(differences);
+		}
+
+		if (Undocumented()) {
+			undocumented_methods.add(differences);
+		}
 	}
 
 	public String toString() {
@@ -267,6 +289,48 @@ public class ClassReport extends Printer implements Comparable {
 			Indent().Append("</deprecated-methods>\n");
 		}
 
+		if (documented_fields.size() != 0) {
+			Indent().Append("<documented-fields>\n");
+			RaiseIndent();
+
+			Iterator i = documented_fields.iterator();
+			while (i.hasNext()) {
+				FeatureDifferences fd = (FeatureDifferences) i.next();
+				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</documented-fields>\n");
+		}
+
+		if (documented_constructors.size() != 0) {
+			Indent().Append("<documented-constructors>\n");
+			RaiseIndent();
+
+			Iterator i = documented_constructors.iterator();
+			while (i.hasNext()) {
+				FeatureDifferences fd = (FeatureDifferences) i.next();
+				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</documented-constructors>\n");
+		}
+
+		if (documented_methods.size() != 0) {
+			Indent().Append("<documented-methods>\n");
+			RaiseIndent();
+
+			Iterator i = documented_methods.iterator();
+			while (i.hasNext()) {
+				FeatureDifferences fd = (FeatureDifferences) i.next();
+				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</documented-methods>\n");
+		}
+
 		if (modified_fields.size() != 0) {
 			Indent().Append("<modified-fields>\n");
 			RaiseIndent();
@@ -349,6 +413,48 @@ public class ClassReport extends Printer implements Comparable {
 
 			LowerIndent();
 			Indent().Append("</modified-methods>\n");
+		}
+
+		if (undocumented_fields.size() != 0) {
+			Indent().Append("<undocumented-fields>\n");
+			RaiseIndent();
+
+			Iterator i = undocumented_fields.iterator();
+			while (i.hasNext()) {
+				FeatureDifferences fd = (FeatureDifferences) i.next();
+				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</undocumented-fields>\n");
+		}
+
+		if (undocumented_constructors.size() != 0) {
+			Indent().Append("<undocumented-constructors>\n");
+			RaiseIndent();
+
+			Iterator i = undocumented_constructors.iterator();
+			while (i.hasNext()) {
+				FeatureDifferences fd = (FeatureDifferences) i.next();
+				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</undocumented-constructors>\n");
+		}
+
+		if (undocumented_methods.size() != 0) {
+			Indent().Append("<undocumented-methods>\n");
+			RaiseIndent();
+
+			Iterator i = undocumented_methods.iterator();
+			while (i.hasNext()) {
+				FeatureDifferences fd = (FeatureDifferences) i.next();
+				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</undocumented-methods>\n");
 		}
 
 		if (undeprecated_fields.size() != 0) {

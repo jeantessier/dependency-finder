@@ -45,7 +45,7 @@ import com.jeantessier.dependency.*;
 public class PackageDifferences extends RemovableDifferences {
 	private Collection class_differences = new LinkedList();
 
-	public PackageDifferences(String name, ClassfileLoader old_jar, PackageNode old_package, ClassfileLoader new_jar, PackageNode new_package) {
+	public PackageDifferences(String name, Validator old_validator, ClassfileLoader old_jar, PackageNode old_package, Validator new_validator, ClassfileLoader new_jar, PackageNode new_package) {
 		super(name);
 
 		Collection class_level = new TreeSet();
@@ -82,11 +82,12 @@ public class PackageDifferences extends RemovableDifferences {
 		    
 					ClassDifferences class_differences;
 					if (((old_class != null) && old_class.IsInterface()) || ((new_class != null) && new_class.IsInterface())) {
-						class_differences = new InterfaceDifferences(class_name, old_class, new_class);
+						class_differences = new InterfaceDifferences(class_name, old_validator, old_class, new_validator, new_class);
 					} else {
-						class_differences = new ClassDifferences(class_name, old_class, new_class);
+						class_differences = new ClassDifferences(class_name, old_validator, old_class, new_validator, new_class);
 					}
 					Differences differences = new DeprecatableDifferences(class_differences, old_class, new_class);
+					differences = new DocumentableDifferences(class_differences, old_validator, new_validator);
 					if (!differences.IsEmpty()) {
 						ClassDifferences().add(differences);
 					}

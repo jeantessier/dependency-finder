@@ -43,6 +43,7 @@ public class TestAll extends TestCase {
 		TestSuite result = new TestSuite();
 
 		result.addTestSuite(TestPackageValidator.class);
+		result.addTestSuite(TestListBasedValidator.class);
 		result.addTestSuite(TestJarDifferences.class);
 
 		return result;

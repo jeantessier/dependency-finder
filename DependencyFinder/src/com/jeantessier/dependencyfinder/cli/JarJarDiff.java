@@ -43,8 +43,10 @@ import com.jeantessier.dependency.*;
 import com.jeantessier.diff.*;
 
 public class JarJarDiff {
-	public static final String DEFAULT_LOGFILE   = "System.out";
-	public static final String DEFAULT_TRACEFILE = "System.out";
+	public static final String DEFAULT_OLD_DOCUMENTATION = "old_documentation.txt";
+	public static final String DEFAULT_NEW_DOCUMENTATION = "new_documentation.txt";
+	public static final String DEFAULT_LOGFILE           = "System.out";
+	public static final String DEFAULT_TRACEFILE         = "System.out";
 
 	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
@@ -66,13 +68,15 @@ public class JarJarDiff {
 		command_line.AddSingleValueSwitch("product");
 		command_line.AddMultipleValuesSwitch("old", true);
 		command_line.AddSingleValueSwitch("old-label");
+		command_line.AddSingleValueSwitch("old-documentation", DEFAULT_OLD_DOCUMENTATION);
 		command_line.AddMultipleValuesSwitch("new", true);
 		command_line.AddSingleValueSwitch("new-label");
+		command_line.AddSingleValueSwitch("new-documentation", DEFAULT_NEW_DOCUMENTATION);
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",     DEFAULT_TRACEFILE);
+		command_line.AddOptionalValueSwitch("verbose",         DEFAULT_LOGFILE);
+		command_line.AddOptionalValueSwitch("trace",           DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("JarJarDiff");
 		command_line.Accept(usage);
@@ -124,6 +128,7 @@ public class JarJarDiff {
 		// then package/class trees using NodeFactory.
 
 		ClassfileLoader old_jar = new AggregatingClassfileLoader();
+		Validator old_validator = new ListBasedValidator(command_line.SingleSwitch("old-documentation"));
 		Iterator old_sources = command_line.MultipleSwitch("old").iterator();
 		while(old_sources.hasNext()) {
 			String filename = (String) old_sources.next();
@@ -144,6 +149,7 @@ public class JarJarDiff {
 		}
 		
 		ClassfileLoader new_jar = new AggregatingClassfileLoader();
+		Validator new_validator = new ListBasedValidator(command_line.SingleSwitch("new-documentation"));
 		Iterator new_sources = command_line.MultipleSwitch("new").iterator();
 		while(new_sources.hasNext()) {
 			String filename = (String) new_sources.next();
@@ -172,7 +178,7 @@ public class JarJarDiff {
 		String      product     = command_line.SingleSwitch("product");
 		String      old_label   = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
 		String      new_label   = command_line.IsPresent("new-label") ? command_line.SingleSwitch("new-label") : command_line.Switch("new").toString();
-		JarDifferences differences = new JarDifferences(product, old_label, new_label, old_jar, new_jar);
+		JarDifferences differences = new JarDifferences(product, old_label, old_validator, old_jar, new_label, new_validator, new_jar);
 
 		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
 
