@@ -41,7 +41,7 @@ public class PrettyPrinter extends Printer {
 
 	private List descriptors;
 
-	private boolean expand_accumulator_measurements;
+	private boolean expand_collection_measurements;
 	
 	private Metrics current_metrics = null;
 	
@@ -49,12 +49,12 @@ public class PrettyPrinter extends Printer {
 		this.descriptors = descriptors;
 	}
 
-	public boolean ExpandAccumulatorMeasurements() {
-		return expand_accumulator_measurements;
+	public boolean ExpandCollectionMeasurements() {
+		return expand_collection_measurements;
 	}
 
-	public void ExpandAccumulatorMeasurements(boolean expand_accumulator_measurements) {
-		this.expand_accumulator_measurements = expand_accumulator_measurements;
+	public void ExpandCollectionMeasurements(boolean expand_collection_measurements) {
+		this.expand_collection_measurements = expand_collection_measurements;
 	}
 	
 	public void VisitMetrics(Metrics metrics) {
@@ -97,7 +97,17 @@ public class PrettyPrinter extends Printer {
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		super.VisitAccumulatorMeasurement(measurement);
 
-		if (ExpandAccumulatorMeasurements()) {
+		VisitCollectionMeasurement(measurement);
+	}
+	
+	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		super.VisitNameListMeasurement(measurement);
+
+		VisitCollectionMeasurement(measurement);
+	}
+	
+	protected void VisitCollectionMeasurement(CollectionMeasurement measurement) {
+		if (ExpandCollectionMeasurements()) {
 			RaiseIndent();
 			Iterator i = measurement.Values().iterator();
 			while (i.hasNext()) {

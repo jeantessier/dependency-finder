@@ -367,7 +367,7 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.PrettyPrinter printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().ProjectMeasurements());
-			printer.ExpandAccumulatorMeasurements(command_line.ToggleSwitch("expand"));
+			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -386,7 +386,7 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.PrettyPrinter printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().GroupMeasurements());
-			printer.ExpandAccumulatorMeasurements(command_line.ToggleSwitch("expand"));
+			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -405,7 +405,7 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.PrettyPrinter printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().ClassMeasurements());
-			printer.ExpandAccumulatorMeasurements(command_line.ToggleSwitch("expand"));
+			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -424,7 +424,7 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.PrettyPrinter printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().MethodMeasurements());
-			printer.ExpandAccumulatorMeasurements(command_line.ToggleSwitch("expand"));
+			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
