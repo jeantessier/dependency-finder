@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -38,14 +38,111 @@ import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
-public class ClassDifferences extends DeprecatableDifferences{
-	private Classfile old_class = null;
-	private Classfile new_class = null;
+/**
+ *  Documents the difference, if any, for a given object
+ *  type (class or interface).  Its subclasses only
+ *  differ in which Visitor callback they invoke.
+ *
+ *  @see Visitor
+ */
+public class ClassDifferences extends RemovableDifferences {
+	private Classfile old_class;
+	private Classfile new_class;
 
 	private Collection feature_differences = new LinkedList();
 
-	public ClassDifferences(String name) {
+	public ClassDifferences(String name, Classfile old_class, Classfile new_class) {
 		super(name);
+
+		OldClass(old_class);
+		NewClass(new_class);
+		
+		if (old_class != null) {
+			OldDeclaration(old_class.Declaration());
+
+			if (new_class != null) {
+				NewDeclaration(new_class.Declaration());
+		
+				if (IsModified()) {
+					Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
+				} else {
+					Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
+				}
+
+				Collection field_level = new TreeSet();
+				Iterator i;
+
+				i = old_class.Fields().iterator();
+				while (i.hasNext()) {
+					field_level.add(((Field_info) i.next()).Name());
+				}
+		
+				i = new_class.Fields().iterator();
+				while (i.hasNext()) {
+					field_level.add(((Field_info) i.next()).Name());
+				}
+		
+				i = field_level.iterator();
+				while (i.hasNext()) {
+					String field_name = (String) i.next();
+
+					Field_info old_field = old_class.Field(field_name);
+					Field_info new_field = new_class.Field(field_name);
+
+					FeatureDifferences feature_differences = new FieldDifferences(field_name, old_field, new_field);
+					Differences differences = new DeprecatableDifferences(feature_differences, old_field, new_field);
+					if (!differences.IsEmpty()) {
+						FeatureDifferences().add(differences);
+						if (feature_differences.IsRemoved() && new_class.LocateField(field_name) != null) {
+							feature_differences.Inherited(true);
+						}
+					}
+				}
+
+				Collection method_level = new TreeSet();
+		
+				i = old_class.Methods().iterator();
+				while (i.hasNext()) {
+					method_level.add(((Method_info) i.next()).Signature());
+				}
+		
+				i = new_class.Methods().iterator();
+				while (i.hasNext()) {
+					method_level.add(((Method_info) i.next()).Signature());
+				}
+		
+				i = method_level.iterator();
+				while (i.hasNext()) {
+					String method_name = (String) i.next();
+		    
+					Method_info old_method = old_class.Method(method_name);
+					Method_info new_method = new_class.Method(method_name);
+		    
+					FeatureDifferences feature_differences;
+					if (((old_method != null) && old_method.IsConstructor()) || ((new_method != null) && new_method.IsConstructor())) {
+						feature_differences = new ConstructorDifferences(method_name, old_method, new_method);
+					} else {
+						feature_differences = new MethodDifferences(method_name, old_method, new_method);
+					}
+					Differences differences = new DeprecatableDifferences(feature_differences, old_method, new_method);
+					if (!differences.IsEmpty()) {
+						FeatureDifferences().add(differences);
+						if (feature_differences.IsRemoved()) {
+							Method_info attempt = new_class.LocateMethod(method_name);
+							if ((attempt != null) && (old_method.Classfile().IsInterface() == attempt.Classfile().IsInterface())) {
+								feature_differences.Inherited(true);
+							}
+						}
+					}
+				}
+
+				Logger.getLogger(getClass()).debug(Name() + " has " + FeatureDifferences().size() + " feature(s) that changed.");
+			}
+		} else if (new_class != null) {
+			NewDeclaration(new_class.Declaration());
+		}
+
+		Logger.getLogger(getClass()).debug(Name() + " " + !IsEmpty());
 	}
 
 	public Classfile OldClass() {
@@ -70,101 +167,6 @@ public class ClassDifferences extends DeprecatableDifferences{
 
 	public boolean IsModified() {
 		return super.IsModified() || (FeatureDifferences().size() != 0);
-	}
-
-	public boolean Compare(Classfile old_class, Classfile new_class) {
-		if (old_class != null) {
-			OldClass(old_class);
-			OldDeclaration(old_class.Declaration());
-
-			if (new_class != null) {
-				NewClass(new_class);
-				NewDeclaration(new_class.Declaration());
-		
-				if (IsModified()) {
-					Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
-				} else {
-					Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
-				}
-
-				RemovedDeprecation(old_class.IsDeprecated() && !new_class.IsDeprecated());
-				NewDeprecation(!old_class.IsDeprecated() && new_class.IsDeprecated());
-		
-				Collection field_level = new TreeSet();
-				Iterator i;
-
-				i = old_class.Fields().iterator();
-				while (i.hasNext()) {
-					field_level.add(((Field_info) i.next()).Name());
-				}
-		
-				i = new_class.Fields().iterator();
-				while (i.hasNext()) {
-					field_level.add(((Field_info) i.next()).Name());
-				}
-		
-				i = field_level.iterator();
-				while (i.hasNext()) {
-					String field_name = (String) i.next();
-
-					Field_info new_field = new_class.Field(field_name);
-					Field_info old_field = old_class.Field(field_name);
-
-					FeatureDifferences differences = new FieldDifferences(field_name);
-					if (differences.Compare(old_field, new_field)) {
-						FeatureDifferences().add(differences);
-						if (differences.IsRemoved() && new_class.LocateField(field_name) != null) {
-							differences.Inherited(true);
-						}
-					}
-				}
-
-				Collection method_level = new TreeSet();
-		
-				i = old_class.Methods().iterator();
-				while (i.hasNext()) {
-					method_level.add(((Method_info) i.next()).Signature());
-				}
-		
-				i = new_class.Methods().iterator();
-				while (i.hasNext()) {
-					method_level.add(((Method_info) i.next()).Signature());
-				}
-		
-				i = method_level.iterator();
-				while (i.hasNext()) {
-					String method_name = (String) i.next();
-		    
-					Method_info new_method = new_class.Method(method_name);
-					Method_info old_method = old_class.Method(method_name);
-		    
-					FeatureDifferences differences;
-					if (((old_method != null) && old_method.IsConstructor()) || ((new_method != null) && new_method.IsConstructor())) {
-						differences = new ConstructorDifferences(method_name);
-					} else {
-						differences = new MethodDifferences(method_name);
-					}
-					if (differences.Compare(old_method, new_method)) {
-						FeatureDifferences().add(differences);
-						if (differences.IsRemoved()) {
-							Method_info attempt = new_class.LocateMethod(method_name);
-							if ((attempt != null) && (old_method.Classfile().IsInterface() == attempt.Classfile().IsInterface())) {
-								differences.Inherited(true);
-							}
-						}
-					}
-				}
-
-				Logger.getLogger(getClass()).debug(Name() + " has " + FeatureDifferences().size() + " feature(s) that changed.");
-			}
-		} else if (new_class != null) {
-			NewClass(new_class);
-			NewDeclaration(new_class.Declaration());
-		}
-
-		Logger.getLogger(getClass()).debug(Name() + " " + !IsEmpty());
-
-		return NewDeprecation() || RemovedDeprecation() || !IsEmpty();
 	}
 
 	public void Accept(Visitor visitor) {

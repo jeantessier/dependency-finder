@@ -641,6 +641,11 @@ with either our stylesheets or your own.
 
 You use =JarJarDiff= to extract API differences.
 
+<div align="center">
+    [[images/ExtractingDifferences.gif]]
+*Extracting Differences*
+</div>
+
 You use =-old= switches to tell it where the _old_, or base version is
 located.  Each =-old= switch can point to either a JAR file, a Zip file,
 or a directory that will be searched for =.class= files.  You can
@@ -655,13 +660,11 @@ specify a label for the version with the =-new-label= switch.  If you
 do not provide a label, the tool with create one by concatenating the
 parameters to =-new= switches.
 
-By default, the raw results in XML are written to the standard output
+By default, the raw results are written in XML to the standard output
 stream (i.e., =System.out=).  You can write it to a file by using the
 =-out= switch.
 
 ---+++ Reporting
----++++ Textual Output
----++++ HTML Output
 
 Dependency Finder includes XSL stylesheets for representing differences
 using HTML.  The stylesheets include:
@@ -674,7 +677,61 @@ You can run them using the script of the same name and the =-in= and
 stylesheet with the =-xsl= switch.  You can do the same, if you want,
 with either our stylesheets or your own.
 
+---++++ Full List
+
+You use =DiffToHTML= to convert all API differences to HTML.
+
+<div align="center">
+    [[images/FullList.gif]]
+*Full List*
+</div>
+
+---++++ Public List
+
+You use =DiffToExternalHTML= to convert only public API differences
+to HTML.
+
+<div align="center">
+    [[images/PublicList.gif]]
+*Public List*
+</div>
+
 ---++++ Filtering
+
+You can also limit the reporting to specific programming elements
+that have been earmarked using special javadoc tags.
+
+You get the list of earmarked elements by running a specialized
+doclet.
+
+<div align="center">
+    [[images/ExtractingDocumentedElements.gif]]
+*Extracting Documented Elements*
+</div>
+
+You then feed the output from the servlet to =JarJarDiff=.
+
+<div align="center">
+    [[images/ExtractingDifferencesAndDocumentedElements.gif]]
+*Extracting Differences And Documented Elements*
+</div>
+
+The full list will include special sections that highlight
+changes in what is no more part of the documentation and what
+was newly added to the documentation.
+
+<div align="center">
+    [[images/FullListOfDocumentedElements.gif]]
+*Full List Of Documented Elements*
+</div>
+
+The list can also be fed to =DiffToExternalHTML= to further
+limit the changes to the published public API.
+
+<div align="center">
+    [[images/PublicListOfDocumentedElements.gif]]
+*Public List Of Documented Elements*
+</div>
 
 ----
 

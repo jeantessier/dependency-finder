@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -33,6 +33,8 @@
 package com.jeantessier.diff;
 
 import java.util.*;
+
+import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -90,16 +92,8 @@ public class ClassReport extends Printer implements Comparable {
 			removed_fields.add(differences);
 		}
 	
-		if (differences.NewDeprecation()) {
-			deprecated_fields.add(differences);
-		}
-	
 		if (differences.IsModified()) {
 			modified_fields.add(differences);
-		}
-
-		if (differences.RemovedDeprecation()) {
-			undeprecated_fields.add(differences);
 		}
 	
 		if (differences.IsNew()) {
@@ -112,16 +106,8 @@ public class ClassReport extends Printer implements Comparable {
 			removed_constructors.add(differences);
 		}
 	
-		if (differences.NewDeprecation()) {
-			deprecated_constructors.add(differences);
-		}
-	
 		if (differences.IsModified()) {
 			modified_constructors.add(differences);
-		}
-
-		if (differences.RemovedDeprecation()) {
-			undeprecated_constructors.add(differences);
 		}
 	
 		if (differences.IsNew()) {
@@ -134,21 +120,47 @@ public class ClassReport extends Printer implements Comparable {
 			removed_methods.add(differences);
 		}
 	
-		if (differences.NewDeprecation()) {
-			deprecated_methods.add(differences);
-		}
-	
 		if (differences.IsModified()) {
 			modified_methods.add(differences);
-		}
-
-		if (differences.RemovedDeprecation()) {
-			undeprecated_methods.add(differences);
 		}
 	
 		if (differences.IsNew()) {
 			new_methods.add(differences);
 		}
+	}
+	
+	public void VisitDeprecatableDifferences(DeprecatableDifferences differences) {
+		Differences component = differences.Component();
+		
+		if (component instanceof FieldDifferences) {
+			if (differences.NewDeprecation()) {
+				deprecated_fields.add(component);
+			}
+			
+			if (differences.RemovedDeprecation()) {
+				undeprecated_fields.add(component);
+			}
+		} else if (component instanceof ConstructorDifferences) {
+			if (differences.NewDeprecation()) {
+				deprecated_constructors.add(component);
+			}
+			
+			if (differences.RemovedDeprecation()) {
+				undeprecated_constructors.add(component);
+			}
+		} else if (component instanceof MethodDifferences) {
+			if (differences.NewDeprecation()) {
+				deprecated_methods.add(component);
+			}
+			
+			if (differences.RemovedDeprecation()) {
+				undeprecated_methods.add(component);
+			}
+		} else {
+			Logger.getLogger(getClass()).error("Invalid deprecatable, class is " + component.getClass().getName());
+		}
+
+		component.Accept(this);
 	}
 
 	public String toString() {

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -37,34 +37,21 @@ import java.util.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
+/**
+ *  Documents the difference, if any, between two codebases.
+ */
 public class JarDifferences implements Differences {
+	private String     product;
 	private String     old_version;
 	private String     new_version;
 
 	private Collection package_differences = new LinkedList();
 
-	public JarDifferences(String old_version, String new_version) {
+	public JarDifferences(String product, String old_version, String new_version, ClassfileLoader old_jar, ClassfileLoader new_jar) {
+		this.product     = product;
 		this.old_version = old_version;
 		this.new_version = new_version;
-	}
 
-	public String OldVersion() {
-		return old_version;
-	}
-
-	public String NewVersion() {
-		return new_version;
-	}
-
-	public Collection PackageDifferences() {
-		return package_differences;
-	}
-
-	public boolean IsEmpty() {
-		return PackageDifferences().size() == 0;
-	}
-
-	public boolean Compare(ClassfileLoader old_jar, ClassfileLoader new_jar) {
 		Iterator   i;
 
 		NodeFactory old_factory = new NodeFactory();
@@ -90,16 +77,38 @@ public class JarDifferences implements Differences {
 			PackageNode old_package = (PackageNode) old_factory.Packages().get(package_name);
 			PackageNode new_package = (PackageNode) new_factory.Packages().get(package_name);
 	    
-			PackageDifferences differences = new PackageDifferences(package_name);
-			if (differences.Compare(old_jar, old_package, new_jar, new_package)) {
+			PackageDifferences differences = new PackageDifferences(package_name, old_jar, old_package, new_jar, new_package);
+			if (!differences.IsEmpty()) {
 				PackageDifferences().add(differences);
 			}
 		}
-    
-		return !IsEmpty();
+	}
+
+	public String Product() {
+		return product;
+	}
+
+	public String OldVersion() {
+		return old_version;
+	}
+
+	public String NewVersion() {
+		return new_version;
+	}
+
+	public Collection PackageDifferences() {
+		return package_differences;
+	}
+
+	public boolean IsEmpty() {
+		return PackageDifferences().size() == 0;
 	}
 
 	public void Accept(Visitor visitor) {
 		visitor.VisitJarDifferences(this);
+	}
+
+	public String toString() {
+		return Product();
 	}
 }

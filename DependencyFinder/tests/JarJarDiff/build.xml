@@ -1,0 +1,35 @@
+<project name="JarJarDiff" default="both" basedir=".">
+
+    <patternset id="all.sources">
+	<include name="**/*.java"/>
+    </patternset>
+
+    <target name="old">
+        <javac>
+	    <src path="old"/>
+	    <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="new">
+        <javac>
+	    <src path="new"/>
+	    <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="both" depends="old, new"/>
+
+    <target name="clean">
+        <delete verbose="true">
+	    <fileset dir="." defaultexcludes="no">
+		<patternset>
+		    <include name="**/*~"/>
+		    <include name="**/*.bak"/>
+		    <include name="**/*.class"/>
+		</patternset>
+	    </fileset>
+	</delete>
+    </target>
+
+</project>

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,6 +32,12 @@
 
 package com.jeantessier.diff;
 
+/**
+ *  Common visitable interface for differences between codebases.
+ *
+ *  @see Visitor
+ */
 public interface Differences {
-	public void Accept(Visitor visitor);
+	public boolean IsEmpty();
+	public void    Accept(Visitor visitor);
 }

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -37,7 +37,7 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
-public class Classfile implements Visitable {
+public class Classfile implements Deprecatable, Visitable {
 	public static final int ACC_PUBLIC    = 0x0001;
 	public static final int ACC_FINAL     = 0x0010;
 	public static final int ACC_SUPER     = 0x0020;

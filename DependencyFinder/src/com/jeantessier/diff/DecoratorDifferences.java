@@ -32,13 +32,22 @@
 
 package com.jeantessier.diff;
 
-public interface Visitor {
-	public void VisitJarDifferences(JarDifferences differences);
-	public void VisitPackageDifferences(PackageDifferences differences);
-	public void VisitInterfaceDifferences(InterfaceDifferences differences);
-	public void VisitClassDifferences(ClassDifferences differences);
-	public void VisitFieldDifferences(FieldDifferences differences);
-	public void VisitConstructorDifferences(ConstructorDifferences differences);
-	public void VisitMethodDifferences(MethodDifferences differences);
-	public void VisitDeprecatableDifferences(DeprecatableDifferences differences);
+/**
+ *  Extension point for adding data and/or behavior to nodes in the
+ *  Differences hierarchy.
+ */
+public abstract class DecoratorDifferences implements Differences {
+	private Differences component;
+
+	public DecoratorDifferences(Differences component) {
+		this.component = component;
+	}
+
+	public Differences Component() {
+		return component;
+	}
+
+	public String toString() {
+		return Component().toString();
+	}
 }

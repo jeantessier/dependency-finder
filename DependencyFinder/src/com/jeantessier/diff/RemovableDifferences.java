@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,6 +32,12 @@
 
 package com.jeantessier.diff;
 
+/**
+ *  Documents the difference, if any, for a given programming
+ *  element that can be absent in either the old or the new
+ *  codebase.  This includes classes, interfaces, fields,
+ *  constructors, and methods.
+ */
 public abstract class RemovableDifferences implements Differences, Comparable {
 	private String name;
 

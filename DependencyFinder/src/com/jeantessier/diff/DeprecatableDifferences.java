@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,12 +32,24 @@
 
 package com.jeantessier.diff;
 
-public abstract class DeprecatableDifferences extends RemovableDifferences {
-	private boolean    new_deprecation         = false;
-	private boolean    removed_deprecation     = false;
+import com.jeantessier.classreader.*;
 
-	public DeprecatableDifferences(String name) {
-		super(name);
+/**
+ *  Documents the difference, if any, for a given programming
+ *  element that can be deprecated through the use of javadoc
+ *  tags.
+ */
+public class DeprecatableDifferences extends DecoratorDifferences {
+	private boolean new_deprecation;
+	private boolean removed_deprecation;
+
+	public DeprecatableDifferences(Differences component, Deprecatable old_deprecatable, Deprecatable new_deprecatable) {
+		super(component);
+
+		if (old_deprecatable != null && new_deprecatable != null) {
+			RemovedDeprecation(old_deprecatable.IsDeprecated() && !new_deprecatable.IsDeprecated());
+			NewDeprecation(!old_deprecatable.IsDeprecated() && new_deprecatable.IsDeprecated());
+		}
 	}
 
 	public boolean NewDeprecation() {
@@ -54,5 +66,16 @@ public abstract class DeprecatableDifferences extends RemovableDifferences {
 
 	public void RemovedDeprecation(boolean removed_deprecation) {
 		this.removed_deprecation = removed_deprecation;
+	}
+
+	public boolean IsEmpty() {
+		return
+			!NewDeprecation() &&
+			!RemovedDeprecation() &&
+			Component().IsEmpty();
+	}
+
+	public void Accept(Visitor visitor) {
+		visitor.VisitDeprecatableDifferences(this);
 	}
 }

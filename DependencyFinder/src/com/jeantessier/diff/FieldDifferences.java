@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,9 +32,15 @@
 
 package com.jeantessier.diff;
 
+import com.jeantessier.classreader.*;
+
+/**
+ *  Documents the difference, if any, for a given field.
+ *  All behavior is handled by superclasses.
+ */
 public class FieldDifferences extends FeatureDifferences {
-	public FieldDifferences(String name) {
-		super(name);
+	public FieldDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
+		super(name, old_feature, new_feature);
 	}
 
 	public void Accept(Visitor visitor) {

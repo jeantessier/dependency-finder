@@ -30,15 +30,8 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.diff;
+package com.jeantessier.classreader;
 
-public interface Visitor {
-	public void VisitJarDifferences(JarDifferences differences);
-	public void VisitPackageDifferences(PackageDifferences differences);
-	public void VisitInterfaceDifferences(InterfaceDifferences differences);
-	public void VisitClassDifferences(ClassDifferences differences);
-	public void VisitFieldDifferences(FieldDifferences differences);
-	public void VisitConstructorDifferences(ConstructorDifferences differences);
-	public void VisitMethodDifferences(MethodDifferences differences);
-	public void VisitDeprecatableDifferences(DeprecatableDifferences differences);
+public interface Deprecatable {
+	public boolean IsDeprecated();
 }

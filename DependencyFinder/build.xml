@@ -55,7 +55,7 @@
     </target>
 
     <target name="compiletests" depends="compile">
-        <javac destdir="${classesDir}">
+        <javac destdir="${classesDir}" excludes="JarJarDiff/**">
 	    <src path="${testsDir}"/>
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
@@ -79,7 +79,7 @@
     </target>
 
     <target name="compiletestsdebug" depends="compiledebug">
-        <javac destdir="${classesDir}" debug="on">
+        <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on">
 	    <src path="${testsDir}"/>
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>

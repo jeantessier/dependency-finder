@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -33,6 +33,8 @@
 package com.jeantessier.diff;
 
 import java.util.*;
+
+import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -56,25 +58,22 @@ public class Report extends Printer {
 	private Collection new_interfaces = new TreeSet();
 	private Collection new_classes = new TreeSet();
 
-	public Report(String product) {
+	public Report() {
 		super();
-
-		this.product = product;
 	}
 
-	public Report(String indent, String product) {
+	public Report(String indent) {
 		super(indent);
-
-		this.product = product;
 	}
 
 	public void VisitJarDifferences(JarDifferences differences) {
+		product     = differences.Product();
 		old_version = differences.OldVersion();
 		new_version = differences.NewVersion();
 
 		Iterator i = differences.PackageDifferences().iterator();
 		while (i.hasNext()) {
-			((PackageDifferences) i.next()).Accept(this);
+			((Differences) i.next()).Accept(this);
 		}
 	}
 
@@ -85,7 +84,7 @@ public class Report extends Printer {
 	
 		Iterator i = differences.ClassDifferences().iterator();
 		while (i.hasNext()) {
-			((ClassDifferences) i.next()).Accept(this);
+			((Differences) i.next()).Accept(this);
 		}
 
 		if (differences.IsNew()) {
@@ -98,18 +97,10 @@ public class Report extends Printer {
 			removed_classes.add(differences);
 		}
 	
-		if (differences.NewDeprecation()) {
-			deprecated_classes.add(differences);
-		}
-	
 		if (differences.IsModified()) {
 			Visitor visitor = new ClassReport();
 			differences.Accept(visitor);
 			modified_classes.add(visitor);
-		}
-
-		if (differences.RemovedDeprecation()) {
-			undeprecated_classes.add(differences);
 		}
 	
 		if (differences.IsNew()) {
@@ -122,23 +113,41 @@ public class Report extends Printer {
 			removed_interfaces.add(differences);
 		}
 	
-		if (differences.NewDeprecation()) {
-			deprecated_interfaces.add(differences);
-		}
-	
 		if (differences.IsModified()) {
 			Visitor visitor = new ClassReport();
 			differences.Accept(visitor);
 			modified_interfaces.add(visitor);
 		}
-
-		if (differences.RemovedDeprecation()) {
-			undeprecated_interfaces.add(differences);
-		}
 	
 		if (differences.IsNew()) {
 			new_interfaces.add(differences);
 		}
+	}
+	
+	public void VisitDeprecatableDifferences(DeprecatableDifferences differences) {
+		Differences component = differences.Component();
+		
+		if (component instanceof InterfaceDifferences) {
+			if (differences.NewDeprecation()) {
+				deprecated_interfaces.add(component);
+			}
+			
+			if (differences.RemovedDeprecation()) {
+				undeprecated_interfaces.add(component);
+			}
+		} else if (component instanceof ClassDifferences) {
+			if (differences.NewDeprecation()) {
+				deprecated_classes.add(component);
+			}
+			
+			if (differences.RemovedDeprecation()) {
+				undeprecated_classes.add(component);
+			}
+		} else {
+			Logger.getLogger(getClass()).error("Invalid deprecatable, class is " + component.getClass().getName());
+		}
+
+		component.Accept(this);
 	}
 
 	public String toString() {

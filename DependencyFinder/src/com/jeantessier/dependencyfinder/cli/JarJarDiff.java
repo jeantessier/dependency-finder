@@ -169,10 +169,10 @@ public class JarJarDiff {
 	
 		Logger.getLogger(JarJarDiff.class).info("Comparing ...");
 
+		String      product     = command_line.SingleSwitch("product");
 		String      old_label   = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
 		String      new_label   = command_line.IsPresent("new-label") ? command_line.SingleSwitch("new-label") : command_line.Switch("new").toString();
-		JarDifferences differences = new JarDifferences(old_label, new_label);
-		differences.Compare(old_jar, new_jar);
+		JarDifferences differences = new JarDifferences(product, old_label, new_label, old_jar, new_jar);
 
 		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
 
@@ -183,7 +183,7 @@ public class JarJarDiff {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		com.jeantessier.diff.Printer printer = new Report(command_line.SingleSwitch("product"));
+		com.jeantessier.diff.Printer printer = new Report();
 		differences.Accept(printer);
 		out.print(printer);
 

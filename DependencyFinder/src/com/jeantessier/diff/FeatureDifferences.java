@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -34,13 +34,34 @@ package com.jeantessier.diff;
 
 import com.jeantessier.classreader.*;
 
-public abstract class FeatureDifferences extends DeprecatableDifferences {
-	private Feature_info old_feature = null;
-	private Feature_info new_feature = null;
-	private boolean      inherited   = false;
+/**
+ *  Documents the difference, if any, for a given feature
+ *  (field, constructor, or method).  Its subclasses only
+ *  differ in which Visitor callback they invoke.
+ *
+ *  @see Visitor
+ */
+public abstract class FeatureDifferences extends RemovableDifferences {
+	private Feature_info old_feature;
+	private Feature_info new_feature;
+	
+	private boolean inherited = false;
 
-	public FeatureDifferences(String name) {
+	public FeatureDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
 		super(name);
+
+		OldFeature(old_feature);
+		NewFeature(new_feature);
+					
+		if (old_feature != null) {
+			OldDeclaration(old_feature.Declaration());
+
+			if (new_feature != null) {
+				NewDeclaration(new_feature.Declaration());
+			}
+		} else if (new_feature != null) {
+			NewDeclaration(new_feature.Declaration());
+		}
 	}
 
 	public Feature_info OldFeature() {
@@ -65,25 +86,5 @@ public abstract class FeatureDifferences extends DeprecatableDifferences {
 
 	public void Inherited(boolean inherited) {
 		this.inherited = inherited;
-	}
-
-	public boolean Compare(Feature_info old_feature, Feature_info new_feature) {
-		if (old_feature != null) {
-			OldFeature(old_feature);
-			OldDeclaration(old_feature.Declaration());
-
-			if (new_feature != null) {
-				NewFeature(new_feature);
-				NewDeclaration(new_feature.Declaration());
-
-				RemovedDeprecation(old_feature.IsDeprecated() && !new_feature.IsDeprecated());
-				NewDeprecation(!old_feature.IsDeprecated() && new_feature.IsDeprecated());
-			}
-		} else if (new_feature != null) {
-			NewFeature(new_feature);
-			NewDeclaration(new_feature.Declaration());
-		}
-
-		return NewDeprecation() || RemovedDeprecation() || !IsEmpty();
 	}
 }

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -39,22 +39,15 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
+/**
+ *  Documents the difference, if any, for a given package.
+ */
 public class PackageDifferences extends RemovableDifferences {
 	private Collection class_differences = new LinkedList();
 
-	public PackageDifferences(String name) {
+	public PackageDifferences(String name, ClassfileLoader old_jar, PackageNode old_package, ClassfileLoader new_jar, PackageNode new_package) {
 		super(name);
-	}
 
-	public Collection ClassDifferences() {
-		return class_differences;
-	}
-
-	public boolean IsModified() {
-		return super.IsModified() || (ClassDifferences().size() != 0);
-	}
-
-	public boolean Compare(ClassfileLoader old_jar, PackageNode old_package, ClassfileLoader new_jar, PackageNode new_package) {
 		Collection class_level = new TreeSet();
 		Iterator   i;
 	
@@ -87,13 +80,14 @@ public class PackageDifferences extends RemovableDifferences {
 					Classfile old_class = old_jar.Classfile(class_name);
 					Classfile new_class = new_jar.Classfile(class_name);
 		    
-					ClassDifferences differences;
+					ClassDifferences class_differences;
 					if (((old_class != null) && old_class.IsInterface()) || ((new_class != null) && new_class.IsInterface())) {
-						differences = new InterfaceDifferences(class_name);
+						class_differences = new InterfaceDifferences(class_name, old_class, new_class);
 					} else {
-						differences = new ClassDifferences(class_name);
+						class_differences = new ClassDifferences(class_name, old_class, new_class);
 					}
-					if (differences.Compare(old_class, new_class)) {
+					Differences differences = new DeprecatableDifferences(class_differences, old_class, new_class);
+					if (!differences.IsEmpty()) {
 						ClassDifferences().add(differences);
 					}
 				}
@@ -105,8 +99,14 @@ public class PackageDifferences extends RemovableDifferences {
 		}
 
 		Logger.getLogger(getClass()).debug(Name() + " " + !IsEmpty());
+	}
 
-		return !IsEmpty();
+	public Collection ClassDifferences() {
+		return class_differences;
+	}
+
+	public boolean IsModified() {
+		return super.IsModified() || (ClassDifferences().size() != 0);
 	}
 
 	public void Accept(Visitor visitor) {
