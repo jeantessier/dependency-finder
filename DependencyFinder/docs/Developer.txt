@@ -814,7 +814,7 @@ retrieve parameters, if any, with the =Parameters()= method.
 
 or
 
-    C:\>ant realclean src docs dist src war
+    C:\>ant realclean src docs dist war
 
 ---+++ Testing the Build
 
