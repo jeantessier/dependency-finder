@@ -79,6 +79,7 @@ public class OOMetrics extends JFrame {
 		
 		this.setSize(new Dimension(800, 600));
 		this.setTitle("OO Metrics");
+		this.setIconImage(new ImageIcon(getClass().getResource("icons/logoicon.gif")).getImage());
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.addWindowListener(new WindowKiller());
 

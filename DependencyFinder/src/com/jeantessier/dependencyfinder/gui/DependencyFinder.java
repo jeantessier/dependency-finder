@@ -110,6 +110,7 @@ public class DependencyFinder extends JFrame {
 	public DependencyFinder(CommandLine command_line) {
 		this.setSize(new Dimension(800, 600));
 		this.setTitle("Dependency Finder");
+		this.setIconImage(new ImageIcon(getClass().getResource("icons/logoicon.gif")).getImage());
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.addWindowListener(new WindowKiller());
 
