@@ -9,11 +9,29 @@ by Jean Tessier
 This application extracts information from compiled Java code and makes
 it available to users in a numbers of ways.
 
+Many authors have stressed the importance of managing depencencies
+(Robert C. Martin,
+[[http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid=980962318/sr=8-1/ref=aps_sr_b_1_1/105-0176284-9920776][John Lakos]]).
+Managing
+dependencies means securing encapsulation and making sure that the code
+follows the architecture.  It is also essential for the modularization
+of code and favors reuse.  By extracting the information from the code
+itself, we can detect where we were sloppy, where we took shortcuts that
+we shouldn't have.  Managing the dependencies can shorten the compilation
+time of the code.
+
 ---+++ Class Files
+
+At first, I thought of using the Reflection API, but it shows only the
+class's attributes and method signatures.  If a method uses some other
+class for a local variable or to call a static method, that dependency
+will not show under the Reflection API.
 
 Java compilers take source code and produce bytecode that they put in
 =.class= files.  The format of these files is described in
 [[http://java.sun.com/docs/books/vmspec/2nd-edition/html/ClassFile.doc.html][The =class= File Format]].
+I undertook to parse these files and extract the information I needed
+directly from the compiled code.
 
 ---+++ Dependencies
 
@@ -91,6 +109,31 @@ If the VM runs out of memory, try setting the =DEPENDENCYFINDER_OPTS=
 environment variable.
 
     SET DEPENDENCYFINDER_OPTS=-Xmx128m
+
+----
+
+---++ Running Dependency Finder
+
+---+++ Dependency Finder
+
+<div align="center">
+    [[images/DependencyFinder.jpg][images/s_DependencyFinder.jpg]]
+*Extract Dialog*
+</div>
+
+---+++ OOMetricsGUI
+
+<div align="center">
+    [[images/OOMetricsGUI.jpg][images/s_OOMetricsGUI.jpg]]
+*Extract Dialog*
+</div>
+
+---+++ CLI
+
+<div align="center">
+    [[images/Flow.gif]]
+*Document Flow*
+</div>
 
 ----
 
