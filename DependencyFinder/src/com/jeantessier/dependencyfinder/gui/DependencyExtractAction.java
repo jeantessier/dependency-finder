@@ -68,6 +68,12 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 
 	public void run() {
 		Date start = new Date();
+
+		model.StatusLine().ShowInfo("Scanning ...");
+		ClassfileScanner scanner = new ClassfileScanner();
+		scanner.Load(Arrays.asList(files));
+
+		model.ProgressBar().setMaximum(scanner.NbFiles());
 		
 		Collector collector = new CodeDependencyCollector(model.NodeFactory());
 

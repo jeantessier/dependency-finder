@@ -30,64 +30,56 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.dependencyfinder.gui;
+package com.jeantessier.classreader;
 
-import javax.swing.*;
+import java.io.*;
+import java.util.*;
 
-import com.jeantessier.classreader.*;
-import com.jeantessier.dependencyfinder.*;
-
-public class VerboseListener extends VerboseListenerBase {
-	private StatusLine   status_line;
-	private JProgressBar progress_bar;
-
-	public VerboseListener(StatusLine status_line, JProgressBar progress_bar) {
-		this.status_line  = status_line;
-		this.progress_bar = progress_bar;
+public class ClassfileScanner extends ClassfileLoaderEventSource {
+	private int nb_files;
+	private int nb_classes;
+	
+	public ClassfileScanner() {
+		super();
 	}
 
-	protected StatusLine StatusLine() {
-		return status_line;
+	public ClassfileScanner(ClassfileLoaderDispatcher dispatcher) {
+		super(dispatcher);
 	}
 
-	protected JProgressBar ProgressBar() {
-		return progress_bar;
+	public int NbFiles() {
+		return nb_files;
+	}
+
+	public int NbClasses() {
+		return nb_classes;
 	}
 	
-	public void BeginSession(LoadEvent event) {
-		super.BeginSession(event);
+	public Classfile Classfile(String name) {
+		return null;
+	}
+
+	public Collection Classfiles() {
+		return Collections.EMPTY_LIST;
+	}
+
+	public Collection Classnames() {
+		return Collections.EMPTY_LIST;
+	}
+
+	protected Classfile Load(DataInputStream in) throws IOException {
+		return null;
+	}
+
+	protected void fireBeginFile(String filename) {
+		super.fireBeginFile(filename);
 		
-		StatusLine().ShowInfo("Searching for classes ...");
-		ProgressBar().setValue(0);
-		ProgressBar().setStringPainted(true);
+		nb_files++;
 	}
 	
-	public void BeginGroup(LoadEvent event) {
-		super.BeginGroup(event);
-
-		StatusLine().ShowInfo("Loading from " + event.GroupName() + " ...");
-	}
-	
-	public void BeginFile(LoadEvent event) {
-		super.BeginFile(event);
+	protected void fireBeginClassfile(String filename) {
+		super.fireBeginClassfile(filename);
 		
-		if (event.Filename().startsWith(event.GroupName())) {
-			StatusLine().ShowInfo("Found " + event.Filename() + " ...");
-		} else {
-			StatusLine().ShowInfo("Found " + event.GroupName() + " >> " + event.Filename() + " ...");
-		}
-	}
-	
-	public void EndFile(LoadEvent event) {
-		super.EndFile(event);
-		
-		ProgressBar().setValue(ProgressBar().getValue() + 1);
-	}
-	
-	public void EndSession(LoadEvent event) {
-		super.EndSession(event);
-		
-		ProgressBar().setValue(0);
-		ProgressBar().setStringPainted(false);
+		nb_classes++;
 	}
 }

@@ -63,6 +63,12 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 		model.ClearClosureResult();
 		model.ClearMetricsResult();
 
+		model.StatusLine().ShowInfo("Scanning ...");
+		ClassfileScanner scanner = new ClassfileScanner();
+		scanner.Load(Collections.singleton(model.InputFile()));
+
+		model.ProgressBar().setMaximum(scanner.NbFiles());
+
 		model.NodeFactory(new NodeFactory());
 		Collector collector = new CodeDependencyCollector(model.NodeFactory());
 

@@ -71,6 +71,12 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 	public void run() {
 		Date start = new Date();
 
+		model.StatusLine().ShowInfo("Scanning ...");
+		ClassfileScanner scanner = new ClassfileScanner();
+		scanner.Load(Arrays.asList(files));
+
+		model.ProgressBar().setMaximum(scanner.NbFiles() + scanner.NbClasses());
+
 		MetricsVerboseListener verbose_listener = new MetricsVerboseListener(model.StatusLine(), model.ProgressBar());
 		
 		loader = new AggregatingClassfileLoader();
@@ -81,8 +87,6 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 		gatherer.addMetricsListener(verbose_listener);
 		gatherer.VisitClassfiles(loader.Classfiles());
 
-		model.ProgressBar().setValue(0);
-		model.ProgressBar().setStringPainted(false);
 		// JDK 1.4 feature
 		// model.ProgressBar().setIndeterminate(true);
 		

@@ -34,18 +34,20 @@ package com.jeantessier.dependencyfinder.gui;
 
 import javax.swing.*;
 
+import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
 
 public class MetricsVerboseListener extends VerboseListener implements MetricsListener {
-	private int processed_class_count = 0;
-	
 	public MetricsVerboseListener(StatusLine status_line, JProgressBar progress_bar) {
 		super(status_line, progress_bar);
 	}
 
+	public void EndSession(LoadEvent event) {
+		// Do nothing
+	}
+
 	public void BeginSession(MetricsEvent event) {
-		ProgressBar().setMaximum(event.Size());
-		ProgressBar().setStringPainted(true);
+		// Do nothing
 	}
 	
 	public void BeginClass(MetricsEvent event) {
@@ -61,8 +63,7 @@ public class MetricsVerboseListener extends VerboseListener implements MetricsLi
 	}
 
 	public void EndClass(MetricsEvent event) {
-		processed_class_count++;
-		ProgressBar().setValue(processed_class_count);
+		ProgressBar().setValue(ProgressBar().getValue() + 1);
 	}
 
 	public void EndSession(MetricsEvent event) {
