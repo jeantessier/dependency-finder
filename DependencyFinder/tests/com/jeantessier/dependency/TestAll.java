@@ -40,6 +40,8 @@ public class TestAll extends TestCase {
 
 		result.addTestSuite(TestNode.class);
 		result.addTestSuite(TestComprehensiveSelectionCriteria.class);
+		result.addTestSuite(TestAndCompositeSelectionCriteria.class);
+		result.addTestSuite(TestOrCompositeSelectionCriteria.class);
 		result.addTestSuite(TestRegularExpressionSelectionCriteria.class);
 		result.addTestSuite(TestCollectionSelectionCriteria.class);
 		result.addTestSuite(TestSelectiveTraversalStrategy.class);
