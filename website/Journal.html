@@ -17,6 +17,80 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	August 24, 2004
+    </dt>
+    <dd>
+	<p>Configuring FitNesse and HtmlFixture still eludes me.  I need some
+	kind of tutorial on how to set them up together.  And once that is
+	done, how do I put the tests under source control?  Let alone running
+	them automatically from an Ant script?  That includes starting a web
+	container, deploying the web app, and connecting to it.</p>
+    </dd>
+    <dt>
+	August 23, 2004
+    </dt>
+    <dd>
+	<p>Started looking at <a href="http://fitnesse.org/">FitNesse</a> in
+	combination with its HtmlFixture to test the web app.</p>
+    </dd>
+    <dt>
+	August 18, 2004
+    </dt>
+    <dd>
+	<p>At work, we're using
+	<a target="_blank" href="http://htmlunit.sourceforge.net/">HtmlUnit</a>
+	to test a web app through a browser.  I really like the way it
+	simulates the user connection and allows you to query the resulting
+	HTML, including following hyperlinks and submiting forms.  This could
+	be very helpful in testing Dependency Finder's web app.</p>
+    </dd>
+    <dt>
+	July 21, 2004
+    </dt>
+    <dd>
+	<p>Had a baby boy.  Work on Dependency Finder will have to slow down
+	for a little while.</p>
+    </dd>
+    <dt>
+	July 12, 2004
+    </dt>
+    <dd>
+	<p>Someone pointed out that the HTML in the website have a
+	<code>DOCTYPE</code> for HTML 4.01 but actually contain XHTML
+	markup.  Things like <code>&lt;br /&gt;</code> and
+	<code>&lt;a name="..." /&gt;</code>.  This last one is specially
+	troublesome since most browsers start looking for the closing
+	<code>&lt;/a&gt;</code> tag and consider everything past the opening
+	tag a hyperlink.  I should change them to
+	<code>&lt;a name="..." &gt;&lt/a&gt;</code> instead.  I'll try to fix
+	them shortly.</p>
+    </dd>
+    <dt>
+	July 06, 2004
+    </dt>
+    <dd>
+	<p>Some more thoughts about combining selection criteria.</p>
+
+	<p>So the target boolean expression is:</p>
+
+	<blockquote><code>(include1 || include2) && (!exclude1 && !exclude2)</code></blockquote>
+
+	<p>Which we can generalize and rewrite as:</p>
+
+	<blockquote><code>(include1 || include2 || ...) && !(exclude1 || exclude2 || ...)</code></blockquote>
+
+	<p>Now, most of the time, there is only a single <em>include</em>
+	clause and a single <em>exclude</em> clause.  Especially in the GUI and
+	the web application, where I have limited the range of options and
+	where responsiveness is critical.  It does not feel right to have all
+	this overhead for traversing composite lists of one subcriteria.  In
+	the case where there is only one subcriteria, I should be able to use
+	it directly and forgo all of the composite overhead.  But I will need
+	some kind of builder pattern to get to that point, somewhere I can
+	encapsulate the decision of which classes to instantiate as I figure
+	out what the selection expression is going to look like.</p>
+    </dd>
+    <dt>
 	July 01, 2004
     </dt>
     <dd>
