@@ -71,62 +71,70 @@ public class XMLPrinter extends Printer {
 	}
 
 	private void VisitProjectMetrics(Metrics metrics) {
-		Indent().Append("<project>").EOL();
-		RaiseIndent();
-		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
-
-		VisitMeasurements(metrics, configuration.ProjectMeasurements());
-
-		Iterator i = metrics.SubMetrics().iterator();
-		while (i.hasNext()) {
-			VisitGroupMetrics((Metrics) i.next());
+		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
+			Indent().Append("<project>").EOL();
+			RaiseIndent();
+			Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
+			
+			VisitMeasurements(metrics, configuration.ProjectMeasurements());
+			
+			Iterator i = metrics.SubMetrics().iterator();
+			while (i.hasNext()) {
+				VisitGroupMetrics((Metrics) i.next());
+			}
+			
+			LowerIndent();
+			Indent().Append("</project>").EOL();
 		}
-				
-		LowerIndent();
-		Indent().Append("</project>").EOL();
 	}
 
 	private void VisitGroupMetrics(Metrics metrics) {
-		Indent().Append("<group>").EOL();
-		RaiseIndent();
-		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
-
-		VisitMeasurements(metrics, configuration.GroupMeasurements());
-
-		Iterator i = metrics.SubMetrics().iterator();
-		while (i.hasNext()) {
-			VisitClassMetrics((Metrics) i.next());
+		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
+			Indent().Append("<group>").EOL();
+			RaiseIndent();
+			Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
+			
+			VisitMeasurements(metrics, configuration.GroupMeasurements());
+			
+			Iterator i = metrics.SubMetrics().iterator();
+			while (i.hasNext()) {
+				VisitClassMetrics((Metrics) i.next());
+			}
+			
+			LowerIndent();
+			Indent().Append("</group>").EOL();
 		}
-				
-		LowerIndent();
-		Indent().Append("</group>").EOL();
 	}
 
 	private void VisitClassMetrics(Metrics metrics) {
-		Indent().Append("<class>").EOL();
-		RaiseIndent();
-		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
-
-		VisitMeasurements(metrics, configuration.ClassMeasurements());
-
-		Iterator i = metrics.SubMetrics().iterator();
-		while (i.hasNext()) {
-			VisitMethodMetrics((Metrics) i.next());
+		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
+			Indent().Append("<class>").EOL();
+			RaiseIndent();
+			Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
+			
+			VisitMeasurements(metrics, configuration.ClassMeasurements());
+			
+			Iterator i = metrics.SubMetrics().iterator();
+			while (i.hasNext()) {
+				VisitMethodMetrics((Metrics) i.next());
+			}
+			
+			LowerIndent();
+			Indent().Append("</class>").EOL();
 		}
-				
-		LowerIndent();
-		Indent().Append("</class>").EOL();
 	}
 
 	private void VisitMethodMetrics(Metrics metrics) {
-		Indent().Append("<method>").EOL();
-		RaiseIndent();
-		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
-
-		VisitMeasurements(metrics, configuration.MethodMeasurements());
-				
-		LowerIndent();
-		Indent().Append("</method>").EOL();
+		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
+			Indent().Append("<method>").EOL();
+			RaiseIndent();
+			Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
+			
+			VisitMeasurements(metrics, configuration.MethodMeasurements());
+			
+			LowerIndent();
+			Indent().Append("</method>").EOL();
+		}
 	}
 
 	private void VisitMeasurements(Metrics metrics, List descriptors) {
@@ -134,7 +142,7 @@ public class XMLPrinter extends Printer {
 		while (i.hasNext()) {
 			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (descriptor.Visible()) {
+			if (ShowHiddenMeasurements() || descriptor.Visible()) {
 				metrics.Measurement(descriptor.ShortName()).Accept(this);
 			}
 		}
@@ -152,6 +160,36 @@ public class XMLPrinter extends Printer {
 		Indent().Append("<maximum>").Append(measurement.Maximum()).Append("</maximum>").EOL();
 		Indent().Append("<sum>").Append(measurement.Sum()).Append("</sum>").EOL();
 		Indent().Append("<nb-data-points>").Append(measurement.NbDataPoints()).Append("</nb-data-points>").EOL();
+		LowerIndent();
+		Indent().Append("</measurement>").EOL();
+	}
+	
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+		VisitCollectionMeasurement(measurement);
+	}
+		
+	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		VisitCollectionMeasurement(measurement);
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+		VisitCollectionMeasurement(measurement);
+	}
+	
+	protected void VisitCollectionMeasurement(CollectionMeasurement measurement) {
+		Indent().Append("<measurement>").EOL();
+		RaiseIndent();
+		Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>").EOL();
+		Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>").EOL();
+		Indent().Append("<value>").Append(measurement.Value()).Append("</value>").EOL();
+		Indent().Append("<members>").EOL();
+		RaiseIndent();
+		Iterator i = measurement.Values().iterator();
+		while (i.hasNext()) {
+			Indent().Append("<member>").Append(i.next()).Append("</member>").EOL();
+		}
+		LowerIndent();
+		Indent().Append("</members>").EOL();
 		LowerIndent();
 		Indent().Append("</measurement>").EOL();
 	}

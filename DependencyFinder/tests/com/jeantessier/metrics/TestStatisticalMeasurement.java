@@ -306,6 +306,18 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		assertEquals("StatisticalMeasurement.DISPOSE_NB_DATA_POINTS",     "nb",  StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS));
 	}
 
+	public void testEmpty() throws Exception {
+		assertTrue("Before AddSubMetrics()", measurement.Empty());
+		
+		Metrics m = new Metrics("m");
+		m.Track("bar", new CounterMeasurement(null, null, null));
+		m.AddToMeasurement("bar", 1);
+
+		metrics.AddSubMetrics(m);
+
+		assertFalse("After AddSubMetrics()", measurement.Empty());
+	}
+
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		visited = measurement;
 	}
@@ -322,11 +334,15 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		// Do nothing
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
-		
+	
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 

@@ -346,6 +346,8 @@ public class StatisticalMeasurement extends MeasurementBase {
 					}
 					
 					nb_submetrics = Context().SubMetrics().size();
+
+					Empty(nb_data_points == 0);
 				}
 			}
 		}
@@ -423,6 +425,12 @@ public class StatisticalMeasurement extends MeasurementBase {
 				data.add(value);
 			}
 		}
+	}
+
+	public boolean Empty() {
+		CollectData();
+		
+		return super.Empty();
 	}
 
 	public void Accept(MeasurementVisitor visitor) {

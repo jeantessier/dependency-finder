@@ -76,24 +76,26 @@ public class CSVPrinter extends Printer {
 	}
 			
 	public void VisitMetrics(Metrics metrics) {
-		Append("\"").Append(metrics.Name()).Append("\", ");
+		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
+			Append("\"").Append(metrics.Name()).Append("\", ");
 			
-		Iterator i = descriptors.iterator();
-		while (i.hasNext()) {
-			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
-
-			if (descriptor.Visible()) {
-				Measurement measurement = metrics.Measurement(descriptor.ShortName());
-
-				measurement.Accept(this);
-
-				if (i.hasNext()) {
-					Append(", ");
+			Iterator i = descriptors.iterator();
+			while (i.hasNext()) {
+				MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+				
+				if (ShowHiddenMeasurements() || descriptor.Visible()) {
+					Measurement measurement = metrics.Measurement(descriptor.ShortName());
+					
+					measurement.Accept(this);
+					
+					if (i.hasNext()) {
+						Append(", ");
+					}
 				}
 			}
+			
+			EOL();
 		}
-
-		EOL();
 	}
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {

@@ -340,6 +340,38 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		measurement.Accept(this);
 		assertSame(measurement, visited);
 	}
+
+	public void testEmpty() throws Exception {
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+
+		assertEquals("base == 0", 0, m1.intValue());
+		assertEquals("divider == 0", 0, m2.intValue());
+		assertTrue("0/0", measurement.Empty());
+
+		m1.Add(1);
+
+		assertEquals("base != 1", 1, m1.intValue());
+		assertEquals("divider != 0", 0, m2.intValue());
+		assertTrue("1/0", measurement.Empty());
+
+		m2.Add(1);
+
+		assertEquals("base != 1", 1, m1.intValue());
+		assertEquals("divider != 1", 1, m2.intValue());
+		assertFalse("1/1", measurement.Empty());
+
+		m1.Add(-1);
+
+		assertEquals("base != 0", 0, m1.intValue());
+		assertEquals("divider != 1", 1, m2.intValue());
+		assertFalse("0/1", measurement.Empty());
+
+		m2.Add(-1);
+
+		assertEquals("base != 0", 0, m1.intValue());
+		assertEquals("divider != 0", 0, m2.intValue());
+		assertTrue("0/0", measurement.Empty());
+	}
 	
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
@@ -357,11 +389,15 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		// Do nothing
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
-		
+	
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 

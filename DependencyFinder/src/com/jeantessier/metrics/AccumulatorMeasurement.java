@@ -38,7 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 /**
- *  <p>Accumulates entries in submetrics, filtering with regular
+ *  <p>Accumulates entries, filtering with regular
  *  expressions.  If no regular expressions are given, matches
  *  everything for the given measurement, which must implement
  *  the <code>CollectionMeasurement</code> interface.  Regular
@@ -54,11 +54,14 @@ import org.apache.log4j.*;
  *  &lt;init&gt;
  *      measurement name [perl regular expression]
  *      ...
+ *      [INCLUDES-LIST | EXCLUDES-LIST] filename
+ *      ...
  *  &lt;/init&gt;
  *  </pre>
  */
-public class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {
+public abstract class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {
 	private Map        terms  = new HashMap();
+	private Collection filter = null;
 	private Collection values = new TreeSet();
 
 	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
@@ -71,7 +74,11 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 				
 				while ((line = in.readLine()) != null) {
 					synchronized (Perl()) {
-						if (Perl().match("/^\\s*(\\S+)\\s*(.*)/", line)) {
+						if (Perl().match("/^\\s*includes-list\\s+(.*)/i", line)) {
+							Includes(Perl().group(1));
+						} else if (Perl().match("/^\\s*excludes-list\\s+(.*)/i", line)) {
+							Excludes(Perl().group(1));
+						} else if (Perl().match("/^\\s*(\\S+)\\s*(.*)/", line)) {
 							String name = Perl().group(1);
 							String re   = Perl().group(2);
 
@@ -98,6 +105,54 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 		LogTerms(init_text);
 	}
 
+	private void Includes(String filename) throws IOException {
+		BufferedReader in = null;
+		
+		try {
+			Collection temporary_list = new HashSet();
+			in = new BufferedReader(new FileReader(filename));
+			String line;
+			while ((line = in.readLine()) != null) {
+				temporary_list.add(line);
+			}
+			
+			if (filter != null) {
+				filter.addAll(temporary_list);
+			} else {
+				filter = temporary_list;
+			}
+		} catch (IOException ex) {
+			Logger.getLogger(getClass()).debug("Cannot read file \"" + filename + "\"", ex);
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+	}
+	
+	private void Excludes(String filename) throws IOException {
+		BufferedReader in = null;
+		
+		try {
+			Collection temporary_list = new HashSet();
+			in = new BufferedReader(new FileReader(filename));
+			String line;
+			while ((line = in.readLine()) != null) {
+				temporary_list.add(line);
+			}
+			
+			if (filter != null) {
+				filter.removeAll(temporary_list);
+			}
+		} catch (IOException ex) {
+			Logger.getLogger(getClass()).debug("Cannot read file \"" + filename + "\"", ex);
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+	}
+
 	private void LogTerms(String init_text) {
 		Logger.getLogger(getClass()).debug("Initialize with\n" + init_text);
 		Logger.getLogger(getClass()).debug("Terms:");
@@ -112,14 +167,16 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 				Logger.getLogger(getClass()).debug("\t\t" + j.next());
 			}
 		}
-	}
-	
-	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitAccumulatorMeasurement(this);
+
+		Logger.getLogger(getClass()).debug("Filter is " + filter);
 	}
 
 	public Number Value() {
 		return new Integer(Values().size());
+	}
+
+	public boolean Empty() {
+		return Values().isEmpty();
 	}
 	
 	protected double Compute() {
@@ -130,10 +187,7 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 		if (!Cached()) {
 			values.clear();
 			
-			Iterator i = Context().SubMetrics().iterator();
-			while (i.hasNext()) {
-				FilterMetrics((Metrics) i.next());
-			}
+			PopulateValues();
 
 			Cached(true);
 		}
@@ -141,7 +195,9 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 		return Collections.unmodifiableCollection(values);
 	}
 
-	private void FilterMetrics(Metrics metrics) {
+	protected abstract void PopulateValues();
+
+	protected void FilterMetrics(Metrics metrics) {
 		Iterator i = terms.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry  entry = (Map.Entry)  i.next();
@@ -154,10 +210,10 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 			}
 		}
 	}
-
+	
 	private void FilterMeasurement(CollectionMeasurement measurement, Collection res) {
 		if (res.isEmpty()) {
-			values.addAll(measurement.Values());
+			FilterValues(measurement.Values());
 		} else {
 			Iterator i = measurement.Values().iterator();
 			while (i.hasNext()) {
@@ -179,13 +235,33 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 
 		synchronized (Perl()) {
 			if (Perl().match(re, element)) {
-				result = true;
 				if (Perl().group(1) != null) {
-					values.add(Perl().group(1));
+					result = FilterValue(Perl().group(1));
 				} else {
-					values.add(element);
+					result = FilterValue(element);
 				}
 			}
+		}
+
+		return result;
+	}
+	
+	private void FilterValues(Collection values) {
+		Iterator i = values.iterator();
+		while (i.hasNext()) {
+			FilterValue((String) i.next());
+		}
+	}
+	
+	private boolean FilterValue(String value) {
+		boolean result = true;
+
+		if (filter != null) {
+			result = filter.contains(value);
+		}
+
+		if (result) {
+			values.add(value);
 		}
 
 		return result;

@@ -327,6 +327,25 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		measurement.Accept(this);
 		assertSame(measurement, visited);
 	}
+
+	public void testEmpty() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(CounterMeasurement.class);
+
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		
+		assertTrue("Before Add()", measurement.Empty());
+
+		measurement.Add(1);
+		
+		assertFalse("After Add(1)", measurement.Empty());
+
+		measurement.Add(-1);
+		
+		assertFalse("After Add(-1)", measurement.Empty());
+	}
 	
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
@@ -344,11 +363,15 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		visited = measurement;
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	

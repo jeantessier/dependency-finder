@@ -37,8 +37,11 @@ import java.util.*;
 
 public abstract class Printer implements MeasurementVisitor {
 	private PrintWriter out;
-	private String      indent_text  = "    ";
-	private int         indent_level = 0;
+
+	private boolean show_empty_metrics       = false;
+	private boolean show_hidden_measurements = false;
+	private String  indent_text              = "    ";
+	private int     indent_level             = 0;
 
 	public Printer(PrintWriter out) {
 		this.out = out;
@@ -52,6 +55,22 @@ public abstract class Printer implements MeasurementVisitor {
 		this.indent_text = indent_text;
 	}
 
+	public boolean ShowEmptyMetrics() {
+		return show_empty_metrics;
+	}
+
+	public void ShowEmptyMetrics(boolean show_empty_metrics) {
+		this.show_empty_metrics = show_empty_metrics;
+	}
+
+	public boolean ShowHiddenMeasurements() {
+		return show_hidden_measurements;
+	}
+
+	public void ShowHiddenMeasurements(boolean show_hidden_measurements) {
+		this.show_hidden_measurements = show_hidden_measurements;
+	}
+	
 	protected Printer Append(boolean b) {
 		out.print(b);
 		return this;
@@ -139,11 +158,15 @@ public abstract class Printer implements MeasurementVisitor {
 		VisitMeasurement(measurement);
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		VisitMeasurement(measurement);
 	}
 		
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		VisitMeasurement(measurement);
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		VisitMeasurement(measurement);
 	}
 

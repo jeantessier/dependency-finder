@@ -274,6 +274,21 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
 		measurement.Accept(this);
 		assertSame(measurement, visited);
 	}
+
+	public void testEmpty() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(NameListMeasurement.class);
+
+		measurement = (NameListMeasurement) descriptor.CreateMeasurement();
+		
+		assertTrue("Before Add()", measurement.Empty());
+
+		measurement.Add("foo");
+
+		assertFalse("After Add()", measurement.Empty());
+	}
 	
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
@@ -291,12 +306,16 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
 		// Do nothing
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 		
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
 		visited = measurement;
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+		// Do nothing
 	}
 
 	public void VisitSumMeasurement(SumMeasurement measurement) {

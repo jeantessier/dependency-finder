@@ -64,11 +64,11 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
 			} else if (init_text.trim().equalsIgnoreCase("set")) {
 				values = new HashSet();
 			} else {
-				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\", using SET");
+				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\", using default value of SET instead");
 				values = new HashSet();
 			}
 		} else {
-			Logger.getLogger(getClass()).debug("Cannot initialize with null text, using SET");
+			Logger.getLogger(getClass()).debug("Cannot initialize with null text, using default value of SET instead");
 			values = new HashSet();
 		}
 	}
@@ -83,6 +83,10 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
 
 	public Number Value() {
 		return new Integer(values.size());
+	}
+
+	public boolean Empty() {
+		return values.isEmpty();
 	}
 
 	protected double Compute() {

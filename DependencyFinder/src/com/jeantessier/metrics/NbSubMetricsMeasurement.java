@@ -97,6 +97,14 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 		visitor.VisitNbSubMetricsMeasurement(this);
 	}
 
+	public boolean Empty() {
+		if (!Cached()) {
+			Compute();
+		}
+
+		return super.Empty();
+	}
+	
 	protected double Compute() {
 		if (!Cached()) {
 			synchronized (this) {
@@ -115,7 +123,9 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 							}
 						}
 					}
-					
+
+					Empty(value == 0);
+
 					Cached(true);
 				}
 			}

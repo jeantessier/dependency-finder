@@ -61,23 +61,25 @@ public class TextPrinter extends Printer {
 	}
 	
 	public void VisitMetrics(Metrics metrics) {
-		current_metrics = metrics;
-		
-		Indent().Append(metrics.Name()).EOL();
-		RaiseIndent();
+		if (ShowEmptyMetrics() || ShowHiddenMeasurements() || !metrics.Empty()) {
+			current_metrics = metrics;
 			
-		Iterator i = descriptors.iterator();
-		while (i.hasNext()) {
-			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
-
-			if (descriptor.Visible()) {
-				metrics.Measurement(descriptor.ShortName()).Accept(this);
+			Indent().Append(metrics.Name()).EOL();
+			RaiseIndent();
+			
+			Iterator i = descriptors.iterator();
+			while (i.hasNext()) {
+				MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+				
+				if (ShowHiddenMeasurements() || descriptor.Visible()) {
+					metrics.Measurement(descriptor.ShortName()).Accept(this);
+				}
 			}
+			
+			LowerIndent();
+			
+			EOL();
 		}
-
-		LowerIndent();
-
-		EOL();
 	}
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
@@ -92,14 +94,20 @@ public class TextPrinter extends Printer {
 		}
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
-		super.VisitAccumulatorMeasurement(measurement);
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+		super.VisitContextAccumulatorMeasurement(measurement);
 
 		VisitCollectionMeasurement(measurement);
 	}
 	
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
 		super.VisitNameListMeasurement(measurement);
+
+		VisitCollectionMeasurement(measurement);
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+		super.VisitSubMetricsAccumulatorMeasurement(measurement);
 
 		VisitCollectionMeasurement(measurement);
 	}

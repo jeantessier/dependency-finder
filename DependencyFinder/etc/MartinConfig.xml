@@ -76,7 +76,7 @@
 	<measurement>
 	    <short-name>Ca</short-name>
 	    <long-name>Afferent Coupling</long-name>
-	    <class>com.jeantessier.metrics.AccumulatorMeasurement</class>
+	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
 	    <init>
 	        CaComp
 		IEP
@@ -87,7 +87,7 @@
 	<measurement>
 	    <short-name>Ce</short-name>
 	    <long-name>Efferent Coupling</long-name>
-	    <class>com.jeantessier.metrics.AccumulatorMeasurement</class>
+	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
 	    <init>
 	        CeComp
 		OEP
@@ -171,7 +171,7 @@
 	<measurement visible="no">
 	    <short-name>CaComp</short-name>
 	    <long-name>Afferent Coupling from methods</long-name>
-	    <class>com.jeantessier.metrics.AccumulatorMeasurement</class>
+	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
 	    <init>
 		IEPM /^(.*)\.[^\.]*\(.*\)$/
 		IEPM /^(.*)\.[\^.]*$/
@@ -180,7 +180,7 @@
 	<measurement visible="no">
 	    <short-name>CeComp</short-name>
 	    <long-name>Efferent Coupling from methods</long-name>
-	    <class>com.jeantessier.metrics.AccumulatorMeasurement</class>
+	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
 	    <init>
 		OEPF /^(.*)\.[^\.]*\(.*\)$/
 		OEPC

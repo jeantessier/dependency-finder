@@ -202,6 +202,27 @@ public class Metrics {
 		return Collections.unmodifiableCollection(submetrics.values());
 	}
 
+	public boolean Empty() {
+		boolean result = true;
+
+		Iterator i;
+
+		i = measurements.values().iterator();
+		while (result && i.hasNext()) {
+			Measurement measurement = (Measurement) i.next();
+			if (measurement.Descriptor().Visible()) {
+				result = measurement.Empty();
+			}
+		}
+
+		i = submetrics.values().iterator();
+		while (result && i.hasNext()) {
+			result = ((Metrics) i.next()).Empty();
+		}
+		
+		return result;
+	}
+
 	public boolean InRange() {
 		boolean result = true;
 

@@ -45,6 +45,7 @@ public interface Measurement {
 	public float                 floatValue();
 	public double                doubleValue();
 
+	public boolean               Empty();
 	public boolean               InRange();
 
 	public void                  Add(Object object);

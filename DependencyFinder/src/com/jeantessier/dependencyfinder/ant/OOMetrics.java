@@ -47,22 +47,24 @@ public class OOMetrics extends Task {
 	public static final String DEFAULT_PROJECT_NAME = "Project";
 	public static final String DEFAULT_SORT         = "name";
 
-	private String  project_name    = DEFAULT_PROJECT_NAME;
+	private String  project_name             = DEFAULT_PROJECT_NAME;
 	private File    configuration;
-	private boolean csv             = false;
-	private boolean txt             = false;
-	private boolean xml             = false;
-	private boolean validate        = false;
-	private String  encoding        = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;
-	private String  dtd_prefix      = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;
+	private boolean csv                      = false;
+	private boolean txt                      = false;
+	private boolean xml                      = false;
+	private boolean validate                 = false;
+	private String  encoding                 = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;
+	private String  dtd_prefix               = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indent_text;
-	private boolean project_metrics = false;
-	private boolean group_metrics   = false;
-	private boolean class_metrics   = false;
-	private boolean method_metrics  = false;
-	private String  sort            = DEFAULT_SORT;
-	private boolean expand          = false;
-	private boolean reverse         = false;
+	private boolean project_metrics          = false;
+	private boolean group_metrics            = false;
+	private boolean class_metrics            = false;
+	private boolean method_metrics           = false;
+	private boolean show_empty_metrics       = false;
+	private boolean show_hidden_measurements = false;
+	private String  sort                     = DEFAULT_SORT;
+	private boolean expand                   = false;
+	private boolean reverse                  = false;
 	private File    destprefix;
 	private Path    path;
 
@@ -175,6 +177,22 @@ public class OOMetrics extends Task {
 		setGroupmetrics(all_metrics);
 		setClassmetrics(all_metrics);
 		setMethodmetrics(all_metrics);
+	}
+
+	public boolean getShowemptymetrics() {
+		return show_empty_metrics;
+	}
+	
+	public void setShowemptymetrics(boolean show_all) {
+		this.show_empty_metrics = show_all;
+	}
+
+	public boolean getShowhiddenmeasurements() {
+		return show_hidden_measurements;
+	}
+	
+	public void setShowhiddenmeasurements(boolean show_hidden_measurements) {
+		this.show_hidden_measurements = show_hidden_measurements;
 	}
 	
 	public String getSort() {
@@ -292,6 +310,8 @@ public class OOMetrics extends Task {
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ProjectMeasurements());
+			printer.ShowEmptyMetrics(getShowemptymetrics());
+			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
 			}
@@ -310,6 +330,8 @@ public class OOMetrics extends Task {
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().GroupMeasurements());
+			printer.ShowEmptyMetrics(getShowemptymetrics());
+			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
 			}
@@ -328,6 +350,8 @@ public class OOMetrics extends Task {
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ClassMeasurements());
+			printer.ShowEmptyMetrics(getShowemptymetrics());
+			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
 			}
@@ -346,6 +370,8 @@ public class OOMetrics extends Task {
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().MethodMeasurements());
+			printer.ShowEmptyMetrics(getShowemptymetrics());
+			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
 			}
@@ -376,6 +402,8 @@ public class OOMetrics extends Task {
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ProjectMeasurements());
+			printer.ShowEmptyMetrics(getShowemptymetrics());
+			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 			printer.ExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
@@ -392,6 +420,8 @@ public class OOMetrics extends Task {
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().GroupMeasurements());
+			printer.ShowEmptyMetrics(getShowemptymetrics());
+			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 			printer.ExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
@@ -408,6 +438,8 @@ public class OOMetrics extends Task {
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ClassMeasurements());
+			printer.ShowEmptyMetrics(getShowemptymetrics());
+			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 			printer.ExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
@@ -424,6 +456,8 @@ public class OOMetrics extends Task {
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().MethodMeasurements());
+			printer.ShowEmptyMetrics(getShowemptymetrics());
+			printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 			printer.ExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
@@ -451,6 +485,8 @@ public class OOMetrics extends Task {
 		List metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
 		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), getEncoding(), getDtdprefix());
+		printer.ShowEmptyMetrics(getShowemptymetrics());
+		printer.ShowHiddenMeasurements(getShowhiddenmeasurements());
 		if (getIndenttext() != null) {
 			printer.IndentText(getIndenttext());
 		}

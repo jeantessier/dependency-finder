@@ -126,7 +126,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testDefault() {
-		ListDiffPrinter printer = new ListDiffPrinter();
+		ListDiffPrinter printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
 		printer.Remove("java.lang.Object");
 		printer.Remove("java.lang.Object.Object()");
@@ -168,7 +168,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testFullList() {
-		ListDiffPrinter printer = new ListDiffPrinter(false);
+		ListDiffPrinter printer = new ListDiffPrinter(false, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
 		printer.Remove("java.lang.Object");
 		printer.Remove("java.lang.Object.Object()");
@@ -210,7 +210,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testCompressedList() {
-		ListDiffPrinter printer = new ListDiffPrinter(true);
+		ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
 		printer.Remove("java.lang.Object [C]");
 		printer.Remove("java.lang.Object.Object() [F]");
@@ -252,7 +252,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testCompressedListWithoutSuffixes() {
-		ListDiffPrinter printer = new ListDiffPrinter(true);
+		ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
 		printer.Remove("java.lang.Object");
 		printer.Remove("java.lang.Object.Object()");
@@ -294,7 +294,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testLegitimateSuffixes() {
-		ListDiffPrinter printer = new ListDiffPrinter(true);
+		ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
 		printer.Remove("removed [P]");                                    // not compressed
 		printer.Remove("removed.Removed [C]");                            //     compressed
@@ -356,7 +356,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testNoSuffixes() {
-		ListDiffPrinter printer = new ListDiffPrinter(true);
+		ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
 		printer.Remove("removed");                                    // not compressed
 		printer.Remove("removed.Removed");                            // not compressed

@@ -17,6 +17,45 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	April 25, 2004
+    </dt>
+    <dd>
+	<p>Finished <code>Metrics.Empty()</code>.  It recursively looks at any
+	submetrics and also looks at all measurements, ignoring those that are
+	not visible.  The stylesheet is also shaping up.  I want to take the
+	same approach with my other HTML generators.</p>
+
+	<p>Now, <code>OOMetrics</code> skips <i>empty</i> metrics by default.
+	You have to pass it the <code>-show-empty-metrics</code> to see all
+	metrics like before.</p>
+
+	<p>I haven't updated the documentation yet.</p>
+    </dd>
+    <dt>
+	April 24, 2004
+    </dt>
+    <dd>
+	<p>Finished the new types of measurements.</p>
+    </dd>
+    <dt>
+	April 23, 2004
+    </dt>
+    <dd>
+	<p>Shifted strategy.  I'm going to use <code>OOMetrics</code> instead
+	of a simple dependency graph.  This allows me to have automatic counts
+	tallied at the class and package level.  But the changes are extensive.
+	I need variations on the <code>AccumulatorMeasurement</code> and the
+	ability to ignore <i>empty</i> metrics and focus on the actual
+	offenders.</p>
+
+	<p>Also started playing with XSLT stylesheets for converting metrics
+	from XML to text and HTML.  I also experimented with using CSS to
+	format the HTML.  But with the introduction of external stylesheets,
+	it raise the question of where am I going to put them?  I can provide
+	defaults in <code>etc/</code> or simply embed the stylesheet in the
+	generated HTML.  I'm not completely decided yet.</p>
+    </dd>
+    <dt>
 	April 22, 2004
     </dt>
     <dd>

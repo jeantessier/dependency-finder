@@ -77,6 +77,12 @@ public class SumMeasurement extends MeasurementBase {
 		return terms;
 	}
 
+	public boolean Empty() {
+		Compute();
+
+		return super.Empty();
+	}
+	
 	public void Accept(MeasurementVisitor visitor) {
 		visitor.VisitSumMeasurement(this);
 	}
@@ -86,6 +92,7 @@ public class SumMeasurement extends MeasurementBase {
 			synchronized (this) {
 				if (!Cached()) {
 					value = 0.0;
+					Empty(true);
 
 					if (Context() != null) {
 						Logger.getLogger(getClass()).debug("Start computing \"" + ShortName() + "\" on \"" + Context().Name() + "\": value=" + value);
@@ -208,6 +215,10 @@ public class SumMeasurement extends MeasurementBase {
 				}
 			} else {
 				result = measurement.doubleValue();
+			}
+
+			if (super.Empty()) {
+				Empty(measurement.Empty());
 			}
 		}
 				

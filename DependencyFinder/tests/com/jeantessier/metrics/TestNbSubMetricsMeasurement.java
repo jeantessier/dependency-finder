@@ -169,18 +169,6 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		assertTrue(!measurement.InRange());
 	}
 
-	public void testSelectionCriteria() throws Exception {
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
-
-		assertEquals("empty metrics", 0, measurement.intValue());
-		
-		metrics.AddSubMetrics(new Metrics("foo"));
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
-
-		assertEquals("empty metrics", 3, measurement.intValue());
-	}
-
 	public void testCachedValue() throws Exception {
 		descriptor.Cached(true);
 
@@ -202,6 +190,16 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		measurement.Accept(this);
 		assertSame(measurement, visited);
 	}
+
+	public void testEmpty() throws Exception {
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+
+		assertTrue("Before AddSubMetrics()", measurement.Empty());
+		
+		metrics.AddSubMetrics(new Metrics("foo"));
+
+		assertFalse("After AddSubMetrics()", measurement.Empty());
+	}
 	
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
@@ -219,11 +217,15 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		// Do nothing
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	

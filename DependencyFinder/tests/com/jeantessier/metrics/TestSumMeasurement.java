@@ -311,6 +311,57 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		measurement.Accept(this);
 		assertSame(measurement, visited);
 	}
+
+	public void testEmptyWithOneMeasurement() throws Exception {
+		descriptor.InitText("bar");
+
+		metrics.Track("bar", new CounterMeasurement(null, null, null));
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		
+		assertTrue("Before Add()", measurement.Empty());
+
+		metrics.AddToMeasurement("bar", 1);
+		
+		assertFalse("After Add(1)", measurement.Empty());
+
+		metrics.AddToMeasurement("bar", -1);
+
+		assertFalse("After Add(-1)", measurement.Empty());
+	}
+
+	public void testEmptyWithTwoMeasurements() throws Exception {
+		descriptor.InitText("bar\nbaz");
+
+		metrics.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.Track("baz", new CounterMeasurement(null, null, null));
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+
+		assertTrue("bar is not empty", metrics.Measurement("bar").Empty());
+		assertTrue("baz is not empty", metrics.Measurement("baz").Empty());
+		assertTrue("Before Add()", measurement.Empty());
+
+		metrics.AddToMeasurement("bar", 1);
+		
+		assertFalse("bar is empty", metrics.Measurement("bar").Empty());
+		assertTrue("baz is not empty", metrics.Measurement("baz").Empty());
+		assertFalse("After Add(1)", measurement.Empty());
+
+		metrics.AddToMeasurement("bar", -1);
+
+		assertFalse("bar is empty", metrics.Measurement("bar").Empty());
+		assertTrue("baz is not empty", metrics.Measurement("baz").Empty());
+		assertFalse("After Add(-1)", measurement.Empty());
+	}
+
+	public void testEmptyWithConstant() throws Exception {
+		descriptor.InitText("2");
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+
+		assertTrue("with constants", measurement.Empty());
+	}
 	
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		// Do nothing
@@ -328,11 +379,15 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		// Do nothing
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	

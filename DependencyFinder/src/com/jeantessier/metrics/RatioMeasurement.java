@@ -154,6 +154,14 @@ public class RatioMeasurement extends MeasurementBase {
 		visitor.VisitRatioMeasurement(this);
 	}
 
+	public boolean Empty() {
+		if (!Cached()) {
+			Compute();
+		}
+
+		return super.Empty();
+	}
+
 	protected double Compute() {
 		if (!Cached()) {
 			value = Double.NaN;
@@ -235,6 +243,8 @@ public class RatioMeasurement extends MeasurementBase {
 				
 				value = base_value / divider_value;
 			}
+
+			Empty(Double.isNaN(value) || Double.isInfinite(value));
 
 			Cached(true);
 		}

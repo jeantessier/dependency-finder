@@ -299,4 +299,143 @@ public class TestMetrics extends TestCase {
 
 		assertFalse(metrics.InRange());
 	}
+
+	public void testEmptyWithOneNonEmptyMeasurement() throws Exception {
+		Metrics metrics = new Metrics("test");
+
+		assertTrue("Before Track(foo)", metrics.Empty());
+
+		MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
+		descriptor1.ShortName("foo");
+		descriptor1.LongName("foo");
+		descriptor1.Class(CounterMeasurement.class);
+
+		metrics.Track(descriptor1.CreateMeasurement(metrics));
+
+		assertTrue("After Track(foo)", metrics.Empty());
+		
+		MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
+		descriptor2.ShortName("bar");
+		descriptor2.LongName("bar");
+		descriptor2.Class(CounterMeasurement.class);
+
+		metrics.Track(descriptor2.CreateMeasurement(metrics));
+
+		assertTrue("After Track(bar)", metrics.Empty());
+		
+		metrics.AddToMeasurement("foo", 2);
+
+		assertFalse("After Add()", metrics.Empty());
+	}
+
+	public void testEmptyWithOtherNonEmptyMeasurement() throws Exception {
+		Metrics metrics = new Metrics("test");
+
+		assertTrue("Before Track(foo)", metrics.Empty());
+
+		MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
+		descriptor1.ShortName("foo");
+		descriptor1.LongName("foo");
+		descriptor1.Class(CounterMeasurement.class);
+
+		metrics.Track(descriptor1.CreateMeasurement(metrics));
+
+		assertTrue("After Track(foo)", metrics.Empty());
+		
+		MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
+		descriptor2.ShortName("bar");
+		descriptor2.LongName("bar");
+		descriptor2.Class(CounterMeasurement.class);
+
+		metrics.Track(descriptor2.CreateMeasurement(metrics));
+
+		assertTrue("After Track(bar)", metrics.Empty());
+		
+		metrics.AddToMeasurement("bar", 2);
+
+		assertFalse("After Add()", metrics.Empty());
+	}
+
+	public void testEmptyWithOneNonVisibleNonEmptyMeasurement() throws Exception {
+		Metrics metrics = new Metrics("test");
+
+		assertTrue("Before Track(foo)", metrics.Empty());
+
+		MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
+		descriptor1.ShortName("foo");
+		descriptor1.LongName("foo");
+		descriptor1.Class(CounterMeasurement.class);
+		descriptor1.Visible(false);
+
+		metrics.Track(descriptor1.CreateMeasurement(metrics));
+
+		assertTrue("After Track(foo)", metrics.Empty());
+		
+		MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
+		descriptor2.ShortName("bar");
+		descriptor2.LongName("bar");
+		descriptor2.Class(CounterMeasurement.class);
+
+		metrics.Track(descriptor2.CreateMeasurement(metrics));
+
+		assertTrue("After Track(bar)", metrics.Empty());
+		
+		metrics.AddToMeasurement("foo", 2);
+
+		assertTrue("After Add()", metrics.Empty());
+	}
+
+	public void testEmptyWithOneNonEmptySubMetrics() throws Exception {
+		Metrics metrics = new Metrics("test");
+		Metrics submetrics1 = new Metrics("submetrics1");
+		Metrics submetrics2 = new Metrics("submetrics2");
+
+		metrics.AddSubMetrics(submetrics1);
+		metrics.AddSubMetrics(submetrics2);
+		
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("foo");
+		descriptor.Class(CounterMeasurement.class);
+
+		submetrics1.Track(descriptor.CreateMeasurement(submetrics1));
+		submetrics2.Track(descriptor.CreateMeasurement(submetrics2));
+
+		assertTrue("Before Add() to submetrics1", submetrics1.Empty());
+		assertTrue("Before Add() to submetrics1", submetrics2.Empty());
+		assertTrue("Before Add() to submetrics1", metrics.Empty());
+		
+		submetrics1.AddToMeasurement("foo", 2);
+
+		assertFalse("After Add() to submetrics1", submetrics1.Empty());
+		assertTrue("After Add() to submetrics1", submetrics2.Empty());
+		assertFalse("After Add() to submetrics1", metrics.Empty());
+	}
+
+	public void testEmptyWithOtherNonEmptySubMetrics() throws Exception {
+		Metrics metrics = new Metrics("test");
+		Metrics submetrics1 = new Metrics("submetrics1");
+		Metrics submetrics2 = new Metrics("submetrics2");
+
+		metrics.AddSubMetrics(submetrics1);
+		metrics.AddSubMetrics(submetrics2);
+		
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("foo");
+		descriptor.Class(CounterMeasurement.class);
+
+		submetrics1.Track(descriptor.CreateMeasurement(submetrics1));
+		submetrics2.Track(descriptor.CreateMeasurement(submetrics2));
+
+		assertTrue("Before Add() to submetrics1", submetrics1.Empty());
+		assertTrue("Before Add() to submetrics1", submetrics2.Empty());
+		assertTrue("Before Add() to submetrics2", metrics.Empty());
+		
+		submetrics2.AddToMeasurement("foo", 2);
+
+		assertTrue("After Add() to submetrics1", submetrics1.Empty());
+		assertFalse("After Add() to submetrics1", submetrics2.Empty());
+		assertFalse("After Add() to submetrics2", metrics.Empty());
+	}
 }

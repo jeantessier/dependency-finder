@@ -32,69 +32,41 @@
 
 package com.jeantessier.metrics;
 
+import java.util.*;
+
 /**
- *  <p>A simple counter, it tallies the values that are put in it.
- *  If you try to add a non-number, it simply adds 1.</p>
+ *  <p>Accumulates entries in submetrics, filtering with regular
+ *  expressions.  If no regular expressions are given, matches
+ *  everything for the given measurement, which must implement
+ *  the <code>CollectionMeasurement</code> interface.  Regular
+ *  expressions matching using <code>Perl5Util</code> from
+ *  Jakarta-ORO.  This measurement will use
+ *  <code>Perl5Util.group(1)</code> if not null, or else the
+ *  full string.</p>
  *
  *  <p>This is the syntax for initializing this type of
  *  measurement:</p>
  *  
  *  <pre>
  *  &lt;init&gt;
- *      [initial value]
+ *      measurement name [perl regular expression]
+ *      ...
  *  &lt;/init&gt;
  *  </pre>
  */
-public class CounterMeasurement extends MeasurementBase {
-	private double value;
-
-	public CounterMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+public class SubMetricsAccumulatorMeasurement extends AccumulatorMeasurement {
+	public SubMetricsAccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
-
-		try {
-			if (init_text != null) {
-				value = Double.parseDouble(init_text);
-			}
-		} catch (NumberFormatException ex) {
-			value = 0;
-		}
-	}
-
-	public void Add(Object object) {
-		if (object instanceof Number) {
-			value += ((Number) object).doubleValue();
-		} else {
-			value++;
-		}
-
-		Empty(false);
-	}
-
-	public void Add(int i) {
-		value += i;
-		Empty(false);
 	}
 	
-	public void Add(long l) {
-		value += l;
-		Empty(false);
-	}
-	
-	public void Add(float f) {
-		value += f;
-		Empty(false);
-	}
-	
-	public void Add(double d) {
-		value += d;
-		Empty(false);
-	}
-
 	public void Accept(MeasurementVisitor visitor) {
-		visitor.VisitCounterMeasurement(this);
+		visitor.VisitSubMetricsAccumulatorMeasurement(this);
 	}
 
-	protected double Compute() {
-		return value;
+	protected void PopulateValues() {
+		Iterator i = Context().SubMetrics().iterator();
+		while (i.hasNext()) {
+			FilterMetrics((Metrics) i.next());
+		}
 	}
 }

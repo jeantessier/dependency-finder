@@ -87,28 +87,30 @@ public class OOMetrics {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
-		command_line.AddSingleValueSwitch("project-name", DEFAULT_PROJECT_NAME);
+		command_line.AddSingleValueSwitch("project-name",       DEFAULT_PROJECT_NAME);
 		command_line.AddSingleValueSwitch("default-configuration", true);
 		command_line.AddSingleValueSwitch("configuration");
 		command_line.AddToggleSwitch("csv");
 		command_line.AddToggleSwitch("txt");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
-		command_line.AddSingleValueSwitch("encoding",     com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING);
-		command_line.AddSingleValueSwitch("dtd-prefix",   com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
+		command_line.AddSingleValueSwitch("encoding",           com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING);
+		command_line.AddSingleValueSwitch("dtd-prefix",         com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("all");
 		command_line.AddToggleSwitch("project");
 		command_line.AddToggleSwitch("groups");
 		command_line.AddToggleSwitch("classes");
 		command_line.AddToggleSwitch("methods");
-		command_line.AddSingleValueSwitch("sort",         DEFAULT_SORT);
+		command_line.AddToggleSwitch("show-empty-metrics");
+		command_line.AddToggleSwitch("show-hidden-measurements");
+		command_line.AddSingleValueSwitch("sort",               DEFAULT_SORT);
 		command_line.AddToggleSwitch("expand");
 		command_line.AddToggleSwitch("reverse");
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose",    DEFAULT_LOGFILE);
+		command_line.AddOptionalValueSwitch("verbose",          DEFAULT_LOGFILE);
 		command_line.AddToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("OOMetrics");
@@ -244,6 +246,8 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ProjectMeasurements());
+			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -267,6 +271,8 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().GroupMeasurements());
+			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -290,6 +296,8 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ClassMeasurements());
+			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -313,6 +321,8 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().MethodMeasurements());
+			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -348,6 +358,8 @@ public class OOMetrics {
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ProjectMeasurements());
 			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
+			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -364,6 +376,8 @@ public class OOMetrics {
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().GroupMeasurements());
 			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
+			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -380,6 +394,8 @@ public class OOMetrics {
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ClassMeasurements());
 			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
+			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -396,6 +412,8 @@ public class OOMetrics {
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().MethodMeasurements());
 			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
+			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -428,6 +446,8 @@ public class OOMetrics {
 		metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
 		printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
+		printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
+		printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
 		if (command_line.IsPresent("indent-text")) {
 			printer.IndentText(command_line.SingleSwitch("indent-text"));
 		}

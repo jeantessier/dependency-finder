@@ -34,12 +34,16 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
-public class TestAccumulatorMeasurement extends TestCase implements MeasurementVisitor {
+public class TestContextAccumulatorMeasurement extends TestCase implements MeasurementVisitor {
 	private MeasurementDescriptor descriptor;
 	private AccumulatorMeasurement measurement;
 	private Metrics metrics;
 	private Measurement visited;
 
+	private MeasurementDescriptor name_list;
+	private MeasurementDescriptor number_list;
+	private MeasurementDescriptor counter;
+	
 	private Metrics m1;
 	private Metrics m2;
 	private Metrics m3;
@@ -49,17 +53,17 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		m2 = new Metrics("m2");
 		m3 = new Metrics("m3");
 
-		MeasurementDescriptor name_list = new MeasurementDescriptor();
+		name_list = new MeasurementDescriptor();
 		name_list.ShortName("NL");
 		name_list.LongName("name list");
 		name_list.Class(NameListMeasurement.class);
 
-		MeasurementDescriptor number_list = new MeasurementDescriptor();
+		number_list = new MeasurementDescriptor();
 		number_list.ShortName("NbL");
 		number_list.LongName("number list");
 		number_list.Class(NameListMeasurement.class);
 
-		MeasurementDescriptor counter = new MeasurementDescriptor();
+		counter = new MeasurementDescriptor();
 		counter.ShortName("NL");
 		counter.LongName("counter");
 		counter.Class(CounterMeasurement.class);
@@ -90,7 +94,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
-		descriptor.Class(AccumulatorMeasurement.class);
+		descriptor.Class(ContextAccumulatorMeasurement.class);
 		descriptor.Cached(false);
 	}
 
@@ -100,7 +104,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		assertNotNull(measurement);
 		assertEquals(descriptor, measurement.Descriptor());
 		assertSame(descriptor, measurement.Descriptor());
-		assertEquals(AccumulatorMeasurement.class, measurement.getClass());
+		assertEquals(ContextAccumulatorMeasurement.class, measurement.getClass());
 		assertEquals("foo", measurement.ShortName());
 		assertEquals("bar", measurement.LongName());
 	}
@@ -140,15 +144,17 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.Values().isEmpty());
 
+		metrics.Track(name_list.CreateMeasurement(metrics));
+		metrics.AddToMeasurement("NL", "foo");
+		metrics.AddToMeasurement("NL", "bar");
+
 		metrics.AddSubMetrics(m1);
 		metrics.AddSubMetrics(m2);
 		metrics.AddSubMetrics(m3);
 
-		assertEquals(4, measurement.intValue());
-		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
-		assertTrue("\"def\" not in " + measurement.Values(), measurement.Values().contains("def"));
-		assertTrue("\"ghi\" not in " + measurement.Values(), measurement.Values().contains("ghi"));
-		assertTrue("\"jkl\" not in " + measurement.Values(), measurement.Values().contains("jkl"));
+		assertEquals(2, measurement.intValue());
+		assertTrue("\"foo\" not in " + measurement.Values(), measurement.Values().contains("foo"));
+		assertTrue("\"bar\" not in " + measurement.Values(), measurement.Values().contains("bar"));
 	}
 
 	public void testCachedValues() throws Exception {
@@ -158,6 +164,10 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.Values().isEmpty());
+
+		metrics.Track(name_list.CreateMeasurement(metrics));
+		metrics.AddToMeasurement("NL", "foo");
+		metrics.AddToMeasurement("NL", "bar");
 
 		metrics.AddSubMetrics(m1);
 		metrics.AddSubMetrics(m2);
@@ -174,28 +184,36 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.Values().isEmpty());
 
+		metrics.Track(name_list.CreateMeasurement(metrics));
+		metrics.AddToMeasurement("NL", "foo");
+		metrics.AddToMeasurement("NL", "bar");
+
 		metrics.AddSubMetrics(m1);
 		metrics.AddSubMetrics(m2);
 		metrics.AddSubMetrics(m3);
 
 		assertEquals(1, measurement.intValue());
-		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
+		assertTrue("\"bar\" not in " + measurement.Values(), measurement.Values().contains("bar"));
 	}
 
 	public void testMultiFilterFiltered() throws Exception {
-		descriptor.InitText("NL /a/\nNL /k/");
+		descriptor.InitText("NL /a/\nNL /o/");
 
 		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.Values().isEmpty());
+
+		metrics.Track(name_list.CreateMeasurement(metrics));
+		metrics.AddToMeasurement("NL", "foo");
+		metrics.AddToMeasurement("NL", "bar");
 
 		metrics.AddSubMetrics(m1);
 		metrics.AddSubMetrics(m2);
 		metrics.AddSubMetrics(m3);
 
 		assertEquals(2, measurement.intValue());
-		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
-		assertTrue("\"jkl\" not in " + measurement.Values(), measurement.Values().contains("jkl"));
+		assertTrue("\"foo\" not in " + measurement.Values(), measurement.Values().contains("foo"));
+		assertTrue("\"bar\" not in " + measurement.Values(), measurement.Values().contains("bar"));
 	}
 
 	public void testModifiedValues() throws Exception {
@@ -204,6 +222,10 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.Values().isEmpty());
+
+		metrics.Track(name_list.CreateMeasurement(metrics));
+		metrics.AddToMeasurement("NL", "foo");
+		metrics.AddToMeasurement("NL", "bar");
 
 		metrics.AddSubMetrics(m1);
 		metrics.AddSubMetrics(m2);
@@ -220,14 +242,21 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.Values().isEmpty());
 
+		metrics.Track(name_list.CreateMeasurement(metrics));
+		metrics.AddToMeasurement("NL", "foo");
+		metrics.AddToMeasurement("NL", "bar");
+
+		metrics.Track(number_list.CreateMeasurement(metrics));
+		metrics.AddToMeasurement("NbL", "1234");
+		metrics.AddToMeasurement("NbL", "5678");
+
 		metrics.AddSubMetrics(m1);
 		metrics.AddSubMetrics(m2);
 		metrics.AddSubMetrics(m3);
 
-		assertEquals(3, measurement.intValue());
-		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
-		assertTrue("\"123\" not in " + measurement.Values(), measurement.Values().contains("123"));
-		assertTrue("\"248\" not in " + measurement.Values(), measurement.Values().contains("248"));
+		assertEquals(2, measurement.intValue());
+		assertTrue("\"bar\" not in " + measurement.Values(), measurement.Values().contains("bar"));
+		assertTrue("\"1234\" not in " + measurement.Values(), measurement.Values().contains("1234"));
 	}
 
 	public void testAccept() throws Exception {
@@ -236,6 +265,19 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		visited = null;
 		measurement.Accept(this);
 		assertSame(measurement, visited);
+	}
+
+	public void testEmpty() throws Exception {
+		descriptor.InitText("NL");
+
+		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		metrics.Track(name_list.CreateMeasurement(metrics));
+
+		assertTrue("Before Add()", measurement.Empty());
+
+		metrics.AddToMeasurement("NL", "foo");
+
+		assertFalse("After Add()", measurement.Empty());
 	}
 	
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
@@ -254,11 +296,15 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		// Do nothing
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
 		visited = measurement;
 	}
 		
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 

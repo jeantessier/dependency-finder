@@ -54,6 +54,14 @@ public class TestNullMeasurement extends TestCase implements MeasurementVisitor 
 		measurement.Add(measurement);
 	}
 
+	public void testEmpty() {
+		assertTrue("Before Add()", measurement.Empty());
+
+		measurement.Add(new Object());
+
+		assertTrue("After Add()", measurement.Empty());
+	}
+
 	public void testAccept() {
 		visited = null;
 		measurement.Accept(this);
@@ -76,11 +84,15 @@ public class TestNullMeasurement extends TestCase implements MeasurementVisitor 
 		visited = measurement;
 	}
 	
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
-		visited = measurement;
+	public void VisitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+		// Do nothing
 	}
 	
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 		// Do nothing
 	}
 	

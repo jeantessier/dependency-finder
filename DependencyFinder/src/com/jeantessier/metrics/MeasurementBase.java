@@ -47,6 +47,7 @@ public abstract class MeasurementBase implements Measurement {
 	private Metrics               context    = null;
 
 	private boolean               cached     = false;
+	private boolean               empty      = true;
 
 	public MeasurementBase(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		this.descriptor = descriptor;
@@ -78,6 +79,14 @@ public abstract class MeasurementBase implements Measurement {
 	protected void Cached(boolean cached) {
 		this.cached = cached && Descriptor().Cached();
 	}
+
+	public boolean Empty() {
+		return empty;
+	}
+
+	protected void Empty(boolean empty) {
+		this.empty = empty;
+	}
 	
 	public String ShortName() {
 		return Descriptor().ShortName();
@@ -105,10 +114,6 @@ public abstract class MeasurementBase implements Measurement {
 
 	public double doubleValue() {
 		return Compute();
-	}
-	
-	public void Add(Object object) {
-		// Do nothing
 	}
 	
 	public boolean InRange() {
@@ -148,6 +153,10 @@ public abstract class MeasurementBase implements Measurement {
 		}
 		
 		return result;
+	}
+	
+	public void Add(Object object) {
+		// Do nothing
 	}
 
 	public void Add(int i) {

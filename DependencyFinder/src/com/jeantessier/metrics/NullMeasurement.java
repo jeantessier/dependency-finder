@@ -69,6 +69,10 @@ public class NullMeasurement implements Measurement {
 		return 0;
 	}
 
+	public boolean Empty() {
+		return true;
+	}
+
 	public boolean InRange() {
 		return false;
 	}
