@@ -725,8 +725,7 @@ Takes a compiled Java <i>.class</i> file and writes out its structure.
     	[-time]
     	[-verbose [filename]]
     	[-xml]
-	param1
-	...
+	param ...
 </pre>
 
 <a name="DescriptionXXXX" />
@@ -794,7 +793,7 @@ Uses <i>text</i> for each indentation level in XML output.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "<code>&nbsp;&nbsp;&nbsp;&nbsp;</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -1794,6 +1793,8 @@ This text file shows both outbound and inbound dependencies.
     	-validate
     	-verbose [filename]
     	-xml
+	param1
+	...
 </pre>
 
 <a name="DescriptionXXXXXXXXXXX" />
@@ -2127,13 +2128,13 @@ Prints synopsis.
 <blockquote>
 
 <p>
-Uses <i>text</i> for each indentation level in XML output.
+Uses <i>text</i> for each indentation level in textual and XML output.
 </p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "<code>&nbsp;&nbsp;&nbsp;&nbsp;</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -2380,11 +2381,12 @@ Validate the input XML against its DTD.
 <blockquote>
 
 <p>
-Filename of the XML document containing the dependency graph.
+Filenames of the XML documents containing the dependency graphs.  The tool
+merges the graphs together into a single dependency graph.
 </p>
 
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
@@ -2445,6 +2447,7 @@ Extracts dependencies from compiled classes.
     	-time
     	-verbose [filename]
     	-xml
+	[param ...]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXX" />
@@ -2514,13 +2517,13 @@ Prints synopsis.
 <blockquote>
 
 <p>
-Uses <i>text</i> for each indentation level in XML output.
+Uses <i>text</i> for each indentation level in textual and XML output.
 </p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "<code>&nbsp;&nbsp;&nbsp;&nbsp;</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -2729,6 +2732,10 @@ to <code>dg.xml</code>, after having minimized it:
 
 <blockquote>
 
+<p>
+Swing application for dependency analysis.
+</p>
+
 </blockquote>
 
 <a name="SynopsisXXXXXXXXXXXXX" />
@@ -2748,14 +2755,10 @@ to <code>dg.xml</code>, after having minimized it:
 
 <blockquote>
 
-<ol>
-<li>8</li>
-<li>0</li>
-</ol>
-
 <p>
-A Swing-based application that combines the functionalities dealing with
-dependencies.
+A Swing-based application that combines the tools for dependency analysis.
+It keeps the dependency graph in memory, saving on loading time between
+queries.
 </p>
 
 <p>
@@ -2812,13 +2815,13 @@ Prints synopsis.
 <blockquote>
 
 <p>
-Uses <i>text</i> for each indentation level in XML output.
+Uses <i>text</i> for each indentation level when saving graphs in XML documents.
 </p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "<code>&nbsp;&nbsp;&nbsp;&nbsp;</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -2958,6 +2961,8 @@ Minimize the dependency graph after extraction.
     	-time
     	-validate
     	-verbose [filename]
+	param1
+	...
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXX" />
@@ -3640,12 +3645,13 @@ Validate the input XML against its DTD.
 <blockquote>
 
 <p>
-Filename of the XML document containing the dependency graph.
+Filenames of the XML documents containing the dependency graphs.  The tool
+merges the graphs together into a single dependency graph.
 </p>
 
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 
@@ -3731,6 +3737,8 @@ Filename of the XML document containing the dependency graph.
     	-validate
     	-verbose [filename]
     	-xml
+	param1
+	...
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXX" />
@@ -4068,13 +4076,13 @@ Prints synopsis.
 <blockquote>
 
 <p>
-Uses <i>text</i> for each indentation level in XML output.
+Uses <i>text</i> for each indentation level in textual and XML output.
 </p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "<code>&nbsp;&nbsp;&nbsp;&nbsp;</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -4342,12 +4350,13 @@ Validate the input XML against its DTD.
 <blockquote>
 
 <p>
-Filename of the XML document containing the dependency graph.
+Filenames of the XML documents containing the dependency graphs.  The tool
+merges the graphs together into a single dependency graph.
 </p>
 
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 
@@ -4881,7 +4890,7 @@ Uses <i>text</i> for each indentation level in XML output.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "<code>&nbsp;&nbsp;&nbsp;&nbsp;</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -5668,7 +5677,7 @@ Uses <i>text</i> for each indentation level in XML output.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "<code>&nbsp;&nbsp;&nbsp;&nbsp;</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -5793,11 +5802,9 @@ Prints how long it took to run the command.
 
 <blockquote>
 
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
+<p>
+<i>none</i>
+</p>
 
 </blockquote>
 
@@ -6092,7 +6099,7 @@ See <code>-out</code> above.
 <p>
 Lists classes, interfaces, fields, constructors, and methods
 that were tagged as part of the published API by using custom
-javadoc tags.  This is a doclet that you run with <code>javadoc</code>.
+javadoc tags.  This is a doclet that runs with <code>javadoc</code>.
 </p>
 
 </blockquote>
@@ -6424,6 +6431,7 @@ See <code>-out</code> above.
     	-validate
     	-verbose [filename]
     	-xml
+	[param ...]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -6585,13 +6593,13 @@ Prints synopsis.
 <blockquote>
 
 <p>
-Uses <i>text</i> for each indentation level in XML output.
+Uses <i>text</i> for each indentation level in textual and XML output.
 </p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "<code>&nbsp;&nbsp;&nbsp;&nbsp;</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -7108,7 +7116,8 @@ See <code>-out</code> above.
 <pre>
     XSLTProcess
     	-in input_file.xml
-    	[-out output_file.html]
+    	[-out filename]
+	-xsl stylesheet.xsl
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -7140,13 +7149,14 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXXX" />
-<h4><code>-out output_file.html</code></h4>
+<a name="-outfilenameXXXXXXXXXXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
 
 <p>
-Where to put the outcome of the translation.
+Where to put the outcome of the translation.  The format of the output
+depends on the stylesheet you specify with <code>-xsl</code>.
 </p>
 
 <p>
@@ -7155,6 +7165,23 @@ If not specified, the translation goes to the standard output.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-xslstylesheet.xsl" />
+<h4><code>-xsl stylesheet.xsl</code></h4>
+
+<blockquote>
+
+<p>
+The XSL transformation to apply to the XML document specified with <code>-in</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>

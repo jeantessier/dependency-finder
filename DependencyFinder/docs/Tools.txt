@@ -569,8 +569,7 @@ Takes a compiled Java _.class_ file and writes out its structure.
     	[-time]
     	[-verbose [filename]]
     	[-xml]
-	param1
-	...
+	param ...
 
 ---+++ Description
 
@@ -624,7 +623,7 @@ Uses _text_ for each indentation level in XML output.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>
@@ -1398,6 +1397,8 @@ This text file shows both outbound and inbound dependencies.
     	-validate
     	-verbose [filename]
     	-xml
+	param1
+	...
 
 ---+++ Description
 
@@ -1696,12 +1697,12 @@ Prints synopsis.
 
 <blockquote>
 
-Uses _text_ for each indentation level in XML output.
+Uses _text_ for each indentation level in textual and XML output.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>
@@ -1923,10 +1924,11 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
-Filename of the XML document containing the dependency graph.
+Filenames of the XML documents containing the dependency graphs.  The tool
+merges the graphs together into a single dependency graph.
 
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
@@ -1977,6 +1979,7 @@ Extracts dependencies from compiled classes.
     	-time
     	-verbose [filename]
     	-xml
+	[param ...]
 
 ---+++ Description
 
@@ -2031,12 +2034,12 @@ Prints synopsis.
 
 <blockquote>
 
-Uses _text_ for each indentation level in XML output.
+Uses _text_ for each indentation level in textual and XML output.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>
@@ -2208,6 +2211,8 @@ to =dg.xml=, after having minimized it:
 
 <blockquote>
 
+Swing application for dependency analysis.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -2223,11 +2228,9 @@ to =dg.xml=, after having minimized it:
 
 <blockquote>
 
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
-
-A Swing-based application that combines the functionalities dealing with
-dependencies.
+A Swing-based application that combines the tools for dependency analysis.
+It keeps the dependency graph in memory, saving on loading time between
+queries.
 
 It combines the functionalities of the following tools:
 
@@ -2272,12 +2275,12 @@ Prints synopsis.
 
 <blockquote>
 
-Uses _text_ for each indentation level in XML output.
+Uses _text_ for each indentation level when saving graphs in XML documents.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>
@@ -2400,6 +2403,8 @@ _none_
     	-time
     	-validate
     	-verbose [filename]
+	param1
+	...
 
 ---+++ Description
 
@@ -3018,11 +3023,12 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
-Filename of the XML document containing the dependency graph.
+Filenames of the XML documents containing the dependency graphs.  The tool
+merges the graphs together into a single dependency graph.
 
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 
@@ -3100,6 +3106,8 @@ Filename of the XML document containing the dependency graph.
     	-validate
     	-verbose [filename]
     	-xml
+	param1
+	...
 
 ---+++ Description
 
@@ -3402,12 +3410,12 @@ Prints synopsis.
 
 <blockquote>
 
-Uses _text_ for each indentation level in XML output.
+Uses _text_ for each indentation level in textual and XML output.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>
@@ -3645,11 +3653,12 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
-Filename of the XML document containing the dependency graph.
+Filenames of the XML documents containing the dependency graphs.  The tool
+merges the graphs together into a single dependency graph.
 
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 
@@ -4062,7 +4071,7 @@ Uses _text_ for each indentation level in XML output.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>
@@ -4697,7 +4706,7 @@ Uses _text_ for each indentation level in XML output.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>
@@ -4809,11 +4818,7 @@ Prints how long it took to run the command.
 
 <blockquote>
 
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
+_none_
 
 </blockquote>
 
@@ -5043,7 +5048,7 @@ See =-out= above.
 
 Lists classes, interfaces, fields, constructors, and methods
 that were tagged as part of the published API by using custom
-javadoc tags.  This is a doclet that you run with =javadoc=.
+javadoc tags.  This is a doclet that runs with =javadoc=.
 
 </blockquote>
 
@@ -5308,6 +5313,7 @@ See =-out= above.
     	-validate
     	-verbose [filename]
     	-xml
+	[param ...]
 
 ---+++ Description
 
@@ -5450,12 +5456,12 @@ Prints synopsis.
 
 <blockquote>
 
-Uses _text_ for each indentation level in XML output.
+Uses _text_ for each indentation level in textual and XML output.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>
@@ -5882,7 +5888,8 @@ See =-out= above.
 
     XSLTProcess
     	-in input_file.xml
-    	[-out output_file.html]
+    	[-out filename]
+	-xsl stylesheet.xsl
 
 ---+++ Description
 
@@ -5908,16 +5915,31 @@ The XML file to convert to translate.
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-out filename=
 
 <blockquote>
 
-Where to put the outcome of the translation.
+Where to put the outcome of the translation.  The format of the output
+depends on the stylesheet you specify with =-xsl=.
 
 If not specified, the translation goes to the standard output.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xsl stylesheet.xsl=
+
+<blockquote>
+
+The XSL transformation to apply to the XML document specified with =-in=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
