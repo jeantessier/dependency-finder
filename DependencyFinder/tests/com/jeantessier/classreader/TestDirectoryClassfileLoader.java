@@ -112,10 +112,10 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 
 		assertEquals("Begin Session",   0, BeginSession().size());
 		assertEquals("Begin Group",     1, BeginGroup().size());
-		assertEquals("Begin File",      5, BeginFile().size());
-		assertEquals("Begin Classfile", 4, BeginClassfile().size());
-		assertEquals("End Classfile",   4, EndClassfile().size());
-		assertEquals("End File",        5, EndFile().size());
+		assertEquals("Begin File",      7, BeginFile().size());
+		assertEquals("Begin Classfile", 6, BeginClassfile().size());
+		assertEquals("End Classfile",   6, EndClassfile().size());
+		assertEquals("End File",        7, EndFile().size());
 		assertEquals("End Group",       1, EndGroup().size());
 		assertEquals("End Session",     0, EndSession().size());
 	}	
@@ -124,13 +124,13 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 		loader.Load(TEST_DIRNAME);
 		loader.Load(OTHER_DIRNAME);
 
-		assertEquals("Begin Session",   0, BeginSession().size());
-		assertEquals("Begin Group",     2, BeginGroup().size());
-		assertEquals("Begin File",      8, BeginFile().size());
-		assertEquals("Begin Classfile", 6, BeginClassfile().size());
-		assertEquals("End Classfile",   6, EndClassfile().size());
-		assertEquals("End File",        8, EndFile().size());
-		assertEquals("End Group",       2, EndGroup().size());
-		assertEquals("End Session",     0, EndSession().size());
+		assertEquals("Begin Session",    0, BeginSession().size());
+		assertEquals("Begin Group",      2, BeginGroup().size());
+		assertEquals("Begin File",      11, BeginFile().size());
+		assertEquals("Begin Classfile",  9, BeginClassfile().size());
+		assertEquals("End Classfile",    9, EndClassfile().size());
+		assertEquals("End File",        11, EndFile().size());
+		assertEquals("End Group",        2, EndGroup().size());
+		assertEquals("End Session",      0, EndSession().size());
 	}	
 }

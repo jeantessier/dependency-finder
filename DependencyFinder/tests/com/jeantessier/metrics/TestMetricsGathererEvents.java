@@ -97,10 +97,10 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 		gatherer.VisitClassfiles(loader.Classfiles());
 
 		assertEquals("Begin Session",  1, begin_session.size());
-		assertEquals("Begin Class",    6, begin_class.size());
-		assertEquals("Begin Method",  12, begin_method.size());
-		assertEquals("End Method",    12, end_method.size());
-		assertEquals("End Class",      6, end_class.size());
+		assertEquals("Begin Class",    9, begin_class.size());
+		assertEquals("Begin Method",  16, begin_method.size());
+		assertEquals("End Method",    16, end_method.size());
+		assertEquals("End Class",      9, end_class.size());
 		assertEquals("End Session",    1, end_session.size());
 	}	
 	
