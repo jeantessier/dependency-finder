@@ -76,6 +76,12 @@ public class TestMetricsFactory extends TestCase {
 		assertSame(m1, m2);
 		assertEquals("method measurements", configuration.MethodMeasurements().size(), m1.MeasurementNames().size());
 	}
+	
+	public void testCreateStaticInitializerMetrics() {
+		Metrics m = factory.CreateMethodMetrics("foo.static {}");
+
+		assertEquals("class name", "foo", m.Parent().Name());
+	}
 
 	public void testCreateStructure() {
 		Metrics method_metrics  = factory.CreateMethodMetrics("a.A.a()");

@@ -176,6 +176,8 @@ public class MetricsFactory {
 		String class_name = "";
 		if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)$/", name)) {
 			class_name = perl.group(1);
+		} else if (perl.match("/^(.*)\\.static {}$/", name)) {
+			class_name = perl.group(1);
 		} else if (perl.match("/^(.*)\\.[\\^.]*$/", name)) {
 			class_name = perl.group(1);
 		}
