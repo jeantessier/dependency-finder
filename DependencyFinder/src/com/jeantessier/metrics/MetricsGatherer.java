@@ -100,7 +100,7 @@ public class MetricsGatherer extends VisitorBase {
 		CurrentGroup(CurrentClass().Parent());
 		CurrentProject(CurrentGroup().Parent());
 
-		CurrentProject().AddToMeasurement(Metrics.PACKAGES, CurrentGroup());
+		CurrentProject().AddToMeasurement(Metrics.PACKAGES, CurrentGroup().Name());
 		
 		if ((classfile.AccessFlag() & Classfile.ACC_PUBLIC) != 0) {
 			CurrentProject().AddToMeasurement(Metrics.PUBLIC_CLASSES);
