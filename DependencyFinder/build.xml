@@ -129,7 +129,7 @@
 		<attribute name="Implementation-Title"   value="Dependency Finder"/>
 		<attribute name="Implementation-Version" value="${this.release}"/> 
 		<attribute name="Implementation-Date"    value="${NOW}"/> 
-		<attribute name="Implementation-URL"     value="http://dependencyfinder.jeantessier.com/"/>
+		<attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
 		<attribute name="Compiler-Vendor"        value="${java.vendor}"/>
 		<attribute name="Compiler-Title"         value="${java.runtime.name}"/>
 		<attribute name="Compiler-Version"       value="${java.version}"/>

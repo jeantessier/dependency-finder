@@ -186,6 +186,7 @@ Lists all classes it could find, based on parameters.
     	[-out filename]
     	[-time]
     	[-verbose [filename]]
+	[-version]
 	[filename ...]
 
 ---+++ Description
@@ -257,6 +258,20 @@ a file, the tool will write the information to the standard output stream.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -371,6 +386,7 @@ synchronized, or abstract methods, etc.
     	[-out filename]
     	[-time]
     	[-verbose [filename]]
+    	[-version]
 	[filename ...]
 
 ---+++ Description
@@ -456,6 +472,20 @@ a file, the tool will write the information to the standard output stream.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -571,6 +601,7 @@ Takes a compiled Java _.class_ file and writes out its structure.
     	[-out filename]
     	[-time]
     	[-verbose [filename]]
+    	[-version]
     	[-xml]
 	param ...
 
@@ -671,6 +702,20 @@ a file, the tool will write the information to the standard output stream.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -1336,6 +1381,7 @@ point.
     	[-time]
     	[-validate]
     	[-verbose [filename]]
+    	[-version]
     	[-xml]
 	graph.xml
 	...
@@ -2020,6 +2066,20 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-xml=
 
 <blockquote>
@@ -2132,6 +2192,7 @@ Extracts dependencies from compiled classes.
     	[-serialize]
     	[-time]
     	[-verbose [filename]]
+    	[-version]
     	[-xml]
 	[filename ...]
 
@@ -2289,6 +2350,20 @@ a file, the tool will write the information to the standard output stream.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -2838,6 +2913,7 @@ number of entering vertices, and number of exiting vertices.
     	[-time]
     	[-validate]
     	[-verbose [filename]]
+    	[-version]
 	graph.xml
 	...
 
@@ -3656,6 +3732,20 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 </blockquote>
 
 ---+++ Parameters
@@ -3799,6 +3889,7 @@ Summarizes a dependency graph according to user-specified criteria.
     	[-time]
     	[-validate]
     	[-verbose [filename]]
+    	[-version]
     	[-xml]
 	graph.xml
 	...
@@ -4482,6 +4573,20 @@ a file, the tool will write the information to the standard output stream.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -5481,6 +5586,7 @@ Computes API differences between two versions of a codebase.
     	[-out filename]
     	[-time]
     	[-verbose [filename]]
+    	[-version]
 
 ---+++ Description
 
@@ -5694,6 +5800,20 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 </blockquote>
 
 ---+++ Parameters
@@ -5769,6 +5889,7 @@ Compares two lists of programming elements and computes differences.
     	[-old-label value]
     	[-out filename]
     	[-time]
+    	[-version]
 
 ---+++ Description
 
@@ -5933,6 +6054,20 @@ it is created.  If it already exists, its content is overwritten.
 <blockquote>
 
 Prints how long it took to run the command.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6643,6 +6778,7 @@ Computes object-oriented metrics on a codebase.
     	[-txt]
     	[-validate]
     	[-verbose [filename]]
+    	[-version]
     	[-xml]
 	[filename ...]
 
@@ -6955,6 +7091,20 @@ a file, the tool will write the information to the standard output stream.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>

@@ -38,6 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 import com.jeantessier.commandline.*;
+import com.jeantessier.dependencyfinder.*;
 import com.jeantessier.diff.*;
 
 public class ListDiff {
@@ -50,6 +51,24 @@ public class ListDiff {
 		System.err.println(clu);
 		System.err.println();
 		System.err.println("Defaults is text output to the console.");
+		System.err.println();
+	}
+
+	public static void Version() throws IOException {
+		Version version = new Version();
+		
+		System.err.print(version.ImplementationTitle());
+		System.err.print(" ");
+		System.err.print(version.ImplementationVersion());
+		System.err.print(" (c) ");
+		System.err.print(version.ImplementationVendor());
+		System.err.println();
+		
+		System.err.print(version.ImplementationURL());
+		System.err.println();
+		
+		System.err.print("Compiled on ");
+		System.err.print(version.ImplementationDate());
 		System.err.println();
 	}
 
@@ -67,6 +86,7 @@ public class ListDiff {
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
+		command_line.AddToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("ListDiff");
 		command_line.Accept(usage);
@@ -83,6 +103,13 @@ public class ListDiff {
 
 		if (command_line.ToggleSwitch("help")) {
 			Error(usage);
+		}
+		
+		if (command_line.ToggleSwitch("version")) {
+			Version();
+		}
+
+		if (command_line.ToggleSwitch("help") || command_line.ToggleSwitch("version")) {
 			System.exit(1);
 		}
 
