@@ -74,13 +74,21 @@
     }
 %>
 
-<body bgcolor="#ffffff">
-
-<p>Dependency graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
+<!-- midnight blue over blanched almond -->
+<body text="191970" bgcolor="#ffebcd">
 
 <form action="<%= request.getRequestURI() %>" method="post">
 
 <table border="0" cellpadding="5"><tr><td colspan="2">
+
+<div align="center">
+<p><b>
+<code><%= application.getInitParameter("name") %></code><br />
+Dependency graph
+</b></p>
+</div>
+
+</td></tr><tr><td colspan="2">
 
 <table border="3" bgcolor="ccccff" cellpadding="4"><tr><td>
 
@@ -92,9 +100,9 @@
     </tr>
     <tr>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-scope" <%= package_scope ? "checked" : "" %>>&nbsp;package
-	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %>>&nbsp;class
-	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %>>&nbsp;feature
+	    <input type="checkbox" name="package-scope" <%= package_scope ? "checked" : "" %> onFocus="window.status='Select packages'" onBlur="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %> onFocus="window.status='Select classes (with their package)'" onBlur="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %> onFocus="window.status='Select methods and fields (with their class and package)'" onBlur="window.status=''">&nbsp;feature
 	</td>
     </tr>
     <tr>
@@ -107,10 +115,10 @@
     </tr>
     <tr>
 	<td>
-	    <input type="text" name="scope-includes" value="<%= scope_includes %>">
+	    <input type="text" name="scope-includes" value="<%= scope_includes %>" onFocus="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onBlur="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="scope-excludes" value="<%= scope_excludes %>">
+	    <input type="text" name="scope-excludes" value="<%= scope_excludes %>" onFocus="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onBlur="window.status=''">
 	</td>
     </tr>
 </table>
@@ -125,9 +133,9 @@
     </tr>
     <tr>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-filter" <%= package_filter ? "checked" : "" %>>&nbsp;package
-	    <input type="checkbox" name="class-filter" <%= class_filter ? "checked" : "" %>>&nbsp;class
-	    <input type="checkbox" name="feature-filter" <%= feature_filter ? "checked" : "" %>>&nbsp;feature
+	    <input type="checkbox" name="package-filter" <%= package_filter ? "checked" : "" %> onFocus="window.status='Show dependencies to/from packages'" onBlur="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-filter" <%= class_filter ? "checked" : "" %> onFocus="window.status='Show dependencies to/from classes'" onBlur="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-filter" <%= feature_filter ? "checked" : "" %> onFocus="window.status='Show dependencies to/from methods and fields'" onBlur="window.status=''">&nbsp;feature
 	</td>
     </tr>
     <tr>
@@ -140,10 +148,10 @@
     </tr>
     <tr>
 	<td>
-	    <input type="text" name="filter-includes" value="<%= filter_includes %>">
+	    <input type="text" name="filter-includes" value="<%= filter_includes %>" onFocus="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onBlur="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="filter-excludes" value="<%= filter_excludes %>">
+	    <input type="text" name="filter-excludes" value="<%= filter_excludes %>" onFocus="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onBlur="window.status=''">
 	</td>
     </tr>
 </table>
@@ -151,9 +159,9 @@
 </td></tr><tr><td colspan="2" align="center">
 
 Show dependencies
-<input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %>>&nbsp;to element
-<input type="checkbox" name="show-outbounds" <%= show_outbounds ? "checked" : "" %>>&nbsp;from element
-<input type="checkbox" name="show-empty-nodes" <%= show_empty_nodes ? "checked" : "" %>>&nbsp;(empty elements)
+<input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %> onFocus="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" onBlur="window.status=''">&nbsp;to element
+<input type="checkbox" name="show-outbounds" <%= show_outbounds ? "checked" : "" %> onFocus="window.status='Show dependencies that originate from the selected packages, classes, methods, or fields'" onBlur="window.status=''">&nbsp;from element
+<input type="checkbox" name="show-empty-nodes" <%= show_empty_nodes ? "checked" : "" %> onFocus="window.status='Show selected packages, classes, methods, and fields even if they do not have dependencies'" onBlur="window.status=''">&nbsp;(empty elements)
 
 </td></tr></table>
 
@@ -170,7 +178,7 @@ Show dependencies
 
 </form>
 
-<hr/>
+<hr size="3" />
 
 <%
     if (request.getParameter("submit") != null) {
@@ -211,7 +219,9 @@ Show dependencies
 	    out.println();
 %>
 
+<font color="black">
 <pre><%= printer %></pre>
+</font>
 
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 

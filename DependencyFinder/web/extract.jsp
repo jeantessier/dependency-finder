@@ -5,9 +5,8 @@
 <title>Extract <%= application.getInitParameter("name") %></title>
 </head>
 
-<body bgcolor="#ffffff">
-
-<p>Extracting dependency graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
+<!-- midnight blue over blanched almond -->
+<body text="191970" bgcolor="#ffebcd">
 
 <%!
     private class MyListener implements LoadListener {
@@ -49,7 +48,14 @@
 
 <table>
     <tr>
+	<td align = center>
+	    <b><code><%= application.getInitParameter("name") %></code><br />
+	    Extract Dependency Graph</b>
+	</td>
+    </tr>
+    <tr>
 	<td>
+	    <br />
 	    This operation may take a few minutes, depending on the
 	    size and complexity of the codebase to analyze.<br/>
 	    If you really want to do this at this time, please click
@@ -58,7 +64,7 @@
     </tr>
     <tr>
 	<td align="center">
-	    <br/>
+	    <br />
 	    <form method="post" action="<%= request.getRequestURI() %>">
 		<input type="submit" name="launch" value="Launch"/>
 	    </form>
@@ -95,6 +101,8 @@
 <%
     } else {
 %>
+
+<p>Extracting dependency graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
 
 <pre>
 
