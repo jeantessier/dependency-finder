@@ -65,7 +65,8 @@ public class NodeFactory {
 		return result;
 	}
 	
-	public void deletePackage(PackageNode node) {
+	// Only to be used by DeletingVisitor
+	void deletePackage(PackageNode node) {
 		packages.remove(node.getName());
 	}
 
@@ -101,7 +102,8 @@ public class NodeFactory {
 		return result;
 	}
 
-	public void deleteClass(ClassNode node) {
+	// Only to be used by DeletingVisitor
+	void deleteClass(ClassNode node) {
 		node.getPackageNode().removeClass(node);
 		classes.remove(node.getName());
 	}
@@ -143,7 +145,8 @@ public class NodeFactory {
 		return result;
 	}
 	
-	public void deleteFeature(FeatureNode node) {
+	// Only to be used by DeletingVisitor
+	void deleteFeature(FeatureNode node) {
 		node.getClassNode().removeFeature(node);
 		features.remove(node.getName());
 	}

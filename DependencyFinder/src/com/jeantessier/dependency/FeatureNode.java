@@ -42,7 +42,7 @@ public class FeatureNode extends Node {
 		this.parent = parent;
 	}
 
-	// Only to be used by NodeFactory
+	// Only to be used by NodeFactory and DeletingVisitor
 	void setConcrete(boolean concrete) {
 		super.setConcrete(concrete);
 		if (concrete) {

@@ -41,7 +41,7 @@ public class PackageNode extends Node {
 		super(name, concrete);
 	}
 
-	// Only to be used by NodeFactory
+	// Only to be used by NodeFactory and DeletingVisitor
 	void setConcrete(boolean concrete) {
 		Iterator i = getClasses().iterator();
 		while (!concrete && i.hasNext()) {

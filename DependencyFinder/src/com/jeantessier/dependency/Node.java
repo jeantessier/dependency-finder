@@ -54,7 +54,7 @@ public abstract class Node implements Comparable {
 		return concrete;
 	}
 
-	// Only to be used by NodeFactory
+	// Only to be used by NodeFactory and DeletingVisitor
 	void setConcrete(boolean concrete) {
 		this.concrete = concrete;
 	}

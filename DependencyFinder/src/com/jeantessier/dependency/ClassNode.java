@@ -43,7 +43,7 @@ public class ClassNode extends Node {
 		this.parent = parent;
 	}
 
-	// Only to be used by NodeFactory
+	// Only to be used by NodeFactory and DeletingVisitor
 	void setConcrete(boolean concrete) {
 		if (!concrete) {
 			Iterator i = getFeatures().iterator();
