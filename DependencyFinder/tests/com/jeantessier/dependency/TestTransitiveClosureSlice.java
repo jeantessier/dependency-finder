@@ -49,10 +49,6 @@ public class TestTransitiveClosureSlice extends TestCase {
 	
     private TransitiveClosure selector;
 
-	public TestTransitiveClosureSlice(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 

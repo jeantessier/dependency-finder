@@ -61,10 +61,6 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	
     TransitiveClosure selector;
 
-	public TestTransitiveClosureWithTestClass(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		strategy = new SelectiveTraversalStrategy();
 		factory = new NodeFactory();

@@ -58,10 +58,6 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	List include;
 	List exclude;
 
-	public TestSelectiveTraversalStrategy(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		strategy = new SelectiveTraversalStrategy();
 		factory = new NodeFactory();

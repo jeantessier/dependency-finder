@@ -40,10 +40,6 @@ import junit.framework.*;
 public class TestClassfile extends TestCase {
 	private ClassfileLoader loader;
 
-	public TestClassfile(String name) {
-		super(name);
-	}
-	
 	protected void setUp() throws Exception {
 		loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
 		((DirectoryClassfileLoader) loader).Load(new DirectoryExplorer("tests\\JarJarDiff\\new"));

@@ -53,10 +53,6 @@ public class TestGraphSummarizer extends TestCase {
 
     GraphSummarizer summarizer;
 
-	public TestGraphSummarizer(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 

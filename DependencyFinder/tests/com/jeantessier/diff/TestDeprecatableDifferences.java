@@ -44,10 +44,6 @@ public class TestDeprecatableDifferences extends TestCase {
 	private ClassfileLoader    old_loader;
 	private ClassfileLoader    new_loader;
 
-	public TestDeprecatableDifferences(String name) {
-		super(name);
-	}
-	
 	protected void setUp() throws Exception {
 		Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("")));
 		factory = new DifferencesFactory(validator, validator);

@@ -38,10 +38,6 @@ public class TestNullMeasurement extends TestCase implements MeasurementVisitor 
 	private NullMeasurement measurement;
 	private Measurement visited;
 	
-	public TestNullMeasurement(String name) {
-		super(name);
-	}
-
 	protected void setUp() {
 		measurement = new NullMeasurement();
 	}

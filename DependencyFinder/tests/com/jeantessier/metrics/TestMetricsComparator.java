@@ -37,10 +37,6 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestMetricsComparator extends TestCase {
-	public TestMetricsComparator(String name) {
-		super(name);
-	}
-
 	public void testSortOn() {
 		MetricsComparator c = new MetricsComparator("foo", StatisticalMeasurement.DISPOSE_IGNORE);
 

@@ -59,10 +59,6 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 
     GraphCopier copier;
 
-	public TestGraphSummarizerWithFiltering(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		strategy = new SelectiveTraversalStrategy();
 		factory = new NodeFactory();

@@ -40,10 +40,6 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	private SumMeasurement measurement;
 	private Measurement visited;
 	
-	public TestSumMeasurement(String name) {
-		super(name);
-	}
-
 	protected void setUp() {
 		descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");

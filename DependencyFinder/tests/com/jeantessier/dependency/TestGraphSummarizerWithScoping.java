@@ -54,10 +54,6 @@ public class TestGraphSummarizerWithScoping extends TestCase {
 
     GraphSummarizer summarizer;
 
-	public TestGraphSummarizerWithScoping(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		strategy = new SelectiveTraversalStrategy();
 		factory = new NodeFactory();

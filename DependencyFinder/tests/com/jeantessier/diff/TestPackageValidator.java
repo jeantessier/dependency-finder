@@ -37,10 +37,6 @@ import java.io.*;
 import junit.framework.*;
 
 public class TestPackageValidator extends TestCase {
-	public TestPackageValidator(String name) {
-		super(name);
-	}
-
 	public void testDefault() throws IOException {
 		Validator validator;
 

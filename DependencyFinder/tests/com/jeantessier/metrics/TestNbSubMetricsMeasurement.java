@@ -39,10 +39,6 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	private Metrics metrics;
 	private Measurement visited;
 	
-	public TestNbSubMetricsMeasurement(String name) {
-		super(name);
-	}
-	
 	protected void setUp() {
 		metrics = new Metrics("foo");
 		measurement = new NbSubMetricsMeasurement(null, metrics, null);

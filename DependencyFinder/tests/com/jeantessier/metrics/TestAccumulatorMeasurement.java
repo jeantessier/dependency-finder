@@ -38,10 +38,6 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 	private AccumulatorMeasurement measurement;
 	private Measurement visited;
 	
-	public TestAccumulatorMeasurement(String name) {
-		super(name);
-	}
-
 	protected void setUp() {
 		measurement = new AccumulatorMeasurement(null, null, null);
 	}

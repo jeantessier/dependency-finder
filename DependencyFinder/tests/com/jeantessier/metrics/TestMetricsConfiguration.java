@@ -41,10 +41,6 @@ public class TestMetricsConfiguration extends TestCase {
 	private MeasurementDescriptor d1;
 	private MeasurementDescriptor d2;
 	
-	public TestMetricsConfiguration(String name) {
-		super(name);
-	}
-
 	protected void setUp() {
 		config = new MetricsConfiguration();
 

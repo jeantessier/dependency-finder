@@ -57,10 +57,6 @@ public class TestGraphCopier extends TestCase {
 	
     GraphCopier copier;
 
-	public TestGraphCopier(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		strategy = new SelectiveTraversalStrategy();
 		factory = new NodeFactory();

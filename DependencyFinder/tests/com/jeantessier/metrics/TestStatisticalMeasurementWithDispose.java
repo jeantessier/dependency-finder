@@ -53,10 +53,6 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
 	private MeasurementDescriptor descriptor;
 	
-	public TestStatisticalMeasurementWithDispose(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 

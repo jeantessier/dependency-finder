@@ -43,10 +43,6 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 	private Metrics metrics;
 	private Measurement visited;
 	
-	public TestStatisticalMeasurement(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 

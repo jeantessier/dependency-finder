@@ -59,10 +59,6 @@ public class TestPrettyPrinter extends TestCase {
 
 	Visitor visitor;
 
-	public TestPrettyPrinter(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 

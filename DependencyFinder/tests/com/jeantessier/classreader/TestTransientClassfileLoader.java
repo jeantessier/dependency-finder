@@ -44,10 +44,6 @@ public class TestTransientClassfileLoader extends TestCase {
 	
 	private TransientClassfileLoader loader;
 
-	public TestTransientClassfileLoader(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 

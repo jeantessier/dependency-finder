@@ -42,10 +42,6 @@ public class TestMetricsConfigurationLoader extends TestCase {
 	private MetricsConfiguration       configuration;
 	private MetricsConfigurationLoader loader;
 	
-	public TestMetricsConfigurationLoader(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		configuration = new MetricsConfiguration();
 		loader        = new MetricsConfigurationLoader(configuration, Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE"));

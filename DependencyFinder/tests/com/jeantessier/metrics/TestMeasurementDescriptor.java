@@ -37,10 +37,6 @@ import junit.framework.*;
 public class TestMeasurementDescriptor extends TestCase {
 	private MeasurementDescriptor descriptor;
 	
-	public TestMeasurementDescriptor(String name) {
-		super(name);
-	}
-
 	protected void setUp() {
 		descriptor = new MeasurementDescriptor();
 	}

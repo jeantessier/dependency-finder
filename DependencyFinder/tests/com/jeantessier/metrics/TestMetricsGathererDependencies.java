@@ -49,10 +49,6 @@ public class TestMetricsGathererDependencies extends TestCase {
 
 	private MetricsFactory factory;
 	
-	public TestMetricsGathererDependencies(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).debug("Starting " + getName() + " ...");
 		

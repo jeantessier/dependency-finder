@@ -48,10 +48,6 @@ public class TestMetricsGathererSLOC extends TestCase {
 
 	private MetricsFactory factory;
 	
-	public TestMetricsGathererSLOC(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).debug("Starting " + getName() + " ...");
 		

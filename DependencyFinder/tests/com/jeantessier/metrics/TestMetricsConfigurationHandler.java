@@ -43,10 +43,6 @@ public class TestMetricsConfigurationHandler extends TestCase {
 	private MetricsConfigurationHandler handler;
 	private XMLReader                   reader;
 	
-	public TestMetricsConfigurationHandler(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		handler = new MetricsConfigurationHandler();
 		

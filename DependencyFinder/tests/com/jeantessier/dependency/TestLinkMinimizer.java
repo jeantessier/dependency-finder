@@ -59,10 +59,6 @@ public class TestLinkMinimizer extends TestCase {
 	
     LinkMinimizer visitor;
 
-	public TestLinkMinimizer(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 

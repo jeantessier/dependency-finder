@@ -59,10 +59,6 @@ public class TestLinkMaximizer extends TestCase {
 	
     LinkMaximizer visitor;
 
-	public TestLinkMaximizer(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 

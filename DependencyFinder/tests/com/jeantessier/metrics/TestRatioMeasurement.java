@@ -42,10 +42,6 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	private Measurement m1;
 	private Measurement m2;
 
-	public TestRatioMeasurement(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		metrics = new Metrics("foobar");
 

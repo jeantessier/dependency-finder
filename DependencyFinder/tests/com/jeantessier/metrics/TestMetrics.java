@@ -35,10 +35,6 @@ package com.jeantessier.metrics;
 import junit.framework.*;
 
 public class TestMetrics extends TestCase {
-	public TestMetrics(String name) {
-		super(name);
-	}
-
 	public void testCreate() {
 		Metrics metrics = new Metrics("test");
 

@@ -73,10 +73,6 @@ public class TestDependencyExtractor extends TestCase {
 	ClassfileLoader loader;
 	NodeFactory     test_factory;
 
-	public TestDependencyExtractor(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 

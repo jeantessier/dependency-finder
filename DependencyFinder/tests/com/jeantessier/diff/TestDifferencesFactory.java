@@ -45,10 +45,6 @@ public class TestDifferencesFactory extends TestCase {
 
 	private JarDifferences jar_differences;
 
-	public TestDifferencesFactory(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		DirectoryClassfileLoader loader;
 

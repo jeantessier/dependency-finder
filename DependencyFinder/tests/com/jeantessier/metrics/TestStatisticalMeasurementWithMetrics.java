@@ -58,10 +58,6 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 
 	private Metrics p;
 
-	public TestStatisticalMeasurementWithMetrics(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 

@@ -35,10 +35,6 @@ package com.jeantessier.dependencyfinder.cli;
 import junit.framework.*;
 
 public class TestListDiffPrinter extends TestCase {
-	public TestListDiffPrinter(String name) {
-		super(name);
-	}
-
 	public void testDefault() {
 		ListDiffPrinter printer = new ListDiffPrinter();
 

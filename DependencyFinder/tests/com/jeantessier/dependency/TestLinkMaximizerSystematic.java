@@ -50,10 +50,6 @@ public class TestLinkMaximizerSystematic extends TestCase {
 	ClassNode   b_B;
 	FeatureNode b_B_b;
 	
-	public TestLinkMaximizerSystematic(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 

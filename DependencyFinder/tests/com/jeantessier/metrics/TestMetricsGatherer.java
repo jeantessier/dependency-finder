@@ -47,10 +47,6 @@ public class TestMetricsGatherer extends TestCase {
 
 	private MetricsFactory factory;
 	
-	public TestMetricsGatherer(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml"));
 

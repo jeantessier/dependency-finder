@@ -38,10 +38,6 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 	private CounterMeasurement measurement;
 	private Measurement visited;
 	
-	public TestCounterMeasurement(String name) {
-		super(name);
-	}
-
 	protected void setUp() {
 		measurement = new CounterMeasurement(null, null, null);
 	}

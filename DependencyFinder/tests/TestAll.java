@@ -33,10 +33,6 @@
 import junit.framework.*;
 
 public class TestAll extends TestCase {
-	public TestAll(String name) {
-		super(name);
-	}
-	
 	public static Test suite() {
 		TestSuite result = new TestSuite();
 

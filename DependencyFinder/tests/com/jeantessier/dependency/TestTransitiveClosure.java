@@ -40,10 +40,6 @@ public class TestTransitiveClosure extends TestCase {
 	private SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
 	private NodeFactory                factory  = new NodeFactory();
 
-	public TestTransitiveClosure(String name) {
-		super(name);
-	}
-
 	public void testFullConnectivity() {
 		ClassNode A = factory.CreateClass("A");
 		ClassNode B = factory.CreateClass("B");

@@ -47,10 +47,6 @@ public class TestDirectoryClassfileLoader extends TestCase implements LoadListen
 	private LoadEvent loaded;
 	private LoadEvent stop;
 	
-	public TestDirectoryClassfileLoader(String name) {
-		super(name);
-	}
-
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
