@@ -55,11 +55,27 @@
 	searched for .class files.</description>
     </context-param>
     <context-param>
+	<param-name>showSource</param-name>
+	<param-value>false</param-value>
+	<description>Whether or not to display the value of the "source"
+	parameter on extract.jsp.  This may expose sensitive information, so
+	the starting value is "false", but you can change it to "true" to show
+	the entries in "source" as a bullet list on extract.jsp.</description>
+    </context-param>
+    <context-param>
 	<param-name>file</param-name>
 	<param-value>C:\language\Java\myprojects\DependencyFinder\df.xml</param-value>
 	<description>Where to load dependencies from.  Separate multiple
 	locations with commas.  Each location should be an XML document
 	that follows the dependencies DTD.</description>
+    </context-param>
+    <context-param>
+	<param-name>showFile</param-name>
+	<param-value>false</param-value>
+	<description>Whether or not to display the value of the "file"
+	parameter on load.jsp.  This may expose sensitive information, so the
+	starting value is "false", but you can change it to "true" to show the
+	entries in "file" as a bullet list on load.jsp.</description>
     </context-param>
     <context-param>
 	<param-name>mode</param-name>

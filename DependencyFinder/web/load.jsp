@@ -103,6 +103,37 @@
     if (request.getParameter("launch") == null) {
 %>
 
+<%
+	if (Boolean.valueOf(application.getInitParameter("showFile")).booleanValue()) {
+	    Perl5Util perl = new Perl5Util();
+	    Collection sources = new LinkedList();
+	    perl.split(sources, "/,\\s*/", application.getInitParameter("file"));
+%>
+
+    <tr>
+	<td>
+	    <br />
+	    This operation will extract dependencies from the following
+	    locations:
+	    <ul>
+
+<%
+	    Iterator i = sources.iterator();
+	    while (i.hasNext()) {
+%>
+		<li><tt><%= i.next() %></tt></li>
+<%
+	    }
+%>
+
+	    </ul>
+	</td>
+    </tr>
+
+<%
+	}
+%>
+
     <tr>
 	<td>
 	    <br />
