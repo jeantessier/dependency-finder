@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-101" endDate="'2003-11-29 11:31:19'" >
+<tagdiff startTag="release-101" endDate="'2003-12-07 12:27:58'" >
+	<entry>
+		<file>
+			<name>build.xml</name>
+			<revision>1.41</revision>
+			<prevrevision>1.40</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/Instruction.java</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
 </tagdiff>
