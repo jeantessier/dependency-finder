@@ -656,7 +656,7 @@ Takes a compiled Java <i>.class</i> file and writes out its structure.
     ClassReader
     	[-dtd-prefix uri]
     	[-help]
-    	[-indent-text value]
+    	[-indent-text text]
     	[-out filename]
     	[-raw]
     	[-time]
@@ -716,8 +716,8 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 
 </blockquote>
 
-<a name="-indent-textvalue" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttext" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -1544,7 +1544,7 @@ See <code>-out</code> above.
     	-class-scope
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	[-excludes value]*
     	-f2f
     	-feature-filter
@@ -1557,7 +1557,7 @@ See <code>-out</code> above.
     	[-filter-includes value]*
     	-help
     	[-includes value]*
-    	-indent-text value
+    	-indent-text text
     	-maximum-inbound-depth [value]
     	-maximum-outbound-depth [value]
     	-out value
@@ -1707,15 +1707,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalue" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -1876,8 +1876,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -2178,9 +2178,9 @@ See <code>-out</code> above.
 
 <pre>
     DependencyExtractor
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	-help
-    	-indent-text value
+    	-indent-text text
     	-maximize
     	-minimize
     	-out value
@@ -2204,15 +2204,15 @@ See <code>-out</code> above.
 
 <blockquote>
 
-<a name="-dtd-prefixvalueX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>com.jeantessier.dependency.XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -2230,8 +2230,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -2415,9 +2415,9 @@ See <code>-out</code> above.
 
 <pre>
     DependencyFinder
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	-help
-    	-indent-text value
+    	-indent-text text
     	-maximize
     	-minimize
     	-trace [filename]
@@ -2436,15 +2436,15 @@ See <code>-out</code> above.
 
 <blockquote>
 
-<a name="-dtd-prefixvalueXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>com.jeantessier.dependency.XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -2462,8 +2462,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -3360,7 +3360,7 @@ See <code>-out</code> above.
     	-class-scope
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	[-excludes value]*
     	-f2f
     	-feature-filter
@@ -3373,7 +3373,7 @@ See <code>-out</code> above.
     	[-filter-includes value]*
     	-help
     	[-includes value]*
-    	-indent-text value
+    	-indent-text text
     	-maximize
     	-minimize
     	-out value
@@ -3524,15 +3524,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -3693,8 +3693,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -4338,9 +4338,9 @@ See <code>-out</code> above.
 
 <pre>
     JarJarDiff
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	-help
-    	-indent-text value
+    	-indent-text text
     	-name value
     	[-new value]*
     	-new-documentation value
@@ -4366,15 +4366,15 @@ See <code>-out</code> above.
 
 <blockquote>
 
-<a name="-dtd-prefixvalueXXXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>Report.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -4392,8 +4392,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -5044,9 +5044,9 @@ See <code>-out</code> above.
 <pre>
     ListDiff
     	-compress
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	-help
-    	-indent-text value
+    	-indent-text text
     	-name value
     	-new value
     	-new-label value
@@ -5083,15 +5083,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXXXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>ListDiffPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -5109,8 +5109,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXXXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXXXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -5820,11 +5820,11 @@ See <code>-out</code> above.
     	-csv
     	-default-configuration value
     	-dispose value
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	-expand
     	-groups
     	-help
-    	-indent-text value
+    	-indent-text text
     	-methods
     	-out value
     	-project
@@ -5929,15 +5929,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXXXXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>com.jeantessier.metrics.XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -5981,8 +5981,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXXXXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXXXXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -6587,7 +6587,7 @@ See <code>-out</code> above.
     	-class-scope
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	[-excludes value]*
     	-f2f
     	-feature-filter
@@ -6600,7 +6600,7 @@ See <code>-out</code> above.
     	[-filter-includes value]*
     	-help
     	[-includes value]*
-    	-indent-text value
+    	-indent-text text
     	-maximize
     	-minimize
     	-out value
@@ -6751,15 +6751,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXXXXXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -6920,8 +6920,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXXXXXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXXXXXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -7244,7 +7244,7 @@ See <code>-out</code> above.
     	-class-scope
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	[-excludes value]*
     	-f2f
     	-feature-filter
@@ -7257,7 +7257,7 @@ See <code>-out</code> above.
     	[-filter-includes value]*
     	-help
     	[-includes value]*
-    	-indent-text value
+    	-indent-text text
     	-maximize
     	-minimize
     	-out value
@@ -7408,15 +7408,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXXXXXXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -7577,8 +7577,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXXXXXXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXXXXXXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -7901,7 +7901,7 @@ See <code>-out</code> above.
     	-class-scope
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	[-excludes value]*
     	-f2f
     	-feature-filter
@@ -7914,7 +7914,7 @@ See <code>-out</code> above.
     	[-filter-includes value]*
     	-help
     	[-includes value]*
-    	-indent-text value
+    	-indent-text text
     	-maximize
     	-minimize
     	-out value
@@ -8065,15 +8065,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXXXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXXXXXXXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -8234,8 +8234,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXXXXXXXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXXXXXXXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
@@ -8558,7 +8558,7 @@ See <code>-out</code> above.
     	-class-scope
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
-    	-dtd-prefix value
+    	-dtd-prefix uri
     	[-excludes value]*
     	-f2f
     	-feature-filter
@@ -8571,7 +8571,7 @@ See <code>-out</code> above.
     	[-filter-includes value]*
     	-help
     	[-includes value]*
-    	-indent-text value
+    	-indent-text text
     	-maximize
     	-minimize
     	-out value
@@ -8722,15 +8722,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXXXXX" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuriXXXXXXXXXXX" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -8891,8 +8891,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-indent-textvalueXXXXXXXXXXX" />
-<h4><code>-indent-text value</code></h4>
+<a name="-indent-texttextXXXXXXXXXXX" />
+<h4><code>-indent-text text</code></h4>
 
 <blockquote>
 
