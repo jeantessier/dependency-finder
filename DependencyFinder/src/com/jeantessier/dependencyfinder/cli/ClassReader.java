@@ -62,6 +62,7 @@ public class ClassReader {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new AtLeastParameterStrategy(1));
 		command_line.AddToggleSwitch("raw");
+		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
@@ -149,7 +150,9 @@ public class ClassReader {
 			Classfile classfile = (Classfile) j.next();
 			
 			Printer printer;
-			if (command_line.ToggleSwitch("raw")) {
+			if (command_line.ToggleSwitch("xml")) {
+				printer = new XMLPrinter();
+			} else if (command_line.ToggleSwitch("raw")) {
 				printer = new UglyPrinter();
 			} else {
 				printer = new PrettyPrinter();

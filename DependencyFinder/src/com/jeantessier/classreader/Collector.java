@@ -34,6 +34,6 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public interface Collector extends Visitor {
+public interface Collector extends Visitor, LoadListener {
     public Collection Collection();
 }

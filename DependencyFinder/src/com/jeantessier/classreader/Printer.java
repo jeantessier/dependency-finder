@@ -33,18 +33,16 @@
 package com.jeantessier.classreader;
 
 public abstract class Printer extends VisitorBase {
-    private StringBuffer buffer;
+    private StringBuffer buffer       = new StringBuffer();
+	private String       indent_text;
+	private int          indent_level = 0;
 
 	public Printer() {
-		this(new StringBuffer());
+		this("    ");
 	}
 
-	public Printer(String header) {
-		this(new StringBuffer(header));
-	}
-
-	public Printer(StringBuffer buffer) {
-		this.buffer = buffer;
+	public Printer(String indent_text) {
+		this.indent_text = indent_text;
 	}
 	
     protected Printer Append(boolean b) {
@@ -96,6 +94,22 @@ public abstract class Printer extends VisitorBase {
 		buffer.append(str);
 		return this;
     }
+
+	protected Printer Indent() {
+		for (int i=0; i<indent_level; i++) {
+			Append(indent_text);
+		}
+
+		return this;
+	}
+
+	protected void RaiseIndent() {
+		indent_level++;
+	}
+
+	protected void LowerIndent() {
+		indent_level--;
+	}
 
     public String toString() {
 		return buffer.toString();

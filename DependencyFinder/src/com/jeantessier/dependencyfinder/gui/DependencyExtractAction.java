@@ -70,20 +70,22 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	public void run() {
 		Date start = new Date();
 		
-		loader = new AggregatingClassfileLoader();
+		loader = new TransientClassfileLoader();
 		loader.addLoadListener(this);
 		
-		for (int i=0; i<files.length; i++) {
-			Extract(files[i]);
-		}
-
 		if (model.NodeFactory() == null && model.Collector() == null) {
 			NodeFactory factory = new NodeFactory();
 			CodeDependencyCollector collector = new CodeDependencyCollector(factory);
 			collector.addDependencyListener(this);
-			
+
 			model.NodeFactory(factory);
 			model.Collector(collector);
+		}
+
+		loader.addLoadListener(model.Collector());
+			
+		for (int i=0; i<files.length; i++) {
+			Extract(files[i]);
 		}
 
 		Iterator i = loader.Classfiles().iterator();

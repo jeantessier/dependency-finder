@@ -110,8 +110,12 @@ public class ConstantPool extends ArrayList implements Visitable {
     }
 
 	public String toString() {
-		Printer printer = new UglyPrinter("Constant Pool:\n");
+		StringBuffer result = new StringBuffer("Constant Pool:\n");
+		
+		Printer printer = new UglyPrinter();
 		Accept(printer);
-		return printer.toString();
+		result.append(printer);
+
+		return result.toString();
 	}		
 }

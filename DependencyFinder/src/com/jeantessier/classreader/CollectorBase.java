@@ -56,4 +56,20 @@ public abstract class CollectorBase extends VisitorBase implements Collector {
     public Collection Collection() {
 		return collection;
     }
+
+	public void LoadStart(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void LoadElement(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void LoadedClassfile(LoadEvent event) {
+		event.Classfile().Accept(this);
+	}
+	
+	public void LoadStop(LoadEvent event) {
+		// Do nothing
+	}
 }

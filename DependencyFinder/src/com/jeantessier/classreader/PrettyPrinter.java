@@ -41,14 +41,10 @@ public class PrettyPrinter extends Printer {
 		super();
 	}
 
-	public PrettyPrinter(String header) {
-		super(header);
+	public PrettyPrinter(String indent_text) {
+		super(indent_text);
 	}
 
-	public PrettyPrinter(StringBuffer buffer) {
-		super(buffer);
-	}
-    
 	public void VisitClassfile(Classfile classfile) {
 		classfile.ConstantPool().Accept(this);
 
