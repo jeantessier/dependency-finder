@@ -802,6 +802,18 @@
 	    <class>com.jeantessier.metrics.AccumulatorMeasurement</class>
 	    <upper-threshold>10</upper-threshold>
 	</measurement>
+	<measurement>
+	    <short-name>IIPM</short-name>
+	    <long-name>Inbound Intra-Package Method Dependencies</long-name>
+	    <class>com.jeantessier.metrics.AccumulatorMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
+	<measurement>
+	    <short-name>IEPM</short-name>
+	    <long-name>Inbound Extra-Package Method Dependencies</long-name>
+	    <class>com.jeantessier.metrics.AccumulatorMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
     </class-measurements>
     <method-measurements>
 	<measurement>
