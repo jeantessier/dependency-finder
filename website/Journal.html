@@ -18,6 +18,53 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	April 05, 2005
+    </dt>
+    <dd>
+	<p>Checked in fix for case where group is a single <code>.class</code>
+	file.</p>
+    </dd>
+    <dt>
+	April 04, 2005
+    </dt>
+    <dd>
+	<p>Fixed the <code>ClassfileLoaderEventSource</code> to record the
+	first dispatch call and use it when dealing with a group of a single
+	<code>.class</code> file.</p>
+    </dd>
+    <dt>
+	April 03, 2005
+    </dt>
+    <dd>
+	<p>Wrote a sequence diagram of what happens when you call
+	<code>ClassfileLoader.load()</code>.  This will help me figure out
+	how to handle the case where processing a group consisting of a single
+	<code>.class</code> file.</p>
+
+	<img src="images/ClassfileLoader.load.jpg" />
+    </dd>
+    <dt>
+	April 02, 2005
+    </dt>
+    <dd>
+	<p>Wrote a unit test to replicate the problem with groups of a single
+	<code>.class</code> file.</p>
+    </dd>
+    <dt>
+	March 31, 2005
+    </dt>
+    <dd>
+	<p>Found a problem when analyzing individual <code>.class</code> files.
+	For some reason, the GUI keeps on skipping them.  It turns out the
+	dispatcher gets called twice: once when initiating the group processing
+	and a second time to deal with the file as part of the group.  The
+	GUI uses a <code>ModifiedOnlyDispatcher</code>, which instructs the
+	<code>ClassfileLoader</code> to ignore the file after the first time,
+	so the file is never read.  The intricate collaboration between the
+	various <code>ClassfileLoader</code> subclasses will make this hard to
+	figure out.</p>
+    </dd>
+    <dt>
 	March 27, 2005
     </dt>
     <dd>
