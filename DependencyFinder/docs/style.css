@@ -43,3 +43,15 @@ dl dd {
 body {
 	background: white;
 }
+
+a {
+	text-decoration: none;
+}
+
+a:visited {
+	color: blue;
+}
+
+a:hover {
+	text-decoration: underline;
+}
