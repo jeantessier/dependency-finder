@@ -17,6 +17,18 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 26, 2004
+    </dt>
+    <dd>
+	<p>Yesterday, I forgot to refactor the JSPs to use the new
+	<code>SelectionCriteria</code> instead of the previous
+	<code>SelectiveTraversalStrategy</code> directly.  Of course, the Ant
+	task for compiling JSPs using Jasper has changed between Tomcat 4.1.27
+	and Tomcat 5.0.16, so I had to spend a fair amount of time getting my
+	custom Ant build script up to stuff.  After that, upgrading the JSPs
+	was pretty easy.</p>
+    </dd>
+    <dt>
 	January 25, 2004
     </dt>
     <dd>
@@ -34,6 +46,15 @@
 	<code>SelectionCriteria</code> to determine both scope and filter.
 	This is getting to be quite an undertaking, but it will help the new
 	closure logic figure out starting nodes and stoping conditions.</p>
+    </dd>
+    <dt>
+	January 21, 2004
+    </dt>
+    <dd>
+	<p>Tried the web application with Tomcat 5.0.  Someone claimed they had
+	trouble deploying Dependency Finder with it.  I'm afraid this is going
+	to turn into one of those nasty "<i>It works fine on my machine</i>" as
+	I was unable to reproduce their problem.</p>
     </dd>
     <dt>
 	January 19, 2004
@@ -387,6 +408,13 @@
 		<td>1.4.1</td>
 	        <td>-></td>
 		<td>1.4.2_03</td>
+	    </tr>
+	    <tr>
+	        <td>Tomcat</td>
+	        <td>:</td>
+		<td>4.1.27-LE-jdk14</td>
+	        <td>-></td>
+		<td>5.0.16</td>
 	    </tr>
 	</table>
 	</blockquote>
@@ -1004,6 +1032,8 @@
 	still part of your supported API until it is completely removed.  As
 	such, its modifications should still be listed since users of the
 	library are likely to still be using the class.</p>
+
+	<p>Upgraded my testing environment from Tomcat 4.1.24 to 4.1.27.</p>
     </dd>
     <dt>
 	September 09, 2003
