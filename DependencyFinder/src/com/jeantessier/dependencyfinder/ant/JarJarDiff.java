@@ -176,13 +176,13 @@ public class JarJarDiff extends Task {
 			Validator old_validator = new ListBasedValidator(getOlddocumentation());
 			ClassfileLoader old_jar = new AggregatingClassfileLoader();
 			old_jar.addLoadListener(verbose_listener);
-			old_jar.Load(Arrays.asList(getOld().list()));
+			old_jar.load(Arrays.asList(getOld().list()));
 			
 			log("Loading new classes from path " + getNew());
 			Validator new_validator = new ListBasedValidator(getNewdocumentation());
 			ClassfileLoader new_jar = new AggregatingClassfileLoader();
 			new_jar.addLoadListener(verbose_listener);
-			new_jar.Load(Arrays.asList(getNew().list()));
+			new_jar.load(Arrays.asList(getNew().list()));
 			
 			// Starting to compare, first at package level,
 			// then descending to class level for packages

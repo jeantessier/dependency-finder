@@ -41,7 +41,7 @@ public abstract class Attribute_info implements Visitable {
 		Owner(owner);
 	}
 
-	public Classfile Classfile() {
+	public Classfile getClassfile() {
 		return classfile;
 	}
 

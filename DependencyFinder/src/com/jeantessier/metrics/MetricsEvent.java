@@ -55,11 +55,11 @@ public class MetricsEvent extends EventObject {
 	}
 		
 	public MetricsEvent(Object source, Method_info method) {
-		this(source, method.Classfile(), method, null, 0);
+		this(source, method.getClassfile(), method, null, 0);
 	}
 		
 	public MetricsEvent(Object source, Method_info method, Metrics metrics) {
-		this(source, method.Classfile(), method, metrics, 0);
+		this(source, method.getClassfile(), method, metrics, 0);
 	}
 	
 	public MetricsEvent(Object source, int size) {

@@ -43,15 +43,15 @@ public class UTF8_info extends ConstantPoolEntry {
 		value = in.readUTF();
 	}
 
-	public String Value() {
+	public String getValue() {
 		return value;
 	}
 
 	public String toString() {
-		return Value();
+		return getValue();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitUTF8_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitUTF8_info(this);
 	}
 }

@@ -42,7 +42,7 @@ public class MetricsVerboseListener extends VerboseListener implements MetricsLi
 		super(status_line, progress_bar);
 	}
 
-	public void EndSession(LoadEvent event) {
+	public void endSession(LoadEvent event) {
 		// Do nothing
 	}
 

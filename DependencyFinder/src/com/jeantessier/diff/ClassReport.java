@@ -543,20 +543,20 @@ public class ClassReport extends Printer implements Comparable {
 		StringBuffer result = new StringBuffer();
 
 		if (element != null) {
-			if (element.IsPublic())     result.append(" visibility=\"public\"");
-			if (element.IsPackage())    result.append(" visibility=\"package\"");
-			if (element.IsFinal())      result.append(" final=\"yes\"");
-			if (element.IsSuper())      result.append(" super=\"yes\"");
-			if (element.IsSynthetic())  result.append(" synthetic=\"yes\"");
-			if (element.IsDeprecated()) result.append(" deprecated=\"yes\"");
+			if (element.isPublic())     result.append(" visibility=\"public\"");
+			if (element.isPackage())    result.append(" visibility=\"package\"");
+			if (element.isFinal())      result.append(" final=\"yes\"");
+			if (element.isSuper())      result.append(" super=\"yes\"");
+			if (element.isSynthetic())  result.append(" synthetic=\"yes\"");
+			if (element.isDeprecated()) result.append(" deprecated=\"yes\"");
 
-			result.append(" name=\"").append(element.Class()).append("\"");
+			result.append(" name=\"").append(element.getClassName()).append("\"");
 
-			if (element.IsInterface()) {
+			if (element.isInterface()) {
 				result.append(" interface=\"yes\"");
 		
 				result.append(" extends=\"");
-				Iterator i = element.Interfaces().iterator();
+				Iterator i = element.getAllInterfaces().iterator();
 				while (i.hasNext()) {
 					result.append(i.next());
 					if (i.hasNext()) {
@@ -565,12 +565,12 @@ public class ClassReport extends Printer implements Comparable {
 				}
 				result.append("\"");
 			} else {
-				if (element.IsAbstract()) result.append(" abstract=\"yes\"");
+				if (element.isAbstract()) result.append(" abstract=\"yes\"");
 		
-				result.append(" extends=\"").append(element.Superclass()).append("\"");
+				result.append(" extends=\"").append(element.getSuperclassName()).append("\"");
 		
 				result.append(" implements=\"");
-				Iterator i = element.Interfaces().iterator();
+				Iterator i = element.getAllInterfaces().iterator();
 				while (i.hasNext()) {
 					result.append(i.next());
 					if (i.hasNext()) {
@@ -588,21 +588,21 @@ public class ClassReport extends Printer implements Comparable {
 		StringBuffer result = new StringBuffer();
 
 		if (element != null) {
-			if (element.IsPublic())     result.append(" visibility=\"public\"");
-			if (element.IsProtected())  result.append(" visibility=\"protected\"");
-			if (element.IsPackage())    result.append(" visibility=\"package\"");
-			if (element.IsPrivate())    result.append(" visibility=\"private\"");
-			if (element.IsStatic())     result.append(" static=\"yes\"");
-			if (element.IsFinal())      result.append(" final=\"yes\"");
-			if (element.IsVolatile())   result.append(" volatile=\"yes\"");
-			if (element.IsTransient())  result.append(" transient=\"yes\"");
-			if (element.IsSynthetic())  result.append(" synthetic=\"yes\"");
-			if (element.IsDeprecated()) result.append(" deprecated=\"yes\"");
+			if (element.isPublic())     result.append(" visibility=\"public\"");
+			if (element.isProtected())  result.append(" visibility=\"protected\"");
+			if (element.isPackage())    result.append(" visibility=\"package\"");
+			if (element.isPrivate())    result.append(" visibility=\"private\"");
+			if (element.isStatic())     result.append(" static=\"yes\"");
+			if (element.isFinal())      result.append(" final=\"yes\"");
+			if (element.isVolatile())   result.append(" volatile=\"yes\"");
+			if (element.isTransient())  result.append(" transient=\"yes\"");
+			if (element.isSynthetic())  result.append(" synthetic=\"yes\"");
+			if (element.isDeprecated()) result.append(" deprecated=\"yes\"");
 
-			result.append(" type=\"").append(element.Type()).append("\"");
-			result.append(" name=\"").append(element.Name()).append("\"");
-			result.append(" signature=\"").append(element.Signature()).append("\"");
-			result.append(" full-signature=\"").append(element.FullSignature()).append("\"");
+			result.append(" type=\"").append(element.getType()).append("\"");
+			result.append(" name=\"").append(element.getName()).append("\"");
+			result.append(" signature=\"").append(element.getSignature()).append("\"");
+			result.append(" full-signature=\"").append(element.getFullSignature()).append("\"");
 		}
 
 		return result.toString();
@@ -612,28 +612,28 @@ public class ClassReport extends Printer implements Comparable {
 		StringBuffer result = new StringBuffer();
 
 		if (element != null) {
-			if (element.IsPublic())       result.append(" visibility=\"public\"");
-			if (element.IsProtected())    result.append(" visibility=\"protected\"");
-			if (element.IsPackage())      result.append(" visibility=\"package\"");
-			if (element.IsPrivate())      result.append(" visibility=\"private\"");
-			if (element.IsStatic())       result.append(" static=\"yes\"");
-			if (element.IsFinal())        result.append(" final=\"yes\"");
-			if (element.IsSynchronized()) result.append(" synchronized=\"yes\"");
-			if (element.IsNative())       result.append(" native=\"yes\"");
-			if (element.IsAbstract())     result.append(" abstract=\"yes\"");
-			if (element.IsStrict())       result.append(" strict=\"yes\"");
-			if (element.IsSynthetic())    result.append(" synthetic=\"yes\"");
-			if (element.IsDeprecated())   result.append(" deprecated=\"yes\"");
+			if (element.isPublic())       result.append(" visibility=\"public\"");
+			if (element.isProtected())    result.append(" visibility=\"protected\"");
+			if (element.isPackage())      result.append(" visibility=\"package\"");
+			if (element.isPrivate())      result.append(" visibility=\"private\"");
+			if (element.isStatic())       result.append(" static=\"yes\"");
+			if (element.isFinal())        result.append(" final=\"yes\"");
+			if (element.isSynchronized()) result.append(" synchronized=\"yes\"");
+			if (element.isNative())       result.append(" native=\"yes\"");
+			if (element.isAbstract())     result.append(" abstract=\"yes\"");
+			if (element.isStrict())       result.append(" strict=\"yes\"");
+			if (element.isSynthetic())    result.append(" synthetic=\"yes\"");
+			if (element.isDeprecated())   result.append(" deprecated=\"yes\"");
 
-			if (!element.Name().equals("<init>") && !element.Name().equals("<clinit>")) {
-				result.append(" return-type=\"").append(element.ReturnType()).append("\"");
+			if (!element.getName().equals("<init>") && !element.getName().equals("<clinit>")) {
+				result.append(" return-type=\"").append(element.getReturnType()).append("\"");
 			}
 
-			result.append(" signature=\"").append(element.Signature()).append("\"");
-			result.append(" full-signature=\"").append(element.FullSignature()).append("\"");
+			result.append(" signature=\"").append(element.getSignature()).append("\"");
+			result.append(" full-signature=\"").append(element.getFullSignature()).append("\"");
 
 			result.append(" throws=\"");
-			Iterator i = element.Exceptions().iterator();
+			Iterator i = element.getExceptions().iterator();
 			while (i.hasNext()) {
 				result.append(i.next());
 				if (i.hasNext()) {

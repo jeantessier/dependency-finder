@@ -53,7 +53,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 	}
 
 	public void testLoadClassFile() throws IOException {
-		loader.Load(TEST_FILENAME);
+		loader.load(TEST_FILENAME);
 
 		assertEquals("Begin Session",   0, BeginSession().size());
 		assertEquals("Begin Group",     1, BeginGroup().size());
@@ -64,12 +64,12 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 		assertEquals("End Group",       1, EndGroup().size());
 		assertEquals("End Session",     0, EndSession().size());
 
-		assertEquals(TEST_FILENAME, ((LoadEvent) EndClassfile().getLast()).GroupName());
-		assertNotNull("Classfile", ((LoadEvent) EndClassfile().getLast()).Classfile());
+		assertEquals(TEST_FILENAME, ((LoadEvent) EndClassfile().getLast()).getGroupName());
+		assertNotNull("Classfile", ((LoadEvent) EndClassfile().getLast()).getClassfile());
 	}	
 
 	public void testLoadClassInputStream() throws IOException {
-		loader.Load(TEST_FILENAME, new FileInputStream(TEST_FILENAME));
+		loader.load(TEST_FILENAME, new FileInputStream(TEST_FILENAME));
 
 		assertEquals("Begin Session",   0, BeginSession().size());
 		assertEquals("Begin Group",     0, BeginGroup().size());
@@ -82,7 +82,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 	}	
 
 	public void testLoadBogusFile() throws IOException {
-		loader.Load(BOGUS_TEST_FILENAME);
+		loader.load(BOGUS_TEST_FILENAME);
 
 		assertEquals("Begin Session",   0, BeginSession().size());
 		assertEquals("Begin Group",     1, BeginGroup().size());
@@ -95,7 +95,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 	}	
 
 	public void testLoadBogusInputStream() throws IOException {
-		loader.Load(BOGUS_TEST_FILENAME, new FileInputStream(TEST_FILENAME));
+		loader.load(BOGUS_TEST_FILENAME, new FileInputStream(TEST_FILENAME));
 
 		assertEquals("Begin Session",   0, BeginSession().size());
 		assertEquals("Begin Group",     0, BeginGroup().size());
@@ -108,7 +108,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 	}	
 
 	public void testLoadDirectory() throws IOException {
-		loader.Load(TEST_DIRNAME);
+		loader.load(TEST_DIRNAME);
 
 		assertEquals("Begin Session",   0, BeginSession().size());
 		assertEquals("Begin Group",     1, BeginGroup().size());
@@ -121,8 +121,8 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
 	}	
 	
 	public void testMultipleDirectories() throws IOException {
-		loader.Load(TEST_DIRNAME);
-		loader.Load(OTHER_DIRNAME);
+		loader.load(TEST_DIRNAME);
+		loader.load(OTHER_DIRNAME);
 
 		assertEquals("Begin Session",    0, BeginSession().size());
 		assertEquals("Begin Group",      2, BeginGroup().size());

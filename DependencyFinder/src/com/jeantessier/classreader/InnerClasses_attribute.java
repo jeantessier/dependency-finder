@@ -43,8 +43,8 @@ public class InnerClasses_attribute extends Attribute_info {
 	public InnerClasses_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
-		int byte_count = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
+		int byteCount = in.readInt();
+		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
 		int class_count = in.readUnsignedShort();
 		Logger.getLogger(getClass()).debug("Reading " + class_count + " inner class(es) ...");
@@ -54,7 +54,7 @@ public class InnerClasses_attribute extends Attribute_info {
 		}
 	}
 
-	public Collection Classes() {
+	public Collection getClasses() {
 		return classes;
 	}
 
@@ -62,7 +62,7 @@ public class InnerClasses_attribute extends Attribute_info {
 		return "InnerClasses";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitInnerClasses_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitInnerClasses_attribute(this);
 	}
 }

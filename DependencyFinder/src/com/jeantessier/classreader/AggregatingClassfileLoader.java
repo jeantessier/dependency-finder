@@ -46,22 +46,22 @@ public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
 		super(dispatcher);
 	}
 
-	public Classfile Classfile(String name) {
+	public Classfile getClassfile(String name) {
 		return (Classfile) classfiles.get(name);
 	}
 
-	public Collection Classfiles() {
+	public Collection getAllClassfiles() {
 		return Collections.unmodifiableCollection(classfiles.values());
 	}
 
-	public Collection Classnames() {
+	public Collection getAllClassNames() {
 		return Collections.unmodifiableCollection(classfiles.keySet());
 	}
 
-	protected Classfile Load(DataInputStream in) throws IOException {
+	protected Classfile load(DataInputStream in) throws IOException {
 		Classfile result = new Classfile(this, in);
 
-		classfiles.put(result.Class(), result);
+		classfiles.put(result.getClassName(), result);
 
 		return result;
 	}

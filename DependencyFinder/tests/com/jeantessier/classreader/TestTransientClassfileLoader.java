@@ -57,24 +57,24 @@ public class TestTransientClassfileLoader extends TestCase {
 	public void testCreate() {
 		assertEquals("Different number of class names",
 					 0,
-					 loader.Classnames().size());
+					 loader.getAllClassNames().size());
 		assertNull(TEST_CLASS + " should have been null",
-				   loader.Classfile(TEST_CLASS));
+				   loader.getClassfile(TEST_CLASS));
 	}
 	
 	public void testStart() throws IOException {
 		assertEquals("Different number of class names",
 					 0,
-					 loader.Classnames().size());
+					 loader.getAllClassNames().size());
 		assertNull(TEST_CLASS + " should have been null",
-				   loader.Classfile(TEST_CLASS));
+				   loader.getClassfile(TEST_CLASS));
 
-		loader.Load(new DataInputStream(new FileInputStream(TEST_FILENAME)));
+		loader.load(new DataInputStream(new FileInputStream(TEST_FILENAME)));
 		
 		assertEquals("Different number of class names",
 					 0,
-					 loader.Classnames().size());
+					 loader.getAllClassNames().size());
 		assertNull(TEST_CLASS + " should have remained null",
-				   loader.Classfile(TEST_CLASS));
+				   loader.getClassfile(TEST_CLASS));
 	}
 }

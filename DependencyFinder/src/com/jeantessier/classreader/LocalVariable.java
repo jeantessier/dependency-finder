@@ -57,7 +57,7 @@ public class LocalVariable implements Visitable {
 		Logger.getLogger(getClass()).debug("name: " + name_index + " (" + Name() + ")");
 
 		descriptor_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("descriptor: " + descriptor_index + " (" + Descriptor() + ")");
+		Logger.getLogger(getClass()).debug("descriptor: " + descriptor_index + " (" + getDescriptor() + ")");
 
 		index = in.readUnsignedShort();
 		Logger.getLogger(getClass()).debug("index: " + index);
@@ -71,11 +71,11 @@ public class LocalVariable implements Visitable {
 		this.local_variable_table = local_variable_table;
 	}
 
-	public int StartPC() {
+	public int getStartPC() {
 		return start_pc;
 	}
 
-	public int Length() {
+	public int getLength() {
 		return length;
 	}
 
@@ -83,12 +83,12 @@ public class LocalVariable implements Visitable {
 		return name_index;
 	}
 
-	public UTF8_info RawName() {
-		return (UTF8_info) LocalVariableTable().Classfile().ConstantPool().get(name_index);
+	public UTF8_info getRawName() {
+		return (UTF8_info) LocalVariableTable().getClassfile().getConstantPool().get(name_index);
 	}
 
 	public String Name() {
-		return RawName().toString();
+		return getRawName().toString();
 	}
 
 	public int DescriptorIndex() {
@@ -96,10 +96,10 @@ public class LocalVariable implements Visitable {
 	}
 
 	public UTF8_info RawDescriptor() {
-		return (UTF8_info) LocalVariableTable().Classfile().ConstantPool().get(descriptor_index);
+		return (UTF8_info) LocalVariableTable().getClassfile().getConstantPool().get(descriptor_index);
 	}
 
-	public String Descriptor() {
+	public String getDescriptor() {
 		return RawDescriptor().toString();
 	}
 
@@ -108,10 +108,10 @@ public class LocalVariable implements Visitable {
 	}
 
 	public String toString() {
-		return "Local variable " + Descriptor() + " " + Name();
+		return "Local variable " + getDescriptor() + " " + Name();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitLocalVariable(this);
+	public void accept(Visitor visitor) {
+		visitor.visitLocalVariable(this);
 	}
 }

@@ -65,7 +65,7 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 
 		model.StatusLine().ShowInfo("Scanning ...");
 		ClassfileScanner scanner = new ClassfileScanner();
-		scanner.Load(Collections.singleton(model.InputFile()));
+		scanner.load(Collections.singleton(model.InputFile()));
 
 		model.ProgressBar().setMaximum(scanner.NbFiles());
 
@@ -75,7 +75,7 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(new VerboseListener(model.StatusLine(), model.ProgressBar()));
 		loader.addLoadListener(collector);
-		loader.Load(Collections.singleton(model.InputFile()));
+		loader.load(Collections.singleton(model.InputFile()));
 
 		if (model.Maximize()) {
 			model.StatusLine().ShowInfo("Maximizing ...");

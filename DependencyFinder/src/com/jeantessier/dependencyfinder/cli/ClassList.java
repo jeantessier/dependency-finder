@@ -145,9 +145,9 @@ public class ClassList {
 			
 			ClassfileLoader loader = new AggregatingClassfileLoader();
 			loader.addLoadListener(verbose_listener);
-			loader.Load(Collections.singleton(filename));
+			loader.load(Collections.singleton(filename));
 
-			Iterator j = loader.Classfiles().iterator();
+			Iterator j = loader.getAllClassfiles().iterator();
 			while (j.hasNext()) {
 				out.println(j.next());
 			}

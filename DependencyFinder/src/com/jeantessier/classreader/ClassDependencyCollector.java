@@ -35,167 +35,167 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class ClassDependencyCollector extends CollectorBase {
-	private Class_info this_class;
-	private boolean    top        = true;
+	private Class_info thisClass;
+	private boolean    top       = true;
 
-	public void VisitClassfile(Classfile classfile) {
-		this_class = classfile.RawClass();
+	public void visitClassfile(Classfile classfile) {
+		thisClass = classfile.getRawClass();
 
-		classfile.ConstantPool().Accept(this);
+		classfile.getConstantPool().accept(this);
 
-		classfile.RawSuperclass().Accept(this);
+		classfile.getRawSuperclass().accept(this);
 
 		Iterator i;
 
-		i = classfile.Interfaces().iterator();
+		i = classfile.getAllInterfaces().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		i = classfile.Fields().iterator();
+		i = classfile.getAllFields().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		i = classfile.Methods().iterator();
+		i = classfile.getAllMethods().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	public void VisitClass_info(Class_info entry) {
-		String classname = entry.Name();
+	public void visitClass_info(Class_info entry) {
+		String classname = entry.getName();
 	
-		if (entry != this_class) {
+		if (entry != thisClass) {
 			if (classname.startsWith("[") ) {
 				top = false;
-				entry.RawName().Accept(this);
+				entry.getRawName().accept(this);
 				top = true;
 			} else {
-				Add(classname);
+				add(classname);
 			}
 		}
 	}
 
-	public void VisitFieldRef_info(FieldRef_info entry) {
+	public void visitFieldRef_info(FieldRef_info entry) {
 		if (top) {
-			if (entry.RawClass() == this_class) {
+			if (entry.getRawClass() == thisClass) {
 				top = false;
-				entry.RawNameAndType().Accept(this);
+				entry.getRawNameAndType().accept(this);
 				top = true;
 			}
 		} else {
-			entry.RawNameAndType().Accept(this);
+			entry.getRawNameAndType().accept(this);
 		}
 	}
 
-	public void VisitMethodRef_info(MethodRef_info entry) {
+	public void visitMethodRef_info(MethodRef_info entry) {
 		if (top) {
-			if (entry.RawClass() == this_class) {
+			if (entry.getRawClass() == thisClass) {
 				top = false;
-				entry.RawNameAndType().Accept(this);
+				entry.getRawNameAndType().accept(this);
 				top = true;
 			}
 		} else {
-			entry.RawNameAndType().Accept(this);
+			entry.getRawNameAndType().accept(this);
 		}
 	}
 
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		if (top) {
-			if (entry.RawClass() == this_class) {
+			if (entry.getRawClass() == thisClass) {
 				top = false;
-				entry.RawNameAndType().Accept(this);
+				entry.getRawNameAndType().accept(this);
 				top = true;
 			}
 		} else {
-			entry.RawNameAndType().Accept(this);
+			entry.getRawNameAndType().accept(this);
 		}
 	}
 
-	public void VisitString_info(String_info entry) {
+	public void visitString_info(String_info entry) {
 		if (!top) {
-			entry.RawValue().Accept(this);
+			entry.getRawValue().accept(this);
 		}
 	}
 
-	public void VisitNameAndType_info(NameAndType_info entry) {
+	public void visitNameAndType_info(NameAndType_info entry) {
 		if (!top) {
-			entry.RawType().Accept(this);
+			entry.getRawType().accept(this);
 		}
 	}
 
-	public void VisitUTF8_info(UTF8_info entry) {
+	public void visitUTF8_info(UTF8_info entry) {
 		if (!top) {
-			ProcessSignature(entry.Value());
+			processSignature(entry.getValue());
 		}
 	}
 
-	public void VisitField_info(Field_info entry) {
-		ProcessSignature(entry.Descriptor());
+	public void visitField_info(Field_info entry) {
+		processSignature(entry.getDescriptor());
 	
-		super.VisitField_info(entry);
+		super.visitField_info(entry);
 	}
 
-	public void VisitMethod_info(Method_info entry) {
-		ProcessSignature(entry.Descriptor());
+	public void visitMethod_info(Method_info entry) {
+		processSignature(entry.getDescriptor());
 	
-		super.VisitMethod_info(entry);
+		super.visitMethod_info(entry);
 	}
 
-	public void VisitCode_attribute(Code_attribute attribute) {
-		Iterator i = attribute.Attributes().iterator();
+	public void visitCode_attribute(Code_attribute attribute) {
+		Iterator i = attribute.getAttributes().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
-		Iterator i = attribute.Exceptions().iterator();
+	public void visitExceptions_attribute(Exceptions_attribute attribute) {
+		Iterator i = attribute.getExceptions().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
-		Iterator i = attribute.Classes().iterator();
+	public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+		Iterator i = attribute.getClasses().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-		Iterator i = attribute.LineNumbers().iterator();
+	public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+		Iterator i = attribute.getLineNumbers().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-		Iterator i = attribute.LocalVariables().iterator();
+	public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+		Iterator i = attribute.getLocalVariables().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	public void VisitLocalVariable(LocalVariable helper) {
-		ProcessSignature(helper.Descriptor());
+	public void visitLocalVariable(LocalVariable helper) {
+		processSignature(helper.getDescriptor());
 	}
 
-	private void ProcessSignature(String str) {
-		int current_pos = 0;
-		int start_pos;
-		int end_pos;
+	private void processSignature(String str) {
+		int currentPos = 0;
+		int startPos;
+		int endPos;
 
-		while ((start_pos = str.indexOf('L', current_pos)) != -1) {
-			if ((end_pos = str.indexOf(';', start_pos)) != -1) {
-				String candidate = str.substring(start_pos + 1, end_pos);
-				if (!this_class.Name().equals(candidate)) {
-					Add(SignatureHelper.Path2ClassName(candidate));
+		while ((startPos = str.indexOf('L', currentPos)) != -1) {
+			if ((endPos = str.indexOf(';', startPos)) != -1) {
+				String candidate = str.substring(startPos + 1, endPos);
+				if (!thisClass.getName().equals(candidate)) {
+					add(SignatureHelper.path2ClassName(candidate));
 				}
-				current_pos = end_pos + 1;
+				currentPos = endPos + 1;
 			} else {
-				current_pos = start_pos + 1;
+				currentPos = startPos + 1;
 			}
 		}
 	}

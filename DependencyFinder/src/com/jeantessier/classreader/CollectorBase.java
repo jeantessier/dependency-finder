@@ -45,47 +45,47 @@ public abstract class CollectorBase extends VisitorBase implements Collector {
 		this.collection = collection;
 	}
 
-	protected void Add(Object obj) {
+	protected void add(Object obj) {
 		collection.add(obj);
 	}
 
-	protected void Remove(Object obj) {
+	protected void remove(Object obj) {
 		collection.remove(obj);
 	}
 
-	public Collection Collection() {
+	public Collection getCollection() {
 		return collection;
 	}
 
-	public void BeginSession(LoadEvent event) {
+	public void beginSession(LoadEvent event) {
 		// Do nothing
 	}
 
-	public void BeginGroup(LoadEvent event) {
+	public void beginGroup(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginFile(LoadEvent event) {
+	public void beginFile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginClassfile(LoadEvent event) {
+	public void beginClassfile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndClassfile(LoadEvent event) {
-		event.Classfile().Accept(this);
+	public void endClassfile(LoadEvent event) {
+		event.getClassfile().accept(this);
 	}
 	
-	public void EndFile(LoadEvent event) {
+	public void endFile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndGroup(LoadEvent event) {
+	public void endGroup(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndSession(LoadEvent event) {
+	public void endSession(LoadEvent event) {
 		// Do nothing
 	}
 }

@@ -42,7 +42,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 		super(loader);
 	}
 
-	protected void Load(String filename) {
+	protected void load(String filename) {
 		Logger.getLogger(getClass()).debug("Starting group from path " + filename);
 		
 		try {
@@ -64,7 +64,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 					// Errors with contents format will be handled and logged by Load().
 					try {
 						InputStream in = new FileInputStream(file);
-						Loader().Load(file.getPath(), in);
+						getLoader().load(file.getPath(), in);
 						in.close();
 					} catch (IOException ex) {
 						Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
@@ -80,7 +80,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 		}
 	}
 	
-	protected void Load(String filename, InputStream in) {
+	protected void load(String filename, InputStream in) {
 		// Do nothing
 	}
 }

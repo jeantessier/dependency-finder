@@ -45,7 +45,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 		super(loader);
 	}
 
-	protected void Load(String filename) {
+	protected void load(String filename) {
 		Logger.getLogger(getClass()).debug("Starting group in file " + filename);
 		
 		ZipFile zipfile = null;
@@ -55,7 +55,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 			fireBeginGroup(filename, zipfile.size());
 
 			Logger.getLogger(getClass()).debug("Loading ZipFile " + filename);
-			Load(zipfile);
+			load(zipfile);
 			Logger.getLogger(getClass()).debug("Loaded ZipFile " + filename);
 
 			fireEndGroup(filename);
@@ -72,7 +72,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 		}
 	}
 
-	protected void Load(String filename, InputStream in) {
+	protected void load(String filename, InputStream in) {
 		Logger.getLogger(getClass()).debug("Starting group in stream " + filename);
 		
 		ZipInputStream zipfile = null;
@@ -99,7 +99,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 		}
 	}
 
-	protected void Load(ZipFile zipfile) throws IOException {
+	protected void load(ZipFile zipfile) throws IOException {
 		Enumeration entries = zipfile.entries();
 		while(entries.hasMoreElements()) {
 			ZipEntry entry = (ZipEntry) entries.nextElement();
@@ -124,7 +124,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 			}
 			
 			Logger.getLogger(getClass()).debug("Passing up file " + entry.getName() + " (" + bytes.length + " bytes)");
-			Loader().Load(entry.getName(), new ByteArrayInputStream(bytes));
+			getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
 			
 			fireEndFile(entry.getName());
 		}
@@ -139,7 +139,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 			byte[] bytes = ReadBytes(in);
 			
 			Logger.getLogger(getClass()).debug("Passing up file " + entry.getName() + " (" + bytes.length + " bytes)");
-			Loader().Load(entry.getName(), new ByteArrayInputStream(bytes));
+			getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
 			
 			fireEndFile(entry.getName());
 		}
@@ -151,9 +151,9 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 		try {
 			ByteArrayOutputStream out        = new ByteArrayOutputStream();
 			byte[]                buffer     = new byte[BUFFER_SIZE];
-			int                   bytes_read = 0;
-			while ((bytes_read = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
-				out.write(buffer, 0, bytes_read);
+			int                   bytesRead = 0;
+			while ((bytesRead = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
+				out.write(buffer, 0, bytesRead);
 			}
 			out.close();
 				

@@ -42,63 +42,63 @@ public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
 		this.loader = loader;
 	}
 
-	protected ClassfileLoader Loader() {
+	protected ClassfileLoader getLoader() {
 		return loader;
 	}
 	
-	public Classfile Classfile(String name) {
-		return Loader().Classfile(name);
+	public Classfile getClassfile(String name) {
+		return getLoader().getClassfile(name);
 	}
 
-	public Collection Classfiles() {
-		return Loader().Classfiles();
+	public Collection getAllClassfiles() {
+		return getLoader().getAllClassfiles();
 	}
 
-	public Collection Classnames() {
-		return Loader().Classnames();
+	public Collection getAllClassNames() {
+		return getLoader().getAllClassNames();
 	}
 
 	public void addLoadListener(LoadListener listener) {
-		Loader().addLoadListener(listener);
+		getLoader().addLoadListener(listener);
 	}
 
 	public void removeLoadListener(LoadListener listener) {
-		Loader().removeLoadListener(listener);
+		getLoader().removeLoadListener(listener);
 	}
 
 	protected void fireBeginSession() {
-		Loader().fireBeginSession();
+		getLoader().fireBeginSession();
 	}
 	
-	protected void fireBeginGroup(String group_name, int size) {
-		Loader().fireBeginGroup(group_name, size);
+	protected void fireBeginGroup(String groupName, int size) {
+		getLoader().fireBeginGroup(groupName, size);
 	}
 	
 	protected void fireBeginFile(String filename) {
-		Loader().fireBeginFile(filename);
+		getLoader().fireBeginFile(filename);
 	}
 	
 	protected void fireBeginClassfile(String filename) {
-		Loader().fireBeginClassfile(filename);
+		getLoader().fireBeginClassfile(filename);
 	}
 	
 	protected void fireEndClassfile(String filename, Classfile classfile) {
-		Loader().fireEndClassfile(filename, classfile);
+		getLoader().fireEndClassfile(filename, classfile);
 	}
 	
 	protected void fireEndFile(String filename) {
-		Loader().fireEndFile(filename);
+		getLoader().fireEndFile(filename);
 	}
 	
-	protected void fireEndGroup(String group_name) {
-		Loader().fireEndGroup(group_name);
+	protected void fireEndGroup(String groupName) {
+		getLoader().fireEndGroup(groupName);
 	}
 
 	protected void fireEndSession() {
-		Loader().fireEndSession();
+		getLoader().fireEndSession();
 	}
 	
-	protected Classfile Load(DataInputStream in) throws IOException {
-		return Loader().Load(in);
+	protected Classfile load(DataInputStream in) throws IOException {
+		return getLoader().load(in);
 	}
 }

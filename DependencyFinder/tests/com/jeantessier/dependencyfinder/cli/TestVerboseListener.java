@@ -62,30 +62,30 @@ public class TestVerboseListener extends TestCase {
 	public void testLoadListener() {
 		AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
 		loader.addLoadListener(listener);
-		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.load(Collections.singleton(TEST_FILENAME));
 
 		assertTrue("Wrote nothing", writer.toString().length() > 0);
 	}
 	
 	public void testDependencyListener() {
 		AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
-		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.load(Collections.singleton(TEST_FILENAME));
 
 		CodeDependencyCollector collector = new CodeDependencyCollector();
 		collector.addDependencyListener(listener);
-		loader.Classfile(TEST_CLASS).Accept(collector);
+		loader.getClassfile(TEST_CLASS).accept(collector);
 
 		assertTrue("Wrote nothing", writer.toString().length() > 0);
 	}
 	
 	public void testMetricsListener() throws IOException, SAXException {
 		AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
-		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.load(Collections.singleton(TEST_FILENAME));
 
 		MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml"));
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("test", factory);
 		gatherer.addMetricsListener(listener);
-		loader.Classfile(TEST_CLASS).Accept(gatherer);
+		loader.getClassfile(TEST_CLASS).accept(gatherer);
 
 		assertTrue("Wrote nothing", writer.toString().length() > 0);
 	}

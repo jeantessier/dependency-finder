@@ -46,22 +46,22 @@ public class ConstantValue_attribute extends Attribute_info {
 		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		value_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Constant value: " + RawValue());
+		Logger.getLogger(getClass()).debug("Constant value: " + getRawValue());
 	}
 
 	public int ValueIndex() {
 		return value_index;
 	}
 
-	public ConstantPoolEntry RawValue() {
-		return (ConstantPoolEntry) Classfile().ConstantPool().get(ValueIndex());
+	public ConstantPoolEntry getRawValue() {
+		return (ConstantPoolEntry) getClassfile().getConstantPool().get(ValueIndex());
 	}
 
 	public String toString() {
-		return "ConstantValue " + RawValue();
+		return "ConstantValue " + getRawValue();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitConstantValue_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitConstantValue_attribute(this);
 	}
 }

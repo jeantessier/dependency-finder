@@ -40,19 +40,19 @@ public class InterfaceMethodRef_info extends FeatureRef_info {
 	}
 
 	public String Name() {
-		return RawNameAndType().Name();
+		return getRawNameAndType().Name();
 	}
 
 	public String Signature() {
 		StringBuffer result = new StringBuffer();
 
-		result.append(RawNameAndType().Name());
-		result.append(SignatureHelper.Signature(RawNameAndType().Type()));
+		result.append(getRawNameAndType().Name());
+		result.append(SignatureHelper.getSignature(getRawNameAndType().getType()));
 
 		return result.toString();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitInterfaceMethodRef_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitInterfaceMethodRef_info(this);
 	}
 }

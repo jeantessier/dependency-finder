@@ -576,15 +576,15 @@ public class Instruction {
 		this.start = start;
 	}
 
-	public byte[] Code() {
+	public byte[] getCode() {
 		return code;
 	}
 
-	public int Start() {
+	public int getStart() {
 		return start;
 	}
 	
-	public int Opcode() {
+	public int getOpcode() {
 		return (code[start] & 0xff);
 	}
 	
@@ -593,21 +593,21 @@ public class Instruction {
 	}
 		
 	public String Mnemonic() {
-		String result = Mnemonic(Opcode());
+		String result = Mnemonic(getOpcode());
 
-		if (Opcode() == 0xc4 /* wide */) {
+		if (getOpcode() == 0xc4 /* wide */) {
 			result += " " + Mnemonic(code[start+1] & 0xff);
 		}
 
 		return result;
 	}
 
-	public int Length() {
-		int result = length[Opcode()];
+	public int getLength() {
+		int result = length[getOpcode()];
 
 		int padding, low, high, npairs;
 	
-		switch (Opcode()) {
+		switch (getOpcode()) {
 			case 0xaa:
 				// tableswitch
 				padding = 3 - (start % 4);

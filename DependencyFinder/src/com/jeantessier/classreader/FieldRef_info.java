@@ -42,33 +42,33 @@ public class FieldRef_info extends FeatureRef_info {
 	public String NameAndType() {
 		StringBuffer result = new StringBuffer();
 
-		NameAndType_info nat = RawNameAndType();
+		NameAndType_info nat = getRawNameAndType();
 
-		result.append(nat.Type()).append(" ").append(nat.Name());
+		result.append(nat.getType()).append(" ").append(nat.Name());
 
 		return result.toString();
 	}
 
 	public String Name() {
-		return RawNameAndType().Name();
+		return getRawNameAndType().Name();
 	}
 
 	public String Signature() {
-		return RawNameAndType().Name();
+		return getRawNameAndType().Name();
 	}
 
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		Class_info       c   = RawClass();
-		NameAndType_info nat = RawNameAndType();
+		Class_info       c   = getRawClass();
+		NameAndType_info nat = getRawNameAndType();
 
-		result.append(nat.Type()).append(" ").append(c).append(".").append(nat.Name());
+		result.append(nat.getType()).append(" ").append(c).append(".").append(nat.Name());
 
 		return result.toString();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitFieldRef_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitFieldRef_info(this);
 	}
 }

@@ -42,180 +42,180 @@ public class TextPrinter extends Printer {
 		super(out);
 	}
 	
-	public void VisitClassfile(Classfile classfile) {
-		classfile.ConstantPool().Accept(this);
+	public void visitClassfile(Classfile classfile) {
+		classfile.getConstantPool().accept(this);
 
-		Append(classfile.Declaration()).Append(" {").EOL();
+		append(classfile.getDeclaration()).append(" {").eol();
 
 		Iterator i;
 
-		i = classfile.Fields().iterator();
+		i = classfile.getAllFields().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		i = classfile.Methods().iterator();
+		i = classfile.getAllMethods().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		Append("}").EOL();
+		append("}").eol();
 	}
 
-	public void VisitClass_info(Class_info entry) {
+	public void visitClass_info(Class_info entry) {
 		if (top) {
 			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Class ");
-			entry.RawName().Accept(this);
-			EOL();
+			append(currentCount()).append(": ");
+			append("Class ");
+			entry.getRawName().accept(this);
+			eol();
 			top = true;
 		} else {
-			entry.RawName().Accept(this);
+			entry.getRawName().accept(this);
 		}
 	}
 
-	public void VisitFieldRef_info(FieldRef_info entry) {
-		Class_info       c   = entry.RawClass();
-		NameAndType_info nat = entry.RawNameAndType();
-
-		if (top) {
-			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Field ");
-			nat.RawType().Accept(this);
-			Append(" ");
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
-			EOL();
-			top = true;
-		} else {
-			nat.RawType().Accept(this);
-			Append(" ");
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
-		}
-	}
-
-	public void VisitMethodRef_info(MethodRef_info entry) {
-		Class_info       c   = entry.RawClass();
-		NameAndType_info nat = entry.RawNameAndType();
+	public void visitFieldRef_info(FieldRef_info entry) {
+		Class_info       c   = entry.getRawClass();
+		NameAndType_info nat = entry.getRawNameAndType();
 
 		if (top) {
 			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Method ");
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
-			nat.RawType().Accept(this);
-			EOL();
+			append(currentCount()).append(": ");
+			append("Field ");
+			nat.getRawType().accept(this);
+			append(" ");
+			c.accept(this);
+			append(".");
+			nat.getRawName().accept(this);
+			eol();
 			top = true;
 		} else {
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
-			nat.RawType().Accept(this);
+			nat.getRawType().accept(this);
+			append(" ");
+			c.accept(this);
+			append(".");
+			nat.getRawName().accept(this);
 		}
 	}
 
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-		Class_info       c   = entry.RawClass();
-		NameAndType_info nat = entry.RawNameAndType();
+	public void visitMethodRef_info(MethodRef_info entry) {
+		Class_info       c   = entry.getRawClass();
+		NameAndType_info nat = entry.getRawNameAndType();
 
 		if (top) {
 			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Interface Method ");
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
-			nat.RawType().Accept(this);
-			EOL();
+			append(currentCount()).append(": ");
+			append("Method ");
+			c.accept(this);
+			append(".");
+			nat.getRawName().accept(this);
+			nat.getRawType().accept(this);
+			eol();
 			top = true;
 		} else {
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
-			nat.RawType().Accept(this);
+			c.accept(this);
+			append(".");
+			nat.getRawName().accept(this);
+			nat.getRawType().accept(this);
 		}
 	}
 
-	public void VisitString_info(String_info entry) {
+	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+		Class_info       c   = entry.getRawClass();
+		NameAndType_info nat = entry.getRawNameAndType();
+
 		if (top) {
 			top = false;
-			Append(CurrentCount()).Append(": String ");
-			entry.RawValue().Accept(this);
-			EOL();
+			append(currentCount()).append(": ");
+			append("Interface Method ");
+			c.accept(this);
+			append(".");
+			nat.getRawName().accept(this);
+			nat.getRawType().accept(this);
+			eol();
 			top = true;
 		} else {
-			entry.RawValue().Accept(this);
+			c.accept(this);
+			append(".");
+			nat.getRawName().accept(this);
+			nat.getRawType().accept(this);
 		}
 	}
 
-	public void VisitInteger_info(Integer_info entry) {
-		if (top) {
-			Append(CurrentCount()).Append(": Integer ").Append(entry.Value()).EOL();
-		} else {
-			Append(entry.Value());
-		}
-	}
-
-	public void VisitFloat_info(Float_info entry) {
-		if (top) {
-			Append(CurrentCount()).Append(": Float ").Append(entry.Value()).EOL();
-		} else {
-			Append(entry.Value());
-		}
-	}
-
-	public void VisitLong_info(Long_info entry) {
-		if (top) {
-			Append(CurrentCount()).Append(": Long ").Append(entry.Value()).EOL();
-		} else {
-			Append(entry.Value());
-		}
-	}
-
-	public void VisitDouble_info(Double_info entry) {
-		if (top) {
-			Append(CurrentCount()).Append(": Double ").Append(entry.Value()).EOL();
-		} else {
-			Append(entry.Value());
-		}
-	}
-
-	public void VisitNameAndType_info(NameAndType_info entry) {
+	public void visitString_info(String_info entry) {
 		if (top) {
 			top = false;
-			Append(CurrentCount()).Append(": Name and Type ");
-			entry.RawName().Accept(this);
-			Append(" ");
-			entry.RawType().Accept(this);
-			EOL();
+			append(currentCount()).append(": String ");
+			entry.getRawValue().accept(this);
+			eol();
 			top = true;
 		} else {
-			entry.RawName().Accept(this);
-			Append(" ");
-			entry.RawType().Accept(this);
+			entry.getRawValue().accept(this);
 		}
 	}
 
-	public void VisitUTF8_info(UTF8_info entry) {
+	public void visitInteger_info(Integer_info entry) {
 		if (top) {
-			Append(CurrentCount()).Append(": \"").Append(entry.Value()).Append("\"").EOL();
+			append(currentCount()).append(": Integer ").append(entry.getValue()).eol();
 		} else {
-			Append(entry.Value());
+			append(entry.getValue());
 		}
 	}
 
-	public void VisitField_info(Field_info entry) {
-		Append("    ").Append(entry.Declaration()).Append(";").EOL();
+	public void visitFloat_info(Float_info entry) {
+		if (top) {
+			append(currentCount()).append(": Float ").append(entry.getValue()).eol();
+		} else {
+			append(entry.getValue());
+		}
 	}
 
-	public void VisitMethod_info(Method_info entry) {
-		Append("    ").Append(entry.Declaration()).Append(";").EOL();
+	public void visitLong_info(Long_info entry) {
+		if (top) {
+			append(currentCount()).append(": Long ").append(entry.getValue()).eol();
+		} else {
+			append(entry.getValue());
+		}
+	}
+
+	public void visitDouble_info(Double_info entry) {
+		if (top) {
+			append(currentCount()).append(": Double ").append(entry.getValue()).eol();
+		} else {
+			append(entry.getValue());
+		}
+	}
+
+	public void visitNameAndType_info(NameAndType_info entry) {
+		if (top) {
+			top = false;
+			append(currentCount()).append(": Name and Type ");
+			entry.getRawName().accept(this);
+			append(" ");
+			entry.getRawType().accept(this);
+			eol();
+			top = true;
+		} else {
+			entry.getRawName().accept(this);
+			append(" ");
+			entry.getRawType().accept(this);
+		}
+	}
+
+	public void visitUTF8_info(UTF8_info entry) {
+		if (top) {
+			append(currentCount()).append(": \"").append(entry.getValue()).append("\"").eol();
+		} else {
+			append(entry.getValue());
+		}
+	}
+
+	public void visitField_info(Field_info entry) {
+		append("    ").append(entry.getDeclaration()).append(";").eol();
+	}
+
+	public void visitMethod_info(Method_info entry) {
+		append("    ").append(entry.getDeclaration()).append(";").eol();
 	}
 }

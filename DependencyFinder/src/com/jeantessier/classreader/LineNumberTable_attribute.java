@@ -54,7 +54,7 @@ public class LineNumberTable_attribute extends Attribute_info {
 		}
 	}
 
-	public Collection LineNumbers() {
+	public Collection getLineNumbers() {
 		return line_numbers;
 	}
 
@@ -62,7 +62,7 @@ public class LineNumberTable_attribute extends Attribute_info {
 		return "Line Number Table";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitLineNumberTable_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitLineNumberTable_attribute(this);
 	}
 }

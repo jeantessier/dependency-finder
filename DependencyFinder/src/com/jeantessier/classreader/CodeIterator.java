@@ -52,7 +52,7 @@ public class CodeIterator implements Iterator {
 
 		if (hasNext()) {
 			result = new Instruction(code, pc);
-			pc += result.Length();
+			pc += result.getLength();
 		} else {
 			throw new NoSuchElementException();
 		}

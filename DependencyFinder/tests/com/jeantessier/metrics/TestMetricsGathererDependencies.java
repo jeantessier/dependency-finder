@@ -58,10 +58,10 @@ public class TestMetricsGathererDependencies extends TestCase {
 		Collection dirs = new ArrayList(2);
 		dirs.add(TEST_DIRNAME);
 		dirs.add(OTHER_DIRNAME);
-		loader.Load(dirs);
+		loader.load(dirs);
 
 		MetricsGatherer gatherer = new MetricsGatherer("test", factory);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 	}
 
 	protected void tearDown() throws Exception {

@@ -37,373 +37,373 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class MetricsGatherer extends VisitorBase {
-	private Collection classes                 = new LinkedList();
-	private Collection interfaces              = new LinkedList();
-	private Collection methods                 = new LinkedList();
-	private Collection fields                  = new LinkedList();
-	private Collection synthetic_classes       = new LinkedList();
-	private Collection synthetic_fields        = new LinkedList();
-	private Collection synthetic_methods       = new LinkedList();
-	private Collection deprecated_classes      = new LinkedList();
-	private Collection deprecated_fields       = new LinkedList();
-	private Collection deprecated_methods      = new LinkedList();
-	private Collection public_classes          = new LinkedList();
-	private Collection public_fields           = new LinkedList();
-	private Collection public_methods          = new LinkedList();
-	private Collection public_inner_classes    = new LinkedList();
-	private Collection protected_fields        = new LinkedList();
-	private Collection protected_methods       = new LinkedList();
-	private Collection protected_inner_classes = new LinkedList();
-	private Collection private_fields          = new LinkedList();
-	private Collection private_methods         = new LinkedList();
-	private Collection private_inner_classes   = new LinkedList();
-	private Collection package_classes         = new LinkedList();
-	private Collection package_fields          = new LinkedList();
-	private Collection package_methods         = new LinkedList();
-	private Collection package_inner_classes   = new LinkedList();
-	private Collection abstract_classes        = new LinkedList();
-	private Collection abstract_methods        = new LinkedList();
-	private Collection abstract_inner_classes  = new LinkedList();
-	private Collection static_fields           = new LinkedList();
-	private Collection static_methods          = new LinkedList();
-	private Collection static_inner_classes    = new LinkedList();
-	private Collection final_classes           = new LinkedList();
-	private Collection final_fields            = new LinkedList();
-	private Collection final_methods           = new LinkedList();
-	private Collection final_inner_classes     = new LinkedList();
-	private Collection synchronized_methods    = new LinkedList();
-	private Collection native_methods          = new LinkedList();
-	private Collection volatile_fields         = new LinkedList();
-	private Collection transient_fields        = new LinkedList();
-	private Collection custom_attributes       = new LinkedList();
-	private long[]     instructions            = new long[256];
+	private Collection classes                = new LinkedList();
+	private Collection interfaces             = new LinkedList();
+	private Collection methods                = new LinkedList();
+	private Collection fields                 = new LinkedList();
+	private Collection syntheticClasses       = new LinkedList();
+	private Collection syntheticFields        = new LinkedList();
+	private Collection syntheticMethods       = new LinkedList();
+	private Collection deprecatedClasses      = new LinkedList();
+	private Collection deprecatedFields       = new LinkedList();
+	private Collection deprecatedMethods      = new LinkedList();
+	private Collection publicClasses          = new LinkedList();
+	private Collection publicFields           = new LinkedList();
+	private Collection publicMethods          = new LinkedList();
+	private Collection publicInnerClasses     = new LinkedList();
+	private Collection protectedFields        = new LinkedList();
+	private Collection protectedMethods       = new LinkedList();
+	private Collection protectedInnerClasses  = new LinkedList();
+	private Collection privateFields          = new LinkedList();
+	private Collection privateMethods         = new LinkedList();
+	private Collection privateInnerClasses    = new LinkedList();
+	private Collection packageClasses         = new LinkedList();
+	private Collection packageFields          = new LinkedList();
+	private Collection packageMethods         = new LinkedList();
+	private Collection packageInnerClasses    = new LinkedList();
+	private Collection abstractClasses        = new LinkedList();
+	private Collection abstractMethods        = new LinkedList();
+	private Collection abstractInnerClasses   = new LinkedList();
+	private Collection staticFields           = new LinkedList();
+	private Collection staticMethods          = new LinkedList();
+	private Collection staticInnerClasses     = new LinkedList();
+	private Collection finalClasses           = new LinkedList();
+	private Collection finalFields            = new LinkedList();
+	private Collection finalMethods           = new LinkedList();
+	private Collection finalInnerClasses      = new LinkedList();
+	private Collection synchronizedMethods    = new LinkedList();
+	private Collection nativeMethods          = new LinkedList();
+	private Collection volatileFields         = new LinkedList();
+	private Collection transientFields        = new LinkedList();
+	private Collection customAttributes       = new LinkedList();
+	private long[]     instructionCounts           = new long[256];
 	
-	public Collection Classes() {
+	public Collection getClasses() {
 		return classes;
 	}
 
-	public Collection Interfaces() {
+	public Collection getInterfaces() {
 		return interfaces;
 	}
 
-	public Collection Methods() {
+	public Collection getMethods() {
 		return methods;
 	}
 
-	public Collection Fields() {
+	public Collection getFields() {
 		return fields;
 	}
 
-	public Collection SyntheticClasses() {
-		return synthetic_classes;
+	public Collection getSyntheticClasses() {
+		return syntheticClasses;
 	}
 
-	public Collection SyntheticFields() {
-		return synthetic_fields;
+	public Collection getSyntheticFields() {
+		return syntheticFields;
 	}
 
-	public Collection SyntheticMethods() {
-		return synthetic_methods;
+	public Collection getSyntheticMethods() {
+		return syntheticMethods;
 	}
 
-	public Collection DeprecatedClasses() {
-		return deprecated_classes;
+	public Collection getDeprecatedClasses() {
+		return deprecatedClasses;
 	}
 
-	public Collection DeprecatedFields() {
-		return deprecated_fields;
+	public Collection getDeprecatedFields() {
+		return deprecatedFields;
 	}
 
-	public Collection DeprecatedMethods() {
-		return deprecated_methods;
+	public Collection getDeprecatedMethods() {
+		return deprecatedMethods;
 	}
 
-	public Collection PublicClasses() {
-		return public_classes;
+	public Collection getPublicClasses() {
+		return publicClasses;
 	}
 
-	public Collection PublicFields() {
-		return public_fields;
+	public Collection getPublicFields() {
+		return publicFields;
 	}
 
-	public Collection PublicMethods() {
-		return public_methods;
+	public Collection getPublicMethods() {
+		return publicMethods;
 	}
 
-	public Collection PublicInnerClasses() {
-		return public_inner_classes;
+	public Collection getPublicInnerClasses() {
+		return publicInnerClasses;
 	}
 
-	public Collection ProtectedFields() {
-		return protected_fields;
+	public Collection getProtectedFields() {
+		return protectedFields;
 	}
 
-	public Collection ProtectedMethods() {
-		return protected_methods;
+	public Collection getProtectedMethods() {
+		return protectedMethods;
 	}
 
-	public Collection ProtectedInnerClasses() {
-		return protected_inner_classes;
+	public Collection getProtectedInnerClasses() {
+		return protectedInnerClasses;
 	}
 
-	public Collection PrivateFields() {
-		return private_fields;
+	public Collection getPrivateFields() {
+		return privateFields;
 	}
 
-	public Collection PrivateMethods() {
-		return private_methods;
+	public Collection getPrivateMethods() {
+		return privateMethods;
 	}
 
-	public Collection PrivateInnerClasses() {
-		return private_inner_classes;
+	public Collection getPrivateInnerClasses() {
+		return privateInnerClasses;
 	}
 
-	public Collection PackageClasses() {
-		return package_classes;
+	public Collection getPackageClasses() {
+		return packageClasses;
 	}
 
-	public Collection PackageFields() {
-		return package_fields;
+	public Collection getPackageFields() {
+		return packageFields;
 	}
 
-	public Collection PackageMethods() {
-		return package_methods;
+	public Collection getPackageMethods() {
+		return packageMethods;
 	}
 
-	public Collection PackageInnerClasses() {
-		return package_inner_classes;
+	public Collection getPackageInnerClasses() {
+		return packageInnerClasses;
 	}
 
-	public Collection AbstractClasses() {
-		return abstract_classes;
+	public Collection getAbstractClasses() {
+		return abstractClasses;
 	}
 
-	public Collection AbstractMethods() {
-		return abstract_methods;
+	public Collection getAbstractMethods() {
+		return abstractMethods;
 	}
 
-	public Collection AbstractInnerClasses() {
-		return abstract_inner_classes;
+	public Collection getAbstractInnerClasses() {
+		return abstractInnerClasses;
 	}
 
-	public Collection StaticFields() {
-		return static_fields;
+	public Collection getStaticFields() {
+		return staticFields;
 	}
 
-	public Collection StaticMethods() {
-		return static_methods;
+	public Collection getStaticMethods() {
+		return staticMethods;
 	}
 
-	public Collection StaticInnerClasses() {
-		return static_inner_classes;
+	public Collection getStaticInnerClasses() {
+		return staticInnerClasses;
 	}
 
-	public Collection FinalClasses() {
-		return final_classes;
+	public Collection getFinalClasses() {
+		return finalClasses;
 	}
 
-	public Collection FinalFields() {
-		return final_fields;
+	public Collection getFinalFields() {
+		return finalFields;
 	}
 
-	public Collection FinalMethods() {
-		return final_methods;
+	public Collection getFinalMethods() {
+		return finalMethods;
 	}
 
-	public Collection FinalInnerClasses() {
-		return final_inner_classes;
+	public Collection getFinalInnerClasses() {
+		return finalInnerClasses;
 	}
 
-	public Collection SynchronizedMethods() {
-		return synchronized_methods;
+	public Collection getSynchronizedMethods() {
+		return synchronizedMethods;
 	}
 
-	public Collection NativeMethods() {
-		return native_methods;
+	public Collection getNativeMethods() {
+		return nativeMethods;
 	}
 
-	public Collection VolatileFields() {
-		return volatile_fields;
+	public Collection getVolatileFields() {
+		return volatileFields;
 	}
 
-	public Collection TransientFields() {
-		return transient_fields;
+	public Collection getTransientFields() {
+		return transientFields;
 	}
 
-	public Collection CustomAttributes() {
-		return custom_attributes;
+	public Collection getCustomAttributes() {
+		return customAttributes;
 	}
 
-	public long[] Instructions() {
-		return instructions;
+	public long[] getInstructionCounts() {
+		return instructionCounts;
 	}
 	
 	// Classfile
-	public void VisitClassfile(Classfile classfile) {
-		if ((classfile.AccessFlag() & Classfile.ACC_PUBLIC) != 0) {
-			public_classes.add(classfile);
+	public void visitClassfile(Classfile classfile) {
+		if ((classfile.getAccessFlag() & Classfile.ACC_PUBLIC) != 0) {
+			publicClasses.add(classfile);
 		} else {
-			package_classes.add(classfile);
+			packageClasses.add(classfile);
 		}
 
-		if ((classfile.AccessFlag() & Classfile.ACC_FINAL) != 0) {
-			final_classes.add(classfile);
+		if ((classfile.getAccessFlag() & Classfile.ACC_FINAL) != 0) {
+			finalClasses.add(classfile);
 		}
 
-		if ((classfile.AccessFlag() & Classfile.ACC_INTERFACE) != 0) {
+		if ((classfile.getAccessFlag() & Classfile.ACC_INTERFACE) != 0) {
 			interfaces.add(classfile);
 		} else {
 			classes.add(classfile);
 		}
 
-		if ((classfile.AccessFlag() & Classfile.ACC_ABSTRACT) != 0) {
-			abstract_classes.add(classfile);
+		if ((classfile.getAccessFlag() & Classfile.ACC_ABSTRACT) != 0) {
+			abstractClasses.add(classfile);
 		}
 
-		super.VisitClassfile(classfile);
+		super.visitClassfile(classfile);
 	}
 
 	// Features
-	public void VisitField_info(Field_info entry) {
+	public void visitField_info(Field_info entry) {
 		fields.add(entry);
 
-		if ((entry.AccessFlag() & Field_info.ACC_PUBLIC) != 0) {
-			public_fields.add(entry);
-		} else if ((entry.AccessFlag() & Field_info.ACC_PRIVATE) != 0) {
-			private_fields.add(entry);
-		} else if ((entry.AccessFlag() & Field_info.ACC_PROTECTED) != 0) {
-			protected_fields.add(entry);
+		if ((entry.getAccessFlag() & Field_info.ACC_PUBLIC) != 0) {
+			publicFields.add(entry);
+		} else if ((entry.getAccessFlag() & Field_info.ACC_PRIVATE) != 0) {
+			privateFields.add(entry);
+		} else if ((entry.getAccessFlag() & Field_info.ACC_PROTECTED) != 0) {
+			protectedFields.add(entry);
 		} else {
-			package_fields.add(entry);
+			packageFields.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Field_info.ACC_STATIC) != 0) {
-			static_fields.add(entry);
+		if ((entry.getAccessFlag() & Field_info.ACC_STATIC) != 0) {
+			staticFields.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Field_info.ACC_FINAL) != 0) {
-			final_fields.add(entry);
+		if ((entry.getAccessFlag() & Field_info.ACC_FINAL) != 0) {
+			finalFields.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Field_info.ACC_VOLATILE) != 0) {
-			volatile_fields.add(entry);
+		if ((entry.getAccessFlag() & Field_info.ACC_VOLATILE) != 0) {
+			volatileFields.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Field_info.ACC_TRANSIENT) != 0) {
-			transient_fields.add(entry);
+		if ((entry.getAccessFlag() & Field_info.ACC_TRANSIENT) != 0) {
+			transientFields.add(entry);
 		}
 
-		super.VisitField_info(entry);
+		super.visitField_info(entry);
 	}
 
-	public void VisitMethod_info(Method_info entry) {
+	public void visitMethod_info(Method_info entry) {
 		methods.add(entry);
 
-		if ((entry.AccessFlag() & Method_info.ACC_PUBLIC) != 0) {
-			public_methods.add(entry);
-		} else if ((entry.AccessFlag() & Method_info.ACC_PRIVATE) != 0) {
-			private_methods.add(entry);
-		} else if ((entry.AccessFlag() & Method_info.ACC_PROTECTED) != 0) {
-			protected_methods.add(entry);
+		if ((entry.getAccessFlag() & Method_info.ACC_PUBLIC) != 0) {
+			publicMethods.add(entry);
+		} else if ((entry.getAccessFlag() & Method_info.ACC_PRIVATE) != 0) {
+			privateMethods.add(entry);
+		} else if ((entry.getAccessFlag() & Method_info.ACC_PROTECTED) != 0) {
+			protectedMethods.add(entry);
 		} else {
-			package_methods.add(entry);
+			packageMethods.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_STATIC) != 0) {
-			static_methods.add(entry);
+		if ((entry.getAccessFlag() & Method_info.ACC_STATIC) != 0) {
+			staticMethods.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_FINAL) != 0) {
-			final_methods.add(entry);
+		if ((entry.getAccessFlag() & Method_info.ACC_FINAL) != 0) {
+			finalMethods.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_SYNCHRONIZED) != 0) {
-			synchronized_methods.add(entry);
+		if ((entry.getAccessFlag() & Method_info.ACC_SYNCHRONIZED) != 0) {
+			synchronizedMethods.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_NATIVE) != 0) {
-			native_methods.add(entry);
+		if ((entry.getAccessFlag() & Method_info.ACC_NATIVE) != 0) {
+			nativeMethods.add(entry);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_ABSTRACT) != 0) {
-			abstract_methods.add(entry);
+		if ((entry.getAccessFlag() & Method_info.ACC_ABSTRACT) != 0) {
+			abstractMethods.add(entry);
 		}
 
-		super.VisitMethod_info(entry);
+		super.visitMethod_info(entry);
 	}
 
 	// Attributes
-	public void VisitCode_attribute(Code_attribute attribute) {
-		super.VisitCode_attribute(attribute);
+	public void visitCode_attribute(Code_attribute attribute) {
+		super.visitCode_attribute(attribute);
 
-		Iterator ci = attribute.iterator();
-		while (ci.hasNext()) {
-			Instruction instr = (Instruction) ci.next();
+		Iterator i = attribute.iterator();
+		while (i.hasNext()) {
+			Instruction instr = (Instruction) i.next();
 			
-			Instructions()[instr.Opcode()]++;
+			getInstructionCounts()[instr.getOpcode()]++;
 		}
 	}
 
-	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
+	public void visitSynthetic_attribute(Synthetic_attribute attribute) {
 		Object owner = attribute.Owner();
 	
 		if (owner instanceof Classfile) {
-			synthetic_classes.add(owner);
+			syntheticClasses.add(owner);
 		} else if (owner instanceof Field_info) {
-			synthetic_fields.add(owner);
+			syntheticFields.add(owner);
 		} else if (owner instanceof Method_info) {
-			synthetic_methods.add(owner);
+			syntheticMethods.add(owner);
 		} else {
 			Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
 		}
 	}
 
-	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
+	public void visitDeprecated_attribute(Deprecated_attribute attribute) {
 		Object owner = attribute.Owner();
 	
 		if (owner instanceof Classfile) {
-			deprecated_classes.add(owner);
+			deprecatedClasses.add(owner);
 		} else if (owner instanceof Field_info) {
-			deprecated_fields.add(owner);
+			deprecatedFields.add(owner);
 		} else if (owner instanceof Method_info) {
-			deprecated_methods.add(owner);
+			deprecatedMethods.add(owner);
 		} else {
 			Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
 		}
 	}
 
-	public void VisitCustom_attribute(Custom_attribute attribute) {
-		custom_attributes.add(attribute);
+	public void visitCustom_attribute(Custom_attribute attribute) {
+		customAttributes.add(attribute);
 	}
 
 	// Attribute helpers
-	public void VisitInnerClass(InnerClass helper) {
-		if ((helper.AccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
-			public_inner_classes.add(helper);
-		} else if ((helper.AccessFlag() & InnerClass.ACC_PRIVATE) != 0) {
-			private_inner_classes.add(helper);
-		} else if ((helper.AccessFlag() & InnerClass.ACC_PROTECTED) != 0) {
-			protected_inner_classes.add(helper);
+	public void visitInnerClass(InnerClass helper) {
+		if ((helper.getAccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
+			publicInnerClasses.add(helper);
+		} else if ((helper.getAccessFlag() & InnerClass.ACC_PRIVATE) != 0) {
+			privateInnerClasses.add(helper);
+		} else if ((helper.getAccessFlag() & InnerClass.ACC_PROTECTED) != 0) {
+			protectedInnerClasses.add(helper);
 		} else {
-			package_inner_classes.add(helper);
+			packageInnerClasses.add(helper);
 		}
 
-		if ((helper.AccessFlag() & InnerClass.ACC_STATIC) != 0) {
-			static_inner_classes.add(helper);
+		if ((helper.getAccessFlag() & InnerClass.ACC_STATIC) != 0) {
+			staticInnerClasses.add(helper);
 		}
 
-		if ((helper.AccessFlag() & InnerClass.ACC_FINAL) != 0) {
-			final_inner_classes.add(helper);
+		if ((helper.getAccessFlag() & InnerClass.ACC_FINAL) != 0) {
+			finalInnerClasses.add(helper);
 		}
 
-		if ((helper.AccessFlag() & InnerClass.ACC_INTERFACE) != 0) {
+		if ((helper.getAccessFlag() & InnerClass.ACC_INTERFACE) != 0) {
 			interfaces.add(helper);
 		} else {
 			classes.add(helper);
 		}
 
-		if ((helper.AccessFlag() & InnerClass.ACC_ABSTRACT) != 0) {
-			abstract_inner_classes.add(helper);
+		if ((helper.getAccessFlag() & InnerClass.ACC_ABSTRACT) != 0) {
+			abstractInnerClasses.add(helper);
 		}
 	}
 }

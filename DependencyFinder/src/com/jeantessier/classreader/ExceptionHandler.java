@@ -67,31 +67,31 @@ public class ExceptionHandler implements Visitable {
 		this.code = code;
 	}
 
-	public int StartPC() {
+	public int getStartPC() {
 		return start_pc;
 	}
 
-	public int EndPC() {
+	public int getEndPC() {
 		return end_pc;
 	}
 
-	public int HandlerPC() {
+	public int getHandlerPC() {
 		return handler_pc;
 	}
 
-	public int CatchTypeIndex() {
+	public int getCatchTypeIndex() {
 		return catch_type_index;
 	}
 
-	public Class_info RawCatchType() {
-		return (Class_info) code.Classfile().ConstantPool().get(CatchTypeIndex());
+	public Class_info getRawCatchType() {
+		return (Class_info) code.getClassfile().getConstantPool().get(getCatchTypeIndex());
 	}
 
 	public String CatchType() {
 		String result = "<none>";
 
-		if (CatchTypeIndex() != 0) {
-			result = RawCatchType().toString();
+		if (getCatchTypeIndex() != 0) {
+			result = getRawCatchType().toString();
 		}
 
 		return result;
@@ -101,7 +101,7 @@ public class ExceptionHandler implements Visitable {
 		return "ExceptionHandler for " + CatchType();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitExceptionHandler(this);
+	public void accept(Visitor visitor) {
+		visitor.visitExceptionHandler(this);
 	}
 }

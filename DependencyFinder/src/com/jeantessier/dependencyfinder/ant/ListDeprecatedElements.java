@@ -88,7 +88,7 @@ public class ListDeprecatedElements extends Task {
 			ClassfileLoader loader = new AggregatingClassfileLoader();
 			loader.addLoadListener(verbose_listener);
 			loader.addLoadListener(printer);
-			loader.Load(Arrays.asList(getPath().list()));
+			loader.load(Arrays.asList(getPath().list()));
 			
 			out.close();
 		} catch (IOException ex) {

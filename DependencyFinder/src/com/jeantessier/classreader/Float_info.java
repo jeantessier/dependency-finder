@@ -37,21 +37,21 @@ import java.io.*;
 public class Float_info extends ConstantPoolEntry {
 	private float value;
 
-	public Float_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool);
+	public Float_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool);
 
 		value = in.readFloat();
 	}
 
-	public float Value() {
+	public float getValue() {
 		return value;
 	}
 
 	public String toString() {
-		return String.valueOf(Value());
+		return String.valueOf(getValue());
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitFloat_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitFloat_info(this);
 	}
 }

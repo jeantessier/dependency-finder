@@ -54,38 +54,38 @@ public class VerboseListener extends VerboseListenerBase {
 		return progress_bar;
 	}
 	
-	public void BeginSession(LoadEvent event) {
-		super.BeginSession(event);
+	public void beginSession(LoadEvent event) {
+		super.beginSession(event);
 		
 		StatusLine().ShowInfo("Searching for classes ...");
 		ProgressBar().setValue(0);
 		ProgressBar().setStringPainted(true);
 	}
 	
-	public void BeginGroup(LoadEvent event) {
-		super.BeginGroup(event);
+	public void beginGroup(LoadEvent event) {
+		super.beginGroup(event);
 
-		StatusLine().ShowInfo("Loading from " + event.GroupName() + " ...");
+		StatusLine().ShowInfo("Loading from " + event.getGroupName() + " ...");
 	}
 	
-	public void BeginFile(LoadEvent event) {
-		super.BeginFile(event);
+	public void beginFile(LoadEvent event) {
+		super.beginFile(event);
 		
-		if (event.Filename().startsWith(event.GroupName())) {
-			StatusLine().ShowInfo("Found " + event.Filename() + " ...");
+		if (event.getFilename().startsWith(event.getGroupName())) {
+			StatusLine().ShowInfo("Found " + event.getFilename() + " ...");
 		} else {
-			StatusLine().ShowInfo("Found " + event.GroupName() + " >> " + event.Filename() + " ...");
+			StatusLine().ShowInfo("Found " + event.getGroupName() + " >> " + event.getFilename() + " ...");
 		}
 	}
 	
-	public void EndFile(LoadEvent event) {
-		super.EndFile(event);
+	public void endFile(LoadEvent event) {
+		super.endFile(event);
 		
 		ProgressBar().setValue(ProgressBar().getValue() + 1);
 	}
 	
-	public void EndSession(LoadEvent event) {
-		super.EndSession(event);
+	public void endSession(LoadEvent event) {
+		super.endSession(event);
 		
 		ProgressBar().setValue(0);
 		ProgressBar().setStringPainted(false);

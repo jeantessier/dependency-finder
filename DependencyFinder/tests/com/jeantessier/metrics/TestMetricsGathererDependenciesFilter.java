@@ -60,7 +60,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		dirs.add(TEST_DIRNAME);
 		dirs.add(OTHER_DIRNAME);
 		loader = new AggregatingClassfileLoader();
-		loader.Load(dirs);
+		loader.load(dirs);
 
 		gatherer = new MetricsGatherer("test", factory);
 	}
@@ -74,7 +74,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		filter_includes.add("testpackage.TestClass.TargetMethod()");
 
 		gatherer.FilterIncludes(filter_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -109,7 +109,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		filter_includes.add("testpackage.TargetClass");
 
 		gatherer.FilterIncludes(filter_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -144,7 +144,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		filter_includes.add("java.lang");
 
 		gatherer.FilterIncludes(filter_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -178,7 +178,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		filter_includes.add("testpackage.TargetInterface");
 
 		gatherer.FilterIncludes(filter_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -207,7 +207,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		filter_includes.add("java.lang");
 
 		gatherer.FilterIncludes(filter_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 

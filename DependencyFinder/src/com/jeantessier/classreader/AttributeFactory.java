@@ -47,15 +47,15 @@ public class AttributeFactory {
 	private static final String LOCAL_VARIABLE_TABLE = "LocalVariableTable";
 	private static final String DEPRECATED           = "Deprecated";
 
-	public static Attribute_info Create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+	public static Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		Attribute_info result = null;
 
 		int name_index = in.readUnsignedShort();
 		if (name_index > 0) {
-			Object entry = classfile.ConstantPool().get(name_index);
+			Object entry = classfile.getConstantPool().get(name_index);
 
 			if (entry instanceof UTF8_info) {
-				String name = ((UTF8_info) entry).Value();
+				String name = ((UTF8_info) entry).getValue();
 				Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index + " (" + name + ")");
 				
 				if (CONSTANT_VALUE.equals(name)) {

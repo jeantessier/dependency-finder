@@ -43,15 +43,15 @@ public class Integer_info extends ConstantPoolEntry {
 		value = in.readInt();
 	}
 
-	public int Value() {
+	public int getValue() {
 		return value;
 	}
 
 	public String toString() {
-		return String.valueOf(Value());
+		return String.valueOf(getValue());
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitInteger_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitInteger_info(this);
 	}
 }

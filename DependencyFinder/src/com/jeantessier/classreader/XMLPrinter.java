@@ -50,411 +50,411 @@ public class XMLPrinter extends Printer {
 		this(out, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
-	public XMLPrinter(PrintWriter out, String encoding, String dtd_prefix) {
+	public XMLPrinter(PrintWriter out, String encoding, String dtdPrefix) {
 		super(out);
 		
-		AppendHeader(encoding, dtd_prefix);
+		AppendHeader(encoding, dtdPrefix);
 	}
 
-	private void AppendHeader(String encoding, String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
-		EOL();
-		Append("<!DOCTYPE classfiles SYSTEM \"").Append(dtd_prefix).Append("/classfile.dtd\">").EOL();
-		EOL();
+	private void AppendHeader(String encoding, String dtdPrefix) {
+		append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>").eol();
+		eol();
+		append("<!DOCTYPE classfiles SYSTEM \"").append(dtdPrefix).append("/classfile.dtd\">").eol();
+		eol();
 	}
 
-	public void VisitClassfiles(Collection classfiles) {
-		Indent().Append("<classfiles>").EOL();
-		RaiseIndent();
+	public void visitClassfiles(Collection classfiles) {
+		indent().append("<classfiles>").eol();
+		raiseIndent();
 
-		super.VisitClassfiles(classfiles);
+		super.visitClassfiles(classfiles);
 
-		LowerIndent();
-		Indent().Append("</classfiles>").EOL();
+		lowerIndent();
+		indent().append("</classfiles>").eol();
 	}
 	
-	public void VisitClassfile(Classfile classfile) {
+	public void visitClassfile(Classfile classfile) {
 		Iterator i;
 
-		Indent().Append("<classfile magic-number=\"").Append(classfile.MagicNumber()).Append("\" minor-version=\"").Append(classfile.MinorVersion()).Append("\" major-version=\"").Append(classfile.MajorVersion()).Append("\" access-flag=\"").Append(format.format(classfile.AccessFlag())).Append("\">").EOL();
-		RaiseIndent();
+		indent().append("<classfile magic-number=\"").append(classfile.getMagicNumber()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flag=\"").append(format.format(classfile.getAccessFlag())).append("\">").eol();
+		raiseIndent();
 
 		top = true;
-		classfile.ConstantPool().Accept(this);
+		classfile.getConstantPool().accept(this);
 		top = false;
 		
-		if (classfile.IsPublic())     Indent().Append("<public/>").EOL();
-		if (classfile.IsFinal())      Indent().Append("<final/>").EOL();
-		if (classfile.IsSuper())      Indent().Append("<super/>").EOL();
-		if (classfile.IsInterface())  Indent().Append("<is-interface/>").EOL();
-		if (classfile.IsAbstract())   Indent().Append("<abstract/>").EOL();
+		if (classfile.isPublic())     indent().append("<public/>").eol();
+		if (classfile.isFinal())      indent().append("<final/>").eol();
+		if (classfile.isSuper())      indent().append("<super/>").eol();
+		if (classfile.isInterface())  indent().append("<is-interface/>").eol();
+		if (classfile.isAbstract())   indent().append("<abstract/>").eol();
 
-		Indent();
-		Append("<this-class>");
-		classfile.RawClass().Accept(this);
-		Append("</this-class>").EOL();
+		indent();
+		append("<this-class>");
+		classfile.getRawClass().accept(this);
+		append("</this-class>").eol();
 
-		Indent();
-		Append("<superclass>");
-		if (classfile.SuperclassIndex() != 0) {
-			classfile.RawSuperclass().Accept(this);
+		indent();
+		append("<superclass>");
+		if (classfile.getSuperclassIndex() != 0) {
+			classfile.getRawSuperclass().accept(this);
 		}
-		Append("</superclass>").EOL();
+		append("</superclass>").eol();
 
-		if (!classfile.Interfaces().isEmpty()) {
-			Indent().Append("<interfaces>").EOL();
-			RaiseIndent();
-			i = classfile.Interfaces().iterator();
+		if (!classfile.getAllInterfaces().isEmpty()) {
+			indent().append("<interfaces>").eol();
+			raiseIndent();
+			i = classfile.getAllInterfaces().iterator();
 			while (i.hasNext()) {
-				Indent();
-				Append("<interface>");
-				((Visitable) i.next()).Accept(this);
-				Append("</interface>").EOL();
+				indent();
+				append("<interface>");
+				((Visitable) i.next()).accept(this);
+				append("</interface>").eol();
 			}
-			LowerIndent();
-			Indent().Append("</interfaces>").EOL();
+			lowerIndent();
+			indent().append("</interfaces>").eol();
 		}
 		
-		if (!classfile.Fields().isEmpty()) {
-			Indent().Append("<fields>").EOL();
-			RaiseIndent();
-			i = classfile.Fields().iterator();
+		if (!classfile.getAllFields().isEmpty()) {
+			indent().append("<fields>").eol();
+			raiseIndent();
+			i = classfile.getAllFields().iterator();
 			while (i.hasNext()) {
-				((Visitable) i.next()).Accept(this);
+				((Visitable) i.next()).accept(this);
 			}
-			LowerIndent();
-			Indent().Append("</fields>").EOL();
+			lowerIndent();
+			indent().append("</fields>").eol();
 		}
 
-		if (!classfile.Methods().isEmpty()) {
-			Indent().Append("<methods>").EOL();
-			RaiseIndent();
-			i = classfile.Methods().iterator();
+		if (!classfile.getAllMethods().isEmpty()) {
+			indent().append("<methods>").eol();
+			raiseIndent();
+			i = classfile.getAllMethods().iterator();
 			while (i.hasNext()) {
-				((Visitable) i.next()).Accept(this);
+				((Visitable) i.next()).accept(this);
 			}
-			LowerIndent();
-			Indent().Append("</methods>").EOL();
+			lowerIndent();
+			indent().append("</methods>").eol();
 		}
 
-		if (!classfile.Attributes().isEmpty()) {
-			Indent().Append("<attributes>").EOL();
-			RaiseIndent();
-			i = classfile.Attributes().iterator();
+		if (!classfile.getAttributes().isEmpty()) {
+			indent().append("<attributes>").eol();
+			raiseIndent();
+			i = classfile.getAttributes().iterator();
 			while (i.hasNext()) {
-				((Visitable) i.next()).Accept(this);
+				((Visitable) i.next()).accept(this);
 			}
-			LowerIndent();
-			Indent().Append("</attributes>").EOL();
+			lowerIndent();
+			indent().append("</attributes>").eol();
 		}
 
-		LowerIndent();
-		Indent().Append("</classfile>").EOL();
+		lowerIndent();
+		indent().append("</classfile>").eol();
 	}
 
-	public void VisitConstantPool(ConstantPool constant_pool) {
-		ResetCount();
+	public void visitConstantPool(ConstantPool constantPool) {
+		resetCount();
 
-		Indent().Append("<constant-pool>").EOL();
-		RaiseIndent();
+		indent().append("<constant-pool>").eol();
+		raiseIndent();
 
-		Iterator i = constant_pool.iterator();
+		Iterator i = constantPool.iterator();
 		while (i.hasNext()) {
 			Visitable entry = (Visitable) i.next();
 			if (entry != null) {
-				entry.Accept(this);
+				entry.accept(this);
 			}
-			RaiseCount();
+			raiseCount();
 		}
 
-		LowerIndent();
-		Indent().Append("</constant-pool>").EOL();
+		lowerIndent();
+		indent().append("</constant-pool>").eol();
 	}
 
-	public void VisitClass_info(Class_info entry) {
+	public void visitClass_info(Class_info entry) {
 		if (top) {
 			top = false;
-			Indent();
-			Append("<class id=\"").Append(CurrentCount()).Append("\">");
-			// entry.RawName().Accept(this);
-			Append(entry.Name());
-			Append("</class>").EOL();
+			indent();
+			append("<class id=\"").append(currentCount()).append("\">");
+			// entry.getRawName().accept(this);
+			append(entry.getName());
+			append("</class>").eol();
 			top = true;
 		} else {
-			// entry.RawName().Accept(this);
-			Append(entry.Name());
-		}
-	}
-
-	public void VisitFieldRef_info(FieldRef_info entry) {
-		Class_info       c   = entry.RawClass();
-		NameAndType_info nat = entry.RawNameAndType();
-
-		if (top) {
-			top = false;
-			Indent();
-			Append("<field-ref-info id=\"").Append(CurrentCount()).Append("\">");
-			Append("<class>");
-			c.Accept(this);
-			Append("</class>");
-			Append("<type>");
-			nat.RawType().Accept(this);
-			Append("</type>");
-			Append("<name>");
-			nat.RawName().Accept(this);
-			Append("</name>");
-			Append("</field-ref-info>").EOL();
-			top = true;
-		} else {
-			Append(SignatureHelper.Type(nat.Type()));
-			Append(" ");
-			Append(entry.FullSignature());
+			// entry.getRawName().accept(this);
+			append(entry.getName());
 		}
 	}
 
-	public void VisitMethodRef_info(MethodRef_info entry) {
-		Class_info       c   = entry.RawClass();
-		NameAndType_info nat = entry.RawNameAndType();
+	public void visitFieldRef_info(FieldRef_info entry) {
+		Class_info       c   = entry.getRawClass();
+		NameAndType_info nat = entry.getRawNameAndType();
 
 		if (top) {
 			top = false;
-			Indent();
-			Append("<method-ref-info id=\"").Append(CurrentCount()).Append("\">");
-			Append("<class>");
-			c.Accept(this);
-			Append("</class>");
-			Append("<name>");
-			nat.RawName().Accept(this);
-			Append("</name>");
-			Append("<type>");
-			nat.RawType().Accept(this);
-			Append("</type>");
-			Append("</method-ref-info>").EOL();
+			indent();
+			append("<field-ref-info id=\"").append(currentCount()).append("\">");
+			append("<class>");
+			c.accept(this);
+			append("</class>");
+			append("<type>");
+			nat.getRawType().accept(this);
+			append("</type>");
+			append("<name>");
+			nat.getRawName().accept(this);
+			append("</name>");
+			append("</field-ref-info>").eol();
 			top = true;
 		} else {
-			if (!entry.IsConstructor() && !entry.IsStaticInitializer()) {
-				Append(SignatureHelper.ReturnType(nat.Type())).Append(" ");
+			append(SignatureHelper.getType(nat.getType()));
+			append(" ");
+			append(entry.getFullSignature());
+		}
+	}
+
+	public void visitMethodRef_info(MethodRef_info entry) {
+		Class_info       c   = entry.getRawClass();
+		NameAndType_info nat = entry.getRawNameAndType();
+
+		if (top) {
+			top = false;
+			indent();
+			append("<method-ref-info id=\"").append(currentCount()).append("\">");
+			append("<class>");
+			c.accept(this);
+			append("</class>");
+			append("<name>");
+			nat.getRawName().accept(this);
+			append("</name>");
+			append("<type>");
+			nat.getRawType().accept(this);
+			append("</type>");
+			append("</method-ref-info>").eol();
+			top = true;
+		} else {
+			if (!entry.isConstructor() && !entry.isStaticInitializer()) {
+				append(SignatureHelper.getReturnType(nat.getType())).append(" ");
 			}
-			Append(entry.FullSignature());
+			append(entry.getFullSignature());
 		}
 	}
 
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-		Class_info       c   = entry.RawClass();
-		NameAndType_info nat = entry.RawNameAndType();
+	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+		Class_info       c   = entry.getRawClass();
+		NameAndType_info nat = entry.getRawNameAndType();
 
 		if (top) {
 			top = false;
-			Indent();
-			Append("<interface-method-ref-info id=\"").Append(CurrentCount()).Append("\">");
-			Append("<class>");
-			c.Accept(this);
-			Append("</class>");
-			Append("<name>");
-			nat.RawName().Accept(this);
-			Append("</name>");
-			Append("<type>");
-			nat.RawType().Accept(this);
-			Append("</type>");
-			Append("</interface-method-ref-info>").EOL();
+			indent();
+			append("<interface-method-ref-info id=\"").append(currentCount()).append("\">");
+			append("<class>");
+			c.accept(this);
+			append("</class>");
+			append("<name>");
+			nat.getRawName().accept(this);
+			append("</name>");
+			append("<type>");
+			nat.getRawType().accept(this);
+			append("</type>");
+			append("</interface-method-ref-info>").eol();
 			top = true;
 		} else {
-			Append(SignatureHelper.ReturnType(nat.Type()));
-			Append(" ");
-			Append(entry.FullSignature());
+			append(SignatureHelper.getReturnType(nat.getType()));
+			append(" ");
+			append(entry.getFullSignature());
 		}
 	}
 
-	public void VisitString_info(String_info entry) {
+	public void visitString_info(String_info entry) {
 		if (top) {
 			top = false;
-			Indent();
-			Append("<string-info id=\"").Append(CurrentCount()).Append("\">");
-			entry.RawValue().Accept(this);
-			Append("</string-info>").EOL();
+			indent();
+			append("<string-info id=\"").append(currentCount()).append("\">");
+			entry.getRawValue().accept(this);
+			append("</string-info>").eol();
 			top = true;
 		} else {
-			entry.RawValue().Accept(this);
+			entry.getRawValue().accept(this);
 		}
 	}
 
-	public void VisitInteger_info(Integer_info entry) {
+	public void visitInteger_info(Integer_info entry) {
 		if (top) {
 			top = false;
-			Indent();
-			Append("<integer-info id=\"").Append(CurrentCount()).Append("\">");
-			Append(entry.Value());
-			Append("</integer-info>").EOL();
+			indent();
+			append("<integer-info id=\"").append(currentCount()).append("\">");
+			append(entry.getValue());
+			append("</integer-info>").eol();
 			top = true;
 		} else {
-			Append(entry.Value());
+			append(entry.getValue());
 		}
 	}
 
-	public void VisitFloat_info(Float_info entry) {
+	public void visitFloat_info(Float_info entry) {
 		if (top) {
 			top = false;
-			Indent();
-			Append("<float-info id=\"").Append(CurrentCount()).Append("\">");
-			Append(entry.Value());
-			Append("</float-info>").EOL();
+			indent();
+			append("<float-info id=\"").append(currentCount()).append("\">");
+			append(entry.getValue());
+			append("</float-info>").eol();
 			top = true;
 		} else {
-			Append(entry.Value());
+			append(entry.getValue());
 		}
 	}
 
-	public void VisitLong_info(Long_info entry) {
+	public void visitLong_info(Long_info entry) {
 		if (top) {
 			top = false;
-			Indent();
-			Append("<long-info id=\"").Append(CurrentCount()).Append("\">");
-			Append(entry.Value());
-			Append("</long-info>").EOL();
+			indent();
+			append("<long-info id=\"").append(currentCount()).append("\">");
+			append(entry.getValue());
+			append("</long-info>").eol();
 			top = true;
 		} else {
-			Append(entry.Value());
+			append(entry.getValue());
 		}
 	}
 
-	public void VisitDouble_info(Double_info entry) {
+	public void visitDouble_info(Double_info entry) {
 		if (top) {
 			top = false;
-			Indent();
-			Append("<double-info id=\"").Append(CurrentCount()).Append("\">");
-			Append(entry.Value());
-			Append("</double-info>").EOL();
+			indent();
+			append("<double-info id=\"").append(currentCount()).append("\">");
+			append(entry.getValue());
+			append("</double-info>").eol();
 			top = true;
 		} else {
-			Append(entry.Value());
+			append(entry.getValue());
 		}
 	}
 
-	public void VisitNameAndType_info(NameAndType_info entry) {
+	public void visitNameAndType_info(NameAndType_info entry) {
 		if (top) {
 			top = false;
-			Indent();
-			Append("<name-and-type-info id=\"").Append(CurrentCount()).Append("\">");
-			Append("<name>");
-			entry.RawName().Accept(this);
-			Append("</name>");
-			Append("<type>");
-			entry.RawType().Accept(this);
-			Append("</type>");
-			Append("</name-and-type-info>").EOL();
+			indent();
+			append("<name-and-type-info id=\"").append(currentCount()).append("\">");
+			append("<name>");
+			entry.getRawName().accept(this);
+			append("</name>");
+			append("<type>");
+			entry.getRawType().accept(this);
+			append("</type>");
+			append("</name-and-type-info>").eol();
 			top = true;
 		} else {
-			entry.RawName().Accept(this);
-			Append(" ");
-			entry.RawType().Accept(this);
+			entry.getRawName().accept(this);
+			append(" ");
+			entry.getRawType().accept(this);
 		}
 	}
 
-	public void VisitUTF8_info(UTF8_info entry) {
+	public void visitUTF8_info(UTF8_info entry) {
 		if (top) {
 			top = false;
-			Indent().Append("<utf8-info id=\"").Append(CurrentCount()).Append("\">");
-			Append(EscapeXMLCharacters(entry.Value()));
-			Append("</utf8-info>").EOL();
+			indent().append("<utf8-info id=\"").append(currentCount()).append("\">");
+			append(escapeXMLCharacters(entry.getValue()));
+			append("</utf8-info>").eol();
 			top = true;
 		} else {
-			Append(EscapeXMLCharacters(entry.Value()));
+			append(escapeXMLCharacters(entry.getValue()));
 		}
 	}
 
-	public void VisitField_info(Field_info entry) {
-		Indent().Append("<field-info access-flag=\"").Append(format.format(entry.AccessFlag())).Append("\">").EOL();
-		RaiseIndent();
+	public void visitField_info(Field_info entry) {
+		indent().append("<field-info access-flag=\"").append(format.format(entry.getAccessFlag())).append("\">").eol();
+		raiseIndent();
 
-		if (entry.IsPublic())    Indent().Append("<public/>").EOL();
-		if (entry.IsProtected()) Indent().Append("<protected/>").EOL();
-		if (entry.IsPrivate())   Indent().Append("<private/>").EOL();
-		if (entry.IsStatic())    Indent().Append("<static/>").EOL();
-		if (entry.IsFinal())     Indent().Append("<final/>").EOL();
-		if (entry.IsVolatile())  Indent().Append("<volatile/>").EOL();
-		if (entry.IsTransient()) Indent().Append("<transient/>").EOL();
+		if (entry.isPublic())    indent().append("<public/>").eol();
+		if (entry.isProtected()) indent().append("<protected/>").eol();
+		if (entry.isPrivate())   indent().append("<private/>").eol();
+		if (entry.isStatic())    indent().append("<static/>").eol();
+		if (entry.isFinal())     indent().append("<final/>").eol();
+		if (entry.isVolatile())  indent().append("<volatile/>").eol();
+		if (entry.isTransient()) indent().append("<transient/>").eol();
 	
-		Indent();
-		Append("<name>");
-		entry.RawName().Accept(this);
-		Append("</name>").EOL();
+		indent();
+		append("<name>");
+		entry.getRawName().accept(this);
+		append("</name>").eol();
 		
-		Indent().Append("<type>").Append(entry.Type()).Append("</type>").EOL();
+		indent().append("<type>").append(entry.getType()).append("</type>").eol();
 
-		if (!entry.Attributes().isEmpty()) {
-			Indent().Append("<attributes>").EOL();
-			RaiseIndent();
-			super.VisitField_info(entry);
-			LowerIndent();
-			Indent().Append("</attributes>").EOL();
+		if (!entry.getAttributes().isEmpty()) {
+			indent().append("<attributes>").eol();
+			raiseIndent();
+			super.visitField_info(entry);
+			lowerIndent();
+			indent().append("</attributes>").eol();
 		}
 
-		LowerIndent();
-		Indent().Append("</field-info>").EOL();
+		lowerIndent();
+		indent().append("</field-info>").eol();
 	}
 
-	public void VisitMethod_info(Method_info entry) {
-		Indent().Append("<method-info access-flag=\"").Append(format.format(entry.AccessFlag())).Append("\">").EOL();
-		RaiseIndent();
+	public void visitMethod_info(Method_info entry) {
+		indent().append("<method-info access-flag=\"").append(format.format(entry.getAccessFlag())).append("\">").eol();
+		raiseIndent();
 
-		if (entry.IsPublic())       Indent().Append("<public/>").EOL();
-		if (entry.IsProtected())    Indent().Append("<protected/>").EOL();
-		if (entry.IsPrivate())      Indent().Append("<private/>").EOL();
-		if (entry.IsStatic())       Indent().Append("<static/>").EOL();
-		if (entry.IsFinal())        Indent().Append("<final/>").EOL();
-		if (entry.IsSynchronized()) Indent().Append("<synchronized/>").EOL();
-		if (entry.IsNative())       Indent().Append("<native/>").EOL();
-		if (entry.IsAbstract())     Indent().Append("<abstract/>").EOL();
-		if (entry.IsStrict())       Indent().Append("<strict/>").EOL();
+		if (entry.isPublic())       indent().append("<public/>").eol();
+		if (entry.isProtected())    indent().append("<protected/>").eol();
+		if (entry.isPrivate())      indent().append("<private/>").eol();
+		if (entry.isStatic())       indent().append("<static/>").eol();
+		if (entry.isFinal())        indent().append("<final/>").eol();
+		if (entry.isSynchronized()) indent().append("<synchronized/>").eol();
+		if (entry.isNative())       indent().append("<native/>").eol();
+		if (entry.isAbstract())     indent().append("<abstract/>").eol();
+		if (entry.isStrict())       indent().append("<strict/>").eol();
 
-		Indent();
-		Append("<name>");
-		entry.RawName().Accept(this);
-		Append("</name>").EOL();
+		indent();
+		append("<name>");
+		entry.getRawName().accept(this);
+		append("</name>").eol();
 		
-		if (!entry.Name().equals("<init>") && !entry.Name().equals("<clinit>")) {
-			Indent().Append("<return-type>").Append((entry.ReturnType() != null) ? entry.ReturnType() : "void").Append("</return-type>").EOL();
+		if (!entry.getName().equals("<init>") && !entry.getName().equals("<clinit>")) {
+			indent().append("<return-type>").append((entry.getReturnType() != null) ? entry.getReturnType() : "void").append("</return-type>").eol();
 		}
-		Indent().Append("<signature>").Append(entry.Signature()).Append("</signature>").EOL();
+		indent().append("<signature>").append(entry.getSignature()).append("</signature>").eol();
 
-		if (!entry.Attributes().isEmpty()) {
-			Indent().Append("<attributes>").EOL();
-			RaiseIndent();
-			super.VisitMethod_info(entry);
-			LowerIndent();
-			Indent().Append("</attributes>").EOL();
+		if (!entry.getAttributes().isEmpty()) {
+			indent().append("<attributes>").eol();
+			raiseIndent();
+			super.visitMethod_info(entry);
+			lowerIndent();
+			indent().append("</attributes>").eol();
 		}
 
-		LowerIndent();
-		Indent().Append("</method-info>").EOL();
+		lowerIndent();
+		indent().append("</method-info>").eol();
 	}
 
-	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
-		Indent().Append("<constant-value-attribute>").EOL();
-		RaiseIndent();
+	public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
+		indent().append("<constant-value-attribute>").eol();
+		raiseIndent();
 
-		attribute.RawValue().Accept(this);
+		attribute.getRawValue().accept(this);
 
-		LowerIndent();
-		Indent().Append("</constant-value-attribute>").EOL();
+		lowerIndent();
+		indent().append("</constant-value-attribute>").eol();
 	}
 
-	public void VisitCode_attribute(Code_attribute attribute) {
+	public void visitCode_attribute(Code_attribute attribute) {
 		Iterator i;
 		
-		Indent().Append("<code-attribute>").EOL();
-		RaiseIndent();
+		indent().append("<code-attribute>").eol();
+		raiseIndent();
 
-		Indent().Append("<length>").Append(attribute.Code().length).Append("</length>").EOL();
+		indent().append("<length>").append(attribute.getCode().length).append("</length>").eol();
 
-		Indent().Append("<instructions>").EOL();
-		RaiseIndent();
+		indent().append("<instructions>").eol();
+		raiseIndent();
 		i = attribute.iterator();
 		while (i.hasNext()) {
 			Instruction instr = (Instruction) i.next();
-			Indent();
-			Append("<instruction pc=\"").Append(instr.Start()).Append("\" length=\"").Append(instr.Length()).Append("\">");
-			switch (instr.Opcode()) {
+			indent();
+			append("<instruction pc=\"").append(instr.getStart()).append("\" length=\"").append(instr.getLength()).append("\">");
+			switch (instr.getOpcode()) {
 				case 0xb2: // getstatic
 				case 0xb3: // putstatic
 				case 0xb4: // getfield
@@ -468,190 +468,186 @@ public class XMLPrinter extends Printer {
 				case 0xc0: // checkcast
 				case 0xc1: // instanceof
 				case 0xc5: // multianewarray
-					int index = ((instr.Code()[instr.Start()+1] & 0xff) << 8) | (instr.Code()[instr.Start()+2] & 0xff);
-					Append(instr);
-					Append(" ");
-					((ConstantPoolEntry) attribute.Classfile().ConstantPool().get(index)).Accept(this);
+					int index = ((instr.getCode()[instr.getStart()+1] & 0xff) << 8) | (instr.getCode()[instr.getStart()+2] & 0xff);
+					append(instr);
+					append(" ");
+					((ConstantPoolEntry) attribute.getClassfile().getConstantPool().get(index)).accept(this);
 					break;
 				default:
-					Append(instr);
+					append(instr);
 					break;
 			}
-			Append("</instruction>").EOL();
+			append("</instruction>").eol();
 		}
-		LowerIndent();
-		Indent().Append("</instructions>").EOL();
+		lowerIndent();
+		indent().append("</instructions>").eol();
 
-		if (!attribute.ExceptionHandlers().isEmpty()) {
-			Indent().Append("<exception-handlers>").EOL();
-			RaiseIndent();
-			i = attribute.ExceptionHandlers().iterator();
+		if (!attribute.getExceptionHandlers().isEmpty()) {
+			indent().append("<exception-handlers>").eol();
+			raiseIndent();
+			i = attribute.getExceptionHandlers().iterator();
 			while (i.hasNext()) {
-				((Visitable) i.next()).Accept(this);
+				((Visitable) i.next()).accept(this);
 			}
-			LowerIndent();
-			Indent().Append("</exception-handlers>").EOL();
+			lowerIndent();
+			indent().append("</exception-handlers>").eol();
 		}
 		
-		if (!attribute.Attributes().isEmpty()) {
-			Indent().Append("<attributes>").EOL();
-			RaiseIndent();
-			i = attribute.Attributes().iterator();
+		if (!attribute.getAttributes().isEmpty()) {
+			indent().append("<attributes>").eol();
+			raiseIndent();
+			i = attribute.getAttributes().iterator();
 			while (i.hasNext()) {
-				((Visitable) i.next()).Accept(this);
+				((Visitable) i.next()).accept(this);
 			}
-			LowerIndent();
-			Indent().Append("</attributes>").EOL();
+			lowerIndent();
+			indent().append("</attributes>").eol();
 		}
 		
-		LowerIndent();
-		Indent().Append("</code-attribute>").EOL();
+		lowerIndent();
+		indent().append("</code-attribute>").eol();
 	}
 
-	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
-		Indent().Append("<exceptions-attribute>").EOL();
-		RaiseIndent();
+	public void visitExceptions_attribute(Exceptions_attribute attribute) {
+		indent().append("<exceptions-attribute>").eol();
+		raiseIndent();
 
-		Iterator i = attribute.Exceptions().iterator();
+		Iterator i = attribute.getExceptions().iterator();
 		while (i.hasNext()) {
-			Indent();
-			Append("<exception>");
-			((Visitable) i.next()).Accept(this);
-			Append("</exception>").EOL();
+			indent();
+			append("<exception>");
+			((Visitable) i.next()).accept(this);
+			append("</exception>").eol();
 		}
 
-		LowerIndent();
-		Indent().Append("</exceptions-attribute>").EOL();
+		lowerIndent();
+		indent().append("</exceptions-attribute>").eol();
 	}
 
-	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
-		Indent().Append("<inner-classes-attribute>").EOL();
-		RaiseIndent();
+	public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+		indent().append("<inner-classes-attribute>").eol();
+		raiseIndent();
 
-		Iterator i = attribute.Classes().iterator();
+		Iterator i = attribute.getClasses().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		LowerIndent();
-		Indent().Append("</inner-classes-attribute>").EOL();
+		lowerIndent();
+		indent().append("</inner-classes-attribute>").eol();
 	}
 
-	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
-		Indent().Append("<synthetic-attribute/>").EOL();
+	public void visitSynthetic_attribute(Synthetic_attribute attribute) {
+		indent().append("<synthetic-attribute/>").eol();
 	}
 
-	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {
-		Indent().Append("<source-file-attribute>").Append(attribute.SourceFile()).Append("</source-file-attribute>").EOL();
+	public void visitSourceFile_attribute(SourceFile_attribute attribute) {
+		indent().append("<source-file-attribute>").append(attribute.getSourceFile()).append("</source-file-attribute>").eol();
 	}
 
-	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-		Indent().Append("<line-number-table-attribute>").EOL();
-		RaiseIndent();
+	public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+		indent().append("<line-number-table-attribute>").eol();
+		raiseIndent();
 
-		Iterator i = attribute.LineNumbers().iterator();
+		Iterator i = attribute.getLineNumbers().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		LowerIndent();
-		Indent().Append("</line-number-table-attribute>").EOL();
+		lowerIndent();
+		indent().append("</line-number-table-attribute>").eol();
 	}
 
-	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-		Indent().Append("<local-variable-table-attribute>").EOL();
-		RaiseIndent();
+	public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+		indent().append("<local-variable-table-attribute>").eol();
+		raiseIndent();
 
-		Iterator i = attribute.LocalVariables().iterator();
+		Iterator i = attribute.getLocalVariables().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		LowerIndent();
-		Indent().Append("</local-variable-table-attribute>").EOL();
+		lowerIndent();
+		indent().append("</local-variable-table-attribute>").eol();
 	}
 
-	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
-		Indent().Append("<deprecated-attribute/>").EOL();
+	public void visitDeprecated_attribute(Deprecated_attribute attribute) {
+		indent().append("<deprecated-attribute/>").eol();
 	}
 
-	public void VisitExceptionHandler(ExceptionHandler helper) {
-		Indent();
-		Append("<exception-handler>");
-		Append("<start-pc>").Append(helper.StartPC()).Append("</start-pc>");
-		Append("<end-pc>").Append(helper.EndPC()).Append("</end-pc>");
-		Append("<handler-pc>").Append(helper.HandlerPC()).Append("</handler-pc>");
+	public void visitExceptionHandler(ExceptionHandler helper) {
+		indent();
+		append("<exception-handler>");
+		append("<start-pc>").append(helper.getStartPC()).append("</start-pc>");
+		append("<end-pc>").append(helper.getEndPC()).append("</end-pc>");
+		append("<handler-pc>").append(helper.getHandlerPC()).append("</handler-pc>");
 
-		Append("<catch-type>");
-		if (helper.CatchTypeIndex() != 0) {
-			helper.RawCatchType().Accept(this);
+		append("<catch-type>");
+		if (helper.getCatchTypeIndex() != 0) {
+			helper.getRawCatchType().accept(this);
 		}
-		Append("</catch-type>");
+		append("</catch-type>");
 
-		Append("</exception-handler>").EOL();
+		append("</exception-handler>").eol();
 	}
 
-	public void VisitInnerClass(InnerClass helper) {
-		Indent().Append("<inner-class access-flag=\"").Append(format.format(helper.AccessFlag())).Append("\">").EOL();
-		RaiseIndent();
+	public void visitInnerClass(InnerClass helper) {
+		indent().append("<inner-class access-flag=\"").append(format.format(helper.getAccessFlag())).append("\">").eol();
+		raiseIndent();
 
-		if (helper.IsPublic())    Indent().Append("<public/>").EOL();
-		if (helper.IsProtected()) Indent().Append("<protected/>").EOL();
-		if (helper.IsPrivate())   Indent().Append("<private/>").EOL();
-		if (helper.IsStatic())    Indent().Append("<static/>").EOL();
-		if (helper.IsFinal())     Indent().Append("<final/>").EOL();
-		if (helper.IsInterface()) Indent().Append("<is-interface/>").EOL();
-		if (helper.IsAbstract())  Indent().Append("<abstract/>").EOL();
+		if (helper.isPublic())    indent().append("<public/>").eol();
+		if (helper.isProtected()) indent().append("<protected/>").eol();
+		if (helper.isPrivate())   indent().append("<private/>").eol();
+		if (helper.isStatic())    indent().append("<static/>").eol();
+		if (helper.isFinal())     indent().append("<final/>").eol();
+		if (helper.isInterface()) indent().append("<is-interface/>").eol();
+		if (helper.isAbstract())  indent().append("<abstract/>").eol();
 
-		Indent();
-		Append("<inner-class-info>");
-		if (helper.InnerClassInfoIndex() != 0) {
-			helper.RawInnerClassInfo().Accept(this);
+		indent();
+		append("<inner-class-info>");
+		if (helper.getInnerClassInfoIndex() != 0) {
+			helper.getRawInnerClassInfo().accept(this);
 		}
-		Append("</inner-class-info>").EOL();
+		append("</inner-class-info>").eol();
 
-		Indent();
-		Append("<outer-class-info>");
-		if (helper.OuterClassInfoIndex() != 0) {
-			helper.RawOuterClassInfo().Accept(this);
+		indent();
+		append("<outer-class-info>");
+		if (helper.getOuterClassInfoIndex() != 0) {
+			helper.getRawOuterClassInfo().accept(this);
 		}
-		Append("</outer-class-info>").EOL();
+		append("</outer-class-info>").eol();
 
-		Indent();
-		Append("<inner-name>");
-		if (helper.InnerNameIndex() != 0) {
-			helper.RawInnerName().Accept(this);
+		indent();
+		append("<inner-name>");
+		if (helper.getInnerNameIndex() != 0) {
+			helper.getRawInnerName().accept(this);
 		}
-		Append("</inner-name>").EOL();
+		append("</inner-name>").eol();
 
-		LowerIndent();
-		Indent().Append("</inner-class>").EOL();
+		lowerIndent();
+		indent().append("</inner-class>").eol();
 	}
 
-	public void VisitLineNumber(LineNumber helper) {
-		Indent();
-		Append("<line-number>");
-		Append("<start-pc>").Append(helper.StartPC()).Append("</start-pc>");
-		Append("<line>").Append(helper.LineNumber()).Append("</line>");
-		Append("</line-number>").EOL();
+	public void visitLineNumber(LineNumber helper) {
+		indent();
+		append("<line-number>");
+		append("<start-pc>").append(helper.getStartPC()).append("</start-pc>");
+		append("<line>").append(helper.getLineNumber()).append("</line>");
+		append("</line-number>").eol();
 	}
 
-	public void VisitLocalVariable(LocalVariable helper) {
-		Indent();
-		Append("<local-variable pc=\"").Append(helper.StartPC()).Append("\" length=\"").Append(helper.Length()).Append("\">");
-		Append("<name>");
-		helper.RawName().Accept(this);
-		Append("</name>");
+	public void visitLocalVariable(LocalVariable helper) {
+		indent();
+		append("<local-variable pc=\"").append(helper.getStartPC()).append("\" length=\"").append(helper.getLength()).append("\">");
+		append("<name>");
+		helper.getRawName().accept(this);
+		append("</name>");
 		
-		// Append("<descriptor>");
-		// helper.RawDescriptor().Accept(this);
-		// Append("</descriptor>");
-
-		Append("<type>").Append(SignatureHelper.Type(helper.Descriptor())).Append("</type>");
-		Append("</local-variable>").EOL();
+		append("<type>").append(SignatureHelper.getType(helper.getDescriptor())).append("</type>");
+		append("</local-variable>").eol();
 	}
 
-	private String EscapeXMLCharacters(String text) {
+	private String escapeXMLCharacters(String text) {
 		String result = text;
 
 		result = perl.substitute("s/&/&amp;/g", result);

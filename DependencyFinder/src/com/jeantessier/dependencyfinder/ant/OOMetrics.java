@@ -332,7 +332,7 @@ public class OOMetrics extends Task {
 			
 			ClassfileLoader loader = new AggregatingClassfileLoader();
 			loader.addLoadListener(verbose_listener);
-			loader.Load(Arrays.asList(getPath().list()));
+			loader.load(Arrays.asList(getPath().list()));
 			
 			com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
 			gatherer.addMetricsListener(verbose_listener);
@@ -342,7 +342,7 @@ public class OOMetrics extends Task {
 			if (getFilterincludeslist() != null || getFilterexcludeslist() != null) {
 				gatherer.FilterIncludes(CreateCollection(getFilterincludeslist(), getFilterexcludeslist()));
 			}
-			gatherer.VisitClassfiles(loader.Classfiles());
+			gatherer.visitClassfiles(loader.getAllClassfiles());
 		
 			if (getShowallmetrics()) {
 				Iterator i;

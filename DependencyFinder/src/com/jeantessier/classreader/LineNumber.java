@@ -37,41 +37,41 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class LineNumber implements Visitable {
-	private LineNumberTable_attribute line_number_table;
-	private int                       start_pc;
-	private int                       line_number;
+	private LineNumberTable_attribute lineNumberTable;
+	private int                       startPC;
+	private int                       lineNumber;
 
-	public LineNumber(LineNumberTable_attribute line_number_table, DataInputStream in) throws IOException {
-		LineNumberTable(line_number_table);
+	public LineNumber(LineNumberTable_attribute lineNumberTable, DataInputStream in) throws IOException {
+		setLineNumberTable(lineNumberTable);
 
-		start_pc = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Line number table start PC: " + start_pc);
+		startPC = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Line number table start PC: " + startPC);
 
-		line_number = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Line number: " + line_number);
+		lineNumber = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Line number: " + lineNumber);
 	}
 
-	public LineNumberTable_attribute LineNumberTable() {
-		return line_number_table;
+	public LineNumberTable_attribute getLineNumberTable() {
+		return lineNumberTable;
 	}
 
-	private void LineNumberTable(LineNumberTable_attribute line_number_table) {
-		this.line_number_table = line_number_table;
+	private void setLineNumberTable(LineNumberTable_attribute line_number_table) {
+		this.lineNumberTable = line_number_table;
 	}
 
-	public int StartPC() {
-		return start_pc;
+	public int getStartPC() {
+		return startPC;
 	}
 
-	public int LineNumber() {
-		return line_number;
+	public int getLineNumber() {
+		return lineNumber;
 	}
 
 	public String toString() {
 		return "Line number";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitLineNumber(this);
+	public void accept(Visitor visitor) {
+		visitor.visitLineNumber(this);
 	}
 }

@@ -36,8 +36,8 @@ import java.io.*;
 import java.util.*;
 
 public class ClassfileScanner extends ClassfileLoaderEventSource {
-	private int nb_files;
-	private int nb_classes;
+	private int nbFiles;
+	private int nbClasses;
 	
 	public ClassfileScanner() {
 		super();
@@ -48,38 +48,38 @@ public class ClassfileScanner extends ClassfileLoaderEventSource {
 	}
 
 	public int NbFiles() {
-		return nb_files;
+		return nbFiles;
 	}
 
 	public int NbClasses() {
-		return nb_classes;
+		return nbClasses;
 	}
 	
-	public Classfile Classfile(String name) {
+	public Classfile getClassfile(String name) {
 		return null;
 	}
 
-	public Collection Classfiles() {
+	public Collection getAllClassfiles() {
 		return Collections.EMPTY_LIST;
 	}
 
-	public Collection Classnames() {
+	public Collection getAllClassNames() {
 		return Collections.EMPTY_LIST;
 	}
 
-	protected Classfile Load(DataInputStream in) throws IOException {
+	protected Classfile load(DataInputStream in) throws IOException {
 		return null;
 	}
 
 	protected void fireBeginFile(String filename) {
 		super.fireBeginFile(filename);
 		
-		nb_files++;
+		nbFiles++;
 	}
 	
 	protected void fireBeginClassfile(String filename) {
 		super.fireBeginClassfile(filename);
 		
-		nb_classes++;
+		nbClasses++;
 	}
 }

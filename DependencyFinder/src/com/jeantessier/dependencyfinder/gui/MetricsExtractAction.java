@@ -73,7 +73,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 
 		model.StatusLine().ShowInfo("Scanning ...");
 		ClassfileScanner scanner = new ClassfileScanner();
-		scanner.Load(Arrays.asList(files));
+		scanner.load(Arrays.asList(files));
 
 		model.ProgressBar().setMaximum(scanner.NbFiles() + scanner.NbClasses());
 
@@ -81,11 +81,11 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 		
 		loader = new AggregatingClassfileLoader();
 		loader.addLoadListener(verbose_listener);
-		loader.Load(Arrays.asList(files));
+		loader.load(Arrays.asList(files));
 		
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.MetricsFactory());
 		gatherer.addMetricsListener(verbose_listener);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		// JDK 1.4 feature
 		// model.ProgressBar().setIndeterminate(true);

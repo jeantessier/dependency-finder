@@ -48,8 +48,8 @@ public class Deprecated_attribute extends Attribute_info {
 		return "Deprecated";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitDeprecated_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitDeprecated_attribute(this);
 	}
 }
 

@@ -47,19 +47,19 @@ public class Class_info extends ConstantPoolEntry {
 		return name_index;
 	}
 
-	public UTF8_info RawName() {
+	public UTF8_info getRawName() {
 		return (UTF8_info) ConstantPool().get(NameIndex());
 	}
 
-	public String Name() {
-		return SignatureHelper.Path2ClassName(RawName().toString());
+	public String getName() {
+		return SignatureHelper.path2ClassName(getRawName().toString());
 	}
 
 	public String toString() {
-		return Name();
+		return getName();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitClass_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitClass_info(this);
 	}
 }

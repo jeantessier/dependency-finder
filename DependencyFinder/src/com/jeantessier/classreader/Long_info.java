@@ -43,15 +43,15 @@ public class Long_info extends ConstantPoolEntry {
 		value = in.readLong();
 	}
 
-	public long Value() {
+	public long getValue() {
 		return value;
 	}
 
 	public String toString() {
-		return String.valueOf(Value());
+		return String.valueOf(getValue());
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitLong_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitLong_info(this);
 	}
 }

@@ -100,83 +100,83 @@ public class ClassMetrics extends Task {
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
 		loader.addLoadListener(verbose_listener);
-		loader.Load(Arrays.asList(getPath().list()));
+		loader.load(Arrays.asList(getPath().list()));
 
 		MetricsGatherer metrics = new MetricsGatherer();
-		metrics.VisitClassfiles(loader.Classfiles());
+		metrics.visitClassfiles(loader.getAllClassfiles());
 
 		log("Saving class metrics to " + getDestfile().getAbsolutePath());
 		
 		try {
 			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
-			out.println(metrics.Classes().size() + " class(es)");
+			out.println(metrics.getClasses().size() + " class(es)");
 			if (getList()) {
-				Iterator j = metrics.Classes().iterator();
+				Iterator j = metrics.getClasses().iterator();
 				while (j.hasNext()) {
 					out.println("        " + j.next());
 				}
 			}
 			
-			out.println(metrics.Interfaces().size() + " interface(s)");
+			out.println(metrics.getInterfaces().size() + " interface(s)");
 			if (getList()) {
-				Iterator j = metrics.Interfaces().iterator();
+				Iterator j = metrics.getInterfaces().iterator();
 				while (j.hasNext()) {
 					out.println("        " + j.next());
 				}
 			}
 			
 			out.println();
-			out.println(metrics.Methods().size() + " method(s) (average " + (metrics.Methods().size() / (metrics.Classes().size() + (double) metrics.Interfaces().size())) + " per class/interface)");
-			out.println(metrics.Fields().size() + " field(s) (average " + (metrics.Fields().size() / (metrics.Classes().size() + (double) metrics.Interfaces().size())) + " per class/interface)");
+			out.println(metrics.getMethods().size() + " method(s) (average " + (metrics.getMethods().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
+			out.println(metrics.getFields().size() + " field(s) (average " + (metrics.getFields().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
 			out.println();
 			
-			PrintCFM(out, " synthetic element(s)", metrics.SyntheticClasses(), metrics.SyntheticFields(), metrics.SyntheticMethods());
-			PrintCFM(out, " deprecated element(s)", metrics.DeprecatedClasses(), metrics.DeprecatedFields(), metrics.DeprecatedMethods());
-			PrintCFMIC(out, " public element(s)", metrics.PublicClasses(), metrics.PublicFields(), metrics.PublicMethods(), metrics.PublicInnerClasses());
-			PrintFMIC(out, " protected element(s)", metrics.ProtectedFields(), metrics.ProtectedMethods(), metrics.ProtectedInnerClasses());
-			PrintFMIC(out, " private element(s)", metrics.PrivateFields(), metrics.PrivateMethods(), metrics.PrivateInnerClasses());
-			PrintCFMIC(out, " package element(s)", metrics.PackageClasses(), metrics.PackageFields(), metrics.PackageMethods(), metrics.PackageInnerClasses());
-			PrintCMIC(out, " abstract element(s)", metrics.AbstractClasses(), metrics.AbstractMethods(), metrics.AbstractInnerClasses());
+			PrintCFM(out, " synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods());
+			PrintCFM(out, " deprecated element(s)", metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods());
+			PrintCFMIC(out, " public element(s)", metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses());
+			PrintFMIC(out, " protected element(s)", metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses());
+			PrintFMIC(out, " private element(s)", metrics.getPrivateFields(), metrics.getPrivateMethods(), metrics.getPrivateInnerClasses());
+			PrintCFMIC(out, " package element(s)", metrics.getPackageClasses(), metrics.getPackageFields(), metrics.getPackageMethods(), metrics.getPackageInnerClasses());
+			PrintCMIC(out, " abstract element(s)", metrics.getAbstractClasses(), metrics.getAbstractMethods(), metrics.getAbstractInnerClasses());
 			
-			PrintFMIC(out, " static element(s)", metrics.StaticFields(), metrics.StaticMethods(), metrics.StaticInnerClasses());
-			PrintCFMIC(out, " final element(s)", metrics.FinalClasses(), metrics.FinalFields(), metrics.FinalMethods(), metrics.FinalInnerClasses());
+			PrintFMIC(out, " static element(s)", metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses());
+			PrintCFMIC(out, " final element(s)", metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses());
 			
-			out.println(metrics.SynchronizedMethods().size() + " synchronized method(s)");
+			out.println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
 			if (getList()) {
-				Iterator j = metrics.SynchronizedMethods().iterator();
+				Iterator j = metrics.getSynchronizedMethods().iterator();
 				while (j.hasNext()) {
 					out.println("        " + j.next());
 				}
 			}
 			
-			out.println(metrics.NativeMethods().size() + " native method(s)");
+			out.println(metrics.getNativeMethods().size() + " native method(s)");
 			if (getList()) {
-				Iterator j = metrics.NativeMethods().iterator();
+				Iterator j = metrics.getNativeMethods().iterator();
 				while (j.hasNext()) {
 					out.println("        " + j.next());
 				}
 			}
 			
-			out.println(metrics.VolatileFields().size() + " volatile field(s)");
+			out.println(metrics.getVolatileFields().size() + " volatile field(s)");
 			if (getList()) {
-				Iterator j = metrics.VolatileFields().iterator();
+				Iterator j = metrics.getVolatileFields().iterator();
 				while (j.hasNext()) {
 					out.println("        " + j.next());
 				}
 			}
 			
-			out.println(metrics.TransientFields().size() + " transient field(s)");
+			out.println(metrics.getTransientFields().size() + " transient field(s)");
 			if (getList()) {
-				Iterator j = metrics.TransientFields().iterator();
+				Iterator j = metrics.getTransientFields().iterator();
 				while (j.hasNext()) {
 					out.println("        " + j.next());
 				}
 			}
 			
-			out.println(metrics.CustomAttributes().size() + " custom attribute(s)");
+			out.println(metrics.getCustomAttributes().size() + " custom attribute(s)");
 			if (getList()) {
-				Iterator j = metrics.CustomAttributes().iterator();
+				Iterator j = metrics.getCustomAttributes().iterator();
 				while (j.hasNext()) {
 					out.println("        " + j.next());
 				}
@@ -188,7 +188,7 @@ public class ClassMetrics extends Task {
 				for (int opcode=0; opcode<256; opcode++) {
 					out.print("        0x");
 					Hex.Print(out, (byte) opcode);
-					out.println(" " + Instruction.Mnemonic(opcode) + ": " + metrics.Instructions()[opcode]);
+					out.println(" " + Instruction.Mnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
 				}
 			}
 

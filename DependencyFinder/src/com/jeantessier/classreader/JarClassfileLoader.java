@@ -43,7 +43,7 @@ public class JarClassfileLoader extends ZipClassfileLoader {
 		super(loader);
 	}
 
-	protected void Load(String filename) {
+	protected void load(String filename) {
 		Logger.getLogger(getClass()).debug("Reading " + filename);
 
 		JarFile jarfile = null;
@@ -51,7 +51,7 @@ public class JarClassfileLoader extends ZipClassfileLoader {
 			jarfile = new JarFile(filename);
 
 			fireBeginGroup(filename, jarfile.size());
-			Load(jarfile);
+			load(jarfile);
 			fireEndGroup(filename);
 		} catch (IOException ex) {
 			Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
@@ -66,7 +66,7 @@ public class JarClassfileLoader extends ZipClassfileLoader {
 		}
 	}
 
-	protected void Load(String filename, InputStream in) {
+	protected void load(String filename, InputStream in) {
 		Logger.getLogger(getClass()).debug("Reading " + filename);
 		
 		JarInputStream jarfile = null;

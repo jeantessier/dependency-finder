@@ -65,9 +65,9 @@ public class Code_attribute extends Attribute_info {
 		Iterator ci = iterator();
 		while (ci.hasNext()) {
 			Instruction instr = (Instruction) ci.next();
-			int         start = instr.Start();
+			int         start = instr.getStart();
 			
-			switch (instr.Opcode()) {
+			switch (instr.getOpcode()) {
 				case 0xb2: // getstatic
 				case 0xb3: // putstatic
 				case 0xb4: // getfield
@@ -82,10 +82,10 @@ public class Code_attribute extends Attribute_info {
 				case 0xc1: // instanceof
 				case 0xc5: // multianewarray
 					int index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-					Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + Classfile().ConstantPool().get(index) + ")");
+					Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getClassfile().getConstantPool().get(index) + ")");
 					break;
 				default:
-					Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.Length() + " byte(s))");
+					Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getLength() + " byte(s))");
 					break;
 			}
 		}
@@ -101,7 +101,7 @@ public class Code_attribute extends Attribute_info {
 		Logger.getLogger(getClass()).debug("Reading " + attribute_count + " code attribute(s)");
 		for (int i=0; i<attribute_count; i++) {
 			Logger.getLogger(getClass()).debug("code attribute " + i + ":");
-			attributes.add(AttributeFactory.Create(Classfile(), this, in));
+			attributes.add(AttributeFactory.create(getClassfile(), this, in));
 		}
 	}
 
@@ -113,7 +113,7 @@ public class Code_attribute extends Attribute_info {
 		return max_locals;
 	}
 
-	public byte[] Code() {
+	public byte[] getCode() {
 		return code;
 	}
 
@@ -121,11 +121,11 @@ public class Code_attribute extends Attribute_info {
 		return new CodeIterator(code);
 	}
 
-	public Collection ExceptionHandlers() {
+	public Collection getExceptionHandlers() {
 		return exception_handlers;
 	}
 
-	public Collection Attributes() {
+	public Collection getAttributes() {
 		return attributes;
 	}
 
@@ -133,7 +133,7 @@ public class Code_attribute extends Attribute_info {
 		return "Code";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitCode_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitCode_attribute(this);
 	}
 }

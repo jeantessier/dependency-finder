@@ -49,35 +49,35 @@ public class NameAndType_info extends ConstantPoolEntry {
 		return name_index;
 	}
 
-	public UTF8_info RawName() {
+	public UTF8_info getRawName() {
 		return (UTF8_info) ConstantPool().get(NameIndex());
 	}
 
 	public String Name() {
-		return RawName().toString();
+		return getRawName().toString();
 	}
 
 	public int TypeIndex() {
 		return type_index;
 	}
 
-	public UTF8_info RawType() {
+	public UTF8_info getRawType() {
 		return (UTF8_info) ConstantPool().get(TypeIndex());
 	}
 
-	public String Type() {
-		return RawType().toString();
+	public String getType() {
+		return getRawType().toString();
 	}
 
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		result.append(Name()).append(" -> ").append(Type());
+		result.append(Name()).append(" -> ").append(getType());
 
 		return result.toString();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitNameAndType_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitNameAndType_info(this);
 	}
 }

@@ -113,10 +113,10 @@ public class TestDependencyExtractor extends TestCase {
 		test_test_feature.AddDependency(java_lang_Object_Object_feature);
 
 		loader = new AggregatingClassfileLoader();
-		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.load(Collections.singleton(TEST_FILENAME));
 
 		test_factory = new NodeFactory();
-		loader.Classfile(TEST_CLASS).Accept(new CodeDependencyCollector(test_factory));
+		loader.getClassfile(TEST_CLASS).accept(new CodeDependencyCollector(test_factory));
 	}
 
 	protected void tearDown() throws Exception {
@@ -190,17 +190,17 @@ public class TestDependencyExtractor extends TestCase {
 		ClassfileLoader loader  = new AggregatingClassfileLoader();
 		NodeFactory     factory = new NodeFactory();
 		
-		loader.Load(Collections.singleton("classes" + File.separator + "StaticInitializerTest.class"));
+		loader.load(Collections.singleton("classes" + File.separator + "StaticInitializerTest.class"));
 
-		Classfile classfile = loader.Classfile("StaticInitializerTest");
-		classfile.Accept(new CodeDependencyCollector(factory));
+		Classfile classfile = loader.getClassfile("StaticInitializerTest");
+		classfile.accept(new CodeDependencyCollector(factory));
 
 		Collection feature_names = factory.Features().keySet();
 		
-		Iterator i = classfile.Methods().iterator();
+		Iterator i = classfile.getAllMethods().iterator();
 		while (i.hasNext()) {
 			Method_info method = (Method_info) i.next();
-			assertTrue("Missing method " + method.FullSignature(), feature_names.contains(method.FullSignature()));
+			assertTrue("Missing method " + method.getFullSignature(), feature_names.contains(method.getFullSignature()));
 		}
 	}
 }

@@ -42,13 +42,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
 	private ClassfileLoaderDispatcher dispatcher;
 	
-	private ClassfileLoader dir_loader = new DirectoryClassfileLoader(this);
-	private ClassfileLoader jar_loader = new JarClassfileLoader(this);
-	private ClassfileLoader zip_loader = new ZipClassfileLoader(this);
+	private ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);
+	private ClassfileLoader jarLoader = new JarClassfileLoader(this);
+	private ClassfileLoader zipLoader = new ZipClassfileLoader(this);
 
-	private HashSet    load_listeners = new HashSet();
+	private HashSet    loadListeners = new HashSet();
 
-	private LinkedList group_names = new LinkedList();
+	private LinkedList groupNames = new LinkedList();
 
 	public ClassfileLoaderEventSource() {
 		this(DEFAULT_DISPATCHER);
@@ -58,22 +58,22 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		this.dispatcher = dispatcher;
 	}
 	
-	protected void Load(String filename) {
+	protected void load(String filename) {
 		switch (dispatcher.Dispatch(filename)) {
 			case ClassfileLoaderDispatcher.ACTION_IGNORE:
 				break;
 
 			case ClassfileLoaderDispatcher.ACTION_CLASS:
 			case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
-				dir_loader.Load(filename);
+				dirLoader.load(filename);
 				break;
 
 			case ClassfileLoaderDispatcher.ACTION_ZIP:
-				zip_loader.Load(filename);
+				zipLoader.load(filename);
 				break;
 
 			case ClassfileLoaderDispatcher.ACTION_JAR:
-				jar_loader.Load(filename);
+				jarLoader.load(filename);
 				break;
 
 			default:
@@ -81,27 +81,27 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		}
 	}
 
-	protected void Load(String filename, InputStream in) {
+	protected void load(String filename, InputStream in) {
 		switch (dispatcher.Dispatch(filename)) {
 			case ClassfileLoaderDispatcher.ACTION_IGNORE:
 				break;
 
 			case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
-				dir_loader.Load(filename, in);
+				dirLoader.load(filename, in);
 				break;
 
 			case ClassfileLoaderDispatcher.ACTION_ZIP:
-				zip_loader.Load(filename, in);
+				zipLoader.load(filename, in);
 				break;
 
 			case ClassfileLoaderDispatcher.ACTION_JAR:
-				jar_loader.Load(filename, in);
+				jarLoader.load(filename, in);
 				break;
 
 			case ClassfileLoaderDispatcher.ACTION_CLASS:
 				try {
 					fireBeginClassfile(filename);
-					Classfile classfile = Load(new DataInputStream(in));
+					Classfile classfile = load(new DataInputStream(in));
 					fireEndClassfile(filename, classfile);
 				} catch (IOException ex) {
 					Logger.getLogger(getClass()).warn("Cannot load class from file \"" + filename + "\"", ex);
@@ -114,14 +114,14 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 	}
 
 	public void addLoadListener(LoadListener listener) {
-		synchronized(load_listeners) {
-			load_listeners.add(listener);
+		synchronized(loadListeners) {
+			loadListeners.add(listener);
 		}
 	}
 
 	public void removeLoadListener(LoadListener listener) {
-		synchronized(load_listeners) {
-			load_listeners.remove(listener);
+		synchronized(loadListeners) {
+			loadListeners.remove(listener);
 		}
 	}
 
@@ -129,133 +129,133 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 		LoadEvent event = new LoadEvent(this, null, null, null);
 
 		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
+		synchronized(loadListeners) {
+			listeners = (HashSet) loadListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).BeginSession(event);
+			((LoadListener) i.next()).beginSession(event);
 		}
 	}
 
-	protected void fireBeginGroup(String group_name, int size) {
-		LoadEvent event = new LoadEvent(this, group_name, size);
+	protected void fireBeginGroup(String groupName, int size) {
+		LoadEvent event = new LoadEvent(this, groupName, size);
 
 		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
+		synchronized(loadListeners) {
+			listeners = (HashSet) loadListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).BeginGroup(event);
+			((LoadListener) i.next()).beginGroup(event);
 		}
 
-		PushGroupName(group_name);
+		pushGroupName(groupName);
 	}
 	
 	protected void fireBeginFile(String filename) {
-		LoadEvent event = new LoadEvent(this, TopGroupName(), filename, null);
+		LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
 		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
+		synchronized(loadListeners) {
+			listeners = (HashSet) loadListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).BeginFile(event);
+			((LoadListener) i.next()).beginFile(event);
 		}
 	}
 	
 	protected void fireBeginClassfile(String filename) {
-		LoadEvent event = new LoadEvent(this, TopGroupName(), filename, null);
+		LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
 		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
+		synchronized(loadListeners) {
+			listeners = (HashSet) loadListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).BeginClassfile(event);
+			((LoadListener) i.next()).beginClassfile(event);
 		}
 	}
 
 	protected void fireEndClassfile(String filename, Classfile classfile) {
-		LoadEvent event = new LoadEvent(this, TopGroupName(), filename, classfile);
+		LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, classfile);
 
 		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
+		synchronized(loadListeners) {
+			listeners = (HashSet) loadListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).EndClassfile(event);
+			((LoadListener) i.next()).endClassfile(event);
 		}
 	}
 
 	protected void fireEndFile(String filename) {
-		LoadEvent event = new LoadEvent(this, TopGroupName(), filename, null);
+		LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
 		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
+		synchronized(loadListeners) {
+			listeners = (HashSet) loadListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).EndFile(event);
+			((LoadListener) i.next()).endFile(event);
 		}
 	}
 
-	protected void fireEndGroup(String group_name) {
-		LoadEvent event = new LoadEvent(this, group_name, null, null);
+	protected void fireEndGroup(String groupName) {
+		LoadEvent event = new LoadEvent(this, groupName, null, null);
 
 		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
+		synchronized(loadListeners) {
+			listeners = (HashSet) loadListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).EndGroup(event);
+			((LoadListener) i.next()).endGroup(event);
 		}
 
-		PopGroupName();
+		popGroupName();
 	}
 
 	protected void fireEndSession() {
 		LoadEvent event = new LoadEvent(this, null, null, null);
 
 		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
+		synchronized(loadListeners) {
+			listeners = (HashSet) loadListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((LoadListener) i.next()).EndSession(event);
+			((LoadListener) i.next()).endSession(event);
 		}
 	}
 
-	private String TopGroupName() {
+	private String getTopGroupName() {
 		String result = null;
 
-		if (!group_names.isEmpty()) {
-			result = (String) group_names.getLast();
+		if (!groupNames.isEmpty()) {
+			result = (String) groupNames.getLast();
 		}
 
 		return result;
 	}
 
-	private void PushGroupName(String group_name) {
-		group_names.addLast(group_name);
+	private void pushGroupName(String groupName) {
+		groupNames.addLast(groupName);
 	}
 
-	private String PopGroupName() {
-		return (String) group_names.removeLast();
+	private String popGroupName() {
+		return (String) groupNames.removeLast();
 	}
 }

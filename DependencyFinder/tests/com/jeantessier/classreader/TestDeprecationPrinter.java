@@ -46,20 +46,20 @@ public class TestDeprecationPrinter extends TestCase {
 	
 	protected void setUp() throws Exception {
 		loader = new AggregatingClassfileLoader();
-		loader.Load(NEW_CLASSPATH);
+		loader.load(NEW_CLASSPATH);
 
 		writer  = new StringWriter();
 		printer = new DeprecationPrinter(new PrintWriter(writer));
 	}
 	
 	public void testOneNonDeprecatedClass() {
-		loader.Classfile("NewPackage.NewClass").Accept(printer);
+		loader.getClassfile("NewPackage.NewClass").accept(printer);
 
 		assertEquals("No deprecation", "", writer.toString());
 	}
 	
 	public void testOneDeprecatedClass() throws IOException {
-		loader.Classfile("ModifiedPackage.DeprecatedInterface").Accept(printer);
+		loader.getClassfile("ModifiedPackage.DeprecatedInterface").accept(printer);
 
 		Collection entries = Parse(writer.toString());
 		
@@ -68,7 +68,7 @@ public class TestDeprecationPrinter extends TestCase {
 	}
 	
 	public void testDeprecatedMethods() throws IOException {
-		loader.Classfile("ModifiedPackage.ModifiedClass").Accept(printer);
+		loader.getClassfile("ModifiedPackage.ModifiedClass").accept(printer);
 
 		Collection entries = Parse(writer.toString());
 		
@@ -81,7 +81,7 @@ public class TestDeprecationPrinter extends TestCase {
 	public void testListenerBehavior() throws IOException {
 		loader = new TransientClassfileLoader();
 		loader.addLoadListener(printer);
-		loader.Load(NEW_CLASSPATH);
+		loader.load(NEW_CLASSPATH);
 
 		Collection entries = Parse(writer.toString());
 		

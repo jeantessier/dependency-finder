@@ -59,11 +59,11 @@ public abstract class FeatureDifferences extends RemovableDifferences {
 		NewFeature(new_feature);
 					
 		if (old_feature != null) {
-			OldDeclaration(old_feature.Declaration());
+			OldDeclaration(old_feature.getDeclaration());
 		}
 		
 		if (new_feature != null) {
-			NewDeclaration(new_feature.Declaration());
+			NewDeclaration(new_feature.getDeclaration());
 		}
 	
 		if (IsModified()) {

@@ -58,32 +58,32 @@ public class TestAggregatingClassfileLoader extends TestCase {
 	public void testCreate() {
 		assertEquals("Different number of class names",
 					 0,
-					 loader.Classnames().size());
+					 loader.getAllClassNames().size());
 		assertNull(TEST_CLASS + " should have been null",
-				   loader.Classfile(TEST_CLASS));
+				   loader.getClassfile(TEST_CLASS));
 	}
 	
 	public void testStart() throws IOException {
 		assertEquals("Different number of class names",
 					 0,
-					 loader.Classnames().size());
+					 loader.getAllClassNames().size());
 		assertNull(TEST_CLASS + " should have been null",
-				   loader.Classfile(TEST_CLASS));
+				   loader.getClassfile(TEST_CLASS));
 
-		loader.Load(new DataInputStream(new FileInputStream(TEST_FILENAME)));
+		loader.load(new DataInputStream(new FileInputStream(TEST_FILENAME)));
 		
 		assertEquals("Different number of class names",
 					 1,
-					 loader.Classnames().size());
+					 loader.getAllClassNames().size());
 		assertTrue("Missing class name \"" + TEST_CLASS + "\"",
-				   loader.Classnames().contains(TEST_CLASS));
+				   loader.getAllClassNames().contains(TEST_CLASS));
 		assertNotNull(TEST_CLASS + " should not have been null",
-					  loader.Classfile(TEST_CLASS));
+					  loader.getClassfile(TEST_CLASS));
 	}
 
 	public void testClassfile() throws IOException {
-		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.load(Collections.singleton(TEST_FILENAME));
 
-		assertNotNull("No Classfile from " + TEST_FILENAME, loader.Classfile(TEST_CLASS));
+		assertNotNull("No Classfile from " + TEST_FILENAME, loader.getClassfile(TEST_CLASS));
 	}
 }

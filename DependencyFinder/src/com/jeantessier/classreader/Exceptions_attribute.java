@@ -50,13 +50,13 @@ public class Exceptions_attribute extends Attribute_info {
 		Logger.getLogger(getClass()).debug("Reading " + exception_count + " exception(s) ...");
 		for (int i=0; i<exception_count; i++) {
 			Logger.getLogger(getClass()).debug("Exception " + i + ":");
-			Class_info exception = (Class_info) classfile.ConstantPool().get(in.readUnsignedShort());
+			Class_info exception = (Class_info) classfile.getConstantPool().get(in.readUnsignedShort());
 			exceptions.add(exception);
 			Logger.getLogger(getClass()).debug("Class " + exception);
 		}
 	}
 
-	public Collection Exceptions() {
+	public Collection getExceptions() {
 		return exceptions;
 	}
 
@@ -64,7 +64,7 @@ public class Exceptions_attribute extends Attribute_info {
 		return "Exceptions";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitExceptions_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitExceptions_attribute(this);
 	}
 }

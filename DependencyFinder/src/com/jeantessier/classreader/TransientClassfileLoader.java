@@ -44,19 +44,19 @@ public class TransientClassfileLoader extends ClassfileLoaderEventSource {
 		super(dispatcher);
 	}
 
-	public Classfile Classfile(String name) {
+	public Classfile getClassfile(String name) {
 		return null;
 	}
 
-	public Collection Classfiles() {
+	public Collection getAllClassfiles() {
 		return Collections.EMPTY_LIST;
 	}
 
-	public Collection Classnames() {
+	public Collection getAllClassNames() {
 		return Collections.EMPTY_LIST;
 	}
 
-	protected Classfile Load(DataInputStream in) throws IOException {
+	protected Classfile load(DataInputStream in) throws IOException {
 		return new Classfile(this, in);
 	}
 }

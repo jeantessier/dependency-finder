@@ -61,11 +61,11 @@ public class ClassDifferences extends RemovableDifferences {
 		NewClass(new_class);
 		
 		if (old_class != null) {
-			OldDeclaration(old_class.Declaration());
+			OldDeclaration(old_class.getDeclaration());
 		}
 
 		if (new_class != null) {
-			NewDeclaration(new_class.Declaration());
+			NewDeclaration(new_class.getDeclaration());
 		}
 	
 		if (IsModified()) {

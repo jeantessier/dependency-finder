@@ -43,44 +43,44 @@ public class Field_info extends Feature_info {
 		super(classfile, in);
 	}
 
-	public String FeatureType() {
+	public String getFeatureType() {
 		return "field";
 	}
 
-	public boolean IsVolatile() {
-		return (AccessFlag() & ACC_VOLATILE) != 0;
+	public boolean isVolatile() {
+		return (getAccessFlag() & ACC_VOLATILE) != 0;
 	}
 
-	public boolean IsTransient() {
-		return (AccessFlag() & ACC_TRANSIENT) != 0;
+	public boolean isTransient() {
+		return (getAccessFlag() & ACC_TRANSIENT) != 0;
 	}
 
-	public String Type() {
-		return SignatureHelper.Type(Descriptor());
+	public String getType() {
+		return SignatureHelper.getType(getDescriptor());
 	}
 
-	public String Declaration() {
+	public String getDeclaration() {
 		StringBuffer result = new StringBuffer();
 
-		if (IsPublic()) result.append("public ");
-		if (IsProtected()) result.append("protected ");
-		if (IsPrivate()) result.append("private ");
-		if (IsStatic()) result.append("static ");
-		if (IsFinal()) result.append("final ");
-		if (IsVolatile()) result.append("volatile ");
-		if (IsTransient()) result.append("transient ");
+		if (isPublic()) result.append("public ");
+		if (isProtected()) result.append("protected ");
+		if (isPrivate()) result.append("private ");
+		if (isStatic()) result.append("static ");
+		if (isFinal()) result.append("final ");
+		if (isVolatile()) result.append("volatile ");
+		if (isTransient()) result.append("transient ");
 	
-		result.append(Type()).append(" ");
-		result.append(Name());
+		result.append(getType()).append(" ");
+		result.append(getName());
 
 		return result.toString();
 	}
 
-	public String Signature() {
-		return Name();
+	public String getSignature() {
+		return getName();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitField_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitField_info(this);
 	}
 }

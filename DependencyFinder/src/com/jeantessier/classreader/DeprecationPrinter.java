@@ -40,63 +40,63 @@ public class DeprecationPrinter extends Printer implements LoadListener {
 		super(out);
 	}
 	
-	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
+	public void visitDeprecated_attribute(Deprecated_attribute attribute) {
 		Object owner = attribute.Owner();
 
 		if (owner instanceof Feature_info) {
-			if (!((Feature_info) owner).Classfile().IsDeprecated()) {
-				Append(((Feature_info) owner).FullSignature()).EOL();
+			if (!((Feature_info) owner).getClassfile().isDeprecated()) {
+				append(((Feature_info) owner).getFullSignature()).eol();
 			}
 		} else {
-			Append(owner).EOL();
+			append(owner).eol();
 			
 			if (owner instanceof Classfile) {
 				Classfile classfile = (Classfile) owner;
 
 				Iterator i;
 
-				i = classfile.Fields().iterator();
+				i = classfile.getAllFields().iterator();
 				while (i.hasNext()) {
-					Append(((Feature_info) i.next()).FullSignature()).EOL();
+					append(((Feature_info) i.next()).getFullSignature()).eol();
 				}
 
-				i = classfile.Methods().iterator();
+				i = classfile.getAllMethods().iterator();
 				while (i.hasNext()) {
-					Append(((Feature_info) i.next()).FullSignature()).EOL();
+					append(((Feature_info) i.next()).getFullSignature()).eol();
 				}
 			}
 		}
 	}
 	
-	public void BeginSession(LoadEvent event) {
+	public void beginSession(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginGroup(LoadEvent event) {
+	public void beginGroup(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginFile(LoadEvent event) {
+	public void beginFile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginClassfile(LoadEvent event) {
+	public void beginClassfile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndClassfile(LoadEvent event) {
-		event.Classfile().Accept(this);
+	public void endClassfile(LoadEvent event) {
+		event.getClassfile().accept(this);
 	}
 	
-	public void EndFile(LoadEvent event) {
+	public void endFile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndGroup(LoadEvent event) {
+	public void endGroup(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndSession(LoadEvent event) {
+	public void endSession(LoadEvent event) {
 		// Do nothing
 	}
 }

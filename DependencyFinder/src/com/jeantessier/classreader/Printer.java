@@ -37,84 +37,84 @@ import java.util.*;
 
 public abstract class Printer extends VisitorBase {
 	private PrintWriter out;
-	private String      indent_text  = "    ";
-	private int         indent_level = 0;
+	private String      indentText  = "    ";
+	private int         indentLevel = 0;
 
 	public Printer(PrintWriter out) {
 		this.out = out;
 	}
 	
-	public String IndentText() {
-		return indent_text;
+	public String getIndentText() {
+		return indentText;
 	}
 
-	public void IndentText(String indent_text) {
-		this.indent_text = indent_text;
+	public void setIndentText(String indentText) {
+		this.indentText = indentText;
 	}
 	
-	protected Printer Append(boolean b) {
+	protected Printer append(boolean b) {
 		out.print(b);
 		return this;
 	}
 
-	protected Printer Append(char c) {
+	protected Printer append(char c) {
 		out.print(c);
 		return this;
 	}
 
-	protected Printer Append(char[] s) {
+	protected Printer append(char[] s) {
 		out.print(s);
 		return this;
 	}
 
-	protected Printer Append(double d) {
+	protected Printer append(double d) {
 		out.print(d);
 		return this;
 	}
 
-	protected Printer Append(float f) {
+	protected Printer append(float f) {
 		out.print(f);
 		return this;
 	}
 
-	protected Printer Append(int i) {
+	protected Printer append(int i) {
 		out.print(i);
 		return this;
 	}
 
-	protected Printer Append(long l) {
+	protected Printer append(long l) {
 		out.print(l);
 		return this;
 	}
 
-	protected Printer Append(Object obj) {
+	protected Printer append(Object obj) {
 		out.print(obj);
 		return this;
 	}
 
-	protected Printer Append(String s) {
+	protected Printer append(String s) {
 		out.print(s);
 		return this;
 	}
 
-	protected Printer Indent() {
-		for (int i=0; i<indent_level; i++) {
-			Append(IndentText());
+	protected Printer indent() {
+		for (int i=0; i<indentLevel; i++) {
+			append(getIndentText());
 		}
 
 		return this;
 	}
 
-	protected Printer EOL() {
+	protected Printer eol() {
 		out.println();
 		return this;
 	}
 
-	protected void RaiseIndent() {
-		indent_level++;
+	protected void raiseIndent() {
+		indentLevel++;
 	}
 
-	protected void LowerIndent() {
-		indent_level--;
+	protected void lowerIndent() {
+		indentLevel--;
 	}
 }

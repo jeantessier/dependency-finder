@@ -48,7 +48,7 @@ public class Synthetic_attribute extends Attribute_info {
 		return "Synthetic";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitSynthetic_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitSynthetic_attribute(this);
 	}
 }

@@ -144,8 +144,8 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 		MetricsFactory factory = new MetricsFactory("test", configuration);
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
-		loader.Load(Collections.singleton(TEST_FILENAME));
-		loader.Classfile(TEST_CLASS).Accept(new MetricsGatherer("test", factory));
+		loader.load(Collections.singleton(TEST_FILENAME));
+		loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer("test", factory));
 
 		printer = new XMLPrinter(new PrintWriter(buffer), configuration, com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 		printer.VisitMetrics(factory.ProjectMetrics());

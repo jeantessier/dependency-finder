@@ -107,8 +107,8 @@ public class ConstantPool extends ArrayList implements Visitable {
 		this.classfile = classfile;
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitConstantPool(this);
+	public void accept(Visitor visitor) {
+		visitor.visitConstantPool(this);
 	}
 
 	public String toString() {
@@ -118,7 +118,7 @@ public class ConstantPool extends ArrayList implements Visitable {
 		writer.println("Constant Pool:");
 
 		Printer printer = new TextPrinter(writer);
-		Accept(printer);
+		accept(printer);
 
 		writer.close();
 		

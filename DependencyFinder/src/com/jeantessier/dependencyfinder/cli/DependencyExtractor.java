@@ -148,7 +148,7 @@ public class DependencyExtractor {
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(collector);
 		loader.addLoadListener(verbose_listener);
-		loader.Load(parameters);
+		loader.load(parameters);
 
 		if (command_line.IsPresent("minimize")) {
 			LinkMinimizer minimizer = new LinkMinimizer();

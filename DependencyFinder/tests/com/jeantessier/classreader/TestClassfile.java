@@ -42,11 +42,11 @@ public class TestClassfile extends TestCase {
 
 	protected void setUp() throws Exception {
 		loader = new AggregatingClassfileLoader();
-		loader.Load(Collections.singleton("tests\\JarJarDiff\\new"));
+		loader.load(Collections.singleton("tests\\JarJarDiff\\new"));
 	}
 
 	public void testDeprecated() {
-		assertTrue("ModifiedPackage.DeprecatedClass",    loader.Classfile("ModifiedPackage.DeprecatedClass").IsDeprecated());
-		assertTrue("ModifiedPackage.UndeprecatedClass", !loader.Classfile("ModifiedPackage.UndeprecatedClass").IsDeprecated());
+		assertTrue("ModifiedPackage.DeprecatedClass",    loader.getClassfile("ModifiedPackage.DeprecatedClass").isDeprecated());
+		assertTrue("ModifiedPackage.UndeprecatedClass", !loader.getClassfile("ModifiedPackage.UndeprecatedClass").isDeprecated());
 	}
 }

@@ -67,13 +67,13 @@ public class DifferencesFactory {
 		Iterator   i;
 
 		NodeFactory old_factory = new NodeFactory();
-		i = old_jar.Classfiles().iterator();
+		i = old_jar.getAllClassfiles().iterator();
 		while (i.hasNext()) {
 			old_factory.CreateClass(i.next().toString());
 		}
 
 		NodeFactory new_factory = new NodeFactory();
-		i = new_jar.Classfiles().iterator();
+		i = new_jar.getAllClassfiles().iterator();
 		while (i.hasNext()) {
 			new_factory.CreateClass(i.next().toString());
 		}
@@ -129,8 +129,8 @@ public class DifferencesFactory {
 			while (i.hasNext()) {
 				String class_name = (String) i.next();
 				
-				Classfile old_class = old_jar.Classfile(class_name);
-				Classfile new_class = new_jar.Classfile(class_name);
+				Classfile old_class = old_jar.getClassfile(class_name);
+				Classfile new_class = new_jar.getClassfile(class_name);
 				
 				Differences differences = CreateClassDifferences(class_name, old_class, new_class);
 				if (!differences.IsEmpty()) {
@@ -154,7 +154,7 @@ public class DifferencesFactory {
 		Logger.getLogger(getClass()).debug("Begin " + name);
 
 		ClassDifferences class_differences;
-		if (((old_class != null) && old_class.IsInterface()) || ((new_class != null) && new_class.IsInterface())) {
+		if (((old_class != null) && old_class.isInterface()) || ((new_class != null) && new_class.isInterface())) {
 			class_differences = new InterfaceDifferences(name, old_class, new_class);
 		} else {
 			class_differences = new ClassDifferences(name, old_class, new_class);
@@ -170,16 +170,16 @@ public class DifferencesFactory {
 			Map field_level = new TreeMap();
 			Iterator i;
 			
-			i = old_class.Fields().iterator();
+			i = old_class.getAllFields().iterator();
 			while (i.hasNext()) {
 				Field_info field = (Field_info) i.next();
-				field_level.put(field.Name(), field.FullSignature());
+				field_level.put(field.getName(), field.getFullSignature());
 			}
 			
-			i = new_class.Fields().iterator();
+			i = new_class.getAllFields().iterator();
 			while (i.hasNext()) {
 				Field_info field = (Field_info) i.next();
-				field_level.put(field.Name(), field.FullSignature());
+				field_level.put(field.getName(), field.getFullSignature());
 			}
 			
 			Logger.getLogger(getClass()).debug("      Diff'ing fields ...");
@@ -189,8 +189,8 @@ public class DifferencesFactory {
 				String field_name     = (String) i.next();
 				String field_fullname = (String) field_level.get(field_name);
 				
-				Field_info old_field = old_class.Field(field_name);
-				Field_info new_field = new_class.Field(field_name);
+				Field_info old_field = old_class.getField(field_name);
+				Field_info new_field = new_class.getField(field_name);
 				
 				Differences differences = CreateFeatureDifferences(field_fullname, old_field, new_field);
 				if (!differences.IsEmpty()) {
@@ -202,16 +202,16 @@ public class DifferencesFactory {
 			
 			Map method_level = new TreeMap();
 			
-			i = old_class.Methods().iterator();
+			i = old_class.getAllMethods().iterator();
 			while (i.hasNext()) {
 				Method_info method = (Method_info) i.next();
-				method_level.put(method.Signature(), method.FullSignature());
+				method_level.put(method.getSignature(), method.getFullSignature());
 			}
 			
-			i = new_class.Methods().iterator();
+			i = new_class.getAllMethods().iterator();
 			while (i.hasNext()) {
 				Method_info method = (Method_info) i.next();
-				method_level.put(method.Signature(), method.FullSignature());
+				method_level.put(method.getSignature(), method.getFullSignature());
 			}
 			
 			Logger.getLogger(getClass()).debug("      Diff'ing methods ...");
@@ -221,8 +221,8 @@ public class DifferencesFactory {
 				String method_name     = (String) i.next();
 				String method_fullname = (String) method_level.get(method_name);
 				
-				Method_info old_method = old_class.Method(method_name);
-				Method_info new_method = new_class.Method(method_name);
+				Method_info old_method = old_class.getMethod(method_name);
+				Method_info new_method = new_class.getMethod(method_name);
 				
 				Differences differences = CreateFeatureDifferences(method_fullname, old_method, new_method);
 				if (!differences.IsEmpty()) {
@@ -232,7 +232,7 @@ public class DifferencesFactory {
 			
 			Logger.getLogger(getClass()).debug(name + " has " + class_differences.FeatureDifferences().size() + " feature(s) that changed.");
 
-			if (old_class.IsDeprecated() != new_class.IsDeprecated()) {
+			if (old_class.isDeprecated() != new_class.isDeprecated()) {
 				result = new DeprecatableDifferences(result, old_class, new_class);
 			}
 			
@@ -253,19 +253,19 @@ public class DifferencesFactory {
 		if (old_feature instanceof Field_info || new_feature instanceof Field_info) {
 			feature_differences = new FieldDifferences(name, old_feature, new_feature);
 
-			if (feature_differences.IsRemoved() && new_class.LocateField(name) != null) {
+			if (feature_differences.IsRemoved() && new_class.locateField(name) != null) {
 				feature_differences.Inherited(true);
 			}
 		} else {
-			if (((old_feature instanceof Method_info) && ((Method_info) old_feature).IsConstructor()) || ((new_feature instanceof Method_info) && ((Method_info) new_feature).IsConstructor())) {
+			if (((old_feature instanceof Method_info) && ((Method_info) old_feature).isConstructor()) || ((new_feature instanceof Method_info) && ((Method_info) new_feature).isConstructor())) {
 				feature_differences = new ConstructorDifferences(name, old_feature, new_feature);
 			} else {
 				feature_differences = new MethodDifferences(name, old_feature, new_feature);
 			}
 
 			if (feature_differences.IsRemoved()) {
-				Method_info attempt = new_class.LocateMethod(name);
-				if ((attempt != null) && (old_feature.Classfile().IsInterface() == attempt.Classfile().IsInterface())) {
+				Method_info attempt = new_class.locateMethod(name);
+				if ((attempt != null) && (old_feature.getClassfile().isInterface() == attempt.getClassfile().isInterface())) {
 					feature_differences.Inherited(true);
 				}
 			}
@@ -273,7 +273,7 @@ public class DifferencesFactory {
 		Differences result = feature_differences;
 		
 		if (old_feature != null && new_feature != null) {
-			if (old_feature.IsDeprecated() != new_feature.IsDeprecated()) {
+			if (old_feature.isDeprecated() != new_feature.isDeprecated()) {
 				result = new DeprecatableDifferences(result, old_feature, new_feature);
 			}
 

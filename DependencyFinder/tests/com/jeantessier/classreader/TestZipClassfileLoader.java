@@ -52,7 +52,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
 		String filename = TEST_DIR + File.separator + "onelevel.zip";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(filename);
+		loader.load(filename);
 
 		assertEquals("Begin Session",    0, BeginSession().size());
 		assertEquals("Begin Group",      1, BeginGroup().size());
@@ -63,14 +63,14 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
 		assertEquals("End Group",        1, EndGroup().size());
 		assertEquals("End Session",      0, EndSession().size());
 
-		assertEquals("Group size", 38, ((LoadEvent) BeginGroup().getFirst()).Size());
+		assertEquals("Group size", 38, ((LoadEvent) BeginGroup().getFirst()).getSize());
 	}
 
 	public void testLoadFileWrongName() throws IOException {
 		String filename = TEST_DIR + File.separator + "onelevel.mis";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(filename);
+		loader.load(filename);
 
 		assertEquals("Begin Session",    0, BeginSession().size());
 		assertEquals("Begin Group",      1, BeginGroup().size());
@@ -81,14 +81,14 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
 		assertEquals("End Group",        1, EndGroup().size());
 		assertEquals("End Session",      0, EndSession().size());
 
-		assertEquals("Group size", 38, ((LoadEvent) BeginGroup().getFirst()).Size());
+		assertEquals("Group size", 38, ((LoadEvent) BeginGroup().getFirst()).getSize());
 	}
 
 	public void testLoadWrongFile() throws IOException {
 		String filename = TEST_DIR + File.separator + "old" + File.separator + "ModifiedPackage" + File.separator + "ModifiedClass.class";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(filename);
+		loader.load(filename);
 
 		assertEquals("Begin Session",   0, BeginSession().size());
 		assertEquals("Begin Group",     0, BeginGroup().size());
@@ -104,7 +104,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
 		String filename = TEST_DIR + File.separator + "onelevel.zip";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(filename, new FileInputStream(filename));
+		loader.load(filename, new FileInputStream(filename));
 
 		assertEquals("Begin Session",    0, BeginSession().size());
 		assertEquals("Begin Group",      1, BeginGroup().size());
@@ -115,14 +115,14 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
 		assertEquals("End Group",        1, EndGroup().size());
 		assertEquals("End Session",      0, EndSession().size());
 
-		assertEquals("Group size", -1, ((LoadEvent) BeginGroup().getFirst()).Size());
+		assertEquals("Group size", -1, ((LoadEvent) BeginGroup().getFirst()).getSize());
 	}
 
 	public void testLoadInputStreamWrongName() throws IOException {
 		String filename = TEST_DIR + File.separator + "onelevel.mis";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(filename, new FileInputStream(filename));
+		loader.load(filename, new FileInputStream(filename));
 
 		assertEquals("Begin Session",    0, BeginSession().size());
 		assertEquals("Begin Group",      1, BeginGroup().size());
@@ -133,14 +133,14 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
 		assertEquals("End Group",        1, EndGroup().size());
 		assertEquals("End Session",      0, EndSession().size());
 
-		assertEquals("Group size", -1, ((LoadEvent) BeginGroup().getFirst()).Size());
+		assertEquals("Group size", -1, ((LoadEvent) BeginGroup().getFirst()).getSize());
 	}
 
 	public void testLoadWrongInputStream() throws IOException {
 		String filename = TEST_DIR + File.separator + "old" + File.separator + "ModifiedPackage" + File.separator + "ModifiedClass.class";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(filename, new FileInputStream(filename));
+		loader.load(filename, new FileInputStream(filename));
 
 		assertEquals("Begin Session",   0, BeginSession().size());
 		assertEquals("Begin Group",     1, BeginGroup().size());

@@ -145,9 +145,9 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testSingleClassfile() {
-		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.load(Collections.singleton(TEST_FILENAME));
 
-		loader.Classfile(TEST_CLASS).Accept(printer);
+		loader.getClassfile(TEST_CLASS).accept(printer);
 
 		String xml_document = buffer.toString();
 		assertTrue(xml_document + "Missing DOCTYPE", perl.match("/DOCTYPE (\\w+) SYSTEM/", xml_document));
@@ -163,7 +163,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 	
 	public void testZeroClassfile() {
-		printer.VisitClassfiles(Collections.EMPTY_LIST);
+		printer.visitClassfiles(Collections.EMPTY_LIST);
 
 		String xml_document = buffer.toString();
 		assertTrue(xml_document + "Missing DOCTYPE", perl.match("/DOCTYPE (\\w+) SYSTEM/", xml_document));
@@ -179,9 +179,9 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 	
 	public void testOneClassfile() {
-		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.load(Collections.singleton(TEST_FILENAME));
 
-		printer.VisitClassfiles(loader.Classfiles());
+		printer.visitClassfiles(loader.getAllClassfiles());
 
 		String xml_document = buffer.toString();
 		assertTrue(xml_document + "Missing DOCTYPE", perl.match("/DOCTYPE (\\w+) SYSTEM/", xml_document));
@@ -197,9 +197,9 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testMultipleClassfiles() throws SAXException, IOException {
-		loader.Load(Collections.singleton(TEST_DIRECTORY));
+		loader.load(Collections.singleton(TEST_DIRECTORY));
 
-		printer.VisitClassfiles(loader.Classfiles());
+		printer.visitClassfiles(loader.getAllClassfiles());
 
 		String xml_document = buffer.toString();
 		assertTrue(xml_document + "Missing DOCTYPE", perl.match("/DOCTYPE (\\w+) SYSTEM/", xml_document));

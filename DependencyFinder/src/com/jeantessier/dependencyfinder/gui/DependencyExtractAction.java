@@ -71,7 +71,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 
 		model.StatusLine().ShowInfo("Scanning ...");
 		ClassfileScanner scanner = new ClassfileScanner();
-		scanner.Load(Arrays.asList(files));
+		scanner.load(Arrays.asList(files));
 
 		model.ProgressBar().setMaximum(scanner.NbFiles());
 		
@@ -80,7 +80,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(new VerboseListener(model.StatusLine(), model.ProgressBar()));
 		loader.addLoadListener(collector);
-		loader.Load(Arrays.asList(files));
+		loader.load(Arrays.asList(files));
 
 		if (model.Maximize()) {
 			model.StatusLine().ShowInfo("Maximizing ...");

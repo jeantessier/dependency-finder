@@ -68,15 +68,15 @@ public class VerboseListenerBase implements LoadListener {
 		this.ratio_indicator = ratio_indicator;
 	}
 	
-	public void BeginSession(LoadEvent event) {
+	public void beginSession(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginGroup(LoadEvent event) {
-		groups.add(new GroupData(event.GroupName(), event.Size()));
+	public void beginGroup(LoadEvent event) {
+		groups.add(new GroupData(event.getGroupName(), event.getSize()));
 	}
 
-	public void BeginFile(LoadEvent event) {
+	public void beginFile(LoadEvent event) {
 		int previous_ratio = CurrentGroup().Ratio();
 		CurrentGroup().IncrementCount();
 		
@@ -101,25 +101,25 @@ public class VerboseListenerBase implements LoadListener {
 		}
 	}
 
-	public void BeginClassfile(LoadEvent event) {
+	public void beginClassfile(LoadEvent event) {
 		// Do nothing
 	}
 
-	public void EndClassfile(LoadEvent event) {
-		visited_files.add(event.Filename());
+	public void endClassfile(LoadEvent event) {
+		visited_files.add(event.getFilename());
 		class_count++;
 	}
 
-	public void EndFile(LoadEvent event) {
+	public void endFile(LoadEvent event) {
 		// Do nothing
 	}
 
-	public void EndGroup(LoadEvent event) {
-		visited_files.add(event.GroupName());
+	public void endGroup(LoadEvent event) {
+		visited_files.add(event.getGroupName());
 		groups.removeLast();
 	}
 
-	public void EndSession(LoadEvent event) {
+	public void endSession(LoadEvent event) {
 		// Do nothing
 	}
 }

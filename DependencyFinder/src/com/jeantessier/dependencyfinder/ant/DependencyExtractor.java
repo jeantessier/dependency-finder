@@ -140,7 +140,7 @@ public class DependencyExtractor extends Task {
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(collector);
 		loader.addLoadListener(verbose_listener);
-		loader.Load(Arrays.asList(getPath().list()));
+		loader.load(Arrays.asList(getPath().list()));
 
 		if (getMinimize()) {
 			LinkMinimizer minimizer = new LinkMinimizer();

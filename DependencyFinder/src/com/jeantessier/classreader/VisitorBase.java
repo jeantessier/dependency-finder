@@ -37,162 +37,162 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public abstract class VisitorBase implements Visitor {
-	private int current_count;
+	private int currentCount;
 
-	protected void ResetCount() {
-		current_count = 0;
+	protected void resetCount() {
+		currentCount = 0;
 	}
 
-	protected void RaiseCount() {
-		current_count++;
+	protected void raiseCount() {
+		currentCount++;
 	}
 
-	protected int CurrentCount() {
-		return current_count;
+	protected int currentCount() {
+		return currentCount;
 	}
 
-	public void VisitConstantPool(ConstantPool constant_pool) {
-		Iterator i = constant_pool.iterator();
+	public void visitConstantPool(ConstantPool constantPool) {
+		Iterator i = constantPool.iterator();
 		while (i.hasNext()) {
 			Visitable entry = (Visitable) i.next();
 			if (entry != null) {
-				entry.Accept(this);
+				entry.accept(this);
 			}
-			RaiseCount();
+			raiseCount();
 		}
 	}
 
 	// Classfile
-	public void VisitClassfiles(Collection classfiles) {
+	public void visitClassfiles(Collection classfiles) {
 		Iterator i = classfiles.iterator();
 		while (i.hasNext()) {
-			((Classfile) i.next()).Accept(this);
+			((Classfile) i.next()).accept(this);
 		}
 	}
 
-	public void VisitClassfile(Classfile classfile) {
+	public void visitClassfile(Classfile classfile) {
 		Iterator i;
 
-		i = classfile.Attributes().iterator();
+		i = classfile.getAttributes().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		i = classfile.Fields().iterator();
+		i = classfile.getAllFields().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		i = classfile.Methods().iterator();
+		i = classfile.getAllMethods().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
 	// ConstantPool entries
-	public void VisitClass_info(Class_info entry) {}
-	public void VisitFieldRef_info(FieldRef_info entry) {}
-	public void VisitMethodRef_info(MethodRef_info entry) {}
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {}
-	public void VisitString_info(String_info entry) {}
-	public void VisitInteger_info(Integer_info entry) {}
-	public void VisitFloat_info(Float_info entry) {}
-	public void VisitLong_info(Long_info entry) {}
-	public void VisitDouble_info(Double_info entry) {}
-	public void VisitNameAndType_info(NameAndType_info entry) {}
-	public void VisitUTF8_info(UTF8_info entry) {}
+	public void visitClass_info(Class_info entry) {}
+	public void visitFieldRef_info(FieldRef_info entry) {}
+	public void visitMethodRef_info(MethodRef_info entry) {}
+	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {}
+	public void visitString_info(String_info entry) {}
+	public void visitInteger_info(Integer_info entry) {}
+	public void visitFloat_info(Float_info entry) {}
+	public void visitLong_info(Long_info entry) {}
+	public void visitDouble_info(Double_info entry) {}
+	public void visitNameAndType_info(NameAndType_info entry) {}
+	public void visitUTF8_info(UTF8_info entry) {}
 
 	// Features
-	public void VisitField_info(Field_info entry) {
-		Iterator i = entry.Attributes().iterator();
+	public void visitField_info(Field_info entry) {
+		Iterator i = entry.getAttributes().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	public void VisitMethod_info(Method_info entry) {
-		Iterator i = entry.Attributes().iterator();
+	public void visitMethod_info(Method_info entry) {
+		Iterator i = entry.getAttributes().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
 	// Attributes
-	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
+	public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
 		// Do nothing
 	}
 
-	public void VisitCode_attribute(Code_attribute attribute) {
+	public void visitCode_attribute(Code_attribute attribute) {
 		Iterator i;
 
-		Logger.getLogger(getClass()).debug("Visiting " + attribute.ExceptionHandlers().size() + " exception handler(s) ...");
-		i = attribute.ExceptionHandlers().iterator();
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptionHandlers().size() + " exception handler(s) ...");
+		i = attribute.getExceptionHandlers().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 		
-		Logger.getLogger(getClass()).debug("Visiting " + attribute.Attributes().size() + " code attribute(s) ...");
-		i = attribute.Attributes().iterator();
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.getAttributes().size() + " code attribute(s) ...");
+		i = attribute.getAttributes().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
-		Logger.getLogger(getClass()).debug("Visiting " + attribute.Exceptions().size() + " exception class(es) ...");
+	public void visitExceptions_attribute(Exceptions_attribute attribute) {
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptions().size() + " exception class(es) ...");
 
-		Iterator i = attribute.Exceptions().iterator();
+		Iterator i = attribute.getExceptions().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
-	}
-	
-	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
-		Logger.getLogger(getClass()).debug("Visiting " + attribute.Classes().size() + " inner class(es) ...");
-
-		Iterator i = attribute.Classes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 	
-	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
+	public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.getClasses().size() + " inner class(es) ...");
+
+		Iterator i = attribute.getClasses().iterator();
+		while (i.hasNext()) {
+			((Visitable) i.next()).accept(this);
+		}
+	}
+	
+	public void visitSynthetic_attribute(Synthetic_attribute attribute) {
 		// Do nothing
 	}
 	
-	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {
+	public void visitSourceFile_attribute(SourceFile_attribute attribute) {
 		// Do nothing
 	}
 	
-	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-		Logger.getLogger(getClass()).debug("Visiting " + attribute.LineNumbers().size() + " line number(s) ...");
+	public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.getLineNumbers().size() + " line number(s) ...");
 
-		Iterator i = attribute.LineNumbers().iterator();
+		Iterator i = attribute.getLineNumbers().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 	
-	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-		Logger.getLogger(getClass()).debug("Visiting " + attribute.LocalVariables().size() + " local variable(s) ...");
+	public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariables().size() + " local variable(s) ...");
 
-		Iterator i = attribute.LocalVariables().iterator();
+		Iterator i = attribute.getLocalVariables().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 	
-	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
+	public void visitDeprecated_attribute(Deprecated_attribute attribute) {
 		// Do nothing
 	}
 	
-	public void VisitCustom_attribute(Custom_attribute attribute) {
+	public void visitCustom_attribute(Custom_attribute attribute) {
 		// Do nothing
 	}
 
 	// Attribute helpers
-	public void VisitExceptionHandler(ExceptionHandler helper) {}
-	public void VisitInnerClass(InnerClass helper) {}
-	public void VisitLineNumber(LineNumber helper) {}
-	public void VisitLocalVariable(LocalVariable helper) {}
+	public void visitExceptionHandler(ExceptionHandler helper) {}
+	public void visitInnerClass(InnerClass helper) {}
+	public void visitLineNumber(LineNumber helper) {}
+	public void visitLocalVariable(LocalVariable helper) {}
 }

@@ -188,7 +188,7 @@ public class OOMetrics {
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
 		loader.addLoadListener(verbose_listener);
-		loader.Load(parameters);
+		loader.load(parameters);
 
 		Logger.getLogger(OOMetrics.class).debug("Reading configuration ...");
 
@@ -212,7 +212,7 @@ public class OOMetrics {
 			gatherer.FilterIncludes(CreateCollection(command_line.MultipleSwitch("filter-includes-list"), command_line.MultipleSwitch("filter-excludes-list")));
 		}
 		gatherer.addMetricsListener(verbose_listener);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 		
 		if (command_line.IsPresent("show-all-metrics")) {
 			Iterator i;

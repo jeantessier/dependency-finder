@@ -39,46 +39,46 @@ import org.apache.oro.text.perl.*;
 public class FeatureDependencyCollector extends CollectorBase {
 	private static final Perl5Util perl = new Perl5Util();
 
-	private Class_info this_class;
+	private Class_info thisClass;
 
-	public void VisitClassfile(Classfile classfile) {
-		this_class = classfile.RawClass();
+	public void visitClassfile(Classfile classfile) {
+		thisClass = classfile.getRawClass();
 
-		classfile.ConstantPool().Accept(this);
+		classfile.getConstantPool().accept(this);
 	}
 
-	public void VisitFieldRef_info(FieldRef_info entry) {
-		if (entry.RawClass() != this_class) {
-			Add(entry.Class() + "." + entry.RawNameAndType().Name());
+	public void visitFieldRef_info(FieldRef_info entry) {
+		if (entry.getRawClass() != thisClass) {
+			add(entry.Class() + "." + entry.getRawNameAndType().Name());
 		}
 	}
 
-	public void VisitMethodRef_info(MethodRef_info entry) {
-		if ((entry.RawClass() != this_class) && !perl.match("/<.*init>/", entry.RawNameAndType().Name())) {
-			Add(entry.Class() + "." + entry.RawNameAndType().Name());
+	public void visitMethodRef_info(MethodRef_info entry) {
+		if ((entry.getRawClass() != thisClass) && !perl.match("/<.*init>/", entry.getRawNameAndType().Name())) {
+			add(entry.Class() + "." + entry.getRawNameAndType().Name());
 		}
 	}
 
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-		if (entry.RawClass() != this_class) {
-			Add(entry.Class() + "." + entry.RawNameAndType().Name());
+	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+		if (entry.getRawClass() != thisClass) {
+			add(entry.Class() + "." + entry.getRawNameAndType().Name());
 		}
 	}
 
-	public void VisitMethod_info(Method_info entry) {
-		ProcessSignature(entry.Descriptor());
+	public void visitMethod_info(Method_info entry) {
+		processSignature(entry.getDescriptor());
 	
-		super.VisitMethod_info(entry);
+		super.visitMethod_info(entry);
 	}
 
-	public void VisitCode_attribute(Code_attribute attribute) {
+	public void visitCode_attribute(Code_attribute attribute) {
 
-		byte[] code = attribute.Code();
+		byte[] code = attribute.getCode();
 
 		Iterator ci = attribute.iterator();
 		while (ci.hasNext()) {
 			Instruction instr = (Instruction) ci.next();
-			switch (instr.Opcode()) {
+			switch (instr.getOpcode()) {
 				case 0xb2: // getstatic
 				case 0xb3: // putstatic
 				case 0xb4: // getfield
@@ -87,9 +87,9 @@ public class FeatureDependencyCollector extends CollectorBase {
 				case 0xb7: // invokespecial
 				case 0xb8: // invokestatic
 				case 0xb9: // invokeinterface
-					int start = instr.Start();
+					int start = instr.getStart();
 					int index = (code[start+1] << 8) | code[start+2];
-					((Visitable) attribute.Classfile().ConstantPool().get(index)).Accept(this);
+					((Visitable) attribute.getClassfile().getConstantPool().get(index)).accept(this);
 					break;
 				default:
 					// Do nothing
@@ -97,26 +97,26 @@ public class FeatureDependencyCollector extends CollectorBase {
 			}
 		}
 
-		Iterator i = attribute.Attributes().iterator();
+		Iterator i = attribute.getAttributes().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 	}
 
-	private void ProcessSignature(String str) {
-		int current_pos = 0;
-		int start_pos;
-		int end_pos;
+	private void processSignature(String str) {
+		int currentPos = 0;
+		int startPos;
+		int endPos;
 
-		while ((start_pos = str.indexOf('L', current_pos)) != -1) {
-			if ((end_pos = str.indexOf(';', start_pos)) != -1) {
-				String candidate = str.substring(start_pos + 1, end_pos);
-				if (!this_class.Name().equals(candidate)) {
-					Add(SignatureHelper.Path2ClassName(candidate));
+		while ((startPos = str.indexOf('L', currentPos)) != -1) {
+			if ((endPos = str.indexOf(';', startPos)) != -1) {
+				String candidate = str.substring(startPos + 1, endPos);
+				if (!thisClass.getName().equals(candidate)) {
+					add(SignatureHelper.path2ClassName(candidate));
 				}
-				current_pos = end_pos + 1;
+				currentPos = endPos + 1;
 			} else {
-				current_pos = start_pos + 1;
+				currentPos = startPos + 1;
 			}
 		}
 	}

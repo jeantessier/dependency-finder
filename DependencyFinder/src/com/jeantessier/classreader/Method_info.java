@@ -45,89 +45,89 @@ public class Method_info extends Feature_info {
 		super(classfile, in);
 	}
 
-	public String FeatureType() {
+	public String getFeatureType() {
 		return "method";
 	}
 
-	public boolean IsSynchronized() {
-		return (AccessFlag() & ACC_SYNCHRONIZED) != 0;
+	public boolean isSynchronized() {
+		return (getAccessFlag() & ACC_SYNCHRONIZED) != 0;
 	}
 
-	public boolean IsNative() {
-		return (AccessFlag() & ACC_NATIVE) != 0;
+	public boolean isNative() {
+		return (getAccessFlag() & ACC_NATIVE) != 0;
 	}
 
-	public boolean IsAbstract() {
-		return (AccessFlag() & ACC_ABSTRACT) != 0;
+	public boolean isAbstract() {
+		return (getAccessFlag() & ACC_ABSTRACT) != 0;
 	}
 
-	public boolean IsStrict() {
-		return (AccessFlag() & ACC_STRICT) != 0;
+	public boolean isStrict() {
+		return (getAccessFlag() & ACC_STRICT) != 0;
 	}
 
-	public boolean IsConstructor() {
-		return Name().equals("<init>");
+	public boolean isConstructor() {
+		return getName().equals("<init>");
 	}
 
-	public boolean IsStaticInitializer() {
-		return Name().equals("<clinit>");
+	public boolean isStaticInitializer() {
+		return getName().equals("<clinit>");
 	}
 
-	public Collection Exceptions() {
+	public Collection getExceptions() {
 		Collection result = Collections.EMPTY_LIST;
 
-		Iterator i = Attributes().iterator();
+		Iterator i = getAttributes().iterator();
 		while (i.hasNext()) {
 			Object obj = i.next();
 			if (obj instanceof Exceptions_attribute) {
-				result = ((Exceptions_attribute) obj).Exceptions();
+				result = ((Exceptions_attribute) obj).getExceptions();
 			}
 		}
 
 		return result;
 	}
 
-	public String Signature() {
+	public String getSignature() {
 		StringBuffer result = new StringBuffer();
 
-		if (IsConstructor()) {
-			result.append(Classfile().Class().substring(Classfile().Class().lastIndexOf(".") + 1));
-			result.append(SignatureHelper.Signature(Descriptor()));
-		} else if (IsStaticInitializer()) {
+		if (isConstructor()) {
+			result.append(getClassfile().getClassName().substring(getClassfile().getClassName().lastIndexOf(".") + 1));
+			result.append(SignatureHelper.getSignature(getDescriptor()));
+		} else if (isStaticInitializer()) {
 			result.append("static {}");
 		} else {
-			result.append(Name());
-			result.append(SignatureHelper.Signature(Descriptor()));
+			result.append(getName());
+			result.append(SignatureHelper.getSignature(getDescriptor()));
 		}
 
 		return result.toString();
 	}
 
-	public String ReturnType() {
-		return SignatureHelper.ReturnType(Descriptor());
+	public String getReturnType() {
+		return SignatureHelper.getReturnType(getDescriptor());
 	}
 
-	public String Declaration() {
+	public String getDeclaration() {
 		StringBuffer result = new StringBuffer();
 
-		if (IsPublic()) result.append("public ");
-		if (IsProtected()) result.append("protected ");
-		if (IsPrivate()) result.append("private ");
-		if (IsStatic()) result.append("static ");
-		if (IsFinal()) result.append("final ");
-		if (IsSynchronized()) result.append("synchronized ");
-		if (IsNative()) result.append("native ");
-		if (IsAbstract()) result.append("abstract ");
+		if (isPublic()) result.append("public ");
+		if (isProtected()) result.append("protected ");
+		if (isPrivate()) result.append("private ");
+		if (isStatic()) result.append("static ");
+		if (isFinal()) result.append("final ");
+		if (isSynchronized()) result.append("synchronized ");
+		if (isNative()) result.append("native ");
+		if (isAbstract()) result.append("abstract ");
 
-		if (!Name().equals("<init>") && !Name().equals("<clinit>")) {
-			result.append((ReturnType() != null) ? ReturnType() : "void").append(" ");
+		if (!getName().equals("<init>") && !getName().equals("<clinit>")) {
+			result.append((getReturnType() != null) ? getReturnType() : "void").append(" ");
 		}
 
-		result.append(Signature());
+		result.append(getSignature());
 
-		if (Exceptions().size() != 0) {
+		if (getExceptions().size() != 0) {
 			result.append(" throws ");
-			Iterator i = Exceptions().iterator();
+			Iterator i = getExceptions().iterator();
 			while (i.hasNext()) {
 				result.append(i.next());
 				if (i.hasNext()) {
@@ -139,7 +139,7 @@ public class Method_info extends Feature_info {
 		return result.toString();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitMethod_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitMethod_info(this);
 	}
 }

@@ -46,13 +46,13 @@ public class Classfile implements Deprecatable, Visitable {
 
 	private ClassfileLoader loader;
 
-	private int          magic_number;
-	private int          minor_version;
-	private int          major_version;
-	private ConstantPool constant_pool;
-	private int          access_flag;
-	private int          class_index;
-	private int          superclass_index;
+	private int          magicNumber;
+	private int          minorVersion;
+	private int          majorVersion;
+	private ConstantPool constantPool;
+	private int          accessFlag;
+	private int          classIndex;
+	private int          superclassIndex;
 	private Map          interfaces = new TreeMap();
 	private Map          fields     = new TreeMap();
 	private Map          methods    = new TreeMap();
@@ -65,161 +65,161 @@ public class Classfile implements Deprecatable, Visitable {
 	public Classfile(ClassfileLoader loader, DataInputStream in) throws IOException {
 		this.loader = loader;
 
-		magic_number = in.readInt();
-		Logger.getLogger(getClass()).debug("magic number = " + magic_number);
+		magicNumber = in.readInt();
+		Logger.getLogger(getClass()).debug("magic number = " + magicNumber);
 
-		if (magic_number != 0xCAFEBABE) {
+		if (magicNumber != 0xCAFEBABE) {
 			throw new IOException("Bad magic number");
 		}
 		
 		// Reading the file format's version number
-		minor_version = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("minor version = " + minor_version);
-		major_version = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("major version = " + major_version);
+		minorVersion = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("minor version = " + minorVersion);
+		majorVersion = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("major version = " + majorVersion);
 
 		// Reading the constant pool
 		Logger.getLogger(getClass()).debug("Reading the constant pool ...");
-		constant_pool = new ConstantPool(this, in);
-		Logger.getLogger(getClass()).debug(constant_pool);
+		constantPool = new ConstantPool(this, in);
+		Logger.getLogger(getClass()).debug(constantPool);
 
 		// Skipping the access flag
-		access_flag = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("access_flag = " + access_flag);
+		accessFlag = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("accessFlag = " + accessFlag);
 
 		// Retrieving this class's name
-		class_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("this_class = " + class_index + " (" + Class() + ")");
+		classIndex = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("thisClass = " + classIndex + " (" + getClassName() + ")");
 
 		// Retrieving this class's superclass
-		superclass_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("superclass = " + superclass_index + " (" + Superclass() + ")");
+		superclassIndex = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("superclass = " + superclassIndex + " (" + getSuperclassName() + ")");
 
 		// Retrieving the inferfaces
-		int interface_count = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + interface_count + " interface(s)");
-		for (int i=0; i<interface_count; i++) {
-			Class_info interface_info = (Class_info) constant_pool.get(in.readUnsignedShort());
-			Logger.getLogger(getClass()).debug("    " + interface_info.Name());
-			interfaces.put(interface_info.Name(), interface_info);
+		int interfaceCount = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + interfaceCount + " interface(s)");
+		for (int i=0; i<interfaceCount; i++) {
+			Class_info interface_info = (Class_info) constantPool.get(in.readUnsignedShort());
+			Logger.getLogger(getClass()).debug("    " + interface_info.getName());
+			interfaces.put(interface_info.getName(), interface_info);
 		}
 
 		// Retrieving the fields
-		int field_count = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + field_count + " field(s)");
-		for (int i=0; i<field_count; i++) {
+		int fieldCount = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + fieldCount + " field(s)");
+		for (int i=0; i<fieldCount; i++) {
 			Logger.getLogger(getClass()).debug("Field " + i + ":");
 			Field_info field_info = new Field_info(this, in);
-			fields.put(field_info.Name(), field_info);
+			fields.put(field_info.getName(), field_info);
 		}
 
 		// Retrieving the methods
-		int method_count = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + method_count + " method(s)");
-		for (int i=0; i<method_count; i++) {
+		int methodCount = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + methodCount + " method(s)");
+		for (int i=0; i<methodCount; i++) {
 			Logger.getLogger(getClass()).debug("Method " + i + ":");
 			Method_info method_info = new Method_info(this, in);
-			methods.put(method_info.Signature(), method_info);
+			methods.put(method_info.getSignature(), method_info);
 		}
 
 		// Retrieving the attributes
-		int attribute_count = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + attribute_count + " class attribute(s)");
-		for (int i=0; i<attribute_count; i++) {
+		int attributeCount = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + attributeCount + " class attribute(s)");
+		for (int i=0; i<attributeCount; i++) {
 			Logger.getLogger(getClass()).debug("Attribute " + i + ":");
-			attributes.add(AttributeFactory.Create(this, this, in));
+			attributes.add(AttributeFactory.create(this, this, in));
 		}
 	}
 
-	public ClassfileLoader Loader() {
+	public ClassfileLoader getLoader() {
 		return loader;
 	}
 
-	public int MagicNumber() {
-		return magic_number;
+	public int getMagicNumber() {
+		return magicNumber;
 	}
 
-	public int MinorVersion() {
-		return minor_version;
+	public int getMinorVersion() {
+		return minorVersion;
 	}
 
-	public int MajorVersion() {
-		return major_version;
+	public int getMajorVersion() {
+		return majorVersion;
 	}
 
-	public ConstantPool ConstantPool() {
-		return constant_pool;
+	public ConstantPool getConstantPool() {
+		return constantPool;
 	}
 
-	public int AccessFlag() {
-		return access_flag;
+	public int getAccessFlag() {
+		return accessFlag;
 	}
 
-	public int ClassIndex() {
-		return class_index;
+	public int getClassIndex() {
+		return classIndex;
 	}
 
-	public Class_info RawClass() {
-		return (Class_info) ConstantPool().get(ClassIndex());
+	public Class_info getRawClass() {
+		return (Class_info) getConstantPool().get(getClassIndex());
 	}
 
-	public String Class() {
-		return RawClass().toString();
+	public String getClassName() {
+		return getRawClass().toString();
 	}
 
-	public int SuperclassIndex() {
-		return superclass_index;
+	public int getSuperclassIndex() {
+		return superclassIndex;
 	}
 
-	public Class_info RawSuperclass() {
-		return (Class_info) ConstantPool().get(SuperclassIndex());
+	public Class_info getRawSuperclass() {
+		return (Class_info) getConstantPool().get(getSuperclassIndex());
 	}
 
-	public String Superclass() {
+	public String getSuperclassName() {
 		String result = "";
 
-		if (SuperclassIndex() != 0) {
-			result = RawSuperclass().toString();
+		if (getSuperclassIndex() != 0) {
+			result = getRawSuperclass().toString();
 		}
 		
 		return result;
 	}
 
-	public Class_info Interface(String name) {
+	public Class_info getInterface(String name) {
 		return (Class_info) interfaces.get(name);
 	}
 
-	public Collection Interfaces() {
+	public Collection getAllInterfaces() {
 		return interfaces.values();
 	}
 
-	public Collection Fields() {
+	public Collection getAllFields() {
 		return fields.values();
 	}
 
-	public Field_info Field(String name) {
+	public Field_info getField(String name) {
 		return (Field_info) fields.get(name);
 	}
 
-	public Field_info LocateField(String name) {
-		Field_info result = Field(name);
+	public Field_info locateField(String name) {
+		Field_info result = getField(name);
 
 		if (result == null) {
-			Classfile classfile = Loader().Classfile(Superclass());
+			Classfile classfile = getLoader().getClassfile(getSuperclassName());
 			if (classfile != null) {
-				Field_info attempt = classfile.LocateField(name);
-				if (attempt != null && (attempt.IsPublic() || attempt.IsProtected())) {
+				Field_info attempt = classfile.locateField(name);
+				if (attempt != null && (attempt.isPublic() || attempt.isProtected())) {
 					result = attempt;
 				}
 			}
 		}
 
-		Iterator i = Interfaces().iterator();
+		Iterator i = getAllInterfaces().iterator();
 		while (result == null && i.hasNext()) {
-			Classfile classfile = Loader().Classfile(i.next().toString());
+			Classfile classfile = getLoader().getClassfile(i.next().toString());
 			if (classfile != null) {
-				Field_info attempt = classfile.LocateField(name);
-				if (attempt != null && (attempt.IsPublic() || attempt.IsProtected())) {
+				Field_info attempt = classfile.locateField(name);
+				if (attempt != null && (attempt.isPublic() || attempt.isProtected())) {
 					result = attempt;
 				}
 			}
@@ -228,33 +228,33 @@ public class Classfile implements Deprecatable, Visitable {
 		return result;
 	}
 
-	public Collection Methods() {
+	public Collection getAllMethods() {
 		return methods.values();
 	}
 
-	public Method_info Method(String signature) {
+	public Method_info getMethod(String signature) {
 		return (Method_info) methods.get(signature);
 	}
 
-	public Method_info LocateMethod(String signature) {
-		Method_info result = Method(signature);
+	public Method_info locateMethod(String signature) {
+		Method_info result = getMethod(signature);
 
 		if (result == null) {
-			Classfile classfile = Loader().Classfile(Superclass());
+			Classfile classfile = getLoader().getClassfile(getSuperclassName());
 			if (classfile != null) {
-				Method_info attempt = classfile.LocateMethod(signature);
-				if (attempt != null && (attempt.IsPublic() || attempt.IsProtected())) {
+				Method_info attempt = classfile.locateMethod(signature);
+				if (attempt != null && (attempt.isPublic() || attempt.isProtected())) {
 					result = attempt;
 				}
 			}
 		}
 
-		Iterator i = Interfaces().iterator();
+		Iterator i = getAllInterfaces().iterator();
 		while (result == null && i.hasNext()) {
-			Classfile classfile = Loader().Classfile(i.next().toString());
+			Classfile classfile = getLoader().getClassfile(i.next().toString());
 			if (classfile != null) {
-				Method_info attempt = classfile.LocateMethod(signature);
-				if (attempt != null && (attempt.IsPublic() || attempt.IsProtected())) {
+				Method_info attempt = classfile.locateMethod(signature);
+				if (attempt != null && (attempt.isPublic() || attempt.isProtected())) {
 					result = attempt;
 				}
 			}
@@ -263,38 +263,38 @@ public class Classfile implements Deprecatable, Visitable {
 		return result;
 	}
 
-	public Collection Attributes() {
+	public Collection getAttributes() {
 		return attributes;
 	}
 
-	public boolean IsPublic() {
-		return (AccessFlag() & ACC_PUBLIC) != 0;
+	public boolean isPublic() {
+		return (getAccessFlag() & ACC_PUBLIC) != 0;
 	}
 
-	public boolean IsPackage() {
-		return (AccessFlag() & ACC_PUBLIC) == 0;
+	public boolean isPackage() {
+		return (getAccessFlag() & ACC_PUBLIC) == 0;
 	}
 
-	public boolean IsFinal() {
-		return (AccessFlag() & ACC_FINAL) != 0;
+	public boolean isFinal() {
+		return (getAccessFlag() & ACC_FINAL) != 0;
 	}
 
-	public boolean IsSuper() {
-		return (AccessFlag() & ACC_SUPER) != 0;
+	public boolean isSuper() {
+		return (getAccessFlag() & ACC_SUPER) != 0;
 	}
 
-	public boolean IsInterface() {
-		return (AccessFlag() & ACC_INTERFACE) != 0;
+	public boolean isInterface() {
+		return (getAccessFlag() & ACC_INTERFACE) != 0;
 	}
 
-	public boolean IsAbstract() {
-		return (AccessFlag() & ACC_ABSTRACT) != 0;
+	public boolean isAbstract() {
+		return (getAccessFlag() & ACC_ABSTRACT) != 0;
 	}
 
-	public boolean IsSynthetic() {
+	public boolean isSynthetic() {
 		boolean result = false;
 
-		Iterator i = Attributes().iterator();
+		Iterator i = getAttributes().iterator();
 		while (!result && i.hasNext()) {
 			result = i.next() instanceof Synthetic_attribute;
 		}
@@ -302,10 +302,10 @@ public class Classfile implements Deprecatable, Visitable {
 		return result;
 	}
 
-	public boolean IsDeprecated() {
+	public boolean isDeprecated() {
 		boolean result = false;
 
-		Iterator i = Attributes().iterator();
+		Iterator i = getAttributes().iterator();
 		while (!result && i.hasNext()) {
 			result = i.next() instanceof Deprecated_attribute;
 		}
@@ -313,18 +313,18 @@ public class Classfile implements Deprecatable, Visitable {
 		return result;
 	}
 
-	public String Declaration() {
+	public String getDeclaration() {
 		StringBuffer result = new StringBuffer();
 
-		if (IsPublic()) result.append("public ");
-		if (IsFinal()) result.append("final ");
+		if (isPublic()) result.append("public ");
+		if (isFinal()) result.append("final ");
 
-		if (IsInterface()) {
-			result.append("interface ").append(Class());
+		if (isInterface()) {
+			result.append("interface ").append(getClassName());
 
-			if (Interfaces().size() != 0) {
+			if (getAllInterfaces().size() != 0) {
 				result.append(" extends ");
-				Iterator i = Interfaces().iterator();
+				Iterator i = getAllInterfaces().iterator();
 				while (i.hasNext()) {
 					result.append(i.next());
 					if (i.hasNext()) {
@@ -333,16 +333,16 @@ public class Classfile implements Deprecatable, Visitable {
 				}
 			}
 		} else {
-			if (IsAbstract()) result.append("abstract ");
-			result.append("class ").append(Class());
+			if (isAbstract()) result.append("abstract ");
+			result.append("class ").append(getClassName());
 
-			if (SuperclassIndex() != 0) {
-				result.append(" extends ").append(Superclass());
+			if (getSuperclassIndex() != 0) {
+				result.append(" extends ").append(getSuperclassName());
 			}
 			
-			if (Interfaces().size() != 0) {
+			if (getAllInterfaces().size() != 0) {
 				result.append(" implements ");
-				Iterator i = Interfaces().iterator();
+				Iterator i = getAllInterfaces().iterator();
 				while (i.hasNext()) {
 					result.append(i.next());
 					if (i.hasNext()) {
@@ -355,11 +355,11 @@ public class Classfile implements Deprecatable, Visitable {
 		return result.toString();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitClassfile(this);
+	public void accept(Visitor visitor) {
+		visitor.visitClassfile(this);
 	}
 
 	public String toString() {
-		return Class();
+		return getClassName();
 	}
 }

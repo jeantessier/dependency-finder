@@ -53,7 +53,7 @@ public class TestClassfileScanner extends TestCase {
 		String filename = TEST_FILENAME;
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		scanner.Load(Collections.singleton(filename));
+		scanner.load(Collections.singleton(filename));
 
 		assertEquals("Number of files", 1, scanner.NbFiles());
 		assertEquals("Number of classes", 1, scanner.NbClasses());
@@ -63,7 +63,7 @@ public class TestClassfileScanner extends TestCase {
 		String filename = TEST_DIR + File.separator + "onelevel.zip";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		scanner.Load(Collections.singleton(filename));
+		scanner.load(Collections.singleton(filename));
 
 		assertEquals("Number of files",   38, scanner.NbFiles());
 		assertEquals("Number of classes", 17, scanner.NbClasses());
@@ -73,7 +73,7 @@ public class TestClassfileScanner extends TestCase {
 		String filename = TEST_DIR + File.separator + "onelevel.jar";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		scanner.Load(Collections.singleton(filename));
+		scanner.load(Collections.singleton(filename));
 
 		assertEquals("Number of files",   40, scanner.NbFiles());
 		assertEquals("Number of classes", 17, scanner.NbClasses());
@@ -83,7 +83,7 @@ public class TestClassfileScanner extends TestCase {
 		String filename = TEST_DIR + File.separator + "onelevel.mis";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		scanner.Load(Collections.singleton(filename));
+		scanner.load(Collections.singleton(filename));
 
 		assertEquals("Number of files",   38, scanner.NbFiles());
 		assertEquals("Number of classes", 17, scanner.NbClasses());
@@ -93,7 +93,7 @@ public class TestClassfileScanner extends TestCase {
 		String filename = TEST_DIR + File.separator + "twolevel.zip";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		scanner.Load(Collections.singleton(filename));
+		scanner.load(Collections.singleton(filename));
 
 		assertEquals("Number of files",   39, scanner.NbFiles());
 		assertEquals("Number of classes", 17, scanner.NbClasses());
@@ -103,7 +103,7 @@ public class TestClassfileScanner extends TestCase {
 		String filename = TEST_DIR + File.separator + "twolevel.jar";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		scanner.Load(Collections.singleton(filename));
+		scanner.load(Collections.singleton(filename));
 
 		assertEquals("Number of files",   41, scanner.NbFiles());
 		assertEquals("Number of classes", 17, scanner.NbClasses());
@@ -113,7 +113,7 @@ public class TestClassfileScanner extends TestCase {
 		String filename = TEST_DIR + File.separator + "twolevel.mis";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		scanner.Load(Collections.singleton(filename));
+		scanner.load(Collections.singleton(filename));
 
 		assertEquals("Number of files",   39, scanner.NbFiles());
 		assertEquals("Number of classes", 17, scanner.NbClasses());

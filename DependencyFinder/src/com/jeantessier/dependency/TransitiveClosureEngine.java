@@ -72,18 +72,6 @@ public class TransitiveClosureEngine {
 		return (Collection) layers.get(i);
 	}
 
-	public void ComputeNextLayer() {
-		if (!stop_selector.Done()) {
-			layer_selector.Reset();
-			layer_selector.TraverseNodes((Collection) selections.getLast());
-
-			stop_selector.TraverseNodes(layer_selector.CopiedNodes());
-			if (!layer_selector.CopiedNodes().isEmpty()) {
-				GatherResults(layer_selector);
-			}
-		}
-	}
-
 	public void ComputeAllLayers() {
 		while (!stop_selector.Done()) {
 			ComputeNextLayer();
@@ -93,6 +81,18 @@ public class TransitiveClosureEngine {
 	public void ComputeLayers(int nb_layers) {
 		for (int i=0; !stop_selector.Done() && i<nb_layers; i++) {
 			ComputeNextLayer();
+		}
+	}
+
+	public void ComputeNextLayer() {
+		if (!stop_selector.Done()) {
+			layer_selector.Reset();
+			layer_selector.TraverseNodes((Collection) selections.getLast());
+
+			stop_selector.TraverseNodes(layer_selector.CopiedNodes());
+			if (!layer_selector.CopiedNodes().isEmpty()) {
+				GatherResults(layer_selector);
+			}
 		}
 	}
 

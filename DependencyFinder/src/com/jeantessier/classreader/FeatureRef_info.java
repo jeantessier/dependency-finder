@@ -49,28 +49,28 @@ public abstract class FeatureRef_info extends ConstantPoolEntry {
 		return class_index;
 	}
 
-	public Class_info RawClass() {
+	public Class_info getRawClass() {
 		return (Class_info) ConstantPool().get(ClassIndex());
 	}
 
 	public String Class() {
-		return RawClass().toString();
+		return getRawClass().toString();
 	}
 
 	public int NameAndTypeIndex() {
 		return name_and_type_index;
 	}
 
-	public NameAndType_info RawNameAndType() {
+	public NameAndType_info getRawNameAndType() {
 		return (NameAndType_info) ConstantPool().get(NameAndTypeIndex());
 	}
 
 	public String NameAndType() {
 		StringBuffer result = new StringBuffer();
 
-		NameAndType_info nat = RawNameAndType();
+		NameAndType_info nat = getRawNameAndType();
 
-		result.append(nat.Name()).append(nat.Type());
+		result.append(nat.Name()).append(nat.getType());
 
 		return result.toString();
 	}
@@ -83,17 +83,17 @@ public abstract class FeatureRef_info extends ConstantPoolEntry {
 
 	public abstract String Signature();
 
-	public String FullSignature() {
+	public String getFullSignature() {
 		return Class() + "." + Signature();
 	}
 
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		Class_info       c   = RawClass();
-		NameAndType_info nat = RawNameAndType();
+		Class_info       c   = getRawClass();
+		NameAndType_info nat = getRawNameAndType();
 
-		result.append(c).append(".").append(nat.Name()).append(nat.Type());
+		result.append(c).append(".").append(nat.Name()).append(nat.getType());
 
 		return result.toString();
 	}

@@ -51,7 +51,7 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
 		String filename = TEST_FILENAME;
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(Collections.singleton(filename));
+		loader.load(Collections.singleton(filename));
 
 		assertEquals("Begin Session",   1, BeginSession().size());
 		assertEquals("Begin Group",     1, BeginGroup().size());
@@ -62,14 +62,14 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
 		assertEquals("End Group",       1, EndGroup().size());
 		assertEquals("End Session",     1, EndSession().size());
 
-		assertEquals("Group size", 1, ((LoadEvent) BeginGroup().getFirst()).Size());
+		assertEquals("Group size", 1, ((LoadEvent) BeginGroup().getFirst()).getSize());
 	}
 
 	public void testOneLevelZip() {
 		String filename = TEST_DIR + File.separator + "onelevel.zip";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(Collections.singleton(filename));
+		loader.load(Collections.singleton(filename));
 
 		assertEquals("Begin Session",    1, BeginSession().size());
 		assertEquals("Begin Group",      1, BeginGroup().size());
@@ -80,14 +80,14 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
 		assertEquals("End Group",        1, EndGroup().size());
 		assertEquals("End Session",      1, EndSession().size());
 
-		assertEquals("Group size", 38, ((LoadEvent) BeginGroup().getFirst()).Size());
+		assertEquals("Group size", 38, ((LoadEvent) BeginGroup().getFirst()).getSize());
 	}
 
 	public void testOneLevelJar() {
 		String filename = TEST_DIR + File.separator + "onelevel.jar";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(Collections.singleton(filename));
+		loader.load(Collections.singleton(filename));
 
 		assertEquals("Begin Session",    1, BeginSession().size());
 		assertEquals("Begin Group",      1, BeginGroup().size());
@@ -98,14 +98,14 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
 		assertEquals("End Group",        1, EndGroup().size());
 		assertEquals("End Session",      1, EndSession().size());
 
-		assertEquals("Group size", 40, ((LoadEvent) BeginGroup().getFirst()).Size());
+		assertEquals("Group size", 40, ((LoadEvent) BeginGroup().getFirst()).getSize());
 	}
 	
 	public void testOneLevelMiscellaneous() {
 		String filename = TEST_DIR + File.separator + "onelevel.mis";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(Collections.singleton(filename));
+		loader.load(Collections.singleton(filename));
 
 		assertEquals("Begin Session",    1, BeginSession().size());
 		assertEquals("Begin Group",      1, BeginGroup().size());
@@ -121,7 +121,7 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
 		String filename = TEST_DIR + File.separator + "twolevel.zip";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(Collections.singleton(filename));
+		loader.load(Collections.singleton(filename));
 
 		assertEquals("Begin Session",    1, BeginSession().size());
 		assertEquals("Begin Group",      2, BeginGroup().size());
@@ -137,7 +137,7 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
 		String filename = TEST_DIR + File.separator + "twolevel.jar";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(Collections.singleton(filename));
+		loader.load(Collections.singleton(filename));
 
 		assertEquals("Begin Session",    1, BeginSession().size());
 		assertEquals("Begin Group",      2, BeginGroup().size());
@@ -153,7 +153,7 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
 		String filename = TEST_DIR + File.separator + "twolevel.mis";
 		assertTrue(filename + " missing", new File(filename).exists());
 		
-		loader.Load(Collections.singleton(filename));
+		loader.load(Collections.singleton(filename));
 
 		assertEquals("Begin Session",    1, BeginSession().size());
 		assertEquals("Begin Group",      2, BeginGroup().size());

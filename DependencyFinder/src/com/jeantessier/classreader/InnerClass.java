@@ -75,101 +75,101 @@ public class InnerClass implements Visitable {
 		this.inner_classes = inner_classes;
 	}
 
-	public int InnerClassInfoIndex() {
+	public int getInnerClassInfoIndex() {
 		return inner_class_info_index;
 	}
 
-	public Class_info RawInnerClassInfo() {
-		return (Class_info) inner_classes.Classfile().ConstantPool().get(InnerClassInfoIndex());
+	public Class_info getRawInnerClassInfo() {
+		return (Class_info) inner_classes.getClassfile().getConstantPool().get(getInnerClassInfoIndex());
 	}
 
 	public String InnerClassInfo() {
 		String result = "";
 
-		if (InnerClassInfoIndex() != 0) {
-			result = RawInnerClassInfo().toString();
+		if (getInnerClassInfoIndex() != 0) {
+			result = getRawInnerClassInfo().toString();
 		}
 
 		return result;
 	}
 
-	public int OuterClassInfoIndex() {
+	public int getOuterClassInfoIndex() {
 		return outer_class_info_index;
 	}
 
-	public Class_info RawOuterClassInfo() {
-		return (Class_info) inner_classes.Classfile().ConstantPool().get(OuterClassInfoIndex());
+	public Class_info getRawOuterClassInfo() {
+		return (Class_info) inner_classes.getClassfile().getConstantPool().get(getOuterClassInfoIndex());
 	}
 
 	public String OuterClassInfo() {
 		String result = "";
 
-		if (OuterClassInfoIndex() != 0) {
-			result = RawOuterClassInfo().toString();
+		if (getOuterClassInfoIndex() != 0) {
+			result = getRawOuterClassInfo().toString();
 		}
 
 		return result;
 	}
 
-	public int InnerNameIndex() {
+	public int getInnerNameIndex() {
 		return inner_name_index;
 	}
 
-	public UTF8_info RawInnerName() {
-		return (UTF8_info) inner_classes.Classfile().ConstantPool().get(InnerNameIndex());
+	public UTF8_info getRawInnerName() {
+		return (UTF8_info) inner_classes.getClassfile().getConstantPool().get(getInnerNameIndex());
 	}
 
 	public String InnerName() {
 		String result = "";
 
-		if (InnerNameIndex() != 0) {
-			result = RawInnerName().toString();
+		if (getInnerNameIndex() != 0) {
+			result = getRawInnerName().toString();
 		}
 
 		return result;
 	}
 
-	public int AccessFlag() {
+	public int getAccessFlag() {
 		return access_flag;
 	}
 
-	public boolean IsPublic() {
-		return (AccessFlag() & ACC_PUBLIC) != 0;
+	public boolean isPublic() {
+		return (getAccessFlag() & ACC_PUBLIC) != 0;
 	}
 
-	public boolean IsProtected() {
-		return (AccessFlag() & ACC_PROTECTED) != 0;
+	public boolean isProtected() {
+		return (getAccessFlag() & ACC_PROTECTED) != 0;
 	}
 
-	public boolean IsPrivate() {
-		return (AccessFlag() & ACC_PRIVATE) != 0;
+	public boolean isPrivate() {
+		return (getAccessFlag() & ACC_PRIVATE) != 0;
 	}
 
 	public boolean IsPackage() {
-		return (AccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
+		return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
 	}
 
-	public boolean IsStatic() {
-		return (AccessFlag() & ACC_STATIC) != 0;
+	public boolean isStatic() {
+		return (getAccessFlag() & ACC_STATIC) != 0;
 	}
 
-	public boolean IsFinal() {
-		return (AccessFlag() & ACC_FINAL) != 0;
+	public boolean isFinal() {
+		return (getAccessFlag() & ACC_FINAL) != 0;
 	}
 
-	public boolean IsInterface() {
-		return (AccessFlag() & ACC_INTERFACE) != 0;
+	public boolean isInterface() {
+		return (getAccessFlag() & ACC_INTERFACE) != 0;
 	}
 
-	public boolean IsAbstract() {
-		return (AccessFlag() & ACC_ABSTRACT) != 0;
+	public boolean isAbstract() {
+		return (getAccessFlag() & ACC_ABSTRACT) != 0;
 	}
 
 	public String toString() {
 		return InnerClassInfo();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitInnerClass(this);
+	public void accept(Visitor visitor) {
+		visitor.visitInnerClass(this);
 	}
 }

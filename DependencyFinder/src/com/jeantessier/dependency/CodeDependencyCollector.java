@@ -60,121 +60,121 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		return factory;
 	}
 
-	public Collection Collection() {
+	public Collection getCollection() {
 		return Factory().Packages().values();
 	}
 
-	public void VisitClassfile(Classfile classfile) {
-		current = Factory().CreateClass(classfile.Class());
+	public void visitClassfile(Classfile classfile) {
+		current = Factory().CreateClass(classfile.getClassName());
 
 		fireBeginClass(classfile.toString());
 		
-		if (classfile.SuperclassIndex() != 0) {
-			classfile.RawSuperclass().Accept(this);
+		if (classfile.getSuperclassIndex() != 0) {
+			classfile.getRawSuperclass().accept(this);
 		}
 
 		Iterator i;
 
-		i = classfile.Interfaces().iterator();
+		i = classfile.getAllInterfaces().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		i = classfile.Fields().iterator();
+		i = classfile.getAllFields().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		i = classfile.Methods().iterator();
+		i = classfile.getAllMethods().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
 		fireEndClass(classfile.toString());
 	}
 
-	public void VisitClass_info(Class_info entry) {
+	public void visitClass_info(Class_info entry) {
 		Logger.getLogger(getClass()).debug("VisitClass_info():");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
-		if (entry.Name().startsWith("[")) {
-			ProcessDescriptor(entry.Name());
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+		if (entry.getName().startsWith("[")) {
+			ProcessDescriptor(entry.getName());
 		} else {
-			Node other = Factory().CreateClass(entry.Name());
+			Node other = Factory().CreateClass(entry.getName());
 			current.AddDependency(other);
 			Logger.getLogger(getClass()).info("Class_info dependency: " + current + " --> " + other);
 			fireDependency(current, other);
 		}
 	}
 
-	public void VisitFieldRef_info(FieldRef_info entry) {
+	public void visitFieldRef_info(FieldRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
-		Node other = Factory().CreateFeature(entry.FullSignature());
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+		Node other = Factory().CreateFeature(entry.getFullSignature());
 		current.AddDependency(other);
 		Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
 		fireDependency(current, other);
 
-		ProcessDescriptor(entry.RawNameAndType().Type());
+		ProcessDescriptor(entry.getRawNameAndType().getType());
 	}
 
-	public void VisitMethodRef_info(MethodRef_info entry) {
+	public void visitMethodRef_info(MethodRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitMethodRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
-		if (!entry.IsStaticInitializer()) {
-			Node other  = Factory().CreateFeature(entry.FullSignature());
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+		if (!entry.isStaticInitializer()) {
+			Node other  = Factory().CreateFeature(entry.getFullSignature());
 			current.AddDependency(other);
 			Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
 			fireDependency(current, other);
 
-			ProcessDescriptor(entry.RawNameAndType().Type());
+			ProcessDescriptor(entry.getRawNameAndType().getType());
 		}
 	}
 
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
-		Node other  = Factory().CreateFeature(entry.FullSignature());
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+		Node other  = Factory().CreateFeature(entry.getFullSignature());
 		current.AddDependency(other);
 		Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
 		fireDependency(current, other);
 
-		ProcessDescriptor(entry.RawNameAndType().Type());
+		ProcessDescriptor(entry.getRawNameAndType().getType());
 	}
 
-	public void VisitField_info(Field_info entry) {
+	public void visitField_info(Field_info entry) {
 		Logger.getLogger(getClass()).debug("VisitField_info():");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
-		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
 
-		current = Factory().CreateFeature(entry.FullSignature());
+		current = Factory().CreateFeature(entry.getFullSignature());
 
-		ProcessDescriptor(entry.Descriptor());
+		ProcessDescriptor(entry.getDescriptor());
 	
-		super.VisitField_info(entry);
+		super.visitField_info(entry);
 	}
 
-	public void VisitMethod_info(Method_info entry) {
+	public void visitMethod_info(Method_info entry) {
 		Logger.getLogger(getClass()).debug("VisitMethod_info():");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
-		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
 	
-		current = Factory().CreateFeature(entry.FullSignature());
+		current = Factory().CreateFeature(entry.getFullSignature());
 
-		ProcessDescriptor(entry.Descriptor());
+		ProcessDescriptor(entry.getDescriptor());
 
-		super.VisitMethod_info(entry);
+		super.visitMethod_info(entry);
 	}
 
-	public void VisitCode_attribute(Code_attribute attribute) {
+	public void visitCode_attribute(Code_attribute attribute) {
 		Logger.getLogger(getClass()).debug("VisitCode_attribute() ...");
 
-		byte[] code = attribute.Code();
+		byte[] code = attribute.getCode();
 
 		/*
 		 *  We can skip the "new" (0xbb) instruction as it is always
@@ -184,7 +184,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Iterator ci = attribute.iterator();
 		while (ci.hasNext()) {
 			Instruction instr = (Instruction) ci.next();
-			switch (instr.Opcode()) {
+			switch (instr.getOpcode()) {
 				case 0xb2: // getstatic
 				case 0xb3: // putstatic
 				case 0xb4: // getfield
@@ -198,9 +198,9 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 				case 0xc0: // checkcast
 				case 0xc1: // instanceof
 				case 0xc5: // multianewarray
-					int start = instr.Start();
+					int start = instr.getStart();
 					int index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-					((Visitable) attribute.Classfile().ConstantPool().get(index)).Accept(this);
+					((Visitable) attribute.getClassfile().getConstantPool().get(index)).accept(this);
 					break;
 				default:
 					// Do nothing
@@ -208,14 +208,14 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 			}
 		}
 
-		super.VisitCode_attribute(attribute);
+		super.visitCode_attribute(attribute);
 	}
 
-	public void VisitExceptionHandler(ExceptionHandler helper) {
+	public void visitExceptionHandler(ExceptionHandler helper) {
 		Logger.getLogger(getClass()).debug(getClass().getName() + "VisitExceptionHandler(): " + helper);
 		
-		if (helper.CatchTypeIndex() != 0) {
-			helper.RawCatchType().Accept(this);
+		if (helper.getCatchTypeIndex() != 0) {
+			helper.getRawCatchType().accept(this);
 		}
 	}
 
@@ -226,7 +226,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 
 		while ((start_pos = str.indexOf('L', current_pos)) != -1) {
 			if ((end_pos = str.indexOf(';', start_pos)) != -1) {
-				String classname = SignatureHelper.Path2ClassName(str.substring(start_pos + 1, end_pos));
+				String classname = SignatureHelper.path2ClassName(str.substring(start_pos + 1, end_pos));
 				Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
 				Node other = Factory().CreateClass(classname);
 				current.AddDependency(other);
@@ -321,35 +321,35 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		}
 	}
 
-	public void BeginSession(LoadEvent event) {
+	public void beginSession(LoadEvent event) {
 		// Do nothing
 	}
 
-	public void BeginGroup(LoadEvent event) {
+	public void beginGroup(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginClassfile(LoadEvent event) {
+	public void beginClassfile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void BeginFile(LoadEvent event) {
+	public void beginFile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndClassfile(LoadEvent event) {
-		event.Classfile().Accept(this);
+	public void endClassfile(LoadEvent event) {
+		event.getClassfile().accept(this);
 	}
 	
-	public void EndFile(LoadEvent event) {
+	public void endFile(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndGroup(LoadEvent event) {
+	public void endGroup(LoadEvent event) {
 		// Do nothing
 	}
 	
-	public void EndSession(LoadEvent event) {
+	public void endSession(LoadEvent event) {
 		// Do nothing
 	}
 }

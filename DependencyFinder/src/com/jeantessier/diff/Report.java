@@ -452,20 +452,20 @@ public class Report extends Printer {
 		StringBuffer result = new StringBuffer();
 
 		if (element != null) {
-			if (element.IsPublic())     result.append(" visibility=\"public\"");
-			if (element.IsPackage())    result.append(" visibility=\"package\"");
-			if (element.IsFinal())      result.append(" final=\"yes\"");
-			if (element.IsSuper())      result.append(" super=\"yes\"");
-			if (element.IsSynthetic())  result.append(" synthetic=\"yes\"");
-			if (element.IsDeprecated()) result.append(" deprecated=\"yes\"");
+			if (element.isPublic())     result.append(" visibility=\"public\"");
+			if (element.isPackage())    result.append(" visibility=\"package\"");
+			if (element.isFinal())      result.append(" final=\"yes\"");
+			if (element.isSuper())      result.append(" super=\"yes\"");
+			if (element.isSynthetic())  result.append(" synthetic=\"yes\"");
+			if (element.isDeprecated()) result.append(" deprecated=\"yes\"");
 
-			result.append(" name=\"").append(element.Class()).append("\"");
+			result.append(" name=\"").append(element.getClassName()).append("\"");
 
-			if (element.IsInterface()) {
+			if (element.isInterface()) {
 				result.append(" interface=\"yes\"");
 		
 				result.append(" extends=\"");
-				Iterator i = element.Interfaces().iterator();
+				Iterator i = element.getAllInterfaces().iterator();
 				while (i.hasNext()) {
 					result.append(i.next());
 					if (i.hasNext()) {
@@ -474,12 +474,12 @@ public class Report extends Printer {
 				}
 				result.append("\"");
 			} else {
-				if (element.IsAbstract()) result.append(" abstract=\"yes\"");
+				if (element.isAbstract()) result.append(" abstract=\"yes\"");
 		
-				result.append(" extends=\"").append(element.Superclass()).append("\"");
+				result.append(" extends=\"").append(element.getSuperclassName()).append("\"");
 		
 				result.append(" implements=\"");
-				Iterator i = element.Interfaces().iterator();
+				Iterator i = element.getAllInterfaces().iterator();
 				while (i.hasNext()) {
 					result.append(i.next());
 					if (i.hasNext()) {

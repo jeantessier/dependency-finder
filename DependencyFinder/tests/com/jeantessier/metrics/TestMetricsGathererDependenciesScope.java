@@ -60,7 +60,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
 		dirs.add(TEST_DIRNAME);
 		dirs.add(OTHER_DIRNAME);
 		loader = new AggregatingClassfileLoader();
-		loader.Load(dirs);
+		loader.load(dirs);
 
 		gatherer = new MetricsGatherer("test", factory);
 	}
@@ -74,7 +74,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
 		scope_includes.add("testpackage.TestClass.SourceMethod()");
 
 		gatherer.ScopeIncludes(scope_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -109,7 +109,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
 		scope_includes.add("testpackage.SourceClass.SourceMethod()");
 
 		gatherer.ScopeIncludes(scope_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -144,7 +144,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
 		filter_includes.add("otherpackage.SourceClass.SourceMethod()");
 
 		gatherer.ScopeIncludes(filter_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -179,7 +179,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
 		scope_includes.add("testpackage.SourceClass");
 
 		gatherer.ScopeIncludes(scope_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -208,7 +208,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
 		scope_includes.add("otherpackage.SourceClass");
 
 		gatherer.ScopeIncludes(scope_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -237,7 +237,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
 		scope_includes.add("testpackage.SourceClass.SourceMethod()");
 
 		gatherer.ScopeIncludes(scope_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 
@@ -266,7 +266,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
 		scope_includes.add("otherpackage.SourceClass.SourceMethod()");
 
 		gatherer.ScopeIncludes(scope_includes);
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		Collection dependencies;
 

@@ -45,103 +45,99 @@ public abstract class Feature_info implements Deprecatable, Visitable {
 	public static final int ACC_FINAL     = 0x0010;
 
 	private Classfile  classfile;
-	private int        access_flag;
-	private int        name_index;
-	private int        descriptor_index;
+	private int        accessFlag;
+	private int        nameIndex;
+	private int        descriptorIndex;
 	private Collection attributes = new LinkedList();
 
 	public Feature_info(Classfile classfile, DataInputStream in) throws IOException {
-		Classfile(classfile);
+		this.classfile = classfile;
 
-		access_flag = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug(FeatureType() + " access flag: " + access_flag);
+		accessFlag = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug(getFeatureType() + " access flag: " + accessFlag);
 
-		name_index       = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug(FeatureType() + " name: " + name_index + " (" + Name() + ")");
+		nameIndex = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug(getFeatureType() + " name: " + nameIndex + " (" + getName() + ")");
 
-		descriptor_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug(FeatureType() + " Descriptor: " + descriptor_index + " (" + Descriptor() + ")");
+		descriptorIndex = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug(getFeatureType() + " Descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
 
-		int attribute_count = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + attribute_count + " " + FeatureType() + " attribute(s)");
-		for (int i=0; i<attribute_count; i++) {
-			Logger.getLogger(getClass()).debug(FeatureType() + " attribute " + i + ":");
-			attributes.add(AttributeFactory.Create(Classfile(), this, in));
+		int attributeCount = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + attributeCount + " " + getFeatureType() + " attribute(s)");
+		for (int i=0; i<attributeCount; i++) {
+			Logger.getLogger(getClass()).debug(getFeatureType() + " attribute " + i + ":");
+			attributes.add(AttributeFactory.create(getClassfile(), this, in));
 		}
 	}
 
-	public Classfile Classfile() {
+	public Classfile getClassfile() {
 		return classfile;
 	}
 
-	private void Classfile(Classfile classfile) {
-		this.classfile = classfile;
+	public int getAccessFlag() {
+		return accessFlag;
 	}
 
-	public int AccessFlag() {
-		return access_flag;
+	public boolean isPublic() {
+		return (getAccessFlag() & ACC_PUBLIC) != 0;
 	}
 
-	public boolean IsPublic() {
-		return (AccessFlag() & ACC_PUBLIC) != 0;
+	public boolean isProtected() {
+		return (getAccessFlag() & ACC_PROTECTED) != 0;
 	}
 
-	public boolean IsProtected() {
-		return (AccessFlag() & ACC_PROTECTED) != 0;
+	public boolean isPrivate() {
+		return (getAccessFlag() & ACC_PRIVATE) != 0;
 	}
 
-	public boolean IsPrivate() {
-		return (AccessFlag() & ACC_PRIVATE) != 0;
+	public boolean isPackage() {
+		return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
 	}
 
-	public boolean IsPackage() {
-		return (AccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
+	public boolean isStatic() {
+		return (getAccessFlag() & ACC_STATIC) != 0;
 	}
 
-	public boolean IsStatic() {
-		return (AccessFlag() & ACC_STATIC) != 0;
+	public boolean isFinal() {
+		return (getAccessFlag() & ACC_FINAL) != 0;
 	}
 
-	public boolean IsFinal() {
-		return (AccessFlag() & ACC_FINAL) != 0;
+	public int getNameIndex() {
+		return nameIndex;
 	}
 
-	public int NameIndex() {
-		return name_index;
+	public UTF8_info getRawName() {
+		return (UTF8_info) getClassfile().getConstantPool().get(nameIndex);
 	}
 
-	public UTF8_info RawName() {
-		return (UTF8_info) Classfile().ConstantPool().get(name_index);
+	public String getName() {
+		return getRawName().toString();
 	}
 
-	public String Name() {
-		return RawName().toString();
+	public String getFullName() {
+		return getClassfile().getClassName() + "." + getName();
 	}
 
-	public String FullName() {
-		return Classfile().Class() + "." + Name();
+	public int getDescriptorIndex() {
+		return descriptorIndex;
 	}
 
-	public int DescriptorIndex() {
-		return descriptor_index;
+	public UTF8_info getRawDescriptor() {
+		return (UTF8_info) getClassfile().getConstantPool().get(descriptorIndex);
 	}
 
-	public UTF8_info RawDescriptor() {
-		return (UTF8_info) Classfile().ConstantPool().get(descriptor_index);
+	public String getDescriptor() {
+		return getRawDescriptor().toString();
 	}
 
-	public String Descriptor() {
-		return RawDescriptor().toString();
-	}
-
-	public Collection Attributes() {
+	public Collection getAttributes() {
 		return attributes;
 	}
 
-	public boolean IsSynthetic() {
+	public boolean isSynthetic() {
 		boolean result = false;
 
-		Iterator i = Attributes().iterator();
+		Iterator i = getAttributes().iterator();
 		while (!result && i.hasNext()) {
 			result = i.next() instanceof Synthetic_attribute;
 		}
@@ -149,10 +145,10 @@ public abstract class Feature_info implements Deprecatable, Visitable {
 		return result;
 	}
 
-	public boolean IsDeprecated() {
+	public boolean isDeprecated() {
 		boolean result = false;
 
-		Iterator i = Attributes().iterator();
+		Iterator i = getAttributes().iterator();
 		while (!result && i.hasNext()) {
 			result = i.next() instanceof Deprecated_attribute;
 		}
@@ -161,14 +157,14 @@ public abstract class Feature_info implements Deprecatable, Visitable {
 	}
 
 	public String toString() {
-		return FullName();
+		return getFullName();
 	}
 
-	public abstract String FeatureType();
-	public abstract String Declaration();
-	public abstract String Signature();
+	public abstract String getFeatureType();
+	public abstract String getDeclaration();
+	public abstract String getSignature();
 
-	public String FullSignature() {
-		return Classfile().Class() + "." + Signature();
+	public String getFullSignature() {
+		return getClassfile().getClassName() + "." + getSignature();
 	}
 }

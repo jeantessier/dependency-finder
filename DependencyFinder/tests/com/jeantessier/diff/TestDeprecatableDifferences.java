@@ -49,17 +49,17 @@ public class TestDeprecatableDifferences extends TestCase {
 		factory = new DifferencesFactory(validator, validator);
 		
 		old_loader = new AggregatingClassfileLoader();
-		old_loader.Load(Collections.singleton("tests\\JarJarDiff\\old"));
+		old_loader.load(Collections.singleton("tests\\JarJarDiff\\old"));
 
 		new_loader = new AggregatingClassfileLoader();
-		new_loader.Load(Collections.singleton("tests\\JarJarDiff\\new"));
+		new_loader.load(Collections.singleton("tests\\JarJarDiff\\new"));
 	}
 
 	public void testNotDeprecatedNotDeprecatedDifferent() {
 		String name = "ModifiedPackage.ModifiedClass";
-		Classfile old_classfile = old_loader.Classfile(name);
+		Classfile old_classfile = old_loader.getClassfile(name);
 		assertNotNull(old_classfile);
-		Classfile new_classfile = new_loader.Classfile(name);
+		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = factory.CreateClassDifferences(name, old_classfile, new_classfile);
 		assertTrue("component IsEmpty()", !component_differences.IsEmpty());
@@ -73,9 +73,9 @@ public class TestDeprecatableDifferences extends TestCase {
 
 	public void testNotDeprecatedNotDeprecatedSame() {
 		String name = "ModifiedPackage.ModifiedClass";
-		Classfile old_classfile = new_loader.Classfile(name);
+		Classfile old_classfile = new_loader.getClassfile(name);
 		assertNotNull(old_classfile);
-		Classfile new_classfile = new_loader.Classfile(name);
+		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = new ClassDifferences(name, old_classfile, new_classfile);
 		assertTrue("component IsEmpty()", component_differences.IsEmpty());
@@ -89,9 +89,9 @@ public class TestDeprecatableDifferences extends TestCase {
 
 	public void testDeprecatedNotDeprecated() {
 		String name = "ModifiedPackage.UndeprecatedClass";
-		Classfile old_classfile = old_loader.Classfile(name);
+		Classfile old_classfile = old_loader.getClassfile(name);
 		assertNotNull(old_classfile);
-		Classfile new_classfile = new_loader.Classfile(name);
+		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = new ClassDifferences(name, old_classfile, new_classfile);
 		assertTrue("component not empty", component_differences.IsEmpty());
@@ -105,9 +105,9 @@ public class TestDeprecatableDifferences extends TestCase {
 
 	public void testNotDeprecatedDeprecated() {
 		String name = "ModifiedPackage.DeprecatedClass";
-		Classfile old_classfile = old_loader.Classfile(name);
+		Classfile old_classfile = old_loader.getClassfile(name);
 		assertNotNull(old_classfile);
-		Classfile new_classfile = new_loader.Classfile(name);
+		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = new ClassDifferences(name, old_classfile, new_classfile);
 		assertTrue("component not empty", component_differences.IsEmpty());
@@ -121,9 +121,9 @@ public class TestDeprecatableDifferences extends TestCase {
 
 	public void testDeprecatedDeprecated() {
 		String name = "ModifiedPackage.DeprecatedClass";
-		Classfile old_classfile = new_loader.Classfile(name);
+		Classfile old_classfile = new_loader.getClassfile(name);
 		assertNotNull(old_classfile);
-		Classfile new_classfile = new_loader.Classfile(name);
+		Classfile new_classfile = new_loader.getClassfile(name);
 		assertNotNull(new_classfile);
 		Differences component_differences = new ClassDifferences(name, old_classfile, new_classfile);
 		assertTrue("component not empty", component_differences.IsEmpty());

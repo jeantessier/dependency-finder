@@ -145,12 +145,12 @@ public class JarJarDiff {
 		Validator old_validator = new ListBasedValidator(command_line.SingleSwitch("old-documentation"));
 		ClassfileLoader old_jar = new AggregatingClassfileLoader();
 		old_jar.addLoadListener(verbose_listener);
-		old_jar.Load(command_line.MultipleSwitch("old"));
+		old_jar.load(command_line.MultipleSwitch("old"));
 
 		Validator new_validator = new ListBasedValidator(command_line.SingleSwitch("new-documentation"));
 		ClassfileLoader new_jar = new AggregatingClassfileLoader();
 		new_jar.addLoadListener(verbose_listener);
-		new_jar.Load(command_line.MultipleSwitch("new"));
+		new_jar.load(command_line.MultipleSwitch("new"));
 
 		// Starting to compare, first at package level,
 		// then descending to class level for packages

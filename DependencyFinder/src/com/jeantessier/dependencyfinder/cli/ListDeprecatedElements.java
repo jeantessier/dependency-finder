@@ -142,7 +142,7 @@ public class ListDeprecatedElements {
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(verbose_listener);
 		loader.addLoadListener(printer);
-		loader.Load(parameters);
+		loader.load(parameters);
 
 		Date end = new Date();
 

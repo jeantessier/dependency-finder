@@ -66,19 +66,19 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		Writer().println(x);
 	}
 	
-	public void BeginSession(LoadEvent event) {
-		super.BeginSession(event);
+	public void beginSession(LoadEvent event) {
+		super.beginSession(event);
 		
 		Writer().print("Searching for classes ...");
 		Writer().println();
 		Writer().flush();
 	}
 	
-	public void BeginGroup(LoadEvent event) {
-		super.BeginGroup(event);
+	public void beginGroup(LoadEvent event) {
+		super.beginGroup(event);
 		
 		Writer().print("Searching ");
-		Writer().print(event.GroupName());
+		Writer().print(event.getGroupName());
 
 		switch (CurrentGroup().Size()) {
 			case -1:
@@ -103,22 +103,22 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		Writer().flush();
 	}
 
-	public void EndClassfile(LoadEvent event) {
-	    super.EndClassfile(event);
+	public void endClassfile(LoadEvent event) {
+	    super.endClassfile(event);
 
 		Writer().print("Loading ");
-		Writer().print(event.Classfile());
+		Writer().print(event.getClassfile());
 		Writer().print(" ...");
 		Writer().println();
 		Writer().flush();
 	}
 	
-	public void EndFile(LoadEvent event) {
-		super.EndFile(event);
+	public void endFile(LoadEvent event) {
+		super.endFile(event);
 		
-		if (!VisitedFiles().contains(event.Filename())) {
+		if (!VisitedFiles().contains(event.getFilename())) {
 			Writer().print("Skipping ");
-			Writer().print(event.Filename());
+			Writer().print(event.getFilename());
 			Writer().print(" ...");
 			Writer().println();
 			Writer().flush();

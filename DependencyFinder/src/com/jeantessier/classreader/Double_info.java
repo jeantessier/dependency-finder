@@ -43,15 +43,15 @@ public class Double_info extends ConstantPoolEntry {
 		value = in.readDouble();
 	}
 
-	public double Value() {
+	public double getValue() {
 		return value;
 	}
 
 	public String toString() {
-		return String.valueOf(Value());
+		return String.valueOf(getValue());
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitDouble_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitDouble_info(this);
 	}
 }

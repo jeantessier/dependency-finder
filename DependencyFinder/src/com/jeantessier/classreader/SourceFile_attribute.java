@@ -46,7 +46,7 @@ public class SourceFile_attribute extends Attribute_info {
 		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		source_file_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Source file: " + source_file_index + " (" + SourceFile() + ")");
+		Logger.getLogger(getClass()).debug("Source file: " + source_file_index + " (" + getSourceFile() + ")");
 	}
 
 	public int SourceFileIndex() {
@@ -54,19 +54,19 @@ public class SourceFile_attribute extends Attribute_info {
 	}
 
 	public UTF8_info RawSourceFile() {
-		return (UTF8_info) Classfile().ConstantPool().get(SourceFileIndex());
+		return (UTF8_info) getClassfile().getConstantPool().get(SourceFileIndex());
 	}
 
-	public String SourceFile() {
+	public String getSourceFile() {
 		return RawSourceFile().toString();
 	}
 
 	public String toString() {
-		return "Source file \"" + SourceFile() + "\"";
+		return "Source file \"" + getSourceFile() + "\"";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitSourceFile_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitSourceFile_attribute(this);
 	}
 }
 

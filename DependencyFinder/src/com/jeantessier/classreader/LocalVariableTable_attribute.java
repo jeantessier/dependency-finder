@@ -54,7 +54,7 @@ public class LocalVariableTable_attribute extends Attribute_info {
 		}
 	}
 
-	public Collection LocalVariables() {
+	public Collection getLocalVariables() {
 		return local_variables;
 	}
 
@@ -62,7 +62,7 @@ public class LocalVariableTable_attribute extends Attribute_info {
 		return "Local Variable Table";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitLocalVariableTable_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitLocalVariableTable_attribute(this);
 	}
 }

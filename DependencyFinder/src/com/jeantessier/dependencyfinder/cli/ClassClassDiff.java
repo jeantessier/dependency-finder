@@ -144,12 +144,12 @@ public class ClassClassDiff {
 		Validator old_validator = new ListBasedValidator(command_line.SingleSwitch("old-documentation"));
 		ClassfileLoader old_jar = new AggregatingClassfileLoader();
 		old_jar.addLoadListener(verbose_listener);
-		old_jar.Load(command_line.MultipleSwitch("old"));
+		old_jar.load(command_line.MultipleSwitch("old"));
 
 		Validator new_validator = new ListBasedValidator(command_line.SingleSwitch("new-documentation"));
 		ClassfileLoader new_jar = new AggregatingClassfileLoader();
 		new_jar.addLoadListener(verbose_listener);
-		new_jar.Load(command_line.MultipleSwitch("new"));
+		new_jar.load(command_line.MultipleSwitch("new"));
 
 		// Starting to compare, first at package level,
 		// then descending to class level for packages
@@ -159,8 +159,8 @@ public class ClassClassDiff {
 		verbose_listener.Print("Comparing ...");
 
 		String name = command_line.SingleSwitch("name");
-		Classfile old_class = (Classfile) old_jar.Classfiles().iterator().next();
-		Classfile new_class = (Classfile) new_jar.Classfiles().iterator().next();
+		Classfile old_class = (Classfile) old_jar.getAllClassfiles().iterator().next();
+		Classfile new_class = (Classfile) new_jar.getAllClassfiles().iterator().next();
 
 		DifferencesFactory factory = new DifferencesFactory(old_validator, new_validator);
 		Differences differences = factory.CreateClassDifferences(name, old_class, new_class);

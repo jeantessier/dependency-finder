@@ -100,35 +100,35 @@ public class TestClassfileLoader extends TestCase implements LoadListener {
 		return end_session;
 	}
 	
-	public void BeginSession(LoadEvent event) {
+	public void beginSession(LoadEvent event) {
 		BeginSession().add(event);
 	}
 	
-	public void BeginGroup(LoadEvent event) {
+	public void beginGroup(LoadEvent event) {
 		BeginGroup().add(event);
 	}
 	
-	public void BeginFile(LoadEvent event) {
+	public void beginFile(LoadEvent event) {
 		BeginFile().add(event);
 	}
 	
-	public void BeginClassfile(LoadEvent event) {
+	public void beginClassfile(LoadEvent event) {
 		BeginClassfile().add(event);
 	}
 	
-	public void EndClassfile(LoadEvent event) {
+	public void endClassfile(LoadEvent event) {
 		EndClassfile().add(event);
 	}
 	
-	public void EndFile(LoadEvent event) {
+	public void endFile(LoadEvent event) {
 		EndFile().add(event);
 	}
 	
-	public void EndGroup(LoadEvent event) {
+	public void endGroup(LoadEvent event) {
 		EndGroup().add(event);
 	}
 	
-	public void EndSession(LoadEvent event) {
+	public void endSession(LoadEvent event) {
 		EndSession().add(event);
 	}
 }

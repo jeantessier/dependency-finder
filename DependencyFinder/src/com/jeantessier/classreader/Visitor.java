@@ -36,42 +36,42 @@ import java.util.*;
 
 public interface Visitor {
 	// Classfile
-	public void VisitClassfiles(Collection classfiles);
-	public void VisitClassfile(Classfile classfile);
+	public void visitClassfiles(Collection classfiles);
+	public void visitClassfile(Classfile classfile);
 
 	// ConstantPool entries
-	public void VisitConstantPool(ConstantPool constant_pool);
-	public void VisitClass_info(Class_info entry);
-	public void VisitFieldRef_info(FieldRef_info entry);
-	public void VisitMethodRef_info(MethodRef_info entry);
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry);
-	public void VisitString_info(String_info entry);
-	public void VisitInteger_info(Integer_info entry);
-	public void VisitFloat_info(Float_info entry);
-	public void VisitLong_info(Long_info entry);
-	public void VisitDouble_info(Double_info entry);
-	public void VisitNameAndType_info(NameAndType_info entry);
-	public void VisitUTF8_info(UTF8_info entry);
+	public void visitConstantPool(ConstantPool constantPool);
+	public void visitClass_info(Class_info entry);
+	public void visitFieldRef_info(FieldRef_info entry);
+	public void visitMethodRef_info(MethodRef_info entry);
+	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry);
+	public void visitString_info(String_info entry);
+	public void visitInteger_info(Integer_info entry);
+	public void visitFloat_info(Float_info entry);
+	public void visitLong_info(Long_info entry);
+	public void visitDouble_info(Double_info entry);
+	public void visitNameAndType_info(NameAndType_info entry);
+	public void visitUTF8_info(UTF8_info entry);
 
 	// Features
-	public void VisitField_info(Field_info entry);
-	public void VisitMethod_info(Method_info entry);
+	public void visitField_info(Field_info entry);
+	public void visitMethod_info(Method_info entry);
 
 	// Attributes
-	public void VisitConstantValue_attribute(ConstantValue_attribute attribute);
-	public void VisitCode_attribute(Code_attribute attribute);
-	public void VisitExceptions_attribute(Exceptions_attribute attribute);
-	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute);
-	public void VisitSynthetic_attribute(Synthetic_attribute attribute);
-	public void VisitSourceFile_attribute(SourceFile_attribute attribute);
-	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute);
-	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute);
-	public void VisitDeprecated_attribute(Deprecated_attribute attribute);
-	public void VisitCustom_attribute(Custom_attribute attribute);
+	public void visitConstantValue_attribute(ConstantValue_attribute attribute);
+	public void visitCode_attribute(Code_attribute attribute);
+	public void visitExceptions_attribute(Exceptions_attribute attribute);
+	public void visitInnerClasses_attribute(InnerClasses_attribute attribute);
+	public void visitSynthetic_attribute(Synthetic_attribute attribute);
+	public void visitSourceFile_attribute(SourceFile_attribute attribute);
+	public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute);
+	public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute);
+	public void visitDeprecated_attribute(Deprecated_attribute attribute);
+	public void visitCustom_attribute(Custom_attribute attribute);
 
 	// Attribute helpers
-	public void VisitExceptionHandler(ExceptionHandler helper);
-	public void VisitInnerClass(InnerClass helper);
-	public void VisitLineNumber(LineNumber helper);
-	public void VisitLocalVariable(LocalVariable helper);
+	public void visitExceptionHandler(ExceptionHandler helper);
+	public void visitInnerClass(InnerClass helper);
+	public void visitLineNumber(LineNumber helper);
+	public void visitLocalVariable(LocalVariable helper);
 }

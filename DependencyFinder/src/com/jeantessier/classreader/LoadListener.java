@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface LoadListener extends EventListener {
-	public void BeginSession(LoadEvent event);
+	public void beginSession(LoadEvent event);
 
 	/**
 	 *  <p>The loader is starting on a new group of files.
@@ -48,7 +48,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The element and classfile attributes are null.</p>
 	 */
-	public void BeginGroup(LoadEvent event);
+	public void beginGroup(LoadEvent event);
 	
 	/**
 	 *  <p>The loader is starting on a new file.</p>
@@ -63,7 +63,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The classfile attribute is null.</p>
 	 */
-	public void BeginFile(LoadEvent event);
+	public void beginFile(LoadEvent event);
 	
 	/**
 	 *  <p>The loader is starting on a new <code>.class</code>
@@ -79,7 +79,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The classfile attribute is null.</p>
 	 */
-	public void BeginClassfile(LoadEvent event);
+	public void beginClassfile(LoadEvent event);
 	
 	/**
 	 *  <p>The loader is finished loading a <code>.class</code>
@@ -96,7 +96,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The element attribute is null.</p>
 	 */
-	public void EndClassfile(LoadEvent event);
+	public void endClassfile(LoadEvent event);
 	
 	/**
 	 *  <p>The loader is finished with a file.</p>
@@ -112,7 +112,7 @@ public interface LoadListener extends EventListener {
 	 *  <p>The event's classfile attribute may contains a newly
 	 *  loaded Classfile instance from the file.</p>
 	 */
-	public void EndFile(LoadEvent event);
+	public void endFile(LoadEvent event);
 
 	/**
 	 *  <p>The loader finished the group of files. For
@@ -125,7 +125,7 @@ public interface LoadListener extends EventListener {
 	 *
 	 *  <p>The element and classfile attributes are null.</p>
 	 */
-	public void EndGroup(LoadEvent event);
+	public void endGroup(LoadEvent event);
 
-	public void EndSession(LoadEvent event);
+	public void endSession(LoadEvent event);
 }

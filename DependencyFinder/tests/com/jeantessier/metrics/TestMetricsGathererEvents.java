@@ -73,9 +73,9 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 	}
 	
 	public void testEvents() throws IOException {
-		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.load(Collections.singleton(TEST_FILENAME));
 
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		assertEquals("Begin Session",  1, begin_session.size());
 		assertEquals("Begin Class",    1, begin_class.size());
@@ -84,17 +84,17 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 		assertEquals("End Class",      1, end_class.size());
 		assertEquals("End Session",    1, end_session.size());
 
-		assertEquals(loader.Classfile(TEST_CLASS), ((MetricsEvent) begin_class.getLast()).Classfile());
-		assertEquals(loader.Classfile(TEST_CLASS), ((MetricsEvent) end_class.getLast()).Classfile());
+		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) begin_class.getLast()).Classfile());
+		assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) end_class.getLast()).Classfile());
 	}
 	
 	public void testMultipleEvents() throws IOException {
 		Collection dirs = new ArrayList(2);
 		dirs.add(TEST_DIRNAME);
 		dirs.add(OTHER_DIRNAME);
-		loader.Load(dirs);
+		loader.load(dirs);
 
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		assertEquals("Begin Session",  1, begin_session.size());
 		assertEquals("Begin Class",    9, begin_class.size());
@@ -105,9 +105,9 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
 	}	
 	
 	public void testEventsWithNothing() throws IOException {
-		loader.Load(Collections.EMPTY_SET);
+		loader.load(Collections.EMPTY_SET);
 
-		gatherer.VisitClassfiles(loader.Classfiles());
+		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		assertEquals("Begin Session",  1, begin_session.size());
 		assertEquals("Begin Class",    0, begin_class.size());

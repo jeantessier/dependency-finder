@@ -46,14 +46,14 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		this.task = task;
 	}
 	
-	public void BeginSession(LoadEvent event) {
-		super.BeginSession(event);
+	public void beginSession(LoadEvent event) {
+		super.beginSession(event);
 		
 		task.log("Searching for classes ...", Project.MSG_VERBOSE);
 	}
 	
-	public void BeginGroup(LoadEvent event) {
-		super.BeginGroup(event);
+	public void beginGroup(LoadEvent event) {
+		super.beginGroup(event);
 
 		switch (CurrentGroup().Size()) {
 			case -1:
@@ -71,17 +71,17 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		}
 	}
 
-	public void EndClassfile(LoadEvent event) {
-	    super.EndClassfile(event);
+	public void endClassfile(LoadEvent event) {
+	    super.endClassfile(event);
 
-		task.log("Loading " + event.Classfile() + " ...", Project.MSG_VERBOSE);
+		task.log("Loading " + event.getClassfile() + " ...", Project.MSG_VERBOSE);
 	}
 	
-	public void EndFile(LoadEvent event) {
-		super.EndFile(event);
+	public void endFile(LoadEvent event) {
+		super.endFile(event);
 
-		if (!VisitedFiles().contains(event.Filename())) {
-			task.log("Skipping " + event.Filename() + " ...", Project.MSG_VERBOSE);
+		if (!VisitedFiles().contains(event.getFilename())) {
+			task.log("Skipping " + event.getFilename() + " ...", Project.MSG_VERBOSE);
 		}
 	}
 	

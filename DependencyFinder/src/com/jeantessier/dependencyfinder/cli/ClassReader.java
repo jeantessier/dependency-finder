@@ -143,7 +143,7 @@ public class ClassReader {
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
 		loader.addLoadListener(verbose_listener);
-		loader.Load(parameters);
+		loader.load(parameters);
 
 		Printer printer;
 		
@@ -154,10 +154,10 @@ public class ClassReader {
 		}
 		
 		if (command_line.IsPresent("indent-text")) {
-			printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.setIndentText(command_line.SingleSwitch("indent-text"));
 		}
 
-		printer.VisitClassfiles(loader.Classfiles());
+		printer.visitClassfiles(loader.getAllClassfiles());
 
 		Date end = new Date();
 

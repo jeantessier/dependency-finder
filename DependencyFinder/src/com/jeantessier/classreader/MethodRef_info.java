@@ -39,23 +39,23 @@ public class MethodRef_info extends FeatureRef_info {
 		super(constant_pool, in);
 	}
 
-	public boolean IsConstructor() {
-		return RawNameAndType().Name().equals("<init>");
+	public boolean isConstructor() {
+		return getRawNameAndType().Name().equals("<init>");
 	}
 
-	public boolean IsStaticInitializer() {
-		return RawNameAndType().Name().equals("<clinit>");
+	public boolean isStaticInitializer() {
+		return getRawNameAndType().Name().equals("<clinit>");
 	}
 
 	public String Name() {
 		String result = null;
 
-		if (IsConstructor()) {
+		if (isConstructor()) {
 			result = Class().substring(Class().lastIndexOf(".") + 1);
-		} else if (IsStaticInitializer()) {
+		} else if (isStaticInitializer()) {
 			result = "static {}";
 		} else {
-			result = RawNameAndType().Name();
+			result = getRawNameAndType().Name();
 		}
 
 		return result;
@@ -65,14 +65,14 @@ public class MethodRef_info extends FeatureRef_info {
 		StringBuffer result = new StringBuffer();
 
 		result.append(Name());
-		if (!IsStaticInitializer()) {
-			result.append(SignatureHelper.Signature(RawNameAndType().Type()));
+		if (!isStaticInitializer()) {
+			result.append(SignatureHelper.getSignature(getRawNameAndType().getType()));
 		}
 
 		return result.toString();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitMethodRef_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitMethodRef_info(this);
 	}
 }

@@ -116,26 +116,26 @@ public class MetricsGatherer extends VisitorBase {
 		this.current_method = current_method;
 	}
 
-	public void VisitClassfiles(Collection classfiles) {
+	public void visitClassfiles(Collection classfiles) {
 		fireBeginSession(classfiles.size());
 		
 		Iterator i = classfiles.iterator();
 		while (i.hasNext()) {
-			((Classfile) i.next()).Accept(this);
+			((Classfile) i.next()).accept(this);
 		}
 		
 		fireEndSession();
 	}
 	
 	// Classfile
-	public void VisitClassfile(Classfile classfile) {
+	public void visitClassfile(Classfile classfile) {
 		Logger.getLogger(getClass()).debug("VisitClassfile():");
-		Logger.getLogger(getClass()).debug("    class = \"" + classfile.Class() + "\"");
+		Logger.getLogger(getClass()).debug("    class = \"" + classfile.getClassName() + "\"");
 
 		fireBeginClass(classfile);
 		
 		CurrentMethod(null);
-		CurrentClass(MetricsFactory().CreateClassMetrics(classfile.Class()));
+		CurrentClass(MetricsFactory().CreateClassMetrics(classfile.getClassName()));
 		CurrentGroup(CurrentClass().Parent());
 		CurrentProject(CurrentGroup().Parent());
 
@@ -143,60 +143,60 @@ public class MetricsGatherer extends VisitorBase {
 
 		CurrentProject().AddToMeasurement(Metrics.PACKAGES, CurrentGroup().Name());
 		
-		if ((classfile.AccessFlag() & Classfile.ACC_PUBLIC) != 0) {
+		if ((classfile.getAccessFlag() & Classfile.ACC_PUBLIC) != 0) {
 			CurrentProject().AddToMeasurement(Metrics.PUBLIC_CLASSES);
 			CurrentGroup().AddToMeasurement(Metrics.PUBLIC_CLASSES);
 		}
 
-		if ((classfile.AccessFlag() & Classfile.ACC_FINAL) != 0) {
+		if ((classfile.getAccessFlag() & Classfile.ACC_FINAL) != 0) {
 			CurrentProject().AddToMeasurement(Metrics.FINAL_CLASSES);
 			CurrentGroup().AddToMeasurement(Metrics.FINAL_CLASSES);
 		}
 
-		if ((classfile.AccessFlag() & Classfile.ACC_INTERFACE) != 0) {
+		if ((classfile.getAccessFlag() & Classfile.ACC_INTERFACE) != 0) {
 			CurrentProject().AddToMeasurement(Metrics.INTERFACES);
 			CurrentGroup().AddToMeasurement(Metrics.INTERFACES);
 		}
 
-		if ((classfile.AccessFlag() & Classfile.ACC_ABSTRACT) != 0) {
+		if ((classfile.getAccessFlag() & Classfile.ACC_ABSTRACT) != 0) {
 			CurrentProject().AddToMeasurement(Metrics.ABSTRACT_CLASSES);
 			CurrentGroup().AddToMeasurement(Metrics.ABSTRACT_CLASSES);
 		}
 
-		if (classfile.SuperclassIndex() != 0) {
-			classfile.RawSuperclass().Accept(this);
+		if (classfile.getSuperclassIndex() != 0) {
+			classfile.getRawSuperclass().accept(this);
 
-			Classfile superclass = classfile.Loader().Classfile(classfile.Superclass());
+			Classfile superclass = classfile.getLoader().getClassfile(classfile.getSuperclassName());
 
 			if (superclass != null) {
-				MetricsFactory().CreateClassMetrics(superclass.Class()).AddToMeasurement(Metrics.SUBCLASSES);
+				MetricsFactory().CreateClassMetrics(superclass.getClassName()).AddToMeasurement(Metrics.SUBCLASSES);
 			}
 			CurrentClass().AddToMeasurement(Metrics.DEPTH_OF_INHERITANCE, ComputeDepthOfInheritance(superclass));
 		}
 
 		Iterator i;
 
-		i = classfile.Interfaces().iterator();
+		i = classfile.getAllInterfaces().iterator();
 		while (i.hasNext()) {
-			((Class_info) i.next()).Accept(this);
+			((Class_info) i.next()).accept(this);
 		}
 
-		i = classfile.Fields().iterator();
+		i = classfile.getAllFields().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
-		i = classfile.Methods().iterator();
+		i = classfile.getAllMethods().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 
 		sloc = 1;
 		is_synthetic = false;
 
-		i = classfile.Attributes().iterator();
+		i = classfile.getAttributes().iterator();
 		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+			((Visitable) i.next()).accept(this);
 		}
 		
 		if (!is_synthetic) {
@@ -207,151 +207,151 @@ public class MetricsGatherer extends VisitorBase {
 	}
 	
 	// ConstantPool entries
-	public void VisitClass_info(Class_info entry) {
+	public void visitClass_info(Class_info entry) {
 		Logger.getLogger(getClass()).debug("VisitClass_info():");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
-		if (entry.Name().startsWith("[")) {
-			AddClassDependencies(ProcessDescriptor(entry.Name()));
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+		if (entry.getName().startsWith("[")) {
+			AddClassDependencies(ProcessDescriptor(entry.getName()));
 		} else {
-			AddClassDependency(entry.Name());
+			AddClassDependency(entry.getName());
 		}
 	}
 	
-	public void VisitFieldRef_info(FieldRef_info entry) {
+	public void visitFieldRef_info(FieldRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 
 		// Dependencies on attributes are accounted as dependencies on their class
-		entry.RawClass().Accept(this);
-		AddClassDependencies(ProcessDescriptor(entry.RawNameAndType().Type()));
+		entry.getRawClass().accept(this);
+		AddClassDependencies(ProcessDescriptor(entry.getRawNameAndType().getType()));
 	}
 
-	public void VisitMethodRef_info(MethodRef_info entry) {
+	public void visitMethodRef_info(MethodRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitMethodRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
-		AddMethodDependency(entry.FullSignature());
-		AddClassDependencies(ProcessDescriptor(entry.RawNameAndType().Type()));
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+		AddMethodDependency(entry.getFullSignature());
+		AddClassDependencies(ProcessDescriptor(entry.getRawNameAndType().getType()));
 	}
 
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
-		AddMethodDependency(entry.FullSignature());
-		AddClassDependencies(ProcessDescriptor(entry.RawNameAndType().Type()));
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+		AddMethodDependency(entry.getFullSignature());
+		AddClassDependencies(ProcessDescriptor(entry.getRawNameAndType().getType()));
 	}
 
-	public void VisitField_info(Field_info entry) {
+	public void visitField_info(Field_info entry) {
 		CurrentClass().AddToMeasurement(Metrics.ATTRIBUTES);
 
-		Logger.getLogger(getClass()).debug("VisitField_info(" + entry.FullSignature() + ")");
+		Logger.getLogger(getClass()).debug("VisitField_info(" + entry.getFullSignature() + ")");
 		Logger.getLogger(getClass()).debug("Current class: " + CurrentClass().Name());
-		Logger.getLogger(getClass()).debug("Access flag: " + entry.AccessFlag());
-		Logger.getLogger(getClass()).debug("Public: " + (entry.AccessFlag() & Method_info.ACC_PUBLIC));
-		Logger.getLogger(getClass()).debug("Private: " + (entry.AccessFlag() & Method_info.ACC_PRIVATE));
-		Logger.getLogger(getClass()).debug("Protected: " + (entry.AccessFlag() & Method_info.ACC_PROTECTED));
-		Logger.getLogger(getClass()).debug("Static: " + (entry.AccessFlag() & Method_info.ACC_STATIC));
+		Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlag());
+		Logger.getLogger(getClass()).debug("Public: " + (entry.getAccessFlag() & Method_info.ACC_PUBLIC));
+		Logger.getLogger(getClass()).debug("Private: " + (entry.getAccessFlag() & Method_info.ACC_PRIVATE));
+		Logger.getLogger(getClass()).debug("Protected: " + (entry.getAccessFlag() & Method_info.ACC_PROTECTED));
+		Logger.getLogger(getClass()).debug("Static: " + (entry.getAccessFlag() & Method_info.ACC_STATIC));
 		
-		if ((entry.AccessFlag() & Field_info.ACC_PUBLIC) != 0) {
+		if ((entry.getAccessFlag() & Field_info.ACC_PUBLIC) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PUBLIC_ATTRIBUTES);
-		} else if ((entry.AccessFlag() & Field_info.ACC_PRIVATE) != 0) {
+		} else if ((entry.getAccessFlag() & Field_info.ACC_PRIVATE) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PRIVATE_ATTRIBUTES);
-		} else if ((entry.AccessFlag() & Field_info.ACC_PROTECTED) != 0) {
+		} else if ((entry.getAccessFlag() & Field_info.ACC_PROTECTED) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PROTECTED_ATTRIBUTES);
 		} else {
 			CurrentClass().AddToMeasurement(Metrics.PACKAGE_ATTRIBUTES);
 		}
 
-		if ((entry.AccessFlag() & Field_info.ACC_STATIC) != 0) {
+		if ((entry.getAccessFlag() & Field_info.ACC_STATIC) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.STATIC_ATTRIBUTES);
 		}
 
-		if ((entry.AccessFlag() & Field_info.ACC_FINAL) != 0) {
+		if ((entry.getAccessFlag() & Field_info.ACC_FINAL) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.FINAL_ATTRIBUTES);
 		}
 
-		if ((entry.AccessFlag() & Field_info.ACC_VOLATILE) != 0) {
+		if ((entry.getAccessFlag() & Field_info.ACC_VOLATILE) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.VOLATILE_ATTRIBUTES);
 		}
 
-		if ((entry.AccessFlag() & Field_info.ACC_TRANSIENT) != 0) {
+		if ((entry.getAccessFlag() & Field_info.ACC_TRANSIENT) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.TRANSIENT_ATTRIBUTES);
 		}
 
 		sloc = 1;
 		is_synthetic = false;
 		
-		super.VisitField_info(entry);
+		super.visitField_info(entry);
 		
 		if (!is_synthetic) {
 			CurrentClass().AddToMeasurement(Metrics.CLASS_SLOC, sloc);
 		}
 
-		AddClassDependencies(ProcessDescriptor(entry.Descriptor()));
+		AddClassDependencies(ProcessDescriptor(entry.getDescriptor()));
 	}
 
-	public void VisitMethod_info(Method_info entry) {
+	public void visitMethod_info(Method_info entry) {
 		fireBeginMethod(entry);
 		
-		CurrentMethod(MetricsFactory().CreateMethodMetrics(entry.FullSignature()));
+		CurrentMethod(MetricsFactory().CreateMethodMetrics(entry.getFullSignature()));
 		MetricsFactory().IncludeMethodMetrics(CurrentMethod());
 		
-		Logger.getLogger(getClass()).debug("VisitMethod_info(" + entry.FullSignature() + ")");
+		Logger.getLogger(getClass()).debug("VisitMethod_info(" + entry.getFullSignature() + ")");
 		Logger.getLogger(getClass()).debug("Current class: " + CurrentClass().Name());
-		Logger.getLogger(getClass()).debug("Access flag: " + entry.AccessFlag());
-		Logger.getLogger(getClass()).debug("Public: " + (entry.AccessFlag() & Method_info.ACC_PUBLIC));
-		Logger.getLogger(getClass()).debug("Private: " + (entry.AccessFlag() & Method_info.ACC_PRIVATE));
-		Logger.getLogger(getClass()).debug("Protected: " + (entry.AccessFlag() & Method_info.ACC_PROTECTED));
-		Logger.getLogger(getClass()).debug("Static: " + (entry.AccessFlag() & Method_info.ACC_STATIC));
+		Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlag());
+		Logger.getLogger(getClass()).debug("Public: " + (entry.getAccessFlag() & Method_info.ACC_PUBLIC));
+		Logger.getLogger(getClass()).debug("Private: " + (entry.getAccessFlag() & Method_info.ACC_PRIVATE));
+		Logger.getLogger(getClass()).debug("Protected: " + (entry.getAccessFlag() & Method_info.ACC_PROTECTED));
+		Logger.getLogger(getClass()).debug("Static: " + (entry.getAccessFlag() & Method_info.ACC_STATIC));
 
 		sloc = 0;
 		is_synthetic = false;
 		
-		if ((entry.AccessFlag() & Method_info.ACC_PUBLIC) != 0) {
+		if ((entry.getAccessFlag() & Method_info.ACC_PUBLIC) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PUBLIC_METHODS);
-		} else if ((entry.AccessFlag() & Method_info.ACC_PRIVATE) != 0) {
+		} else if ((entry.getAccessFlag() & Method_info.ACC_PRIVATE) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PRIVATE_METHODS);
-		} else if ((entry.AccessFlag() & Method_info.ACC_PROTECTED) != 0) {
+		} else if ((entry.getAccessFlag() & Method_info.ACC_PROTECTED) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PROTECTED_METHODS);
 		} else {
 			CurrentClass().AddToMeasurement(Metrics.PACKAGE_METHODS);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_STATIC) != 0) {
+		if ((entry.getAccessFlag() & Method_info.ACC_STATIC) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.STATIC_METHODS);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_FINAL) != 0) {
+		if ((entry.getAccessFlag() & Method_info.ACC_FINAL) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.FINAL_METHODS);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_SYNCHRONIZED) != 0) {
+		if ((entry.getAccessFlag() & Method_info.ACC_SYNCHRONIZED) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.SYNCHRONIZED_METHODS);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_NATIVE) != 0) {
+		if ((entry.getAccessFlag() & Method_info.ACC_NATIVE) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.NATIVE_METHODS);
 		}
 
-		if ((entry.AccessFlag() & Method_info.ACC_ABSTRACT) != 0) {
+		if ((entry.getAccessFlag() & Method_info.ACC_ABSTRACT) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.ABSTRACT_METHODS);
 			sloc = 1;
 		}
 
-		CurrentMethod().AddToMeasurement(Metrics.PARAMETERS, SignatureHelper.ParameterCount(entry.Descriptor()));
+		CurrentMethod().AddToMeasurement(Metrics.PARAMETERS, SignatureHelper.getParameterCount(entry.getDescriptor()));
 		
-		super.VisitMethod_info(entry);
+		super.visitMethod_info(entry);
 		
 		if (!is_synthetic) {
 			CurrentMethod().AddToMeasurement(Metrics.SLOC, sloc);
 		}
 
-		AddClassDependencies(ProcessDescriptor(entry.Descriptor()));
+		AddClassDependencies(ProcessDescriptor(entry.getDescriptor()));
 
 		fireEndMethod(entry, CurrentMethod());
 	}
@@ -360,12 +360,12 @@ public class MetricsGatherer extends VisitorBase {
 	// Attributes
 	//
 
-	public void VisitCode_attribute(Code_attribute attribute) {
-		super.VisitCode_attribute(attribute);
+	public void visitCode_attribute(Code_attribute attribute) {
+		super.visitCode_attribute(attribute);
 
 		Logger.getLogger(getClass()).debug("Walking bytecode ...");
 
-		byte[] code = attribute.Code();
+		byte[] code = attribute.getCode();
 
 		/*
 		 *  We can skip the "new" (0xbb) instruction as it is always
@@ -375,7 +375,7 @@ public class MetricsGatherer extends VisitorBase {
 		Iterator ci = attribute.iterator();
 		while (ci.hasNext()) {
 			Instruction instr = (Instruction) ci.next();
-			switch (instr.Opcode()) {
+			switch (instr.getOpcode()) {
 				case 0xb2: // getstatic
 				case 0xb3: // putstatic
 				case 0xb4: // getfield
@@ -389,9 +389,9 @@ public class MetricsGatherer extends VisitorBase {
 				case 0xc0: // checkcast
 				case 0xc1: // instanceof
 				case 0xc5: // multianewarray
-					int start = instr.Start();
+					int start = instr.getStart();
 					int index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-					((Visitable) attribute.Classfile().ConstantPool().get(index)).Accept(this);
+					((Visitable) attribute.getClassfile().getConstantPool().get(index)).accept(this);
 					break;
 				default:
 					// Do nothing
@@ -400,7 +400,7 @@ public class MetricsGatherer extends VisitorBase {
 		}
 	}
 
-	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
+	public void visitSynthetic_attribute(Synthetic_attribute attribute) {
 		Object owner = attribute.Owner();
 
 		is_synthetic = true;
@@ -417,7 +417,7 @@ public class MetricsGatherer extends VisitorBase {
 		}
 	}
 
-	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
+	public void visitDeprecated_attribute(Deprecated_attribute attribute) {
 		Object owner = attribute.Owner();
 	
 		if (owner instanceof Classfile) {
@@ -436,27 +436,27 @@ public class MetricsGatherer extends VisitorBase {
 	// Attribute helpers
 	//
 	
-	public void VisitExceptionHandler(ExceptionHandler helper) {
-		if (helper.CatchTypeIndex() != 0) {
-			helper.RawCatchType().Accept(this);
+	public void visitExceptionHandler(ExceptionHandler helper) {
+		if (helper.getCatchTypeIndex() != 0) {
+			helper.getRawCatchType().accept(this);
 		}
 	}
 
-	public void VisitInnerClass(InnerClass helper) {
-		if ((helper.InnerClassInfoIndex() != helper.InnerClasses().Classfile().ClassIndex()) && (helper.InnerClassInfo().startsWith(helper.InnerClasses().Classfile().Class()))) {
+	public void visitInnerClass(InnerClass helper) {
+		if ((helper.getInnerClassInfoIndex() != helper.InnerClasses().getClassfile().getClassIndex()) && (helper.InnerClassInfo().startsWith(helper.InnerClasses().getClassfile().getClassName()))) {
 			CurrentProject().AddToMeasurement(Metrics.INNER_CLASSES);
 			CurrentGroup().AddToMeasurement(Metrics.INNER_CLASSES);
 			CurrentClass().AddToMeasurement(Metrics.INNER_CLASSES);
 		
-			if ((helper.AccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
+			if ((helper.getAccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
 				CurrentProject().AddToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
 				CurrentGroup().AddToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
 				CurrentClass().AddToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
-			} else if ((helper.AccessFlag() & InnerClass.ACC_PRIVATE) != 0) {
+			} else if ((helper.getAccessFlag() & InnerClass.ACC_PRIVATE) != 0) {
 				CurrentProject().AddToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
 				CurrentGroup().AddToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
 				CurrentClass().AddToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
-			} else if ((helper.AccessFlag() & InnerClass.ACC_PROTECTED) != 0) {
+			} else if ((helper.getAccessFlag() & InnerClass.ACC_PROTECTED) != 0) {
 				CurrentProject().AddToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
 				CurrentGroup().AddToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
 				CurrentClass().AddToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
@@ -466,19 +466,19 @@ public class MetricsGatherer extends VisitorBase {
 				CurrentClass().AddToMeasurement(Metrics.PACKAGE_INNER_CLASSES);
 			}
 
-			if ((helper.AccessFlag() & InnerClass.ACC_STATIC) != 0) {
+			if ((helper.getAccessFlag() & InnerClass.ACC_STATIC) != 0) {
 				CurrentProject().AddToMeasurement(Metrics.STATIC_INNER_CLASSES);
 				CurrentGroup().AddToMeasurement(Metrics.STATIC_INNER_CLASSES);
 				CurrentClass().AddToMeasurement(Metrics.STATIC_INNER_CLASSES);
 			}
 
-			if ((helper.AccessFlag() & InnerClass.ACC_FINAL) != 0) {
+			if ((helper.getAccessFlag() & InnerClass.ACC_FINAL) != 0) {
 				CurrentProject().AddToMeasurement(Metrics.FINAL_INNER_CLASSES);
 				CurrentGroup().AddToMeasurement(Metrics.FINAL_INNER_CLASSES);
 				CurrentClass().AddToMeasurement(Metrics.FINAL_INNER_CLASSES);
 			}
 
-			if ((helper.AccessFlag() & InnerClass.ACC_ABSTRACT) != 0) {
+			if ((helper.getAccessFlag() & InnerClass.ACC_ABSTRACT) != 0) {
 				CurrentProject().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
 				CurrentGroup().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
 				CurrentClass().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
@@ -486,21 +486,21 @@ public class MetricsGatherer extends VisitorBase {
 		}
 	}
 
-	public void VisitLineNumber(LineNumber helper) {
+	public void visitLineNumber(LineNumber helper) {
 		sloc++;
 	}
 
-	public void VisitLocalVariable(LocalVariable helper) {
+	public void visitLocalVariable(LocalVariable helper) {
 		CurrentMethod().AddToMeasurement(Metrics.LOCAL_VARIABLES);
 
-		AddClassDependencies(ProcessDescriptor(helper.Descriptor()));
+		AddClassDependencies(ProcessDescriptor(helper.getDescriptor()));
 	}
 
 	private int ComputeDepthOfInheritance(Classfile classfile) {
 		int result = 1;
 		
-		if (classfile != null && classfile.SuperclassIndex() != 0) {
-			Classfile superclass = classfile.Loader().Classfile(classfile.Superclass());
+		if (classfile != null && classfile.getSuperclassIndex() != 0) {
+			Classfile superclass = classfile.getLoader().getClassfile(classfile.getSuperclassName());
 			result += ComputeDepthOfInheritance(superclass);
 		}
 
@@ -518,7 +518,7 @@ public class MetricsGatherer extends VisitorBase {
 
 		while ((start_pos = str.indexOf('L', current_pos)) != -1) {
 			if ((end_pos = str.indexOf(';', start_pos)) != -1) {
-				String classname = SignatureHelper.Path2ClassName(str.substring(start_pos + 1, end_pos));
+				String classname = SignatureHelper.path2ClassName(str.substring(start_pos + 1, end_pos));
 				result.add(classname);
 				current_pos = end_pos + 1;
 			} else {

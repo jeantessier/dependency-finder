@@ -54,7 +54,7 @@ public final class SignatureHelper {
 		conversion.put("Z", "boolean");
 	}
 
-	static String Convert(String type) {
+	static String convert(String type) {
 		String result = null;
 
 		Logger.getLogger(SignatureHelper.class).debug("Begin Convert(\"" + type + "\")");
@@ -62,9 +62,9 @@ public final class SignatureHelper {
 		if (type.length() == 1) {
 			result = (String) conversion.get(type);
 		} else if (type.charAt(0) == 'L') {
-			result = Path2ClassName(type.substring(1, type.indexOf(';')));
+			result = path2ClassName(type.substring(1, type.indexOf(';')));
 		} else if (type.charAt(0) == '[') {
-			result = Convert(type.substring(1)) + "[]";
+			result = convert(type.substring(1)) + "[]";
 		}
 
 		Logger.getLogger(SignatureHelper.class).debug("End   Convert(\"" + type + "\"): \"" + result + "\"");
@@ -72,11 +72,11 @@ public final class SignatureHelper {
 		return result;
 	}
 
-	public static String Path2ClassName(String path) {
+	public static String path2ClassName(String path) {
 		return perl.substitute("s/\\//./g", path);
 	}
 	
-	public static String Signature(String descriptor) {
+	public static String getSignature(String descriptor) {
 		StringBuffer result = new StringBuffer();
 
 		Logger.getLogger(SignatureHelper.class).debug("Begin Signature(\"" + descriptor + "\")");
@@ -101,7 +101,7 @@ public final class SignatureHelper {
 		return result.toString();
 	}
 
-	public static int ParameterCount(String descriptor) {
+	public static int getParameterCount(String descriptor) {
 		int result = 0;
 
 		Logger.getLogger(SignatureHelper.class).debug("Begin ParameterCount(\"" + descriptor + "\")");
@@ -120,44 +120,44 @@ public final class SignatureHelper {
 		return result;
 	}
 
-	public static String ReturnType(String descriptor) {
-		return Convert(descriptor.substring(descriptor.lastIndexOf(")") + 1));
+	public static String getReturnType(String descriptor) {
+		return convert(descriptor.substring(descriptor.lastIndexOf(")") + 1));
 	}
 
-	public static String Type(String descriptor) {
-		return Convert(descriptor);
+	public static String getType(String descriptor) {
+		return convert(descriptor);
 	}
 }
 
 class SignatureIterator implements Iterator {
 	private String descriptor;
-	private int    current_pos = 0;
+	private int    currentPos = 0;
 
 	public SignatureIterator(String descriptor) {
 		this.descriptor = descriptor;
 	}
 
 	public boolean hasNext() {
-		return current_pos < descriptor.length();
+		return currentPos < descriptor.length();
 	}
 
 	public Object next() {
 		String result;
 
 		if (hasNext()) {
-			int next_pos = current_pos;
+			int nextPos = currentPos;
 
-			while (descriptor.charAt(next_pos) == '[') {
-				next_pos++;
+			while (descriptor.charAt(nextPos) == '[') {
+				nextPos++;
 			}
 
-			if (descriptor.charAt(next_pos) == 'L') {
-				next_pos = descriptor.indexOf(";", next_pos);
+			if (descriptor.charAt(nextPos) == 'L') {
+				nextPos = descriptor.indexOf(";", nextPos);
 			}
 
-			result = SignatureHelper.Convert(descriptor.substring(current_pos, next_pos + 1));
+			result = SignatureHelper.convert(descriptor.substring(currentPos, nextPos + 1));
 
-			current_pos = next_pos + 1;
+			currentPos = nextPos + 1;
 		} else {
 			throw new NoSuchElementException();
 		}

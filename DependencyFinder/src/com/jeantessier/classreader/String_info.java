@@ -47,19 +47,19 @@ public class String_info extends ConstantPoolEntry {
 		return value_index;
 	}
 
-	public UTF8_info RawValue() {
+	public UTF8_info getRawValue() {
 		return (UTF8_info) ConstantPool().get(ValueIndex());
 	}
 
 	public String Value() {
-		return RawValue().toString();
+		return getRawValue().toString();
 	}
 
 	public String toString() {
 		return Value();
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitString_info(this);
+	public void accept(Visitor visitor) {
+		visitor.visitString_info(this);
 	}
 }

@@ -70,7 +70,7 @@ public class Custom_attribute extends Attribute_info {
 		return "Custom \"" + name + "\" " + Info().length + " byte(s)";
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitCustom_attribute(this);
+	public void accept(Visitor visitor) {
+		visitor.visitCustom_attribute(this);
 	}
 }

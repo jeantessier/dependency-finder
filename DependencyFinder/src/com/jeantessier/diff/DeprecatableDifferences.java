@@ -54,11 +54,11 @@ public class DeprecatableDifferences extends DecoratorDifferences {
 		Logger.getLogger(getClass()).debug("Begin " + Name());
 
 		if (old_deprecatable != null && new_deprecatable != null) {
-			Logger.getLogger(getClass()).debug("      old_deprecatable: " + old_deprecatable.IsDeprecated());
-			Logger.getLogger(getClass()).debug("      new_deprecatable: " + new_deprecatable.IsDeprecated());
+			Logger.getLogger(getClass()).debug("      old_deprecatable: " + old_deprecatable.isDeprecated());
+			Logger.getLogger(getClass()).debug("      new_deprecatable: " + new_deprecatable.isDeprecated());
 
-			RemovedDeprecation(old_deprecatable.IsDeprecated() && !new_deprecatable.IsDeprecated());
-			NewDeprecation(!old_deprecatable.IsDeprecated() && new_deprecatable.IsDeprecated());
+			RemovedDeprecation(old_deprecatable.isDeprecated() && !new_deprecatable.isDeprecated());
+			NewDeprecation(!old_deprecatable.isDeprecated() && new_deprecatable.isDeprecated());
 		}
 
 		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
