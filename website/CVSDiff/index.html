@@ -1,0 +1,56 @@
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
+
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>Dependency Finder - CVS Diff</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<h2>CVS Diff</h2>
+
+<p>This is the output of and <code>&lt;cvsTadDiff&gt;</code> on
+the CVS repository that hosts Dependency Finder.</p>
+
+<table cellspacing="3">
+    <tr>
+	<td>20030101-</td>
+	<td><a href="20030101-now.xml">XML</a></td>
+	<td><a href="20030101-now.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>20020711-20030101</td>
+	<td><a href="20020711-20030101.xml">XML</a></td>
+	<td><a href="20020711-20030101.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>20020127-20020711</td>
+	<td><a href="20020127-20020711.xml">XML</a></td>
+	<td><a href="20020127-20020711.html">HTML</a></td>
+    </tr>
+</table>
+
+<p>E.g.,</p>
+
+<pre>
+    &lt;target name="currentreport" depends="init"&gt;
+	&lt;cvstagdiff cvsroot=":pserver:anonymous@cvs.depfind.sourceforge.net:/cvsroot/depfind"
+		    package="DependencyFinder"
+		    startTag="release-20020711"
+		    endDate="release-20030101"
+		    destFile="20020711-20030101.xml"/&gt;
+	&lt;style in="20020711-20030101.xml"
+	       out="20020711-20030101.html"
+	       style="${ant.home}/etc/tagdiff.xsl"&gt;
+	    &lt;param name="title"  expression="Dependency Finder"/&gt;
+	    &lt;param name="module" expression="DependencyFinder"/&gt;
+	    &lt;param name="cvsweb" expression=""/&gt;
+	&lt;/style&gt;
+    &lt;/target&gt;
+</pre>
+
+</body>
+
+</html>

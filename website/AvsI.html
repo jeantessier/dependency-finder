@@ -1,0 +1,99 @@
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
+
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>Dependency Finder - A vs. I</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<h2>A vs. I</h2>
+
+<p>This is a quick analysis of A vs. I graphs for some of
+the software used in Dependency Finder.  I took these
+graphs from
+<a target="_blank" href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.PDF">Design Principles and Design Patterns</a>
+by Robert C. Martin of Object Mentor, Inc.</p>
+
+<p>I collected the values for <code>D'</code> using
+<code>OOMetrics</code> with the Martin configuration. I
+then used a special XSL stylesheet to extract the value
+from the XML output and feed it to MS Excel.  The
+following graphs are simple plotting of these values,
+sorted in ascending order.</p>
+
+<p>E.g.,</p>
+
+<pre>
+    OOMetrics -configuration etc\MartinConfig.xml -xml -out df lib\DependencyFinder.jar
+</pre>
+
+<table cellspacing="3">
+    <tr>
+	<td><img src="images/ORODs.gif"    alt="Values of D' for Jakarta-ORO" /></td>
+	<td><img src="images/Log4JDs.gif"  alt="Values of D' for Log4J" /></td>
+    </tr>
+    <tr>
+	<td><img src="images/XercesDs.gif" alt="Values of D' for Xerces" /></td>
+	<td><img src="images/XalanDs.gif"  alt="Values of D' for Xalan" /></td>
+    </tr>
+    <tr>
+	<td colspan="2" align="center"><img src="images/DependencyFinderDs.gif" alt="Values of D' for Dependency Finder" /></td>
+    </tr>
+</table>
+
+<p>The goal, here, is to keep values of <code>D'</code>
+as close to zero as possible.  So from these graphs,
+this means keeping the extreme values closer to the central
+axis, like ORO and Log4J.</p>
+
+<p>I used a simple Perl script to compute the value
+distributions.  It rounded each value of <code>D'</code>
+to the nearest 0.1 increment and then couunted how many
+points fell on each of the 21 target values.  The graphs
+below show the distribution of values of <code>D'</code>
+across the range -1 to 1.  I normalized the values by
+dividing each count by the total number of packages in
+a given piece of software so that we can compare the
+distributions regardless of the size of the software
+under inspection.</p>
+
+<table cellspacing="3">
+    <tr>
+	<td><img src="images/ORODistribution.gif"    alt="Distribution of D' for Jakarta-ORO" /></td>
+	<td><img src="images/Log4JDistribution.gif"  alt="Distribution of D' for Log4J" /></td>
+    </tr>
+    <tr>
+	<td><img src="images/XercesDistribution.gif" alt="Distribution of D' for Xerces" /></td>
+	<td><img src="images/XalanDistribution.gif"  alt="Distribution of D' for Xalan" /></td>
+    </tr>
+    <tr>
+	<td colspan="2" align="center"><img src="images/DependencyFinderDistribution.gif" alt="Distribution of D' for Dependency Finder" /></td>
+    </tr>
+</table>
+
+<p>Keeping up with our goal of keeping values of
+<code>D'</code> as close to zero as possible, this
+translates into a large spike at 0 and short wings
+to each side, again like ORO and Log4J.</p>
+
+<p>Finally, a summary view of all five codebases.
+The thin line shows the full range of <code>D'</code>
+for that codebase.  The large while square is
+centered on the statistical mean and spreads each
+way by one standard deviation.  Statistically,
+about 65% of all values fall within the square.
+The column below each range shows how many packages
+are in each codebase.</p>
+
+<img src="images/DistributionStats.gif" alt="" />
+
+<p>Final lesson: I guess Dependency Finder is not
+faring too badly, but for something so small, it
+could still have done better.  :-)</p>
+
+</body>
+
+</html>
