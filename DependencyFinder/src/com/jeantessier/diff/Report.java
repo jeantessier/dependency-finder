@@ -82,7 +82,7 @@ public class Report extends Printer {
 	}
 
 	private void AppendHeader(String encoding, String dtd_header) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" standalone=\"yes\" ?>").EOL();
+		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
 		EOL();
 		Append("<!DOCTYPE differences SYSTEM \"").Append(dtd_header).Append("/differences.dtd\">").EOL();
 		EOL();

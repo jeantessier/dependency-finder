@@ -33,6 +33,7 @@
 package com.jeantessier.metrics;
 
 import java.io.*;
+import java.util.*;
 
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
@@ -41,17 +42,21 @@ import org.apache.oro.text.perl.*;
 
 import junit.framework.*;
 
-public class TestXMLPrinter extends TestCase {
+import com.jeantessier.classreader.*;
+
+public class TestXMLPrinter extends TestCase implements ErrorHandler {
+	private static final String TEST_CLASS             = "test";
+	private static final String TEST_FILENAME          = "classes" + File.separator + "test.class";
 	private static final String CONFIGURATION_FILENAME = "etc" + File.separator + "MetricsConfig.xml";
 	private static final String READER_CLASSNAME       = "org.apache.xerces.parsers.SAXParser";
 
 	private static final String SPECIFIC_ENCODING   = "iso-latin-1";
 	private static final String SPECIFIC_DTD_PREFIX = "./etc";
-
-	private StringWriter         buffer;
-	private MetricsConfiguration configuration;
-	private MeasurementVisitor   printer;
-	private XMLReader            reader;
+	
+	private StringWriter                       buffer;
+	private MetricsConfiguration               configuration;
+	private com.jeantessier.metrics.XMLPrinter printer;
+	private XMLReader                          reader;
 
 	private Perl5Util perl;
 
@@ -62,6 +67,7 @@ public class TestXMLPrinter extends TestCase {
 		reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
 		reader.setFeature("http://xml.org/sax/features/validation", true);
 		reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
+		reader.setErrorHandler(this);
 
 		perl = new Perl5Util();
 	}
@@ -72,6 +78,15 @@ public class TestXMLPrinter extends TestCase {
 		String xml_document = buffer.toString();
 		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
 		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX));
+		
+		try {
+			reader.parse(new InputSource(new StringReader(xml_document)));
+			fail("Parsed non-existant document\n" + xml_document);
+		} catch (SAXException ex) {
+			// Ignore
+		} catch (IOException ex) {
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+		}
 	}
 	
 	public void testSpecificDTDPrefix() {
@@ -80,6 +95,15 @@ public class TestXMLPrinter extends TestCase {
 		String xml_document = buffer.toString();
 		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
 		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
+		
+		try {
+			reader.parse(new InputSource(new StringReader(xml_document)));
+			fail("Parsed non-existant document\n" + xml_document);
+		} catch (SAXException ex) {
+			// Ignore
+		} catch (IOException ex) {
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+		}
 	}
 
 	public void testDefaultEncoding() {
@@ -88,6 +112,15 @@ public class TestXMLPrinter extends TestCase {
 		String xml_document = buffer.toString();
 		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
 		assertEquals("Encoding", XMLPrinter.DEFAULT_ENCODING, perl.group(1));
+		
+		try {
+			reader.parse(new InputSource(new StringReader(xml_document)));
+			fail("Parsed non-existant document\n" + xml_document);
+		} catch (SAXException ex) {
+			// Ignore
+		} catch (IOException ex) {
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+		}
 	}
 
 	public void testSpecificEncoding() {
@@ -96,5 +129,47 @@ public class TestXMLPrinter extends TestCase {
 		String xml_document = buffer.toString();
 		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
 		assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
+		
+		try {
+			reader.parse(new InputSource(new StringReader(xml_document)));
+			fail("Parsed non-existant document\n" + xml_document);
+		} catch (SAXException ex) {
+			// Ignore
+		} catch (IOException ex) {
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+		}
+	}
+
+	public void testOneClass() {
+		MetricsFactory factory = new MetricsFactory("test", configuration);
+
+		ClassfileLoader loader = new AggregatingClassfileLoader();
+		loader.Load(Collections.singleton(TEST_FILENAME));
+		loader.Classfile(TEST_CLASS).Accept(new MetricsGatherer("test", factory));
+
+		printer = new XMLPrinter(new PrintWriter(buffer), configuration, com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+		printer.VisitMetrics(factory.ProjectMetrics());
+
+		String xml_document = buffer.toString();
+		
+		try {
+			reader.parse(new InputSource(new StringReader(xml_document)));
+		} catch (SAXException ex) {
+			fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xml_document);
+		} catch (IOException ex) {
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+		}
+	}
+
+	public void error(SAXParseException ex) {
+		// Ignore
+	}
+
+	public void fatalError(SAXParseException ex) {
+		// Ignore
+	}
+
+	public void warning(SAXParseException ex) {
+		// Ignore
 	}
 }

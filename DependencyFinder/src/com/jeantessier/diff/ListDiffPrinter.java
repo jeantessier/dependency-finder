@@ -82,7 +82,7 @@ public class ListDiffPrinter {
 	}
 
 	private void AppendHeader(String encoding, String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" standalone=\"yes\" ?>").EOL();
+		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
 		EOL();
 		Append("<!DOCTYPE list-diff SYSTEM \"").Append(dtd_prefix).Append("/list-diff.dtd\">").EOL();
 		EOL();

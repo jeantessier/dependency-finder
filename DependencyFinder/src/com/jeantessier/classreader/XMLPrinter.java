@@ -57,16 +57,26 @@ public class XMLPrinter extends Printer {
 	}
 
 	private void AppendHeader(String encoding, String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" standalone=\"yes\" ?>").EOL();
+		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
 		EOL();
 		Append("<!DOCTYPE classfiles SYSTEM \"").Append(dtd_prefix).Append("/classfile.dtd\">").EOL();
 		EOL();
+	}
+
+	public void VisitClassfiles(Collection classfiles) {
+		Indent().Append("<classfiles>").EOL();
+		RaiseIndent();
+
+		super.VisitClassfiles(classfiles);
+
+		LowerIndent();
+		Indent().Append("</classfiles>").EOL();
 	}
 	
 	public void VisitClassfile(Classfile classfile) {
 		Iterator i;
 
-		Indent().Append("<classfile magic-number=\"").Append(classfile.MagicNumber()).Append("\" minor-version=\"").Append(classfile.MinorVersion()).Append("\" major-version=\"").Append(classfile.MajorVersion()).Append("\" access-number=\"").Append(format.format(classfile.AccessFlag())).Append("\">").EOL();
+		Indent().Append("<classfile magic-number=\"").Append(classfile.MagicNumber()).Append("\" minor-version=\"").Append(classfile.MinorVersion()).Append("\" major-version=\"").Append(classfile.MajorVersion()).Append("\" access-flag=\"").Append(format.format(classfile.AccessFlag())).Append("\">").EOL();
 		RaiseIndent();
 
 		top = true;
@@ -582,7 +592,7 @@ public class XMLPrinter extends Printer {
 	}
 
 	public void VisitInnerClass(InnerClass helper) {
-		Indent().Append("<inner-class access-number=\"").Append(format.format(helper.AccessFlag())).Append("\">").EOL();
+		Indent().Append("<inner-class access-flag=\"").Append(format.format(helper.AccessFlag())).Append("\">").EOL();
 		RaiseIndent();
 
 		if (helper.IsPublic())    Indent().Append("<public/>").EOL();

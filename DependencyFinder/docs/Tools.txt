@@ -855,7 +855,7 @@ Here is a sample textual output:
 And here is the XML document, built from a =.class= file.
 
     ClassReader -xml classes\test.class
-    &lt;?xml version%3D"1.0" encoding%3D"UTF-8" standalone%3D"yes" ?&gt;
+    &lt;?xml version%3D"1.0" encoding%3D"UTF-8" ?&gt;
     &nbsp;
     &lt;!DOCTYPE classfile SYSTEM "http://depfind.sourceforge.net/dtd/classfile.dtd"&gt;
     &nbsp;

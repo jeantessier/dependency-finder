@@ -54,7 +54,7 @@ public class XMLPrinter extends Printer {
 	}
 
 	private void AppendHeader(String encoding, String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" standalone=\"yes\" ?>").EOL();
+		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
 		EOL();
 		Append("<!DOCTYPE metrics SYSTEM \"").Append(dtd_prefix).Append("/metrics.dtd\">").EOL();
 		EOL();
