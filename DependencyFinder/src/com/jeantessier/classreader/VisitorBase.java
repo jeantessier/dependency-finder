@@ -94,7 +94,10 @@ public abstract class VisitorBase implements Visitor {
 	}
 
 	// Attributes
-	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {}
+	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
+		// Do nothing
+	}
+
 	public void VisitCode_attribute(Code_attribute attribute) {
 		Logger.getLogger(getClass()).debug("Visiting " + attribute.ExceptionHandlers().size() + " exception handler(s) ...");
 		
@@ -112,6 +115,7 @@ public abstract class VisitorBase implements Visitor {
 			((Visitable) i.next()).Accept(this);
 		}
 	}
+
 	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
 		Logger.getLogger(getClass()).debug("Visiting " + attribute.Exceptions().size() + " exception class(es) ...");
 
@@ -120,6 +124,7 @@ public abstract class VisitorBase implements Visitor {
 			((Visitable) i.next()).Accept(this);
 		}
 	}
+	
 	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
 		Logger.getLogger(getClass()).debug("Visiting " + attribute.Classes().size() + " inner class(es) ...");
 
@@ -128,8 +133,15 @@ public abstract class VisitorBase implements Visitor {
 			((Visitable) i.next()).Accept(this);
 		}
 	}
-	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {}
-	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {}
+	
+	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
+		// Do nothing
+	}
+	
+	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {
+		// Do nothing
+	}
+	
 	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
 		Logger.getLogger(getClass()).debug("Visiting " + attribute.LineNumbers().size() + " line number(s) ...");
 
@@ -138,6 +150,7 @@ public abstract class VisitorBase implements Visitor {
 			((Visitable) i.next()).Accept(this);
 		}
 	}
+	
 	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
 		Logger.getLogger(getClass()).debug("Visiting " + attribute.LocalVariables().size() + " local variable(s) ...");
 
@@ -146,8 +159,14 @@ public abstract class VisitorBase implements Visitor {
 			((Visitable) i.next()).Accept(this);
 		}
 	}
-	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {}
-	public void VisitCustom_attribute(Custom_attribute attribute) {}
+	
+	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
+		// Do nothing
+	}
+	
+	public void VisitCustom_attribute(Custom_attribute attribute) {
+		// Do nothing
+	}
 
 	// Attribute helpers
 	public void VisitExceptionHandler(ExceptionHandler helper) {}
