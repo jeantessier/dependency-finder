@@ -17,6 +17,59 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	October 25, 2004
+    </dt>
+    <dd>
+	<p>Changed <code>GraphSummarizer</code> so it does not create
+	extraneous dependencies, going from
+	<code>a.A.a&nbsp;--&gt;&nbsp;b.B.b</code> to
+	<code>a.A&nbsp;--&gt;&nbsp;b.B</code> and
+	<code>a&nbsp;--&gt;&nbsp;b</code> unnecessarily.</p>
+    </dd>
+    <dt>
+	October 24, 2004
+    </dt>
+    <dd>
+	<p>Adjusted <code>TransitiveClosure</code> to use two engines, one for
+	upstream and one for downstream closures.  The two engines share the
+	same factory, so the results are all in a single graph, like it used
+	to be with the old processing.  Still, a lot of tests are broken and it
+	will take some time to fix them.</p>
+
+	<p>I was able to test my theories about separate summarization on
+	<code>TestTransitiveClosureWithTestClass</code>.  Mostly successful,
+	but one test ends up with too many dependencies because
+	<code>GraphSummarizer</code> is a little too eager.</p>
+    </dd>
+    <dt>
+	October 21, 2004
+    </dt>
+    <dd>
+	<p>Thought up of a way to have <code>TransitiveClosure</code> work on
+	the raw graph and do the summarization separately.  This works fine for
+	CLI and Ant tasks, but is awkward for the GUI and web application where
+	the user cannot easily save intermediary results.  These last two will
+	need to include the summarization function internally and rework their
+	UI accordingly.</p>
+    </dd>
+    <dt>
+	October 20, 2004
+    </dt>
+    <dd>
+	<p>Retrofitted <code>TransitiveClosure</code> to use the new
+	<code>TransitiveClosureEngine</code>.  Many tests are now broken
+	because it used to include summarization capabilities that are no
+	longer there.</p>
+    </dd>
+    <dt>
+	October 19, 2004
+    </dt>
+    <dd>
+	<p>More tests in preparation for retrofitting
+	<code>TransitiveClosure</code> to use the new
+	<code>TransitiveClosureEngine</code>.</p>
+    </dd>
+    <dt>
 	October 12, 2004
     </dt>
     <dd>
