@@ -78,7 +78,6 @@ part of <code>DependencyFinder.jar</code>.  It looks like the following:</p>
     dependencyclosure=com.jeantessier.dependencyfinder.ant.DependencyClosure
     dependencymetrics=com.jeantessier.dependencyfinder.ant.DependencyMetrics
     listdeprecatedelements=com.jeantessier.dependencyfinder.ant.ListDeprecatedElements
-    deprecationreporter=com.jeantessier.dependencyfinder.ant.DeprecationReporter
     oometrics=com.jeantessier.dependencyfinder.ant.OOMetrics
     jarjardiff=com.jeantessier.dependencyfinder.ant.JarJarDiff
     listdiff=com.jeantessier.dependencyfinder.ant.ListDiff
@@ -114,10 +113,6 @@ Ant's <code>&lt;taskdef&gt;</code> task.
         &lt;classpath refid="dependencyfinder"/&gt;
     &lt;/taskdef&gt;
     
-    &lt;taskdef name="deprecation.reporter" classname="com.jeantessier.dependencyfinder.ant.DeprecationReporter"&gt;
-        &lt;classpath refid="dependencyfinder"/&gt;
-    &lt;/taskdef&gt;
-    
     &lt;taskdef name="metrics.oo" classname="com.jeantessier.dependencyfinder.ant.OOMetrics"&gt;
         &lt;classpath refid="dependencyfinder"/&gt;
     &lt;/taskdef&gt;
@@ -141,7 +136,6 @@ Ant's <code>&lt;taskdef&gt;</code> task.
     closure=com.jeantessier.dependencyfinder.ant.DependencyClosure
     metrics.dependency=com.jeantessier.dependencyfinder.ant.DependencyMetrics
     list.deprecated.elements=com.jeantessier.dependencyfinder.ant.ListDeprecatedElements
-    deprecation.reporter=com.jeantessier.dependencyfinder.ant.DeprecationReporter
     metrics.oo=com.jeantessier.dependencyfinder.ant.OOMetrics
     diff=com.jeantessier.dependencyfinder.ant.JarJarDiff
     list.diff=com.jeantessier.dependencyfinder.ant.ListDiff
