@@ -89,7 +89,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     }
 
     private void visitNode(Node node) {
-        node.setConcrete(false);
+        node.setConfirmed(false);
 
         Iterator i = new ArrayList(node.getOutboundDependencies()).iterator();
         while (i.hasNext()) {
@@ -134,7 +134,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     }
 
     private boolean canDelete(Node node) {
-        return !node.isConcrete() && node.getInboundDependencies().isEmpty();
+        return !node.isConfirmed() && node.getInboundDependencies().isEmpty();
     }
 
     private boolean canDeletePackage(PackageNode node) {

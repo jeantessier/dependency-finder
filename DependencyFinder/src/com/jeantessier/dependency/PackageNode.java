@@ -42,13 +42,13 @@ public class PackageNode extends Node {
     }
 
     // Only to be used by NodeFactory and DeletingVisitor
-    void setConcrete(boolean concrete) {
+    void setConfirmed(boolean confirmed) {
         Iterator i = getClasses().iterator();
-        while (!concrete && i.hasNext()) {
-            concrete = ((Node) i.next()).isConcrete();
+        while (!confirmed && i.hasNext()) {
+            confirmed = ((Node) i.next()).isConfirmed();
         }
         
-        super.setConcrete(concrete);
+        super.setConfirmed(confirmed);
     }
 
     public void addClass(ClassNode node) {

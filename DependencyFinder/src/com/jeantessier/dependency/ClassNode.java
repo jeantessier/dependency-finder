@@ -44,16 +44,16 @@ public class ClassNode extends Node {
     }
 
     // Only to be used by NodeFactory and DeletingVisitor
-    void setConcrete(boolean concrete) {
-        if (!concrete) {
+    void setConfirmed(boolean confirmed) {
+        if (!confirmed) {
             Iterator i = getFeatures().iterator();
             while (i.hasNext()) {
-                ((Node) i.next()).setConcrete(false);
+                ((Node) i.next()).setConfirmed(false);
             }
         }
         
-        super.setConcrete(concrete);
-        getPackageNode().setConcrete(concrete);
+        super.setConfirmed(confirmed);
+        getPackageNode().setConfirmed(confirmed);
     }
 
     public PackageNode getPackageNode() {

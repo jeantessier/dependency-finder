@@ -43,10 +43,10 @@ public class FeatureNode extends Node {
     }
 
     // Only to be used by NodeFactory and DeletingVisitor
-    void setConcrete(boolean concrete) {
-        super.setConcrete(concrete);
-        if (concrete) {
-            getClassNode().setConcrete(concrete);
+    void setConfirmed(boolean confirmed) {
+        super.setConfirmed(confirmed);
+        if (confirmed) {
+            getClassNode().setConfirmed(confirmed);
         }
     }
 

@@ -48,19 +48,19 @@ public class NodeFactory {
         return createPackage(packageName, false);
     }
     
-    public PackageNode createPackage(String packageName, boolean concrete) {
+    public PackageNode createPackage(String packageName, boolean confirmed) {
         Logger.getLogger(getClass()).debug("Create package \"" + packageName + "\"");
 
         PackageNode result = (PackageNode) packages.get(packageName);
 
         if (result == null) {
-            result = new PackageNode(packageName, concrete);
+            result = new PackageNode(packageName, confirmed);
             packages.put(packageName, result);
             Logger.getLogger(getClass()).debug("Added package \"" + packageName + "\"");
         }
 
-        if (concrete && !result.isConcrete()) {
-            result.setConcrete(concrete);
+        if (confirmed && !result.isConfirmed()) {
+            result.setConfirmed(confirmed);
         }
 
         return result;
@@ -81,7 +81,7 @@ public class NodeFactory {
         return createClass(className, false);
     }
     
-    public ClassNode createClass(String className, boolean concrete) {
+    public ClassNode createClass(String className, boolean confirmed) {
         Logger.getLogger(getClass()).debug("Create class \"" + className + "\"");
 
         ClassNode result = (ClassNode) classes.get(className);
@@ -92,15 +92,15 @@ public class NodeFactory {
             if (pos != -1) {
                 packageName = className.substring(0, pos);
             }
-            PackageNode parent = createPackage(packageName, concrete);
-            result = new ClassNode(parent, className, concrete);
+            PackageNode parent = createPackage(packageName, confirmed);
+            result = new ClassNode(parent, className, confirmed);
             parent.addClass(result);
             classes.put(className, result);
             Logger.getLogger(getClass()).debug("Added class \"" + className + "\"");
         }
 
-        if (concrete && !result.isConcrete()) {
-            result.setConcrete(concrete);
+        if (confirmed && !result.isConfirmed()) {
+            result.setConfirmed(confirmed);
         }
 
         return result;
@@ -122,7 +122,7 @@ public class NodeFactory {
         return createFeature(featureName, false);
     }
     
-    public FeatureNode createFeature(String featureName, boolean concrete) {
+    public FeatureNode createFeature(String featureName, boolean confirmed) {
         Logger.getLogger(getClass()).debug("Create feature \"" + featureName + "\"");
 
         FeatureNode result = (FeatureNode) features.get(featureName);
@@ -138,15 +138,15 @@ public class NodeFactory {
                 parentName = "";
             }
 
-            ClassNode parent = createClass(parentName, concrete);
-            result = new FeatureNode(parent, featureName, concrete);
+            ClassNode parent = createClass(parentName, confirmed);
+            result = new FeatureNode(parent, featureName, confirmed);
             parent.addFeature(result);
             features.put(featureName, result);
             Logger.getLogger(getClass()).debug("Added feature \"" + featureName + "\"");
         }
 
-        if (concrete && !result.isConcrete()) {
-            result.setConcrete(concrete);
+        if (confirmed && !result.isConfirmed()) {
+            result.setConfirmed(confirmed);
         }
 
         return result;

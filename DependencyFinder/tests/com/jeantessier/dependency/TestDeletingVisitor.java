@@ -73,13 +73,13 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node));
-        assertTrue("Package not concrete", node.isConcrete());
+        assertTrue("Package not concrete", node.isConfirmed());
 
         node.accept(visitor);
         
         assertFalse("Did not remove package key", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value", factory.getPackages().containsValue(node));
-        assertFalse("Package is still concrete", node.isConcrete());
+        assertFalse("Package is still concrete", node.isConfirmed());
     }
 
     /**
@@ -97,23 +97,23 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node.getPackageNode()));
-        assertTrue("Package not concrete", node.getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node.getPackageNode().getClasses().contains(node));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node));
-        assertTrue("Class not concrete", node.isConcrete());
+        assertTrue("Class not concrete", node.isConfirmed());
 
         node.getPackageNode().accept(visitor);
         
         assertFalse("Did not remove package key", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value", factory.getPackages().containsValue(node.getPackageNode()));
-        assertFalse("Package is still concrete", node.getPackageNode().isConcrete());
+        assertFalse("Package is still concrete", node.getPackageNode().isConfirmed());
         assertFalse("Package node still contains class node", node.getPackageNode().getClasses().contains(node));
 
         assertFalse("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value", factory.getClasses().containsValue(node));
-        assertFalse("Class is still concrete", node.isConcrete());
+        assertFalse("Class is still concrete", node.isConfirmed());
     }
 
     /**
@@ -138,27 +138,27 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertTrue("Package not concrete", node1.getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getPackageNode().getClasses().contains(node1));
         assertTrue("Package node does not contain class node", node2.getPackageNode().getClasses().contains(node2));
         assertSame("Classes have different package", node1.getPackageNode(), node2.getPackageNode());
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1));
-        assertTrue("Class not concrete", node1.isConcrete());
+        assertTrue("Class not concrete", node1.isConfirmed());
 
         node1.accept(visitor);
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertTrue("Package not concrete", node1.getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node1.getPackageNode().isConfirmed());
         assertFalse("Package node still contains class node", node1.getPackageNode().getClasses().contains(node1));
         assertTrue("Package node does not contain class node", node2.getPackageNode().getClasses().contains(node2));
         assertSame("Classes have different package", node1.getPackageNode(), node2.getPackageNode());
 
         assertFalse("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value", factory.getClasses().containsValue(node1));
-        assertFalse("Class is still concrete", node1.isConcrete());
+        assertFalse("Class is still concrete", node1.isConfirmed());
     }
 
     /**
@@ -176,23 +176,23 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node.getPackageNode()));
-        assertTrue("Package not concrete", node.getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node.getPackageNode().getClasses().contains(node));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node));
-        assertTrue("Class not concrete", node.isConcrete());
+        assertTrue("Class not concrete", node.isConfirmed());
 
         node.accept(visitor);
         
         assertFalse("Did not remove package key", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value", factory.getPackages().containsValue(node.getPackageNode()));
-        assertFalse("Package is still concrete", node.getPackageNode().isConcrete());
+        assertFalse("Package is still concrete", node.getPackageNode().isConfirmed());
         assertFalse("Package node still contains class node", node.getPackageNode().getClasses().contains(node));
 
         assertFalse("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value", factory.getClasses().containsValue(node));
-        assertFalse("Class is still concrete", node.isConcrete());
+        assertFalse("Class is still concrete", node.isConfirmed());
     }
 
     /**
@@ -218,35 +218,35 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
         assertTrue("Package node does not contain class node", node2.getPackageNode().getClasses().contains(node2));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class not concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class not concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node", node1.getClassNode().getFeatures().contains(node1));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature not concrete", node1.isConcrete());
+        assertTrue("Feature not concrete", node1.isConfirmed());
 
         node1.getClassNode().accept(visitor);
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertFalse("Package node still contains class node", node1.getClassNode().getPackageNode().getClasses().contains(node1));
         assertTrue("Package node does not contain class node", node2.getPackageNode().getClasses().contains(node2));
 
         assertFalse("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertFalse("Class is still concrete", node1.getClassNode().isConcrete());
+        assertFalse("Class is still concrete", node1.getClassNode().isConfirmed());
         assertFalse("Class node still contains feature node", node1.getClassNode().getFeatures().contains(node1));
 
         assertFalse("Did not remove feature key", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value", factory.getFeatures().containsValue(node1));
-        assertFalse("Feature is still concrete", node1.isConcrete());
+        assertFalse("Feature is still concrete", node1.isConfirmed());
     }
 
     /**
@@ -265,33 +265,33 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class not concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class not concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node", node1.getClassNode().getFeatures().contains(node1));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature not concrete", node1.isConcrete());
+        assertTrue("Feature not concrete", node1.isConfirmed());
 
         node1.getClassNode().accept(visitor);
         
         assertFalse("Did not remove package key", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertFalse("Package is still concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package is still concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertFalse("Package node still contains class node", node1.getClassNode().getPackageNode().getClasses().contains(node1));
 
         assertFalse("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertFalse("Class is still concrete", node1.getClassNode().isConcrete());
+        assertFalse("Class is still concrete", node1.getClassNode().isConfirmed());
         assertFalse("Class node still contains feature node", node1.getClassNode().getFeatures().contains(node1));
 
         assertFalse("Did not remove feature key", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value", factory.getFeatures().containsValue(node1));
-        assertFalse("Feature is still concrete", node1.isConcrete());
+        assertFalse("Feature is still concrete", node1.isConfirmed());
     }
 
     /**
@@ -318,37 +318,37 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class not concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class not concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node", node1.getClassNode().getFeatures().contains(node1));
         assertTrue("Class node does not contain feature node", node2.getClassNode().getFeatures().contains(node2));
         assertSame("Features have different class", node1.getClassNode(), node2.getClassNode());
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature not concrete", node1.isConcrete());
+        assertTrue("Feature not concrete", node1.isConfirmed());
 
         node1.accept(visitor);
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class not concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class not concrete", node1.getClassNode().isConfirmed());
         assertFalse("Class node still contains feature node", node1.getClassNode().getFeatures().contains(node1));
         assertTrue("Class node does not contain feature node", node2.getClassNode().getFeatures().contains(node2));
         assertSame("Features have different class", node1.getClassNode(), node2.getClassNode());
 
         assertFalse("Did not remove feature key", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value", factory.getFeatures().containsValue(node1));
-        assertFalse("Feature is still concrete", node1.isConcrete());
+        assertFalse("Feature is still concrete", node1.isConfirmed());
     }
 
     /**
@@ -372,33 +372,33 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value", factory.getPackages().containsValue(node.getClassNode().getPackageNode()));
-        assertTrue("Package not concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package not concrete", node.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node.getClassNode().getPackageNode().getClasses().contains(node.getClassNode()));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node.getClassNode()));
-        assertTrue("Class not concrete", node.getClassNode().isConcrete());
+        assertTrue("Class not concrete", node.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node", node.getClassNode().getFeatures().contains(node));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node));
-        assertTrue("Feature not concrete", node.isConcrete());
+        assertTrue("Feature not concrete", node.isConfirmed());
 
         node.accept(visitor);
         
         assertTrue("Removed package key", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value", factory.getPackages().containsValue(node.getClassNode().getPackageNode()));
-        assertTrue("Package is no longer concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package is no longer concrete", node.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node", node.getClassNode().getPackageNode().getClasses().contains(node.getClassNode()));
 
         assertTrue("Removed class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value", factory.getClasses().containsValue(node.getClassNode()));
-        assertTrue("Class is no longer concrete", node.getClassNode().isConcrete());
+        assertTrue("Class is no longer concrete", node.getClassNode().isConfirmed());
         assertFalse("Class node still contains feature node", node.getClassNode().getFeatures().contains(node));
 
         assertFalse("Did not remove feature key", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value", factory.getFeatures().containsValue(node));
-        assertFalse("Feature is still concrete", node.isConcrete());
+        assertFalse("Feature is still concrete", node.isConfirmed());
     }
 
     /**
@@ -425,24 +425,24 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(a));
-        assertTrue("Package a not concrete", a.isConcrete());
+        assertTrue("Package a not concrete", a.isConfirmed());
         assertTrue("a --> b is missing", a.getOutboundDependencies().contains(b));
 
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(b));
-        assertTrue("Package b not concrete", b.isConcrete());
+        assertTrue("Package b not concrete", b.isConfirmed());
         assertTrue("b <-- a is missing", b.getInboundDependencies().contains(a));
 
         a.accept(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(a));
-        assertFalse("Package a is still concrete", a.isConcrete());
+        assertFalse("Package a is still concrete", a.isConfirmed());
         assertFalse("Did not remove a --> b", a.getOutboundDependencies().contains(b));
         
         assertTrue("Removed package key b", factory.getPackages().containsKey("b"));
         assertTrue("Removed package value b", factory.getPackages().containsValue(b));
-        assertTrue("Package b is no longer concrete", b.isConcrete());
+        assertTrue("Package b is no longer concrete", b.isConfirmed());
         assertFalse("Did not remove b <-- a", b.getInboundDependencies().contains(a));
     }
 
@@ -466,24 +466,24 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(a));
-        assertTrue("Package a not concrete", a.isConcrete());
+        assertTrue("Package a not concrete", a.isConfirmed());
         assertTrue("a --> b is missing", a.getOutboundDependencies().contains(b));
 
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(b));
-        assertFalse("Package b is concrete", b.isConcrete());
+        assertFalse("Package b is concrete", b.isConfirmed());
         assertTrue("b <-- a is missing", b.getInboundDependencies().contains(a));
 
         a.accept(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(a));
-        assertFalse("Package a is still concrete", a.isConcrete());
+        assertFalse("Package a is still concrete", a.isConfirmed());
         assertFalse("Did not remove a --> b", a.getOutboundDependencies().contains(b));
         
         assertFalse("Did not remove package key b", factory.getPackages().containsKey("b"));
         assertFalse("Did not remove package value b", factory.getPackages().containsValue(b));
-        assertFalse("Package b became concrete", b.isConcrete());
+        assertFalse("Package b became concrete", b.isConfirmed());
         assertFalse("Did not remove b <-- a", b.getInboundDependencies().contains(a));
     }
 
@@ -514,36 +514,36 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(a_A.getPackageNode()));
-        assertTrue("Package a not concrete", a_A.getPackageNode().isConcrete());
+        assertTrue("Package a not concrete", a_A.getPackageNode().isConfirmed());
         assertTrue("Missing class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value a.A", factory.getClasses().containsValue(a_A));
-        assertTrue("Class a.A not concrete", a_A.isConcrete());
+        assertTrue("Class a.A not concrete", a_A.isConfirmed());
         assertTrue("a.A --> b.B is missing", a_A.getOutboundDependencies().contains(b_B));
 
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(b_B.getPackageNode()));
-        assertTrue("Package b not concrete", b_B.getPackageNode().isConcrete());
+        assertTrue("Package b not concrete", b_B.getPackageNode().isConfirmed());
         assertTrue("Missing class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Missing class value b.B", factory.getClasses().containsValue(b_B));
-        assertTrue("Class b.B not concrete", b_B.isConcrete());
+        assertTrue("Class b.B not concrete", b_B.isConfirmed());
         assertTrue("b.B <-- a.A is missing", b_B.getInboundDependencies().contains(a_A));
 
         a_A.accept(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(a_A.getPackageNode()));
-        assertFalse("Package a is still concrete", a_A.getPackageNode().isConcrete());
+        assertFalse("Package a is still concrete", a_A.getPackageNode().isConfirmed());
         assertFalse("Did not remove class key a.A", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value a.A", factory.getClasses().containsValue(a_A));
-        assertFalse("Class a.A is still concrete", a_A.isConcrete());
+        assertFalse("Class a.A is still concrete", a_A.isConfirmed());
         assertFalse("Did not remove a.A --> b.B", a_A.getOutboundDependencies().contains(b_B));
         
         assertTrue("Removed package key b", factory.getPackages().containsKey("b"));
         assertTrue("Removed package value b", factory.getPackages().containsValue(b_B.getPackageNode()));
-        assertTrue("Package b is no longer concrete", b_B.isConcrete());
+        assertTrue("Package b is no longer concrete", b_B.isConfirmed());
         assertTrue("Removed class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Removed class value b.B", factory.getClasses().containsValue(b_B));
-        assertTrue("Class b.B is no longer concrete", b_B.isConcrete());
+        assertTrue("Class b.B is no longer concrete", b_B.isConfirmed());
         assertFalse("Did not remove b.B <-- a.A", b_B.getInboundDependencies().contains(a_A));
     }
 
@@ -569,36 +569,36 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(a_A.getPackageNode()));
-        assertTrue("Package a not concrete", a_A.getPackageNode().isConcrete());
+        assertTrue("Package a not concrete", a_A.getPackageNode().isConfirmed());
         assertTrue("Missing class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value a.A", factory.getClasses().containsValue(a_A));
-        assertTrue("Class a.A not concrete", a_A.isConcrete());
+        assertTrue("Class a.A not concrete", a_A.isConfirmed());
         assertTrue("a.A --> b.B is missing", a_A.getOutboundDependencies().contains(b_B));
 
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(b_B.getPackageNode()));
-        assertFalse("Package b is concrete", b_B.getPackageNode().isConcrete());
+        assertFalse("Package b is concrete", b_B.getPackageNode().isConfirmed());
         assertTrue("Missing class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Missing class value b.B", factory.getClasses().containsValue(b_B));
-        assertFalse("Class b.B is concrete", b_B.isConcrete());
+        assertFalse("Class b.B is concrete", b_B.isConfirmed());
         assertTrue("b.B <-- a.A is missing", b_B.getInboundDependencies().contains(a_A));
 
         a_A.accept(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(a_A.getPackageNode()));
-        assertFalse("Package a is still concrete", a_A.getPackageNode().isConcrete());
+        assertFalse("Package a is still concrete", a_A.getPackageNode().isConfirmed());
         assertFalse("Did not remove class key a.A", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value a.A", factory.getClasses().containsValue(a_A));
-        assertFalse("Class a.A is still concrete", a_A.isConcrete());
+        assertFalse("Class a.A is still concrete", a_A.isConfirmed());
         assertFalse("Did not remove a.A --> b.B", a_A.getOutboundDependencies().contains(b_B));
         
         assertFalse("Did not remove package key b", factory.getPackages().containsKey("b"));
         assertFalse("Did not remove package value b", factory.getPackages().containsValue(b_B.getPackageNode()));
-        assertFalse("Package b is now concrete", b_B.getPackageNode().isConcrete());
+        assertFalse("Package b is now concrete", b_B.getPackageNode().isConfirmed());
         assertFalse("Did not remove class key b.B", factory.getClasses().containsKey("b.B"));
         assertFalse("Did not remove class value b.B", factory.getClasses().containsValue(b_B));
-        assertFalse("Class b.B is now concrete", b_B.isConcrete());
+        assertFalse("Class b.B is now concrete", b_B.isConfirmed());
         assertFalse("Did not remove b.B <-- a.A", b_B.getInboundDependencies().contains(a_A));
     }
 
@@ -632,48 +632,48 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(a_A_a.getClassNode().getPackageNode()));
-        assertTrue("Package a not concrete", a_A_a.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a not concrete", a_A_a.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Missing class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value a.A", factory.getClasses().containsValue(a_A_a.getClassNode()));
-        assertTrue("Class a.A not concrete", a_A_a.getClassNode().isConcrete());
+        assertTrue("Class a.A not concrete", a_A_a.getClassNode().isConfirmed());
         assertTrue("Missing feature key a.A.a", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value a.A.a", factory.getFeatures().containsValue(a_A_a));
-        assertTrue("Feature a.A.a not concrete", a_A_a.isConcrete());
+        assertTrue("Feature a.A.a not concrete", a_A_a.isConfirmed());
         assertTrue("a.A.a --> b.B.b is missing", a_A_a.getOutboundDependencies().contains(b_B_b));
 
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(b_B_b.getClassNode().getPackageNode()));
-        assertTrue("Package b not concrete", b_B_b.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package b not concrete", b_B_b.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Missing class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Missing class value b.B", factory.getClasses().containsValue(b_B_b.getClassNode()));
-        assertTrue("Class b.B not concrete", b_B_b.getClassNode().isConcrete());
+        assertTrue("Class b.B not concrete", b_B_b.getClassNode().isConfirmed());
         assertTrue("Missing feature key b.B.b", factory.getFeatures().containsKey("b.B.b"));
         assertTrue("Missing feature value b.B.b", factory.getFeatures().containsValue(b_B_b));
-        assertTrue("Feature b.B.b not concrete", b_B_b.isConcrete());
+        assertTrue("Feature b.B.b not concrete", b_B_b.isConfirmed());
         assertTrue("b.B <-- a.A is missing", b_B_b.getInboundDependencies().contains(a_A_a));
 
         a_A_a.getClassNode().accept(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(a_A_a.getClassNode().getPackageNode()));
-        assertFalse("Package a is still concrete", a_A_a.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package a is still concrete", a_A_a.getClassNode().getPackageNode().isConfirmed());
         assertFalse("Did not remove class key a.A", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value a.A", factory.getClasses().containsValue(a_A_a.getClassNode()));
-        assertFalse("Class a.A is still concrete", a_A_a.getClassNode().isConcrete());
+        assertFalse("Class a.A is still concrete", a_A_a.getClassNode().isConfirmed());
         assertFalse("Did not remove feature key a.A.a", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value a.A.a", factory.getFeatures().containsValue(a_A_a));
-        assertFalse("Feature a.A.a is still concrete", a_A_a.isConcrete());
+        assertFalse("Feature a.A.a is still concrete", a_A_a.isConfirmed());
         assertFalse("Did not remove a.A --> b.B", a_A_a.getOutboundDependencies().contains(b_B_b));
         
         assertTrue("Removed package key b", factory.getPackages().containsKey("b"));
         assertTrue("Removed package value b", factory.getPackages().containsValue(b_B_b.getClassNode().getPackageNode()));
-        assertTrue("Package b is no longer concrete", b_B_b.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package b is no longer concrete", b_B_b.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Removed class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Removed class value b.B", factory.getClasses().containsValue(b_B_b.getClassNode()));
-        assertTrue("Class b.B is no longer concrete", b_B_b.getClassNode().isConcrete());
+        assertTrue("Class b.B is no longer concrete", b_B_b.getClassNode().isConfirmed());
         assertTrue("Removed feature key b.B.b", factory.getFeatures().containsKey("b.B.b"));
         assertTrue("Removed feature value b.B.b", factory.getFeatures().containsValue(b_B_b));
-        assertTrue("Feature b.B.b is no longer concrete", b_B_b.isConcrete());
+        assertTrue("Feature b.B.b is no longer concrete", b_B_b.isConfirmed());
         assertFalse("Did not remove b.B <-- a.A", b_B_b.getInboundDependencies().contains(a_A_a));
     }
 
@@ -710,48 +710,48 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(a_A_a.getClassNode().getPackageNode()));
-        assertTrue("Package a not concrete", a_A_a.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a not concrete", a_A_a.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Missing class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value a.A", factory.getClasses().containsValue(a_A_a.getClassNode()));
-        assertTrue("Class a.A not concrete", a_A_a.getClassNode().isConcrete());
+        assertTrue("Class a.A not concrete", a_A_a.getClassNode().isConfirmed());
         assertTrue("Missing feature key a.A.a", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value a.A.a", factory.getFeatures().containsValue(a_A_a));
-        assertTrue("Feature a.A.a not concrete", a_A_a.isConcrete());
+        assertTrue("Feature a.A.a not concrete", a_A_a.isConfirmed());
         assertTrue("a.A.a --> b.B.b is missing", a_A_a.getOutboundDependencies().contains(b_B_b));
 
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(b_B_b.getClassNode().getPackageNode()));
-        assertTrue("Package b not concrete", b_B_b.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package b not concrete", b_B_b.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Missing class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Missing class value b.B", factory.getClasses().containsValue(b_B_b.getClassNode()));
-        assertTrue("Class b.B not concrete", b_B_b.getClassNode().isConcrete());
+        assertTrue("Class b.B not concrete", b_B_b.getClassNode().isConfirmed());
         assertTrue("Missing feature key b.B.b", factory.getFeatures().containsKey("b.B.b"));
         assertTrue("Missing feature value b.B.b", factory.getFeatures().containsValue(b_B_b));
-        assertTrue("Feature b.B.b not concrete", b_B_b.isConcrete());
+        assertTrue("Feature b.B.b not concrete", b_B_b.isConfirmed());
         assertTrue("b.B <-- a.A is missing", b_B_b.getInboundDependencies().contains(a_A_a));
 
         a_A_a.accept(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(a_A_a.getClassNode().getPackageNode()));
-        assertTrue("Package a is no longer concrete", a_A_a.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", a_A_a.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Removed class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value a.A", factory.getClasses().containsValue(a_A_a.getClassNode()));
-        assertTrue("Class a.A is no longer concrete", a_A_a.getClassNode().isConcrete());
+        assertTrue("Class a.A is no longer concrete", a_A_a.getClassNode().isConfirmed());
         assertFalse("Did not remove feature key a.A.a", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value a.A.a", factory.getFeatures().containsValue(a_A_a));
-        assertFalse("Feature a.A.a is still concrete", a_A_a.isConcrete());
+        assertFalse("Feature a.A.a is still concrete", a_A_a.isConfirmed());
         assertFalse("Did not remove a.A --> b.B", a_A_a.getOutboundDependencies().contains(b_B_b));
         
         assertTrue("Removed package key b", factory.getPackages().containsKey("b"));
         assertTrue("Removed package value b", factory.getPackages().containsValue(b_B_b.getClassNode().getPackageNode()));
-        assertTrue("Package b is no longer concrete", b_B_b.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package b is no longer concrete", b_B_b.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Removed class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Removed class value b.B", factory.getClasses().containsValue(b_B_b.getClassNode()));
-        assertTrue("Class b.B is no longer concrete", b_B_b.getClassNode().isConcrete());
+        assertTrue("Class b.B is no longer concrete", b_B_b.getClassNode().isConfirmed());
         assertTrue("Removed feature key b.B.b", factory.getFeatures().containsKey("b.B.b"));
         assertTrue("Removed feature value b.B.b", factory.getFeatures().containsValue(b_B_b));
-        assertTrue("Feature b.B.b is no longer concrete", b_B_b.isConcrete());
+        assertTrue("Feature b.B.b is no longer concrete", b_B_b.isConfirmed());
         assertFalse("Did not remove b.B <-- a.A", b_B_b.getInboundDependencies().contains(a_A_a));
     }
 
@@ -779,48 +779,48 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(a_A_a.getClassNode().getPackageNode()));
-        assertTrue("Package a not concrete", a_A_a.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a not concrete", a_A_a.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Missing class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value a.A", factory.getClasses().containsValue(a_A_a.getClassNode()));
-        assertTrue("Class a.A not concrete", a_A_a.getClassNode().isConcrete());
+        assertTrue("Class a.A not concrete", a_A_a.getClassNode().isConfirmed());
         assertTrue("Missing feature key a.A.a", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value a.A.a", factory.getFeatures().containsValue(a_A_a));
-        assertTrue("Feature a.A.a not concrete", a_A_a.isConcrete());
+        assertTrue("Feature a.A.a not concrete", a_A_a.isConfirmed());
         assertTrue("a.A.a --> b.B.b is missing", a_A_a.getOutboundDependencies().contains(b_B_b));
 
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(b_B_b.getClassNode().getPackageNode()));
-        assertFalse("Package b is concrete", b_B_b.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package b is concrete", b_B_b.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Missing class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Missing class value b.B", factory.getClasses().containsValue(b_B_b.getClassNode()));
-        assertFalse("Class b.B is concrete", b_B_b.getClassNode().isConcrete());
+        assertFalse("Class b.B is concrete", b_B_b.getClassNode().isConfirmed());
         assertTrue("Missing feature key b.B.b", factory.getFeatures().containsKey("b.B.b"));
         assertTrue("Missing feature value b.B.b", factory.getFeatures().containsValue(b_B_b));
-        assertFalse("Feature b.B.b is concrete", b_B_b.isConcrete());
+        assertFalse("Feature b.B.b is concrete", b_B_b.isConfirmed());
         assertTrue("b.B <-- a.A is missing", b_B_b.getInboundDependencies().contains(a_A_a));
 
         a_A_a.getClassNode().accept(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(a_A_a.getClassNode().getPackageNode()));
-        assertFalse("Package a is still concrete", a_A_a.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package a is still concrete", a_A_a.getClassNode().getPackageNode().isConfirmed());
         assertFalse("Did not remove class key a.A", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value a.A", factory.getClasses().containsValue(a_A_a.getClassNode()));
-        assertFalse("Class a.A is still concrete", a_A_a.getClassNode().isConcrete());
+        assertFalse("Class a.A is still concrete", a_A_a.getClassNode().isConfirmed());
         assertFalse("Did not remove feature key a.A.a", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value a.A.a", factory.getFeatures().containsValue(a_A_a));
-        assertFalse("Feature a.A.a is still concrete", a_A_a.isConcrete());
+        assertFalse("Feature a.A.a is still concrete", a_A_a.isConfirmed());
         assertFalse("Did not remove a.A --> b.B", a_A_a.getOutboundDependencies().contains(b_B_b));
         
         assertFalse("Did not remove package key b", factory.getPackages().containsKey("b"));
         assertFalse("Did not remove package value b", factory.getPackages().containsValue(b_B_b.getClassNode().getPackageNode()));
-        assertFalse("Package b is now concrete", b_B_b.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package b is now concrete", b_B_b.getClassNode().getPackageNode().isConfirmed());
         assertFalse("Did not remove class key b.B", factory.getClasses().containsKey("b.B"));
         assertFalse("Did not remove class value b.B", factory.getClasses().containsValue(b_B_b.getClassNode()));
-        assertFalse("Class b.B is now concrete", b_B_b.getClassNode().isConcrete());
+        assertFalse("Class b.B is now concrete", b_B_b.getClassNode().isConfirmed());
         assertFalse("Did not remove feature key b.B.b", factory.getFeatures().containsKey("b.B.b"));
         assertFalse("Did not remove feature value b.B.b", factory.getFeatures().containsValue(b_B_b));
-        assertFalse("Feature b.B.b is now concrete", b_B_b.isConcrete());
+        assertFalse("Feature b.B.b is now concrete", b_B_b.isConfirmed());
         assertFalse("Did not remove b.B <-- a.A", b_B_b.getInboundDependencies().contains(a_A_a));
     }
 
@@ -853,48 +853,48 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(a_A_a.getClassNode().getPackageNode()));
-        assertTrue("Package a not concrete", a_A_a.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a not concrete", a_A_a.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Missing class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value a.A", factory.getClasses().containsValue(a_A_a.getClassNode()));
-        assertTrue("Class a.A not concrete", a_A_a.getClassNode().isConcrete());
+        assertTrue("Class a.A not concrete", a_A_a.getClassNode().isConfirmed());
         assertTrue("Missing feature key a.A.a", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value a.A.a", factory.getFeatures().containsValue(a_A_a));
-        assertTrue("Feature a.A.a not concrete", a_A_a.isConcrete());
+        assertTrue("Feature a.A.a not concrete", a_A_a.isConfirmed());
         assertTrue("a.A.a --> b.B.b is missing", a_A_a.getOutboundDependencies().contains(b_B_b));
 
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(b_B_b.getClassNode().getPackageNode()));
-        assertFalse("Package b is concrete", b_B_b.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package b is concrete", b_B_b.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Missing class key b.B", factory.getClasses().containsKey("b.B"));
         assertTrue("Missing class value b.B", factory.getClasses().containsValue(b_B_b.getClassNode()));
-        assertFalse("Class b.B is concrete", b_B_b.getClassNode().isConcrete());
+        assertFalse("Class b.B is concrete", b_B_b.getClassNode().isConfirmed());
         assertTrue("Missing feature key b.B.b", factory.getFeatures().containsKey("b.B.b"));
         assertTrue("Missing feature value b.B.b", factory.getFeatures().containsValue(b_B_b));
-        assertFalse("Feature b.B.b is concrete", b_B_b.isConcrete());
+        assertFalse("Feature b.B.b is concrete", b_B_b.isConfirmed());
         assertTrue("b.B <-- a.A is missing", b_B_b.getInboundDependencies().contains(a_A_a));
 
         a_A_a.accept(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(a_A_a.getClassNode().getPackageNode()));
-        assertTrue("Package a is no longer concrete", a_A_a.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", a_A_a.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Removed class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value a.A", factory.getClasses().containsValue(a_A_a.getClassNode()));
-        assertTrue("Class a.A is no longer concrete", a_A_a.getClassNode().isConcrete());
+        assertTrue("Class a.A is no longer concrete", a_A_a.getClassNode().isConfirmed());
         assertFalse("Did not remove feature key a.A.a", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value a.A.a", factory.getFeatures().containsValue(a_A_a));
-        assertFalse("Feature a.A.a is still concrete", a_A_a.isConcrete());
+        assertFalse("Feature a.A.a is still concrete", a_A_a.isConfirmed());
         assertFalse("Did not remove a.A --> b.B", a_A_a.getOutboundDependencies().contains(b_B_b));
         
         assertFalse("Did not remove package key b", factory.getPackages().containsKey("b"));
         assertFalse("Did not remove package value b", factory.getPackages().containsValue(b_B_b.getClassNode().getPackageNode()));
-        assertFalse("Package b is now concrete", b_B_b.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package b is now concrete", b_B_b.getClassNode().getPackageNode().isConfirmed());
         assertFalse("Did not remove class key b.B", factory.getClasses().containsKey("b.B"));
         assertFalse("Did not remove class value b.B", factory.getClasses().containsValue(b_B_b.getClassNode()));
-        assertFalse("Class b.B is now concrete", b_B_b.getClassNode().isConcrete());
+        assertFalse("Class b.B is now concrete", b_B_b.getClassNode().isConfirmed());
         assertFalse("Did not remove feature key b.B.b", factory.getFeatures().containsKey("b.B.b"));
         assertFalse("Did not remove feature value b.B.b", factory.getFeatures().containsValue(b_B_b));
-        assertFalse("Feature b.B.b is now concrete", b_B_b.isConcrete());
+        assertFalse("Feature b.B.b is now concrete", b_B_b.isConfirmed());
         assertFalse("Did not remove b.B <-- a.A", b_B_b.getInboundDependencies().contains(a_A_a));
     }
 
@@ -903,13 +903,13 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node));
-        assertTrue("Package a not concrete", node.isConcrete());
+        assertTrue("Package a not concrete", node.isConfirmed());
 
         node.acceptOutbound(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node));
-        assertTrue("Package a is no longer concrete", node.isConcrete());
+        assertTrue("Package a is no longer concrete", node.isConfirmed());
     }
 
     public void testAcceptOutboundConcreteClass() {
@@ -917,23 +917,23 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node.getPackageNode()));
-        assertTrue("Package a not concrete", node.getPackageNode().isConcrete());
+        assertTrue("Package a not concrete", node.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node.getPackageNode().getClasses().contains(node));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node));
-        assertTrue("Class not concrete", node.isConcrete());
+        assertTrue("Class not concrete", node.isConfirmed());
 
         node.acceptOutbound(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node.getPackageNode()));
-        assertTrue("Package a is no longer concrete", node.getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", node.getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node", node.getPackageNode().getClasses().contains(node));
         
         assertTrue("Removed class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value", factory.getClasses().containsValue(node));
-        assertTrue("Class a.A is no longer concrete", node.isConcrete());
+        assertTrue("Class a.A is no longer concrete", node.isConfirmed());
     }
 
     public void testAcceptOutboundConcreteFeature() {
@@ -941,33 +941,33 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node.getClassNode().getPackageNode()));
-        assertTrue("Package a not concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a not concrete", node.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node.getClassNode().getPackageNode().getClasses().contains(node.getClassNode()));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node.getClassNode()));
-        assertTrue("Class not concrete", node.getClassNode().isConcrete());
+        assertTrue("Class not concrete", node.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node", node.getClassNode().getFeatures().contains(node));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node));
-        assertTrue("Feature not concrete", node.isConcrete());
+        assertTrue("Feature not concrete", node.isConfirmed());
 
         node.acceptOutbound(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node.getClassNode().getPackageNode()));
-        assertTrue("Package a is no longer concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", node.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node", node.getClassNode().getPackageNode().getClasses().contains(node.getClassNode()));
         
         assertTrue("Removed class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value", factory.getClasses().containsValue(node.getClassNode()));
-        assertTrue("Class a.A is no longer concrete", node.getClassNode().isConcrete());
+        assertTrue("Class a.A is no longer concrete", node.getClassNode().isConfirmed());
         assertTrue("Class node no longer contains feature node", node.getClassNode().getFeatures().contains(node));
         
         assertTrue("Removed feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Removed feature value", factory.getFeatures().containsValue(node));
-        assertTrue("Feature a.A.a is no longer concrete", node.isConcrete());
+        assertTrue("Feature a.A.a is no longer concrete", node.isConfirmed());
     }
 
     public void testAcceptOutboundEmptyNonConcretePackage() {
@@ -975,13 +975,13 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node));
-        assertFalse("Package a concrete", node.isConcrete());
+        assertFalse("Package a concrete", node.isConfirmed());
 
         node.acceptOutbound(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(node));
-        assertFalse("Package a is now concrete", node.isConcrete());
+        assertFalse("Package a is now concrete", node.isConfirmed());
     }
 
     public void testAcceptOutboundEmptyNonConcreteClass() {
@@ -989,23 +989,23 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node.getPackageNode()));
-        assertFalse("Package a is concrete", node.getPackageNode().isConcrete());
+        assertFalse("Package a is concrete", node.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node.getPackageNode().getClasses().contains(node));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node));
-        assertFalse("Class a.A is concrete", node.isConcrete());
+        assertFalse("Class a.A is concrete", node.isConfirmed());
 
         node.acceptOutbound(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(node.getPackageNode()));
-        assertFalse("Package a is now concrete", node.getPackageNode().isConcrete());
+        assertFalse("Package a is now concrete", node.getPackageNode().isConfirmed());
         assertFalse("Package node still contains class node", node.getPackageNode().getClasses().contains(node));
         
         assertFalse("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value", factory.getClasses().containsValue(node));
-        assertFalse("Class a.A is now concrete", node.isConcrete());
+        assertFalse("Class a.A is now concrete", node.isConfirmed());
     }
 
     public void testAcceptOutboundEmptyNonConcreteFeature() {
@@ -1013,33 +1013,33 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node.getClassNode().getPackageNode()));
-        assertFalse("Package a is concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package a is concrete", node.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node.getClassNode().getPackageNode().getClasses().contains(node.getClassNode()));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node.getClassNode()));
-        assertFalse("Class a.A is concrete", node.getClassNode().isConcrete());
+        assertFalse("Class a.A is concrete", node.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node", node.getClassNode().getFeatures().contains(node));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node));
-        assertFalse("Feature a.A.a is concrete", node.isConcrete());
+        assertFalse("Feature a.A.a is concrete", node.isConfirmed());
 
         node.acceptOutbound(visitor);
         
         assertFalse("Did not remove package key a", factory.getPackages().containsKey("a"));
         assertFalse("Did not remove package value a", factory.getPackages().containsValue(node.getClassNode().getPackageNode()));
-        assertFalse("Package a is now concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Package a is now concrete", node.getClassNode().getPackageNode().isConfirmed());
         assertFalse("Package node still contains class node", node.getClassNode().getPackageNode().getClasses().contains(node.getClassNode()));
         
         assertFalse("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertFalse("Did not remove class value", factory.getClasses().containsValue(node.getClassNode()));
-        assertFalse("Class a.A is now concrete", node.getClassNode().isConcrete());
+        assertFalse("Class a.A is now concrete", node.getClassNode().isConfirmed());
         assertFalse("Class node still contains feature node", node.getClassNode().getFeatures().contains(node));
         
         assertFalse("Did not remove feature key", factory.getFeatures().containsKey("a.A.a"));
         assertFalse("Did not remove feature value", factory.getFeatures().containsValue(node));
-        assertFalse("Feature a.A.a is now concrete", node.isConcrete());
+        assertFalse("Feature a.A.a is now concrete", node.isConfirmed());
     }
 
     public void testAcceptOutboundEmptyNonConcretePackageWithInboundDependency() {
@@ -1050,24 +1050,24 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1));
-        assertTrue("Package a is not concrete", node1.isConcrete());
+        assertTrue("Package a is not concrete", node1.isConfirmed());
         assertTrue("a --> b is missing", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(node2));
-        assertFalse("Package b is concrete", node2.isConcrete());
+        assertFalse("Package b is concrete", node2.isConfirmed());
         assertTrue("b <-- a is missing", node2.getInboundDependencies().contains(node1));
 
         node2.acceptOutbound(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1));
-        assertTrue("Package a is no longer concrete", node1.isConcrete());
+        assertTrue("Package a is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a --> b", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Removed package key b", factory.getPackages().containsKey("b"));
         assertTrue("Removed package value b", factory.getPackages().containsValue(node2));
-        assertFalse("Package b is now concrete", node2.isConcrete());
+        assertFalse("Package b is now concrete", node2.isConfirmed());
         assertTrue("Removed b <-- a", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1079,36 +1079,36 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertTrue("Package a is not concrete", node1.getPackageNode().isConcrete());
+        assertTrue("Package a is not concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node a.A", node1.getPackageNode().getClasses().contains(node1));
         assertTrue("Package node does not contain class node a.B", node2.getPackageNode().getClasses().contains(node2));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1));
-        assertTrue("Class a.A is not concrete", node1.isConcrete());
+        assertTrue("Class a.A is not concrete", node1.isConfirmed());
         assertTrue("a.A --> a.B is missing", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.B"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node2));
-        assertFalse("Class a.B is concrete", node2.isConcrete());
+        assertFalse("Class a.B is concrete", node2.isConfirmed());
         assertTrue("a.B <-- a.A is missing", node2.getInboundDependencies().contains(node1));
 
         node2.acceptOutbound(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertTrue("Package a is no longer concrete", node1.getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node a.A", node1.getPackageNode().getClasses().contains(node1));
         assertTrue("Package node no longer contains class node a.B", node2.getPackageNode().getClasses().contains(node2));
 
         assertTrue("Removed class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value a.A", factory.getClasses().containsValue(node1));
-        assertTrue("Class a.A is no longer concrete", node1.isConcrete());
+        assertTrue("Class a.A is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a.A --> a.B", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Removed class key a.B", factory.getClasses().containsKey("a.B"));
         assertTrue("Removed class value a.B", factory.getClasses().containsValue(node2));
-        assertFalse("Class a.B is now concrete", node2.isConcrete());
+        assertFalse("Class a.B is now concrete", node2.isConfirmed());
         assertTrue("Removed a.B <-- a.A", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1120,46 +1120,46 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package a is not concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is not concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class a.A is not concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class a.A is not concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node a.A.a", node1.getClassNode().getFeatures().contains(node1));
         assertTrue("Class node does not contain feature node a.A.b", node2.getClassNode().getFeatures().contains(node2));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature a.A.a is not concrete", node1.isConcrete());
+        assertTrue("Feature a.A.a is not concrete", node1.isConfirmed());
         assertTrue("a.A.a --> a.A.b is missing", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.b"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node2));
-        assertFalse("Feature a.A.b is concrete", node2.isConcrete());
+        assertFalse("Feature a.A.b is concrete", node2.isConfirmed());
         assertTrue("a.A.b <-- a.A.a is missing", node2.getInboundDependencies().contains(node1));
 
         node2.acceptOutbound(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package a is no longer concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
         
         assertTrue("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Did not remove class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class a.A is no longer concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class a.A is no longer concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node no longer contains feature node a.A.a", node1.getClassNode().getFeatures().contains(node1));
         assertTrue("Class node no longer contains feature node a.A.b", node2.getClassNode().getFeatures().contains(node2));
         
         assertTrue("Remove feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Remove feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature a.A.a is no longer concrete", node1.isConcrete());
+        assertTrue("Feature a.A.a is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a.A.a --> a.A.b", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Remove feature key", factory.getFeatures().containsKey("a.A.b"));
         assertTrue("Remove feature value", factory.getFeatures().containsValue(node2));
-        assertFalse("Feature a.A.b is now concrete", node2.isConcrete());
+        assertFalse("Feature a.A.b is now concrete", node2.isConfirmed());
         assertTrue("Removed a.A.b <-- a.A.a", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1171,24 +1171,24 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1));
-        assertTrue("Package a is not concrete", node1.isConcrete());
+        assertTrue("Package a is not concrete", node1.isConfirmed());
         assertTrue("a --> b is missing", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(node2));
-        assertFalse("Package b is concrete", node2.isConcrete());
+        assertFalse("Package b is concrete", node2.isConfirmed());
         assertTrue("b <-- a is missing", node2.getInboundDependencies().contains(node1));
 
         node2.accept(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1));
-        assertTrue("Package a is no longer concrete", node1.isConcrete());
+        assertTrue("Package a is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a --> b", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Removed package key b", factory.getPackages().containsKey("b"));
         assertTrue("Removed package value b", factory.getPackages().containsValue(node2));
-        assertFalse("Package b is now concrete", node2.isConcrete());
+        assertFalse("Package b is now concrete", node2.isConfirmed());
         assertTrue("Removed b <-- a", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1200,36 +1200,36 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertTrue("Package a is not concrete", node1.getPackageNode().isConcrete());
+        assertTrue("Package a is not concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node a.A", node1.getPackageNode().getClasses().contains(node1));
         assertTrue("Package node does not contain class node a.B", node2.getPackageNode().getClasses().contains(node2));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1));
-        assertTrue("Class a.A is not concrete", node1.isConcrete());
+        assertTrue("Class a.A is not concrete", node1.isConfirmed());
         assertTrue("a.A --> a.B is missing", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.B"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node2));
-        assertFalse("Class a.B is concrete", node2.isConcrete());
+        assertFalse("Class a.B is concrete", node2.isConfirmed());
         assertTrue("a.B <-- a.A is missing", node2.getInboundDependencies().contains(node1));
 
         node2.accept(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertTrue("Package a is no longer concrete", node1.getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node a.A", node1.getPackageNode().getClasses().contains(node1));
         assertTrue("Package node no longer contains class node a.B", node2.getPackageNode().getClasses().contains(node2));
 
         assertTrue("Removed class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value a.A", factory.getClasses().containsValue(node1));
-        assertTrue("Class a.A is no longer concrete", node1.isConcrete());
+        assertTrue("Class a.A is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a.A --> a.B", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Removed class key a.B", factory.getClasses().containsKey("a.B"));
         assertTrue("Removed class value a.B", factory.getClasses().containsValue(node2));
-        assertFalse("Class a.B is now concrete", node2.isConcrete());
+        assertFalse("Class a.B is now concrete", node2.isConfirmed());
         assertTrue("Removed a.B <-- a.A", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1241,46 +1241,46 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package a is not concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is not concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class a.A is not concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class a.A is not concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node a.A.a", node1.getClassNode().getFeatures().contains(node1));
         assertTrue("Class node does not contain feature node a.A.b", node2.getClassNode().getFeatures().contains(node2));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature a.A.a is not concrete", node1.isConcrete());
+        assertTrue("Feature a.A.a is not concrete", node1.isConfirmed());
         assertTrue("a.A.a --> a.A.b is missing", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.b"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node2));
-        assertFalse("Feature a.A.b is concrete", node2.isConcrete());
+        assertFalse("Feature a.A.b is concrete", node2.isConfirmed());
         assertTrue("a.A.b <-- a.A.a is missing", node2.getInboundDependencies().contains(node1));
 
         node2.accept(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package a is no longer concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
         
         assertTrue("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Did not remove class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class a.A is no longer concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class a.A is no longer concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node no longer contains feature node a.A.a", node1.getClassNode().getFeatures().contains(node1));
         assertTrue("Class node no longer contains feature node a.A.b", node2.getClassNode().getFeatures().contains(node2));
         
         assertTrue("Remove feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Remove feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature a.A.a is no longer concrete", node1.isConcrete());
+        assertTrue("Feature a.A.a is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a.A.a --> a.A.b", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Remove feature key", factory.getFeatures().containsKey("a.A.b"));
         assertTrue("Remove feature value", factory.getFeatures().containsValue(node2));
-        assertFalse("Feature a.A.b is now concrete", node2.isConcrete());
+        assertFalse("Feature a.A.b is now concrete", node2.isConfirmed());
         assertTrue("Removed a.A.b <-- a.A.a", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1292,24 +1292,24 @@ public class TestDeletingVisitor extends TestCase {
         
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1));
-        assertTrue("Package a is not concrete", node1.isConcrete());
+        assertTrue("Package a is not concrete", node1.isConfirmed());
         assertTrue("a --> b is missing", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Missing package key b", factory.getPackages().containsKey("b"));
         assertTrue("Missing package value b", factory.getPackages().containsValue(node2));
-        assertTrue("Package b is not concrete", node2.isConcrete());
+        assertTrue("Package b is not concrete", node2.isConfirmed());
         assertTrue("b <-- a is missing", node2.getInboundDependencies().contains(node1));
 
         node2.accept(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1));
-        assertTrue("Package a is no longer concrete", node1.isConcrete());
+        assertTrue("Package a is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a --> b", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Removed package key b", factory.getPackages().containsKey("b"));
         assertTrue("Removed package value b", factory.getPackages().containsValue(node2));
-        assertFalse("Package b is still concrete", node2.isConcrete());
+        assertFalse("Package b is still concrete", node2.isConfirmed());
         assertTrue("Removed b <-- a", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1321,36 +1321,36 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertTrue("Package a is not concrete", node1.getPackageNode().isConcrete());
+        assertTrue("Package a is not concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node a.A", node1.getPackageNode().getClasses().contains(node1));
         assertTrue("Package node does not contain class node a.B", node2.getPackageNode().getClasses().contains(node2));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1));
-        assertTrue("Class a.A is not concrete", node1.isConcrete());
+        assertTrue("Class a.A is not concrete", node1.isConfirmed());
         assertTrue("a.A --> a.B is missing", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Missing class key", factory.getClasses().containsKey("a.B"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node2));
-        assertTrue("Class a.B is not concrete", node2.isConcrete());
+        assertTrue("Class a.B is not concrete", node2.isConfirmed());
         assertTrue("a.B <-- a.A is missing", node2.getInboundDependencies().contains(node1));
 
         node2.accept(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertTrue("Package a is no longer concrete", node1.getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node a.A", node1.getPackageNode().getClasses().contains(node1));
         assertTrue("Package node no longer contains class node a.B", node2.getPackageNode().getClasses().contains(node2));
 
         assertTrue("Removed class key a.A", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value a.A", factory.getClasses().containsValue(node1));
-        assertTrue("Class a.A is no longer concrete", node1.isConcrete());
+        assertTrue("Class a.A is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a.A --> a.B", node1.getOutboundDependencies().contains(node2));
 
         assertTrue("Removed class key a.B", factory.getClasses().containsKey("a.B"));
         assertTrue("Removed class value a.B", factory.getClasses().containsValue(node2));
-        assertFalse("Class a.B is still concrete", node2.isConcrete());
+        assertFalse("Class a.B is still concrete", node2.isConfirmed());
         assertTrue("Removed a.B <-- a.A", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1362,46 +1362,46 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package a is not concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is not concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class a.A is not concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class a.A is not concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node does not contain feature node a.A.a", node1.getClassNode().getFeatures().contains(node1));
         assertTrue("Class node does not contain feature node a.A.b", node2.getClassNode().getFeatures().contains(node2));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature a.A.a is not concrete", node1.isConcrete());
+        assertTrue("Feature a.A.a is not concrete", node1.isConfirmed());
         assertTrue("a.A.a --> a.A.b is missing", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.b"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node2));
-        assertTrue("Feature a.A.b is not concrete", node2.isConcrete());
+        assertTrue("Feature a.A.b is not concrete", node2.isConfirmed());
         assertTrue("a.A.b <-- a.A.a is missing", node2.getInboundDependencies().contains(node1));
 
         node2.accept(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1.getClassNode().getPackageNode()));
-        assertTrue("Package a is no longer concrete", node1.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Package a is no longer concrete", node1.getClassNode().getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node", node1.getClassNode().getPackageNode().getClasses().contains(node1.getClassNode()));
         
         assertTrue("Did not remove class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Did not remove class value", factory.getClasses().containsValue(node1.getClassNode()));
-        assertTrue("Class a.A is no longer concrete", node1.getClassNode().isConcrete());
+        assertTrue("Class a.A is no longer concrete", node1.getClassNode().isConfirmed());
         assertTrue("Class node no longer contains feature node a.A.a", node1.getClassNode().getFeatures().contains(node1));
         assertTrue("Class node no longer contains feature node a.A.b", node2.getClassNode().getFeatures().contains(node2));
         
         assertTrue("Remove feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Remove feature value", factory.getFeatures().containsValue(node1));
-        assertTrue("Feature a.A.a is no longer concrete", node1.isConcrete());
+        assertTrue("Feature a.A.a is no longer concrete", node1.isConfirmed());
         assertTrue("Removed a.A.a --> a.A.b", node1.getOutboundDependencies().contains(node2));
         
         assertTrue("Remove feature key", factory.getFeatures().containsKey("a.A.b"));
         assertTrue("Remove feature value", factory.getFeatures().containsValue(node2));
-        assertFalse("Feature a.A.b is still concrete", node2.isConcrete());
+        assertFalse("Feature a.A.b is still concrete", node2.isConfirmed());
         assertTrue("Removed a.A.b <-- a.A.a", node2.getInboundDependencies().contains(node1));
     }
 
@@ -1411,23 +1411,23 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1));
-        assertFalse("Package a concrete", node1.isConcrete());
+        assertFalse("Package a concrete", node1.isConfirmed());
         assertTrue("Package node does not contain class node", node1.getClasses().contains(node2));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node2));
-        assertFalse("Class a.A is concrete", node2.isConcrete());
+        assertFalse("Class a.A is concrete", node2.isConfirmed());
 
         node1.acceptOutbound(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1));
-        assertFalse("Package a is now concrete", node1.isConcrete());
+        assertFalse("Package a is now concrete", node1.isConfirmed());
         assertTrue("Package node no longer contains class node", node1.getClasses().contains(node2));
         
         assertTrue("Removed class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value", factory.getClasses().containsValue(node2));
-        assertFalse("Class a.A is now concrete", node2.isConcrete());
+        assertFalse("Class a.A is now concrete", node2.isConfirmed());
     }
 
     public void testAcceptOutboundNonEmptyClass() {
@@ -1436,32 +1436,32 @@ public class TestDeletingVisitor extends TestCase {
 
         assertTrue("Missing package key a", factory.getPackages().containsKey("a"));
         assertTrue("Missing package value a", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertFalse("Package a is concrete", node1.getPackageNode().isConcrete());
+        assertFalse("Package a is concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node does not contain class node", node1.getPackageNode().getClasses().contains(node1));
         
         assertTrue("Missing class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Missing class value", factory.getClasses().containsValue(node1));
-        assertFalse("Class a.A is concrete", node1.isConcrete());
+        assertFalse("Class a.A is concrete", node1.isConfirmed());
         assertTrue("Class node does not contain feature node", node1.getFeatures().contains(node2));
         
         assertTrue("Missing feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Missing feature value", factory.getFeatures().containsValue(node2));
-        assertFalse("Feature a.A.a is concrete", node2.isConcrete());
+        assertFalse("Feature a.A.a is concrete", node2.isConfirmed());
 
         node1.acceptOutbound(visitor);
         
         assertTrue("Removed package key a", factory.getPackages().containsKey("a"));
         assertTrue("Removed package value a", factory.getPackages().containsValue(node1.getPackageNode()));
-        assertFalse("Package a is now concrete", node1.getPackageNode().isConcrete());
+        assertFalse("Package a is now concrete", node1.getPackageNode().isConfirmed());
         assertTrue("Package node no longer contains class node", node1.getPackageNode().getClasses().contains(node1));
         
         assertTrue("Removed class key", factory.getClasses().containsKey("a.A"));
         assertTrue("Removed class value", factory.getClasses().containsValue(node1));
-        assertFalse("Class a.A is now concrete", node1.isConcrete());
+        assertFalse("Class a.A is now concrete", node1.isConfirmed());
         assertTrue("Class node no longer contains feature node", node1.getFeatures().contains(node2));
         
         assertTrue("Removed feature key", factory.getFeatures().containsKey("a.A.a"));
         assertTrue("Removed feature value", factory.getFeatures().containsValue(node2));
-        assertFalse("Feature a.A.a is now concrete", node2.isConcrete());
+        assertFalse("Feature a.A.a is now concrete", node2.isConfirmed());
     }
 }

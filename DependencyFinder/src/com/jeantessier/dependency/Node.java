@@ -35,28 +35,28 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class Node implements Comparable {
-    private String  name     = "";
-    private boolean concrete = false;
+    private String  name      = "";
+    private boolean confirmed = false;
     
     private Collection inbound  = new HashSet();
     private Collection outbound = new HashSet();
 
-    public Node(String name, boolean concrete) {
-        this.name     = name;
-        this.concrete = concrete;
+    public Node(String name, boolean confirmed) {
+        this.name      = name;
+        this.confirmed = confirmed;
     }
 
     public String getName() {
         return name;
     }
 
-    public boolean isConcrete() {
-        return concrete;
+    public boolean isConfirmed() {
+        return confirmed;
     }
 
     // Only to be used by NodeFactory and DeletingVisitor
-    void setConcrete(boolean concrete) {
-        this.concrete = concrete;
+    void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
     }
     
     public boolean canAddDependencyTo(Node node) {

@@ -136,84 +136,84 @@ public class TestNodeFactory extends TestCase {
     public void testCreateReferencedPackageNode() {
         PackageNode node = factory.createPackage("a", false);
 
-        assertFalse("Not referenced", node.isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
     }
 
     public void testCreateConcretePackageNode() {
         PackageNode node = factory.createPackage("a", true);
 
-        assertTrue("Not concrete", node.isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
     }
 
     public void testCreatePackageNodeDefaultsToReferenced() {
         PackageNode node = factory.createPackage("a");
 
-        assertFalse("Not referenced", node.isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
     }
 
     public void testCreateReferencedClassNode() {
         ClassNode node = factory.createClass("a.A", false);
 
-        assertFalse("Not referenced", node.isConcrete());
-        assertFalse("Not referenced", node.getPackageNode().isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse("Not referenced", node.getPackageNode().isConfirmed());
     }
 
     public void testCreateConcreteClassNode() {
         ClassNode node = factory.createClass("a.A", true);
 
-        assertTrue("Not concrete", node.isConcrete());
-        assertTrue("Not concrete", node.getPackageNode().isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue("Not concrete", node.getPackageNode().isConfirmed());
     }
 
     public void testCreateClassNodeDefaultsToReferenced() {
         ClassNode node = factory.createClass("a.A");
 
-        assertFalse("Not referenced", node.isConcrete());
-        assertFalse("Not referenced", node.getPackageNode().isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse("Not referenced", node.getPackageNode().isConfirmed());
     }
 
     public void testCreateReferencedFeatureNode() {
         FeatureNode node = factory.createFeature("a.A.a", false);
 
-        assertFalse("Not referenced", node.isConcrete());
-        assertFalse("Not referenced", node.getClassNode().isConcrete());
-        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse("Not referenced", node.getClassNode().isConfirmed());
+        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConfirmed());
     }
 
     public void testCreateConcreteFeatureNode() {
         FeatureNode node = factory.createFeature("a.A.a", true);
 
-        assertTrue("Not concrete", node.isConcrete());
-        assertTrue("Not concrete", node.getClassNode().isConcrete());
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue("Not concrete", node.getClassNode().isConfirmed());
+        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
     }
 
     public void testCreateFeatureNodeDefaultsToReferenced() {
         FeatureNode node = factory.createFeature("a.A.a");
 
-        assertFalse("Not referenced", node.isConcrete());
-        assertFalse("Not referenced", node.getClassNode().isConcrete());
-        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse("Not referenced", node.getClassNode().isConfirmed());
+        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConfirmed());
     }
 
     public void testSwitchPackageNodeFromReferencedToConcrete() {
         PackageNode node;
 
         node = factory.createPackage("a", false);
-        assertFalse("Not referenced", node.isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
 
         node = factory.createPackage("a", true);
-        assertTrue("Not concrete", node.isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
     }
 
     public void testSwitchPackageNodeFromConcreteToReferenced() {
         PackageNode node;
 
         node = factory.createPackage("a", true);
-        assertTrue("Not concrete", node.isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
 
         node = factory.createPackage("a", false);
-        assertTrue("Not concrete", node.isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
     }
 
     public void testMakingPackageNodeConcreteDoesNotChangeItsClasses() {
@@ -221,36 +221,36 @@ public class TestNodeFactory extends TestCase {
 
         node = factory.createPackage("a", false);
         factory.createClass("a.A", false);
-        assertFalse("Not referenced", node.isConcrete());
-        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConfirmed());
 
         node = factory.createPackage("a", true);
-        assertTrue("Not concrete", node.isConcrete());
-        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConfirmed());
     }
 
     public void testSwitchClassNodeFromReferencedToConcrete() {
         ClassNode node;
 
         node = factory.createClass("a.A", false);
-        assertFalse("Not referenced", node.isConcrete());
-        assertFalse("Not referenced", node.getPackageNode().isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse("Not referenced", node.getPackageNode().isConfirmed());
 
         node = factory.createClass("a.A", true);
-        assertTrue("Not concrete", node.isConcrete());
-        assertTrue("Not concrete", node.getPackageNode().isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue("Not concrete", node.getPackageNode().isConfirmed());
     }
 
     public void testSwitchClassNodeFromConcreteToReferenced() {
         ClassNode node;
 
         node = factory.createClass("a.A", true);
-        assertTrue("Not concrete", node.isConcrete());
-        assertTrue("Not concrete", node.getPackageNode().isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue("Not concrete", node.getPackageNode().isConfirmed());
 
         node = factory.createClass("a.A", false);
-        assertTrue("Not concrete", node.isConcrete());
-        assertTrue("Not concrete", node.getPackageNode().isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue("Not concrete", node.getPackageNode().isConfirmed());
     }
 
     public void testMakingClassNodeConcreteDoesNotChangeItsFeatures() {
@@ -258,39 +258,39 @@ public class TestNodeFactory extends TestCase {
 
         node = factory.createClass("a.A", false);
         factory.createFeature("a.A.a", false);
-        assertFalse("Not referenced", node.isConcrete());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
 
         node = factory.createClass("a.A", true);
-        assertTrue("Not concrete", node.isConcrete());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
     }
 
     public void testSwitchFeatureNodeFromReferencedToConcrete() {
         FeatureNode node;
 
         node = factory.createFeature("a.A.a", false);
-        assertFalse("Not referenced", node.isConcrete());
-        assertFalse("Not referenced", node.getClassNode().isConcrete());
-        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConcrete());
+        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse("Not referenced", node.getClassNode().isConfirmed());
+        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConfirmed());
 
         node = factory.createFeature("a.A.a", true);
-        assertTrue("Not concrete", node.isConcrete());
-        assertTrue("Not concrete", node.getClassNode().isConcrete());
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue("Not concrete", node.getClassNode().isConfirmed());
+        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
     }
 
     public void testSwitchFeatureNodeFromConcreteToReferenced() {
         FeatureNode node;
 
         node = factory.createFeature("a.A.a", true);
-        assertTrue("Not concrete", node.isConcrete());
-        assertTrue("Not concrete", node.getClassNode().isConcrete());
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue("Not concrete", node.getClassNode().isConfirmed());
+        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
 
         node = factory.createFeature("a.A.a", false);
-        assertTrue("Not concrete", node.isConcrete());
-        assertTrue("Not concrete", node.getClassNode().isConcrete());
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConcrete());
+        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue("Not concrete", node.getClassNode().isConfirmed());
+        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
     }
 }
