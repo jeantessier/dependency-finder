@@ -140,8 +140,8 @@ public class ListDeprecatedElements {
 		DeprecationPrinter printer = new DeprecationPrinter(out);
 		
 		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(verboseListener);
 		loader.addLoadListener(new LoadListenerVisitorAdapter(printer));
+		loader.addLoadListener(verboseListener);
 		loader.load(parameters);
 
 		Date end = new Date();

@@ -129,13 +129,6 @@ public class SymbolList {
 
 		Date start = new Date();
 
-		PrintWriter out;
-		if (commandLine.isPresent("out")) {
-			out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
-		} else {
-			out = new PrintWriter(new OutputStreamWriter(System.out));
-		}
-
 		List parameters = commandLine.getParameters();
 		if (parameters.size() == 0) {
 			parameters.add(".");
@@ -172,19 +165,19 @@ public class SymbolList {
 			collector.setCollectingLocalNames(true);
 		}
 		
-		Iterator i;
+		ClassfileLoader loader = new TransientClassfileLoader();
+		loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
+		loader.addLoadListener(verboseListener);
+		loader.load(parameters);
 
-		i = parameters.iterator();
-		while (i.hasNext()) {
-			String filename = (String) i.next();
-
-			ClassfileLoader loader = new TransientClassfileLoader();
-			loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
-			loader.addLoadListener(verboseListener);
-			loader.load(Collections.singleton(filename));
+		PrintWriter out;
+		if (commandLine.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
+		} else {
+			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		i = collector.getCollection().iterator();
+		Iterator i = collector.getCollection().iterator();
 		while (i.hasNext()) {
 			out.println(i.next());
 		}
