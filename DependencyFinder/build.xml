@@ -1,108 +1,109 @@
 <project name="DependencyFinder" default="compiletests" basedir=".">
 
     <description>
-	Dependency Finder, JarJarDiff, and OOMetrics
+        Dependency Finder, JarJarDiff, and OOMetrics
     </description>
 
     <patternset id="all.sources">
-	<include name="**/*.java"/>
+        <include name="**/*.java"/>
     </patternset>
 
     <property environment="env"/>
 
     <property file="tomcat.properties"/>
     <taskdef resource="org/apache/catalina/ant/catalina.tasks">
-	<classpath>
-	    <fileset dir="${tomcat.home}/bin">
-		<include name="**/commons-*.jar"/>
-	    </fileset>
-	    <fileset dir="${tomcat.home}/common/lib">
-		<include name="**/*.jar"/>
-	    </fileset>
-	    <fileset dir="${tomcat.home}/server/lib">
-		<include name="**/*.jar"/>
-	    </fileset>
-	</classpath>
+        <classpath>
+            <fileset dir="${tomcat.home}/bin">
+                <include name="**/commons-*.jar"/>
+            </fileset>
+            <fileset dir="${tomcat.home}/common/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+            <fileset dir="${tomcat.home}/server/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </classpath>
     </taskdef>
 
     <property file="cvs.properties"/>
 
     <path id="libs">
-	<fileset dir="lib">
-	    <include name="**/*.jar"/>
-	</fileset>
-	<pathelement location="classes"/>
-	<pathelement location="${env.JUNIT_HOME}/junit.jar"/>
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="classes"/>
+        <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
     </path>
 
     <target name="init">
-	<tstamp>
-	    <format property="NOW"     pattern="yyyy-MM-dd HH:mm:ss"/>
-	    <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
-	</tstamp>
+        <tstamp>
+            <format property="NOW"     pattern="yyyy-MM-dd HH:mm:ss"/>
+            <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
+        </tstamp>
 
-	<property name="release"      value="1.1.1-beta1"/>
+        <property name="release"      value="1.1.1-beta1"/>
 
-	<property name="packageNames" value="com.jeantessier.*"/>
+        <property name="packageNames" value="com.jeantessier.*"/>
 
-	<property name="srcDir"       value="src"/>
-	<property name="testsDir"     value="tests"/>
-	<property name="binDir"       value="bin"/>
-	<property name="classesDir"   value="classes"/>
-	<property name="libDir"       value="lib"/>
-	<property name="etcDir"       value="etc"/>
-	<property name="webDir"       value="web"/>
-	<property name="docsDir"      value="docs"/>
-	<property name="apiDir"       value="${docsDir}/api"/>
-	<property name="logsDir"      value="logs"/>
+        <property name="srcDir"       value="src"/>
+        <property name="testsDir"     value="tests"/>
+        <property name="binDir"       value="bin"/>
+        <property name="classesDir"   value="classes"/>
+        <property name="libDir"       value="lib"/>
+        <property name="etcDir"       value="etc"/>
+        <property name="webDir"       value="web"/>
+        <property name="docsDir"      value="docs"/>
+        <property name="apiDir"       value="${docsDir}/api"/>
+        <property name="logsDir"      value="logs"/>
+        <property name="reportsDir"   value="reports"/>
 
-	<property name="srcFiles"     value="${srcDir}/**"/>
-	<property name="testsFiles"   value="${testsDir}/**"/>
-	<property name="binFiles"     value="${binDir}/**"/>
-	<property name="libFiles"     value="${libDir}/**"/>
-	<property name="etcFiles"     value="${etcDir}/**"/>
-	<property name="webFiles"     value="${webDir}/**"/>
-	<property name="docsFiles"    value="${docsDir}/**"/>
+        <property name="srcFiles"     value="${srcDir}/**"/>
+        <property name="testsFiles"   value="${testsDir}/**"/>
+        <property name="binFiles"     value="${binDir}/**"/>
+        <property name="libFiles"     value="${libDir}/**"/>
+        <property name="etcFiles"     value="${etcDir}/**"/>
+        <property name="webFiles"     value="${webDir}/**"/>
+        <property name="docsFiles"    value="${docsDir}/**"/>
 
-	<property name="jarFile"      value="${libDir}/${ant.project.name}.jar"/>
-	<property name="warFile"      value="${ant.project.name}-${release}.war"/>
-	<property name="srcArchive"   value="${ant.project.name}-${release}.src"/>
-	<property name="binArchive"   value="${ant.project.name}-${release}.bin"/>
+        <property name="jarFile"      value="${libDir}/${ant.project.name}.jar"/>
+        <property name="warFile"      value="${ant.project.name}-${release}.war"/>
+        <property name="srcArchive"   value="${ant.project.name}-${release}.src"/>
+        <property name="binArchive"   value="${ant.project.name}-${release}.bin"/>
 
-	<mkdir dir="${classesDir}"/>
-	<mkdir dir="${apiDir}"/>
-	<mkdir dir="${logsDir}"/>
+        <mkdir dir="${classesDir}"/>
+        <mkdir dir="${apiDir}"/>
+        <mkdir dir="${logsDir}"/>
     </target>
 
     <target name="compile" depends="init"
-	    description="Compiles all classes">
+            description="Compiles all classes">
         <javac destdir="${classesDir}" debug="on">
-	    <src path="${srcDir}"/>
-	    <classpath refid="libs"/>
-	    <patternset refid="all.sources"/>
+            <src path="${srcDir}"/>
+            <classpath refid="libs"/>
+            <patternset refid="all.sources"/>
         </javac>
     </target>
 
     <target name="compiletests" depends="compile"
-	    description="Compiles all classes and JUnit tests with debug flags (default)">
+            description="Compiles all classes and JUnit tests with debug flags (default)">
         <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on">
-	    <src path="${testsDir}"/>
-	    <classpath refid="libs"/>
-	    <patternset refid="all.sources"/>
+            <src path="${testsDir}"/>
+            <classpath refid="libs"/>
+            <patternset refid="all.sources"/>
         </javac>
     </target>
 
     <target name="generatebin" depends="init">
-	<exec executable="perl"
-	      dir="${binDir}">
-	    <arg value="ScriptGenerator.pl"/>
-	    <arg value="-g"/>
-	    <arg value="-v"/>
-	</exec>
+        <exec executable="perl"
+              dir="${binDir}">
+            <arg value="ScriptGenerator.pl"/>
+            <arg value="-g"/>
+            <arg value="-v"/>
+        </exec>
         <fixcrlf srcdir="${binDir}"
                  excludes="**/*.*"
                  eol="unix"
-		 eof="remove"/>
+                 eof="remove"/>
     </target>
 
     <target name="log4j.config" depends="init">
@@ -110,83 +111,83 @@
     </target>
 
     <target name="exec" depends="jar, generatebin, log4j.config"
-	    description="Compiles a version that works inplace"/>
+            description="Compiles a version that works inplace"/>
 
     <target name="tests" depends="compiletests, log4j.config"
-	    description="Compiles everything required to run all the tests">
-	<ant dir="tests/JarJarDiff" inheritAll="false"/>
+            description="Compiles everything required to run all the tests">
+        <ant dir="tests/JarJarDiff" inheritAll="false"/>
     </target>
 
     <target name="deprecation" depends="init">
         <javac destdir="${classesDir}" deprecation="yes">
-	    <src path="${srcDir}"/>
-	    <classpath refid="libs"/>
-	    <patternset refid="all.sources"/>
+            <src path="${srcDir}"/>
+            <classpath refid="libs"/>
+            <patternset refid="all.sources"/>
         </javac>
         <javac destdir="${classesDir}" excludes="JarJarDiff/**" deprecation="yes">
-	    <src path="${testsDir}"/>
-	    <classpath refid="libs"/>
-	    <patternset refid="all.sources"/>
+            <src path="${testsDir}"/>
+            <classpath refid="libs"/>
+            <patternset refid="all.sources"/>
         </javac>
     </target>
 
     <target name="jar" depends="compile"
-	    description="Builds the main application JAR file">
+            description="Builds the main application JAR file">
         <jar jarfile="${jarFile}">
-	    <manifest>
-		<attribute name="Specification-Vendor"   value="Jean Tessier"/>
-		<attribute name="Specification-Title"    value="Dependency Finder"/>
-		<attribute name="Specification-Version"  value="${release}"/>
-		<attribute name="Specification-Date"     value="${NOW}"/>
-		<attribute name="Implementation-Vendor"  value="Jean Tessier"/>
-		<attribute name="Implementation-Title"   value="Dependency Finder"/>
-		<attribute name="Implementation-Version" value="${release}"/> 
-		<attribute name="Implementation-Date"    value="${NOW}"/> 
-		<attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
-		<attribute name="Copyright-Holder"       value="Jean Tessier"/>
-		<attribute name="Copyright-Date"         value="2001-2005"/>
-		<attribute name="Compiler-Vendor"        value="${java.vendor}"/>
-		<attribute name="Compiler-Title"         value="${java.runtime.name}"/>
-		<attribute name="Compiler-Version"       value="${java.version}"/>
-		<section name="com/jeantessier/dependencyfinder/Version.class">
-		    <attribute name="Java-Bean" value="True"/>
-		</section>
-	    </manifest>
-	    <zipfileset dir="${classesDir}"
-	                prefix=""
-	                includes="**/*.class"/>
-	    <zipfileset dir="${srcDir}"
-	                prefix="">
-		<include name="dependencyfindertasks.properties"/>
-		<include name="**/*.gif"/>
-		<include name="**/*.jpg"/>
-		<exclude name="**/doc-files/**"/>
-	    </zipfileset>
-	</jar>
+            <manifest>
+                <attribute name="Specification-Vendor"   value="Jean Tessier"/>
+                <attribute name="Specification-Title"    value="Dependency Finder"/>
+                <attribute name="Specification-Version"  value="${release}"/>
+                <attribute name="Specification-Date"     value="${NOW}"/>
+                <attribute name="Implementation-Vendor"  value="Jean Tessier"/>
+                <attribute name="Implementation-Title"   value="Dependency Finder"/>
+                <attribute name="Implementation-Version" value="${release}"/> 
+                <attribute name="Implementation-Date"    value="${NOW}"/> 
+                <attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
+                <attribute name="Copyright-Holder"       value="Jean Tessier"/>
+                <attribute name="Copyright-Date"         value="2001-2005"/>
+                <attribute name="Compiler-Vendor"        value="${java.vendor}"/>
+                <attribute name="Compiler-Title"         value="${java.runtime.name}"/>
+                <attribute name="Compiler-Version"       value="${java.version}"/>
+                <section name="com/jeantessier/dependencyfinder/Version.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+            </manifest>
+            <zipfileset dir="${classesDir}"
+                        prefix=""
+                        includes="**/*.class"/>
+            <zipfileset dir="${srcDir}"
+                        prefix="">
+                <include name="dependencyfindertasks.properties"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+                <exclude name="**/doc-files/**"/>
+            </zipfileset>
+        </jar>
     </target>
 
     <target name="war" depends="jar"
-	    description="Compiles and builds the web application archive">
+            description="Compiles and builds the web application archive">
         <war destfile="${warFile}"
-	     webxml="${webDir}/WEB-INF/web.xml">
-	    <zipfileset dir="${webDir}">
-		<exclude name="**/CSV"/>
-		<exclude name="**/WEB-INF/*"/>
-	    </zipfileset>
-	    <classes dir="${srcDir}"
-		     includes="**/*.properties"/>
-	    <lib dir="${libDir}"
-		 includes="**/*.jar"
-		 excludes="**/xalan.jar"/>
-	</war>
+             webxml="${webDir}/WEB-INF/web.xml">
+            <zipfileset dir="${webDir}">
+                <exclude name="**/CSV"/>
+                <exclude name="**/WEB-INF/*"/>
+            </zipfileset>
+            <classes dir="${srcDir}"
+                     includes="**/*.properties"/>
+            <lib dir="${libDir}"
+                 includes="**/*.jar"
+                 excludes="**/xalan.jar"/>
+        </war>
     </target>
 
     <!--
-	Tomcat
+        Tomcat
     -->
 
     <target name="webapp.deploy" depends="war"
-	    description="Deploys the web application to a Tomcat container">
+            description="Deploys the web application to a Tomcat container">
         <deploy url="${tomcat.manager.url}"
                 username="${tomcat.manager.username}"
                 password="${tomcat.manager.password}"
@@ -195,7 +196,7 @@
     </target>
 
     <target name="webapp.undeploy" depends="init"
-	    description="Undeploys the web application from a Tomcat container">
+            description="Undeploys the web application from a Tomcat container">
         <undeploy url="${tomcat.manager.url}"
                   username="${tomcat.manager.username}"
                   password="${tomcat.manager.password}"
@@ -203,7 +204,7 @@
     </target>
 
     <target name="webapp.reload" depends="init"
-	    description="Reloads the web application in a Tomcat container">
+            description="Reloads the web application in a Tomcat container">
         <reload url="${tomcat.manager.url}"
                 username="${tomcat.manager.username}"
                 password="${tomcat.manager.password}"
@@ -211,7 +212,7 @@
     </target>
 
     <target name="webapp.start" depends="init"
-	    description="Starts the web application in a Tomcat container">
+            description="Starts the web application in a Tomcat container">
         <start url="${tomcat.manager.url}"
                username="${tomcat.manager.username}"
                password="${tomcat.manager.password}"
@@ -219,7 +220,7 @@
     </target>
 
     <target name="webapp.stop" depends="init"
-	    description="Stops the web application in a Tomcat container">
+            description="Stops the web application in a Tomcat container">
         <stop url="${tomcat.manager.url}"
               username="${tomcat.manager.username}"
               password="${tomcat.manager.password}"
@@ -227,436 +228,453 @@
     </target>
 
     <target name="webapp.redeploy" depends="webapp.undeploy, webapp.deploy"
-	    description="Undeploys and then deploys the web application to a Tomcat container"/>
+            description="Undeploys and then deploys the web application to a Tomcat container"/>
     <target name="webapp.restart" depends="webapp.stop, webapp.start"
-	    description="Stops and then starts the web application in a Tomcat container"/>
+            description="Stops and then starts the web application in a Tomcat container"/>
 
     <!--
-	Tests
+        Tests
     -->
 
     <target name="alltests" depends="init">
-	<junit>
-	    <formatter type="plain" usefile="no"/>
-	    <test name="TestAll"/>
-	    <classpath>
-		<path refid="libs"/>
-		<path location="${classesDir}"/>
-	    </classpath>
-	</junit>
+        <mkdir dir="${reportsDir}"/>
+        <junit>
+            <classpath>
+                <path refid="libs"/>
+                <path location="${classesDir}"/>
+            </classpath>
+            <sysproperty key="org.xml.sax.driver" value="org.apache.xerces.parsers.SAXParser"/>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/**/Test*.java"/>
+                    <exclude name="**/TestClassfileLoader.java"/>
+                    <exclude name="**/TestAll.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+        <junitreport todir="${reportsDir}">
+            <fileset dir="reports">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${reportsDir}/html"/>
+        </junitreport>
     </target>
 
     <!--
-	Packaged files
+        Packaged files
     -->
 
     <target name="src" depends="src.zip, src.tar.gz, src.tar.bz2"
-	    description="Builds the source code archives"/>
+            description="Builds the source code archives"/>
 
     <target name="src.zip" depends="init">
         <zip zipfile="${srcArchive}.zip">
-	    <zipfileset dir="." prefix="${ant.project.name}">
-		<patternset>
-		    <include name="build.xml"/>
-		    <include name="license.txt"/>
-		    <include name="readme.txt"/>
-		    <include name="*.properties"/>
-		    <include name="${srcFiles}"/>
-		    <include name="${testsFiles}"/>
-		    <include name="${binFiles}"/>
-		    <include name="${etcFiles}"/>
-		    <include name="${webFiles}"/>
-		    <include name="${docsFiles}"/>
-		    <exclude name="**/CVS"/>
-		</patternset>
-	    </zipfileset>
-	</zip>
+            <zipfileset dir="." prefix="${ant.project.name}">
+                <patternset>
+                    <include name="build.xml"/>
+                    <include name="license.txt"/>
+                    <include name="readme.txt"/>
+                    <include name="*.properties"/>
+                    <include name="${srcFiles}"/>
+                    <include name="${testsFiles}"/>
+                    <include name="${binFiles}"/>
+                    <include name="${etcFiles}"/>
+                    <include name="${webFiles}"/>
+                    <include name="${docsFiles}"/>
+                    <exclude name="**/CVS"/>
+                </patternset>
+            </zipfileset>
+        </zip>
     </target>
 
     <target name="src.tar.gz" depends="init">
         <tar destfile="${srcArchive}.tar.gz" compression="gzip">
-	    <tarfileset dir="." prefix="${ant.project.name}">
-		<patternset>
-		    <include name="build.xml"/>
-		    <include name="license.txt"/>
-		    <include name="readme.txt"/>
-		    <include name="*.properties"/>
-		    <include name="${srcFiles}"/>
-		    <include name="${testsFiles}"/>
-		    <include name="${binFiles}"/>
-		    <include name="${etcFiles}"/>
-		    <include name="${webFiles}"/>
-		    <include name="${docsFiles}"/>
-		    <exclude name="**/CVS"/>
-		</patternset>
-	    </tarfileset>
-	</tar>
+            <tarfileset dir="." prefix="${ant.project.name}">
+                <patternset>
+                    <include name="build.xml"/>
+                    <include name="license.txt"/>
+                    <include name="readme.txt"/>
+                    <include name="*.properties"/>
+                    <include name="${srcFiles}"/>
+                    <include name="${testsFiles}"/>
+                    <include name="${binFiles}"/>
+                    <include name="${etcFiles}"/>
+                    <include name="${webFiles}"/>
+                    <include name="${docsFiles}"/>
+                    <exclude name="**/CVS"/>
+                </patternset>
+            </tarfileset>
+        </tar>
     </target>
 
     <target name="src.tar.bz2" depends="init">
         <tar destfile="${srcArchive}.tar.bz2" compression="bzip2">
-	    <tarfileset dir="." prefix="${ant.project.name}">
-		<patternset>
-		    <include name="build.xml"/>
-		    <include name="license.txt"/>
-		    <include name="readme.txt"/>
-		    <include name="*.properties"/>
-		    <include name="${srcFiles}"/>
-		    <include name="${testsFiles}"/>
-		    <include name="${binFiles}"/>
-		    <include name="${etcFiles}"/>
-		    <include name="${webFiles}"/>
-		    <include name="${docsFiles}"/>
-		    <exclude name="**/CVS"/>
-		</patternset>
-	    </tarfileset>
-	</tar>
+            <tarfileset dir="." prefix="${ant.project.name}">
+                <patternset>
+                    <include name="build.xml"/>
+                    <include name="license.txt"/>
+                    <include name="readme.txt"/>
+                    <include name="*.properties"/>
+                    <include name="${srcFiles}"/>
+                    <include name="${testsFiles}"/>
+                    <include name="${binFiles}"/>
+                    <include name="${etcFiles}"/>
+                    <include name="${webFiles}"/>
+                    <include name="${docsFiles}"/>
+                    <exclude name="**/CVS"/>
+                </patternset>
+            </tarfileset>
+        </tar>
     </target>
 
     <target name="dist" depends="generatebin, dist.zip, dist.tar.gz, dist.tar.bz2"
-	    description="Compiles and builds the binary distributions"/>
+            description="Compiles and builds the binary distributions"/>
 
     <target name="dist.zip" depends="jar">
         <zip zipfile="${binArchive}.zip">
-	    <zipfileset dir="." prefix="${ant.project.name}">
-		<patternset>
-		    <include name="license.txt"/>
-		    <include name="readme.txt"/>
-		    <include name="${binFiles}/**/*.bat"/>
-		    <include name="${libFiles}"/>
-		    <include name="${etcFiles}"/>
-		    <include name="${docsFiles}"/>
-		    <exclude name="**/CVS"/>
-		    <exclude name="${docsDir}/**/*.txt"/>
-		</patternset>
-	    </zipfileset>
-	    <zipfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
-		<patternset>
-		    <include name="**/*.properties"/>
-		</patternset>
-	    </zipfileset>
-	</zip>
+            <zipfileset dir="." prefix="${ant.project.name}">
+                <patternset>
+                    <include name="license.txt"/>
+                    <include name="readme.txt"/>
+                    <include name="${binFiles}/**/*.bat"/>
+                    <include name="${libFiles}"/>
+                    <include name="${etcFiles}"/>
+                    <include name="${docsFiles}"/>
+                    <exclude name="**/CVS"/>
+                    <exclude name="${docsDir}/**/*.txt"/>
+                </patternset>
+            </zipfileset>
+            <zipfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
+                <patternset>
+                    <include name="**/*.properties"/>
+                </patternset>
+            </zipfileset>
+        </zip>
     </target>
 
     <target name="dist.tar.gz" depends="jar">
         <tar destfile="${binArchive}.tar.gz" compression="gzip">
-	    <tarfileset dir="." prefix="${ant.project.name}">
-		<patternset>
-		    <include name="license.txt"/>
-		    <include name="readme.txt"/>
-		    <include name="${libFiles}"/>
-		    <include name="${etcFiles}"/>
-		    <include name="${docsFiles}"/>
-		    <exclude name="**/CVS"/>
-		    <exclude name="${docsDir}/**/*.txt"/>
-		</patternset>
-	    </tarfileset>
-	    <tarfileset dir="." prefix="${ant.project.name}" mode="755">
-		<patternset>
-		    <include name="${binFiles}"/>
-		    <exclude name="${binDir}/**/*.*"/>
-		</patternset>
-	    </tarfileset>
-	    <tarfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
-		<patternset>
-		    <include name="**/*.properties"/>
-		</patternset>
-	    </tarfileset>
-	</tar>
+            <tarfileset dir="." prefix="${ant.project.name}">
+                <patternset>
+                    <include name="license.txt"/>
+                    <include name="readme.txt"/>
+                    <include name="${libFiles}"/>
+                    <include name="${etcFiles}"/>
+                    <include name="${docsFiles}"/>
+                    <exclude name="**/CVS"/>
+                    <exclude name="${docsDir}/**/*.txt"/>
+                </patternset>
+            </tarfileset>
+            <tarfileset dir="." prefix="${ant.project.name}" mode="755">
+                <patternset>
+                    <include name="${binFiles}"/>
+                    <exclude name="${binDir}/**/*.*"/>
+                </patternset>
+            </tarfileset>
+            <tarfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
+                <patternset>
+                    <include name="**/*.properties"/>
+                </patternset>
+            </tarfileset>
+        </tar>
     </target>
 
     <target name="dist.tar.bz2" depends="jar">
         <tar destfile="${binArchive}.tar.bz2" compression="bzip2">
-	    <tarfileset dir="." prefix="${ant.project.name}">
-		<patternset>
-		    <include name="license.txt"/>
-		    <include name="readme.txt"/>
-		    <include name="${libFiles}"/>
-		    <include name="${etcFiles}"/>
-		    <include name="${docsFiles}"/>
-		    <exclude name="**/CVS"/>
-		    <exclude name="${docsDir}/**/*.txt"/>
-		</patternset>
-	    </tarfileset>
-	    <tarfileset dir="." prefix="${ant.project.name}" mode="755">
-		<patternset>
-		    <include name="${binFiles}"/>
-		    <exclude name="${binDir}/**/*.*"/>
-		</patternset>
-	    </tarfileset>
-	    <tarfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
-		<patternset>
-		    <include name="**/*.properties"/>
-		</patternset>
-	    </tarfileset>
-	</tar>
+            <tarfileset dir="." prefix="${ant.project.name}">
+                <patternset>
+                    <include name="license.txt"/>
+                    <include name="readme.txt"/>
+                    <include name="${libFiles}"/>
+                    <include name="${etcFiles}"/>
+                    <include name="${docsFiles}"/>
+                    <exclude name="**/CVS"/>
+                    <exclude name="${docsDir}/**/*.txt"/>
+                </patternset>
+            </tarfileset>
+            <tarfileset dir="." prefix="${ant.project.name}" mode="755">
+                <patternset>
+                    <include name="${binFiles}"/>
+                    <exclude name="${binDir}/**/*.*"/>
+                </patternset>
+            </tarfileset>
+            <tarfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
+                <patternset>
+                    <include name="**/*.properties"/>
+                </patternset>
+            </tarfileset>
+        </tar>
     </target>
 
     <target name="ftp" depends="init"
-	    description="Uploads the distribution files to SourceForge">
+            description="Uploads the distribution files to SourceForge">
         <ftp server="upload.sourceforge.net"
-	     userid="anonymous"
-	     password="jeantessier@hotmail.com"
-	     remotedir="incoming"
-	     action="put"
-	     verbose="yes">
-	    <fileset dir=".">
-		<patternset>
-		    <include name="${srcArchive}.*"/>
-		    <include name="${binArchive}.*"/>
-		    <include name="${warFile}"/>
-		</patternset>
-	    </fileset>
-	</ftp>
+             userid="anonymous"
+             password="jeantessier@hotmail.com"
+             remotedir="incoming"
+             action="put"
+             verbose="yes">
+            <fileset dir=".">
+                <patternset>
+                    <include name="${srcArchive}.*"/>
+                    <include name="${binArchive}.*"/>
+                    <include name="${warFile}"/>
+                </patternset>
+            </fileset>
+        </ftp>
     </target>
 
     <!--
-	Docs
+        Docs
     -->
 
     <target name="textdocs" depends="init">
-	<echo message="Processing Manual.txt ..."/>
-	<exec executable="perl"
-	      output="${docsDir}/Manual.html">
-	    <arg value="${binDir}/txt2html.pl"/>
-	    <arg value="${docsDir}/Manual.txt"/>
-	    <env key="TXT2HTML_VERSION" value="${release}"/>
-	</exec>
-	<echo message="Processing Developer.txt ..."/>
-	<exec executable="perl"
-	      output="${docsDir}/Developer.html">
-	    <arg value="${binDir}/txt2html.pl"/>
-	    <arg value="${docsDir}/Developer.txt"/>
-	    <env key="TXT2HTML_VERSION" value="${release}"/>
-	</exec>
-	<echo message="Processing Tools.txt ..."/>
-	<exec executable="perl"
-	      output="${docsDir}/Tools.html">
-	    <arg value="${binDir}/txt2html.pl"/>
-	    <arg value="${docsDir}/Tools.txt"/>
-	    <env key="TXT2HTML_VERSION" value="${release}"/>
-	</exec>
+        <echo message="Processing Manual.txt ..."/>
+        <exec executable="perl"
+              output="${docsDir}/Manual.html">
+            <arg value="${binDir}/txt2html.pl"/>
+            <arg value="${docsDir}/Manual.txt"/>
+            <env key="TXT2HTML_VERSION" value="${release}"/>
+        </exec>
+        <echo message="Processing Developer.txt ..."/>
+        <exec executable="perl"
+              output="${docsDir}/Developer.html">
+            <arg value="${binDir}/txt2html.pl"/>
+            <arg value="${docsDir}/Developer.txt"/>
+            <env key="TXT2HTML_VERSION" value="${release}"/>
+        </exec>
+        <echo message="Processing Tools.txt ..."/>
+        <exec executable="perl"
+              output="${docsDir}/Tools.html">
+            <arg value="${binDir}/txt2html.pl"/>
+            <arg value="${docsDir}/Tools.txt"/>
+            <env key="TXT2HTML_VERSION" value="${release}"/>
+        </exec>
     </target>
 
     <target name="javadocs" depends="init">
         <javadoc packagenames="${packageNames}"
-		 destdir="${apiDir}"
-		 author="no"
-	         version="no"
-		 linksource="yes"
-		 doctitle="${ant.project.name}">
-	    <sourcepath path="${srcDir}"/>
-	    <classpath>
-		<path refid="libs"/>
-		<pathelement location="${ant.home}/lib/ant.jar"/>
-		<pathelement location="${java.home}/../lib/tools.jar"/>
-	    </classpath>
-	    <bottom><![CDATA[<i>Dependency Finder ${release} &#169; 2001-2005 Jean Tessier.</i>]]></bottom>
-	</javadoc>
+                 destdir="${apiDir}"
+                 author="no"
+                 version="no"
+                 linksource="yes"
+                 doctitle="${ant.project.name}">
+            <sourcepath path="${srcDir}"/>
+            <classpath>
+                <path refid="libs"/>
+                <pathelement location="${ant.home}/lib/ant.jar"/>
+                <pathelement location="${java.home}/../lib/tools.jar"/>
+            </classpath>
+            <bottom><![CDATA[<i>Dependency Finder ${release} &#169; 2001-2005 Jean Tessier.</i>]]></bottom>
+        </javadoc>
     </target>
 
     <target name="docs" depends="textdocs, javadocs"
-	    description="Builds the API documentation"/>
+            description="Builds the API documentation"/>
 
     <!-- "docletPath" does not work in this version of Ant. -->
     <target name="doclint">
         <javadoc packagenames="${packageNames}"
-		 version="no"
-		 author="no">
-	    <sourcepath path="${srcDir}"/>
-	    <classpath refid="libs"/>
-	    <doclet name="com.jollem.doclint.DocLint"
-		    path="C:\language\Java\doclint-1.0a2\doclint.jar"/>
-  	</javadoc>
+                 version="no"
+                 author="no">
+            <sourcepath path="${srcDir}"/>
+            <classpath refid="libs"/>
+            <doclet name="com.jollem.doclint.DocLint"
+                    path="C:\language\Java\doclint-1.0a2\doclint.jar"/>
+          </javadoc>
     </target>
 
     <!--
         UMLDoclet produces UML class diagrams in HTML next to
-	a class's javadoc documentation.  The diagrams are
-	simplistic and ugly.  Not very useful.
-	"docletPath" does not work in this version of Ant.
+        a class's javadoc documentation.  The diagrams are
+        simplistic and ugly.  Not very useful.
+        "docletPath" does not work in this version of Ant.
     -->
     <target name="umldoclet">
         <javadoc sourcepath="${srcDir}"
-	         destdir="${apiDir}"
-	         packagenames="${packageNames}"
-		 version="no"
-		 author="no"
-		 doclet="JP.co.esm.caddies.doclets.UMLDoclet"
-		 docletPath="C:\language\Java\UMLDoclet"/>
+                 destdir="${apiDir}"
+                 packagenames="${packageNames}"
+                 version="no"
+                 author="no"
+                 doclet="JP.co.esm.caddies.doclets.UMLDoclet"
+                 docletPath="C:\language\Java\UMLDoclet"/>
     </target>
 
     <!--
         RedDoclet produces petal files for Rational Rose.
-	But the resulting petal files do not model interfaces
-	properly (abstract classes instead of Interface
-	stereotype).
-	"docletPath" does not work in this version of Ant.
+        But the resulting petal files do not model interfaces
+        properly (abstract classes instead of Interface
+        stereotype).
+        "docletPath" does not work in this version of Ant.
     -->
     <target name="reddoclet">
         <javadoc sourcepath="${srcDir}"
-	         packagenames="${packageNames}"
-		 version="no"
-		 author="no"
-		 doclet="JP.co.esm.caddies.doclets.RedDoclet"
-		 docletPath="D:\language\Java\java2rose"/>
+                 packagenames="${packageNames}"
+                 version="no"
+                 author="no"
+                 doclet="JP.co.esm.caddies.doclets.RedDoclet"
+                 docletPath="D:\language\Java\java2rose"/>
     </target>
 
     <!--
-	Dependency Finder
+        Dependency Finder
     -->
 
     <!-- "docletPath" does not work in this version of Ant. -->
     <target name="listdocumentedelements" depends="init">
         <javadoc packagenames="${packageNames}"
-		 version="no"
-		 author="no"
-		 maxmemory="128m">
-	    <sourcepath path="src"/>
-	    <classpath refid="libs"/>
-	    <doclet name="com.jeantessier.diff.ListDocumentedElements"
-		    path="${classesDir}">
-		<param name="-tag" value="level"/>
-		<param name="-invalid" value="developer"/>
-		<param name="-out" value="df.txt"/>
-	    </doclet>
-	</javadoc>
+                 version="no"
+                 author="no"
+                 maxmemory="128m">
+            <sourcepath path="src"/>
+            <classpath refid="libs"/>
+            <doclet name="com.jeantessier.diff.ListDocumentedElements"
+                    path="${classesDir}">
+                <param name="-tag" value="level"/>
+                <param name="-invalid" value="developer"/>
+                <param name="-out" value="df.txt"/>
+            </doclet>
+        </javadoc>
     </target>
 
     <target name="extract" depends="jar">
-	<taskdef name="extractor" classname="com.jeantessier.dependencyfinder.ant.DependencyExtractor">
-	    <classpath>
-		<path refid="libs"/>
-		<pathelement location="${srcDir}"/>
-	    </classpath>
-	</taskdef>
-	<extractor xml="yes" destfile="${release}.xml">
-	    <path>
-		<pathelement location="${jarFile}"/>
-	    </path>
-	</extractor>
-	<xslt style="etc/DependenciesToHTML.xsl" in="${release}.xml" out="${release}.html"/>
+        <taskdef name="extractor" classname="com.jeantessier.dependencyfinder.ant.DependencyExtractor">
+            <classpath>
+                <path refid="libs"/>
+                <pathelement location="${srcDir}"/>
+            </classpath>
+        </taskdef>
+        <extractor xml="yes" destfile="${release}.xml">
+            <path>
+                <pathelement location="${jarFile}"/>
+            </path>
+        </extractor>
+        <xslt style="etc/DependenciesToHTML.xsl" in="${release}.xml" out="${release}.html"/>
     </target>
 
     <!--
-	Cleaning up
+        Cleaning up
     -->
 
     <target name="clearlogs" depends="init">
         <delete verbose="true">
-	    <fileset dir=".">
-		<patternset>
-		    <include name="**/*.log"/>
-		</patternset>
-	    </fileset>
-	</delete>
+            <fileset dir=".">
+                <patternset>
+                    <include name="**/*.log"/>
+                </patternset>
+            </fileset>
+        </delete>
         <delete dir="${logsDir}" verbose="true"/>
     </target>
 
     <target name="clean" depends="init">
         <delete dir="${classesDir}"
-	        includeEmptyDirs="true"
-		verbose="true"/>
+                includeEmptyDirs="true"
+                verbose="true"/>
+        <delete dir="${reportsDir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
         <delete verbose="true">
-	    <fileset dir="." defaultexcludes="no">
-		<patternset>
-		    <include name="**/*~"/>
-		    <include name="**/*.bak"/>
-		    <include name="**/*.class"/>
-		</patternset>
-	    </fileset>
-	</delete>
-	<ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
+            <fileset dir="." defaultexcludes="no">
+                <patternset>
+                    <include name="**/*~"/>
+                    <include name="**/*.bak"/>
+                    <include name="**/*.class"/>
+                </patternset>
+            </fileset>
+        </delete>
+        <ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
     </target>
 
     <target name="cleandocs" depends="init">
         <delete dir="${apiDir}"
-		includeEmptyDirs="true"
-	        verbose="true"/>
+                includeEmptyDirs="true"
+                verbose="true"/>
         <delete verbose="true">
-	    <fileset dir="docs">
-		<patternset>
-		    <include name="**/*.html"/>
-		    <exclude name="index.html"/>
-		    <exclude name="Menu.html"/>
-		    <exclude name="Title.html"/>
-		    <exclude name="tasks/**"/>
-		</patternset>
-	    </fileset>
-	</delete>
+            <fileset dir="docs">
+                <patternset>
+                    <include name="**/*.html"/>
+                    <exclude name="index.html"/>
+                    <exclude name="Menu.html"/>
+                    <exclude name="Title.html"/>
+                    <exclude name="tasks/**"/>
+                </patternset>
+            </fileset>
+        </delete>
         <delete verbose="true">
-	    <fileset dir=".">
-		<patternset>
-		    <include name="**/*.red"/>
-		</patternset>
-	    </fileset>
-	</delete>
+            <fileset dir=".">
+                <patternset>
+                    <include name="**/*.red"/>
+                </patternset>
+            </fileset>
+        </delete>
     </target>
 
     <target name="cleanbin" depends="init">
-	<exec executable="perl"
-	      dir="${binDir}">
-	    <arg value="ScriptGenerator.pl"/>
-	    <arg value="-c"/>
-	    <arg value="-v"/>
-	</exec>
+        <exec executable="perl"
+              dir="${binDir}">
+            <arg value="ScriptGenerator.pl"/>
+            <arg value="-c"/>
+            <arg value="-v"/>
+        </exec>
     </target>
 
     <target name="realclean" depends="clearlogs, cleandocs, cleanbin, clean"
-	    description="Removes all produced files">
-	<delete file="${jarFile}"/>
+            description="Removes all produced files">
+        <delete file="${jarFile}"/>
     </target>
 
     <!--
-	CVS
+        CVS
     -->
 
     <target name="report.last" depends="init"
             description="CVSDiff from previous full release until last full release">
-	<cvstagdiff cvsroot="${cvsroot}"
-		    package="DependencyFinder"
-		    startTag="release-${previous.release.tag}"
-		    endTag="release-${last.release.tag}"
-		    destFile="${previous.release}-${last.release}.xml"/>
-	<style in="${previous.release}-${last.release}.xml"
-	       out="${previous.release}-${last.release}.html"
-	       style="${ant.home}/etc/tagdiff.xsl">
-	    <param name="title"  expression="Dependency Finder"/>
-	    <param name="module" expression="${cvsmodule}"/>
-	    <param name="cvsweb" expression="${cvsweb}"/>
-	</style>
+        <cvstagdiff cvsroot="${cvsroot}"
+                    package="DependencyFinder"
+                    startTag="release-${previous.release.tag}"
+                    endTag="release-${last.release.tag}"
+                    destFile="${previous.release}-${last.release}.xml"/>
+        <style in="${previous.release}-${last.release}.xml"
+               out="${previous.release}-${last.release}.html"
+               style="${ant.home}/etc/tagdiff.xsl">
+            <param name="title"  expression="Dependency Finder"/>
+            <param name="module" expression="${cvsmodule}"/>
+            <param name="cvsweb" expression="${cvsweb}"/>
+        </style>
     </target>
 
     <target name="report.current" depends="init"
             description="CVSDiff from last beta release until now">
-	<cvstagdiff cvsroot="${cvsroot}"
-		    package="DependencyFinder"
-		    startTag="release-${last.release.tag}"
-		    endDate="${NOW_CVS}"
-		    destFile="${last.release}-now.xml"/>
-	<style in="${last.release}-now.xml"
-	       out="${last.release}-now.html"
-	       style="${ant.home}/etc/tagdiff.xsl">
-	    <param name="title"  expression="Dependency Finder"/>
-	    <param name="module" expression="${cvsmodule}"/>
-	    <param name="cvsweb" expression="${cvsweb}"/>
-	</style>
+        <cvstagdiff cvsroot="${cvsroot}"
+                    package="DependencyFinder"
+                    startTag="release-${last.release.tag}"
+                    endDate="${NOW_CVS}"
+                    destFile="${last.release}-now.xml"/>
+        <style in="${last.release}-now.xml"
+               out="${last.release}-now.html"
+               style="${ant.home}/etc/tagdiff.xsl">
+            <param name="title"  expression="Dependency Finder"/>
+            <param name="module" expression="${cvsmodule}"/>
+            <param name="cvsweb" expression="${cvsweb}"/>
+        </style>
     </target>
 
     <target name="report.cumulative" depends="init"
             description="CVSDiff from last full release until now">
-	<cvstagdiff cvsroot="${cvsroot}"
-		    package="DependencyFinder"
-		    startTag="release-${last.full.release.tag}"
-		    endDate="${NOW_CVS}"
-		    destFile="${last.full.release}-now.xml"/>
-	<style in="${last.full.release}-now.xml"
-	       out="${last.full.release}-now.html"
-	       style="${ant.home}/etc/tagdiff.xsl">
-	    <param name="title"  expression="Dependency Finder"/>
-	    <param name="module" expression="${cvsmodule}"/>
-	    <param name="cvsweb" expression="${cvsweb}"/>
-	</style>
+        <cvstagdiff cvsroot="${cvsroot}"
+                    package="DependencyFinder"
+                    startTag="release-${last.full.release.tag}"
+                    endDate="${NOW_CVS}"
+                    destFile="${last.full.release}-now.xml"/>
+        <style in="${last.full.release}-now.xml"
+               out="${last.full.release}-now.html"
+               style="${ant.home}/etc/tagdiff.xsl">
+            <param name="title"  expression="Dependency Finder"/>
+            <param name="module" expression="${cvsmodule}"/>
+            <param name="cvsweb" expression="${cvsweb}"/>
+        </style>
     </target>
 
     <target name="reports" depends="report.current, report.cumulative"
