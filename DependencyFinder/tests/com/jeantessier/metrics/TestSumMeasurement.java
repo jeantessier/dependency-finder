@@ -35,6 +35,8 @@ package com.jeantessier.metrics;
 import junit.framework.*;
 
 public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
+	private MeasurementDescriptor descriptor;
+	private Metrics metrics;
 	private SumMeasurement measurement;
 	private Measurement visited;
 	
@@ -43,15 +45,15 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	protected void setUp() {
-		measurement = new SumMeasurement(null, null, null);
-	}
-
-	public void testMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("FOO");
 		descriptor.Class(SumMeasurement.class);
+		
+		metrics = new Metrics("foobar");
+	}
 
+	public void testMeasurementDescriptor() throws Exception {
 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement.Descriptor());
@@ -61,11 +63,6 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("FOO");
-		descriptor.Class(SumMeasurement.class);
-
 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
@@ -77,14 +74,12 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testCreateDefault() {
+		measurement = new SumMeasurement(null, null,  null);
+		
 		assertEquals(0, measurement.doubleValue(), 0.01);
 	}
 
 	public void testEmptyInitText() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("FOO");
-		descriptor.Class(SumMeasurement.class);
 		descriptor.InitText("");
 
 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
@@ -93,10 +88,6 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testConstant() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("FOO");
-		descriptor.Class(SumMeasurement.class);
 		descriptor.InitText("2");
 
 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
@@ -105,10 +96,6 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testAddition() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("FOO");
-		descriptor.Class(SumMeasurement.class);
 		descriptor.InitText("1\n1");
 
 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
@@ -117,10 +104,6 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testNegative() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("FOO");
-		descriptor.Class(SumMeasurement.class);
 		descriptor.InitText("-2");
 
 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
@@ -129,10 +112,6 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testSubstraction() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("FOO");
-		descriptor.Class(SumMeasurement.class);
 		descriptor.InitText("2\n-1");
 
 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
@@ -147,13 +126,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testSubMeasurement() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("FOO");
-		descriptor.Class(SumMeasurement.class);
 		descriptor.InitText("bar");
 
-		Metrics metrics = new Metrics("foobar");
 		metrics.Track("bar", new CounterMeasurement(null, metrics, "2"));
 		
 		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
@@ -161,128 +135,128 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		assertEquals(2, measurement.doubleValue(), 0.01);
 	}
 
-// 	public void testAddObject() {
-// 		Object o1 = new Object();
-// 		Object o2 = new Object();
+	public void testAddMeasurements() throws Exception {
+		descriptor.InitText("bar\nbaz");
 
-// 		assertEquals("zero", 0, measurement.intValue());
-// 		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
-// 		assertEquals("zero", 0, measurement.Value().intValue());
+		metrics.Track("bar", new CounterMeasurement(null, metrics, "1"));
+		metrics.Track("baz", new CounterMeasurement(null, metrics, "1"));
 
-// 		measurement.Add(o1);
-// 		assertEquals("one", 1, measurement.intValue());
-// 		assertEquals("one", 1.0, measurement.doubleValue(), 0.01);
-// 		assertEquals("one", 1, measurement.Value().intValue());
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
 
-// 		measurement.Add(o2);
-// 		assertEquals("two", 2, measurement.intValue());
-// 		assertEquals("two", 2.0, measurement.doubleValue(), 0.01);
-// 		assertEquals("two", 2, measurement.Value().intValue());
+		assertEquals(2, measurement.doubleValue(), 0.01);
+	}
 
-// 		measurement.Add(o1);
-// 		assertEquals("three", 2, measurement.intValue());
-// 		assertEquals("three", 2.0, measurement.doubleValue(), 0.01);
-// 		assertEquals("three", 2, measurement.Value().intValue());
-// 	}
+	public void testSubstractMeasurements() throws Exception {
+		descriptor.InitText("bar\n-baz");
 
-// 	public void testInUndefinedRange() {
-// 		assertTrue(measurement.InRange());
+		metrics.Track("bar", new CounterMeasurement(null, metrics, "1"));
+		metrics.Track("baz", new CounterMeasurement(null, metrics, "2"));
 
-// 		measurement.Add(new Object());
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+
+		assertEquals(-1, measurement.doubleValue(), 0.01);
+	}
+
+	public void testInUndefinedRange() throws Exception {
+		descriptor.InitText("bar");
+
+		metrics.Track("bar", new CounterMeasurement(null, null, null));
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+
+		assertTrue(measurement.InRange());
+
+		metrics.AddToMeasurement("bar", 1);
 		
-// 		assertTrue(measurement.InRange());
+		assertTrue(measurement.InRange());
 
-// 		measurement.Add(new Object());
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 
-// 		assertTrue(measurement.InRange());
-// 	}
+		assertTrue(measurement.InRange());
+	}
 
-// 	public void testInOpenRange() throws Exception {
-// 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-// 		descriptor.ShortName("foo");
-// 		descriptor.LongName("FOO");
-// 		descriptor.Class(SumMeasurement.class);
+	public void testInOpenRange() throws Exception {
+		descriptor.InitText("bar");
 
-// 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		metrics.Track("bar", new CounterMeasurement(null, null, null));
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
 		
-// 		assertTrue(measurement.InRange());
+		assertTrue(measurement.InRange());
 
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 		
-// 		assertTrue(measurement.InRange());
+		assertTrue(measurement.InRange());
 
-// 		measurement.Add(new Object());
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 
-// 		assertTrue(measurement.InRange());
-// 	}
+		assertTrue(measurement.InRange());
+	}
 
-// 	public void testInLowerBoundRange() throws Exception {
-// 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-// 		descriptor.ShortName("foo");
-// 		descriptor.LongName("FOO");
-// 		descriptor.Class(SumMeasurement.class);
-// 		descriptor.LowerThreshold(new Integer(1));
+	public void testInLowerBoundRange() throws Exception {
+		descriptor.InitText("bar");
+		descriptor.LowerThreshold(new Integer(1));
 
-// 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		metrics.Track("bar", new CounterMeasurement(null, null, null));
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
 		
-// 		assertTrue(!measurement.InRange());
+		assertEquals(0, measurement.intValue());
+		assertTrue(!measurement.InRange());
 
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 		
-// 		assertTrue(measurement.InRange());
+		assertEquals(1, measurement.intValue());
+		assertTrue(measurement.InRange());
 
-// 		measurement.Add(new Object());
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 		
-// 		assertTrue(measurement.InRange());
-// 	}
+		assertEquals(2, measurement.intValue());
+		assertTrue(measurement.InRange());
+	}
 
-// 	public void testInUpperBoundRange() throws Exception {
-// 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-// 		descriptor.ShortName("foo");
-// 		descriptor.LongName("FOO");
-// 		descriptor.Class(SumMeasurement.class);
-// 		descriptor.UpperThreshold(new Float(1.5));
+	public void testInUpperBoundRange() throws Exception {
+		descriptor.InitText("bar");
+		descriptor.UpperThreshold(new Float(1.5));
 
-// 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		metrics.Track("bar", new CounterMeasurement(null, null, null));
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
 		
-// 		assertTrue(measurement.InRange());
+		assertTrue(measurement.InRange());
 
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 		
-// 		assertTrue(measurement.InRange());
+		assertTrue(measurement.InRange());
 
-// 		measurement.Add(new Object());
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 		
-// 		assertTrue(!measurement.InRange());
-// 	}
+		assertTrue(!measurement.InRange());
+	}
 
-// 	public void testInBoundRange() throws Exception {
-// 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-// 		descriptor.ShortName("foo");
-// 		descriptor.LongName("FOO");
-// 		descriptor.Class(SumMeasurement.class);
-// 		descriptor.LowerThreshold(new Integer(1));
-// 		descriptor.UpperThreshold(new Float(1.5));
+	public void testInBoundRange() throws Exception {
+		descriptor.InitText("bar");
+		descriptor.LowerThreshold(new Integer(1));
+		descriptor.UpperThreshold(new Float(1.5));
 
-// 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+		metrics.Track("bar", new CounterMeasurement(null, null, null));
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
 		
-// 		assertTrue(!measurement.InRange());
+		assertTrue(!measurement.InRange());
 
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 		
-// 		assertTrue(measurement.InRange());
+		assertTrue(measurement.InRange());
 
-// 		measurement.Add(new Object());
-// 		measurement.Add(new Object());
+		metrics.AddToMeasurement("bar", 1);
 		
-// 		assertTrue(!measurement.InRange());
-// 	}
+		assertTrue(!measurement.InRange());
+	}
 	
 	public void testAccept() {
+		measurement = new SumMeasurement(null, null, null);
+
 		visited = null;
 		measurement.Accept(this);
 		assertSame(measurement, visited);
