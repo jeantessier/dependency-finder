@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="'2003-04-03 12:35:38'" >
+<tagdiff startTag="release-20030101" endDate="'2003-04-26 01:08:24'" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -269,14 +269,14 @@
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.26</revision>
+			<revision>1.29</revision>
 			<prevrevision>1.15</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/Menu.html</name>
-			<revision>1.3</revision>
+			<revision>1.4</revision>
 		</file>
 	</entry>
 	<entry>
@@ -288,7 +288,7 @@
 	<entry>
 		<file>
 			<name>docs/Tools.txt</name>
-			<revision>1.16</revision>
+			<revision>1.21</revision>
 			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
@@ -314,6 +314,26 @@
 		<file>
 			<name>docs/images/ClassPackageDependencies.test.jpg</name>
 			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/Compiling.gif</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/CompleteList.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/CompleteListOfDocumentedElements.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -401,6 +421,20 @@
 	</entry>
 	<entry>
 		<file>
+			<name>docs/images/ExtractingDifferences.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ExtractingDifferencesAndDocumentationChanges.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/images/Filter.gif</name>
 			<revision>1.3</revision>
 			<prevrevision>1.2</prevrevision>
@@ -419,6 +453,27 @@
 	<entry>
 		<file>
 			<name>docs/images/HighlightedScopeCriteria.jpg</name>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ListDiff.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ListDiff2HTML.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ListDocumentedElements.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -478,6 +533,20 @@
 		<file>
 			<name>docs/images/PackagePackageDependencies.test.jpg</name>
 			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/PublicList.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/PublicListOfDocumentedElements.gif</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -598,24 +667,66 @@
 	<entry>
 		<file>
 			<name>docs/tasks/Menu.html</name>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/classmetrics.html</name>
 			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
+			<name>docs/tasks/definitions.html</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/dependencyclosure.html</name>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/tasks/dependencyextractor.html</name>
+			<revision>1.3</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/dependencymetrics.html</name>
 			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/tasks/dependencyreporter.html</name>
-			<revision>1.1</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/tasks/index.html</name>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/jarjardiff.html</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/listdiff.html</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/oometrics.html</name>
 			<revision>1.1</revision>
 		</file>
 	</entry>
@@ -713,6 +824,13 @@
 			<name>etc/MetricsConfig.xml</name>
 			<revision>1.14</revision>
 			<prevrevision>1.13</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>etc/PublishedDiffToHTML.xsl</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -1497,31 +1615,31 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java</name>
-			<revision>1.2</revision>
-		</file>
-	</entry>
-	<entry>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java</name>
-			<revision>1.2</revision>
-		</file>
-	</entry>
-	<entry>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java</name>
 			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java</name>
+			<revision>1.3</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java</name>
+			<revision>1.4</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java</name>
-			<revision>1.4</revision>
+			<revision>1.5</revision>
 		</file>
 	</entry>
 	<entry>
@@ -1533,19 +1651,19 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/JarJarDiff.java</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/ListDiff.java</name>
-			<revision>1.1</revision>
+			<revision>1.2</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/OOMetrics.java</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2306,21 +2424,21 @@
 	<entry>
 		<file>
 			<name>web/advancedclosure.jsp</name>
-			<revision>1.11</revision>
+			<revision>1.12</revision>
 			<prevrevision>1.8</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>web/advancedquery.jsp</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>web/closure.jsp</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>

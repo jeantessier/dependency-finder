@@ -918,14 +918,14 @@ Here is a sample textual output:
 
 <pre>
     ClassReader classes\test.class
-    1: Method java/lang/Object.<init>()V
+    1: Method java/lang/Object.&lt;init&gt;()V
     2: Class java/lang/Object
     3: Method java/util/Collections.singleton(Ljava/lang/Object;)Ljava/util/Set;
     4: Class java/lang/NullPointerException
     5: Field Ljava/io/PrintStream; java/lang/System.out
     6: Method java/io/PrintStream.println(Ljava/lang/Object;)V
     7: Class test
-    8: "<init>"
+    8: "&lt;init&gt;"
     9: "()V"
     10: "Code"
     11: "LineNumberTable"
@@ -942,7 +942,7 @@ Here is a sample textual output:
     22: "Ljava/lang/NullPointerException;"
     23: "SourceFile"
     24: "test.java"
-    25: Name and Type <init> ()V
+    25: Name and Type &lt;init&gt; ()V
     26: "java/lang/Object"
     27: Class java/util/Collections
     28: Name and Type singleton (Ljava/lang/Object;)Ljava/util/Set;
@@ -7923,6 +7923,7 @@ Lists programming elements that are part of the published documentation.
         [-out filename]
         -tag name
         [-valid value]*
+	[param ...]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -8029,6 +8030,12 @@ part of the published documentation.
 All other switches and parameters are passed to <code>javadoc</code>.
 </p>
 
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
 </blockquote>
 
 <a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -8060,7 +8067,22 @@ further restrain the report and limit it to the published API.
 <blockquote>
 
 <pre>
-    ListDocumentableElements -tag level -valid publicAPI -out list.txt
+    ListDocumentableElements -tag level -valid published -out documented_elements.txt
+</pre>
+
+<p>
+or, with Ant:
+</p>
+
+<pre>
+    &lt;javadoc&gt;
+        &lt;doclet name="com.jeantessier.diff.ListDocumentedElements"
+                path="${classesDir}"&gt;
+            &lt;param name="-tag" value="level"/&gt;
+            &lt;param name="-valid" value="published"/&gt;
+            &lt;param name="-out" value="documented_elements.txt"/&gt;
+        &lt;/doclet&gt;
+    &lt;/javadoc&gt;
 </pre>
 
 </blockquote>

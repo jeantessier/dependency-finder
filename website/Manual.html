@@ -50,6 +50,7 @@ by Jean Tessier
 </ul>
 <li><a href="#RunningDependencyFinder">Running Dependency Finder</a></li>
 <ul>
+<li><a href="#EquivalenceTable">Equivalence Table</a></li>
 <li><a href="#GUI">GUI</a></li>
 <li><a href="#CLI">CLI</a></li>
 <li><a href="#Ant">Ant</a></li>
@@ -590,40 +591,561 @@ We will start with the GUI-based tools, and then talk about the CLI-based
 tools and end with the Ant tasks.
 </p>
 
-<p>
-All the tools support the following two command-line switches:
-</p>
+<a name="EquivalenceTable" />
+<h3>Equivalence Table</h3>
 
-<blockquote>
-<table border="0"
+<table border="3"
        cellpadding="5">
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    <code>-help</code>
+	<th>
+	    CLI
+	</th>
+	<th>
+	    Ant
+	</th>
+	<th>
+	    GUI
+	</th>
+	<th>
+	    Web 
+	</th>
+    </tr>
+    <tr>
+	<td>
+	    <code>ClassDump</code>
 	</td>
 	<td>
-	    Prints the list of valid command-line switches for that
-	    particular tool.
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
 	</td>
     </tr>
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    <code>-verbose [filename]</code>
+	<td>
+	    <code>ClassList</code>
 	</td>
 	<td>
-	    Writes summary processing information to <i>filename</i>.  If you do
-	    not specify a file, the tool will write the information to the
-	    standard output stream.
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ClassMetrics</code>
+	</td>
+	<td>
+	    <code>&lt;classmetrics&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ClassReader</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ClosureToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ClosureToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependablesToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependablesToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependablesToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependablesToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependenciesToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependenciesToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependenciesToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependenciesToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependencyClosure</code>
+	</td>
+	<td>
+	    <code>&lt;dependencyclosure&gt;</code>
+	</td>
+	<td>
+	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Closure
+	</td>
+	<td>
+	    <code>closure.jsp</code> &amp; <code>advancedclosure.jsp</code>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependencyExtractor</code>
+	</td>
+	<td>
+	    <code>&lt;dependencyextractor&gt;</code>
+	</td>
+	<td>
+	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Extract
+	</td>
+	<td>
+	    <code>extract.jsp</code>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependencyFinder</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependencyMetrics</code>
+	</td>
+	<td>
+	    <code>&lt;dependencymetrics&gt;</code>
+	</td>
+	<td>
+	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Metrics
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependencyReporter</code>
+	</td>
+	<td>
+	    <code>&lt;dependencyreporter&gt;</code>
+	</td>
+	<td>
+	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependentsToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependentsToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependentsToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependentsToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DiffToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DiffToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>JarJarDiff</code>
+	</td>
+	<td>
+	    <code>&lt;jarjardiff&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListDependablesToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDependablesToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListDependablesToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDependablesToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListDependentsToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDependentsToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListDependentsToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDependentsToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListDiff</code>
+	</td>
+	<td>
+	    <code>&lt;listdiff&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListDiffToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDiffToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListDiffToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDiffToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListDocumentedElements</code>
+	</td>
+	<td>
+	    <pre>&lt;javadoc&gt;
+    &lt;doclet name="com.jeantessier.diff.ListDocumentedElements"
+	    path="${classesDir}"&gt;
+	&lt;param name="-tag" value="level"/&gt;
+	&lt;param name="-valid" value="published"/&gt;
+	&lt;param name="-out" value="documented_elements.txt"/&gt;
+    &lt;/doclet&gt;
+&lt;/javadoc&gt;</pre>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListInheritanceDiffToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListInheritanceDiffToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>ListUnused</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListUnused.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>OOMetrics</code>
+	</td>
+	<td>
+	    <code>&lt;oometrics&gt;</code>
+	</td>
+	<td>
+	    <code>OOMetricsGUI</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>PublishedDiffToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>XSLTProcess</code>
+	</td>
+	<td>
+	    <code>&lt;xslt&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>c2c</code>
+	</td>
+	<td>
+	    <code>&lt;dependencyreporter c2c="yes"&gt;</code>
+	</td>
+	<td>
+	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>c2p</code>
+	</td>
+	<td>
+	    <code>&lt;dependencyreporter c2p="yes"&gt;</code>
+	</td>
+	<td>
+	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>f2f</code>
+	</td>
+	<td>
+	    <code>&lt;dependencyreporter f2f="yes"&gt;</code>
+	</td>
+	<td>
+	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>p2p</code>
+	</td>
+	<td>
+	    <code>&lt;dependencyreporter p2p="yes"&gt;</code>
+	</td>
+	<td>
+	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
 	</td>
     </tr>
 </table>
-</blockquote>
+
+<a name="GUI" />
+<h3>GUI</h3>
 
 <p>
-Many of the tools also support some or all of the following three
-command-line switches:
+The main tool is <code>DependencyFinder</code>.  It extracts dependencies from
+compiled code, maintains the dependency graph in memory, and provides
+an interface for querying the graph and display the results.
+</p>
+
+<div align="center">
+    <a href="images/DependencyFinder.query.jpg"><img src="images/s_DependencyFinder.query.jpg" /></a><br />
+<b>DependencyFinder</b>
+</div>
+
+<p>
+The other tool computes metrics on a given codebase.  It displays
+results in a table with sortable columns.  Different tabs control the
+level of detail: package, class, or method.
+</p>
+
+<div align="center">
+    <a href="images/OOMetricsGUI.sample.jpg"><img src="images/s_OOMetricsGUI.sample.jpg" /></a><br />
+<b>OOMetricsGUI</b>
+</div>
+
+<a name="CLI" />
+<h3>CLI</h3>
+
+<div align="center">
+    <img src="images/Flow.gif" /><br />
+<b>Document Flow</b>
+</div>
+
+<p>
+All the tools support <code>-help</code> command-line switch, which prints the list of
+valid command-line switches for that particular tool.  Many of the tools also
+support some or all of the following four command-line switches:
 </p>
 
 <blockquote>
@@ -662,41 +1184,19 @@ command-line switches:
 	    can help you plan lenghty operations in the future.
 	</td>
     </tr>
+    <tr>
+	<td valign="top"
+	    nowrap="true">
+	    <code>-verbose [filename]</code>
+	</td>
+	<td>
+	    Writes summary processing information to <i>filename</i>.  If you do
+	    not specify a file, the tool will write the information to the
+	    standard output stream.
+	</td>
+    </tr>
 </table>
 </blockquote>
-
-<a name="GUI" />
-<h3>GUI</h3>
-
-<p>
-The main tool is <code>DependencyFinder</code>.  It extracts dependencies from
-compiled code, maintains the dependency graph in memory, and provides
-an interface for querying the graph and display the results.
-</p>
-
-<div align="center">
-    <a href="images/DependencyFinder.query.jpg"><img src="images/s_DependencyFinder.query.jpg" /></a><br />
-<b>DependencyFinder</b>
-</div>
-
-<p>
-The other tool computes metrics on a given codebase.  It displays
-results in a table with sortable columns.  Different tabs control the
-level of detail: package, class, or method.
-</p>
-
-<div align="center">
-    <a href="images/OOMetricsGUI.sample.jpg"><img src="images/s_OOMetricsGUI.sample.jpg" /></a><br />
-<b>OOMetricsGUI</b>
-</div>
-
-<a name="CLI" />
-<h3>CLI</h3>
-
-<div align="center">
-    <img src="images/Flow.gif" /><br />
-<b>Document Flow</b>
-</div>
 
 <a name="Ant" />
 <h3>Ant</h3>
@@ -2842,6 +3342,25 @@ way you decide that is.
 <h4>Extracting With the CLI</h4>
 
 <p>
+Typically, you compile Java source files to <code>.class</code> files and javadocs.
+You may even combine the <code>.class</code> files into one or more JAR files.  From
+source code in <code>.java</code> files, you can use <code>javadoc</code> to generate HTML
+documentation or you can use <code>javac</code>/<code>jar</code> to generate executable code in JAR
+files.
+</p>
+
+<div align="center">
+    <img src="images/Compiling.gif" /><br />
+<b>Compilation Workflow</b>
+</div>
+
+<p>
+The tools in Dependency Finder work from the executable code, either in
+JAR files or in individual <code>.class</code> files; they do not work from either the
+source code or the generated javadoc.
+</p>
+
+<p>
 You use <code>JarJarDiff</code> to extract API differences.  The following command
 computes the API differences between versions <i>Old</i> and <i>New</i> of
 <i>My Project</i>.  The differences are saved as an XML document in the file
@@ -2980,17 +3499,21 @@ of the previous <code>JarJarDiff</code> command.
 <h4>Filtering</h4>
 
 <p>
+<code>ListDocumentedElements</code> is a Java doclet that can list all packages, classes,
+interfaces, fields, constructors, and methods in a given set of Java source
+files.  You can run this tool on the "old version" source files to get the list
+of everything in it (old list), and on the "new version" to get the list of
+everything in the "new version" (new list).  All you have left to do is compare
+the two lists, either yourself or with the <code>ListDiff</code> tool.  This will show you
+the names of all the additions and removals between the two versions.
+</p>
+
+<p>
 You can also limit the reporting to specific programming elements that have
-been earmarked using special javadoc tags.
-</p>
-
-<p>
-You get the list of earmarked elements by running a specialized doclet.
-</p>
-
-<p>
-The following commands run this doclet on the old as well as the new
-codebases, saving the results in individual text files.
+been earmarked using special javadoc tags.  You get the list of earmarked
+elements with <code>ListDocumentedElements</code>.  The following commands run this doclet
+on the old as well as the new codebases, saving the results in individual text
+files.
 </p>
 
 <p>
