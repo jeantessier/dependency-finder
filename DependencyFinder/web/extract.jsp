@@ -54,17 +54,15 @@
 
 		if (previous_ratio != new_ratio) {
 		    if (new_ratio < 10) {
-			out.print("(" + new_ratio + "%)   ");
-		    } else if (new_ratio < 100) {
-			out.print("(" + new_ratio + "%)  ");
-		    } else {
-			out.print("(" + new_ratio + "%) ");
+			out.print(" ");
 		    }
-		} else {
-		    out.print("       ");
+		    if (new_ratio < 100) {
+			out.print(" ");
+		    }
+		    out.print(new_ratio + "%");
 		}
 
-		out.println("Getting dependencies from " + event.Classfile() + " ...");
+		out.println("\tGetting dependencies from " + event.Classfile() + " ...");
 	    } catch (IOException ex) {
 		// Do nothing
 	    }
