@@ -1,5 +1,9 @@
 <project name="DependencyFinder" default="compiletestsdebug" basedir=".">
 
+    <description>
+	Dependency Finder, JarJarDiff, and OOMetrics
+    </description>
+
     <patternset id="all.sources">
 	<include name="**/*.java"/>
     </patternset>
@@ -46,7 +50,8 @@
 	<mkdir dir="${logsDir}"/>
     </target>
 
-    <target name="compile" depends="init">
+    <target name="compile" depends="init"
+	    description="Compiles all classes">
         <javac destdir="${classesDir}">
 	    <src path="${srcDir}"/>
 	    <classpath refid="libs"/>
@@ -54,12 +59,14 @@
         </javac>
     </target>
 
-    <target name="compiletests" depends="compile">
+    <target name="compiletests" depends="compile"
+	    description="Compiles all classes and JUnit tests">
         <javac destdir="${classesDir}" excludes="JarJarDiff/**">
 	    <src path="${testsDir}"/>
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
+	<ant dir="tests/JarJarDiff" inheritAll="false"/>
     </target>
 
     <target name="deprecation" depends="init">
@@ -70,7 +77,8 @@
         </javac>
     </target>
 
-    <target name="compiledebug" depends="init">
+    <target name="compiledebug" depends="init"
+	    description="Compiles all classes with debug flags">
         <javac destdir="${classesDir}" debug="on">
 	    <src path="${srcDir}"/>
 	    <classpath refid="libs"/>
@@ -78,12 +86,14 @@
         </javac>
     </target>
 
-    <target name="compiletestsdebug" depends="compiledebug">
+    <target name="compiletestsdebug" depends="compiledebug"
+	    description="Compiles all classes and JUnit tests with debug flags (default)">
         <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on">
 	    <src path="${testsDir}"/>
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
+	<ant dir="tests/JarJarDiff" inheritAll="false"/>
     </target>
 
     <target name="jar" depends="compile">
@@ -93,7 +103,8 @@
 	</jar>
     </target>
 
-    <target name="war" depends="jar">
+    <target name="war" depends="jar"
+	    description="Compiles and builds the web application archive">
         <jar jarfile="${warFile}">
 	    <zipfileset dir="${webDir}"
 	                prefix=""
@@ -132,7 +143,8 @@
 	</junit>
     </target>
 
-    <target name="src" depends="init">
+    <target name="src" depends="init"
+	    description="Builds the source code archive">
         <zip zipfile="${zipFile}">
 	    <zipfileset dir="."
 			prefix="${ant.project.name}">
@@ -152,7 +164,8 @@
 	</zip>
     </target>
 
-    <target name="dist" depends="jar">
+    <target name="dist" depends="jar"
+	    description="Compiles and builds the binary distribution">
         <zip zipfile="${distFile}">
 	    <zipfileset dir="." prefix="${ant.project.name}">
 		<patternset>
@@ -191,7 +204,8 @@
 	</ftp>
     </target>
 
-    <target name="docs" depends="init">
+    <target name="docs" depends="init"
+	    description="Builds the API documentation">
         <javadoc packagenames="${packageNames}"
 		 destdir="${apiDir}"
 		 author="no"
@@ -291,6 +305,7 @@
 		</patternset>
 	    </fileset>
 	</delete>
+	<ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
     </target>
 
     <target name="cleandocs" depends="init">
@@ -306,7 +321,8 @@
 	</delete>
     </target>
 
-    <target name="realclean" depends="clearlogs, cleandocs, clean">
+    <target name="realclean" depends="clearlogs, cleandocs, clean"
+	    description="Removes all produced files">
 	<delete file="${jarFile}"/>
     </target>
 
