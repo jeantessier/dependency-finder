@@ -217,7 +217,7 @@ an interface for querying the graph and display the results.
 
 <div align="center">
     [[images/DependencyFinder.jpg][images/s_DependencyFinder.jpg]]
-*Extract Dialog*
+*DependencyFinder*
 </div>
 
 The other tool computes metrics on a given codebase.  It displays
@@ -226,7 +226,7 @@ level of detail: package, class, or method.
 
 <div align="center">
     [[images/OOMetricsGUI.jpg][images/s_OOMetricsGUI.jpg]]
-*Extract Dialog*
+*OOMetricsGUI*
 </div>
 
 ---+++ CLI
@@ -566,7 +566,7 @@ E.g.,
 	    *=/^abc/=*
 	</td>
 	<td>
-	    Matches starting with "=abc=" in it.
+	    Matches anything starting with "=abc=" in it.
 	</td>
     </tr>
     <tr>
