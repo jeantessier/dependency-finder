@@ -11,8 +11,43 @@
 
 <pre>
 
+<%!
+    private class MyListener implements LoadListener {
+	private JspWriter out;
+
+	private int count = 0;
+	
+	public MyListener(JspWriter out) {
+	    this.out = out;
+	}
+	
+	public int Count() {
+	    return count;
+	}
+	
+	public void LoadStart(LoadEvent event) {
+	    // Do nothing
+	}
+	public void LoadElement(LoadEvent event) {
+	    // Do nothing
+	}
+	public void LoadedClassfile(LoadEvent event) {
+	    try {
+		out.println("    Getting dependencies from " + event.Classfile() + " ...");
+	    } catch (IOException ex) {
+		// Do nothing
+	    }
+	    count++;
+	}
+	public void LoadStop(LoadEvent event) {
+	    // Do nothing
+	}
+    }
+%>
+
 <%
     Date start = new Date();
+    MyListener listener = new MyListener(out);
 
     Perl5Util perl = new Perl5Util();
 
@@ -23,6 +58,7 @@
     CodeDependencyCollector collector = new CodeDependencyCollector(factory);
 
     ClassfileLoader loader = new TransientClassfileLoader();
+    loader.addLoadListener(listener);
     loader.addLoadListener(collector);
 		
     Iterator i = sources.iterator();
@@ -57,10 +93,21 @@
 
     application.setAttribute("factory", factory);
 
-    Date stop = new Date();
+    Date   stop  = new Date();
+    double delta = (stop.getTime() - start.getTime()) / (double) 1000;
 
     out.println();
-    out.println(((stop.getTime() - start.getTime()) / (double) 1000) + " secs.");
+    switch (listener.Count()) {
+	case 0:
+	    out.println("Processed nothing in " + delta + " secs.");
+	    break;
+	case 1:
+	    out.println("Processed 1 class in " + delta + " secs.");
+	    break;
+	default:
+	    out.println("Processed " + listener.Count() + " classes in " + delta + " secs.");
+	    break;
+    }
 %>
 
 </pre>
