@@ -51,8 +51,18 @@ coupling within an application or library.
 ---+++ Metrics
 
 Object-oriented metrics help assess the quality of a piece of software.
+You can use them to verify that your architecture evolves in the right
+direction, from version to version.  You can also use them to spot
+deviations from your quality guidelines, such as methods that are too
+long or have too many parameters.
 
 ---+++ API Differences
+
+If you are developing some kind of library or framework, that is,
+software that will be used and/or extended by others, you need to know
+what changed from version to version.  The =JarJarDiff= tool can
+compute differences automatically, so you can quickly know what you
+might have broken in your customer's code.
 
 ----
 
@@ -114,14 +124,105 @@ environment variable.
 
 ---++ Running Dependency Finder
 
----+++ Dependency Finder
+Once you have installed Dependency Finder, you are ready to use all the
+tools now at your disposal.  All of them are Java applications that you
+launch using a batch file or shell script.
+
+We will start with the GUI-based tools, and then talk about the CLI-based
+tools.
+
+All the tools support the following three command-line switches:
+
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    =-help=
+	</td>
+	<td>
+	    Prints the list of valid command-line switches for that
+	    particular tool.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    =-trace [filename]=
+	</td>
+	<td>
+	    Writes _very_ detailed processing information to _filename_.
+	    If you do not specify a file, the tool will write the
+	    information to the standard output stream.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    =-verbose [filename]=
+	</td>
+	<td>
+	    Writes summary processing information to _filename_.
+	    If you do not specify a file, the tool will write the
+	    information to the standard output stream.
+	</td>
+    </tr>
+</table>
+</blockquote>
+
+Many of the tools also support some or all of the following three
+command-line switches:
+
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    =-in=
+	</td>
+	<td>
+	    Many of the CLI tools are automated translation of XML data
+	    into either HTML or plain text.  The scripts have hard-coded
+	    XSL stylesheets.  You specify the XML input with this switch.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    =-out filename=
+	</td>
+	<td>
+	    Writes the output of the command to _filename_.  Most
+	    commands default to the standard output if you do not
+	    use =-out=.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    =-time=
+	</td>
+	<td>
+	    Prints the time it took to run the command.  If you run
+	    commands against a large codebase or dependency graph,
+	    it can take a substantial amount of time before it returns.
+	    This information can help you plan lenghty operations in
+	    the future.
+	</td>
+    </tr>
+</table>
+</blockquote>
+
+---+++ GUI
+
+The main tool is =DependencyFinder=.  It extracts dependencies from
+compiled code, maintains the dependency graph in memory, and provides
+an interface for querying the graph and display the results.
 
 <div align="center">
     [[images/DependencyFinder.jpg][images/s_DependencyFinder.jpg]]
 *Extract Dialog*
 </div>
 
----+++ OOMetricsGUI
+The other tool computes metrics on a given codebase.  It displays
+results in a table with sortable columns.  Different tabs control the
+level of detail: package, class, or method.
 
 <div align="center">
     [[images/OOMetricsGUI.jpg][images/s_OOMetricsGUI.jpg]]
@@ -422,7 +523,7 @@ that can replace multiple switches.
 
 E.g.,
 
-    C:\>DependencyReporter -pacakge-scope  \
+    C:\>DependencyReporter -package-scope  \
                            -class-scope    \
                            -feature-scope
 
@@ -430,6 +531,56 @@ E.g.,
 
 The selective graph copier uses Perl regular expressions to select scope
 nodes and filtered dependencies.
+
+E.g.,
+
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    *=//=*
+	</td>
+	<td>
+	    Matches everything.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=/abc/=*
+	</td>
+	<td>
+	    Matches anything with "=abc=" in it.  Case-sensitive.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=/abc/i=*
+	</td>
+	<td>
+	    Matches anything with "=abc=" in it.  Case-insensitive.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=/^abc/=*
+	</td>
+	<td>
+	    Matches starting with "=abc=" in it.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=/abc\(/=*
+	</td>
+	<td>
+	    Matches anything with "=abc(=" in it.  Parentheses are
+	    special characters in Perl regular expressions and must be
+	    escaped with a backslash "\" character.
+	</td>
+    </tr>
+</table>
+</blockquote>
 
 ---++++ Textual Output
 
@@ -445,6 +596,11 @@ The stylesheets include:
     * ListDependablesToText.xsl
     * ListDependentsToText.xsl
 
+You can run them using the script of the same name and the =-in= and
+=-out= switches.  The scripts call =XSLTProcess= and specify the XSL
+stylesheet with the =-xsl= switch.  You can do the same, if you want,
+with either our stylesheets or your own.
+
 ---++++ HTML Output
 
 Dependency Finder includes XSL stylesheets for representing a dependency
@@ -459,6 +615,11 @@ The stylesheets include:
     * DependentsToHTML.xsl
     * ListDependablesToHTML.xsl
     * ListDependentsToHTML.xsl
+
+You can run them using the script of the same name and the =-in= and
+=-out= switches.  The scripts call =XSLTProcess= and specify the XSL
+stylesheet with the =-xsl= switch.  You can do the same, if you want,
+with either our stylesheets or your own.
 
 ---+++ Transitive Closure
 ---+++ Dependency Metrics
@@ -477,6 +638,27 @@ The stylesheets include:
 ---++ API Differences
 ---+++ Explanation
 ---+++ Extracting
+
+You use =JarJarDiff= to extract API differences.
+
+You use =-old= switches to tell it where the _old_, or base version is
+located.  Each =-old= switch can point to either a JAR file, a Zip file,
+or a directory that will be searched for =.class= files.  You can
+specify a label for the version with the =-old-label= switch.  If you
+do not provide a label, the tool with create one by concatenating the
+parameters to =-old= switches.
+
+You use =-new= switches to tell it where the _new_, or modified version
+is located.  Each =-new= switch can point to either a JAR file, a Zip
+file, or a directory that will be searched for =.class= files.  You can
+specify a label for the version with the =-new-label= switch.  If you
+do not provide a label, the tool with create one by concatenating the
+parameters to =-new= switches.
+
+By default, the raw results in XML are written to the standard output
+stream (i.e., =System.out=).  You can write it to a file by using the
+=-out= switch.
+
 ---+++ Reporting
 ---++++ Textual Output
 ---++++ HTML Output
@@ -487,6 +669,11 @@ using HTML.  The stylesheets include:
     * DiffToExternalHTML.xsl
     * DiffToHTML.xsl
     * DiffToInternalHTML.xsl
+
+You can run them using the script of the same name and the =-in= and
+=-out= switches.  The scripts call =XSLTProcess= and specify the XSL
+stylesheet with the =-xsl= switch.  You can do the same, if you want,
+with either our stylesheets or your own.
 
 ---++++ Filtering
 
