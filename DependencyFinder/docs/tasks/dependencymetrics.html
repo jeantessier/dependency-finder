@@ -24,6 +24,17 @@ can give you a rough idea of the complexity of a given codebase, but it is
 not as powerful as the metrics computed by
 <code><a target="_top" href="../Tools.html#OOmetrics">OOMetrics</a></code>.</p>
 
+<p>Refer to the <a target="_top" href="../Manual.html#Reporting">Reporting</a>
+section of the manual for an explanation of the various <code>scope</code> and
+<code>filter</code> attributes.  Basically, scoping refers to the selection of
+nodes from the source graph that will make up the basis for the graph used in
+the computations.  Filtering refers to the selection of links to or from the
+nodes in the scope and copying them to the internal graph.</p>
+
+<p>The <code>filterexcludes</code> attribute is where you typically filter out 
+large swaths of links that you do not want in the report, such as 
+"<code>/^java.*/,/^org.*/</code>".</p>
+
 <h3>Parameters</h3>
 
 <table border="1" cellpadding="2" cellspacing="0">
@@ -40,7 +51,7 @@ not as powerful as the metrics computed by
   <tr>
     <td valign="top">validate</td>
     <td valign="top">validate the input XML against its DTD.</td>
-    <td valign="top" align="center">No</td>
+    <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
     <td valign="top">destfile</td>

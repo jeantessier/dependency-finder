@@ -28,6 +28,16 @@ upstream, along inbound dependencies, with <code>maximuminbounddepth</code>.
 By default, the tool will go as far as possible along outbound dependencies
 without visiting any element twice.</p>
 
+<p>Refer to the <a target="_top" href="../Manual.html#Reporting">Reporting</a>
+section of the manual for an explanation of the various <code>scope</code> and
+<code>filter</code> attributes.  Basically, scoping refers to the selection of
+nodes from the source graph that will make up the starting point.  Filtering
+refers to the selection of links to follow when determining the closure.</p>
+
+<p>The <code>filterexcludes</code> attribute is where you typically filter out 
+large swaths of links that you do not want in the report, such as 
+"<code>/^java.*/,/^org.*/</code>".</p>
+
 <p>One limitation: the graph must be maximized for anything other than
 feature-to-feature queries.  Because of a limitation in the closure
 computation, it does not detect implicit dependencies and only follows
@@ -57,7 +67,7 @@ DTD.</p>
   <tr>
     <td valign="top">validate</td>
     <td valign="top">validate the input XML against its DTD.</td>
-    <td valign="top" align="center">No</td>
+    <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
     <td valign="top">destfile</td>
@@ -252,14 +262,14 @@ DTD.</p>
     <td valign="top">writes the dependency graph as serialized Java
     objects.  <strong>At this time, Dependency Finder cannot deserialize
     a saved graph, so this switch is pretty useless.</strong></td>
-    <td valign="top" align="center">No</td>
+    <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
     <td valign="top">xml</td>
     <td valign="top">writes the dependency graph as an XML document with the
     <code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code>
     DTD.</td>
-    <td valign="top" align="center">No</td>
+    <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
     <td valign="top">encoding</td>
@@ -271,12 +281,12 @@ DTD.</p>
     <td valign="top">dtdprefix</td>
     <td valign="top">prefix of the DTD URL for the XML output document.
     Only useful with <code>xml</code>.</td>
-    <td align="center" valign="top">No</td>
+    <td align="center" valign="top">No; defaults to "http://depfind.sourceforge.net/dtd".</td>
   </tr>
   <tr>
     <td valign="top">indenttext</td>
     <td valign="top">used for each indentation level in textual and XML output.</td>
-    <td align="center" valign="top">No</td>
+    <td align="center" valign="top">No; defaults to "&nbsp;&nbsp;&nbsp;&nbsp;" (4 spaces).</td>
   </tr>
   <tr>
     <td valign="top">maximuminbounddepth</td>

@@ -24,6 +24,21 @@ the graph as text or HTML for human reading.</p>
 across them to generate an aggregated result.  With sufficiently wide criteria,
 you can use this tool to combine multiple graphs into one.</p>
 
+<p>Refer to the <a target="_top" href="../Manual.html#Reporting">Reporting</a>
+section of the manual for an explanation of the various <code>scope</code> and
+<code>filter</code> attributes.  Basically, scoping refers to the selection of
+nodes from the source graph that will make up the basis for the resulting graph.
+Filtering refers to the selection of links to or from the nodes in the scope.</p>
+
+<p>In practical terms, you use scoping to zero in on the set of elements that
+you are interested in tracing dependencies to or from.  You then filter in or
+out the dependencies stemming (whether inbound or outbound) from the scoped
+nodes.</p>
+
+<p>The <code>filterexcludes</code> attribute is where you typically filter out 
+large swaths of links that you do not want in the report, such as 
+"<code>/^java.*/,/^org.*/</code>".</p>
+
 <p>With the <code>serialize</code> attribute, it serializes the entire
 dependency graph with Java serialization.</p>
 
@@ -48,7 +63,7 @@ DTD.</p>
   <tr>
     <td valign="top">validate</td>
     <td valign="top">validate the input XML against its DTD.</td>
-    <td valign="top" align="center">No</td>
+    <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
     <td valign="top">destfile</td>
@@ -243,14 +258,14 @@ DTD.</p>
     <td valign="top">writes the dependency graph as serialized Java
     objects.  <strong>At this time, Dependency Finder cannot deserialize
     a saved graph, so this switch is pretty useless.</strong></td>
-    <td valign="top" align="center">No</td>
+    <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
     <td valign="top">xml</td>
     <td valign="top">writes the dependency graph as an XML document with the
     <code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code>
     DTD.</td>
-    <td valign="top" align="center">No</td>
+    <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
     <td valign="top">encoding</td>
@@ -262,22 +277,22 @@ DTD.</p>
     <td valign="top">dtdprefix</td>
     <td valign="top">prefix of the DTD URL for the XML output document.
     Only useful with <code>xml</code>.</td>
-    <td align="center" valign="top">No</td>
+    <td align="center" valign="top">No; defaults to "http://depfind.sourceforge.net/dtd".</td>
   </tr>
   <tr>
     <td valign="top">indenttext</td>
     <td valign="top">used for each indentation level in textual and XML output.</td>
-    <td align="center" valign="top">No</td>
+    <td align="center" valign="top">No; defaults to "&nbsp;&nbsp;&nbsp;&nbsp;" (4 spaces).</td>
   </tr>
   <tr>
     <td valign="top">minimize</td>
     <td valign="top">minimizes the dependency graph before outputing it.</td>
-    <td align="center" valign="top">No</td>
+    <td align="center" valign="top">No; defaults to false.</td>
   </tr>
   <tr>
     <td valign="top">maximize</td>
     <td valign="top">maximizes the dependency graph before outputing it.</td>
-    <td align="center" valign="top">No</td>
+    <td align="center" valign="top">No; defaults to false.</td>
   </tr>
 </table>
 
