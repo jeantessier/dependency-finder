@@ -18,6 +18,21 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	October 21, 2003
+    </dt>
+    <dd>
+	<p>Fixed progress bar notification in GUI.  It had trouble dealing with
+	the processing of nested groups and was getting off track.  In doing
+	so, I ended up renaming events under <code>DependencyListener</code>
+	and <code>MetricsListener</code> from <code>StartX()</code> and
+	<code>StopX()</code> to <code>BeginX()</code> and <code> EndX()</code>
+	respectively.  This way, all events follow the same convention.  It
+	could impact people who developed on top of Dependency Finder, I'll
+	see if it causes an uproar.  They should be able to upgrade by simply
+	renaming their methods and adding empty implementations for the new
+	<code>BeginSession()</code> and <code>EndSession()</code> events.</p>
+    </dd>
+    <dt>
 	October 18, 2003
     </dt>
     <dd>
