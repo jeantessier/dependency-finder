@@ -90,7 +90,6 @@
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
-        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
     </target>
 
     <target name="generatebin" depends="init">
@@ -104,6 +103,11 @@
                  excludes="**/*.*"
                  eol="unix"
 		 eof="remove"/>
+    </target>
+
+    <target name="exec" depends="jar, generatebin"
+	    description="Compiles a version that works inplace">
+        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
     </target>
 
     <target name="tests" depends="compiletests"
