@@ -35,6 +35,8 @@ package com.jeantessier.commandline;
 import java.util.*;
 
 public class CommandLineUsage implements Visitor {
+	private final static String EOL = System.getProperty("line.separator", "\n");
+	
     private String       command;
     private StringBuffer usage   = new StringBuffer();
     private String       switch_name;
@@ -44,7 +46,7 @@ public class CommandLineUsage implements Visitor {
     }
 
     public void Visit(CommandLine command_line) {
-		usage.append("USAGE: ").append(command).append(System.getProperty("line.separator", "\n"));
+		usage.append("USAGE: ").append(command).append(EOL);
 
 		Iterator i = command_line.KnownSwitches().iterator();
 		while (i.hasNext()) {
@@ -58,72 +60,72 @@ public class CommandLineUsage implements Visitor {
 
     public void Visit(ToggleSwitch cls) {
 		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
+			usage.append("       -").append(switch_name).append(" (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		} else {
-			usage.append("       [-").append(switch_name).append("] (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
+			usage.append("       [-").append(switch_name).append("] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		}
     }
 
     public void Visit(SingleValueSwitch cls) {
 		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" value (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
+			usage.append("       -").append(switch_name).append(" value (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		} else {
-			usage.append("       [-").append(switch_name).append(" value] (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
+			usage.append("       [-").append(switch_name).append(" value] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		}
     }
 
     public void Visit(OptionalValueSwitch cls) {
 		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" [value] (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
+			usage.append("       -").append(switch_name).append(" [value] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		} else {
-			usage.append("       [-").append(switch_name).append(" [value]] (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
+			usage.append("       [-").append(switch_name).append(" [value]] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		}
     }
 
     public void Visit(MultipleValuesSwitch cls) {
 		if (cls.Mandatory()) {
-			usage.append("       (-").append(switch_name).append(" value)+ (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
+			usage.append("       (-").append(switch_name).append(" value)+ (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		} else {
-			usage.append("       (-").append(switch_name).append(" value)* (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
+			usage.append("       (-").append(switch_name).append(" value)* (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		}
     }
 
-    public void Visit(NullParameterStrategy ps) {
+    public void Visit(NullParameterStrategy strategy) {
     }
 
-    public void Visit(AnyParameterStrategy ps) {
-		usage.append("       [param ...]").append(System.getProperty("line.separator", "\n"));
+    public void Visit(AnyParameterStrategy strategy) {
+		usage.append("       [param ...]").append(EOL);
     }
 
-    public void Visit(AtLeastParameterStrategy ps) {
-		for (int i=1; i<=ps.NbParameters(); i++) {
-			usage.append("       ").append("param").append(i).append(System.getProperty("line.separator", "\n"));
+    public void Visit(AtLeastParameterStrategy strategy) {
+		for (int i=1; i<=strategy.NbParameters(); i++) {
+			usage.append("       ").append("param").append(i).append(EOL);
 		}
 
-		usage.append("       ...").append(System.getProperty("line.separator", "\n"));
+		usage.append("       ...").append(EOL);
     }
 
-    public void Visit(ExactlyParameterStrategy ps) {
-		for (int i=1; i<=ps.NbParameters(); i++) {
-			usage.append("       ").append("param").append(i).append(System.getProperty("line.separator", "\n"));
+    public void Visit(ExactlyParameterStrategy strategy) {
+		for (int i=1; i<=strategy.NbParameters(); i++) {
+			usage.append("       ").append("param").append(i).append(EOL);
 		}
     }
 
-    public void Visit(AtMostParameterStrategy ps) {
+    public void Visit(AtMostParameterStrategy strategy) {
 		usage.append("       ");
 
-		for (int i=1; i<=ps.NbParameters(); i++) {
+		for (int i=1; i<=strategy.NbParameters(); i++) {
 			usage.append("[param").append(i);
-			if (i < ps.NbParameters()) {
+			if (i < strategy.NbParameters()) {
 				usage.append(" ");
 			}
 		}
 
-		for (int i=1; i<=ps.NbParameters(); i++) {
+		for (int i=1; i<=strategy.NbParameters(); i++) {
 			usage.append("]");
 		}
 
-		usage.append(System.getProperty("line.separator", "\n"));
+		usage.append(EOL);
     }
 
     public String toString() {

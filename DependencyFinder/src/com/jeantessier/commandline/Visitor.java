@@ -40,9 +40,9 @@ public interface Visitor {
     public void Visit(OptionalValueSwitch cls);
     public void Visit(MultipleValuesSwitch cls);
 
-    public void Visit(NullParameterStrategy ps);
-    public void Visit(AnyParameterStrategy ps);
-    public void Visit(AtLeastParameterStrategy ps);
-    public void Visit(ExactlyParameterStrategy ps);
-    public void Visit(AtMostParameterStrategy ps);
+    public void Visit(NullParameterStrategy strategy);
+    public void Visit(AnyParameterStrategy strategy);
+    public void Visit(AtLeastParameterStrategy strategy);
+    public void Visit(ExactlyParameterStrategy strategy);
+    public void Visit(AtMostParameterStrategy strategy);
 }
