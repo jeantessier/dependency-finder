@@ -46,8 +46,6 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	private File[]    files;
 
 	private ClassfileLoader loader;
-	private int             group_size;
-	private int             count;
 
 	public MetricsExtractAction(OOMetrics model) {
 		this.model = model;
@@ -84,6 +82,10 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		while (i.hasNext()) {
 			((Classfile) i.next()).Accept(gatherer);
 		}
+
+		model.ProgressBar().setValue(0);
+		model.ProgressBar().setStringPainted(false);
+		model.ProgressBar().setIndeterminate(true);
 		
 		model.StatusLine().ShowInfo("Generating method results ...");
 		model.MethodsModel().Metrics(model.MetricsFactory().MethodMetrics());
@@ -102,6 +104,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		Date stop = new Date();
 		
 		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+		model.ProgressBar().setIndeterminate(false);
 		model.setTitle("OO Metrics - Extractor");
 	}
 	
@@ -110,26 +113,23 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	}
 	
 	public void BeginGroup(LoadEvent event) {
-		group_size = 2 * event.Size();
-		count = 0;
+		model.ProgressBar().setMaximum(2 * event.Size());
+		model.ProgressBar().setValue(0);
+		model.ProgressBar().setStringPainted(true);
 		
-		model.StatusLine().ShowInfo("Loading " + event.Filename() + " (" + group_size + " classes) ...");
+		model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 	}
 	
 	public void BeginClassfile(LoadEvent event) {
-		count++;
-
-	    int ratio = count * 100 / group_size;
-		
 		if (event.Element() == null) {
-			model.StatusLine().ShowInfo("(" + ratio + "%) Loading " + event.Filename() + " ...");
+			model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 		} else {
-			model.StatusLine().ShowInfo("(" + ratio + "%) Loading " + event.Filename() + " >> " + event.Element() + " ...");
+			model.StatusLine().ShowInfo("Loading " + event.Filename() + " >> " + event.Element() + " ...");
 		}
 	}
 	
 	public void EndClassfile(LoadEvent event) {
-		// Do nothing
+		model.ProgressBar().setValue(model.ProgressBar().getValue() + 1);
 	}
 	
 	public void EndGroup(LoadEvent event) {
@@ -141,9 +141,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	}
 
 	public void StartClass(MetricsEvent event) {
-		count++;
-		
-		model.StatusLine().ShowInfo("(" + (count * 100 / group_size) + "%) Computing metrics for " + event.Classfile() + " ...");
+		model.StatusLine().ShowInfo("Computing metrics for " + event.Classfile() + " ...");
 	}
 
 	public void StartMethod(MetricsEvent event) {
@@ -155,6 +153,6 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	}
 
 	public void StopClass(MetricsEvent event) {
-		// Do nothing
+		model.ProgressBar().setValue(model.ProgressBar().getValue() + 1);
 	}
 }

@@ -38,6 +38,7 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.table.*;
 import javax.swing.text.*;
 
@@ -58,13 +59,14 @@ public class OOMetrics extends JFrame {
 
 	private MetricsFactory factory;
 	
-	private JMenuBar            menu_bar      = new JMenuBar();
-	private JMenu               file_menu     = new JMenu();
-	private JToolBar            toolbar       = new JToolBar();
-	private JTextArea           project_area  = new JTextArea();
-	private JButton             filter_button = new JButton("Filter:");
-	private JTextField          filter_field  = new JTextField("//");
-	private StatusLine          status_line   = new StatusLine(420);
+	private JMenuBar     menu_bar      = new JMenuBar();
+	private JMenu        file_menu     = new JMenu();
+	private JToolBar     toolbar       = new JToolBar();
+	private JTextArea    project_area  = new JTextArea();
+	private JButton      filter_button = new JButton("Filter:");
+	private JTextField   filter_field  = new JTextField("//");
+	private StatusLine   status_line   = new StatusLine(420);
+	private JProgressBar progress_bar  = new JProgressBar();
 
 	private OOMetricsTableModel groups_model;
 	private OOMetricsTableModel classes_model;
@@ -135,6 +137,10 @@ public class OOMetrics extends JFrame {
 	
 	StatusLine StatusLine() {
 		return status_line;
+	}
+		
+	JProgressBar ProgressBar() {
+		return progress_bar;
 	}
 	
 	private void BuildMenus() {
@@ -258,7 +264,18 @@ public class OOMetrics extends JFrame {
 	}
 
 	private JComponent BuildStatusPanel() {
-		return StatusLine();
+		JPanel result = new JPanel();
+
+		Dimension size = ProgressBar().getPreferredSize();
+		size.width = 100;
+		ProgressBar().setPreferredSize(size);
+		ProgressBar().setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		
+		result.setLayout(new BorderLayout());
+		result.add(StatusLine(),  BorderLayout.CENTER);
+		result.add(ProgressBar(), BorderLayout.EAST);
+		
+		return result;
 	}
 
 	public static void Log(Logger logger, String filename) throws IOException {

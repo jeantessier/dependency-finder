@@ -76,9 +76,13 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 
 			NodeLoader loader = new NodeLoader();
 			loader.addDependencyListener(this);
+
+			model.ProgressBar().setIndeterminate(true);
 			
 			model.StatusLine().ShowInfo("Loading " + filename + " ...");
-			model.NodeFactory(loader.Load(filename));
+			ProgressMonitorInputStream in = new ProgressMonitorInputStream(model, "Reading " + filename, new FileInputStream(filename));
+			in.getProgressMonitor().setMillisToDecideToPopup(0);
+			model.NodeFactory(loader.Load(in));
 			model.setTitle("Dependency Finder - " + filename);
 			
 			model.StatusLine().ShowInfo("Maximizing ...");
@@ -93,6 +97,8 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 		} catch (IOException ex) {
 			model.StatusLine().ShowError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());
 		} finally {
+			model.ProgressBar().setIndeterminate(false);
+			
 			if (model.Packages() == null) {
 				model.setTitle("Dependency Finder");
 			}

@@ -46,8 +46,6 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	private File[]           files;
 
 	private ClassfileLoader loader;
-	private int             group_size;
-	private int             count;
 
 	public DependencyExtractAction(DependencyFinder model) {
 		this.model = model;
@@ -99,30 +97,28 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	}
 
 	public void BeginGroup(LoadEvent event) {
-		group_size = event.Size();
-		count = 0;
+		model.ProgressBar().setMaximum(event.Size());
+		model.ProgressBar().setValue(0);
+		model.ProgressBar().setStringPainted(true);
 		
-		model.StatusLine().ShowInfo("Loading " + event.Filename() + " (" + group_size + " classes) ...");
+		model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 	}
 
 	public void BeginClassfile(LoadEvent event) {
-		count++;
-
-	    int ratio = count * 100 / group_size;
-		
 		if (event.Element() == null) {
-			model.StatusLine().ShowInfo("(" + ratio + "%) Loading " + event.Filename() + " ...");
+			model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 		} else {
-			model.StatusLine().ShowInfo("(" + ratio + "%) Loading " + event.Filename() + " >> " + event.Element() + " ...");
+			model.StatusLine().ShowInfo("Loading " + event.Filename() + " >> " + event.Element() + " ...");
 		}
 	}
 
 	public void EndClassfile(LoadEvent event) {
-		// Do nothing
+		model.ProgressBar().setValue(model.ProgressBar().getValue() + 1);
 	}
 
 	public void EndGroup(LoadEvent event) {
-		// Do nothing
+		model.ProgressBar().setValue(0);
+		model.ProgressBar().setStringPainted(false);
 	}
 
 	public void EndSession(LoadEvent event) {

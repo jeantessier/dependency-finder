@@ -38,6 +38,7 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 
 import org.apache.log4j.*;
 
@@ -68,6 +69,7 @@ public class DependencyFinder extends JFrame {
 	private JTextArea         metrics_result_area      = new JTextArea();
 	private MetricsTableModel metrics_chart_model      = new MetricsTableModel();
 	private StatusLine        status_line              = new StatusLine(420);
+	private JProgressBar      progress_bar             = new JProgressBar();
 
 	private File        input_file   = new File(".");
 	private NodeFactory node_factory = null;
@@ -196,7 +198,11 @@ public class DependencyFinder extends JFrame {
 	StatusLine StatusLine() {
 		return status_line;
 	}
-	
+		
+	JProgressBar ProgressBar() {
+		return progress_bar;
+	}
+
 	private void BuildMenus(CommandLine command_line) {
 		BuildFileMenu(command_line);
 		BuildViewMenu(command_line);
@@ -960,7 +966,18 @@ public class DependencyFinder extends JFrame {
 	}
 	
 	private JComponent BuildStatusPanel() {
-		return StatusLine();
+		JPanel result = new JPanel();
+
+		Dimension size = ProgressBar().getPreferredSize();
+		size.width = 100;
+		ProgressBar().setPreferredSize(size);
+		ProgressBar().setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		
+		result.setLayout(new BorderLayout());
+		result.add(StatusLine(),  BorderLayout.CENTER);
+		result.add(ProgressBar(), BorderLayout.EAST);
+		
+		return result;
 	}
 	
 	public void ResetQuery() {
