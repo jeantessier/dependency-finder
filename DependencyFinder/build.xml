@@ -275,7 +275,7 @@
 		</patternset>
 	    </fileset>
 	</delete>
-        <delete dir="logs" verbose="true"/>
+        <delete dir="${logsDir}" verbose="true"/>
     </target>
 
     <target name="clean" depends="init">
