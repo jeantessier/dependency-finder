@@ -53,9 +53,17 @@ public class MetricsFactory {
 		this.project_name  = project_name;
 		this.configuration = configuration;
 	}
+
+	public String ProjectName() {
+		return project_name;
+	}
+
+	public MetricsConfiguration Configuration() {
+		return configuration;
+	}
 	
 	public Metrics CreateProjectMetrics() {
-		return CreateProjectMetrics(project_name);
+		return CreateProjectMetrics(ProjectName());
 	}
 	
 	public Metrics CreateProjectMetrics(String name) {
@@ -72,7 +80,7 @@ public class MetricsFactory {
 	private Metrics BuildProjectMetrics(String name) {
 		Metrics result = new Metrics(name);
 
-		PopulateMetrics(result, configuration.ProjectMeasurements());
+		PopulateMetrics(result, Configuration().ProjectMeasurements());
 		
 		return result;
 	}
@@ -101,7 +109,7 @@ public class MetricsFactory {
 		Metrics result          = new Metrics(project_metrics, name);
 		project_metrics.AddSubMetrics(result);
 
-		PopulateMetrics(result, configuration.GroupMeasurements());
+		PopulateMetrics(result, Configuration().GroupMeasurements());
 
 		return result;
 	}
@@ -135,12 +143,12 @@ public class MetricsFactory {
 		Metrics result          = new Metrics(package_metrics, name);
 		package_metrics.AddSubMetrics(result);
 
-		Iterator i = configuration.Groups(name).iterator();
+		Iterator i = Configuration().Groups(name).iterator();
 		while (i.hasNext()) {
 			CreateGroupMetrics((String) i.next()).AddSubMetrics(result);
 		}
 		
-		PopulateMetrics(result, configuration.ClassMeasurements());
+		PopulateMetrics(result, Configuration().ClassMeasurements());
 
 		return result;
 	}
@@ -175,7 +183,7 @@ public class MetricsFactory {
 		Metrics result        = new Metrics(class_metrics, name);
 		class_metrics.AddSubMetrics(result);
 
-		PopulateMetrics(result, configuration.MethodMeasurements());
+		PopulateMetrics(result, Configuration().MethodMeasurements());
 
 		return result;
 	}
@@ -209,7 +217,7 @@ public class MetricsFactory {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		result.append("Factory for project \"").append(project_name).append("\"").append(System.getProperty("line.separator", "\n"));
+		result.append("Factory for project \"").append(ProjectName()).append("\"").append(System.getProperty("line.separator", "\n"));
 
 		Iterator i;
 		

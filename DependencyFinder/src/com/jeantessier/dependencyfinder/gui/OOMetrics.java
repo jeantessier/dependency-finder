@@ -60,13 +60,14 @@ public class OOMetrics extends JFrame {
 	private JMenu               file_menu     = new JMenu();
 	private JToolBar            toolbar       = new JToolBar();
 	private JTextArea           project_area  = new JTextArea();
-	private OOMetricsTableModel groups_model  = new OOMetricsTableModel();
-	private OOMetricsTableModel classes_model = new OOMetricsTableModel();
-	private OOMetricsTableModel methods_model = new OOMetricsTableModel();
 	private JButton             filter_button = new JButton("Filter:");
 	private JTextField          filter_field  = new JTextField("//");
 	private StatusLine          status_line   = new StatusLine(420);
 
+	private OOMetricsTableModel groups_model;
+	private OOMetricsTableModel classes_model;
+	private OOMetricsTableModel methods_model;
+	
 	private File input_file = new File(".");
 
 	public OOMetrics(MetricsFactory factory) {
@@ -81,6 +82,10 @@ public class OOMetrics extends JFrame {
 				}
 			});
 
+		groups_model  = new OOMetricsTableModel(factory.Configuration().GroupMeasurements());
+		classes_model = new OOMetricsTableModel(factory.Configuration().ClassMeasurements());
+		methods_model = new OOMetricsTableModel(factory.Configuration().MethodMeasurements());
+		
 		BuildMenus();
 		BuildUI();
 

@@ -73,7 +73,7 @@ public class XMLPrinter extends Printer {
 		if (classfile.IsPublic())     Indent().Append("<public/>").EOL();
 		if (classfile.IsFinal())      Indent().Append("<final/>").EOL();
 		if (classfile.IsSuper())      Indent().Append("<super/>").EOL();
-		if (classfile.IsInterface())  Indent().Append("<interface/>").EOL();
+		if (classfile.IsInterface())  Indent().Append("<is-interface/>").EOL();
 		if (classfile.IsAbstract())   Indent().Append("<abstract/>").EOL();
 
 		Indent();
@@ -568,7 +568,7 @@ public class XMLPrinter extends Printer {
 		if (helper.IsPrivate())   Indent().Append("<private/>").EOL();
 		if (helper.IsStatic())    Indent().Append("<static/>").EOL();
 		if (helper.IsFinal())     Indent().Append("<final/>").EOL();
-		if (helper.IsInterface()) Indent().Append("<interface/>").EOL();
+		if (helper.IsInterface()) Indent().Append("<is-interface/>").EOL();
 		if (helper.IsAbstract())  Indent().Append("<abstract/>").EOL();
 
 		Indent();

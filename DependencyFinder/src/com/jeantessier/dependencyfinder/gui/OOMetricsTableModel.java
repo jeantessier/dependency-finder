@@ -50,15 +50,18 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	private static final Integer LOCAL_DISPOSE_MAXIMUM        = new Integer(StatisticalMeasurement.DISPOSE_MAXIMUM);
 	private static final Integer LOCAL_DISPOSE_SUM            = new Integer(StatisticalMeasurement.DISPOSE_SUM);
 	private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS = new Integer(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS);
-	
+
+	private List              descriptors;
 	private List              metrics_list;
 	
-	private String            metric_names[];
+	private String            measurement_names[];
 	private int               metric_dispose[];
 	private Object            metric_values[][];
 	private MetricsComparator comparator        = new MetricsComparator("name");
 
-	public OOMetricsTableModel() {
+	public OOMetricsTableModel(List descriptors) {
+		this.descriptors = descriptors;
+		
 		BuildMetricNames();
 		BuildMetricValues();
 	}
@@ -67,12 +70,9 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		this.metrics_list = new ArrayList(metrics_list);
 		
 		if (metrics_list.isEmpty()) {
-			BuildMetricNames();
 			BuildMetricValues();
 		} else {
 			Collections.sort(this.metrics_list, comparator);
-
-			BuildMetricNames((Metrics) this.metrics_list.get(0));
 			BuildMetricValues(this.metrics_list);
 		}
 		
@@ -100,42 +100,36 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		
 		fireTableDataChanged();
 	}
-	
+
 	private void BuildMetricNames() {
-		metric_names   = new String[0];
-		metric_dispose = new int[0];
-	}
-	
-	private void BuildMetricNames(Metrics metrics) {
 		List names  = new LinkedList();
 		names.add("name");
 
 		List dispose = new LinkedList();
 		dispose.add(LOCAL_DISPOSE_IGNORE);
 
-		Iterator i = metrics.MeasurementNames().iterator();
+		Iterator i = descriptors.iterator();
 		while (i.hasNext()) {
-			String metric_name = (String) i.next();
-			Measurement metric = metrics.Measurement(metric_name);
+			MeasurementDescriptor descriptor  = (MeasurementDescriptor) i.next();
 			
-			if (metric instanceof StatisticalMeasurement) {
-				names.add(metric_name);
+			if (descriptor.Class().equals(StatisticalMeasurement.class)) {
+				names.add(descriptor.ShortName());
 				dispose.add(LOCAL_DISPOSE_MINIMUM);
-				names.add(metric_name);
+				names.add(descriptor.ShortName());
 				dispose.add(LOCAL_DISPOSE_MEDIAN);
-				names.add(metric_name);
+				names.add(descriptor.ShortName());
 				dispose.add(LOCAL_DISPOSE_AVERAGE);
-				names.add(metric_name);
+				names.add(descriptor.ShortName());
 				dispose.add(LOCAL_DISPOSE_MAXIMUM);
-				names.add(metric_name);
+				names.add(descriptor.ShortName());
 				dispose.add(LOCAL_DISPOSE_SUM);
 			} else {
-				names.add(metric_name);
+				names.add(descriptor.ShortName());
 				dispose.add(LOCAL_DISPOSE_IGNORE);
 			}
 		}
 		
-		metric_names = (String[]) names.toArray(new String[0]);
+		measurement_names = (String[]) names.toArray(new String[0]);
 		metric_dispose = new int[dispose.size()];
 		for (int j=0; j<dispose.size(); j++) {
 			metric_dispose[j] = ((Integer) dispose.get(j)).intValue();
@@ -149,40 +143,41 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	private void BuildMetricValues(Collection metrics_list) {
 		List values = new ArrayList(metrics_list.size());
 		
-		Iterator j = metrics_list.iterator();
-		while (j.hasNext()) {
-			Metrics current_metrics = (Metrics) j.next();
+		Iterator i = metrics_list.iterator();
+		while (i.hasNext()) {
+			Metrics current_metrics = (Metrics) i.next();
 			
-			Collection current_values = new ArrayList(metric_names.length);
+			Collection current_values = new ArrayList(measurement_names.length);
 			values.add(current_values);
 			
 			current_values.add(current_metrics.Name());
 			
-			Iterator k = current_metrics.MeasurementNames().iterator();
-			while (k.hasNext()) {
-				Measurement metric = current_metrics.Measurement((String) k.next());
+			Iterator j = descriptors.iterator();
+			while (j.hasNext()) {
+				MeasurementDescriptor descriptor = (MeasurementDescriptor) j.next();
+				Measurement measurement = current_metrics.Measurement(descriptor.ShortName());
 				
-				if (metric instanceof StatisticalMeasurement) {
-					StatisticalMeasurement stats = (StatisticalMeasurement) metric;
+				if (measurement instanceof StatisticalMeasurement) {
+					StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
 					current_values.add(new Double(stats.Minimum()));
 					current_values.add(new Double(stats.Median()));
 					current_values.add(new Double(stats.Average()));
 					current_values.add(new Double(stats.Maximum()));
 					current_values.add(new Double(stats.Sum()));
 				} else {
-					current_values.add(metric.Value());
+					current_values.add(measurement.Value());
 				}
 			}
 		}
 		
 		metric_values = new Object[values.size()][];
-		for (int i=0; i<values.size(); i++) {
-			metric_values[i] = ((Collection) values.get(i)).toArray();
+		for (int j=0; j<values.size(); j++) {
+			metric_values[j] = ((Collection) values.get(j)).toArray();
 		}
 	}
 	
 	public int getColumnCount() {
-		return metric_names.length;
+		return measurement_names.length;
 	}
 
 	public int getRowCount() {
@@ -194,7 +189,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	}
 
 	public String RawColumnName(int column) {
-		return metric_names[column];
+		return measurement_names[column];
 	}
 
 	public int RawColumnDispose(int column) {
