@@ -18,6 +18,39 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	June 02, 2003
+    </dt>
+    <dd>
+	<p>I got a fix for spaces in <code>DEPENDENCYFINDER_HOME</code>.  I
+	have not tested it fully yet, so I need a little more time before I
+	give it my seal of approval.</p>
+
+	<p>Someone mentioned they are running out of memory when extracting
+	dependencies from large JAR files.  This is because the various
+	printers use internal <code>StringBuffer</code> instances that grow as
+	the graph gets rendered.  I need to take one more look at using
+	character streams instead, like I mentioned on March 12th.</p>
+
+	<p>I went ahead and modified
+	<code>com.jeantessier.classreader.Printer</code>,
+	<code>com.jeantessier.dependency.Printer</code>, and
+	<code>com.jeantessier.metrics.Printer</code> to take a
+	<code>java.io.PrintWriter</code> instead of their
+	<code>java.lang.StringBuffer</code>.  The modifications were quite
+	extensive, and <code>com.jeantessier.diff.Printer</code> is still
+	untouched.  It will need more rewriting than I am willing to deal with
+	at this time.</p>
+    </dd>
+    <dt>
+	May 31, 2003
+    </dt>
+    <dd>
+	<p>Someone found a problem with the </code>.bat</code> files.  If
+	<code>DEPENDENCYFINDER_HOME</code> contains any spaces, they don't
+	work.  I need to put quotes arond variable uses in each and every
+	file.</p>
+    </dd>
+    <dt>
 	May 29, 2003
     </dt>
     <dd>
