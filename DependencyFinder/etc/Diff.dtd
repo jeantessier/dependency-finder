@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  --  Dependency Finder - Comparing API differences between JAR files
+  --  Copyright (C) 2001  Jean Tessier
+  --  
+  --  This library is free software; you can redistribute it and/or
+  --  modify it under the terms of the GNU Lesser General Public
+  --  License as published by the Free Software Foundation; either
+  --  version 2.1 of the License, or (at your option) any later version.
+  --  
+  --  This library is distributed in the hope that it will be useful,
+  --  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  --  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  --  Lesser General Public License for more details.
+  --  
+  --  You should have received a copy of the GNU Lesser General Public
+  --  License along with this library; if not, write to the Free Software
+  --  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  -->
+
+<!DOCTYPE differences [
+
+<!ELEMENT differences (old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,modified-interfaces?,modified-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >
+
+<!ELEMENT old (#PCDATA)* >
+
+<!ELEMENT new (#PCDATA)* >
+
+<!ELEMENT removed-packages (name)* >
+
+<!ELEMENT removed-interfaces (name)* >
+
+<!ELEMENT removed-classes (name)* >
+
+<!ELEMENT deprecated-interfaces (name)* >
+
+<!ELEMENT deprecated-classes (name)* >
+
+<!ELEMENT modified-interfaces (class)* >
+
+<!ELEMENT modified-classes (class)* >
+
+<!ELEMENT undeprecated-interfaces (name)* >
+
+<!ELEMENT undeprecated-classes (name)* >
+
+<!ELEMENT new-packages (name)* >
+
+<!ELEMENT new-interfaces (name)* >
+
+<!ELEMENT new-classes (name)* >
+
+<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,modified-fields?,modified-interfaces?,modified-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-interfaces?,new-methods?) >
+<!ATTLIST class
+          visibility (public|package) #IMPLIED
+>
+
+<!ELEMENT name (#PCDATA)* >
+<!ATTLIST name
+          visibility (public|protected|package|private) #IMPLIED
+          static       CDATA #IMPLIED
+          final        CDATA #IMPLIED
+          super        CDATA #IMPLIED
+          synchronized CDATA #IMPLIED
+          volatile     CDATA #IMPLIED
+          transient    CDATA #IMPLIED
+          native       CDATA #IMPLIED
+          interface    CDATA #IMPLIED
+          abstract     CDATA #IMPLIED
+          strict       CDATA #IMPLIED
+          deprecated   CDATA #IMPLIED
+          synthetic    CDATA #IMPLIED
+>
+
+<!ELEMENT modified-declaration (old-declaration,new-declaration) >
+
+<!ELEMENT removed-fields (declaration)* >
+
+<!ELEMENT removed-constructors (declaration)* >
+
+<!ELEMENT removed-methods (declaration)* >
+
+<!ELEMENT deprecated-fields (declaration)* >
+
+<!ELEMENT deprecated-constructors (declaration)* >
+
+<!ELEMENT deprecated-methods (declaration)* >
+
+<!ELEMENT modified-fields (feature)* >
+
+<!ELEMENT modified-constructors (feature)* >
+
+<!ELEMENT modified-methods (feature)* >
+
+<!ELEMENT undeprecated-fields (declaration)* >
+
+<!ELEMENT undeprecated-constructors (declaration)* >
+
+<!ELEMENT undeprecated-methods (declaration)* >
+
+<!ELEMENT new-fields (declaration)* >
+
+<!ELEMENT new-constructors (declaration)* >
+
+<!ELEMENT new-methods (declaration)* >
+
+<!ELEMENT old-declaration (#PCDATA)* >
+<!ATTLIST old-declaration
+          visibility (public|protected|package|private) #IMPLIED
+          static       CDATA #IMPLIED
+          final        CDATA #IMPLIED
+          super        CDATA #IMPLIED
+          synchronized CDATA #IMPLIED
+          volatile     CDATA #IMPLIED
+          transient    CDATA #IMPLIED
+          native       CDATA #IMPLIED
+          interface    CDATA #IMPLIED
+          abstract     CDATA #IMPLIED
+          strict       CDATA #IMPLIED
+          deprecated   CDATA #IMPLIED
+          synthetic    CDATA #IMPLIED
+>
+
+<!ELEMENT new-declaration (#PCDATA)* >
+<!ATTLIST new-declaration
+          visibility (public|protected|package|private) #IMPLIED
+          static       CDATA #IMPLIED
+          final        CDATA #IMPLIED
+          super        CDATA #IMPLIED
+          synchronized CDATA #IMPLIED
+          volatile     CDATA #IMPLIED
+          transient    CDATA #IMPLIED
+          native       CDATA #IMPLIED
+          interface    CDATA #IMPLIED
+          abstract     CDATA #IMPLIED
+          strict       CDATA #IMPLIED
+          deprecated   CDATA #IMPLIED
+          synthetic    CDATA #IMPLIED
+>
+
+<!ELEMENT feature (name,modified-declaration?) >
+<!ATTLIST feature
+          visibility (public|protected|package|private) #IMPLIED
+>
+
+<!ELEMENT declaration (#PCDATA)* >
+<!ATTLIST declaration
+          visibility (public|protected|package|private) #IMPLIED
+          static       CDATA #IMPLIED
+          final        CDATA #IMPLIED
+          super        CDATA #IMPLIED
+          synchronized CDATA #IMPLIED
+          volatile     CDATA #IMPLIED
+          transient    CDATA #IMPLIED
+          native       CDATA #IMPLIED
+          interface    CDATA #IMPLIED
+          abstract     CDATA #IMPLIED
+          strict       CDATA #IMPLIED
+          deprecated   CDATA #IMPLIED
+          synthetic    CDATA #IMPLIED
+          inherited    CDATA #IMPLIED
+>
+
+]>

@@ -1,0 +1,300 @@
+/*
+ *  Dependency Finder - Computes quality factors from compiled Java code
+ *  Copyright (C) 2001  Jean Tessier
+ * 
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ * 
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ * 
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+package com.jeantessier.dependency;
+
+import java.io.*;
+import java.util.*;
+
+import junit.framework.*;
+
+public class TestGraphCopier extends TestCase {
+	SelectiveTraversalStrategy strategy;
+	NodeFactory                factory;
+	
+	Node _package;
+	Node test_class;
+	Node test_main_method;
+	Node test_Test_method;
+		
+	Node java_lang_package;
+	Node java_lang_Object_class;
+	Node java_lang_Object_Object_method;
+	Node java_lang_String_class;
+		
+	Node java_util_package;
+	Node java_util_Collections_class;
+	Node java_util_Collections_singleton_method;
+	
+    GraphCopier copier;
+
+	public TestGraphCopier(String name) {
+		super(name);
+	}
+
+	protected void setUp() throws Exception {
+		strategy = new SelectiveTraversalStrategy();
+		factory = new NodeFactory();
+
+		_package = factory.CreatePackage("");
+		test_class = factory.CreateClass("test");
+		test_main_method = factory.CreateFeature("test.main(String[])");
+		test_Test_method = factory.CreateFeature("test.Test()");
+		
+		java_lang_package = factory.CreatePackage("java.lang");
+		java_lang_Object_class = factory.CreateClass("java.lang.Object");
+		java_lang_Object_Object_method = factory.CreateFeature("java.lang.Object.Object()");
+		java_lang_String_class = factory.CreateClass("java.lang.String");
+		
+		java_util_package = factory.CreatePackage("java.util");
+		java_util_Collections_class = factory.CreateClass("java.util.Collections");
+		java_util_Collections_singleton_method = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
+		
+		test_class.AddDependency(java_lang_Object_class);
+		test_main_method.AddDependency(java_lang_Object_class);
+		test_main_method.AddDependency(java_lang_Object_Object_method);
+		test_main_method.AddDependency(java_lang_String_class);
+		test_main_method.AddDependency(java_util_Collections_singleton_method);
+		test_Test_method.AddDependency(java_lang_Object_Object_method);
+
+		copier = new GraphCopier(strategy);
+	}
+
+	public void testCopyFullGraph() {
+		copier.TraverseNodes(factory.Packages().values());
+
+		assertEquals("Different number of packages",
+					 factory.Packages().size(),
+					 copier.Factory().Packages().size());
+		assertEquals("Different number of classes",
+					 factory.Classes().size(),
+					 copier.Factory().Classes().size());
+		assertEquals("Different number of features",
+					 factory.Features().size(),
+					 copier.Factory().Features().size());
+
+		Iterator i;
+
+		i = factory.Packages().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Packages().get(key), copier.Factory().Packages().get(key));
+			assertTrue(factory.Packages().get(key) != copier.Factory().Packages().get(key));
+			assertEquals(((Node) factory.Packages().get(key)).Inbound().size(),
+						 ((Node) copier.Factory().Packages().get(key)).Inbound().size());
+			assertEquals(((Node) factory.Packages().get(key)).Outbound().size(),
+						 ((Node) copier.Factory().Packages().get(key)).Outbound().size());
+		}
+		
+		i = factory.Classes().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Classes().get(key), copier.Factory().Classes().get(key));
+			assertTrue(factory.Classes().get(key) != copier.Factory().Classes().get(key));
+			assertEquals(((Node) factory.Classes().get(key)).Inbound().size(),
+						 ((Node) copier.Factory().Classes().get(key)).Inbound().size());
+			assertEquals(((Node) factory.Classes().get(key)).Outbound().size(),
+						 ((Node) copier.Factory().Classes().get(key)).Outbound().size());
+		}
+		
+		i = factory.Features().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Features().get(key), copier.Factory().Features().get(key));
+			assertTrue(factory.Features().get(key) != copier.Factory().Features().get(key));
+			assertEquals(((Node) factory.Features().get(key)).Inbound().size(),
+						 ((Node) copier.Factory().Features().get(key)).Inbound().size());
+			assertEquals(((Node) factory.Features().get(key)).Outbound().size(),
+						 ((Node) copier.Factory().Features().get(key)).Outbound().size());
+		}
+	}
+
+	public void testCopyAllNodesOnly() {
+		strategy.PackageFilter(false);
+		strategy.ClassFilter(false);
+		strategy.FeatureFilter(false);
+		
+		copier.TraverseNodes(factory.Packages().values());
+
+		assertEquals("Different number of packages",
+					 factory.Packages().size(),
+					 copier.Factory().Packages().size());
+		assertEquals("Different number of classes",
+					 factory.Classes().size(),
+					 copier.Factory().Classes().size());
+		assertEquals("Different number of features",
+					 factory.Features().size(),
+					 copier.Factory().Features().size());
+
+		Iterator i;
+
+		i = factory.Packages().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Packages().get(key), copier.Factory().Packages().get(key));
+			assertTrue(factory.Packages().get(key) != copier.Factory().Packages().get(key));
+			assertTrue(((Node) copier.Factory().Packages().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Packages().get(key)).Outbound().isEmpty());
+		}
+		
+		i = factory.Classes().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Classes().get(key), copier.Factory().Classes().get(key));
+			assertTrue(factory.Classes().get(key) != copier.Factory().Classes().get(key));
+			assertTrue(((Node) copier.Factory().Classes().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Classes().get(key)).Outbound().isEmpty());
+		}
+		
+		i = factory.Features().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Features().get(key), copier.Factory().Features().get(key));
+			assertTrue(factory.Features().get(key) != copier.Factory().Features().get(key));
+			assertTrue(((Node) copier.Factory().Features().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Features().get(key)).Outbound().isEmpty());
+		}
+	}
+
+	public void testCopyPackageNodesOnly() {
+		strategy.ClassScope(false);
+		strategy.FeatureScope(false);
+		strategy.PackageFilter(false);
+		strategy.ClassFilter(false);
+		strategy.FeatureFilter(false);
+		
+		copier.TraverseNodes(factory.Packages().values());
+
+		assertEquals("Different number of packages",
+					 factory.Packages().size(),
+					 copier.Factory().Packages().size());
+		assertTrue(copier.Factory().Classes().isEmpty());
+		assertTrue(copier.Factory().Features().isEmpty());
+
+		Iterator i;
+
+		i = factory.Packages().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Packages().get(key), copier.Factory().Packages().get(key));
+			assertTrue(factory.Packages().get(key) != copier.Factory().Packages().get(key));
+			assertTrue(((Node) copier.Factory().Packages().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Packages().get(key)).Outbound().isEmpty());
+		}
+	}
+
+	public void testCopyClassNodesOnly() {
+		strategy.PackageScope(false);
+		strategy.FeatureScope(false);
+		strategy.PackageFilter(false);
+		strategy.ClassFilter(false);
+		strategy.FeatureFilter(false);
+		
+		copier.TraverseNodes(factory.Packages().values());
+
+		assertEquals("Different number of packages",
+					 factory.Packages().size(),
+					 copier.Factory().Packages().size());
+		assertEquals("Different number of classes",
+					 factory.Classes().size(),
+					 copier.Factory().Classes().size());
+		assertTrue(copier.Factory().Features().isEmpty());
+
+		Iterator i;
+
+		i = factory.Packages().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Packages().get(key), copier.Factory().Packages().get(key));
+			assertTrue(factory.Packages().get(key) != copier.Factory().Packages().get(key));
+			assertTrue(((Node) copier.Factory().Packages().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Packages().get(key)).Outbound().isEmpty());
+		}
+		
+		i = factory.Classes().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Classes().get(key), copier.Factory().Classes().get(key));
+			assertTrue(factory.Classes().get(key) != copier.Factory().Classes().get(key));
+			assertTrue(((Node) copier.Factory().Classes().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Classes().get(key)).Outbound().isEmpty());
+		}
+	}
+
+	public void testCopyFeatureNodesOnly() {
+		strategy.PackageScope(false);
+		strategy.ClassScope(false);
+		strategy.PackageFilter(false);
+		strategy.ClassFilter(false);
+		strategy.FeatureFilter(false);
+		
+		copier.TraverseNodes(factory.Packages().values());
+
+		assertEquals("Different number of packages",
+					 factory.Packages().size(),
+					 copier.Factory().Packages().size());
+		assertEquals("Different number of classes",
+					 3,
+					 copier.Factory().Classes().size());
+		assertEquals("Different number of features",
+					 factory.Features().size(),
+					 copier.Factory().Features().size());
+
+		Iterator i;
+
+		i = copier.Factory().Packages().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Packages().get(key), copier.Factory().Packages().get(key));
+			assertTrue(factory.Packages().get(key) != copier.Factory().Packages().get(key));
+			assertTrue(((Node) copier.Factory().Packages().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Packages().get(key)).Outbound().isEmpty());
+		}
+		
+		i = copier.Factory().Classes().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Classes().get(key), copier.Factory().Classes().get(key));
+			assertTrue(factory.Classes().get(key) != copier.Factory().Classes().get(key));
+			assertTrue(((Node) copier.Factory().Classes().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Classes().get(key)).Outbound().isEmpty());
+		}
+		
+		i = copier.Factory().Features().keySet().iterator();
+		while(i.hasNext()) {
+			Object key = i.next();
+			assertEquals(factory.Features().get(key), copier.Factory().Features().get(key));
+			assertTrue(factory.Features().get(key) != copier.Factory().Features().get(key));
+			assertTrue(((Node) copier.Factory().Features().get(key)).Inbound().isEmpty());
+			assertTrue(((Node) copier.Factory().Features().get(key)).Outbound().isEmpty());
+		}
+	}
+
+	public void testCopyNothing() {
+		strategy.PackageScope(false);
+		strategy.ClassScope(false);
+		strategy.FeatureScope(false);
+		
+		copier.TraverseNodes(factory.Packages().values());
+
+		assertTrue(copier.Factory().Packages().isEmpty());
+		assertTrue(copier.Factory().Classes().isEmpty());
+		assertTrue(copier.Factory().Features().isEmpty());
+	}
+}
