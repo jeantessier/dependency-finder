@@ -722,10 +722,10 @@ rough idea of the size and complexity of a piece of software.
 <h2>Dependencies</h2>
 
 <p>
-Dependencies occur when one class uses the services of another class.  This
-can happen when a class inherits from another, has an attribute whose type
-is of another class, or when one of its methods calls a method on an object
-of another class.
+Dependencies occur when one class uses the services of another class.  For
+example, this can happen when a class inherits from another, has an attribute
+whose type is of another class, or when one of its methods calls a method on
+an object of another class.
 </p>
 
 <p>
@@ -745,9 +745,9 @@ class files.
 </p>
 
 <p>
-As we mentioned earlier, a dependency is when the functioning of one element
-<code>A</code> requires the presence of another element <code>B</code>.  We say that <code>A</code> <i>depends</i>
-on <code>B</code> and we write it:
+So, a dependency is when the functioning of one element <code>A</code> requires the
+presence of another element <code>B</code>.  We say that <code>A</code> <i>depends</i> on <code>B</code> and we
+write it:
 </p>
 
 <pre>
@@ -1022,8 +1022,10 @@ following code snippet:
 </pre>
 
 <p>
-We can analyze the dependencies and this is a subset of the resulting
-dependency graph:
+We can analyze the dependencies.  <code>A</code> is a subclass of <code>B</code>, so there is a
+dependency <code>A&nbsp;-->&nbsp;B</code>.  And <code>A.a()</code> calls <code>b()</code>, which is defined
+in <code>B</code>, yielding the dependency <code>A.a()&nbsp;-->&nbsp;B.b()</code>.  Here is a
+subset of the resulting dependency graph:
 </p>
 
 <div align="center">
@@ -1132,19 +1134,96 @@ with the same graph as if you had minimized the original graph.
 </div>
 
 <p>
-Here are the number of dependencies in various graphs.
+Here is a simple, concrete example.  We start with a trivial Java class.
+</p>
+
+<pre>
+    import java.util.*;
+</pre>
+    
+<pre>
+    public class test {
+        public static void main(String[] args) {
+            Collection c = Collections.singleton(new Object());
+        }
+    }
+</pre>
+
+<p>
+Let's start with the obvious dependencies.  <code>test.main()</code> has a parameter
+that's a <code>String</code> array, a local variable of type <code>Collection</code>, calls the
+no-arg constructor for <code>Object</code>, and calls a static method on <code>Collections</code>.
+That's four so far.  Also, since <code>test</code> extends <code>Object</code> by default, that's
+one more dependency.  It also gets an implicit no-arg constructor that calls
+<code>Object</code>'s no-arg constructor.  We are now up to six dependencies.
+</p>
+
+<p>
+The compiler does not keep track of local variables unless you call it with
+the <code>-g</code> switch.  This means we are not guaranteed to find the dependency
+<code>test.main(java.lang.String[])&nbsp;-->&nbsp;java.util.Collection</code> by simply
+looking at compiled code.  But we can examine the signature of <code>singleton()</code>
+and since we have to call it, we'll need to get objects of these types.
+The method takes a parameter of type <code>Object</code> and returns a <code>Set</code>.  This
+last one makes up for our loosing <code>Collection</code> earlier since <code>Set</code> extends
+<code>Collection</code>.
+</p>
+
+<p>
+Total: seven dependencies.
+</p>
+
+<div align="center">
+    <img src="images/RawTest.gif" /><br />
+<b>Raw</b>
+</div>
+
+<p>
+The redundant dependencies are show in bold.  We can remove them by minimizing
+the graph.
+</p>
+
+<div align="center">
+    <img src="images/MinimizedTest.gif" /><br />
+<b>Minimized</b>
+</div>
+
+<p>
+Or, we can maximize the graph.  The bold dependencies below show the original
+dependencies.  If the graph gets this complicated for something as trivial as
+<code>test.java</code>, imagine what your code will look like.
+</p>
+
+<div align="center">
+    <img src="images/MaximizedTest.gif" /><br />
+<b>Maximized</b>
+</div>
+
+<p>
+Here are the dimentions of various graphs.
 </p>
 
 <table border="3"
        rules="groups"
        cellpadding="3">
     <colgroup />
+    <colgroup span="3" />
     <colgroup span="2" />
     <colgroup />
     <colgroup span="2" />
     <thead>
     <tr>
-	<td><b>Software</b></td>
+	<td valign="top"
+	    rowspan="2"><b>Software</b></td>
+	<td align="center"
+	    colspan="3"><b>Artifacts</b></td>
+	<td align="center"
+	    colspan="5"><b>Dependencies</b></td>
+    </tr>
+    <tr>
+	<td align="center"><b>Packages</b></td>
+	<td align="center"><b>Classes</b></td>
+	<td align="center"><b>Features</b></td>
 	<td align="center"
 	    colspan="2"><b>Minimized</b></td>
 	<td align="center"><b>Raw</b></td>
@@ -1155,6 +1234,9 @@ Here are the number of dependencies in various graphs.
     <tbody>
     <tr>
 	<td><code>test.java</code></td>
+	<td align="right">3</td>
+	<td align="right">5</td>
+	<td align="right">4</td>
 	<td align="right">5</td>
 	<td align="right">(-29%)</td>
 	<td align="right">7</td>
@@ -1165,6 +1247,9 @@ Here are the number of dependencies in various graphs.
     <tbody>
     <tr>
 	<td>Jakarta-ORO</td>
+	<td align="right">9</td>
+	<td align="right">101</td>
+	<td align="right">835</td>
 	<td align="right">2,301</td>
 	<td align="right">(-13%)</td>
 	<td align="right">2,652</td>
@@ -1173,6 +1258,9 @@ Here are the number of dependencies in various graphs.
     </tr>
     <tr>
 	<td>Log4J</td>
+	<td align="right">44</td>
+	<td align="right">542</td>
+	<td align="right">3,331</td>
 	<td align="right">10,880</td>
 	<td align="right">(-16%)</td>
 	<td align="right">12,961</td>
@@ -1181,6 +1269,9 @@ Here are the number of dependencies in various graphs.
     </tr>
     <tr>
 	<td>Xerces</td>
+	<td align="right">51</td>
+	<td align="right">880</td>
+	<td align="right">11,218</td>
 	<td align="right">38,194</td>
 	<td align="right">(-13%)</td>
 	<td align="right">43,893</td>
@@ -1189,6 +1280,9 @@ Here are the number of dependencies in various graphs.
     </tr>
     <tr>
 	<td>Xalan</td>
+	<td align="right">58</td>
+	<td align="right">855</td>
+	<td align="right">10,763</td>
 	<td align="right">35,317</td>
 	<td align="right">(-15%)</td>
 	<td align="right">41,594</td>
@@ -1199,6 +1293,9 @@ Here are the number of dependencies in various graphs.
     <tbody>
     <tr>
 	<td>Ant</td>
+	<td align="right">38</td>
+	<td align="right">568</td>
+	<td align="right">5,635</td>
 	<td align="right">22,057</td>
 	<td align="right">(-16%)</td>
 	<td align="right">26,184</td>
@@ -1207,6 +1304,9 @@ Here are the number of dependencies in various graphs.
     </tr>
     <tr>
 	<td>Ant w/ optional</td>
+	<td align="right">113</td>
+	<td align="right">1,117</td>
+	<td align="right">10,854</td>
 	<td align="right">42,140</td>
 	<td align="right">(-16%)</td>
 	<td align="right">50,165</td>
@@ -1217,6 +1317,9 @@ Here are the number of dependencies in various graphs.
     <tbody>
     <tr>
 	<td>Dependency Finder</td>
+	<td align="right">27</td>
+	<td align="right">364</td>
+	<td align="right">3,587</td>
 	<td align="right">13,098</td>
 	<td align="right">(-18%)</td>
 	<td align="right">15,897</td>
@@ -1225,19 +1328,6 @@ Here are the number of dependencies in various graphs.
     </tr>
     </tbody>
 </table>
-
-<p>
-<code>test.java</code>
-</p>
-
-<pre>
-    import java.util.*;
-    public class test {
-        public static void main(String[] args) {
-            Collection c = Collections.singleton(new Object());
-        }
-    }
-</pre>
 
 <a name="Reporting" />
 <h3>Reporting</h3>
