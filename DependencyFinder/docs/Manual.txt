@@ -10,7 +10,7 @@ This application extracts information from compiled Java code and makes
 it available to users in a numbers of ways.
 
 Many authors have stressed the importance of managing depencencies
-(Robert C. Martin,
+([[http://www.objectmentor.com/resources/listArticles?key=author&author=Robert%20C.%20Martin][Robert C. Martin]],
 [[http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid=980962318/sr=8-1/ref=aps_sr_b_1_1/105-0176284-9920776][John Lakos]]).
 Managing
 dependencies means securing encapsulation and making sure that the code
@@ -387,9 +387,6 @@ to the raw state.
 
 ---+++ Reporting
 
-Reporting deals with selecting a subset of the dependency graph.  The
-scope defines the nodes in the graph that will be copied.  The filter
-defines the dependencies in scoped nodes that will be copied.
 
 _Reporting_ is the act of displaying a dependency graph, or more often
 a subset of it.  The graph is composed of nodes and links.  We apply
@@ -397,11 +394,18 @@ scoping to the nodes and filtering to the links.  In each case, we will
 use Perl regular expressions to indicate which nodes and links we are
 interested in.
 
+So, reporting deals with selecting a subset of the dependency graph;
+that is, choosing a subset of the nodes making up the graph and a
+subset of the links to or from these nodes.  The _scope_ selects the
+nodes in the source graph that will be copied into the destination
+graph.  The _filter_ selects the links (i.e., the dependencies) to or
+from scoped nodes that will be copied into the destination graph,
+along with the nodes at the other end of these link if they were not
+already in the destination graph.
+
 We use the term _scoping_ when talking about the selection process for
 nodes.  We use the term _filtering_ when talking about the selection
-process for links.  Each selection process has inclusion and exclusion
-criteria.  A given node or link is selected if it meets any of the
-inclusion criteria but meets none of the exclusion criteria.
+process for links.
 
 <div align="center">
     [[images/Scope.gif]]
@@ -413,33 +417,90 @@ inclusion criteria but meets none of the exclusion criteria.
 *Filtering*
 </div>
 
-Each process has separate inclusion and exclusion criteria for packages,
-classes, and features.  It also has special inclusion and exclusion
-criteria that apply across packages, classes, and features.  For a node
-or link to be selected, it must meet AT LEAST ONE of the relevant
-inclusion criteria and NONE of the relevant exclusion criteria.  Refer
-to the following table to know which criteria are relevant.
+Both scoping and filtering have their own selection process that
+includes inclusion and exclusion criteria.  A given node is selected
+if it meets any of the inclusion criteria for scoping and meets none
+of the exclusion criteria for scoping.  Once a node is selected, we
+look at the nodes at the other end of links into and out of that node;
+the link is selected if the other node meets any of the inclusion
+criteria for filtering and meets none of the exclusion criteria for
+filtering.
+
+From the start, you decide if each selection process applies to
+packages, classes, and features.  In =DependencyFinder=, you do this
+through checkboxes.  In =DependencyReporter=, you do it through
+specific command line switches.  =DependencyReporter= also has
+shortcuts that can replace multiple switches.
+
+E.g.,
+
+    C:\>DependencyReporter -package-scope  \
+                           -class-scope    \
+                           -feature-scope
+
+    C:\>DependencyReporter -all
+
+    C:\>DependencyReporter -f2f
+
+<div align="center">
+    [[images/HighlightedScopeControls.jpg][images/s_HighlightedScopeControls.jpg]]
+*Scope Controls GUI*
+</div>
+
+Each process has separate criteria for inclusion and exclusion.  They
+work the same way, as far as matching nodes is concerned.  The
+difference is only in how the process uses the outcome to decide
+whether to keep a node or link or not.  For a node or link to be
+selected, it must meet AT LEAST ONE of the relevant inclusion
+criteria and NONE of the relevant exclusion criteria.
+
+In each case, the criteria are a series of regular expressions applied
+to a node's name.  Each series is composed of the union of two groups
+out of four difference sets.  Which sets are selected depends on the
+type of the node, whether it is a node for a package, class, or
+feature.
+
+The first set of regular expressions applies regardless of the type
+of node.  You specify it with the top text field in the GUI.  This
+is the only set that you can specify when using the simple form.  Of
+the remaining three sets, one applies only to package nodes, one only
+to class nodes, and the last one only to feature nodes.  The GUI
+places each one on a row with the corresponding labels.
+
+The following table summarizes which sets are relevant.  Each column
+in the GUI follows these rules.  The columns of GUI elements match
+scoping inclusion, scoping exclusion, filtering inclusion, and
+filtering exclusion respectively.
 
 <div align="center">
 <table border="3"
        cellpadding="5">
     <caption align="bottom">*Relevant Selection Criteria*</caption>
     <tr>
-	<th>
-	    node or link type
-	</th>
-	<th align="center">
-	    global
-	</th>
-	<th align="center">
-	    package
-	</th>
-	<th align="center">
-	    class
-	</th>
-	<th align="center">
-	    feature
-	</th>
+	<td />
+	<td align="center">
+	    <b>package</b><br />node or link
+	</td>
+	<td align="center">
+	    <b>class</b><br />node or link
+	</td>
+	<td align="center">
+	    <b>feature</b><br />node or link
+	</td>
+    </tr>
+    <tr>
+	<td align="center">
+
+	</td>
+	<td align="center">
+	    X
+	</td>
+	<td align="center">
+	    X
+	</td>
+	<td align="center">
+	    X
+	</td>
     </tr>
     <tr>
 	<td>
@@ -449,9 +510,6 @@ to the following table to know which criteria are relevant.
 	    X
 	</td>
 	<td align="center">
-	    X
-	</td>
-	<td align="center">
 	    &nbsp;
 	</td>
 	<td align="center">
@@ -461,9 +519,6 @@ to the following table to know which criteria are relevant.
     <tr>
 	<td>
 	    class
-	</td>
-	<td align="center">
-	    X
 	</td>
 	<td align="center">
 	    &nbsp;
@@ -478,9 +533,6 @@ to the following table to know which criteria are relevant.
     <tr>
 	<td>
 	    feature
-	</td>
-	<td align="center">
-	    X
 	</td>
 	<td align="center">
 	    &nbsp;
@@ -495,37 +547,32 @@ to the following table to know which criteria are relevant.
 </table>
 </div>
 
-Each criterion is a set of Perl regular expressions.  For scoping, the
-name of the node must match at least one of the regular expressions for
-it to meet the criterion.  Filtering is always done relative to a node
-that is in scope.  A link will be selected if the name of the node at
-the other end of the link passes the filtering selection process.
+To repeat, each criterion is a set of Perl regular expressions.  For
+scoping, the name of the node must match at least one of the regular
+expressions for it to meet the criterion.  Filtering is always done
+relative to a node that is in scope.  A link will be selected if the
+name of the node at the other end of the link passes the filtering
+selection process.
 
-<div align="center">
-    [[images/HighlightedScopeCriteria.jpg][images/s_HighlightedScopeCriteria.jpg]]
-*Scope Criteria*
-</div>
+In =DependencyFinder=, you specify criteria through a number of text
+areas.  In =DependencyReporter=, you do it with specific command line
+switches.  You specify multiple regular expressions for a set by
+using separating them with commas in the GUI or by using the same
+command line switch multiple times.
 
 E.g.,
 
     C:\>DependencyReporter -scope-includes //
 
-You can limit each selection process to only packages, classes, or
-features, or combinations thereof.  In =DependencyFinder=, this is
-done through checkboxes.  In =DependencyReporter=, it is done through
-specific command line switches.  =DependencyReporterr= also has shortcuts
-that can replace multiple switches.
+    C:\>DependencyReporter -scope-includes //                       \
+                           -scope-excludes /Test/                   \
+                           -feature-scope-includes /someMethod/     \
+                           -feature-scope-includes /anotherMethod/
 
 <div align="center">
-    [[images/HighlightedScopeControls.jpg][images/s_HighlightedScopeControls.jpg]]
-*Scope Controls*
+    [[images/HighlightedScopeCriteria.jpg][images/s_HighlightedScopeCriteria.jpg]]
+*Scope Criteria GUI*
 </div>
-
-E.g.,
-
-    C:\>DependencyReporter -package-scope  \
-                           -class-scope    \
-                           -feature-scope
 
 ---++++ Perl Regular Expressions
 
