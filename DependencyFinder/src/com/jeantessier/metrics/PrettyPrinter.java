@@ -83,7 +83,7 @@ public class PrettyPrinter extends Printer {
 	}
 	
 	protected void VisitMeasurement(Measurement measurement) {
-		Indent().Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("):\t").Append(value_format.format(measurement.Value()));
+		Indent().Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("): ").Append(value_format.format(measurement.Value()));
 
 		try {
 			RatioMeasurement ratio = (RatioMeasurement) current_metrics.Measurement(measurement.ShortName() + "R");
