@@ -98,6 +98,10 @@ public class DependencyFinder extends JFrame {
     private JCheckBox  show_outbounds          = new JCheckBox("outbounds",   false);
     private JCheckBox  show_empty_nodes        = new JCheckBox("empty nodes", false);
 
+	private JCheckBox  follow_inbounds         = new JCheckBox("inbounds",    false);
+    private JCheckBox  follow_outbounds        = new JCheckBox("outbounds",   true);
+	private JTextField maximum_depth           = new JTextField(2);
+
     private GraphCopier dependencies_query     = null;
 	
     public DependencyFinder() {
@@ -623,6 +627,29 @@ public class DependencyFinder extends JFrame {
     }
 	
     private JComponent BuildClosurePanel() {
+		JPanel result = new JPanel();
+		
+		result.setLayout(new BorderLayout());
+		result.add(BuildClosureControlPanel(), BorderLayout.NORTH);
+		result.add(BuildClosureResultPanel(),  BorderLayout.CENTER);
+		
+		return result;
+	}
+	
+    private JComponent BuildClosureControlPanel() {
+		JPanel result = new JPanel();
+		
+		result.add(new JLabel("Follow: "));
+		result.add(follow_inbounds);
+		result.add(follow_outbounds);
+		result.add(new JLabel("Depth: "));
+		result.add(maximum_depth);
+		result.add(new JLabel(" leave empty for unbound"));
+		
+		return result;
+    }
+
+	private JComponent BuildClosureResultPanel() {
 		JComponent result = new JScrollPane(closure_result_area);
 		
 		closure_result_area.setEditable(false);
@@ -774,6 +801,14 @@ public class DependencyFinder extends JFrame {
 		strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
 		
 		TransitiveClosure selector = new TransitiveClosure(strategy);
+
+		selector.FollowInbounds(follow_inbounds.isSelected());
+		selector.FollowOutbounds(follow_outbounds.isSelected());
+		try {
+			selector.MaximumDepth(Long.parseLong(maximum_depth.getText()));
+		} catch (NumberFormatException ex) {
+			// Ignore, use default
+		}
 		
 		selector.TraverseNodes(Packages());
 		

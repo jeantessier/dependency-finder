@@ -42,12 +42,16 @@ import java.util.*;
  *  of the explicit dependencies.
  */
 public class TransitiveClosure extends VisitorBase {
+	public static long DEFAULT_MAXIMUM_DEPTH = Long.MAX_VALUE;
+	
 	private NodeFactory factory          = new NodeFactory();
 	private boolean     follow_outbounds = true;
 	private boolean     follow_inbounds  = false;
+	private long        maximum_depth    = DEFAULT_MAXIMUM_DEPTH;
 	private boolean     single_path      = false;
 
-	private Set visited_nodes = new HashSet();
+	private Set  visited_nodes = new HashSet();
+	private long current_depth = 0;
 	
 	public TransitiveClosure() {
 		super();
@@ -76,6 +80,14 @@ public class TransitiveClosure extends VisitorBase {
 	public void FollowOutbounds(boolean follow_outbounds) {
 		this.follow_outbounds = follow_outbounds;
 	}
+
+	public long MaximumDepth() {
+		return maximum_depth;
+	}
+
+	public void MaximumDepth(long maximum_depth) {
+		this.maximum_depth = maximum_depth;
+	}
 	
 	/*
 	 *  If the call to AddDependency() is unconditional, all
@@ -101,7 +113,7 @@ public class TransitiveClosure extends VisitorBase {
 	}
 
 	public void VisitInboundPackageNode(PackageNode node) {
-		if (CurrentNode() != null && FollowInbounds() && Strategy().InFilter(node)) {
+		if (CurrentNode() != null && FollowInbounds() && current_depth < maximum_depth && Strategy().InFilter(node)) {
 			if (!SinglePath()) {
 				Factory().CreatePackage(node.Name()).AddDependency(CurrentNode());
 			}
@@ -110,14 +122,16 @@ public class TransitiveClosure extends VisitorBase {
 				if (SinglePath()) {
 					Factory().CreatePackage(node.Name()).AddDependency(CurrentNode());
 				}
+				current_depth++;
 				PreprocessPackageNode(node);
+				current_depth--;
 				PopNode();
 			}
 		}
 	}
 
 	public void VisitOutboundPackageNode(PackageNode node) {
-		if (CurrentNode() != null && FollowOutbounds() && Strategy().InFilter(node)) {
+		if (CurrentNode() != null && FollowOutbounds() && current_depth < maximum_depth && Strategy().InFilter(node)) {
 			if (!SinglePath()) {
 				CurrentNode().AddDependency(Factory().CreatePackage(node.Name()));
 			}
@@ -126,7 +140,9 @@ public class TransitiveClosure extends VisitorBase {
 				if (SinglePath()) {
 					CurrentNode().AddDependency(Factory().CreatePackage(node.Name()));
 				}
+				current_depth++;
 				PreprocessPackageNode(node);
+				current_depth--;
 				PopNode();
 			}
 		}
@@ -142,7 +158,7 @@ public class TransitiveClosure extends VisitorBase {
 	}
 
 	public void VisitInboundClassNode(ClassNode node) {
-		if (CurrentNode() != null && FollowInbounds() && Strategy().InFilter(node)) {
+		if (CurrentNode() != null && FollowInbounds() && current_depth < maximum_depth && Strategy().InFilter(node)) {
 			if (!SinglePath()) {
 				Factory().CreateClass(node.Name()).AddDependency(CurrentNode());
 			}
@@ -151,14 +167,16 @@ public class TransitiveClosure extends VisitorBase {
 				if (SinglePath()) {
 					Factory().CreateClass(node.Name()).AddDependency(CurrentNode());
 				}
+				current_depth++;
 				PreprocessClassNode(node);
+				current_depth--;
 				PopNode();
 			}
 		}
 	}
 
 	public void VisitOutboundClassNode(ClassNode node) {
-		if (CurrentNode() != null && FollowOutbounds() && Strategy().InFilter(node)) {
+		if (CurrentNode() != null && FollowOutbounds() && current_depth < maximum_depth && Strategy().InFilter(node)) {
 			
 			if (!SinglePath()) {
 				CurrentNode().AddDependency(Factory().CreateClass(node.Name()));
@@ -168,7 +186,9 @@ public class TransitiveClosure extends VisitorBase {
 				if (SinglePath()) {
 					CurrentNode().AddDependency(Factory().CreateClass(node.Name()));
 				}
+				current_depth++;
 				PreprocessClassNode(node);
+				current_depth--;
 				PopNode();
 			}
 		}
@@ -184,7 +204,7 @@ public class TransitiveClosure extends VisitorBase {
 	}
 
 	public void VisitInboundFeatureNode(FeatureNode node) {
-		if (CurrentNode() != null && FollowInbounds() && Strategy().InFilter(node)) {
+		if (CurrentNode() != null && FollowInbounds() && current_depth < maximum_depth && Strategy().InFilter(node)) {
 			if (!SinglePath()) {
 				Factory().CreateFeature(node.Name()).AddDependency(CurrentNode());
 			}
@@ -193,14 +213,16 @@ public class TransitiveClosure extends VisitorBase {
 				if (SinglePath()) {
 					Factory().CreateFeature(node.Name()).AddDependency(CurrentNode());
 				}
+				current_depth++;
 				PreprocessFeatureNode(node);
+				current_depth--;
 				PopNode();
 			}
 		}
 	}
 
 	public void VisitOutboundFeatureNode(FeatureNode node) {
-		if (CurrentNode() != null && FollowOutbounds() && Strategy().InFilter(node)) {
+		if (CurrentNode() != null && FollowOutbounds() && current_depth < maximum_depth && Strategy().InFilter(node)) {
 			if (!SinglePath()) {
 				CurrentNode().AddDependency(Factory().CreateFeature(node.Name()));
 			}
@@ -209,7 +231,9 @@ public class TransitiveClosure extends VisitorBase {
 				if (SinglePath()) {
 					CurrentNode().AddDependency(Factory().CreateFeature(node.Name()));
 				}
+				current_depth++;
 				PreprocessFeatureNode(node);
+				current_depth--;
 				PopNode();
 			}
 		}
