@@ -3354,6 +3354,35 @@ files.
 <b>Compilation Workflow</b>
 </div>
 
+<table>
+    <caption align="left"><b>Key</b></caption>
+    <tr>
+	<td align="right">
+	    <img src="images/SourceFiles.gif" /><br />
+	</td>
+	<td>
+	    Source files that <b>you</b> write.
+	</td>
+    </tr>
+    <tr>
+	<td align="right">
+	    <img src="images/JDKWorkflow.gif" /><br />
+	</td>
+	<td>
+	    JDK tools and files they generate.
+	</td>
+    </tr>
+    <tr>
+	<td align="right">
+	    <img src="images/DependencyFinderWorkflow.gif" /><br />
+	</td>
+	<td>
+	    Dependency Finder tools and files they generate,
+	    based on <b>your</b> code.
+	</td>
+    </tr>
+</table>
+
 <p>
 The tools in Dependency Finder work from the executable code, either in
 JAR files or in individual <code>.class</code> files; they do not work from either the
@@ -3600,7 +3629,10 @@ not mark as <code>@level developer</code>.
 </div>
 
 <p>
-You then feed the output from the doclet to <code>JarJarDiff</code>.
+You then feed the output from the doclet to <code>JarJarDiff</code>.  In the diagram
+below, we show both <code>.class</code> and JAR files being fed to <code>JarJarDiff</code>, but you
+only need to do either, not both.  Dependency Finder tools can read JAR files
+just as well as <code>.class</code> files.
 </p>
 
 <pre>
