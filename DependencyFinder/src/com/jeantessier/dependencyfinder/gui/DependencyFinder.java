@@ -1144,8 +1144,7 @@ public class DependencyFinder extends JFrame {
 			filterCriteria.setFeatureExcludes(featureFilterExcludes.getText());
 		}
 
-		TraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-		TransitiveClosure selector = new TransitiveClosure(strategy);
+		TransitiveClosure selector = new TransitiveClosure(scopeCriteria, filterCriteria);
 
 		try {
 			selector.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth.getText()));

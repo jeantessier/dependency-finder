@@ -35,15 +35,21 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class TransitiveClosureEngine {
+	private NodeFactory          factory;
 	private ClosureLayerSelector layerSelector;
 	private ClosureStopSelector  stopSelector;
 	
-	private NodeFactory factory    = new NodeFactory();
 	private Collection  coverage   = new HashSet();
 	private LinkedList  selections = new LinkedList();
 	private LinkedList  layers     = new LinkedList();
 	
 	public TransitiveClosureEngine(Collection packages, SelectionCriteria startCriteria, SelectionCriteria stopCriteria, ClosureLayerSelector layerSelector) {
+		this(new NodeFactory(), packages, startCriteria, stopCriteria, layerSelector);
+	}
+	
+	public TransitiveClosureEngine(NodeFactory factory, Collection packages, SelectionCriteria startCriteria, SelectionCriteria stopCriteria, ClosureLayerSelector layerSelector) {
+		this.factory = factory;
+		
 		this.layerSelector = layerSelector;
 		this.layerSelector.setFactory(factory);
 		this.layerSelector.setCoverage(coverage);
@@ -78,8 +84,8 @@ public class TransitiveClosureEngine {
 		}
 	}
 
-	public void computeLayers(int nbLayers) {
-		for (int i=0; !stopSelector.isDone() && i<nbLayers; i++) {
+	public void computeLayers(long nbLayers) {
+		for (long i=0; !stopSelector.isDone() && i<nbLayers; i++) {
 			computeNextLayer();
 		}
 	}

@@ -40,10 +40,8 @@ import junit.framework.*;
 import org.apache.oro.text.perl.*;
 
 public class TestTransitiveClosureWithTestClass extends TestCase {
-	private RegularExpressionSelectionCriteria scopeCriteria;
-	private RegularExpressionSelectionCriteria filterCriteria;
-	private NodeFactory                        factory;
-	
+	private NodeFactory factory;
+
 	private Node _package;
 	private Node test_class;
 	private Node test_main_method;
@@ -60,12 +58,13 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 
 	private List scopeIncludes;
 	
-	private TransitiveClosure selector;
+	private RegularExpressionSelectionCriteria startCriteria;
+	private RegularExpressionSelectionCriteria stopCriteria;
+
+	private NodeFactory resultFactory;
 
 	protected void setUp() throws Exception {
-		scopeCriteria  = new RegularExpressionSelectionCriteria();
-		filterCriteria = new RegularExpressionSelectionCriteria();
-		factory        = new NodeFactory();
+		factory = new NodeFactory();
 
 		_package = factory.createPackage("");
 		test_class = factory.createClass("test");
@@ -91,227 +90,255 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		scopeIncludes = new ArrayList(1);
 		scopeIncludes.add("/test/");
 		
-		selector = new TransitiveClosure(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
+		startCriteria = new RegularExpressionSelectionCriteria();
+		stopCriteria  = new RegularExpressionSelectionCriteria();
 	}
 
 	public void testCompleteClosure() {
-		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
+		startCriteria.setGlobalIncludes(scopeIncludes);
+		stopCriteria.setGlobalIncludes(Collections.EMPTY_LIST);
 		
-		selector.traverseNodes(factory.getPackages().values());
+		compute(factory.getPackages().values());
 
 		assertEquals("Different number of packages",
 					 factory.getPackages().size(),
-					 selector.getFactory().getPackages().size());
+					 resultFactory.getPackages().size());
 		assertEquals("Different number of classes",
 					 factory.getClasses().size(),
-					 selector.getFactory().getClasses().size());
+					 resultFactory.getClasses().size());
 		assertEquals("Different number of features",
 					 factory.getFeatures().size(),
-					 selector.getFactory().getFeatures().size());
+					 resultFactory.getFeatures().size());
 
 		Iterator i;
 
-		i = selector.getFactory().getPackages().keySet().iterator();
+		i = resultFactory.getPackages().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getPackages().get(key), selector.getFactory().getPackages().get(key));
-			assertTrue(factory.getPackages().get(key) != selector.getFactory().getPackages().get(key));
+			assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
+			assertTrue(factory.getPackages().get(key) != resultFactory.getPackages().get(key));
 			assertEquals("Package " + key + " has different inbound count",
 						 ((Node) factory.getPackages().get(key)).getInboundDependencies().size(),
-						 ((Node) selector.getFactory().getPackages().get(key)).getInboundDependencies().size());
+						 ((Node) resultFactory.getPackages().get(key)).getInboundDependencies().size());
 			assertEquals("Package " + key + " has different outbound count",
 						 ((Node) factory.getPackages().get(key)).getOutboundDependencies().size(),
-						 ((Node) selector.getFactory().getPackages().get(key)).getOutboundDependencies().size());
+						 ((Node) resultFactory.getPackages().get(key)).getOutboundDependencies().size());
 		}
 		
-		i = selector.getFactory().getClasses().keySet().iterator();
+		i = resultFactory.getClasses().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getClasses().get(key), selector.getFactory().getClasses().get(key));
-			assertTrue(factory.getClasses().get(key) != selector.getFactory().getClasses().get(key));
+			assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
+			assertTrue(factory.getClasses().get(key) != resultFactory.getClasses().get(key));
 			assertEquals("Class " + key + " has different inbound count",
 						 ((Node) factory.getClasses().get(key)).getInboundDependencies().size(),
-						 ((Node) selector.getFactory().getClasses().get(key)).getInboundDependencies().size());
+						 ((Node) resultFactory.getClasses().get(key)).getInboundDependencies().size());
 			assertEquals("Class " + key + " has different outbound count",
 						 ((Node) factory.getClasses().get(key)).getOutboundDependencies().size(),
-						 ((Node) selector.getFactory().getClasses().get(key)).getOutboundDependencies().size());
+						 ((Node) resultFactory.getClasses().get(key)).getOutboundDependencies().size());
 		}
 		
-		i = selector.getFactory().getFeatures().keySet().iterator();
+		i = resultFactory.getFeatures().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getFeatures().get(key), selector.getFactory().getFeatures().get(key));
-			assertTrue(factory.getFeatures().get(key) != selector.getFactory().getFeatures().get(key));
+			assertEquals(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
+			assertTrue(factory.getFeatures().get(key) != resultFactory.getFeatures().get(key));
 			assertEquals("Feature " + key + " has different inbound count",
 						 ((Node) factory.getFeatures().get(key)).getInboundDependencies().size(),
-						 ((Node) selector.getFactory().getFeatures().get(key)).getInboundDependencies().size());
+						 ((Node) resultFactory.getFeatures().get(key)).getInboundDependencies().size());
 			assertEquals("Feature " + key + " has different outbound count",
 						 ((Node) factory.getFeatures().get(key)).getOutboundDependencies().size(),
-						 ((Node) selector.getFactory().getFeatures().get(key)).getOutboundDependencies().size());
+						 ((Node) resultFactory.getFeatures().get(key)).getOutboundDependencies().size());
 		}
 	}
 
 	public void testCopyAllNodesOnly() {
-		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
+		startCriteria.setGlobalIncludes(scopeIncludes);
+		stopCriteria.setMatchingPackages(false);
+		stopCriteria.setMatchingClasses(false);
+		stopCriteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.getPackages().values());
+		compute(factory.getPackages().values());
 
 		assertEquals("Different number of packages",
 					 1,
-					 selector.getFactory().getPackages().size());
+					 resultFactory.getPackages().size());
 		assertEquals("Different number of classes",
 					 1,
-					 selector.getFactory().getClasses().size());
+					 resultFactory.getClasses().size());
 		assertEquals("Different number of features",
 					 2,
-					 selector.getFactory().getFeatures().size());
+					 resultFactory.getFeatures().size());
 
 		Iterator i;
 
-		i = selector.getFactory().getPackages().keySet().iterator();
+		i = resultFactory.getPackages().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getPackages().get(key), selector.getFactory().getPackages().get(key));
-			assertTrue(factory.getPackages().get(key) != selector.getFactory().getPackages().get(key));
-			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
+			assertTrue(factory.getPackages().get(key) != resultFactory.getPackages().get(key));
+			assertTrue(((Node) resultFactory.getPackages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) resultFactory.getPackages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.getFactory().getClasses().keySet().iterator();
+		i = resultFactory.getClasses().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getClasses().get(key), selector.getFactory().getClasses().get(key));
-			assertTrue(factory.getClasses().get(key) != selector.getFactory().getClasses().get(key));
-			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
+			assertTrue(factory.getClasses().get(key) != resultFactory.getClasses().get(key));
+			assertTrue(((Node) resultFactory.getClasses().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) resultFactory.getClasses().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.getFactory().getFeatures().keySet().iterator();
+		i = resultFactory.getFeatures().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getFeatures().get(key), selector.getFactory().getFeatures().get(key));
-			assertTrue(factory.getFeatures().get(key) != selector.getFactory().getFeatures().get(key));
-			assertTrue(((Node) selector.getFactory().getFeatures().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.getFactory().getFeatures().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
+			assertTrue(factory.getFeatures().get(key) != resultFactory.getFeatures().get(key));
+			assertTrue(((Node) resultFactory.getFeatures().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) resultFactory.getFeatures().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
 	public void testCopyPackageNodesOnly() {
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(false);
-		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
+		startCriteria.setMatchingClasses(false);
+		startCriteria.setMatchingFeatures(false);
+		startCriteria.setGlobalIncludes(scopeIncludes);
+		stopCriteria.setMatchingPackages(false);
+		stopCriteria.setMatchingClasses(false);
+		stopCriteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.getPackages().values());
-
-		assertTrue(selector.getFactory().getPackages().isEmpty());
-		assertTrue(selector.getFactory().getClasses().isEmpty());
-		assertTrue(selector.getFactory().getFeatures().isEmpty());
-	}
-
-	public void testCopyClassNodesOnly() {
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingFeatures(false);
-		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
-		
-		selector.traverseNodes(factory.getPackages().values());
+		compute(factory.getPackages().values());
 
 		assertEquals("Different number of packages",
 					 1,
-					 selector.getFactory().getPackages().size());
+					 resultFactory.getPackages().size());
+		assertTrue(resultFactory.getClasses().isEmpty());
+		assertTrue(resultFactory.getFeatures().isEmpty());
+	}
+
+	public void testCopyClassNodesOnly() {
+		startCriteria.setMatchingPackages(false);
+		startCriteria.setMatchingFeatures(false);
+		startCriteria.setGlobalIncludes(scopeIncludes);
+		stopCriteria.setMatchingPackages(false);
+		stopCriteria.setMatchingClasses(false);
+		stopCriteria.setMatchingFeatures(false);
+		
+		compute(factory.getPackages().values());
+
+		assertEquals("Different number of packages",
+					 1,
+					 resultFactory.getPackages().size());
 		assertEquals("Different number of classes",
 					 1,
-					 selector.getFactory().getClasses().size());
-		assertTrue(selector.getFactory().getFeatures().isEmpty());
+					 resultFactory.getClasses().size());
+		assertTrue(resultFactory.getFeatures().isEmpty());
 
 		Iterator i;
 
-		i = selector.getFactory().getPackages().keySet().iterator();
+		i = resultFactory.getPackages().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getPackages().get(key), selector.getFactory().getPackages().get(key));
-			assertTrue(factory.getPackages().get(key) != selector.getFactory().getPackages().get(key));
-			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
+			assertTrue(factory.getPackages().get(key) != resultFactory.getPackages().get(key));
+			assertTrue(((Node) resultFactory.getPackages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) resultFactory.getPackages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.getFactory().getClasses().keySet().iterator();
+		i = resultFactory.getClasses().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getClasses().get(key), selector.getFactory().getClasses().get(key));
-			assertTrue(factory.getClasses().get(key) != selector.getFactory().getClasses().get(key));
-			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
+			assertTrue(factory.getClasses().get(key) != resultFactory.getClasses().get(key));
+			assertTrue(((Node) resultFactory.getClasses().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) resultFactory.getClasses().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
 	public void testCopyFeatureNodesOnly() {
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setGlobalIncludes(scopeIncludes) ;
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
+		startCriteria.setMatchingPackages(false);
+		startCriteria.setMatchingClasses(false);
+		startCriteria.setGlobalIncludes(scopeIncludes);
+		stopCriteria.setMatchingPackages(false);
+		stopCriteria.setMatchingClasses(false);
+		stopCriteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.getPackages().values());
+		compute(factory.getPackages().values());
 
 		assertEquals("Different number of packages",
 					 1,
-					 selector.getFactory().getPackages().size());
+					 resultFactory.getPackages().size());
 		assertEquals("Different number of classes",
 					 1,
-					 selector.getFactory().getClasses().size());
+					 resultFactory.getClasses().size());
 		assertEquals("Different number of features",
 					 2,
-					 selector.getFactory().getFeatures().size());
+					 resultFactory.getFeatures().size());
 
 		Iterator i;
 
-		i = selector.getFactory().getPackages().keySet().iterator();
+		i = resultFactory.getPackages().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getPackages().get(key), selector.getFactory().getPackages().get(key));
-			assertTrue(factory.getPackages().get(key) != selector.getFactory().getPackages().get(key));
-			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
+			assertTrue(factory.getPackages().get(key) != resultFactory.getPackages().get(key));
+			assertTrue(((Node) resultFactory.getPackages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) resultFactory.getPackages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.getFactory().getClasses().keySet().iterator();
+		i = resultFactory.getClasses().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getClasses().get(key), selector.getFactory().getClasses().get(key));
-			assertTrue(factory.getClasses().get(key) != selector.getFactory().getClasses().get(key));
-			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
+			assertTrue(factory.getClasses().get(key) != resultFactory.getClasses().get(key));
+			assertTrue(((Node) resultFactory.getClasses().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) resultFactory.getClasses().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.getFactory().getFeatures().keySet().iterator();
+		i = resultFactory.getFeatures().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.getFeatures().get(key), selector.getFactory().getFeatures().get(key));
-			assertTrue(factory.getFeatures().get(key) != selector.getFactory().getFeatures().get(key));
-			assertTrue(((Node) selector.getFactory().getFeatures().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.getFactory().getFeatures().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
+			assertTrue(factory.getFeatures().get(key) != resultFactory.getFeatures().get(key));
+			assertTrue(((Node) resultFactory.getFeatures().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) resultFactory.getFeatures().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
 	public void testCopyNothing() {
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(false);
+		startCriteria.setMatchingPackages(false);
+		startCriteria.setMatchingClasses(false);
+		startCriteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.getPackages().values());
+		compute(factory.getPackages().values());
 
-		assertTrue(selector.getFactory().getPackages().isEmpty());
-		assertTrue(selector.getFactory().getClasses().isEmpty());
-		assertTrue(selector.getFactory().getFeatures().isEmpty());
+		assertTrue(resultFactory.getPackages().isEmpty());
+		assertTrue(resultFactory.getClasses().isEmpty());
+		assertTrue(resultFactory.getFeatures().isEmpty());
+	}
+
+	private void compute(Collection nodes) {
+		RegularExpressionSelectionCriteria localStartCriteria = new RegularExpressionSelectionCriteria();
+		localStartCriteria.setGlobalIncludes(startCriteria.getGlobalIncludes());
+		RegularExpressionSelectionCriteria localStopCriteria  = new RegularExpressionSelectionCriteria();
+		localStopCriteria.setGlobalIncludes(stopCriteria.getGlobalIncludes());
+
+		TransitiveClosure closure = new TransitiveClosure(localStartCriteria, localStopCriteria);
+		closure.traverseNodes(nodes);
+
+		RegularExpressionSelectionCriteria localScopeCriteria  = new RegularExpressionSelectionCriteria();
+		localScopeCriteria.setMatchingPackages(startCriteria.isMatchingPackages());
+		localScopeCriteria.setMatchingClasses(startCriteria.isMatchingClasses());
+		localScopeCriteria.setMatchingFeatures(startCriteria.isMatchingFeatures());
+		RegularExpressionSelectionCriteria localFilterCriteria = new RegularExpressionSelectionCriteria();
+		localFilterCriteria.setMatchingPackages(stopCriteria.isMatchingPackages());
+		localFilterCriteria.setMatchingClasses(stopCriteria.isMatchingClasses());
+		localFilterCriteria.setMatchingFeatures(stopCriteria.isMatchingFeatures());
+
+		GraphSummarizer summarizer = new GraphSummarizer(localScopeCriteria, localFilterCriteria);
+		summarizer.traverseNodes(closure.getFactory().getPackages().values());
+
+		resultFactory = summarizer.getScopeFactory();
 	}
 }

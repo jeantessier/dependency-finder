@@ -274,8 +274,7 @@ public class DependencyClosure {
 			filterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
 		}
 
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-		TransitiveClosure selector = new TransitiveClosure(strategy);
+		TransitiveClosure selector = new TransitiveClosure(scopeCriteria, filterCriteria);
 
 		try {
 			if (commandLine.isPresent("maximum-inbound-depth")) {

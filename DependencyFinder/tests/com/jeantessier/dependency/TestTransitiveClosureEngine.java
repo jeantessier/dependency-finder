@@ -56,8 +56,10 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 	private RegularExpressionSelectionCriteria startCriteria;
 	private RegularExpressionSelectionCriteria stopCriteria;
-
+	
 	protected void setUp() throws Exception {
+		super.setUp();
+		
 		factory = new NodeFactory();
 
 		a     = factory.createPackage("a");
@@ -514,6 +516,92 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
 		assertEquals("features in scope",   2, engine.getFactory().getFeatures().values().size());
 
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
+	}
+
+	public void testComputeAllOutboundLayersP2P() {
+		startCriteria.setGlobalIncludes("/^a/");
+		stopCriteria.setGlobalIncludes("/^c/");
+
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
+		engine.computeAllLayers();
+
+		assertEquals("Nb layers", 3, engine.getNbLayers());
+
+		Node node = null;
+		Iterator i = engine.getLayer(0).iterator();
+		while (i.hasNext()) {
+			Node temp = (Node) i.next();
+			if (temp.equals(a_A_a)) {
+				node = temp;
+			}
+		}
+
+		assertEquals("Layer 0 size", 3, engine.getLayer(0).size());
+		assertEquals("Layer 0 content", a_A_a.getName(), node.getName());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), node.getOutboundDependencies().size());
+		assertEquals("Layer 1 size", 1, engine.getLayer(1).size());
+		assertEquals("Layer 1 content", b_B_b.getName(), ((Node) engine.getLayer(1).iterator().next()).getName());
+		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Layer 2 size", 1, engine.getLayer(2).size());
+		assertEquals("Layer 2 content", c_C_c.getName(), ((Node) engine.getLayer(2).iterator().next()).getName());
+		assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getOutboundDependencies().size());
+		
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
+
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
+	}
+
+	public void testComputeAllInboundLayersP2P() {
+		startCriteria.setGlobalIncludes("/^c/");
+		stopCriteria.setGlobalIncludes("/^a/");
+
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+		engine.computeAllLayers();
+
+		assertEquals("Nb layers", 3, engine.getNbLayers());
+
+		Node node = null;
+		Iterator i = engine.getLayer(0).iterator();
+		while (i.hasNext()) {
+			Node temp = (Node) i.next();
+			if (temp.equals(c_C_c)) {
+				node = temp;
+			}
+		}
+
+		assertEquals("Layer 0 size", 3, engine.getLayer(0).size());
+		assertEquals("Layer 0 content", c_C_c.getName(), node.getName());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), node.getInboundDependencies().size());
+		assertEquals("Layer 1 size", 1, engine.getLayer(1).size());
+		assertEquals("Layer 1 content", b_B_b.getName(), ((Node) engine.getLayer(1).iterator().next()).getName());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Layer 2 size", 1, engine.getLayer(1).size());
+		assertEquals("Layer 2 content", a_A_a.getName(), ((Node) engine.getLayer(2).iterator().next()).getName());
+		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
+		
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
+
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
 		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
 		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
 		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));

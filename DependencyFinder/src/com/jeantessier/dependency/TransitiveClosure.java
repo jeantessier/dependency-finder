@@ -41,193 +41,52 @@ import java.util.*;
  *  LinkMaximizer.  Otherwise, you will only get a subset
  *  of the explicit dependencies.
  */
-public class TransitiveClosure extends VisitorBase {
-	public static long DO_NOT_FOLLOW   = 0;
+public class TransitiveClosure {
+	public static long DO_NOT_FOLLOW   = -1;
 	public static long UNBOUNDED_DEPTH = Long.MAX_VALUE;
 	
-	private NodeFactory factory              = new NodeFactory();
-	private long        maximumInboundDepth  = DO_NOT_FOLLOW;
-	private long        maximumOutboundDepth = UNBOUNDED_DEPTH;
-	private boolean     singlePath           = false;
+	private long maximumInboundDepth  = DO_NOT_FOLLOW;
+	private long maximumOutboundDepth = UNBOUNDED_DEPTH;
 
-	private Set  visitedNodes = new HashSet();
-	private long currentDepth = 0;
+	private SelectionCriteria startCriteria;
+	private SelectionCriteria stopCriteria;
+
+	private NodeFactory factory = new NodeFactory();
 	
-	public TransitiveClosure() {
-		super();
-	}
-
-	public TransitiveClosure(TraversalStrategy strategy) {
-		super(strategy);
+	public TransitiveClosure(SelectionCriteria startCriteria, SelectionCriteria stopCriteria) {
+		this.startCriteria = startCriteria;
+		this.stopCriteria  = stopCriteria;
 	}
 
 	public NodeFactory getFactory() {
 		return factory;
 	}
 
-	public long getMaximumInboundDepth() {
-		return maximumInboundDepth;
-	}
-
 	public void setMaximumInboundDepth(long maximumInboundDepth) {
-		this.maximumInboundDepth = maximumInboundDepth;
-	}
-
-	public long getMaximumOutboundDepth() {
-		return maximumOutboundDepth;
+		this.maximumInboundDepth  = maximumInboundDepth;
 	}
 
 	public void setMaximumOutboundDepth(long maximumOutboundDepth) {
 		this.maximumOutboundDepth = maximumOutboundDepth;
 	}
-	
-	/*
-	 *  If the call to AddDependency() is unconditional, all
-	 *  dependencies will be copied in the new graph.  Otherwise,
-	 *  only the first dependency that lead to the node will be
-	 *  part of the resulting graph.
-	 */
-	public boolean isSinglePath() {
-		return singlePath;
-	}
 
-	public void setSinglePath(boolean singlePath) {
-		this.singlePath = singlePath;
-	}
-
-	public void preprocessPackageNode(PackageNode node) {
-		if (!visitedNodes.contains(node.getName())) {
-			super.preprocessPackageNode(getFactory().createPackage(node.getName()));
-			visitedNodes.add(node.getName());
-			traverseOutbound(node.getOutboundDependencies());
-			traverseInbound(node.getInboundDependencies());
+	public void traverseNodes(Collection nodes) {
+		if (maximumInboundDepth != DO_NOT_FOLLOW) {
+			compute(nodes, maximumInboundDepth, new ClosureInboundSelector());
 		}
-	}
-
-	public void visitInboundPackageNode(PackageNode node) {
-		if (getCurrentNode() != null && currentDepth < getMaximumInboundDepth() && getStrategy().isInFilter(node)) {
-			if (!isSinglePath()) {
-				getFactory().createPackage(node.getName()).addDependency(getCurrentNode());
-			}
 		
-			if (!visitedNodes.contains(node.getName())) {
-				if (isSinglePath()) {
-					getFactory().createPackage(node.getName()).addDependency(getCurrentNode());
-				}
-				currentDepth++;
-				preprocessPackageNode(node);
-				currentDepth--;
-				popNode();
-			}
+		if (maximumOutboundDepth != DO_NOT_FOLLOW) {
+			compute(nodes, maximumOutboundDepth, new ClosureOutboundSelector());
 		}
 	}
 
-	public void visitOutboundPackageNode(PackageNode node) {
-		if (getCurrentNode() != null && currentDepth < getMaximumOutboundDepth() && getStrategy().isInFilter(node)) {
-			if (!isSinglePath()) {
-				getCurrentNode().addDependency(getFactory().createPackage(node.getName()));
-			}
-		
-			if (!visitedNodes.contains(node.getName())) {
-				if (isSinglePath()) {
-					getCurrentNode().addDependency(getFactory().createPackage(node.getName()));
-				}
-				currentDepth++;
-				preprocessPackageNode(node);
-				currentDepth--;
-				popNode();
-			}
-		}
-	}
+	private void compute(Collection nodes, long depth, ClosureLayerSelector layerSelector) {
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory, nodes, startCriteria, stopCriteria, layerSelector);
 
-	public void preprocessClassNode(ClassNode node) {
-		if (!visitedNodes.contains(node.getName())) {
-			super.preprocessClassNode(getFactory().createClass(node.getName()));
-			visitedNodes.add(node.getName());
-			traverseOutbound(node.getOutboundDependencies());
-			traverseInbound(node.getInboundDependencies());
-		}
-	}
-
-	public void visitInboundClassNode(ClassNode node) {
-		if (getCurrentNode() != null && currentDepth < getMaximumInboundDepth() && getStrategy().isInFilter(node)) {
-			if (!isSinglePath()) {
-				getFactory().createClass(node.getName()).addDependency(getCurrentNode());
-			}
-		
-			if (!visitedNodes.contains(node.getName())) {
-				if (isSinglePath()) {
-					getFactory().createClass(node.getName()).addDependency(getCurrentNode());
-				}
-				currentDepth++;
-				preprocessClassNode(node);
-				currentDepth--;
-				popNode();
-			}
-		}
-	}
-
-	public void visitOutboundClassNode(ClassNode node) {
-		if (getCurrentNode() != null && currentDepth < getMaximumOutboundDepth() && getStrategy().isInFilter(node)) {
-			
-			if (!isSinglePath()) {
-				getCurrentNode().addDependency(getFactory().createClass(node.getName()));
-			}
-		
-			if (!visitedNodes.contains(node.getName())) {
-				if (isSinglePath()) {
-					getCurrentNode().addDependency(getFactory().createClass(node.getName()));
-				}
-				currentDepth++;
-				preprocessClassNode(node);
-				currentDepth--;
-				popNode();
-			}
-		}
-	}
-
-	public void preprocessFeatureNode(FeatureNode node) {
-		if (!visitedNodes.contains(node.getName())) {
-			super.preprocessFeatureNode(getFactory().createFeature(node.getName()));
-			visitedNodes.add(node.getName());
-			traverseOutbound(node.getOutboundDependencies());
-			traverseInbound(node.getInboundDependencies());
-		}
-	}
-
-	public void visitInboundFeatureNode(FeatureNode node) {
-		if (getCurrentNode() != null && currentDepth < getMaximumInboundDepth() && getStrategy().isInFilter(node)) {
-			if (!isSinglePath()) {
-				getFactory().createFeature(node.getName()).addDependency(getCurrentNode());
-			}
-		
-			if (!visitedNodes.contains(node.getName())) {
-				if (isSinglePath()) {
-					getFactory().createFeature(node.getName()).addDependency(getCurrentNode());
-				}
-				currentDepth++;
-				preprocessFeatureNode(node);
-				currentDepth--;
-				popNode();
-			}
-		}
-	}
-
-	public void visitOutboundFeatureNode(FeatureNode node) {
-		if (getCurrentNode() != null && currentDepth < getMaximumOutboundDepth() && getStrategy().isInFilter(node)) {
-			if (!isSinglePath()) {
-				getCurrentNode().addDependency(getFactory().createFeature(node.getName()));
-			}
-		
-			if (!visitedNodes.contains(node.getName())) {
-				if (isSinglePath()) {
-					getCurrentNode().addDependency(getFactory().createFeature(node.getName()));
-				}
-				currentDepth++;
-				preprocessFeatureNode(node);
-				currentDepth--;
-				popNode();
-			}
+		if (depth == UNBOUNDED_DEPTH) {
+			engine.computeAllLayers();
+		} else {
+			engine.computeLayers(depth);
 		}
 	}
 }

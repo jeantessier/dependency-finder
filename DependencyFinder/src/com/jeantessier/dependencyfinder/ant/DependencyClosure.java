@@ -106,7 +106,7 @@ public class DependencyClosure extends GraphTask {
 		VerboseListener verboseListener = new VerboseListener(this);
 
 		try {
-			TransitiveClosure selector = new TransitiveClosure(getStrategy());
+			TransitiveClosure selector = new TransitiveClosure(getScopeCriteria(), getFilterCriteria());
 
 			try {
 				if (getMaximuminbounddepth() != null) {

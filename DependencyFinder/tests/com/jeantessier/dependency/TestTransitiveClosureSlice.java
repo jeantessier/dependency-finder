@@ -67,11 +67,11 @@ public class TestTransitiveClosureSlice extends TestCase {
 		out1.addDependency(out2);
 		out2.addDependency(out3);
 		
-		selector = new TransitiveClosure();
+		selector = new TransitiveClosure(new RegularExpressionSelectionCriteria(), new NullSelectionCriteria());
 	}
 
 	public void testDefaultDepth() {
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 4, selector.getFactory().getPackages().size());
 		assertEquals("base.Inbound()",  0, ((Node) selector.getFactory().getPackages().get("base")).getInboundDependencies().size());
@@ -88,7 +88,7 @@ public class TestTransitiveClosureSlice extends TestCase {
 		selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 7, selector.getFactory().getPackages().size());
 		assertEquals("in3.Inbound()",   0, ((Node) selector.getFactory().getPackages().get("in3")).getInboundDependencies().size());
@@ -111,7 +111,7 @@ public class TestTransitiveClosureSlice extends TestCase {
 		selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		selector.setMaximumOutboundDepth(TransitiveClosure.DO_NOT_FOLLOW);
 		
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 4, selector.getFactory().getPackages().size());
 		assertEquals("in3.Inbound()",   0, ((Node) selector.getFactory().getPackages().get("in3")).getInboundDependencies().size());
@@ -128,7 +128,7 @@ public class TestTransitiveClosureSlice extends TestCase {
 		selector.setMaximumInboundDepth(TransitiveClosure.DO_NOT_FOLLOW);
 		selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 4, selector.getFactory().getPackages().size());
 		assertEquals("base.Inbound()",  0, ((Node) selector.getFactory().getPackages().get("base")).getInboundDependencies().size());
@@ -145,7 +145,7 @@ public class TestTransitiveClosureSlice extends TestCase {
 		selector.setMaximumInboundDepth(0);
 		selector.setMaximumOutboundDepth(0);
 		
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 1, selector.getFactory().getPackages().size());
 		assertEquals("base.Inbound()",  0, ((Node) selector.getFactory().getPackages().get("base")).getInboundDependencies().size());
@@ -156,7 +156,7 @@ public class TestTransitiveClosureSlice extends TestCase {
 		selector.setMaximumInboundDepth(1);
 		selector.setMaximumOutboundDepth(1);
 		
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 3, selector.getFactory().getPackages().size());
 		assertEquals("in1.Inbound()",   0, ((Node) selector.getFactory().getPackages().get("in1")).getInboundDependencies().size());
@@ -171,7 +171,7 @@ public class TestTransitiveClosureSlice extends TestCase {
 		selector.setMaximumInboundDepth(2);
 		selector.setMaximumOutboundDepth(2);
 		
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 5, selector.getFactory().getPackages().size());
 		assertEquals("in2.Inbound()",   0, ((Node) selector.getFactory().getPackages().get("in2")).getInboundDependencies().size());
@@ -190,7 +190,7 @@ public class TestTransitiveClosureSlice extends TestCase {
 		selector.setMaximumInboundDepth(3);
 		selector.setMaximumOutboundDepth(3);
 		
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 7, selector.getFactory().getPackages().size());
 		assertEquals("in3.Inbound()",   0, ((Node) selector.getFactory().getPackages().get("in3")).getInboundDependencies().size());
@@ -213,7 +213,7 @@ public class TestTransitiveClosureSlice extends TestCase {
 		selector.setMaximumInboundDepth(4);
 		selector.setMaximumOutboundDepth(4);
 		
-		base.accept(selector);
+		selector.traverseNodes(Collections.singleton(base));
 
 		assertEquals("number of packages", 7, selector.getFactory().getPackages().size());
 		assertEquals("in3.Inbound()",   0, ((Node) selector.getFactory().getPackages().get("in3")).getInboundDependencies().size());
