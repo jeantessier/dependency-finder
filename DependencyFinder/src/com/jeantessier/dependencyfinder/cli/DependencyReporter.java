@@ -286,7 +286,7 @@ public class DependencyReporter {
 			Collection packages;
 
 			if (filename.endsWith(".xml")) {
-				packages = new NodeLoader(command_line.ToggleSwitch("validate")).Load(filename).values();
+				packages = new NodeLoader(command_line.ToggleSwitch("validate")).Load(filename).Packages().values();
 			} else if (filename.endsWith(".ser")) {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
 				packages = (Collection) in.readObject();

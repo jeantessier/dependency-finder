@@ -83,13 +83,12 @@ public class NodeLoader {
 		this.validate         = validate;
 	}
 
-	public Map Load(String filename) throws IOException, SAXException {
-		Map result = null;
+	public NodeFactory Load(String filename) throws IOException, SAXException {
+		NodeFactory result = null;
 
 		FileReader in = null;
-
 		try {
-			in = (new FileReader(filename));
+			in = new FileReader(filename);
 			result = Load(in);
 		} finally {
 			if (in != null) {
@@ -100,15 +99,15 @@ public class NodeLoader {
 		return result;
 	}
 
-	public Map Load(InputStream in) throws IOException, SAXException {
+	public NodeFactory Load(InputStream in) throws IOException, SAXException {
 		return Load(new InputSource(in));
 	}
 
-	public Map Load(Reader in) throws IOException, SAXException {
+	public NodeFactory Load(Reader in) throws IOException, SAXException {
 		return Load(new InputSource(in));
 	}
 
-	public Map Load(InputSource in) throws IOException, SAXException {
+	public NodeFactory Load(InputSource in) throws IOException, SAXException {
 		XMLReader reader = XMLReaderFactory.createXMLReader(reader_classname);
 		reader.setDTDHandler(handler);
 		reader.setContentHandler(handler);
@@ -130,7 +129,7 @@ public class NodeLoader {
 	
 		reader.parse(in);
 	
-		return handler.Factory().Packages();
+		return handler.Factory();
 	}
 
 	public void addDependencyListener(DependencyListener listener) {
