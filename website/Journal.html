@@ -16,10 +16,53 @@
 
 <dl>
     <dt>
+	October 11, 2002
+    </dt>
+    <dd>
+	<p>I did a quick check to see if I can still compile
+	Dependency Finder with JDK 1.2.2, but I can't anymore.
+	I use <code>java.util.Collections.singletonList()</code> in
+	<code>com.jeantessier.commandline.MultipleValuesSwitch</code>
+	and a new constructor for
+	<code>javax.swing.JRadioButtonMenuItem</code> in
+	<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+	that takes an instance of
+	<code>javax.swing.Action</code>.  Given the context in
+	which these happen, I don't see how I can write around
+	them in a clean way.</p>
+
+	<p>So I'm probably just going to drop support of JDK
+	1.2.2 and ask people to use Dependency Finder with
+	JDK 1.3 and above.</p>
+    </dd>
+    <dt>
+	October 10, 2002
+    </dt>
+    <dd>
+	<p>Everybody at work is asking how to use Dependency
+	Finder.  I guess I need to work on usability and the
+	intuitiveness of the user interface.</p>
+
+	<p>Also, maybe the default settings should not try to
+	print the whole dependency graph.  The two instances my
+	colleague deployed have over 50,000 nodes and the JVM
+	runs out of memory trying to render them.  A think a
+	default of package-to-package dependencies might be
+	better.</p>
+
+	<p>Here, I need to choose between default settings that
+	make it non-threatening to newbies versus settings that
+	people use most of the time, so the tool is quick to use,
+	without having to flip the same switches all the time.</p>
+    </dd>
+    <dt>
 	October 09, 2002
     </dt>
     <dd>
 	<p>Maybe I could submit papers for sessions at JavaOne.</p>
+
+	<p>A colleague deployed two instances of the Dependency
+	Finder web app for us to use.</p>
     </dd>
     <dt>
 	October 08, 2002
