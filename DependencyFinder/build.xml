@@ -45,7 +45,7 @@
 	<property name="zipFile"          value="${ant.project.name}.src.zip"/>
 	<property name="distFile"         value="${ant.project.name}.zip"/>
 
-	<property name="tomcat.home"      value="/language/Java/Jakarta/jakarta-tomcat-4.0.1"/>
+	<property name="tomcat.home"      value="/language/Java/Jakarta/jakarta-tomcat-4.1.18-LE-jdk14"/>
 
 	<property name="previous.release" value="20020711"/>
 	<property name="last.release"     value="20030101"/>
@@ -150,10 +150,16 @@
     </target>
 
     <target name="undeploy" depends="init">
+        <delete dir="${tomcat.home}/work/Standalone/localhost/${ant.project.name}"
+		includeEmptyDirs="true"
+		failonerror="false"
+	        verbose="true"/>
         <delete dir="${tomcat.home}/webapps/${ant.project.name}"
 		includeEmptyDirs="true"
+		failonerror="false"
 	        verbose="true"/>
 	<delete file="${tomcat.home}/webapps/${warFile}"
+		failonerror="false"
 	        verbose="true"/>
     </target>
 
@@ -206,7 +212,8 @@
 		    <include name="${etcFiles}"/>
 		    <include name="${docsFiles}"/>
 		    <exclude name="**/CVS"/>
-		    <exclude name="docs/**/*.txt"/>
+		    <exclude name="${binDir}/**/*.pl"/>
+		    <exclude name="${docsDir}/**/*.txt"/>
 		</patternset>
 	    </zipfileset>
 	    <zipfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
@@ -236,6 +243,31 @@
 
     <target name="docs" depends="init"
 	    description="Builds the API documentation">
+	<echo message="Processing Manual.txt ..."/>
+	<exec executable="perl"
+	      output="${docsDir}/Manual.html">
+	    <arg value="${binDir}/txt2html.pl"/>
+	    <arg value="${docsDir}/Manual.txt"/>
+	</exec>
+	<echo message="Processing Developer.txt ..."/>
+	<exec executable="perl"
+	      output="${docsDir}/Developer.html">
+	    <arg value="${binDir}/txt2html.pl"/>
+	    <arg value="${docsDir}/Developer.txt"/>
+	</exec>
+	<echo message="Processing Tools.txt ..."/>
+	<exec executable="perl"
+	      output="${docsDir}/Tools.html">
+	    <arg value="${binDir}/txt2html.pl"/>
+	    <arg value="${docsDir}/Tools.txt"/>
+	</exec>
+	<echo message="Processing Metrics.txt ..."/>
+	<exec executable="perl"
+	      output="${docsDir}/Metrics.html">
+	    <arg value="${binDir}/txt2html.pl"/>
+	    <arg value="${docsDir}/Metrics.txt"/>
+	</exec>
+	<echo message="Javadoc ..."/>
         <javadoc packagenames="${packageNames}"
 		 destdir="${apiDir}"
 		 author="no"
@@ -342,6 +374,13 @@
         <delete dir="${apiDir}"
 		includeEmptyDirs="true"
 	        verbose="true"/>
+        <delete verbose="true">
+	    <fileset dir="docs">
+		<patternset>
+		    <include name="**/*.html"/>
+		</patternset>
+	    </fileset>
+	</delete>
         <delete verbose="true">
 	    <fileset dir=".">
 		<patternset>
