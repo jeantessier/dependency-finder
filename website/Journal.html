@@ -16,6 +16,32 @@
 
 <dl>
     <dt>
+	September 27, 2002
+    </dt>
+    <dd>
+	<p>Found a deficiency with
+	<code>com.jeantessier.classreader.XMLPrinter</code>: it
+	is not printing attributes of class fields.  I opened
+	a bug about it,
+	<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=615616&group_id=43305&atid=435884">bug #615616</a>.</p>
+
+	<p>I used the Inherited Behavior design pattern to normalize
+	the handling of attributes across implementations of the
+	<code>com.jeantessier.classreader.Visitor</code> interface.
+	This solved the bug, but I had to change the DTD for
+	classfiles.  I don't know how that will impact validity
+	of outputs once I change it the the web site that the tools
+	point to by default.</p>
+
+	<p>I worked out the problem with
+	<code>PublishedDiffToHTML.xsl</code>.  If I use the full
+	notation for Xalan extensions instead of the abbreviated
+	one for Java, it works just fine, even with Xalan 2.4.0.
+	So I will upgrade back to Xalan 2.4.0.  I opened a bug
+	with the Xalan folks:
+	<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=13106">Xalan bug 13106</a>.</p>
+    </dd>
+    <dt>
 	September 25, 2002
     </dt>
     <dd>
