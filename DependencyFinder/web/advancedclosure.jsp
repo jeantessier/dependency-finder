@@ -172,8 +172,17 @@
 
 <p class="title">
 <code><%= application.getInitParameter("name") %></code><br />
-Transitive closure
 </p>
+
+</td></tr><tr><td colspan="2">
+
+<table frame="border" rules="cols" class="controls" width="100%"><tr>
+
+<th><a href="advancedquery.jsp">Dependency graph</a></th>
+<th style="background: #ffbbbb">Transitive closure</th>
+<th><a href="advancedmetrics.jsp">Dependency metrics</a></th>
+
+</tr></table>
 
 </td></tr><tr><td colspan="2">
 

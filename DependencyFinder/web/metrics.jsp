@@ -37,7 +37,7 @@
 
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
-<title>Query <%= application.getInitParameter("name") %></title>
+<title>Dependency Metrics <%= application.getInitParameter("name") %></title>
 </head>
 
 <!-- Reading the parameters and setting up the forms -->
@@ -60,12 +60,12 @@
 
     boolean class_scope = "on".equals(request.getParameter("class-scope"));
     if (request.getParameter("submit") == null) {
-	class_scope = false;
+	class_scope = true;
     }
 
     boolean feature_scope = "on".equals(request.getParameter("feature-scope"));
     if (request.getParameter("submit") == null) {
-	feature_scope = false;
+	feature_scope = true;
     }
 
     String filter_includes = request.getParameter("filter-includes");
@@ -85,27 +85,17 @@
 
     boolean class_filter = "on".equals(request.getParameter("class-filter"));
     if (request.getParameter("submit") == null) {
-	class_filter = false;
+	class_filter = true;
     }
 
     boolean feature_filter = "on".equals(request.getParameter("feature-filter"));
     if (request.getParameter("submit") == null) {
-	feature_filter = false;
+	feature_filter = true;
     }
 
-    boolean show_inbounds = "on".equals(request.getParameter("show-inbounds"));
+    boolean list_elements = "on".equals(request.getParameter("list-elements"));
     if (request.getParameter("submit") == null) {
-	show_inbounds = true;
-    }
-
-    boolean show_outbounds = "on".equals(request.getParameter("show-outbounds"));
-    if (request.getParameter("submit") == null) {
-	show_outbounds = true;
-    }
-
-    boolean show_empty_nodes = "on".equals(request.getParameter("show-empty-nodes"));
-    if (request.getParameter("submit") == null) {
-	show_empty_nodes = true;
+	list_elements = false;
     }
 %>
 
@@ -123,9 +113,9 @@
 
 <table frame="border" rules="cols" class="controls" width="100%"><tr>
 
-<th style="background: #ffbbbb">Dependency graph</th>
+<th><a href="query.jsp">Dependency graph</a></th>
 <th><a href="closure.jsp">Transitive closure</a></th>
-<th><a href="metrics.jsp">Dependency metrics</a></th>
+<th style="background: #ffbbbb">Dependency metrics</th>
 
 </tr></table>
 
@@ -139,22 +129,22 @@
     <tbody>
     <tr>
 	<td colspan="2">
-	    <b>Select programming elements</b>
+	    <b>Count programming elements</b>
 	</td>
 	<td colspan="2">
-	    <b>Show dependencies</b>
+	    <b>Count dependencies</b>
 	</td>
     </tr>
     <tr>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-scope" <%= package_scope ? "checked" : "" %> onMouseOver="window.status='Select packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %> onMouseOver="window.status='Select classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %> onMouseOver="window.status='Select methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
+	    <input type="checkbox" name="package-scope" <%= package_scope ? "checked" : "" %> onMouseOver="window.status='Count packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %> onMouseOver="window.status='Count classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %> onMouseOver="window.status='Count methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-filter" <%= package_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-filter" <%= class_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-filter" <%= feature_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
+	    <input type="checkbox" name="package-filter" <%= package_filter ? "checked" : "" %> onMouseOver="window.status='Count dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-filter" <%= class_filter ? "checked" : "" %> onMouseOver="window.status='Count dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-filter" <%= feature_filter ? "checked" : "" %> onMouseOver="window.status='Count dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
     </tr>
     <tr>
@@ -191,10 +181,7 @@
     <tr>
         <td colspan="4" align="center">
 
-Show dependencies
-<input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;to element
-<input type="checkbox" name="show-outbounds" <%= show_outbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that originate from the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;from element
-<input type="checkbox" name="show-empty-nodes" <%= show_empty_nodes ? "checked" : "" %> onMouseOver="window.status='Show selected packages, classes, methods, and fields even if they do not have dependencies'" onMouseOut="window.status=''">&nbsp;(empty elements)
+<input type="checkbox" name="list-elements" <%= list_elements ? "checked" : "" %> onMouseOver="window.status='List packages, classes, methods, and fields'" onMouseOut="window.status=''">&nbsp;List programming elements
 
         </td>
     </tr>
@@ -204,7 +191,7 @@ Show dependencies
 </td></tr><tr>
 
 <td align="left"><font size="-1">Use Perl regular expressions, <a target="_blank" href="http://depfind.sourceforge.net/Manual.html#Perl+Regular+Expressions">see the manual</a></font></td>
-<td align="right"><a href="advancedquery.jsp">advanced &gt;&gt;&gt;</a></td>
+<td align="right"><a href="advancedmetrics.jsp">advanced &gt;&gt;&gt;</a></td>
 
 </tr><tr><td align="center" colspan="2">
 
@@ -215,8 +202,6 @@ Show dependencies
 </form>
 
 <hr size="3" />
-
-<pre class="result">
 
 <%
     if (request.getParameter("submit") != null) {
@@ -237,27 +222,19 @@ Show dependencies
 	    strategy.FilterIncludes(filter_includes);
 	    strategy.FilterExcludes(filter_excludes);
 
-	    GraphCopier dependencies_query = new GraphSummarizer(strategy);
-	    if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
-		dependencies_query = new GraphCopier(strategy);
-	    }
+	    MetricsGatherer metrics = new MetricsGatherer(strategy);
+	    metrics.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
 	
-	    dependencies_query.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
-
-	    TextPrinter printer = new TextPrinter(new PrintWriter(out));
-
-	    printer.ShowInbounds(show_inbounds);
-	    printer.ShowOutbounds(show_outbounds);
-	    printer.ShowEmptyNodes(show_empty_nodes);
-		
-	    printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
+	    MetricsReport reporter = new MetricsReport();
+	    reporter.ListElements(list_elements);
+	    reporter.Process(metrics);
 
 	    Date stop = new Date();
 
 	    out.println();
 %>
 
-</pre>
+<pre class="result"><%= reporter %></pre>
 
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 
