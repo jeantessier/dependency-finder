@@ -8306,8 +8306,6 @@ and read them.
 
 <blockquote>
 
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
-
 List of fully qualified class name and method and field signatures, one per
 line, for all the classes the tool could find.  For parameter names and local
 variable names, the fully qualified name of the owning method is given first,
