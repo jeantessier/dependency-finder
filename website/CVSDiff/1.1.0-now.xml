@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-110" endDate="2005-03-17 08:15:58" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-110" endDate="2005-03-24 11:24:28" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.66</revision>
+			<revision>1.67</revision>
 			<prevrevision>1.60</prevrevision>
 		</file>
 	</entry>
@@ -324,14 +324,14 @@
 	<entry>
 		<file>
 			<name>etc/DependencyGraphToHTML.xsl</name>
-			<revision>1.5</revision>
+			<revision>1.6</revision>
 			<prevrevision>1.3</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>etc/DependencyGraphToText.xsl</name>
-			<revision>1.4</revision>
+			<revision>1.5</revision>
 			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
@@ -471,14 +471,14 @@
 	<entry>
 		<file>
 			<name>etc/dependencies.dtd</name>
-			<revision>1.6</revision>
+			<revision>1.7</revision>
 			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>etc/dependency.style.css</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
@@ -1159,7 +1159,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/ClassNode.java</name>
-			<revision>1.15</revision>
+			<revision>1.16</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
@@ -1243,7 +1243,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/DeletingVisitor.java</name>
-			<revision>1.7</revision>
+			<revision>1.8</revision>
 		</file>
 	</entry>
 	<entry>
@@ -1263,21 +1263,21 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/FeatureNode.java</name>
-			<revision>1.14</revision>
+			<revision>1.15</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/GraphCopier.java</name>
-			<revision>1.10</revision>
+			<revision>1.11</revision>
 			<prevrevision>1.8</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/GraphSummarizer.java</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
@@ -1312,14 +1312,14 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/Node.java</name>
-			<revision>1.14</revision>
+			<revision>1.15</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/NodeFactory.java</name>
-			<revision>1.15</revision>
+			<revision>1.17</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
@@ -1354,14 +1354,14 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/PackageNode.java</name>
-			<revision>1.14</revision>
+			<revision>1.15</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/Printer.java</name>
-			<revision>1.13</revision>
+			<revision>1.15</revision>
 			<prevrevision>1.11</prevrevision>
 		</file>
 	</entry>
@@ -1396,7 +1396,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/TextPrinter.java</name>
-			<revision>1.15</revision>
+			<revision>1.17</revision>
 			<prevrevision>1.13</prevrevision>
 		</file>
 	</entry>
@@ -1438,7 +1438,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/XMLPrinter.java</name>
-			<revision>1.17</revision>
+			<revision>1.19</revision>
 			<prevrevision>1.15</prevrevision>
 		</file>
 	</entry>
@@ -2486,7 +2486,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestAll.java</name>
-			<revision>1.24</revision>
+			<revision>1.25</revision>
 			<prevrevision>1.20</prevrevision>
 		</file>
 	</entry>
@@ -2500,7 +2500,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestClassNode.java</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2534,7 +2534,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestCodeDependencyCollector.java</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2554,7 +2554,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestDeletingVisitor.java</name>
-			<revision>1.3</revision>
+			<revision>1.4</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2567,7 +2567,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestFeatureNode.java</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2575,6 +2575,12 @@
 			<name>tests/com/jeantessier/dependency/TestGraphCopier.java</name>
 			<revision>1.14</revision>
 			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestGraphCopierWithConfirmed.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2589,6 +2595,12 @@
 			<name>tests/com/jeantessier/dependency/TestGraphSummarizer.java</name>
 			<revision>1.17</revision>
 			<prevrevision>1.15</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestGraphSummarizerWithConfirmed.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2650,7 +2662,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestNodeFactory.java</name>
-			<revision>1.5</revision>
+			<revision>1.6</revision>
 			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
@@ -2671,7 +2683,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestPackageNode.java</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2691,7 +2703,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestTextPrinter.java</name>
-			<revision>1.10</revision>
+			<revision>1.12</revision>
 			<prevrevision>1.8</prevrevision>
 		</file>
 	</entry>
@@ -2733,7 +2745,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestXMLPrinter.java</name>
-			<revision>1.11</revision>
+			<revision>1.12</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
