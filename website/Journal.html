@@ -18,6 +18,43 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	July 23, 2003
+    </dt>
+    <dd>
+	<p>Thanks to Jonathan Doughty, who donated a Unix shell script for
+	launching the tools in Dependency Finder.  I haven't had the time to
+	look at it yet, but I am curious about how he got around to doing it.</p>
+
+	<p>Incidentally, for those who wonder, the main reason I don't have a
+	Unix version of the scripts is not that I don't know how to write them,
+	but it is that I don't have a convenient environment to build and to
+	test them.  I was thinking of Bourne shell scripts
+	(<code>/bin/sh</code>) that could discover
+	<code>DEPENDENCYFINDER_HOME</code> from their invocation path and figure
+	out the exact name of the class to invoke from their invocation name.
+	I have a prototype on the SourceForge shell server that dates back to
+	January 23, but I cannot build a <code>.tar.gz</code> file with symbolic
+	links in it on my Windows machine, and I don't want to distribute my
+	build process either.  And working via that dreadful SSH terminal is out
+	of the question.  I need three or four launchers to handle the various
+	patterns in scripts, and symbolic links to create all the scripts.
+	Since I cannot create the symbolic links at build-time on my Windows
+	machine, I might have to write a quick install script that creates all
+	the symbolic links to each launcher.  Running it would become part of
+	the installation process.  Jonathan Doughty took a slightly different
+	approach, so I look forward to comparing what he did with what I had in
+	mind.  Maybe I can get a patch together while we wait for the next
+	release...</p>
+
+	<p>I had put the wrong patch file in patch #776104.  I was able to
+	recreate the correct file and upload it to SourceForge.  Luckily, this
+	patch was very minor and did not address anything that was broken; it
+	simply removed redundant calls to
+	<code>java.io.PrintWriter.flush()</code>.  I actually considered
+	removing the patch altogether and keep the fix for a release.  Maybe I
+	will change my mind again at some point in the future.  :-)</p>
+    </dd>
+    <dt>
 	July 22, 2003
     </dt>
     <dd>
@@ -1227,7 +1264,7 @@
     </dt>
     <dd>
 	<p>Played with SourceForge resources.  Someone mentioned that I
-	might be able to use SourceForge shell server to test Unix lauch
+	might be able to use SourceForge shell server to test Unix launch
 	scripts.  The shell server does not have compilers and connecting
 	through SSH is tedious, so I will not do this on an extended basis.
 	But I did setup the website as a checkout from CVS.  Now I need to
