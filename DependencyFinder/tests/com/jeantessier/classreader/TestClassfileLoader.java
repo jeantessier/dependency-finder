@@ -52,6 +52,8 @@ public abstract class TestClassfileLoader extends TestCase implements LoadListen
 	private LinkedList endSessionEvents;
 	
 	protected void setUp() throws Exception {
+		super.setUp();
+		
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
 		beginSessionEvents   = new LinkedList();
@@ -66,6 +68,8 @@ public abstract class TestClassfileLoader extends TestCase implements LoadListen
 
 	protected void tearDown() throws Exception {
 		Logger.getLogger(getClass()).info("End of " + getName());
+
+		super.tearDown();
 	}
 
 	protected LinkedList getBeginSessionEvents() {
