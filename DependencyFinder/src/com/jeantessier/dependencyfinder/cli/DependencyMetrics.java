@@ -44,23 +44,7 @@ public class DependencyMetrics {
 	public static final String DEFAULT_INCLUDES        = "//";
 	public static final String DEFAULT_SCOPE_INCLUDES  = "//";
 	public static final String DEFAULT_FILTER_INCLUDES = "//";
-	public static final String DEFAULT_LOGFILE    = "System.out";
-
-	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
-
-	public static void Log(Logger logger, String filename) throws IOException {
-		Log(logger, filename, Level.DEBUG);
-	}
-	
-	public static void Log(Logger logger, String filename, Level level) throws IOException {
-		logger.setLevel(level);
-			
-		if ("System.out".equals(filename)) {
-			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-		} else {
-			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
-		}
-	}
+	public static final String DEFAULT_LOGFILE         = "System.out";
 
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);

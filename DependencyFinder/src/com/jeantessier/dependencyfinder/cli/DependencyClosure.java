@@ -41,10 +41,10 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyClosure {
-    public static final String DEFAULT_INCLUDES               = "//";
-    public static final String DEFAULT_SCOPE_INCLUDES         = "//";
-    public static final String DEFAULT_FILTER_INCLUDES        = "//";
-    public static final String DEFAULT_LOGFILE                = "System.out";
+    public static final String DEFAULT_INCLUDES        = "//";
+    public static final String DEFAULT_SCOPE_INCLUDES  = "//";
+    public static final String DEFAULT_FILTER_INCLUDES = "//";
+    public static final String DEFAULT_LOGFILE         = "System.out";
 
     public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
