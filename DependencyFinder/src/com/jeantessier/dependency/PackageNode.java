@@ -45,6 +45,10 @@ public class PackageNode extends Node {
 		classes.add(node);
 	}
 
+	public void removeClass(ClassNode node) {
+		classes.remove(node);
+	}
+	
 	public Collection getClasses() {
 		return Collections.unmodifiableCollection(classes);
 	}

@@ -43,9 +43,11 @@ public class FeatureNode extends Node {
 	}
 
 	// Only to be used by NodeFactory
-	void makeConcrete() {
-		super.makeConcrete();
-		getClassNode().makeConcrete();
+	void setConcrete(boolean concrete) {
+		super.setConcrete(concrete);
+		if (concrete) {
+			getClassNode().setConcrete(concrete);
+		}
 	}
 
 	public ClassNode getClassNode() {

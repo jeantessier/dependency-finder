@@ -55,8 +55,8 @@ public abstract class Node implements Comparable {
 	}
 
 	// Only to be used by NodeFactory
-	void makeConcrete() {
-		concrete = true;
+	void setConcrete(boolean concrete) {
+		this.concrete = concrete;
 	}
 	
 	public boolean canAddDependencyTo(Node node) {

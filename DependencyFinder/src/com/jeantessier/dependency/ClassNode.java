@@ -44,9 +44,11 @@ public class ClassNode extends Node {
 	}
 
 	// Only to be used by NodeFactory
-	void makeConcrete() {
-		super.makeConcrete();
-		getPackageNode().makeConcrete();
+	void setConcrete(boolean concrete) {
+		super.setConcrete(concrete);
+		if (concrete) {
+			getPackageNode().setConcrete(concrete);
+		}
 	}
 
 	public PackageNode getPackageNode() {
@@ -55,6 +57,10 @@ public class ClassNode extends Node {
 
 	public void addFeature(FeatureNode node) {
 		features.add(node);
+	}
+
+	public void removeFeature(FeatureNode node) {
+		features.remove(node);
 	}
 
 	public Collection getFeatures() {
