@@ -1,4 +1,6 @@
 <%@ page import="java.util.*, com.jeantessier.dependency.*" %>
+<%@ page errorPage="Error.jsp" %>
+
 <html>
 
 <head>
