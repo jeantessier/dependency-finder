@@ -46,7 +46,7 @@ public class ClosureStartSelector extends ClosureSelector {
     public void visitPackageNode(PackageNode node) {
         if (criteria.matches(node)) {
             getSelectedNodes().add(node);
-            getCopiedNodes().add(getFactory().createPackage(node.getName()));
+            getCopiedNodes().add(getFactory().createPackage(node.getName(), node.isConfirmed()));
         }
 
         traverseNodes(node.getClasses());
@@ -63,7 +63,7 @@ public class ClosureStartSelector extends ClosureSelector {
     public void visitClassNode(ClassNode node) {
         if (criteria.matches(node)) {
             getSelectedNodes().add(node);
-            getCopiedNodes().add(getFactory().createClass(node.getName()));
+            getCopiedNodes().add(getFactory().createClass(node.getName(), node.isConfirmed()));
         }
 
         traverseNodes(node.getFeatures());
@@ -80,7 +80,7 @@ public class ClosureStartSelector extends ClosureSelector {
     public void visitFeatureNode(FeatureNode node) {
         if (criteria.matches(node)) {
             getSelectedNodes().add(node);
-            getCopiedNodes().add(getFactory().createFeature(node.getName()));
+            getCopiedNodes().add(getFactory().createFeature(node.getName(), node.isConfirmed()));
         }
     }
     

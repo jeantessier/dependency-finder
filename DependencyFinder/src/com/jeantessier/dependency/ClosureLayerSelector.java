@@ -64,14 +64,14 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
     }
     
     public void visitPackageNode(PackageNode node) {
-        currentNode = getFactory().createPackage(node.getName());
+        currentNode = getFactory().createPackage(node.getName(), node.isConfirmed());
     }
     
     public void visitInboundPackageNode(PackageNode node) {
         if (!getCoverage().contains(node)) {
             getSelectedNodes().add(node);
 
-            Node copy = getFactory().createPackage(node.getName());
+            Node copy = getFactory().createPackage(node.getName(), node.isConfirmed());
             getCopiedNodes().add(copy);
             copy.addDependency(currentNode);
         }
@@ -81,21 +81,21 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
         if (!getCoverage().contains(node)) {
             getSelectedNodes().add(node);
 
-            Node copy = getFactory().createPackage(node.getName());
+            Node copy = getFactory().createPackage(node.getName(), node.isConfirmed());
             getCopiedNodes().add(copy);
             currentNode.addDependency(copy);
         }
     }
 
     public void visitClassNode(ClassNode node) {
-        currentNode = getFactory().createClass(node.getName());
+        currentNode = getFactory().createClass(node.getName(), node.isConfirmed());
     }
     
     public void visitInboundClassNode(ClassNode node) {
         if (!getCoverage().contains(node)) {
             getSelectedNodes().add(node);
 
-            Node copy = getFactory().createClass(node.getName());
+            Node copy = getFactory().createClass(node.getName(), node.isConfirmed());
             getCopiedNodes().add(copy);
             copy.addDependency(currentNode);
         }
@@ -105,21 +105,21 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
         if (!getCoverage().contains(node)) {
             getSelectedNodes().add(node);
 
-            Node copy = getFactory().createClass(node.getName());
+            Node copy = getFactory().createClass(node.getName(), node.isConfirmed());
             getCopiedNodes().add(copy);
             currentNode.addDependency(copy);
         }
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        currentNode = getFactory().createFeature(node.getName());
+        currentNode = getFactory().createFeature(node.getName(), node.isConfirmed());
     }
     
     public void visitInboundFeatureNode(FeatureNode node) {
         if (!getCoverage().contains(node)) {
             getSelectedNodes().add(node);
 
-            Node copy = getFactory().createFeature(node.getName());
+            Node copy = getFactory().createFeature(node.getName(), node.isConfirmed());
             getCopiedNodes().add(copy);
             copy.addDependency(currentNode);
         }
@@ -129,7 +129,7 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
         if (!getCoverage().contains(node)) {
             getSelectedNodes().add(node);
 
-            Node copy = getFactory().createFeature(node.getName());
+            Node copy = getFactory().createFeature(node.getName(), node.isConfirmed());
             getCopiedNodes().add(copy);
             currentNode.addDependency(copy);
         }

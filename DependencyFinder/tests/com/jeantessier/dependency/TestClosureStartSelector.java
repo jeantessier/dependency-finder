@@ -40,7 +40,9 @@ import junit.framework.*;
 import org.apache.oro.text.perl.*;
 
 public class TestClosureStartSelector extends TestCase {
-    private NodeFactory factory;
+    private NodeFactory                        factory;
+    private NodeFactory                        localFactory;
+    private RegularExpressionSelectionCriteria localCriteria;
 
     private PackageNode a;
     private ClassNode   a_A;
@@ -55,7 +57,9 @@ public class TestClosureStartSelector extends TestCase {
     private FeatureNode c_C_c;
 
     protected void setUp() throws Exception {
-        factory = new NodeFactory();
+        factory       = new NodeFactory();
+        localFactory  = new NodeFactory();
+        localCriteria = new RegularExpressionSelectionCriteria();
 
         a     = factory.createPackage("a");
         a_A   = factory.createClass("a.A");
@@ -74,8 +78,6 @@ public class TestClosureStartSelector extends TestCase {
     }
 
     public void testOneSelectedNode() {
-        NodeFactory                        localFactory  = new NodeFactory();
-        RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
         localCriteria.setGlobalIncludes("/b.B.b/");
 
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
@@ -87,8 +89,6 @@ public class TestClosureStartSelector extends TestCase {
     }
 
     public void testOneCopiedNode() {
-        NodeFactory                        localFactory  = new NodeFactory();
-        RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
         localCriteria.setGlobalIncludes("/b.B.b/");
 
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
@@ -113,8 +113,6 @@ public class TestClosureStartSelector extends TestCase {
     }
 
     public void testMultipleSelectedNodes() {
-        NodeFactory                        localFactory  = new NodeFactory();
-        RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
         localCriteria.setGlobalIncludes("/a.A.a/, /^b/");
 
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
@@ -128,8 +126,6 @@ public class TestClosureStartSelector extends TestCase {
     }
 
     public void testMultipleCopiedNodes() {
-        NodeFactory                        localFactory  = new NodeFactory();
-        RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
         localCriteria.setGlobalIncludes("/a.A.a/, /^b/");
 
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
@@ -158,5 +154,53 @@ public class TestClosureStartSelector extends TestCase {
         assertTrue("b in selection",     selector.getCopiedNodes().contains(b));
         assertTrue("b.B in selection",   selector.getCopiedNodes().contains(b_B));
         assertTrue("b.B.b in selection", selector.getCopiedNodes().contains(b_B_b));
+    }
+
+    public void testVisitInferredPackage() {
+        ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
+        selector.traverseNodes(Collections.singleton(b));
+
+        assertEquals("package.isConfirmed()", b.isConfirmed(), ((Node) localFactory.getPackages().get(b.getName())).isConfirmed());
+    }
+
+    public void testVisitConfirmedPackage() {
+        b.setConfirmed(true);
+        
+        ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
+        selector.traverseNodes(Collections.singleton(b));
+
+        assertEquals("package.isConfirmed()", b.isConfirmed(), ((Node) localFactory.getPackages().get(b.getName())).isConfirmed());
+    }
+
+    public void testVisitInferredClass() {
+        ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
+        selector.traverseNodes(Collections.singleton(b_B));
+
+        assertEquals("class.isConfirmed()", b_B.isConfirmed(), ((Node) localFactory.getClasses().get(b_B.getName())).isConfirmed());
+    }
+
+    public void testVisitConfirmedClass() {
+        b_B.setConfirmed(true);
+        
+        ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
+        selector.traverseNodes(Collections.singleton(b_B));
+
+        assertEquals("class.isConfirmed()", b_B.isConfirmed(), ((Node) localFactory.getClasses().get(b_B.getName())).isConfirmed());
+    }
+
+    public void testVisitInferredFeature() {
+        ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
+        selector.traverseNodes(Collections.singleton(b_B_b));
+
+        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), ((Node) localFactory.getFeatures().get(b_B_b.getName())).isConfirmed());
+    }
+
+    public void testVisitConfirmedFeature() {
+        b_B_b.setConfirmed(true);
+        
+        ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
+        selector.traverseNodes(Collections.singleton(b_B_b));
+
+        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), ((Node) localFactory.getFeatures().get(b_B_b.getName())).isConfirmed());
     }
 }

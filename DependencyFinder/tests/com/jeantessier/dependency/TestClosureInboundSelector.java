@@ -41,6 +41,7 @@ import org.apache.oro.text.perl.*;
 
 public class TestClosureInboundSelector extends TestCase {
     private NodeFactory factory;
+    private NodeFactory localFactory;
 
     private PackageNode a;
     private ClassNode   a_A;
@@ -55,7 +56,8 @@ public class TestClosureInboundSelector extends TestCase {
     private FeatureNode c_C_c;
 
     protected void setUp() throws Exception {
-        factory = new NodeFactory();
+        factory      = new NodeFactory();
+        localFactory = new NodeFactory();
 
         a     = factory.createPackage("a");
         a_A   = factory.createClass("a.A");
@@ -74,8 +76,6 @@ public class TestClosureInboundSelector extends TestCase {
     }
 
     public void testFactory() {
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector();
 
         selector.setFactory(localFactory);
@@ -94,8 +94,6 @@ public class TestClosureInboundSelector extends TestCase {
     }
     
     public void testOneSelectedNode() {
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -105,8 +103,6 @@ public class TestClosureInboundSelector extends TestCase {
     }
 
     public void testOneCopiedNode() {
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -141,8 +137,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b);
         a_A_a.addDependency(b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b));
 
@@ -157,8 +151,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B);
         a_A_a.addDependency(b_B);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b_B));
 
@@ -173,8 +165,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B_b);
         a_A_a.addDependency(b_B_b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -189,8 +179,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b);
         a_A_a.addDependency(b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b));
 
@@ -207,8 +195,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B);
         a_A_a.addDependency(b_B);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b_B));
 
@@ -225,8 +211,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B_b);
         a_A_a.addDependency(b_B_b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -243,8 +227,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B_b);
         a_A_a.addDependency(b_B_b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.singleton(a));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -258,8 +240,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B_b);
         a_A_a.addDependency(b_B_b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.singleton(a_A));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -273,8 +253,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B_b);
         a_A_a.addDependency(b_B_b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.singleton(a_A_a));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -288,8 +266,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B_b);
         a_A_a.addDependency(b_B_b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.singleton(a));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -305,8 +281,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B_b);
         a_A_a.addDependency(b_B_b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.singleton(a_A));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -322,8 +296,6 @@ public class TestClosureInboundSelector extends TestCase {
         a_A.addDependency(b_B_b);
         a_A_a.addDependency(b_B_b);
         
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.singleton(a_A_a));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -335,8 +307,6 @@ public class TestClosureInboundSelector extends TestCase {
     }
 
     public void testReset() {
-        NodeFactory localFactory  = new NodeFactory();
-
         ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
         selector.traverseNodes(Collections.singleton(b_B_b));
 
@@ -347,5 +317,110 @@ public class TestClosureInboundSelector extends TestCase {
         
         assertEquals("nodes in selection", 0, selector.getSelectedNodes().size());
         assertEquals("copied nodes",       0, selector.getCopiedNodes().size());
+    }
+
+    public void testVisitInferredPackage() {
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b));
+
+        assertEquals("package.isConfirmed()", b.isConfirmed(), ((Node) localFactory.getPackages().get(b.getName())).isConfirmed());
+    }
+
+    public void testVisitConfirmedPackage() {
+        b.setConfirmed(true);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b));
+
+        assertEquals("package.isConfirmed()", b.isConfirmed(), ((Node) localFactory.getPackages().get(b.getName())).isConfirmed());
+    }
+
+    public void testFollowToInferredPackage() {
+        a.addDependency(b);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b));
+
+        assertEquals("package.isConfirmed()", a.isConfirmed(), ((Node) localFactory.getPackages().get(a.getName())).isConfirmed());
+    }
+
+    public void testFollowToConfirmedPackage() {
+        a.addDependency(b);
+        a.setConfirmed(true);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b));
+
+        assertEquals("package.isConfirmed()", a.isConfirmed(), ((Node) localFactory.getPackages().get(a.getName())).isConfirmed());
+    }
+
+    public void testVisitInferredClass() {
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b_B));
+
+        assertEquals("class.isConfirmed()", b_B.isConfirmed(), ((Node) localFactory.getClasses().get(b_B.getName())).isConfirmed());
+    }
+
+    public void testVisitConfirmedClass() {
+        b_B.setConfirmed(true);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b_B));
+
+        assertEquals("class.isConfirmed()", b_B.isConfirmed(), ((Node) localFactory.getClasses().get(b_B.getName())).isConfirmed());
+    }
+
+    public void testFollowToInferredClass() {
+        a_A.addDependency(b_B);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b_B));
+
+        assertEquals("class.isConfirmed()", a_A.isConfirmed(), ((Node) localFactory.getClasses().get(a_A.getName())).isConfirmed());
+    }
+
+    public void testFollowToConfirmedClass() {
+        a_A.addDependency(b_B);
+        a_A.setConfirmed(true);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b_B));
+
+        assertEquals("class.isConfirmed()", a_A.isConfirmed(), ((Node) localFactory.getClasses().get(a_A.getName())).isConfirmed());
+    }
+
+    public void testVisitInferredFeature() {
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b_B_b));
+
+        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), ((Node) localFactory.getFeatures().get(b_B_b.getName())).isConfirmed());
+    }
+
+    public void testVisitConfirmedFeature() {
+        b_B_b.setConfirmed(true);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b_B_b));
+
+        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), ((Node) localFactory.getFeatures().get(b_B_b.getName())).isConfirmed());
+    }
+
+    public void testFollowToInferredFeature() {
+        a_A_a.addDependency(b_B_b);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b_B_b));
+
+        assertEquals("feature.isConfirmed()", a_A_a.isConfirmed(), ((Node) localFactory.getFeatures().get(a_A_a.getName())).isConfirmed());
+    }
+
+    public void testFollowToConfirmedFeature() {
+        a_A_a.addDependency(b_B_b);
+        a_A_a.setConfirmed(true);
+        
+        ClosureInboundSelector selector = new ClosureInboundSelector(localFactory, Collections.EMPTY_SET);
+        selector.traverseNodes(Collections.singleton(b_B_b));
+
+        assertEquals("feature.isConfirmed()", a_A_a.isConfirmed(), ((Node) localFactory.getFeatures().get(a_A_a.getName())).isConfirmed());
     }
 }
