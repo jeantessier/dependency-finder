@@ -34,6 +34,8 @@ package com.jeantessier.metrics;
 
 import java.util.*;
 
+import org.apache.oro.text.perl.*;
+
 import junit.framework.*;
 
 public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
@@ -168,7 +170,7 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
 
 	public void testSplit() {
 		String operators = "/(<)|(<=)|(>)|(>=)|(==)|(!=)/";
-		org.apache.oro.text.perl.Perl5Util perl = new org.apache.oro.text.perl.Perl5Util();
+		Perl5Util perl = new org.apache.oro.text.perl.Perl5Util();
 
 		List   list = new ArrayList();
 		String str;

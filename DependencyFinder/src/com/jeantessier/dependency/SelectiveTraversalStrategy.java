@@ -37,81 +37,11 @@ import java.util.*;
 import org.apache.log4j.*;
 import org.apache.oro.text.perl.*;
 
+import com.jeantessier.text.*;
+
 public class SelectiveTraversalStrategy implements TraversalStrategy {
-	private static final Perl5Util perl = new Perl5Util();
-	
-	protected static Perl5Util Perl() {
-		return perl;
-	}
+	private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-	protected static List ParseRE(String re) {
-		List result = new LinkedList();
-
-		Logger logger = Logger.getLogger(SelectiveTraversalStrategy.class);
-		logger.debug("ParseRE \"" + re + "\"");
-
-		int length = re.length();
-		int start  = 0;
-		int stop   = -1;
-
-		while (start < length && stop < length) {
-			String separator = null;
-			
-			// Locate begining & determine separator
-			while (start < length && stop < start) {
-				if (re.charAt(start) == 'm' && (start + 1) < length) {
-					separator = re.substring(start + 1, start + 2);
-					stop = start + 2;
-				} else if (re.charAt(start) == '/') {
-					separator = "/";
-					stop = start + 1;
-				} else {
-					start++;
-				}
-			}
-
-			logger.debug("start is " + start);
-			logger.debug("separator is " + separator);
-			
-			// Locate end
-			while (stop < length && start < stop) {
-				stop = re.indexOf(separator, stop);
-				logger.debug("indexOf() is " + stop);
-				
-				if (stop == -1 || re.charAt(stop - 1) != '\\') {
-
-					if (stop == -1) {
-						stop = length;
-					} else {
-						// Look for modifiers
-						stop++;
-						while (stop < length && (re.charAt(stop) == 'g' ||
-												 re.charAt(stop) == 'i' ||
-												 re.charAt(stop) == 'm' ||
-												 re.charAt(stop) == 'o' ||
-												 re.charAt(stop) == 's' ||
-												 re.charAt(stop) == 'x')) {
-							stop++;
-						}
-					}
-
-					logger.debug("stop is " + stop);
-
-					// Add candidate
-					logger.debug("candidate is \"" + re.substring(start, stop) + "\"");
-					result.add(re.substring(start, stop));
-			
-					// Move start
-					start = stop + 1;
-				} else {
-					stop++;
-				}
-			}
-		}
-		
-		return result;
-	}
-	
 	private boolean pre_outbound_traversal  = true;
 	private boolean pre_inbound_traversal   = true;
 	private boolean post_outbound_traversal = false;
@@ -483,16 +413,84 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		i = global_criteria.iterator();
 		while (!found && i.hasNext()) {
 			String condition = (String) i.next();
-			found = Perl().match(condition, name);
+			found = perl.match(condition, name);
 		}
 
 		i = criteria.iterator();
 		while (!found && i.hasNext()) {
 			String condition = (String) i.next();
-			found = Perl().match(condition, name);
+			found = perl.match(condition, name);
 		}
 
 		return found;
+	}
+	
+	protected static List ParseRE(String re) {
+		List result = new LinkedList();
+
+		Logger logger = Logger.getLogger(SelectiveTraversalStrategy.class);
+		logger.debug("ParseRE \"" + re + "\"");
+
+		int length = re.length();
+		int start  = 0;
+		int stop   = -1;
+
+		while (start < length && stop < length) {
+			String separator = null;
+			
+			// Locate begining & determine separator
+			while (start < length && stop < start) {
+				if (re.charAt(start) == 'm' && (start + 1) < length) {
+					separator = re.substring(start + 1, start + 2);
+					stop = start + 2;
+				} else if (re.charAt(start) == '/') {
+					separator = "/";
+					stop = start + 1;
+				} else {
+					start++;
+				}
+			}
+
+			logger.debug("start is " + start);
+			logger.debug("separator is " + separator);
+			
+			// Locate end
+			while (stop < length && start < stop) {
+				stop = re.indexOf(separator, stop);
+				logger.debug("indexOf() is " + stop);
+				
+				if (stop == -1 || re.charAt(stop - 1) != '\\') {
+
+					if (stop == -1) {
+						stop = length;
+					} else {
+						// Look for modifiers
+						stop++;
+						while (stop < length && (re.charAt(stop) == 'g' ||
+												 re.charAt(stop) == 'i' ||
+												 re.charAt(stop) == 'm' ||
+												 re.charAt(stop) == 'o' ||
+												 re.charAt(stop) == 's' ||
+												 re.charAt(stop) == 'x')) {
+							stop++;
+						}
+					}
+
+					logger.debug("stop is " + stop);
+
+					// Add candidate
+					logger.debug("candidate is \"" + re.substring(start, stop) + "\"");
+					result.add(re.substring(start, stop));
+			
+					// Move start
+					start = stop + 1;
+				} else {
+					stop++;
+				}
+			}
+		}
+		
+		return result;
 	}
 
 	public String toString() {

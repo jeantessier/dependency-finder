@@ -174,15 +174,17 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 		}
 	}
 	
-	private synchronized boolean EvaluateRE(String re, String element) {
+	private boolean EvaluateRE(String re, String element) {
 		boolean result = false;
-		
-		if (Perl().match(re, element)) {
-			result = true;
-			if (Perl().group(1) != null) {
-				values.add(Perl().group(1));
-			} else {
-				values.add(element);
+
+		synchronized (Perl()) {
+			if (Perl().match(re, element)) {
+				result = true;
+				if (Perl().group(1) != null) {
+					values.add(Perl().group(1));
+				} else {
+					values.add(element);
+				}
 			}
 		}
 

@@ -34,8 +34,10 @@ package com.jeantessier.metrics;
 
 import org.apache.oro.text.perl.*;
 
+import com.jeantessier.text.*;
+
 public abstract class MeasurementBase implements Measurement {
-	private static final Perl5Util perl = new Perl5Util();
+	private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
 	protected static Perl5Util Perl() {
 		return perl;

@@ -36,8 +36,10 @@ import java.util.*;
 
 import org.apache.oro.text.perl.*;
 
+import com.jeantessier.text.*;
+
 public class MetricsConfiguration {
-	private static final Perl5Util perl = new Perl5Util();
+	private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 	
 	private List project_measurements = new LinkedList();
 	private List group_measurements   = new LinkedList();
