@@ -55,21 +55,6 @@
 	startExcludes = "";
     }
 
-    boolean packageScope = "on".equals(request.getParameter("package-scope"));
-    if (request.getParameter("submit") == null) {
-	packageScope = true;
-    }
-
-    boolean classScope = "on".equals(request.getParameter("class-scope"));
-    if (request.getParameter("submit") == null) {
-	classScope = true;
-    }
-
-    boolean featureScope = "on".equals(request.getParameter("feature-scope"));
-    if (request.getParameter("submit") == null) {
-	featureScope = true;
-    }
-
     String stopIncludes = request.getParameter("stop-includes");
     if (stopIncludes == null) {
 	stopIncludes = "";
@@ -80,21 +65,6 @@
 	stopExcludes = "";
     }
 
-    boolean packageFilter = "on".equals(request.getParameter("package-filter"));
-    if (request.getParameter("submit") == null) {
-	packageFilter = true;
-    }
-
-    boolean classFilter = "on".equals(request.getParameter("class-filter"));
-    if (request.getParameter("submit") == null) {
-	classFilter = true;
-    }
-
-    boolean featureFilter = "on".equals(request.getParameter("feature-filter"));
-    if (request.getParameter("submit") == null) {
-	featureFilter = true;
-    }
-
     String maximumInboundDepth = request.getParameter("maximum-inbound-depth");
     if (maximumInboundDepth == null) {
 	maximumInboundDepth = "0";
@@ -103,6 +73,16 @@
     String maximumOutboundDepth = request.getParameter("maximum-outbound-depth");
     if (maximumOutboundDepth == null) {
 	maximumOutboundDepth = "";
+    }
+
+    String scope = request.getParameter("scope");
+    if (scope == null) {
+	scope = "feature";
+    }
+
+    String filter = request.getParameter("filter");
+    if (filter == null) {
+	filter = "feature";
     }
 %>
 
@@ -202,14 +182,14 @@ Follow outbounds:
     </tr>
     <tr>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> onMouseOver="window.status='Start with packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> onMouseOver="window.status='Start with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> onMouseOver="window.status='Start with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
+	    <input type="radio" name="scope" value="package" <%= "package".equals(scope) ? "checked" : "" %> onMouseOver="window.status='Start with packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="radio" name="scope" value="class" <%= "class".equals(scope) ? "checked" : "" %> onMouseOver="window.status='Start with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="radio" name="scope" value="feature" <%= "feature".equals(scope) ? "checked" : "" %> onMouseOver="window.status='Start with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> onMouseOver="window.status='Stop with packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> onMouseOver="window.status='Stop with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> onMouseOver="window.status='Stop with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
+	    <input type="radio" name="filter" value="package" <%= "package".equals(filter) ? "checked" : "" %> onMouseOver="window.status='Stop with packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="radio" name="filter" value="class" <%= "class".equals(filter) ? "checked" : "" %> onMouseOver="window.status='Stop with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="radio" name="filter" value="feature" <%= "feature".equals(filter) ? "checked" : "" %> onMouseOver="window.status='Stop with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
     </tr>
     </tbody>
@@ -265,14 +245,14 @@ Follow outbounds:
 	    closure.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
 	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
-	    scopeCriteria.setMatchingPackages(packageScope);
-	    scopeCriteria.setMatchingClasses(classScope);
-	    scopeCriteria.setMatchingFeatures(featureScope);
+	    scopeCriteria.setMatchingPackages("package".equals(scope));
+	    scopeCriteria.setMatchingClasses("class".equals(scope));
+	    scopeCriteria.setMatchingFeatures("feature".equals(scope));
 
 	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
-	    filterCriteria.setMatchingPackages(packageFilter);
-	    filterCriteria.setMatchingClasses(classFilter);
-	    filterCriteria.setMatchingFeatures(featureFilter);
+	    filterCriteria.setMatchingPackages("package".equals(filter));
+	    filterCriteria.setMatchingClasses("class".equals(filter));
+	    filterCriteria.setMatchingFeatures("feature".equals(filter));
 
 	    GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
 	    summarizer.traverseNodes(closure.getFactory().getPackages().values());
