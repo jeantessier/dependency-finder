@@ -138,8 +138,12 @@
 
 <p>Dependency Graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
 
+<p>The boxes below take Perl regular expressions.  Read the
+<a target="_blank" href="http://depfind.sourceforge.net/Manual.html">manual</a>
+for more information regarding <a href="http://depfind.sourceforge.net/">Dependency Finder</a>,
+including sample regular expressions.</p>
+
 <form action="<%= request.getRequestURI() %>" method="post">
-<!-- <form action="env.jsp" method="post"> -->
 
 <table border="0" cellpadding="5"><tr><td>
 
@@ -283,53 +287,54 @@ Show:
 <hr/>
 
 <%
-    if (request.getParameter("submit") != null && application.getAttribute("factory") != null) {
-	Date start = new Date();
+    if (request.getParameter("submit") != null) {
+	if (application.getAttribute("factory") != null) {
+	    Date start = new Date();
 
-	SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
+	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
 		
-	strategy.PackageScope(package_scope);
-	strategy.ClassScope(class_scope);
-	strategy.FeatureScope(feature_scope);
-	strategy.ScopeIncludes(scope_includes);
-	strategy.PackageScopeIncludes(package_scope_includes);
-	strategy.ClassScopeIncludes(class_scope_includes);
-	strategy.FeatureScopeIncludes(feature_scope_includes);
-	strategy.ScopeExcludes(scope_excludes);
-	strategy.PackageScopeExcludes(package_scope_excludes);
-	strategy.ClassScopeExcludes(class_scope_excludes);
-	strategy.FeatureScopeExcludes(feature_scope_excludes);
+	    strategy.PackageScope(package_scope);
+	    strategy.ClassScope(class_scope);
+	    strategy.FeatureScope(feature_scope);
+	    strategy.ScopeIncludes(scope_includes);
+	    strategy.PackageScopeIncludes(package_scope_includes);
+	    strategy.ClassScopeIncludes(class_scope_includes);
+	    strategy.FeatureScopeIncludes(feature_scope_includes);
+	    strategy.ScopeExcludes(scope_excludes);
+	    strategy.PackageScopeExcludes(package_scope_excludes);
+	    strategy.ClassScopeExcludes(class_scope_excludes);
+	    strategy.FeatureScopeExcludes(feature_scope_excludes);
 	
-	strategy.PackageFilter(package_filter);
-	strategy.ClassFilter(class_filter);
-	strategy.FeatureFilter(feature_filter);
-	strategy.FilterIncludes(filter_includes);
-	strategy.PackageFilterIncludes(package_filter_includes);
-	strategy.ClassFilterIncludes(class_filter_includes);
-	strategy.FeatureFilterIncludes(feature_filter_includes);
-	strategy.FilterExcludes(filter_excludes);
-	strategy.PackageFilterExcludes(package_filter_excludes);
-	strategy.ClassFilterExcludes(class_filter_excludes);
-	strategy.FeatureFilterExcludes(feature_filter_excludes);
+	    strategy.PackageFilter(package_filter);
+	    strategy.ClassFilter(class_filter);
+	    strategy.FeatureFilter(feature_filter);
+	    strategy.FilterIncludes(filter_includes);
+	    strategy.PackageFilterIncludes(package_filter_includes);
+	    strategy.ClassFilterIncludes(class_filter_includes);
+	    strategy.FeatureFilterIncludes(feature_filter_includes);
+	    strategy.FilterExcludes(filter_excludes);
+	    strategy.PackageFilterExcludes(package_filter_excludes);
+	    strategy.ClassFilterExcludes(class_filter_excludes);
+	    strategy.FeatureFilterExcludes(feature_filter_excludes);
 
-	GraphCopier dependencies_query = new GraphSummarizer(strategy);
-	if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
+	    GraphCopier dependencies_query = new GraphSummarizer(strategy);
+	    if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 		dependencies_query = new GraphCopier(strategy);
-	}
+	    }
 	
-	dependencies_query.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
+	    dependencies_query.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
 
-	PrettyPrinter printer = new PrettyPrinter();
+	    PrettyPrinter printer = new PrettyPrinter();
 
-	printer.ShowInbounds(show_inbounds);
-	printer.ShowOutbounds(show_outbounds);
-	printer.ShowEmptyNodes(show_empty_nodes);
+	    printer.ShowInbounds(show_inbounds);
+	    printer.ShowOutbounds(show_outbounds);
+	    printer.ShowEmptyNodes(show_empty_nodes);
 		
-	printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
+	    printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
 
-	Date stop = new Date();
+	    Date stop = new Date();
 
-	out.println();
+	    out.println();
 %>
 
 <pre><%= printer %></pre>
@@ -337,6 +342,15 @@ Show:
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 
 <%
+	} else {
+%>
+
+<h3>No dependency graph available</h3>
+
+<p>Please ask the webmaster to extract a dependency graph before you start placing queries.</p>
+
+<%
+	}
     }
 %>
 
