@@ -87,8 +87,6 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 			((Classfile) i.next()).Accept(gatherer);
 		}
 		
-		model.MetricsFactory(gatherer.MetricsFactory());
-		
 		model.StatusLine().ShowInfo("Generating project results ...");
 		
 		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.PrettyPrinter();

@@ -55,9 +55,9 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	private List              metrics_list;
 	
 	private String            measurement_names[];
-	private int               metric_dispose[];
-	private Object            metric_values[][];
-	private MetricsComparator comparator        = new MetricsComparator("name");
+	private int               measurement_dispose[];
+	private Object            measurement_values[][];
+	private MetricsComparator comparator             = new MetricsComparator("name");
 
 	public OOMetricsTableModel(List descriptors) {
 		this.descriptors = descriptors;
@@ -130,14 +130,14 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		}
 		
 		measurement_names = (String[]) names.toArray(new String[0]);
-		metric_dispose = new int[dispose.size()];
+		measurement_dispose = new int[dispose.size()];
 		for (int j=0; j<dispose.size(); j++) {
-			metric_dispose[j] = ((Integer) dispose.get(j)).intValue();
+			measurement_dispose[j] = ((Integer) dispose.get(j)).intValue();
 		}
 	}
 
 	private void BuildMetricValues() {
-		metric_values  = new Object[0][];
+		measurement_values  = new Object[0][];
 	}
 
 	private void BuildMetricValues(Collection metrics_list) {
@@ -158,21 +158,20 @@ public class OOMetricsTableModel extends AbstractTableModel {
 				Measurement measurement = current_metrics.Measurement(descriptor.ShortName());
 				
 				if (measurement instanceof StatisticalMeasurement) {
-					StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
-					current_values.add(new Double(stats.Minimum()));
-					current_values.add(new Double(stats.Median()));
-					current_values.add(new Double(stats.Average()));
-					current_values.add(new Double(stats.Maximum()));
-					current_values.add(new Double(stats.Sum()));
+					current_values.add(measurement);
+					current_values.add(measurement);
+					current_values.add(measurement);
+					current_values.add(measurement);
+					current_values.add(measurement);
 				} else {
-					current_values.add(measurement.Value());
+					current_values.add(measurement);
 				}
 			}
 		}
 		
-		metric_values = new Object[values.size()][];
+		measurement_values = new Object[values.size()][];
 		for (int j=0; j<values.size(); j++) {
-			metric_values[j] = ((Collection) values.get(j)).toArray();
+			measurement_values[j] = ((Collection) values.get(j)).toArray();
 		}
 	}
 	
@@ -181,11 +180,11 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	}
 
 	public int getRowCount() {
-		return metric_values.length;
+		return measurement_values.length;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return metric_values[rowIndex][columnIndex];
+		return measurement_values[rowIndex][columnIndex];
 	}
 
 	public String RawColumnName(int column) {
@@ -193,7 +192,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	}
 
 	public int RawColumnDispose(int column) {
-		return metric_dispose[column];
+		return measurement_dispose[column];
 	}
 
 	public String getColumnName(int column) {

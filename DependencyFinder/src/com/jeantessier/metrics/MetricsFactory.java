@@ -196,6 +196,13 @@ public class MetricsFactory {
 		return Collections.unmodifiableCollection(methods.values());
 	}
 
+	public void Clear() {
+		projects.clear();
+		groups.clear();
+		classes.clear();
+		methods.clear();
+	}
+	
 	private void PopulateMetrics(Metrics metrics, Collection descriptors) {
 		Iterator i = descriptors.iterator();
 		while (i.hasNext()) {

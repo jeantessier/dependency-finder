@@ -38,6 +38,7 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.table.*;
 import javax.swing.text.*;
 
 import org.apache.log4j.*;
@@ -52,7 +53,8 @@ public class OOMetrics extends JFrame {
 	public static final String DEFAULT_LOGFILE   = "System.out";
 	public static final String DEFAULT_TRACEFILE = "System.out";
 
-	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
+	private static final Layout            DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
+	private static final TableCellRenderer RENDERER           = new MeasurementTableCellRenderer();
 
 	private MetricsFactory factory;
 	
@@ -157,6 +159,16 @@ public class OOMetrics extends JFrame {
 
 		toolbar.addSeparator();
 		file_menu.addSeparator();
+		
+		action = new NewMetricsAction(this);
+		menu_item = file_menu.add(action);
+		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+		menu_item.setMnemonic('n');
+		button = toolbar.add(action);
+		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
+
+		toolbar.addSeparator();
+		file_menu.addSeparator();
 
 		action = new ExitAction(this);
 		menu_item = file_menu.add(action);
@@ -227,6 +239,9 @@ public class OOMetrics extends JFrame {
 
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setRowSelectionAllowed(true);
+		table.setDefaultRenderer(Object.class, RENDERER);
+		table.setShowHorizontalLines(false);
+		table.setShowVerticalLines(false);
 		table.getTableHeader().addMouseListener(new TableHeaderListener(table, model));
 			
 		result = new JScrollPane(table);
