@@ -17,6 +17,20 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 29, 2005
+    </dt>
+    <dd>
+	<p>Dependency Finder is now four years old.</p>
+
+	<p>It turns out the problem with re-extracting graphs had to do with
+	<code>CodeDependencyCollector</code> not setting <em>concreteness</em>
+	correctly.  That would throw off <code>DeletingVistor</code> when
+	rolling back a class during re-extraction.  One problem fixed.</p>
+
+	<p>Now, I need to get the GUI to use the new <code>Monitor</code>
+	too.</p>
+    </dd>
+    <dt>
 	January 28, 2005
     </dt>
     <dd>
