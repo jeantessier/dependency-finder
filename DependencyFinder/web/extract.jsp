@@ -86,6 +86,8 @@
 	}
 
 	public void EndFile(LoadEvent event) {
+	    super.EndFile(event);
+
 	    try {
 		if (!VisitedFiles().contains(event.Filename())) {
 		    out.print("\t\t<i>Skipping ");
