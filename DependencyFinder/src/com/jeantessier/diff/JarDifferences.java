@@ -50,7 +50,7 @@ public class JarDifferences implements Differences {
 	private Collection package_differences = new LinkedList();
 
 	public JarDifferences(String name, String old_version, Validator old_validator, ClassfileLoader old_jar, String new_version, Validator new_validator, ClassfileLoader new_jar) {
-		Logger.getLogger(getClass()).debug("Begin " + Name() + " (" + old_version + " -> " + new_version + ")");
+		Logger.getLogger(getClass()).debug("Begin " + name + " (" + old_version + " -> " + new_version + ")");
 
 		this.name        = name;
 		this.old_version = old_version;
@@ -85,7 +85,8 @@ public class JarDifferences implements Differences {
 			PackageNode old_package = (PackageNode) old_factory.Packages().get(package_name);
 			PackageNode new_package = (PackageNode) new_factory.Packages().get(package_name);
 	    
-			PackageDifferences differences = new PackageDifferences(package_name, old_validator, old_jar, old_package, new_validator, new_jar, new_package);
+			Differences differences = new PackageDifferences(package_name, old_validator, old_jar, old_package, new_validator, new_jar, new_package);
+			differences = new DocumentableDifferences(differences, old_validator, new_validator);
 			if (!differences.IsEmpty()) {
 				PackageDifferences().add(differences);
 			}

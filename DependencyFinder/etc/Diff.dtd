@@ -42,6 +42,8 @@
 
 <!ELEMENT removed-packages (name)* >
 
+<!ELEMENT undocumented-packages (name)* >
+
 <!ELEMENT removed-interfaces (name)* >
 
 <!ELEMENT removed-classes (name)* >
@@ -68,6 +70,8 @@
 
 <!ELEMENT new-packages (name)* >
 
+<!ELEMENT documented-packages (name)* >
+
 <!ELEMENT new-interfaces (name)* >
 
 <!ELEMENT new-classes (name)* >
@@ -76,7 +80,7 @@
 
 <!ELEMENT name (#PCDATA)* >
 <!ATTLIST name
-          visibility (public|protected|package|private) #IMPLIED
+          visibility   (public|protected|package|private) #IMPLIED
           static       CDATA #IMPLIED
           final        CDATA #IMPLIED
           super        CDATA #IMPLIED
@@ -89,6 +93,9 @@
           strict       CDATA #IMPLIED
           deprecated   CDATA #IMPLIED
           synthetic    CDATA #IMPLIED
+          extends      CDATA #IMPLIED
+          implements   CDATA #IMPLIED
+          name         CDATA #IMPLIED
 >
 
 <!ELEMENT modified-declaration (old-declaration,new-declaration) >
@@ -137,56 +144,82 @@
 
 <!ELEMENT old-declaration (#PCDATA)* >
 <!ATTLIST old-declaration
-          visibility (public|protected|package|private) #IMPLIED
-          static       CDATA #IMPLIED
-          final        CDATA #IMPLIED
-          super        CDATA #IMPLIED
-          synchronized CDATA #IMPLIED
-          volatile     CDATA #IMPLIED
-          transient    CDATA #IMPLIED
-          native       CDATA #IMPLIED
-          interface    CDATA #IMPLIED
-          abstract     CDATA #IMPLIED
-          strict       CDATA #IMPLIED
-          deprecated   CDATA #IMPLIED
-          synthetic    CDATA #IMPLIED
+          visibility     (public|protected|package|private) #IMPLIED
+          static         CDATA #IMPLIED
+          final          CDATA #IMPLIED
+          super          CDATA #IMPLIED
+          synchronized   CDATA #IMPLIED
+          volatile       CDATA #IMPLIED
+          transient      CDATA #IMPLIED
+          native         CDATA #IMPLIED
+          interface      CDATA #IMPLIED
+          abstract       CDATA #IMPLIED
+          strict         CDATA #IMPLIED
+          deprecated     CDATA #IMPLIED
+          synthetic      CDATA #IMPLIED
+          inherited      CDATA #IMPLIED
+          extends        CDATA #IMPLIED
+          implements     CDATA #IMPLIED
+          type           CDATA #IMPLIED
+          return-type    CDATA #IMPLIED
+          name           CDATA #IMPLIED
+          signature      CDATA #IMPLIED
+          full-signature CDATA #IMPLIED
+          throws         CDATA #IMPLIED
 >
 
 <!ELEMENT new-declaration (#PCDATA)* >
 <!ATTLIST new-declaration
-          visibility (public|protected|package|private) #IMPLIED
-          static       CDATA #IMPLIED
-          final        CDATA #IMPLIED
-          super        CDATA #IMPLIED
-          synchronized CDATA #IMPLIED
-          volatile     CDATA #IMPLIED
-          transient    CDATA #IMPLIED
-          native       CDATA #IMPLIED
-          interface    CDATA #IMPLIED
-          abstract     CDATA #IMPLIED
-          strict       CDATA #IMPLIED
-          deprecated   CDATA #IMPLIED
-          synthetic    CDATA #IMPLIED
+          visibility     (public|protected|package|private) #IMPLIED
+          static         CDATA #IMPLIED
+          final          CDATA #IMPLIED
+          super          CDATA #IMPLIED
+          synchronized   CDATA #IMPLIED
+          volatile       CDATA #IMPLIED
+          transient      CDATA #IMPLIED
+          native         CDATA #IMPLIED
+          interface      CDATA #IMPLIED
+          abstract       CDATA #IMPLIED
+          strict         CDATA #IMPLIED
+          deprecated     CDATA #IMPLIED
+          synthetic      CDATA #IMPLIED
+          inherited      CDATA #IMPLIED
+          extends        CDATA #IMPLIED
+          implements     CDATA #IMPLIED
+          type           CDATA #IMPLIED
+          return-type    CDATA #IMPLIED
+          name           CDATA #IMPLIED
+          signature      CDATA #IMPLIED
+          full-signature CDATA #IMPLIED
+          throws         CDATA #IMPLIED
 >
 
 <!ELEMENT feature (name,modified-declaration?) >
 
 <!ELEMENT declaration (#PCDATA)* >
 <!ATTLIST declaration
-          visibility (public|protected|package|private) #IMPLIED
-          static       CDATA #IMPLIED
-          final        CDATA #IMPLIED
-          super        CDATA #IMPLIED
-          synchronized CDATA #IMPLIED
-          volatile     CDATA #IMPLIED
-          transient    CDATA #IMPLIED
-          native       CDATA #IMPLIED
-          interface    CDATA #IMPLIED
-          abstract     CDATA #IMPLIED
-          strict       CDATA #IMPLIED
-          deprecated   CDATA #IMPLIED
-          synthetic    CDATA #IMPLIED
-          inherited    CDATA #IMPLIED
+          visibility     (public|protected|package|private) #IMPLIED
+          static         CDATA #IMPLIED
+          final          CDATA #IMPLIED
+          super          CDATA #IMPLIED
+          synchronized   CDATA #IMPLIED
+          volatile       CDATA #IMPLIED
+          transient      CDATA #IMPLIED
+          native         CDATA #IMPLIED
+          interface      CDATA #IMPLIED
+          abstract       CDATA #IMPLIED
+          strict         CDATA #IMPLIED
+          deprecated     CDATA #IMPLIED
+          synthetic      CDATA #IMPLIED
+          inherited      CDATA #IMPLIED
+          extends        CDATA #IMPLIED
+          implements     CDATA #IMPLIED
+          type           CDATA #IMPLIED
+          return-type    CDATA #IMPLIED
+          name           CDATA #IMPLIED
+          signature      CDATA #IMPLIED
+          full-signature CDATA #IMPLIED
+          throws         CDATA #IMPLIED
 >
 
 ]>

@@ -12,7 +12,7 @@
     </target>
 
     <target name="olddoc">
-	<javadoc packagenames="ModifiedPackage.*"
+	<javadoc packagenames="ModifiedPackage.*, UndocumentedPackage.*"
 		 author="no"
 		 version="no"
 		 private="yes">
@@ -34,7 +34,7 @@
     </target>
 
     <target name="newdoc">
-	<javadoc packagenames="ModifiedPackage.*"
+	<javadoc packagenames="DocumentedPackage.*, ModifiedPackage.*"
 		 author="no"
 		 version="no"
 		 private="yes">

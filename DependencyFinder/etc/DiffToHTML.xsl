@@ -66,6 +66,13 @@
 	</ul>
     </xsl:template>
  
+    <xsl:template match="undocumented-packages">
+	<h2>Formerly Documented Packages:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+
     <xsl:template match="removed-interfaces">
 	<h2>Removed Interfaces:</h2>
 	<ul>
@@ -156,7 +163,14 @@
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
- 
+  
+    <xsl:template match="documented-packages">
+	<h2>Newly Documented Packages:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+
     <xsl:template match="new-interfaces">
 	<h2>New Interfaces:</h2>
 	<ul>

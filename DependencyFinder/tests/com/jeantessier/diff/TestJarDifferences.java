@@ -77,13 +77,36 @@ public class TestJarDifferences extends TestCase {
 		assertTrue("IsEmpty()", empty_differences.IsEmpty());
 
 		assertTrue("!IsEmpty()", !jar_differences.IsEmpty());
-		assertEquals("NbPackageDifferences: " + jar_differences.PackageDifferences(), 3, jar_differences.PackageDifferences().size());
+		assertEquals("NbPackageDifferences: " + jar_differences.PackageDifferences(), 5, jar_differences.PackageDifferences().size());
 	}
 	
+	public void testDocumentedPackage() {
+		String name = "DocumentedPackage";
+		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, jar_differences.PackageDifferences());
+		PackageDifferences differences = (PackageDifferences) documentable_differences.Component();
+		assertNotNull(name, differences);
+
+		assertTrue(name + ".NewDocumentation()",      documentable_differences.NewDocumentation());
+		assertTrue(name + ".Remove Documentation()", !documentable_differences.RemovedDocumentation());
+		assertTrue(name + ".IsEmpty()",              !documentable_differences.IsEmpty());
+
+		assertEquals(name, differences.Name());
+		assertEquals(name + ".ClassDifferences: " + differences.ClassDifferences(), 1, differences.ClassDifferences().size());
+		assertTrue(name + ".IsRemoved()",  !differences.IsRemoved());
+		assertTrue(name + ".IsModified()",  differences.IsModified());
+		assertTrue(name + ".IsNew()",      !differences.IsNew());
+		assertTrue(name + ".IsEmpty()",    !differences.IsEmpty());
+	}
+		
 	public void testModifiedPackage() {
 		String name = "ModifiedPackage";
-		PackageDifferences differences = (PackageDifferences) Find(name, jar_differences.PackageDifferences());
+		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, jar_differences.PackageDifferences());
+		PackageDifferences differences = (PackageDifferences) documentable_differences.Component();
 		assertNotNull(name, differences);
+
+		assertTrue(name + ".NewDocumentation()",     !documentable_differences.NewDocumentation());
+		assertTrue(name + ".Remove Documentation()", !documentable_differences.RemovedDocumentation());
+		assertTrue(name + ".IsEmpty()",              !documentable_differences.IsEmpty());
 
 		assertEquals(name, differences.Name());
 		assertEquals(name + ".ClassDifferences: " + differences.ClassDifferences(), 14, differences.ClassDifferences().size());
@@ -92,11 +115,16 @@ public class TestJarDifferences extends TestCase {
 		assertTrue(name + ".IsNew()",      !differences.IsNew());
 		assertTrue(name + ".IsEmpty()",    !differences.IsEmpty());
 	}
-	
+
 	public void testNewPackage() {
 		String name = "NewPackage";
-		PackageDifferences differences = (PackageDifferences) Find(name, jar_differences.PackageDifferences());
+		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, jar_differences.PackageDifferences());
+		PackageDifferences differences = (PackageDifferences) documentable_differences.Component();
 		assertNotNull(name, differences);
+
+		assertTrue(name + ".NewDocumentation()",     !documentable_differences.NewDocumentation());
+		assertTrue(name + ".Remove Documentation()", !documentable_differences.RemovedDocumentation());
+		assertTrue(name + ".IsEmpty()",              !documentable_differences.IsEmpty());
 
 		assertEquals(name, differences.Name());
 		assertEquals(name + ".ClassDifferences: " + differences.ClassDifferences(), 0, differences.ClassDifferences().size());
@@ -108,8 +136,13 @@ public class TestJarDifferences extends TestCase {
 
 	public void testRemovedPackage() {
 		String name = "RemovedPackage";
-		PackageDifferences differences = (PackageDifferences) Find(name, jar_differences.PackageDifferences());
+		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, jar_differences.PackageDifferences());
+		PackageDifferences differences = (PackageDifferences) documentable_differences.Component();
 		assertNotNull(name, differences);
+
+		assertTrue(name + ".NewDocumentation()",     !documentable_differences.NewDocumentation());
+		assertTrue(name + ".Remove Documentation()", !documentable_differences.RemovedDocumentation());
+		assertTrue(name + ".IsEmpty()",              !documentable_differences.IsEmpty());
 
 		assertEquals(name, differences.Name());
 		assertEquals(name + ".ClassDifferences: " + differences.ClassDifferences(), 0, differences.ClassDifferences().size());
@@ -119,9 +152,27 @@ public class TestJarDifferences extends TestCase {
 		assertTrue(name + ".IsEmpty()",    !differences.IsEmpty());
 	}
 	
+	public void testUndocumentedPackage() {
+		String name = "UndocumentedPackage";
+		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, jar_differences.PackageDifferences());
+		PackageDifferences differences = (PackageDifferences) documentable_differences.Component();
+		assertNotNull(name, differences);
+
+		assertTrue(name + ".NewDocumentation()",     !documentable_differences.NewDocumentation());
+		assertTrue(name + ".Remove Documentation()",  documentable_differences.RemovedDocumentation());
+		assertTrue(name + ".IsEmpty()",              !documentable_differences.IsEmpty());
+
+		assertEquals(name, differences.Name());
+		assertEquals(name + ".ClassDifferences: " + differences.ClassDifferences(), 1, differences.ClassDifferences().size());
+		assertTrue(name + ".IsRemoved()",  !differences.IsRemoved());
+		assertTrue(name + ".IsModified()",  differences.IsModified());
+		assertTrue(name + ".IsNew()",      !differences.IsNew());
+		assertTrue(name + ".IsEmpty()",    !differences.IsEmpty());
+	}
+	
 	public void testDeprecatedClass() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".DeprecatedClass";
 		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, package_differences.ClassDifferences());
@@ -145,9 +196,35 @@ public class TestJarDifferences extends TestCase {
 		assertTrue(name + ".IsEmpty()",     differences.IsEmpty());
 	}
 		
+	public void testUndocumentedPackagePublishedClass() {
+		String package_name = "UndocumentedPackage";
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
+
+		String name = package_name + ".PublishedClass";
+		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, package_differences.ClassDifferences());
+		DeprecatableDifferences deprecatable_differences = (DeprecatableDifferences) documentable_differences.Component();
+		ClassDifferences differences = (ClassDifferences) deprecatable_differences.Component();
+		assertNotNull(name, differences);
+
+		assertTrue(name + ".NewDocumentation()",     !documentable_differences.NewDocumentation());
+		assertTrue(name + ".Remove Documentation()",  documentable_differences.RemovedDocumentation());
+		assertTrue(name + ".IsEmpty()",              !documentable_differences.IsEmpty());
+		
+		assertTrue(name + ".NewDeprecation()",       !deprecatable_differences.NewDeprecation());
+		assertTrue(name + ".RemovedDeprecation()",   !deprecatable_differences.RemovedDeprecation());
+		assertTrue(name + ".IsEmpty()",               deprecatable_differences.IsEmpty());
+
+		assertEquals(name, differences.Name());
+		assertEquals(name + ".FeatureDifferences", 0, differences.FeatureDifferences().size());
+		assertTrue(name + ".IsRemoved()",  !differences.IsRemoved());
+		assertTrue(name + ".IsModified()", !differences.IsModified());
+		assertTrue(name + ".IsNew()",      !differences.IsNew());
+		assertTrue(name + ".IsEmpty()",     differences.IsEmpty());
+	}
+		
 	public void testDocumentedClass() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".DocumentedClass";
 		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, package_differences.ClassDifferences());
@@ -173,7 +250,7 @@ public class TestJarDifferences extends TestCase {
 
 	public void testModifiedClass() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".ModifiedClass";
 		ClassDifferences differences = (ClassDifferences) ((DecoratorDifferences) Find(name, package_differences.ClassDifferences())).LeafComponent();
@@ -189,7 +266,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testModifiedInterface() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".ModifiedInterface";
 		ClassDifferences differences = (ClassDifferences) ((DecoratorDifferences) Find(name, package_differences.ClassDifferences())).LeafComponent();
@@ -205,7 +282,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testNewClass() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".NewClass";
 		ClassDifferences differences = (ClassDifferences) ((DecoratorDifferences) Find(name, package_differences.ClassDifferences())).LeafComponent();
@@ -221,7 +298,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testNewInterface() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".NewInterface";
 		ClassDifferences differences = (ClassDifferences) ((DecoratorDifferences) Find(name, package_differences.ClassDifferences())).LeafComponent();
@@ -237,7 +314,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testRemovedClass() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".RemovedClass";
 		ClassDifferences differences = (ClassDifferences) ((DecoratorDifferences) Find(name, package_differences.ClassDifferences())).LeafComponent();
@@ -253,7 +330,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testRemovedInterface() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".RemovedInterface";
 		ClassDifferences differences = (ClassDifferences) ((DecoratorDifferences) Find(name, package_differences.ClassDifferences())).LeafComponent();
@@ -269,7 +346,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testUndeprecatedClass() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".UndeprecatedClass";
 		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, package_differences.ClassDifferences());
@@ -295,7 +372,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testUndocumentedClass() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String name = package_name + ".UndocumentedClass";
 		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, package_differences.ClassDifferences());
@@ -318,10 +395,36 @@ public class TestJarDifferences extends TestCase {
 		assertTrue(name + ".IsNew()",      !differences.IsNew());
 		assertTrue(name + ".IsEmpty()",     differences.IsEmpty());
 	}
+		
+	public void testDocumentedPackagePublishedClass() {
+		String package_name = "DocumentedPackage";
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
+
+		String name = package_name + ".PublishedClass";
+		DocumentableDifferences documentable_differences = (DocumentableDifferences) Find(name, package_differences.ClassDifferences());
+		DeprecatableDifferences deprecatable_differences = (DeprecatableDifferences) documentable_differences.Component();
+		ClassDifferences differences = (ClassDifferences) deprecatable_differences.Component();
+		assertNotNull(name, differences);
+
+		assertTrue(name + ".NewDocumentation()",      documentable_differences.NewDocumentation());
+		assertTrue(name + ".Remove Documentation()", !documentable_differences.RemovedDocumentation());
+		assertTrue(name + ".IsEmpty()",              !documentable_differences.IsEmpty());
+		
+		assertTrue(name + ".NewDeprecation()",       !deprecatable_differences.NewDeprecation());
+		assertTrue(name + ".RemovedDeprecation()",   !deprecatable_differences.RemovedDeprecation());
+		assertTrue(name + ".IsEmpty()",               deprecatable_differences.IsEmpty());
+
+		assertEquals(name, differences.Name());
+		assertEquals(name + ".FeatureDifferences", 0, differences.FeatureDifferences().size());
+		assertTrue(name + ".IsRemoved()",  !differences.IsRemoved());
+		assertTrue(name + ".IsModified()", !differences.IsModified());
+		assertTrue(name + ".IsNew()",      !differences.IsNew());
+		assertTrue(name + ".IsEmpty()",     differences.IsEmpty());
+	}
 	
 	public void testModifiedClassModifiedMethod() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String class_name = package_name + ".ModifiedClass";
 		ClassDifferences class_differences = (ClassDifferences) ((DecoratorDifferences) Find(class_name, package_differences.ClassDifferences())).LeafComponent();
@@ -339,7 +442,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testModifiedClassNewMethod() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String class_name = package_name + ".ModifiedClass";
 		ClassDifferences class_differences = (ClassDifferences) ((DecoratorDifferences) Find(class_name, package_differences.ClassDifferences())).LeafComponent();
@@ -357,7 +460,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testModifiedClassRemovedMethod() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String class_name = package_name + ".ModifiedClass";
 		ClassDifferences class_differences = (ClassDifferences) ((DecoratorDifferences) Find(class_name, package_differences.ClassDifferences())).LeafComponent();
@@ -375,7 +478,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testModifiedInterfaceModifiedMethod() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String class_name = package_name + ".ModifiedInterface";
 		ClassDifferences class_differences = (ClassDifferences) ((DecoratorDifferences) Find(class_name, package_differences.ClassDifferences())).LeafComponent();
@@ -393,7 +496,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testModifiedInterfaceNewMethod() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String class_name = package_name + ".ModifiedInterface";
 		ClassDifferences class_differences = (ClassDifferences) ((DecoratorDifferences) Find(class_name, package_differences.ClassDifferences())).LeafComponent();
@@ -411,7 +514,7 @@ public class TestJarDifferences extends TestCase {
 	
 	public void testModifiedInterfaceRemovedMethod() {
 		String package_name = "ModifiedPackage";
-		PackageDifferences package_differences = (PackageDifferences) Find(package_name, jar_differences.PackageDifferences());
+		PackageDifferences package_differences = (PackageDifferences) ((DecoratorDifferences) Find(package_name, jar_differences.PackageDifferences())).LeafComponent();
 
 		String class_name = package_name + ".ModifiedInterface";
 		ClassDifferences class_differences = (ClassDifferences) ((DecoratorDifferences) Find(class_name, package_differences.ClassDifferences())).LeafComponent();

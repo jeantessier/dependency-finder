@@ -44,6 +44,8 @@ public class Report extends Printer {
 	private String new_version;
 
 	private Collection removed_packages        = new TreeSet();
+	private Collection undocumented_packages   = new TreeSet();
+
 	private Collection removed_interfaces      = new TreeSet();
 	private Collection removed_classes         = new TreeSet();
 
@@ -63,6 +65,8 @@ public class Report extends Printer {
 	private Collection undeprecated_classes    = new TreeSet();
 	
 	private Collection new_packages            = new TreeSet();
+	private Collection documented_packages     = new TreeSet();
+
 	private Collection new_interfaces          = new TreeSet();
 	private Collection new_classes             = new TreeSet();
 
@@ -97,6 +101,14 @@ public class Report extends Printer {
 
 		if (differences.IsNew()) {
 			new_packages.add(differences);
+		}
+
+		if (Documented()) {
+			documented_packages.add(differences);
+		}
+
+		if (Undocumented()) {
+			undocumented_packages.add(differences);
 		}
 	}
 
@@ -186,6 +198,19 @@ public class Report extends Printer {
 
 			LowerIndent();
 			Indent().Append("</removed-packages>\n");
+		}
+	
+		if (undocumented_packages.size() !=0) {
+			Indent().Append("<undocumented-packages>\n");
+			RaiseIndent();
+
+			Iterator i = undocumented_packages.iterator();
+			while (i.hasNext()) {
+				Indent().Append("<name>").Append(i.next()).Append("</name>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</undocumented-packages>\n");
 		}
 
 		if (removed_interfaces.size() !=0) {
@@ -366,6 +391,19 @@ public class Report extends Printer {
 			LowerIndent();
 			Indent().Append("</new-packages>\n");
 		}
+	
+		if (documented_packages.size() !=0) {
+			Indent().Append("<documented-packages>\n");
+			RaiseIndent();
+
+			Iterator i = documented_packages.iterator();
+			while (i.hasNext()) {
+				Indent().Append("<name>").Append(i.next()).Append("</name>\n");
+			}
+
+			LowerIndent();
+			Indent().Append("</documented-packages>\n");
+		}
 
 		if (new_interfaces.size() !=0) {
 			Indent().Append("<new-interfaces>\n");
@@ -416,6 +454,8 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!ELEMENT removed-packages (name)* >\n");
 		result.append("\n");
+		result.append("<!ELEMENT undocumented-packages (name)* >\n");
+		result.append("\n");
 		result.append("<!ELEMENT removed-interfaces (name)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT removed-classes (name)* >\n");
@@ -442,6 +482,8 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!ELEMENT new-packages (name)* >\n");
 		result.append("\n");
+		result.append("<!ELEMENT documented-packages (name)* >\n");
+		result.append("\n");
 		result.append("<!ELEMENT new-interfaces (name)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT new-classes (name)* >\n");
@@ -450,7 +492,7 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!ELEMENT name (#PCDATA)* >\n");
 		result.append("<!ATTLIST name\n");
-		result.append("          visibility (public|protected|package|private) #IMPLIED\n");
+		result.append("          visibility   (public|protected|package|private) #IMPLIED\n");
 		result.append("          static       CDATA #IMPLIED\n");
 		result.append("          final        CDATA #IMPLIED\n");
 		result.append("          super        CDATA #IMPLIED\n");
@@ -463,6 +505,9 @@ public class Report extends Printer {
 		result.append("          strict       CDATA #IMPLIED\n");
 		result.append("          deprecated   CDATA #IMPLIED\n");
 		result.append("          synthetic    CDATA #IMPLIED\n");
+		result.append("          extends      CDATA #IMPLIED\n");
+		result.append("          implements   CDATA #IMPLIED\n");
+		result.append("          name         CDATA #IMPLIED\n");
 		result.append(">\n");
 		result.append("\n");
 		result.append("<!ELEMENT modified-declaration (old-declaration,new-declaration) >\n");
@@ -511,56 +556,82 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!ELEMENT old-declaration (#PCDATA)* >\n");
 		result.append("<!ATTLIST old-declaration\n");
-		result.append("          visibility (public|protected|package|private) #IMPLIED\n");
-		result.append("          static       CDATA #IMPLIED\n");
-		result.append("          final        CDATA #IMPLIED\n");
-		result.append("          super        CDATA #IMPLIED\n");
-		result.append("          synchronized CDATA #IMPLIED\n");
-		result.append("          volatile     CDATA #IMPLIED\n");
-		result.append("          transient    CDATA #IMPLIED\n");
-		result.append("          native       CDATA #IMPLIED\n");
-		result.append("          interface    CDATA #IMPLIED\n");
-		result.append("          abstract     CDATA #IMPLIED\n");
-		result.append("          strict       CDATA #IMPLIED\n");
-		result.append("          deprecated   CDATA #IMPLIED\n");
-		result.append("          synthetic    CDATA #IMPLIED\n");
+		result.append("          visibility     (public|protected|package|private) #IMPLIED\n");
+		result.append("          static         CDATA #IMPLIED\n");
+		result.append("          final          CDATA #IMPLIED\n");
+		result.append("          super          CDATA #IMPLIED\n");
+		result.append("          synchronized   CDATA #IMPLIED\n");
+		result.append("          volatile       CDATA #IMPLIED\n");
+		result.append("          transient      CDATA #IMPLIED\n");
+		result.append("          native         CDATA #IMPLIED\n");
+		result.append("          interface      CDATA #IMPLIED\n");
+		result.append("          abstract       CDATA #IMPLIED\n");
+		result.append("          strict         CDATA #IMPLIED\n");
+		result.append("          deprecated     CDATA #IMPLIED\n");
+		result.append("          synthetic      CDATA #IMPLIED\n");
+		result.append("          inherited      CDATA #IMPLIED\n");
+		result.append("          extends        CDATA #IMPLIED\n");
+		result.append("          implements     CDATA #IMPLIED\n");
+		result.append("          type           CDATA #IMPLIED\n");
+		result.append("          return-type    CDATA #IMPLIED\n");
+		result.append("          name           CDATA #IMPLIED\n");
+		result.append("          signature      CDATA #IMPLIED\n");
+		result.append("          full-signature CDATA #IMPLIED\n");
+		result.append("          throws         CDATA #IMPLIED\n");
 		result.append(">\n");
 		result.append("\n");
 		result.append("<!ELEMENT new-declaration (#PCDATA)* >\n");
 		result.append("<!ATTLIST new-declaration\n");
-		result.append("          visibility (public|protected|package|private) #IMPLIED\n");
-		result.append("          static       CDATA #IMPLIED\n");
-		result.append("          final        CDATA #IMPLIED\n");
-		result.append("          super        CDATA #IMPLIED\n");
-		result.append("          synchronized CDATA #IMPLIED\n");
-		result.append("          volatile     CDATA #IMPLIED\n");
-		result.append("          transient    CDATA #IMPLIED\n");
-		result.append("          native       CDATA #IMPLIED\n");
-		result.append("          interface    CDATA #IMPLIED\n");
-		result.append("          abstract     CDATA #IMPLIED\n");
-		result.append("          strict       CDATA #IMPLIED\n");
-		result.append("          deprecated   CDATA #IMPLIED\n");
-		result.append("          synthetic    CDATA #IMPLIED\n");
+		result.append("          visibility     (public|protected|package|private) #IMPLIED\n");
+		result.append("          static         CDATA #IMPLIED\n");
+		result.append("          final          CDATA #IMPLIED\n");
+		result.append("          super          CDATA #IMPLIED\n");
+		result.append("          synchronized   CDATA #IMPLIED\n");
+		result.append("          volatile       CDATA #IMPLIED\n");
+		result.append("          transient      CDATA #IMPLIED\n");
+		result.append("          native         CDATA #IMPLIED\n");
+		result.append("          interface      CDATA #IMPLIED\n");
+		result.append("          abstract       CDATA #IMPLIED\n");
+		result.append("          strict         CDATA #IMPLIED\n");
+		result.append("          deprecated     CDATA #IMPLIED\n");
+		result.append("          synthetic      CDATA #IMPLIED\n");
+		result.append("          inherited      CDATA #IMPLIED\n");
+		result.append("          extends        CDATA #IMPLIED\n");
+		result.append("          implements     CDATA #IMPLIED\n");
+		result.append("          type           CDATA #IMPLIED\n");
+		result.append("          return-type    CDATA #IMPLIED\n");
+		result.append("          name           CDATA #IMPLIED\n");
+		result.append("          signature      CDATA #IMPLIED\n");
+		result.append("          full-signature CDATA #IMPLIED\n");
+		result.append("          throws         CDATA #IMPLIED\n");
 		result.append(">\n");
 		result.append("\n");
 		result.append("<!ELEMENT feature (name,modified-declaration?) >\n");
 		result.append("\n");
 		result.append("<!ELEMENT declaration (#PCDATA)* >\n");
 		result.append("<!ATTLIST declaration\n");
-		result.append("          visibility (public|protected|package|private) #IMPLIED\n");
-		result.append("          static       CDATA #IMPLIED\n");
-		result.append("          final        CDATA #IMPLIED\n");
-		result.append("          super        CDATA #IMPLIED\n");
-		result.append("          synchronized CDATA #IMPLIED\n");
-		result.append("          volatile     CDATA #IMPLIED\n");
-		result.append("          transient    CDATA #IMPLIED\n");
-		result.append("          native       CDATA #IMPLIED\n");
-		result.append("          interface    CDATA #IMPLIED\n");
-		result.append("          abstract     CDATA #IMPLIED\n");
-		result.append("          strict       CDATA #IMPLIED\n");
-		result.append("          deprecated   CDATA #IMPLIED\n");
-		result.append("          synthetic    CDATA #IMPLIED\n");
-		result.append("          inherited    CDATA #IMPLIED\n");
+		result.append("          visibility     (public|protected|package|private) #IMPLIED\n");
+		result.append("          static         CDATA #IMPLIED\n");
+		result.append("          final          CDATA #IMPLIED\n");
+		result.append("          super          CDATA #IMPLIED\n");
+		result.append("          synchronized   CDATA #IMPLIED\n");
+		result.append("          volatile       CDATA #IMPLIED\n");
+		result.append("          transient      CDATA #IMPLIED\n");
+		result.append("          native         CDATA #IMPLIED\n");
+		result.append("          interface      CDATA #IMPLIED\n");
+		result.append("          abstract       CDATA #IMPLIED\n");
+		result.append("          strict         CDATA #IMPLIED\n");
+		result.append("          deprecated     CDATA #IMPLIED\n");
+		result.append("          synthetic      CDATA #IMPLIED\n");
+		result.append("          inherited      CDATA #IMPLIED\n");
+		result.append("          extends        CDATA #IMPLIED\n");
+		result.append("          implements     CDATA #IMPLIED\n");
+		result.append("          type           CDATA #IMPLIED\n");
+		result.append("          return-type    CDATA #IMPLIED\n");
+		result.append("          name           CDATA #IMPLIED\n");
+		result.append("          signature      CDATA #IMPLIED\n");
+		result.append("          full-signature CDATA #IMPLIED\n");
+		result.append("          throws         CDATA #IMPLIED\n");
 		result.append(">\n");
 		result.append("\n");
 		result.append("]>\n");

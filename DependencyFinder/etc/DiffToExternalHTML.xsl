@@ -90,6 +90,8 @@
 	</ul>
     </xsl:template>
     <xsl:template match="removed-classes"></xsl:template>
+
+    <xsl:template match="undocumented-packages"></xsl:template>
  
     <xsl:template match="deprecated-interfaces[name[@visibility='public' and validator:IsClassAllowed($validator,text())]]">
 	<h2>Newly Deprecated Interfaces:</h2>
@@ -106,7 +108,10 @@
 	</ul>
     </xsl:template>
     <xsl:template match="deprecated-classes"></xsl:template>
- 
+
+    <xsl:template match="undocumented-interfaces"></xsl:template>
+    <xsl:template match="undocumented-classes"></xsl:template>
+
     <xsl:template match="modified-interfaces">
 	<h2>Modified Interfaces:</h2>
 	<blockquote>
@@ -121,10 +126,13 @@
 	</blockquote>
     </xsl:template>
 
+    <xsl:template match="documented-interfaces"></xsl:template>
+    <xsl:template match="documented-classes"></xsl:template>
     <xsl:template match="undeprecated-interfaces"></xsl:template>
     <xsl:template match="undeprecated-classes"></xsl:template>
  
     <xsl:template match="new-packages"></xsl:template>
+    <xsl:template match="documented-packages"></xsl:template>
     <xsl:template match="new-interfaces"></xsl:template>
     <xsl:template match="new-classes"></xsl:template>
  
@@ -136,17 +144,17 @@
 			                              (old-declaration/@extends!=new-declaration/@extends) or
 			                              (old-declaration/@implements!=new-declaration/@implements))] or
 			        removed-fields/declaration[(@visibility='public' or @visibility='protected') and
-							   validator:IsFeatureAllowed($validator,@signature)] or
+							   validator:IsFeatureAllowed($validator,@full-signature)] or
 			        removed-constructors/declaration[(@visibility='public' or @visibility='protected') and
-								 validator:IsFeatureAllowed($validator,@signature)] or
+								 validator:IsFeatureAllowed($validator,@full-signature)] or
 			        removed-methods/declaration[(@visibility='public' or @visibility='protected') and
-							    validator:IsFeatureAllowed($validator,@signature)] or
+							    validator:IsFeatureAllowed($validator,@full-signature)] or
 			        deprecated-fields/declaration[(@visibility='public' or @visibility='protected') and
-							      validator:IsFeatureAllowed($validator,@signature)] or
+							      validator:IsFeatureAllowed($validator,@full-signature)] or
 			        deprecated-constructors/declaration[(@visibility='public' or @visibility='protected') and
-								    validator:IsFeatureAllowed($validator,@signature)] or
+								    validator:IsFeatureAllowed($validator,@full-signature)] or
 			        deprecated-methods/declaration[(@visibility='public' or @visibility='protected') and
-							       validator:IsFeatureAllowed($validator,@signature)] or
+							       validator:IsFeatureAllowed($validator,@full-signature)] or
 			        .//feature[validator:IsFeatureAllowed($validator,name) and
 					   modified-declaration[(old-declaration/@visibility='public' or
 								 old-declaration/@visibility='protected' or
@@ -181,48 +189,52 @@
 
     <xsl:template match="class"></xsl:template>
 
-    <xsl:template match="removed-fields[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@signature) and not(@inherited)]]">
+    <xsl:template match="removed-fields[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature) and not(@inherited)]]">
 	<h4>Removed Fields:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
-    <xsl:template match="removed-constructors[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@signature) and not(@inherited)]]">
+    <xsl:template match="removed-constructors[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature) and not(@inherited)]]">
 	<h4>Removed Constructors:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
-    <xsl:template match="removed-methods[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@signature) and not(@inherited)]]">
+    <xsl:template match="removed-methods[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature) and not(@inherited)]]">
 	<h4>Removed Methods:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
-    <xsl:template match="deprecated-fields[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@signature)]]">
+    <xsl:template match="deprecated-fields[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature)]]">
 	<h4>Newly Deprecated Fields:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
-    <xsl:template match="deprecated-constructors[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@signature)]]">
+    <xsl:template match="deprecated-constructors[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature)]]">
 	<h4>Newly Deprecated Constructors:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
-    <xsl:template match="deprecated-methods[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@signature)]]">
+    <xsl:template match="deprecated-methods[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature)]]">
 	<h4>Newly Deprecated Methods:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
- 
+
+    <xsl:template match="undocumented-fields"></xsl:template>
+    <xsl:template match="undocumented-constructors"></xsl:template>
+    <xsl:template match="undocumented-methods"></xsl:template>
+
     <xsl:template match="modified-fields[feature[validator:IsFeatureAllowed($validator,name) and
 						 modified-declaration[(old-declaration/@visibility='public' or
 								       old-declaration/@visibility='protected' or
@@ -283,6 +295,10 @@
 	<h4>Method Declaration Changes:</h4>
 	<xsl:apply-templates/>
     </xsl:template>
+
+    <xsl:template match="documented-fields"></xsl:template>
+    <xsl:template match="documented-constructors"></xsl:template>
+    <xsl:template match="documented-methods"></xsl:template>
  
     <xsl:template match="undeprecated-fields"></xsl:template>
     <xsl:template match="undeprecated-constructors"></xsl:template>
@@ -328,13 +344,13 @@
     </xsl:template>
     <xsl:template match="modified-declaration"></xsl:template>
 
-    <xsl:template match="removed-packages/name[@visibility='public' and validator:IsPackageAllowed($validator,text())] |
+    <xsl:template match="removed-packages/name[validator:IsPackageAllowed($validator,text())] |
 			 name[@visibility='public' and validator:IsClassAllowed($validator,text())]">
 	<li><nobr><code><xsl:value-of select="."/></code></nobr></li>
     </xsl:template>
     <xsl:template match="name"></xsl:template>
 
-    <xsl:template match="declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@signature)]">
+    <xsl:template match="declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature)]">
 	<li><nobr><code><xsl:value-of select="."/></code></nobr></li>
     </xsl:template>
     <xsl:template match="declaration"></xsl:template>

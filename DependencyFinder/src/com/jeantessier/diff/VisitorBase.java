@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -33,41 +33,60 @@
 package com.jeantessier.diff;
 
 public abstract class VisitorBase implements Visitor {
-	private boolean deprecated   = false;
-	private boolean undeprecated = false;
-	private boolean documented   = false;
-	private boolean undocumented = false;
+	private int deprecatable_level = 0;
+	private int documentable_level = 0;
+	
+	private boolean deprecated[]   = new boolean[4];
+	private boolean undeprecated[] = new boolean[4];
+	private boolean documented[]   = new boolean[4];
+	private boolean undocumented[] = new boolean[4];
 
+	private void RaiseDeprecatableLevel() {
+		deprecatable_level++;
+	}
+
+	private void LowerDeprecatableLevel() {
+		deprecatable_level--;
+	}
+
+	private void RaiseDocumentableLevel() {
+		documentable_level++;
+	}
+
+	private void LowerDocumentableLevel() {
+		documentable_level--;
+	}
+	
 	public boolean Deprecated() {
-		return deprecated;
+		return deprecated[deprecatable_level];
 	}
 
 	public void Deprecated(boolean deprecated) {
-		this.deprecated = deprecated;
+		this.deprecated[deprecatable_level] = deprecated;
 	}
 	
 	public boolean Undeprecated() {
-		return undeprecated;
+		return undeprecated[deprecatable_level];
 	}
 
 	public void Undeprecated(boolean undeprecated) {
-		this.undeprecated = undeprecated;
+		this.undeprecated[deprecatable_level] = undeprecated;
 	}
 
 	public boolean Documented() {
-		return documented;
+		return documented[documentable_level];
 	}
 
 	public void Documented(boolean documented) {
-		this.documented = documented;
+		this.documented[documentable_level] = documented;
 	}
 	
 	public boolean Undocumented() {
-		return undocumented;
+		return undocumented[documentable_level];
 	}
 
 	public void Undocumented(boolean undocumented) {
-		this.undocumented = undocumented;
+		this.undocumented[documentable_level] = undocumented;
 	}
 	
 	public void VisitJarDifferences(JarDifferences differences) {
@@ -91,22 +110,24 @@ public abstract class VisitorBase implements Visitor {
 	}
 
 	public void VisitDeprecatableDifferences(DeprecatableDifferences differences) {
-		deprecated   = differences.NewDeprecation();
-		undeprecated = differences.RemovedDeprecation();
+		RaiseDeprecatableLevel();
+		
+		Deprecated(differences.NewDeprecation());
+		Undeprecated(differences.RemovedDeprecation());
 
 		differences.Component().Accept(this);
 		
-		deprecated   = false;
-		undeprecated = false;
+		LowerDeprecatableLevel();
 	}
 	
 	public void VisitDocumentableDifferences(DocumentableDifferences differences) {
-		documented   = differences.NewDocumentation();
-		undocumented = differences.RemovedDocumentation();
+		RaiseDocumentableLevel();
+		
+		Documented(differences.NewDocumentation());
+		Undocumented(differences.RemovedDocumentation());
 
 		differences.Component().Accept(this);
 		
-		documented   = false;
-		undocumented = false;
+		LowerDocumentableLevel();
 	}
 }

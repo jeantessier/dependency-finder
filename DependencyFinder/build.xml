@@ -248,6 +248,25 @@
 		 docletPath="D:\language\Java\java2rose"/>
     </target>
 
+    <!--
+	"docletPath" does not work in this version of Ant.
+    -->
+    <target name="listdocumentedelements" depends="init">
+        <javadoc packagenames="${packageNames}"
+		 version="no"
+		 author="no"
+		 maxmemory="128m">
+	    <sourcepath path="src"/>
+	    <classpath refid="libs"/>
+	    <doclet name="com.jeantessier.diff.ListDocumentedElements"
+		    path="${classesDir}">
+		<param name="-tag" value="level"/>
+		<param name="-invalid" value="developer"/>
+		<param name="-out" value="df.txt"/>
+	    </doclet>
+	</javadoc>
+    </target>
+
     <target name="clearlogs" depends="init">
         <delete verbose="true">
 	    <fileset dir=".">

@@ -609,6 +609,8 @@ public class ClassReport extends Printer implements Comparable {
 
 			result.append(" type=\"").append(element.Type()).append("\"");
 			result.append(" name=\"").append(element.Name()).append("\"");
+			result.append(" signature=\"").append(element.Signature()).append("\"");
+			result.append(" full-signature=\"").append(element.FullSignature()).append("\"");
 		}
 
 		return result.toString();
@@ -636,7 +638,8 @@ public class ClassReport extends Printer implements Comparable {
 			}
 	    
 			result.append(" signature=\"").append(element.Signature()).append("\"");
-	    
+			result.append(" full-signature=\"").append(element.FullSignature()).append("\"");
+
 			result.append(" throws=\"");
 			Iterator i = element.Exceptions().iterator();
 			while (i.hasNext()) {

@@ -44,6 +44,7 @@ public class ListDocumentedElements {
 	private static PrintWriter out            = new PrintWriter(System.out);
 	
     public static boolean start(RootDoc root) {
+		Process(root.specifiedPackages());
 		Process(root.classes());
 		out.close();
         return true;
@@ -97,6 +98,16 @@ public class ListDocumentedElements {
 		}
 		
 		return valid;
+	}
+	
+	private static void Process(PackageDoc[] docs) {
+        for (int i = 0; i < docs.length; ++i) {
+			Process(docs[i]);
+		}
+	}
+	
+	private static void Process(PackageDoc doc) {
+		out.println(doc.name());
 	}
 	
 	private static void Process(ProgramElementDoc[] docs) {
