@@ -3587,7 +3587,7 @@ whole project.  This level has measurements that span the entire analyzed
 codebase.  For each =.class= file, they create one class-level metrics for
 that class, and one method-level metrics for each of its methods.
 
-The tools add Class-level metrics to relevant group-level metrics.  One such
+The tools add class-level metrics to relevant group-level metrics.  One such
 group, which the tools create automatically for each class, is named after
 the package that this class belongs to.  You can define additional groups
 in the configuration file by providing a name for the group and one or more
@@ -4477,6 +4477,13 @@ file in =etc\InboundDependencyConfig.xml=.
 *Inbound Dependency Config*
 </div>
 
+=In= counts all calls, including duplicates.  =DistIn= removes duplicates and
+can list its entries when =OOMetrics= is used with =-expand=.  At project
+level, they account for the whole project.  At group level, they account for an
+entire group or package.  At the class level, they account for a single class.
+At the method, they account for an individual method.  =Inside= is used to show
+dependencies on the class itself that do not come from its methods.
+
 For a text report organized by deprecated elements, with all methods listed
 together:
 
@@ -4579,6 +4586,13 @@ To generate reports organized by caller, use the configuration file in
 [[images/OutboundDependencyConfig.gif]]
 *Outbound Dependency Config*
 </div>
+
+=Out= counts all calls, including duplicates.  =DistOut= removes duplicates and
+can list its entries when =OOMetrics= is used with =-expand=.  At project
+level, they account for the whole project.  At group level, they account for an
+entire group or package.  At the class level, they account for a single class.
+At the method, they account for an individual method.  =Outside= is used to
+show dependencies from the class itself that do not go through its methods.
 
 For a text report organized by caller, with all methods listed together:
 
@@ -4749,7 +4763,36 @@ called D', in the configuration file =etc\MartinConfig.xml=.
 *Martin Config*
 </div>
 
-For a text report with all methods listed together:
+=D=, =A=, and =I= work at the group or package level.
+
+The formula for =I= is:
+
+    I = Ce / (Ca + Ce)
+
+=Ca= is the number of classes outside this package that depend on classes
+inside this package (i.e., inbound dependencies).  =Ce= is the number of
+classes outside this package that classes in the package depend on (i.e.,
+outbound dependencies).  Feature names are converted to class names with Perl
+regular expressions.  All class names are collected with
+=SubMetricsAccumulatorMeasurement= to remove duplicates.  With =Ca= and =Ce=,
+the tool can calculate the value of =I= for the package.
+
+The formula for =A= is:
+
+    A = Na / Nc
+
+=OOMetrics= already computes =C= and =AC= that correspond to =Nc= and =Na=
+respectively.  The configuration uses =SumMeasurement= to give them aliases to
+relate them to the computation of =A=.
+
+The formula for =D'= is:
+
+    D' = A + I - 1
+
+It is computed for each group.  At the project level, the configuration gives a
+statistical analysis of =D'=, =A=, and =I= across the project's codebase.
+
+For a text report straight from the tool:
 
 <div class="highlight">
 
@@ -4761,7 +4804,7 @@ For a text report with all methods listed together:
 
 </div>
 
-For a text report with methods grouped by class:
+For a text report from the XML output:
 
 <div class="highlight">
 
