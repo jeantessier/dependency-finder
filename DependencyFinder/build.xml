@@ -260,12 +260,6 @@
 	    <arg value="${binDir}/txt2html.pl"/>
 	    <arg value="${docsDir}/Tools.txt"/>
 	</exec>
-	<echo message="Processing Metrics.txt ..."/>
-	<exec executable="perl"
-	      output="${docsDir}/Metrics.html">
-	    <arg value="${binDir}/txt2html.pl"/>
-	    <arg value="${docsDir}/Metrics.txt"/>
-	</exec>
     </target>
 
     <target name="javadocs" depends="init">
