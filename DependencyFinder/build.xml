@@ -105,12 +105,14 @@
 		 eof="remove"/>
     </target>
 
-    <target name="exec" depends="jar, generatebin"
-	    description="Compiles a version that works inplace">
+    <target name="log4j.config" depends="init">
         <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
     </target>
 
-    <target name="tests" depends="compiletests"
+    <target name="exec" depends="jar, generatebin, log4j.config"
+	    description="Compiles a version that works inplace"/>
+
+    <target name="tests" depends="compiletests, log4j.config"
 	    description="Compiles everything required to run all the tests">
 	<ant dir="tests/JarJarDiff" inheritAll="false"/>
     </target>
