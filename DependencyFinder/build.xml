@@ -152,11 +152,11 @@
     </target>
 
     <target name="undeploy" depends="init">
-        <delete dir="${env.CATALINA_HOME}/work/Standalone/localhost/${ant.project.name}"
+        <delete dir="${env.CATALINA_HOME}/work/Standalone/localhost/${ant.project.name}-${this.release}"
 		includeEmptyDirs="true"
 		failonerror="false"
 	        verbose="true"/>
-        <delete dir="${env.CATALINA_HOME}/webapps/${ant.project.name}"
+        <delete dir="${env.CATALINA_HOME}/webapps/${ant.project.name}-${this.release}"
 		includeEmptyDirs="true"
 		failonerror="false"
 	        verbose="true"/>
