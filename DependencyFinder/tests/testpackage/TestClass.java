@@ -18,14 +18,10 @@ public class TestClass implements TargetInterface {
 	
 	public void TestMethod(String text) {
 		target_attribute = this;
-		
 		TargetMethod();
 
 		TargetClass target = new TargetClass();
 		target.TargetMethod();
-
 		target.target_attribute = new Object();
-
-		target_attribute = this;
 	}
 }
