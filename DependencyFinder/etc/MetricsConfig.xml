@@ -68,6 +68,24 @@
 	    </init>
 	</measurement>
 	<measurement>
+	    <short-name>M</short-name>
+	    <long-name>Methods</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		M DISPOSE_IGNORE
+		DISPOSE_SUM
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>A</short-name>
+	    <long-name>Attributes</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		A DISPOSE_IGNORE
+		DISPOSE_SUM
+	    </init>
+	</measurement>
+	<measurement>
 	    <short-name>PuC</short-name>
 	    <long-name>Public Classes per group</long-name>
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
