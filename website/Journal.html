@@ -22,15 +22,16 @@
     </dt>
     <dd>
 	<p>Finally got around to running
-	<a href="http://www.thecortex.net/clover">Clover</a> on Dependency
-	Finder.  Overall coverage is at 52.2%.  About 16 tests in the
-	<code>com.jeantessier.metrics</code> package failed because the code
-	instrumentation from Clover messed with the expected metrics.  I have
-	put the premilinary results <a href="clover/">here</a>.  I can move
-	the tests for <code>com.jeantessier.commandline</code> package from
-	the <code>main()</code> methods to proper JUnit tests.  That should
-	raise coverage somewhat.  I'll look further into Clover for what else
-	I can get from it.</p>
+	<a target="_blank" href="http://www.thecortex.net/clover">Clover</a>
+	on Dependency Finder.  Overall coverage is at 52.2%.  About 16 tests
+	in the <code>com.jeantessier.metrics</code> package failed because the
+	code instrumentation from Clover messed with the expected metrics.  I
+	have put the premilinary results
+	<a target="_blank" href="clover/">here</a>.  I can move the tests for
+	<code>com.jeantessier.commandline</code> package from the
+	<code>main()</code> methods to proper JUnit tests.  That should raise
+	coverage somewhat.  I'll look further into Clover for what else I can
+	get from it.</p>
     </dd>
     <dt>
 	May 06, 2003
@@ -113,8 +114,9 @@
 	license because Dependency Finder is open source.  So far, it looks
 	interesting; it consists of Ant tasks to instrument code and gather
 	measurements.  Check it out on the 
-	<a href="http://www.thecortex.net/clover">Clover website</a>.  I'll
-	publish the coverage report for Dependency Finder when I have one.</p>
+	<a target="_blank" href="http://www.thecortex.net/clover">Clover website</a>.
+	I'll publish the coverage report for Dependency Finder when I have
+	one.</p>
 
 	<p>It turns out the problem with Ant's &lt;xslt&gt; is well known.  It
 	is a bug with the version of Xalan that ships with JDK 1.4.1.  To fix
