@@ -150,6 +150,58 @@ attribute will have a <code>.xml</code> extension.</p>
     and <code>AccumulatorMeasurement</code> measurements.</td>
     <td align="center" valign="top">No</td>
   </tr>
+
+  <tr>
+    <td valign="top">scopeincludeslist</td>
+    <td valign="top">the name of a package, class, or feature must match an
+    entry in the named files for it to be accounted in the report.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">scopeexcludeslist</td>
+    <td valign="top">the name of a package, class, or feature must NOT match
+    any of the entries in the named files for it to be accounted in the
+    report.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">filterincludeslist</td>
+    <td valign="top">the name of a package, class, or feature at the other end
+    of the dependency must match match an entry in the named files for the
+    dependency to be accounted in the report.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">filterexcludeslist</td>
+    <td valign="top">the name of a package, class, or feature at the other end
+    of the dependency must NOT match any of the entries in the named files for
+    the dependency to be accounted in the report.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+
+  <tr>
+    <td valign="top">showallmetrics</td>
+    <td valign="top">include metrics on classes and methods that were not
+    analysed directly, but may still have valid information gathered indirectly
+    from other classes, such as inbound dependencies.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+  <tr>
+    <td valign="top">showemptymetrics</td>
+    <td valign="top">include entries where analysis didn't gather any
+    information.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+  <tr>
+    <td valign="top">showhiddenmeasurements</td>
+    <td valign="top">show all measurements, even if they were meant to be
+    hidden through their visiblity in the configuration.  This is useful when
+    trying to debug a complex configuration and tracking the flow of
+    information.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+
+
 </table>
 
 <h3>Nested elements</h3>

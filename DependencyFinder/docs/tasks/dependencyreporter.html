@@ -135,6 +135,19 @@ DTD.</p>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
+    <td valign="top">scopeincludeslist</td>
+    <td valign="top">the name of a package, class, or feature must match an
+    entry in the named files for it to be included in the query's focus.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">scopeexcludeslist</td>
+    <td valign="top">the name of a package, class, or feature must NOT match
+    any of the entries in the named files for it to be included in the query's
+    focus.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
     <td valign="top">filterincludes</td>
     <td valign="top">the name of a package, class, or feature at the other
     end of the dependency must match the regular expressions for the
@@ -205,6 +218,20 @@ DTD.</p>
     dependency to be included in the results.</td>
     <td valign="top" align="center">No</td>
   </tr>
+  <tr>
+    <td valign="top">filterincludeslist</td>
+    <td valign="top">the name of a package, class, or feature at the other end
+    of the dependency must match match an entry in the named files for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">filterexcludeslist</td>
+    <td valign="top">the name of a package, class, or feature at the other end
+    of the dependency must NOT match any of the entries in the named files for
+    the dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
 
   <tr>
     <td valign="top">all</td>
@@ -252,6 +279,36 @@ DTD.</p>
   </tr>
 
   <tr>
+    <td valign="top">copyonly</td>
+    <td valign="top">limits the report to dependencies that are actually in
+    the source graph.  This will prevent the reporter from inferring implicit
+    dependencies when possible.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+  <tr>
+    <td valign="top">showall</td>
+    <td valign="top">shortcut for <code>showemptynodes</code>,
+    <code>showinbounds</code>, and <code>showoutbounds</code>.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+  <tr>
+    <td valign="top">showemptynodes</td>
+    <td valign="top">lists nodes in the scope, even if they would appear
+    empty because they have no inbound or outbound dependencies.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+  <tr>
+    <td valign="top">showinbounds</td>
+    <td valign="top">lists filtered inbound dependencies for scoped nodes.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+  <tr>
+    <td valign="top">showoutbounds</td>
+    <td valign="top">lists filtered outbound dependencies for scoped nodes.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+
+  <tr>
     <td valign="top">xml</td>
     <td valign="top">writes the dependency graph as an XML document with the
     <code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code>
@@ -294,6 +351,34 @@ DTD.</p>
 <p><code>&lt;dependencyreporter&gt;</code>'s <code>srcfile</code> attribute is a
 <a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>
 and can also be set via a nested <code>&lt;src&gt;</code> element.</p>
+
+<h4>scopeincludeslist</h4>
+
+<p><code>&lt;dependencyreporter&gt;</code>'s <code>scopeincludeslist</code>
+attribute is a <a href="http://ant.apache.com/manual/using.html#path">path-like
+structures</a> and can also be set via a nested <code>&lt;src&gt;</code>
+element.</p>
+
+<h4>scopeexcludeslist</h4>
+
+<p><code>&lt;dependencyreporter&gt;</code>'s <code>scopeexcludeslist</code>
+attribute is a <a href="http://ant.apache.com/manual/using.html#path">path-like
+structures</a> and can also be set via a nested <code>&lt;src&gt;</code>
+element.</p>
+
+<h4>filterincludeslist</h4>
+
+<p><code>&lt;dependencyreporter&gt;</code>'s <code>filterincludeslist</code>
+attribute is a <a href="http://ant.apache.com/manual/using.html#path">path-like
+structures</a> and can also be set via a nested <code>&lt;src&gt;</code>
+element.</p>
+
+<h4>filterexcludeslist</h4>
+
+<p><code>&lt;dependencyreporter&gt;</code>'s <code>filterexcludeslist</code>
+attribute is a <a href="http://ant.apache.com/manual/using.html#path">path-like
+structures</a> and can also be set via a nested <code>&lt;src&gt;</code>
+element.</p>
 
 <h3>Examples</h3>
 
