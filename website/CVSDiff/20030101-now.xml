@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="'2003-02-21 12:59:57'" >
+<tagdiff startTag="release-20030101" endDate="'2003-02-22 12:13:31'" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -26,6 +26,16 @@
 			<name>textjunit.bat</name>
 			<revision>1.8</revision>
 			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ClassInheritance.bat</name>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ClosureToTreeView.bat</name>
 		</file>
 	</entry>
 	<entry>
@@ -57,7 +67,7 @@
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.23</revision>
+			<revision>1.24</revision>
 			<prevrevision>1.15</prevrevision>
 		</file>
 	</entry>
@@ -76,7 +86,7 @@
 	<entry>
 		<file>
 			<name>docs/Tools.txt</name>
-			<revision>1.10</revision>
+			<revision>1.12</revision>
 			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
@@ -319,6 +329,11 @@
 	</entry>
 	<entry>
 		<file>
+			<name>etc/ClosureToTreeView.xsl</name>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>etc/MartinConfig.xml</name>
 			<revision>1.4</revision>
 			<prevrevision>1.3</prevrevision>
@@ -347,6 +362,29 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/classreader/ConstantPool.java</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/PrettyPrinter.java</name>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/TextPrinter.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/UglyPrinter.java</name>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependency/CodeDependencyCollector.java</name>
 			<revision>1.10</revision>
 			<prevrevision>1.9</prevrevision>
@@ -354,9 +392,33 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependency/MetricsGatherer.java</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependency/MetricsReport.java</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependency/PrettyPrinter.java</name>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependency/TextPrinter.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassInheritance.java</name>
-			<revision>1.8</revision>
-			<prevrevision>1.7</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -376,21 +438,21 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassReader.java</name>
-			<revision>1.12</revision>
+			<revision>1.14</revision>
 			<prevrevision>1.11</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
-			<revision>1.14</revision>
+			<revision>1.15</revision>
 			<prevrevision>1.12</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java</name>
-			<revision>1.11</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
@@ -404,7 +466,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java</name>
-			<revision>1.12</revision>
+			<revision>1.14</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
@@ -431,7 +493,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
-			<revision>1.18</revision>
+			<revision>1.19</revision>
 			<prevrevision>1.16</prevrevision>
 		</file>
 	</entry>
@@ -451,7 +513,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
-			<revision>1.20</revision>
+			<revision>1.21</revision>
 			<prevrevision>1.18</prevrevision>
 		</file>
 	</entry>
@@ -465,8 +527,15 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java</name>
-			<revision>1.16</revision>
+			<revision>1.17</revision>
 			<prevrevision>1.15</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/MetricsTableModel.java</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -548,8 +617,6 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/metrics/PrettyPrinter.java</name>
-			<revision>1.14</revision>
-			<prevrevision>1.13</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -575,9 +642,33 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/metrics/TextPrinter.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/metrics/XMLPrinter.java</name>
 			<revision>1.11</revision>
 			<prevrevision>1.10</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestAll.java</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestPrettyPrinter.java</name>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTextPrinter.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>

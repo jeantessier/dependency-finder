@@ -13,6 +13,35 @@
 
 <dl>
     <dt>
+	February 21, 2003
+    </dt>
+    <dd>
+	<p>Removed <code>-plain</code> and <code>-raw</code> switches
+	from <code>ClassReader</code>, <code>DependencyExtractor</code>,
+	and <code>DependencyReporter</code>.  Their output was not adding
+	any new information and looked ugly.</p>
+
+	<p>Fixed <code>MetricsTableModel</code>.
+	<code>DependencyFinder</code> uses it to render dependency
+	distributions in a <code>JTable</code>.  A small glitch was making
+	it miss the last row of data.  I also renamed
+	<code>com.jeantessier.dependency.MetricsGatherer.ChartSize()</code>
+	to
+	<code>com.jeantessier.dependency.MetricsGatherer.ChartMaximum()</code>.</p>
+
+	<p>Normalized naming of human-readable text printers from
+	<code>PrettyPrinter</code> to <code>TextPrinter</code>.  In
+	<code>com.jeantessier.dependency</code>, I had to merge the two
+	classes.  I also got rid of
+	<code>com.jeantessier.dependency.UglyPrinter</code>.  As a
+	result, I could get rid of <code>-plain</code> and <code>-raw</code>
+	command-line switches and simplify the output of
+	<code>ClassReader</code>, <code>DependencyExtractor</code>, and
+	<code>DependencyReporter</code>.</p>
+	
+	<p>Tools docs.</p>
+    </dd>
+    <dt>
 	February 20, 2003
     </dt>
     <dd>
