@@ -83,8 +83,17 @@ public class TextPrinter extends Printer {
 	}
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
-		Indent();
-		Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("): ").Append(value_format.format(measurement.doubleValue())).Append(" ").Append(measurement);
+		Indent().Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("): ").Append(value_format.format(measurement.doubleValue()));
+
+		try {
+			RatioMeasurement ratio = (RatioMeasurement) current_metrics.Measurement(measurement.ShortName() + "R");
+			Append(" (").Append(ratio_format.format(ratio.Value())).Append(")");
+		} catch (ClassCastException ex) {
+			// Do nothing, no ratio for this measurement
+		}
+
+		Append(" ").Append(measurement);
+		
 		EOL();
 	}
 	
