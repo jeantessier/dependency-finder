@@ -53,7 +53,7 @@ public class MetricsTableModel extends AbstractTableModel {
 	}
 
 	public int getRowCount() {
-		return Metrics().ChartSize();
+		return Metrics().ChartMaximum() + 1;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {

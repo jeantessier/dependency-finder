@@ -198,7 +198,7 @@ public class MetricsReport {
 			}
 			out.println();
 
-			for (int k=0; k<=metrics.ChartSize(); k++) {
+			for (int k=0; k<=metrics.ChartMaximum(); k++) {
 				long[] data_point = metrics.ChartData(k);
 				
 				out.print(k);

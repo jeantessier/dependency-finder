@@ -49,7 +49,7 @@ public class MetricsGatherer extends VisitorBase {
 	private long nb_inbound_features = 0;
 
 	private Map chart_data = new TreeMap();
-	private int chart_size = 0;
+	private int chart_maximum = 0;
 	public static final int CHART_INDEX           = 0;
 	public static final int CLASSES_PER_PACKAGE   = 1;
 	public static final int FEATURES_PER_CLASS    = 2;
@@ -98,16 +98,16 @@ public class MetricsGatherer extends VisitorBase {
 			result[CHART_INDEX] = i;
 			chart_data.put(key, result);
 
-			if (chart_size < i) {
-				chart_size = i;
+			if (chart_maximum < i) {
+				chart_maximum = i;
 			}
 		}
 
 		return result;
 	}
 
-	public int ChartSize() {
-		return chart_size;
+	public int ChartMaximum() {
+		return chart_maximum;
 	}
 	
 	public Collection Packages() {
