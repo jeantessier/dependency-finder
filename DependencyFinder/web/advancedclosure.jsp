@@ -357,7 +357,7 @@ Follow outbounds:
 	    stopCriteria.setClassExcludes(classStopExcludes);
 	    stopCriteria.setFeatureExcludes(featureStopExcludes);
 
-	    TransitiveClosure closure = new TransitiveClosure(startStrategy, stopStrategy);
+	    TransitiveClosure closure = new TransitiveClosure(startCriteria, stopCriteria);
 
 	    try {
 		closure.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth));

@@ -229,8 +229,7 @@ Follow outbounds:
 	    stopCriteria.setGlobalIncludes(stopIncludes);
 	    stopCriteria.setGlobalExcludes(stopExcludes);
 
-	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(startCriteria, stopCriteria);
-	    TransitiveClosure closure = new TransitiveClosure(strategy);
+	    TransitiveClosure closure = new TransitiveClosure(startCriteria, stopCriteria);
 
 	    try {
 		closure.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth));
