@@ -1,0 +1,70 @@
+body {
+	background: white;
+	white-space: nowrap;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:visited {
+	color: blue;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.projectname {
+	font-weight: bold;
+	font-size: larger;
+}
+
+.groups {
+	margin: 15 0 15 0;
+}
+
+.groupname {
+	font-weight: bold;
+	font-size: larger;
+	background-color: gray;
+	color: white;
+}
+
+.classes {
+	margin: 15 0 15 50;
+}
+
+.classname {
+	font-weight: bold;
+	font-size: larger;
+}
+
+.methods {
+	margin: 15 0 15 50;
+}
+
+.methodname {
+	font-weight: bold;
+}
+
+.measurements {
+	margin: 15 0 15 50;
+}
+
+.measurementname {
+}
+
+.measurementvalue {
+	font-family: monospace;
+	font-size: smaller;
+}
+
+.members {
+	margin: 0 0 0 50;
+}
+
+.member {
+	font-family: monospace;
+	font-size: smaller;
+}
