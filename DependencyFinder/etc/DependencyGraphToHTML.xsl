@@ -41,12 +41,11 @@
 	<html>
 
 	<head>
+	    <link rel="stylesheet" type="text/css" href="dependency.style.css" />
 	</head>
 
-	<body bgcolor="#ffffff">
-	<code>
+	<body>
 	    <xsl:apply-templates/>
-	</code>
 	</body>
 
 	</html>
@@ -54,41 +53,32 @@
   
     <xsl:template match="package">
 	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<h1><a name="{$name}"><xsl:value-of select="$name"/></a></h1>
-	<blockquote>
-	<xsl:apply-templates select="outbound"/>
-	<xsl:apply-templates select="inbound"/>
-	<xsl:apply-templates select="class"/>
-	</blockquote>
+	<div class="packagename"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+	<div class="dependencies"><xsl:apply-templates select="outbound | inbound"/></div>
+	<div class="classes"><xsl:apply-templates select="class"/></div>
     </xsl:template>
   
     <xsl:template match="class">
 	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<h2><a name="{$name}"><xsl:value-of select="$name"/></a></h2>
-	<blockquote>
-	<xsl:apply-templates select="outbound"/>
-	<xsl:apply-templates select="inbound"/>
-	<xsl:apply-templates select="feature"/>
-	</blockquote>
+	<div class="classname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+	<div class="dependencies"><xsl:apply-templates select="outbound | inbound"/></div>
+	<div class="features"><xsl:apply-templates select="feature"/></div>
     </xsl:template>
   
     <xsl:template match="feature">
 	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<h3><a name="{$name}"><xsl:value-of select="$name"/></a></h3>
-	<blockquote>
-	<xsl:apply-templates select="outbound"/>
-	<xsl:apply-templates select="inbound"/>
-	</blockquote>
+	<div class="featurename"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+	<div class="dependencies"><xsl:apply-templates select="outbound | inbound"/></div>
     </xsl:template>
   
     <xsl:template match="inbound">
 	<xsl:variable name="name"><xsl:value-of select="."/></xsl:variable>
-	&lt;-- <a href="#{$name}"><xsl:value-of select="$name"/></a><br/>
+	<span class="dependency">&lt;-- <a href="#{$name}"><xsl:value-of select="$name"/></a></span><br/>
     </xsl:template>
   
     <xsl:template match="outbound">
 	<xsl:variable name="name"><xsl:value-of select="."/></xsl:variable>
-	--&gt; <a href="#{$name}"><xsl:value-of select="$name"/></a><br/>
+	<span class="dependency">--&gt; <a href="#{$name}"><xsl:value-of select="$name"/></a></span><br/>
     </xsl:template>
   
 </xsl:stylesheet>
