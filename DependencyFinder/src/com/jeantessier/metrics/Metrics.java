@@ -94,11 +94,9 @@ public class Metrics {
 	public static final String OUTBOUND_INTRA_PACKAGE_DEPENDENCIES = "OIP";
 	public static final String OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES = "OEP";
 	
-	public static final String INBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES    = "IICF";
-	public static final String INBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES  = "IIPF";
-	public static final String INBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES    = "IIPC";
-	public static final String INBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES  = "IEPF";
-	public static final String INBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES    = "IEPC";
+	public static final String INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES     = "IICM";
+	public static final String INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES   = "IIPM";
+	public static final String INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES   = "IEPM";
 	public static final String OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES   = "OICF";
 	public static final String OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES = "OIPF";
 	public static final String OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES   = "OIPC";
