@@ -21,6 +21,36 @@
 	June 05, 2003
     </dt>
     <dd>
+	<p>This is my luck.  The day after the 1.0 Release I find a number of
+	oversights.</p>
+
+	<p>First, <code>OOMetrics</code> still tries to print its printer.
+	This made sense when the printers contained a <code>StringBuffer</code>
+	and returned the text as part of their <code>toString()</code>
+	method.  But now, they print directly to the output stream and don't
+	have a <code>toString()</code> method anymore.  The output now has
+	weird strings in odd places, which actually breaks the XML output.</p>
+
+	<p>Second, the version information in the JAR file's manifest is the
+	stripped version: "10" instead of "1.0".  I added additional properties
+	in <code>build.xml</code> to handle CVS vs. version labels.</p>
+
+	<p>Third, some classes call <code>flush()</code> on streams before
+	closing them, and others don't.  The documentation says this is
+	redundant, so I removed all of these calls.</p>
+
+	<p>Added "Powered by ..." statement to all the JSPs.  This also gave me
+	an occasion to do minor touch ups in the HTML.</p>
+
+	<p>I realized that I ran <code>OOMetrics</code> on non-debug code
+	yesterday when I gathered metrics for the 1.0 release.  This means that
+	SLOC metrics are way off.  I'll have to figure a way to recompile that
+	version and rerun <code>OOMetrics</code>.</p>
+    </dd>
+    <dt>
+	June 05, 2003
+    </dt>
+    <dd>
 	<p>1.0!</p>
     </dd>
     <dt>
