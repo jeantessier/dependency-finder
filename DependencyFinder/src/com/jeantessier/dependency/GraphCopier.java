@@ -33,77 +33,70 @@
 package com.jeantessier.dependency;
 
 public class GraphCopier extends VisitorBase {
-	private NodeFactory factory;
+	private NodeFactory scope_factory  = new NodeFactory();
+	private NodeFactory filter_factory = new NodeFactory();
 
 	public GraphCopier() {
-		this(new NodeFactory());
+		super();
 	}
 
 	public GraphCopier(TraversalStrategy strategy) {
-		this(strategy, new NodeFactory());
-	}
-
-	public GraphCopier(NodeFactory factory) {
-		super();
-
-		this.factory = factory;
-	}
-	
-	public GraphCopier(TraversalStrategy strategy, NodeFactory factory) {
 		super(strategy);
-
-		this.factory = factory;
 	}
 	
-	public NodeFactory Factory() {
-		return factory;
+	public NodeFactory ScopeFactory() {
+		return scope_factory;
+	}
+	
+	public NodeFactory FilterFactory() {
+		return filter_factory;
 	}
 
 	protected void PreprocessPackageNode(PackageNode node) {
-		super.PreprocessPackageNode(Factory().CreatePackage(node.Name()));
+		super.PreprocessPackageNode(ScopeFactory().CreatePackage(node.Name()));
 	}
 
 	public void VisitInboundPackageNode(PackageNode node) {
 		if (Strategy().InFilter(node)) {
-			Factory().CreatePackage(node.Name()).AddDependency(CurrentNode());
+			FilterFactory().CreatePackage(node.Name()).AddDependency(CurrentNode());
 		}
 	}
 
 	public void VisitOutboundPackageNode(PackageNode node) {
 		if (Strategy().InFilter(node)) {
-			CurrentNode().AddDependency(Factory().CreatePackage(node.Name()));
+			CurrentNode().AddDependency(FilterFactory().CreatePackage(node.Name()));
 		}
 	}
 
 	protected void PreprocessClassNode(ClassNode node) {
-		super.PreprocessClassNode(Factory().CreateClass(node.Name()));
+		super.PreprocessClassNode(ScopeFactory().CreateClass(node.Name()));
 	}
 
 	public void VisitInboundClassNode(ClassNode node) {
 		if (Strategy().InFilter(node)) {
-			Factory().CreateClass(node.Name()).AddDependency(CurrentNode());
+			FilterFactory().CreateClass(node.Name()).AddDependency(CurrentNode());
 		}
 	}
 
 	public void VisitOutboundClassNode(ClassNode node) {
 		if (Strategy().InFilter(node)) {
-			CurrentNode().AddDependency(Factory().CreateClass(node.Name()));
+			CurrentNode().AddDependency(FilterFactory().CreateClass(node.Name()));
 		}
 	}
 
 	protected void PreprocessFeatureNode(FeatureNode node) {
-		super.PreprocessFeatureNode(Factory().CreateFeature(node.Name()));
+		super.PreprocessFeatureNode(ScopeFactory().CreateFeature(node.Name()));
 	}
 
 	public void VisitInboundFeatureNode(FeatureNode node) {
 		if (Strategy().InFilter(node)) {
-			Factory().CreateFeature(node.Name()).AddDependency(CurrentNode());
+			FilterFactory().CreateFeature(node.Name()).AddDependency(CurrentNode());
 		}
 	}
 
 	public void VisitOutboundFeatureNode(FeatureNode node) {
 		if (Strategy().InFilter(node)) {
-			CurrentNode().AddDependency(Factory().CreateFeature(node.Name()));
+			CurrentNode().AddDependency(FilterFactory().CreateFeature(node.Name()));
 		}
 	}
 }

@@ -32,31 +32,67 @@
 
 package com.jeantessier.dependency;
 
+import java.io.*;
+import java.util.*;
+
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-	public TestAll(String name) {
+public class TestGraphSummarizerWithScoping extends TestCase {
+	SelectiveTraversalStrategy strategy;
+	NodeFactory                factory;
+	
+	Node a;
+	Node a_A;
+	Node a_A_a;
+	Node a_A_b;
+	
+	Node b;
+	Node b_B;
+	Node b_B_b;
+	
+	List include_scope;
+
+    GraphSummarizer summarizer;
+
+	public TestGraphSummarizerWithScoping(String name) {
 		super(name);
 	}
-	
-	public static Test suite() {
-		TestSuite result = new TestSuite();
 
-		result.addTestSuite(TestSelectiveTraversalStrategy.class);
-		result.addTestSuite(TestLinkMinimizer.class);
-		result.addTestSuite(TestLinkMinimizerSystematic.class);
-		result.addTestSuite(TestLinkMaximizer.class);
-		result.addTestSuite(TestLinkMaximizerSystematic.class);
-		result.addTestSuite(TestPrettyPrinter.class);
-		result.addTestSuite(TestDependencyExtractor.class);
-		result.addTestSuite(TestGraphCopier.class);
-		result.addTestSuite(TestGraphCopierWithFiltering.class);
-		result.addTestSuite(TestGraphSummarizer.class);
-		result.addTestSuite(TestGraphSummarizerWithScoping.class);
-		result.addTestSuite(TestGraphSummarizerWithFiltering.class);
-		result.addTestSuite(TestTransitiveClosure.class);
-		result.addTestSuite(TestTransitiveClosureWithTestClass.class);
+	protected void setUp() throws Exception {
+		strategy = new SelectiveTraversalStrategy();
+		factory = new NodeFactory();
 
-		return result;
+		a     = factory.CreatePackage("a");
+		a_A   = factory.CreateClass("a.A");
+		a_A_a = factory.CreateFeature("a.A.a");
+		a_A_b = factory.CreateFeature("a.A.b");
+		
+		b     = factory.CreatePackage("b");
+		b_B   = factory.CreateClass("b.B");
+		b_B_b = factory.CreateFeature("b.B.b");
+		
+		a_A_a.AddDependency(a_A_b);
+		a_A_a.AddDependency(b_B_b);
+
+		include_scope = new LinkedList();
+		include_scope.add("/^a/");
+
+		strategy.ClassScope(false);
+		strategy.FeatureScope(false);
+		strategy.ClassFilter(false);
+		strategy.FeatureFilter(false);
+		strategy.ScopeIncludes(include_scope);
+
+		summarizer = new GraphSummarizer(strategy);
+	}
+
+	public void testIncludeF2F() {
+		summarizer.TraverseNodes(factory.Packages().values());
+
+		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
+		assertEquals(summarizer.ScopeFactory().CreatePackage("a").Outbound().toString(),
+					 1, 
+					 summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Outbound().contains(b));
 	}
 }

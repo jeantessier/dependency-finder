@@ -86,7 +86,6 @@ public class PrettyPrinter extends TextPrinter {
 	protected void PreprocessPackageNode(PackageNode node) {
 		Logger.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
-		Scope().add(node);
 		PushNode(node);
 
 		RaiseIndent();
@@ -146,7 +145,6 @@ public class PrettyPrinter extends TextPrinter {
 	protected void PreprocessClassNode(ClassNode node) {
 		Logger.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
-		Scope().add(node);
 		PushNode(node);
 
 		RaiseIndent();
@@ -206,7 +204,6 @@ public class PrettyPrinter extends TextPrinter {
 	protected void PreprocessFeatureNode(FeatureNode node) {
 		Logger.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
-		Scope().add(node);
 		PushNode(node);
 
 		RaiseIndent();

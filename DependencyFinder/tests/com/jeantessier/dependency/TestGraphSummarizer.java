@@ -88,17 +88,17 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().isEmpty());
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().isEmpty());
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(1, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertTrue(summarizer.Factory().CreatePackage("a").Outbound().contains(summarizer.Factory().CreatePackage("b")));
-		assertEquals(1, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertTrue(summarizer.Factory().CreatePackage("b").Inbound().contains(summarizer.Factory().CreatePackage("a")));
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(1, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Outbound().contains(summarizer.ScopeFactory().CreatePackage("b")));
+		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("b").Inbound().contains(summarizer.ScopeFactory().CreatePackage("a")));
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 	}
 
 	public void testP2PasC2C() {
@@ -111,21 +111,21 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().isEmpty());
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Outbound().size());
 	}
 
 	public void testP2PasF2F() {
@@ -138,27 +138,27 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().contains("a.A.a"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().contains("b.B.b"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("a.A.a"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("b.B.b"));
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateFeature("a.A.a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("a.A.a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("b.B.b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("b.B.b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").Outbound().size());
 	}
 
 	public void testC2CasP2P() {
@@ -171,17 +171,17 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().isEmpty());
-		assertTrue(summarizer.Factory().Features().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(1, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertTrue(summarizer.Factory().CreatePackage("a").Outbound().contains(summarizer.Factory().CreatePackage("b")));
-		assertEquals(1, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertTrue(summarizer.Factory().CreatePackage("b").Inbound().contains(summarizer.Factory().CreatePackage("a")));
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(1, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Outbound().contains(summarizer.ScopeFactory().CreatePackage("b")));
+		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("b").Inbound().contains(summarizer.ScopeFactory().CreatePackage("a")));
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 	}
 
 	public void testC2CasC2C() {
@@ -194,23 +194,23 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.Factory().Features().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
+		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Inbound().size());
-		assertEquals(1, summarizer.Factory().CreateClass("a.A").Outbound().size());
-		assertTrue(summarizer.Factory().CreateClass("a.A").Outbound().contains(summarizer.Factory().CreateClass("b.B")));
-		assertEquals(1, summarizer.Factory().CreateClass("b.B").Inbound().size());
-		assertTrue(summarizer.Factory().CreateClass("b.B").Inbound().contains(summarizer.Factory().CreateClass("a.A")));
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Inbound().size());
+		assertEquals(1, summarizer.ScopeFactory().CreateClass("a.A").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreateClass("a.A").Outbound().contains(summarizer.ScopeFactory().CreateClass("b.B")));
+		assertEquals(1, summarizer.ScopeFactory().CreateClass("b.B").Inbound().size());
+		assertTrue(summarizer.ScopeFactory().CreateClass("b.B").Inbound().contains(summarizer.ScopeFactory().CreateClass("a.A")));
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Outbound().size());
 	}
 
 	public void testC2CasF2F() {
@@ -223,27 +223,27 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().contains("a.A.a"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().contains("b.B.b"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("a.A.a"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("b.B.b"));
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateFeature("a.A.a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("a.A.a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("b.B.b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("b.B.b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").Outbound().size());
 	}
 
 	public void testF2FasP2P() {
@@ -256,17 +256,17 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().isEmpty());
-		assertTrue(summarizer.Factory().Features().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(1, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertTrue(summarizer.Factory().CreatePackage("a").Outbound().contains(summarizer.Factory().CreatePackage("b")));
-		assertEquals(1, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertTrue(summarizer.Factory().CreatePackage("b").Inbound().contains(summarizer.Factory().CreatePackage("a")));
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(1, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Outbound().contains(summarizer.ScopeFactory().CreatePackage("b")));
+		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("b").Inbound().contains(summarizer.ScopeFactory().CreatePackage("a")));
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 	}
 
 	public void testF2FasC2C() {
@@ -279,23 +279,23 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.Factory().Features().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
+		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Inbound().size());
-		assertEquals(1, summarizer.Factory().CreateClass("a.A").Outbound().size());
-		assertTrue(summarizer.Factory().CreateClass("a.A").Outbound().contains(summarizer.Factory().CreateClass("b.B")));
-		assertEquals(1, summarizer.Factory().CreateClass("b.B").Inbound().size());
-		assertTrue(summarizer.Factory().CreateClass("b.B").Inbound().contains(summarizer.Factory().CreateClass("a.A")));
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Inbound().size());
+		assertEquals(1, summarizer.ScopeFactory().CreateClass("a.A").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreateClass("a.A").Outbound().contains(summarizer.ScopeFactory().CreateClass("b.B")));
+		assertEquals(1, summarizer.ScopeFactory().CreateClass("b.B").Inbound().size());
+		assertTrue(summarizer.ScopeFactory().CreateClass("b.B").Inbound().contains(summarizer.ScopeFactory().CreateClass("a.A")));
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Outbound().size());
 	}
 
 	public void testF2FasF2F() {
@@ -308,29 +308,29 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().contains("a.A.a"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().contains("b.B.b"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("a.A.a"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("b.B.b"));
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateFeature("a.A.a").Inbound().size());
-		assertEquals(1, summarizer.Factory().CreateFeature("a.A.a").Outbound().size());
-		assertTrue(summarizer.Factory().CreateFeature("a.A.a").Outbound().contains(summarizer.Factory().CreateFeature("b.B.b")));
-		assertEquals(1, summarizer.Factory().CreateFeature("b.B.b").Inbound().size());
-		assertTrue(summarizer.Factory().CreateFeature("b.B.b").Inbound().contains(summarizer.Factory().CreateFeature("a.A.a")));
-		assertEquals(0, summarizer.Factory().CreateFeature("b.B.b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").Inbound().size());
+		assertEquals(1, summarizer.ScopeFactory().CreateFeature("a.A.a").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreateFeature("a.A.a").Outbound().contains(summarizer.ScopeFactory().CreateFeature("b.B.b")));
+		assertEquals(1, summarizer.ScopeFactory().CreateFeature("b.B.b").Inbound().size());
+		assertTrue(summarizer.ScopeFactory().CreateFeature("b.B.b").Inbound().contains(summarizer.ScopeFactory().CreateFeature("a.A.a")));
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").Outbound().size());
 	}
 
 	public void testF2CasP2P() {
@@ -343,17 +343,17 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().isEmpty());
-		assertTrue(summarizer.Factory().Features().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(1, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertTrue(summarizer.Factory().CreatePackage("a").Outbound().contains(summarizer.Factory().CreatePackage("b")));
-		assertEquals(1, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertTrue(summarizer.Factory().CreatePackage("b").Inbound().contains(summarizer.Factory().CreatePackage("a")));
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(1, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Outbound().contains(summarizer.ScopeFactory().CreatePackage("b")));
+		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("b").Inbound().contains(summarizer.ScopeFactory().CreatePackage("a")));
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 	}
 
 	public void testF2CasC2C() {
@@ -366,23 +366,23 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.Factory().Features().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
+		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateClass("a.A").Inbound().size());
-		assertEquals(1, summarizer.Factory().CreateClass("a.A").Outbound().size());
-		assertTrue(summarizer.Factory().CreateClass("a.A").Outbound().contains(summarizer.Factory().CreateClass("b.B")));
-		assertEquals(1, summarizer.Factory().CreateClass("b.B").Inbound().size());
-		assertTrue(summarizer.Factory().CreateClass("b.B").Inbound().contains(summarizer.Factory().CreateClass("a.A")));
-		assertEquals(0, summarizer.Factory().CreateClass("b.B").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").Inbound().size());
+		assertEquals(1, summarizer.ScopeFactory().CreateClass("a.A").Outbound().size());
+		assertTrue(summarizer.ScopeFactory().CreateClass("a.A").Outbound().contains(summarizer.ScopeFactory().CreateClass("b.B")));
+		assertEquals(1, summarizer.ScopeFactory().CreateClass("b.B").Inbound().size());
+		assertTrue(summarizer.ScopeFactory().CreateClass("b.B").Inbound().contains(summarizer.ScopeFactory().CreateClass("a.A")));
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").Outbound().size());
 	}
 
 	public void testF2CasF2F() {
@@ -395,26 +395,26 @@ public class TestGraphSummarizer extends TestCase {
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.Factory().Packages().keySet().toString(), summarizer.Factory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.Factory().Classes().keySet().toString(), summarizer.Factory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().contains("a.A.a"));
-		assertTrue(summarizer.Factory().Features().keySet().toString(), summarizer.Factory().Features().keySet().contains("b.B.b"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
+		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("a.A.a"));
+		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("b.B.b"));
 
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreatePackage("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateClass("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateClass("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateClass("b").Outbound().size());
 
-		assertEquals(0, summarizer.Factory().CreateFeature("a").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("a").Outbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("b").Inbound().size());
-		assertEquals(0, summarizer.Factory().CreateFeature("b").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b").Outbound().size());
 	}
 }

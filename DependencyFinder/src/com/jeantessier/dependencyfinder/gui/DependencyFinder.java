@@ -736,7 +736,7 @@ public class DependencyFinder extends JFrame {
 			printer.ShowOutbounds(show_outbounds.isSelected());
 			printer.ShowEmptyNodes(show_empty_nodes.isSelected());
 			
-			printer.TraverseNodes(dependencies_query.Scope());
+			printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
 			
 			dependencies_result_area.setText(printer.toString());
 		}
@@ -773,12 +773,12 @@ public class DependencyFinder extends JFrame {
 		strategy.ClassFilterExcludes(class_filter_excludes.getText());
 		strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
 		
-		GraphCopier copier = new TransitiveClosure(strategy);
+		TransitiveClosure selector = new TransitiveClosure(strategy);
 		
-		copier.TraverseNodes(Packages());
+		selector.TraverseNodes(Packages());
 		
 		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.PrettyPrinter();
-		printer.TraverseNodes(copier.Scope());
+		printer.TraverseNodes(selector.Factory().Packages().values());
 		closure_result_area.setText(printer.toString());
     }		
 	

@@ -34,6 +34,14 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
+import org.apache.log4j.*;
+
+/**
+ *  This is a basic implementation of Visitor.
+ *  
+ *  @see Visitor
+ *  @author Jean Tessier
+ */
 public abstract class VisitorBase implements Visitor {
 	private TraversalStrategy strategy;
 
@@ -79,23 +87,25 @@ public abstract class VisitorBase implements Visitor {
 		if (!current_nodes.isEmpty()) {
 			result = (Node) current_nodes.getLast();
 		}
+
+		Logger.getLogger(getClass()).debug(current_nodes + ": " + result);
 		
 		return result;
 	}
 
 	protected void PushNode(Node current_node) {
+		Logger.getLogger(getClass()).debug(current_nodes + " + " + current_node);
 		current_nodes.addLast(current_node);
 	}
 
 	protected Node PopNode() {
 		Node result = (Node) current_nodes.removeLast();
+
+		Logger.getLogger(getClass()).debug(current_nodes + " -> " + result);
+		
 		return result;
 	}
 
-	public SortedSet Scope() {
-		return scope;
-	}
-	
 	public void VisitPackageNode(PackageNode node) {
 		boolean in_scope = Strategy().InScope(node);
 		
@@ -131,7 +141,6 @@ public abstract class VisitorBase implements Visitor {
 	}
 
 	protected void PreprocessPackageNode(PackageNode node) {
-		Scope().add(node);
 		PushNode(node);
 	}
 	
@@ -144,7 +153,9 @@ public abstract class VisitorBase implements Visitor {
 	}
 	
 	protected void PostprocessPackageNode(PackageNode node) {
-		PopNode();
+		if (node.equals(CurrentNode())) {
+			PopNode();
+		}
 	}
 	
 	public void VisitInboundPackageNode(PackageNode node) {
@@ -190,7 +201,6 @@ public abstract class VisitorBase implements Visitor {
 	}
 
 	protected void PreprocessClassNode(ClassNode node) {
-		Scope().add(node.Package());
 		PushNode(node);
 	}
 	
@@ -203,7 +213,9 @@ public abstract class VisitorBase implements Visitor {
 	}
 
 	protected void PostprocessClassNode(ClassNode node) {
-		PopNode();
+		if (node.equals(CurrentNode())) {
+			PopNode();
+		}
 	}
 
 	public void VisitInboundClassNode(ClassNode node) {
@@ -239,12 +251,13 @@ public abstract class VisitorBase implements Visitor {
 	}
 
 	protected void PreprocessFeatureNode(FeatureNode node) {
-		Scope().add(node.Class().Package());
 		PushNode(node);
 	}
 	
 	protected void PostprocessFeatureNode(FeatureNode node) {
-		PopNode();
+		if (node.equals(CurrentNode())) {
+			PopNode();
+		}
 	}
 
 	public void VisitInboundFeatureNode(FeatureNode node) {

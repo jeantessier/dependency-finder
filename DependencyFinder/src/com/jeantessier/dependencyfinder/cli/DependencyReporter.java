@@ -300,11 +300,11 @@ public class DependencyReporter {
 			copier.TraverseNodes(packages);
 		}
 
-		Logger.getLogger(DependencyReporter.class).info("Reporting " + copier.Scope().size() + " package(s) ...");
+		Logger.getLogger(DependencyReporter.class).info("Reporting " + copier.ScopeFactory().Packages().values().size() + " package(s) ...");
 	
 		if (command_line.ToggleSwitch("serialize")) {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
-			out.writeObject(copier.Scope());
+			out.writeObject(copier.ScopeFactory().Packages().values());
 			out.close();
 		} else {
 			Printer printer;
@@ -316,7 +316,7 @@ public class DependencyReporter {
 				printer = new PrettyPrinter();
 			}
 	    
-			printer.TraverseNodes(copier.Scope());
+			printer.TraverseNodes(copier.ScopeFactory().Packages().values());
 	    
 			if (command_line.IsPresent("out")) {
 				PrintWriter out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));

@@ -41,9 +41,14 @@ import java.util.*;
  *  LinkMaximizer.  Otherwise, you will only get a subset
  *  of the explicit dependencies.
  */
-public class TransitiveClosure extends GraphCopier {
-	public Set visited_nodes = new HashSet();
+public class TransitiveClosure extends VisitorBase {
+	private NodeFactory factory          = new NodeFactory();
+	private boolean     follow_outbounds = true;
+	private boolean     follow_inbounds  = false;
+	private boolean     single_path      = false;
 
+	private Set visited_nodes = new HashSet();
+	
 	public TransitiveClosure() {
 		super();
 	}
@@ -52,62 +57,161 @@ public class TransitiveClosure extends GraphCopier {
 		super(strategy);
 	}
 
-	public TransitiveClosure(NodeFactory factory) {
-		super(factory);
+	public NodeFactory Factory() {
+		return factory;
 	}
 
-	public TransitiveClosure(TraversalStrategy strategy, NodeFactory factory) {
-		super(strategy, factory);
+	public boolean FollowInbounds() {
+		return follow_inbounds;
+	}
+	
+	public void FollowInbounds(boolean follow_inbounds) {
+		this.follow_inbounds = follow_inbounds;
+	}
+	
+	public boolean FollowOutbounds() {
+		return follow_outbounds;
+	}
+
+	public void FollowOutbounds(boolean follow_outbounds) {
+		this.follow_outbounds = follow_outbounds;
+	}
+	
+	/*
+	 *  If the call to AddDependency() is unconditional, all
+	 *  dependencies will be copied in the new graph.  Otherwise,
+	 *  only the first dependency that lead to the node will be
+	 *  part of the resulting graph.
+	 */
+	public boolean SinglePath() {
+		return single_path;
+	}
+
+	public void SinglePath(boolean single_path) {
+		this.single_path = single_path;
 	}
 
 	public void PreprocessPackageNode(PackageNode node) {
 		if (!visited_nodes.contains(node.Name())) {
-			super.PreprocessPackageNode(node);
+			super.PreprocessPackageNode(Factory().CreatePackage(node.Name()));
 			visited_nodes.add(node.Name());
 			TraverseOutbound(node.Outbound());
+			TraverseInbound(node.Inbound());
+		}
+	}
+
+	public void VisitInboundPackageNode(PackageNode node) {
+		if (CurrentNode() != null && FollowInbounds() && Strategy().InFilter(node)) {
+			if (!SinglePath()) {
+				Factory().CreatePackage(node.Name()).AddDependency(CurrentNode());
+			}
+		
+			if (!visited_nodes.contains(node.Name())) {
+				if (SinglePath()) {
+					Factory().CreatePackage(node.Name()).AddDependency(CurrentNode());
+				}
+				PreprocessPackageNode(node);
+				PopNode();
+			}
 		}
 	}
 
 	public void VisitOutboundPackageNode(PackageNode node) {
-		super.VisitOutboundPackageNode(node);
+		if (CurrentNode() != null && FollowOutbounds() && Strategy().InFilter(node)) {
+			if (!SinglePath()) {
+				CurrentNode().AddDependency(Factory().CreatePackage(node.Name()));
+			}
 		
-		if (Strategy().InFilter(node) && !visited_nodes.contains(node.Name())) {
-			PreprocessPackageNode(node);
-			PopNode();
+			if (!visited_nodes.contains(node.Name())) {
+				if (SinglePath()) {
+					CurrentNode().AddDependency(Factory().CreatePackage(node.Name()));
+				}
+				PreprocessPackageNode(node);
+				PopNode();
+			}
 		}
 	}
 
 	public void PreprocessClassNode(ClassNode node) {
 		if (!visited_nodes.contains(node.Name())) {
-			super.PreprocessClassNode(node);
+			super.PreprocessClassNode(Factory().CreateClass(node.Name()));
 			visited_nodes.add(node.Name());
 			TraverseOutbound(node.Outbound());
+			TraverseInbound(node.Inbound());
+		}
+	}
+
+	public void VisitInboundClassNode(ClassNode node) {
+		if (CurrentNode() != null && FollowInbounds() && Strategy().InFilter(node)) {
+			if (!SinglePath()) {
+				Factory().CreateClass(node.Name()).AddDependency(CurrentNode());
+			}
+		
+			if (!visited_nodes.contains(node.Name())) {
+				if (SinglePath()) {
+					Factory().CreateClass(node.Name()).AddDependency(CurrentNode());
+				}
+				PreprocessClassNode(node);
+				PopNode();
+			}
 		}
 	}
 
 	public void VisitOutboundClassNode(ClassNode node) {
-		super.VisitOutboundClassNode(node);
+		if (CurrentNode() != null && FollowOutbounds() && Strategy().InFilter(node)) {
+			
+			if (!SinglePath()) {
+				CurrentNode().AddDependency(Factory().CreateClass(node.Name()));
+			}
 		
-		if (Strategy().InFilter(node) && !visited_nodes.contains(node.Name())) {
-			PreprocessClassNode(node);
-			PopNode();
+			if (!visited_nodes.contains(node.Name())) {
+				if (SinglePath()) {
+					CurrentNode().AddDependency(Factory().CreateClass(node.Name()));
+				}
+				PreprocessClassNode(node);
+				PopNode();
+			}
 		}
 	}
 
 	public void PreprocessFeatureNode(FeatureNode node) {
 		if (!visited_nodes.contains(node.Name())) {
-			super.PreprocessFeatureNode(node);
+			super.PreprocessFeatureNode(Factory().CreateFeature(node.Name()));
 			visited_nodes.add(node.Name());
 			TraverseOutbound(node.Outbound());
+			TraverseInbound(node.Inbound());
+		}
+	}
+
+	public void VisitInboundFeatureNode(FeatureNode node) {
+		if (CurrentNode() != null && FollowInbounds() && Strategy().InFilter(node)) {
+			if (!SinglePath()) {
+				Factory().CreateFeature(node.Name()).AddDependency(CurrentNode());
+			}
+		
+			if (!visited_nodes.contains(node.Name())) {
+				if (SinglePath()) {
+					Factory().CreateFeature(node.Name()).AddDependency(CurrentNode());
+				}
+				PreprocessFeatureNode(node);
+				PopNode();
+			}
 		}
 	}
 
 	public void VisitOutboundFeatureNode(FeatureNode node) {
-		super.VisitOutboundFeatureNode(node);
+		if (CurrentNode() != null && FollowOutbounds() && Strategy().InFilter(node)) {
+			if (!SinglePath()) {
+				CurrentNode().AddDependency(Factory().CreateFeature(node.Name()));
+			}
 		
-		if (Strategy().InFilter(node) && !visited_nodes.contains(node.Name())) {
-			PreprocessFeatureNode(node);
-			PopNode();
+			if (!visited_nodes.contains(node.Name())) {
+				if (SinglePath()) {
+					CurrentNode().AddDependency(Factory().CreateFeature(node.Name()));
+				}
+				PreprocessFeatureNode(node);
+				PopNode();
+			}
 		}
 	}
 }

@@ -56,8 +56,4 @@ public class TestAll extends TestCase {
 
 		return result;
 	}
-
-	public static void main(String[] args) {
-		junit.textui.TestRunner.run(suite());
-	}
 }

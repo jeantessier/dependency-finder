@@ -325,7 +325,7 @@ Show:
 	printer.ShowOutbounds(show_outbounds);
 	printer.ShowEmptyNodes(show_empty_nodes);
 		
-	printer.TraverseNodes(dependencies_query.Scope());
+	printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
 
 	Date stop = new Date();
 

@@ -99,8 +99,8 @@ public class TestGraphCopierWithFiltering extends TestCase {
 		
 		copier.TraverseNodes(factory.Packages().values());
 
-		assertTrue(copier.Factory().CreatePackage("a").Inbound().isEmpty());
-		assertTrue(copier.Factory().CreatePackage("a").Outbound().isEmpty());
+		assertTrue(copier.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
+		assertTrue(copier.ScopeFactory().CreatePackage("a").Outbound().isEmpty());
 	}
 
 	public void testExcludeFilterF2FtoP2P() {
@@ -115,7 +115,7 @@ public class TestGraphCopierWithFiltering extends TestCase {
 		
 		copier.TraverseNodes(factory.Packages().values());
 
-		assertTrue(copier.Factory().CreatePackage("a").Inbound().isEmpty());
-		assertTrue(copier.Factory().CreatePackage("a").Outbound().isEmpty());
+		assertTrue(copier.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
+		assertTrue(copier.ScopeFactory().CreatePackage("a").Outbound().isEmpty());
 	}
 }

@@ -36,7 +36,6 @@ import java.util.*;
 
 public interface Visitor {
     public void      TraverseNodes(Collection nodes);
-	public SortedSet Scope();
 
     public void VisitPackageNode(PackageNode node);
     public void VisitInboundPackageNode(PackageNode node);

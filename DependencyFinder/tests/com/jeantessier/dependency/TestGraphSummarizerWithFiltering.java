@@ -103,11 +103,11 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 		
 		copier.TraverseNodes(factory.Packages().values());
 
-		assertTrue(copier.Factory().CreatePackage("a").Inbound().isEmpty());
-		assertEquals(copier.Factory().CreatePackage("a").Outbound().toString(),
+		assertTrue(copier.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
+		assertEquals(copier.ScopeFactory().CreatePackage("a").Outbound().toString(),
 					 1, 
-					 copier.Factory().CreatePackage("a").Outbound().size());
-		assertTrue(copier.Factory().CreatePackage("a").Outbound().contains(b));
+					 copier.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertTrue(copier.ScopeFactory().CreatePackage("a").Outbound().contains(b));
 	}
 
 	public void testExcludeFilterF2FtoP2P() {
@@ -125,10 +125,10 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 		
 		copier.TraverseNodes(factory.Packages().values());
 
-		assertTrue(copier.Factory().CreatePackage("a").Inbound().isEmpty());
-		assertEquals(copier.Factory().CreatePackage("a").Outbound().toString(),
+		assertTrue(copier.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
+		assertEquals(copier.ScopeFactory().CreatePackage("a").Outbound().toString(),
 					 1, 
-					 copier.Factory().CreatePackage("a").Outbound().size());
-		assertTrue(copier.Factory().CreatePackage("a").Outbound().contains(b));
+					 copier.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertTrue(copier.ScopeFactory().CreatePackage("a").Outbound().contains(b));
 	}
 }

@@ -254,7 +254,7 @@ public class DependencyClosure {
 			strategy.FilterExcludes(command_line.MultipleSwitch("excludes"));
 		}
 
-		GraphCopier selector = new TransitiveClosure(strategy);
+		TransitiveClosure selector = new TransitiveClosure(strategy);
 	
 		Iterator i = command_line.Parameters().iterator();
 		while (i.hasNext()) {
@@ -281,11 +281,11 @@ public class DependencyClosure {
 		}
 
 
-		Logger.getLogger(DependencyClosure.class).info("Reporting " + selector.Scope().size() + " package(s) ...");
+		Logger.getLogger(DependencyClosure.class).info("Reporting " + selector.Factory().Packages().values().size() + " package(s) ...");
 	
 		if (command_line.ToggleSwitch("serialize")) {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
-			out.writeObject(selector.Scope());
+			out.writeObject(selector.Factory().Packages().values());
 			out.close();
 		} else {
 			Printer printer;
@@ -295,7 +295,7 @@ public class DependencyClosure {
 				printer = new PrettyPrinter();
 			}
 	    
-			printer.TraverseNodes(selector.Scope());
+			printer.TraverseNodes(selector.Factory().Packages().values());
 	    
 			if (command_line.IsPresent("out")) {
 				PrintWriter out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
