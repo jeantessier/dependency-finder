@@ -52,30 +52,39 @@ public class AttributeFactory {
 
 		int name_index = in.readUnsignedShort();
 		if (name_index > 0) {
-			String name = ((UTF8_info) classfile.ConstantPool().get(name_index)).Value();
-			Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index + " (" + name + ")");
-			
-			if (CONSTANT_VALUE.equals(name)) {
-				result = new ConstantValue_attribute(classfile, owner, in);
-			} else if (CODE.equals(name)) {
-				result = new Code_attribute(classfile, owner, in);
-			} else if (EXCEPTIONS.equals(name)) {
-				result = new Exceptions_attribute(classfile, owner, in);
-			} else if (INNER_CLASSES.equals(name)) {
-				result = new InnerClasses_attribute(classfile, owner, in);
-			} else if (SYNTHETIC.equals(name)) {
-				result = new Synthetic_attribute(classfile, owner, in);
-			} else if (SOURCE_FILE.equals(name)) {
-				result = new SourceFile_attribute(classfile, owner, in);
-			} else if (LINE_NUMBER_TABLE.equals(name)) {
-				result = new LineNumberTable_attribute(classfile, owner, in);
-			} else if (LOCAL_VARIABLE_TABLE.equals(name)) {
-				result = new LocalVariableTable_attribute(classfile, owner, in);
-			} else if (DEPRECATED.equals(name)) {
-				result = new Deprecated_attribute(classfile, owner, in);
+			Object entry = classfile.ConstantPool().get(name_index);
+
+			if (entry instanceof UTF8_info) {
+				String name = ((UTF8_info) entry).Value();
+				Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index + " (" + name + ")");
+				
+				if (CONSTANT_VALUE.equals(name)) {
+					result = new ConstantValue_attribute(classfile, owner, in);
+				} else if (CODE.equals(name)) {
+					result = new Code_attribute(classfile, owner, in);
+				} else if (EXCEPTIONS.equals(name)) {
+					result = new Exceptions_attribute(classfile, owner, in);
+				} else if (INNER_CLASSES.equals(name)) {
+					result = new InnerClasses_attribute(classfile, owner, in);
+				} else if (SYNTHETIC.equals(name)) {
+					result = new Synthetic_attribute(classfile, owner, in);
+				} else if (SOURCE_FILE.equals(name)) {
+					result = new SourceFile_attribute(classfile, owner, in);
+				} else if (LINE_NUMBER_TABLE.equals(name)) {
+					result = new LineNumberTable_attribute(classfile, owner, in);
+				} else if (LOCAL_VARIABLE_TABLE.equals(name)) {
+					result = new LocalVariableTable_attribute(classfile, owner, in);
+				} else if (DEPRECATED.equals(name)) {
+					result = new Deprecated_attribute(classfile, owner, in);
+				} else {
+					Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
+					result = new Custom_attribute(name, classfile, owner, in);
+				}
 			} else {
-				Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
-				result = new Custom_attribute(name, classfile, owner, in);
+				Logger.getLogger(AttributeFactory.class).debug("Attribute name: " + entry);
+
+				Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name");
+				result = new Custom_attribute(classfile, owner, in);
 			}
 		} else {
 			Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index);
