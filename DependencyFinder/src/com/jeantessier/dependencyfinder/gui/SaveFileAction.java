@@ -39,13 +39,15 @@ import javax.swing.*;
 
 public class SaveFileAction extends AbstractAction implements Runnable {
 	private DependencyFinder model;
+	private String           encoding;
 	private String           dtd_prefix;
 
 	private String indent_text;
 	private File   file;
 
-	public SaveFileAction(DependencyFinder model, String dtd_prefix) {
+	public SaveFileAction(DependencyFinder model, String encoding, String dtd_prefix) {
 		this.model      = model;
+		this.encoding   = encoding;
 		this.dtd_prefix = dtd_prefix;
 
 		putValue(Action.LONG_DESCRIPTION, "Save current graph to XML file");
@@ -74,7 +76,7 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 	public void run() {
 		try {
 			PrintWriter out = new PrintWriter(new FileWriter(file));
-			com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, dtd_prefix);
+			com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, encoding, dtd_prefix);
 			if (indent_text != null) {
 				printer.IndentText(indent_text);
 			}

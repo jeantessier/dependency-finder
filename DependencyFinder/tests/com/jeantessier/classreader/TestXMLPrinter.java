@@ -38,14 +38,18 @@ import java.util.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
-import junit.framework.*;
 import org.apache.oro.text.perl.*;
+
+import junit.framework.*;
 
 public class TestXMLPrinter extends TestCase {
 	private static final String READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
 	private static final String TEST_CLASS       = "test";
 	private static final String TEST_FILENAME    = "classes" + File.separator + "test.class";
 	private static final String TEST_DIRECTORY   = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
+
+	private static final String SPECIFIC_ENCODING   = "iso-latin-1";
+	private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
 	private ClassfileLoader loader;
 	private StringWriter    buffer;
@@ -58,7 +62,7 @@ public class TestXMLPrinter extends TestCase {
 		loader = new AggregatingClassfileLoader();
 
 		buffer  = new StringWriter();
-		printer = new XMLPrinter(new PrintWriter(buffer), "./etc");
+		printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
 		reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
 		reader.setFeature("http://xml.org/sax/features/validation", true);
@@ -66,7 +70,43 @@ public class TestXMLPrinter extends TestCase {
 
 		perl = new Perl5Util();
 	}
+
+	public void testDefaultDTDPrefix() {
+		buffer  = new StringWriter();
+		printer = new XMLPrinter(new PrintWriter(buffer));
+
+		String xml_document = buffer.toString();
+		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
+		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX));
+	}
 	
+	public void testSpecificDTDPrefix() {
+		buffer  = new StringWriter();
+		printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+
+		String xml_document = buffer.toString();
+		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
+		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
+	}
+
+	public void testDefaultEncoding() {
+		buffer  = new StringWriter();
+		printer = new XMLPrinter(new PrintWriter(buffer));
+
+		String xml_document = buffer.toString();
+		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
+		assertEquals("Encoding", XMLPrinter.DEFAULT_ENCODING, perl.group(1));
+	}
+
+	public void testSpecificEncoding() {
+		buffer  = new StringWriter();
+		printer = new XMLPrinter(new PrintWriter(buffer), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+
+		String xml_document = buffer.toString();
+		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
+		assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
+	}
+
 	public void testSingleClassfile() {
 		loader.Load(Collections.singleton(TEST_FILENAME));
 

@@ -38,6 +38,7 @@ import org.apache.oro.text.perl.*;
 
 public class ListDiffPrinter {
 	public static final boolean DEFAULT_COMPRESS    = false;
+	public static final String  DEFAULT_ENCODING    = "utf-8";
 	public static final String  DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
 
 	private static final Perl5Util perl = new Perl5Util();
@@ -55,21 +56,21 @@ public class ListDiffPrinter {
 	private Collection added       = new TreeSet();
 	
 	public ListDiffPrinter() {
-		this(DEFAULT_COMPRESS, DEFAULT_DTD_PREFIX);
+		this(DEFAULT_COMPRESS, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
 	public ListDiffPrinter(boolean compress) {
-		this(compress, DEFAULT_DTD_PREFIX);
+		this(compress, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
-	public ListDiffPrinter(String dtd_prefix) {
-		this(DEFAULT_COMPRESS, dtd_prefix);
+	public ListDiffPrinter(String encoding, String dtd_prefix) {
+		this(DEFAULT_COMPRESS, encoding, dtd_prefix);
 	}
 	
-	public ListDiffPrinter(boolean compress, String dtd_prefix) {
+	public ListDiffPrinter(boolean compress, String encoding, String dtd_prefix) {
 		this.compress = compress;
 
-		AppendHeader(dtd_prefix);
+		AppendHeader(encoding, dtd_prefix);
 	}
 
 	public String IndentText() {
@@ -80,8 +81,8 @@ public class ListDiffPrinter {
 		this.indent_text = indent_text;
 	}
 
-	private void AppendHeader(String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").EOL();
+	private void AppendHeader(String encoding, String dtd_prefix) {
+		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" standalone=\"yes\" ?>").EOL();
 		EOL();
 		Append("<!DOCTYPE list-diff SYSTEM \"").Append(dtd_prefix).Append("/list-diff.dtd\">").EOL();
 		EOL();

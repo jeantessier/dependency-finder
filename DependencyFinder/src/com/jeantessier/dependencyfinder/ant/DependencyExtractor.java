@@ -46,6 +46,7 @@ public class DependencyExtractor extends Task {
 	private boolean xml         = false;
 	private boolean minimize    = false;
 	private boolean maximize    = false;
+	private String  encoding    = com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING;
 	private String  dtd_prefix  = com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indent_text;
 	private File    destfile;
@@ -81,6 +82,14 @@ public class DependencyExtractor extends Task {
 
 	public void setMaximize(boolean maximize) {
 		this.maximize = maximize;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+	
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	public String getDtdprefix() {
@@ -162,7 +171,7 @@ public class DependencyExtractor extends Task {
 
 				com.jeantessier.dependency.Printer printer;
 				if (getXml()) {
-					printer = new com.jeantessier.dependency.XMLPrinter(out, getDtdprefix());
+					printer = new com.jeantessier.dependency.XMLPrinter(out, getEncoding(), getDtdprefix());
 				} else {
 					printer = new com.jeantessier.dependency.TextPrinter(out);
 				}

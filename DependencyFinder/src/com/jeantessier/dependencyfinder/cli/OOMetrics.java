@@ -94,6 +94,7 @@ public class OOMetrics {
 		command_line.AddToggleSwitch("txt");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
+		command_line.AddSingleValueSwitch("encoding",     com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING);
 		command_line.AddSingleValueSwitch("dtd-prefix",   com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("all");
@@ -427,7 +428,7 @@ public class OOMetrics {
 
 		metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
-		printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), command_line.SingleSwitch("dtd-prefix"));
+		printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
 		if (command_line.IsPresent("indent-text")) {
 			printer.IndentText(command_line.SingleSwitch("indent-text"));
 		}

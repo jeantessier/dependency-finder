@@ -149,6 +149,7 @@ public class DependencyReporter {
 		command_line.AddToggleSwitch("serialize");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
+		command_line.AddSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
 		command_line.AddSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("minimize");
@@ -335,7 +336,7 @@ public class DependencyReporter {
 
 			Printer printer;
 			if (command_line.IsPresent("xml")) {
-				printer = new XMLPrinter(out, command_line.SingleSwitch("dtd-prefix"));
+				printer = new XMLPrinter(out, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
 			} else {
 				printer = new TextPrinter(out);
 			}

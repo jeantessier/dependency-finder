@@ -89,6 +89,7 @@ public class ClassClassDiff {
 		command_line.AddSingleValueSwitch("old-documentation", DEFAULT_OLD_DOCUMENTATION);
 		command_line.AddMultipleValuesSwitch("new", true);
 		command_line.AddSingleValueSwitch("new-documentation", DEFAULT_NEW_DOCUMENTATION);
+		command_line.AddSingleValueSwitch("encoding",          Report.DEFAULT_ENCODING);
 		command_line.AddSingleValueSwitch("dtd-prefix",        Report.DEFAULT_DTD_PREFIX);
 		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("time");
@@ -174,7 +175,7 @@ public class ClassClassDiff {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		com.jeantessier.diff.Printer printer = new Report(command_line.SingleSwitch("dtd-prefix"));
+		com.jeantessier.diff.Printer printer = new Report(command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
 		if (command_line.IsPresent("indent-text")) {
 			printer.IndentText(command_line.SingleSwitch("indent-text"));
 		}

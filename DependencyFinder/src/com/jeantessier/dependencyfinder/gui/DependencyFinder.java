@@ -255,7 +255,7 @@ public class DependencyFinder extends JFrame {
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 		
-		action = new SaveFileAction(this, command_line.SingleSwitch("dtd-prefix"));
+		action = new SaveFileAction(this, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
 		menu_item = file_menu.add(action);
 		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		menu_item.setMnemonic('s');
@@ -1238,6 +1238,7 @@ public class DependencyFinder extends JFrame {
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
 		command_line.AddToggleSwitch("minimize");
 		command_line.AddToggleSwitch("maximize");
+		command_line.AddSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
 		command_line.AddSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("help");

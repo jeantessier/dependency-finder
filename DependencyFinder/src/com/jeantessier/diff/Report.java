@@ -39,6 +39,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Report extends Printer {
+	public static final String DEFAULT_ENCODING   = "utf-8";
 	public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
 
 	private String name;
@@ -73,15 +74,15 @@ public class Report extends Printer {
 	private Collection new_classes             = new TreeSet();
 
 	public Report() {
-		this(DEFAULT_DTD_PREFIX);
+		this(DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
-	public Report(String dtd_header) {
-		AppendHeader(dtd_header);
+	public Report(String encoding, String dtd_header) {
+		AppendHeader(encoding, dtd_header);
 	}
 
-	private void AppendHeader(String dtd_header) {
-		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").EOL();
+	private void AppendHeader(String encoding, String dtd_header) {
+		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" standalone=\"yes\" ?>").EOL();
 		EOL();
 		Append("<!DOCTYPE differences SYSTEM \"").Append(dtd_header).Append("/differences.dtd\">").EOL();
 		EOL();

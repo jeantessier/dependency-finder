@@ -47,6 +47,7 @@ public class ListDiff extends Task {
 	private File    new_file;
 	private String  new_label;
 	private boolean compress    = false;
+	private String  encoding    = ListDiffPrinter.DEFAULT_ENCODING;
 	private String  dtd_prefix  = ListDiffPrinter.DEFAULT_DTD_PREFIX;
 	private String  indent_text;
 	private File    destfile;
@@ -97,6 +98,14 @@ public class ListDiff extends Task {
 
 	public void setCompress(boolean compress) {
 		this.compress = compress;
+	}
+	
+	public String getEncoding() {
+		return dtd_prefix;
+	}
+	
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 	
 	public String getDtdprefix() {
@@ -175,7 +184,7 @@ public class ListDiff extends Task {
 			
 			log("Comparing old and new lists ...");
 
-			ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getDtdprefix());
+			ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getEncoding(), getDtdprefix());
 			printer.Name(getName());
 			printer.OldVersion(getOldlabel());
 			printer.NewVersion(getNewlabel());

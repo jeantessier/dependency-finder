@@ -36,24 +36,25 @@ import java.io.*;
 import java.util.*;
 
 public class XMLPrinter extends Printer {
+	public static final String DEFAULT_ENCODING   = "utf-8";
 	public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
 
 	private MetricsConfiguration configuration;
 	
 	public XMLPrinter(PrintWriter out, MetricsConfiguration configuration) {
-		this(out, configuration, DEFAULT_DTD_PREFIX);
+		this(out, configuration, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
-	public XMLPrinter(PrintWriter out, MetricsConfiguration configuration, String dtd_prefix) {
+	public XMLPrinter(PrintWriter out, MetricsConfiguration configuration, String encoding, String dtd_prefix) {
 		super(out);
 		
 		this.configuration = configuration;
 
-		AppendHeader(dtd_prefix);
+		AppendHeader(encoding, dtd_prefix);
 	}
 
-	private void AppendHeader(String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>").EOL();
+	private void AppendHeader(String encoding, String dtd_prefix) {
+		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" standalone=\"yes\" ?>").EOL();
 		EOL();
 		Append("<!DOCTYPE metrics SYSTEM \"").Append(dtd_prefix).Append("/metrics.dtd\">").EOL();
 		EOL();

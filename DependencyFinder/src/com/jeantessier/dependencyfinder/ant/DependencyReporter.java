@@ -49,6 +49,7 @@ public class DependencyReporter extends GraphTask {
 	private boolean copy_only  = false;
 	private boolean serialize  = false;
 	private boolean xml        = false;
+	private String  encoding   = XMLPrinter.DEFAULT_ENCODING;
 	private String  dtd_prefix = XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indent_text;
 
@@ -90,6 +91,14 @@ public class DependencyReporter extends GraphTask {
 
 	public void setXml(boolean xml) {
 		this.xml = xml;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+	
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	public String getDtdprefix() {
@@ -160,7 +169,7 @@ public class DependencyReporter extends GraphTask {
 
 				Printer printer;
 				if (getXml()) {
-					printer = new XMLPrinter(out, getDtdprefix());
+					printer = new XMLPrinter(out, getEncoding(), getDtdprefix());
 				} else {
 					printer = new TextPrinter(out);
 				}

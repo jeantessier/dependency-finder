@@ -32,9 +32,66 @@
 
 package com.jeantessier.diff;
 
+import java.io.*;
+
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
+
+import org.apache.oro.text.perl.*;
+
 import junit.framework.*;
 
 public class TestListDiffPrinter extends TestCase {
+	private static final String READER_CLASSNAME       = "org.apache.xerces.parsers.SAXParser";
+
+	private static final String SPECIFIC_ENCODING   = "iso-latin-1";
+	private static final String SPECIFIC_DTD_PREFIX = "./etc";
+
+	private ListDiffPrinter printer;
+	private XMLReader       reader;
+
+	private Perl5Util perl;
+
+	protected void setUp() throws Exception {
+		reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
+		reader.setFeature("http://xml.org/sax/features/validation", true);
+		reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
+
+		perl = new Perl5Util();
+	}
+
+	public void testDefaultDTDPrefix() {
+		printer = new ListDiffPrinter();
+
+		String xml_document = printer.toString();
+		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
+		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + ListDiffPrinter.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(ListDiffPrinter.DEFAULT_DTD_PREFIX));
+	}
+	
+	public void testSpecificDTDPrefix() {
+		printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+
+		String xml_document = printer.toString();
+		assertTrue(xml_document + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xml_document));
+		assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
+	}
+
+	public void testDefaultEncoding() {
+		printer = new ListDiffPrinter();
+
+		String xml_document = printer.toString();
+		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
+		assertEquals("Encoding", ListDiffPrinter.DEFAULT_ENCODING, perl.group(1));
+	}
+
+	public void testSpecificEncoding() {
+		printer = new ListDiffPrinter(SPECIFIC_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX);
+
+		String xml_document = printer.toString();
+		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
+		assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
+	}
+
 	public void testDefault() {
 		ListDiffPrinter printer = new ListDiffPrinter();
 

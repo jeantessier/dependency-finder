@@ -50,6 +50,7 @@ public class JarJarDiff extends Task {
 	private Path   new_path;
 	private String new_label;
 	private File   new_documentation = new File("new_documentation.txt");
+	private String encoding          = Report.DEFAULT_ENCODING;
 	private String dtd_prefix        = Report.DEFAULT_DTD_PREFIX;
 	private String indent_text;
 	private File   destfile;
@@ -116,6 +117,14 @@ public class JarJarDiff extends Task {
 	
 	public void setNewdocumentation(File new_documentation) {
 		this.new_documentation = new_documentation;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+	
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	public String getDtdprefix() {
@@ -190,7 +199,7 @@ public class JarJarDiff extends Task {
 			
 			log("Saving difference report to " + getDestfile().getAbsolutePath());
 			
-			com.jeantessier.diff.Printer printer = new Report(getDtdprefix());
+			com.jeantessier.diff.Printer printer = new Report(getEncoding(), getDtdprefix());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
 			}

@@ -53,6 +53,7 @@ public class OOMetrics extends Task {
 	private boolean txt             = false;
 	private boolean xml             = false;
 	private boolean validate        = false;
+	private String  encoding        = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;
 	private String  dtd_prefix      = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indent_text;
 	private boolean project_metrics = false;
@@ -111,6 +112,14 @@ public class OOMetrics extends Task {
 
 	public void setValidate(boolean validate) {
 		this.validate = validate;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+	
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	public String getDtdprefix() {
@@ -441,7 +450,7 @@ public class OOMetrics extends Task {
 
 		List metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
-		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), getDtdprefix());
+		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), getEncoding(), getDtdprefix());
 		if (getIndenttext() != null) {
 			printer.IndentText(getIndenttext());
 		}
