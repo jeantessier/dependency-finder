@@ -17,6 +17,108 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	May 21, 2004
+    </dt>
+    <dd>
+	<p>I don't know what SourceForge changed in their system, but their
+	advice for my CVS problems were to get the latest version of my client.
+	I did, and now everything's fine.  I find it very hard to believe that
+	they would change something as important as their CVS support without
+	telling anyone.  But what can you do.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>SmartCVS</td>
+	        <td>:</td>
+		<td>2.4.2</td>
+	        <td>-></td>
+		<td>3 rc</td>
+	    </tr>
+	</table>
+	</blockquote>
+
+	<p>I was finally able to check in my most recent changes, including
+	documentation of new switches on Ant tasks and use of long names for
+	measurements when writing to <code>.csv</code> files.</p>
+
+	<p>I want to do a beta release for the next release, tentatively 1.1,
+	compiled only for JDK 1.4.2 and above.  This will allow me to see if
+	anyone cares for me to stick with lower versions of the JDK.  If
+	enough people complain, I'll do the real release with JDK 1.3 again.
+	Or, they could simply get the source code and compile it themselves
+	with JDK 1.3 and track Xalan on their own, but I would have to stick
+	with Log4J and Jakarta-ORO for this to work.</p>
+	
+    </dd>
+    <dt>
+	May 20, 2004
+    </dt>
+    <dd>
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Ant</td>
+	        <td>:</td>
+		<td>1.6.0</td>
+	        <td>-></td>
+		<td>1.6.1</td>
+	    </tr>
+	</table>
+	</blockquote>
+
+	<p>Opened a new
+	<a target="_blank" href="http://sourceforge.net/tracker/?func=detail&aid=957832&group_id=1&atid=200001">trouble
+	ticket</a> with SourceForge.  I haven't been able to contact the CVS
+	repository for over a week now.</p>
+    </dd>
+    <dt>
+	May 13, 2004
+    </dt>
+    <dd>
+	<p>I could depend only on JDK 1.4.2 instead of 1.3.  This way, I would
+	not have to ship Xalan with Dependency Finder.  I could even go further
+	and use Java Logging and Regex instead of Log4J and ORO respectively.
+	Then, Dependency Finder wouldn't need any third party software.</p>
+
+	<p>A while back, I compared Log4J with Java's Logging API and preferred
+	Log4J.  It is more flexible and easier to configure.  It would feel
+	strange to move away from it now.</p>
+
+	<p>I chose ORO because it supports pretty much all of Perl's very rich
+	regular expression language.  From what I understand, its coverage
+	even outdoes Java's Regex.  But Dependency Finder only uses a small
+	subset of that language, which is equally covered by both package, so
+	I could easily switch.</p>
+
+	<p>So switching to JDK 1.4.2 would give me access to both the Logging
+	and Regex APIs.  It also includes a complete copy of Xalan.  JDK
+	1.4.1 had a bug in its Xalan, but 1.4.2 is all better.</p>
+
+	<p>I wonder how many people out there currently use JDK 1.3 or a
+	version of 1.4 that is below 1.4.2.  If I switch now, how many users
+	will not be able to follow?  If I don't switch, then I need to keep
+	dragging Log4J and ORO along.</p>
+
+	<p>CVS on SourceForge is still out.</p>
+    </dd>
+    <dt>
+	May 10, 2004
+    </dt>
+    <dd>
+	<p>Documented the new attributes of the<code>DependencyReporter</code>
+	and <code>OOMetrics</code> Ant tasks.</p>
+
+	<p>Adjusted the metrics's CSV printer to include each measurement's
+	long name, in addition to their short name, to reduce confusion.</p>
+
+	<p>CVS on SourceForge is out.  Again.</p>
+    </dd>
+    <dt>
 	May 09, 2004
     </dt>
     <dd>
