@@ -5,7 +5,7 @@ public class SourceClass extends testpackage.TestClass {
 
 	public testpackage.TestClass SourceMethod() {
 		target_attribute = this;
-		TestMethod("foobar");
+		super.TestMethod("foobar");
 		return this;
 	}
 }
