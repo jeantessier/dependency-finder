@@ -405,12 +405,6 @@ public class MetricsGatherer extends VisitorBase {
 		if (helper.CatchTypeIndex() != 0) {
 			helper.RawCatchType().Accept(this);
 		}
-		
-		// The lines in the catch{} block are caught in
-		// the line number table.  This adds one for the
-		// catch{} line itself.  Adding one for the try{
-		// line will be difficult.
-		sloc++;
 	}
 
 	public void VisitInnerClass(InnerClass helper) {
