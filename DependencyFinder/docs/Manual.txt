@@ -258,15 +258,17 @@ You can put this line in your =.cshrc= file.
 ---+++ Web Application
 
 Dependency Finder also comes as a web application that you can easily deploy
-in just about any J2EE servlet container.
+in just about any J2EE servlet container.  Most containers have their own way
+to deploy and manage web applications, so you will need to adjust these
+instructions to your particular circumstances.
 
 ---++++ Step 1: Deploy WAR File
 
 Use your favorite servlet container to deploy the WAR file.  Most of them
 have tools for deploying WAR files.  For some of them, it can be as simple
-as deploying the WAR file to a specific directory.
+as copying the WAR file to a specific directory.
 
-For instance, using Tomcat on Windows:
+For instance, using Tomcat on Windows, you can:
 
     C:\>%CATALINA_HOME%\bin\shutdown
     C:\>copy DependencyFinder.war %CATALINA_HOME%\webapps
@@ -274,13 +276,21 @@ For instance, using Tomcat on Windows:
 
 ---++++ Step 2: Configure =web.xml= file
 
-Next, you need to tell the wep application where to find the Java classes to
-extract dependencies from.  This is done via the =web.xml= file in the
-=WEB-INF\= directory.  Some application servers expose the content of this
-file through some form of user interface.  Under Tomcat, you have to edit
-the file yourself using a text editor.
+Next, you need to tell the wep application where to find the dependency graph
+on which it will operate.  This is done via the application's context
+parameters.  Some application servers let you set them using some form of
+application management tool.  But for others, such as Tomcat, you need to edit
+them manually using a text editor.  You can find them in the=WEB-INF\web.xml=
+file from the WAR file.
 
-There are three application variable to adjust.
+You will need to decide how you feed information into the web application.  You
+can either extract the dependency graph from compiled Java code or read in a
+previously extracted graph.  Extraction is faster, but requires that you place
+a copy of the compiled Java code on the server running the web application.
+This is often impractical, so you can generate the graph on your build machine
+instead and transfer only the resulting XML document.
+
+There are four context parameters that you can adjust:
 
 <blockquote>
 <table border="0"
@@ -334,13 +344,15 @@ There are three application variable to adjust.
 </blockquote>
 
 Under some servlet containers, for example Tomcat, you will need to restart
-the servlet container for the changes to take effect.
+the servlet container for the changes to take effect.  Other application
+servers may allow you to simply restart the web application itself.
 
     C:\>%CATALINA_HOME%\bin\shutdown
+    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder\WEB-INF\web.xml
     C:\>%CATALINA_HOME%\bin\startup
 
-Or you can use the deployment tool in Tomcat Manager to install the web
-application.
+Or you can edit the WAR file directly and then use the deployment tool in
+Tomcat Manager to redeploy the web application.
 
 ----
 
@@ -1366,28 +1378,48 @@ equivalent.
 
 ---++++ Extracting With the Web Application
 
-You use =extract.jsp= to generate a dependency graph for the web application.
+The web application can either extract a dependency graph from compiled Java
+code, or read one that was previously extracted from one or more XML document.
 The graph will stay in memory for the lifetime of the process serving the
-application, or until you extract it again with the JSP.  This graph can
-get pretty big, so make sure you allocate enough memory to the application
-server.
+application, or until you load it anew.  This graph can get pretty big, so make
+sure you allocate enough memory to the application server.
 
-If you just call =extract.jsp=, it will print statistics on the current
-graph, if any.  These include the number of nodes in the graph, how long
-it took to extract it, and a timestamp of when it was extracted.
+You use =extract.jsp= to generate a dependency graph from compiled Java code.
+If you just call =extract.jsp=, it will print statistics on the current graph,
+if any.  These include the number of nodes in the graph, how long it took to
+extract it, and a timestamp of when it was extracted.
 
-If you click on the _Launch_ button, or call =extract.jsp?launch%3DLaunch=,
-it will start to extract a new dependency graph.  The previous one will
-remain in use for other callers until the extraction terminates successfully.
-The JSP prints the name of classes as it extracts them.  And at the end, it
-prints how many classes it read and how it it took to analyze them.
+If you click on the _Launch_ button, or call =extract.jsp?launch%3DLaunch=, it
+will start to extract a new dependency graph.  The previous one will remain in
+use for other callers until the extraction terminates successfully.  The JSP
+prints the name of classes as it extracts them.  And at the end, it prints how
+many classes it read and how long it took to analyze them.
 
-You can use the URL "=extract.jsp?launch%3DLaunch=" to automatically
-update the graph after automated compilation runs, such as during nightly
-builds.
+You can use the URL "=extract.jsp?launch%3DLaunch=" to automatically update the
+graph after automated compilation runs, such as during nightly builds.
 
     &lt;target name%3D"extract" depends%3D"init"&gt;
         &lt;get src%3D"${WEB%5FAPP%5FURL}/extract.jsp?launch%3DLaunch"
+             dest%3D"log.html"/&gt;
+    &lt;/target&gt;
+
+You use =load.jsp= to read a dependency graph from an XML document such as the
+ones generated by =DependencyExtractor=.  If you just call =load.jsp=, it will
+print statistics on the current graph, if any.  These include the number of
+nodes in the graph, how long it took to read it, and a timestamp of when it was
+extracted.
+
+If you click on the _Launch_ button, or call =load.jsp?launch%3DLaunch=, it
+will start to read a new dependency graph.  The previous one will remain in use
+for other callers until the loading terminates successfully.  The JSP prints
+the name of classes as it reads them.  And at the end, it prints how many files
+it read and how it took to read them.
+
+You can use the URL "=load.jsp?launch%3DLaunch=" to automatically update the
+graph after automated compilation runs, such as during nightly builds.
+
+    &lt;target name%3D"load" depends%3D"init"&gt;
+        &lt;get src%3D"${WEB%5FAPP%5FURL}/load.jsp?launch%3DLaunch"
              dest%3D"log.html"/&gt;
     &lt;/target&gt;
 
