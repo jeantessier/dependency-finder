@@ -85,10 +85,14 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 			in.getProgressMonitor().setMillisToDecideToPopup(0);
 			model.NodeFactory(loader.Load(in));
 			model.setTitle("Dependency Finder - " + filename);
-			
-			model.StatusLine().ShowInfo("Maximizing ...");
-			LinkMaximizer maximizer = new LinkMaximizer();
-			maximizer.TraverseNodes(model.Packages());
+
+			if (model.Maximize()) {
+				model.StatusLine().ShowInfo("Maximizing ...");
+				new LinkMaximizer().TraverseNodes(model.Packages());
+			} else if (model.Minimize()) {
+				model.StatusLine().ShowInfo("Minimizing ...");
+				new LinkMinimizer().TraverseNodes(model.Packages());
+			}
 
 			Date stop = new Date();
 
