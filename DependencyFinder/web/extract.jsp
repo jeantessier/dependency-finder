@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.text.*, java.util.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.classreader.*" %>
+<%@ page import="java.io.*, java.text.*, java.util.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.dependencyfinder.*, com.jeantessier.classreader.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -36,65 +36,15 @@
 <jsp:useBean id="version" class="com.jeantessier.dependencyfinder.Version" scope="application"/>
 
 <%!
-    private class GroupData {
-	private String name;
-	private int    size;
-	private int    count;
-
-	public GroupData(String name, int size) {
-	    this.name = name;
-	    this.size = size;
-
-	    this.count = 0;
-	}
-
-	public String Name() {
-	    return name;
-	}
-
-	public int Size() {
-	    return size;
-	}
-
-	public int Count() {
-	    return count;
-	}
-
-	public void IncrementCount() {
-	    count++;
-	}
-
-	public int Ratio() {
-	    return Count() * 100 / Size();
-	}
-    }
-
-    private class MyListener implements LoadListener {
+    private class VerboseListener extends VerboseListenerBase {
 	private JspWriter out;
 
-	private int class_count = 0;
-
-	private LinkedList groups        = new LinkedList();
-	private Collection visited_files = new HashSet();
-	
-	public MyListener(JspWriter out) {
+	public VerboseListener(JspWriter out) {
 	    this.out = out;
 	}
 	
-	public int ClassCount() {
-	    return class_count;
-	}
-	
-	public GroupData CurrentGroup() {
-	    return (GroupData) groups.getLast();
-	}
-
-	public void BeginSession(LoadEvent event) {
-	    // Do nothing
-	}
-	
 	public void BeginGroup(LoadEvent event) {
-	    groups.add(new GroupData(event.GroupName(), event.Size()));
+	    super.BeginGroup(event);
 
 	    try {
 		out.println();
@@ -114,32 +64,14 @@
 
 	public void BeginFile(LoadEvent event) {
 	    try {
-		if (CurrentGroup().Size() > 0) {
-		    int previous_ratio = CurrentGroup().Ratio();
-		    CurrentGroup().IncrementCount();
-		    int new_ratio = CurrentGroup().Ratio();
-
-		    if (previous_ratio != new_ratio) {
-			if (new_ratio < 10) {
-			    out.print(" ");
-			}
-			if (new_ratio < 100) {
-			    out.print(" ");
-			}
-			out.print(new_ratio + "%");
-		    }
-		}
+		out.print(RatioIndicator());
 	    } catch (IOException ex) {
 		// Ignore
 	    }
 	}
 
-	public void BeginClassfile(LoadEvent event) {
-	    // Do nothing
-	}
-
 	public void EndClassfile(LoadEvent event) {
-	    visited_files.add(event.Filename());
+	    super.EndClassfile(event);
 
 	    try {
 		out.print("\t\tGetting dependencies from ");
@@ -149,13 +81,11 @@
 	    } catch (IOException ex) {
 		// Ignore
 	    }
-
-	    class_count++;
 	}
 
 	public void EndFile(LoadEvent event) {
 	    try {
-		if (!visited_files.contains(event.Filename())) {
+		if (!VisitedFiles().contains(event.Filename())) {
 		    out.print("\t\t<i>Skipping ");
 		    out.print(event.Filename());
 		    out.print(" ...</i>");
@@ -164,15 +94,6 @@
 	    } catch (IOException ex) {
 		// Ignore
 	    }
-	}
-
-	public void EndGroup(LoadEvent event) {
-	    visited_files.add(event.GroupName());
-	    groups.removeLast();
-	}
-
-	public void EndSession(LoadEvent event) {
-	    // Do nothing
 	}
     }
 %>
@@ -265,7 +186,7 @@
 
 <%
 	Date start = new Date();
-	MyListener listener = new MyListener(out);
+	VerboseListener listener = new VerboseListener(out);
 
 	Perl5Util perl = new Perl5Util();
 

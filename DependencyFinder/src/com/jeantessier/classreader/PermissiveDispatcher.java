@@ -56,8 +56,10 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
 				   filename.endsWith(".bat")        ||
 				   filename.endsWith(".css")        ||
 				   filename.endsWith(".dtd")        ||
+				   filename.endsWith(".gif")        ||
 				   filename.endsWith(".java")       ||
 				   filename.endsWith(".jsp")        ||
+				   filename.endsWith(".jpg")        ||
 				   filename.endsWith("MANIFEST.MF") ||
 				   filename.endsWith(".properties") ||
 				   filename.endsWith(".txt")        ||
