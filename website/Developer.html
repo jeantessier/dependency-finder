@@ -65,6 +65,7 @@ by Jean Tessier
 <li><a href="#DataStructure">Data Structure</a></li>
 </ul>
 <li><a href="#APIDifferencesX">API Differences</a></li>
+<li><a href="#Command-LineParsing">Command-Line Parsing</a></li>
 <li><a href="#BuildingDependencyFinder">Building Dependency Finder</a></li>
 <ul>
 <li><a href="#CompilingaBuild">Compiling a Build</a></li>
@@ -644,6 +645,99 @@ If it is not in the old codebase but it is in new one, then you can
 mark it as having been recently added.  For packages that are present
 in both codebase, you can repeat this analysis at the class level, and
 then at the feature level.
+</p>
+
+<hr />
+
+<a name="Command-LineParsing" />
+<h2>Command-Line Parsing</h2>
+
+<p>
+The <code>com.jeantessier.commandline</code> package gives you the tools you need to parse
+the command-line to your program, validate switches and parameters, and even
+print a summary usage statement when your program is not called properly.
+<i>Switches</i> start with a dash ("<code>-</code>") and usually have specific semantics
+attached to them.  <i>Parameters</i> are just strung out on the command-line and
+usually don't have individual specific semantics, besides those they share as a
+group.
+</p>
+
+<p>
+You create a <code>CommandLine</code> instance to parse your command-line.  At creation
+time, you can supply a specifc <code>ParameterStrategy</code>.  Here are a the ones that
+ship with Dependency Finder.
+</p>
+
+<blockquote>
+<dl>
+    <dt><code>AnyParameterStrategy</code></dt>
+    <dd>No restrictions, the command-line can include any number of parameters,
+    including none at all.  This is the default strategy if you do not specify
+    one.</dd>
+    <dt><code>AtLeastParameterStrategy</code></dt>
+    <dd>The command-line must include at least a certain number of parameters
+    or the framework will find the command-line invalid.</dd>
+    <dt><code>AtMostParameterStrategy</code></dt>
+    <dd>The command-line can include at most a certain number of parameters or
+    the framework will find the command-line invalid.</dd>
+    <dt><code>ExactlyParameterStrategy</code></dt>
+    <dd>The command-line must include an exact number of parameters or the
+    framework will find the command-line invalid.</dd>
+    <dt><code>NullParameterStrategy</code></dt>
+    <dd>The command-line cannot include any parameters or the framework will
+    find the command-line invalid.</dd>
+</dl>
+</blockquote>
+
+<p>
+Once you have a parser, you can add switch definitions to it.  There are four
+types of switches described below. 
+</p>
+
+<blockquote>
+<dl>
+    <dt><code>MultipleValuesSwitch</code></dt>
+    <dd>The switch must be followed by a value, but it can occur multiple times
+    on the command-line.  The values are accumulated in the same order as on
+    the command-line and you retrieve them as a single <code>List</code>.</dd>
+    <dt><code>OptionalValueSwitch</code></dt>
+    <dd>The switch can appear by itself or followed by a value.  It can only
+    appear once on the command-line.</dd>
+    <dt><code>SingleValueSwitch</code></dt>
+    <dd>The switch must be followed by a value.  It can only appear once on the
+    command-line.</dd>
+    <dt><code>ToggleSwitch</code></dt>
+    <dd>The switch be followed by a value.  It acts as a boolean, <code>false</code> if
+    absent or <code>true</code> if present on the command-line.</dd>
+</dl>
+</blockquote>
+
+<p>
+You add switches with the matching <code>AddSwitch()</code> methods on <code>CommandLine</code>.  You
+can supply switches with default values and specify if they are mandatory (must
+appear on the command-line) or not.
+</p>
+
+<p>
+When you create the parser, you can also specify if the parser will be <i>strict</i>
+or not.  Strict parsers will only accept switches that are explicitly specified.
+Non-strict parsers treat an unknown switch as an <code>OptionalValueSwitch</code>.
+</p>
+
+<p>
+Along with your <code>CommandLine</code> parser, you can create a <code>CommandLineUsage</code> that
+will create a summary description of your command-line specification.  You can
+use this summary in error messages for invalid command-lines to help users
+figure out what they did wrong.
+</p>
+
+<p>
+To actually parse your command-line, just call <code>CommandLine</code>'s <code>parse()</code> method
+and pass it the string array that is <code>main()</code>'s sole parameter.  The parser
+will throw an exception if anything went wrong.  After parsing, you can check
+for the presence of specific switches with the <code>IsPresent()</code> method and get
+the value(s) of specific switches with one of the <code>Switch()</code> methods.  You can
+retrieve parameters, if any, with the <code>Parameters()</code> method.
 </p>
 
 <hr />
