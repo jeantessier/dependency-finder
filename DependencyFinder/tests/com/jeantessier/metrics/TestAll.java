@@ -61,6 +61,7 @@ public class TestAll extends TestCase {
 		result.addTestSuite(TestMetricsGatherer.class);
 		result.addTestSuite(TestMetricsGathererEvents.class);
 		result.addTestSuite(TestMetricsGathererDependencies.class);
+		result.addTestSuite(TestMetricsGathererDependenciesScope.class);
 		result.addTestSuite(TestMetricsGathererDependenciesFilter.class);
 		result.addTestSuite(TestMetricsGathererSLOC.class);
 		result.addTestSuite(TestXMLPrinter.class);

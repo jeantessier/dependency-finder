@@ -102,8 +102,11 @@ public class OOMetrics {
 		command_line.AddToggleSwitch("groups");
 		command_line.AddToggleSwitch("classes");
 		command_line.AddToggleSwitch("methods");
+		command_line.AddMultipleValuesSwitch("scope-includes-list");
+		command_line.AddMultipleValuesSwitch("scope-excludes-list");
 		command_line.AddMultipleValuesSwitch("filter-includes-list");
 		command_line.AddMultipleValuesSwitch("filter-excludes-list");
+		command_line.AddToggleSwitch("show-all-metrics");
 		command_line.AddToggleSwitch("show-empty-metrics");
 		command_line.AddToggleSwitch("show-hidden-measurements");
 		command_line.AddSingleValueSwitch("sort",                   DEFAULT_SORT);
@@ -202,11 +205,28 @@ public class OOMetrics {
 		Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
 
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
+		if (command_line.IsPresent("scope-includes-list") || command_line.IsPresent("scope-excludes-list")) {
+			gatherer.ScopeIncludes(CreateCollection(command_line.MultipleSwitch("scope-includes-list"), command_line.MultipleSwitch("scope-excludes-list")));
+		}
 		if (command_line.IsPresent("filter-includes-list") || command_line.IsPresent("filter-excludes-list")) {
 			gatherer.FilterIncludes(CreateCollection(command_line.MultipleSwitch("filter-includes-list"), command_line.MultipleSwitch("filter-excludes-list")));
 		}
 		gatherer.addMetricsListener(verbose_listener);
 		gatherer.VisitClassfiles(loader.Classfiles());
+		
+		if (command_line.IsPresent("show-all-metrics")) {
+			Iterator i;
+
+			i = gatherer.MetricsFactory().AllClassMetrics().iterator();
+			while (i.hasNext()) {
+				gatherer.MetricsFactory().IncludeClassMetrics((Metrics) i.next());
+			}
+
+			i = gatherer.MetricsFactory().AllMethodMetrics().iterator();
+			while (i.hasNext()) {
+				gatherer.MetricsFactory().IncludeMethodMetrics((Metrics) i.next());
+			}
+		}
 
 		Logger.getLogger(OOMetrics.class).debug("Printing results ...");
 		verbose_listener.Print("Printing results ...");

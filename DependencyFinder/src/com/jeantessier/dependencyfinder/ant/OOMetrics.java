@@ -60,8 +60,11 @@ public class OOMetrics extends Task {
 	private boolean group_metrics            = false;
 	private boolean class_metrics            = false;
 	private boolean method_metrics           = false;
+	private Path    scope_includes_list;
+	private Path    scope_excludes_list;
 	private Path    filter_includes_list;
 	private Path    filter_excludes_list;
+	private boolean show_all_metrics         = false;
 	private boolean show_empty_metrics       = false;
 	private boolean show_hidden_measurements = false;
 	private String  sort                     = DEFAULT_SORT;
@@ -181,6 +184,30 @@ public class OOMetrics extends Task {
 		setMethodmetrics(all_metrics);
 	}
 	
+	public Path createScopeincludeslist() {
+		if (scope_includes_list == null) {
+			scope_includes_list = new Path(getProject());
+		}
+
+		return scope_includes_list;
+	}
+	
+	public Path getScopeincludeslist() {
+		return scope_includes_list;
+	}
+	
+	public Path createScopeexcludeslist() {
+		if (scope_excludes_list == null) {
+			scope_excludes_list = new Path(getProject());
+		}
+
+		return scope_excludes_list;
+	}
+	
+	public Path getScopeexcludeslist() {
+		return scope_excludes_list;
+	}
+	
 	public Path createFilterincludeslist() {
 		if (filter_includes_list == null) {
 			filter_includes_list = new Path(getProject());
@@ -205,12 +232,20 @@ public class OOMetrics extends Task {
 		return filter_excludes_list;
 	}
 
+	public boolean getShowallmetrics() {
+		return show_all_metrics;
+	}
+	
+	public void setShowallmetrics(boolean show_all_metrics) {
+		this.show_all_metrics = show_all_metrics;
+	}
+
 	public boolean getShowemptymetrics() {
 		return show_empty_metrics;
 	}
 	
-	public void setShowemptymetrics(boolean show_all) {
-		this.show_empty_metrics = show_all;
+	public void setShowemptymetrics(boolean show_empty_metrics) {
+		this.show_empty_metrics = show_empty_metrics;
 	}
 
 	public boolean getShowhiddenmeasurements() {
@@ -301,10 +336,27 @@ public class OOMetrics extends Task {
 			
 			com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
 			gatherer.addMetricsListener(verbose_listener);
+			if (getScopeincludeslist() != null || getScopeexcludeslist() != null) {
+				gatherer.ScopeIncludes(CreateCollection(getScopeincludeslist(), getScopeexcludeslist()));
+			}
 			if (getFilterincludeslist() != null || getFilterexcludeslist() != null) {
 				gatherer.FilterIncludes(CreateCollection(getFilterincludeslist(), getFilterexcludeslist()));
 			}
 			gatherer.VisitClassfiles(loader.Classfiles());
+		
+			if (getShowallmetrics()) {
+				Iterator i;
+				
+				i = gatherer.MetricsFactory().AllClassMetrics().iterator();
+				while (i.hasNext()) {
+					gatherer.MetricsFactory().IncludeClassMetrics((Metrics) i.next());
+				}
+				
+				i = gatherer.MetricsFactory().AllMethodMetrics().iterator();
+				while (i.hasNext()) {
+					gatherer.MetricsFactory().IncludeMethodMetrics((Metrics) i.next());
+				}
+			}
 			
 			if (getCsv()) {
 				PrintCSVFiles(gatherer.MetricsFactory());

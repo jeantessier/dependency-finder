@@ -48,6 +48,7 @@ public class MetricsGatherer extends VisitorBase {
 	private String         project_name;
 	private MetricsFactory factory;
 
+	private Collection scope  = null;
 	private Collection filter = null;
 	
 	private Metrics current_project;
@@ -75,6 +76,10 @@ public class MetricsGatherer extends VisitorBase {
 		return factory;
 	}
 
+	public void ScopeIncludes(Collection scope) {
+		this.scope = scope;
+	}
+	
 	public void FilterIncludes(Collection filter) {
 		this.filter = filter;
 	}
@@ -539,7 +544,7 @@ public class MetricsGatherer extends VisitorBase {
 		if (!CurrentClass().Name().equals(name) && Filter(name)) {
 			Metrics other = MetricsFactory().CreateClassMetrics(name);
 				
-			if (CurrentMethod() != null) {
+			if (CurrentMethod() != null && Scope(CurrentMethod().Name())) {
 				Logger.getLogger(getClass()).debug("AddClassDependency " + CurrentMethod().Name() + " -> " + name + " ...");
 				
 				if (CurrentClass().Parent().equals(other.Parent())) {
@@ -551,7 +556,7 @@ public class MetricsGatherer extends VisitorBase {
 					CurrentMethod().AddToMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, other.Name());
 					other.AddToMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, CurrentMethod().Name());
 				}
-			} else {
+			} else if (Scope(CurrentClass().Name())) {
 				Logger.getLogger(getClass()).debug("AddClassDependency " + CurrentClass().Name() + " -> " + name + " ...");
 				
 				if (CurrentClass().Parent().equals(other.Parent())) {
@@ -570,7 +575,7 @@ public class MetricsGatherer extends VisitorBase {
 	private void AddMethodDependency(String name) {
 		Logger.getLogger(getClass()).debug("AddMethodDependency " + CurrentMethod().Name() + " -> " + name + " ...");
 
-		if (!CurrentMethod().Name().equals(name) && Filter(name)) {
+		if (!CurrentMethod().Name().equals(name) && Scope(CurrentMethod().Name()) && Filter(name)) {
 			Metrics other = MetricsFactory().CreateMethodMetrics(name);
 			
 			if (CurrentClass().equals(other.Parent())) {
@@ -587,6 +592,16 @@ public class MetricsGatherer extends VisitorBase {
 				other.AddToMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, CurrentMethod().Name());
 			}
 		}
+	}
+	
+	private boolean Scope(String name) {
+		boolean result = true;
+
+		if (scope != null) {
+			result = scope.contains(name);
+		}
+
+		return result;
 	}
 	
 	private boolean Filter(String name) {

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+    Copyright (c) 2001-2003, Jean Tessier
+    All rights reserved.
+    
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+    
+    	* Redistributions of source code must retain the above copyright
+    	  notice, this list of conditions and the following disclaimer.
+    
+    	* Redistributions in binary form must reproduce the above copyright
+    	  notice, this list of conditions and the following disclaimer in the
+    	  documentation and/or other materials provided with the distribution.
+    
+    	* Neither the name of Jean Tessier nor the names of his contributors
+    	  may be used to endorse or promote products derived from this software
+    	  without specific prior written permission.
+    
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+    A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+    CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!DOCTYPE metrics-configuration SYSTEM "http://depfind.sourceforge.net/dtd/metrics-configuration.dtd">
+
+<!--
+	<measurement>
+	    <short-name></short-name>
+	    <long-name></long-name>
+	    <class>com.jeantessier.metrics.</class>
+	    <init>
+	    </init>
+	    <lower-threshold></lower-threshold>
+	    <upper-threshold></upper-threshold>
+	</measurement>
+-->
+
+<metrics-configuration>
+    <project-measurements>
+	<measurement>
+	    <short-name>In</short-name>
+	    <long-name>Used by APIs</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		In DISPOSE_SUM
+	        DISPOSE_SUM
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>DistIn</short-name>
+	    <long-name>Used by distinct APIs</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		DistIn DISPOSE_SUM
+	        DISPOSE_SUM
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>DistInR</short-name>
+	    <long-name>Used by distinct APIs ratio</long-name>
+	    <class>com.jeantessier.metrics.RatioMeasurement</class>
+	    <init>
+		DistIn
+		In
+	    </init>
+	</measurement>
+    </project-measurements>
+    <group-measurements>
+	<measurement>
+	    <short-name>In</short-name>
+	    <long-name>Used by APIs</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		In
+	        DISPOSE_SUM
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>DistIn</short-name>
+	    <long-name>Used by distinct APIs</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		DistInA
+		DISPOSE_SUM
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>DistInR</short-name>
+	    <long-name>Used by distinct APIs ratio</long-name>
+	    <class>com.jeantessier.metrics.RatioMeasurement</class>
+	    <init>
+		DistIn
+		In
+	    </init>
+	</measurement>
+    </group-measurements>
+    <class-measurements>
+	<measurement>
+	    <short-name>In</short-name>
+	    <long-name>Used by APIs</long-name>
+	    <class>com.jeantessier.metrics.SumMeasurement</class>
+	    <init>
+		IIP
+		IEP
+		IIPM
+		IEPM
+		FIn
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>DistIn</short-name>
+	    <long-name>Used by distinct APIs</long-name>
+	    <class>com.jeantessier.metrics.SumMeasurement</class>
+	    <init>
+		DistInA
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>DistInR</short-name>
+	    <long-name>Used by distinct APIs ratio</long-name>
+	    <class>com.jeantessier.metrics.RatioMeasurement</class>
+	    <init>
+		DistIn
+		In
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>Inside</short-name>
+	    <long-name>Used by additional APIs directly</long-name>
+	    <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
+	    <init>
+		IIP
+		IEP
+		IIPM
+		IEPM
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>InsideR</short-name>
+	    <long-name>Used by additional APIs directly ratio</long-name>
+	    <class>com.jeantessier.metrics.RatioMeasurement</class>
+	    <init>
+		Inside
+		In
+	    </init>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>DistInA</short-name>
+	    <long-name>Used by distinct APIs accumulator</long-name>
+	    <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
+	    <init>
+		IIP
+		IEP
+		IIPM
+		IEPM
+		FDistIn
+	    </init>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>FIn</short-name>
+	    <long-name>Features' distinct inbound dependencies</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		In
+	        DISPOSE_SUM
+	    </init>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>FDistIn</short-name>
+	    <long-name>Features' distinct inbound dependencies</long-name>
+	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
+	    <init>
+		DistIn
+	    </init>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>IIP</short-name>
+	    <long-name>Inbound Intra-Package Dependencies</long-name>
+	    <class>com.jeantessier.metrics.NameListMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>IEP</short-name>
+	    <long-name>Inbound Extra-Package Dependencies</long-name>
+	    <class>com.jeantessier.metrics.NameListMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>IIPM</short-name>
+	    <long-name>Inbound Intra-Package Method Dependencies</long-name>
+	    <class>com.jeantessier.metrics.NameListMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>IEPM</short-name>
+	    <long-name>Inbound Extra-Package Method Dependencies</long-name>
+	    <class>com.jeantessier.metrics.NameListMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
+    </class-measurements>
+    <method-measurements>
+	<measurement>
+	    <short-name>In</short-name>
+	    <long-name>Used by APIs</long-name>
+	    <class>com.jeantessier.metrics.SumMeasurement</class>
+	    <init>
+		IICM
+		IIPM
+		IEPM
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>DistIn</short-name>
+	    <long-name>Used by distinct APIs</long-name>
+	    <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
+	    <init>
+		IICM
+		IIPM
+		IEPM
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>DistInR</short-name>
+	    <long-name>Used by distinct APIs ratio</long-name>
+	    <class>com.jeantessier.metrics.RatioMeasurement</class>
+	    <init>
+		DistIn
+		In
+	    </init>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>IICM</short-name>
+	    <long-name>Inbound Intra-Class Method Dependencies</long-name>
+	    <class>com.jeantessier.metrics.NameListMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>IIPM</short-name>
+	    <long-name>Inbound Intra-Package Method Dependencies</long-name>
+	    <class>com.jeantessier.metrics.NameListMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>IEPM</short-name>
+	    <long-name>Inbound Extra-Package Method Dependencies</long-name>
+	    <class>com.jeantessier.metrics.NameListMeasurement</class>
+	    <upper-threshold>10</upper-threshold>
+	</measurement>
+    </method-measurements>
+</metrics-configuration>
