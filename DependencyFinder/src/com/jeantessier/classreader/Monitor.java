@@ -65,9 +65,7 @@ public class Monitor extends LoadListenerVisitorAdapter {
 	}
 	
 	public void endFile(LoadEvent event) {
-		if (previousClasses.containsKey(event.getFilename())) {
-			previousClasses.remove(event.getFilename());
-		}
+		previousClasses.remove(event.getFilename());
 	}
 	
 	public void endSession(LoadEvent event) {
