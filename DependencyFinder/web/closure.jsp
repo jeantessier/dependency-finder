@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.util.*, java.util.jar.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, java.util.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -33,27 +33,14 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<jsp:useBean id="version" class="com.jeantessier.dependencyfinder.Version" scope="application"/>
+
 <html>
 
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Closure in <%= application.getInitParameter("name") %></title>
 </head>
-
-<%
-    String resource = Node.class.getResource("Node.class").toString();
-    String jar_name = resource.substring(resource.indexOf("/") + 1);
-    jar_name = jar_name.substring(0, jar_name.indexOf(".jar!") + 4);
-
-    JarFile  jar      = new JarFile(jar_name);
-    Manifest manifest = jar.getManifest();
-
-    String url     = manifest.getMainAttributes().getValue("Implementation-URL");
-    String title   = manifest.getMainAttributes().getValue("Implementation-Title");
-    String version = manifest.getMainAttributes().getValue("Implementation-Version");
-    String vendor  = manifest.getMainAttributes().getValue("Implementation-Vendor");
-    String date    = manifest.getMainAttributes().getValue("Implementation-Date");
-%>
 
 <!-- Reading the parameters and setting up the forms -->
 
@@ -211,7 +198,7 @@ Follow outbounds:
 
 </td></tr><tr>
 
-<td align="left"><font size="-1">Use Perl regular expressions, <a target="_blank" href="<%= url %>Manual.html#Perl+Regular+Expressions">see the manual</a></font></td>
+<td align="left"><font size="-1">Use Perl regular expressions, <a target="_blank" href="<%= version.ImplementationURL() %>Manual.html#Perl+Regular+Expressions">see the manual</a></font></td>
 <td align="right"><a href="advancedclosure.jsp">advanced &gt;&gt;&gt;</a></td>
 
 </tr><tr><td align="center" colspan="2">
@@ -289,8 +276,10 @@ Follow outbounds:
 %>
 
 <p class="footer">
-Powered by <a href="<%= url %>"><%= title %></a> <%= version %> (&copy; <%= vendor %>)<br />
-Compiled <%= date %>.
+Powered by
+<a href="<%= version.ImplementationURL() %>"><%= version.ImplementationTitle() %></a> <%= version.ImplementationVersion() %>
+(&copy; <%= version.ImplementationVendor() %>)<br />
+Compiled on <%= version.ImplementationDate() %>.
 </p>
 
 </body>

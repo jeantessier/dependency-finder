@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.util.*, java.util.jar.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.classreader.*" %>
+<%@ page import="java.io.*, java.util.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.classreader.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -33,29 +33,7 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<html>
-
-<head>
-<link rel="stylesheet" type="text/css" href="style.css" />
-<title>Extract <%= application.getInitParameter("name") %></title>
-</head>
-
-<%
-    String resource = Node.class.getResource("Node.class").toString();
-    String jar_name = resource.substring(resource.indexOf("/") + 1);
-    jar_name = jar_name.substring(0, jar_name.indexOf(".jar!") + 4);
-
-    JarFile  jar      = new JarFile(jar_name);
-    Manifest manifest = jar.getManifest();
-
-    String url     = manifest.getMainAttributes().getValue("Implementation-URL");
-    String title   = manifest.getMainAttributes().getValue("Implementation-Title");
-    String version = manifest.getMainAttributes().getValue("Implementation-Version");
-    String vendor  = manifest.getMainAttributes().getValue("Implementation-Vendor");
-    String date    = manifest.getMainAttributes().getValue("Implementation-Date");
-%>
-
-<body>
+<jsp:useBean id="version" class="com.jeantessier.dependencyfinder.Version" scope="application"/>
 
 <%!
     private class MyListener implements LoadListener {
@@ -126,7 +104,16 @@
     }
 %>
 
-<table cellpadding="5">
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>Extract <%= application.getInitParameter("name") %></title>
+</head>
+
+<body>
+
+<table cellpadding="5" width="660">
     <tr>
 	<td class="title">
 	    <code><%= application.getInitParameter("name") %></code>
@@ -152,9 +139,9 @@
 	<td>
 	    <br />
 	    This operation may take a few minutes, depending on the
-	    size and complexity of the codebase to analyze.<br/>
-	    If you really want to do this at this time, please click
-	    on the <i>Launch</i> button.
+	    size and complexity of the codebase to analyze. If you
+	    really want to do this at this time, please click on the
+	    <i>Launch</i> button.
 	</td>
     </tr>
     <tr>
@@ -254,8 +241,10 @@
 %>
 
 <p class="footer">
-Powered by <a href="<%= url %>"><%= title %></a> <%= version %> (&copy; <%= vendor %>)<br />
-Compiled <%= date %>.
+Powered by
+<a href="<%= version.ImplementationURL() %>"><%= version.ImplementationTitle() %></a> <%= version.ImplementationVersion() %>
+(&copy; <%= version.ImplementationVendor() %>)<br />
+Compiled on <%= version.ImplementationDate() %>.
 </p>
 
 </body>

@@ -1,5 +1,5 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="java.io.*, java.util.jar.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*" %>
 
 <!--
     Copyright (c) 2001-2003, Jean Tessier
@@ -33,27 +33,14 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<jsp:useBean id="version" class="com.jeantessier.dependencyfinder.Version" scope="application"/>
+
 <html>
 
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Error in <%= application.getInitParameter("name") %></title>
 </head>
-
-<%
-    String resource = Node.class.getResource("Node.class").toString();
-    String jar_name = resource.substring(resource.indexOf("/") + 1);
-    jar_name = jar_name.substring(0, jar_name.indexOf(".jar!") + 4);
-
-    JarFile  jar      = new JarFile(jar_name);
-    Manifest manifest = jar.getManifest();
-
-    String url     = manifest.getMainAttributes().getValue("Implementation-URL");
-    String title   = manifest.getMainAttributes().getValue("Implementation-Title");
-    String version = manifest.getMainAttributes().getValue("Implementation-Version");
-    String vendor  = manifest.getMainAttributes().getValue("Implementation-Vendor");
-    String date    = manifest.getMainAttributes().getValue("Implementation-Date");
-%>
 
 <body>
 
@@ -64,8 +51,10 @@
 </pre>
 
 <p class="footer">
-Powered by <a href="<%= url %>"><%= title %></a> <%= version %> (&copy; <%= vendor %>)<br />
-Compiled <%= date %>.
+Powered by
+<a href="<%= version.ImplementationURL() %>"><%= version.ImplementationTitle() %></a> <%= version.ImplementationVersion() %>
+(&copy; <%= version.ImplementationVendor() %>)<br />
+Compiled <%= version.ImplementationDate() %>.
 </p>
 
 </body>
