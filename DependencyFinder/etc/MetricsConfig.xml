@@ -149,7 +149,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>PuC</short-name>
-	    <long-name>Pulic Classes</long-name>
+	    <long-name>Public Classes</long-name>
 	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	</measurement>
 	<measurement>
@@ -332,7 +332,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>PuM</short-name>
-	    <long-name>Pulic Methods</long-name>
+	    <long-name>Public Methods</long-name>
 	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	</measurement>
 	<measurement>
@@ -505,7 +505,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>PuA</short-name>
-	    <long-name>Pulic Attributes</long-name>
+	    <long-name>Public Attributes</long-name>
 	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	</measurement>
 	<measurement>
@@ -650,7 +650,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>PuIC</short-name>
-	    <long-name>Pulic Inner Classes</long-name>
+	    <long-name>Public Inner Classes</long-name>
 	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	</measurement>
 	<measurement>
