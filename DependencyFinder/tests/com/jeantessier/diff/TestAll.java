@@ -30,6 +30,8 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package com.jeantessier.diff;
+
 import junit.framework.*;
 
 public class TestAll extends TestCase {
@@ -40,10 +42,7 @@ public class TestAll extends TestCase {
 	public static Test suite() {
 		TestSuite result = new TestSuite();
 
-		result.addTest(com.jeantessier.classreader.TestAll.suite());
-		result.addTest(com.jeantessier.dependency.TestAll.suite());
-		result.addTest(com.jeantessier.diff.TestAll.suite());
-		result.addTest(com.jeantessier.metrics.TestAll.suite());
+		result.addTestSuite(TestPackageValidator.class);
 
 		return result;
 	}
