@@ -551,7 +551,8 @@ or
     1 Close bugs
     1 Close feature requests
     1 New news item
-    1 Post to news groups (=comp.lang.java=, =comp.lang.java.announce=, =comp.lang.java.softwaretools=, =comp.software.measurement=, =comp.software-eng=)
+    1 Post to depfind-announce
+    1 Post to news groups (=comp.lang.java.announce=, =comp.lang.java.softwaretools=, =comp.software.measurement=, =comp.software-eng=)
     1 Generate sample files
 
 ----
