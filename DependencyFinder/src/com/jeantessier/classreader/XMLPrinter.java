@@ -88,18 +88,20 @@ public class XMLPrinter extends Printer {
 		}
 		Append("</superclass>").EOL();
 
-		Indent().Append("<interfaces>").EOL();
-		RaiseIndent();
-		i = classfile.Interfaces().iterator();
-		while (i.hasNext()) {
-			Indent();
-			Append("<interface>");
-			((Visitable) i.next()).Accept(this);
-			Append("</interface>").EOL();
+		if (!classfile.Interfaces().isEmpty()) {
+			Indent().Append("<interfaces>").EOL();
+			RaiseIndent();
+			i = classfile.Interfaces().iterator();
+			while (i.hasNext()) {
+				Indent();
+				Append("<interface>");
+				((Visitable) i.next()).Accept(this);
+				Append("</interface>").EOL();
+			}
+			LowerIndent();
+			Indent().Append("</interfaces>").EOL();
 		}
-		LowerIndent();
-		Indent().Append("</interfaces>").EOL();
-
+		
 		if (!classfile.Fields().isEmpty()) {
 			Indent().Append("<fields>").EOL();
 			RaiseIndent();

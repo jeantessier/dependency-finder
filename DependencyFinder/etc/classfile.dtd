@@ -32,7 +32,7 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, this-class, superclass, interfaces, fields?, methods?, attributes?)>
+<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
 <!ATTLIST classfile
           magic-number  CDATA #REQUIRED
           minor-version CDATA #REQUIRED
