@@ -1988,13 +1988,13 @@ you need to.
 <blockquote>
 <dl>
     <dt>=-project=</dt>
-    <dd>Include project-related metrics</dd>
+    <dd>Include project-related metrics.</dd>
     <dt>=-groups=</dt>
-    <dd>Include group- and package-related metrics</dd>
+    <dd>Include group- and package-related metrics.</dd>
     <dt>=-classes=</dt>
-    <dd>Include class-related metrics</dd>
+    <dd>Include class-related metrics.</dd>
     <dt>=-methods=</dt>
-    <dd>Include method-related metrics</dd>
+    <dd>Include method-related metrics.</dd>
     <dt>=-all=</dt>
     <dd>All of the above</dd>
 </dl>
@@ -2006,11 +2006,11 @@ You must also specify an output mode with one of these switches.
 <dl>
     <dt>=-csv=</dt>
     <dd>Writes each section in its own CSV file, perfect for loading in
-    Microsoft Excel and charting</dd>
+    Microsoft Excel and charting.</dd>
     <dt>=-txt=</dt>
-    <dd>Writes a single text report with all requested sections</dd>
+    <dd>Writes a single text report with all requested sections.</dd>
     <dt>=-xml=</dt>
-    <dd>Writes a single XML report with all requested sections</dd>
+    <dd>Writes a single XML report with all requested sections.</dd>
 </dl>
 </blockquote>
 
