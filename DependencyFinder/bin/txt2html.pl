@@ -39,6 +39,7 @@ BEGIN {
     $TEXT .= "\n";
     $TEXT .= "<head>\n";
     $TEXT .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n";
+    $TEXT .= "<link rel=\"shortcut icon\" href=\"images/logoicon.gif\" type=\"image/gif\" />\n";
     $TEXT .= "<TITLE />\n";
     $TEXT .= "</head>\n";
     $TEXT .= "\n";
