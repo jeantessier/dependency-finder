@@ -2387,6 +2387,96 @@ This table summarizes which CLI tool shows which information.
 </table>
 </blockquote>
 
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+---+++ Dealing with a Very Large Codebase
+
+Sometimes the codebase can be too large for Dependency Finder to deal with it
+in one pass.  The dependency graph can become so large that it uses all
+available memory.  This can be the case eiher on a large project or when you
+try to build a graph across many applications.  You can ease this situation by:
+
+   1 break down the codebase into manageable chunks
+   1 analyze each part separately
+   1 reduce the size of each individual graph
+   1 combine the parts back together
+
+=DependencyExtractor= uses a =TransientClassfileLoader=; it reads in classes
+one at a time and discards them before moving on to the next.  So the real
+problem is the size of the resulting graph.  =DependencyReporter= can aggregate
+multiple graphs; just give it all the XML files and it will read them in and
+merge their information.  But the resulting graph will still be as big as if we
+had just run =DependencyExtractor= once on the original codebase.
+
+---++++ Break the Codebase
+
+If you have multiple JAR files, you can simply process them individualy.
+
+If you have one large JAR file, you can extract it to a temporary location and
+put the files in smaller groups, such as related packages rooted at some
+directory.
+
+For example, using =DependencyFinder.jar=:
+
+    % jar xf DependencyFinder.jar com
+
+---++++ Analyze Each Part
+
+You can analyze the major package groups as follow:
+
+    % DependencyExtractor -xml -out classreader.xml \
+        com/jeantessier/classreader
+    % DependencyExtractor -xml -out dependency.xml \
+        com/jeantessier/dependency
+    % DependencyExtractor -xml -out dependencyfinder.xml \
+        com/jeantessier/dependencyfinder
+    % DependencyExtractor -xml -out diff.xml \
+        com/jeantessier/diff
+    % DependencyExtractor -xml -out metrics.xml \
+        com/jeantessier/metrics
+
+---++++ Reduce Each Graph
+
+Here's a variation on this idea.  Run =DependencyReporter= with =-c2c= on the
+intermediary graphs to generate small class-to-class graphs.  Then combine all
+these small graphs with a last pass of =DependencyReporter= to aggregate all the
+little ones into an all-encompassing class-to-class graph.
+
+    % DependencyReporter -xml -out classreader.c2c.xml \
+        -c2c classreader.xml
+    % DependencyReporter -xml -out dependency.c2c.xml \
+        -c2c dependency.xml
+    % DependencyReporter -xml -out dependencyfinder.c2c.xml \
+        -c2c dependencyfinder.xml
+    % DependencyReporter -xml -out diff.c2c.xml \
+        -c2c diff.xml
+    % DependencyReporter -xml -out metrics.c2c.xml \
+        -c2c metrics.xml
+
+---++++ Combine Them Back Together
+
+A quick and dirty way of splitting the JAR: extract it to a folder somewhere and
+run DependencyReporter on the subfolders.
+
+    % DependencyReporter -xml -out c2c.xml -c2c \
+        classreader.c2c.xml \
+        dependency.c2c.xml \
+        dependencyfinder.c2c.xml \
+        diff.c2c.xml \
+        metrics.c2c.xml
+
+This approach shows an 80%-90% reduction in number of nodes and about 80% in
+the number of edges (dependencies).  Taken together, that's a 98% reduction in
+complexity.  This should help with both memory footprint and processing time.
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
 ---+++ Transitive Closure
 
 Dependencies are not automatically transitive, it depends on the
