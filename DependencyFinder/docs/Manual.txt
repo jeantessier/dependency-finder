@@ -14,8 +14,8 @@ This application extracts information from compiled Java code and makes
 it available to users in a numbers of ways.
 
 Many authors have stressed the importance of managing depencencies
-([[http://www.objectmentor.com/resources/listArticles?key=author&author=Robert%20C.%20Martin][Robert C. Martin]],
-[[http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid=980962318/sr=8-1/ref=aps_sr_b_1_1/105-0176284-9920776][John Lakos]]).
+([[http://www.objectmentor.com/resources/listArticles?key%3Dauthor&author%3DRobert%20C.%20Martin][Robert C. Martin]],
+[[http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid%3D980962318/sr%3D8-1/ref%3Daps%5Fsr%5Fb%5F1%5F1/105-0176284-9920776][John Lakos]]).
 Managing
 dependencies means securing encapsulation and making sure that the code
 follows the architecture.  It is also essential for the modularization
@@ -366,8 +366,48 @@ level of detail: package, class, or method.
 ----
 
 ---++ Class Files
----+++ Parsing
+
+You use the =com.jeantessier.classreader= package to parse compiled
+Java code.  You feed files to a =ClassfileLoader= and you get instances
+of =Classfile= from it.
+
+There are two kinds of =ClassfileLoader=.  The first kind opens input
+streams from the data sources and passes these streams to an underlying
+=ClassfileLoader= of the second kind.  The second kind creates the
+=Classfile= instances and fires processing events to registered listeners.
+The reason for the separation is because the first kind handles various
+file types, while the second kind handles how long the =Classfile=
+instances remain in memory.
+
+The first kind derives from =ClassfileLoaderDecorator= and follows the
+decorator pattern.  It wraps another =ClassfileLoader=, passing it input
+streams and triggering event firing.  It includes the following concrete
+classes:
+
+   * DirectoryClassfileLoader
+   * ZipClassfileLoader
+   * JarClassfileLoader
+
+The second kind derives from =ClassfileLoaderEventSource=.  These classes
+create instances of =Classfile= and keep track of =LoadListener= objects.
+It includes the following concrete classes:
+
+   * AggregatingClassfileLoader
+   * TransientClassfileLoader
+
+Once you have an instance of =Classfile=, you can traverse it with a
+class that implements =com.jeantessier.classreader.Visitor=.  It has
+callback methods that get called by the various components of the
+=Classfile=.
+
 ---+++ Metrics
+---+++ Tools
+
+   * ClassReader
+   * ClassDump
+   * ClassInheritance
+   * ClassMetrics
+   * ClassList
 
 ----
 
@@ -414,43 +454,23 @@ per Java class (including inner classes), and to those it adds
 one node per feature.
 
 Dependency Finder can read all types of compiled Java: JAR files,
-ZIP files, or class files.  You must point out which JAR or ZIP file,
-and for class files, you can simply point to a directory and
-Dependency Finder will find all files ending in =.class= in it or
-in one of its subdirectories.  You can always select more than one
-target, Dependency Finder will aggregate all their content together.
-You can also mix and match JARs and ZIPs and class files and
-directories.  Dependency Finder will sort it all out.
-
----++++ Extracting with the GUI
-
-<div align="center">
-    [[images/HighlightedExtractDialog.jpg][images/s_HighlightedExtractDialog.jpg]]
-*Extract Dialog*
-</div>
-
-Select =File&nbsp;|&nbsp;Extract=; this will popup a file dialog.
-Select the files and/or directories to extract from and click =Extract=.
-You can repeat this as needed; each time, the extracted dependencies
-will be added to the current dependency graph.
-
----++++ Extracting with the CLI
-
-You use =DependencyExtractor= to extract dependencies.  Simply string
-out the files or directory on the command line.
-
-    C:\>DependencyExtractor classes %JAVA_HOME%\JRE\lib\rt.jar
-
-All the dependencies will be merged into a single output.
-
----++++ =com.jeantessier.dependency.CodeDependencyCollector=
+ZIP files, or class files.  You can point it to a JAR, ZIP, or
+=.class= file.  You can also point it to a directory and it will
+explore that directory and all its subdirectories for files ending
+in =.class=.  You can select more than one target, mix and match
+JARs and ZIPs and class files and directories, and Dependency
+Finder will aggregate all their contents together.  It will sort
+them all out.
 
 The dependencies are gathered by the class
-=com.jeantessier.dependency.CodeDependencyCollector=.  It traverses the
-structure of a =.class= file and collects explicit dependencies in
-the bytecode.
+=com.jeantessier.dependency.CodeDependencyCollector=.  It traverses
+the structure of a =.class= file, as read by
+=com.jeantessier.classreader.Classfile=, and collects explicit
+dependencies in the bytecode.
 
-The dependency collector can detect three kinds of explicit dependencies:
+The dependency collector can detect three kinds of explicit
+dependencies, from which Dependency Finder can infer all implicit
+dependencies:
 
     1 feature to feature
     1 feature to class
@@ -465,6 +485,29 @@ There are _explicit_ dependencies, as present in the code itself.  There
 are also _implicit_ dependencies derived from these explicit ones.  A
 dependency between two classes in two separate packages _implies_ a
 dependency between the packages.
+
+---++++ Extracting with the GUI
+
+<div align="center">
+    [[images/HighlightedExtractDialog.jpg][images/s_HighlightedExtractDialog.jpg]]
+*Extract Dialog*
+</div>
+
+Select =File&nbsp;|&nbsp;Extract=; this will popup a file dialog.
+Select the files and/or directories to extract from and click =Extract=.
+You can repeat this command as often as needed; each time, the extracted
+dependencies will be added to the current dependency graph.
+
+---++++ Extracting with the CLI
+
+You use =DependencyExtractor= to extract dependencies.  Simply string
+out the files and directories on the command line.
+
+E.g.,
+
+    C:\>DependencyExtractor classes %JAVA_HOME%\JRE\lib\rt.jar
+
+All the dependencies are merged into a single output.
 
 ---++++ Minimizing and Maximizing
 
@@ -615,7 +658,6 @@ filtering exclusion respectively.
     </tr>
     <tr>
 	<td align="center">
-
 	</td>
 	<td align="center">
 	    X

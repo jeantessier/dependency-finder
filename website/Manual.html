@@ -1,3 +1,5 @@
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
 <html>
 
 <head>
@@ -6,7 +8,6 @@
 
 <body>
 
-<a name="The+Dependency+Finder+Manual" />
 <h1>The Dependency Finder Manual</h1>
 
 <p>
@@ -17,87 +18,86 @@ by Jean Tessier
 
 <h2>Table of Contents</h2>
 <ul>
-<li><a href="#Introduction">Introduction</li>
-<li><a href="#Installation">Installation</li>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Installation">Installation</a></li>
 <ul>
-<li><a href="#Java+Application">Java Application</li>
+<li><a href="#JavaApplication">Java Application</a></li>
 <ul>
-<li><a href="#Step+1:+Java+Virtual+Machine">Step 1: Java Virtual Machine</li>
-<li><a href="#Step+2:+Extract+Dependency+Finder">Step 2: Extract Dependency Finder</li>
-<li><a href="#Step+3:+Environment+Variables">Step 3: Environment Variables</li>
-<li><a href="#Step+4:+PATH">Step 4: <code>PATH</code></li>
-<li><a href="#Step+5:+Reboot">Step 5: Reboot</li>
-<li><a href="#Miscellaneous">Miscellaneous</li>
+<li><a href="#Step1:JavaVirtualMachine">Step 1: Java Virtual Machine</a></li>
+<li><a href="#Step2:ExtractDependencyFinder">Step 2: Extract Dependency Finder</a></li>
+<li><a href="#Step3:EnvironmentVariables">Step 3: Environment Variables</a></li>
+<li><a href="#Step4:PATH">Step 4: <code>PATH</code></a></li>
+<li><a href="#Step5:Reboot">Step 5: Reboot</a></li>
+<li><a href="#Miscellaneous">Miscellaneous</a></li>
 </ul>
-<li><a href="#Web+Application">Web Application</li>
+<li><a href="#WebApplication">Web Application</a></li>
 <ul>
-<li><a href="#Step+1:+Deploy+WAR+File">Step 1: Deploy WAR File</li>
-<li><a href="#Step+2:+Configure+web.xml+file">Step 2: Configure <code>web.xml</code> file</li>
-</ul>
-</ul>
-<li><a href="#History+Behind+Dependency+Finder">History Behind Dependency Finder</li>
-<ul>
-<li><a href="#Class+Files">Class Files</li>
-<li><a href="#Dependencies">Dependencies</li>
-<li><a href="#Metrics">Metrics</li>
-<li><a href="#API+Differences">API Differences</li>
-</ul>
-<li><a href="#Running+Dependency+Finder">Running Dependency Finder</li>
-<ul>
-<li><a href="#GUI">GUI</li>
-<li><a href="#CLI">CLI</li>
-</ul>
-<li><a href="#Class+Files">Class Files</li>
-<ul>
-<li><a href="#Parsing">Parsing</li>
-<li><a href="#Metrics">Metrics</li>
-</ul>
-<li><a href="#Dependencies">Dependencies</li>
-<ul>
-<li><a href="#Extracting">Extracting</li>
-<ul>
-<li><a href="#Extracting+with+the+GUI">Extracting with the GUI</li>
-<li><a href="#Extracting+with+the+CLI">Extracting with the CLI</li>
-<li><a href="#com.jeantessier.dependency.CodeDependencyCollector"><code>com.jeantessier.dependency.CodeDependencyCollector</code></li>
-<li><a href="#Minimizing+and+Maximizing">Minimizing and Maximizing</li>
-</ul>
-<li><a href="#Reporting">Reporting</li>
-<ul>
-<li><a href="#Perl+Regular+Expressions">Perl Regular Expressions</li>
-<li><a href="#Textual+Output">Textual Output</li>
-<li><a href="#HTML+Output">HTML Output</li>
-</ul>
-<li><a href="#Transitive+Closure">Transitive Closure</li>
-<li><a href="#Dependency+Metrics">Dependency Metrics</li>
-</ul>
-<li><a href="#OO+Metrics">OO Metrics</li>
-<ul>
-<li><a href="#Explanation">Explanation</li>
-<li><a href="#Extracting">Extracting</li>
-<li><a href="#Reporting">Reporting</li>
-<ul>
-<li><a href="#Textual+Output">Textual Output</li>
-<li><a href="#HTML+Output">HTML Output</li>
+<li><a href="#Step1:DeployWARFile">Step 1: Deploy WAR File</a></li>
+<li><a href="#Step2:Configureweb.xmlfile">Step 2: Configure <code>web.xml</code> file</a></li>
 </ul>
 </ul>
-<li><a href="#API+Differences">API Differences</li>
+<li><a href="#HistoryBehindDependencyFinder">History Behind Dependency Finder</a></li>
 <ul>
-<li><a href="#Explanation">Explanation</li>
-<li><a href="#Extracting">Extracting</li>
-<li><a href="#Reporting">Reporting</li>
+<li><a href="#ClassFiles">Class Files</a></li>
+<li><a href="#Dependencies">Dependencies</a></li>
+<li><a href="#Metrics">Metrics</a></li>
+<li><a href="#APIDifferences">API Differences</a></li>
+</ul>
+<li><a href="#RunningDependencyFinder">Running Dependency Finder</a></li>
 <ul>
-<li><a href="#Full+List">Full List</li>
-<li><a href="#Public+List">Public List</li>
-<li><a href="#Filtering">Filtering</li>
-<li><a href="#Listing+Published+Documentation+Changes">Listing Published Documentation Changes</li>
+<li><a href="#GUI">GUI</a></li>
+<li><a href="#CLI">CLI</a></li>
+</ul>
+<li><a href="#ClassFilesX">Class Files</a></li>
+<ul>
+<li><a href="#MetricsX">Metrics</a></li>
+<li><a href="#Tools">Tools</a></li>
+</ul>
+<li><a href="#DependenciesX">Dependencies</a></li>
+<ul>
+<li><a href="#Extracting">Extracting</a></li>
+<ul>
+<li><a href="#ExtractingwiththeGUI">Extracting with the GUI</a></li>
+<li><a href="#ExtractingwiththeCLI">Extracting with the CLI</a></li>
+<li><a href="#MinimizingandMaximizing">Minimizing and Maximizing</a></li>
+</ul>
+<li><a href="#Reporting">Reporting</a></li>
+<ul>
+<li><a href="#PerlRegularExpressions">Perl Regular Expressions</a></li>
+<li><a href="#TextualOutput">Textual Output</a></li>
+<li><a href="#HTMLOutput">HTML Output</a></li>
+</ul>
+<li><a href="#TransitiveClosure">Transitive Closure</a></li>
+<li><a href="#DependencyMetrics">Dependency Metrics</a></li>
+</ul>
+<li><a href="#OOMetrics">OO Metrics</a></li>
+<ul>
+<li><a href="#Explanation">Explanation</a></li>
+<li><a href="#ExtractingX">Extracting</a></li>
+<li><a href="#ReportingX">Reporting</a></li>
+<ul>
+<li><a href="#TextualOutputX">Textual Output</a></li>
+<li><a href="#HTMLOutputX">HTML Output</a></li>
 </ul>
 </ul>
-<li><a href="#Building+Dependency+Finder">Building Dependency Finder</li>
+<li><a href="#APIDifferencesX">API Differences</a></li>
 <ul>
-<li><a href="#Compiling+a+Build">Compiling a Build</li>
-<li><a href="#Testing+the+Build">Testing the Build</li>
+<li><a href="#ExplanationX">Explanation</a></li>
+<li><a href="#ExtractingXX">Extracting</a></li>
+<li><a href="#ReportingXX">Reporting</a></li>
+<ul>
+<li><a href="#FullList">Full List</a></li>
+<li><a href="#PublicList">Public List</a></li>
+<li><a href="#Filtering">Filtering</a></li>
+<li><a href="#ListingPublishedDocumentationChanges">Listing Published Documentation Changes</a></li>
 </ul>
-<li><a href="#Support">Support</li>
+</ul>
+<li><a href="#BuildingDependencyFinder">Building Dependency Finder</a></li>
+<ul>
+<li><a href="#CompilingaBuild">Compiling a Build</a></li>
+<li><a href="#TestingtheBuild">Testing the Build</a></li>
+</ul>
+<li><a href="#Support">Support</a></li>
 </ul>
 
 
@@ -113,8 +113,8 @@ it available to users in a numbers of ways.
 
 <p>
 Many authors have stressed the importance of managing depencencies
-(<a href="http://www.objectmentor.com/resources/listArticles?key<code>author&author</code>Robert%20C.%20Martin">Robert C. Martin</a>,
-<a href="http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid<code>980962318/sr</code>8-1/ref=aps<i>sr</i>b<i>1</i>1/105-0176284-9920776">John Lakos</a>).
+(<a href="http://www.objectmentor.com/resources/listArticles?key=author&author=Robert%20C.%20Martin">Robert C. Martin</a>,
+<a href="http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid=980962318/sr=8-1/ref=aps_sr_b_1_1/105-0176284-9920776">John Lakos</a>).
 Managing
 dependencies means securing encapsulation and making sure that the code
 follows the architecture.  It is also essential for the modularization
@@ -145,7 +145,7 @@ can even use it to monitor the evolution of your software.
 <a name="Installation" />
 <h2>Installation</h2>
 
-<a name="Java+Application" />
+<a name="JavaApplication" />
 <h3>Java Application</h3>
 
 <p>
@@ -153,7 +153,7 @@ Dependency Finder comes as a ZIP file that includes everything you need
 to run it.
 </p>
 
-<a name="Step+1:+Java+Virtual+Machine" />
+<a name="Step1:JavaVirtualMachine" />
 <h4>Step 1: Java Virtual Machine</h4>
 
 <p>
@@ -176,7 +176,7 @@ use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 </p>
 
-<a name="Step+2:+Extract+Dependency+Finder" />
+<a name="Step2:ExtractDependencyFinder" />
 <h4>Step 2: Extract Dependency Finder</h4>
 
 <p>
@@ -190,7 +190,7 @@ For example, if you extract it to <code>C:\</code>, you will endup with a
 directory called <code>C:\DependencyFinder\</code>.
 </p>
 
-<a name="Step+3:+Environment+Variables" />
+<a name="Step3:EnvironmentVariables" />
 <h4>Step 3: Environment Variables</h4>
 
 <p>
@@ -216,7 +216,7 @@ tab to create and edit variables.
 smart enough to find out where you installed Dependency Finder on their
 own.</i>
 
-<a name="Step+4:+PATH" />
+<a name="Step4:PATH" />
 <h4>Step 4: <code>PATH</code></h4>
 
 <p>
@@ -231,7 +231,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
     SET PATH=C:\DependencyFinder\bin;%PATH%
 </pre>
 
-<a name="Step+5:+Reboot" />
+<a name="Step5:Reboot" />
 <h4>Step 5: Reboot</h4>
 
 <p>
@@ -261,7 +261,7 @@ to your <code>C:\CONFIG.SYS</code> file and then reboot.
     shell=command.com /e:8192 /p
 </pre>
 
-<a name="Web+Application" />
+<a name="WebApplication" />
 <h3>Web Application</h3>
 
 <p>
@@ -269,7 +269,7 @@ Dependency Finder also comes as a web application that you can easily
 deploy in just about any J2EE servlet container.
 </p>
 
-<a name="Step+1:+Deploy+WAR+File" />
+<a name="Step1:DeployWARFile" />
 <h4>Step 1: Deploy WAR File</h4>
 
 <p>
@@ -283,7 +283,7 @@ instance, under Tomcat:
     C:\>%CATALINA_HOME%\bin\startup
 </pre>
 
-<a name="Step+2:+Configure+web.xml+file" />
+<a name="Step2:Configureweb.xmlfile" />
 <h4>Step 2: Configure <code>web.xml</code> file</h4>
 
 <p>
@@ -348,7 +348,7 @@ restart the servlet container for the changes to take effect.
 
 <hr />
 
-<a name="History+Behind+Dependency+Finder" />
+<a name="HistoryBehindDependencyFinder" />
 <h2>History Behind Dependency Finder</h2>
 
 <p>
@@ -362,7 +362,7 @@ So I resolved to build my own tool.
 I haven't touched that other project since.
 </p>
 
-<a name="Class+Files" />
+<a name="ClassFiles" />
 <h3>Class Files</h3>
 
 <p>
@@ -413,7 +413,7 @@ deviations from your quality guidelines, such as methods that are too
 long or have too many parameters.
 </p>
 
-<a name="API+Differences" />
+<a name="APIDifferences" />
 <h3>API Differences</h3>
 
 <p>
@@ -426,7 +426,7 @@ might have broken in your customer's code.
 
 <hr />
 
-<a name="Running+Dependency+Finder" />
+<a name="RunningDependencyFinder" />
 <h2>Running Dependency Finder</h2>
 
 <p>
@@ -572,16 +572,72 @@ level of detail: package, class, or method.
 
 <hr />
 
-<a name="Class+Files" />
+<a name="ClassFilesX" />
 <h2>Class Files</h2>
-<a name="Parsing" />
-<h3>Parsing</h3>
-<a name="Metrics" />
+
+<p>
+You use the <code>com.jeantessier.classreader</code> package to parse compiled
+Java code.  You feed files to a <code>ClassfileLoader</code> and you get instances
+of <code>Classfile</code> from it.
+</p>
+
+<p>
+There are two kinds of <code>ClassfileLoader</code>.  The first kind opens input
+streams from the data sources and passes these streams to an underlying
+<code>ClassfileLoader</code> of the second kind.  The second kind creates the
+<code>Classfile</code> instances and fires processing events to registered listeners.
+The reason for the separation is because the first kind handles various
+file types, while the second kind handles how long the <code>Classfile</code>
+instances remain in memory.
+</p>
+
+<p>
+The first kind derives from <code>ClassfileLoaderDecorator</code> and follows the
+decorator pattern.  It wraps another <code>ClassfileLoader</code>, passing it input
+streams and triggering event firing.  It includes the following concrete
+classes:
+</p>
+
+<ul>
+<li>DirectoryClassfileLoader</li>
+<li>ZipClassfileLoader</li>
+<li>JarClassfileLoader</li>
+</ul>
+
+<p>
+The second kind derives from <code>ClassfileLoaderEventSource</code>.  These classes
+create instances of <code>Classfile</code> and keep track of <code>LoadListener</code> objects.
+It includes the following concrete classes:
+</p>
+
+<ul>
+<li>AggregatingClassfileLoader</li>
+<li>TransientClassfileLoader</li>
+</ul>
+
+<p>
+Once you have an instance of <code>Classfile</code>, you can traverse it with a
+class that implements <code>com.jeantessier.classreader.Visitor</code>.  It has
+callback methods that get called by the various components of the
+<code>Classfile</code>.
+</p>
+
+<a name="MetricsX" />
 <h3>Metrics</h3>
+<a name="Tools" />
+<h3>Tools</h3>
+
+<ul>
+<li>ClassReader</li>
+<li>ClassDump</li>
+<li>ClassInheritance</li>
+<li>ClassMetrics</li>
+<li>ClassList</li>
+</ul>
 
 <hr />
 
-<a name="Dependencies" />
+<a name="DependenciesX" />
 <h2>Dependencies</h2>
 
 <p>
@@ -643,58 +699,27 @@ one node per feature.
 
 <p>
 Dependency Finder can read all types of compiled Java: JAR files,
-ZIP files, or class files.  You must point out which JAR or ZIP file,
-and for class files, you can simply point to a directory and
-Dependency Finder will find all files ending in <code>.class</code> in it or
-in one of its subdirectories.  You can always select more than one
-target, Dependency Finder will aggregate all their content together.
-You can also mix and match JARs and ZIPs and class files and
-directories.  Dependency Finder will sort it all out.
+ZIP files, or class files.  You can point it to a JAR, ZIP, or
+<code>.class</code> file.  You can also point it to a directory and it will
+explore that directory and all its subdirectories for files ending
+in <code>.class</code>.  You can select more than one target, mix and match
+JARs and ZIPs and class files and directories, and Dependency
+Finder will aggregate all their contents together.  It will sort
+them all out.
 </p>
-
-<a name="Extracting+with+the+GUI" />
-<h4>Extracting with the GUI</h4>
-
-<div align="center">
-    <a href="images/HighlightedExtractDialog.jpg"><img src="images/s_HighlightedExtractDialog.jpg" /></a><br />
-<b>Extract Dialog</b>
-</div>
-
-<p>
-Select <code>File&nbsp;|&nbsp;Extract</code>; this will popup a file dialog.
-Select the files and/or directories to extract from and click <code>Extract</code>.
-You can repeat this as needed; each time, the extracted dependencies
-will be added to the current dependency graph.
-</p>
-
-<a name="Extracting+with+the+CLI" />
-<h4>Extracting with the CLI</h4>
-
-<p>
-You use <code>DependencyExtractor</code> to extract dependencies.  Simply string
-out the files or directory on the command line.
-</p>
-
-<pre>
-    C:\>DependencyExtractor classes %JAVA_HOME%\JRE\lib\rt.jar
-</pre>
-
-<p>
-All the dependencies will be merged into a single output.
-</p>
-
-<a name="com.jeantessier.dependency.CodeDependencyCollector" />
-<h4><code>com.jeantessier.dependency.CodeDependencyCollector</code></h4>
 
 <p>
 The dependencies are gathered by the class
-<code>com.jeantessier.dependency.CodeDependencyCollector</code>.  It traverses the
-structure of a <code>.class</code> file and collects explicit dependencies in
-the bytecode.
+<code>com.jeantessier.dependency.CodeDependencyCollector</code>.  It traverses
+the structure of a <code>.class</code> file, as read by
+<code>com.jeantessier.classreader.Classfile</code>, and collects explicit
+dependencies in the bytecode.
 </p>
 
 <p>
-The dependency collector can detect three kinds of explicit dependencies:
+The dependency collector can detect three kinds of explicit
+dependencies, from which Dependency Finder can infer all implicit
+dependencies:
 </p>
 
 <ol>
@@ -715,7 +740,42 @@ dependency between two classes in two separate packages <i>implies</i> a
 dependency between the packages.
 </p>
 
-<a name="Minimizing+and+Maximizing" />
+<a name="ExtractingwiththeGUI" />
+<h4>Extracting with the GUI</h4>
+
+<div align="center">
+    <a href="images/HighlightedExtractDialog.jpg"><img src="images/s_HighlightedExtractDialog.jpg" /></a><br />
+<b>Extract Dialog</b>
+</div>
+
+<p>
+Select <code>File&nbsp;|&nbsp;Extract</code>; this will popup a file dialog.
+Select the files and/or directories to extract from and click <code>Extract</code>.
+You can repeat this command as often as needed; each time, the extracted
+dependencies will be added to the current dependency graph.
+</p>
+
+<a name="ExtractingwiththeCLI" />
+<h4>Extracting with the CLI</h4>
+
+<p>
+You use <code>DependencyExtractor</code> to extract dependencies.  Simply string
+out the files and directories on the command line.
+</p>
+
+<p>
+E.g.,
+</p>
+
+<pre>
+    C:\>DependencyExtractor classes %JAVA_HOME%\JRE\lib\rt.jar
+</pre>
+
+<p>
+All the dependencies are merged into a single output.
+</p>
+
+<a name="MinimizingandMaximizing" />
 <h4>Minimizing and Maximizing</h4>
 
 <p>
@@ -902,8 +962,6 @@ filtering exclusion respectively.
     </tr>
     <tr>
 	<td align="center">
-
-<pre>
 	</td>
 	<td align="center">
 	    X
@@ -959,7 +1017,6 @@ filtering exclusion respectively.
     </tr>
 </table>
 </div>
-</pre>
 
 <p>
 To repeat, each criterion is a set of Perl regular expressions.  For
@@ -998,7 +1055,7 @@ E.g.,
 <b>Scope Criteria GUI</b>
 </div>
 
-<a name="Perl+Regular+Expressions" />
+<a name="PerlRegularExpressions" />
 <h4>Perl Regular Expressions</h4>
 
 <p>
@@ -1069,7 +1126,7 @@ E.g.,
 </table>
 </blockquote>
 
-<a name="Textual+Output" />
+<a name="TextualOutput" />
 <h4>Textual Output</h4>
 
 <p>
@@ -1097,7 +1154,7 @@ stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
 with either our stylesheets or your own.
 </p>
 
-<a name="HTML+Output" />
+<a name="HTMLOutput" />
 <h4>HTML Output</h4>
 
 <p>
@@ -1126,29 +1183,29 @@ stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
 with either our stylesheets or your own.
 </p>
 
-<a name="Transitive+Closure" />
+<a name="TransitiveClosure" />
 <h3>Transitive Closure</h3>
-<a name="Dependency+Metrics" />
+<a name="DependencyMetrics" />
 <h3>Dependency Metrics</h3>
 
 <hr />
 
-<a name="OO+Metrics" />
+<a name="OOMetrics" />
 <h2>OO Metrics</h2>
 <a name="Explanation" />
 <h3>Explanation</h3>
-<a name="Extracting" />
+<a name="ExtractingX" />
 <h3>Extracting</h3>
-<a name="Reporting" />
+<a name="ReportingX" />
 <h3>Reporting</h3>
-<a name="Textual+Output" />
+<a name="TextualOutputX" />
 <h4>Textual Output</h4>
-<a name="HTML+Output" />
+<a name="HTMLOutputX" />
 <h4>HTML Output</h4>
 
 <hr />
 
-<a name="API+Differences" />
+<a name="APIDifferencesX" />
 <h2>API Differences</h2>
 
 <p>
@@ -1167,7 +1224,7 @@ and verify that they are evolving in the right direction, whichever
 way you decide that is.
 </p>
 
-<a name="Explanation" />
+<a name="ExplanationX" />
 <h3>Explanation</h3>
 
 <p>
@@ -1188,7 +1245,7 @@ in both codebase, you can repeat this analysis at the class level, and
 then at the feature level.
 </p>
 
-<a name="Extracting" />
+<a name="ExtractingXX" />
 <h3>Extracting</h3>
 
 <p>
@@ -1236,7 +1293,7 @@ stream (i.e., <code>System.out</code>).  You can write it to a file by using the
 <code>-out</code> switch.
 </p>
 
-<a name="Reporting" />
+<a name="ReportingXX" />
 <h3>Reporting</h3>
 
 <p>
@@ -1259,7 +1316,7 @@ stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
 with either our stylesheets or your own.
 </p>
 
-<a name="Full+List" />
+<a name="FullList" />
 <h4>Full List</h4>
 
 <p>
@@ -1278,7 +1335,7 @@ following command produces a full report from the output of the previous
 <b>Full List</b>
 </div>
 
-<a name="Public+List" />
+<a name="PublicList" />
 <h4>Public List</h4>
 
 <p>
@@ -1386,7 +1443,7 @@ limit the changes to the published public API.
 <b>Public List Of Documented Elements</b>
 </div>
 
-<a name="Listing+Published+Documentation+Changes" />
+<a name="ListingPublishedDocumentationChanges" />
 <h4>Listing Published Documentation Changes</h4>
 
 <p>
@@ -1437,14 +1494,14 @@ into HTML with <code>ListDiffToHTML</code>, or to text with
 
 <hr />
 
-<a name="Building+Dependency+Finder" />
+<a name="BuildingDependencyFinder" />
 <h2>Building Dependency Finder</h2>
 
 <pre>
     C:\>ant
 </pre>
 
-<a name="Compiling+a+Build" />
+<a name="CompilingaBuild" />
 <h3>Compiling a Build</h3>
 
 <pre>
@@ -1464,7 +1521,7 @@ or
     C:\>ant jar clean docs dist src war
 </pre>
 
-<a name="Testing+the+Build" />
+<a name="TestingtheBuild" />
 <h3>Testing the Build</h3>
 
 <pre>
