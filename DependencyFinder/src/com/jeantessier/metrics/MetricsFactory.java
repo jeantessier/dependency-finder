@@ -135,6 +135,11 @@ public class MetricsFactory {
 		Metrics result          = new Metrics(package_metrics, name);
 		package_metrics.AddSubMetrics(result);
 
+		Iterator i = configuration.Groups(name).iterator();
+		while (i.hasNext()) {
+			CreateGroupMetrics((String) i.next()).AddSubMetrics(result);
+		}
+		
 		PopulateMetrics(result, configuration.ClassMeasurements());
 
 		return result;

@@ -91,4 +91,21 @@ public class TestMetricsFactory extends TestCase {
 		assertTrue(package_metrics.SubMetrics().contains(class_metrics));
 		assertTrue(class_metrics.SubMetrics().contains(method_metrics));
 	}
+
+	public void testGroupDefinitions() {
+		configuration.AddGroupDefinition("foo", "/foo/");
+		configuration.AddGroupDefinition("bar", "/bar/");
+
+		Metrics metrics = factory.CreateClassMetrics("com.foobar.Foobar");
+
+		assertEquals("Number of groups", 3, factory.GroupMetrics().size());
+
+		assertTrue("Group foo missing",        factory.GroupNames().contains("foo"));
+		assertTrue("Group bar missing",        factory.GroupNames().contains("bar"));
+		assertTrue("Group com.foobar missing", factory.GroupNames().contains("com.foobar"));
+
+		assertTrue("Not in foo",        factory.CreateGroupMetrics("foo").SubMetrics().contains(metrics));
+		assertTrue("Not in bar",        factory.CreateGroupMetrics("bar").SubMetrics().contains(metrics));
+		assertTrue("Not in com.foobar", factory.CreateGroupMetrics("com.foobar").SubMetrics().contains(metrics));
+	}
 }
