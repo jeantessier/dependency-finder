@@ -3,7 +3,7 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
 <title>Dependency Finder - Samples</title>
 </head>
 
@@ -17,63 +17,22 @@
 
 <p>E.g.,</p>
 
-<pre>
-    C:\> DependencyExtractor -xml -out 20020711.xml DependencyFinder.jar
-    C:\> DependencyGraphToHTML -in 20020711.xml -out 20020711.html
+<pre class="highlight">
+    
+    C:\> DependencyExtractor -xml -out DependencyFinder-graph-1.0.1.xml DependencyFinder.jar
+    
+    C:\> DependencyGraphToHTML -in  DependencyFinder-graph-1.0.1.xml     \
+                               -out DependencyFinder-graph-1.0.1.html
+    
 </pre>
 
 <p><font color="red"><b>Warning</b>:</font> <i>each one of these files is about 4MB.</i></p>
 
 <table cellspacing="3">
     <tr>
-	<td>20011216</td>
-	<td><a target="_blank" href="20011216.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="20011216.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>20020111</td>
-	<td><a target="_blank" href="20020111.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="20020111.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>20020115</td>
-	<td><a target="_blank" href="20020115.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="20020115.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>20020127</td>
-	<td><a target="_blank" href="20020127.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="20020127.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>20020711</td>
-	<td><a target="_blank" href="20020711.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="20020711.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>20030101</td>
-	<td><a target="_blank" href="20030101.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="20030101.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>1.0 beta</td>
-	<td><a target="_blank" href="10beta.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="10beta.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>1.0</td>
-	<td><a target="_blank" href="10.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="10.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>1.0.1</td>
-	<td><a target="_blank" href="101.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="101.html">HTML</a></td>
-    </tr>
-    <tr>
-	<td>1.1.0 beta 1</td>
-	<td><a target="_blank" href="110beta1.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="110beta1.html">HTML</a></td>
+	<td>1.1.0 beta 3</td>
+	<td><a target="_blank" href="110beta3.xml.gz">XML</a> (compressed)</td>
+	<td><a target="_blank" href="110beta3.html">HTML</a></td>
     </tr>
     <tr>
 	<td>1.1.0 beta 2</td>
@@ -81,9 +40,24 @@
 	<td><a target="_blank" href="110beta2.html">HTML</a></td>
     </tr>
     <tr>
-	<td>1.1.0 beta 3</td>
-	<td><a target="_blank" href="110beta3.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="110beta3.html">HTML</a></td>
+	<td>1.1.0 beta 1</td>
+	<td><a target="_blank" href="110beta1.xml.gz">XML</a> (compressed)</td>
+	<td><a target="_blank" href="110beta1.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>1.0.1</td>
+	<td><a target="_blank" href="101.xml.gz">XML</a> (compressed)</td>
+	<td><a target="_blank" href="101.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>1.0</td>
+	<td><a target="_blank" href="10.xml.gz">XML</a> (compressed)</td>
+	<td><a target="_blank" href="10.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>1.0 beta</td>
+	<td><a target="_blank" href="10beta.xml.gz">XML</a> (compressed)</td>
+	<td><a target="_blank" href="10beta.html">HTML</a></td>
     </tr>
 </table>
 
@@ -94,12 +68,16 @@ software packages, including Dependency Finder itself.</p>
 
 <p>E.g.,</p>
 
-<pre>
-    C:\> JarJarDiff -name "Dependency Finder"                                   \
-                    -old-label 20020127 -old 20020127\lib\DependencyFinder.jar  \
-                    -new-label 20020711 -new 20020711\lib\DependencyFinder.jar  \
-                    -out 20020127-20020711.xml
-    C:\> DiffToHTML -in 20020127-20020711.xml -out DependencyFinder.html
+<pre class="highlight">
+    
+    C:\> JarJarDiff -name "Dependency Finder"                                              \
+                    -old-label 1.0   -old DependencyFinder-1.0\lib\DependencyFinder.jar    \
+                    -new-label 1.0.1 -new DependencyFinder-1.0.1\lib\DependencyFinder.jar  \
+                    -out DependencyFinder-diff-1.0-1.0.1.xml
+    
+    C:\> DiffToHTML -in  DependencyFinder-diff-1.0-1.0.1.xml     \
+                    -out DependencyFinder-diff-1.0-1.0.1.html
+    
 </pre>
 
 <ul>
@@ -120,12 +98,6 @@ Dependency Finder.</p>
 <li><a target="_blank" href="101-110beta1.xml">1.0.1 - 1.1.0 beta 1</a></li>
 <li><a target="_blank" href="10-101.xml">1.0 - 1.0.1</a></li>
 <li><a target="_blank" href="10beta-10.xml">1.0 beta - 1.0</a></li>
-<li><a target="_blank" href="20030101-10beta.xml">20030101 - 1.0 beta</a></li>
-<li><a target="_blank" href="20020711-20030101.xml">20020711 - 20030101</a></li>
-<li><a target="_blank" href="20020127-20020711.xml">20020127 - 20020711</a></li>
-<li><a target="_blank" href="20020115-20020127.xml">20020115 - 20020127</a></li>
-<li><a target="_blank" href="20020111-20020115.xml">20020111 - 20020115</a></li>
-<li><a target="_blank" href="20011216-20020111.xml">20011216 - 20020111</a></li>
 </ul>
 
 <h3>Metrics</h3>
@@ -134,55 +106,25 @@ Dependency Finder.</p>
 
 <p>E.g.,</p>
 
-<pre>
-    C:\> OOMetrics -all -xml -project-name "Dependency Finder" -out 20020127.metrics DependencyFinder.jar
-    C:\> OOMetrics -all -txt -project-name "Dependency Finder" -out 20020127.metrics DependencyFinder.jar
+<pre class="highlight">
+    
+    C:\> OOMetrics -all -txt -project-name "Dependency Finder" -out DependencyFinder-metrics-1.0.1 DependencyFinder.jar
+    
+    C:\> OOMetrics -all -xml -project-name "Dependency Finder" -out DependencyFinder-metrics-1.0.1 DependencyFinder.jar
+    
+    C:\> MetricsToHTML -in  DependencyFinder-metrics-1.0.1.xml     \
+                       -out DependencyFinder-metrics-1.0.1.html
+    
 </pre>
 
 <p><font color="red"><b>Warning</b>:</font> <i>the XML files are nearly 13MB and the text files are about 2MB.</i></p>
 
 <table cellspacing="3">
     <tr>
-	<td>20020127</td>
-	<td>XML</td>
-	<td>HTML</td>
-	<td><a target="_blank" href="20020127.metrics.txt">TXT</a></td>
-    </tr>
-    <tr>
-	<td>20020711</td>
-	<td>XML</td>
-	<td>HTML</td>
-	<td><a target="_blank" href="20020711.metrics.txt">TXT</a></td>
-    </tr>
-    <tr>
-	<td>20030101</td>
-	<td>XML</td>
-	<td>HTML</td>
-	<td><a target="_blank" href="20030101.metrics.txt">TXT</a></td>
-    </tr>
-    <tr>
-	<td>1.0 beta</td>
-	<td>XML</td>
-	<td>HTML</td>
-	<td><a target="_blank" href="10beta.metrics.txt">TXT</a></td>
-    </tr>
-    <tr>
-	<td>1.0</td>
-	<td>XML</td>
-	<td>HTML</td>
-	<td><a target="_blank" href="10.metrics.txt">TXT</a></td>
-    </tr>
-    <tr>
-	<td>1.0.1</td>
-	<td>XML</td>
-	<td>HTML</td>
-	<td><a target="_blank" href="101.metrics.txt">TXT</a></td>
-    </tr>
-    <tr>
-	<td>1.1.0 beta 1</td>
-	<td>XML</td>
-	<td>HTML</td>
-	<td><a target="_blank" href="110beta1.metrics.txt">TXT</a></td>
+	<td>1.1.0 beta 3</td>
+	<td><a target="_blank" href="110beta2.metrics.xml.gz">XML</a> (compressed)</td>
+	<td><a target="_blank" href="110beta2.metrics.html">HTML</a></td>
+	<td><a target="_blank" href="110beta2.metrics.txt">TXT</a></td>
     </tr>
     <tr>
 	<td>1.1.0 beta 2</td>
@@ -191,10 +133,28 @@ Dependency Finder.</p>
 	<td><a target="_blank" href="110beta2.metrics.txt">TXT</a></td>
     </tr>
     <tr>
-	<td>1.1.0 beta 3</td>
-	<td><a target="_blank" href="110beta2.metrics.xml.gz">XML</a> (compressed)</td>
-	<td><a target="_blank" href="110beta2.metrics.html">HTML</a></td>
-	<td><a target="_blank" href="110beta2.metrics.txt">TXT</a></td>
+	<td>1.1.0 beta 1</td>
+	<td>XML</td>
+	<td>HTML</td>
+	<td><a target="_blank" href="110beta1.metrics.txt">TXT</a></td>
+    </tr>
+    <tr>
+	<td>1.0.1</td>
+	<td>XML</td>
+	<td>HTML</td>
+	<td><a target="_blank" href="101.metrics.txt">TXT</a></td>
+    </tr>
+    <tr>
+	<td>1.0</td>
+	<td>XML</td>
+	<td>HTML</td>
+	<td><a target="_blank" href="10.metrics.txt">TXT</a></td>
+    </tr>
+    <tr>
+	<td>1.0 beta</td>
+	<td>XML</td>
+	<td>HTML</td>
+	<td><a target="_blank" href="10beta.metrics.txt">TXT</a></td>
     </tr>
 </table>
 
