@@ -6,10 +6,4204 @@
 <body bgcolor="#ffffff">
 <h1>Xerces - API Change History</h1>
 <ul>
+<li><a href="#2.3.0">2.2.1 to 2.3.0</a></li>
 <li><a href="#2.2.1">2.2.0 to 2.2.1</a></li>
 <li><a href="#2.2.0">2.1.0 to 2.2.0</a></li>
 <li><a href="#2.1.0">2.0.2 to 2.1.0</a></li>
 <li><a href="#2.0.2">2.0.1 to 2.0.2</a></li>
+</ul>
+<hr>
+<a name="2.3.0"></a>
+<h2>2.2.1 to 2.3.0</h2>
+<h3>Removed Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.XSTypeDecl</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.ObjectList</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSIDConstraintDefinition</code></nobr>
+</li>
+</ul>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>javax.xml.parsers.ConvertToURI</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.dom.DOMValidationConfiguration</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.XML11EntityManager</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.XML11EntityManager$XML11EntityScanner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.XMLEntityManager$EntityScanner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.MyDecimal</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.util.ObjectListImpl</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.util.NamespaceSupport$Context</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.serialize.SieveEncodingInfo</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.serialize.SieveEncodingInfo$BAOutputStream</code></nobr>
+</li>
+</ul>
+<h3>Newly Deprecated Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.PSVIProvider</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.StringList</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSAnnotation</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSAttributeGroupDefinition</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSAttributeUse</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSComplexTypeDefinition</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSConstants</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSElementDeclaration</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSModel</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSModelGroup</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSModelGroupDefinition</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSNamedMap</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSNamespaceItem</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSNotationDeclaration</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSObject</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSObjectList</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSParticle</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSSimpleTypeDefinition</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSTerm</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSTypeDefinition</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSWildcard</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.xni.psvi.AttributePSVI</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.xni.psvi.ElementPSVI</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.xni.psvi.ItemPSVI</code></nobr>
+</li>
+</ul>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+<h4>
+<code>org.apache.xerces.dom.DeferredNode</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final short TYPE_NODE</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom3.DOMError</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.lang.Object getRelatedData()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.String getType()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.XSSimpleType</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public interface org.apache.xerces.impl.dv.XSSimpleType extends org.apache.xerces.impl.xs.XSTypeDecl, org.apache.xerces.impl.xs.psvi.XSSimpleTypeDefinition<br>
+<b>new:</b>public interface org.apache.xerces.impl.dv.XSSimpleType extends org.apache.xerces.impl.xs.psvi.XSSimpleTypeDefinition</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSAnnotation</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.lang.Object getAnnotationObject()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final short SAX_CONTENTHANDLER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short W3C_DOM_DOCUMENT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short W3C_DOM_ELEMENT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean writeAnnotation(java.lang.Object, short)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSAttributeUse</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getIsRequired()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getRequired()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSComplexTypeDefinition</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getIsAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsProhibitedSubstitution(short)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isProhibitedSubstitution(short)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSElementDeclaration</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getIsAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsDisallowedSubstition(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsNillable()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsSubstitutionGroupExclusion(short)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getNillable()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isDisallowedSubstitution(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isSubstitutionGroupExclusion(short)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSModel</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration getAttributeDecl(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSElementDeclaration getElementDecl(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSNotationDeclaration getNotationDecl(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract org.apache.xerces.impl.xs.psvi.ObjectList getNamespaceItems()<br>
+<b>new:</b>public abstract org.apache.xerces.impl.xs.psvi.XSNamespaceItemList getNamespaceItems()</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration getAttributeDeclaration(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSElementDeclaration getElementDeclaration(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSNotationDeclaration getNotationDeclaration(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSNamedMap</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSObject getItem(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract int getMapLength()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSObject getNSItem(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract int getLength()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSObject item(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSObject itemByName(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSNamespaceItem</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration getAttributeDecl(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.ObjectList getDocuments()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSElementDeclaration getElementDecl(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSNotationDeclaration getNotationDecl(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSObjectList getAnnotations()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration getAttributeDeclaration(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSElementDeclaration getElementDeclaration(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSNotationDeclaration getNotationDeclaration(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSObject</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSObjectList</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSObject getItem(int)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.XSObject item(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSParticle</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getIsMaxOccursUnbounded()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getMaxOccursUnbounded()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSSimpleTypeDefinition</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getIsBounded()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsDefinedFacet(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsFinite()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsFixedFacet(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsNumeric()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.StringList getLexicalEnumerations()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.StringList getLexicalPatterns()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getBounded()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getFinite()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.StringList getLexicalEnumeration()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.StringList getLexicalPattern()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getNumeric()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isDefinedFacet(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isFixedFacet(short)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSTypeDefinition</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean getIsAnonymous()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getIsFinal(short)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean derivedFrom(java.lang.String, java.lang.String, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean derivedFromType(org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getAnonymous()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isFinal(short)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.psvi.XSWildcard</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.StringList getNSConstraintList()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.impl.xs.psvi.StringList getNsConstraintList()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.Augmentations</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void clear()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void removeAllItems()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.NamespaceContext</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.xni.NamespaceContext getParentContext()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean declarePrefix(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.util.Enumeration getAllPrefixes()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.String getPrefix(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void popContext()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void pushContext()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void reset()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.XMLAttributes</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setAugmentations(int, org.apache.xerces.xni.Augmentations)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.XMLDTDContentModelHandler</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.xni.parser.XMLDTDContentModelSource getDTDContentModelSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setDTDContentModelSource(org.apache.xerces.xni.parser.XMLDTDContentModelSource)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.XMLDTDHandler</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.xni.parser.XMLDTDSource getDTDSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setDTDSource(org.apache.xerces.xni.parser.XMLDTDSource)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.XMLDocumentFragmentHandler</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.XMLDocumentHandler</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.XMLLocator</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public interface org.apache.xerces.xni.XMLLocator extends org.apache.xerces.xni.XMLResourceIdentifier<br>
+<b>new:</b>public interface org.apache.xerces.xni.XMLLocator</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.lang.String getBaseSystemId()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.String getExpandedSystemId()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.String getLiteralSystemId()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.String getPublicId()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.XMLResourceIdentifier</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setBaseSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setExpandedSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setLiteralSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setPublicId(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.parser.XMLDTDContentModelSource</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.xni.XMLDTDContentModelHandler getDTDContentModelHandler()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.parser.XMLDTDSource</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.xni.XMLDTDHandler getDTDHandler()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.xni.psvi.ItemPSVI</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final short VALIDITY_UNKNOWN</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final short VALIDITY_NOTKNOWN</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLDocument</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.w3c.dom.Element getElementById(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLOptionElement</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setSelected(boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setIndex(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLSelectElement</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void add(org.w3c.dom.html.HTMLElement, org.w3c.dom.html.HTMLElement) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract void add(org.w3c.dom.html.HTMLElement, org.w3c.dom.html.HTMLElement)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLTableCellElement</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setCellIndex(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLTableElement</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void deleteRow(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract void deleteRow(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract org.w3c.dom.html.HTMLElement insertRow(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract org.w3c.dom.html.HTMLElement insertRow(int)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLTableRowElement</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void deleteCell(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract void deleteCell(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract org.w3c.dom.html.HTMLElement insertCell(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract org.w3c.dom.html.HTMLElement insertCell(int)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setCells(org.w3c.dom.html.HTMLCollection)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setRowIndex(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setSectionRowIndex(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLTableSectionElement</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void deleteRow(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract void deleteRow(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract org.w3c.dom.html.HTMLElement insertRow(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract org.w3c.dom.html.HTMLElement insertRow(int)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.w3c.dom.ls.DOMBuilder</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean canSetFeature(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.w3c.dom.ls.DOMEntityResolver getEntityResolver()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.dom3.DOMErrorHandler getErrorHandler()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getFeature(java.lang.String) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setEntityResolver(org.w3c.dom.ls.DOMEntityResolver)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setErrorHandler(org.apache.xerces.dom3.DOMErrorHandler)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setFeature(java.lang.String, boolean) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.dom3.DOMConfiguration getConfig()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.ls.DOMWriter</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean canSetFeature(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.dom3.DOMErrorHandler getErrorHandler()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean getFeature(java.lang.String) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setErrorHandler(org.apache.xerces.dom3.DOMErrorHandler)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setFeature(java.lang.String, boolean) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.dom3.DOMConfiguration getConfig()</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>javax.xml.parsers.FactoryFinder</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static java.util.Properties jaxpProperties</code></nobr>
+</li>
+<li>
+<nobr><code>private static long lastModified</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.parsers.SecuritySupport</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getFileExists(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public long getLastModified(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.parsers.SecuritySupport12</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getFileExists(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public long getLastModified(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.AttrImpl</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xerces.dom.AttrImpl extends org.apache.xerces.dom.NodeImpl implements org.w3c.dom.Attr<br>
+<b>new:</b>public class org.apache.xerces.dom.AttrImpl extends org.apache.xerces.dom.NodeImpl implements org.apache.xerces.dom3.TypeInfo, org.w3c.dom.Attr</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>java.lang.Object type</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getIsId()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.dom3.TypeInfo getSchemaTypeInfo()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getTypeName()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getTypeNamespace()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setType(java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.AttrNSImpl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getTypeName()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getTypeNamespace()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.CoreDOMImplementationImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xerces.impl.RevalidationHandler fDOMRevalidator</code></nobr>
+</li>
+<li>
+<nobr><code>boolean free</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>final synchronized boolean isFree()</code></nobr>
+</li>
+<li>
+<nobr><code>synchronized void releaseValidator(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final int SIZE</code></nobr>
+</li>
+<li>
+<nobr><code>private int currentSize</code></nobr>
+</li>
+<li>
+<nobr><code>private int freeValidatorIndex</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.xerces.impl.RevalidationHandler[] validators</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>synchronized void releaseValidator(java.lang.String, org.apache.xerces.impl.RevalidationHandler)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.CoreDocumentImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final short CDATA</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short COMMENTS</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short DEFAULTS</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short DTNORMALIZATION</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short ENTITIES</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short NAMESPACES</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short SPLITCDATA</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short VALIDATION</code></nobr>
+</li>
+<li>
+<nobr><code>protected final transient org.apache.xerces.util.DOMErrorHandlerWrapper fErrorHandlerWrapper</code></nobr>
+</li>
+<li>
+<nobr><code>protected short features</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean canSetNormalizationFeature(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void copyConfigurationProperties(org.apache.xerces.xni.parser.XMLParserConfiguration)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.dom3.DOMErrorHandler getErrorHandler()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getNormalizationFeature(java.lang.String) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>public void setErrorHandler(org.apache.xerces.dom3.DOMErrorHandler)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setNormalizationFeature(java.lang.String, boolean) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected org.apache.xerces.dom.DOMNormalizer domNormalizer<br>
+<b>new:</b>transient org.apache.xerces.dom.DOMNormalizer domNormalizer</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected org.apache.xerces.dom.DOMValidationConfiguration fConfiguration<br>
+<b>new:</b>transient org.apache.xerces.dom.DOMConfigurationImpl fConfiguration</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected boolean isNormalizeDocRequired()<br>
+<b>new:</b>boolean isNormalizeDocRequired()</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected final void clearIdentifiers()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.dom3.DOMConfiguration getConfig()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.DOMErrorImpl</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object fRelatedData</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String fType</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object getRelatedData()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getType()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.DOMNormalizer</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xerces.dom.DOMNormalizer extends java.lang.Object implements org.apache.xerces.xni.XMLDocumentHandler, org.apache.xerces.xni.grammars.XMLGrammarPool<br>
+<b>new:</b>public class org.apache.xerces.dom.DOMNormalizer extends java.lang.Object implements org.apache.xerces.xni.XMLDocumentHandler</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String ERROR_HANDLER</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final java.lang.String SYMBOL_TABLE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void cacheGrammars(java.lang.String, org.apache.xerces.xni.grammars.Grammar[])</code></nobr>
+</li>
+<li>
+<nobr><code>public void clear()</code></nobr>
+</li>
+<li>
+<nobr><code>public void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public void lockPool()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void normalizeDocument(org.apache.xerces.dom.CoreDocumentImpl)</code></nobr>
+</li>
+<li>
+<nobr><code>protected final boolean removeDefault(org.w3c.dom.Attr, org.apache.xerces.dom.AttributeMap)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void reset(org.apache.xerces.xni.parser.XMLComponentManager)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.grammars.Grammar retrieveGrammar(org.apache.xerces.xni.grammars.XMLGrammarDescription)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.grammars.Grammar[] retrieveInitialGrammarSet(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void setValidationHandler(org.apache.xerces.impl.RevalidationHandler)</code></nobr>
+</li>
+<li>
+<nobr><code>public void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public void unlockPool()</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected final org.apache.xerces.util.NamespaceSupport fLocalNSBinder<br>
+<b>new:</b>protected final org.apache.xerces.xni.NamespaceContext fLocalNSBinder</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected final org.apache.xerces.util.NamespaceSupport fNamespaceContext<br>
+<b>new:</b>protected final org.apache.xerces.xni.NamespaceContext fNamespaceContext</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final boolean DEBUG_EVENTS</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.dom.DOMConfigurationImpl fConfiguration</code></nobr>
+</li>
+<li>
+<nobr><code>final org.apache.xerces.xni.XMLString fNormalizedValue</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>final java.lang.String normalizeAttributeValue(java.lang.String, org.w3c.dom.Attr)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void normalizeDocument(org.apache.xerces.dom.CoreDocumentImpl, org.apache.xerces.dom.DOMConfigurationImpl)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.DOMNormalizer$XMLAttributesProxy</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setAugmentations(int, org.apache.xerces.xni.Augmentations)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.DeferredDocumentImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int setDeferredPIBaseURI(int, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Newly Deprecated Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int createDeferredElement(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public int createDeferredElement(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public int setDeferredAttribute(int, java.lang.String, java.lang.String, java.lang.String, boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int createDeferredElement(java.lang.String, java.lang.String, java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>private final java.lang.String getNodeValue(int, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.Object getTypeInfo(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public int setDeferredAttribute(int, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.ElementImpl</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xerces.dom.ElementImpl extends org.apache.xerces.dom.ParentNode implements org.w3c.dom.Element<br>
+<b>new:</b>public class org.apache.xerces.dom.ElementImpl extends org.apache.xerces.dom.ParentNode implements org.apache.xerces.dom3.TypeInfo, org.w3c.dom.Element</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setIdAttributeNode(org.w3c.dom.Attr)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.dom3.TypeInfo getSchemaTypeInfo()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getTypeName()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getTypeNamespace()</code></nobr>
+</li>
+<li>
+<nobr><code>protected int getXercesAttribute(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setIdAttribute(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setIdAttributeNS(java.lang.String, java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setIdAttributeNode(org.w3c.dom.Attr, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.ElementNSImpl</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSTypeDefinition type</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getTypeName()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getTypeNamespace()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setType(org.apache.xerces.impl.xs.psvi.XSTypeDefinition)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.NamedNodeMapImpl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected int getNamedItemIndex(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean precedes(org.w3c.dom.Node, org.w3c.dom.Node)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.NodeImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final short IDATTRIBUTE</code></nobr>
+</li>
+</ul>
+<h5>Newly Deprecated Methods:</h5>
+<ul>
+<li>
+<nobr><code>public short compareTreePosition(org.w3c.dom.Node)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final short DOCUMENT_POSITION_CONTAINS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short DOCUMENT_POSITION_DISCONNECTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short DOCUMENT_POSITION_FOLLOWING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short DOCUMENT_POSITION_IS_CONTAINED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short DOCUMENT_POSITION_PRECEDING</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short ID</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public short compareDocumentPosition(org.w3c.dom.Node) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.w3c.dom.Node getContainer()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.PSVIDocumentImpl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.dom3.DOMConfiguration getConfig()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.dom.ProcessingInstructionImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected java.lang.String baseURI</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setBaseURI(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.Constants</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DISALLOW_DOCTYPE_DECL_FEATURE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DOM_CERTIFIED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DOM_ENTITY_RESOLVER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DOM_ERROR_HANDLER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DOM_PSVI</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DOM_SCHEMA_LOCATION</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DOM_SCHEMA_TYPE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DOM_UNKNOWNCHARS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DOM_XMLDECL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String NS_DTD</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String NS_XMLSCHEMA</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String SECURITY_MANAGER_PROPERTY</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String STANDARD_URI_CONFORMANT_FEATURE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short XML_VERSION_1_0</code></nobr>
+</li>
+<li>
+<nobr><code>public static final short XML_VERSION_1_1</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XML11DTDScannerImpl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean isInvalid(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isInvalidLiteral(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isValidNameChar(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isValidNameStartChar(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean versionSupported(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XML11DocumentScannerImpl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean isInvalid(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isInvalidLiteral(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isValidNameChar(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isValidNameStartChar(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean versionSupported(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XMLDTDScannerImpl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.xni.XMLDTDContentModelHandler getDTDContentModelHandler()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.XMLDTDHandler getDTDHandler()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XMLDocumentFragmentScannerImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected java.lang.String fDocumentSystemId</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XMLDocumentScannerImpl</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected org.apache.xerces.util.NamespaceSupport fNamespaceContext<br>
+<b>new:</b>protected org.apache.xerces.xni.NamespaceContext fNamespaceContext</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String DISALLOW_DOCTYPE_DECL_FEATURE</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean fDisallowDoctype</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XMLEntityManager</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.impl.XMLEntityScanner createEntityScanner()</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String expandSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String expandSystemId(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>final void print()</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addExternalEntity(java.lang.String, java.lang.String, java.lang.String, java.lang.String)<br>
+<b>new:</b>public void addExternalEntity(java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected void endEntity() throws org.apache.xerces.xni.XNIException<br>
+<b>new:</b>void endEntity() throws org.apache.xerces.xni.XNIException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String SECURITY_MANAGER</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final java.lang.String STANDARD_URI_CONFORMANT</code></nobr>
+</li>
+<li>
+<nobr><code>protected int fEntityExpansionCount</code></nobr>
+</li>
+<li>
+<nobr><code>protected int fEntityExpansionLimit</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.util.SecurityManager fSecurityManager</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean fStrictURI</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.impl.XMLEntityScanner fXML10EntityScanner</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.impl.XMLEntityScanner fXML11EntityScanner</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.String expandSystemId(java.lang.String, java.lang.String, boolean) throws org.apache.xerces.util.URI$MalformedURIException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.XMLEntityManager$ScannedEntity getCurrentEntity()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.XMLResourceIdentifier getCurrentResourceIdentifier()</code></nobr>
+</li>
+<li>
+<nobr><code>static final void print(org.apache.xerces.impl.XMLEntityManager$ScannedEntity)</code></nobr>
+</li>
+<li>
+<nobr><code>public void reset()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setScannerVersion(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String setupCurrentEntity(java.lang.String, org.apache.xerces.xni.parser.XMLInputSource, boolean, boolean) throws java.io.IOException, org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XMLEntityManager$ScannedEntity</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int getColumnNumber()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getExpandedSystemId()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getLineNumber()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getLiteralSystemId()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setReader(java.io.InputStream, java.lang.String, java.lang.Boolean) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XMLEntityScanner</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class org.apache.xerces.impl.XMLEntityScanner extends java.lang.Object implements org.apache.xerces.xni.XMLLocator<br>
+<b>new:</b>public class org.apache.xerces.impl.XMLEntityScanner extends java.lang.Object implements org.apache.xerces.xni.XMLLocator</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract java.lang.String getBaseSystemId()<br>
+<b>new:</b>public java.lang.String getBaseSystemId()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract int getColumnNumber()<br>
+<b>new:</b>public int getColumnNumber()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract java.lang.String getExpandedSystemId()<br>
+<b>new:</b>public java.lang.String getExpandedSystemId()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract int getLineNumber()<br>
+<b>new:</b>public int getLineNumber()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract java.lang.String getLiteralSystemId()<br>
+<b>new:</b>public java.lang.String getLiteralSystemId()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract java.lang.String getPublicId()<br>
+<b>new:</b>public java.lang.String getPublicId()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract boolean isExternal()<br>
+<b>new:</b>public boolean isExternal()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract int peekChar() throws java.io.IOException<br>
+<b>new:</b>public int peekChar() throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract int scanChar() throws java.io.IOException<br>
+<b>new:</b>public int scanChar() throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract int scanContent(org.apache.xerces.xni.XMLString) throws java.io.IOException<br>
+<b>new:</b>public int scanContent(org.apache.xerces.xni.XMLString) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract boolean scanData(java.lang.String, org.apache.xerces.util.XMLStringBuffer) throws java.io.IOException<br>
+<b>new:</b>public boolean scanData(java.lang.String, org.apache.xerces.util.XMLStringBuffer) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract int scanLiteral(int, org.apache.xerces.xni.XMLString) throws java.io.IOException<br>
+<b>new:</b>public int scanLiteral(int, org.apache.xerces.xni.XMLString) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract java.lang.String scanName() throws java.io.IOException<br>
+<b>new:</b>public java.lang.String scanName() throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract java.lang.String scanNmtoken() throws java.io.IOException<br>
+<b>new:</b>public java.lang.String scanNmtoken() throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract boolean scanQName(org.apache.xerces.xni.QName) throws java.io.IOException<br>
+<b>new:</b>public boolean scanQName(org.apache.xerces.xni.QName) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void setEncoding(java.lang.String) throws java.io.IOException<br>
+<b>new:</b>public void setEncoding(java.lang.String) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract boolean skipChar(int) throws java.io.IOException<br>
+<b>new:</b>public boolean skipChar(int) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract boolean skipSpaces() throws java.io.IOException<br>
+<b>new:</b>public boolean skipSpaces() throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract boolean skipString(java.lang.String) throws java.io.IOException<br>
+<b>new:</b>public boolean skipString(java.lang.String) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final boolean DEBUG_BUFFER</code></nobr>
+</li>
+<li>
+<nobr><code>private static final boolean DEBUG_ENCODINGS</code></nobr>
+</li>
+<li>
+<nobr><code>protected int fBufferSize</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.impl.XMLEntityManager$ScannedEntity fCurrentEntity</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.xerces.impl.XMLEntityManager fEntityManager</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.util.SymbolTable fSymbolTable</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>final boolean load(int, boolean) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public void reset(org.apache.xerces.util.SymbolTable, org.apache.xerces.impl.XMLEntityManager)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setBaseSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setBufferSize(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setColumnNumber(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setCurrentEntity(org.apache.xerces.impl.XMLEntityManager$ScannedEntity)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpandedSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLineNumber(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLiteralSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPublicId(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XMLNamespaceBinder</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.util.NamespaceSupport fNamespaceSupport</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLNamespaceBinder(org.apache.xerces.xni.NamespaceContext)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.NamespaceContext getNamespaceContext()</code></nobr>
+</li>
+<li>
+<nobr><code>public void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean prefixBoundToNullURI(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.XMLScanner</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean isInvalid(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isInvalidLiteral(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isValidNameChar(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isValidNameStartChar(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean versionSupported(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dtd.DTDGrammar</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.xni.parser.XMLDTDContentModelSource fDTDContentModelSource</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.xni.parser.XMLDTDSource fDTDSource</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.xni.parser.XMLDTDContentModelSource getDTDContentModelSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.parser.XMLDTDSource getDTDSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setDTDContentModelSource(org.apache.xerces.xni.parser.XMLDTDContentModelSource)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setDTDSource(org.apache.xerces.xni.parser.XMLDTDSource)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dtd.XMLDTDDescription</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xerces.impl.dtd.XMLDTDDescription extends org.apache.xerces.util.XMLResourceIdentifierImpl implements org.apache.xerces.xni.grammars.XMLGrammarDescription<br>
+<b>new:</b>public class org.apache.xerces.impl.dtd.XMLDTDDescription extends org.apache.xerces.util.XMLResourceIdentifierImpl implements org.apache.xerces.xni.grammars.XMLDTDDescription</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dtd.XMLDTDLoader</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String[] RECOGNIZED_FEATURES</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final java.lang.String STANDARD_URI_CONFORMANT_FEATURE</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean fStrictURI</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void reset()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dtd.XMLDTDProcessor</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.xni.parser.XMLDTDContentModelSource fDTDContentModelSource</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.xni.parser.XMLDTDSource fDTDSource</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.xni.XMLDTDContentModelHandler getDTDContentModelHandler()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.parser.XMLDTDContentModelSource getDTDContentModelSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.XMLDTDHandler getDTDHandler()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.parser.XMLDTDSource getDTDSource()</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isValidName(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isValidNmtoken(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setDTDContentModelSource(org.apache.xerces.xni.parser.XMLDTDContentModelSource)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setDTDSource(org.apache.xerces.xni.parser.XMLDTDSource)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dtd.XMLDTDValidator</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.util.NamespaceSupport fNamespaceSupport</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean fSkipValidation</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected org.apache.xerces.xni.XMLResourceIdentifier fDocLocation<br>
+<b>new:</b>protected org.apache.xerces.xni.XMLLocator fDocLocation</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.dv.DatatypeValidator fValENTITIES<br>
+<b>new:</b>protected org.apache.xerces.impl.dv.DatatypeValidator fValENTITIES</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.dv.DatatypeValidator fValENTITY<br>
+<b>new:</b>protected org.apache.xerces.impl.dv.DatatypeValidator fValENTITY</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.dv.DatatypeValidator fValID<br>
+<b>new:</b>protected org.apache.xerces.impl.dv.DatatypeValidator fValID</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.dv.DatatypeValidator fValIDRef<br>
+<b>new:</b>protected org.apache.xerces.impl.dv.DatatypeValidator fValIDRef</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.dv.DatatypeValidator fValIDRefs<br>
+<b>new:</b>protected org.apache.xerces.impl.dv.DatatypeValidator fValIDRefs</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.dv.DatatypeValidator fValNMTOKEN<br>
+<b>new:</b>protected org.apache.xerces.impl.dv.DatatypeValidator fValNMTOKEN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.dv.DatatypeValidator fValNMTOKENS<br>
+<b>new:</b>protected org.apache.xerces.impl.dv.DatatypeValidator fValNMTOKENS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.dv.DatatypeValidator fValNOTATION<br>
+<b>new:</b>protected org.apache.xerces.impl.dv.DatatypeValidator fValNOTATION</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private void init()<br>
+<b>new:</b>protected void init()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.xni.NamespaceContext fNamespaceContext</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String fSchemaType</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean isSpace(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.ValidatedInfo</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String stringValue()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.util.Base64</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static byte[] decode(byte[])</code></nobr>
+</li>
+<li>
+<nobr><code>protected static boolean isBase64(byte)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static boolean isData(byte)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static boolean isPad(byte)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static boolean isWhiteSpace(byte)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static byte[] removeWhiteSpace(byte[])</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final byte PAD<br>
+<b>new:</b>private static final char PAD</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final byte[] lookUpBase64Alphabet<br>
+<b>new:</b>private static final char[] lookUpBase64Alphabet</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static java.lang.String decode(java.lang.String)<br>
+<b>new:</b>public static byte[] decode(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static byte[] encode(byte[])<br>
+<b>new:</b>public static java.lang.String encode(byte[])</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected static boolean isBase64(char)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static boolean isData(char)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static boolean isPad(char)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static boolean isWhiteSpace(char)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static int removeWhiteSpace(char[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.util.HexBin</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static byte[] decode(byte[])</code></nobr>
+</li>
+<li>
+<nobr><code>static boolean isHex(byte)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final byte[] lookUpHexAlphabet<br>
+<b>new:</b>private static final char[] lookUpHexAlphabet</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static java.lang.String decode(java.lang.String)<br>
+<b>new:</b>public static byte[] decode(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static byte[] encode(byte[])<br>
+<b>new:</b>public static java.lang.String encode(byte[])</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.AbstractDateTimeDV</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isEqual(java.lang.Object, java.lang.Object)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void append(java.lang.StringBuffer, int, int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.AnyURIDV</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static org.apache.xerces.util.URI BASE_URI<br>
+<b>new:</b>private static final org.apache.xerces.util.URI BASE_URI</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.Base64BinaryDV</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int getDataLength(java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.DateDV</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected java.lang.String dateToString(int[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.DecimalDV</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isEqual(java.lang.Object, java.lang.Object)</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int compare(java.lang.Object, java.lang.Object)<br>
+<b>new:</b>public final int compare(java.lang.Object, java.lang.Object)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public short getAllowedFacets()<br>
+<b>new:</b>public final short getAllowedFacets()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int getFractionDigits(java.lang.Object)<br>
+<b>new:</b>public final int getFractionDigits(java.lang.Object)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int getTotalDigits(java.lang.Object)<br>
+<b>new:</b>public final int getTotalDigits(java.lang.Object)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.DoubleDV</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private int compareDoubles(java.lang.Double, java.lang.Double)</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.lang.Double dValueOf(java.lang.String) throws java.lang.NumberFormatException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.FloatDV</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private int compareFloats(java.lang.Float, java.lang.Float)</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.lang.Float fValueOf(java.lang.String) throws java.lang.NumberFormatException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.HexBinaryDV</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int getDataLength(java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.TypeValidator</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isEqual(java.lang.Object, java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.XSSimpleTypeDecl</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final short SPECIAL_PATTERN_INTEGER</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean derivedFrom(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean derivedFrom(org.apache.xerces.impl.xs.psvi.XSTypeDefinition)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsAnonymous()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsBounded()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsDefinedFacet(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsFinal(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsFinite()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsFixedFacet(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsNumeric()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.StringList getLexicalEnumerations()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.StringList getLexicalPatterns()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getStringValue(java.lang.Object)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final short DV_INTEGER</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Vector fPatternStr</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean derivedFrom(java.lang.String, java.lang.String, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean derivedFromType(org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getAnonymous()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getBounded()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getFinite()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.StringList getLexicalEnumeration()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.StringList getLexicalPattern()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getNumeric()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isDefinedFacet(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isFinal(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isFixedFacet(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.dv.xs.YearMonthDV</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected java.lang.String dateToString(int[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.validation.ValidationManager</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addValidationState(org.apache.xerces.impl.validation.ValidationState)<br>
+<b>new:</b>public final void addValidationState(org.apache.xerces.impl.validation.ValidationState)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public boolean isCachedDTD()<br>
+<b>new:</b>public final boolean isCachedDTD()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public boolean isGrammarFound()<br>
+<b>new:</b>public final boolean isGrammarFound()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void reset()<br>
+<b>new:</b>public final void reset()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void setCachedDTD(boolean)<br>
+<b>new:</b>public final void setCachedDTD(boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void setEntityState(org.apache.xerces.impl.validation.EntityState)<br>
+<b>new:</b>public final void setEntityState(org.apache.xerces.impl.validation.EntityState)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void setGrammarFound(boolean)<br>
+<b>new:</b>public final void setGrammarFound(boolean)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.SchemaGrammar</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addGlobalTypeDecl(org.apache.xerces.impl.xs.XSTypeDecl)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration getAttributeDecl(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.ObjectList getDocuments()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSElementDeclaration getElementDecl(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNotationDeclaration getNotationDecl(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public final org.apache.xerces.impl.xs.XSTypeDecl getGlobalTypeDecl(java.lang.String)<br>
+<b>new:</b>public final org.apache.xerces.impl.xs.psvi.XSTypeDefinition getGlobalTypeDecl(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addGlobalTypeDecl(org.apache.xerces.impl.xs.psvi.XSTypeDefinition)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSObjectList getAnnotations()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration getAttributeDeclaration(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSElementDeclaration getElementDeclaration(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNotationDeclaration getNotationDeclaration(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.SchemaGrammar$BuiltinSchemaGrammar</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addGlobalTypeDecl(org.apache.xerces.impl.xs.XSTypeDecl)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addGlobalTypeDecl(org.apache.xerces.impl.xs.psvi.XSTypeDefinition)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.SchemaGrammar$XSAnyType</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setValues(java.lang.String, java.lang.String, org.apache.xerces.impl.xs.XSTypeDecl, short, short, short, short, boolean, org.apache.xerces.impl.xs.XSAttributeGroupDecl, org.apache.xerces.impl.dv.XSSimpleType, org.apache.xerces.impl.xs.XSParticleDecl)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setValues(java.lang.String, java.lang.String, org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short, short, short, short, boolean, org.apache.xerces.impl.xs.XSAttributeGroupDecl, org.apache.xerces.impl.dv.XSSimpleType, org.apache.xerces.impl.xs.XSParticleDecl)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XMLSchemaLoader</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String STANDARD_URI_CONFORMANT_FEATURE</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean fStrictURI</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void processExternalHints(java.lang.String, java.lang.String, java.util.Hashtable, org.apache.xerces.impl.XMLErrorReporter)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XMLSchemaValidator</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected final org.apache.xerces.impl.xs.XMLSchemaLoader$LocationArray fNoNamespaceLocationArray</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>org.apache.xerces.impl.xs.XSTypeDecl fCurrentType<br>
+<b>new:</b>org.apache.xerces.impl.xs.psvi.XSTypeDefinition fCurrentType</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>org.apache.xerces.impl.xs.XSTypeDecl[] fTypeStack<br>
+<b>new:</b>org.apache.xerces.impl.xs.psvi.XSTypeDefinition[] fTypeStack</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>org.apache.xerces.impl.xs.XSTypeDecl getAndCheckXsiType(org.apache.xerces.xni.QName, java.lang.String, org.apache.xerces.xni.XMLAttributes)<br>
+<b>new:</b>org.apache.xerces.impl.xs.psvi.XSTypeDefinition getAndCheckXsiType(org.apache.xerces.xni.QName, java.lang.String, org.apache.xerces.xni.XMLAttributes)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String STANDARD_URI_CONFORMANT_FEATURE</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String fSchemaType</code></nobr>
+</li>
+<li>
+<nobr><code>final org.apache.xerces.impl.xs.models.CMNodeFactory nodeFactory</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSAttributeDecl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSAttributeGroupDecl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSAttributeUseImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getIsRequired()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getRequired()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSComplexTypeDecl</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xerces.impl.xs.XSComplexTypeDecl extends java.lang.Object implements org.apache.xerces.impl.xs.XSTypeDecl, org.apache.xerces.impl.xs.psvi.XSComplexTypeDefinition<br>
+<b>new:</b>public class org.apache.xerces.impl.xs.XSComplexTypeDecl extends java.lang.Object implements org.apache.xerces.impl.xs.psvi.XSComplexTypeDefinition</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean derivedFrom(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean derivedFrom(org.apache.xerces.impl.xs.psvi.XSTypeDefinition)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsAnonymous()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsFinal(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsProhibitedSubstitution(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setValues(java.lang.String, java.lang.String, org.apache.xerces.impl.xs.XSTypeDecl, short, short, short, short, boolean, org.apache.xerces.impl.xs.XSAttributeGroupDecl, org.apache.xerces.impl.dv.XSSimpleType, org.apache.xerces.impl.xs.XSParticleDecl)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>org.apache.xerces.impl.xs.XSTypeDecl fBaseType<br>
+<b>new:</b>org.apache.xerces.impl.xs.psvi.XSTypeDefinition fBaseType</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean derivedFrom(java.lang.String, java.lang.String, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean derivedFromType(org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getAnonymous()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isFinal(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isProhibitedSubstitution(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setValues(java.lang.String, java.lang.String, org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short, short, short, short, boolean, org.apache.xerces.impl.xs.XSAttributeGroupDecl, org.apache.xerces.impl.dv.XSSimpleType, org.apache.xerces.impl.xs.XSParticleDecl)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSConstraints</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.Object ElementDefaultValidImmediate(org.apache.xerces.impl.xs.XSTypeDecl, java.lang.Object, org.apache.xerces.impl.dv.ValidationContext, org.apache.xerces.impl.dv.ValidatedInfo)</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean checkComplexDerivation(org.apache.xerces.impl.xs.XSComplexTypeDecl, org.apache.xerces.impl.xs.XSTypeDecl, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean checkComplexDerivationOk(org.apache.xerces.impl.xs.XSComplexTypeDecl, org.apache.xerces.impl.xs.XSTypeDecl, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean checkSimpleDerivationOk(org.apache.xerces.impl.dv.XSSimpleType, org.apache.xerces.impl.xs.XSTypeDecl, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean checkTypeDerivationOk(org.apache.xerces.impl.xs.XSTypeDecl, org.apache.xerces.impl.xs.XSTypeDecl, short)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.Object ElementDefaultValidImmediate(org.apache.xerces.impl.xs.psvi.XSTypeDefinition, java.lang.String, org.apache.xerces.impl.dv.ValidationContext, org.apache.xerces.impl.dv.ValidatedInfo)</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean checkComplexDerivation(org.apache.xerces.impl.xs.XSComplexTypeDecl, org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean checkComplexDerivationOk(org.apache.xerces.impl.xs.XSComplexTypeDecl, org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean checkSimpleDerivationOk(org.apache.xerces.impl.dv.XSSimpleType, org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean checkTypeDerivationOk(org.apache.xerces.impl.xs.psvi.XSTypeDefinition, org.apache.xerces.impl.xs.psvi.XSTypeDefinition, short)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSDDescription</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xerces.impl.xs.XSDDescription extends org.apache.xerces.util.XMLResourceIdentifierImpl implements org.apache.xerces.xni.grammars.XMLGrammarDescription<br>
+<b>new:</b>public class org.apache.xerces.impl.xs.XSDDescription extends org.apache.xerces.util.XMLResourceIdentifierImpl implements org.apache.xerces.xni.grammars.XMLSchemaDescription</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSElementDecl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getIsAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsDisallowedSubstition(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsNillable()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getIsSubstitutionGroupExclusion(short)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xerces.impl.xs.XSTypeDecl fType<br>
+<b>new:</b>public org.apache.xerces.impl.xs.psvi.XSTypeDefinition fType</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getNillable()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isDisallowedSubstitution(short)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isSubstitutionGroupExclusion(short)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSGroupDecl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSModelGroupImpl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSModelImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration getAttributeDecl(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSElementDeclaration getElementDecl(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNotationDeclaration getNotationDecl(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xerces.impl.xs.psvi.ObjectList getNamespaceItems()<br>
+<b>new:</b>public org.apache.xerces.impl.xs.psvi.XSNamespaceItemList getNamespaceItems()</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSAttributeDeclaration getAttributeDeclaration(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSElementDeclaration getElementDeclaration(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNotationDeclaration getNotationDeclaration(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSNotationDecl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSParticleDecl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getIsMaxOccursUnbounded()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getMaxOccursUnbounded()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.XSWildcardDecl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.StringList getNSConstraintList()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.StringList getNsConstraintList()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean weakerProcessContents(org.apache.xerces.impl.xs.XSWildcardDecl)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.dom.DOMParser</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setPool(org.apache.xerces.impl.xs.dom.DOMNodePool)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void resetNodePool()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.identity.IdentityConstraint</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class org.apache.xerces.impl.xs.identity.IdentityConstraint extends java.lang.Object implements org.apache.xerces.impl.xs.psvi.XSIDConstraintDefinition<br>
+<b>new:</b>public abstract class org.apache.xerces.impl.xs.identity.IdentityConstraint extends java.lang.Object implements org.apache.xerces.impl.xs.psvi.XSIDCDefinition</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSAnnotation getAnnotation()</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xerces.impl.xs.psvi.XSIDConstraintDefinition getRefKey()<br>
+<b>new:</b>public org.apache.xerces.impl.xs.psvi.XSIDCDefinition getRefKey()</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSObjectList getAnnotations()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSNamespaceItem getNamespaceItem()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.identity.KeyRef</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xerces.impl.xs.psvi.XSIDConstraintDefinition getRefKey()<br>
+<b>new:</b>public org.apache.xerces.impl.xs.psvi.XSIDCDefinition getRefKey()</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.models.CMBuilder</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CMBuilder()</code></nobr>
+</li>
+<li>
+<nobr><code>public CMBuilder(org.apache.xerces.impl.xs.XSDeclarationPool)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xerces.impl.xs.models.CMNodeFactory fNodeFactory</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CMBuilder(org.apache.xerces.impl.xs.models.CMNodeFactory)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.traversers.XSDAbstractTraverser</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void checkNotationType(java.lang.String, org.apache.xerces.impl.xs.XSTypeDecl, org.w3c.dom.Element)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>void checkNotationType(java.lang.String, org.apache.xerces.impl.xs.psvi.XSTypeDefinition, org.w3c.dom.Element)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.traversers.XSDComplexTypeTraverser</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.apache.xerces.impl.xs.XSTypeDecl fBaseType<br>
+<b>new:</b>private org.apache.xerces.impl.xs.psvi.XSTypeDefinition fBaseType</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xerces.impl.xs.XSParticleDecl fEmptyParticle</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.traversers.XSDHandler</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>final org.apache.xerces.impl.xs.dom.DOMNodePool fDOMPool</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void reset(org.apache.xerces.impl.XMLErrorReporter, org.apache.xerces.xni.parser.XMLEntityResolver, org.apache.xerces.util.SymbolTable, org.apache.xerces.xni.grammars.XMLGrammarPool, boolean)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>org.apache.xerces.impl.xs.dom.DOMParser fSchemaParser<br>
+<b>new:</b>org.apache.xerces.impl.xs.opti.SchemaParsingConfig fSchemaParser</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xerces.impl.xs.SchemaGrammar parseSchema(org.apache.xerces.xni.parser.XMLInputSource, org.apache.xerces.impl.xs.XSDDescription, java.util.Hashtable)<br>
+<b>new:</b>public org.apache.xerces.impl.xs.SchemaGrammar parseSchema(org.apache.xerces.xni.parser.XMLInputSource, org.apache.xerces.impl.xs.XSDDescription, java.util.Hashtable) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String[] CIRCULAR_CODES</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final java.lang.String STANDARD_URI_CONFORMANT_FEATURE</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean fStrictURI</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void reset(org.apache.xerces.impl.XMLErrorReporter, org.apache.xerces.xni.parser.XMLEntityResolver, org.apache.xerces.util.SymbolTable, org.apache.xerces.xni.grammars.XMLGrammarPool, boolean, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.util.SimpleLocator</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setBaseSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setColumnNumber(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpandedSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLineNumber(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLiteralSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPublicId(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.util.XSNamedMap4Types</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized org.apache.xerces.impl.xs.psvi.XSObject getItem(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized int getMapLength()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSObject getNSItem(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized int getLength()</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized org.apache.xerces.impl.xs.psvi.XSObject item(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSObject itemByName(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.util.XSNamedMapImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized org.apache.xerces.impl.xs.psvi.XSObject getItem(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized int getMapLength()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSObject getNSItem(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized int getLength()</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized org.apache.xerces.impl.xs.psvi.XSObject item(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSObject itemByName(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.impl.xs.util.XSObjectListImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSObject getItem(int)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.impl.xs.psvi.XSObject item(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.parsers.AbstractDOMParser</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected void handleBaseURI(int)<br>
+<b>new:</b>protected final void handleBaseURI(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected void handleBaseURI(org.w3c.dom.Node)<br>
+<b>new:</b>protected final void handleBaseURI(org.w3c.dom.Node)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.util.DOMErrorHandlerWrapper fErrorHandler</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setLocale(java.util.Locale)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.parsers.AbstractSAXParser</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.util.SymbolHash fDeclaredAttrs</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.xni.NamespaceContext fNamespaceContext</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected final void endNamespaceMapping() throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>protected final void startNamespaceMapping() throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.parsers.AbstractXMLDocumentParser</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void endPrefixMapping(java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public void startPrefixMapping(java.lang.String, java.lang.String, org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.xni.parser.XMLDTDContentModelSource fDTDContentModelSource</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.xni.parser.XMLDTDSource fDTDSource</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.xni.parser.XMLDTDContentModelSource getDTDContentModelSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.xni.parser.XMLDTDSource getDTDSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setDTDContentModelSource(org.apache.xerces.xni.parser.XMLDTDContentModelSource)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setDTDSource(org.apache.xerces.xni.parser.XMLDTDSource)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.parsers.DOMBuilderImpl</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xerces.parsers.DOMBuilderImpl extends org.apache.xerces.parsers.AbstractDOMParser implements org.w3c.dom.ls.DOMBuilder<br>
+<b>new:</b>public class org.apache.xerces.parsers.DOMBuilderImpl extends org.apache.xerces.parsers.AbstractDOMParser implements org.apache.xerces.dom3.DOMConfiguration, org.w3c.dom.ls.DOMBuilder</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String DTD_VALIDATION</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final java.lang.String XML_SCHEMA_VALIDATION</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.util.DOMErrorHandlerWrapper fErrorHandler</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean canSetFeature(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endDocument(org.apache.xerces.xni.Augmentations) throws org.apache.xerces.xni.XNIException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.w3c.dom.ls.DOMEntityResolver getEntityResolver()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.dom3.DOMErrorHandler getErrorHandler()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getFeature(java.lang.String) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>public void setEntityResolver(org.w3c.dom.ls.DOMEntityResolver)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setErrorHandler(org.apache.xerces.dom3.DOMErrorHandler)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setFeature(java.lang.String, boolean) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>public void setProperty(java.lang.String, java.lang.Object) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String PSVI_AUGMENT</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final java.lang.String SYMBOL_TABLE</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean canSetParameter(java.lang.String, java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.dom3.DOMConfiguration getConfig()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.Object getParameter(java.lang.String) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>public void setParameter(java.lang.String, java.lang.Object) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.parsers.DTDConfiguration</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String JAXP_SCHEMA_LANGUAGE</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final java.lang.String JAXP_SCHEMA_SOURCE</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.parsers.DTDParser</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xerces.xni.parser.XMLDTDContentModelSource getDTDContentModelSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract org.apache.xerces.xni.parser.XMLDTDSource getDTDSource()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setDTDContentModelSource(org.apache.xerces.xni.parser.XMLDTDContentModelSource)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setDTDSource(org.apache.xerces.xni.parser.XMLDTDSource)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.parsers.StandardParserConfiguration</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String JAXP_SCHEMA_LANGUAGE</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final java.lang.String JAXP_SCHEMA_SOURCE</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.parsers.XML11Configuration</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.impl.XMLEntityManager createEntityManager()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final java.lang.String XML11_DATATYPE_VALIDATOR_FACTORY</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xerces.impl.XMLVersionDetector fVersionDetector</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xerces.impl.dv.DTDDVFactory createDatatypeValidatorFactory()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.AugmentationsImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void clear()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void removeAllItems()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.ErrorHandlerWrapper$1</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setBaseSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setColumnNumber(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpandedSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLineNumber(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLiteralSystemId(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPublicId(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.NamespaceSupport</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xerces.xni.NamespaceContext getParentContext()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected java.lang.String[] fPrefixes</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Enumeration getAllPrefixes()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.ObjectFactory</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static long fLastModified</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.util.Properties fXercesProperties</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.SecuritySupport</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getFileExists(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public long getLastModified(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.SecuritySupport12</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getFileExists(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public long getLastModified(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.URI</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void initializeAuthority(java.lang.String) throws org.apache.xerces.util.URI$MalformedURIException</code></nobr>
+</li>
+<li>
+<nobr><code>private void initializePath(java.lang.String) throws org.apache.xerces.util.URI$MalformedURIException</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final java.lang.String MARK_CHARACTERS<br>
+<b>new:</b>private static final int MARK_CHARACTERS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final java.lang.String RESERVED_CHARACTERS<br>
+<b>new:</b>private static final int RESERVED_CHARACTERS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final java.lang.String SCHEME_CHARACTERS<br>
+<b>new:</b>private static final int SCHEME_CHARACTERS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final java.lang.String USERINFO_CHARACTERS<br>
+<b>new:</b>private static final int USERINFO_CHARACTERS</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final int ASCII_ALPHA_CHARACTERS</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int ASCII_DIGIT_CHARACTERS</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int ASCII_HEX_CHARACTERS</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int MASK_ALPHA_NUMERIC</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int MASK_SCHEME_CHARACTER</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int MASK_UNRESERVED_MASK</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int MASK_URI_CHARACTER</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int MASK_USERINFO_CHARACTER</code></nobr>
+</li>
+<li>
+<nobr><code>private static final byte[] fgLookupTable</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void initializeAuthority(java.lang.String, int, int) throws org.apache.xerces.util.URI$MalformedURIException</code></nobr>
+</li>
+<li>
+<nobr><code>private void initializePath(java.lang.String, int) throws org.apache.xerces.util.URI$MalformedURIException</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean isSchemeCharacter(char)</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean isURICharacter(char)</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean isUserinfoCharacter(char)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.XMLAttributesImpl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setAugmentations(int, org.apache.xerces.xni.Augmentations)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.XMLChar</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static boolean isXML11Space(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xerces.util.XMLGrammarPoolImpl</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected int fGrammarCount</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.serialize.BaseMarkupSerializer</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private org.w3c.dom.Node fCurrentNode<br>
+<b>new:</b>protected org.w3c.dom.Node fCurrentNode</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private boolean getFeature(java.lang.String)<br>
+<b>new:</b>protected boolean getFeature(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected final void printCDATAText(java.lang.String) throws java.io.IOException<br>
+<b>new:</b>protected void printCDATAText(java.lang.String) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected final void surrogates(int, int) throws java.io.IOException<br>
+<b>new:</b>protected void surrogates(int, int) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xml.serialize.DOMWriterImpl</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xml.serialize.DOMWriterImpl extends java.lang.Object implements org.w3c.dom.ls.DOMWriter<br>
+<b>new:</b>public class org.apache.xml.serialize.DOMWriterImpl extends java.lang.Object implements org.apache.xerces.dom3.DOMConfiguration, org.w3c.dom.ls.DOMWriter</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public DOMWriterImpl(boolean)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean canSetFeature(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>private void checkAllFeatures()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getFeature(java.lang.String) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean reset()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setFeature(java.lang.String, boolean) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xml.serialize.XML11Serializer xml11Serializer</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public DOMWriterImpl()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean canSetParameter(java.lang.String, java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>private void checkAllFeatures(org.apache.xml.serialize.XMLSerializer)</code></nobr>
+</li>
+<li>
+<nobr><code>private void copySettings(org.apache.xml.serialize.XMLSerializer, org.apache.xml.serialize.XMLSerializer)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xerces.dom3.DOMConfiguration getConfig()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.Object getParameter(java.lang.String) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+<li>
+<nobr><code>private void initSerializer(org.apache.xml.serialize.XMLSerializer)</code></nobr>
+</li>
+<li>
+<nobr><code>private void reset(org.apache.xml.serialize.XMLSerializer)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setParameter(java.lang.String, java.lang.Object) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.serialize.EncodingInfo</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>java.lang.String name</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public EncodingInfo(java.lang.String, int)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getName()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isPrintable(int)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>sun.io.CharToByteConverter fCToB</code></nobr>
+</li>
+<li>
+<nobr><code>boolean fHaveTriedCToB</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String ianaName</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getIANAName()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isPrintable(char)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void testJavaEncodingName(java.lang.String) throws java.io.UnsupportedEncodingException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.serialize.Encodings</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final int DefaultLastPrintable</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static org.apache.xml.serialize.EncodingInfo getEncodingInfo(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final org.apache.xml.serialize.EncodingInfo[] _encodings<br>
+<b>new:</b>static java.util.Hashtable _encodings</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final java.lang.String DEFAULT_ENCODING</code></nobr>
+</li>
+<li>
+<nobr><code>static final int DEFAULT_LAST_PRINTABLE</code></nobr>
+</li>
+<li>
+<nobr><code>static final int LAST_PRINTABLE_UNICODE</code></nobr>
+</li>
+<li>
+<nobr><code>static final java.lang.String[] UNICODE_ENCODINGS</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static org.apache.xml.serialize.EncodingInfo getEncodingInfo(java.lang.String, boolean) throws java.io.UnsupportedEncodingException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.serialize.OutputFormat</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xml.serialize.EncodingInfo getEncodingInfo()<br>
+<b>new:</b>public org.apache.xml.serialize.EncodingInfo getEncodingInfo() throws java.io.UnsupportedEncodingException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean _allowJavaNames</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean setAllowJavaNames()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setAllowJavaNames(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.serialize.XMLSerializer</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected final void printXMLChar(int) throws java.io.IOException<br>
+<b>new:</b>protected void printXMLChar(int) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h3>New Packages:</h3>
+<ul>
+<li>
+<nobr><code>javax.xml.transform</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.transform.dom</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.transform.sax</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.transform.stream</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.opti</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xmlcommons</code></nobr>
+</li>
+<li>
+<nobr><code>org.w3c.dom.css</code></nobr>
+</li>
+<li>
+<nobr><code>org.w3c.dom.stylesheets</code></nobr>
+</li>
+<li>
+<nobr><code>org.w3c.dom.views</code></nobr>
+</li>
+</ul>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xerces.dom3.DOMConfiguration</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.dom3.TypeInfo</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSIDCDefinition<b>[deprecated]</b></code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.psvi.XSNamespaceItemList<b>[deprecated]</b></code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.xni.grammars.XMLDTDDescription</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.xni.grammars.XMLSchemaDescription</code></nobr>
+</li>
+<li>
+<nobr><code>org.w3c.dom.events.MouseEvent</code></nobr>
+</li>
+<li>
+<nobr><code>org.w3c.dom.events.UIEvent</code></nobr>
+</li>
+<li>
+<nobr><code>org.w3c.dom.html.HTMLBlockquoteElement</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>javax.xml.parsers.SecuritySupport12$5</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.parsers.SecuritySupport12$6</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.dom.DOMConfigurationImpl</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.XML11EntityScanner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.XML11NamespaceBinder</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.XMLVersionDetector</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dtd.XML11DTDProcessor</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dtd.XML11DTDValidator</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.dtd.XML11DTDDVFactoryImpl</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.dtd.XML11IDDatatypeValidator</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.dtd.XML11IDREFDatatypeValidator</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.dtd.XML11NMTOKENDatatypeValidator</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.AbstractDateTimeDV$DateTimeData</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.Base64BinaryDV$XBase64</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.DecimalDV$XDecimal</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.DoubleDV$XDouble</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.FloatDV$XFloat</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.HexBinaryDV$XHex</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.IntegerDV</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.ListDV$ListData</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.dv.xs.QNameDV$XQName</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.models.CMNodeFactory</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.impl.xs.util.NSItemListImpl</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.parsers.SecurityConfiguration</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.util.NamespaceSupport$Prefixes</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.util.SecurityManager</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.util.SecuritySupport12$5</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.util.SecuritySupport12$6</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xerces.util.XML11Char</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.serialize.XML11Serializer</code></nobr>
+</li>
 </ul>
 <hr>
 <a name="2.2.1"></a>

@@ -7,11 +7,726 @@
 <h1>Dependency Finder - API Change History</h1>
 
 <ul>
+<li><a href="#1.0beta">20030101 to 1.0 beta</a></li>
 <li><a href="#20030101">20020711 to 20030101</a></li>
 <li><a href="#20020711">20020127 to 20020711</a></li>
 <li><a href="#20020127">20020115 to 20020127</a></li>
 <li><a href="#20020115">20020111 to 20020115</a></li>
 <li><a href="#20020111">20011216 to 20020111</a></li>
+</ul>
+
+<hr />
+
+<a name="1.0beta"></a>
+<h2>20030101 to 1.0beta</h2>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.PrettyPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.classreader.UglyPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.PrettyPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.ClassInheritance</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.ListDiffPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.PrettyPrinter</code></nobr>
+</li>
+</ul>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassfileLoaderEventSource</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoader dir_loader</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoader jar_loader</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoader zip_loader</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.MetricsGatherer</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int chart_size</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int ChartSize()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int chart_maximum</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int ChartMaximum()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.TextPrinter</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Map dependencies</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean show_empty_nodes</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean show_inbounds</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean show_outbounds</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void PreprocessAfterDependenciesClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void PreprocessAfterDependenciesPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+<li>
+<nobr><code>private void PrintDependencies(java.util.Map)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean ShowEmptyNodes()</code></nobr>
+</li>
+<li>
+<nobr><code>public void ShowEmptyNodes(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean ShowInbounds()</code></nobr>
+</li>
+<li>
+<nobr><code>public void ShowInbounds(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean ShowOutbounds()</code></nobr>
+</li>
+<li>
+<nobr><code>public void ShowOutbounds(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassList</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassMetrics</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassReader</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyClosure</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyExtractor</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyMetrics</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyReporter</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.JarJarDiff</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ListDiff</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_DISPOSE</code></nobr>
+</li>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.MeasurementTableCellRenderer</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.awt.Color HIGHLIGHTED_FOREGROUND</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.awt.Color NORMAL_FOREGROUND</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.awt.Color PRIMARY_HIGHLIGHTED_BACKGROUND</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.awt.Color PRIMARY_NORMAL_BACKGROUND</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.awt.Color SECONDARY_HIGHLIGHTED_BACKGROUND</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.awt.Color SECONDARY_NORMAL_BACKGROUND</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void CellContent(javax.swing.JLabel, com.jeantessier.metrics.Measurement, int, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private void HighlightedCell(boolean, int, javax.swing.JLabel)</code></nobr>
+</li>
+<li>
+<nobr><code>private void NormalCell(boolean, int, javax.swing.JLabel)</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_TRACEFILE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.OOMetricsTableModel</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.Integer LOCAL_DISPOSE_STANDARD_DEVIATION</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.metrics.MeasurementDescriptor[] measurement_descriptors</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.metrics.MeasurementDescriptor ColumnDescriptor(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.TableHeaderListener</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class com.jeantessier.dependencyfinder.gui.TableHeaderListener extends java.awt.event.MouseAdapter<br>
+<b>new:</b>class com.jeantessier.dependencyfinder.gui.TableHeaderListener extends java.lang.Object implements java.awt.event.MouseListener, java.awt.event.MouseMotionListener</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$metrics$StatisticalMeasurement</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void mouseDragged(java.awt.event.MouseEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void mouseEntered(java.awt.event.MouseEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void mouseExited(java.awt.event.MouseEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void mouseMoved(java.awt.event.MouseEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void mousePressed(java.awt.event.MouseEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void mouseReleased(java.awt.event.MouseEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.ListBasedValidator</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ListBasedValidator(java.io.File) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Load(java.io.File) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementBase</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementDescriptor</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String Range()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Metrics</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean InRange()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MetricsFactory</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Map included_classes</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Map included_groups</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Map included_methods</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Map included_projects</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Collection AllClassMetrics()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection AllClassNames()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection AllGroupMetrics()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection AllGroupNames()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection AllMethodMetrics()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection AllMethodNames()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection AllProjectMetrics()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection AllProjectNames()</code></nobr>
+</li>
+<li>
+<nobr><code>public void IncludeClassMetrics(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>public void IncludeGroupMetrics(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>public void IncludeMethodMetrics(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>public void IncludeProjectMetrics(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.StatisticalMeasurement</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int DISPOSE_STANDARD_DEVIATION</code></nobr>
+</li>
+<li>
+<nobr><code>private double standard_deviation</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.text.NumberFormat value_format</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.String DisposeAbbreviation(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String DisposeLabel(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public double StandardDeviation()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Packages:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.ant</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.TextPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.ClassClassDiff</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.NullPrintWriter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.VerboseListener</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.ListDiffPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.TextPrinter</code></nobr>
+</li>
 </ul>
 
 <hr />

@@ -6,9 +6,3897 @@
 <body bgcolor="#ffffff">
 <h1>Xalan - API Change History</h1>
 <ul>
+<li><a href="#2.5D1">2.4.1 to 2.5 D1</a></li>
 <li><a href="#2.4.1">2.4.0 to 2.4.1</a></li>
 <li><a href="#2.4.0">2.4 D1 to 2.4.0</a></li>
 <li><a href="#2.4 D1">2.3.1 to 2.4 D1</a></li>
+</ul>
+<hr>
+<a name="2.5D1"></a>
+<h2>2.4.1 to 2.5 D1</h2>
+<h3>Removed Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xpath.DOMOrder</code></nobr>
+</li>
+</ul>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xalan.transformer.TransformerImpl$ThreadControler</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.DOM2Helper</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.DOMHelper</code></nobr>
+</li>
+</ul>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+<h4>
+<code>org.apache.xpath.ExtensionsProvider</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.lang.Object extFunction(org.apache.xpath.functions.FuncExtFunction, java.util.Vector) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLOptionElement</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setSelected(boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setIndex(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLSelectElement</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void add(org.w3c.dom.html.HTMLElement, org.w3c.dom.html.HTMLElement) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract void add(org.w3c.dom.html.HTMLElement, org.w3c.dom.html.HTMLElement)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLTableCellElement</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setCellIndex(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLTableElement</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void deleteRow(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract void deleteRow(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract org.w3c.dom.html.HTMLElement insertRow(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract org.w3c.dom.html.HTMLElement insertRow(int)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLTableRowElement</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void deleteCell(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract void deleteCell(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract org.w3c.dom.html.HTMLElement insertCell(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract org.w3c.dom.html.HTMLElement insertCell(int)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void setCells(org.w3c.dom.html.HTMLCollection)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setRowIndex(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setSectionRowIndex(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.w3c.dom.html.HTMLTableSectionElement</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void deleteRow(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract void deleteRow(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract org.w3c.dom.html.HTMLElement insertRow(int) throws org.w3c.dom.DOMException<br>
+<b>new:</b>public abstract org.w3c.dom.html.HTMLElement insertRow(int)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>javax.xml.parsers.DocumentBuilder</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final boolean DEBUG</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.parsers.FactoryFinder</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static java.util.Properties jaxpProperties</code></nobr>
+</li>
+<li>
+<nobr><code>private static long lastModified</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.parsers.SAXParser</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final boolean DEBUG</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.parsers.SecuritySupport</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getFileExists(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public long getLastModified(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.parsers.SecuritySupport12</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getFileExists(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public long getLastModified(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.transform.FactoryFinder</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static java.util.Properties jaxpProperties</code></nobr>
+</li>
+<li>
+<nobr><code>private static long lastModified</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.transform.SecuritySupport</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getFileExists(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public long getLastModified(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>javax.xml.transform.SecuritySupport12</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getFileExists(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public long getLastModified(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.extensions.ExtensionHandler</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.lang.Object callFunction(org.apache.xpath.functions.FuncExtFunction, java.util.Vector, org.apache.xalan.extensions.ExpressionContext) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.extensions.ExtensionHandlerExsltFunction</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object callFunction(org.apache.xpath.functions.FuncExtFunction, java.util.Vector, org.apache.xalan.extensions.ExpressionContext) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.extensions.ExtensionHandlerGeneral</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object callFunction(org.apache.xpath.functions.FuncExtFunction, java.util.Vector, org.apache.xalan.extensions.ExpressionContext) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.extensions.ExtensionHandlerJavaClass</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object callFunction(org.apache.xpath.functions.FuncExtFunction, java.util.Vector, org.apache.xalan.extensions.ExpressionContext) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.extensions.ExtensionHandlerJavaPackage</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object callFunction(org.apache.xpath.functions.FuncExtFunction, java.util.Vector, org.apache.xalan.extensions.ExpressionContext) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.extensions.ExtensionsTable</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object extFunction(org.apache.xpath.functions.FuncExtFunction, java.util.Vector, org.apache.xalan.extensions.ExpressionContext) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.lib.ExsltStrings</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static org.w3c.dom.Document lDoc</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static org.w3c.dom.Document m_doc</code></nobr>
+</li>
+<li>
+<nobr><code>private static org.apache.xalan.lib.ExsltStrings m_instance</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.lib.Extensions</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static org.w3c.dom.Document lDoc</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static org.w3c.dom.Document m_doc</code></nobr>
+</li>
+<li>
+<nobr><code>private static org.apache.xalan.lib.Extensions m_instance</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.lib.sql.DTMDocument</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void getNodeData(int, org.apache.xml.utils.FastStringBuffer)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.lib.sql.DefaultConnectionPool</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private java.lang.Object m_Driver<br>
+<b>new:</b>private java.sql.Driver m_Driver</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xalan.lib.sql.SQLDocument</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String S_DEFINITLEYWRITABLE</code></nobr>
+</li>
+<li>
+<nobr><code>private int m_ColAttrib_DEFINITLEYWRITEABLE_TypeID</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String S_DEFINITELYWRITABLE</code></nobr>
+</li>
+<li>
+<nobr><code>private int m_ColAttrib_DEFINITELYWRITABLE_TypeID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.ProcessorImport</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected int getStylesheetInclErr()<br>
+<b>new:</b>protected java.lang.String getStylesheetInclErr()</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.ProcessorInclude</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected int getStylesheetInclErr()<br>
+<b>new:</b>protected java.lang.String getStylesheetInclErr()</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.StylesheetHandler</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static org.apache.xalan.res.XSLMessages m_XSLMessages</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean m_xpathFunctionsInited</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void error(int, java.lang.Object[], java.lang.Exception) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLMessages getXSLMessages()</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(int, java.lang.Object[]) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void error(java.lang.String, java.lang.Object[], java.lang.Exception) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(java.lang.String, java.lang.Object[]) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.XSLTAttributeDef</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void handleError(org.apache.xalan.processor.StylesheetHandler, int, java.lang.Object[], java.lang.Exception) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void handleError(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.Object[], java.lang.Exception) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.res.XSLMessages</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.res.XSLMessages extends java.lang.Object<br>
+<b>new:</b>public class org.apache.xalan.res.XSLMessages extends org.apache.xpath.res.XPATHMessages</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static java.lang.String BAD_CODE</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.lang.String FORMAT_FAILED</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.util.ResourceBundle XPATHBundle</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String XPATH_ERROR_RESOURCES</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Locale fLocale</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String createMessage(int, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String createMessage(java.lang.String, int, java.lang.Object[]) throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createMsg(java.util.ResourceBundle, java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createWarning(int, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createXPATHMessage(int, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createXPATHMessage(java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createXPATHMsg(java.util.ResourceBundle, java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createXPATHWarning(int, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Locale getLocale()</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String getResourceSuffix(java.util.Locale)</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.util.ResourceBundle loadResourceBundle(java.lang.String) throws java.util.MissingResourceException</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLocale(java.util.Locale)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.ResourceBundle XSLTBundle<br>
+<b>new:</b>private static java.util.ListResourceBundle XSLTBundle</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String createWarning(java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.res.XSLTErrorResources</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.res.XSLTErrorResources extends java.util.PropertyResourceBundle<br>
+<b>new:</b>public class org.apache.xalan.res.XSLTErrorResources extends java.util.ListResourceBundle</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int ERROR0000</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ERROR_SUFFIX</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_AXIS_NOT_SUPPORTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_AXIS_TRAVERSER_NOT_SUPPORTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CANNOT_CHANGE_WHILE_PARSING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CANNOT_INIT_URI_EMPTY_PARMS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CANNOT_OVERWRITE_CAUSE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CHUNKEDINTARRAY_NOT_SUPPORTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_COJOINROUTINESET_FAILED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_COROUTINE_CO_EXIT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_COROUTINE_NOT_AVAIL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_COROUTINE_PARAM</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_COULD_NOT_INIT_PARSER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_COULD_NOT_RESOLVE_NODE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ERRORHANDLER_CREATED_WITH_NULL_PRINTWRITER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_EXCEPTION_CREATING_POOL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_FRAG_FOR_GENERIC_URI</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_FRAG_INVALID_CHAR</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_FRAG_WHEN_PATH_NULL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_FUNCTION_NOT_SUPPORTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_HOST_ADDRESS_NOT_WELLFORMED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_INCRSAXSRCFILTER_NOT_RESTARTABLE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_INVALID_PORT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ITERATOR_AXIS_NOT_IMPLEMENTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ITERATOR_CLONE_NOT_SUPPORTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_LOCATION_UNKNOWN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_METHOD_NOT_SUPPORTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NODE_NON_NULL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_DEFAULT_IMPL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_DTMIDS_AVAIL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_FRAGMENT_STRING_IN_PATH</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_PARSE_CALL_WHILE_PARSING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_PORT_IF_NO_HOST</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_QUERY_STRING_IN_PATH</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_SCHEME_INURI</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_SCHEME_IN_URI</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_USERINFO_IF_NO_HOST</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_OFFSET_BIGGER_THAN_SLOT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_PARSER_DOTERMINATE_ANSWERS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_PARSER_IN_USE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_PATH_CONTAINS_INVALID_ESCAPE_SEQUENCE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_PATH_INVALID_CHAR</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_PORT_WHEN_HOST_NULL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_SCHEME_FROM_NULL_STRING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_SCHEME_NOT_CONFORMANT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_SCHEME_REQUIRED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_SELF_CAUSATION_NOT_PERMITTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_STARTPARSE_NEEDS_SAXPARSER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_STARTPARSE_WHILE_PARSING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_SYSTEMID_UNKNOWN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_TYPED_ITERATOR_AXIS_NOT_IMPLEMENTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_UNKNOWN_AXIS_TYPE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_XMLRDR_NOT_BEFORE_STARTPARSE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String WARNING_SUFFIX</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_BOOLEAN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_ENUM</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_NCNAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_NMTOKEN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_NUMBER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_QNAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_TCHAR</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XSLTErrorResources(java.io.InputStream) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.String getMKey(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String getMessageKey(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String getWKey(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String getWarningKey(int)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ARG_LITERAL<br>
+<b>new:</b>public static final java.lang.String ER_ARG_LITERAL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ASSERT_NO_TEMPLATE_PARENT<br>
+<b>new:</b>public static final java.lang.String ER_ASSERT_NO_TEMPLATE_PARENT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ASSERT_REDUNDENT_EXPR_ELIMINATOR<br>
+<b>new:</b>public static final java.lang.String ER_ASSERT_REDUNDENT_EXPR_ELIMINATOR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ATTRIB_VALUE_NOT_FOUND<br>
+<b>new:</b>public static final java.lang.String ER_ATTRIB_VALUE_NOT_FOUND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ATTRIB_VALUE_NOT_RECOGNIZED<br>
+<b>new:</b>public static final java.lang.String ER_ATTRIB_VALUE_NOT_RECOGNIZED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ATTR_NOT_ALLOWED<br>
+<b>new:</b>public static final java.lang.String ER_ATTR_NOT_ALLOWED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_BAD_STYLESHEET_URL<br>
+<b>new:</b>public static final java.lang.String ER_BAD_STYLESHEET_URL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_BAD_VALUE<br>
+<b>new:</b>public static final java.lang.String ER_BAD_VALUE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_BAD_VAL_ON_LEVEL_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_BAD_VAL_ON_LEVEL_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_BAD_XSLSORT_USE<br>
+<b>new:</b>public static final java.lang.String ER_BAD_XSLSORT_USE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_BUFFER_SIZE_LESSTHAN_ZERO<br>
+<b>new:</b>public static final java.lang.String ER_BUFFER_SIZE_LESSTHAN_ZERO</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CALL_TO_EXT_FAILED<br>
+<b>new:</b>public static final java.lang.String ER_CALL_TO_EXT_FAILED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_ADD<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_ADD</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_BUILD_FORMATTERLISTENER_IN_REDIRECT<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_BUILD_FORMATTERLISTENER_IN_REDIRECT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_CALL_PARSE<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_CALL_PARSE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_CMPL_EXTENSN<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_CMPL_EXTENSN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_CREATE_EXTENSN<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_CREATE_EXTENSN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_INIT_BSFMGR<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_INIT_BSFMGR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_INIT_DEFAULT_TEMPLATES<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_INIT_DEFAULT_TEMPLATES</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_MIX_XERCESDOM<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_MIX_XERCESDOM</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_SERIALIZE_XSLPROCESSOR<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_SERIALIZE_XSLPROCESSOR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_TRANSFORM_SOURCE_TYPE<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_TRANSFORM_SOURCE_TYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_TRANSFORM_TO_RESULT_TYPE<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_TRANSFORM_TO_RESULT_TYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CREATE_ITEM<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CREATE_ITEM</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CREATE_URL<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CREATE_URL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_RESOLVE_NAME_AVT<br>
+<b>new:</b>public static final java.lang.String ER_CANT_RESOLVE_NAME_AVT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_RESOLVE_NSPREFIX<br>
+<b>new:</b>public static final java.lang.String ER_CANT_RESOLVE_NSPREFIX</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_RESOLVE_PREFIX_OF_NON_PREFIX_RESOLVER<br>
+<b>new:</b>public static final java.lang.String ER_CANT_RESOLVE_PREFIX_OF_NON_PREFIX_RESOLVER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_USE_DTM_FOR_INPUT<br>
+<b>new:</b>public static final java.lang.String ER_CANT_USE_DTM_FOR_INPUT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_USE_DTM_FOR_OUTPUT<br>
+<b>new:</b>public static final java.lang.String ER_CANT_USE_DTM_FOR_OUTPUT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CAN_ONLY_OUTPUT_TO_ELEMENT<br>
+<b>new:</b>public static final java.lang.String ER_CAN_ONLY_OUTPUT_TO_ELEMENT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CHARS_NOT_ALLOWED<br>
+<b>new:</b>public static final java.lang.String ER_CHARS_NOT_ALLOWED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CHOOSE_REQUIRES_WHEN<br>
+<b>new:</b>public static final java.lang.String ER_CHOOSE_REQUIRES_WHEN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CLASS_NOT_FOUND_FOR_OPTION<br>
+<b>new:</b>public static final java.lang.String ER_CLASS_NOT_FOUND_FOR_OPTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULDNT_FIND_FRAGMENT<br>
+<b>new:</b>public static final java.lang.String ER_COULDNT_FIND_FRAGMENT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULDNT_PARSE_DOC<br>
+<b>new:</b>public static final java.lang.String ER_COULDNT_PARSE_DOC</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULD_NOT_CREATE_TRACELISTENER<br>
+<b>new:</b>public static final java.lang.String ER_COULD_NOT_CREATE_TRACELISTENER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULD_NOT_CREATE_XML_PROC_LIAISON<br>
+<b>new:</b>public static final java.lang.String ER_COULD_NOT_CREATE_XML_PROC_LIAISON</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULD_NOT_FIND_EXTERN_SCRIPT<br>
+<b>new:</b>public static final java.lang.String ER_COULD_NOT_FIND_EXTERN_SCRIPT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULD_NOT_LOAD_RESOURCE<br>
+<b>new:</b>public static final java.lang.String ER_COULD_NOT_LOAD_RESOURCE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CURRENCY_SIGN_ILLEGAL<br>
+<b>new:</b>public static final java.lang.String ER_CURRENCY_SIGN_ILLEGAL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DEFAULTSPACE_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String ER_DEFAULTSPACE_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DOCUMENT_FUNCTION_INVALID_IN_STYLESHEET_DOM<br>
+<b>new:</b>public static final java.lang.String ER_DOCUMENT_FUNCTION_INVALID_IN_STYLESHEET_DOM</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DUPLICATE_GLOBAL_VAR<br>
+<b>new:</b>public static final java.lang.String ER_DUPLICATE_GLOBAL_VAR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DUPLICATE_NAMED_TEMPLATE<br>
+<b>new:</b>public static final java.lang.String ER_DUPLICATE_NAMED_TEMPLATE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DUPLICATE_VAR<br>
+<b>new:</b>public static final java.lang.String ER_DUPLICATE_VAR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ELEMENT_NAME_METHOD_STATIC<br>
+<b>new:</b>public static final java.lang.String ER_ELEMENT_NAME_METHOD_STATIC</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ELEMTEMPLATEELEM_ERR<br>
+<b>new:</b>public static final java.lang.String ER_ELEMTEMPLATEELEM_ERR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ELEM_CONTENT_NOT_ALLOWED<br>
+<b>new:</b>public static final java.lang.String ER_ELEM_CONTENT_NOT_ALLOWED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ENCODING_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String ER_ENCODING_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ERRORLISTENER<br>
+<b>new:</b>public static final java.lang.String ER_ERRORLISTENER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXTENSION_FUNC_UNKNOWN<br>
+<b>new:</b>public static final java.lang.String ER_EXTENSION_FUNC_UNKNOWN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FAILED_CALLING_METHOD<br>
+<b>new:</b>public static final java.lang.String ER_FAILED_CALLING_METHOD</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FAILED_CREATING_ELEMLITRSLT<br>
+<b>new:</b>public static final java.lang.String ER_FAILED_CREATING_ELEMLITRSLT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FAILED_CREATING_ELEMTMPL<br>
+<b>new:</b>public static final java.lang.String ER_FAILED_CREATING_ELEMTMPL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FAILED_PROCESS_STYLESHEET<br>
+<b>new:</b>public static final java.lang.String ER_FAILED_PROCESS_STYLESHEET</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FILE_CANNOT_BE_NULL<br>
+<b>new:</b>public static final java.lang.String ER_FILE_CANNOT_BE_NULL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FILE_NOT_FOUND<br>
+<b>new:</b>public static final java.lang.String ER_FILE_NOT_FOUND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FOREACH_NEED_MATCH_OR_NAME_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_FOREACH_NEED_MATCH_OR_NAME_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ILLEGAL_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_ILLEGAL_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ILLEGAL_ATTRIBUTE<br>
+<b>new:</b>public static final java.lang.String ER_ILLEGAL_ATTRIBUTE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ILLEGAL_ATTRIBUTE_VALUE<br>
+<b>new:</b>public static final java.lang.String ER_ILLEGAL_ATTRIBUTE_VALUE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ILLEGAL_DOMSOURCE_INPUT<br>
+<b>new:</b>public static final java.lang.String ER_ILLEGAL_DOMSOURCE_INPUT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ILLEGAL_VALUE<br>
+<b>new:</b>public static final java.lang.String ER_ILLEGAL_VALUE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ILLEGAL_XMLSPACE_VALUE<br>
+<b>new:</b>public static final java.lang.String ER_ILLEGAL_XMLSPACE_VALUE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_IMPORTING_ITSELF<br>
+<b>new:</b>public static final java.lang.String ER_IMPORTING_ITSELF</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_IMPORTS_AS_FIRST_ELEM<br>
+<b>new:</b>public static final java.lang.String ER_IMPORTS_AS_FIRST_ELEM</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INDENTRESULT_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String ER_INDENTRESULT_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INPUT_CANNOT_BE_NULL<br>
+<b>new:</b>public static final java.lang.String ER_INPUT_CANNOT_BE_NULL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INSTANCE_MTHD_CALL_REQUIRES<br>
+<b>new:</b>public static final java.lang.String ER_INSTANCE_MTHD_CALL_REQUIRES</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_CONTEXT_PASSED<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_CONTEXT_PASSED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_DRIVER<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_DRIVER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_DRIVER_NAME<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_DRIVER_NAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_ELEMENT_NAME<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_ELEMENT_NAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_KEY_CALL<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_KEY_CALL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_OPTION<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_OPTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_PREFIX<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_PREFIX</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_PREFIX_IN_EXCLUDERESULTPREFIX<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_PREFIX_IN_EXCLUDERESULTPREFIX</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_UTF16_SURROGATE<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_UTF16_SURROGATE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_IN_ELEMTEMPLATEELEM_READOBJECT<br>
+<b>new:</b>public static final java.lang.String ER_IN_ELEMTEMPLATEELEM_READOBJECT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_IOEXCEPTION<br>
+<b>new:</b>public static final java.lang.String ER_IOEXCEPTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_KEY_REQUIRES_MATCH_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_KEY_REQUIRES_MATCH_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_KEY_REQUIRES_NAME_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_KEY_REQUIRES_NAME_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_KEY_REQUIRES_USE_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_KEY_REQUIRES_USE_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MALFORMED_FORMAT_STRING<br>
+<b>new:</b>public static final java.lang.String ER_MALFORMED_FORMAT_STRING</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MISPLACED_XSLOTHERWISE<br>
+<b>new:</b>public static final java.lang.String ER_MISPLACED_XSLOTHERWISE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MISPLACED_XSLWHEN<br>
+<b>new:</b>public static final java.lang.String ER_MISPLACED_XSLWHEN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MISSING_ARG_FOR_OPTION<br>
+<b>new:</b>public static final java.lang.String ER_MISSING_ARG_FOR_OPTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MISSING_CONTAINER_ELEMENT_COMPONENT<br>
+<b>new:</b>public static final java.lang.String ER_MISSING_CONTAINER_ELEMENT_COMPONENT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MISSING_LANG_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_MISSING_LANG_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MISSING_NS_URI<br>
+<b>new:</b>public static final java.lang.String ER_MISSING_NS_URI</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MISSING_PREFIX_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_MISSING_PREFIX_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MORE_MATCH_CONSTRUCTOR<br>
+<b>new:</b>public static final java.lang.String ER_MORE_MATCH_CONSTRUCTOR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MORE_MATCH_ELEMENT<br>
+<b>new:</b>public static final java.lang.String ER_MORE_MATCH_ELEMENT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MORE_MATCH_METHOD<br>
+<b>new:</b>public static final java.lang.String ER_MORE_MATCH_METHOD</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_MUST_HAVE_TEST_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_MUST_HAVE_TEST_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NEED_MATCH_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_NEED_MATCH_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NEED_NAME_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_NEED_NAME_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NEED_NAME_OR_MATCH_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_NEED_NAME_OR_MATCH_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NEED_SELECT_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_NEED_SELECT_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NEED_TEST_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_NEED_TEST_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NODE_NOT_ELEMENT<br>
+<b>new:</b>public static final java.lang.String ER_NODE_NOT_ELEMENT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NONWHITESPACE_NOT_ALLOWED_IN_POSITION<br>
+<b>new:</b>public static final java.lang.String ER_NONWHITESPACE_NOT_ALLOWED_IN_POSITION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NOT_ALLOWED_INSIDE_STYLESHEET<br>
+<b>new:</b>public static final java.lang.String ER_NOT_ALLOWED_INSIDE_STYLESHEET</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NOT_ALLOWED_INSIDE_TEMPLATE<br>
+<b>new:</b>public static final java.lang.String ER_NOT_ALLOWED_INSIDE_TEMPLATE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NOT_ALLOWED_IN_POSITION<br>
+<b>new:</b>public static final java.lang.String ER_NOT_ALLOWED_IN_POSITION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NOT_SUCCESSFUL<br>
+<b>new:</b>public static final java.lang.String ER_NOT_SUCCESSFUL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String ER_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_APPLY_IMPORT_IN_FOR_EACH<br>
+<b>new:</b>public static final java.lang.String ER_NO_APPLY_IMPORT_IN_FOR_EACH</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_ATTRIB_SET<br>
+<b>new:</b>public static final java.lang.String ER_NO_ATTRIB_SET</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_CLONE_OF_DOCUMENT_FRAG<br>
+<b>new:</b>public static final java.lang.String ER_NO_CLONE_OF_DOCUMENT_FRAG</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_CONTEXT_OWNERDOC<br>
+<b>new:</b>public static final java.lang.String ER_NO_CONTEXT_OWNERDOC</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_CURLYBRACE<br>
+<b>new:</b>public static final java.lang.String ER_NO_CURLYBRACE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_DRIVER_NAME<br>
+<b>new:</b>public static final java.lang.String ER_NO_DRIVER_NAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_DRIVER_NAME_SPECIFIED<br>
+<b>new:</b>public static final java.lang.String ER_NO_DRIVER_NAME_SPECIFIED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_HREF_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_NO_HREF_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_INPUT_STYLESHEET<br>
+<b>new:</b>public static final java.lang.String ER_NO_INPUT_STYLESHEET</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_NAMESPACE_DECL<br>
+<b>new:</b>public static final java.lang.String ER_NO_NAMESPACE_DECL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_NAME_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_NO_NAME_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_OUTPUT_SPECIFIED<br>
+<b>new:</b>public static final java.lang.String ER_NO_OUTPUT_SPECIFIED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_OWNERDOC<br>
+<b>new:</b>public static final java.lang.String ER_NO_OWNERDOC</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_PARENT_FOR_FILTER<br>
+<b>new:</b>public static final java.lang.String ER_NO_PARENT_FOR_FILTER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_SELECT_EXPRESSION<br>
+<b>new:</b>public static final java.lang.String ER_NO_SELECT_EXPRESSION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_STYLESHEETROOT<br>
+<b>new:</b>public static final java.lang.String ER_NO_STYLESHEETROOT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_STYLESHEET_IN_MEDIA<br>
+<b>new:</b>public static final java.lang.String ER_NO_STYLESHEET_IN_MEDIA</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_STYLESHEET_PI<br>
+<b>new:</b>public static final java.lang.String ER_NO_STYLESHEET_PI</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_URL<br>
+<b>new:</b>public static final java.lang.String ER_NO_URL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_URL_SPECIFIED<br>
+<b>new:</b>public static final java.lang.String ER_NO_URL_SPECIFIED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NO_XSLKEY_DECLARATION<br>
+<b>new:</b>public static final java.lang.String ER_NO_XSLKEY_DECLARATION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NULL_CHILD<br>
+<b>new:</b>public static final java.lang.String ER_NULL_CHILD</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NULL_CONTENT_HANDLER<br>
+<b>new:</b>public static final java.lang.String ER_NULL_CONTENT_HANDLER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NULL_ERROR_HANDLER<br>
+<b>new:</b>public static final java.lang.String ER_NULL_ERROR_HANDLER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NULL_SOURCENODE_APPLYIMPORTS<br>
+<b>new:</b>public static final java.lang.String ER_NULL_SOURCENODE_APPLYIMPORTS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NULL_SOURCENODE_HANDLEAPPLYTEMPLATES<br>
+<b>new:</b>public static final java.lang.String ER_NULL_SOURCENODE_HANDLEAPPLYTEMPLATES</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NULL_URI_NAMESPACE<br>
+<b>new:</b>public static final java.lang.String ER_NULL_URI_NAMESPACE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NUMBER_TOO_BIG<br>
+<b>new:</b>public static final java.lang.String ER_NUMBER_TOO_BIG</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ONE_OR_TWO<br>
+<b>new:</b>public static final java.lang.String ER_ONE_OR_TWO</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_OUTPUT_PROPERTY_NOT_RECOGNIZED<br>
+<b>new:</b>public static final java.lang.String ER_OUTPUT_PROPERTY_NOT_RECOGNIZED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_POOLSIZE_LESS_THAN_ONE<br>
+<b>new:</b>public static final java.lang.String ER_POOLSIZE_LESS_THAN_ONE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_POOL_EXISTS<br>
+<b>new:</b>public static final java.lang.String ER_POOL_EXISTS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_POOL_SIZE_LESSTHAN_ONE<br>
+<b>new:</b>public static final java.lang.String ER_POOL_SIZE_LESSTHAN_ONE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PREFIX_MUST_RESOLVE<br>
+<b>new:</b>public static final java.lang.String ER_PREFIX_MUST_RESOLVE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROCESSFROMNODE_FAILED<br>
+<b>new:</b>public static final java.lang.String ER_PROCESSFROMNODE_FAILED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROCESSINCLUDE_ERROR<br>
+<b>new:</b>public static final java.lang.String ER_PROCESSINCLUDE_ERROR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROCESSINGINSTRUCTION_NAME_CANT_BE_XML<br>
+<b>new:</b>public static final java.lang.String ER_PROCESSINGINSTRUCTION_NAME_CANT_BE_XML</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROCESSINGINSTRUCTION_NOTVALID_NCNAME<br>
+<b>new:</b>public static final java.lang.String ER_PROCESSINGINSTRUCTION_NOTVALID_NCNAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROCESSOR_ERROR<br>
+<b>new:</b>public static final java.lang.String ER_PROCESSOR_ERROR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROCESSSTYLESHEET_NOT_SUCCESSFUL<br>
+<b>new:</b>public static final java.lang.String ER_PROCESSSTYLESHEET_NOT_SUCCESSFUL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROCESS_ERROR<br>
+<b>new:</b>public static final java.lang.String ER_PROCESS_ERROR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROCESS_NOT_SUCCESSFUL<br>
+<b>new:</b>public static final java.lang.String ER_PROCESS_NOT_SUCCESSFUL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROPERTY_VALUE_BOOLEAN<br>
+<b>new:</b>public static final java.lang.String ER_PROPERTY_VALUE_BOOLEAN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_REDIRECT_COULDNT_GET_FILENAME<br>
+<b>new:</b>public static final java.lang.String ER_REDIRECT_COULDNT_GET_FILENAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_REFERENCING_ITSELF<br>
+<b>new:</b>public static final java.lang.String ER_REFERENCING_ITSELF</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_REQUIRED_ELEM_NOT_FOUND<br>
+<b>new:</b>public static final java.lang.String ER_REQUIRED_ELEM_NOT_FOUND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_REQUIRES_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_REQUIRES_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_REQUIRES_ELEMENTS_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_REQUIRES_ELEMENTS_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_RESOURCE_COULD_NOT_FIND<br>
+<b>new:</b>public static final java.lang.String ER_RESOURCE_COULD_NOT_FIND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_RESOURCE_COULD_NOT_LOAD<br>
+<b>new:</b>public static final java.lang.String ER_RESOURCE_COULD_NOT_LOAD</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_RESULTNS_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String ER_RESULTNS_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_RESULT_COULD_NOT_BE_SET<br>
+<b>new:</b>public static final java.lang.String ER_RESULT_COULD_NOT_BE_SET</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_RESULT_NULL<br>
+<b>new:</b>public static final java.lang.String ER_RESULT_NULL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_SAX_EXCEPTION<br>
+<b>new:</b>public static final java.lang.String ER_SAX_EXCEPTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_SOURCE_CANNOT_BE_NULL<br>
+<b>new:</b>public static final java.lang.String ER_SOURCE_CANNOT_BE_NULL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_STYLESHEET_DIRECTED_TERMINATION<br>
+<b>new:</b>public static final java.lang.String ER_STYLESHEET_DIRECTED_TERMINATION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_STYLESHEET_INCLUDES_ITSELF<br>
+<b>new:</b>public static final java.lang.String ER_STYLESHEET_INCLUDES_ITSELF</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_STYLESHEET_REQUIRES_VERSION_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_STYLESHEET_REQUIRES_VERSION_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_TEMPLATES_NEED_MATCH_OR_NAME_ATTRIB<br>
+<b>new:</b>public static final java.lang.String ER_TEMPLATES_NEED_MATCH_OR_NAME_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_TEMPLATE_NAME_MATCH<br>
+<b>new:</b>public static final java.lang.String ER_TEMPLATE_NAME_MATCH</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_TEMPLATE_NOT_FOUND<br>
+<b>new:</b>public static final java.lang.String ER_TEMPLATE_NOT_FOUND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_TOO_MANY_LISTENERS<br>
+<b>new:</b>public static final java.lang.String ER_TOO_MANY_LISTENERS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_TWO_OR_THREE<br>
+<b>new:</b>public static final java.lang.String ER_TWO_OR_THREE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNIMPLNODE_ERROR<br>
+<b>new:</b>public static final java.lang.String ER_UNIMPLNODE_ERROR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNKNOWN_ERROR_CALLING_EXTENSION<br>
+<b>new:</b>public static final java.lang.String ER_UNKNOWN_ERROR_CALLING_EXTENSION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNKNOWN_EXT_NS_PREFIX<br>
+<b>new:</b>public static final java.lang.String ER_UNKNOWN_EXT_NS_PREFIX</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNKNOWN_XSL_ELEM<br>
+<b>new:</b>public static final java.lang.String ER_UNKNOWN_XSL_ELEM</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_URI_CANNOT_BE_NULL<br>
+<b>new:</b>public static final java.lang.String ER_URI_CANNOT_BE_NULL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_VALUE_SHOULD_BE_NUMBER<br>
+<b>new:</b>public static final java.lang.String ER_VALUE_SHOULD_BE_NUMBER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_VALUE_SHOULD_EQUAL<br>
+<b>new:</b>public static final java.lang.String ER_VALUE_SHOULD_EQUAL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XMLSPACE_ILLEGAL_VAL<br>
+<b>new:</b>public static final java.lang.String ER_XMLSPACE_ILLEGAL_VAL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XMLSPACE_ILLEGAL_VALUE<br>
+<b>new:</b>public static final java.lang.String ER_XMLSPACE_ILLEGAL_VALUE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XSLATTRSET_USED_ITSELF<br>
+<b>new:</b>public static final java.lang.String ER_XSLATTRSET_USED_ITSELF</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XSLFUNCTIONS_UNSUPPORTED<br>
+<b>new:</b>public static final java.lang.String ER_XSLFUNCTIONS_UNSUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XSLOTHERWISE_NOT_PARENTED_BY_XSLCHOOSE<br>
+<b>new:</b>public static final java.lang.String ER_XSLOTHERWISE_NOT_PARENTED_BY_XSLCHOOSE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XSLT_ERROR<br>
+<b>new:</b>public static final java.lang.String ER_XSLT_ERROR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XSLWHEN_NOT_PARENTED_BY_XSLCHOOSE<br>
+<b>new:</b>public static final java.lang.String ER_XSLWHEN_NOT_PARENTED_BY_XSLCHOOSE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int INVALID_BOOLEAN<br>
+<b>new:</b>public static final java.lang.String INVALID_BOOLEAN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int INVALID_ENUM<br>
+<b>new:</b>public static final java.lang.String INVALID_ENUM</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int INVALID_NCNAME<br>
+<b>new:</b>public static final java.lang.String INVALID_NCNAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int INVALID_NMTOKEN<br>
+<b>new:</b>public static final java.lang.String INVALID_NMTOKEN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int INVALID_NUMBER<br>
+<b>new:</b>public static final java.lang.String INVALID_NUMBER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int INVALID_QNAME<br>
+<b>new:</b>public static final java.lang.String INVALID_QNAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int INVALID_TCHAR<br>
+<b>new:</b>public static final java.lang.String INVALID_TCHAR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ATTRIB_NOT_HANDLED<br>
+<b>new:</b>public static final java.lang.String WG_ATTRIB_NOT_HANDLED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ATTR_TEMPLATE<br>
+<b>new:</b>public static final java.lang.String WG_ATTR_TEMPLATE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_CANNOT_FIND_COLLATOR<br>
+<b>new:</b>public static final java.lang.String WG_CANNOT_FIND_COLLATOR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_CANNOT_LOAD_REQUESTED_DOC<br>
+<b>new:</b>public static final java.lang.String WG_CANNOT_LOAD_REQUESTED_DOC</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_CANNOT_MAKE_URL_FROM<br>
+<b>new:</b>public static final java.lang.String WG_CANNOT_MAKE_URL_FROM</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_CONFLICT_BETWEEN_XSLSTRIPSPACE_AND_XSLPRESERVESPACE<br>
+<b>new:</b>public static final java.lang.String WG_CONFLICT_BETWEEN_XSLSTRIPSPACE_AND_XSLPRESERVESPACE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_COULD_NOT_RESOLVE_PREFIX<br>
+<b>new:</b>public static final java.lang.String WG_COULD_NOT_RESOLVE_PREFIX</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_COUNT_ATTRIB_MATCHES_NO_ANCESTOR<br>
+<b>new:</b>public static final java.lang.String WG_COUNT_ATTRIB_MATCHES_NO_ANCESTOR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_EMPTY_SECOND_ARG<br>
+<b>new:</b>public static final java.lang.String WG_EMPTY_SECOND_ARG</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ENCODING_NOT_SUPPORTED_USING_JAVA<br>
+<b>new:</b>public static final java.lang.String WG_ENCODING_NOT_SUPPORTED_USING_JAVA</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ENCODING_NOT_SUPPORTED_USING_UTF8<br>
+<b>new:</b>public static final java.lang.String WG_ENCODING_NOT_SUPPORTED_USING_UTF8</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_EXPR_ATTRIB_CHANGED_TO_SELECT<br>
+<b>new:</b>public static final java.lang.String WG_EXPR_ATTRIB_CHANGED_TO_SELECT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_FOUND_CURLYBRACE<br>
+<b>new:</b>public static final java.lang.String WG_FOUND_CURLYBRACE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_FUNCTIONS_SHOULD_USE_URL<br>
+<b>new:</b>public static final java.lang.String WG_FUNCTIONS_SHOULD_USE_URL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ILLEGAL_ATTRIBUTE<br>
+<b>new:</b>public static final java.lang.String WG_ILLEGAL_ATTRIBUTE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ILLEGAL_ATTRIBUTE_NAME<br>
+<b>new:</b>public static final java.lang.String WG_ILLEGAL_ATTRIBUTE_NAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ILLEGAL_ATTRIBUTE_POSITION<br>
+<b>new:</b>public static final java.lang.String WG_ILLEGAL_ATTRIBUTE_POSITION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ILLEGAL_ATTRIBUTE_VALUE<br>
+<b>new:</b>public static final java.lang.String WG_ILLEGAL_ATTRIBUTE_VALUE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_LOCALE_NOT_FOUND<br>
+<b>new:</b>public static final java.lang.String WG_LOCALE_NOT_FOUND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_NO_DECIMALFORMAT_DECLARATION<br>
+<b>new:</b>public static final java.lang.String WG_NO_DECIMALFORMAT_DECLARATION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_NO_LOCALE_IN_FORMATNUMBER<br>
+<b>new:</b>public static final java.lang.String WG_NO_LOCALE_IN_FORMATNUMBER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_OLD_XSLT_NS<br>
+<b>new:</b>public static final java.lang.String WG_OLD_XSLT_NS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ONE_DEFAULT_XSLDECIMALFORMAT_ALLOWED<br>
+<b>new:</b>public static final java.lang.String WG_ONE_DEFAULT_XSLDECIMALFORMAT_ALLOWED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_PARSING_AND_PREPARING<br>
+<b>new:</b>public static final java.lang.String WG_PARSING_AND_PREPARING</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_PROCESSINGINSTRUCTION_NAME_CANT_BE_XML<br>
+<b>new:</b>public static final java.lang.String WG_PROCESSINGINSTRUCTION_NAME_CANT_BE_XML</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_PROCESSINGINSTRUCTION_NOTVALID_NCNAME<br>
+<b>new:</b>public static final java.lang.String WG_PROCESSINGINSTRUCTION_NOTVALID_NCNAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_SPECIFICITY_CONFLICTS<br>
+<b>new:</b>public static final java.lang.String WG_SPECIFICITY_CONFLICTS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_STYLESHEET_REQUIRES_VERSION_ATTRIB<br>
+<b>new:</b>public static final java.lang.String WG_STYLESHEET_REQUIRES_VERSION_ATTRIB</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_XSLDECIMALFORMAT_NAMES_MUST_BE_UNIQUE<br>
+<b>new:</b>public static final java.lang.String WG_XSLDECIMALFORMAT_NAMES_MUST_BE_UNIQUE</code></nobr>
+</p>
+</blockquote>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public XSLTErrorResources() throws java.io.IOException<br>
+<b>new:</b>public XSLTErrorResources()</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final java.util.ResourceBundle loadResourceBundle(java.lang.String) throws java.util.MissingResourceException<br>
+<b>new:</b>public static final org.apache.xalan.res.XSLTErrorResources loadResourceBundle(java.lang.String) throws java.util.MissingResourceException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String ER_CANNOT_FIND_SAX1_DRIVER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_FEATURE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_NULL_DTD_HANDLER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_NULL_ENTITY_RESOLVER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_PARSER_ARG_CANNOT_BE_NULL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_PARSER_PROPERTY_NOT_SPECIFIED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_PROPERTY</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_SAX1_DRIVER_NOT_IMPLEMENT_PARSER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_SAX1_DRIVER_NOT_INSTANTIATED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ER_SAX1_DRIVER_NOT_LOADED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_CODE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_MESSAGES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_OTHERS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_WARNING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.Object[][] contents</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object[][] getContents()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.serialize.Encodings</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.util.Hashtable _encodingTableKeyJava</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.util.Hashtable _encodingTableKeyMime</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.Constants</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.templates.Constants extends java.lang.Object<br>
+<b>new:</b>public class org.apache.xalan.templates.Constants extends org.apache.xml.utils.Constants</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String S_BUILTIN_EXTENSIONS_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_BUILTIN_OLD_EXTENSIONS_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_COMMON_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_DATETIME_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_DYNAMIC_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_FUNCTIONS_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_MATH_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_SETS_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_STRINGS_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_JAVA_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_LOTUSXSL_JAVA_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_OLD_JAVA_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_PIPE_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_REDIRECT_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_SQL_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_XALANLIB_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_OLDXSLNAMESPACEURL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_VENDOR</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_VENDORURL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_XMLNAMESPACEURI</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_XSLNAMESPACEURL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final double XSLTVERSUPPORTED</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemExsltFunction</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int _resultIndex</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int getResultIndex()</code></nobr>
+</li>
+<li>
+<nobr><code>void setResultIndex(int)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int m_callerFrameSize</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean m_isResultSet</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.xpath.objects.XObject m_result</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void clearResult()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.objects.XObject getResult()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isResultSet()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setCallerFrameSize(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setResult(org.apache.xpath.objects.XObject)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemTemplateElement</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(int, java.lang.Object[])</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>void executeNSDecls(org.apache.xalan.transformer.TransformerImpl, java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>void unexecuteNSDecls(org.apache.xalan.transformer.TransformerImpl, java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.FuncDocument</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(org.apache.xpath.XPathContext, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(org.apache.xpath.XPathContext, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(org.apache.xpath.XPathContext, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(org.apache.xpath.XPathContext, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.FuncFormatNumb</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void warn(org.apache.xpath.XPathContext, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void warn(org.apache.xpath.XPathContext, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.OutputProperties</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private transient java.util.Hashtable m_propertiesLevels</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void checkDuplicates(org.apache.xalan.templates.OutputProperties) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class[] access$000()</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Object[] access$100()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.transformer.MsgMgr</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static org.apache.xalan.res.XSLMessages m_XSLMessages</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, int, java.lang.Exception) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, int, java.lang.Object[], java.lang.Exception) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, org.w3c.dom.Node, org.w3c.dom.Node, int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, org.w3c.dom.Node, org.w3c.dom.Node, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(javax.xml.transform.SourceLocator, int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(javax.xml.transform.SourceLocator, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(javax.xml.transform.SourceLocator, org.w3c.dom.Node, org.w3c.dom.Node, int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(javax.xml.transform.SourceLocator, org.w3c.dom.Node, org.w3c.dom.Node, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, java.lang.String, java.lang.Exception) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, java.lang.String, java.lang.Object[], java.lang.Exception) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, org.w3c.dom.Node, org.w3c.dom.Node, java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(javax.xml.transform.SourceLocator, org.w3c.dom.Node, org.w3c.dom.Node, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(javax.xml.transform.SourceLocator, java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(javax.xml.transform.SourceLocator, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(javax.xml.transform.SourceLocator, org.w3c.dom.Node, org.w3c.dom.Node, java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(javax.xml.transform.SourceLocator, org.w3c.dom.Node, org.w3c.dom.Node, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.transformer.TransformerImpl</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static org.apache.xalan.transformer.TransformerImpl$ThreadControler tpool</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void setThreadControler(org.apache.xalan.transformer.TransformerImpl$ThreadControler)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object extFunction(org.apache.xpath.functions.FuncExtFunction, java.util.Vector) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.DTMManager</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$org$apache$xml$dtm$DTMManager</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.lang.String foundFactory</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.lang.String findFactory(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.ref.DTMNodeList</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>org.apache.xml.dtm.DTMIterator getDTMIterator()<br>
+<b>new:</b>public org.apache.xml.dtm.DTMIterator getDTMIterator()</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.ref.sax2dtm.SAX2DTM</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static boolean m_source_location</code></nobr>
+</li>
+<li>
+<nobr><code>private transient java.lang.String m_systemId</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void setUseSourceLocation(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.AttList</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public AttList(org.w3c.dom.NamedNodeMap, org.apache.xpath.DOMHelper)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>org.apache.xpath.DOMHelper m_dh<br>
+<b>new:</b>org.apache.xml.utils.DOMHelper m_dh</code></nobr>
+</p>
+</blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public AttList(org.w3c.dom.NamedNodeMap, org.apache.xml.utils.DOMHelper)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.PrefixResolverDefault</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String S_XMLNAMESPACEURI</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.SystemIDResolver</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static java.lang.String getAbsoluteURI(java.lang.String) throws javax.xml.transform.TransformerException<br>
+<b>new:</b>public static java.lang.String getAbsoluteURI(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private static java.lang.String getAbsolutePathFromRelativePath(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean isAbsolutePath(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean isAbsoluteURI(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.lang.String replaceChars(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.TreeWalker</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TreeWalker(org.xml.sax.ContentHandler, org.apache.xpath.DOMHelper)</code></nobr>
+</li>
+<li>
+<nobr><code>public TreeWalker(org.xml.sax.ContentHandler, org.apache.xpath.DOMHelper, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected org.apache.xpath.DOMHelper m_dh<br>
+<b>new:</b>protected org.apache.xml.utils.DOMHelper m_dh</code></nobr>
+</p>
+</blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TreeWalker(org.xml.sax.ContentHandler, org.apache.xml.utils.DOMHelper)</code></nobr>
+</li>
+<li>
+<nobr><code>public TreeWalker(org.xml.sax.ContentHandler, org.apache.xml.utils.DOMHelper, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.UnImplNode</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(int, java.lang.Object[])</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void error(java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.Expression</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(org.apache.xpath.XPathContext, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(org.apache.xpath.XPathContext, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(org.apache.xpath.XPathContext, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(org.apache.xpath.XPathContext, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.XPath</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(org.apache.xpath.XPathContext, int, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(org.apache.xpath.XPathContext, int, int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(org.apache.xpath.XPathContext, int, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(org.apache.xpath.XPathContext, int, java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.XPathContext</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static org.apache.xalan.res.XSLMessages m_XSLMessages</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.ChildTestIterator</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.MatchPatternIterator</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.OneStepIterator</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getLength()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.ReverseAxesWalker</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.compiler.Compiler</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void warn(java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.compiler.OpMap</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void error(java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.compiler.XPathParser</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void error(int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>void warn(int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>void error(java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>void warn(java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FuncExtFunction</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object getMethodKey()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XObject</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void error(int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>protected void error(int, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void error(java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>protected void error(java.lang.String, java.lang.Object[]) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.res.XPATHErrorResources</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.res.XPATHErrorResources extends java.util.PropertyResourceBundle<br>
+<b>new:</b>public class org.apache.xpath.res.XPATHErrorResources extends java.util.ListResourceBundle</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String ERROR_SUFFIX</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ARG_LOCALNAME_INVALID</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ARG_LOCALNAME_NULL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ARG_PREFIX_INVALID</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CANT_HAVE_MORE_THAN_ONE_ROOT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CANT_OUTPUT_TEXT_BEFORE_DOC</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CHILD_HAS_NO_OWNER_DOCUMENT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CHILD_HAS_NO_OWNER_DOCUMENT_ELEMENT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CREATEDOCUMENT_NOT_SUPPORTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String WARNING_SUFFIX</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XPATHErrorResources(java.io.InputStream) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.String getMKey(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String getMessageKey(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String getWKey(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String getWarningKey(int)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ERROR0000<br>
+<b>new:</b>public static final java.lang.String ERROR0000</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ASNODEITERATOR_NOT_SUPPORTED_XRTREEFRAGSELECTWRAPPER<br>
+<b>new:</b>public static final java.lang.String ER_ASNODEITERATOR_NOT_SUPPORTED_XRTREEFRAGSELECTWRAPPER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_AXES_NOT_ALLOWED<br>
+<b>new:</b>public static final java.lang.String ER_AXES_NOT_ALLOWED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_BOOLEAN_ARG_NO_LONGER_OPTIONAL<br>
+<b>new:</b>public static final java.lang.String ER_BOOLEAN_ARG_NO_LONGER_OPTIONAL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_CALL_SETSHOULDCACHENODE<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_CALL_SETSHOULDCACHENODE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_CREATE_URL<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_CREATE_URL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_DEAL_XPATH_TYPE<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_DEAL_XPATH_TYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANNOT_WRITE_TO_EMPTYNODELISTIMPL<br>
+<b>new:</b>public static final java.lang.String ER_CANNOT_WRITE_TO_EMPTYNODELISTIMPL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CONVERT_TO_BOOLEAN<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CONVERT_TO_BOOLEAN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CONVERT_TO_MUTABLENODELIST<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CONVERT_TO_MUTABLENODELIST</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CONVERT_TO_NODELIST<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CONVERT_TO_NODELIST</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CONVERT_TO_NUMBER<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CONVERT_TO_NUMBER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CONVERT_TO_SINGLENODE<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CONVERT_TO_SINGLENODE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CONVERT_TO_STRING<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CONVERT_TO_STRING</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_CONVERT_TO_TYPE<br>
+<b>new:</b>public static final java.lang.String ER_CANT_CONVERT_TO_TYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CANT_GET_SNAPSHOT_LENGTH<br>
+<b>new:</b>public static final java.lang.String ER_CANT_GET_SNAPSHOT_LENGTH</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CONTEXT_HAS_NO_OWNERDOC<br>
+<b>new:</b>public static final java.lang.String ER_CONTEXT_HAS_NO_OWNERDOC</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULDNOT_BE_FORMATTED_TO_NUMBER<br>
+<b>new:</b>public static final java.lang.String ER_COULDNOT_BE_FORMATTED_TO_NUMBER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULDNOT_CREATE_XMLPROCESSORLIAISON<br>
+<b>new:</b>public static final java.lang.String ER_COULDNOT_CREATE_XMLPROCESSORLIAISON</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULDNOT_FIND_ENDOP_AFTER_OPLOCATIONPATH<br>
+<b>new:</b>public static final java.lang.String ER_COULDNOT_FIND_ENDOP_AFTER_OPLOCATIONPATH</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULDNOT_FIND_FUNCTION<br>
+<b>new:</b>public static final java.lang.String ER_COULDNOT_FIND_FUNCTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULDNOT_GET_VAR_NAMED<br>
+<b>new:</b>public static final java.lang.String ER_COULDNOT_GET_VAR_NAMED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COULD_NOT_FIND_VAR<br>
+<b>new:</b>public static final java.lang.String ER_COULD_NOT_FIND_VAR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_COUNT_TAKES_1_ARG<br>
+<b>new:</b>public static final java.lang.String ER_COUNT_TAKES_1_ARG</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CURRENT_NOT_ALLOWED_IN_MATCH<br>
+<b>new:</b>public static final java.lang.String ER_CURRENT_NOT_ALLOWED_IN_MATCH</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_CURRENT_TAKES_NO_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_CURRENT_TAKES_NO_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DIDNOT_FIND_XPATH_SELECT_EXP<br>
+<b>new:</b>public static final java.lang.String ER_DIDNOT_FIND_XPATH_SELECT_EXP</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DOCUMENT_REPLACED<br>
+<b>new:</b>public static final java.lang.String ER_DOCUMENT_REPLACED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DOC_MUTATED<br>
+<b>new:</b>public static final java.lang.String ER_DOC_MUTATED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_DTM_CANNOT_HANDLE_NODES<br>
+<b>new:</b>public static final java.lang.String ER_DTM_CANNOT_HANDLE_NODES</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EMPTY_EXPRESSION<br>
+<b>new:</b>public static final java.lang.String ER_EMPTY_EXPRESSION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EMPTY_XPATH_RESULT<br>
+<b>new:</b>public static final java.lang.String ER_EMPTY_XPATH_RESULT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ERROR_OCCURED<br>
+<b>new:</b>public static final java.lang.String ER_ERROR_OCCURED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_BUT_FOUND<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_BUT_FOUND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_DOUBLE_QUOTE<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_DOUBLE_QUOTE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_LOC_PATH<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_LOC_PATH</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_LOC_STEP<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_LOC_STEP</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_MATCH_PATTERN<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_MATCH_PATTERN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_NODE_TEST<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_NODE_TEST</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_REL_LOC_PATH<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_REL_LOC_PATH</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_REL_PATH_PATTERN<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_REL_PATH_PATTERN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_SINGLE_QUOTE<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_SINGLE_QUOTE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXPECTED_STEP_PATTERN<br>
+<b>new:</b>public static final java.lang.String ER_EXPECTED_STEP_PATTERN</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_EXTRA_ILLEGAL_TOKENS<br>
+<b>new:</b>public static final java.lang.String ER_EXTRA_ILLEGAL_TOKENS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FASTSTRINGBUFFER_CANNOT_BE_NULL<br>
+<b>new:</b>public static final java.lang.String ER_FASTSTRINGBUFFER_CANNOT_BE_NULL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FOUND_COMMA_BUT_NO_FOLLOWING_ARG<br>
+<b>new:</b>public static final java.lang.String ER_FOUND_COMMA_BUT_NO_FOLLOWING_ARG</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FOUND_COMMA_BUT_NO_PRECEDING_ARG<br>
+<b>new:</b>public static final java.lang.String ER_FOUND_COMMA_BUT_NO_PRECEDING_ARG</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FSB_CANNOT_TAKE_STRING<br>
+<b>new:</b>public static final java.lang.String ER_FSB_CANNOT_TAKE_STRING</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FSB_NOT_SUPPORTED_XSTRINGFORCHARS<br>
+<b>new:</b>public static final java.lang.String ER_FSB_NOT_SUPPORTED_XSTRINGFORCHARS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_FUNCTION_TOKEN_NOT_FOUND<br>
+<b>new:</b>public static final java.lang.String ER_FUNCTION_TOKEN_NOT_FOUND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_IGNORABLE_WHITESPACE_NOT_HANDLED<br>
+<b>new:</b>public static final java.lang.String ER_IGNORABLE_WHITESPACE_NOT_HANDLED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ILLEGAL_AXIS_NAME<br>
+<b>new:</b>public static final java.lang.String ER_ILLEGAL_AXIS_NAME</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ILLEGAL_VARIABLE_REFERENCE<br>
+<b>new:</b>public static final java.lang.String ER_ILLEGAL_VARIABLE_REFERENCE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INCOMPATIBLE_TYPES<br>
+<b>new:</b>public static final java.lang.String ER_INCOMPATIBLE_TYPES</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INCORRECT_ARG_LENGTH<br>
+<b>new:</b>public static final java.lang.String ER_INCORRECT_ARG_LENGTH</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INCORRECT_PROGRAMMER_ASSERTION<br>
+<b>new:</b>public static final java.lang.String ER_INCORRECT_PROGRAMMER_ASSERTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_UTF16_SURROGATE<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_UTF16_SURROGATE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_INVALID_XPATH_TYPE<br>
+<b>new:</b>public static final java.lang.String ER_INVALID_XPATH_TYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_KEY_HAS_TOO_MANY_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_KEY_HAS_TOO_MANY_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_LOCALNAME_HAS_TOO_MANY_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_LOCALNAME_HAS_TOO_MANY_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NAMESPACEAXIS_NOT_IMPLEMENTED<br>
+<b>new:</b>public static final java.lang.String ER_NAMESPACEAXIS_NOT_IMPLEMENTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NAMESPACEURI_HAS_TOO_MANY_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_NAMESPACEURI_HAS_TOO_MANY_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NAME_HAS_TOO_MANY_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_NAME_HAS_TOO_MANY_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NODESETDTM_CANNOT_INDEX<br>
+<b>new:</b>public static final java.lang.String ER_NODESETDTM_CANNOT_INDEX</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NODESETDTM_CANNOT_ITERATE<br>
+<b>new:</b>public static final java.lang.String ER_NODESETDTM_CANNOT_ITERATE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NODESETDTM_NOT_MUTABLE<br>
+<b>new:</b>public static final java.lang.String ER_NODESETDTM_NOT_MUTABLE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NODESET_CANNOT_INDEX<br>
+<b>new:</b>public static final java.lang.String ER_NODESET_CANNOT_INDEX</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NODESET_CANNOT_ITERATE<br>
+<b>new:</b>public static final java.lang.String ER_NODESET_CANNOT_ITERATE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NODESET_NOT_MUTABLE<br>
+<b>new:</b>public static final java.lang.String ER_NODESET_NOT_MUTABLE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NON_ITERATOR_TYPE<br>
+<b>new:</b>public static final java.lang.String ER_NON_ITERATOR_TYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NON_SNAPSHOT_TYPE<br>
+<b>new:</b>public static final java.lang.String ER_NON_SNAPSHOT_TYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NORMALIZESPACE_HAS_TOO_MANY_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_NORMALIZESPACE_HAS_TOO_MANY_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NULL_ERROR_HANDLER<br>
+<b>new:</b>public static final java.lang.String ER_NULL_ERROR_HANDLER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NULL_RESOLVER<br>
+<b>new:</b>public static final java.lang.String ER_NULL_RESOLVER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_NUMBER_HAS_TOO_MANY_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_NUMBER_HAS_TOO_MANY_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_OIERROR<br>
+<b>new:</b>public static final java.lang.String ER_OIERROR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ONLY_ALLOWS<br>
+<b>new:</b>public static final java.lang.String ER_ONLY_ALLOWS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PARSE_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String ER_PARSE_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PATTERN_LITERAL_NEEDS_BE_QUOTED<br>
+<b>new:</b>public static final java.lang.String ER_PATTERN_LITERAL_NEEDS_BE_QUOTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PREDICATE_ILLEGAL_SYNTAX<br>
+<b>new:</b>public static final java.lang.String ER_PREDICATE_ILLEGAL_SYNTAX</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PREFIX_MUST_RESOLVE<br>
+<b>new:</b>public static final java.lang.String ER_PREFIX_MUST_RESOLVE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROBLEM_IN_DTM_NEXTSIBLING<br>
+<b>new:</b>public static final java.lang.String ER_PROBLEM_IN_DTM_NEXTSIBLING</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_PROG_ASSERT_UNKNOWN_OPCODE<br>
+<b>new:</b>public static final java.lang.String ER_PROG_ASSERT_UNKNOWN_OPCODE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_RTF_NOT_SUPPORTED_XRTREEFRAGSELECTWRAPPER<br>
+<b>new:</b>public static final java.lang.String ER_RTF_NOT_SUPPORTED_XRTREEFRAGSELECTWRAPPER</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_SAX_API_NOT_HANDLED<br>
+<b>new:</b>public static final java.lang.String ER_SAX_API_NOT_HANDLED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_SETDOMFACTORY_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String ER_SETDOMFACTORY_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_SETTING_WALKER_ROOT_TO_NULL<br>
+<b>new:</b>public static final java.lang.String ER_SETTING_WALKER_ROOT_TO_NULL</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_STRINGLENGTH_HAS_TOO_MANY_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_STRINGLENGTH_HAS_TOO_MANY_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_STRING_HAS_TOO_MANY_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_STRING_HAS_TOO_MANY_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_TRANSLATE_TAKES_3_ARGS<br>
+<b>new:</b>public static final java.lang.String ER_TRANSLATE_TAKES_3_ARGS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_TWO_OR_THREE<br>
+<b>new:</b>public static final java.lang.String ER_TWO_OR_THREE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNKNOWN_AXIS<br>
+<b>new:</b>public static final java.lang.String ER_UNKNOWN_AXIS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNKNOWN_MATCH_OPERATION<br>
+<b>new:</b>public static final java.lang.String ER_UNKNOWN_MATCH_OPERATION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNKNOWN_NODETYPE<br>
+<b>new:</b>public static final java.lang.String ER_UNKNOWN_NODETYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNKNOWN_OPCODE<br>
+<b>new:</b>public static final java.lang.String ER_UNKNOWN_OPCODE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNKNOWN_STEP<br>
+<b>new:</b>public static final java.lang.String ER_UNKNOWN_STEP</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNPARSEDENTITYURI_TAKES_1_ARG<br>
+<b>new:</b>public static final java.lang.String ER_UNPARSEDENTITYURI_TAKES_1_ARG</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_UNSUPPORTED_ENCODING<br>
+<b>new:</b>public static final java.lang.String ER_UNSUPPORTED_ENCODING</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_VARIABLE_ACCESSED_BEFORE_BIND<br>
+<b>new:</b>public static final java.lang.String ER_VARIABLE_ACCESSED_BEFORE_BIND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_VAR_NOT_RESOLVABLE<br>
+<b>new:</b>public static final java.lang.String ER_VAR_NOT_RESOLVABLE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_WRONG_DOCUMENT<br>
+<b>new:</b>public static final java.lang.String ER_WRONG_DOCUMENT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_WRONG_NODETYPE<br>
+<b>new:</b>public static final java.lang.String ER_WRONG_NODETYPE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XERCES_CANNOT_HANDLE_NODES<br>
+<b>new:</b>public static final java.lang.String ER_XERCES_CANNOT_HANDLE_NODES</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XERCES_PARSE_ERROR<br>
+<b>new:</b>public static final java.lang.String ER_XERCES_PARSE_ERROR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XERCES_PARSE_ERROR_DETAILS<br>
+<b>new:</b>public static final java.lang.String ER_XERCES_PARSE_ERROR_DETAILS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XPATH_ERROR<br>
+<b>new:</b>public static final java.lang.String ER_XPATH_ERROR</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XPATH_READOBJECT<br>
+<b>new:</b>public static final java.lang.String ER_XPATH_READOBJECT</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_XSTRINGFORCHARS_CANNOT_TAKE_STRING<br>
+<b>new:</b>public static final java.lang.String ER_XSTRINGFORCHARS_CANNOT_TAKE_STRING</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int ER_ZERO_OR_ONE<br>
+<b>new:</b>public static final java.lang.String ER_ZERO_OR_ONE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_CANNOT_MAKE_URL_FROM<br>
+<b>new:</b>public static final java.lang.String WG_CANNOT_MAKE_URL_FROM</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_COULDNOT_FIND_FUNCTION<br>
+<b>new:</b>public static final java.lang.String WG_COULDNOT_FIND_FUNCTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_DONT_DO_ANYTHING_WITH_NS<br>
+<b>new:</b>public static final java.lang.String WG_DONT_DO_ANYTHING_WITH_NS</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_EXPAND_ENTITIES_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String WG_EXPAND_ENTITIES_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_FUNCTION_TOKEN_NOT_FOUND<br>
+<b>new:</b>public static final java.lang.String WG_FUNCTION_TOKEN_NOT_FOUND</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_ILLEGAL_VARIABLE_REFERENCE<br>
+<b>new:</b>public static final java.lang.String WG_ILLEGAL_VARIABLE_REFERENCE</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_LOCALE_NAME_NOT_HANDLED<br>
+<b>new:</b>public static final java.lang.String WG_LOCALE_NAME_NOT_HANDLED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_NEED_DERIVED_OBJECT_TO_IMPLEMENT_NODETEST<br>
+<b>new:</b>public static final java.lang.String WG_NEED_DERIVED_OBJECT_TO_IMPLEMENT_NODETEST</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_PROPERTY_NOT_SUPPORTED<br>
+<b>new:</b>public static final java.lang.String WG_PROPERTY_NOT_SUPPORTED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_QUO_NO_LONGER_DEFINED<br>
+<b>new:</b>public static final java.lang.String WG_QUO_NO_LONGER_DEFINED</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_SECURITY_EXCEPTION<br>
+<b>new:</b>public static final java.lang.String WG_SECURITY_EXCEPTION</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int WG_UNSUPPORTED_ENCODING<br>
+<b>new:</b>public static final java.lang.String WG_UNSUPPORTED_ENCODING</code></nobr>
+</p>
+</blockquote>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public XPATHErrorResources() throws java.io.IOException<br>
+<b>new:</b>public XPATHErrorResources()</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final java.util.ResourceBundle loadResourceBundle(java.lang.String) throws java.util.MissingResourceException<br>
+<b>new:</b>public static final org.apache.xpath.res.XPATHErrorResources loadResourceBundle(java.lang.String) throws java.util.MissingResourceException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int MAX_CODE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_MESSAGES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_OTHERS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_WARNING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.Object[][] contents</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object[][] getContents()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Packages:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xml.res</code></nobr>
+</li>
+</ul>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xml.utils.DOMOrder<b>[deprecated]</b></code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>javax.xml.parsers.FilePathToURI</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.parsers.SecuritySupport12$5</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.parsers.SecuritySupport12$6</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.transform.SecuritySupport12$5</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.transform.SecuritySupport12$6</code></nobr>
+</li>
+<li>
+<nobr><code>javax.xml.transform.stream.FilePathToURI</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_de</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_en</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_es</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_fr</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_it</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_ja</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_ko</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_sv</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_zh_CN</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.res.XSLTErrorResources_zh_TW</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.OutputProperties$1</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.OutputProperties$2</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.FactoryFinder</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.FactoryFinder$ConfigurationError</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.SecuritySupport</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.SecuritySupport12</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.SecuritySupport12$1</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.SecuritySupport12$2</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.SecuritySupport12$3</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.SecuritySupport12$4</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.Constants</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.DOM2Helper<b>[deprecated]</b></code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.DOMHelper<b>[deprecated]</b></code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.ThreadControllerWrapper</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.ThreadControllerWrapper$ThreadController</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.res.XResourceBundleBase</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.res.XResources_de</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.res.XResources_es</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.res.XResources_fr</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.res.XResources_it</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.res.XResources_ko</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.res.XResources_sv</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_de</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_en</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_es</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_fr</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_it</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_ja</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_ko</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_sv</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_zh_CN</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_zh_TW</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHMessages</code></nobr>
+</li>
 </ul>
 <hr>
 <a name="2.4.1"></a>
