@@ -44,6 +44,7 @@ public class TestAll extends TestCase {
 		result.addTestSuite(TestTransientClassfileLoader.class);
 		result.addTestSuite(TestDirectoryClassfileLoader.class);
 		result.addTestSuite(TestClassfile.class);
+		result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
 		result.addTestSuite(TestZipClassfileLoader.class);
 		result.addTestSuite(TestJarClassfileLoader.class);
 		result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
