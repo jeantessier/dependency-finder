@@ -54,7 +54,13 @@ public class TestMetricsConfigurationHandler extends TestCase {
 		reader.setDTDHandler(handler);
 		reader.setContentHandler(handler);
 		reader.setErrorHandler(handler);
-		reader.setFeature("http://xml.org/sax/features/validation", true);
+		if (Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")) {
+			reader.setFeature("http://xml.org/sax/features/validation", true);
+			reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
+		} else {
+			reader.setFeature("http://xml.org/sax/features/validation", false);
+			reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+		}
 	}
 	
 	public void testEmptyFile() throws IOException, SAXException {

@@ -48,7 +48,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
 
 	protected void setUp() throws Exception {
 		configuration = new MetricsConfiguration();
-		loader        = new MetricsConfigurationLoader(configuration, true);
+		loader        = new MetricsConfigurationLoader(configuration, Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE"));
 	}
 	
 	public void testEmptyFile() throws IOException, SAXException {

@@ -34,6 +34,8 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
+import java.io.*;
+
 public class TestMetricsFactory extends TestCase {
 	MetricsConfiguration configuration;
 	MetricsFactory       factory;
@@ -43,7 +45,7 @@ public class TestMetricsFactory extends TestCase {
 	}
 
 	protected void setUp() throws Exception {
-		configuration = new MetricsConfigurationLoader().Load("info/MetricsConfig.xml");
+		configuration = new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml");
 		factory       = new MetricsFactory("test", configuration);
 	}
 	
