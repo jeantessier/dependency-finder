@@ -143,7 +143,6 @@ public class ListDiff {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 		out.print(printer);
-		out.flush();
 		out.close();
 
 		Date end = new Date();

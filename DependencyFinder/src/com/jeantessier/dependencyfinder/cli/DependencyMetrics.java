@@ -392,7 +392,6 @@ public class DependencyMetrics {
 			out.println(DependencyMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
-		out.flush();
 		out.close();
 
 		verbose_listener.close();

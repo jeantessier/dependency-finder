@@ -159,7 +159,6 @@ public class ClassClassDiff {
 			System.err.println(JarJarDiff.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
-		out.flush();
 		out.close();
 
 		verbose_listener.close();
