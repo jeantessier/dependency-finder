@@ -111,21 +111,23 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		Iterator i = descriptors.iterator();
 		while (i.hasNext()) {
 			MeasurementDescriptor descriptor  = (MeasurementDescriptor) i.next();
-			
-			if (descriptor.Class().equals(StatisticalMeasurement.class)) {
-				names.add(descriptor.ShortName());
-				dispose.add(LOCAL_DISPOSE_MINIMUM);
-				names.add(descriptor.ShortName());
-				dispose.add(LOCAL_DISPOSE_MEDIAN);
-				names.add(descriptor.ShortName());
-				dispose.add(LOCAL_DISPOSE_AVERAGE);
-				names.add(descriptor.ShortName());
-				dispose.add(LOCAL_DISPOSE_MAXIMUM);
-				names.add(descriptor.ShortName());
-				dispose.add(LOCAL_DISPOSE_SUM);
-			} else {
-				names.add(descriptor.ShortName());
-				dispose.add(LOCAL_DISPOSE_IGNORE);
+
+			if (descriptor.Visible()) {
+				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
+					names.add(descriptor.ShortName());
+					dispose.add(LOCAL_DISPOSE_MINIMUM);
+					names.add(descriptor.ShortName());
+					dispose.add(LOCAL_DISPOSE_MEDIAN);
+					names.add(descriptor.ShortName());
+					dispose.add(LOCAL_DISPOSE_AVERAGE);
+					names.add(descriptor.ShortName());
+					dispose.add(LOCAL_DISPOSE_MAXIMUM);
+					names.add(descriptor.ShortName());
+					dispose.add(LOCAL_DISPOSE_SUM);
+				} else {
+					names.add(descriptor.ShortName());
+					dispose.add(LOCAL_DISPOSE_IGNORE);
+				}
 			}
 		}
 		
@@ -155,16 +157,19 @@ public class OOMetricsTableModel extends AbstractTableModel {
 			Iterator j = descriptors.iterator();
 			while (j.hasNext()) {
 				MeasurementDescriptor descriptor = (MeasurementDescriptor) j.next();
-				Measurement measurement = current_metrics.Measurement(descriptor.ShortName());
-				
-				if (measurement instanceof StatisticalMeasurement) {
-					current_values.add(measurement);
-					current_values.add(measurement);
-					current_values.add(measurement);
-					current_values.add(measurement);
-					current_values.add(measurement);
-				} else {
-					current_values.add(measurement);
+
+				if (descriptor.Visible()) {
+					Measurement measurement = current_metrics.Measurement(descriptor.ShortName());
+					
+					if (measurement instanceof StatisticalMeasurement) {
+						current_values.add(measurement);
+						current_values.add(measurement);
+						current_values.add(measurement);
+						current_values.add(measurement);
+						current_values.add(measurement);
+					} else {
+						current_values.add(measurement);
+					}
 				}
 			}
 		}

@@ -279,6 +279,131 @@ public class TestMetricsConfigurationHandler extends TestCase {
 		assertEquals("descriptor.UpperThreshold()", "50", descriptor.UpperThreshold());
 	}
 
+	public void testTrueVisible() throws IOException, SAXException {
+		StringBuffer document = new StringBuffer();
+
+		document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+		document.append("<metrics-configuration>\n");
+		document.append("    <project-measurements/>\n");
+		document.append("    <group-measurements/>\n");
+		document.append("    <class-measurements/>\n");
+		document.append("    <method-measurements>\n");
+		document.append("        <measurement visible=\"true\">\n");
+		document.append("            <short-name>SLOC</short-name>\n");
+		document.append("            <long-name>Single Lines of Code</long-name>\n");
+		document.append("            <class>com.jeantessier.metrics.CounterMeasurement</class>\n");
+		document.append("        </measurement>\n");
+		document.append("    </method-measurements>\n");
+		document.append("</metrics-configuration>\n");
+
+		InputSource in = new InputSource(new StringReader(document.toString()));
+
+		reader.parse(in);
+
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) handler.MetricsConfiguration().MethodMeasurements().get(0);
+		assertTrue("Not visible", descriptor.Visible());
+	}
+
+	public void testYesVisible() throws IOException, SAXException {
+		StringBuffer document = new StringBuffer();
+
+		document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+		document.append("<metrics-configuration>\n");
+		document.append("    <project-measurements/>\n");
+		document.append("    <group-measurements/>\n");
+		document.append("    <class-measurements/>\n");
+		document.append("    <method-measurements>\n");
+		document.append("        <measurement visible=\"yes\">\n");
+		document.append("            <short-name>SLOC</short-name>\n");
+		document.append("            <long-name>Single Lines of Code</long-name>\n");
+		document.append("            <class>com.jeantessier.metrics.CounterMeasurement</class>\n");
+		document.append("        </measurement>\n");
+		document.append("    </method-measurements>\n");
+		document.append("</metrics-configuration>\n");
+
+		InputSource in = new InputSource(new StringReader(document.toString()));
+
+		reader.parse(in);
+
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) handler.MetricsConfiguration().MethodMeasurements().get(0);
+		assertTrue("Not visible", descriptor.Visible());
+	}
+
+	public void testOnVisible() throws IOException, SAXException {
+		StringBuffer document = new StringBuffer();
+
+		document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+		document.append("<metrics-configuration>\n");
+		document.append("    <project-measurements/>\n");
+		document.append("    <group-measurements/>\n");
+		document.append("    <class-measurements/>\n");
+		document.append("    <method-measurements>\n");
+		document.append("        <measurement visible=\"on\">\n");
+		document.append("            <short-name>SLOC</short-name>\n");
+		document.append("            <long-name>Single Lines of Code</long-name>\n");
+		document.append("            <class>com.jeantessier.metrics.CounterMeasurement</class>\n");
+		document.append("        </measurement>\n");
+		document.append("    </method-measurements>\n");
+		document.append("</metrics-configuration>\n");
+
+		InputSource in = new InputSource(new StringReader(document.toString()));
+
+		reader.parse(in);
+
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) handler.MetricsConfiguration().MethodMeasurements().get(0);
+		assertTrue("Not visible", descriptor.Visible());
+	}
+
+	public void testDefaultVisible() throws IOException, SAXException {
+		StringBuffer document = new StringBuffer();
+
+		document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+		document.append("<metrics-configuration>\n");
+		document.append("    <project-measurements/>\n");
+		document.append("    <group-measurements/>\n");
+		document.append("    <class-measurements/>\n");
+		document.append("    <method-measurements>\n");
+		document.append("        <measurement>\n");
+		document.append("            <short-name>SLOC</short-name>\n");
+		document.append("            <long-name>Single Lines of Code</long-name>\n");
+		document.append("            <class>com.jeantessier.metrics.CounterMeasurement</class>\n");
+		document.append("        </measurement>\n");
+		document.append("    </method-measurements>\n");
+		document.append("</metrics-configuration>\n");
+
+		InputSource in = new InputSource(new StringReader(document.toString()));
+
+		reader.parse(in);
+
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) handler.MetricsConfiguration().MethodMeasurements().get(0);
+		assertTrue("Not visible", descriptor.Visible());
+	}
+
+	public void testNotVisible() throws IOException, SAXException {
+		StringBuffer document = new StringBuffer();
+
+		document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+		document.append("<metrics-configuration>\n");
+		document.append("    <project-measurements/>\n");
+		document.append("    <group-measurements/>\n");
+		document.append("    <class-measurements/>\n");
+		document.append("    <method-measurements>\n");
+		document.append("        <measurement visible=\"no\">\n");
+		document.append("            <short-name>SLOC</short-name>\n");
+		document.append("            <long-name>Single Lines of Code</long-name>\n");
+		document.append("            <class>com.jeantessier.metrics.CounterMeasurement</class>\n");
+		document.append("        </measurement>\n");
+		document.append("    </method-measurements>\n");
+		document.append("</metrics-configuration>\n");
+
+		InputSource in = new InputSource(new StringReader(document.toString()));
+
+		reader.parse(in);
+
+		MeasurementDescriptor descriptor = (MeasurementDescriptor) handler.MetricsConfiguration().MethodMeasurements().get(0);
+		assertTrue("Visible", !descriptor.Visible());
+	}
+
 	public void testGroupDefinitions() throws IOException, SAXException {
 		StringBuffer document = new StringBuffer();
 

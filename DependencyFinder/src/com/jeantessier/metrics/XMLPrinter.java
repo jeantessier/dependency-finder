@@ -35,14 +35,20 @@ package com.jeantessier.metrics;
 import java.util.*;
 
 public class XMLPrinter extends Printer {
-	public XMLPrinter() {
+	private MetricsConfiguration configuration;
+	
+	public XMLPrinter(MetricsConfiguration configuration) {
 		super();
 
+		this.configuration = configuration;
+		
 		AppendHeader();
 	}
 
-	public XMLPrinter(String indent_text) {
+	public XMLPrinter(String indent_text, MetricsConfiguration configuration) {
 		super(indent_text);
+
+		this.configuration = configuration;
 
 		AppendHeader();
 	}
@@ -69,7 +75,7 @@ public class XMLPrinter extends Printer {
 		RaiseIndent();
 		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
 
-		VisitMeasurements(metrics);
+		VisitMeasurements(metrics, configuration.ProjectMeasurements());
 
 		Iterator i = metrics.SubMetrics().iterator();
 		while (i.hasNext()) {
@@ -85,7 +91,7 @@ public class XMLPrinter extends Printer {
 		RaiseIndent();
 		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
 
-		VisitMeasurements(metrics);
+		VisitMeasurements(metrics, configuration.GroupMeasurements());
 
 		Iterator i = metrics.SubMetrics().iterator();
 		while (i.hasNext()) {
@@ -101,7 +107,7 @@ public class XMLPrinter extends Printer {
 		RaiseIndent();
 		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
 
-		VisitMeasurements(metrics);
+		VisitMeasurements(metrics, configuration.ClassMeasurements());
 
 		Iterator i = metrics.SubMetrics().iterator();
 		while (i.hasNext()) {
@@ -117,19 +123,20 @@ public class XMLPrinter extends Printer {
 		RaiseIndent();
 		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
 
-		VisitMeasurements(metrics);
+		VisitMeasurements(metrics, configuration.MethodMeasurements());
 				
 		LowerIndent();
 		Indent().Append("</method>").EOL();
 	}
 
-	private void VisitMeasurements(Metrics metrics) {
-		Iterator names = metrics.MeasurementNames().iterator();
-		while (names.hasNext()) {
-			String      name        = (String) names.next();
-			Measurement measurement = metrics.Measurement(name);
+	private void VisitMeasurements(Metrics metrics, List descriptors) {
+		Iterator i = descriptors.iterator();
+		while (i.hasNext()) {
+			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			measurement.Accept(this);
+			if (descriptor.Visible()) {
+				metrics.Measurement(descriptor.ShortName()).Accept(this);
+			}
 		}
 	}
 

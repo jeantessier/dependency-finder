@@ -39,14 +39,20 @@ public class PrettyPrinter extends Printer {
 	private static final NumberFormat value_format = new DecimalFormat("#.##");
 	private static final NumberFormat ratio_format = new DecimalFormat("#%");
 
+	private List descriptors;
+	
 	private Metrics current_metrics = null;
 	
-	public PrettyPrinter() {
+	public PrettyPrinter(List descriptors) {
 		super();
+
+		this.descriptors = descriptors;
 	}
 
-	public PrettyPrinter(String indent_text) {
+	public PrettyPrinter(String indent_text, List descriptors) {
 		super(indent_text);
+
+		this.descriptors = descriptors;
 	}
 
 	public void VisitMetrics(Metrics metrics) {
@@ -55,9 +61,13 @@ public class PrettyPrinter extends Printer {
 		Indent().Append(metrics.Name()).EOL();
 		RaiseIndent();
 			
-		Iterator names = metrics.MeasurementNames().iterator();
-		while (names.hasNext()) {
-			metrics.Measurement((String) names.next()).Accept(this);
+		Iterator i = descriptors.iterator();
+		while (i.hasNext()) {
+			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+
+			if (descriptor.Visible()) {
+				metrics.Measurement(descriptor.ShortName()).Accept(this);
+			}
 		}
 
 		LowerIndent();

@@ -87,6 +87,12 @@ public class MetricsConfigurationHandler extends DefaultHandler {
 		} else if (qName.equals("measurement")) {
 			descriptor = new MeasurementDescriptor();
 
+			if (atts.getValue("visible") != null) {
+				descriptor.Visible("true".equalsIgnoreCase(atts.getValue("visible")) ||
+								   "yes".equalsIgnoreCase(atts.getValue("visible")) ||
+								   "on".equalsIgnoreCase(atts.getValue("visible")));
+			}
+			
 			switch (section) {
 				case PROJECT:
 					configuration.AddProjectMeasurement(descriptor);

@@ -36,13 +36,14 @@ import java.lang.reflect.*;
 
 public class MeasurementDescriptor {
 	private static final Class constructor_signature[] = {MeasurementDescriptor.class, Metrics.class, String.class};
-	
+
 	private String     short_name;
 	private String     long_name;
 	private Class      clazz;
 	private String     init_text;
 	private Comparable lower_threshold;
 	private Comparable upper_threshold;
+	private boolean    visible         = true;	
 	
 	public String ShortName() {
 		return short_name;
@@ -100,6 +101,14 @@ public class MeasurementDescriptor {
 		this.upper_threshold = upper_threshold;
 	}
 
+	public boolean Visible() {
+		return visible;
+	}
+
+	public void Visible(boolean visible) {
+		this.visible = visible;
+	}
+	
 	public Measurement CreateMeasurement() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		return CreateMeasurement(null);
 	}

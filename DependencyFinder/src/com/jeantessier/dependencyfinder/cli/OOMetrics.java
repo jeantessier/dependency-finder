@@ -242,7 +242,7 @@ public class OOMetrics {
 			
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter();
+			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().ProjectMeasurements());
 			i = metrics.iterator();
 			while(i.hasNext()) {
 				printer.VisitMetrics((Metrics) i.next());
@@ -265,7 +265,7 @@ public class OOMetrics {
 
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter();
+			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().GroupMeasurements());
 			i = metrics.iterator();
 			while(i.hasNext()) {
 				printer.VisitMetrics((Metrics) i.next());
@@ -288,7 +288,7 @@ public class OOMetrics {
 
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter();
+			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().ClassMeasurements());
 			i = metrics.iterator();
 			while(i.hasNext()) {
 				printer.VisitMetrics((Metrics) i.next());
@@ -313,7 +313,7 @@ public class OOMetrics {
 
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter();
+			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().MethodMeasurements());
 			i = metrics.iterator();
 			while(i.hasNext()) {
 				printer.VisitMetrics((Metrics) i.next());
@@ -348,7 +348,7 @@ public class OOMetrics {
 			out.println("---------------");
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.PrettyPrinter();
+			printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().ProjectMeasurements());
 			i = metrics.iterator();
 			while(i.hasNext()) {
 				printer.VisitMetrics((Metrics) i.next());
@@ -362,7 +362,7 @@ public class OOMetrics {
 			out.println("---------------");
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.PrettyPrinter();
+			printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().GroupMeasurements());
 			i = metrics.iterator();
 			while(i.hasNext()) {
 				printer.VisitMetrics((Metrics) i.next());
@@ -376,7 +376,7 @@ public class OOMetrics {
 			out.println("-------------");
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.PrettyPrinter();
+			printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().ClassMeasurements());
 			i = metrics.iterator();
 			while(i.hasNext()) {
 				printer.VisitMetrics((Metrics) i.next());
@@ -390,7 +390,7 @@ public class OOMetrics {
 			out.println("--------------");
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.PrettyPrinter();
+			printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().MethodMeasurements());
 			i = metrics.iterator();
 			while(i.hasNext()) {
 				printer.VisitMetrics((Metrics) i.next());
@@ -420,7 +420,7 @@ public class OOMetrics {
 
 		metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
-		printer = new com.jeantessier.metrics.XMLPrinter("\t");
+		printer = new com.jeantessier.metrics.XMLPrinter("\t", factory.Configuration());
 		i = metrics.iterator();
 		while(i.hasNext()) {
 			printer.VisitMetrics((Metrics) i.next());

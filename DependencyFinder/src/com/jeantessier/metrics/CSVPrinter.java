@@ -35,29 +35,67 @@ package com.jeantessier.metrics;
 import java.util.*;
 
 public class CSVPrinter extends Printer {
-	private boolean is_first = true;
+	private List descriptors;
 	
-	public CSVPrinter() {
+	public CSVPrinter(List descriptors) {
 		super();
+
+		this.descriptors = descriptors;
+
+		AppendHeader();
 	}
 
-	public CSVPrinter(String indent_text) {
+	public CSVPrinter(String indent_text, List descriptors) {
 		super(indent_text);
+
+		this.descriptors = descriptors;
+
+		AppendHeader();
+	}
+
+	private void AppendHeader() {
+		Append("\"name\", ");
+		
+		Iterator i = descriptors.iterator();
+		while (i.hasNext()) {
+			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+
+			if (descriptor.Visible()) {
+				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
+					Append("\"").Append(descriptor.ShortName()).Append(" (min)\", ");
+					Append("\"").Append(descriptor.ShortName()).Append(" (med)\", ");
+					Append("\"").Append(descriptor.ShortName()).Append(" (avg)\", ");
+					Append("\"").Append(descriptor.ShortName()).Append(" (max)\", ");
+					Append("\"").Append(descriptor.ShortName()).Append(" (sum)\", ");
+					Append("\"").Append(descriptor.ShortName()).Append(" (nb)\"");
+				} else {
+					Append("\"").Append(descriptor.ShortName()).Append("\"");
+				}
+				
+				if (i.hasNext()) {
+					Append(", ");
+				}
+			}
+		}
+		
+		EOL();
 	}
 			
 	public void VisitMetrics(Metrics metrics) {
-		if (is_first) {
-			VisitFirstMetrics(metrics);
-		}
-		
 		Append("\"").Append(metrics.Name()).Append("\", ");
 			
-		Iterator names = metrics.MeasurementNames().iterator();
-		while (names.hasNext()) {
-			metrics.Measurement((String) names.next()).Accept(this);
+		Iterator i = descriptors.iterator();
+		while (i.hasNext()) {
+			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (names.hasNext()) {
-				Append(", ");
+			if (descriptor.Visible()) {
+				Measurement measurement = metrics.Measurement(descriptor.ShortName());
+
+				measurement.Accept(this);
+
+				if (i.hasNext()) {
+					Append(", ");
+				}
 			}
 		}
 
@@ -75,33 +113,5 @@ public class CSVPrinter extends Printer {
 	
 	protected void VisitMeasurement(Measurement measurement) {
 		Append(measurement.Value());
-	}
-
-	private void VisitFirstMetrics(Metrics metrics) {
-		Append("\"name\", ");
-		
-		Iterator names = metrics.MeasurementNames().iterator();
-		while (names.hasNext()) {
-			String      name    = (String) names.next();
-			Measurement measure = metrics.Measurement(name);
-			if (measure instanceof StatisticalMeasurement) {
-				Append("\"").Append(name).Append("(minimum)\", ");
-				Append("\"").Append(name).Append("(median)\", ");
-				Append("\"").Append(name).Append("(average)\", ");
-				Append("\"").Append(name).Append("(maximum)\", ");
-				Append("\"").Append(name).Append("(sum)\", ");
-				Append("\"").Append(name).Append("(nb)\"");
-			} else if (!(measure instanceof NullMeasurement)) {
-				Append("\"").Append(name).Append("\"");
-			}
-			
-			if (names.hasNext()) {
-				Append(", ");
-			}
-		}
-		
-		EOL();
-		
-		is_first = false;
 	}
 }
