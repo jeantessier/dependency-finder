@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-101" endDate="'2003-12-07 12:27:58'" >
+<tagdiff startTag="release-101" endDate="'2003-12-07 11:48:19'" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -9,9 +9,76 @@
 	</entry>
 	<entry>
 		<file>
-			<name>src/com/jeantessier/classreader/Instruction.java</name>
+			<name>docs/Tools.txt</name>
+			<revision>1.25</revision>
+			<prevrevision>1.24</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/classmetrics.html</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/Code_attribute.java</name>
 			<revision>1.6</revision>
 			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/Instruction.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/MetricsGatherer.java</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/VisitorBase.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/Hex.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassDump.java</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java</name>
+			<revision>1.15</revision>
+			<prevrevision>1.14</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/Hex.java</name>
 		</file>
 	</entry>
 </tagdiff>
