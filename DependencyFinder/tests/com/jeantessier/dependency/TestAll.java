@@ -53,6 +53,7 @@ public class TestAll extends TestCase {
 		result.addTestSuite(TestTransitiveClosure.class);
 		result.addTestSuite(TestTransitiveClosureWithTestClass.class);
 		result.addTestSuite(TestTransitiveClosureSlice.class);
+		result.addTestSuite(TestTransitiveClosureNonMaximized.class);
 
 		return result;
 	}
