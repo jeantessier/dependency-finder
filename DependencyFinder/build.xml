@@ -345,6 +345,56 @@
 	</javadoc>
     </target>
 
+    <target name="extract" depends="jar">
+	<taskdef name="extractor" classname="com.jeantessier.dependencyfinder.ant.DependencyExtractor">
+	    <classpath refid="libs"/>
+	</taskdef>
+	<extractor xml="yes" destfile="${this.release}.xml">
+	    <path>
+		<pathelement location="${jarFile}"/>
+	    </path>
+	</extractor>
+	<xslt style="etc/DependenciesToHTML.xsl" in="${this.release}.xml" out="${this.release}.html">
+	    <classpath refid="libs"/>
+	</xslt>
+	<xslt style="etc/DependenciesToText.xsl" in="${this.release}.xml" out="${this.release}.txt">
+	    <classpath refid="libs"/>
+	</xslt>
+    </target>
+
+    <target name="jarjardiff" depends="jar">
+	<taskdef name="jarjardiff" classname="com.jeantessier.dependencyfinder.ant.JarJarDiff">
+	    <classpath refid="libs"/>
+	</taskdef>
+	<jarjardiff name="Dependency Finder" oldlabel="${last.release}" newlabel="${this.release}" destfile="${last.release}-${this.release}.xml">
+	    <old>
+		<pathelement location="info/${last.release}.jar"/>
+	    </old>
+	    <new>
+		<pathelement location="${jarFile}"/>
+	    </new>
+	</jarjardiff>
+	<xslt style="etc/DiffToHTML.xsl" in="${last.release}-${this.release}.xml" out="${last.release}-${this.release}.html">
+	    <classpath refid="libs"/>
+	</xslt>
+    </target>
+
+    <target name="oometrics" depends="jar">
+	<taskdef name="oometrics" classname="com.jeantessier.dependencyfinder.ant.OOMetrics">
+	    <classpath refid="libs"/>
+	</taskdef>
+	<oometrics allmetrics="yes" destprefix="metrics-${this.release}" txt="yes" configuration="etc\MetricsConfig.xml">
+	    <path>
+		<pathelement location="${jarFile}"/>
+	    </path>
+	</oometrics>
+	<oometrics allmetrics="yes" destprefix="metrics-${this.release}" xml="yes" configuration="etc\MetricsConfig.xml">
+	    <path>
+		<pathelement location="${jarFile}"/>
+	    </path>
+	</oometrics>
+    </target>
+
     <target name="clearlogs" depends="init">
         <delete verbose="true">
 	    <fileset dir=".">
