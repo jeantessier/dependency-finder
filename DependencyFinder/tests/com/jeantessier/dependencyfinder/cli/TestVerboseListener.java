@@ -56,7 +56,7 @@ public class TestVerboseListener extends TestCase {
 		writer   = new StringWriter();
 		listener = new VerboseListener();
 
-		listener.getWriter(writer);
+		listener.setWriter(writer);
 	}
 	
 	public void testLoadListener() {

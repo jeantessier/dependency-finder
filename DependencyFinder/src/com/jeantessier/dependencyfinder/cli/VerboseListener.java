@@ -46,15 +46,15 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		return writer;
 	}
 
-	public void getWriter(OutputStream stream) {
-		getWriter(new PrintWriter(stream));
+	public void setWriter(OutputStream stream) {
+		setWriter(new PrintWriter(stream));
 	}
 
-	public void getWriter(Writer writer) {
-		getWriter(new PrintWriter(writer));
+	public void setWriter(Writer writer) {
+		setWriter(new PrintWriter(writer));
 	}
 
-	public void getWriter(PrintWriter writer) {
+	public void setWriter(PrintWriter writer) {
 		this.writer = writer;
 	}
 

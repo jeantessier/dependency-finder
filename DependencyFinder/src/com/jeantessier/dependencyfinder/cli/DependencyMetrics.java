@@ -234,9 +234,9 @@ public class DependencyMetrics {
 		VerboseListener verboseListener = new VerboseListener();
 		if (commandLine.isPresent("verbose")) {
 			if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
-				verboseListener.getWriter(System.out);
+				verboseListener.setWriter(System.out);
 			} else {
-				verboseListener.getWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
+				verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
 			}
 		}
 

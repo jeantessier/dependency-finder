@@ -91,13 +91,13 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 		// model.ProgressBar().setIndeterminate(true);
 		
 		model.getStatusLine().showInfo("Generating method results ...");
-		model.getMethodsModel().getMetrics(model.getMetricsFactory().getMethodMetrics());
+		model.getMethodsModel().setMetrics(model.getMetricsFactory().getMethodMetrics());
 		
 		model.getStatusLine().showInfo("Generating class results ...");
-		model.getClassesModel().getMetrics(model.getMetricsFactory().getClassMetrics());
+		model.getClassesModel().setMetrics(model.getMetricsFactory().getClassMetrics());
 		
 		model.getStatusLine().showInfo("Generating group results ...");
-		model.getGroupsModel().getMetrics(model.getMetricsFactory().getGroupMetrics());
+		model.getGroupsModel().setMetrics(model.getMetricsFactory().getGroupMetrics());
 		
 		model.getStatusLine().showInfo("Generating project results ...");
 		StringWriter out = new StringWriter();

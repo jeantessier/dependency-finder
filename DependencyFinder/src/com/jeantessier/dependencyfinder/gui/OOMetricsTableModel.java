@@ -65,7 +65,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		buildMetricValues();
 	}
 	
-	public void getMetrics(Collection metricsList) {
+	public void setMetrics(Collection metricsList) {
 		this.metricsList = new ArrayList(metricsList);
 		
 		if (metricsList.isEmpty()) {

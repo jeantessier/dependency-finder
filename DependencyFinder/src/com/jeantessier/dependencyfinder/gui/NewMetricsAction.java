@@ -58,8 +58,8 @@ public class NewMetricsAction extends AbstractAction implements Runnable {
 		model.getMetricsFactory().clear();
 		
 		model.getProjectArea().setText("");
-		model.getGroupsModel().getMetrics(Collections.EMPTY_LIST);
-		model.getClassesModel().getMetrics(Collections.EMPTY_LIST);
-		model.getMethodsModel().getMetrics(Collections.EMPTY_LIST);
+		model.getGroupsModel().setMetrics(Collections.EMPTY_LIST);
+		model.getClassesModel().setMetrics(Collections.EMPTY_LIST);
+		model.getMethodsModel().setMetrics(Collections.EMPTY_LIST);
 	}
 }
