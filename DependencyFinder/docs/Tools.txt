@@ -1,0 +1,7824 @@
+---+ Tools in Dependency Finder
+
+----
+
+<SHORT-TOC />
+
+----
+
+---++ ClassDump
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ClassDump
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ClassDump=
+
+</blockquote>
+
+----
+
+---++ ClassInheritance
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ClassInheritance
+    	-help
+    	-out value
+    	-time
+    	-trace [value]
+    	-verbose [value]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ClassInheritance=
+
+</blockquote>
+
+----
+
+---++ ClassList
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ClassList
+    	-help
+    	-out value
+    	-time
+    	-trace [value]
+    	-verbose [value]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ClassList=
+
+</blockquote>
+
+----
+
+---++ ClassMetrics
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ClassMetrics
+    	-help
+    	-list
+    	-out value
+    	-time
+    	-trace [value]
+    	-verbose [value]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-list=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ClassMetrics=
+
+</blockquote>
+
+----
+
+---++ ClassReader
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ClassReader
+    	-dtd-prefix value
+    	-help
+    	-indent-text value
+    	-out value
+    	-raw
+    	-time
+    	-trace [value]
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-raw=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ClassReader=
+
+</blockquote>
+
+----
+
+---++ ClosureToText
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ClosureToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ ClosureToTreeView
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ClosureToTreeView
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ DependablesToHTML
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependablesToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ DependablesToText
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependablesToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ DependenciesToHTML
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependenciesToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ DependenciesToText
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependenciesToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ DependencyClosure
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependencyClosure
+    	-all
+    	-c2c
+    	-c2p
+    	-class-filter
+    	[-class-filter-excludes value]*
+    	[-class-filter-includes value]*
+    	-class-scope
+    	[-class-scope-excludes value]*
+    	[-class-scope-includes value]*
+    	-dtd-prefix value
+    	[-excludes value]*
+    	-f2f
+    	-feature-filter
+    	[-feature-filter-excludes value]*
+    	[-feature-filter-includes value]*
+    	-feature-scope
+    	[-feature-scope-excludes value]*
+    	[-feature-scope-includes value]*
+    	[-filter-excludes value]*
+    	[-filter-includes value]*
+    	-help
+    	[-includes value]*
+    	-indent-text value
+    	-maximum-inbound-depth [value]
+    	-maximum-outbound-depth [value]
+    	-out value
+    	-p2p
+    	-package-filter
+    	[-package-filter-excludes value]*
+    	[-package-filter-includes value]*
+    	-package-scope
+    	[-package-scope-excludes value]*
+    	[-package-scope-includes value]*
+    	[-scope-excludes value]*
+    	[-scope-includes value]*
+    	-serialize
+    	-time
+    	-trace [value]
+    	-validate
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2c=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-f2f=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximum-inbound-depth [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximum-outbound-depth [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-p2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-serialize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.DependencyClosure=
+
+</blockquote>
+
+----
+
+---++ DependencyExtractor
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependencyExtractor
+    	-dtd-prefix value
+    	-help
+    	-indent-text value
+    	-maximize
+    	-minimize
+    	-out value
+    	-plain
+    	-serialize
+    	-time
+    	-trace [value]
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-minimize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-plain=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-serialize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.DependencyExtractor=
+
+</blockquote>
+
+----
+
+---++ DependencyFinder
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependencyFinder
+    	-dtd-prefix value
+    	-help
+    	-indent-text value
+    	-maximize
+    	-minimize
+    	-trace [value]
+    	-verbose [value]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-minimize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.gui.DependencyFinder=
+
+</blockquote>
+
+----
+
+---++ DependencyMetrics
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependencyMetrics
+    	-all
+    	-c2c
+    	-c2p
+    	-chart-all
+    	-chart-classes
+    	-chart-classes-per-package
+    	-chart-features
+    	-chart-features-per-class
+    	-chart-inbounds
+    	-chart-inbounds-per-class
+    	-chart-inbounds-per-feature
+    	-chart-inbounds-per-package
+    	-chart-outbounds
+    	-chart-outbounds-per-class
+    	-chart-outbounds-per-feature
+    	-chart-outbounds-per-package
+    	-chart-packages
+    	-class-filter
+    	[-class-filter-excludes value]*
+    	[-class-filter-includes value]*
+    	-class-scope
+    	[-class-scope-excludes value]*
+    	[-class-scope-includes value]*
+    	[-excludes value]*
+    	-f2f
+    	-feature-filter
+    	[-feature-filter-excludes value]*
+    	[-feature-filter-includes value]*
+    	-feature-scope
+    	[-feature-scope-excludes value]*
+    	[-feature-scope-includes value]*
+    	[-filter-excludes value]*
+    	[-filter-includes value]*
+    	-help
+    	[-includes value]*
+    	-list
+    	-out value
+    	-p2p
+    	-package-filter
+    	[-package-filter-excludes value]*
+    	[-package-filter-includes value]*
+    	-package-scope
+    	[-package-scope-excludes value]*
+    	[-package-scope-includes value]*
+    	[-scope-excludes value]*
+    	[-scope-includes value]*
+    	-time
+    	-trace [value]
+    	-validate
+    	-verbose [value]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2c=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-classes=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-classes-per-package=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-features=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-features-per-class=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-inbounds=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-inbounds-per-class=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-inbounds-per-feature=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-inbounds-per-package=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-outbounds=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-outbounds-per-class=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-outbounds-per-feature=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-outbounds-per-package=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-chart-packages=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-f2f=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-list=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-p2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.DependencyMetrics=
+
+</blockquote>
+
+----
+
+---++ DependencyReporter
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependencyReporter
+    	-all
+    	-c2c
+    	-c2p
+    	-class-filter
+    	[-class-filter-excludes value]*
+    	[-class-filter-includes value]*
+    	-class-scope
+    	[-class-scope-excludes value]*
+    	[-class-scope-includes value]*
+    	-dtd-prefix value
+    	[-excludes value]*
+    	-f2f
+    	-feature-filter
+    	[-feature-filter-excludes value]*
+    	[-feature-filter-includes value]*
+    	-feature-scope
+    	[-feature-scope-excludes value]*
+    	[-feature-scope-includes value]*
+    	[-filter-excludes value]*
+    	[-filter-includes value]*
+    	-help
+    	[-includes value]*
+    	-indent-text value
+    	-maximize
+    	-minimize
+    	-out value
+    	-p2p
+    	-package-filter
+    	[-package-filter-excludes value]*
+    	[-package-filter-includes value]*
+    	-package-scope
+    	[-package-scope-excludes value]*
+    	[-package-scope-includes value]*
+    	-plain
+    	[-scope-excludes value]*
+    	[-scope-includes value]*
+    	-serialize
+    	-time
+    	-trace [value]
+    	-validate
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2c=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-f2f=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-minimize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-p2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-plain=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-serialize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.DependencyReporter=
+
+</blockquote>
+
+----
+
+---++ DependentsToHTML
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependentsToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ DependentsToText
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DependentsToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ DiffToHTML
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    DiffToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ JarJarDiff
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    JarJarDiff
+    	-dtd-prefix value
+    	-help
+    	-indent-text value
+    	-name value
+    	[-new value]*
+    	-new-documentation value
+    	-new-label value
+    	[-old value]*
+    	-old-documentation value
+    	-old-label value
+    	-out value
+    	-time
+    	-trace [value]
+    	-verbose [value]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=Report.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-name value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-new value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-new-documentation value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=new_documentation.txt=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-new-label value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-old value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-old-documentation value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=old_documentation.txt=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-old-label value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.JarJarDiff=
+
+</blockquote>
+
+----
+
+---++ ListDependablesToHTML
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListDependablesToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ ListDependablesToText
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListDependablesToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ ListDependentsToHTML
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListDependentsToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ ListDependentsToText
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListDependentsToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ ListDiff
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListDiff
+    	-compress
+    	-dtd-prefix value
+    	-help
+    	-indent-text value
+    	-name value
+    	-new value
+    	-new-label value
+    	-old value
+    	-old-label value
+    	-out value
+    	-time
+    	-trace [value]
+    	-verbose [value]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-compress=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=ListDiffPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-name value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-new value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-new-label value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-old value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-old-label value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ListDiff=
+
+</blockquote>
+
+----
+
+---++ ListDiffToHTML
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListDiffToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ ListDiffToText
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListDiffToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ ListDocumentedElements
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListDocumentedElements
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.diff.ListDocumentedElements=
+
+</blockquote>
+
+----
+
+---++ ListInheritanceDiffToText
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListInheritanceDiffToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ ListUnused
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    ListUnused
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ OOMetrics
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    OOMetrics
+    	-all
+    	-classes
+    	-configuration value
+    	-csv
+    	-default-configuration value
+    	-dispose value
+    	-dtd-prefix value
+    	-expand
+    	-groups
+    	-help
+    	-indent-text value
+    	-methods
+    	-out value
+    	-project
+    	-project-name value
+    	-reverse
+    	-sort value
+    	-time
+    	-trace [value]
+    	-txt
+    	-validate
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-classes=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-configuration value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-csv=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-default-configuration value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dispose value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=median=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-expand=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-groups=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-methods=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-project=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-project-name value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=Project=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-reverse=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-sort value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=name=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-txt=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.OOMetrics=
+
+</blockquote>
+
+----
+
+---++ OOMetricsGUI
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    OOMetricsGUI
+    	-configuration value
+    	-default-configuration value
+    	-help
+    	-trace [value]
+    	-validate
+    	-verbose [value]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-configuration value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-default-configuration value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.gui.OOMetrics=
+
+</blockquote>
+
+----
+
+---++ PublishedDiffToHTML
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    PublishedDiffToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ XSLTProcess
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    XSLTProcess
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to convert to translate.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+None.
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+----
+
+---++ c2c
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    c2c
+    	-all
+    	-c2c
+    	-c2p
+    	-class-filter
+    	[-class-filter-excludes value]*
+    	[-class-filter-includes value]*
+    	-class-scope
+    	[-class-scope-excludes value]*
+    	[-class-scope-includes value]*
+    	-dtd-prefix value
+    	[-excludes value]*
+    	-f2f
+    	-feature-filter
+    	[-feature-filter-excludes value]*
+    	[-feature-filter-includes value]*
+    	-feature-scope
+    	[-feature-scope-excludes value]*
+    	[-feature-scope-includes value]*
+    	[-filter-excludes value]*
+    	[-filter-includes value]*
+    	-help
+    	[-includes value]*
+    	-indent-text value
+    	-maximize
+    	-minimize
+    	-out value
+    	-p2p
+    	-package-filter
+    	[-package-filter-excludes value]*
+    	[-package-filter-includes value]*
+    	-package-scope
+    	[-package-scope-excludes value]*
+    	[-package-scope-includes value]*
+    	-plain
+    	[-scope-excludes value]*
+    	[-scope-includes value]*
+    	-serialize
+    	-time
+    	-trace [value]
+    	-validate
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2c=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-f2f=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-minimize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-p2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-plain=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-serialize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.DependencyReporter=
+
+</blockquote>
+
+----
+
+---++ c2p
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    c2p
+    	-all
+    	-c2c
+    	-c2p
+    	-class-filter
+    	[-class-filter-excludes value]*
+    	[-class-filter-includes value]*
+    	-class-scope
+    	[-class-scope-excludes value]*
+    	[-class-scope-includes value]*
+    	-dtd-prefix value
+    	[-excludes value]*
+    	-f2f
+    	-feature-filter
+    	[-feature-filter-excludes value]*
+    	[-feature-filter-includes value]*
+    	-feature-scope
+    	[-feature-scope-excludes value]*
+    	[-feature-scope-includes value]*
+    	[-filter-excludes value]*
+    	[-filter-includes value]*
+    	-help
+    	[-includes value]*
+    	-indent-text value
+    	-maximize
+    	-minimize
+    	-out value
+    	-p2p
+    	-package-filter
+    	[-package-filter-excludes value]*
+    	[-package-filter-includes value]*
+    	-package-scope
+    	[-package-scope-excludes value]*
+    	[-package-scope-includes value]*
+    	-plain
+    	[-scope-excludes value]*
+    	[-scope-includes value]*
+    	-serialize
+    	-time
+    	-trace [value]
+    	-validate
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2c=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-f2f=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-minimize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-p2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-plain=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-serialize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.DependencyReporter=
+
+</blockquote>
+
+----
+
+---++ f2f
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    f2f
+    	-all
+    	-c2c
+    	-c2p
+    	-class-filter
+    	[-class-filter-excludes value]*
+    	[-class-filter-includes value]*
+    	-class-scope
+    	[-class-scope-excludes value]*
+    	[-class-scope-includes value]*
+    	-dtd-prefix value
+    	[-excludes value]*
+    	-f2f
+    	-feature-filter
+    	[-feature-filter-excludes value]*
+    	[-feature-filter-includes value]*
+    	-feature-scope
+    	[-feature-scope-excludes value]*
+    	[-feature-scope-includes value]*
+    	[-filter-excludes value]*
+    	[-filter-includes value]*
+    	-help
+    	[-includes value]*
+    	-indent-text value
+    	-maximize
+    	-minimize
+    	-out value
+    	-p2p
+    	-package-filter
+    	[-package-filter-excludes value]*
+    	[-package-filter-includes value]*
+    	-package-scope
+    	[-package-scope-excludes value]*
+    	[-package-scope-includes value]*
+    	-plain
+    	[-scope-excludes value]*
+    	[-scope-includes value]*
+    	-serialize
+    	-time
+    	-trace [value]
+    	-validate
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2c=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-f2f=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-minimize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-p2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-plain=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-serialize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.DependencyReporter=
+
+</blockquote>
+
+----
+
+---++ p2p
+
+---+++ Synopsis
+
+<blockquote>
+
+</blockquote>
+
+    p2p
+    	-all
+    	-c2c
+    	-c2p
+    	-class-filter
+    	[-class-filter-excludes value]*
+    	[-class-filter-includes value]*
+    	-class-scope
+    	[-class-scope-excludes value]*
+    	[-class-scope-includes value]*
+    	-dtd-prefix value
+    	[-excludes value]*
+    	-f2f
+    	-feature-filter
+    	[-feature-filter-excludes value]*
+    	[-feature-filter-includes value]*
+    	-feature-scope
+    	[-feature-scope-excludes value]*
+    	[-feature-scope-includes value]*
+    	[-filter-excludes value]*
+    	[-filter-includes value]*
+    	-help
+    	[-includes value]*
+    	-indent-text value
+    	-maximize
+    	-minimize
+    	-out value
+    	-p2p
+    	-package-filter
+    	[-package-filter-excludes value]*
+    	[-package-filter-includes value]*
+    	-package-scope
+    	[-package-scope-excludes value]*
+    	[-package-scope-includes value]*
+    	-plain
+    	[-scope-excludes value]*
+    	[-scope-includes value]*
+    	-serialize
+    	-time
+    	-trace [value]
+    	-validate
+    	-verbose [value]
+    	-xml
+
+---+++ Description
+
+<blockquote>
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-all=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2c=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-c2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-class-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-f2f=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-feature-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-maximize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-minimize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-p2p=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-filter-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-plain=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-excludes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes value=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-serialize=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-trace [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [value]=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+</blockquote>
+
+---+++ Input
+
+<blockquote>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.DependencyReporter=
+
+</blockquote>
+
+----
+
