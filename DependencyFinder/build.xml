@@ -347,7 +347,10 @@
 
     <target name="extract" depends="jar">
 	<taskdef name="extractor" classname="com.jeantessier.dependencyfinder.ant.DependencyExtractor">
-	    <classpath refid="libs"/>
+	    <classpath>
+		<path refid="libs"/>
+		<pathelement location="${srcDir}"/>
+	    </classpath>
 	</taskdef>
 	<extractor xml="yes" destfile="${this.release}.xml">
 	    <path>
@@ -362,9 +365,12 @@
 	</xslt>
     </target>
 
-    <target name="jarjardiff" depends="jar">
+    <target name="jarjardiff" depends="init">
 	<taskdef name="jarjardiff" classname="com.jeantessier.dependencyfinder.ant.JarJarDiff">
-	    <classpath refid="libs"/>
+	    <classpath>
+		<path refid="libs"/>
+		<pathelement location="${srcDir}"/>
+	    </classpath>
 	</taskdef>
 	<jarjardiff name="Dependency Finder" oldlabel="${last.release}" newlabel="${this.release}" destfile="${last.release}-${this.release}.xml">
 	    <old>
@@ -379,18 +385,21 @@
 	</xslt>
     </target>
 
-    <target name="oometrics" depends="jar">
+    <target name="oometrics" depends="init">
 	<taskdef name="oometrics" classname="com.jeantessier.dependencyfinder.ant.OOMetrics">
-	    <classpath refid="libs"/>
+	    <classpath>
+		<path refid="libs"/>
+		<pathelement location="${srcDir}"/>
+	    </classpath>
 	</taskdef>
 	<oometrics allmetrics="yes" destprefix="metrics-${this.release}" txt="yes" configuration="etc\MetricsConfig.xml">
 	    <path>
-		<pathelement location="${jarFile}"/>
+		<pathelement location="${jarfile}"/>
 	    </path>
 	</oometrics>
 	<oometrics allmetrics="yes" destprefix="metrics-${this.release}" xml="yes" configuration="etc\MetricsConfig.xml">
 	    <path>
-		<pathelement location="${jarFile}"/>
+		<pathelement location="${jarfile}"/>
 	    </path>
 	</oometrics>
     </target>

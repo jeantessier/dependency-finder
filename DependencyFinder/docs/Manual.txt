@@ -2608,6 +2608,35 @@ files.
 *Compilation Workflow*
 </div>
 
+<table>
+    <caption align="left">*Key*</caption>
+    <tr>
+	<td align="right">
+	    [[images/SourceFiles.gif]]
+	</td>
+	<td>
+	    Source files that *you* write.
+	</td>
+    </tr>
+    <tr>
+	<td align="right">
+	    [[images/JDKWorkflow.gif]]
+	</td>
+	<td>
+	    JDK tools and files they generate.
+	</td>
+    </tr>
+    <tr>
+	<td align="right">
+	    [[images/DependencyFinderWorkflow.gif]]
+	</td>
+	<td>
+	    Dependency Finder tools and files they generate,
+	    based on *your* code.
+	</td>
+    </tr>
+</table>
+
 The tools in Dependency Finder work from the executable code, either in
 JAR files or in individual =.class= files; they do not work from either the
 source code or the generated javadoc.
@@ -2792,7 +2821,10 @@ not mark as =@level developer=.
 *Extracting Documented Elements*
 </div>
 
-You then feed the output from the doclet to =JarJarDiff=.
+You then feed the output from the doclet to =JarJarDiff=.  In the diagram
+below, we show both =.class= and JAR files being fed to =JarJarDiff=, but you
+only need to do either, not both.  Dependency Finder tools can read JAR files
+just as well as =.class= files.
 
     C:\>JarJarDiff -name "My Project"               \
                    -old-label Old                   \
