@@ -41,63 +41,63 @@ public abstract class DecoratorTraversalStrategy implements TraversalStrategy {
 		this.strategy = strategy;
 	}
 	
-	public boolean PreOutboundTraversal() {
-		return strategy.PreOutboundTraversal();
+	public boolean doPreOutboundTraversal() {
+		return strategy.doPreOutboundTraversal();
 	}
 	
-	public void PreOutboundTraversal(boolean pre_outbound_traversal) {
-		strategy.PreOutboundTraversal(pre_outbound_traversal);
+	public void setPreOutboundTraversal(boolean preOutboundTraversal) {
+		strategy.setPreOutboundTraversal(preOutboundTraversal);
 	}
 	
-	public boolean PreInboundTraversal() {
-		return strategy.PreInboundTraversal();
+	public boolean doPreInboundTraversal() {
+		return strategy.doPreInboundTraversal();
 	}
 	
-	public void PreInboundTraversal(boolean pre_inbound_traversal) {
-		strategy.PreInboundTraversal(pre_inbound_traversal);
+	public void setPreInboundTraversal(boolean preInboundTraversal) {
+		strategy.setPreInboundTraversal(preInboundTraversal);
 	}
 	
-	public boolean PostOutboundTraversal() {
-		return strategy.PostOutboundTraversal();
+	public boolean doPostOutboundTraversal() {
+		return strategy.doPostOutboundTraversal();
 	}
 	
-	public void PostOutboundTraversal(boolean post_outbound_traversal) {
-		strategy.PostOutboundTraversal(post_outbound_traversal);
+	public void setPostOutboundTraversal(boolean postOutboundTraversal) {
+		strategy.setPostOutboundTraversal(postOutboundTraversal);
 	}
 	
-	public boolean PostInboundTraversal() {
-		return strategy.PostInboundTraversal();
+	public boolean doPostInboundTraversal() {
+		return strategy.doPostInboundTraversal();
 	}
 
-	public void PostInboundTraversal(boolean post_inbound_traversal) {
-		strategy.PostInboundTraversal(post_inbound_traversal);
+	public void setPostInboundTraversal(boolean postInboundTraversal) {
+		strategy.setPostInboundTraversal(postInboundTraversal);
 	}
 	
-	public boolean InScope(PackageNode node) {
-		return strategy.InScope(node);
+	public boolean isInScope(PackageNode node) {
+		return strategy.isInScope(node);
 	}
 
-	public boolean InScope(ClassNode node) {
-		return strategy.InScope(node);
+	public boolean isInScope(ClassNode node) {
+		return strategy.isInScope(node);
 	}
 
-	public boolean InScope(FeatureNode node) {
-		return strategy.InScope(node);
+	public boolean isInScope(FeatureNode node) {
+		return strategy.isInScope(node);
 	}
 
-	public boolean InFilter(PackageNode node) {
-		return strategy.InFilter(node);
+	public boolean isInFilter(PackageNode node) {
+		return strategy.isInFilter(node);
 	}
 
-	public boolean InFilter(ClassNode node) {
-		return strategy.InFilter(node);
+	public boolean isInFilter(ClassNode node) {
+		return strategy.isInFilter(node);
 	}
 
-	public boolean InFilter(FeatureNode node) {
-		return strategy.InFilter(node);
+	public boolean isInFilter(FeatureNode node) {
+		return strategy.isInFilter(node);
 	}
 
-	public Collection Order(Collection collection) {
-		return strategy.Order(collection);
+	public Collection order(Collection collection) {
+		return strategy.order(collection);
 	}
 }

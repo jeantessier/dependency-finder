@@ -82,7 +82,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
 		this.global_excludes = global_excludes;
 	}
 
-	public boolean MatchPackage() {
+	public boolean doesPackageMatching() {
 		return match_package;
 	}
 
@@ -114,7 +114,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
 		this.package_excludes = package_excludes;
 	}
 
-	public boolean MatchClass() {
+	public boolean doesClassMatching() {
 		return match_class;
 	}
 
@@ -146,7 +146,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
 		this.class_excludes = class_excludes;
 	}
 
-	public boolean MatchFeature() {
+	public boolean doesFeatureMatching() {
 		return match_feature;
 	}
 
@@ -178,29 +178,29 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
 		this.feature_excludes = feature_excludes;
 	}
 
-	public boolean Match(PackageNode node) {
-		return MatchPackage() && PackageMatch(node.Name());
+	public boolean matches(PackageNode node) {
+		return doesPackageMatching() && matchesPackageName(node.getName());
 	}
 	
-	public boolean Match(ClassNode node) {
-		return MatchClass() && ClassMatch(node.Name());
+	public boolean matches(ClassNode node) {
+		return doesClassMatching() && matchesClassName(node.getName());
 	}
 	
-	public boolean Match(FeatureNode node) {
-		return MatchFeature() && FeatureMatch(node.Name());
+	public boolean matches(FeatureNode node) {
+		return doesFeatureMatching() && matchesFeatureName(node.getName());
 	}
 
-	public boolean PackageMatch(String name) {
+	public boolean matchesPackageName(String name) {
 		return Match(GlobalIncludes(), PackageIncludes(), name) &&
 			!Match(GlobalExcludes(), PackageExcludes(), name);
 	}
 
-	public boolean ClassMatch(String name) {
+	public boolean matchesClassName(String name) {
 		return Match(GlobalIncludes(), ClassIncludes(), name) &&
 			!Match(GlobalExcludes(), ClassExcludes(), name);
 	}
 
-	public boolean FeatureMatch(String name) {
+	public boolean matchesFeatureName(String name) {
 		return Match(GlobalIncludes(), FeatureIncludes(), name) &&
 			!Match(GlobalExcludes(), FeatureExcludes(), name);
 	}

@@ -37,34 +37,34 @@ package com.jeantessier.commandline;
  *  or the framework will find the command-line invalid.
  */
 public class AtLeastParameterStrategy implements CountingParameterStrategy {
-	private int nb_parameters;
+	private int nbParameters;
 	private int count;
 
-	public AtLeastParameterStrategy(int nb_parameters) {
-		this.nb_parameters = nb_parameters;
+	public AtLeastParameterStrategy(int nbParameters) {
+		this.nbParameters = nbParameters;
 
 		this.count = 0;
 	}
 
-	public boolean Accept(String param) {
+	public boolean accept(String param) {
 		count++;
 
 		return true;
 	}
 
-	public boolean Satisfied() {
-		return count >= nb_parameters;
+	public boolean isSatisfied() {
+		return count >= nbParameters;
 	}
 
-	public int NbParameters() {
-		return nb_parameters;
+	public int getNbParameters() {
+		return nbParameters;
 	}
 
-	public int Count() {
+	public int getCount() {
 		return count;
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.Visit(this);
+	public void accept(Visitor visitor) {
+		visitor.visitAtLeastParameterStrategy(this);
 	}
 }

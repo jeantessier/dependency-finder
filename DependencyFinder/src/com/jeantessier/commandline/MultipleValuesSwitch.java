@@ -74,8 +74,8 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
 		this.value = new LinkedList();
 	}
 
-	public Object Value() {
-		Object result = DefaultValue();
+	public Object getValue() {
+		Object result = getDefaultValue();
 
 		if (!((List) value).isEmpty()) {
 			result = value;
@@ -84,22 +84,22 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
 		return result;
 	}
 
-	public void Value(Object value) {
+	public void setValue(Object value) {
 		((List) this.value).add(value);
-		super.Value(this.value);
+		super.setValue(this.value);
 	}
 
-	public int Parse(String name, String value) throws CommandLineException {
+	public int parse(String name, String value) throws CommandLineException {
 		if (value == null) {
 			throw new CommandLineException("Missing mandatory value for switch \"" + name + "\"");
 		}
 
-		Value(value);
+		setValue(value);
 	
 		return 2;
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.Visit(this);
+	public void accept(Visitor visitor) {
+		visitor.visitMultipleValuesSwitch(this);
 	}
 }

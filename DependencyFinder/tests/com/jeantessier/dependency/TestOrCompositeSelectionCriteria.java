@@ -56,9 +56,9 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
 	}
 	
 	public void testMatchWithEmptyList() {
-		assertEquals("a",     true, criteria.Match(a));
-		assertEquals("a.A",   true, criteria.Match(a_A));
-		assertEquals("a.A.a", true, criteria.Match(a_A_a));
+		assertEquals("a",     true, criteria.matches(a));
+		assertEquals("a.A",   true, criteria.matches(a_A));
+		assertEquals("a.A.a", true, criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithOneFalseSubcriteria() {
@@ -66,9 +66,9 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
 		mock.Value(false);
 		subcriteria.add(mock);
 
-		assertEquals("a",     mock.Value(), criteria.Match(a));
-		assertEquals("a.A",   mock.Value(), criteria.Match(a_A));
-		assertEquals("a.A.a", mock.Value(), criteria.Match(a_A_a));
+		assertEquals("a",     mock.Value(), criteria.matches(a));
+		assertEquals("a.A",   mock.Value(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock.Value(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithOneTrueSubcriteria() {
@@ -76,9 +76,9 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
 		mock.Value(true);
 		subcriteria.add(mock);
 
-		assertEquals("a",     mock.Value(), criteria.Match(a));
-		assertEquals("a.A",   mock.Value(), criteria.Match(a_A));
-		assertEquals("a.A.a", mock.Value(), criteria.Match(a_A_a));
+		assertEquals("a",     mock.Value(), criteria.matches(a));
+		assertEquals("a.A",   mock.Value(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock.Value(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithTwoSubcriteriaFalseFalse() {
@@ -90,9 +90,9 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
 		mock2.Value(false);
 		subcriteria.add(mock2);
 
-		assertEquals("a",     mock1.Value() || mock2.Value(), criteria.Match(a));
-		assertEquals("a.A",   mock1.Value() || mock2.Value(), criteria.Match(a_A));
-		assertEquals("a.A.a", mock1.Value() || mock2.Value(), criteria.Match(a_A_a));
+		assertEquals("a",     mock1.Value() || mock2.Value(), criteria.matches(a));
+		assertEquals("a.A",   mock1.Value() || mock2.Value(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock1.Value() || mock2.Value(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithTwoSubcriteriaFalseTrue() {
@@ -104,9 +104,9 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
 		mock2.Value(true);
 		subcriteria.add(mock2);
 
-		assertEquals("a",     mock1.Value() || mock2.Value(), criteria.Match(a));
-		assertEquals("a.A",   mock1.Value() || mock2.Value(), criteria.Match(a_A));
-		assertEquals("a.A.a", mock1.Value() || mock2.Value(), criteria.Match(a_A_a));
+		assertEquals("a",     mock1.Value() || mock2.Value(), criteria.matches(a));
+		assertEquals("a.A",   mock1.Value() || mock2.Value(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock1.Value() || mock2.Value(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithTwoSubcriteriaTrueFalse() {
@@ -118,9 +118,9 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
 		mock2.Value(false);
 		subcriteria.add(mock2);
 
-		assertEquals("a",     mock1.Value() || mock2.Value(), criteria.Match(a));
-		assertEquals("a.A",   mock1.Value() || mock2.Value(), criteria.Match(a_A));
-		assertEquals("a.A.a", mock1.Value() || mock2.Value(), criteria.Match(a_A_a));
+		assertEquals("a",     mock1.Value() || mock2.Value(), criteria.matches(a));
+		assertEquals("a.A",   mock1.Value() || mock2.Value(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock1.Value() || mock2.Value(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithTwoSubcriteriaTrueTrue() {
@@ -132,8 +132,8 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
 		mock2.Value(true);
 		subcriteria.add(mock2);
 
-		assertEquals("a",     mock1.Value() || mock2.Value(), criteria.Match(a));
-		assertEquals("a.A",   mock1.Value() || mock2.Value(), criteria.Match(a_A));
-		assertEquals("a.A.a", mock1.Value() || mock2.Value(), criteria.Match(a_A_a));
+		assertEquals("a",     mock1.Value() || mock2.Value(), criteria.matches(a));
+		assertEquals("a.A",   mock1.Value() || mock2.Value(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock1.Value() || mock2.Value(), criteria.matches(a_A_a));
 	}
 }

@@ -90,8 +90,8 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 	}
 
 	public void testIncludeFilterF2FtoP2P() {
-		a_A_a.AddDependency(b_B_b);
-		a_A_a.AddDependency(c_C_c);
+		a_A_a.addDependency(b_B_b);
+		a_A_a.addDependency(c_C_c);
 		
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(false);
@@ -99,18 +99,18 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 		filter_criteria.MatchFeature(false);
 		filter_criteria.GlobalIncludes(include_filter);
 		
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
-		assertTrue(copier.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
-		assertEquals(copier.ScopeFactory().CreatePackage("a").Outbound().toString(),
+		assertTrue(copier.ScopeFactory().CreatePackage("a").getInboundDependencies().isEmpty());
+		assertEquals(copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().toString(),
 					 1, 
-					 copier.ScopeFactory().CreatePackage("a").Outbound().size());
-		assertTrue(copier.ScopeFactory().CreatePackage("a").Outbound().contains(b));
+					 copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
+		assertTrue(copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().contains(b));
 	}
 
 	public void testExcludeFilterF2FtoP2P() {
-		a_A_a.AddDependency(b_B_b);
-		a_A_a.AddDependency(c_C_c);
+		a_A_a.addDependency(b_B_b);
+		a_A_a.addDependency(c_C_c);
 		
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(false);
@@ -119,14 +119,14 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 		filter_criteria.MatchFeature(false);
 		filter_criteria.GlobalExcludes(exclude_filter);
 
-		assertTrue(!filter_criteria.FeatureMatch(c_C_c.Name()));
+		assertTrue(!filter_criteria.matchesFeatureName(c_C_c.getName()));
 		
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
-		assertTrue(copier.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
-		assertEquals(copier.ScopeFactory().CreatePackage("a").Outbound().toString(),
+		assertTrue(copier.ScopeFactory().CreatePackage("a").getInboundDependencies().isEmpty());
+		assertEquals(copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().toString(),
 					 1, 
-					 copier.ScopeFactory().CreatePackage("a").Outbound().size());
-		assertTrue(copier.ScopeFactory().CreatePackage("a").Outbound().contains(b));
+					 copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
+		assertTrue(copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().contains(b));
 	}
 }

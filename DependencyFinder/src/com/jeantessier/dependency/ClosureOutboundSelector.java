@@ -43,21 +43,21 @@ public class ClosureOutboundSelector extends ClosureLayerSelector {
 		super(factory, coverage);
 	}
 
-	public void VisitPackageNode(PackageNode node) {
-		super.VisitPackageNode(node);
+	public void visitPackageNode(PackageNode node) {
+		super.visitPackageNode(node);
 
-		TraverseOutbound(node.Outbound());
+		traverseOutbound(node.getOutboundDependencies());
 	}
 
-	public void VisitClassNode(ClassNode node) {
-		super.VisitClassNode(node);
+	public void visitClassNode(ClassNode node) {
+		super.visitClassNode(node);
 
-		TraverseOutbound(node.Outbound());
+		traverseOutbound(node.getOutboundDependencies());
 	}
 
-	public void VisitFeatureNode(FeatureNode node) {
-		super.VisitFeatureNode(node);
+	public void visitFeatureNode(FeatureNode node) {
+		super.visitFeatureNode(node);
 
-		TraverseOutbound(node.Outbound());
+		traverseOutbound(node.getOutboundDependencies());
 	}
 }

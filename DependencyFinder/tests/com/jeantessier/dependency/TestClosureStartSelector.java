@@ -69,8 +69,8 @@ public class TestClosureStartSelector extends TestCase {
 		c_C   = factory.CreateClass("c.C");
 		c_C_c = factory.CreateFeature("c.C.c");
 
-		a_A_a.AddDependency(b_B_b);
-		b_B_b.AddDependency(c_C_c);
+		a_A_a.addDependency(b_B_b);
+		b_B_b.addDependency(c_C_c);
 	}
 
 	public void testOneSelectedNode() {
@@ -79,11 +79,11 @@ public class TestClosureStartSelector extends TestCase {
 		local_criteria.GlobalIncludes("/b.B.b/");
 
 		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
-		assertEquals("nodes in selection", 1, selector.SelectedNodes().size());
-		assertEquals("b.B.b in selection", b_B_b, selector.SelectedNodes().iterator().next());
-		assertSame("b.B.b in selection", b_B_b, selector.SelectedNodes().iterator().next());
+		assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
+		assertEquals("b.B.b in selection", b_B_b, selector.getSelectedNodes().iterator().next());
+		assertSame("b.B.b in selection", b_B_b, selector.getSelectedNodes().iterator().next());
 	}
 
 	public void testOneCopiedNode() {
@@ -92,7 +92,7 @@ public class TestClosureStartSelector extends TestCase {
 		local_criteria.GlobalIncludes("/b.B.b/");
 
 		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
 		assertEquals("packages in scope", 1, local_factory.Packages().size());
 		assertEquals("classes in scope" , 1, local_factory.Classes().size());
@@ -106,10 +106,10 @@ public class TestClosureStartSelector extends TestCase {
 		assertNotSame("class b.B in scope"    , b_B,   local_factory.Classes().get("b.B"));
 		assertNotSame("feature b.B.b in scope", b_B_b, local_factory.Features().get("b.B.b"));
 
-		assertEquals("nodes in selection", 1, selector.CopiedNodes().size());
-		assertEquals("b.B.b in selection", b_B_b, selector.CopiedNodes().iterator().next());
-		assertNotSame("b.B.b in selection", b_B_b, selector.CopiedNodes().iterator().next());
-		assertSame("b.B.b in selection", local_factory.Features().get("b.B.b"), selector.CopiedNodes().iterator().next());
+		assertEquals("nodes in selection", 1, selector.getCopiedNodes().size());
+		assertEquals("b.B.b in selection", b_B_b, selector.getCopiedNodes().iterator().next());
+		assertNotSame("b.B.b in selection", b_B_b, selector.getCopiedNodes().iterator().next());
+		assertSame("b.B.b in selection", local_factory.Features().get("b.B.b"), selector.getCopiedNodes().iterator().next());
 	}
 
 	public void testMultipleSelectedNodes() {
@@ -118,13 +118,13 @@ public class TestClosureStartSelector extends TestCase {
 		local_criteria.GlobalIncludes("/a.A.a/, /^b/");
 
 		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
-		assertEquals("nodes in selection", 4, selector.SelectedNodes().size());
-		assertTrue("a.A.a in selection", selector.SelectedNodes().contains(a_A_a));
-		assertTrue("b in selection",     selector.SelectedNodes().contains(b));
-		assertTrue("b.B in selection",   selector.SelectedNodes().contains(b_B));
-		assertTrue("b.B.b in selection", selector.SelectedNodes().contains(b_B_b));
+		assertEquals("nodes in selection", 4, selector.getSelectedNodes().size());
+		assertTrue("a.A.a in selection", selector.getSelectedNodes().contains(a_A_a));
+		assertTrue("b in selection",     selector.getSelectedNodes().contains(b));
+		assertTrue("b.B in selection",   selector.getSelectedNodes().contains(b_B));
+		assertTrue("b.B.b in selection", selector.getSelectedNodes().contains(b_B_b));
 	}
 
 	public void testMultipleCopiedNodes() {
@@ -133,7 +133,7 @@ public class TestClosureStartSelector extends TestCase {
 		local_criteria.GlobalIncludes("/a.A.a/, /^b/");
 
 		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
 		assertEquals("packages in scope", 2, local_factory.Packages().size());
 		assertEquals("classes in scope" , 2, local_factory.Classes().size());
@@ -153,10 +153,10 @@ public class TestClosureStartSelector extends TestCase {
 		assertNotSame("class b.B in scope"    , b_B,   local_factory.Classes().get("b.B"));
 		assertNotSame("feature b.B.b in scope", b_B_b, local_factory.Features().get("b.B.b"));
 
-		assertEquals("nodes in selection", 4, selector.CopiedNodes().size());
-		assertTrue("a.A.a in selection", selector.CopiedNodes().contains(a_A_a));
-		assertTrue("b in selection",     selector.CopiedNodes().contains(b));
-		assertTrue("b.B in selection",   selector.CopiedNodes().contains(b_B));
-		assertTrue("b.B.b in selection", selector.CopiedNodes().contains(b_B_b));
+		assertEquals("nodes in selection", 4, selector.getCopiedNodes().size());
+		assertTrue("a.A.a in selection", selector.getCopiedNodes().contains(a_A_a));
+		assertTrue("b in selection",     selector.getCopiedNodes().contains(b));
+		assertTrue("b.B in selection",   selector.getCopiedNodes().contains(b_B));
+		assertTrue("b.B.b in selection", selector.getCopiedNodes().contains(b_B_b));
 	}
 }

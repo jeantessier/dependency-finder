@@ -69,8 +69,8 @@ public class TestClosureInboundSelector extends TestCase {
 		c_C   = factory.CreateClass("c.C");
 		c_C_c = factory.CreateFeature("c.C.c");
 
-		a_A_a.AddDependency(b_B_b);
-		b_B_b.AddDependency(c_C_c);
+		a_A_a.addDependency(b_B_b);
+		b_B_b.addDependency(c_C_c);
 	}
 
 	public void testFactory() {
@@ -78,9 +78,9 @@ public class TestClosureInboundSelector extends TestCase {
 
 		ClosureInboundSelector selector = new ClosureInboundSelector();
 
-		selector.Factory(local_factory);
+		selector.setFactory(local_factory);
 
-		assertEquals("factory", local_factory, selector.Factory());
+		assertEquals("factory", local_factory, selector.getFactory());
 	}
 
 	public void testCoverage() {
@@ -88,27 +88,27 @@ public class TestClosureInboundSelector extends TestCase {
 
 		ClosureInboundSelector selector = new ClosureInboundSelector();
 
-		selector.Coverage(coverage);
+		selector.setCoverage(coverage);
 
-		assertEquals("coverage", coverage, selector.Coverage());
+		assertEquals("coverage", coverage, selector.getCoverage());
 	}
 	
 	public void testOneSelectedNode() {
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 1, selector.SelectedNodes().size());
-		assertEquals("a.A.a in selection", a_A_a, selector.SelectedNodes().iterator().next());
-		assertSame("a.A.a in selection", a_A_a, selector.SelectedNodes().iterator().next());
+		assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
+		assertEquals("a.A.a in selection", a_A_a, selector.getSelectedNodes().iterator().next());
+		assertSame("a.A.a in selection", a_A_a, selector.getSelectedNodes().iterator().next());
 	}
 
 	public void testOneCopiedNode() {
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
 		assertEquals("packages in scope", 2, local_factory.Packages().size());
 		assertEquals("classes in scope" , 2, local_factory.Classes().size());
@@ -128,224 +128,224 @@ public class TestClosureInboundSelector extends TestCase {
 		assertNotSame("class b.B in scope"    , b_B,   local_factory.Classes().get("b.B"));
 		assertNotSame("feature b.B.b in scope", b_B_b, local_factory.Features().get("b.B.b"));
 
-		assertEquals("nodes in selection", 1, selector.CopiedNodes().size());
-		assertEquals("a.A.a in selection", a_A_a, selector.CopiedNodes().iterator().next());
-		assertNotSame("a.A.a in selection", a_A_a, selector.CopiedNodes().iterator().next());
-		assertSame("a.A.a in selection", local_factory.Features().get("a.A.a"), selector.CopiedNodes().iterator().next());
-		assertEquals("a.A.a's inbounds",  0, ((Node) selector.CopiedNodes().iterator().next()).Inbound().size());
-		assertEquals("a.A.a's outbounds", 1, ((Node) selector.CopiedNodes().iterator().next()).Outbound().size());
+		assertEquals("nodes in selection", 1, selector.getCopiedNodes().size());
+		assertEquals("a.A.a in selection", a_A_a, selector.getCopiedNodes().iterator().next());
+		assertNotSame("a.A.a in selection", a_A_a, selector.getCopiedNodes().iterator().next());
+		assertSame("a.A.a in selection", local_factory.Features().get("a.A.a"), selector.getCopiedNodes().iterator().next());
+		assertEquals("a.A.a's inbounds",  0, ((Node) selector.getCopiedNodes().iterator().next()).getInboundDependencies().size());
+		assertEquals("a.A.a's outbounds", 1, ((Node) selector.getCopiedNodes().iterator().next()).getOutboundDependencies().size());
 	}
 
 	public void testThreeSelectedNodesFromPackage() {
-		a.AddDependency(b);
-		a_A.AddDependency(b);
-		a_A_a.AddDependency(b);
+		a.addDependency(b);
+		a_A.addDependency(b);
+		a_A_a.addDependency(b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b));
+		selector.traverseNodes(Collections.singleton(b));
 
-		assertEquals("nodes in selection", 3, selector.SelectedNodes().size());
-		assertTrue("a in selection",     selector.SelectedNodes().contains(a));
-		assertTrue("a.A in selection",   selector.SelectedNodes().contains(a_A));
-		assertTrue("a.A.a in selection", selector.SelectedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
+		assertTrue("a in selection",     selector.getSelectedNodes().contains(a));
+		assertTrue("a.A in selection",   selector.getSelectedNodes().contains(a_A));
+		assertTrue("a.A.a in selection", selector.getSelectedNodes().contains(a_A_a));
 	}
 
 	public void testThreeSelectedNodesFromClass() {
-		a.AddDependency(b_B);
-		a_A.AddDependency(b_B);
-		a_A_a.AddDependency(b_B);
+		a.addDependency(b_B);
+		a_A.addDependency(b_B);
+		a_A_a.addDependency(b_B);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b_B));
+		selector.traverseNodes(Collections.singleton(b_B));
 
-		assertEquals("nodes in selection", 3, selector.SelectedNodes().size());
-		assertTrue("a in selection",     selector.SelectedNodes().contains(a));
-		assertTrue("a.A in selection",   selector.SelectedNodes().contains(a_A));
-		assertTrue("a.A.a in selection", selector.SelectedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
+		assertTrue("a in selection",     selector.getSelectedNodes().contains(a));
+		assertTrue("a.A in selection",   selector.getSelectedNodes().contains(a_A));
+		assertTrue("a.A.a in selection", selector.getSelectedNodes().contains(a_A_a));
 	}
 
 	public void testThreeSelectedNodesFromFeature() {
-		a.AddDependency(b_B_b);
-		a_A.AddDependency(b_B_b);
-		a_A_a.AddDependency(b_B_b);
+		a.addDependency(b_B_b);
+		a_A.addDependency(b_B_b);
+		a_A_a.addDependency(b_B_b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 3, selector.SelectedNodes().size());
-		assertTrue("a in selection",     selector.SelectedNodes().contains(a));
-		assertTrue("a.A in selection",   selector.SelectedNodes().contains(a_A));
-		assertTrue("a.A.a in selection", selector.SelectedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
+		assertTrue("a in selection",     selector.getSelectedNodes().contains(a));
+		assertTrue("a.A in selection",   selector.getSelectedNodes().contains(a_A));
+		assertTrue("a.A.a in selection", selector.getSelectedNodes().contains(a_A_a));
 	}
 
 	public void testThreeCopiedNodesFromPackage() {
-		a.AddDependency(b);
-		a_A.AddDependency(b);
-		a_A_a.AddDependency(b);
+		a.addDependency(b);
+		a_A.addDependency(b);
+		a_A_a.addDependency(b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b));
+		selector.traverseNodes(Collections.singleton(b));
 
-		assertEquals("nodes in selection", 3, selector.CopiedNodes().size());
-		assertTrue("a in selection",     selector.CopiedNodes().contains(a));
-		assertTrue("a.A in selection",   selector.CopiedNodes().contains(a_A));
-		assertTrue("a.A.a in selection", selector.CopiedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
+		assertTrue("a in selection",     selector.getCopiedNodes().contains(a));
+		assertTrue("a.A in selection",   selector.getCopiedNodes().contains(a_A));
+		assertTrue("a.A.a in selection", selector.getCopiedNodes().contains(a_A_a));
 
-		assertEquals("b's inbounds", 3, local_factory.CreatePackage("b").Inbound().size());
+		assertEquals("b's inbounds", 3, local_factory.CreatePackage("b").getInboundDependencies().size());
 	}
 
 	public void testThreeCopiedNodesFromClass() {
-		a.AddDependency(b_B);
-		a_A.AddDependency(b_B);
-		a_A_a.AddDependency(b_B);
+		a.addDependency(b_B);
+		a_A.addDependency(b_B);
+		a_A_a.addDependency(b_B);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b_B));
+		selector.traverseNodes(Collections.singleton(b_B));
 
-		assertEquals("nodes in selection", 3, selector.CopiedNodes().size());
-		assertTrue("a in selection",     selector.CopiedNodes().contains(a));
-		assertTrue("a.A in selection",   selector.CopiedNodes().contains(a_A));
-		assertTrue("a.A.a in selection", selector.CopiedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
+		assertTrue("a in selection",     selector.getCopiedNodes().contains(a));
+		assertTrue("a.A in selection",   selector.getCopiedNodes().contains(a_A));
+		assertTrue("a.A.a in selection", selector.getCopiedNodes().contains(a_A_a));
 
-		assertEquals("b.B's inbounds", 3, local_factory.CreateClass("b.B").Inbound().size());
+		assertEquals("b.B's inbounds", 3, local_factory.CreateClass("b.B").getInboundDependencies().size());
 	}
 
 	public void testThreeCopiedNodesFromFeature() {
-		a.AddDependency(b_B_b);
-		a_A.AddDependency(b_B_b);
-		a_A_a.AddDependency(b_B_b);
+		a.addDependency(b_B_b);
+		a_A.addDependency(b_B_b);
+		a_A_a.addDependency(b_B_b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 3, selector.CopiedNodes().size());
-		assertTrue("a in selection",     selector.CopiedNodes().contains(a));
-		assertTrue("a.A in selection",   selector.CopiedNodes().contains(a_A));
-		assertTrue("a.A.a in selection", selector.CopiedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
+		assertTrue("a in selection",     selector.getCopiedNodes().contains(a));
+		assertTrue("a.A in selection",   selector.getCopiedNodes().contains(a_A));
+		assertTrue("a.A.a in selection", selector.getCopiedNodes().contains(a_A_a));
 
-		assertEquals("b.B.b's inbounds", 3, local_factory.CreateFeature("b.B.b").Inbound().size());
+		assertEquals("b.B.b's inbounds", 3, local_factory.CreateFeature("b.B.b").getInboundDependencies().size());
 	}
 
 	public void testTwoSelectedNodeWithPackageInCoverage() {
-		a.AddDependency(b_B_b);
-		a_A.AddDependency(b_B_b);
-		a_A_a.AddDependency(b_B_b);
+		a.addDependency(b_B_b);
+		a_A.addDependency(b_B_b);
+		a_A_a.addDependency(b_B_b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.singleton(a));
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 2, selector.SelectedNodes().size());
-		assertTrue("a.A in selection",   selector.SelectedNodes().contains(a_A));
-		assertTrue("a.A.a in selection", selector.SelectedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 2, selector.getSelectedNodes().size());
+		assertTrue("a.A in selection",   selector.getSelectedNodes().contains(a_A));
+		assertTrue("a.A.a in selection", selector.getSelectedNodes().contains(a_A_a));
 	}
 
 	public void testTwoSelectedNodeWithClassInCoverage() {
-		a.AddDependency(b_B_b);
-		a_A.AddDependency(b_B_b);
-		a_A_a.AddDependency(b_B_b);
+		a.addDependency(b_B_b);
+		a_A.addDependency(b_B_b);
+		a_A_a.addDependency(b_B_b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.singleton(a_A));
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 2, selector.SelectedNodes().size());
-		assertTrue("a in selection",     selector.SelectedNodes().contains(a));
-		assertTrue("a.A.a in selection", selector.SelectedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 2, selector.getSelectedNodes().size());
+		assertTrue("a in selection",     selector.getSelectedNodes().contains(a));
+		assertTrue("a.A.a in selection", selector.getSelectedNodes().contains(a_A_a));
 	}
 
 	public void testTwoSelectedNodeWithFeatureInCoverage() {
-		a.AddDependency(b_B_b);
-		a_A.AddDependency(b_B_b);
-		a_A_a.AddDependency(b_B_b);
+		a.addDependency(b_B_b);
+		a_A.addDependency(b_B_b);
+		a_A_a.addDependency(b_B_b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.singleton(a_A_a));
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 2, selector.SelectedNodes().size());
-		assertTrue("a in selection",   selector.SelectedNodes().contains(a));
-		assertTrue("a.A in selection", selector.SelectedNodes().contains(a_A));
+		assertEquals("nodes in selection", 2, selector.getSelectedNodes().size());
+		assertTrue("a in selection",   selector.getSelectedNodes().contains(a));
+		assertTrue("a.A in selection", selector.getSelectedNodes().contains(a_A));
 	}
 
 	public void testTwoCopiedNodeWithPackageInCoverage() {
-		a.AddDependency(b_B_b);
-		a_A.AddDependency(b_B_b);
-		a_A_a.AddDependency(b_B_b);
+		a.addDependency(b_B_b);
+		a_A.addDependency(b_B_b);
+		a_A_a.addDependency(b_B_b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.singleton(a));
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 2, selector.CopiedNodes().size());
-		assertTrue("a.A in selection",   selector.CopiedNodes().contains(a_A));
-		assertTrue("a.A.a in selection", selector.CopiedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 2, selector.getCopiedNodes().size());
+		assertTrue("a.A in selection",   selector.getCopiedNodes().contains(a_A));
+		assertTrue("a.A.a in selection", selector.getCopiedNodes().contains(a_A_a));
 
-		assertEquals("b.B.b's inbounds", 2, local_factory.CreateFeature("b.B.b").Inbound().size());
+		assertEquals("b.B.b's inbounds", 2, local_factory.CreateFeature("b.B.b").getInboundDependencies().size());
 	}
 
 	public void testTwoCopiedNodeWithClassInCoverage() {
-		a.AddDependency(b_B_b);
-		a_A.AddDependency(b_B_b);
-		a_A_a.AddDependency(b_B_b);
+		a.addDependency(b_B_b);
+		a_A.addDependency(b_B_b);
+		a_A_a.addDependency(b_B_b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.singleton(a_A));
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 2, selector.CopiedNodes().size());
-		assertTrue("a in selection",     selector.CopiedNodes().contains(a));
-		assertTrue("a.A.a in selection", selector.CopiedNodes().contains(a_A_a));
+		assertEquals("nodes in selection", 2, selector.getCopiedNodes().size());
+		assertTrue("a in selection",     selector.getCopiedNodes().contains(a));
+		assertTrue("a.A.a in selection", selector.getCopiedNodes().contains(a_A_a));
 
-		assertEquals("b.B.b's inbounds", 2, local_factory.CreateFeature("b.B.b").Inbound().size());
+		assertEquals("b.B.b's inbounds", 2, local_factory.CreateFeature("b.B.b").getInboundDependencies().size());
 	}
 
 	public void testTwoCopiedNodeWithFeatureInCoverage() {
-		a.AddDependency(b_B_b);
-		a_A.AddDependency(b_B_b);
-		a_A_a.AddDependency(b_B_b);
+		a.addDependency(b_B_b);
+		a_A.addDependency(b_B_b);
+		a_A_a.addDependency(b_B_b);
 		
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.singleton(a_A_a));
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 2, selector.CopiedNodes().size());
-		assertTrue("a in selection",   selector.CopiedNodes().contains(a));
-		assertTrue("a.A in selection", selector.CopiedNodes().contains(a_A));
+		assertEquals("nodes in selection", 2, selector.getCopiedNodes().size());
+		assertTrue("a in selection",   selector.getCopiedNodes().contains(a));
+		assertTrue("a.A in selection", selector.getCopiedNodes().contains(a_A));
 
-		assertEquals("b.B.b's inbounds", 2, local_factory.CreateFeature("b.B.b").Inbound().size());
+		assertEquals("b.B.b's inbounds", 2, local_factory.CreateFeature("b.B.b").getInboundDependencies().size());
 	}
 
 	public void testReset() {
 		NodeFactory local_factory  = new NodeFactory();
 
 		ClosureInboundSelector selector = new ClosureInboundSelector(local_factory, Collections.EMPTY_SET);
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("nodes in selection", 1, selector.SelectedNodes().size());
-		assertEquals("copied nodes",       1, selector.CopiedNodes().size());
+		assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
+		assertEquals("copied nodes",       1, selector.getCopiedNodes().size());
 
-		selector.Reset();
+		selector.reset();
 		
-		assertEquals("nodes in selection", 0, selector.SelectedNodes().size());
-		assertEquals("copied nodes",       0, selector.CopiedNodes().size());
+		assertEquals("nodes in selection", 0, selector.getSelectedNodes().size());
+		assertEquals("copied nodes",       0, selector.getCopiedNodes().size());
 	}
 }

@@ -35,59 +35,59 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class ClosureSelector implements Visitor {
-	private Collection selected_nodes;
-	private Collection copied_nodes;
+	private Collection selectedNodes;
+	private Collection copiedNodes;
 
 	private NodeFactory factory;
 	
 	public ClosureSelector() {
-		Reset();
+		reset();
 	}
 	
 	public ClosureSelector(NodeFactory factory) {
 		this();
-		Factory(factory);
+		setFactory(factory);
 	}
 
-	public void Reset() {
-		selected_nodes = new HashSet();
-		copied_nodes   = new HashSet();
+	public void reset() {
+		selectedNodes = new HashSet();
+		copiedNodes   = new HashSet();
 	}
 
-	public NodeFactory Factory() {
+	public NodeFactory getFactory() {
 		return factory;
 	}
 
-	public void Factory(NodeFactory factory) {
+	public void setFactory(NodeFactory factory) {
 		this.factory = factory;
 	}
 	
-	public Collection SelectedNodes() {
-		return selected_nodes;
+	public Collection getSelectedNodes() {
+		return selectedNodes;
 	}
 
-	public Collection CopiedNodes() {
-		return copied_nodes;
+	public Collection getCopiedNodes() {
+		return copiedNodes;
 	}
 	
-	public void TraverseNodes(Collection nodes) {
+	public void traverseNodes(Collection nodes) {
 		Iterator i = nodes.iterator();
 		while (i.hasNext()) {
-			((Node) i.next()).Accept(this);
+			((Node) i.next()).accept(this);
 		}
 	}
 
-	protected void TraverseInbound(Collection nodes) {
+	protected void traverseInbound(Collection nodes) {
 		Iterator i = nodes.iterator();
 		while (i.hasNext()) {
-			((Node) i.next()).AcceptInbound(this);
+			((Node) i.next()).acceptInbound(this);
 		}
 	}
 
-	protected void TraverseOutbound(Collection nodes) {
+	protected void traverseOutbound(Collection nodes) {
 		Iterator i = nodes.iterator();
 		while (i.hasNext()) {
-			((Node) i.next()).AcceptOutbound(this);
+			((Node) i.next()).acceptOutbound(this);
 		}
 	}
 }

@@ -68,104 +68,104 @@ public class XMLPrinter extends Printer {
 		EOL();
 	}
 
-	public void TraverseNodes(Collection nodes) {
+	public void traverseNodes(Collection nodes) {
 		if (at_top_level) {
-			super.TraverseNodes(nodes);
+			super.traverseNodes(nodes);
 		} else {
 			at_top_level = true;
 			Indent().Append("<dependencies>").EOL();
 			RaiseIndent();
-			super.TraverseNodes(nodes);
+			super.traverseNodes(nodes);
 			LowerIndent();
 			Indent().Append("</dependencies>").EOL();
 			at_top_level = false;
 		}
 	}
 
-	protected void PreprocessPackageNode(PackageNode node) {
-		super.PreprocessPackageNode(node);
+	protected void preprocessPackageNode(PackageNode node) {
+		super.preprocessPackageNode(node);
 
 		if (ShowPackageNode(node)) {
 			Indent().Append("<package>").EOL();
 			RaiseIndent();
-			Indent().Append("<name>").Append(node.Name()).Append("</name>").EOL();
+			Indent().Append("<name>").Append(node.getName()).Append("</name>").EOL();
 		}
 	}
 
-	protected void PostprocessPackageNode(PackageNode node) {
+	protected void postprocessPackageNode(PackageNode node) {
 		if (ShowPackageNode(node)) {
 			LowerIndent();
 			Indent().Append("</package>").EOL();
 		}
 	}
 
-	public void VisitInboundPackageNode(PackageNode node) {
+	public void visitInboundPackageNode(PackageNode node) {
 		if (ShowInbounds()) {
-			Indent().Append("<inbound type=\"package\">").Append(node.Name()).Append("</inbound>").EOL();
+			Indent().Append("<inbound type=\"package\">").Append(node.getName()).Append("</inbound>").EOL();
 		}
 	}
 
-	public void VisitOutboundPackageNode(PackageNode node) {
+	public void visitOutboundPackageNode(PackageNode node) {
 		if (ShowOutbounds()) {
-			Indent().Append("<outbound type=\"package\">").Append(node.Name()).Append("</outbound>").EOL();
+			Indent().Append("<outbound type=\"package\">").Append(node.getName()).Append("</outbound>").EOL();
 		}
 	}
 
-	protected void PreprocessClassNode(ClassNode node) {
-		super.PreprocessClassNode(node);
+	protected void preprocessClassNode(ClassNode node) {
+		super.preprocessClassNode(node);
 
 		if (ShowClassNode(node)) {
 			Indent().Append("<class>").EOL();
 			RaiseIndent();
-			Indent().Append("<name>").Append(node.Name()).Append("</name>").EOL();
+			Indent().Append("<name>").Append(node.getName()).Append("</name>").EOL();
 		}
 	}
 
-	protected void PostprocessClassNode(ClassNode node) {
+	protected void postprocessClassNode(ClassNode node) {
 		if (ShowClassNode(node)) {
 			LowerIndent();
 			Indent().Append("</class>").EOL();
 		}
 	}
 
-	public void VisitInboundClassNode(ClassNode node) {
+	public void visitInboundClassNode(ClassNode node) {
 		if (ShowInbounds()) {
-			Indent().Append("<inbound type=\"class\">").Append(node.Name()).Append("</inbound>").EOL();
+			Indent().Append("<inbound type=\"class\">").Append(node.getName()).Append("</inbound>").EOL();
 		}
 	}
 
-	public void VisitOutboundClassNode(ClassNode node) {
+	public void visitOutboundClassNode(ClassNode node) {
 		if (ShowOutbounds()) {
-			Indent().Append("<outbound type=\"class\">").Append(node.Name()).Append("</outbound>").EOL();
+			Indent().Append("<outbound type=\"class\">").Append(node.getName()).Append("</outbound>").EOL();
 		}
 	}
 
-	protected void PreprocessFeatureNode(FeatureNode node) {
-		super.PreprocessFeatureNode(node);
+	protected void preprocessFeatureNode(FeatureNode node) {
+		super.preprocessFeatureNode(node);
 
 		if (ShowFeatureNode(node)) {
 			Indent().Append("<feature>").EOL();
 			RaiseIndent();
-			Indent().Append("<name>").Append(node.Name()).Append("</name>").EOL();
+			Indent().Append("<name>").Append(node.getName()).Append("</name>").EOL();
 		}
 	}
 
-	protected void PostprocessFeatureNode(FeatureNode node) {
+	protected void postprocessFeatureNode(FeatureNode node) {
 		if (ShowFeatureNode(node)) {
 			LowerIndent();
 			Indent().Append("</feature>").EOL();
 		}
 	}
 
-	public void VisitInboundFeatureNode(FeatureNode node) {
+	public void visitInboundFeatureNode(FeatureNode node) {
 		if (ShowInbounds()) {
-			Indent().Append("<inbound type=\"feature\">").Append(node.Name()).Append("</inbound>").EOL();
+			Indent().Append("<inbound type=\"feature\">").Append(node.getName()).Append("</inbound>").EOL();
 		}
 	}
 
-	public void VisitOutboundFeatureNode(FeatureNode node) {
+	public void visitOutboundFeatureNode(FeatureNode node) {
 		if (ShowOutbounds()) {
-			Indent().Append("<outbound type=\"feature\">").Append(node.Name()).Append("</outbound>").EOL();
+			Indent().Append("<outbound type=\"feature\">").Append(node.getName()).Append("</outbound>").EOL();
 		}
 	}
 }

@@ -203,7 +203,7 @@ public class DependencyMetrics extends GraphTask {
 					packages = loader.Load(filenames[i]).Packages().values();
 				}
 				
-				metrics.TraverseNodes(packages);
+				metrics.traverseNodes(packages);
 			}
 			
 			reporter.Process(metrics);

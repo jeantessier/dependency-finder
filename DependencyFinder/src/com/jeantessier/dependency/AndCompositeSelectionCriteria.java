@@ -39,100 +39,100 @@ public class AndCompositeSelectionCriteria extends CompositeSelectionCriteria {
 		super(subcriteria);
 	}
 	
-	public boolean MatchPackage() {
+	public boolean doesPackageMatching() {
 		boolean result = true;
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).MatchPackage();
+			result = ((SelectionCriteria) i.next()).doesPackageMatching();
 		}
 		
 		return result;
 	}
 	
-	public boolean MatchClass() {
+	public boolean doesClassMatching() {
 		boolean result = true;
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).MatchClass();
+			result = ((SelectionCriteria) i.next()).doesClassMatching();
 		}
 		
 		return result;
 	}
 	
-	public boolean MatchFeature() {
+	public boolean doesFeatureMatching() {
 		boolean result = true;
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).MatchFeature();
+			result = ((SelectionCriteria) i.next()).doesFeatureMatching();
 		}
 		
 		return result;
 	}
 
-	public boolean Match(PackageNode node) {
+	public boolean matches(PackageNode node) {
 		boolean result = true;
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).Match(node);
-		}
-		
-		return result;
-	}
-	
-	public boolean Match(ClassNode node) {
-		boolean result = true;
-
-		Iterator i = Subcriteria().iterator();
-		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).Match(node);
+			result = ((SelectionCriteria) i.next()).matches(node);
 		}
 		
 		return result;
 	}
 	
-	public boolean Match(FeatureNode node) {
+	public boolean matches(ClassNode node) {
 		boolean result = true;
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).Match(node);
-		}
-		
-		return result;
-	}
-
-	public boolean PackageMatch(String name) {
-		boolean result = true;
-
-		Iterator i = Subcriteria().iterator();
-		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).PackageMatch(name);
+			result = ((SelectionCriteria) i.next()).matches(node);
 		}
 		
 		return result;
 	}
 	
-	public boolean ClassMatch(String name) {
+	public boolean matches(FeatureNode node) {
 		boolean result = true;
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).ClassMatch(name);
+			result = ((SelectionCriteria) i.next()).matches(node);
+		}
+		
+		return result;
+	}
+
+	public boolean matchesPackageName(String name) {
+		boolean result = true;
+
+		Iterator i = getSubcriteria().iterator();
+		while (result && i.hasNext()) {
+			result = ((SelectionCriteria) i.next()).matchesPackageName(name);
 		}
 		
 		return result;
 	}
 	
-	public boolean FeatureMatch(String name) {
+	public boolean matchesClassName(String name) {
 		boolean result = true;
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).FeatureMatch(name);
+			result = ((SelectionCriteria) i.next()).matchesClassName(name);
+		}
+		
+		return result;
+	}
+	
+	public boolean matchesFeatureName(String name) {
+		boolean result = true;
+
+		Iterator i = getSubcriteria().iterator();
+		while (result && i.hasNext()) {
+			result = ((SelectionCriteria) i.next()).matchesFeatureName(name);
 		}
 		
 		return result;

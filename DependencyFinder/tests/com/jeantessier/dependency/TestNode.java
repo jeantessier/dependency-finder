@@ -64,44 +64,44 @@ public class TestNode extends TestCase {
 	}
 
 	public void testPackageCanAddDependency() {
-		assertFalse(a.CanAddDependency(a));
-		assertTrue(a.CanAddDependency(a_A));
-		assertTrue(a.CanAddDependency(a_A_a));
-		assertTrue(a.CanAddDependency(a_A_b));
-		assertTrue(a.CanAddDependency(a_B));
-		assertTrue(a.CanAddDependency(a_B_a));
-		assertTrue(a.CanAddDependency(a_B_b));
+		assertFalse(a.canAddDependencyTo(a));
+		assertTrue(a.canAddDependencyTo(a_A));
+		assertTrue(a.canAddDependencyTo(a_A_a));
+		assertTrue(a.canAddDependencyTo(a_A_b));
+		assertTrue(a.canAddDependencyTo(a_B));
+		assertTrue(a.canAddDependencyTo(a_B_a));
+		assertTrue(a.canAddDependencyTo(a_B_b));
 
-		assertTrue(a.CanAddDependency(b));
-		assertTrue(a.CanAddDependency(b_B));
-		assertTrue(a.CanAddDependency(b_B_b));
+		assertTrue(a.canAddDependencyTo(b));
+		assertTrue(a.canAddDependencyTo(b_B));
+		assertTrue(a.canAddDependencyTo(b_B_b));
 	}
 
 	public void testClassCanAddDependency() {
-		assertFalse(a_A.CanAddDependency(a));
-		assertFalse(a_A.CanAddDependency(a_A));
-		assertTrue(a_A.CanAddDependency(a_A_a));
-		assertTrue(a_A.CanAddDependency(a_A_b));
-		assertTrue(a_A.CanAddDependency(a_B));
-		assertTrue(a_A.CanAddDependency(a_B_a));
-		assertTrue(a_A.CanAddDependency(a_B_b));
+		assertFalse(a_A.canAddDependencyTo(a));
+		assertFalse(a_A.canAddDependencyTo(a_A));
+		assertTrue(a_A.canAddDependencyTo(a_A_a));
+		assertTrue(a_A.canAddDependencyTo(a_A_b));
+		assertTrue(a_A.canAddDependencyTo(a_B));
+		assertTrue(a_A.canAddDependencyTo(a_B_a));
+		assertTrue(a_A.canAddDependencyTo(a_B_b));
 
-		assertTrue(a_A.CanAddDependency(b));
-		assertTrue(a_A.CanAddDependency(b_B));
-		assertTrue(a_A.CanAddDependency(b_B_b));
+		assertTrue(a_A.canAddDependencyTo(b));
+		assertTrue(a_A.canAddDependencyTo(b_B));
+		assertTrue(a_A.canAddDependencyTo(b_B_b));
 	}
 
 	public void testFeatureCanAddDependency() {
-		assertFalse(a_A_a.CanAddDependency(a));
-		assertFalse(a_A_a.CanAddDependency(a_A));
-		assertFalse(a_A_a.CanAddDependency(a_A_a));
-		assertTrue(a_A_a.CanAddDependency(a_A_b));
-		assertTrue(a_A_a.CanAddDependency(a_B));
-		assertTrue(a_A_a.CanAddDependency(a_B_a));
-		assertTrue(a_A_a.CanAddDependency(a_B_b));
+		assertFalse(a_A_a.canAddDependencyTo(a));
+		assertFalse(a_A_a.canAddDependencyTo(a_A));
+		assertFalse(a_A_a.canAddDependencyTo(a_A_a));
+		assertTrue(a_A_a.canAddDependencyTo(a_A_b));
+		assertTrue(a_A_a.canAddDependencyTo(a_B));
+		assertTrue(a_A_a.canAddDependencyTo(a_B_a));
+		assertTrue(a_A_a.canAddDependencyTo(a_B_b));
 
-		assertTrue(a_A_a.CanAddDependency(b));
-		assertTrue(a_A_a.CanAddDependency(b_B));
-		assertTrue(a_A_a.CanAddDependency(b_B_b));
+		assertTrue(a_A_a.canAddDependencyTo(b));
+		assertTrue(a_A_a.canAddDependencyTo(b_B));
+		assertTrue(a_A_a.canAddDependencyTo(b_B_b));
 	}
 }

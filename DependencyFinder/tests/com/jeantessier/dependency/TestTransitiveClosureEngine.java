@@ -72,8 +72,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 		c_C   = factory.CreateClass("c.C");
 		c_C_c = factory.CreateFeature("c.C.c");
 
-		a_A_a.AddDependency(b_B_b);
-		b_B_b.AddDependency(c_C_c);
+		a_A_a.addDependency(b_B_b);
+		b_B_b.addDependency(c_C_c);
 
 		start_criteria = new RegularExpressionSelectionCriteria();
 		stop_criteria  = new RegularExpressionSelectionCriteria();
@@ -85,7 +85,7 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(start_criteria, new RegularExpressionSelectionCriteria()));
 
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 		
 		assertEquals("packages in scope: " , 1, copier.ScopeFactory().Packages().values().size());
 		assertEquals("classes in scope"    , 1, copier.ScopeFactory().Classes().values().size());
@@ -107,7 +107,7 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertEquals("a.A.a in layer 0", a_A_a, engine.Layer(0).iterator().next());
 		assertNotSame("a.A.a in layer 0", a_A_a, engine.Layer(0).iterator().next());
 
-		assertEquals("Nb outbounds from a.A.a", 0, ((Node) engine.Layer(0).iterator().next()).Outbound().size());
+		assertEquals("Nb outbounds from a.A.a", 0, ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 1, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   1, engine.Factory().Classes().values().size());
@@ -130,8 +130,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertEquals("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
 		assertNotSame("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
 
-		assertEquals("Nb outbounds from a.A.a", a_A_a.Outbound().size(), ((Node) engine.Layer(0).iterator().next()).Outbound().size());
-		assertEquals("Nb outbounds from b.B.b", 0,                       ((Node) engine.Layer(1).iterator().next()).Outbound().size());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from b.B.b", 0,                       ((Node) engine.Layer(1).iterator().next()).getOutboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
@@ -158,9 +158,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertEquals("c.C.c in layer 2", c_C_c, engine.Layer(2).iterator().next());
 		assertNotSame("c.C.c in layer 2", c_C_c, engine.Layer(2).iterator().next());
 
-		assertEquals("Nb outbounds from a.A.a", a_A_a.Outbound().size(), ((Node) engine.Layer(0).iterator().next()).Outbound().size());
-		assertEquals("Nb outbounds from b.B.b", b_B_b.Outbound().size(), ((Node) engine.Layer(1).iterator().next()).Outbound().size());
-		assertEquals("Nb outbounds from c.C.c", 0,                       ((Node) engine.Layer(2).iterator().next()).Outbound().size());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from c.C.c", 0,                       ((Node) engine.Layer(2).iterator().next()).getOutboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
@@ -187,9 +187,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 3, engine.NbLayers());
 
-		assertEquals("Nb outbounds from a.A.a", a_A_a.Outbound().size(), ((Node) engine.Layer(0).iterator().next()).Outbound().size());
-		assertEquals("Nb outbounds from b.B.b", b_B_b.Outbound().size(), ((Node) engine.Layer(1).iterator().next()).Outbound().size());
-		assertEquals("Nb outbounds from c.C.c", c_C_c.Outbound().size(), ((Node) engine.Layer(2).iterator().next()).Outbound().size());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getOutboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
@@ -217,9 +217,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 3, engine.NbLayers());
 
-		assertEquals("Nb outbounds from a.A.a", a_A_a.Outbound().size(), ((Node) engine.Layer(0).iterator().next()).Outbound().size());
-		assertEquals("Nb outbounds from b.B.b", b_B_b.Outbound().size(), ((Node) engine.Layer(1).iterator().next()).Outbound().size());
-		assertEquals("Nb outbounds from c.C.c", c_C_c.Outbound().size(), ((Node) engine.Layer(2).iterator().next()).Outbound().size());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getOutboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
@@ -247,7 +247,7 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertEquals("c.C.c in layer 0", c_C_c, engine.Layer(0).iterator().next());
 		assertNotSame("c.C.c in layer 0", c_C_c, engine.Layer(0).iterator().next());
 
-		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.Layer(0).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 1, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   1, engine.Factory().Classes().values().size());
@@ -270,8 +270,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertEquals("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
 		assertNotSame("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
@@ -298,9 +298,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertEquals("a.A.a in layer 2", a_A_a, engine.Layer(2).iterator().next());
 		assertNotSame("a.A.a in layer 2", a_A_a, engine.Layer(2).iterator().next());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", b_B_b.Inbound().size(), ((Node) engine.Layer(1).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from a.A.a", 0,                      ((Node) engine.Layer(2).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from a.A.a", 0,                      ((Node) engine.Layer(2).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
@@ -327,9 +327,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 3, engine.NbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", b_B_b.Inbound().size(), ((Node) engine.Layer(1).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from a.A.a", a_A_a.Inbound().size(), ((Node) engine.Layer(2).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
@@ -357,9 +357,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 3, engine.NbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", b_B_b.Inbound().size(), ((Node) engine.Layer(1).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from a.A.a", a_A_a.Inbound().size(), ((Node) engine.Layer(2).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
@@ -388,8 +388,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 2, engine.NbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
@@ -411,9 +411,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 3, engine.NbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", b_B_b.Inbound().size(), ((Node) engine.Layer(1).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from a.A.a", a_A_a.Inbound().size(), ((Node) engine.Layer(2).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
@@ -439,8 +439,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 2, engine.NbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
@@ -463,7 +463,7 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 1, engine.NbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.Layer(0).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 1, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   1, engine.Factory().Classes().values().size());
@@ -483,8 +483,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 2, engine.NbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
@@ -507,8 +507,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb layers", 2, engine.NbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
 		
 		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());

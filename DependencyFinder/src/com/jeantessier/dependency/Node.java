@@ -43,54 +43,54 @@ public abstract class Node implements Comparable {
 		this.name = name;
 	}
 
-	public String Name() {
+	public String getName() {
 		return name;
 	}
 
-	public boolean CanAddDependency(Node node) {
+	public boolean canAddDependencyTo(Node node) {
 		return !equals(node);
 	}
 	
-	public void AddDependency(Node node) {
-		if (CanAddDependency(node) && node.CanAddDependency(this)) {
+	public void addDependency(Node node) {
+		if (canAddDependencyTo(node) && node.canAddDependencyTo(this)) {
 			outbound.add(node);
 			node.inbound.add(this);
 		}
 	}
 
-	public void AddDependency(Collection nodes) {
+	public void addDependencies(Collection nodes) {
 		Iterator i = nodes.iterator();
 		while (i.hasNext()) {
-			AddDependency((Node) i.next());
+			addDependency((Node) i.next());
 		}
 	}
 
-	public void RemoveDependency(Node node) {
+	public void removeDependency(Node node) {
 		outbound.remove(node);
 		node.inbound.remove(this);
 	}
 
-	public void RemoveDependency(Collection nodes) {
+	public void removeDependencies(Collection nodes) {
 		Iterator i = nodes.iterator();
 		while (i.hasNext()) {
-			RemoveDependency((Node) i.next());
+			removeDependency((Node) i.next());
 		}
 	}
 
-	public Collection Inbound() {
+	public Collection getInboundDependencies() {
 		return Collections.unmodifiableCollection(inbound);
 	}
 
-	public Collection Outbound() {
+	public Collection getOutboundDependencies() {
 		return Collections.unmodifiableCollection(outbound);
 	}
 
-	public abstract void Accept(Visitor visitor);
-	public abstract void AcceptInbound(Visitor visitor);
-	public abstract void AcceptOutbound(Visitor visitor);
+	public abstract void accept(Visitor visitor);
+	public abstract void acceptInbound(Visitor visitor);
+	public abstract void acceptOutbound(Visitor visitor);
 
 	public int hashCode() {
-		return Name().hashCode();
+		return getName().hashCode();
 	}
 
 	public boolean equals(Object object) {
@@ -102,7 +102,7 @@ public abstract class Node implements Comparable {
 			result = false;
 		} else {
 			Node other = (Node) object;
-			result = Name().equals(other.Name());
+			result = getName().equals(other.getName());
 		}
 
 		return result;
@@ -117,13 +117,13 @@ public abstract class Node implements Comparable {
 			throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got a " + object.getClass().getName());
 		} else {
 			Node other = (Node) object;
-			result = Name().compareTo(other.Name());
+			result = getName().compareTo(other.getName());
 		}
 
 		return result;
 	}
 
 	public String toString() {
-		return Name();
+		return getName();
 	}
 }

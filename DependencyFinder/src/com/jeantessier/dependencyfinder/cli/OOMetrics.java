@@ -87,42 +87,42 @@ public class OOMetrics {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
-		command_line.AddSingleValueSwitch("project-name",           DEFAULT_PROJECT_NAME);
-		command_line.AddSingleValueSwitch("default-configuration", true);
-		command_line.AddSingleValueSwitch("configuration");
-		command_line.AddToggleSwitch("csv");
-		command_line.AddToggleSwitch("txt");
-		command_line.AddToggleSwitch("xml");
-		command_line.AddToggleSwitch("validate");
-		command_line.AddSingleValueSwitch("encoding",               com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING);
-		command_line.AddSingleValueSwitch("dtd-prefix",             com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
-		command_line.AddSingleValueSwitch("indent-text");
-		command_line.AddToggleSwitch("all");
-		command_line.AddToggleSwitch("project");
-		command_line.AddToggleSwitch("groups");
-		command_line.AddToggleSwitch("classes");
-		command_line.AddToggleSwitch("methods");
-		command_line.AddMultipleValuesSwitch("scope-includes-list");
-		command_line.AddMultipleValuesSwitch("scope-excludes-list");
-		command_line.AddMultipleValuesSwitch("filter-includes-list");
-		command_line.AddMultipleValuesSwitch("filter-excludes-list");
-		command_line.AddToggleSwitch("show-all-metrics");
-		command_line.AddToggleSwitch("show-empty-metrics");
-		command_line.AddToggleSwitch("show-hidden-measurements");
-		command_line.AddSingleValueSwitch("sort",                   DEFAULT_SORT);
-		command_line.AddToggleSwitch("expand");
-		command_line.AddToggleSwitch("reverse");
-		command_line.AddToggleSwitch("time");
-		command_line.AddSingleValueSwitch("out");
-		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose",              DEFAULT_LOGFILE);
-		command_line.AddToggleSwitch("version");
+		command_line.addSingleValueSwitch("project-name",           DEFAULT_PROJECT_NAME);
+		command_line.addSingleValueSwitch("default-configuration", true);
+		command_line.addSingleValueSwitch("configuration");
+		command_line.addToggleSwitch("csv");
+		command_line.addToggleSwitch("txt");
+		command_line.addToggleSwitch("xml");
+		command_line.addToggleSwitch("validate");
+		command_line.addSingleValueSwitch("encoding",               com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING);
+		command_line.addSingleValueSwitch("dtd-prefix",             com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
+		command_line.addSingleValueSwitch("indent-text");
+		command_line.addToggleSwitch("all");
+		command_line.addToggleSwitch("project");
+		command_line.addToggleSwitch("groups");
+		command_line.addToggleSwitch("classes");
+		command_line.addToggleSwitch("methods");
+		command_line.addMultipleValuesSwitch("scope-includes-list");
+		command_line.addMultipleValuesSwitch("scope-excludes-list");
+		command_line.addMultipleValuesSwitch("filter-includes-list");
+		command_line.addMultipleValuesSwitch("filter-excludes-list");
+		command_line.addToggleSwitch("show-all-metrics");
+		command_line.addToggleSwitch("show-empty-metrics");
+		command_line.addToggleSwitch("show-hidden-measurements");
+		command_line.addSingleValueSwitch("sort",                   DEFAULT_SORT);
+		command_line.addToggleSwitch("expand");
+		command_line.addToggleSwitch("reverse");
+		command_line.addToggleSwitch("time");
+		command_line.addSingleValueSwitch("out");
+		command_line.addToggleSwitch("help");
+		command_line.addOptionalValueSwitch("verbose",              DEFAULT_LOGFILE);
+		command_line.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("OOMetrics");
-		command_line.Accept(usage);
+		command_line.accept(usage);
 
 		try {
-			command_line.Parse(args);
+			command_line.parse(args);
 		} catch (IllegalArgumentException ex) {
 			Error(usage, ex.toString());
 			System.exit(1);
@@ -131,32 +131,32 @@ public class OOMetrics {
 			System.exit(1);
 		}
 
-		if (command_line.ToggleSwitch("help")) {
+		if (command_line.getToggleSwitch("help")) {
 			Error(usage);
 		}
 		
-		if (command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("version")) {
 			Version();
 		}
 
-		if (command_line.ToggleSwitch("help") || command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
-		if (!command_line.ToggleSwitch("all") && !command_line.ToggleSwitch("project") && !command_line.ToggleSwitch("groups") && !command_line.ToggleSwitch("classes") && !command_line.ToggleSwitch("methods")) {
+		if (!command_line.getToggleSwitch("all") && !command_line.getToggleSwitch("project") && !command_line.getToggleSwitch("groups") && !command_line.getToggleSwitch("classes") && !command_line.getToggleSwitch("methods")) {
 			Error(usage, "Must have at least one of -all, -project, -groups, -classes, or -methods");
 			System.exit(1);
 		}
 
 		int mode_switch = 0;
 		
-		if (command_line.ToggleSwitch("csv")) {
+		if (command_line.getToggleSwitch("csv")) {
 			mode_switch++;
 		}
-		if (command_line.ToggleSwitch("txt")) {
+		if (command_line.getToggleSwitch("txt")) {
 			mode_switch++;
 		}
-		if (command_line.ToggleSwitch("xml")) {
+		if (command_line.getToggleSwitch("xml")) {
 			mode_switch++;
 		}
 		if (mode_switch != 1) {
@@ -165,11 +165,11 @@ public class OOMetrics {
 		}
 
 		VerboseListener verbose_listener = new VerboseListener();
-		if (command_line.IsPresent("verbose")) {
-			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+		if (command_line.isPresent("verbose")) {
+			if ("System.out".equals(command_line.getOptionalSwitch("verbose"))) {
 				verbose_listener.Writer(System.out);
 			} else {
-				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+				verbose_listener.Writer(new FileWriter(command_line.getOptionalSwitch("verbose")));
 			}
 		}
 
@@ -181,7 +181,7 @@ public class OOMetrics {
 
 		Logger.getLogger(OOMetrics.class).debug("Reading sources ...");
 
-		List parameters = command_line.Parameters();
+		List parameters = command_line.getParameters();
 		if (parameters.size() == 0) {
 			parameters.add(".");
 		}
@@ -192,29 +192,29 @@ public class OOMetrics {
 
 		Logger.getLogger(OOMetrics.class).debug("Reading configuration ...");
 
-		String project_name = command_line.SingleSwitch("project-name");
+		String project_name = command_line.getSingleSwitch("project-name");
 		
 		MetricsFactory factory;
 		
-		if (command_line.IsPresent("configuration")) {
-			factory = new MetricsFactory(project_name, new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("configuration")));
+		if (command_line.isPresent("configuration")) {
+			factory = new MetricsFactory(project_name, new MetricsConfigurationLoader(command_line.getToggleSwitch("validate")).Load(command_line.getSingleSwitch("configuration")));
 		} else {
-			factory = new MetricsFactory(project_name, new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("default-configuration")));
+			factory = new MetricsFactory(project_name, new MetricsConfigurationLoader(command_line.getToggleSwitch("validate")).Load(command_line.getSingleSwitch("default-configuration")));
 		}
 
 		Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
 
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
-		if (command_line.IsPresent("scope-includes-list") || command_line.IsPresent("scope-excludes-list")) {
-			gatherer.ScopeIncludes(CreateCollection(command_line.MultipleSwitch("scope-includes-list"), command_line.MultipleSwitch("scope-excludes-list")));
+		if (command_line.isPresent("scope-includes-list") || command_line.isPresent("scope-excludes-list")) {
+			gatherer.ScopeIncludes(CreateCollection(command_line.getMultipleSwitch("scope-includes-list"), command_line.getMultipleSwitch("scope-excludes-list")));
 		}
-		if (command_line.IsPresent("filter-includes-list") || command_line.IsPresent("filter-excludes-list")) {
-			gatherer.FilterIncludes(CreateCollection(command_line.MultipleSwitch("filter-includes-list"), command_line.MultipleSwitch("filter-excludes-list")));
+		if (command_line.isPresent("filter-includes-list") || command_line.isPresent("filter-excludes-list")) {
+			gatherer.FilterIncludes(CreateCollection(command_line.getMultipleSwitch("filter-includes-list"), command_line.getMultipleSwitch("filter-excludes-list")));
 		}
 		gatherer.addMetricsListener(verbose_listener);
 		gatherer.visitClassfiles(loader.getAllClassfiles());
 		
-		if (command_line.IsPresent("show-all-metrics")) {
+		if (command_line.isPresent("show-all-metrics")) {
 			Iterator i;
 
 			i = gatherer.MetricsFactory().AllClassMetrics().iterator();
@@ -231,11 +231,11 @@ public class OOMetrics {
 		Logger.getLogger(OOMetrics.class).debug("Printing results ...");
 		verbose_listener.Print("Printing results ...");
 		
-		if (command_line.IsPresent("csv")) {
+		if (command_line.isPresent("csv")) {
 			PrintCSVFiles(start, command_line, gatherer.MetricsFactory());
-		} else if (command_line.IsPresent("txt")) {
+		} else if (command_line.isPresent("txt")) {
 			PrintTextFile(start, command_line, gatherer.MetricsFactory());
-		} else if (command_line.IsPresent("xml")) {
+		} else if (command_line.isPresent("xml")) {
 			PrintXMLFile(start, command_line, gatherer.MetricsFactory());
 		}
 
@@ -243,7 +243,7 @@ public class OOMetrics {
 
 		Date end = new Date();
 
-		if (command_line.ToggleSwitch("time")) {
+		if (command_line.getToggleSwitch("time")) {
 			System.err.println(OOMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
@@ -278,8 +278,8 @@ public class OOMetrics {
 	}
 
 	private static void PrintCSVFiles(Date start, CommandLine command_line, MetricsFactory factory) throws IOException {
-		MetricsComparator comparator = new MetricsComparator(command_line.SingleSwitch("sort"));
-		if (command_line.ToggleSwitch("reverse")) {
+		MetricsComparator comparator = new MetricsComparator(command_line.getSingleSwitch("sort"));
+		if (command_line.getToggleSwitch("reverse")) {
 			comparator.Reverse();
 		}
 
@@ -288,9 +288,9 @@ public class OOMetrics {
 		com.jeantessier.metrics.Printer printer;
 		PrintWriter        out = new PrintWriter(new OutputStreamWriter(System.out));
 
-		if (command_line.ToggleSwitch("project") || command_line.ToggleSwitch("all")) {
-			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_project.csv"));
+		if (command_line.getToggleSwitch("project") || command_line.getToggleSwitch("all")) {
+			if (command_line.isPresent("out")) {
+				out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out") + "_project.csv"));
 			} else {
 				out.println("Project:");
 			}
@@ -298,24 +298,24 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ProjectMeasurements());
-			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+			if (command_line.isPresent("indent-text")) {
+				printer.IndentText(command_line.getSingleSwitch("indent-text"));
 			}
 
 			printer.VisitMetrics(metrics);
 			
-			if (command_line.IsPresent("out")) {
+			if (command_line.isPresent("out")) {
 				out.close();
 			} else {
 				out.println();
 			}
 		}
 
-		if (command_line.ToggleSwitch("groups") || command_line.ToggleSwitch("all")) {
-			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_groups.csv"));
+		if (command_line.getToggleSwitch("groups") || command_line.getToggleSwitch("all")) {
+			if (command_line.isPresent("out")) {
+				out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out") + "_groups.csv"));
 			} else {
 				out.println("Packages:");
 			}
@@ -323,24 +323,24 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().GroupMeasurements());
-			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+			if (command_line.isPresent("indent-text")) {
+				printer.IndentText(command_line.getSingleSwitch("indent-text"));
 			}
 
 			printer.VisitMetrics(metrics);
 			
-			if (command_line.IsPresent("out")) {
+			if (command_line.isPresent("out")) {
 				out.close();
 			} else {
 				out.println();
 			}
 		}
 
-		if (command_line.ToggleSwitch("classes") || command_line.ToggleSwitch("all")) {
-			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_classes.csv"));
+		if (command_line.getToggleSwitch("classes") || command_line.getToggleSwitch("all")) {
+			if (command_line.isPresent("out")) {
+				out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out") + "_classes.csv"));
 			} else {
 				out.println("Classes:");
 			}
@@ -348,24 +348,24 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ClassMeasurements());
-			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+			if (command_line.isPresent("indent-text")) {
+				printer.IndentText(command_line.getSingleSwitch("indent-text"));
 			}
 
 			printer.VisitMetrics(metrics);
 			
-			if (command_line.IsPresent("out")) {
+			if (command_line.isPresent("out")) {
 				out.close();
 			} else {
 				out.println();
 			}
 		}
 
-		if (command_line.ToggleSwitch("methods") || command_line.ToggleSwitch("all")) {
-			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_methods.csv"));
+		if (command_line.getToggleSwitch("methods") || command_line.getToggleSwitch("all")) {
+			if (command_line.isPresent("out")) {
+				out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out") + "_methods.csv"));
 			} else {
 				out.println("Methods:");
 			}
@@ -373,15 +373,15 @@ public class OOMetrics {
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
 			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().MethodMeasurements());
-			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+			if (command_line.isPresent("indent-text")) {
+				printer.IndentText(command_line.getSingleSwitch("indent-text"));
 			}
 
 			printer.VisitMetrics(metrics);
 		
-			if (command_line.IsPresent("out")) {
+			if (command_line.isPresent("out")) {
 				out.close();
 			}
 		}
@@ -389,31 +389,31 @@ public class OOMetrics {
 
 	private static void PrintTextFile(Date start, CommandLine command_line, MetricsFactory factory) throws IOException {
 		PrintWriter out;
-		if (command_line.IsPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + ".txt"));
+		if (command_line.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out") + ".txt"));
 		} else {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		MetricsComparator comparator = new MetricsComparator(command_line.SingleSwitch("sort"));
-		if (command_line.ToggleSwitch("reverse")) {
+		MetricsComparator comparator = new MetricsComparator(command_line.getSingleSwitch("sort"));
+		if (command_line.getToggleSwitch("reverse")) {
 			comparator.Reverse();
 		}
 
 		List               metrics;
 		Iterator           i;
 
-		if (command_line.ToggleSwitch("project") || command_line.ToggleSwitch("all")) {
+		if (command_line.getToggleSwitch("project") || command_line.getToggleSwitch("all")) {
 			out.println("Project metrics");
 			out.println("---------------");
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ProjectMeasurements());
-			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
-			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.ExpandCollectionMeasurements(command_line.getToggleSwitch("expand"));
+			printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+			if (command_line.isPresent("indent-text")) {
+				printer.IndentText(command_line.getSingleSwitch("indent-text"));
 			}
 
 			printer.VisitMetrics(metrics);
@@ -421,17 +421,17 @@ public class OOMetrics {
 			out.println();
 		}
 
-		if (command_line.ToggleSwitch("groups") || command_line.ToggleSwitch("all")) {
+		if (command_line.getToggleSwitch("groups") || command_line.getToggleSwitch("all")) {
 			out.println("Group metrics");
 			out.println("-------------");
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().GroupMeasurements());
-			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
-			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.ExpandCollectionMeasurements(command_line.getToggleSwitch("expand"));
+			printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+			if (command_line.isPresent("indent-text")) {
+				printer.IndentText(command_line.getSingleSwitch("indent-text"));
 			}
 
 			printer.VisitMetrics(metrics);
@@ -439,17 +439,17 @@ public class OOMetrics {
 			out.println();
 		}
 
-		if (command_line.ToggleSwitch("classes") || command_line.ToggleSwitch("all")) {
+		if (command_line.getToggleSwitch("classes") || command_line.getToggleSwitch("all")) {
 			out.println("Class metrics");
 			out.println("-------------");
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ClassMeasurements());
-			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
-			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.ExpandCollectionMeasurements(command_line.getToggleSwitch("expand"));
+			printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+			if (command_line.isPresent("indent-text")) {
+				printer.IndentText(command_line.getSingleSwitch("indent-text"));
 			}
 
 			printer.VisitMetrics(metrics);
@@ -457,17 +457,17 @@ public class OOMetrics {
 			out.println();
 		}
 		
-		if (command_line.ToggleSwitch("methods") || command_line.ToggleSwitch("all")) {
+		if (command_line.getToggleSwitch("methods") || command_line.getToggleSwitch("all")) {
 			out.println("Method metrics");
 			out.println("--------------");
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().MethodMeasurements());
-			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
-			printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-			printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
+			printer.ExpandCollectionMeasurements(command_line.getToggleSwitch("expand"));
+			printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+			printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+			if (command_line.isPresent("indent-text")) {
+				printer.IndentText(command_line.getSingleSwitch("indent-text"));
 			}
 
 			printer.VisitMetrics(metrics);
@@ -480,14 +480,14 @@ public class OOMetrics {
 
 	private static void PrintXMLFile(Date start, CommandLine command_line, MetricsFactory factory) throws IOException {
 		PrintWriter out;
-		if (command_line.IsPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + ".xml"));
+		if (command_line.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out") + ".xml"));
 		} else {
 			out = new PrintWriter(System.out);
 		}
 
-		MetricsComparator comparator = new MetricsComparator(command_line.SingleSwitch("sort"));
-		if (command_line.ToggleSwitch("reverse")) {
+		MetricsComparator comparator = new MetricsComparator(command_line.getSingleSwitch("sort"));
+		if (command_line.getToggleSwitch("reverse")) {
 			comparator.Reverse();
 		}
 
@@ -497,11 +497,11 @@ public class OOMetrics {
 
 		metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
-		printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
-		printer.ShowEmptyMetrics(command_line.IsPresent("show-empty-metrics"));
-		printer.ShowHiddenMeasurements(command_line.IsPresent("show-hidden-measurements"));
-		if (command_line.IsPresent("indent-text")) {
-			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
+		printer.ShowEmptyMetrics(command_line.isPresent("show-empty-metrics"));
+		printer.ShowHiddenMeasurements(command_line.isPresent("show-hidden-measurements"));
+		if (command_line.isPresent("indent-text")) {
+			printer.IndentText(command_line.getSingleSwitch("indent-text"));
 		}
 
 		printer.VisitMetrics(metrics);

@@ -155,7 +155,7 @@ public abstract class Printer extends VisitorBase {
 	protected boolean ShowPackageNode(PackageNode node) {
 		boolean result = ShowNode(node);
 
-		Iterator i = node.Classes().iterator();
+		Iterator i = node.getClasses().iterator();
 		while (!result && i.hasNext()) {
 			result = ShowClassNode((ClassNode) i.next());
 		}
@@ -166,7 +166,7 @@ public abstract class Printer extends VisitorBase {
 	protected boolean ShowClassNode(ClassNode node) {
 		boolean result = ShowNode(node);
 
-		Iterator i = node.Features().iterator();
+		Iterator i = node.getFeatures().iterator();
 		while (!result && i.hasNext()) {
 			result = ShowFeatureNode((FeatureNode) i.next());
 		}
@@ -182,7 +182,7 @@ public abstract class Printer extends VisitorBase {
 		boolean result = ShowEmptyNodes();
 
 		if (!result) {
-			result = (ShowOutbounds() && !node.Outbound().isEmpty()) || (ShowInbounds() && !node.Inbound().isEmpty());
+			result = (ShowOutbounds() && !node.getOutboundDependencies().isEmpty()) || (ShowInbounds() && !node.getInboundDependencies().isEmpty());
 		}
 
 		return result;

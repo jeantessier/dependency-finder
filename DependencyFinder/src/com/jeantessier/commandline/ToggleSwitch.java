@@ -49,13 +49,13 @@ public class ToggleSwitch extends CommandLineSwitchBase {
 		super(new Boolean(default_value), mandatory);
 	}
 
-	public int Parse(String name, String value) throws CommandLineException {
-		Value(new Boolean(true));
+	public int parse(String name, String value) throws CommandLineException {
+		setValue(new Boolean(true));
 	
 		return 1;
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.Visit(this);
+	public void accept(Visitor visitor) {
+		visitor.visitToggleSwitch(this);
 	}
 }

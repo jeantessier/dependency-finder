@@ -69,8 +69,8 @@ public class TestClosureStopSelector extends TestCase {
 		c_C   = factory.CreateClass("c.C");
 		c_C_c = factory.CreateFeature("c.C.c");
 
-		a_A_a.AddDependency(b_B_b);
-		b_B_b.AddDependency(c_C_c);
+		a_A_a.addDependency(b_B_b);
+		b_B_b.addDependency(c_C_c);
 	}
 
 	public void testEmpty() {
@@ -78,7 +78,7 @@ public class TestClosureStopSelector extends TestCase {
 		local_criteria.GlobalIncludes("/b.B.b/");
 
 		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
-		selector.TraverseNodes(Collections.EMPTY_SET);
+		selector.traverseNodes(Collections.EMPTY_SET);
 
 		assertTrue("Failed to recognize empty collection", selector.Done());
 	}
@@ -88,7 +88,7 @@ public class TestClosureStopSelector extends TestCase {
 		local_criteria.GlobalIncludes("/b.B.b/");
 
 		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
-		selector.TraverseNodes(Collections.singleton(b_B_b));
+		selector.traverseNodes(Collections.singleton(b_B_b));
 
 		assertTrue("Failed to recognize target", selector.Done());
 	}
@@ -98,7 +98,7 @@ public class TestClosureStopSelector extends TestCase {
 		local_criteria.GlobalIncludes("/b.B.b/");
 
 		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
-		selector.TraverseNodes(Collections.singleton(a_A_a));
+		selector.traverseNodes(Collections.singleton(a_A_a));
 
 		assertFalse("Failed to ignore non-target", selector.Done());
 	}
@@ -112,7 +112,7 @@ public class TestClosureStopSelector extends TestCase {
 		targets.add(b_B_b);
 		
 		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
-		selector.TraverseNodes(targets);
+		selector.traverseNodes(targets);
 
 		assertTrue("Failed to recognize target", selector.Done());
 	}

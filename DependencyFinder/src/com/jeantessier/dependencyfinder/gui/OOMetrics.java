@@ -310,16 +310,16 @@ public class OOMetrics extends JFrame {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
-		command_line.AddSingleValueSwitch("default-configuration", true);
-		command_line.AddSingleValueSwitch("configuration");
-		command_line.AddToggleSwitch("validate");
-		command_line.AddToggleSwitch("help");
+		command_line.addSingleValueSwitch("default-configuration", true);
+		command_line.addSingleValueSwitch("configuration");
+		command_line.addToggleSwitch("validate");
+		command_line.addToggleSwitch("help");
 
 		CommandLineUsage usage = new CommandLineUsage("OOMetrics");
-		command_line.Accept(usage);
+		command_line.accept(usage);
 
 		try {
-			command_line.Parse(args);
+			command_line.parse(args);
 		} catch (IllegalArgumentException ex) {
 			Error(usage, ex.toString());
 			System.exit(1);
@@ -328,17 +328,17 @@ public class OOMetrics extends JFrame {
 			System.exit(1);
 		}
 
-		if (command_line.ToggleSwitch("help")) {
+		if (command_line.getToggleSwitch("help")) {
 			Error(usage);
 			System.exit(1);
 		}
 
 		MetricsFactory factory;
 		
-		if (command_line.IsPresent("configuration")) {
-			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("configuration")));
+		if (command_line.isPresent("configuration")) {
+			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.getToggleSwitch("validate")).Load(command_line.getSingleSwitch("configuration")));
 		} else {
-			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("default-configuration")));
+			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.getToggleSwitch("validate")).Load(command_line.getSingleSwitch("default-configuration")));
 		}
 			
 		/*

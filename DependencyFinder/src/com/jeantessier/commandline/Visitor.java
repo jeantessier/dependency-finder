@@ -33,16 +33,16 @@
 package com.jeantessier.commandline;
 
 public interface Visitor {
-	public void Visit(CommandLine cl);
+	public void visitCommandLine(CommandLine cl);
 
-	public void Visit(ToggleSwitch cls);
-	public void Visit(SingleValueSwitch cls);
-	public void Visit(OptionalValueSwitch cls);
-	public void Visit(MultipleValuesSwitch cls);
+	public void visitToggleSwitch(ToggleSwitch cls);
+	public void visitSingleValueSwitch(SingleValueSwitch cls);
+	public void visitOptionalValueSwitch(OptionalValueSwitch cls);
+	public void visitMultipleValuesSwitch(MultipleValuesSwitch cls);
 
-	public void Visit(NullParameterStrategy strategy);
-	public void Visit(AnyParameterStrategy strategy);
-	public void Visit(AtLeastParameterStrategy strategy);
-	public void Visit(ExactlyParameterStrategy strategy);
-	public void Visit(AtMostParameterStrategy strategy);
+	public void visitNullParameterStrategy(NullParameterStrategy strategy);
+	public void visitAnyParameterStrategy(AnyParameterStrategy strategy);
+	public void visitAtLeastParameterStrategy(AtLeastParameterStrategy strategy);
+	public void visitExactlyParameterStrategy(ExactlyParameterStrategy strategy);
+	public void visitAtMostParameterStrategy(AtMostParameterStrategy strategy);
 }

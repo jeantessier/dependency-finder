@@ -45,198 +45,198 @@ public class GraphSummarizer extends GraphCopier {
 		this.filter_criteria = filter_criteria;
 	}
 	
-	public void VisitPackageNode(PackageNode node) {
+	public void visitPackageNode(PackageNode node) {
 		Logger.getLogger(getClass()).debug("node = " + node);
 		
-		boolean in_scope = scope_criteria.PackageMatch(node.Name());
+		boolean in_scope = scope_criteria.matchesPackageName(node.getName());
 
 		if (in_scope) {
-			PreprocessPackageNode(node);
+			preprocessPackageNode(node);
 			
-			if (Strategy().PreOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPreOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PreInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPreInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 			
-			PreprocessAfterDependenciesPackageNode(node);
+			preprocessAfterDependenciesPackageNode(node);
 		}
 			
-		TraverseNodes(node.Classes());
+		traverseNodes(node.getClasses());
 
 		if (in_scope) {
-			PostprocessBeforeDependenciesPackageNode(node);
+			postprocessBeforeDependenciesPackageNode(node);
 
-			if (Strategy().PostOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPostOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PostInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPostInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 
-			PostprocessPackageNode(node);
+			postprocessPackageNode(node);
 		}
 	}
 
-	protected void PreprocessPackageNode(PackageNode node) {
-		if (scope_criteria.MatchPackage()) {
-			super.PreprocessPackageNode(node);
+	protected void preprocessPackageNode(PackageNode node) {
+		if (scope_criteria.doesPackageMatching()) {
+			super.preprocessPackageNode(node);
 		}
 	}
 	
-	protected void PostprocessPackageNode(PackageNode node) {
-		if (scope_criteria.MatchPackage()) {
-			super.PostprocessPackageNode(node);
+	protected void postprocessPackageNode(PackageNode node) {
+		if (scope_criteria.doesPackageMatching()) {
+			super.postprocessPackageNode(node);
 		}
 	}
 
-	public void VisitInboundPackageNode(PackageNode node) {
-		if (CurrentNode() != null && filter_criteria.PackageMatch(node.Name())) {
-			if (filter_criteria.MatchPackage()) {
-				FilterFactory().CreatePackage(node.Name()).AddDependency(CurrentNode());
+	public void visitInboundPackageNode(PackageNode node) {
+		if (getCurrentNode() != null && filter_criteria.matchesPackageName(node.getName())) {
+			if (filter_criteria.doesPackageMatching()) {
+				FilterFactory().CreatePackage(node.getName()).addDependency(getCurrentNode());
 			}
 		}
 	}
 
-	public void VisitOutboundPackageNode(PackageNode node) {
-		if (CurrentNode() != null && filter_criteria.PackageMatch(node.Name())) {
-			if (filter_criteria.MatchPackage()) {
-				CurrentNode().AddDependency(FilterFactory().CreatePackage(node.Name()));
+	public void visitOutboundPackageNode(PackageNode node) {
+		if (getCurrentNode() != null && filter_criteria.matchesPackageName(node.getName())) {
+			if (filter_criteria.doesPackageMatching()) {
+				getCurrentNode().addDependency(FilterFactory().CreatePackage(node.getName()));
 			}
 		}
 	}
 
-	public void VisitClassNode(ClassNode node) {
-		boolean in_scope = scope_criteria.ClassMatch(node.Name());
+	public void visitClassNode(ClassNode node) {
+		boolean in_scope = scope_criteria.matchesClassName(node.getName());
 		
 		if (in_scope) {
-			PreprocessClassNode(node);
+			preprocessClassNode(node);
 			
-			if (Strategy().PreOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPreOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PreInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPreInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 		
-			PreprocessAfterDependenciesClassNode(node);
+			preprocessAfterDependenciesClassNode(node);
 		}
 		
-		TraverseNodes(node.Features());
+		traverseNodes(node.getFeatures());
 			
 		if (in_scope) {
-			PostprocessBeforeDependenciesClassNode(node);
+			postprocessBeforeDependenciesClassNode(node);
 
-			if (Strategy().PostOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPostOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PostInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPostInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 			
-			PostprocessClassNode(node);
+			postprocessClassNode(node);
 		}
 	}
 
-	protected void PreprocessClassNode(ClassNode node) {
-		if (scope_criteria.MatchClass()) {
-			super.PreprocessClassNode(node);
+	protected void preprocessClassNode(ClassNode node) {
+		if (scope_criteria.doesClassMatching()) {
+			super.preprocessClassNode(node);
 		}
 	}
 	
-	protected void PostprocessClassNode(ClassNode node) {
-		if (scope_criteria.MatchClass()) {
-			super.PostprocessClassNode(node);
+	protected void postprocessClassNode(ClassNode node) {
+		if (scope_criteria.doesClassMatching()) {
+			super.postprocessClassNode(node);
 		}
 	}
 
-	public void VisitInboundClassNode(ClassNode node) {
-		if (CurrentNode() != null && filter_criteria.ClassMatch(node.Name())) {
-			if (filter_criteria.MatchPackage()) {
-				FilterFactory().CreatePackage(node.Package().Name()).AddDependency(CurrentNode());
+	public void visitInboundClassNode(ClassNode node) {
+		if (getCurrentNode() != null && filter_criteria.matchesClassName(node.getName())) {
+			if (filter_criteria.doesPackageMatching()) {
+				FilterFactory().CreatePackage(node.getPackageNode().getName()).addDependency(getCurrentNode());
 			}
-			if (filter_criteria.MatchClass()) {
-				FilterFactory().CreateClass(node.Name()).AddDependency(CurrentNode());
-			}
-		}
-	}
-
-	public void VisitOutboundClassNode(ClassNode node) {
-		if (CurrentNode() != null && filter_criteria.ClassMatch(node.Name())) {
-			if (filter_criteria.MatchPackage()) {
-				CurrentNode().AddDependency(FilterFactory().CreatePackage(node.Package().Name()));
-			}
-			if (filter_criteria.MatchClass()) {
-				CurrentNode().AddDependency(FilterFactory().CreateClass(node.Name()));
+			if (filter_criteria.doesClassMatching()) {
+				FilterFactory().CreateClass(node.getName()).addDependency(getCurrentNode());
 			}
 		}
 	}
 
-	public void VisitFeatureNode(FeatureNode node) {
-		if (scope_criteria.FeatureMatch(node.Name())) {
-			PreprocessFeatureNode(node);
-			
-			if (Strategy().PreOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+	public void visitOutboundClassNode(ClassNode node) {
+		if (getCurrentNode() != null && filter_criteria.matchesClassName(node.getName())) {
+			if (filter_criteria.doesPackageMatching()) {
+				getCurrentNode().addDependency(FilterFactory().CreatePackage(node.getPackageNode().getName()));
 			}
-			
-			if (Strategy().PreInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (filter_criteria.doesClassMatching()) {
+				getCurrentNode().addDependency(FilterFactory().CreateClass(node.getName()));
 			}
-			
-			if (Strategy().PostOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
-			}
-			
-			if (Strategy().PostInboundTraversal()) {
-				TraverseInbound(node.Inbound());
-			}
-			
-			PostprocessFeatureNode(node);
 		}
 	}
 
-	protected void PreprocessFeatureNode(FeatureNode node) {
-		if (scope_criteria.MatchFeature()) {
-			super.PreprocessFeatureNode(node);
+	public void visitFeatureNode(FeatureNode node) {
+		if (scope_criteria.matchesFeatureName(node.getName())) {
+			preprocessFeatureNode(node);
+			
+			if (getStrategy().doPreOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
+			}
+			
+			if (getStrategy().doPreInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
+			}
+			
+			if (getStrategy().doPostOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
+			}
+			
+			if (getStrategy().doPostInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
+			}
+			
+			postprocessFeatureNode(node);
+		}
+	}
+
+	protected void preprocessFeatureNode(FeatureNode node) {
+		if (scope_criteria.doesFeatureMatching()) {
+			super.preprocessFeatureNode(node);
 		}
 	}
 	
-	protected void PostprocessFeatureNode(FeatureNode node) {
-		if (scope_criteria.MatchFeature()) {
-			super.PostprocessFeatureNode(node);
+	protected void postprocessFeatureNode(FeatureNode node) {
+		if (scope_criteria.doesFeatureMatching()) {
+			super.postprocessFeatureNode(node);
 		}
 	}
 	
-	public void VisitInboundFeatureNode(FeatureNode node) {
-		if (CurrentNode() != null && filter_criteria.FeatureMatch(node.Name())) {
-			if (filter_criteria.MatchPackage()) {
-				FilterFactory().CreatePackage(node.Class().Package().Name()).AddDependency(CurrentNode());
+	public void visitInboundFeatureNode(FeatureNode node) {
+		if (getCurrentNode() != null && filter_criteria.matchesFeatureName(node.getName())) {
+			if (filter_criteria.doesPackageMatching()) {
+				FilterFactory().CreatePackage(node.getClassNode().getPackageNode().getName()).addDependency(getCurrentNode());
 			}
-			if (filter_criteria.MatchClass()) {
-				FilterFactory().CreateClass(node.Class().Name()).AddDependency(CurrentNode());
+			if (filter_criteria.doesClassMatching()) {
+				FilterFactory().CreateClass(node.getClassNode().getName()).addDependency(getCurrentNode());
 			}
-			if (filter_criteria.MatchFeature()) {
-				FilterFactory().CreateFeature(node.Name()).AddDependency(CurrentNode());
+			if (filter_criteria.doesFeatureMatching()) {
+				FilterFactory().CreateFeature(node.getName()).addDependency(getCurrentNode());
 			}
 		}
 	}
 
-	public void VisitOutboundFeatureNode(FeatureNode node) {
-		if (CurrentNode() != null && filter_criteria.FeatureMatch(node.Name())) {
-			if (filter_criteria.MatchPackage()) {
-				CurrentNode().AddDependency(FilterFactory().CreatePackage(node.Class().Package().Name()));
+	public void visitOutboundFeatureNode(FeatureNode node) {
+		if (getCurrentNode() != null && filter_criteria.matchesFeatureName(node.getName())) {
+			if (filter_criteria.doesPackageMatching()) {
+				getCurrentNode().addDependency(FilterFactory().CreatePackage(node.getClassNode().getPackageNode().getName()));
 			}
-			if (filter_criteria.MatchClass()) {
-				CurrentNode().AddDependency(FilterFactory().CreateClass(node.Class().Name()));
+			if (filter_criteria.doesClassMatching()) {
+				getCurrentNode().addDependency(FilterFactory().CreateClass(node.getClassNode().getName()));
 			}
-			if (filter_criteria.MatchFeature()) {
-				CurrentNode().AddDependency(FilterFactory().CreateFeature(node.Name()));
+			if (filter_criteria.doesFeatureMatching()) {
+				getCurrentNode().addDependency(FilterFactory().CreateFeature(node.getName()));
 			}
 		}
 	}

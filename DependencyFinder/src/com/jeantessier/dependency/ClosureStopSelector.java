@@ -47,56 +47,56 @@ public class ClosureStopSelector implements Visitor {
 		return done;
 	}
 	
-	public void TraverseNodes(Collection nodes) {
+	public void traverseNodes(Collection nodes) {
 		if (nodes.isEmpty()) {
 			done = true;
 		} else {
 			Iterator i = nodes.iterator();
 			while (i.hasNext()) {
-				((Node) i.next()).Accept(this);
+				((Node) i.next()).accept(this);
 			}
 		}
 	}
 
-	public void VisitPackageNode(PackageNode node) {
-		if (criteria.Match(node)) {
+	public void visitPackageNode(PackageNode node) {
+		if (criteria.matches(node)) {
 			done = true;
 		}
 	}
 	
-	public void VisitInboundPackageNode(PackageNode node) {
+	public void visitInboundPackageNode(PackageNode node) {
 		// Do nothing
 	}
 	
-	public void VisitOutboundPackageNode(PackageNode node) {
+	public void visitOutboundPackageNode(PackageNode node) {
 		// Do nothing
 	}
 
-	public void VisitClassNode(ClassNode node) {
-		if (criteria.Match(node)) {
+	public void visitClassNode(ClassNode node) {
+		if (criteria.matches(node)) {
 			done = true;
 		}
 	}
 	
-	public void VisitInboundClassNode(ClassNode node) {
+	public void visitInboundClassNode(ClassNode node) {
 		// Do nothing
 	}
 	
-	public void VisitOutboundClassNode(ClassNode node) {
+	public void visitOutboundClassNode(ClassNode node) {
 		// Do nothing
 	}
 
-	public void VisitFeatureNode(FeatureNode node) {
-		if (criteria.Match(node)) {
+	public void visitFeatureNode(FeatureNode node) {
+		if (criteria.matches(node)) {
 			done = true;
 		}
 	}
 	
-	public void VisitInboundFeatureNode(FeatureNode node) {
+	public void visitInboundFeatureNode(FeatureNode node) {
 		// Do nothing
 	}
 	
-	public void VisitOutboundFeatureNode(FeatureNode node) {
+	public void visitOutboundFeatureNode(FeatureNode node) {
 		// Do nothing
 	}
 }

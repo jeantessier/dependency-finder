@@ -55,37 +55,37 @@ public class TextPrinter extends Printer {
 		super(strategy, out);
 	}
 	
-	protected void PreprocessPackageNode(PackageNode node) {
-		Logger.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
+	protected void preprocessPackageNode(PackageNode node) {
+		Logger.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
 		
-		super.PreprocessPackageNode(node);
+		super.preprocessPackageNode(node);
 
 		RaiseIndent();
 
 		dependencies.clear();
 	}
 
-	protected void PreprocessAfterDependenciesPackageNode(PackageNode node) {
-		Logger.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
+	protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
+		Logger.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
 		if (ShowPackageNode(node) || !dependencies.isEmpty()) {
 			LowerIndent();
-			Indent().Append(node.Name()).EOL();
+			Indent().Append(node.getName()).EOL();
 			RaiseIndent();
 		}
 		
 		PrintDependencies(dependencies);
 	}
 	
-	protected void PostprocessPackageNode(PackageNode node) {
+	protected void postprocessPackageNode(PackageNode node) {
 		LowerIndent();
 
-		super.PostprocessPackageNode(node);
+		super.postprocessPackageNode(node);
 	}
 
-	public void VisitInboundPackageNode(PackageNode node) {
+	public void visitInboundPackageNode(PackageNode node) {
 		if (ShowInbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			if (i != null) {
@@ -94,13 +94,13 @@ public class TextPrinter extends Printer {
 				dependencies.put(node, new Integer(-1));
 			}
 		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		}
 	}
 
-	public void VisitOutboundPackageNode(PackageNode node) {
+	public void visitOutboundPackageNode(PackageNode node) {
 		if (ShowOutbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			if (i != null) {
@@ -109,41 +109,41 @@ public class TextPrinter extends Printer {
 				dependencies.put(node, new Integer(1));
 			}
 		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		}
 	}
 
-	protected void PreprocessClassNode(ClassNode node) {
-		Logger.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
+	protected void preprocessClassNode(ClassNode node) {
+		Logger.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
 		
-		super.PreprocessClassNode(node);
+		super.preprocessClassNode(node);
 
 		RaiseIndent();
 
 		dependencies.clear();
 	}
 
-	protected void PreprocessAfterDependenciesClassNode(ClassNode node) {
-		Logger.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
+	protected void preprocessAfterDependenciesClassNode(ClassNode node) {
+		Logger.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
 		if (ShowClassNode(node) || !dependencies.isEmpty()) {
 			LowerIndent();
-			Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).EOL();
+			Indent().Append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).EOL();
 			RaiseIndent();
 		}
 
 		PrintDependencies(dependencies);
 	}
 
-	protected void PostprocessClassNode(ClassNode node) {
+	protected void postprocessClassNode(ClassNode node) {
 		LowerIndent();
 
-		super.PostprocessClassNode(node);
+		super.postprocessClassNode(node);
 	}
 	
-	public void VisitInboundClassNode(ClassNode node) {
+	public void visitInboundClassNode(ClassNode node) {
 		if (ShowInbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			
@@ -153,13 +153,13 @@ public class TextPrinter extends Printer {
 				dependencies.put(node, new Integer(-1));
 			}
 		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		}
 	}
 
-	public void VisitOutboundClassNode(ClassNode node) {
+	public void visitOutboundClassNode(ClassNode node) {
 		if (ShowOutbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			
@@ -169,31 +169,31 @@ public class TextPrinter extends Printer {
 				dependencies.put(node, new Integer(1));
 			}
 		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		}
 	}
 
-	protected void PreprocessFeatureNode(FeatureNode node) {
-		Logger.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
+	protected void preprocessFeatureNode(FeatureNode node) {
+		Logger.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
 		
-		super.PreprocessFeatureNode(node);
+		super.preprocessFeatureNode(node);
 
 		RaiseIndent();
 
 		dependencies.clear();
 	}
 
-	protected void PostprocessFeatureNode(FeatureNode node) {
-		Logger.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
+	protected void postprocessFeatureNode(FeatureNode node) {
+		Logger.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
 		if (ShowFeatureNode(node) || !dependencies.isEmpty()) {
 			LowerIndent();
-			if (Perl().match("/([^\\.]*\\(.*\\))$/", node.Name())) {
+			if (Perl().match("/([^\\.]*\\(.*\\))$/", node.getName())) {
 				Indent().Append(Perl().group(1)).EOL();
-			} else if (Perl().match("/([^\\.]*)$/", node.Name())) {
+			} else if (Perl().match("/([^\\.]*)$/", node.getName())) {
 				Indent().Append(Perl().group(1)).EOL();
 			} else {
-				Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).EOL();
+				Indent().Append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).EOL();
 			}
 			RaiseIndent();
 		}
@@ -202,12 +202,12 @@ public class TextPrinter extends Printer {
 
 		LowerIndent();
 
-		super.PostprocessFeatureNode(node);
+		super.postprocessFeatureNode(node);
 	}
 
-	public void VisitInboundFeatureNode(FeatureNode node) {
+	public void visitInboundFeatureNode(FeatureNode node) {
 		if (ShowInbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			if (i != null) {
@@ -216,13 +216,13 @@ public class TextPrinter extends Printer {
 				dependencies.put(node, new Integer(-1));
 			}
 		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		}
 	}
 
-	public void VisitOutboundFeatureNode(FeatureNode node) {
+	public void visitOutboundFeatureNode(FeatureNode node) {
 		if (ShowOutbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			if (i != null) {
@@ -231,7 +231,7 @@ public class TextPrinter extends Printer {
 				dependencies.put(node, new Integer(1));
 			}
 		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		}
 	}
 	

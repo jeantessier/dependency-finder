@@ -39,7 +39,7 @@ public class SortedTraversalStrategy extends DecoratorTraversalStrategy {
 		super(strategy);
 	}
 
-	public Collection Order(Collection collection) {
+	public Collection order(Collection collection) {
 		List list = new ArrayList(collection);
 		Collections.sort(list);
 		return list;

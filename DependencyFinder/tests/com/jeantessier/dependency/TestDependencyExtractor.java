@@ -100,17 +100,17 @@ public class TestDependencyExtractor extends TestCase {
 		java_util_Collections_singleton_feature = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
 		java_util_Set_class = factory.CreateClass("java.util.Set");
 		
-		test_class.AddDependency(java_lang_Object_class);
-		test_main_feature.AddDependency(java_io_PrintStream_class);
-		test_main_feature.AddDependency(java_io_PrintStream_println_feature);
-		test_main_feature.AddDependency(java_lang_NullPointerException_class);
-		test_main_feature.AddDependency(java_lang_Object_class);
-		test_main_feature.AddDependency(java_lang_Object_Object_feature);
-		test_main_feature.AddDependency(java_lang_String_class);
-		test_main_feature.AddDependency(java_lang_System_out_feature);
-		test_main_feature.AddDependency(java_util_Collections_singleton_feature);
-		test_main_feature.AddDependency(java_util_Set_class);
-		test_test_feature.AddDependency(java_lang_Object_Object_feature);
+		test_class.addDependency(java_lang_Object_class);
+		test_main_feature.addDependency(java_io_PrintStream_class);
+		test_main_feature.addDependency(java_io_PrintStream_println_feature);
+		test_main_feature.addDependency(java_lang_NullPointerException_class);
+		test_main_feature.addDependency(java_lang_Object_class);
+		test_main_feature.addDependency(java_lang_Object_Object_feature);
+		test_main_feature.addDependency(java_lang_String_class);
+		test_main_feature.addDependency(java_lang_System_out_feature);
+		test_main_feature.addDependency(java_util_Collections_singleton_feature);
+		test_main_feature.addDependency(java_util_Set_class);
+		test_test_feature.addDependency(java_lang_Object_Object_feature);
 
 		loader = new AggregatingClassfileLoader();
 		loader.load(Collections.singleton(TEST_FILENAME));
@@ -148,11 +148,11 @@ public class TestDependencyExtractor extends TestCase {
 			assertEquals(factory.Packages().get(key), test_factory.Packages().get(key));
 			assertTrue(key + " is same", factory.Packages().get(key) != test_factory.Packages().get(key));
 			assertEquals(key + " inbounds",
-						 ((Node) factory.Packages().get(key)).Inbound().size(),
-						 ((Node) test_factory.Packages().get(key)).Inbound().size());
+						 ((Node) factory.Packages().get(key)).getInboundDependencies().size(),
+						 ((Node) test_factory.Packages().get(key)).getInboundDependencies().size());
 			assertEquals(key + " outbounds",
-						 ((Node) factory.Packages().get(key)).Outbound().size(),
-						 ((Node) test_factory.Packages().get(key)).Outbound().size());
+						 ((Node) factory.Packages().get(key)).getOutboundDependencies().size(),
+						 ((Node) test_factory.Packages().get(key)).getOutboundDependencies().size());
 		}
 	}
 	
@@ -163,11 +163,11 @@ public class TestDependencyExtractor extends TestCase {
 			assertEquals(factory.Classes().get(key), test_factory.Classes().get(key));
 			assertTrue(key + " is same", factory.Classes().get(key) != test_factory.Classes().get(key));
 			assertEquals(key + " inbounds",
-						 ((Node) factory.Classes().get(key)).Inbound().size(),
-						 ((Node) test_factory.Classes().get(key)).Inbound().size());
+						 ((Node) factory.Classes().get(key)).getInboundDependencies().size(),
+						 ((Node) test_factory.Classes().get(key)).getInboundDependencies().size());
 			assertEquals(key + " outbounds",
-						 ((Node) factory.Classes().get(key)).Outbound().size(),
-						 ((Node) test_factory.Classes().get(key)).Outbound().size());
+						 ((Node) factory.Classes().get(key)).getOutboundDependencies().size(),
+						 ((Node) test_factory.Classes().get(key)).getOutboundDependencies().size());
 		}
 	}
 	
@@ -178,11 +178,11 @@ public class TestDependencyExtractor extends TestCase {
 			assertEquals(factory.Features().get(key), test_factory.Features().get(key));
 			assertTrue(key + " is same", factory.Features().get(key) != test_factory.Features().get(key));
 			assertEquals(key + " inbounds",
-						 ((Node) factory.Features().get(key)).Inbound().size(),
-						 ((Node) test_factory.Features().get(key)).Inbound().size());
+						 ((Node) factory.Features().get(key)).getInboundDependencies().size(),
+						 ((Node) test_factory.Features().get(key)).getInboundDependencies().size());
 			assertEquals(key + " outbounds",
-						 ((Node) factory.Features().get(key)).Outbound().size(),
-						 ((Node) test_factory.Features().get(key)).Outbound().size());
+						 ((Node) factory.Features().get(key)).getOutboundDependencies().size(),
+						 ((Node) test_factory.Features().get(key)).getOutboundDependencies().size());
 		}
 	}
 

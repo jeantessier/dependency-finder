@@ -69,8 +69,8 @@ public class TestGraphSummarizerWithScoping extends TestCase {
 		b_B   = factory.CreateClass("b.B");
 		b_B_b = factory.CreateFeature("b.B.b");
 		
-		a_A_a.AddDependency(a_A_b);
-		a_A_a.AddDependency(b_B_b);
+		a_A_a.addDependency(a_A_b);
+		a_A_a.addDependency(b_B_b);
 
 		include_scope = new LinkedList();
 		include_scope.add("/^a/");
@@ -85,12 +85,12 @@ public class TestGraphSummarizerWithScoping extends TestCase {
 	}
 
 	public void testIncludeF2F() {
-		summarizer.TraverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.Packages().values());
 
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
-		assertEquals(summarizer.ScopeFactory().CreatePackage("a").Outbound().toString(),
+		assertTrue(summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().isEmpty());
+		assertEquals(summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().toString(),
 					 1, 
-					 summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Outbound().contains(b));
+					 summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
+		assertTrue(summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().contains(b));
 	}
 }

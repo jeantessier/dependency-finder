@@ -83,27 +83,27 @@ public class JarJarDiff {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
-		command_line.AddSingleValueSwitch("name");
-		command_line.AddMultipleValuesSwitch("old", true);
-		command_line.AddSingleValueSwitch("old-label");
-		command_line.AddSingleValueSwitch("old-documentation", DEFAULT_OLD_DOCUMENTATION);
-		command_line.AddMultipleValuesSwitch("new", true);
-		command_line.AddSingleValueSwitch("new-label");
-		command_line.AddSingleValueSwitch("new-documentation", DEFAULT_NEW_DOCUMENTATION);
-		command_line.AddSingleValueSwitch("encoding",          Report.DEFAULT_ENCODING);
-		command_line.AddSingleValueSwitch("dtd-prefix",        Report.DEFAULT_DTD_PREFIX);
-		command_line.AddSingleValueSwitch("indent-text");
-		command_line.AddToggleSwitch("time");
-		command_line.AddSingleValueSwitch("out");
-		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose",         DEFAULT_LOGFILE);
-		command_line.AddToggleSwitch("version");
+		command_line.addSingleValueSwitch("name");
+		command_line.addMultipleValuesSwitch("old", true);
+		command_line.addSingleValueSwitch("old-label");
+		command_line.addSingleValueSwitch("old-documentation", DEFAULT_OLD_DOCUMENTATION);
+		command_line.addMultipleValuesSwitch("new", true);
+		command_line.addSingleValueSwitch("new-label");
+		command_line.addSingleValueSwitch("new-documentation", DEFAULT_NEW_DOCUMENTATION);
+		command_line.addSingleValueSwitch("encoding",          Report.DEFAULT_ENCODING);
+		command_line.addSingleValueSwitch("dtd-prefix",        Report.DEFAULT_DTD_PREFIX);
+		command_line.addSingleValueSwitch("indent-text");
+		command_line.addToggleSwitch("time");
+		command_line.addSingleValueSwitch("out");
+		command_line.addToggleSwitch("help");
+		command_line.addOptionalValueSwitch("verbose",         DEFAULT_LOGFILE);
+		command_line.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("JarJarDiff");
-		command_line.Accept(usage);
+		command_line.accept(usage);
 
 		try {
-			command_line.Parse(args);
+			command_line.parse(args);
 		} catch (IllegalArgumentException ex) {
 			Error(usage, ex.toString());
 			System.exit(1);
@@ -112,24 +112,24 @@ public class JarJarDiff {
 			System.exit(1);
 		}
 
-		if (command_line.ToggleSwitch("help")) {
+		if (command_line.getToggleSwitch("help")) {
 			Error(usage);
 		}
 		
-		if (command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("version")) {
 			Version();
 		}
 
-		if (command_line.ToggleSwitch("help") || command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
 		VerboseListener verbose_listener = new VerboseListener();
-		if (command_line.IsPresent("verbose")) {
-			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+		if (command_line.isPresent("verbose")) {
+			if ("System.out".equals(command_line.getOptionalSwitch("verbose"))) {
 				verbose_listener.Writer(System.out);
 			} else {
-				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+				verbose_listener.Writer(new FileWriter(command_line.getOptionalSwitch("verbose")));
 			}
 		}
 
@@ -142,15 +142,15 @@ public class JarJarDiff {
 		// Collecting data, first classfiles from JARs,
 		// then package/class trees using NodeFactory.
 
-		Validator old_validator = new ListBasedValidator(command_line.SingleSwitch("old-documentation"));
+		Validator old_validator = new ListBasedValidator(command_line.getSingleSwitch("old-documentation"));
 		ClassfileLoader old_jar = new AggregatingClassfileLoader();
 		old_jar.addLoadListener(verbose_listener);
-		old_jar.load(command_line.MultipleSwitch("old"));
+		old_jar.load(command_line.getMultipleSwitch("old"));
 
-		Validator new_validator = new ListBasedValidator(command_line.SingleSwitch("new-documentation"));
+		Validator new_validator = new ListBasedValidator(command_line.getSingleSwitch("new-documentation"));
 		ClassfileLoader new_jar = new AggregatingClassfileLoader();
 		new_jar.addLoadListener(verbose_listener);
-		new_jar.load(command_line.MultipleSwitch("new"));
+		new_jar.load(command_line.getMultipleSwitch("new"));
 
 		// Starting to compare, first at package level,
 		// then descending to class level for packages
@@ -159,9 +159,9 @@ public class JarJarDiff {
 		Logger.getLogger(JarJarDiff.class).info("Comparing ...");
 		verbose_listener.Print("Comparing ...");
 
-		String name      = command_line.SingleSwitch("name");
-		String old_label = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
-		String new_label = command_line.IsPresent("new-label") ? command_line.SingleSwitch("new-label") : command_line.Switch("new").toString();
+		String name      = command_line.getSingleSwitch("name");
+		String old_label = command_line.isPresent("old-label") ? command_line.getSingleSwitch("old-label") : command_line.getSwitch("old").toString();
+		String new_label = command_line.isPresent("new-label") ? command_line.getSingleSwitch("new-label") : command_line.getSwitch("new").toString();
 
 		DifferencesFactory factory = new DifferencesFactory(old_validator, new_validator);
 		Differences differences = factory.CreateJarDifferences(name, old_label, old_jar, new_label, new_jar);
@@ -170,15 +170,15 @@ public class JarJarDiff {
 		verbose_listener.Print("Printing results ...");
 
 		PrintWriter out;
-		if (command_line.IsPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+		if (command_line.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		com.jeantessier.diff.Printer printer = new Report(command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
-		if (command_line.IsPresent("indent-text")) {
-			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		com.jeantessier.diff.Printer printer = new Report(command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
+		if (command_line.isPresent("indent-text")) {
+			printer.IndentText(command_line.getSingleSwitch("indent-text"));
 		}
 
 		differences.Accept(printer);
@@ -186,7 +186,7 @@ public class JarJarDiff {
 
 		Date end = new Date();
 
-		if (command_line.ToggleSwitch("time")) {
+		if (command_line.getToggleSwitch("time")) {
 			System.err.println(JarJarDiff.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 

@@ -82,19 +82,19 @@ public class TestMetricsGatherer extends TestCase {
 		java_util_Collections_singleton_method = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
 		java_util_Set_class = factory.CreateClass("java.util.Set");
 
-		test_class.AddDependency(java_lang_Object_class);
-		test_main_method.AddDependency(java_lang_Object_class);
-		test_main_method.AddDependency(java_lang_Object_Object_method);
-		test_main_method.AddDependency(java_lang_String_class);
-		test_main_method.AddDependency(java_util_Collections_singleton_method);
-		test_main_method.AddDependency(java_util_Set_class);
-		test_test_method.AddDependency(java_lang_Object_Object_method);
+		test_class.addDependency(java_lang_Object_class);
+		test_main_method.addDependency(java_lang_Object_class);
+		test_main_method.addDependency(java_lang_Object_Object_method);
+		test_main_method.addDependency(java_lang_String_class);
+		test_main_method.addDependency(java_util_Collections_singleton_method);
+		test_main_method.addDependency(java_util_Set_class);
+		test_test_method.addDependency(java_lang_Object_Object_method);
 
 		metrics = new MetricsGatherer();
 	}
 
 	public void testEverything() throws IOException {
-		metrics.TraverseNodes(factory.Packages().values());
+		metrics.traverseNodes(factory.Packages().values());
 
 		assertEquals("Number of packages", 4, metrics.Packages().size());
 		assertEquals("Number of classes",  6, metrics.Classes().size());

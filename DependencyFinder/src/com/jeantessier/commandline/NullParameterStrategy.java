@@ -39,16 +39,16 @@ package com.jeantessier.commandline;
 public class NullParameterStrategy implements ParameterStrategy {
 	private boolean satisfied = true;
 
-	public boolean Accept(String param) {
+	public boolean accept(String param) {
 		satisfied = false;
 		return false;
 	}
 
-	public boolean Satisfied() {
+	public boolean isSatisfied() {
 		return satisfied;
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.Visit(this);
+	public void accept(Visitor visitor) {
+		visitor.visitNullParameterStrategy(this);
 	}
 }

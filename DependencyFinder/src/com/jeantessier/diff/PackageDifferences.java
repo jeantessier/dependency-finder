@@ -52,11 +52,11 @@ public class PackageDifferences extends RemovableDifferences {
 		super(name);
 
 		if (old_package != null) {
-			OldDeclaration(old_package.Name());
+			OldDeclaration(old_package.getName());
 		}
 
 		if (new_package != null) {
-			NewDeclaration(new_package.Name());
+			NewDeclaration(new_package.getName());
 		}
 	
 		if (IsModified()) {

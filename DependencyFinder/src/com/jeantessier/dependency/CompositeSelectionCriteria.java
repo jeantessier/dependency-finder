@@ -41,7 +41,7 @@ public abstract class CompositeSelectionCriteria implements SelectionCriteria {
 		this.subcriteria = subcriteria;
 	}
 
-	protected Collection Subcriteria() {
+	protected Collection getSubcriteria() {
 		return subcriteria;
 	}
 }

@@ -43,52 +43,52 @@ public class ClosureStartSelector extends ClosureSelector {
 		this.criteria = criteria;
 	}
 
-	public void VisitPackageNode(PackageNode node) {
-		if (criteria.Match(node)) {
-			SelectedNodes().add(node);
-			CopiedNodes().add(Factory().CreatePackage(node.Name()));
+	public void visitPackageNode(PackageNode node) {
+		if (criteria.matches(node)) {
+			getSelectedNodes().add(node);
+			getCopiedNodes().add(getFactory().CreatePackage(node.getName()));
 		}
 
-		TraverseNodes(node.Classes());
+		traverseNodes(node.getClasses());
 	}
 	
-	public void VisitInboundPackageNode(PackageNode node) {
+	public void visitInboundPackageNode(PackageNode node) {
 		// Do nothing
 	}
 	
-	public void VisitOutboundPackageNode(PackageNode node) {
+	public void visitOutboundPackageNode(PackageNode node) {
 		// Do nothing
 	}
 
-	public void VisitClassNode(ClassNode node) {
-		if (criteria.Match(node)) {
-			SelectedNodes().add(node);
-			CopiedNodes().add(Factory().CreateClass(node.Name()));
+	public void visitClassNode(ClassNode node) {
+		if (criteria.matches(node)) {
+			getSelectedNodes().add(node);
+			getCopiedNodes().add(getFactory().CreateClass(node.getName()));
 		}
 
-		TraverseNodes(node.Features());
+		traverseNodes(node.getFeatures());
 	}
 	
-	public void VisitInboundClassNode(ClassNode node) {
+	public void visitInboundClassNode(ClassNode node) {
 		// Do nothing
 	}
 	
-	public void VisitOutboundClassNode(ClassNode node) {
+	public void visitOutboundClassNode(ClassNode node) {
 		// Do nothing
 	}
 
-	public void VisitFeatureNode(FeatureNode node) {
-		if (criteria.Match(node)) {
-			SelectedNodes().add(node);
-			CopiedNodes().add(Factory().CreateFeature(node.Name()));
+	public void visitFeatureNode(FeatureNode node) {
+		if (criteria.matches(node)) {
+			getSelectedNodes().add(node);
+			getCopiedNodes().add(getFactory().CreateFeature(node.getName()));
 		}
 	}
 	
-	public void VisitInboundFeatureNode(FeatureNode node) {
+	public void visitInboundFeatureNode(FeatureNode node) {
 		// Do nothing
 	}
 	
-	public void VisitOutboundFeatureNode(FeatureNode node) {
+	public void visitOutboundFeatureNode(FeatureNode node) {
 		// Do nothing
 	}
 }

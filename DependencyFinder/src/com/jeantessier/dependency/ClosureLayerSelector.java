@@ -35,9 +35,9 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class ClosureLayerSelector extends ClosureSelector {
-	private Node current_node;
+	private Node currentNode;
 	
-	private Collection  coverage;
+	private Collection coverage;
 	
 	public ClosureLayerSelector() {
 		super();
@@ -46,92 +46,92 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
 	public ClosureLayerSelector(NodeFactory factory, Collection coverage) {
 		super(factory);
 		
-		Coverage(coverage);
+		setCoverage(coverage);
 	}
 
-	public void Reset() {
-		super.Reset();
+	public void reset() {
+		super.reset();
 
-		current_node = null;
+		currentNode = null;
 	}
 
-	public Collection Coverage() {
+	public Collection getCoverage() {
 		return coverage;
 	}
 
-	public void Coverage(Collection coverage) {
+	public void setCoverage(Collection coverage) {
 		this.coverage = coverage;
 	}
 	
-	public void VisitPackageNode(PackageNode node) {
-		current_node = Factory().CreatePackage(node.Name());
+	public void visitPackageNode(PackageNode node) {
+		currentNode = getFactory().CreatePackage(node.getName());
 	}
 	
-	public void VisitInboundPackageNode(PackageNode node) {
-		if (!Coverage().contains(node)) {
-			SelectedNodes().add(node);
+	public void visitInboundPackageNode(PackageNode node) {
+		if (!getCoverage().contains(node)) {
+			getSelectedNodes().add(node);
 
-			Node copy = Factory().CreatePackage(node.Name());
-			CopiedNodes().add(copy);
-			copy.AddDependency(current_node);
+			Node copy = getFactory().CreatePackage(node.getName());
+			getCopiedNodes().add(copy);
+			copy.addDependency(currentNode);
 		}
 	}
 	
-	public void VisitOutboundPackageNode(PackageNode node) {
-		if (!Coverage().contains(node)) {
-			SelectedNodes().add(node);
+	public void visitOutboundPackageNode(PackageNode node) {
+		if (!getCoverage().contains(node)) {
+			getSelectedNodes().add(node);
 
-			Node copy = Factory().CreatePackage(node.Name());
-			CopiedNodes().add(copy);
-			current_node.AddDependency(copy);
+			Node copy = getFactory().CreatePackage(node.getName());
+			getCopiedNodes().add(copy);
+			currentNode.addDependency(copy);
 		}
 	}
 
-	public void VisitClassNode(ClassNode node) {
-		current_node = Factory().CreateClass(node.Name());
+	public void visitClassNode(ClassNode node) {
+		currentNode = getFactory().CreateClass(node.getName());
 	}
 	
-	public void VisitInboundClassNode(ClassNode node) {
-		if (!Coverage().contains(node)) {
-			SelectedNodes().add(node);
+	public void visitInboundClassNode(ClassNode node) {
+		if (!getCoverage().contains(node)) {
+			getSelectedNodes().add(node);
 
-			Node copy = Factory().CreateClass(node.Name());
-			CopiedNodes().add(copy);
-			copy.AddDependency(current_node);
+			Node copy = getFactory().CreateClass(node.getName());
+			getCopiedNodes().add(copy);
+			copy.addDependency(currentNode);
 		}
 	}
 	
-	public void VisitOutboundClassNode(ClassNode node) {
-		if (!Coverage().contains(node)) {
-			SelectedNodes().add(node);
+	public void visitOutboundClassNode(ClassNode node) {
+		if (!getCoverage().contains(node)) {
+			getSelectedNodes().add(node);
 
-			Node copy = Factory().CreateClass(node.Name());
-			CopiedNodes().add(copy);
-			current_node.AddDependency(copy);
+			Node copy = getFactory().CreateClass(node.getName());
+			getCopiedNodes().add(copy);
+			currentNode.addDependency(copy);
 		}
 	}
 
-	public void VisitFeatureNode(FeatureNode node) {
-		current_node = Factory().CreateFeature(node.Name());
+	public void visitFeatureNode(FeatureNode node) {
+		currentNode = getFactory().CreateFeature(node.getName());
 	}
 	
-	public void VisitInboundFeatureNode(FeatureNode node) {
-		if (!Coverage().contains(node)) {
-			SelectedNodes().add(node);
+	public void visitInboundFeatureNode(FeatureNode node) {
+		if (!getCoverage().contains(node)) {
+			getSelectedNodes().add(node);
 
-			Node copy = Factory().CreateFeature(node.Name());
-			CopiedNodes().add(copy);
-			copy.AddDependency(current_node);
+			Node copy = getFactory().CreateFeature(node.getName());
+			getCopiedNodes().add(copy);
+			copy.addDependency(currentNode);
 		}
 	}
 	
-	public void VisitOutboundFeatureNode(FeatureNode node) {
-		if (!Coverage().contains(node)) {
-			SelectedNodes().add(node);
+	public void visitOutboundFeatureNode(FeatureNode node) {
+		if (!getCoverage().contains(node)) {
+			getSelectedNodes().add(node);
 
-			Node copy = Factory().CreateFeature(node.Name());
-			CopiedNodes().add(copy);
-			current_node.AddDependency(copy);
+			Node copy = getFactory().CreateFeature(node.getName());
+			getCopiedNodes().add(copy);
+			currentNode.addDependency(copy);
 		}
 	}
 }

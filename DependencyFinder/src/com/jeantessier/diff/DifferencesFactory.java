@@ -113,12 +113,12 @@ public class DifferencesFactory {
 			Collection class_level = new TreeSet();
 			Iterator   i;
 			
-			i = old_package.Classes().iterator();
+			i = old_package.getClasses().iterator();
 			while (i.hasNext()) {
 				class_level.add(i.next().toString());
 			}
 			
-			i = new_package.Classes().iterator();
+			i = new_package.getClasses().iterator();
 			while (i.hasNext()) {
 				class_level.add(i.next().toString());
 			}

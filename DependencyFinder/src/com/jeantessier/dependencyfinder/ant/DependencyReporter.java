@@ -237,13 +237,13 @@ public class DependencyReporter extends GraphTask {
 				
 				if (getMaximize()) {
 					log("Maximizing ...");
-					new LinkMaximizer().TraverseNodes(packages);
+					new LinkMaximizer().traverseNodes(packages);
 				} else if (getMinimize()) {
 					log("Minimizing ...");
-					new LinkMinimizer().TraverseNodes(packages);
+					new LinkMinimizer().traverseNodes(packages);
 				}
 				
-				copier.TraverseNodes(packages);
+				copier.traverseNodes(packages);
 			}
 
 			log("Saving dependency graph to " + getDestfile().getAbsolutePath());
@@ -265,7 +265,7 @@ public class DependencyReporter extends GraphTask {
 			printer.ShowOutbounds(getShowoutbounds());
 			printer.ShowEmptyNodes(getShowemptynodes());
 				
-			printer.TraverseNodes(copier.ScopeFactory().Packages().values());
+			printer.traverseNodes(copier.ScopeFactory().Packages().values());
 				
 			out.close();
 		} catch (SAXException ex) {

@@ -77,18 +77,18 @@ public class TestGraphCopier extends TestCase {
 		java_util_Collections_class = factory.CreateClass("java.util.Collections");
 		java_util_Collections_singleton_method = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
 		
-		test_class.AddDependency(java_lang_Object_class);
-		test_main_method.AddDependency(java_lang_Object_class);
-		test_main_method.AddDependency(java_lang_Object_Object_method);
-		test_main_method.AddDependency(java_lang_String_class);
-		test_main_method.AddDependency(java_util_Collections_singleton_method);
-		test_Test_method.AddDependency(java_lang_Object_Object_method);
+		test_class.addDependency(java_lang_Object_class);
+		test_main_method.addDependency(java_lang_Object_class);
+		test_main_method.addDependency(java_lang_Object_Object_method);
+		test_main_method.addDependency(java_lang_String_class);
+		test_main_method.addDependency(java_util_Collections_singleton_method);
+		test_Test_method.addDependency(java_lang_Object_Object_method);
 
 		copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
 	}
 
 	public void testCopyFullGraph() {
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 factory.Packages().size(),
@@ -107,10 +107,10 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), copier.ScopeFactory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != copier.ScopeFactory().Packages().get(key));
-			assertEquals(((Node) factory.Packages().get(key)).Inbound().size(),
-						 ((Node) copier.ScopeFactory().Packages().get(key)).Inbound().size());
-			assertEquals(((Node) factory.Packages().get(key)).Outbound().size(),
-						 ((Node) copier.ScopeFactory().Packages().get(key)).Outbound().size());
+			assertEquals(((Node) factory.Packages().get(key)).getInboundDependencies().size(),
+						 ((Node) copier.ScopeFactory().Packages().get(key)).getInboundDependencies().size());
+			assertEquals(((Node) factory.Packages().get(key)).getOutboundDependencies().size(),
+						 ((Node) copier.ScopeFactory().Packages().get(key)).getOutboundDependencies().size());
 		}
 		
 		i = factory.Classes().keySet().iterator();
@@ -118,10 +118,10 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Classes().get(key), copier.ScopeFactory().Classes().get(key));
 			assertTrue(factory.Classes().get(key) != copier.ScopeFactory().Classes().get(key));
-			assertEquals(((Node) factory.Classes().get(key)).Inbound().size(),
-						 ((Node) copier.ScopeFactory().Classes().get(key)).Inbound().size());
-			assertEquals(((Node) factory.Classes().get(key)).Outbound().size(),
-						 ((Node) copier.ScopeFactory().Classes().get(key)).Outbound().size());
+			assertEquals(((Node) factory.Classes().get(key)).getInboundDependencies().size(),
+						 ((Node) copier.ScopeFactory().Classes().get(key)).getInboundDependencies().size());
+			assertEquals(((Node) factory.Classes().get(key)).getOutboundDependencies().size(),
+						 ((Node) copier.ScopeFactory().Classes().get(key)).getOutboundDependencies().size());
 		}
 		
 		i = factory.Features().keySet().iterator();
@@ -129,10 +129,10 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Features().get(key), copier.ScopeFactory().Features().get(key));
 			assertTrue(factory.Features().get(key) != copier.ScopeFactory().Features().get(key));
-			assertEquals(((Node) factory.Features().get(key)).Inbound().size(),
-						 ((Node) copier.ScopeFactory().Features().get(key)).Inbound().size());
-			assertEquals(((Node) factory.Features().get(key)).Outbound().size(),
-						 ((Node) copier.ScopeFactory().Features().get(key)).Outbound().size());
+			assertEquals(((Node) factory.Features().get(key)).getInboundDependencies().size(),
+						 ((Node) copier.ScopeFactory().Features().get(key)).getInboundDependencies().size());
+			assertEquals(((Node) factory.Features().get(key)).getOutboundDependencies().size(),
+						 ((Node) copier.ScopeFactory().Features().get(key)).getOutboundDependencies().size());
 		}
 	}
 
@@ -141,7 +141,7 @@ public class TestGraphCopier extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 		
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 factory.Packages().size(),
@@ -160,8 +160,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), copier.ScopeFactory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != copier.ScopeFactory().Packages().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = factory.Classes().keySet().iterator();
@@ -169,8 +169,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Classes().get(key), copier.ScopeFactory().Classes().get(key));
 			assertTrue(factory.Classes().get(key) != copier.ScopeFactory().Classes().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = factory.Features().keySet().iterator();
@@ -178,8 +178,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Features().get(key), copier.ScopeFactory().Features().get(key));
 			assertTrue(factory.Features().get(key) != copier.ScopeFactory().Features().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Features().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Features().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Features().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Features().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
@@ -190,7 +190,7 @@ public class TestGraphCopier extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 		
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 factory.Packages().size(),
@@ -205,8 +205,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), copier.ScopeFactory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != copier.ScopeFactory().Packages().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
@@ -217,7 +217,7 @@ public class TestGraphCopier extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 		
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 factory.Packages().size(),
@@ -234,8 +234,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), copier.ScopeFactory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != copier.ScopeFactory().Packages().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = factory.Classes().keySet().iterator();
@@ -243,8 +243,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Classes().get(key), copier.ScopeFactory().Classes().get(key));
 			assertTrue(factory.Classes().get(key) != copier.ScopeFactory().Classes().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
@@ -255,7 +255,7 @@ public class TestGraphCopier extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 		
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 factory.Packages().size(),
@@ -274,8 +274,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), copier.ScopeFactory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != copier.ScopeFactory().Packages().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Packages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = copier.ScopeFactory().Classes().keySet().iterator();
@@ -283,8 +283,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Classes().get(key), copier.ScopeFactory().Classes().get(key));
 			assertTrue(factory.Classes().get(key) != copier.ScopeFactory().Classes().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Classes().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = copier.ScopeFactory().Features().keySet().iterator();
@@ -292,8 +292,8 @@ public class TestGraphCopier extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Features().get(key), copier.ScopeFactory().Features().get(key));
 			assertTrue(factory.Features().get(key) != copier.ScopeFactory().Features().get(key));
-			assertTrue(((Node) copier.ScopeFactory().Features().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) copier.ScopeFactory().Features().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Features().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) copier.ScopeFactory().Features().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
@@ -302,7 +302,7 @@ public class TestGraphCopier extends TestCase {
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(false);
 		
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
 		assertTrue(copier.ScopeFactory().Packages().isEmpty());
 		assertTrue(copier.ScopeFactory().Classes().isEmpty());
@@ -315,7 +315,7 @@ public class TestGraphCopier extends TestCase {
 		Node        a_A_class = factory.CreateClass("a.A");
 		Node        a_B_class = factory.CreateClass("a.B");
 	
-		a_A_class.AddDependency(a_B_class);
+		a_A_class.addDependency(a_B_class);
 
 		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		scope_criteria.MatchClass(false);
@@ -327,15 +327,15 @@ public class TestGraphCopier extends TestCase {
 		
 		GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
 
-		copier.TraverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.Packages().values());
 
 		assertTrue(copier.ScopeFactory().Packages().keySet().toString(), copier.ScopeFactory().Packages().keySet().contains("a"));
 		assertTrue(copier.ScopeFactory().Classes().isEmpty());
 		assertTrue(copier.ScopeFactory().Features().isEmpty());
 
-		assertEquals(0, copier.ScopeFactory().CreatePackage("a").Inbound().size());
-		assertEquals(0, copier.ScopeFactory().CreatePackage("a").Outbound().size());
-		assertEquals(0, copier.ScopeFactory().CreatePackage("b").Inbound().size());
-		assertEquals(0, copier.ScopeFactory().CreatePackage("b").Outbound().size());
+		assertEquals(0, copier.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
+		assertEquals(0, copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
+		assertEquals(0, copier.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
+		assertEquals(0, copier.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
 	}
 }

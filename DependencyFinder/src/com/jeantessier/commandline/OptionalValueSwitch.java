@@ -53,10 +53,10 @@ public class OptionalValueSwitch extends CommandLineSwitchBase {
 		super(default_value, mandatory);
 	}
 
-	public int Parse(String name, String value) throws CommandLineException {
+	public int parse(String name, String value) throws CommandLineException {
 		int result = 1;
 
-		Value(value);
+		setValue(value);
 
 		if (value != null) {
 			result++;
@@ -65,7 +65,7 @@ public class OptionalValueSwitch extends CommandLineSwitchBase {
 		return result;
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.Visit(this);
+	public void accept(Visitor visitor) {
+		visitor.visitOptionalValueSwitch(this);
 	}
 }

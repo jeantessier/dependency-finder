@@ -143,7 +143,7 @@ public class NodeHandler extends DefaultHandler {
 					other = Factory().CreateFeature(current_name.toString());
 					break;
 			}
-			current_node.AddDependency(other);
+			current_node.addDependency(other);
 			fireDependency(current_node, other);
 		} else if ("inbound".equals(qName)) {
 			Logger.getLogger(getClass()).debug("    Processing <inbound> tag:");
@@ -162,7 +162,7 @@ public class NodeHandler extends DefaultHandler {
 					other = Factory().CreateFeature(current_name.toString());
 					break;
 			}
-			other.AddDependency(current_node);
+			other.addDependency(current_node);
 			fireDependency(other, current_node);
 		}
 	}

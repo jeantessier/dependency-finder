@@ -90,43 +90,43 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(false);
 
-		assertTrue("a not in package scope",  strategy.InScope(a));
-		assertTrue("a.A in package scope",   !strategy.InScope(a_A));
-		assertTrue("a.A.a in package scope", !strategy.InScope(a_A_a));
-		assertTrue("b not in package scope",  strategy.InScope(b));
-		assertTrue("b.B in package scope",   !strategy.InScope(b_B));
-		assertTrue("b.B.b in package scope", !strategy.InScope(b_B_b));
-		assertTrue("c not in package scope",  strategy.InScope(c));
-		assertTrue("c.C in package scope",   !strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope", !strategy.InScope(c_C_c));
+		assertTrue("a not in package scope",  strategy.isInScope(a));
+		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
+		assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
+		assertTrue("b not in package scope",  strategy.isInScope(b));
+		assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
+		assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
+		assertTrue("c not in package scope",  strategy.isInScope(c));
+		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
 		scope_criteria.MatchPackage(false);
 		scope_criteria.MatchClass(true);
 		scope_criteria.MatchFeature(false);
 
-		assertTrue("a in package scope",       !strategy.InScope(a));
-		assertTrue("a.A not in package scope",  strategy.InScope(a_A));
-		assertTrue("a.A.a in package scope",   !strategy.InScope(a_A_a));
-		assertTrue("b not in package scope",   !strategy.InScope(b));
-		assertTrue("b.B in package scope",      strategy.InScope(b_B));
-		assertTrue("b.B.b in package scope",   !strategy.InScope(b_B_b));
-		assertTrue("c not in package scope",   !strategy.InScope(c));
-		assertTrue("c.C in package scope",      strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope",   !strategy.InScope(c_C_c));
+		assertTrue("a in package scope",       !strategy.isInScope(a));
+		assertTrue("a.A not in package scope",  strategy.isInScope(a_A));
+		assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
+		assertTrue("b not in package scope",   !strategy.isInScope(b));
+		assertTrue("b.B in package scope",      strategy.isInScope(b_B));
+		assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
+		assertTrue("c not in package scope",   !strategy.isInScope(c));
+		assertTrue("c.C in package scope",      strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
 		scope_criteria.MatchPackage(false);
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(true);
 
-		assertTrue("a in package scope",         !strategy.InScope(a));
-		assertTrue("a.A in package scope",       !strategy.InScope(a_A));
-		assertTrue("a.A.a not in package scope",  strategy.InScope(a_A_a));
-		assertTrue("b not in package scope",     !strategy.InScope(b));
-		assertTrue("b.B in package scope",       !strategy.InScope(b_B));
-		assertTrue("b.B.b in package scope",      strategy.InScope(b_B_b));
-		assertTrue("c not in package scope",     !strategy.InScope(c));
-		assertTrue("c.C in package scope",       !strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope",      strategy.InScope(c_C_c));
+		assertTrue("a in package scope",         !strategy.isInScope(a));
+		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
+		assertTrue("a.A.a not in package scope",  strategy.isInScope(a_A_a));
+		assertTrue("b not in package scope",     !strategy.isInScope(b));
+		assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
+		assertTrue("b.B.b in package scope",      strategy.isInScope(b_B_b));
+		assertTrue("c not in package scope",     !strategy.isInScope(c));
+		assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope",      strategy.isInScope(c_C_c));
 	}
 
 	public void testScopeIncludes() {
@@ -136,43 +136,43 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(false);
 
-		assertTrue("a in package scope",     !strategy.InScope(a));
-		assertTrue("a.A in package scope",   !strategy.InScope(a_A));
-		assertTrue("a.A.a in package scope", !strategy.InScope(a_A_a));
-		assertTrue("b not in package scope",  strategy.InScope(b));
-		assertTrue("b.B in package scope",   !strategy.InScope(b_B));
-		assertTrue("b.B.b in package scope", !strategy.InScope(b_B_b));
-		assertTrue("c in package scope",     !strategy.InScope(c));
-		assertTrue("c.C in package scope",   !strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope", !strategy.InScope(c_C_c));
+		assertTrue("a in package scope",     !strategy.isInScope(a));
+		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
+		assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
+		assertTrue("b not in package scope",  strategy.isInScope(b));
+		assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
+		assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
+		assertTrue("c in package scope",     !strategy.isInScope(c));
+		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
 		scope_criteria.MatchPackage(false);
 		scope_criteria.MatchClass(true);
 		scope_criteria.MatchFeature(false);
 
-		assertTrue("a in package scope",       !strategy.InScope(a));
-		assertTrue("a.A in package scope",     !strategy.InScope(a_A));
-		assertTrue("a.A.a in package scope",   !strategy.InScope(a_A_a));
-		assertTrue("b in package scope",       !strategy.InScope(b));
-		assertTrue("b.B not in package scope",  strategy.InScope(b_B));
-		assertTrue("b.B.b in package scope",   !strategy.InScope(b_B_b));
-		assertTrue("c in package scope",       !strategy.InScope(c));
-		assertTrue("c.C in package scope",     !strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope",   !strategy.InScope(c_C_c));
+		assertTrue("a in package scope",       !strategy.isInScope(a));
+		assertTrue("a.A in package scope",     !strategy.isInScope(a_A));
+		assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
+		assertTrue("b in package scope",       !strategy.isInScope(b));
+		assertTrue("b.B not in package scope",  strategy.isInScope(b_B));
+		assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
+		assertTrue("c in package scope",       !strategy.isInScope(c));
+		assertTrue("c.C in package scope",     !strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
 		scope_criteria.MatchPackage(false);
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(true);
 
-		assertTrue("a in package scope",         !strategy.InScope(a));
-		assertTrue("a.A in package scope",       !strategy.InScope(a_A));
-		assertTrue("a.A.a in package scope",     !strategy.InScope(a_A_a));
-		assertTrue("b in package scope",         !strategy.InScope(b));
-		assertTrue("b.B in package scope",       !strategy.InScope(b_B));
-		assertTrue("b.B.b not in package scope",  strategy.InScope(b_B_b));
-		assertTrue("c in package scope",         !strategy.InScope(c));
-		assertTrue("c.C in package scope",       !strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope",     !strategy.InScope(c_C_c));
+		assertTrue("a in package scope",         !strategy.isInScope(a));
+		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
+		assertTrue("a.A.a in package scope",     !strategy.isInScope(a_A_a));
+		assertTrue("b in package scope",         !strategy.isInScope(b));
+		assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
+		assertTrue("b.B.b not in package scope",  strategy.isInScope(b_B_b));
+		assertTrue("c in package scope",         !strategy.isInScope(c));
+		assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope",     !strategy.isInScope(c_C_c));
 	}
 
 	public void testScopeExcludes() {
@@ -182,43 +182,43 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(false);
 
-		assertTrue("a not in package scope",  strategy.InScope(a));
-		assertTrue("a.A in package scope",   !strategy.InScope(a_A));
-		assertTrue("a.A.a in package scope", !strategy.InScope(a_A_a));
-		assertTrue("b not in package scope",  strategy.InScope(b));
-		assertTrue("b.B in package scope",   !strategy.InScope(b_B));
-		assertTrue("b.B.b in package scope", !strategy.InScope(b_B_b));
-		assertTrue("c in package scope",     !strategy.InScope(c));
-		assertTrue("c.C in package scope",   !strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope", !strategy.InScope(c_C_c));
+		assertTrue("a not in package scope",  strategy.isInScope(a));
+		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
+		assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
+		assertTrue("b not in package scope",  strategy.isInScope(b));
+		assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
+		assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
+		assertTrue("c in package scope",     !strategy.isInScope(c));
+		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
 		scope_criteria.MatchPackage(false);
 		scope_criteria.MatchClass(true);
 		scope_criteria.MatchFeature(false);
 
-		assertTrue("a in package scope",       !strategy.InScope(a));
-		assertTrue("a.A not in package scope",  strategy.InScope(a_A));
-		assertTrue("a.A.a in package scope",   !strategy.InScope(a_A_a));
-		assertTrue("b in package scope",       !strategy.InScope(b));
-		assertTrue("b.B not in package scope",  strategy.InScope(b_B));
-		assertTrue("b.B.b in package scope",   !strategy.InScope(b_B_b));
-		assertTrue("c not in package scope",   !strategy.InScope(c));
-		assertTrue("c.C in package scope",     !strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope",   !strategy.InScope(c_C_c));
+		assertTrue("a in package scope",       !strategy.isInScope(a));
+		assertTrue("a.A not in package scope",  strategy.isInScope(a_A));
+		assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
+		assertTrue("b in package scope",       !strategy.isInScope(b));
+		assertTrue("b.B not in package scope",  strategy.isInScope(b_B));
+		assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
+		assertTrue("c not in package scope",   !strategy.isInScope(c));
+		assertTrue("c.C in package scope",     !strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
 		scope_criteria.MatchPackage(false);
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(true);
 
-		assertTrue("a in package scope",         !strategy.InScope(a));
-		assertTrue("a.A in package scope",       !strategy.InScope(a_A));
-		assertTrue("a.A.a not in package scope",  strategy.InScope(a_A_a));
-		assertTrue("b in package scope",         !strategy.InScope(b));
-		assertTrue("b.B in package scope",       !strategy.InScope(b_B));
-		assertTrue("b.B.b not in package scope",  strategy.InScope(b_B_b));
-		assertTrue("c not in package scope",     !strategy.InScope(c));
-		assertTrue("c.C in package scope",       !strategy.InScope(c_C));
-		assertTrue("c.C.c in package scope",     !strategy.InScope(c_C_c));
+		assertTrue("a in package scope",         !strategy.isInScope(a));
+		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
+		assertTrue("a.A.a not in package scope",  strategy.isInScope(a_A_a));
+		assertTrue("b in package scope",         !strategy.isInScope(b));
+		assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
+		assertTrue("b.B.b not in package scope",  strategy.isInScope(b_B_b));
+		assertTrue("c not in package scope",     !strategy.isInScope(c));
+		assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
+		assertTrue("c.C.c in package scope",     !strategy.isInScope(c_C_c));
 	}
 
 	public void testFilter() {
@@ -226,43 +226,43 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 
-		assertTrue("a not in package filter",  strategy.InFilter(a));
-		assertTrue("a.A in package filter",   !strategy.InFilter(a_A));
-		assertTrue("a.A.a in package filter", !strategy.InFilter(a_A_a));
-		assertTrue("b not in package filter",  strategy.InFilter(b));
-		assertTrue("b.B in package filter",   !strategy.InFilter(b_B));
-		assertTrue("b.B.b in package filter", !strategy.InFilter(b_B_b));
-		assertTrue("c not in package filter",  strategy.InFilter(c));
-		assertTrue("c.C in package filter",   !strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter", !strategy.InFilter(c_C_c));
+		assertTrue("a not in package filter",  strategy.isInFilter(a));
+		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
+		assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
+		assertTrue("b not in package filter",  strategy.isInFilter(b));
+		assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
+		assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
+		assertTrue("c not in package filter",  strategy.isInFilter(c));
+		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
 		filter_criteria.MatchPackage(false);
 		filter_criteria.MatchClass(true);
 		filter_criteria.MatchFeature(false);
 
-		assertTrue("a in package filter",       !strategy.InFilter(a));
-		assertTrue("a.A not in package filter",  strategy.InFilter(a_A));
-		assertTrue("a.A.a in package filter",   !strategy.InFilter(a_A_a));
-		assertTrue("b not in package filter",   !strategy.InFilter(b));
-		assertTrue("b.B in package filter",      strategy.InFilter(b_B));
-		assertTrue("b.B.b in package filter",   !strategy.InFilter(b_B_b));
-		assertTrue("c not in package filter",   !strategy.InFilter(c));
-		assertTrue("c.C in package filter",      strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter",   !strategy.InFilter(c_C_c));
+		assertTrue("a in package filter",       !strategy.isInFilter(a));
+		assertTrue("a.A not in package filter",  strategy.isInFilter(a_A));
+		assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
+		assertTrue("b not in package filter",   !strategy.isInFilter(b));
+		assertTrue("b.B in package filter",      strategy.isInFilter(b_B));
+		assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
+		assertTrue("c not in package filter",   !strategy.isInFilter(c));
+		assertTrue("c.C in package filter",      strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
 		filter_criteria.MatchPackage(false);
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(true);
 
-		assertTrue("a in package filter",         !strategy.InFilter(a));
-		assertTrue("a.A in package filter",       !strategy.InFilter(a_A));
-		assertTrue("a.A.a not in package filter",  strategy.InFilter(a_A_a));
-		assertTrue("b not in package filter",     !strategy.InFilter(b));
-		assertTrue("b.B in package filter",       !strategy.InFilter(b_B));
-		assertTrue("b.B.b in package filter",      strategy.InFilter(b_B_b));
-		assertTrue("c not in package filter",     !strategy.InFilter(c));
-		assertTrue("c.C in package filter",       !strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter",      strategy.InFilter(c_C_c));
+		assertTrue("a in package filter",         !strategy.isInFilter(a));
+		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
+		assertTrue("a.A.a not in package filter",  strategy.isInFilter(a_A_a));
+		assertTrue("b not in package filter",     !strategy.isInFilter(b));
+		assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
+		assertTrue("b.B.b in package filter",      strategy.isInFilter(b_B_b));
+		assertTrue("c not in package filter",     !strategy.isInFilter(c));
+		assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter",      strategy.isInFilter(c_C_c));
 	}
 
 	public void testFilterIncludes() {
@@ -272,43 +272,43 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 
-		assertTrue("a in package filter",     !strategy.InFilter(a));
-		assertTrue("a.A in package filter",   !strategy.InFilter(a_A));
-		assertTrue("a.A.a in package filter", !strategy.InFilter(a_A_a));
-		assertTrue("b not in package filter",  strategy.InFilter(b));
-		assertTrue("b.B in package filter",   !strategy.InFilter(b_B));
-		assertTrue("b.B.b in package filter", !strategy.InFilter(b_B_b));
-		assertTrue("c in package filter",     !strategy.InFilter(c));
-		assertTrue("c.C in package filter",   !strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter", !strategy.InFilter(c_C_c));
+		assertTrue("a in package filter",     !strategy.isInFilter(a));
+		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
+		assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
+		assertTrue("b not in package filter",  strategy.isInFilter(b));
+		assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
+		assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
+		assertTrue("c in package filter",     !strategy.isInFilter(c));
+		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
 		filter_criteria.MatchPackage(false);
 		filter_criteria.MatchClass(true);
 		filter_criteria.MatchFeature(false);
 
-		assertTrue("a in package filter",       !strategy.InFilter(a));
-		assertTrue("a.A in package filter",     !strategy.InFilter(a_A));
-		assertTrue("a.A.a in package filter",   !strategy.InFilter(a_A_a));
-		assertTrue("b in package filter",       !strategy.InFilter(b));
-		assertTrue("b.B not in package filter",  strategy.InFilter(b_B));
-		assertTrue("b.B.b in package filter",   !strategy.InFilter(b_B_b));
-		assertTrue("c in package filter",       !strategy.InFilter(c));
-		assertTrue("c.C in package filter",     !strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter",   !strategy.InFilter(c_C_c));
+		assertTrue("a in package filter",       !strategy.isInFilter(a));
+		assertTrue("a.A in package filter",     !strategy.isInFilter(a_A));
+		assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
+		assertTrue("b in package filter",       !strategy.isInFilter(b));
+		assertTrue("b.B not in package filter",  strategy.isInFilter(b_B));
+		assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
+		assertTrue("c in package filter",       !strategy.isInFilter(c));
+		assertTrue("c.C in package filter",     !strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
 		filter_criteria.MatchPackage(false);
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(true);
 
-		assertTrue("a in package filter",         !strategy.InFilter(a));
-		assertTrue("a.A in package filter",       !strategy.InFilter(a_A));
-		assertTrue("a.A.a in package filter",     !strategy.InFilter(a_A_a));
-		assertTrue("b in package filter",         !strategy.InFilter(b));
-		assertTrue("b.B in package filter",       !strategy.InFilter(b_B));
-		assertTrue("b.B.b not in package filter",  strategy.InFilter(b_B_b));
-		assertTrue("c in package filter",         !strategy.InFilter(c));
-		assertTrue("c.C in package filter",       !strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter",     !strategy.InFilter(c_C_c));
+		assertTrue("a in package filter",         !strategy.isInFilter(a));
+		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
+		assertTrue("a.A.a in package filter",     !strategy.isInFilter(a_A_a));
+		assertTrue("b in package filter",         !strategy.isInFilter(b));
+		assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
+		assertTrue("b.B.b not in package filter",  strategy.isInFilter(b_B_b));
+		assertTrue("c in package filter",         !strategy.isInFilter(c));
+		assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter",     !strategy.isInFilter(c_C_c));
 	}
 
 	public void testFilterExcludes() {
@@ -318,42 +318,42 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 
-		assertTrue("a not in package filter",  strategy.InFilter(a));
-		assertTrue("a.A in package filter",   !strategy.InFilter(a_A));
-		assertTrue("a.A.a in package filter", !strategy.InFilter(a_A_a));
-		assertTrue("b not in package filter",  strategy.InFilter(b));
-		assertTrue("b.B in package filter",   !strategy.InFilter(b_B));
-		assertTrue("b.B.b in package filter", !strategy.InFilter(b_B_b));
-		assertTrue("c in package filter",     !strategy.InFilter(c));
-		assertTrue("c.C in package filter",   !strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter", !strategy.InFilter(c_C_c));
+		assertTrue("a not in package filter",  strategy.isInFilter(a));
+		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
+		assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
+		assertTrue("b not in package filter",  strategy.isInFilter(b));
+		assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
+		assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
+		assertTrue("c in package filter",     !strategy.isInFilter(c));
+		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
 		filter_criteria.MatchPackage(false);
 		filter_criteria.MatchClass(true);
 		filter_criteria.MatchFeature(false);
 
-		assertTrue("a in package filter",       !strategy.InFilter(a));
-		assertTrue("a.A not in package filter",  strategy.InFilter(a_A));
-		assertTrue("a.A.a in package filter",   !strategy.InFilter(a_A_a));
-		assertTrue("b in package filter",       !strategy.InFilter(b));
-		assertTrue("b.B not in package filter",  strategy.InFilter(b_B));
-		assertTrue("b.B.b in package filter",   !strategy.InFilter(b_B_b));
-		assertTrue("c in package filter",       !strategy.InFilter(c));
-		assertTrue("c.C in package filter",     !strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter",   !strategy.InFilter(c_C_c));
+		assertTrue("a in package filter",       !strategy.isInFilter(a));
+		assertTrue("a.A not in package filter",  strategy.isInFilter(a_A));
+		assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
+		assertTrue("b in package filter",       !strategy.isInFilter(b));
+		assertTrue("b.B not in package filter",  strategy.isInFilter(b_B));
+		assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
+		assertTrue("c in package filter",       !strategy.isInFilter(c));
+		assertTrue("c.C in package filter",     !strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
 		filter_criteria.MatchPackage(false);
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(true);
 
-		assertTrue("a in package filter",         !strategy.InFilter(a));
-		assertTrue("a.A in package filter",       !strategy.InFilter(a_A));
-		assertTrue("a.A.a not in package filter",  strategy.InFilter(a_A_a));
-		assertTrue("b in package filter",         !strategy.InFilter(b));
-		assertTrue("b.B in package filter",       !strategy.InFilter(b_B));
-		assertTrue("b.B.b not in package filter",  strategy.InFilter(b_B_b));
-		assertTrue("c in package filter",         !strategy.InFilter(c));
-		assertTrue("c.C in package filter",       !strategy.InFilter(c_C));
-		assertTrue("c.C.c in package filter",     !strategy.InFilter(c_C_c));
+		assertTrue("a in package filter",         !strategy.isInFilter(a));
+		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
+		assertTrue("a.A.a not in package filter",  strategy.isInFilter(a_A_a));
+		assertTrue("b in package filter",         !strategy.isInFilter(b));
+		assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
+		assertTrue("b.B.b not in package filter",  strategy.isInFilter(b_B_b));
+		assertTrue("c in package filter",         !strategy.isInFilter(c));
+		assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
+		assertTrue("c.C.c in package filter",     !strategy.isInFilter(c_C_c));
 	}
 }

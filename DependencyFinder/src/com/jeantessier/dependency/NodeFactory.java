@@ -73,7 +73,7 @@ public class NodeFactory {
 			}
 			PackageNode parent = CreatePackage(package_name);
 			result = new ClassNode(parent, class_name);
-			parent.AddClass(result);
+			parent.addClass(result);
 			classes.put(class_name, result);
 			Logger.getLogger(getClass()).debug("Added class \"" + class_name + "\"");
 		}
@@ -102,7 +102,7 @@ public class NodeFactory {
 
 			ClassNode parent = CreateClass(parent_name);
 			result = new FeatureNode(parent, feature_name);
-			parent.AddFeature(result);
+			parent.addFeature(result);
 			features.put(feature_name, result);
 			Logger.getLogger(getClass()).debug("Added feature \"" + feature_name + "\"");
 		}

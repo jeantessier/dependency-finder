@@ -42,23 +42,23 @@ public class FeatureNode extends Node {
 		this.parent = parent;
 	}
 
-	public ClassNode Class() {
+	public ClassNode getClassNode() {
 		return parent;
 	}
 
-	public boolean CanAddDependency(Node node) {
-		return super.CanAddDependency(node) && Class().CanAddDependency(node);
+	public boolean canAddDependencyTo(Node node) {
+		return super.canAddDependencyTo(node) && getClassNode().canAddDependencyTo(node);
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitFeatureNode(this);
+	public void accept(Visitor visitor) {
+		visitor.visitFeatureNode(this);
 	}
 
-	public void AcceptInbound(Visitor visitor) {
-		visitor.VisitInboundFeatureNode(this);
+	public void acceptInbound(Visitor visitor) {
+		visitor.visitInboundFeatureNode(this);
 	}
 
-	public void AcceptOutbound(Visitor visitor) {
-		visitor.VisitOutboundFeatureNode(this);
+	public void acceptOutbound(Visitor visitor) {
+		visitor.visitOutboundFeatureNode(this);
 	}
 }

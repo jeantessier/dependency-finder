@@ -114,56 +114,56 @@ public class DependencyClosure {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new AtLeastParameterStrategy(1));
-		command_line.AddMultipleValuesSwitch("scope-includes",          DEFAULT_SCOPE_INCLUDES);
-		command_line.AddMultipleValuesSwitch("scope-excludes");
-		command_line.AddToggleSwitch("package-scope");
-		command_line.AddMultipleValuesSwitch("package-scope-includes");
-		command_line.AddMultipleValuesSwitch("package-scope-excludes");
-		command_line.AddToggleSwitch("class-scope");
-		command_line.AddMultipleValuesSwitch("class-scope-includes");
-		command_line.AddMultipleValuesSwitch("class-scope-excludes");
-		command_line.AddToggleSwitch("feature-scope");
-		command_line.AddMultipleValuesSwitch("feature-scope-includes");
-		command_line.AddMultipleValuesSwitch("feature-scope-excludes");
-		command_line.AddMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
-		command_line.AddMultipleValuesSwitch("filter-excludes");
-		command_line.AddToggleSwitch("package-filter");
-		command_line.AddMultipleValuesSwitch("package-filter-includes");
-		command_line.AddMultipleValuesSwitch("package-filter-excludes");
-		command_line.AddToggleSwitch("class-filter");
-		command_line.AddMultipleValuesSwitch("class-filter-includes");
-		command_line.AddMultipleValuesSwitch("class-filter-excludes");
-		command_line.AddToggleSwitch("feature-filter");
-		command_line.AddMultipleValuesSwitch("feature-filter-includes");
-		command_line.AddMultipleValuesSwitch("feature-filter-excludes");
+		command_line.addMultipleValuesSwitch("scope-includes",          DEFAULT_SCOPE_INCLUDES);
+		command_line.addMultipleValuesSwitch("scope-excludes");
+		command_line.addToggleSwitch("package-scope");
+		command_line.addMultipleValuesSwitch("package-scope-includes");
+		command_line.addMultipleValuesSwitch("package-scope-excludes");
+		command_line.addToggleSwitch("class-scope");
+		command_line.addMultipleValuesSwitch("class-scope-includes");
+		command_line.addMultipleValuesSwitch("class-scope-excludes");
+		command_line.addToggleSwitch("feature-scope");
+		command_line.addMultipleValuesSwitch("feature-scope-includes");
+		command_line.addMultipleValuesSwitch("feature-scope-excludes");
+		command_line.addMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
+		command_line.addMultipleValuesSwitch("filter-excludes");
+		command_line.addToggleSwitch("package-filter");
+		command_line.addMultipleValuesSwitch("package-filter-includes");
+		command_line.addMultipleValuesSwitch("package-filter-excludes");
+		command_line.addToggleSwitch("class-filter");
+		command_line.addMultipleValuesSwitch("class-filter-includes");
+		command_line.addMultipleValuesSwitch("class-filter-excludes");
+		command_line.addToggleSwitch("feature-filter");
+		command_line.addMultipleValuesSwitch("feature-filter-includes");
+		command_line.addMultipleValuesSwitch("feature-filter-excludes");
 
-		command_line.AddToggleSwitch("all");
-		command_line.AddToggleSwitch("p2p");
-		command_line.AddToggleSwitch("c2p");
-		command_line.AddToggleSwitch("c2c");
-		command_line.AddToggleSwitch("f2f");
-		command_line.AddMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
-		command_line.AddMultipleValuesSwitch("excludes");
+		command_line.addToggleSwitch("all");
+		command_line.addToggleSwitch("p2p");
+		command_line.addToggleSwitch("c2p");
+		command_line.addToggleSwitch("c2c");
+		command_line.addToggleSwitch("f2f");
+		command_line.addMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
+		command_line.addMultipleValuesSwitch("excludes");
 
-		command_line.AddOptionalValueSwitch("maximum-inbound-depth");
-		command_line.AddOptionalValueSwitch("maximum-outbound-depth");
+		command_line.addOptionalValueSwitch("maximum-inbound-depth");
+		command_line.addOptionalValueSwitch("maximum-outbound-depth");
 		
-		command_line.AddToggleSwitch("xml");
-		command_line.AddToggleSwitch("validate");
-		command_line.AddSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
-		command_line.AddSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
-		command_line.AddSingleValueSwitch("indent-text");
-		command_line.AddToggleSwitch("time");
-		command_line.AddSingleValueSwitch("out");
-		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
-		command_line.AddToggleSwitch("version");
+		command_line.addToggleSwitch("xml");
+		command_line.addToggleSwitch("validate");
+		command_line.addSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
+		command_line.addSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
+		command_line.addSingleValueSwitch("indent-text");
+		command_line.addToggleSwitch("time");
+		command_line.addSingleValueSwitch("out");
+		command_line.addToggleSwitch("help");
+		command_line.addOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
+		command_line.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("DependencyClosure");
-		command_line.Accept(usage);
+		command_line.accept(usage);
 
 		try {
-			command_line.Parse(args);
+			command_line.parse(args);
 		} catch (IllegalArgumentException ex) {
 			Error(usage, ex.toString());
 			System.exit(1);
@@ -172,24 +172,24 @@ public class DependencyClosure {
 			System.exit(1);
 		}
 
-		if (command_line.ToggleSwitch("help")) {
+		if (command_line.getToggleSwitch("help")) {
 			Error(usage);
 		}
 		
-		if (command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("version")) {
 			Version();
 		}
 
-		if (command_line.ToggleSwitch("help") || command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
 		VerboseListener verbose_listener = new VerboseListener();
-		if (command_line.IsPresent("verbose")) {
-			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+		if (command_line.isPresent("verbose")) {
+			if ("System.out".equals(command_line.getOptionalSwitch("verbose"))) {
 				verbose_listener.Writer(System.out);
 			} else {
-				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+				verbose_listener.Writer(new FileWriter(command_line.getOptionalSwitch("verbose")));
 			}
 		}
 
@@ -201,41 +201,41 @@ public class DependencyClosure {
 
 		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.MatchPackage(command_line.ToggleSwitch("package-scope"));
-		scope_criteria.MatchClass(command_line.ToggleSwitch("class-scope"));
-		scope_criteria.MatchFeature(command_line.ToggleSwitch("feature-scope"));
+		scope_criteria.MatchPackage(command_line.getToggleSwitch("package-scope"));
+		scope_criteria.MatchClass(command_line.getToggleSwitch("class-scope"));
+		scope_criteria.MatchFeature(command_line.getToggleSwitch("feature-scope"));
 
-		if (command_line.IsPresent("scope-includes") || (!command_line.IsPresent("package-scope-includes") && !command_line.IsPresent("class-scope-includes") && !command_line.IsPresent("feature-scope-includes"))) {
+		if (command_line.isPresent("scope-includes") || (!command_line.isPresent("package-scope-includes") && !command_line.isPresent("class-scope-includes") && !command_line.isPresent("feature-scope-includes"))) {
 			// Only use the default if nothing else has been specified.
-			scope_criteria.GlobalIncludes(command_line.MultipleSwitch("scope-includes"));
+			scope_criteria.GlobalIncludes(command_line.getMultipleSwitch("scope-includes"));
 		}
-		scope_criteria.GlobalExcludes(command_line.MultipleSwitch("scope-excludes"));
-		scope_criteria.PackageIncludes(command_line.MultipleSwitch("package-scope-includes"));
-		scope_criteria.PackageExcludes(command_line.MultipleSwitch("package-scope-excludes"));
-		scope_criteria.ClassIncludes(command_line.MultipleSwitch("class-scope-includes"));
-		scope_criteria.ClassExcludes(command_line.MultipleSwitch("class-scope-excludes"));
-		scope_criteria.FeatureIncludes(command_line.MultipleSwitch("feature-scope-includes"));
-		scope_criteria.FeatureExcludes(command_line.MultipleSwitch("feature-scope-excludes"));
+		scope_criteria.GlobalExcludes(command_line.getMultipleSwitch("scope-excludes"));
+		scope_criteria.PackageIncludes(command_line.getMultipleSwitch("package-scope-includes"));
+		scope_criteria.PackageExcludes(command_line.getMultipleSwitch("package-scope-excludes"));
+		scope_criteria.ClassIncludes(command_line.getMultipleSwitch("class-scope-includes"));
+		scope_criteria.ClassExcludes(command_line.getMultipleSwitch("class-scope-excludes"));
+		scope_criteria.FeatureIncludes(command_line.getMultipleSwitch("feature-scope-includes"));
+		scope_criteria.FeatureExcludes(command_line.getMultipleSwitch("feature-scope-excludes"));
 
 		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
 
-		filter_criteria.MatchPackage(command_line.ToggleSwitch("package-filter"));
-		filter_criteria.MatchClass(command_line.ToggleSwitch("class-filter"));
-		filter_criteria.MatchFeature(command_line.ToggleSwitch("feature-filter"));
+		filter_criteria.MatchPackage(command_line.getToggleSwitch("package-filter"));
+		filter_criteria.MatchClass(command_line.getToggleSwitch("class-filter"));
+		filter_criteria.MatchFeature(command_line.getToggleSwitch("feature-filter"));
 		
-		if (command_line.IsPresent("filter-includes") || (!command_line.IsPresent("package-filter-includes") && !command_line.IsPresent("class-filter-includes") && !command_line.IsPresent("feature-filter-includes"))) {
+		if (command_line.isPresent("filter-includes") || (!command_line.isPresent("package-filter-includes") && !command_line.isPresent("class-filter-includes") && !command_line.isPresent("feature-filter-includes"))) {
 			// Only use the default if nothing else has been specified.
-			filter_criteria.GlobalIncludes(command_line.MultipleSwitch("filter-includes"));
+			filter_criteria.GlobalIncludes(command_line.getMultipleSwitch("filter-includes"));
 		}
-		filter_criteria.GlobalExcludes(command_line.MultipleSwitch("filter-excludes"));
-		filter_criteria.PackageIncludes(command_line.MultipleSwitch("package-filter-includes"));
-		filter_criteria.PackageExcludes(command_line.MultipleSwitch("package-filter-excludes"));
-		filter_criteria.ClassIncludes(command_line.MultipleSwitch("class-filter-includes"));
-		filter_criteria.ClassExcludes(command_line.MultipleSwitch("class-filter-excludes"));
-		filter_criteria.FeatureIncludes(command_line.MultipleSwitch("feature-filter-includes"));
-		filter_criteria.FeatureExcludes(command_line.MultipleSwitch("feature-filter-excludes"));
+		filter_criteria.GlobalExcludes(command_line.getMultipleSwitch("filter-excludes"));
+		filter_criteria.PackageIncludes(command_line.getMultipleSwitch("package-filter-includes"));
+		filter_criteria.PackageExcludes(command_line.getMultipleSwitch("package-filter-excludes"));
+		filter_criteria.ClassIncludes(command_line.getMultipleSwitch("class-filter-includes"));
+		filter_criteria.ClassExcludes(command_line.getMultipleSwitch("class-filter-excludes"));
+		filter_criteria.FeatureIncludes(command_line.getMultipleSwitch("feature-filter-includes"));
+		filter_criteria.FeatureExcludes(command_line.getMultipleSwitch("feature-filter-excludes"));
 	
-		if (command_line.ToggleSwitch("all")) {
+		if (command_line.getToggleSwitch("all")) {
 			scope_criteria.MatchPackage(true);
 			scope_criteria.MatchClass(true);
 			scope_criteria.MatchFeature(true);
@@ -244,56 +244,56 @@ public class DependencyClosure {
 			filter_criteria.MatchFeature(true);
 		}
 	
-		if (command_line.ToggleSwitch("p2p")) {
+		if (command_line.getToggleSwitch("p2p")) {
 			scope_criteria.MatchPackage(true);
 			filter_criteria.MatchPackage(true);
 		}
 	
-		if (command_line.ToggleSwitch("c2p")) {
+		if (command_line.getToggleSwitch("c2p")) {
 			scope_criteria.MatchClass(true);
 			filter_criteria.MatchPackage(true);
 		}
 	
-		if (command_line.ToggleSwitch("c2c")) {
+		if (command_line.getToggleSwitch("c2c")) {
 			scope_criteria.MatchClass(true);
 			filter_criteria.MatchClass(true);
 		}
 	
-		if (command_line.ToggleSwitch("f2f")) {
+		if (command_line.getToggleSwitch("f2f")) {
 			scope_criteria.MatchFeature(true);
 			filter_criteria.MatchFeature(true);
 		}
 	
-		if (command_line.IsPresent("includes")) {
-			scope_criteria.GlobalIncludes(command_line.MultipleSwitch("includes"));
-			filter_criteria.GlobalIncludes(command_line.MultipleSwitch("includes"));
+		if (command_line.isPresent("includes")) {
+			scope_criteria.GlobalIncludes(command_line.getMultipleSwitch("includes"));
+			filter_criteria.GlobalIncludes(command_line.getMultipleSwitch("includes"));
 		}
 	
-		if (command_line.IsPresent("excludes")) {
-			scope_criteria.GlobalExcludes(command_line.MultipleSwitch("excludes"));
-			filter_criteria.GlobalExcludes(command_line.MultipleSwitch("excludes"));
+		if (command_line.isPresent("excludes")) {
+			scope_criteria.GlobalExcludes(command_line.getMultipleSwitch("excludes"));
+			filter_criteria.GlobalExcludes(command_line.getMultipleSwitch("excludes"));
 		}
 
 		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 		TransitiveClosure selector = new TransitiveClosure(strategy);
 
 		try {
-			if (command_line.IsPresent("maximum-inbound-depth")) {
-				selector.MaximumInboundDepth(Long.parseLong(command_line.SingleSwitch("maximum-inbound-depth")));
+			if (command_line.isPresent("maximum-inbound-depth")) {
+				selector.MaximumInboundDepth(Long.parseLong(command_line.getSingleSwitch("maximum-inbound-depth")));
 			}
 		} catch (NumberFormatException ex) {
 			selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 
 		try {
-			if (command_line.IsPresent("maximum-outbound-depth")) {
-				selector.MaximumOutboundDepth(Long.parseLong(command_line.SingleSwitch("maximum-outbound-depth")));
+			if (command_line.isPresent("maximum-outbound-depth")) {
+				selector.MaximumOutboundDepth(Long.parseLong(command_line.getSingleSwitch("maximum-outbound-depth")));
 			}
 		} catch (NumberFormatException ex) {
 			selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 		
-		Iterator i = command_line.Parameters().iterator();
+		Iterator i = command_line.getParameters().iterator();
 		while (i.hasNext()) {
 			String filename = (String) i.next();
 			Logger.getLogger(DependencyClosure.class).info("Reading " + filename);
@@ -302,7 +302,7 @@ public class DependencyClosure {
 			Collection packages = Collections.EMPTY_LIST;
 
 			if (filename.endsWith(".xml")) {
-				NodeLoader loader = new NodeLoader(command_line.ToggleSwitch("validate"));
+				NodeLoader loader = new NodeLoader(command_line.getToggleSwitch("validate"));
 				loader.addDependencyListener(verbose_listener);
 				packages = loader.Load(filename).Packages().values();
 			}
@@ -310,9 +310,9 @@ public class DependencyClosure {
 			Logger.getLogger(DependencyClosure.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
 
 			LinkMaximizer maximizer = new LinkMaximizer();
-			maximizer.TraverseNodes(packages);
+			maximizer.traverseNodes(packages);
 
-			selector.TraverseNodes(packages);
+			selector.traverseNodes(packages);
 		}
 
 
@@ -321,30 +321,30 @@ public class DependencyClosure {
 		verbose_listener.Print("Printing the graph ...");
 
 		PrintWriter out;
-		if (command_line.IsPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+		if (command_line.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(System.out);
 		}
 
 		Printer printer;
-		if (command_line.IsPresent("xml")) {
-			printer = new XMLPrinter(out, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
+		if (command_line.isPresent("xml")) {
+			printer = new XMLPrinter(out, command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
 		} else {
 			printer = new TextPrinter(out);
 		}
 
-		if (command_line.IsPresent("indent-text")) {
-			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		if (command_line.isPresent("indent-text")) {
+			printer.IndentText(command_line.getSingleSwitch("indent-text"));
 		}
 
-		printer.TraverseNodes(selector.Factory().Packages().values());
+		printer.traverseNodes(selector.Factory().Packages().values());
 
 		out.close();
 
 		Date end = new Date();
 
-		if (command_line.ToggleSwitch("time")) {
+		if (command_line.getToggleSwitch("time")) {
 			System.err.println(DependencyClosure.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 

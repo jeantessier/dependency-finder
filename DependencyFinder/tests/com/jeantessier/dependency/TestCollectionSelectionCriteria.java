@@ -66,97 +66,97 @@ public class TestCollectionSelectionCriteria extends TestCase {
 	}
 
 	public void testEmptyInclude() {
-		assertFalse("a",     criteria.Match(a));
-		assertFalse("a.A",   criteria.Match(a_A));
-		assertFalse("a.A.a", criteria.Match(a_A_a));
+		assertFalse("a",     criteria.matches(a));
+		assertFalse("a.A",   criteria.matches(a_A));
+		assertFalse("a.A.a", criteria.matches(a_A_a));
 
-		assertFalse("b",     criteria.Match(b));
-		assertFalse("b.B",   criteria.Match(b_B));
-		assertFalse("b.B.b", criteria.Match(b_B_b));
+		assertFalse("b",     criteria.matches(b));
+		assertFalse("b.B",   criteria.matches(b_B));
+		assertFalse("b.B.b", criteria.matches(b_B_b));
 	}
 
 	public void testNullInclude() {
 		criteria = new CollectionSelectionCriteria(null, exclude);
 
-		assertTrue("a",     criteria.Match(a));
-		assertTrue("a.A",   criteria.Match(a_A));
-		assertTrue("a.A.a", criteria.Match(a_A_a));
+		assertTrue("a",     criteria.matches(a));
+		assertTrue("a.A",   criteria.matches(a_A));
+		assertTrue("a.A.a", criteria.matches(a_A_a));
 
-		assertTrue("b",     criteria.Match(b));
-		assertTrue("b.B",   criteria.Match(b_B));
-		assertTrue("b.B.b", criteria.Match(b_B_b));
+		assertTrue("b",     criteria.matches(b));
+		assertTrue("b.B",   criteria.matches(b_B));
+		assertTrue("b.B.b", criteria.matches(b_B_b));
 	}
 
 	public void testMatchPackageNode() {
 		include.add("a");
 
-		assertTrue("a",      criteria.Match(a));
-		assertFalse("a.A",   criteria.Match(a_A));
-		assertFalse("a.A.a", criteria.Match(a_A_a));
+		assertTrue("a",      criteria.matches(a));
+		assertFalse("a.A",   criteria.matches(a_A));
+		assertFalse("a.A.a", criteria.matches(a_A_a));
 
-		assertFalse("b",     criteria.Match(b));
-		assertFalse("b.B",   criteria.Match(b_B));
-		assertFalse("b.B.b", criteria.Match(b_B_b));
+		assertFalse("b",     criteria.matches(b));
+		assertFalse("b.B",   criteria.matches(b_B));
+		assertFalse("b.B.b", criteria.matches(b_B_b));
 	}
 
 	public void testMatchClassNode() {
 		include.add("a.A");
 
-		assertFalse("a",     criteria.Match(a));
-		assertTrue("a.A",    criteria.Match(a_A));
-		assertFalse("a.A.a", criteria.Match(a_A_a));
+		assertFalse("a",     criteria.matches(a));
+		assertTrue("a.A",    criteria.matches(a_A));
+		assertFalse("a.A.a", criteria.matches(a_A_a));
 
-		assertFalse("b",     criteria.Match(b));
-		assertFalse("b.B",   criteria.Match(b_B));
-		assertFalse("b.B.b", criteria.Match(b_B_b));
+		assertFalse("b",     criteria.matches(b));
+		assertFalse("b.B",   criteria.matches(b_B));
+		assertFalse("b.B.b", criteria.matches(b_B_b));
 	}
 
 	public void testMatchFeatureNode() {
 		include.add("a.A.a");
 
-		assertFalse("a",     criteria.Match(a));
-		assertFalse("a.A",   criteria.Match(a_A));
-		assertTrue("a.A.a",  criteria.Match(a_A_a));
+		assertFalse("a",     criteria.matches(a));
+		assertFalse("a.A",   criteria.matches(a_A));
+		assertTrue("a.A.a",  criteria.matches(a_A_a));
 
-		assertFalse("b",     criteria.Match(b));
-		assertFalse("b.B",   criteria.Match(b_B));
-		assertFalse("b.B.b", criteria.Match(b_B_b));
+		assertFalse("b",     criteria.matches(b));
+		assertFalse("b.B",   criteria.matches(b_B));
+		assertFalse("b.B.b", criteria.matches(b_B_b));
 	}
 
 	public void testMatchPackageName() {
 		include.add("a");
 
-		assertTrue("a",      criteria.PackageMatch("a"));
-		assertFalse("a.A",   criteria.ClassMatch("a.A"));
-		assertFalse("a.A.a", criteria.FeatureMatch("a.A.a"));
+		assertTrue("a",      criteria.matchesPackageName("a"));
+		assertFalse("a.A",   criteria.matchesClassName("a.A"));
+		assertFalse("a.A.a", criteria.matchesFeatureName("a.A.a"));
 
-		assertFalse("b",     criteria.PackageMatch("b"));
-		assertFalse("b.B",   criteria.ClassMatch("b.B"));
-		assertFalse("b.B.b", criteria.FeatureMatch("b.B.b"));
+		assertFalse("b",     criteria.matchesPackageName("b"));
+		assertFalse("b.B",   criteria.matchesClassName("b.B"));
+		assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
 	}
 
 	public void testMatchClassName() {
 		include.add("a.A");
 
-		assertFalse("a",     criteria.PackageMatch("a"));
-		assertTrue("a.A",    criteria.ClassMatch("a.A"));
-		assertFalse("a.A.a", criteria.FeatureMatch("a.A.a"));
+		assertFalse("a",     criteria.matchesPackageName("a"));
+		assertTrue("a.A",    criteria.matchesClassName("a.A"));
+		assertFalse("a.A.a", criteria.matchesFeatureName("a.A.a"));
 
-		assertFalse("b",     criteria.PackageMatch("b"));
-		assertFalse("b.B",   criteria.ClassMatch("b.B"));
-		assertFalse("b.B.b", criteria.FeatureMatch("b.B.b"));
+		assertFalse("b",     criteria.matchesPackageName("b"));
+		assertFalse("b.B",   criteria.matchesClassName("b.B"));
+		assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
 	}
 
 	public void testMatchFeatureName() {
 		include.add("a.A.a");
 
-		assertFalse("a",     criteria.PackageMatch("a"));
-		assertFalse("a.A",   criteria.ClassMatch("a.A"));
-		assertTrue("a.A.a",  criteria.FeatureMatch("a.A.a"));
+		assertFalse("a",     criteria.matchesPackageName("a"));
+		assertFalse("a.A",   criteria.matchesClassName("a.A"));
+		assertTrue("a.A.a",  criteria.matchesFeatureName("a.A.a"));
 
-		assertFalse("b",     criteria.PackageMatch("b"));
-		assertFalse("b.B",   criteria.ClassMatch("b.B"));
-		assertFalse("b.B.b", criteria.FeatureMatch("b.B.b"));
+		assertFalse("b",     criteria.matchesPackageName("b"));
+		assertFalse("b.B",   criteria.matchesClassName("b.B"));
+		assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
 	}
 
 	public void testExclude() {
@@ -165,9 +165,9 @@ public class TestCollectionSelectionCriteria extends TestCase {
 		include.add("a.A.a");
 		exclude.add("a.A.a");
 
-		assertTrue("a",      criteria.Match(a));
-		assertTrue("a.A",    criteria.Match(a_A));
-		assertFalse("a.A.a", criteria.Match(a_A_a));
+		assertTrue("a",      criteria.matches(a));
+		assertTrue("a.A",    criteria.matches(a_A));
+		assertFalse("a.A.a", criteria.matches(a_A_a));
 	}
 
 	public void testExcludeOnly() {
@@ -175,8 +175,8 @@ public class TestCollectionSelectionCriteria extends TestCase {
 
 		criteria = new CollectionSelectionCriteria(null, exclude);
 
-		assertTrue("a",      criteria.Match(a));
-		assertTrue("a.A",    criteria.Match(a_A));
-		assertFalse("a.A.a", criteria.Match(a_A_a));
+		assertTrue("a",      criteria.matches(a));
+		assertTrue("a.A",    criteria.matches(a_A));
+		assertFalse("a.A.a", criteria.matches(a_A_a));
 	}
 }

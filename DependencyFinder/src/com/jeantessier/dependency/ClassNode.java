@@ -43,31 +43,31 @@ public class ClassNode extends Node {
 		this.parent = parent;
 	}
 
-	public PackageNode Package() {
+	public PackageNode getPackageNode() {
 		return parent;
 	}
 
-	public void AddFeature(FeatureNode node) {
+	public void addFeature(FeatureNode node) {
 		features.add(node);
 	}
 
-	public Collection Features() {
+	public Collection getFeatures() {
 		return Collections.unmodifiableCollection(features);
 	}
 
-	public boolean CanAddDependency(Node node) {
-		return super.CanAddDependency(node) && Package().CanAddDependency(node);
+	public boolean canAddDependencyTo(Node node) {
+		return super.canAddDependencyTo(node) && getPackageNode().canAddDependencyTo(node);
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitClassNode(this);
+	public void accept(Visitor visitor) {
+		visitor.visitClassNode(this);
 	}
 
-	public void AcceptInbound(Visitor visitor) {
-		visitor.VisitInboundClassNode(this);
+	public void acceptInbound(Visitor visitor) {
+		visitor.visitInboundClassNode(this);
 	}
 
-	public void AcceptOutbound(Visitor visitor) {
-		visitor.VisitOutboundClassNode(this);
+	public void acceptOutbound(Visitor visitor) {
+		visitor.visitOutboundClassNode(this);
 	}
 }

@@ -81,7 +81,7 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 				printer.IndentText(indent_text);
 			}
 		
-			printer.TraverseNodes(model.Packages());
+			printer.traverseNodes(model.Packages());
 
 			out.close();
 		} catch (IOException ex) {

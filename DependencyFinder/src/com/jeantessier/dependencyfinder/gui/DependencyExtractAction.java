@@ -84,10 +84,10 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 
 		if (model.Maximize()) {
 			model.StatusLine().ShowInfo("Maximizing ...");
-			new LinkMaximizer().TraverseNodes(model.Packages());
+			new LinkMaximizer().traverseNodes(model.Packages());
 		} else if (model.Minimize()) {
 			model.StatusLine().ShowInfo("Minimizing ...");
-			new LinkMinimizer().TraverseNodes(model.Packages());
+			new LinkMinimizer().traverseNodes(model.Packages());
 		}
 		
 		Date stop = new Date();

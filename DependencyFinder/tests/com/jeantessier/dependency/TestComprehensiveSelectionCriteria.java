@@ -68,14 +68,14 @@ public class TestComprehensiveSelectionCriteria extends TestCase {
 	}
 	
 	public void testMatch() {
-		assertTrue("a not in package scope",     criteria.Match(a));
-		assertTrue("a.A not in package scope",   criteria.Match(a_A));
-		assertTrue("a.A.a not in package scope", criteria.Match(a_A_a));
-		assertTrue("b not in package scope",     criteria.Match(b));
-		assertTrue("b.B not in package scope",   criteria.Match(b_B));
-		assertTrue("b.B.b not in package scope", criteria.Match(b_B_b));
-		assertTrue("c not in package scope",     criteria.Match(c));
-		assertTrue("c.C not in package scope",   criteria.Match(c_C));
-		assertTrue("c.C.c not in package scope", criteria.Match(c_C_c));
+		assertTrue("a not in package scope",     criteria.matches(a));
+		assertTrue("a.A not in package scope",   criteria.matches(a_A));
+		assertTrue("a.A.a not in package scope", criteria.matches(a_A_a));
+		assertTrue("b not in package scope",     criteria.matches(b));
+		assertTrue("b.B not in package scope",   criteria.matches(b_B));
+		assertTrue("b.B.b not in package scope", criteria.matches(b_B_b));
+		assertTrue("c not in package scope",     criteria.matches(c));
+		assertTrue("c.C not in package scope",   criteria.matches(c_C));
+		assertTrue("c.C.c not in package scope", criteria.matches(c_C_c));
 	}
 }

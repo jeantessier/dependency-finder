@@ -45,8 +45,8 @@ public class TransitiveClosureEngine {
 	
 	public TransitiveClosureEngine(Collection packages, SelectionCriteria start_criteria, SelectionCriteria stop_criteria, ClosureLayerSelector layer_selector) {
 		this.layer_selector = layer_selector;
-		this.layer_selector.Factory(factory);
-		this.layer_selector.Coverage(coverage);
+		this.layer_selector.setFactory(factory);
+		this.layer_selector.setCoverage(coverage);
 
 		this.stop_selector = new ClosureStopSelector(stop_criteria);
 		
@@ -55,8 +55,8 @@ public class TransitiveClosureEngine {
 
 	private void Init(Collection packages, SelectionCriteria start_criteria) {
 		ClosureStartSelector start_selector = new ClosureStartSelector(factory, start_criteria);
-		start_selector.TraverseNodes(packages);
-		stop_selector.TraverseNodes(start_selector.CopiedNodes());
+		start_selector.traverseNodes(packages);
+		stop_selector.traverseNodes(start_selector.getCopiedNodes());
 		GatherResults(start_selector);
 	}
 
@@ -86,19 +86,19 @@ public class TransitiveClosureEngine {
 
 	public void ComputeNextLayer() {
 		if (!stop_selector.Done()) {
-			layer_selector.Reset();
-			layer_selector.TraverseNodes((Collection) selections.getLast());
+			layer_selector.reset();
+			layer_selector.traverseNodes((Collection) selections.getLast());
 
-			stop_selector.TraverseNodes(layer_selector.CopiedNodes());
-			if (!layer_selector.CopiedNodes().isEmpty()) {
+			stop_selector.traverseNodes(layer_selector.getCopiedNodes());
+			if (!layer_selector.getCopiedNodes().isEmpty()) {
 				GatherResults(layer_selector);
 			}
 		}
 	}
 
 	private void GatherResults(ClosureSelector selector) {
-		coverage.addAll(selector.SelectedNodes());
-		selections.add(selector.SelectedNodes());
-		layers.add(selector.CopiedNodes());
+		coverage.addAll(selector.getSelectedNodes());
+		selections.add(selector.getSelectedNodes());
+		layers.add(selector.getCopiedNodes());
 	}
 }

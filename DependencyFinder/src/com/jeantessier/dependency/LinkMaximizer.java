@@ -43,41 +43,41 @@ public class LinkMaximizer extends VisitorBase {
 		super(strategy);
 	}
 
-	protected void PostprocessClassNode(ClassNode node) {
-		Iterator i = Strategy().Order(node.Outbound()).iterator();
+	protected void postprocessClassNode(ClassNode node) {
+		Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
 		while (i.hasNext()) {
-			node.Package().AddDependency((Node) i.next());
+			node.getPackageNode().addDependency((Node) i.next());
 		}
 
-		super.PostprocessClassNode(node);
+		super.postprocessClassNode(node);
 	}
 
-	public void VisitInboundClassNode(ClassNode node) {
-		node.Package().AddDependency(CurrentNode());
+	public void visitInboundClassNode(ClassNode node) {
+		node.getPackageNode().addDependency(getCurrentNode());
 	}
 
-	public void VisitOutboundClassNode(ClassNode node) {
-		CurrentNode().AddDependency(node.Package());
+	public void visitOutboundClassNode(ClassNode node) {
+		getCurrentNode().addDependency(node.getPackageNode());
 	}
 
-	protected void PostprocessFeatureNode(FeatureNode node) {
-		Iterator i = Strategy().Order(node.Outbound()).iterator();
+	protected void postprocessFeatureNode(FeatureNode node) {
+		Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
 		while (i.hasNext()) {
 			Node outbound_node = (Node) i.next();
-			node.Class().AddDependency(outbound_node);
-			node.Class().Package().AddDependency(outbound_node);
+			node.getClassNode().addDependency(outbound_node);
+			node.getClassNode().getPackageNode().addDependency(outbound_node);
 		}
 
-		super.PostprocessFeatureNode(node);
+		super.postprocessFeatureNode(node);
 	}
 
-	public void VisitInboundFeatureNode(FeatureNode node) {
-		node.Class().AddDependency(CurrentNode());
-		node.Class().Package().AddDependency(CurrentNode());
+	public void visitInboundFeatureNode(FeatureNode node) {
+		node.getClassNode().addDependency(getCurrentNode());
+		node.getClassNode().getPackageNode().addDependency(getCurrentNode());
 	}
 
-	public void VisitOutboundFeatureNode(FeatureNode node) {
-		CurrentNode().AddDependency(node.Class());
-		CurrentNode().AddDependency(node.Class().Package());
+	public void visitOutboundFeatureNode(FeatureNode node) {
+		getCurrentNode().addDependency(node.getClassNode());
+		getCurrentNode().addDependency(node.getClassNode().getPackageNode());
 	}
 }

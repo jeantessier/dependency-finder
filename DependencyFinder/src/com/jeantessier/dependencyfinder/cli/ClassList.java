@@ -79,17 +79,17 @@ public class ClassList {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
-		command_line.AddToggleSwitch("time");
-		command_line.AddSingleValueSwitch("out");
-		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
-		command_line.AddToggleSwitch("version");
+		command_line.addToggleSwitch("time");
+		command_line.addSingleValueSwitch("out");
+		command_line.addToggleSwitch("help");
+		command_line.addOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
+		command_line.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("ClassList");
-		command_line.Accept(usage);
+		command_line.accept(usage);
 
 		try {
-			command_line.Parse(args);
+			command_line.parse(args);
 		} catch (IllegalArgumentException ex) {
 			Error(usage, ex.toString());
 			System.exit(1);
@@ -98,24 +98,24 @@ public class ClassList {
 			System.exit(1);
 		}
 
-		if (command_line.ToggleSwitch("help")) {
+		if (command_line.getToggleSwitch("help")) {
 			Error(usage);
 		}
 		
-		if (command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("version")) {
 			Version();
 		}
 
-		if (command_line.ToggleSwitch("help") || command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
 		VerboseListener verbose_listener = new VerboseListener();
-		if (command_line.IsPresent("verbose")) {
-			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+		if (command_line.isPresent("verbose")) {
+			if ("System.out".equals(command_line.getOptionalSwitch("verbose"))) {
 				verbose_listener.Writer(System.out);
 			} else {
-				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+				verbose_listener.Writer(new FileWriter(command_line.getOptionalSwitch("verbose")));
 			}
 		}
 
@@ -126,13 +126,13 @@ public class ClassList {
 		Date start = new Date();
 
 		PrintWriter out;
-		if (command_line.IsPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+		if (command_line.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		List parameters = command_line.Parameters();
+		List parameters = command_line.getParameters();
 		if (parameters.size() == 0) {
 			parameters.add(".");
 		}
@@ -157,7 +157,7 @@ public class ClassList {
 
 		Date end = new Date();
 
-		if (command_line.ToggleSwitch("time")) {
+		if (command_line.getToggleSwitch("time")) {
 			System.err.println(ClassList.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 

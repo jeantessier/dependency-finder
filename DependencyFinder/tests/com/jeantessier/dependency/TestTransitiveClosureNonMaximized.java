@@ -62,10 +62,10 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		out1 = factory.CreateFeature("out1.Out1.Out1()");
 		out2 = factory.CreateFeature("out2.Out2.Out2()");
 
-		in2.AddDependency(in1);
-		in1.AddDependency(base);
-		base.AddDependency(out1);
-		out1.AddDependency(out2);
+		in2.addDependency(in1);
+		in1.addDependency(base);
+		base.addDependency(out1);
+		out1.addDependency(out2);
 		
 		List scope_includes = new ArrayList(1);
 		scope_includes.add("/^base/");
@@ -91,7 +91,7 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		filter_criteria.MatchFeature(true);
 
 		Logger.getLogger(getClass()).info("Start f2f test from feature ...");
-		base.Accept(selector);
+		base.accept(selector);
 		Logger.getLogger(getClass()).info("Stop f2f test from feature ...");
 
 		assertEquals(5, selector.Factory().Features().size());
@@ -101,38 +101,38 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		assertTrue(selector.Factory().Features().values().contains(out1));
 		assertTrue(selector.Factory().Features().values().contains(out2));
 
-		assertEquals(0, selector.Factory().CreateFeature("in2.In2.In2()").Inbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("in2.In2.In2()").Outbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("in1.In1.In1()").Inbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("in1.In1.In1()").Outbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("base.Base.Base()").Inbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("base.Base.Base()").Outbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("out1.Out1.Out1()").Inbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("out1.Out1.Out1()").Outbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("out2.Out2.Out2()").Inbound().size());
-		assertEquals(0, selector.Factory().CreateFeature("out2.Out2.Out2()").Outbound().size());
+		assertEquals(0, selector.Factory().CreateFeature("in2.In2.In2()").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("in2.In2.In2()").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("in1.In1.In1()").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("in1.In1.In1()").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("base.Base.Base()").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("base.Base.Base()").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("out1.Out1.Out1()").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("out1.Out1.Out1()").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("out2.Out2.Out2()").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateFeature("out2.Out2.Out2()").getOutboundDependencies().size());
 
-		assertEquals(0, selector.Factory().CreateClass("in2.In2").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("in2.In2").Outbound().size());
-		assertEquals(0, selector.Factory().CreateClass("in1.In1").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("in1.In1").Outbound().size());
-		assertEquals(0, selector.Factory().CreateClass("base.Base").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("base.Base").Outbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out1.Out1").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out1.Out1").Outbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out2.Out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out2.Out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreateClass("in2.In2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("in2.In2").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("in1.In1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("in1.In1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("base.Base").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("base.Base").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out1.Out1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out1.Out1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out2.Out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out2.Out2").getOutboundDependencies().size());
 
-		assertEquals(0, selector.Factory().CreatePackage("in2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in2").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in1").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in1").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("base").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("base").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out1").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out1").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("base").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("base").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getOutboundDependencies().size());
 	}
 
 	public void testFeatureToFeatureFromPackages() {
@@ -140,7 +140,7 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		filter_criteria.MatchFeature(true);
 
 		Logger.getLogger(getClass()).info("Start f2f test from package list ...");
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 		Logger.getLogger(getClass()).info("Stop f2f test from package list ...");
 
 		assertEquals(5, selector.Factory().Features().size());
@@ -150,38 +150,38 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		assertTrue(selector.Factory().Features().values().contains(out1));
 		assertTrue(selector.Factory().Features().values().contains(out2));
 
-		assertEquals(0, selector.Factory().CreateFeature("in2.In2.In2()").Inbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("in2.In2.In2()").Outbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("in1.In1.In1()").Inbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("in1.In1.In1()").Outbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("base.Base.Base()").Inbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("base.Base.Base()").Outbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("out1.Out1.Out1()").Inbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("out1.Out1.Out1()").Outbound().size());
-		assertEquals(1, selector.Factory().CreateFeature("out2.Out2.Out2()").Inbound().size());
-		assertEquals(0, selector.Factory().CreateFeature("out2.Out2.Out2()").Outbound().size());
+		assertEquals(0, selector.Factory().CreateFeature("in2.In2.In2()").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("in2.In2.In2()").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("in1.In1.In1()").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("in1.In1.In1()").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("base.Base.Base()").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("base.Base.Base()").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("out1.Out1.Out1()").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("out1.Out1.Out1()").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateFeature("out2.Out2.Out2()").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateFeature("out2.Out2.Out2()").getOutboundDependencies().size());
 
-		assertEquals(0, selector.Factory().CreateClass("in2.In2").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("in2.In2").Outbound().size());
-		assertEquals(0, selector.Factory().CreateClass("in1.In1").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("in1.In1").Outbound().size());
-		assertEquals(0, selector.Factory().CreateClass("base.Base").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("base.Base").Outbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out1.Out1").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out1.Out1").Outbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out2.Out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out2.Out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreateClass("in2.In2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("in2.In2").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("in1.In1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("in1.In1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("base.Base").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("base.Base").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out1.Out1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out1.Out1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out2.Out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out2.Out2").getOutboundDependencies().size());
 
-		assertEquals(0, selector.Factory().CreatePackage("in2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in2").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in1").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in1").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("base").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("base").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out1").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out1").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("base").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("base").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getOutboundDependencies().size());
 	}
 
 	public void testClassToClassFromClass() {
@@ -189,39 +189,39 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		filter_criteria.MatchClass(true);
 
 		Logger.getLogger(getClass()).info("Start c2c test from class ...");
-		base.Class().Accept(selector);
+		base.getClassNode().accept(selector);
 		Logger.getLogger(getClass()).info("Stop c2c test from class ...");
 
 		assertEquals(0, selector.Factory().Features().size());
 
 		assertEquals(5, selector.Factory().Classes().size());
-		assertTrue(selector.Factory().Classes().values().contains(in2.Class()));
-		assertTrue(selector.Factory().Classes().values().contains(in1.Class()));
-		assertTrue(selector.Factory().Classes().values().contains(base.Class()));
-		assertTrue(selector.Factory().Classes().values().contains(out1.Class()));
-		assertTrue(selector.Factory().Classes().values().contains(out2.Class()));
+		assertTrue(selector.Factory().Classes().values().contains(in2.getClassNode()));
+		assertTrue(selector.Factory().Classes().values().contains(in1.getClassNode()));
+		assertTrue(selector.Factory().Classes().values().contains(base.getClassNode()));
+		assertTrue(selector.Factory().Classes().values().contains(out1.getClassNode()));
+		assertTrue(selector.Factory().Classes().values().contains(out2.getClassNode()));
 
-		assertEquals(0, selector.Factory().CreateClass("in2.In2").Inbound().size());
-		assertEquals(1, selector.Factory().CreateClass("in2.In2").Outbound().size());
-		assertEquals(1, selector.Factory().CreateClass("in1.In1").Inbound().size());
-		assertEquals(1, selector.Factory().CreateClass("in1.In1").Outbound().size());
-		assertEquals(1, selector.Factory().CreateClass("base.Base").Inbound().size());
-		assertEquals(1, selector.Factory().CreateClass("base.Base").Outbound().size());
-		assertEquals(1, selector.Factory().CreateClass("out1.Out1").Inbound().size());
-		assertEquals(1, selector.Factory().CreateClass("out1.Out1").Outbound().size());
-		assertEquals(1, selector.Factory().CreateClass("out2.Out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out2.Out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreateClass("in2.In2").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("in2.In2").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("in1.In1").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("in1.In1").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("base.Base").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("base.Base").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("out1.Out1").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("out1.Out1").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("out2.Out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out2.Out2").getOutboundDependencies().size());
 
-		assertEquals(0, selector.Factory().CreatePackage("in2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in2").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in1").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in1").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("base").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("base").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out1").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out1").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("base").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("base").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getOutboundDependencies().size());
 	}
 
 	public void testClassToClassFromPackageList() {
@@ -229,39 +229,39 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		filter_criteria.MatchClass(true);
 
 		Logger.getLogger(getClass()).info("Start c2c test from package list ...");
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 		Logger.getLogger(getClass()).info("Stop c2c test from package list ...");
 
 		assertEquals(0, selector.Factory().Features().size());
 
 		assertEquals(5, selector.Factory().Classes().size());
-		assertTrue(selector.Factory().Classes().values().contains(in2.Class()));
-		assertTrue(selector.Factory().Classes().values().contains(in1.Class()));
-		assertTrue(selector.Factory().Classes().values().contains(base.Class()));
-		assertTrue(selector.Factory().Classes().values().contains(out1.Class()));
-		assertTrue(selector.Factory().Classes().values().contains(out2.Class()));
+		assertTrue(selector.Factory().Classes().values().contains(in2.getClassNode()));
+		assertTrue(selector.Factory().Classes().values().contains(in1.getClassNode()));
+		assertTrue(selector.Factory().Classes().values().contains(base.getClassNode()));
+		assertTrue(selector.Factory().Classes().values().contains(out1.getClassNode()));
+		assertTrue(selector.Factory().Classes().values().contains(out2.getClassNode()));
 
-		assertEquals(0, selector.Factory().CreateClass("in2.In2").Inbound().size());
-		assertEquals(1, selector.Factory().CreateClass("in2.In2").Outbound().size());
-		assertEquals(1, selector.Factory().CreateClass("in1.In1").Inbound().size());
-		assertEquals(1, selector.Factory().CreateClass("in1.In1").Outbound().size());
-		assertEquals(1, selector.Factory().CreateClass("base.Base").Inbound().size());
-		assertEquals(1, selector.Factory().CreateClass("base.Base").Outbound().size());
-		assertEquals(1, selector.Factory().CreateClass("out1.Out1").Inbound().size());
-		assertEquals(1, selector.Factory().CreateClass("out1.Out1").Outbound().size());
-		assertEquals(1, selector.Factory().CreateClass("out2.Out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreateClass("out2.Out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreateClass("in2.In2").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("in2.In2").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("in1.In1").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("in1.In1").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("base.Base").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("base.Base").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("out1.Out1").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("out1.Out1").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreateClass("out2.Out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreateClass("out2.Out2").getOutboundDependencies().size());
 
-		assertEquals(0, selector.Factory().CreatePackage("in2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in2").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in1").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("in1").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("base").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("base").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out1").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out1").Outbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("in1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("base").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("base").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out1").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out1").getOutboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getOutboundDependencies().size());
 	}
 
 	public void testPackageToPackageFromPackage() {
@@ -269,7 +269,7 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		filter_criteria.MatchPackage(true);
 
 		Logger.getLogger(getClass()).info("Start p2p test from package ...");
-		base.Class().Package().Accept(selector);
+		base.getClassNode().getPackageNode().accept(selector);
 		Logger.getLogger(getClass()).info("Stop p2p test from package ...");
 
 		assertEquals(0, selector.Factory().Features().size());
@@ -277,22 +277,22 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		assertEquals(0, selector.Factory().Classes().size());
 
 		assertEquals(5, selector.Factory().Packages().size());
-		assertTrue(selector.Factory().Packages().values().contains(in2.Class().Package()));
-		assertTrue(selector.Factory().Packages().values().contains(in1.Class().Package()));
-		assertTrue(selector.Factory().Packages().values().contains(base.Class().Package()));
-		assertTrue(selector.Factory().Packages().values().contains(out1.Class().Package()));
-		assertTrue(selector.Factory().Packages().values().contains(out2.Class().Package()));
+		assertTrue(selector.Factory().Packages().values().contains(in2.getClassNode().getPackageNode()));
+		assertTrue(selector.Factory().Packages().values().contains(in1.getClassNode().getPackageNode()));
+		assertTrue(selector.Factory().Packages().values().contains(base.getClassNode().getPackageNode()));
+		assertTrue(selector.Factory().Packages().values().contains(out1.getClassNode().getPackageNode()));
+		assertTrue(selector.Factory().Packages().values().contains(out2.getClassNode().getPackageNode()));
 
-		assertEquals(0, selector.Factory().CreatePackage("in2").Inbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("in2").Outbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("in1").Inbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("in1").Outbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("base").Inbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("base").Outbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("out1").Inbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("out1").Outbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("in2").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("in1").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("in1").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("base").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("base").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("out1").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("out1").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getOutboundDependencies().size());
 	}
 
 	public void testPackageToPackageFromPackageList() {
@@ -300,7 +300,7 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		filter_criteria.MatchPackage(true);
 
 		Logger.getLogger(getClass()).info("Start p2p test from package list ...");
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 		Logger.getLogger(getClass()).info("Stop p2p test from package list ...");
 
 		assertEquals(0, selector.Factory().Features().size());
@@ -308,21 +308,21 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		assertEquals(0, selector.Factory().Classes().size());
 
 		assertEquals(5, selector.Factory().Packages().size());
-		assertTrue(selector.Factory().Packages().values().contains(in2.Class().Package()));
-		assertTrue(selector.Factory().Packages().values().contains(in1.Class().Package()));
-		assertTrue(selector.Factory().Packages().values().contains(base.Class().Package()));
-		assertTrue(selector.Factory().Packages().values().contains(out1.Class().Package()));
-		assertTrue(selector.Factory().Packages().values().contains(out2.Class().Package()));
+		assertTrue(selector.Factory().Packages().values().contains(in2.getClassNode().getPackageNode()));
+		assertTrue(selector.Factory().Packages().values().contains(in1.getClassNode().getPackageNode()));
+		assertTrue(selector.Factory().Packages().values().contains(base.getClassNode().getPackageNode()));
+		assertTrue(selector.Factory().Packages().values().contains(out1.getClassNode().getPackageNode()));
+		assertTrue(selector.Factory().Packages().values().contains(out2.getClassNode().getPackageNode()));
 
-		assertEquals(0, selector.Factory().CreatePackage("in2").Inbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("in2").Outbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("in1").Inbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("in1").Outbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("base").Inbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("base").Outbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("out1").Inbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("out1").Outbound().size());
-		assertEquals(1, selector.Factory().CreatePackage("out2").Inbound().size());
-		assertEquals(0, selector.Factory().CreatePackage("out2").Outbound().size());
+		assertEquals(0, selector.Factory().CreatePackage("in2").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("in2").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("in1").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("in1").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("base").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("base").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("out1").getInboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("out1").getOutboundDependencies().size());
+		assertEquals(1, selector.Factory().CreatePackage("out2").getInboundDependencies().size());
+		assertEquals(0, selector.Factory().CreatePackage("out2").getOutboundDependencies().size());
 	}
 }

@@ -154,21 +154,21 @@ public class MetricsGatherer extends VisitorBase {
 		return nb_inbound_features;
 	}
 	
-	public void PreprocessPackageNode(PackageNode node) {
-		super.PreprocessPackageNode(node);
+	public void preprocessPackageNode(PackageNode node) {
+		super.preprocessPackageNode(node);
 
 		packages.add(node);
 		
-		ChartData(node.Classes().size())[CLASSES_PER_PACKAGE]++;
-		ChartData(node.Inbound().size())[INBOUNDS_PER_PACKAGE]++;
-		ChartData(node.Outbound().size())[OUTBOUNDS_PER_PACKAGE]++;
+		ChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;
+		ChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;
+		ChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_PACKAGE]++;
 	}
 
 	/**
 	 *  PackageNode --> CurrentNode()
 	 */
-	public void VisitInboundPackageNode(PackageNode node) {
-		if (Strategy().InFilter(node)) {
+	public void visitInboundPackageNode(PackageNode node) {
+		if (getStrategy().isInFilter(node)) {
 			nb_inbound++;
 			nb_outbound_packages++;
 		}
@@ -177,28 +177,28 @@ public class MetricsGatherer extends VisitorBase {
 	/**
 	 *  CurrentNode() --> PackageNode
 	 */
-	public void VisitOutboundPackageNode(PackageNode node) {
-		if (Strategy().InFilter(node)) {
+	public void visitOutboundPackageNode(PackageNode node) {
+		if (getStrategy().isInFilter(node)) {
 			nb_outbound++;
 			nb_inbound_packages++;
 		}
 	}
 
-	public void PreprocessClassNode(ClassNode node) {
-		super.PreprocessClassNode(node);
+	public void preprocessClassNode(ClassNode node) {
+		super.preprocessClassNode(node);
 
 		classes.add(node);
 		
-		ChartData(node.Features().size())[FEATURES_PER_CLASS]++;
-		ChartData(node.Inbound().size())[INBOUNDS_PER_CLASS]++;
-		ChartData(node.Outbound().size())[OUTBOUNDS_PER_CLASS]++;
+		ChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;
+		ChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;
+		ChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;
 	}
 
 	/**
 	 *  ClassNode --> CurrentNode()
 	 */
-	public void VisitInboundClassNode(ClassNode node) {
-		if (Strategy().InFilter(node)) {
+	public void visitInboundClassNode(ClassNode node) {
+		if (getStrategy().isInFilter(node)) {
 			nb_inbound++;
 			nb_outbound_classes++;
 		}
@@ -207,27 +207,27 @@ public class MetricsGatherer extends VisitorBase {
 	/**
 	 *  CurrentNode() --> ClassNode
 	 */
-	public void VisitOutboundClassNode(ClassNode node) {
-		if (Strategy().InFilter(node)) {
+	public void visitOutboundClassNode(ClassNode node) {
+		if (getStrategy().isInFilter(node)) {
 			nb_outbound++;
 			nb_inbound_classes++;
 		}
 	}
 
-	public void PreprocessFeatureNode(FeatureNode node) {
-		super.PreprocessFeatureNode(node);
+	public void preprocessFeatureNode(FeatureNode node) {
+		super.preprocessFeatureNode(node);
 
 		features.add(node);
 		
-		ChartData(node.Inbound().size())[INBOUNDS_PER_FEATURE]++;
-		ChartData(node.Outbound().size())[OUTBOUNDS_PER_FEATURE]++;
+		ChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;
+		ChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;
 	}
 
 	/**
 	 *  FeatureNode --> CurrentNode()
 	 */
-	public void VisitInboundFeatureNode(FeatureNode node) {
-		if (Strategy().InFilter(node)) {
+	public void visitInboundFeatureNode(FeatureNode node) {
+		if (getStrategy().isInFilter(node)) {
 			nb_inbound++;
 			nb_outbound_features++;
 		}
@@ -236,8 +236,8 @@ public class MetricsGatherer extends VisitorBase {
 	/**
 	 *  CurrentNode() --> FeatureNode
 	 */
-	public void VisitOutboundFeatureNode(FeatureNode node) {
-		if (Strategy().InFilter(node)) {
+	public void visitOutboundFeatureNode(FeatureNode node) {
+		if (getStrategy().isInFilter(node)) {
 			nb_outbound++;
 			nb_inbound_features++;
 		}

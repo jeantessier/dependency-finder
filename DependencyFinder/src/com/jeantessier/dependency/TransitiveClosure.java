@@ -95,138 +95,138 @@ public class TransitiveClosure extends VisitorBase {
 		this.single_path = single_path;
 	}
 
-	public void PreprocessPackageNode(PackageNode node) {
-		if (!visited_nodes.contains(node.Name())) {
-			super.PreprocessPackageNode(Factory().CreatePackage(node.Name()));
-			visited_nodes.add(node.Name());
-			TraverseOutbound(node.Outbound());
-			TraverseInbound(node.Inbound());
+	public void preprocessPackageNode(PackageNode node) {
+		if (!visited_nodes.contains(node.getName())) {
+			super.preprocessPackageNode(Factory().CreatePackage(node.getName()));
+			visited_nodes.add(node.getName());
+			traverseOutbound(node.getOutboundDependencies());
+			traverseInbound(node.getInboundDependencies());
 		}
 	}
 
-	public void VisitInboundPackageNode(PackageNode node) {
-		if (CurrentNode() != null && current_depth < MaximumInboundDepth() && Strategy().InFilter(node)) {
+	public void visitInboundPackageNode(PackageNode node) {
+		if (getCurrentNode() != null && current_depth < MaximumInboundDepth() && getStrategy().isInFilter(node)) {
 			if (!SinglePath()) {
-				Factory().CreatePackage(node.Name()).AddDependency(CurrentNode());
+				Factory().CreatePackage(node.getName()).addDependency(getCurrentNode());
 			}
 		
-			if (!visited_nodes.contains(node.Name())) {
+			if (!visited_nodes.contains(node.getName())) {
 				if (SinglePath()) {
-					Factory().CreatePackage(node.Name()).AddDependency(CurrentNode());
+					Factory().CreatePackage(node.getName()).addDependency(getCurrentNode());
 				}
 				current_depth++;
-				PreprocessPackageNode(node);
+				preprocessPackageNode(node);
 				current_depth--;
-				PopNode();
+				popNode();
 			}
 		}
 	}
 
-	public void VisitOutboundPackageNode(PackageNode node) {
-		if (CurrentNode() != null && current_depth < MaximumOutboundDepth() && Strategy().InFilter(node)) {
+	public void visitOutboundPackageNode(PackageNode node) {
+		if (getCurrentNode() != null && current_depth < MaximumOutboundDepth() && getStrategy().isInFilter(node)) {
 			if (!SinglePath()) {
-				CurrentNode().AddDependency(Factory().CreatePackage(node.Name()));
+				getCurrentNode().addDependency(Factory().CreatePackage(node.getName()));
 			}
 		
-			if (!visited_nodes.contains(node.Name())) {
+			if (!visited_nodes.contains(node.getName())) {
 				if (SinglePath()) {
-					CurrentNode().AddDependency(Factory().CreatePackage(node.Name()));
+					getCurrentNode().addDependency(Factory().CreatePackage(node.getName()));
 				}
 				current_depth++;
-				PreprocessPackageNode(node);
+				preprocessPackageNode(node);
 				current_depth--;
-				PopNode();
+				popNode();
 			}
 		}
 	}
 
-	public void PreprocessClassNode(ClassNode node) {
-		if (!visited_nodes.contains(node.Name())) {
-			super.PreprocessClassNode(Factory().CreateClass(node.Name()));
-			visited_nodes.add(node.Name());
-			TraverseOutbound(node.Outbound());
-			TraverseInbound(node.Inbound());
+	public void preprocessClassNode(ClassNode node) {
+		if (!visited_nodes.contains(node.getName())) {
+			super.preprocessClassNode(Factory().CreateClass(node.getName()));
+			visited_nodes.add(node.getName());
+			traverseOutbound(node.getOutboundDependencies());
+			traverseInbound(node.getInboundDependencies());
 		}
 	}
 
-	public void VisitInboundClassNode(ClassNode node) {
-		if (CurrentNode() != null && current_depth < MaximumInboundDepth() && Strategy().InFilter(node)) {
+	public void visitInboundClassNode(ClassNode node) {
+		if (getCurrentNode() != null && current_depth < MaximumInboundDepth() && getStrategy().isInFilter(node)) {
 			if (!SinglePath()) {
-				Factory().CreateClass(node.Name()).AddDependency(CurrentNode());
+				Factory().CreateClass(node.getName()).addDependency(getCurrentNode());
 			}
 		
-			if (!visited_nodes.contains(node.Name())) {
+			if (!visited_nodes.contains(node.getName())) {
 				if (SinglePath()) {
-					Factory().CreateClass(node.Name()).AddDependency(CurrentNode());
+					Factory().CreateClass(node.getName()).addDependency(getCurrentNode());
 				}
 				current_depth++;
-				PreprocessClassNode(node);
+				preprocessClassNode(node);
 				current_depth--;
-				PopNode();
+				popNode();
 			}
 		}
 	}
 
-	public void VisitOutboundClassNode(ClassNode node) {
-		if (CurrentNode() != null && current_depth < MaximumOutboundDepth() && Strategy().InFilter(node)) {
+	public void visitOutboundClassNode(ClassNode node) {
+		if (getCurrentNode() != null && current_depth < MaximumOutboundDepth() && getStrategy().isInFilter(node)) {
 			
 			if (!SinglePath()) {
-				CurrentNode().AddDependency(Factory().CreateClass(node.Name()));
+				getCurrentNode().addDependency(Factory().CreateClass(node.getName()));
 			}
 		
-			if (!visited_nodes.contains(node.Name())) {
+			if (!visited_nodes.contains(node.getName())) {
 				if (SinglePath()) {
-					CurrentNode().AddDependency(Factory().CreateClass(node.Name()));
+					getCurrentNode().addDependency(Factory().CreateClass(node.getName()));
 				}
 				current_depth++;
-				PreprocessClassNode(node);
+				preprocessClassNode(node);
 				current_depth--;
-				PopNode();
+				popNode();
 			}
 		}
 	}
 
-	public void PreprocessFeatureNode(FeatureNode node) {
-		if (!visited_nodes.contains(node.Name())) {
-			super.PreprocessFeatureNode(Factory().CreateFeature(node.Name()));
-			visited_nodes.add(node.Name());
-			TraverseOutbound(node.Outbound());
-			TraverseInbound(node.Inbound());
+	public void preprocessFeatureNode(FeatureNode node) {
+		if (!visited_nodes.contains(node.getName())) {
+			super.preprocessFeatureNode(Factory().CreateFeature(node.getName()));
+			visited_nodes.add(node.getName());
+			traverseOutbound(node.getOutboundDependencies());
+			traverseInbound(node.getInboundDependencies());
 		}
 	}
 
-	public void VisitInboundFeatureNode(FeatureNode node) {
-		if (CurrentNode() != null && current_depth < MaximumInboundDepth() && Strategy().InFilter(node)) {
+	public void visitInboundFeatureNode(FeatureNode node) {
+		if (getCurrentNode() != null && current_depth < MaximumInboundDepth() && getStrategy().isInFilter(node)) {
 			if (!SinglePath()) {
-				Factory().CreateFeature(node.Name()).AddDependency(CurrentNode());
+				Factory().CreateFeature(node.getName()).addDependency(getCurrentNode());
 			}
 		
-			if (!visited_nodes.contains(node.Name())) {
+			if (!visited_nodes.contains(node.getName())) {
 				if (SinglePath()) {
-					Factory().CreateFeature(node.Name()).AddDependency(CurrentNode());
+					Factory().CreateFeature(node.getName()).addDependency(getCurrentNode());
 				}
 				current_depth++;
-				PreprocessFeatureNode(node);
+				preprocessFeatureNode(node);
 				current_depth--;
-				PopNode();
+				popNode();
 			}
 		}
 	}
 
-	public void VisitOutboundFeatureNode(FeatureNode node) {
-		if (CurrentNode() != null && current_depth < MaximumOutboundDepth() && Strategy().InFilter(node)) {
+	public void visitOutboundFeatureNode(FeatureNode node) {
+		if (getCurrentNode() != null && current_depth < MaximumOutboundDepth() && getStrategy().isInFilter(node)) {
 			if (!SinglePath()) {
-				CurrentNode().AddDependency(Factory().CreateFeature(node.Name()));
+				getCurrentNode().addDependency(Factory().CreateFeature(node.getName()));
 			}
 		
-			if (!visited_nodes.contains(node.Name())) {
+			if (!visited_nodes.contains(node.getName())) {
 				if (SinglePath()) {
-					CurrentNode().AddDependency(Factory().CreateFeature(node.Name()));
+					getCurrentNode().addDependency(Factory().CreateFeature(node.getName()));
 				}
 				current_depth++;
-				PreprocessFeatureNode(node);
+				preprocessFeatureNode(node);
 				current_depth--;
-				PopNode();
+				popNode();
 			}
 		}
 	}

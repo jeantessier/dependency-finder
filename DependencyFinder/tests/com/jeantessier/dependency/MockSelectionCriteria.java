@@ -43,39 +43,39 @@ public class MockSelectionCriteria implements SelectionCriteria {
 		this.value = value;
 	}
 	
-	public boolean MatchPackage() {
+	public boolean doesPackageMatching() {
 		return value;
 	}
 	
-	public boolean MatchClass() {
+	public boolean doesClassMatching() {
 		return value;
 	}
 	
-	public boolean MatchFeature() {
+	public boolean doesFeatureMatching() {
 		return value;
 	}
 
-	public boolean Match(PackageNode node) {
+	public boolean matches(PackageNode node) {
 		return value;
 	}
 	
-	public boolean Match(ClassNode node) {
+	public boolean matches(ClassNode node) {
 		return value;
 	}
 	
-	public boolean Match(FeatureNode node) {
+	public boolean matches(FeatureNode node) {
 		return value;
 	}
 
-	public boolean PackageMatch(String name) {
+	public boolean matchesPackageName(String name) {
 		return value;
 	}
 	
-	public boolean ClassMatch(String name) {
+	public boolean matchesClassName(String name) {
 		return value;
 	}
 	
-	public boolean FeatureMatch(String name) {
+	public boolean matchesFeatureName(String name) {
 		return value;
 	}
 }

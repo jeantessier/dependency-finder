@@ -45,8 +45,8 @@ import org.apache.log4j.*;
 public abstract class VisitorBase implements Visitor {
 	private TraversalStrategy strategy;
 
-	private LinkedList current_nodes = new LinkedList();
-	private SortedSet  scope         = new TreeSet();
+	private LinkedList currentNodes = new LinkedList();
+	private SortedSet  scope        = new TreeSet();
 	
 	public VisitorBase() {
 		this(new SelectiveTraversalStrategy());
@@ -56,224 +56,224 @@ public abstract class VisitorBase implements Visitor {
 		this.strategy = strategy;
 	}
 
-	protected TraversalStrategy Strategy() {
+	protected TraversalStrategy getStrategy() {
 		return strategy;
 	}
 
-	public void TraverseNodes(Collection nodes) {
+	public void traverseNodes(Collection nodes) {
 		Logger.getLogger(getClass()).debug("nodes = " + nodes);
 		
-		Iterator i = Strategy().Order(nodes).iterator();
+		Iterator i = getStrategy().order(nodes).iterator();
 		while (i.hasNext()) {
-			((Node) i.next()).Accept(this);
+			((Node) i.next()).accept(this);
 		}
 	}
 
-	protected void TraverseInbound(Collection nodes) {
-		Iterator i = Strategy().Order(nodes).iterator();
+	protected void traverseInbound(Collection nodes) {
+		Iterator i = getStrategy().order(nodes).iterator();
 		while (i.hasNext()) {
-			((Node) i.next()).AcceptInbound(this);
+			((Node) i.next()).acceptInbound(this);
 		}
 	}
 
-	protected void TraverseOutbound(Collection nodes) {
-		Iterator i = Strategy().Order(nodes).iterator();
+	protected void traverseOutbound(Collection nodes) {
+		Iterator i = getStrategy().order(nodes).iterator();
 		while (i.hasNext()) {
-			((Node) i.next()).AcceptOutbound(this);
+			((Node) i.next()).acceptOutbound(this);
 		}
 	}
 
-	protected Node CurrentNode() {
+	protected Node getCurrentNode() {
 		Node result = null;
 
-		if (!current_nodes.isEmpty()) {
-			result = (Node) current_nodes.getLast();
+		if (!currentNodes.isEmpty()) {
+			result = (Node) currentNodes.getLast();
 		}
 
 		if (Logger.getLogger(getClass()).isDebugEnabled()) {
-			Logger.getLogger(getClass()).debug(current_nodes + ": " + result);
+			Logger.getLogger(getClass()).debug(currentNodes + ": " + result);
 		}
 		
 		return result;
 	}
 
-	protected void PushNode(Node current_node) {
+	protected void pushNode(Node currentNode) {
 		if (Logger.getLogger(getClass()).isDebugEnabled()) {
-			Logger.getLogger(getClass()).debug(current_nodes + " + " + current_node);
+			Logger.getLogger(getClass()).debug(currentNodes + " + " + currentNode);
 		}
 		
-		current_nodes.addLast(current_node);
+		currentNodes.addLast(currentNode);
 	}
 
-	protected Node PopNode() {
-		Node result = (Node) current_nodes.removeLast();
+	protected Node popNode() {
+		Node result = (Node) currentNodes.removeLast();
 
 		if (Logger.getLogger(getClass()).isDebugEnabled()) {
-			Logger.getLogger(getClass()).debug(current_nodes + " -> " + result);
+			Logger.getLogger(getClass()).debug(currentNodes + " -> " + result);
 		}
 		
 		return result;
 	}
 
-	public void VisitPackageNode(PackageNode node) {
-		boolean in_scope = Strategy().InScope(node);
+	public void visitPackageNode(PackageNode node) {
+		boolean inScope = getStrategy().isInScope(node);
 		
-		if (in_scope) {
-			PreprocessPackageNode(node);
+		if (inScope) {
+			preprocessPackageNode(node);
 			
-			if (Strategy().PreOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPreOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PreInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPreInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 			
-			PreprocessAfterDependenciesPackageNode(node);
+			preprocessAfterDependenciesPackageNode(node);
 		}
 			
-		TraverseNodes(node.Classes());
+		traverseNodes(node.getClasses());
 
-		if (in_scope) {
-			PostprocessBeforeDependenciesPackageNode(node);
+		if (inScope) {
+			postprocessBeforeDependenciesPackageNode(node);
 
-			if (Strategy().PostOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPostOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PostInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPostInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 			
-			PostprocessPackageNode(node);
+			postprocessPackageNode(node);
 		}
 	}
 
-	protected void PreprocessPackageNode(PackageNode node) {
-		PushNode(node);
+	protected void preprocessPackageNode(PackageNode node) {
+		pushNode(node);
 	}
 	
-	protected void PreprocessAfterDependenciesPackageNode(PackageNode node) {
+	protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
 		// Do nothing
 	}
 	
-	protected void PostprocessBeforeDependenciesPackageNode(PackageNode node) {
+	protected void postprocessBeforeDependenciesPackageNode(PackageNode node) {
 		// Do nothing
 	}
 	
-	protected void PostprocessPackageNode(PackageNode node) {
-		if (node.equals(CurrentNode())) {
-			PopNode();
+	protected void postprocessPackageNode(PackageNode node) {
+		if (node.equals(getCurrentNode())) {
+			popNode();
 		}
 	}
 	
-	public void VisitInboundPackageNode(PackageNode node) {
+	public void visitInboundPackageNode(PackageNode node) {
 		// Do nothing
 	}
 
-	public void VisitOutboundPackageNode(PackageNode node) {
+	public void visitOutboundPackageNode(PackageNode node) {
 		// Do nothing
 	}
 
-	public void VisitClassNode(ClassNode node) {
-		boolean in_scope = Strategy().InScope(node);
+	public void visitClassNode(ClassNode node) {
+		boolean inScope = getStrategy().isInScope(node);
 		
-		if (in_scope) {
-			PreprocessClassNode(node);
+		if (inScope) {
+			preprocessClassNode(node);
 			
-			if (Strategy().PreOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPreOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PreInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPreInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 
-			PreprocessAfterDependenciesClassNode(node);
+			preprocessAfterDependenciesClassNode(node);
 		}
 		
-		TraverseNodes(node.Features());
+		traverseNodes(node.getFeatures());
 			
-		if (in_scope) {
-			PostprocessBeforeDependenciesClassNode(node);
+		if (inScope) {
+			postprocessBeforeDependenciesClassNode(node);
 
-			if (Strategy().PostOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPostOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PostInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPostInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 			
-			PostprocessClassNode(node);
+			postprocessClassNode(node);
 		}
 	}
 
-	protected void PreprocessClassNode(ClassNode node) {
-		PushNode(node);
+	protected void preprocessClassNode(ClassNode node) {
+		pushNode(node);
 	}
 	
-	protected void PreprocessAfterDependenciesClassNode(ClassNode node) {
+	protected void preprocessAfterDependenciesClassNode(ClassNode node) {
 		// Do nothing
 	}
 
-	protected void PostprocessBeforeDependenciesClassNode(ClassNode node) {
+	protected void postprocessBeforeDependenciesClassNode(ClassNode node) {
 		// Do nothing
 	}
 
-	protected void PostprocessClassNode(ClassNode node) {
-		if (node.equals(CurrentNode())) {
-			PopNode();
+	protected void postprocessClassNode(ClassNode node) {
+		if (node.equals(getCurrentNode())) {
+			popNode();
 		}
 	}
 
-	public void VisitInboundClassNode(ClassNode node) {
+	public void visitInboundClassNode(ClassNode node) {
 		// Do nothing
 	}
 
-	public void VisitOutboundClassNode(ClassNode node) {
+	public void visitOutboundClassNode(ClassNode node) {
 		// Do nothing
 	}
 
-	public void VisitFeatureNode(FeatureNode node) {
-		if (Strategy().InScope(node)) {
-			PreprocessFeatureNode(node);
+	public void visitFeatureNode(FeatureNode node) {
+		if (getStrategy().isInScope(node)) {
+			preprocessFeatureNode(node);
 			
-			if (Strategy().PreOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPreOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PreInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPreInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 			
-			if (Strategy().PostOutboundTraversal()) {
-				TraverseOutbound(node.Outbound());
+			if (getStrategy().doPostOutboundTraversal()) {
+				traverseOutbound(node.getOutboundDependencies());
 			}
 			
-			if (Strategy().PostInboundTraversal()) {
-				TraverseInbound(node.Inbound());
+			if (getStrategy().doPostInboundTraversal()) {
+				traverseInbound(node.getInboundDependencies());
 			}
 			
-			PostprocessFeatureNode(node);
+			postprocessFeatureNode(node);
 		}
 	}
 
-	protected void PreprocessFeatureNode(FeatureNode node) {
-		PushNode(node);
+	protected void preprocessFeatureNode(FeatureNode node) {
+		pushNode(node);
 	}
 	
-	protected void PostprocessFeatureNode(FeatureNode node) {
-		if (node.equals(CurrentNode())) {
-			PopNode();
+	protected void postprocessFeatureNode(FeatureNode node) {
+		if (node.equals(getCurrentNode())) {
+			popNode();
 		}
 	}
 
-	public void VisitInboundFeatureNode(FeatureNode node) {
+	public void visitInboundFeatureNode(FeatureNode node) {
 		// Do nothing
 	}
 
-	public void VisitOutboundFeatureNode(FeatureNode node) {
+	public void visitOutboundFeatureNode(FeatureNode node) {
 		// Do nothing
 	}
 }

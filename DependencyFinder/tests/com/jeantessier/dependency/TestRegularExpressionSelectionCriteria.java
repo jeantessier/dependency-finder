@@ -138,43 +138,43 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		criteria.MatchClass(false);
 		criteria.MatchFeature(false);
 
-		assertTrue("a not in package scope",  criteria.Match(a));
-		assertTrue("a.A in package scope",   !criteria.Match(a_A));
-		assertTrue("a.A.a in package scope", !criteria.Match(a_A_a));
-		assertTrue("b not in package scope",  criteria.Match(b));
-		assertTrue("b.B in package scope",   !criteria.Match(b_B));
-		assertTrue("b.B.b in package scope", !criteria.Match(b_B_b));
-		assertTrue("c not in package scope",  criteria.Match(c));
-		assertTrue("c.C in package scope",   !criteria.Match(c_C));
-		assertTrue("c.C.c in package scope", !criteria.Match(c_C_c));
+		assertTrue("a not in package scope",  criteria.matches(a));
+		assertTrue("a.A in package scope",   !criteria.matches(a_A));
+		assertTrue("a.A.a in package scope", !criteria.matches(a_A_a));
+		assertTrue("b not in package scope",  criteria.matches(b));
+		assertTrue("b.B in package scope",   !criteria.matches(b_B));
+		assertTrue("b.B.b in package scope", !criteria.matches(b_B_b));
+		assertTrue("c not in package scope",  criteria.matches(c));
+		assertTrue("c.C in package scope",   !criteria.matches(c_C));
+		assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
 
 		criteria.MatchPackage(false);
 		criteria.MatchClass(true);
 		criteria.MatchFeature(false);
 
-		assertTrue("a in package scope",       !criteria.Match(a));
-		assertTrue("a.A not in package scope",  criteria.Match(a_A));
-		assertTrue("a.A.a in package scope",   !criteria.Match(a_A_a));
-		assertTrue("b not in package scope",   !criteria.Match(b));
-		assertTrue("b.B in package scope",      criteria.Match(b_B));
-		assertTrue("b.B.b in package scope",   !criteria.Match(b_B_b));
-		assertTrue("c not in package scope",   !criteria.Match(c));
-		assertTrue("c.C in package scope",      criteria.Match(c_C));
-		assertTrue("c.C.c in package scope",   !criteria.Match(c_C_c));
+		assertTrue("a in package scope",       !criteria.matches(a));
+		assertTrue("a.A not in package scope",  criteria.matches(a_A));
+		assertTrue("a.A.a in package scope",   !criteria.matches(a_A_a));
+		assertTrue("b not in package scope",   !criteria.matches(b));
+		assertTrue("b.B in package scope",      criteria.matches(b_B));
+		assertTrue("b.B.b in package scope",   !criteria.matches(b_B_b));
+		assertTrue("c not in package scope",   !criteria.matches(c));
+		assertTrue("c.C in package scope",      criteria.matches(c_C));
+		assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
 
 		criteria.MatchPackage(false);
 		criteria.MatchClass(false);
 		criteria.MatchFeature(true);
 
-		assertTrue("a in package scope",         !criteria.Match(a));
-		assertTrue("a.A in package scope",       !criteria.Match(a_A));
-		assertTrue("a.A.a not in package scope",  criteria.Match(a_A_a));
-		assertTrue("b not in package scope",     !criteria.Match(b));
-		assertTrue("b.B in package scope",       !criteria.Match(b_B));
-		assertTrue("b.B.b in package scope",      criteria.Match(b_B_b));
-		assertTrue("c not in package scope",     !criteria.Match(c));
-		assertTrue("c.C in package scope",       !criteria.Match(c_C));
-		assertTrue("c.C.c in package scope",      criteria.Match(c_C_c));
+		assertTrue("a in package scope",         !criteria.matches(a));
+		assertTrue("a.A in package scope",       !criteria.matches(a_A));
+		assertTrue("a.A.a not in package scope",  criteria.matches(a_A_a));
+		assertTrue("b not in package scope",     !criteria.matches(b));
+		assertTrue("b.B in package scope",       !criteria.matches(b_B));
+		assertTrue("b.B.b in package scope",      criteria.matches(b_B_b));
+		assertTrue("c not in package scope",     !criteria.matches(c));
+		assertTrue("c.C in package scope",       !criteria.matches(c_C));
+		assertTrue("c.C.c in package scope",      criteria.matches(c_C_c));
 	}
 
 	public void testGlobalIncludes() {
@@ -184,43 +184,43 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		criteria.MatchClass(false);
 		criteria.MatchFeature(false);
 
-		assertTrue("a in package scope",     !criteria.Match(a));
-		assertTrue("a.A in package scope",   !criteria.Match(a_A));
-		assertTrue("a.A.a in package scope", !criteria.Match(a_A_a));
-		assertTrue("b not in package scope",  criteria.Match(b));
-		assertTrue("b.B in package scope",   !criteria.Match(b_B));
-		assertTrue("b.B.b in package scope", !criteria.Match(b_B_b));
-		assertTrue("c in package scope",     !criteria.Match(c));
-		assertTrue("c.C in package scope",   !criteria.Match(c_C));
-		assertTrue("c.C.c in package scope", !criteria.Match(c_C_c));
+		assertTrue("a in package scope",     !criteria.matches(a));
+		assertTrue("a.A in package scope",   !criteria.matches(a_A));
+		assertTrue("a.A.a in package scope", !criteria.matches(a_A_a));
+		assertTrue("b not in package scope",  criteria.matches(b));
+		assertTrue("b.B in package scope",   !criteria.matches(b_B));
+		assertTrue("b.B.b in package scope", !criteria.matches(b_B_b));
+		assertTrue("c in package scope",     !criteria.matches(c));
+		assertTrue("c.C in package scope",   !criteria.matches(c_C));
+		assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
 
 		criteria.MatchPackage(false);
 		criteria.MatchClass(true);
 		criteria.MatchFeature(false);
 
-		assertTrue("a in package scope",       !criteria.Match(a));
-		assertTrue("a.A in package scope",     !criteria.Match(a_A));
-		assertTrue("a.A.a in package scope",   !criteria.Match(a_A_a));
-		assertTrue("b in package scope",       !criteria.Match(b));
-		assertTrue("b.B not in package scope",  criteria.Match(b_B));
-		assertTrue("b.B.b in package scope",   !criteria.Match(b_B_b));
-		assertTrue("c in package scope",       !criteria.Match(c));
-		assertTrue("c.C in package scope",     !criteria.Match(c_C));
-		assertTrue("c.C.c in package scope",   !criteria.Match(c_C_c));
+		assertTrue("a in package scope",       !criteria.matches(a));
+		assertTrue("a.A in package scope",     !criteria.matches(a_A));
+		assertTrue("a.A.a in package scope",   !criteria.matches(a_A_a));
+		assertTrue("b in package scope",       !criteria.matches(b));
+		assertTrue("b.B not in package scope",  criteria.matches(b_B));
+		assertTrue("b.B.b in package scope",   !criteria.matches(b_B_b));
+		assertTrue("c in package scope",       !criteria.matches(c));
+		assertTrue("c.C in package scope",     !criteria.matches(c_C));
+		assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
 
 		criteria.MatchPackage(false);
 		criteria.MatchClass(false);
 		criteria.MatchFeature(true);
 
-		assertTrue("a in package scope",         !criteria.Match(a));
-		assertTrue("a.A in package scope",       !criteria.Match(a_A));
-		assertTrue("a.A.a in package scope",     !criteria.Match(a_A_a));
-		assertTrue("b in package scope",         !criteria.Match(b));
-		assertTrue("b.B in package scope",       !criteria.Match(b_B));
-		assertTrue("b.B.b not in package scope",  criteria.Match(b_B_b));
-		assertTrue("c in package scope",         !criteria.Match(c));
-		assertTrue("c.C in package scope",       !criteria.Match(c_C));
-		assertTrue("c.C.c in package scope",     !criteria.Match(c_C_c));
+		assertTrue("a in package scope",         !criteria.matches(a));
+		assertTrue("a.A in package scope",       !criteria.matches(a_A));
+		assertTrue("a.A.a in package scope",     !criteria.matches(a_A_a));
+		assertTrue("b in package scope",         !criteria.matches(b));
+		assertTrue("b.B in package scope",       !criteria.matches(b_B));
+		assertTrue("b.B.b not in package scope",  criteria.matches(b_B_b));
+		assertTrue("c in package scope",         !criteria.matches(c));
+		assertTrue("c.C in package scope",       !criteria.matches(c_C));
+		assertTrue("c.C.c in package scope",     !criteria.matches(c_C_c));
 	}
 
 	public void testGlobalExcludes() {
@@ -230,42 +230,42 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		criteria.MatchClass(false);
 		criteria.MatchFeature(false);
 
-		assertTrue("a not in package scope",  criteria.Match(a));
-		assertTrue("a.A in package scope",   !criteria.Match(a_A));
-		assertTrue("a.A.a in package scope", !criteria.Match(a_A_a));
-		assertTrue("b not in package scope",  criteria.Match(b));
-		assertTrue("b.B in package scope",   !criteria.Match(b_B));
-		assertTrue("b.B.b in package scope", !criteria.Match(b_B_b));
-		assertTrue("c in package scope",     !criteria.Match(c));
-		assertTrue("c.C in package scope",   !criteria.Match(c_C));
-		assertTrue("c.C.c in package scope", !criteria.Match(c_C_c));
+		assertTrue("a not in package scope",  criteria.matches(a));
+		assertTrue("a.A in package scope",   !criteria.matches(a_A));
+		assertTrue("a.A.a in package scope", !criteria.matches(a_A_a));
+		assertTrue("b not in package scope",  criteria.matches(b));
+		assertTrue("b.B in package scope",   !criteria.matches(b_B));
+		assertTrue("b.B.b in package scope", !criteria.matches(b_B_b));
+		assertTrue("c in package scope",     !criteria.matches(c));
+		assertTrue("c.C in package scope",   !criteria.matches(c_C));
+		assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
 
 		criteria.MatchPackage(false);
 		criteria.MatchClass(true);
 		criteria.MatchFeature(false);
 
-		assertTrue("a in package scope",       !criteria.Match(a));
-		assertTrue("a.A not in package scope",  criteria.Match(a_A));
-		assertTrue("a.A.a in package scope",   !criteria.Match(a_A_a));
-		assertTrue("b in package scope",       !criteria.Match(b));
-		assertTrue("b.B not in package scope",  criteria.Match(b_B));
-		assertTrue("b.B.b in package scope",   !criteria.Match(b_B_b));
-		assertTrue("c not in package scope",   !criteria.Match(c));
-		assertTrue("c.C in package scope",     !criteria.Match(c_C));
-		assertTrue("c.C.c in package scope",   !criteria.Match(c_C_c));
+		assertTrue("a in package scope",       !criteria.matches(a));
+		assertTrue("a.A not in package scope",  criteria.matches(a_A));
+		assertTrue("a.A.a in package scope",   !criteria.matches(a_A_a));
+		assertTrue("b in package scope",       !criteria.matches(b));
+		assertTrue("b.B not in package scope",  criteria.matches(b_B));
+		assertTrue("b.B.b in package scope",   !criteria.matches(b_B_b));
+		assertTrue("c not in package scope",   !criteria.matches(c));
+		assertTrue("c.C in package scope",     !criteria.matches(c_C));
+		assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
 
 		criteria.MatchPackage(false);
 		criteria.MatchClass(false);
 		criteria.MatchFeature(true);
 
-		assertTrue("a in package scope",         !criteria.Match(a));
-		assertTrue("a.A in package scope",       !criteria.Match(a_A));
-		assertTrue("a.A.a not in package scope",  criteria.Match(a_A_a));
-		assertTrue("b in package scope",         !criteria.Match(b));
-		assertTrue("b.B in package scope",       !criteria.Match(b_B));
-		assertTrue("b.B.b not in package scope",  criteria.Match(b_B_b));
-		assertTrue("c not in package scope",     !criteria.Match(c));
-		assertTrue("c.C in package scope",       !criteria.Match(c_C));
-		assertTrue("c.C.c in package scope",     !criteria.Match(c_C_c));
+		assertTrue("a in package scope",         !criteria.matches(a));
+		assertTrue("a.A in package scope",       !criteria.matches(a_A));
+		assertTrue("a.A.a not in package scope",  criteria.matches(a_A_a));
+		assertTrue("b in package scope",         !criteria.matches(b));
+		assertTrue("b.B in package scope",       !criteria.matches(b_B));
+		assertTrue("b.B.b not in package scope",  criteria.matches(b_B_b));
+		assertTrue("c not in package scope",     !criteria.matches(c));
+		assertTrue("c.C in package scope",       !criteria.matches(c_C));
+		assertTrue("c.C.c in package scope",     !criteria.matches(c_C_c));
 	}
 }

@@ -36,7 +36,7 @@ package com.jeantessier.commandline;
  *  Base class for implenting the <code>CommandLineSwitch</code> interface.
  */
 public abstract class CommandLineSwitchBase implements CommandLineSwitch {
-	private   Object  default_value;
+	private   Object  defaultValue;
 	protected Object  value;
 	private   boolean present;
 	private   boolean mandatory;
@@ -45,29 +45,29 @@ public abstract class CommandLineSwitchBase implements CommandLineSwitch {
 		this(null, false);
 	}
 
-	public CommandLineSwitchBase(Object default_value) {
-		this(default_value, false);
+	public CommandLineSwitchBase(Object defaultValue) {
+		this(defaultValue, false);
 	}
 
 	public CommandLineSwitchBase(boolean mandatory) {
 		this(null, mandatory);
 	}
 
-	public CommandLineSwitchBase(Object default_value, boolean mandatory) {
-		this.default_value = default_value;
-		this.mandatory     = mandatory;
+	public CommandLineSwitchBase(Object defaultValue, boolean mandatory) {
+		this.defaultValue = defaultValue;
+		this.mandatory    = mandatory;
 
 		this.value = null;
 
-		Present(false);
+		isPresent(false);
 	}
 
-	public Object DefaultValue() {
-		return default_value;
+	public Object getDefaultValue() {
+		return defaultValue;
 	}
 
-	public Object Value() {
-		Object result = default_value;
+	public Object getValue() {
+		Object result = defaultValue;
 
 		if (value != null) {
 			result = value;
@@ -76,25 +76,25 @@ public abstract class CommandLineSwitchBase implements CommandLineSwitch {
 		return result;
 	}
 
-	public void Value(Object new_value) {
-		value = new_value;
+	public void setValue(Object value) {
+		this.value = value;
 
-		Present(true);
+		isPresent(true);
 	}
 
-	public boolean Present() {
+	public boolean isPresent() {
 		return present;
 	}
 
-	protected void Present(boolean present) {
+	protected void isPresent(boolean present) {
 		this.present = present;
 	}
 
-	public boolean Mandatory() {
+	public boolean isMandatory() {
 		return mandatory;
 	}
 
 	public String toString() {
-		return Value().toString();
+		return getValue().toString();
 	}
 }

@@ -39,100 +39,100 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
 		super(subcriteria);
 	}
 	
-	public boolean MatchPackage() {
-		boolean result = Subcriteria().isEmpty();
+	public boolean doesPackageMatching() {
+		boolean result = getSubcriteria().isEmpty();
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).MatchPackage();
+			result = ((SelectionCriteria) i.next()).doesPackageMatching();
 		}
 		
 		return result;
 	}
 	
-	public boolean MatchClass() {
-		boolean result = Subcriteria().isEmpty();
+	public boolean doesClassMatching() {
+		boolean result = getSubcriteria().isEmpty();
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).MatchClass();
+			result = ((SelectionCriteria) i.next()).doesClassMatching();
 		}
 		
 		return result;
 	}
 	
-	public boolean MatchFeature() {
-		boolean result = Subcriteria().isEmpty();
+	public boolean doesFeatureMatching() {
+		boolean result = getSubcriteria().isEmpty();
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).MatchFeature();
+			result = ((SelectionCriteria) i.next()).doesFeatureMatching();
 		}
 		
 		return result;
 	}
 
-	public boolean Match(PackageNode node) {
-		boolean result = Subcriteria().isEmpty();
+	public boolean matches(PackageNode node) {
+		boolean result = getSubcriteria().isEmpty();
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).Match(node);
-		}
-		
-		return result;
-	}
-	
-	public boolean Match(ClassNode node) {
-		boolean result = Subcriteria().isEmpty();
-
-		Iterator i = Subcriteria().iterator();
-		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).Match(node);
+			result = ((SelectionCriteria) i.next()).matches(node);
 		}
 		
 		return result;
 	}
 	
-	public boolean Match(FeatureNode node) {
-		boolean result = Subcriteria().isEmpty();
+	public boolean matches(ClassNode node) {
+		boolean result = getSubcriteria().isEmpty();
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).Match(node);
-		}
-		
-		return result;
-	}
-
-	public boolean PackageMatch(String name) {
-		boolean result = Subcriteria().isEmpty();
-
-		Iterator i = Subcriteria().iterator();
-		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).PackageMatch(name);
+			result = ((SelectionCriteria) i.next()).matches(node);
 		}
 		
 		return result;
 	}
 	
-	public boolean ClassMatch(String name) {
-		boolean result = Subcriteria().isEmpty();
+	public boolean matches(FeatureNode node) {
+		boolean result = getSubcriteria().isEmpty();
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).ClassMatch(name);
+			result = ((SelectionCriteria) i.next()).matches(node);
+		}
+		
+		return result;
+	}
+
+	public boolean matchesPackageName(String name) {
+		boolean result = getSubcriteria().isEmpty();
+
+		Iterator i = getSubcriteria().iterator();
+		while (!result && i.hasNext()) {
+			result = ((SelectionCriteria) i.next()).matchesPackageName(name);
 		}
 		
 		return result;
 	}
 	
-	public boolean FeatureMatch(String name) {
-		boolean result = Subcriteria().isEmpty();
+	public boolean matchesClassName(String name) {
+		boolean result = getSubcriteria().isEmpty();
 
-		Iterator i = Subcriteria().iterator();
+		Iterator i = getSubcriteria().iterator();
 		while (!result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).FeatureMatch(name);
+			result = ((SelectionCriteria) i.next()).matchesClassName(name);
+		}
+		
+		return result;
+	}
+	
+	public boolean matchesFeatureName(String name) {
+		boolean result = getSubcriteria().isEmpty();
+
+		Iterator i = getSubcriteria().iterator();
+		while (!result && i.hasNext()) {
+			result = ((SelectionCriteria) i.next()).matchesFeatureName(name);
 		}
 		
 		return result;

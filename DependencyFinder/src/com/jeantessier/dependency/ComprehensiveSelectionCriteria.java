@@ -33,39 +33,39 @@
 package com.jeantessier.dependency;
 
 public class ComprehensiveSelectionCriteria implements SelectionCriteria {
-	public boolean MatchPackage() {
+	public boolean doesPackageMatching() {
 		return true;
 	}
 	
-	public boolean MatchClass() {
+	public boolean doesClassMatching() {
 		return true;
 	}
 	
-	public boolean MatchFeature() {
+	public boolean doesFeatureMatching() {
 		return true;
 	}
 
-	public boolean Match(PackageNode node) {
+	public boolean matches(PackageNode node) {
 		return true;
 	}
 	
-	public boolean Match(ClassNode node) {
+	public boolean matches(ClassNode node) {
 		return true;
 	}
 	
-	public boolean Match(FeatureNode node) {
+	public boolean matches(FeatureNode node) {
 		return true;
 	}
 
-	public boolean PackageMatch(String name) {
+	public boolean matchesPackageName(String name) {
 		return true;
 	}
 	
-	public boolean ClassMatch(String name) {
+	public boolean matchesClassName(String name) {
 		return true;
 	}
 	
-	public boolean FeatureMatch(String name) {
+	public boolean matchesFeatureName(String name) {
 		return true;
 	}
 }

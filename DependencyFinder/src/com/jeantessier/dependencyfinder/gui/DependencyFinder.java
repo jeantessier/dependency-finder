@@ -255,15 +255,15 @@ public class DependencyFinder extends JFrame {
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 		
-		action = new SaveFileAction(this, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
+		action = new SaveFileAction(this, command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
 		menu_item = file_menu.add(action);
 		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		menu_item.setMnemonic('s');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
-		if (command_line.IsPresent("indent-text")) {
-			((SaveFileAction) action).IndentText(command_line.SingleSwitch("indent-text"));
+		if (command_line.isPresent("indent-text")) {
+			((SaveFileAction) action).IndentText(command_line.getSingleSwitch("indent-text"));
 		}
 		
 		toolbar.addSeparator();
@@ -1085,7 +1085,7 @@ public class DependencyFinder extends JFrame {
 			dependencies_query = new GraphSummarizer(scope_criteria, filter_criteria);
 		}
 		
-		dependencies_query.TraverseNodes(Packages());
+		dependencies_query.traverseNodes(Packages());
 
 		RefreshDependenciesDisplay();
 	}
@@ -1099,7 +1099,7 @@ public class DependencyFinder extends JFrame {
 			printer.ShowOutbounds(show_outbounds.isSelected());
 			printer.ShowEmptyNodes(show_empty_nodes.isSelected());
 			
-			printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
+			printer.traverseNodes(dependencies_query.ScopeFactory().Packages().values());
 			
 			dependencies_result_area.setText(out.toString());
 		}
@@ -1159,11 +1159,11 @@ public class DependencyFinder extends JFrame {
 			selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 		
-		selector.TraverseNodes(Packages());
+		selector.traverseNodes(Packages());
 
 		StringWriter out = new StringWriter();
 		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
-		printer.TraverseNodes(selector.Factory().Packages().values());
+		printer.traverseNodes(selector.Factory().Packages().values());
 		closure_result_area.setText(out.toString());
 	}		
 	
@@ -1209,7 +1209,7 @@ public class DependencyFinder extends JFrame {
 		TraversalStrategy                          strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 		com.jeantessier.dependency.MetricsGatherer metrics  = new com.jeantessier.dependency.MetricsGatherer(strategy);
 		
-		metrics.TraverseNodes(Packages());
+		metrics.traverseNodes(Packages());
 
 		StringWriter out = new StringWriter();
 		MetricsReport report = new MetricsReport(new PrintWriter(out));
@@ -1236,18 +1236,18 @@ public class DependencyFinder extends JFrame {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
-		command_line.AddToggleSwitch("minimize");
-		command_line.AddToggleSwitch("maximize");
-		command_line.AddSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
-		command_line.AddSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
-		command_line.AddSingleValueSwitch("indent-text");
-		command_line.AddToggleSwitch("help");
+		command_line.addToggleSwitch("minimize");
+		command_line.addToggleSwitch("maximize");
+		command_line.addSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
+		command_line.addSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
+		command_line.addSingleValueSwitch("indent-text");
+		command_line.addToggleSwitch("help");
 
 		CommandLineUsage usage = new CommandLineUsage("DependencyFinder");
-		command_line.Accept(usage);
+		command_line.accept(usage);
 
 		try {
-			command_line.Parse(args);
+			command_line.parse(args);
 		} catch (IllegalArgumentException ex) {
 			Error(usage, ex.toString());
 			System.exit(1);
@@ -1256,12 +1256,12 @@ public class DependencyFinder extends JFrame {
 			System.exit(1);
 		}
 
-		if (command_line.ToggleSwitch("help")) {
+		if (command_line.getToggleSwitch("help")) {
 			Error(usage);
 			System.exit(1);
 		}
 
-		if (command_line.ToggleSwitch("maximize") && command_line.ToggleSwitch("minimize")) {
+		if (command_line.getToggleSwitch("maximize") && command_line.getToggleSwitch("minimize")) {
 			Error(usage, "Only one of -maximize or -minimize allowed");
 		}
 
@@ -1276,8 +1276,8 @@ public class DependencyFinder extends JFrame {
 		}
 
 		DependencyFinder model = new DependencyFinder(command_line);
-		model.Maximize(command_line.ToggleSwitch("maximize"));
-		model.Minimize(command_line.ToggleSwitch("minimize"));
+		model.Maximize(command_line.getToggleSwitch("maximize"));
+		model.Minimize(command_line.getToggleSwitch("minimize"));
 		model.setVisible(true);
 	}
 }

@@ -137,9 +137,9 @@ public class DependencyClosure extends GraphTask {
 				}
 				
 				log("Maximizing ...");
-				new LinkMaximizer().TraverseNodes(packages);
+				new LinkMaximizer().traverseNodes(packages);
 				
-				selector.TraverseNodes(packages);
+				selector.traverseNodes(packages);
 			}
 
 			log("Saving dependency graph to " + getDestfile().getAbsolutePath());
@@ -157,7 +157,7 @@ public class DependencyClosure extends GraphTask {
 				printer.IndentText(getIndenttext());
 			}
 				
-			printer.TraverseNodes(selector.Factory().Packages().values());
+			printer.traverseNodes(selector.Factory().Packages().values());
 				
 			out.close();
 		} catch (SAXException ex) {

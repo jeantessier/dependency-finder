@@ -41,90 +41,90 @@ public class CommandLineUsage implements Visitor {
 	private final static String EOL = System.getProperty("line.separator", "\n");
 	
 	private String       command;
-	private StringBuffer usage   = new StringBuffer();
-	private String       switch_name;
+	private StringBuffer usage      = new StringBuffer();
+	private String       switchName;
 
 	public CommandLineUsage(String command) {
 		this.command = command;
 	}
 
-	public void Visit(CommandLine command_line) {
+	public void visitCommandLine(CommandLine commandLine) {
 		usage.append("USAGE: ").append(command).append(EOL);
 
-		Iterator i = command_line.KnownSwitches().iterator();
+		Iterator i = commandLine.getKnownSwitches().iterator();
 		while (i.hasNext()) {
-			switch_name = (String) i.next();
+			switchName = (String) i.next();
 
-			command_line.Switch(switch_name).Accept(this);
+			commandLine.getSwitch(switchName).accept(this);
 		}
 
-		command_line.ParameterStrategy().Accept(this);
+		commandLine.getParameterStrategy().accept(this);
 	}
 
-	public void Visit(ToggleSwitch cls) {
-		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
+	public void visitToggleSwitch(ToggleSwitch cls) {
+		if (cls.isMandatory()) {
+			usage.append("       -").append(switchName).append(" (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
 		} else {
-			usage.append("       [-").append(switch_name).append("] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
+			usage.append("       [-").append(switchName).append("] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
 		}
 	}
 
-	public void Visit(SingleValueSwitch cls) {
-		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" value (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
+	public void visitSingleValueSwitch(SingleValueSwitch cls) {
+		if (cls.isMandatory()) {
+			usage.append("       -").append(switchName).append(" value (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
 		} else {
-			usage.append("       [-").append(switch_name).append(" value] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
+			usage.append("       [-").append(switchName).append(" value] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
 		}
 	}
 
-	public void Visit(OptionalValueSwitch cls) {
-		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" [value] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
+	public void visitOptionalValueSwitch(OptionalValueSwitch cls) {
+		if (cls.isMandatory()) {
+			usage.append("       -").append(switchName).append(" [value] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
 		} else {
-			usage.append("       [-").append(switch_name).append(" [value]] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
+			usage.append("       [-").append(switchName).append(" [value]] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
 		}
 	}
 
-	public void Visit(MultipleValuesSwitch cls) {
-		if (cls.Mandatory()) {
-			usage.append("       (-").append(switch_name).append(" value)+ (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
+	public void visitMultipleValuesSwitch(MultipleValuesSwitch cls) {
+		if (cls.isMandatory()) {
+			usage.append("       (-").append(switchName).append(" value)+ (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
 		} else {
-			usage.append("       (-").append(switch_name).append(" value)* (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
+			usage.append("       (-").append(switchName).append(" value)* (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
 		}
 	}
 
-	public void Visit(NullParameterStrategy strategy) {
+	public void visitNullParameterStrategy(NullParameterStrategy strategy) {
 	}
 
-	public void Visit(AnyParameterStrategy strategy) {
+	public void visitAnyParameterStrategy(AnyParameterStrategy strategy) {
 		usage.append("       [param ...]").append(EOL);
 	}
 
-	public void Visit(AtLeastParameterStrategy strategy) {
-		for (int i=1; i<=strategy.NbParameters(); i++) {
+	public void visitAtLeastParameterStrategy(AtLeastParameterStrategy strategy) {
+		for (int i=1; i<=strategy.getNbParameters(); i++) {
 			usage.append("       ").append("param").append(i).append(EOL);
 		}
 
 		usage.append("       ...").append(EOL);
 	}
 
-	public void Visit(ExactlyParameterStrategy strategy) {
-		for (int i=1; i<=strategy.NbParameters(); i++) {
+	public void visitExactlyParameterStrategy(ExactlyParameterStrategy strategy) {
+		for (int i=1; i<=strategy.getNbParameters(); i++) {
 			usage.append("       ").append("param").append(i).append(EOL);
 		}
 	}
 
-	public void Visit(AtMostParameterStrategy strategy) {
+	public void visitAtMostParameterStrategy(AtMostParameterStrategy strategy) {
 		usage.append("       ");
 
-		for (int i=1; i<=strategy.NbParameters(); i++) {
+		for (int i=1; i<=strategy.getNbParameters(); i++) {
 			usage.append("[param").append(i);
-			if (i < strategy.NbParameters()) {
+			if (i < strategy.getNbParameters()) {
 				usage.append(" ");
 			}
 		}
 
-		for (int i=1; i<=strategy.NbParameters(); i++) {
+		for (int i=1; i<=strategy.getNbParameters(); i++) {
 			usage.append("]");
 		}
 

@@ -37,6 +37,6 @@ package com.jeantessier.commandline;
  *  on the command-line.
  */
 public interface CountingParameterStrategy extends ParameterStrategy {
-	public int NbParameters();
-	public int Count();
+	public int getNbParameters();
+	public int getCount();
 }

@@ -100,7 +100,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 			ProcessDescriptor(entry.getName());
 		} else {
 			Node other = Factory().CreateClass(entry.getName());
-			current.AddDependency(other);
+			current.addDependency(other);
 			Logger.getLogger(getClass()).info("Class_info dependency: " + current + " --> " + other);
 			fireDependency(current, other);
 		}
@@ -112,7 +112,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		Node other = Factory().CreateFeature(entry.getFullSignature());
-		current.AddDependency(other);
+		current.addDependency(other);
 		Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
 		fireDependency(current, other);
 
@@ -126,7 +126,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		if (!entry.isStaticInitializer()) {
 			Node other  = Factory().CreateFeature(entry.getFullSignature());
-			current.AddDependency(other);
+			current.addDependency(other);
 			Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
 			fireDependency(current, other);
 
@@ -140,7 +140,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		Node other  = Factory().CreateFeature(entry.getFullSignature());
-		current.AddDependency(other);
+		current.addDependency(other);
 		Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
 		fireDependency(current, other);
 
@@ -229,7 +229,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 				String classname = SignatureHelper.path2ClassName(str.substring(start_pos + 1, end_pos));
 				Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
 				Node other = Factory().CreateClass(classname);
-				current.AddDependency(other);
+				current.addDependency(other);
 				Logger.getLogger(getClass()).info("descriptor dependency: " + current + " --> " + other);
 				fireDependency(current, other);
 				current_pos = end_pos + 1;

@@ -35,80 +35,80 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class SelectiveTraversalStrategy implements TraversalStrategy {
-	private SelectionCriteria scope_criteria;
-	private SelectionCriteria filter_criteria;
+	private SelectionCriteria scopeCriteria;
+	private SelectionCriteria filterCriteria;
 
-	private boolean pre_outbound_traversal  = true;
-	private boolean pre_inbound_traversal   = true;
-	private boolean post_outbound_traversal = false;
-	private boolean post_inbound_traversal  = false;
+	private boolean preOutboundTraversal  = true;
+	private boolean preInboundTraversal   = true;
+	private boolean postOutboundTraversal = false;
+	private boolean postInboundTraversal  = false;
 
 	public SelectiveTraversalStrategy() {
 		this(new ComprehensiveSelectionCriteria(), new ComprehensiveSelectionCriteria());
 	}
 	
-	public SelectiveTraversalStrategy(SelectionCriteria scope_criteria, SelectionCriteria filter_criteria) {
-		this.scope_criteria  = scope_criteria;
-		this.filter_criteria = filter_criteria;
+	public SelectiveTraversalStrategy(SelectionCriteria scopeCriteria, SelectionCriteria filterCriteria) {
+		this.scopeCriteria  = scopeCriteria;
+		this.filterCriteria = filterCriteria;
 	}
 	
-	public boolean PreOutboundTraversal() {
-		return pre_outbound_traversal;
+	public boolean doPreOutboundTraversal() {
+		return preOutboundTraversal;
 	}
 
-	public void PreOutboundTraversal(boolean pre_outbound_traversal) {
-		this.pre_outbound_traversal = pre_outbound_traversal;
+	public void setPreOutboundTraversal(boolean preOutboundTraversal) {
+		this.preOutboundTraversal = preOutboundTraversal;
 	}
 
-	public boolean PreInboundTraversal() {
-		return pre_inbound_traversal;
+	public boolean doPreInboundTraversal() {
+		return preInboundTraversal;
 	}
 
-	public void PreInboundTraversal(boolean pre_inbound_traversal) {
-		this.pre_inbound_traversal = pre_inbound_traversal;
+	public void setPreInboundTraversal(boolean preInboundTraversal) {
+		this.preInboundTraversal = preInboundTraversal;
 	}
 
-	public boolean PostOutboundTraversal() {
-		return post_outbound_traversal;
+	public boolean doPostOutboundTraversal() {
+		return postOutboundTraversal;
 	}
 
-	public void PostOutboundTraversal(boolean post_outbound_traversal) {
-		this.post_outbound_traversal = post_outbound_traversal;
+	public void setPostOutboundTraversal(boolean postOutboundTraversal) {
+		this.postOutboundTraversal = postOutboundTraversal;
 	}
 
-	public boolean PostInboundTraversal() {
-		return post_inbound_traversal;
+	public boolean doPostInboundTraversal() {
+		return postInboundTraversal;
 	}
 
-	public void PostInboundTraversal(boolean post_inbound_traversal) {
-		this.post_inbound_traversal = post_inbound_traversal;
+	public void setPostInboundTraversal(boolean postInboundTraversal) {
+		this.postInboundTraversal = postInboundTraversal;
 	}
 
-	public boolean InScope(PackageNode node) {
-		return scope_criteria.Match(node);
+	public boolean isInScope(PackageNode node) {
+		return scopeCriteria.matches(node);
 	}
 	
-	public boolean InScope(ClassNode node) {
-		return scope_criteria.Match(node);
+	public boolean isInScope(ClassNode node) {
+		return scopeCriteria.matches(node);
 	}
 	
-	public boolean InScope(FeatureNode node) {
-		return scope_criteria.Match(node);
+	public boolean isInScope(FeatureNode node) {
+		return scopeCriteria.matches(node);
 	}
 
-	public boolean InFilter(PackageNode node) {
-		return filter_criteria.Match(node);
+	public boolean isInFilter(PackageNode node) {
+		return filterCriteria.matches(node);
 	}
 	
-	public boolean InFilter(ClassNode node) {
-		return filter_criteria.Match(node);
+	public boolean isInFilter(ClassNode node) {
+		return filterCriteria.matches(node);
 	}
 	
-	public boolean InFilter(FeatureNode node) {
-		return filter_criteria.Match(node);
+	public boolean isInFilter(FeatureNode node) {
+		return filterCriteria.matches(node);
 	}
 
-	public Collection Order(Collection collection) {
+	public Collection order(Collection collection) {
 		return new ArrayList(collection);
 	}
 }

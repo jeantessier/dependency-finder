@@ -38,72 +38,72 @@ public class LinkMinimizer extends VisitorBase {
 	public LinkMinimizer() {
 		super();
 
-		Strategy().PreOutboundTraversal(false);
-		Strategy().PreInboundTraversal(false);
-		Strategy().PostOutboundTraversal(false);
-		Strategy().PostInboundTraversal(false);
+		getStrategy().setPreOutboundTraversal(false);
+		getStrategy().setPreInboundTraversal(false);
+		getStrategy().setPostOutboundTraversal(false);
+		getStrategy().setPostInboundTraversal(false);
 	}
 
 	public LinkMinimizer(TraversalStrategy strategy) {
 		super(strategy);
 
-		Strategy().PreOutboundTraversal(false);
-		Strategy().PreInboundTraversal(false);
-		Strategy().PostOutboundTraversal(false);
-		Strategy().PostInboundTraversal(false);
+		getStrategy().setPreOutboundTraversal(false);
+		getStrategy().setPreInboundTraversal(false);
+		getStrategy().setPostOutboundTraversal(false);
+		getStrategy().setPostInboundTraversal(false);
 	}
 
-	protected void PostprocessPackageNode(PackageNode node) {
-		TraverseOutbound(node.Outbound());
+	protected void postprocessPackageNode(PackageNode node) {
+		traverseOutbound(node.getOutboundDependencies());
 
-		super.PostprocessPackageNode(node);
+		super.postprocessPackageNode(node);
 	}
 	
-	protected void PostprocessClassNode(ClassNode node) {
-		Iterator i = Strategy().Order(node.Outbound()).iterator();
+	protected void postprocessClassNode(ClassNode node) {
+		Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
 		while (i.hasNext()) {
 			Node outbound = (Node) i.next();
 
-			node.Package().RemoveDependency(outbound);
+			node.getPackageNode().removeDependency(outbound);
 
-			outbound.AcceptOutbound(this);
+			outbound.acceptOutbound(this);
 			
-			PushNode(node.Package());
-			outbound.AcceptOutbound(this);
-			PopNode();
+			pushNode(node.getPackageNode());
+			outbound.acceptOutbound(this);
+			popNode();
 		}
 
-		super.PostprocessClassNode(node);
+		super.postprocessClassNode(node);
 	}
 
-	public void VisitOutboundClassNode(ClassNode node) {
-		CurrentNode().RemoveDependency(node.Package());
+	public void visitOutboundClassNode(ClassNode node) {
+		getCurrentNode().removeDependency(node.getPackageNode());
 	}
 	
-	protected void PostprocessFeatureNode(FeatureNode node) {
-		Iterator i = Strategy().Order(node.Outbound()).iterator();
+	protected void postprocessFeatureNode(FeatureNode node) {
+		Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
 		while (i.hasNext()) {
 			Node outbound = (Node) i.next();
 
-			node.Class().RemoveDependency(outbound);
-			node.Class().Package().RemoveDependency(outbound);
+			node.getClassNode().removeDependency(outbound);
+			node.getClassNode().getPackageNode().removeDependency(outbound);
 
-			outbound.AcceptOutbound(this);
+			outbound.acceptOutbound(this);
 	
-			PushNode(node.Class());
-			outbound.AcceptOutbound(this);
-			PopNode();
+			pushNode(node.getClassNode());
+			outbound.acceptOutbound(this);
+			popNode();
 	
-			PushNode(node.Class().Package());
-			outbound.AcceptOutbound(this);
-			PopNode();
+			pushNode(node.getClassNode().getPackageNode());
+			outbound.acceptOutbound(this);
+			popNode();
 		}
 
-		super.PostprocessFeatureNode(node);
+		super.postprocessFeatureNode(node);
 	}
 
-	public void VisitOutboundFeatureNode(FeatureNode node) {
-		CurrentNode().RemoveDependency(node.Class());
-		CurrentNode().RemoveDependency(node.Class().Package());
+	public void visitOutboundFeatureNode(FeatureNode node) {
+		getCurrentNode().removeDependency(node.getClassNode());
+		getCurrentNode().removeDependency(node.getClassNode().getPackageNode());
 	}
 }

@@ -47,7 +47,7 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
 		this.exclude = exclude;
 	}
 	
-	public boolean MatchPackage() {
+	public boolean doesPackageMatching() {
 		return match_package;
 	}
 
@@ -55,7 +55,7 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
 		this.match_package = match_package;
 	}
 
-	public boolean MatchClass() {
+	public boolean doesClassMatching() {
 		return match_class;
 	}
 
@@ -63,7 +63,7 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
 		this.match_class = match_class;
 	}
 	
-	public boolean MatchFeature() {
+	public boolean doesFeatureMatching() {
 		return match_feature;
 	}
 
@@ -71,27 +71,27 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
 		this.match_feature = match_feature;
 	}
 
-	public boolean Match(PackageNode node) {
-		return Match(node.Name());
+	public boolean matches(PackageNode node) {
+		return Match(node.getName());
 	}
 	
-	public boolean Match(ClassNode node) {
-		return Match(node.Name());
+	public boolean matches(ClassNode node) {
+		return Match(node.getName());
 	}
 	
-	public boolean Match(FeatureNode node) {
-		return Match(node.Name());
+	public boolean matches(FeatureNode node) {
+		return Match(node.getName());
 	}
 
-	public boolean PackageMatch(String name) {
+	public boolean matchesPackageName(String name) {
 		return Match(name);
 	}
 	
-	public boolean ClassMatch(String name) {
+	public boolean matchesClassName(String name) {
 		return Match(name);
 	}
 	
-	public boolean FeatureMatch(String name) {
+	public boolean matchesFeatureName(String name) {
 		return Match(name);
 	}
 

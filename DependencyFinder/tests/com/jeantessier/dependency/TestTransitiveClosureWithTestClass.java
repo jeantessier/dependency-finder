@@ -81,12 +81,12 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		java_util_Collections_class = factory.CreateClass("java.util.Collections");
 		java_util_Collections_singleton_method = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
 		
-		test_class.AddDependency(java_lang_Object_class);
-		test_main_method.AddDependency(java_lang_Object_class);
-		test_main_method.AddDependency(java_lang_Object_Object_method);
-		test_main_method.AddDependency(java_lang_String_class);
-		test_main_method.AddDependency(java_util_Collections_singleton_method);
-		test_Test_method.AddDependency(java_lang_Object_Object_method);
+		test_class.addDependency(java_lang_Object_class);
+		test_main_method.addDependency(java_lang_Object_class);
+		test_main_method.addDependency(java_lang_Object_Object_method);
+		test_main_method.addDependency(java_lang_String_class);
+		test_main_method.addDependency(java_util_Collections_singleton_method);
+		test_Test_method.addDependency(java_lang_Object_Object_method);
 
 		scope_includes = new ArrayList(1);
 		scope_includes.add("/test/");
@@ -97,7 +97,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	public void testCompleteClosure() {
 		scope_criteria.GlobalIncludes(scope_includes) ;
 		
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 factory.Packages().size(),
@@ -117,11 +117,11 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			assertEquals(factory.Packages().get(key), selector.Factory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != selector.Factory().Packages().get(key));
 			assertEquals("Package " + key + " has different inbound count",
-						 ((Node) factory.Packages().get(key)).Inbound().size(),
-						 ((Node) selector.Factory().Packages().get(key)).Inbound().size());
+						 ((Node) factory.Packages().get(key)).getInboundDependencies().size(),
+						 ((Node) selector.Factory().Packages().get(key)).getInboundDependencies().size());
 			assertEquals("Package " + key + " has different outbound count",
-						 ((Node) factory.Packages().get(key)).Outbound().size(),
-						 ((Node) selector.Factory().Packages().get(key)).Outbound().size());
+						 ((Node) factory.Packages().get(key)).getOutboundDependencies().size(),
+						 ((Node) selector.Factory().Packages().get(key)).getOutboundDependencies().size());
 		}
 		
 		i = selector.Factory().Classes().keySet().iterator();
@@ -130,11 +130,11 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			assertEquals(factory.Classes().get(key), selector.Factory().Classes().get(key));
 			assertTrue(factory.Classes().get(key) != selector.Factory().Classes().get(key));
 			assertEquals("Class " + key + " has different inbound count",
-						 ((Node) factory.Classes().get(key)).Inbound().size(),
-						 ((Node) selector.Factory().Classes().get(key)).Inbound().size());
+						 ((Node) factory.Classes().get(key)).getInboundDependencies().size(),
+						 ((Node) selector.Factory().Classes().get(key)).getInboundDependencies().size());
 			assertEquals("Class " + key + " has different outbound count",
-						 ((Node) factory.Classes().get(key)).Outbound().size(),
-						 ((Node) selector.Factory().Classes().get(key)).Outbound().size());
+						 ((Node) factory.Classes().get(key)).getOutboundDependencies().size(),
+						 ((Node) selector.Factory().Classes().get(key)).getOutboundDependencies().size());
 		}
 		
 		i = selector.Factory().Features().keySet().iterator();
@@ -143,11 +143,11 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			assertEquals(factory.Features().get(key), selector.Factory().Features().get(key));
 			assertTrue(factory.Features().get(key) != selector.Factory().Features().get(key));
 			assertEquals("Feature " + key + " has different inbound count",
-						 ((Node) factory.Features().get(key)).Inbound().size(),
-						 ((Node) selector.Factory().Features().get(key)).Inbound().size());
+						 ((Node) factory.Features().get(key)).getInboundDependencies().size(),
+						 ((Node) selector.Factory().Features().get(key)).getInboundDependencies().size());
 			assertEquals("Feature " + key + " has different outbound count",
-						 ((Node) factory.Features().get(key)).Outbound().size(),
-						 ((Node) selector.Factory().Features().get(key)).Outbound().size());
+						 ((Node) factory.Features().get(key)).getOutboundDependencies().size(),
+						 ((Node) selector.Factory().Features().get(key)).getOutboundDependencies().size());
 		}
 	}
 
@@ -157,7 +157,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 		
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 1,
@@ -176,8 +176,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), selector.Factory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != selector.Factory().Packages().get(key));
-			assertTrue(((Node) selector.Factory().Packages().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) selector.Factory().Packages().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) selector.Factory().Packages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.Factory().Packages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = selector.Factory().Classes().keySet().iterator();
@@ -185,8 +185,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Classes().get(key), selector.Factory().Classes().get(key));
 			assertTrue(factory.Classes().get(key) != selector.Factory().Classes().get(key));
-			assertTrue(((Node) selector.Factory().Classes().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) selector.Factory().Classes().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) selector.Factory().Classes().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.Factory().Classes().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = selector.Factory().Features().keySet().iterator();
@@ -194,8 +194,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Features().get(key), selector.Factory().Features().get(key));
 			assertTrue(factory.Features().get(key) != selector.Factory().Features().get(key));
-			assertTrue(((Node) selector.Factory().Features().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) selector.Factory().Features().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) selector.Factory().Features().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.Factory().Features().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
@@ -207,7 +207,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 		
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
 		assertTrue(selector.Factory().Packages().isEmpty());
 		assertTrue(selector.Factory().Classes().isEmpty());
@@ -222,7 +222,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 		
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 1,
@@ -239,8 +239,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), selector.Factory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != selector.Factory().Packages().get(key));
-			assertTrue(((Node) selector.Factory().Packages().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) selector.Factory().Packages().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) selector.Factory().Packages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.Factory().Packages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = selector.Factory().Classes().keySet().iterator();
@@ -248,8 +248,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Classes().get(key), selector.Factory().Classes().get(key));
 			assertTrue(factory.Classes().get(key) != selector.Factory().Classes().get(key));
-			assertTrue(((Node) selector.Factory().Classes().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) selector.Factory().Classes().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) selector.Factory().Classes().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.Factory().Classes().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
@@ -261,7 +261,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		filter_criteria.MatchClass(false);
 		filter_criteria.MatchFeature(false);
 		
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
 		assertEquals("Different number of packages",
 					 1,
@@ -280,8 +280,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), selector.Factory().Packages().get(key));
 			assertTrue(factory.Packages().get(key) != selector.Factory().Packages().get(key));
-			assertTrue(((Node) selector.Factory().Packages().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) selector.Factory().Packages().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) selector.Factory().Packages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.Factory().Packages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = selector.Factory().Classes().keySet().iterator();
@@ -289,8 +289,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Classes().get(key), selector.Factory().Classes().get(key));
 			assertTrue(factory.Classes().get(key) != selector.Factory().Classes().get(key));
-			assertTrue(((Node) selector.Factory().Classes().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) selector.Factory().Classes().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) selector.Factory().Classes().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.Factory().Classes().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
 		i = selector.Factory().Features().keySet().iterator();
@@ -298,8 +298,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 			Object key = i.next();
 			assertEquals(factory.Features().get(key), selector.Factory().Features().get(key));
 			assertTrue(factory.Features().get(key) != selector.Factory().Features().get(key));
-			assertTrue(((Node) selector.Factory().Features().get(key)).Inbound().isEmpty());
-			assertTrue(((Node) selector.Factory().Features().get(key)).Outbound().isEmpty());
+			assertTrue(((Node) selector.Factory().Features().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.Factory().Features().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
@@ -308,7 +308,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		scope_criteria.MatchClass(false);
 		scope_criteria.MatchFeature(false);
 		
-		selector.TraverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.Packages().values());
 
 		assertTrue(selector.Factory().Packages().isEmpty());
 		assertTrue(selector.Factory().Classes().isEmpty());

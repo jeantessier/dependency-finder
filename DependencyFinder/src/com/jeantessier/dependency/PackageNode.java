@@ -41,23 +41,23 @@ public class PackageNode extends Node {
 		super(name);
 	}
 
-	public void AddClass(ClassNode node) {
+	public void addClass(ClassNode node) {
 		classes.add(node);
 	}
 
-	public Collection Classes() {
+	public Collection getClasses() {
 		return Collections.unmodifiableCollection(classes);
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.VisitPackageNode(this);
+	public void accept(Visitor visitor) {
+		visitor.visitPackageNode(this);
 	}
 
-	public void AcceptInbound(Visitor visitor) {
-		visitor.VisitInboundPackageNode(this);
+	public void acceptInbound(Visitor visitor) {
+		visitor.visitInboundPackageNode(this);
 	}
 
-	public void AcceptOutbound(Visitor visitor) {
-		visitor.VisitOutboundPackageNode(this);
+	public void acceptOutbound(Visitor visitor) {
+		visitor.visitOutboundPackageNode(this);
 	}
 }

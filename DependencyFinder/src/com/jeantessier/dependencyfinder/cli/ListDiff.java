@@ -77,25 +77,25 @@ public class ListDiff {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
-		command_line.AddSingleValueSwitch("name");
-		command_line.AddSingleValueSwitch("old-label");
-		command_line.AddSingleValueSwitch("old", true);
-		command_line.AddSingleValueSwitch("new-label");
-		command_line.AddSingleValueSwitch("new", true);
-		command_line.AddToggleSwitch("compress");
-		command_line.AddSingleValueSwitch("encoding",   ListDiffPrinter.DEFAULT_ENCODING);
-		command_line.AddSingleValueSwitch("dtd-prefix", ListDiffPrinter.DEFAULT_DTD_PREFIX);
-		command_line.AddSingleValueSwitch("indent-text");
-		command_line.AddToggleSwitch("time");
-		command_line.AddSingleValueSwitch("out");
-		command_line.AddToggleSwitch("help");
-		command_line.AddToggleSwitch("version");
+		command_line.addSingleValueSwitch("name");
+		command_line.addSingleValueSwitch("old-label");
+		command_line.addSingleValueSwitch("old", true);
+		command_line.addSingleValueSwitch("new-label");
+		command_line.addSingleValueSwitch("new", true);
+		command_line.addToggleSwitch("compress");
+		command_line.addSingleValueSwitch("encoding",   ListDiffPrinter.DEFAULT_ENCODING);
+		command_line.addSingleValueSwitch("dtd-prefix", ListDiffPrinter.DEFAULT_DTD_PREFIX);
+		command_line.addSingleValueSwitch("indent-text");
+		command_line.addToggleSwitch("time");
+		command_line.addSingleValueSwitch("out");
+		command_line.addToggleSwitch("help");
+		command_line.addToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("ListDiff");
-		command_line.Accept(usage);
+		command_line.accept(usage);
 
 		try {
-			command_line.Parse(args);
+			command_line.parse(args);
 		} catch (IllegalArgumentException ex) {
 			Error(usage, ex.toString());
 			System.exit(1);
@@ -104,15 +104,15 @@ public class ListDiff {
 			System.exit(1);
 		}
 
-		if (command_line.ToggleSwitch("help")) {
+		if (command_line.getToggleSwitch("help")) {
 			Error(usage);
 		}
 		
-		if (command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("version")) {
 			Version();
 		}
 
-		if (command_line.ToggleSwitch("help") || command_line.ToggleSwitch("version")) {
+		if (command_line.getToggleSwitch("help") || command_line.getToggleSwitch("version")) {
 			System.exit(1);
 		}
 
@@ -127,23 +127,23 @@ public class ListDiff {
 		Logger.getLogger(ListDiff.class).info("Loading data ...");
 		
 		Collection old_api = new TreeSet();
-		BufferedReader old_in = new BufferedReader(new FileReader(command_line.SingleSwitch("old")));
+		BufferedReader old_in = new BufferedReader(new FileReader(command_line.getSingleSwitch("old")));
 		while((line = old_in.readLine()) != null) {
 			old_api.add(line);
 		}
 		
 		Collection new_api = new TreeSet();
-		BufferedReader new_in = new BufferedReader(new FileReader(command_line.SingleSwitch("new")));
+		BufferedReader new_in = new BufferedReader(new FileReader(command_line.getSingleSwitch("new")));
 		while((line = new_in.readLine()) != null) {
 			new_api.add(line);
 		}
 		
-		ListDiffPrinter printer = new ListDiffPrinter(command_line.ToggleSwitch("compress"), command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
-		printer.Name(command_line.SingleSwitch("name"));
-		printer.OldVersion(command_line.SingleSwitch("old-label"));
-		printer.NewVersion(command_line.SingleSwitch("new-label"));
-		if (command_line.IsPresent("indent-text")) {
-			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		ListDiffPrinter printer = new ListDiffPrinter(command_line.getToggleSwitch("compress"), command_line.getSingleSwitch("encoding"), command_line.getSingleSwitch("dtd-prefix"));
+		printer.Name(command_line.getSingleSwitch("name"));
+		printer.OldVersion(command_line.getSingleSwitch("old-label"));
+		printer.NewVersion(command_line.getSingleSwitch("new-label"));
+		if (command_line.isPresent("indent-text")) {
+			printer.IndentText(command_line.getSingleSwitch("indent-text"));
 		}
 		
 		Iterator i;
@@ -167,8 +167,8 @@ public class ListDiff {
 		Logger.getLogger(ListDiff.class).info("Printing results ...");
 		
 		PrintWriter out;
-		if (command_line.IsPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+		if (command_line.isPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.getSingleSwitch("out")));
 		} else {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
@@ -177,7 +177,7 @@ public class ListDiff {
 
 		Date end = new Date();
 
-		if (command_line.ToggleSwitch("time")) {
+		if (command_line.getToggleSwitch("time")) {
 			System.err.println(ListDiff.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 	}

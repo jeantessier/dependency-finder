@@ -77,143 +77,143 @@ public class TestLinkMinimizer extends TestCase {
 		java_util_Collections_singleton_method = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
 		java_util_Set_class = factory.CreateClass("java.util.Set");
 	
-		test_class.AddDependency(java_lang_Object_class);
-		test_main_method.AddDependency(java_lang_Object_class);
-		test_main_method.AddDependency(java_lang_Object_Object_method);
-		test_main_method.AddDependency(java_lang_String_class);
-		test_main_method.AddDependency(java_util_Collections_singleton_method);
-		test_main_method.AddDependency(java_util_Set_class);
-		test_test_method.AddDependency(java_lang_Object_Object_method);
+		test_class.addDependency(java_lang_Object_class);
+		test_main_method.addDependency(java_lang_Object_class);
+		test_main_method.addDependency(java_lang_Object_Object_method);
+		test_main_method.addDependency(java_lang_String_class);
+		test_main_method.addDependency(java_util_Collections_singleton_method);
+		test_main_method.addDependency(java_util_Set_class);
+		test_test_method.addDependency(java_lang_Object_Object_method);
 
 		visitor = new LinkMinimizer();
-		visitor.TraverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.Packages().values());
 	}
 
 	public void test_package() {
 		assertEquals("_package.Outbound()",
 					 0,
-					 _package.Outbound().size());
+					 _package.getOutboundDependencies().size());
 		assertEquals("_package.Inbound()",
 					 0,
-					 _package.Inbound().size());
+					 _package.getInboundDependencies().size());
 	}
 
 	public void testtest_class() {
 		assertEquals("test_class.Outbound()",
 					 0,
-					 test_class.Outbound().size());
+					 test_class.getOutboundDependencies().size());
 		assertEquals("test_class.Inbound()",
 					 0,
-					 test_class.Inbound().size());
+					 test_class.getInboundDependencies().size());
 	}
 
 	public void testtest_main_method() {
 		assertEquals("test_main_method.Outbound()",
 					 4,
-					 test_main_method.Outbound().size());
+					 test_main_method.getOutboundDependencies().size());
 		assertTrue("test.main(java.lang.String[]) missing " + java_lang_Object_Object_method,
-				   test_main_method.Outbound().contains(java_lang_Object_Object_method));
+				   test_main_method.getOutboundDependencies().contains(java_lang_Object_Object_method));
 		assertTrue("test.main(java.lang.String[]) missing " + java_lang_String_class,
-				   test_main_method.Outbound().contains(java_lang_String_class));
+				   test_main_method.getOutboundDependencies().contains(java_lang_String_class));
 		assertTrue("test.main(java.lang.String[]) missing " + java_util_Collections_singleton_method,
-				   test_main_method.Outbound().contains(java_util_Collections_singleton_method));
+				   test_main_method.getOutboundDependencies().contains(java_util_Collections_singleton_method));
 		assertTrue("test.main(java.lang.String[]) missing " + java_util_Set_class,
-				   test_main_method.Outbound().contains(java_util_Set_class));
+				   test_main_method.getOutboundDependencies().contains(java_util_Set_class));
 		assertEquals("test_main_method.Inbound()",
 					 0,
-					 test_main_method.Inbound().size());
+					 test_main_method.getInboundDependencies().size());
 	}
 
 	public void testtest_test_method() {
 		assertEquals("test_test_method.Outbound()",
 					 1,
-					 test_test_method.Outbound().size());
+					 test_test_method.getOutboundDependencies().size());
 		assertTrue("test.test() missing " + java_lang_Object_Object_method,
-				   test_test_method.Outbound().contains(java_lang_Object_Object_method));
+				   test_test_method.getOutboundDependencies().contains(java_lang_Object_Object_method));
 		assertEquals("_package.Inbound()",
 					 0,
-					 test_test_method.Inbound().size());
+					 test_test_method.getInboundDependencies().size());
 	}
 
 	public void testjava_lang_package() {
 		assertEquals("java_lang_package.Outbound()",
 					 0,
-					 java_lang_package.Outbound().size());
+					 java_lang_package.getOutboundDependencies().size());
 		assertEquals("java_lang_package.Inbound()",
 					 0,
-					 java_lang_package.Inbound().size());
+					 java_lang_package.getInboundDependencies().size());
 	}
 
 	public void testjava_lang_Object_class() {
 		assertEquals("java_lang_Object_class.Outbound()",
 					 0,
-					 java_lang_Object_class.Outbound().size());
+					 java_lang_Object_class.getOutboundDependencies().size());
 		assertEquals("java_lang_Object_class.Inbound()",
 					 0,
-					 java_lang_Object_class.Inbound().size());
+					 java_lang_Object_class.getInboundDependencies().size());
 	}
 
 	public void testjava_lang_Object_Object_method() {
 		assertEquals("java_lang_Object_Object_method.Outbound()",
 					 0,
-					 java_lang_Object_Object_method.Outbound().size());
+					 java_lang_Object_Object_method.getOutboundDependencies().size());
 		assertEquals("java_lang_Object_Object_method.Inbound()",
 					 2,
-					 java_lang_Object_Object_method.Inbound().size());
+					 java_lang_Object_Object_method.getInboundDependencies().size());
 		assertTrue("java.lang.Object.Object() missing " + test_main_method,
-				   java_lang_Object_Object_method.Inbound().contains(test_main_method));
+				   java_lang_Object_Object_method.getInboundDependencies().contains(test_main_method));
 		assertTrue("java.lang.Object.Object() missing " + test_test_method,
-				   java_lang_Object_Object_method.Inbound().contains(test_test_method));
+				   java_lang_Object_Object_method.getInboundDependencies().contains(test_test_method));
 	}
 
 	public void testjava_lang_String_class() {
 		assertEquals("java_lang_String_class.Outbound()",
 					 0,
-					 java_lang_String_class.Outbound().size());
+					 java_lang_String_class.getOutboundDependencies().size());
 		assertEquals("java_lang_String_class.Inbound()",
 					 1,
-					 java_lang_String_class.Inbound().size());
+					 java_lang_String_class.getInboundDependencies().size());
 		assertTrue("java.lang.String missing " + test_main_method,
-				   java_lang_String_class.Inbound().contains(test_main_method));
+				   java_lang_String_class.getInboundDependencies().contains(test_main_method));
 	}
 
 	public void testjava_util_package() {
 		assertEquals("java_util_package.Outbound()",
 					 0,
-					 java_util_package.Outbound().size());
+					 java_util_package.getOutboundDependencies().size());
 		assertEquals("java_util_package.Inbound()",
 					 0,
-					 java_util_package.Inbound().size());
+					 java_util_package.getInboundDependencies().size());
 	}
 
 	public void testjava_util_Collections_class() {
 		assertEquals("java_util_Collections_class.Outbound()",
 					 0,
-					 java_util_Collections_class.Outbound().size());
+					 java_util_Collections_class.getOutboundDependencies().size());
 		assertEquals("java_util_Collections_class.Inbound()",
 					 0,
-					 java_util_Collections_class.Inbound().size());
+					 java_util_Collections_class.getInboundDependencies().size());
 	}
 
 	public void testjava_util_Collections_singleton_method() {
 		assertEquals("java_util_Collections_singleton_method.Outbound()",
 					 0,
-					 java_util_Collections_singleton_method.Outbound().size());
+					 java_util_Collections_singleton_method.getOutboundDependencies().size());
 		assertEquals("java_util_Collections_singleton_method.Inbound()",
 					 1,
-					 java_util_Collections_singleton_method.Inbound().size());
+					 java_util_Collections_singleton_method.getInboundDependencies().size());
 		assertTrue("java.util.Collections.singleton(java.lang.Object) missing " + test_main_method,
-				   java_util_Collections_singleton_method.Inbound().contains(test_main_method));
+				   java_util_Collections_singleton_method.getInboundDependencies().contains(test_main_method));
 	}
 
 	public void testjava_util_Set_class() {
 		assertEquals("java_util_Set_class.Outbound()",
 					 0,
-					 java_util_Set_class.Outbound().size());
+					 java_util_Set_class.getOutboundDependencies().size());
 		assertEquals("java_util_Set_class.Inbound()",
 					 1,
-					 java_util_Set_class.Inbound().size());
+					 java_util_Set_class.getInboundDependencies().size());
 		assertTrue("java.util.Set missing " + test_main_method,
-				   java_util_Set_class.Inbound().contains(test_main_method));
+				   java_util_Set_class.getInboundDependencies().contains(test_main_method));
 	}
 }

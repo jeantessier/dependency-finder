@@ -53,17 +53,17 @@ public class SingleValueSwitch extends CommandLineSwitchBase {
 		super(default_value, mandatory);
 	}
 
-	public int Parse(String name, String value) throws CommandLineException {
+	public int parse(String name, String value) throws CommandLineException {
 		if (value == null) {
 			throw new CommandLineException("Missing mandatory value for switch \"" + name + "\"");
 		}
 
-		Value(value);
+		setValue(value);
 	
 		return 2;
 	}
 
-	public void Accept(Visitor visitor) {
-		visitor.Visit(this);
+	public void accept(Visitor visitor) {
+		visitor.visitSingleValueSwitch(this);
 	}
 }
