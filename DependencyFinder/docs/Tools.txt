@@ -6504,6 +6504,14 @@ necessarily imply that the programming element is unused.  It could be a method
 that gets called through an interface or a superclass declaration, or it could
 be an implementation class that is activated via reflection.
 
+One particular case deals with =static final= constants.  Some compilers,
+including Sun's =javac=, inline these constants directly in the bytecode if
+their type makes them suitable to inclusion in the constant pool section of the
+=.class= file.  When this happens, there is no longer any dependency in the
+compiled bytecode and Dependency Finder cannot find any direct references to
+the constants.  Then, =ListUnused= lists them as dead code, even though they
+are not in reality.
+
 </blockquote>
 
 ---+++ Switches
