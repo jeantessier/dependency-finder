@@ -65,7 +65,7 @@ public class CodeDependencyCollector extends CollectorBase {
 	}
 
 	public void visitClassfile(Classfile classfile) {
-		current = getFactory().createClass(classfile.getClassName());
+		current = getFactory().createClass(classfile.getClassName(), true);
 
 		fireBeginClass(classfile.toString());
 		
@@ -152,7 +152,7 @@ public class CodeDependencyCollector extends CollectorBase {
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
 		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
 
-		current = getFactory().createFeature(entry.getFullSignature());
+		current = getFactory().createFeature(entry.getFullSignature(), true);
 
 		processDescriptor(entry.getDescriptor());
 	
@@ -164,7 +164,7 @@ public class CodeDependencyCollector extends CollectorBase {
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
 		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
 	
-		current = getFactory().createFeature(entry.getFullSignature());
+		current = getFactory().createFeature(entry.getFullSignature(), true);
 
 		processDescriptor(entry.getDescriptor());
 
