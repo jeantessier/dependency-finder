@@ -188,7 +188,7 @@ public class DependencyMetrics extends GraphTask {
 			MetricsGatherer metrics = new MetricsGatherer(Strategy());
 
 			String filename = getSrcfile().getAbsolutePath();
-			log("Reading " + filename);
+			log("Reading graph from " + filename);
 				
 			Collection packages;
 			if (filename.endsWith(".xml")) {

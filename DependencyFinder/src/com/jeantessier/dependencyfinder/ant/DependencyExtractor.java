@@ -130,6 +130,8 @@ public class DependencyExtractor extends Task {
             throw new BuildException("destfile must be set!");
         }
 
+		log("Reading classes from path " + getPath());
+
 		VerboseListener verbose_listener = new VerboseListener(this);
 
 		NodeFactory factory = new NodeFactory();

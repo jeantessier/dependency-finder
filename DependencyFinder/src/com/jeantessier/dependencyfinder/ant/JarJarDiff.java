@@ -163,13 +163,13 @@ public class JarJarDiff extends Task {
 			// Collecting data, first classfiles from JARs,
 			// then package/class trees using NodeFactory.
 			
-			log("Loading old codebase ...");
+			log("Loading old classes from path " + getOld());
 			Validator old_validator = new ListBasedValidator(getOlddocumentation());
 			ClassfileLoader old_jar = new AggregatingClassfileLoader();
 			old_jar.addLoadListener(verbose_listener);
 			old_jar.Load(Arrays.asList(getOld().list()));
 			
-			log("Loading new codebase ...");
+			log("Loading new classes from path " + getNew());
 			Validator new_validator = new ListBasedValidator(getNewdocumentation());
 			ClassfileLoader new_jar = new AggregatingClassfileLoader();
 			new_jar.addLoadListener(verbose_listener);
@@ -179,7 +179,7 @@ public class JarJarDiff extends Task {
 			// then descending to class level for packages
 			// that are in both the old and the new codebase.
 			
-			log("Comparing ...");
+			log("Comparing old and new classes ...");
 			
 			String name      = getName();
 			String old_label = (getOldlabel() != null) ? getOldlabel() : getOld().toString();

@@ -84,6 +84,8 @@ public class ClassMetrics extends Task {
             throw new BuildException("destfile must be set!");
         }
 
+		log("Reading classes from path " + getPath());
+
 		VerboseListener verbose_listener = new VerboseListener(this);
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();

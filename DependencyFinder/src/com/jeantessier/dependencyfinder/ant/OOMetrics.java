@@ -236,6 +236,8 @@ public class OOMetrics extends Task {
         }
 
 		try {
+			log("Reading classes from path " + getPath());
+
 			VerboseListener verbose_listener = new VerboseListener(this);
 			
 			MetricsFactory factory = new MetricsFactory(getProjectname(), new MetricsConfigurationLoader(getValidate()).Load(getConfiguration().getAbsolutePath()));

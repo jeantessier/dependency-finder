@@ -159,18 +159,22 @@ public class ListDiff extends Task {
 		try {
 			String line;
 			
+			log("Loading old list from " + getOld().getAbsolutePath());
 			Collection old_api = new TreeSet();
 			BufferedReader old_in = new BufferedReader(new FileReader(getOld()));
 			while((line = old_in.readLine()) != null) {
 				old_api.add(line);
 			}
 			
+			log("Loading new list from " + getNew().getAbsolutePath());
 			Collection new_api = new TreeSet();
 			BufferedReader new_in = new BufferedReader(new FileReader(getNew()));
 			while((line = new_in.readLine()) != null) {
 				new_api.add(line);
 			}
 			
+			log("Comparing old and new lists ...");
+
 			ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getDtdprefix());
 			printer.Name(getName());
 			printer.OldVersion(getOldlabel());

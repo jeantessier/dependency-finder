@@ -125,7 +125,7 @@ public class DependencyClosure extends GraphTask {
 			}
 		
 			String filename = getSrcfile().getAbsolutePath();
-			log("Reading " + filename);
+			log("Reading graph from " + filename);
 				
 			Collection packages;
 			if (filename.endsWith(".xml")) {
