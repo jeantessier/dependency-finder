@@ -12,6 +12,7 @@ a:visited {
 }
 
 a:hover {
+    color: blue;
     text-decoration: underline;
 }
 
@@ -19,6 +20,13 @@ a:hover {
     font-weight: bold;
     font-size: larger;
     background-color: gray;
+    color: white;
+}
+
+.packagename_inferred {
+    font-weight: bold;
+    font-size: larger;
+    background-color: lightgray;
     color: white;
 }
 
@@ -46,4 +54,8 @@ a:hover {
 .dependency {
     font-family: monospace;
     font-size: smaller;
+}
+
+.inferred {
+    color: lightgray;
 }
