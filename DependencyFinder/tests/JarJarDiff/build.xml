@@ -21,7 +21,7 @@
 		    path="../../classes">
 		<param name="-tag"   value="level"/>
 		<param name="-valid" value="public"/>
-		<param name="-out"   value="old.txt"/>
+		<param name="-out"   value="${basedir}/old.txt"/>
 	    </doclet>
 	</javadoc>
     </target>
@@ -43,7 +43,7 @@
 		    path="../../classes">
 		<param name="-tag"   value="level"/>
 		<param name="-valid" value="public"/>
-		<param name="-out"   value="new.txt"/>
+		<param name="-out"   value="${basedir}/new.txt"/>
 	    </doclet>
 	</javadoc>
     </target>
