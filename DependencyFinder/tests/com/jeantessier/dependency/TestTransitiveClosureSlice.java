@@ -88,8 +88,9 @@ public class TestTransitiveClosureSlice extends TestCase {
 		assertEquals("out3.Outbound()", 0, ((Node) selector.Factory().Packages().get("out3")).Outbound().size());
 	}
 
-	public void testDefaultDepthInboundOutbound() {
-		selector.FollowInbounds(true);
+	public void testUnboundedDepthInboundOutbound() {
+		selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+		selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		
 		base.Accept(selector);
 
@@ -110,9 +111,43 @@ public class TestTransitiveClosureSlice extends TestCase {
 		assertEquals("out3.Outbound()", 0, ((Node) selector.Factory().Packages().get("out3")).Outbound().size());
 	}
 
+	public void testUnboundedDepthInbound() {
+		selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+		selector.MaximumOutboundDepth(TransitiveClosure.DO_NOT_FOLLOW);
+		
+		base.Accept(selector);
+
+		assertEquals("number of packages", 4, selector.Factory().Packages().size());
+		assertEquals("in3.Inbound()",   0, ((Node) selector.Factory().Packages().get("in3")).Inbound().size());
+		assertEquals("in3.Outbound()",  1, ((Node) selector.Factory().Packages().get("in3")).Outbound().size());
+		assertEquals("in2.Inbound()",   1, ((Node) selector.Factory().Packages().get("in2")).Inbound().size());
+		assertEquals("in2.Outbound()",  1, ((Node) selector.Factory().Packages().get("in2")).Outbound().size());
+		assertEquals("in1.Inbound()",   1, ((Node) selector.Factory().Packages().get("in1")).Inbound().size());
+		assertEquals("in1.Outbound()",  1, ((Node) selector.Factory().Packages().get("in1")).Outbound().size());
+		assertEquals("base.Inbound()",  1, ((Node) selector.Factory().Packages().get("base")).Inbound().size());
+		assertEquals("base.Outbound()", 0, ((Node) selector.Factory().Packages().get("base")).Outbound().size());
+	}
+
+	public void testUnboundedDepthOutbound() {
+		selector.MaximumInboundDepth(TransitiveClosure.DO_NOT_FOLLOW);
+		selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+
+		base.Accept(selector);
+
+		assertEquals("number of packages", 4, selector.Factory().Packages().size());
+		assertEquals("base.Inbound()",  0, ((Node) selector.Factory().Packages().get("base")).Inbound().size());
+		assertEquals("base.Outbound()", 1, ((Node) selector.Factory().Packages().get("base")).Outbound().size());
+		assertEquals("out1.Inbound()",  1, ((Node) selector.Factory().Packages().get("out1")).Inbound().size());
+		assertEquals("out1.Outbound()", 1, ((Node) selector.Factory().Packages().get("out1")).Outbound().size());
+		assertEquals("out2.Inbound()",  1, ((Node) selector.Factory().Packages().get("out2")).Inbound().size());
+		assertEquals("out2.Outbound()", 1, ((Node) selector.Factory().Packages().get("out2")).Outbound().size());
+		assertEquals("out3.Inbound()",  1, ((Node) selector.Factory().Packages().get("out3")).Inbound().size());
+		assertEquals("out3.Outbound()", 0, ((Node) selector.Factory().Packages().get("out3")).Outbound().size());
+	}
+
 	public void testZeroDepthInboundOutbound() {
-		selector.FollowInbounds(true);
-		selector.MaximumDepth(0);
+		selector.MaximumInboundDepth(0);
+		selector.MaximumOutboundDepth(0);
 		
 		base.Accept(selector);
 
@@ -122,8 +157,8 @@ public class TestTransitiveClosureSlice extends TestCase {
 	}
 
 	public void testSingleDepthInboundOutbound() {
-		selector.FollowInbounds(true);
-		selector.MaximumDepth(1);
+		selector.MaximumInboundDepth(1);
+		selector.MaximumOutboundDepth(1);
 		
 		base.Accept(selector);
 
@@ -137,8 +172,8 @@ public class TestTransitiveClosureSlice extends TestCase {
 	}
 
 	public void testDoubleDepthInboundOutbound() {
-		selector.FollowInbounds(true);
-		selector.MaximumDepth(2);
+		selector.MaximumInboundDepth(2);
+		selector.MaximumOutboundDepth(2);
 		
 		base.Accept(selector);
 
@@ -156,8 +191,8 @@ public class TestTransitiveClosureSlice extends TestCase {
 	}
 
 	public void testExactDepthInboundOutbound() {
-		selector.FollowInbounds(true);
-		selector.MaximumDepth(3);
+		selector.MaximumInboundDepth(3);
+		selector.MaximumOutboundDepth(3);
 		
 		base.Accept(selector);
 
@@ -179,8 +214,8 @@ public class TestTransitiveClosureSlice extends TestCase {
 	}
 
 	public void testOverDepthInboundOutbound() {
-		selector.FollowInbounds(true);
-		selector.MaximumDepth(4);
+		selector.MaximumInboundDepth(4);
+		selector.MaximumOutboundDepth(4);
 		
 		base.Accept(selector);
 

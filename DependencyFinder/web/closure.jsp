@@ -118,25 +118,20 @@
 	feature_filter_excludes = "";
     }
 
-    boolean show_inbounds = "on".equals(request.getParameter("show-inbounds"));
-    if (request.getParameter("submit") == null) {
-	show_inbounds = true;
+    String maximum_inbound_depth = request.getParameter("maximum-inbound-depth");
+    if (maximum_inbound_depth == null) {
+	maximum_inbound_depth = "0";
     }
 
-    boolean show_outbounds = "on".equals(request.getParameter("show-outbounds"));
-    if (request.getParameter("submit") == null) {
-	show_outbounds = false;
-    }
-
-    boolean show_empty_nodes = "on".equals(request.getParameter("show-empty-nodes"));
-    if (request.getParameter("submit") == null) {
-	show_empty_nodes = false;
+    String maximum_outbound_depth = request.getParameter("maximum-outbound-depth");
+    if (maximum_outbound_depth == null) {
+	maximum_outbound_depth = "";
     }
 %>
 
 <body bgcolor="#ffffff">
 
-<p>Dependency Graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
+<p>Transitive Closure for <b><code><%= application.getInitParameter("name") %></code></b></p>
 
 <p>The boxes below take Perl regular expressions.  Read the
 <a target="_blank" href="http://depfind.sourceforge.net/Manual.html">manual</a> for
@@ -269,10 +264,11 @@ including sample regular expressions.</p>
 
 </td></tr><tr><td colspan="2" align="center">
 
-Show:
-<input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %>>&nbsp;inbounds
-<input type="checkbox" name="show-outbounds" <%= show_outbounds ? "checked" : "" %>>&nbsp;outbounds
-<input type="checkbox" name="show-empty-nodes" <%= show_empty_nodes ? "checked" : "" %>>&nbsp;empty
+Follow inbounds:
+<input type="text" name="maximum-inbound-depth" value="<%= maximum_inbound_depth %>" size="2">
+Follow outbounds:
+<input type="text" name="maximum-outbound-depth" value="<%= maximum_outbound_depth %>" size="2">
+leave empty for unbounded
 
 </td></tr></table>
 
@@ -317,20 +313,25 @@ Show:
 	    strategy.ClassFilterExcludes(class_filter_excludes);
 	    strategy.FeatureFilterExcludes(feature_filter_excludes);
 
-	    GraphCopier dependencies_query = new GraphSummarizer(strategy);
-	    if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
-		dependencies_query = new GraphCopier(strategy);
+	    TransitiveClosure closure = new TransitiveClosure(strategy);
+
+	    try {
+		closure.MaximumInboundDepth(Long.parseLong(maximum_inbound_depth));
+	    } catch (NumberFormatException ex) {
+		closure.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 	    }
-	
-	    dependencies_query.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
+
+	    try {
+		closure.MaximumOutboundDepth(Long.parseLong(maximum_outbound_depth));
+	    } catch (NumberFormatException ex) {
+		closure.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+	    }
+
+	    closure.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
 
 	    PrettyPrinter printer = new PrettyPrinter();
 
-	    printer.ShowInbounds(show_inbounds);
-	    printer.ShowOutbounds(show_outbounds);
-	    printer.ShowEmptyNodes(show_empty_nodes);
-		
-	    printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
+	    printer.TraverseNodes(closure.Factory().Packages().values());
 
 	    Date stop = new Date();
 

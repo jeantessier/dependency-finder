@@ -41,11 +41,13 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyClosure {
-    public static final String DEFAULT_INCLUDES        = "//";
-    public static final String DEFAULT_SCOPE_INCLUDES  = "//";
-    public static final String DEFAULT_FILTER_INCLUDES = "//";
-    public static final String DEFAULT_LOGFILE         = "System.out";
-    public static final String DEFAULT_TRACEFILE       = "System.out";
+    public static final String DEFAULT_INCLUDES               = "//";
+    public static final String DEFAULT_SCOPE_INCLUDES         = "//";
+    public static final String DEFAULT_FILTER_INCLUDES        = "//";
+	public static final String DEFAULT_MAXIMUM_INBOUND_DEPTH  = "0";
+	public static final String DEFAULT_MAXIMUM_OUTBOUND_DEPTH = "";
+    public static final String DEFAULT_LOGFILE                = "System.out";
+    public static final String DEFAULT_TRACEFILE              = "System.out";
 
 	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
@@ -122,6 +124,9 @@ public class DependencyClosure {
 		command_line.AddMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
 		command_line.AddMultipleValuesSwitch("excludes");
 
+		command_line.AddSingleValueSwitch("maximum-inbound-depth",      DEFAULT_MAXIMUM_INBOUND_DEPTH);
+		command_line.AddSingleValueSwitch("maximum-outbound-depth",     DEFAULT_MAXIMUM_OUTBOUND_DEPTH);
+		
 		command_line.AddToggleSwitch("time");
 		command_line.AddToggleSwitch("serialize");
 		command_line.AddToggleSwitch("xml");
@@ -255,7 +260,19 @@ public class DependencyClosure {
 		}
 
 		TransitiveClosure selector = new TransitiveClosure(strategy);
-	
+
+		try {
+			selector.MaximumInboundDepth(Long.parseLong(command_line.SingleSwitch("maximum-inbound-depth")));
+		} catch (NumberFormatException ex) {
+			selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+		}
+
+		try {
+			selector.MaximumOutboundDepth(Long.parseLong(command_line.SingleSwitch("maximum-outbound-depth")));
+		} catch (NumberFormatException ex) {
+			selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+		}
+		
 		Iterator i = command_line.Parameters().iterator();
 		while (i.hasNext()) {
 			String filename = (String) i.next();

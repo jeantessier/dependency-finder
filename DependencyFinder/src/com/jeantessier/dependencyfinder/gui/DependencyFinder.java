@@ -98,9 +98,8 @@ public class DependencyFinder extends JFrame {
     private JCheckBox  show_outbounds          = new JCheckBox("outbounds",   false);
     private JCheckBox  show_empty_nodes        = new JCheckBox("empty nodes", false);
 
-	private JCheckBox  follow_inbounds         = new JCheckBox("inbounds",    false);
-    private JCheckBox  follow_outbounds        = new JCheckBox("outbounds",   true);
-	private JTextField maximum_depth           = new JTextField(2);
+	private JTextField maximum_inbound_depth   = new JTextField("0", 2);
+	private JTextField maximum_outbound_depth  = new JTextField(2);
 
     private GraphCopier dependencies_query     = null;
 	
@@ -639,12 +638,11 @@ public class DependencyFinder extends JFrame {
     private JComponent BuildClosureControlPanel() {
 		JPanel result = new JPanel();
 		
-		result.add(new JLabel("Follow: "));
-		result.add(follow_inbounds);
-		result.add(follow_outbounds);
-		result.add(new JLabel("Depth: "));
-		result.add(maximum_depth);
-		result.add(new JLabel(" leave empty for unbound"));
+		result.add(new JLabel("Follow inbounds: "));
+		result.add(maximum_inbound_depth);
+		result.add(new JLabel("Follow outbounds: "));
+		result.add(maximum_outbound_depth);
+		result.add(new JLabel(" leave empty for unbounded"));
 		
 		return result;
     }
@@ -802,12 +800,16 @@ public class DependencyFinder extends JFrame {
 		
 		TransitiveClosure selector = new TransitiveClosure(strategy);
 
-		selector.FollowInbounds(follow_inbounds.isSelected());
-		selector.FollowOutbounds(follow_outbounds.isSelected());
 		try {
-			selector.MaximumDepth(Long.parseLong(maximum_depth.getText()));
+			selector.MaximumInboundDepth(Long.parseLong(maximum_inbound_depth.getText()));
 		} catch (NumberFormatException ex) {
-			// Ignore, use default
+			selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+		}
+
+		try {
+			selector.MaximumOutboundDepth(Long.parseLong(maximum_outbound_depth.getText()));
+		} catch (NumberFormatException ex) {
+			selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 		
 		selector.TraverseNodes(Packages());
