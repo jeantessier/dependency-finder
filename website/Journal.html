@@ -17,6 +17,53 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	September 06, 2004
+    </dt>
+    <dd>
+	<p>Phase V: everything else under <code>src/</code>.  Now I have to
+	deal with <code>tests/</code> and straggling parameters and local
+	variables.</p>
+    </dd>
+    <dt>
+	September 05, 2004
+    </dt>
+    <dd>
+	<p>Phase IV: finished <code>com.jeantessier.dependency</code>.</p>
+    </dd>
+    <dt>
+	September 04, 2004
+    </dt>
+    <dd>
+	<p>Phase II: finished <code>com.jeantessier.classreader</code>.</p>
+
+	<p>Phase III: did <code>com.jeantessier.commandline</code> and started
+	<code>com.jeantessier.dependency</code>.</p>
+    </dd>
+    <dt>
+	September 03, 2004
+    </dt>
+    <dd>
+	<p>Looking a little further into renaming symbols.  There are over
+	3,000 methods, but from those I can remove constructors, which will
+	retain their initial capital, and methods that already follow the Java
+	convention, such as <code>toString()</code> and
+	<code>equals(java.lang.Object)</code>.  But I must also account for
+	fields, where I use all lowercase with underscore to separate words.
+	Constants in all caps don't count, and fields with only one word are
+	just fine.  So I wrote a little Perl script to list what's left and
+	ended up with 2,611 symbols that need renaming.</p>
+
+	<p>That still leaves local variable to take care of.  I'll need to
+	tweak <code>com.jeantessier.metrics.MetricsGatherer</code> to find a
+	way to list them.  It currently counts them, but doesn't keep track of
+	their names.  Then again, maybe a simple classfile printer could do the
+	trick.</p>
+
+	<p>Phase I: got started on <code>com.jeantessier.classreader</code>.
+	I'll check it in, and when I'm done, I'll release beta 2 and see the
+	reaction it gathers.</p>
+    </dd>
+    <dt>
 	September 01, 2004
     </dt>
     <dd>
