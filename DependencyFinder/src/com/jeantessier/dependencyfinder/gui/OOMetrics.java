@@ -78,11 +78,7 @@ public class OOMetrics extends JFrame {
 		this.setSize(new Dimension(800, 600));
 		this.setTitle("OO Metrics");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.addWindowListener(new WindowAdapter() {
-				public void windowClosed(WindowEvent e) {
-					System.exit(0);
-				}
-			});
+		this.addWindowListener(new WindowKiller());
 
 		groups_model  = new OOMetricsTableModel(factory.Configuration().GroupMeasurements());
 		classes_model = new OOMetricsTableModel(factory.Configuration().ClassMeasurements());
