@@ -35,7 +35,7 @@
 
     boolean class_scope = "on".equals(request.getParameter("class-scope"));
     if (request.getParameter("submit") == null) {
-	class_scope = true;
+	class_scope = false;
     }
 
     String class_scope_includes = request.getParameter("class-scope-includes");
@@ -50,7 +50,7 @@
 
     boolean feature_scope = "on".equals(request.getParameter("feature-scope"));
     if (request.getParameter("submit") == null) {
-	feature_scope = true;
+	feature_scope = false;
     }
 
     String feature_scope_includes = request.getParameter("feature-scope-includes");
@@ -90,7 +90,7 @@
 
     boolean class_filter = "on".equals(request.getParameter("class-filter"));
     if (request.getParameter("submit") == null) {
-	class_filter = true;
+	class_filter = false;
     }
 
     String class_filter_includes = request.getParameter("class-filter-includes");
@@ -105,7 +105,7 @@
 
     boolean feature_filter = "on".equals(request.getParameter("feature-filter"));
     if (request.getParameter("submit") == null) {
-	feature_filter = true;
+	feature_filter = false;
     }
 
     String feature_filter_includes = request.getParameter("feature-filter-includes");
@@ -125,12 +125,12 @@
 
     boolean show_outbounds = "on".equals(request.getParameter("show-outbounds"));
     if (request.getParameter("submit") == null) {
-	show_outbounds = false;
+	show_outbounds = true;
     }
 
     boolean show_empty_nodes = "on".equals(request.getParameter("show-empty-nodes"));
     if (request.getParameter("submit") == null) {
-	show_empty_nodes = false;
+	show_empty_nodes = true;
     }
 %>
 

@@ -75,8 +75,8 @@ public class DependencyFinder extends JFrame {
     private Collector   collector    = null;
 
     private JCheckBox  package_scope           = new JCheckBox("packages", true);
-    private JCheckBox  class_scope             = new JCheckBox("classes",  true);
-    private JCheckBox  feature_scope           = new JCheckBox("features", true);
+    private JCheckBox  class_scope             = new JCheckBox("classes",  false);
+    private JCheckBox  feature_scope           = new JCheckBox("features", false);
     private JTextField scope_includes          = new JTextField("//");
     private JTextField package_scope_includes  = new JTextField();
     private JTextField class_scope_includes    = new JTextField();
@@ -87,8 +87,8 @@ public class DependencyFinder extends JFrame {
     private JTextField feature_scope_excludes  = new JTextField();
 	
     private JCheckBox  package_filter          = new JCheckBox("packages", true);
-    private JCheckBox  class_filter            = new JCheckBox("classes",  true);
-    private JCheckBox  feature_filter          = new JCheckBox("features", true);
+    private JCheckBox  class_filter            = new JCheckBox("classes",  false);
+    private JCheckBox  feature_filter          = new JCheckBox("features", false);
     private JTextField filter_includes         = new JTextField("//");
     private JTextField package_filter_includes = new JTextField();
     private JTextField class_filter_includes   = new JTextField();
@@ -99,8 +99,8 @@ public class DependencyFinder extends JFrame {
     private JTextField feature_filter_excludes = new JTextField();
 
     private JCheckBox  show_inbounds           = new JCheckBox("inbounds",    true);
-    private JCheckBox  show_outbounds          = new JCheckBox("outbounds",   false);
-    private JCheckBox  show_empty_nodes        = new JCheckBox("empty nodes", false);
+    private JCheckBox  show_outbounds          = new JCheckBox("outbounds",   true);
+    private JCheckBox  show_empty_nodes        = new JCheckBox("empty nodes", true);
 
 	private JTextField maximum_inbound_depth   = new JTextField("0", 2);
 	private JTextField maximum_outbound_depth  = new JTextField(2);
