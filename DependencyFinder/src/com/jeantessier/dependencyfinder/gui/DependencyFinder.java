@@ -352,8 +352,8 @@ public class DependencyFinder extends JFrame {
 
 		result.setLayout(new BorderLayout());
 
-		result.add(BuildSimpleScopePanelTextFields(), BorderLayout.NORTH);
-		result.add(BuildSimpleScopePanelCheckboxes(), BorderLayout.SOUTH);
+		result.add(BuildSimpleScopePanelCheckboxes(), BorderLayout.NORTH);
+		result.add(BuildSimpleScopePanelTextFields(), BorderLayout.SOUTH);
 
 		return result;
 	}
@@ -459,8 +459,8 @@ public class DependencyFinder extends JFrame {
 
 		result.setLayout(new BorderLayout());
 
-		result.add(BuildSimpleFilterPanelTextFields(), BorderLayout.NORTH);
-		result.add(BuildSimpleFilterPanelCheckboxes(), BorderLayout.SOUTH);
+		result.add(BuildSimpleFilterPanelCheckboxes(), BorderLayout.NORTH);
+		result.add(BuildSimpleFilterPanelTextFields(), BorderLayout.SOUTH);
 
 		return result;
 	}
