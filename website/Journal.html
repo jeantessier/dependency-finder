@@ -18,13 +18,44 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	September 01, 2003
+    </dt>
+    <dd>
+	<p>Fixed backlog in journal entries.</p>
+    </dd>
+    <dt>
+	August 31, 2003
+    </dt>
+    <dd>
+	<p>Rewrote the web application so that the copyright notice at the
+	bottom is actually coming from <code>footer.jsp</code>, which gets
+	included using <code>&lt;jsp:include&gt;</code>.</p>
+
+	<p>For the longest time, I have tried to keep the JSPs as simple and
+	self-contained as possible.  I figured they would make handy examples
+	of how to use the various parts of Dependency Finder.  But now, they
+	are becoming more and more difficult to manage, with all that
+	duplicated HTML between them, and I am not even touching the duplicated
+	code between all versions of the tools.  Anyway, I decided to make my
+	life a little easier and at least break out the duplicated HTML to a
+	shared satellite JSP.</p>
+    </dd>
+    <dt>
+	August 29, 2003
+    </dt>
+    <dd>
+	<p>Adjusted all implementations of <code>LoadListener</code> to handle
+	the new events.  It is still a little quirky and I will need to fine
+	tune them later.</p>
+    </dd>
+    <dt>
 	August 28, 2003
     </dt>
     <dd>
 	<p>Got all unit tests to pass again, except for those four that deal
 	with closures.  Finished the work on <code>ClassfileLoader</code>.  Now
 	I need to adjust all <code>LoadListener</code> as well as come up with
-	a more premissive <code>ClassfileLoaderDispatcher</code> that is also
+	a more permissive <code>ClassfileLoaderDispatcher</code> that is also
 	configurable.  Maybe another XML descriptor?</p>
     </dd>
     <dt>
@@ -32,43 +63,81 @@
     </dt>
     <dd>
 	<p>Finally figured out the flow between ClassfileLoaders.  Did most of
-	the coding for <code>ZipClassfileLoader</code>.</p>
+	the coding for <code>ZipClassfileLoader</code>, which also takes care
+	of <code>JarClassfileLoader</code>.  But I could not get to
+	<code>DirectoryClassfileLoader</code>, so the unit tests are still
+	failing.</p>
     </dd>
     <dt>
 	August 26, 2003
     </dt>
     <dd>
-	<p>Thought some more about ClassfileLoaders</p>
+	<p>I have been thinking some more about the flow of control to manage
+	to recursively process ZIP-like files.  But I can't quite wrap my head
+	around it right now.</p>
     </dd>
     <dt>
 	August 24, 2003
     </dt>
     <dd>
-	<p>Finish the tests for BeginFile events</p>
+	<p>Wrote the tests for the new events.  They are all failing, of
+	course.</p>
     </dd>
     <dt>
 	August 22, 2003
     </dt>
     <dd>
-	<p>Sequence diagrams for ClassfileLoaders</p>
+	<p>Came up with a sequence diagram to better understand the
+	interactions between various <code>ClassfileLoader</code> instances.
+	This will help me organize the interactions to deal with recursive
+	processing of ZIP-like files.</p>
+
+	<p><img src="images/LoadJAR.gif" /></p>
+
+	<p>I had to explode the <code>ClassfileLoader</code> instances to show
+	how the behavior is spread across the inheritance hierarchy.  This
+	yields a cleaner diagram, thanks to the fact that each class is
+	responsible for one and only one thing.</p>
+
+	<p><img src="images/LoadJAR.exploded.gif" /></p>
     </dd>
     <dt>
 	August 21, 2003
     </dt>
     <dd>
-	<p>Start coding BeginFile events</p>
+	<p>Started coding <code>BeginFile</code> and <code>EndFile</code>
+	load-time events.  I also want to automatically expand ZIP and JAR
+	files, so I can open compound ZIP-like files, such as WAR and EAR,
+	directly.  This will complicate the flow of events, though.</p>
     </dd>
     <dt>
 	August 20, 2003
     </dt>
     <dd>
-	<p>Come up with BeginFile events</p>
+	<p>When extracting from ZIP or JAR files, the progress reports alsways
+	fall short of 100%.  I realized that this is because the size extimates
+	include directory entries and non-<code>.class</code> files.  The
+	progress function only counts <code>.class</code> files, and therefore
+	always comes up short a bit.  So I have added two new load-time events
+	for when the <code>ClassfileLoader</code> start on a file, regardless
+	of its extension, and when it is done with a file.  These events occur
+	before and after the <code>BeginClassfile</code> and
+	<code>EndClassfile</code> respectively.</p>
     </dd>
     <dt>
 	August 19, 2003
     </dt>
     <dd>
-	<p>New use for JarJarDiff</p>
+	<p>I thought of a new way to use <code>JarJarDiff</code>.  So far, I
+	have talked about how you can use it as a producer of software
+	libraries to monitor the evolution of the published interface you
+	expose.  But another usage is as a consumer of software libraries,
+	where you want to know if a new version of the library introduced
+	changes on the part of the library that you use.  I am putting
+	together detailed instructions on how to use Dependency Finder to
+	automatically compute which part of the third-party library you are
+	using and use this information to filter the output of
+	<code>JarJarDiff</code>.  More on this later.</p>
     </dd>
     <dt>
 	August 15, 2003
