@@ -126,28 +126,44 @@ public class JarJarDiff {
 		Iterator old_sources = command_line.MultipleSwitch("old").iterator();
 		while(old_sources.hasNext()) {
 			String name = (String) old_sources.next();
-			Logger.getLogger(JarJarDiff.class).info("Reading old JAR: " + name);
+
+			ClassfileLoader loader = null;
 			if (name.endsWith(".jar")) {
-				old_jar.AddClassfiles(new JarClassfileLoader(new String[] {name}).Classfiles());
+				Logger.getLogger(JarJarDiff.class).info("Reading old JAR: " + name);
+				loader = new JarClassfileLoader(new String[] {name});
 			} else if (name.endsWith(".zip")) {
-				old_jar.AddClassfiles(new ZipClassfileLoader(new String[] {name}).Classfiles());
+				Logger.getLogger(JarJarDiff.class).info("Reading old ZIP file: " + name);
+				loader = new ZipClassfileLoader(new String[] {name});
 			} else {
-				old_jar.AddClassfiles(new DirectoryClassfileLoader(new String[] {name}).Classfiles());
+				Logger.getLogger(JarJarDiff.class).info("Reading old directory: " + name);
+				loader = new DirectoryClassfileLoader(new String[] {name});
 			}
+
+			loader.Start();
+			
+			old_jar.AddClassfiles(loader.Classfiles());
 		}
 		
 		AggregatingClassfileLoader new_jar = new AggregatingClassfileLoader();
 		Iterator new_sources = command_line.MultipleSwitch("new").iterator();
 		while(new_sources.hasNext()) {
 			String name = (String) new_sources.next();
-			Logger.getLogger(JarJarDiff.class).info("Reading new JAR: " + name);
+
+			ClassfileLoader loader = null;
 			if (name.endsWith(".jar")) {
-				new_jar.AddClassfiles(new JarClassfileLoader(new String[] {name}).Classfiles());
+				Logger.getLogger(JarJarDiff.class).info("Reading new JAR: " + name);
+				loader = new JarClassfileLoader(new String[] {name});
 			} else if (name.endsWith(".zip")) {
-				new_jar.AddClassfiles(new ZipClassfileLoader(new String[] {name}).Classfiles());
+				Logger.getLogger(JarJarDiff.class).info("Reading new ZIP file: " + name);
+				loader = new ZipClassfileLoader(new String[] {name});
 			} else {
-				new_jar.AddClassfiles(new DirectoryClassfileLoader(new String[] {name}).Classfiles());
+				Logger.getLogger(JarJarDiff.class).info("Reading new directory: " + name);
+				loader = new DirectoryClassfileLoader(new String[] {name});
 			}
+
+			loader.Start();
+			
+			new_jar.AddClassfiles(loader.Classfiles());
 		}
 
 		// Starting to compare, first at package level,
