@@ -23,6 +23,28 @@
 	<p>False alarm.  They reinstalled the latest version of Dependency
 	Finder and it now works just fine.  I am extremely relieved to hear
 	this.  I was not looking forward to tracking weird flushing bugs.</p>
+
+	<p>Created a patch for fixing the long names for <code>IEPM</code>
+	and <code>OEPF</code> and published it as
+	<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=860191&group_id=43305&atid=435886">patch #860191</a>.</p>
+
+	<p>Fixed Ant tasks that are subclasses of <code>GraphTask</code> to
+	accept multiple graph.  Like <code>&lt;javac&gt;</code> and others,
+	you can use either the <code>srcfile</code> attribute or a nested
+	<code>&lt;src&gt;</code> element, or you can even use both.  It uses a
+	path-like structure, but I wanted to use a <code>FileSet</code>
+	instead.  You cannot really provide a directory, you have to specify
+	XML files.  But as I was editing the documentation, I came upon tasks
+	that are subclasses of <code>FileSet</code> and can have nested
+	<code>&lt;include&gt;</code> elements.  I'll have to look into doing
+	something similar instead of what I did just now.</p>
+
+	<p>I wanted to look at the size of serialized graphs to compare full
+	graphs to class-to-class graphs.  The way references are handled in
+	serialized graphs is closer to how it's handled in memory than my own
+	XML format.  But I ran into a stack overflow situation when I tried
+	to serialize this one graph.  This whole idea of serializing graphs is
+	just getting worse and worse.</p>
     </dd>
     <dt>
 	December 13, 2003
