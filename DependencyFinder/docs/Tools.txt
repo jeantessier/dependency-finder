@@ -84,7 +84,7 @@ as hexadecimal characters to standard output.
 ---+++ Synopsis
 
     ClassDump
-	[param ...]
+	[classname ...]
 
 ---+++ Description
 
@@ -182,11 +182,11 @@ Lists all classes it could find, based on parameters.
 ---+++ Synopsis
 
     ClassList
-    	-help
-    	-out filename
-    	-time
-    	-verbose [filename]
-	[param ...]
+    	[-help]
+    	[-out filename]
+    	[-time]
+    	[-verbose [filename]]
+	[filename ...]
 
 ---+++ Description
 
@@ -366,11 +366,12 @@ synchronized, or abstract methods, etc.
 ---+++ Synopsis
 
     ClassMetrics
-    	-help
-    	-list
-    	-out filename
-    	-time
-    	-verbose [filename]
+    	[-help]
+    	[-list]
+    	[-out filename]
+    	[-time]
+    	[-verbose [filename]]
+	[filename ...]
 
 ---+++ Description
 
@@ -921,6 +922,8 @@ And here is the XML document, built from a =.class= file.
 
 <blockquote>
 
+Lists the programming elements in a closure.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -932,6 +935,10 @@ And here is the XML document, built from a =.class= file.
 ---+++ Description
 
 <blockquote>
+
+Lists the packages, classes, and features that make up the dependency graph
+representing a closure.  You generate these graphs with
+[[#DependencyClosure][DependencyClosure]].
 
 </blockquote>
 
@@ -995,6 +1002,14 @@ See =-out= above.
 
 <blockquote>
 
+To convert the closure in =dg.closure.xml= to a textual list of elements:
+
+    ClosureToText -in dg.closure.xml
+
+To save the output to a text file:
+
+    ClosureToText -in dg.closure.xml -out dg.closure.txt
+
 </blockquote>
 
 ---+++ Class
@@ -1019,7 +1034,8 @@ See =-out= above.
 
 <blockquote>
 
-Translates only inbound dependencies to HTML.
+Show nodes with only their inbound dependencies as HTML, ignoring nodes that
+have no inbound dependencies.
 
 </blockquote>
 
@@ -1102,7 +1118,7 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to a hyperlinked
 HTML file with only inbound dependencies:
 
-    C:\>DependablesToHTML -in dg.xml -out dependencies.html
+    DependablesToHTML -in dg.xml -out dependencies.html
 
 An element with many inbound dependencies is said to be dependable,
 meaning that many other elements rely on it being stable.
@@ -1131,7 +1147,8 @@ meaning that many other elements rely on it being stable.
 
 <blockquote>
 
-Translates only inbound dependencies to text.
+Show nodes with only their inbound dependencies as text, ignoring nodes that
+have no inbound dependencies.
 
 </blockquote>
 
@@ -1213,15 +1230,40 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to plain text
 with only inbound dependencies:
 
-    C:\>DependablesToText -in dg.xml
+    DependablesToText -in dg.xml
 
 To convert the dependency graph in =dg.xml= to a plain text
 file with only inbound dependencies:
 
-    C:\>DependablesToText -in dg.xml -out dependencies.txt
+    DependablesToText -in dg.xml -out dependencies.txt
 
 An element with many inbound dependencies is said to be dependable,
 meaning that many other elements rely on it being stable.
+
+Here is another example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+    DependablesToText -in sample.xml
+    &nbsp;
+        Middle
+            <-- Outbound
+        Inbound
+            <-- Outbound
+            <-- Middle
+        Bidirectional1
+            <-- Bidirectional2
+        Bidirectional2
+            <-- Bidirectional1
 
 </blockquote>
 
@@ -1247,7 +1289,7 @@ meaning that many other elements rely on it being stable.
 
 <blockquote>
 
-Translates both outbound and inbound dependencies to HTML.
+Translates the whole graph to HTML.
 
 </blockquote>
 
@@ -1330,7 +1372,7 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to a hyperlinked
 HTML file, for ease of use:
 
-    C:\>DependenciesToHTML -in dg.xml -out dependencies.html
+    DependenciesToHTML -in dg.xml -out dependencies.html
 
 This HTML file shows both outbound and inbound dependencies.
 
@@ -1358,7 +1400,7 @@ This HTML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-Translates both outbound and inbound dependencies to text.
+Translates the whole graph to text.
 
 </blockquote>
 
@@ -1438,14 +1480,46 @@ See =-out= above.
 
 To convert the dependency graph in =dg.xml= to a plain text:
 
-    C:\>DependenciesToText -in dg.xml
+    DependenciesToText -in dg.xml
 
 To convert the dependency graph in =dg.xml= to a plain text
 file, for ease of use:
 
-    C:\>DependenciesToText -in dg.xml -out dependencies.txt
+    DependenciesToText -in dg.xml -out dependencies.txt
 
 This text file shows both outbound and inbound dependencies.
+
+Here is another example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+    DependenciesToText -in sample.xml
+    &nbsp;
+        Outbound
+            --> Middle
+            --> Inbound
+        Middle
+            --> Inbound
+            <-- Outbound
+        Inbound
+            <-- Outbound
+            <-- Middle
+        Bidirectional1
+            --> Bidirectional2
+            <-- Bidirectional2
+        Bidirectional2
+            --> Bidirectional1
+            <-- Bidirectional1
+        Empty
 
 </blockquote>
 
@@ -1479,47 +1553,47 @@ point.
 ---+++ Synopsis
 
     DependencyClosure
-    	-all
-    	-c2c
-    	-c2p
-    	-class-filter
+    	[-all]
+    	[-c2c]
+    	[-c2p]
+    	[-class-filter]
     	[-class-filter-excludes value]*
     	[-class-filter-includes value]*
-    	-class-scope
+    	[-class-scope]
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
-    	-dtd-prefix uri
+    	[-dtd-prefix uri]
     	[-excludes value]*
-    	-f2f
-    	-feature-filter
+    	[-f2f]
+    	[-feature-filter]
     	[-feature-filter-excludes value]*
     	[-feature-filter-includes value]*
-    	-feature-scope
+    	[-feature-scope]
     	[-feature-scope-excludes value]*
     	[-feature-scope-includes value]*
     	[-filter-excludes value]*
     	[-filter-includes value]*
-    	-help
+    	[-help]
     	[-includes value]*
-    	-indent-text text
-    	-maximum-inbound-depth [value]
-    	-maximum-outbound-depth [value]
-    	-out filename
-    	-p2p
-    	-package-filter
+    	[-indent-text text]
+    	[-maximum-inbound-depth [value]]
+    	[-maximum-outbound-depth [value]]
+    	[-out filename]
+    	[-p2p]
+    	[-package-filter]
     	[-package-filter-excludes value]*
     	[-package-filter-includes value]*
-    	-package-scope
+    	[-package-scope]
     	[-package-scope-excludes value]*
     	[-package-scope-includes value]*
     	[-scope-excludes value]*
     	[-scope-includes value]*
-    	-serialize
-    	-time
-    	-validate
-    	-verbose [filename]
-    	-xml
-	param1
+    	[-serialize]
+    	[-time]
+    	[-validate]
+    	[-verbose [filename]]
+    	[-xml]
+	graph.xml
 	...
 
 ---+++ Description
@@ -2237,10 +2311,12 @@ At this time, the tool cannot read serialized graphs.
 
 <blockquote>
 
-With =-ser=, it serializes the entire dependency graph with Java
+The normal output is the resulting dependency graph, rendered as text.
+
+With =-ser=, it serializes the resulting dependency graph with Java
 serialization.
 
-With =-xml=, it converts the entire dependency graph into an XML
+With =-xml=, it converts the resulting dependency graph into an XML
 document that follows the
 =[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
 
@@ -2249,6 +2325,33 @@ document that follows the
 ---+++ Examples
 
 <blockquote>
+
+Here is an example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+    DependencyClosure -c2c -scope-includes /Outbound/ sample.xml
+    &nbsp;
+        Inbound
+            <-- Middle
+            <-- Outbound
+        Middle
+            --> Inbound
+            <-- Outbound
+        Outbound
+            --> Inbound
+            --> Middle
+
+It followed all dependencies leading out of =Outbound=.
 
 </blockquote>
 
@@ -2273,17 +2376,17 @@ Extracts dependencies from compiled classes.
 ---+++ Synopsis
 
     DependencyExtractor
-    	-dtd-prefix uri
-    	-help
-    	-indent-text text
-    	-maximize
-    	-minimize
-    	-out filename
-    	-serialize
-    	-time
-    	-verbose [filename]
-    	-xml
-	[param ...]
+    	[-dtd-prefix uri]
+    	[-help]
+    	[-indent-text text]
+    	[-maximize]
+    	[-minimize]
+    	[-out filename]
+    	[-serialize]
+    	[-time]
+    	[-verbose [filename]]
+    	[-xml]
+	[filename ...]
 
 ---+++ Description
 
@@ -2482,6 +2585,8 @@ At this time, the tool cannot read serialized graphs.
 
 <blockquote>
 
+The normal output is the dependency graph, rendered as text.
+
 With =-ser=, it serializes the entire dependency graph with Java
 serialization.
 
@@ -2499,19 +2604,19 @@ To scan the current directory and its subdirectories for
 =.class= files to analyze and save the resulting dependency
 graph to =dg.xml=:
 
-    C:\>DependencyExtractor -xml -out dg.xml 
+    DependencyExtractor -xml -out dg.xml 
 
 To scan =DependencyFinder.jar= and =rt.jar= for .class
 files to analyze and save the resulting dependency graph
 to =dg.xml=:
 
-    C:\>DependencyExtractor -xml -out dg.xml DependencyFinder.jar rt.jar
+    DependencyExtractor -xml -out dg.xml DependencyFinder.jar rt.jar
 
 To scan =DependencyFinder.jar= and =rt.jar= for .class
 files to analyze and save the resulting dependency graph
 to =dg.xml=, after having minimized it:
 
-    C:\>DependencyExtractor -xml -minimize -out dg.xml DependencyFinder.jar rt.jar
+    DependencyExtractor -xml -minimize -out dg.xml DependencyFinder.jar rt.jar
 
 </blockquote>
 
@@ -2536,11 +2641,11 @@ Swing application for dependency analysis.
 ---+++ Synopsis
 
     DependencyFinder
-    	-dtd-prefix uri
-    	-help
-    	-indent-text text
-    	-maximize
-    	-minimize
+    	[-dtd-prefix uri]
+    	[-help]
+    	[-indent-text text]
+    	[-maximize]
+    	[-minimize]
 
 ---+++ Description
 
@@ -2681,56 +2786,56 @@ number of entering vertices, and number of exiting vertices.
 ---+++ Synopsis
 
     DependencyMetrics
-    	-all
-    	-c2c
-    	-c2p
-    	-chart-all
-    	-chart-classes
-    	-chart-classes-per-package
-    	-chart-features
-    	-chart-features-per-class
-    	-chart-inbounds
-    	-chart-inbounds-per-class
-    	-chart-inbounds-per-feature
-    	-chart-inbounds-per-package
-    	-chart-outbounds
-    	-chart-outbounds-per-class
-    	-chart-outbounds-per-feature
-    	-chart-outbounds-per-package
-    	-chart-packages
-    	-class-filter
+    	[-all]
+    	[-c2c]
+    	[-c2p]
+    	[-chart-all]
+    	[-chart-classes]
+    	[-chart-classes-per-package]
+    	[-chart-features]
+    	[-chart-features-per-class]
+    	[-chart-inbounds]
+    	[-chart-inbounds-per-class]
+    	[-chart-inbounds-per-feature]
+    	[-chart-inbounds-per-package]
+    	[-chart-outbounds]
+    	[-chart-outbounds-per-class]
+    	[-chart-outbounds-per-feature]
+    	[-chart-outbounds-per-package]
+    	[-chart-packages]
+    	[-class-filter]
     	[-class-filter-excludes value]*
     	[-class-filter-includes value]*
-    	-class-scope
+    	[-class-scope]
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
     	[-excludes value]*
-    	-f2f
-    	-feature-filter
+    	[-f2f]
+    	[-feature-filter]
     	[-feature-filter-excludes value]*
     	[-feature-filter-includes value]*
-    	-feature-scope
+    	[-feature-scope]
     	[-feature-scope-excludes value]*
     	[-feature-scope-includes value]*
     	[-filter-excludes value]*
     	[-filter-includes value]*
-    	-help
+    	[-help]
     	[-includes value]*
-    	-list
-    	-out filename
-    	-p2p
-    	-package-filter
+    	[-list]
+    	[-out filename]
+    	[-p2p]
+    	[-package-filter]
     	[-package-filter-excludes value]*
     	[-package-filter-includes value]*
-    	-package-scope
+    	[-package-scope]
     	[-package-scope-excludes value]*
     	[-package-scope-includes value]*
     	[-scope-excludes value]*
     	[-scope-includes value]*
-    	-time
-    	-validate
-    	-verbose [filename]
-	param1
+    	[-time]
+    	[-validate]
+    	[-verbose [filename]]
+	graph.xml
 	...
 
 ---+++ Description
@@ -3645,52 +3750,54 @@ And here it is with =-list=:
 
 <blockquote>
 
+Summarizes a dependency graph according to user-specified criteria.
+
 </blockquote>
 
 ---+++ Synopsis
 
     DependencyReporter
-    	-all
-    	-c2c
-    	-c2p
-    	-class-filter
+    	[-all]
+    	[-c2c]
+    	[-c2p]
+    	[-class-filter
     	[-class-filter-excludes value]*
     	[-class-filter-includes value]*
-    	-class-scope
+    	[-class-scope]
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
-    	-dtd-prefix uri
+    	[-dtd-prefix uri]
     	[-excludes value]*
-    	-f2f
-    	-feature-filter
+    	[-f2f]
+    	[-feature-filter]
     	[-feature-filter-excludes value]*
     	[-feature-filter-includes value]*
-    	-feature-scope
+    	[-feature-scope]
     	[-feature-scope-excludes value]*
     	[-feature-scope-includes value]*
     	[-filter-excludes value]*
     	[-filter-includes value]*
-    	-help
+    	[-help]
     	[-includes value]*
-    	-indent-text text
-    	-maximize
-    	-minimize
-    	-out filename
-    	-p2p
-    	-package-filter
+    	[-indent-text text]
+    	[-maximize]
+    	[-minimize]
+    	[-out filename]
+    	[-p2p]
+    	[-package-filter]
     	[-package-filter-excludes value]*
     	[-package-filter-includes value]*
-    	-package-scope
+    	[-package-scope]
     	[-package-scope-excludes value]*
     	[-package-scope-includes value]*
     	[-scope-excludes value]*
     	[-scope-includes value]*
-    	-serialize
-    	-time
-    	-validate
-    	-verbose [filename]
-    	-xml
-	param1
+    	[-serialize]
+    	[-time]
+    	[-validate]
+    	[-verbose [filename]]
+    	[-xml]
+	graph.xml
 	...
 
 ---+++ Description
@@ -4414,10 +4521,12 @@ At this time, the tool cannot read serialized graphs.
 
 <blockquote>
 
-With =-ser=, it serializes the entire dependency graph with Java
+The normal output is the resulting dependency graph, rendered as text.
+
+With =-ser=, it serializes the resulting dependency graph with Java
 serialization.
 
-With =-xml=, it converts the entire dependency graph into an XML
+With =-xml=, it converts the resulting dependency graph into an XML
 document that follows the
 =[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
 
@@ -4426,6 +4535,41 @@ document that follows the
 ---+++ Examples
 
 <blockquote>
+
+    DependencyReporter -p2p  -includes /jeantessier/ df.xml
+    com.jeantessier.classreader
+        <-- com.jeantessier.dependency
+        <-- com.jeantessier.dependencyfinder.cli
+        <-- com.jeantessier.dependencyfinder.gui
+        <-- com.jeantessier.diff
+        <-- com.jeantessier.metrics
+    com.jeantessier.commandline
+        <-- com.jeantessier.dependencyfinder.cli
+        <-- com.jeantessier.dependencyfinder.gui
+    com.jeantessier.dependency
+        --> com.jeantessier.classreader
+        <-- com.jeantessier.dependencyfinder.cli
+        <-- com.jeantessier.dependencyfinder.gui
+        <-- com.jeantessier.diff
+    com.jeantessier.dependencyfinder.cli
+        --> com.jeantessier.classreader
+        --> com.jeantessier.commandline
+        --> com.jeantessier.dependency
+        --> com.jeantessier.diff
+        --> com.jeantessier.metrics
+    com.jeantessier.dependencyfinder.gui
+        --> com.jeantessier.classreader
+        --> com.jeantessier.commandline
+        --> com.jeantessier.dependency
+        --> com.jeantessier.metrics
+    com.jeantessier.diff
+        --> com.jeantessier.classreader
+        --> com.jeantessier.dependency
+        <-- com.jeantessier.dependencyfinder.cli
+    com.jeantessier.metrics
+        --> com.jeantessier.classreader
+        <-- com.jeantessier.dependencyfinder.cli
+        <-- com.jeantessier.dependencyfinder.gui
 
 </blockquote>
 
@@ -4443,7 +4587,8 @@ document that follows the
 
 <blockquote>
 
-Translates only outbound dependencies to HTML.
+Show nodes with only their outbound dependencies as HTML, ignoring nodes that
+have no outbound dependencies.
 
 </blockquote>
 
@@ -4526,7 +4671,7 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to a hyperlinked
 HTML file with only outboud dependencies:
 
-    C:\>DependentsToHTML -in dg.xml -out dependencies.html
+    DependentsToHTML -in dg.xml -out dependencies.html
 
 An element with many outbound dependencies is said to be dependent,
 meaning that it relies on many other elements being stable.
@@ -4555,7 +4700,8 @@ meaning that it relies on many other elements being stable.
 
 <blockquote>
 
-Translates only outbound dependencies to text.
+Show nodes with only their outbound dependencies as text, ignoring nodes that
+have no outbound dependencies.
 
 </blockquote>
 
@@ -4637,15 +4783,40 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to plain text
 with only outboud dependencies:
 
-    C:\>DependentsToText -in dg.xml
+    DependentsToText -in dg.xml
 
 To convert the dependency graph in =dg.xml= to a plain text
 file with only outboud dependencies:
 
-    C:\>DependentsToText -in dg.xml -out dependencies.txt
+    DependentsToText -in dg.xml -out dependencies.txt
 
 An element with many outbound dependencies is said to be dependent,
 meaning that it relies on many other elements being stable.
+
+Here is another example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+    DependentsToText -in sample.xml
+    &nbsp;
+        Outbound
+            --> Middle
+            --> Inbound
+        Middle
+            --> Inbound
+        Bidirectional1
+            --> Bidirectional2
+        Bidirectional2
+            --> Bidirectional1
 
 </blockquote>
 
@@ -4747,6 +4918,10 @@ See =-out= above.
 
 <blockquote>
 
+To convert the difference report in =report.xml= to HTML:
+
+    DiffToHTML -in report.xml
+
 </blockquote>
 
 ---+++ Class
@@ -4778,19 +4953,19 @@ Computes API differences between two versions of a codebase.
 ---+++ Synopsis
 
     JarJarDiff
-    	-dtd-prefix uri
-    	-help
-    	-indent-text text
-    	-name value
-    	[-new filename]*
-    	-new-documentation filename
-    	-new-label value
-    	[-old filename]*
-    	-old-documentation filename
-    	-old-label value
-    	-out filename
-    	-time
-    	-verbose [filename]
+    	[-dtd-prefix uri]
+    	[-help]
+    	[-indent-text text]
+    	[-name value]
+    	[-new filename]+
+    	[-new-documentation filename]
+    	[-new-label value]
+    	[-old filename]+
+    	[-old-documentation filename]
+    	[-old-label value]
+    	[-out filename]
+    	[-time]
+    	[-verbose [filename]]
 
 ---+++ Description
 
@@ -4923,7 +5098,7 @@ You can also give directory names, the tool will search it for =.class= files
 and read them.  These make up the _old_ version of the codebase.
 
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=true=</td></tr>
 </table>
@@ -5032,18 +5207,18 @@ to =result.xml=.  The title will say "Version old.jar to Version
 new.jar".  You can adjust the title by supplying =-old-label= and
 =-new-label= to JarJarDiff.
 
-    C:\>JarJarDiff -old old.jar -new new.jar -out result.xml
-    C:\>DiffToHTML -in result.xml -out internal_report.html
-    C:\>PublishedDiffToHTML -in result.xml -out external_report.html
+    JarJarDiff -old old.jar -new new.jar -out result.xml
+    DiffToHTML -in result.xml -out internal_report.html
+    PublishedDiffToHTML -in result.xml -out external_report.html
 
 Because DOS only allows 9 parameters to =.bat= files, we
 cannot use =-out= in the following and we must use output
 redirection (the ">") instead.  The next two XSLT steps are
 identical.
 
-    C:\>JarJarDiff -old old.jar -old-label 3.0.2 -new new.jar -new-label 3.5 > result.xml
-    C:\>DiffToHTML -in result.xml -out internal_report.html
-    C:\>PublishedDiffToHTML -in result.xml -out external_report.html
+    JarJarDiff -old old.jar -old-label 3.0.2 -new new.jar -new-label 3.5 > result.xml
+    DiffToHTML -in result.xml -out internal_report.html
+    PublishedDiffToHTML -in result.xml -out external_report.html
 
 </blockquote>
 
@@ -5061,7 +5236,8 @@ identical.
 
 <blockquote>
 
-Translates only inbound dependencies to HTML.
+Show nodes with only their inbound dependencies as HTML, including nodes that
+have no inbound dependencies.
 
 </blockquote>
 
@@ -5141,6 +5317,14 @@ See =-out= above.
 
 <blockquote>
 
+To convert the dependency graph in =dg.xml= to a hyperlinked
+HTML file with only inbound dependencies:
+
+    ListDependablesToHTML -in dg.xml -out dependencies.html
+
+An element with many inbound dependencies is said to be dependable,
+meaning that many other elements rely on it being stable.
+
 </blockquote>
 
 ---+++ Class
@@ -5165,7 +5349,8 @@ See =-out= above.
 
 <blockquote>
 
-Translates only inbound dependencies to text.
+Show nodes with only their inbound dependencies as text, including nodes that
+have no inbound dependencies.
 
 </blockquote>
 
@@ -5243,6 +5428,46 @@ See =-out= above.
 
 <blockquote>
 
+To convert the dependency graph in =dg.xml= to plain text
+with only inbound dependencies:
+
+    ListDependablesToText -in dg.xml
+
+To convert the dependency graph in =dg.xml= to a plain text
+file with only inbound dependencies:
+
+    ListDependablesToText -in dg.xml -out dependencies.txt
+
+An element with many inbound dependencies is said to be dependable,
+meaning that many other elements rely on it being stable.
+
+Here is another example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+    ListDependablesToText -in sample.xml
+    &nbsp;
+        Outbound
+        Middle
+            <-- Outbound
+        Inbound
+            <-- Outbound
+            <-- Middle
+        Bidirectional1
+            <-- Bidirectional2
+        Bidirectional2
+            <-- Bidirectional1
+        Empty
+
 </blockquote>
 
 ---+++ Class
@@ -5267,7 +5492,8 @@ See =-out= above.
 
 <blockquote>
 
-Translates only outbound dependencies to HTML.
+Show nodes with only their outbound dependencies as HTML, including nodes that
+have no outbound dependencies.
 
 </blockquote>
 
@@ -5347,6 +5573,14 @@ See =-out= above.
 
 <blockquote>
 
+To convert the dependency graph in =dg.xml= to a hyperlinked
+HTML file with only outboud dependencies:
+
+    ListDependentsToHTML -in dg.xml -out dependencies.html
+
+An element with many outbound dependencies is said to be dependent,
+meaning that it relies on many other elements being stable.
+
 </blockquote>
 
 ---+++ Class
@@ -5371,7 +5605,8 @@ See =-out= above.
 
 <blockquote>
 
-Translates only outbound dependencies to text.
+Show nodes with only their outbound dependencies as text, including nodes that
+have no outbound dependencies.
 
 </blockquote>
 
@@ -5449,6 +5684,46 @@ See =-out= above.
 
 <blockquote>
 
+To convert the dependency graph in =dg.xml= to plain text
+with only outboud dependencies:
+
+    ListDependentsToText -in dg.xml
+
+To convert the dependency graph in =dg.xml= to a plain text
+file with only outboud dependencies:
+
+    ListDependentsToText -in dg.xml -out dependencies.txt
+
+An element with many outbound dependencies is said to be dependent,
+meaning that it relies on many other elements being stable.
+
+Here is another example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+    ListDependentsToText -in sample.xml
+    &nbsp;
+        Outbound
+            --> Middle
+            --> Inbound
+        Middle
+            --> Inbound
+        Inbound
+        Bidirectional1
+            --> Bidirectional2
+        Bidirectional2
+            --> Bidirectional1
+        Empty
+
 </blockquote>
 
 ---+++ Class
@@ -5480,17 +5755,17 @@ Compares two lists of programming elements and computes differences.
 ---+++ Synopsis
 
     ListDiff
-    	-compress
-    	-dtd-prefix uri
-    	-help
-    	-indent-text text
-    	-name value
+    	[-compress]
+    	[-dtd-prefix uri]
+    	[-help]
+    	[-indent-text text]
+    	[-name value]
     	-new filename
-    	-new-label value
+    	[-new-label value]
     	-old filename
-    	-old-label value
-    	-out filename
-    	-time
+    	[-old-label value]
+    	[-out filename]
+    	[-time]
 
 ---+++ Description
 
@@ -5509,6 +5784,11 @@ source or bytecode required.
 ---++++ =-compress=
 
 <blockquote>
+
+Removes redundant entries from the both the =removed= and =added= lists.
+If a package is in a list, its classes and their features are redundant and
+can be removed.  If a class is in a list, its feaures are redundant and can
+be removed.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5682,6 +5962,35 @@ It writes the list of differences into an XML document that follows the
 
 <blockquote>
 
+Let's say that file =old.txt= is:
+
+    Removed
+    Same
+
+And that file =new.txt= is:
+
+    Same
+    Added
+
+Then =ListDiff= will show:
+
+    ListDiff -name sample -old old.txt -new new.txt
+    &lt;?xml version%3D"1.0" encoding%3D"UTF-8" ?&gt;
+    &nbsp;
+    &lt;!DOCTYPE list-diff SYSTEM "http://depfind.sourceforge.net/dtd/list-diff.dtd"&gt;
+    &nbsp;
+    &lt;list-diff&gt;
+        &lt;name&gt;sample&lt;/name&gt;
+        &lt;old&gt;&lt;/old&gt;
+        &lt;new&gt;&lt;/new&gt;
+        &lt;removed&gt;
+            &lt;line&gt;Removed&lt;/line&gt;
+        &lt;/removed&gt;
+        &lt;added&gt;
+            &lt;line&gt;Added&lt;/line&gt;
+        &lt;/added&gt;
+    &lt;/list-diff&gt;
+
 </blockquote>
 
 ---+++ Class
@@ -5711,6 +6020,8 @@ Converts the output of [[#ListDiff][ListDiff]] to HTML.
 ---+++ Description
 
 <blockquote>
+
+Converts the output of [[#ListDiff][ListDiff]] to HTML.
 
 </blockquote>
 
@@ -5772,6 +6083,9 @@ See =-out= above.
 
 <blockquote>
 
+    ListDiff -name sample -old old.txt -new new.txt -out listdiff.xml
+    ListDiffToHTML -in listdiff.xml -out listdiff.html
+
 </blockquote>
 
 ---+++ Class
@@ -5809,6 +6123,8 @@ Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 ---+++ Description
 
 <blockquote>
+
+Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 
 </blockquote>
 
@@ -5870,6 +6186,20 @@ See =-out= above.
 
 <blockquote>
 
+    ListDiff -name sample -old old.txt -old-label old -new new.txt -new-label new -out listdiff.xml
+    ListDiffToHTML -in listdiff.xml
+    sample - Documentation Changes
+    &nbsp;
+        old to new
+    &nbsp;
+        No Longer in Published API:
+    &nbsp;
+            - Removed
+    &nbsp;
+        Newly Published:
+    &nbsp;
+            - Added
+
 </blockquote>
 
 ---+++ Class
@@ -5894,19 +6224,26 @@ See =-out= above.
 
 <blockquote>
 
+Lists programming elements that are part of the published documentation.
+
 </blockquote>
 
 ---+++ Synopsis
 
     ListDocumentedElements
+        [-invalid value]*
+        [-out filename]
+        -tag name
+        [-valid value]*
 
 ---+++ Description
 
 <blockquote>
 
-Lists classes, interfaces, fields, constructors, and methods
-that were tagged as part of the published API by using custom
-javadoc tags.  This is a doclet that runs with =javadoc=.
+Lists classes, interfaces, fields, constructors, and methods that were
+tagged as part of the published API by using custom javadoc tags.
+
+This is a doclet that runs with =javadoc=.
 
 </blockquote>
 
@@ -5914,11 +6251,12 @@ javadoc tags.  This is a doclet that runs with =javadoc=.
 
 <blockquote>
 
-</blockquote>
-
----+++ Parameters
+---++++ =-invalid value=
 
 <blockquote>
+
+If an element's JavaDoc tag value matches _value_, the element is not
+considered part of the published documentation.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5928,9 +6266,74 @@ javadoc tags.  This is a doclet that runs with =javadoc=.
 
 </blockquote>
 
+---++++ =-out filename=
+
+<blockquote>
+
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-tag name=
+
+<blockquote>
+
+Looks for _name_ in JavaDoc tags to determine if an element is valid or
+invalid.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-valid value=
+
+<blockquote>
+
+If an element's JavaDoc tag value matches _value_, the element is considered
+part of the published documentation.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+All other switches and parameters are passed to =javadoc=.
+
+</blockquote>
+
 ---+++ Output
 
 <blockquote>
+
+List of package names, class names, and feature names that make up the
+published documentation.  Each name is maked with =[P]=,  =[C]=,  or =[F]=
+respectively to help =ListDiff= compress the lists.
+
+You can pass this output to [[#ListDiff][ListDiff]] to get a list additions
+and removals from the published documentation.
+
+You can pass this output to [[#PublishedDiffToHTML][PublishedDiffToHTML]] to
+further restrain the report and limit it to the published API.
 
 </blockquote>
 
@@ -5938,7 +6341,7 @@ javadoc tags.  This is a doclet that runs with =javadoc=.
 
 <blockquote>
 
-    C:\>ListDocumentableElements -tag level -valid publicAPI -out list.txt
+    ListDocumentableElements -tag level -valid publicAPI -out list.txt
 
 </blockquote>
 
@@ -5956,6 +6359,8 @@ javadoc tags.  This is a doclet that runs with =javadoc=.
 
 <blockquote>
 
+Lists inheritance changes in =JarJarDiff= reports.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -5967,6 +6372,10 @@ javadoc tags.  This is a doclet that runs with =javadoc=.
 ---+++ Description
 
 <blockquote>
+
+Looks at the report from [[#JarJarDiff][JarJarDiff]] and lists classes and
+interfaces that have changed either their =extends= or their =implements=
+clauses.
 
 </blockquote>
 
@@ -6028,6 +6437,9 @@ See =-out= above.
 
 <blockquote>
 
+    JarJarDiff -old old.jar -new new.jar -out report.xml
+    ListInheritanceDiffToText -in report.xml -out inheritance.txt
+
 </blockquote>
 
 ---+++ Class
@@ -6052,6 +6464,8 @@ See =-out= above.
 
 <blockquote>
 
+Lists programming elements that have no inbound dependencies.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -6063,6 +6477,8 @@ See =-out= above.
 ---+++ Description
 
 <blockquote>
+
+Lists programming elements that have no inbound dependencies.
 
 </blockquote>
 
@@ -6126,6 +6542,24 @@ See =-out= above.
 
 <blockquote>
 
+Here is an example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+    ListUnused sample.xml
+    &nbsp;
+        class Outbound
+        class Empty
+
 </blockquote>
 
 ---+++ Class
@@ -6150,34 +6584,35 @@ See =-out= above.
 
 <blockquote>
 
+Computes object-oriented metrics on a codebase.
+
 </blockquote>
 
 ---+++ Synopsis
 
     OOMetrics
-    	-all
-    	-classes
-    	-configuration value
-    	-csv
-    	-default-configuration value
-    	-dispose value
-    	-dtd-prefix uri
-    	-expand
-    	-groups
-    	-help
-    	-indent-text text
-    	-methods
-    	-out filename
-    	-project
-    	-project-name value
-    	-reverse
-    	-sort value
-    	-time
-    	-txt
-    	-validate
-    	-verbose [filename]
-    	-xml
-	[param ...]
+    	[-all]
+    	[-classes]
+    	[-configuration filename]
+    	[-csv]
+    	-default-configuration filename
+    	[-dtd-prefix uri]
+    	[-expand]
+    	[-groups]
+    	[-help]
+    	[-indent-text text]
+    	[-methods]
+    	[-out filename]
+    	[-project]
+    	[-project-name value]
+    	[-reverse]
+    	[-sort name]
+    	[-time]
+    	[-txt]
+    	[-validate]
+    	[-verbose [filename]]
+    	[-xml]
+	[filename ...]
 
 ---+++ Description
 
@@ -6227,9 +6662,13 @@ Include class-related metrics.
 
 </blockquote>
 
----++++ =-configuration value=
+---++++ =-configuration filename=
 
 <blockquote>
+
+The set of measurements to monitor on the codebase and list in the output
+report.  See the [[Manual.html][user manual]] for the format of this file.
+It also includes instruction on how to customize it.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6254,26 +6693,19 @@ Excel and charting.
 
 </blockquote>
 
----++++ =-default-configuration value=
+---++++ =-default-configuration filename=
 
 <blockquote>
 
+The metrics configuration to use if the user does not specify one with
+=-configuration=.  The launching scripts use this switch to point to the
+default configuration in
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsConfig.xml=.
+
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=true=</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-dispose value=
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=median=</td></tr>
 </table>
 
 </blockquote>
@@ -6282,7 +6714,8 @@ Excel and charting.
 
 <blockquote>
 
-The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
+The prefix of the DTD URL for the XML output document.
+Only useful with =-xml=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6295,6 +6728,9 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 ---++++ =-expand=
 
 <blockquote>
+
+Lists the elements in =NameListMeasurement= and =AccumulatorMeasurement=
+measurements.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6360,12 +6796,13 @@ Include class-related metrics.
 
 </blockquote>
 
----++++ =-out filename=
+---++++ =-out prefix=
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
-it is created.  If it already exists, its content is overwritten.
+Writes the output to a file starting wit _prefix_.  The rest of the name
+depends on the output format.  If the file does not exists, it is created.
+If it already exists, its content is overwritten.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6407,6 +6844,8 @@ Project name for the report.
 
 <blockquote>
 
+When used with =-sort=, sorts in descending order.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -6415,9 +6854,13 @@ Project name for the report.
 
 </blockquote>
 
----++++ =-sort value=
+---++++ =-sort name=
 
 <blockquote>
+
+Sort the elements based on the value of their _name_ measurement.  This is
+the short name defined in the configuration file.  By default, sorts in
+ascending order of package, class, or feature name.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6521,15 +6964,39 @@ and read them.
 
 <blockquote>
 
+The normal output is the complete metrics report, sorted by whatever
+measurement you specified with =-sort=.  This text report can be quite
+large.  If you use =-out= to save the output to a file, the file will
+be given a =.txt= extension.
+
+With =-csv=, formats the output as comma-separated values that can be
+fed to MS Excel.  When coupled with =-out prefix=, it actually generates
+four files, one for each group of metrics:
+
+   * _prefix_%5Fproject.csv
+   * _prefix_%5Fgroups.csv
+   * _prefix_%5Fclasses.csv
+   * _prefix_%5Ffeatures.csv
+
 With =-xml=, it converts the entire metrics structure into an XML document
 that follows the
-=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD.
+=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD.  If you
+use =-out= to save the output to a file, the file will be given a =.xml=
+extension.
 
 </blockquote>
 
 ---+++ Examples
 
 <blockquote>
+
+To list all default metrics as text in =out.txt=:
+
+    OOMetrics -all -out df DependencyFinder.jar
+
+To list only package-level metrics from =MartinConfig.xml= as CSV in =Ds.csv=:
+
+    OOMetrics -groups -csv -configuration _&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MartinConfig.xml -out Ds DependencyFinder.jar
 
 </blockquote>
 
@@ -6554,10 +7021,10 @@ A Swing-based version of [[#OOMetrics][OOMetrics]].
 ---+++ Synopsis
 
     OOMetricsGUI
-    	-configuration value
-    	-default-configuration value
-    	-help
-    	-validate
+    	[-configuration filename]
+    	-default-configuration filename
+    	[-help]
+    	[-validate]
 
 ---+++ Description
 
@@ -6576,9 +7043,13 @@ See also:
 
 <blockquote>
 
----++++ =-configuration value=
+---++++ =-configuration filename=
 
 <blockquote>
+
+The set of measurements to monitor on the codebase and list in the output
+report.  See the [[Manual.html][user manual]] for the format of this file.
+It also includes instruction on how to customize it.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6588,12 +7059,17 @@ See also:
 
 </blockquote>
 
----++++ =-default-configuration value=
+---++++ =-default-configuration filename=
 
 <blockquote>
 
+The metrics configuration to use if the user does not specify one with
+=-configuration=.  The launching scripts use this switch to point to the
+default configuration in
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsConfig.xml=.
+
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=true=</td></tr>
 </table>
@@ -6691,7 +7167,7 @@ find this file, it looks for a file named =public_packages.txt=
 in the current directory.  You can specify a custom file
 by setting the validation-list parameter to XSLT:
 
-    C:\>PublishedDiffToHTML -in result.xml -out external%5Freport.html -param validation-list my%5Flist.txt
+    PublishedDiffToHTML -in result.xml -out external%5Freport.html -param validation-list my%5Flist.txt
 
 </blockquote>
 
@@ -6768,6 +7244,17 @@ See =-out= above.
 ---+++ Examples
 
 <blockquote>
+
+To convert the difference report in =report.xml= to HTML:
+
+    PublishedDiffToHTML -in report.xml
+
+Here is a larger example with a defined published documentation:
+
+    ListDocumentedElements -tag level -valid published -out old.txt old
+    ListDocumentedElements -tag level -valid published -out new.txt new
+    JarJarDiff -old old.jar -old-documentation old.txt -new new.jar -new-documentation new.txt -out report.xml
+    PublishedDiffToHTML -in report.xml -param validation-list new.txt -out public-report.html
 
 </blockquote>
 
@@ -6885,6 +7372,10 @@ See =-out= above.
 ---+++ Examples
 
 <blockquote>
+
+Instead of using [[#DependablesToHTML][DependablesToHTML]], you can use:
+
+    XSLTProcess -xsl _&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependablesToHTML.xsl -in dg.xml -out dependencies.html
 
 </blockquote>
 
