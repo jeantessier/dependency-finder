@@ -148,7 +148,6 @@ public class DependencyClosure {
 		command_line.AddOptionalValueSwitch("maximum-inbound-depth");
 		command_line.AddOptionalValueSwitch("maximum-outbound-depth");
 		
-		command_line.AddToggleSwitch("serialize");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
 		command_line.AddSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
@@ -324,36 +323,29 @@ public class DependencyClosure {
 
 		Logger.getLogger(DependencyClosure.class).info("Reporting " + selector.Factory().Packages().values().size() + " package(s) ...");
 	
-		if (command_line.ToggleSwitch("serialize")) {
-			verbose_listener.Print("Serializing the graph ...");
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
-			out.writeObject(selector.Factory().Packages().values());
-			out.close();
+		verbose_listener.Print("Printing the graph ...");
+
+		PrintWriter out;
+		if (command_line.IsPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
 		} else {
-			verbose_listener.Print("Printing the graph ...");
-
-			PrintWriter out;
-			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
-			} else {
-				out = new PrintWriter(System.out);
-			}
-
-			Printer printer;
-			if (command_line.IsPresent("xml")) {
-				printer = new XMLPrinter(out, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
-			} else {
-				printer = new TextPrinter(out);
-			}
-
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
-			}
-
-			printer.TraverseNodes(selector.Factory().Packages().values());
-
-			out.close();
+			out = new PrintWriter(System.out);
 		}
+
+		Printer printer;
+		if (command_line.IsPresent("xml")) {
+			printer = new XMLPrinter(out, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
+		} else {
+			printer = new TextPrinter(out);
+		}
+
+		if (command_line.IsPresent("indent-text")) {
+			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		}
+
+		printer.TraverseNodes(selector.Factory().Packages().values());
+
+		out.close();
 
 		Date end = new Date();
 

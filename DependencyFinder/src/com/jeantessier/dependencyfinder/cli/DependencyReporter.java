@@ -145,8 +145,6 @@ public class DependencyReporter {
 		command_line.AddMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
 		command_line.AddMultipleValuesSwitch("excludes");
 
-		command_line.AddToggleSwitch("time");
-		command_line.AddToggleSwitch("serialize");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
 		command_line.AddSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
@@ -155,6 +153,7 @@ public class DependencyReporter {
 		command_line.AddToggleSwitch("minimize");
 		command_line.AddToggleSwitch("maximize");
 		command_line.AddToggleSwitch("copy-only");
+		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
@@ -319,36 +318,29 @@ public class DependencyReporter {
 
 		Logger.getLogger(DependencyReporter.class).info("Reporting " + copier.ScopeFactory().Packages().values().size() + " package(s) ...");
 	
-		if (command_line.ToggleSwitch("serialize")) {
-			verbose_listener.Print("Serializing the graph ...");
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
-			out.writeObject(copier.ScopeFactory().Packages().values());
-			out.close();
+		verbose_listener.Print("Printing the graph ...");
+
+		PrintWriter out;
+		if (command_line.IsPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
 		} else {
-			verbose_listener.Print("Printing the graph ...");
-
-			PrintWriter out;
-			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
-			} else {
-				out = new PrintWriter(System.out);
-			}
-
-			Printer printer;
-			if (command_line.IsPresent("xml")) {
-				printer = new XMLPrinter(out, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
-			} else {
-				printer = new TextPrinter(out);
-			}
-			
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
-			}
-	    
-			printer.TraverseNodes(copier.ScopeFactory().Packages().values());
-
-			out.close();
+			out = new PrintWriter(System.out);
 		}
+
+		Printer printer;
+		if (command_line.IsPresent("xml")) {
+			printer = new XMLPrinter(out, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
+		} else {
+			printer = new TextPrinter(out);
+		}
+			
+		if (command_line.IsPresent("indent-text")) {
+			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		}
+	    
+		printer.TraverseNodes(copier.ScopeFactory().Packages().values());
+
+		out.close();
 
 		Date end = new Date();
 

@@ -47,7 +47,6 @@ public class DependencyReporter extends GraphTask {
 	private boolean minimize   = false;
 	private boolean maximize   = false;
 	private boolean copy_only  = false;
-	private boolean serialize  = false;
 	private boolean xml        = false;
 	private String  encoding   = XMLPrinter.DEFAULT_ENCODING;
 	private String  dtd_prefix = XMLPrinter.DEFAULT_DTD_PREFIX;
@@ -75,14 +74,6 @@ public class DependencyReporter extends GraphTask {
 
 	public void setCopyOnly(boolean copy_only) {
 		this.copy_only = copy_only;
-	}
-
-	public boolean getSerialize() {
-		return serialize;
-	}
-	
-	public void setSerialize(boolean serialize) {
-		this.serialize = serialize;
 	}
 
 	public boolean getXml() {
@@ -160,28 +151,22 @@ public class DependencyReporter extends GraphTask {
 
 			log("Saving dependency graph to " + getDestfile().getAbsolutePath());
 		
-			if (getSerialize()) {
-				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(getDestfile()));
-				out.writeObject(new ArrayList(copier.ScopeFactory().Packages().values()));
-				out.close();
-			} else {
-				PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
+			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
-				Printer printer;
-				if (getXml()) {
-					printer = new XMLPrinter(out, getEncoding(), getDtdprefix());
-				} else {
-					printer = new TextPrinter(out);
-				}
-				
-				if (getIndenttext() != null) {
-					printer.IndentText(getIndenttext());
-				}
-				
-				printer.TraverseNodes(copier.ScopeFactory().Packages().values());
-				
-				out.close();
+			Printer printer;
+			if (getXml()) {
+				printer = new XMLPrinter(out, getEncoding(), getDtdprefix());
+			} else {
+				printer = new TextPrinter(out);
 			}
+				
+			if (getIndenttext() != null) {
+				printer.IndentText(getIndenttext());
+			}
+				
+			printer.TraverseNodes(copier.ScopeFactory().Packages().values());
+				
+			out.close();
 		} catch (SAXException ex) {
 			throw new BuildException(ex);
 		} catch (ClassNotFoundException ex) {

@@ -43,9 +43,6 @@ feature-to-feature queries.  Because of a limitation in the closure
 computation, it does not detect implicit dependencies and only follows
 dependencies that have been made explicit.</p>
 
-<p>With the <code>serialize</code> attribute, it serializes the entire
-dependency graph with Java serialization.</p>
-
 <p>With the <code>xml</code> attribute, it converts the entire dependency
 graph into an XML document that follows the
 <code><href a="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code>
@@ -257,13 +254,6 @@ DTD.</p>
     <td valign="top" align="center">No</td>
   </tr>
 
-  <tr>
-    <td valign="top">serialize</td>
-    <td valign="top">writes the dependency graph as serialized Java
-    objects.  <strong>At this time, Dependency Finder cannot deserialize
-    a saved graph, so this switch is pretty useless.</strong></td>
-    <td valign="top" align="center">No; defaults to false.</td>
-  </tr>
   <tr>
     <td valign="top">xml</td>
     <td valign="top">writes the dependency graph as an XML document with the

@@ -46,7 +46,6 @@ public class DependencyClosure extends GraphTask {
 
 	private String  maximum_inbound_depth  = "";
 	private String  maximum_outbound_depth = "";
-	private boolean serialize              = false;
 	private boolean xml                    = false;
 	private String  encoding               = XMLPrinter.DEFAULT_ENCODING;
 	private String  dtd_prefix             = XMLPrinter.DEFAULT_DTD_PREFIX;
@@ -66,14 +65,6 @@ public class DependencyClosure extends GraphTask {
 
 	public void setMaximumoutbounddepth(String maximum_outbound_depth) {
 		this.maximum_outbound_depth = maximum_outbound_depth;
-	}
-
-	public boolean getSerialize() {
-		return serialize;
-	}
-	
-	public void setSerialize(boolean serialize) {
-		this.serialize = serialize;
 	}
 
 	public boolean getXml() {
@@ -157,28 +148,22 @@ public class DependencyClosure extends GraphTask {
 
 			log("Saving dependency graph to " + getDestfile().getAbsolutePath());
 		
-			if (getSerialize()) {
-				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(getDestfile()));
-				out.writeObject(new ArrayList(selector.Factory().Packages().values()));
-				out.close();
-			} else {
-				PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
+			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
-				Printer printer;
-				if (getXml()) {
-					printer = new XMLPrinter(out, getEncoding(), getDtdprefix());
-				} else {
-					printer = new TextPrinter(out);
-				}
-				
-				if (getIndenttext() != null) {
-					printer.IndentText(getIndenttext());
-				}
-				
-				printer.TraverseNodes(selector.Factory().Packages().values());
-				
-				out.close();
+			Printer printer;
+			if (getXml()) {
+				printer = new XMLPrinter(out, getEncoding(), getDtdprefix());
+			} else {
+				printer = new TextPrinter(out);
 			}
+				
+			if (getIndenttext() != null) {
+				printer.IndentText(getIndenttext());
+			}
+				
+			printer.TraverseNodes(selector.Factory().Packages().values());
+				
+			out.close();
 		} catch (SAXException ex) {
 			throw new BuildException(ex);
 		} catch (ClassNotFoundException ex) {

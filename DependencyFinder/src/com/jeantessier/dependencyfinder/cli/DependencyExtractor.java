@@ -85,7 +85,6 @@ public class DependencyExtractor {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
-		command_line.AddToggleSwitch("serialize");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("maximize");
 		command_line.AddToggleSwitch("minimize");
@@ -159,36 +158,29 @@ public class DependencyExtractor {
 			maximizer.TraverseNodes(factory.Packages().values());
 		}
 
-		if (command_line.ToggleSwitch("serialize")) {
-			verbose_listener.Print("Serializing the graph ...");
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
-			out.writeObject(new ArrayList(factory.Packages().values()));
-			out.close();
+		verbose_listener.Print("Printing the graph ...");
+
+		PrintWriter out;
+		if (command_line.IsPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
 		} else {
-			verbose_listener.Print("Printing the graph ...");
-
-			PrintWriter out;
-			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
-			} else {
-				out = new PrintWriter(System.out);
-			}
-			
-			com.jeantessier.dependency.Printer printer;
-			if (command_line.ToggleSwitch("xml")) {
-				printer = new com.jeantessier.dependency.XMLPrinter(out, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
-			} else {
-				printer = new com.jeantessier.dependency.TextPrinter(out);
-			}
-			
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
-			}
-
-			printer.TraverseNodes(factory.Packages().values());
-
-			out.close();
+			out = new PrintWriter(System.out);
 		}
+			
+		com.jeantessier.dependency.Printer printer;
+		if (command_line.ToggleSwitch("xml")) {
+			printer = new com.jeantessier.dependency.XMLPrinter(out, command_line.SingleSwitch("encoding"), command_line.SingleSwitch("dtd-prefix"));
+		} else {
+			printer = new com.jeantessier.dependency.TextPrinter(out);
+		}
+			
+		if (command_line.IsPresent("indent-text")) {
+			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		}
+
+		printer.TraverseNodes(factory.Packages().values());
+
+		out.close();
 
 		Date end = new Date();
 

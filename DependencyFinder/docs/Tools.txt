@@ -1409,7 +1409,6 @@ point.
     	[-package-scope-includes value]*
     	[-scope-excludes value]*
     	[-scope-includes value]*
-    	[-serialize]
     	[-time]
     	[-validate]
     	[-verbose [filename]]
@@ -2052,23 +2051,6 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
----++++ =-serialize=
-
-<blockquote>
-
-Writes the dependency graph as serialized Java objects.
-
-At this time, Dependency Finder cannot deserialize a saved graph, so this
-switch is pretty useless.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
 ---++++ =-time=
 
 <blockquote>
@@ -2150,8 +2132,6 @@ Writes the dependency graph as an XML document with the
 Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
-At this time, the tool cannot read serialized graphs.
-
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2165,9 +2145,6 @@ At this time, the tool cannot read serialized graphs.
 <blockquote>
 
 The normal output is the resulting dependency graph, rendered as text.
-
-With =-ser=, it serializes the resulting dependency graph with Java
-serialization.
 
 With =-xml=, it converts the resulting dependency graph into an XML
 document that follows the
@@ -2236,7 +2213,6 @@ Extracts dependencies from compiled classes.
     	[-maximize]
     	[-minimize]
     	[-out filename]
-    	[-serialize]
     	[-time]
     	[-verbose [filename]]
     	[-version]
@@ -2369,23 +2345,6 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
----++++ =-serialize=
-
-<blockquote>
-
-Writes the dependency graph as serialized Java objects.
-
-At this time, Dependency Finder cannot deserialize a saved graph, so this
-switch is pretty useless.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
 ---++++ =-time=
 
 <blockquote>
@@ -2454,8 +2413,6 @@ File names for JAR files, Zip files, and =.class= files for the tool to read.
 You can also give directory names, the tool will search it for =.class= files
 and read them.
 
-At this time, the tool cannot read serialized graphs.
-
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2469,9 +2426,6 @@ At this time, the tool cannot read serialized graphs.
 <blockquote>
 
 The normal output is the dependency graph, rendered as text.
-
-With =-ser=, it serializes the entire dependency graph with Java
-serialization.
 
 With =-xml=, it converts the entire dependency graph into an XML
 document that follows the
@@ -3962,7 +3916,6 @@ Summarizes a dependency graph according to user-specified criteria.
     	[-package-scope-includes value]*
     	[-scope-excludes value]*
     	[-scope-includes value]*
-    	[-serialize]
     	[-time]
     	[-validate]
     	[-verbose [filename]]
@@ -4613,23 +4566,6 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
----++++ =-serialize=
-
-<blockquote>
-
-Writes the dependency graph as serialized Java objects.
-
-At this time, Dependency Finder cannot deserialize a saved graph, so this
-switch is pretty useless.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
 ---++++ =-time=
 
 <blockquote>
@@ -4711,8 +4647,6 @@ Writes the dependency graph as an XML document with the
 Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
-At this time, the tool cannot read serialized graphs.
-
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4726,9 +4660,6 @@ At this time, the tool cannot read serialized graphs.
 <blockquote>
 
 The normal output is the resulting dependency graph, rendered as text.
-
-With =-ser=, it serializes the resulting dependency graph with Java
-serialization.
 
 With =-xml=, it converts the resulting dependency graph into an XML
 document that follows the

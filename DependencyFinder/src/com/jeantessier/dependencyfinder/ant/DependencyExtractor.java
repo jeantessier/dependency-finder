@@ -42,7 +42,6 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyExtractor extends Task {
-	private boolean serialize   = false;
 	private boolean xml         = false;
 	private boolean minimize    = false;
 	private boolean maximize    = false;
@@ -51,14 +50,6 @@ public class DependencyExtractor extends Task {
 	private String  indent_text;
 	private File    destfile;
 	private Path    path;
-
-	public boolean getSerialize() {
-		return serialize;
-	}
-	
-	public void setSerialize(boolean serialize) {
-		this.serialize = serialize;
-	}
 
 	public boolean getXml() {
 		return xml;
@@ -162,28 +153,22 @@ public class DependencyExtractor extends Task {
 		log("Saving dependency graph to " + getDestfile().getAbsolutePath());
 		
 		try {
-			if (getSerialize()) {
-				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(getDestfile()));
-				out.writeObject(new ArrayList(factory.Packages().values()));
-				out.close();
-			} else {
-				PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
+			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
-				com.jeantessier.dependency.Printer printer;
-				if (getXml()) {
-					printer = new com.jeantessier.dependency.XMLPrinter(out, getEncoding(), getDtdprefix());
-				} else {
-					printer = new com.jeantessier.dependency.TextPrinter(out);
-				}
-				
-				if (getIndenttext() != null) {
-					printer.IndentText(getIndenttext());
-				}
-				
-				printer.TraverseNodes(factory.Packages().values());
-				
-				out.close();
+			com.jeantessier.dependency.Printer printer;
+			if (getXml()) {
+				printer = new com.jeantessier.dependency.XMLPrinter(out, getEncoding(), getDtdprefix());
+			} else {
+				printer = new com.jeantessier.dependency.TextPrinter(out);
 			}
+				
+			if (getIndenttext() != null) {
+				printer.IndentText(getIndenttext());
+			}
+				
+			printer.TraverseNodes(factory.Packages().values());
+				
+			out.close();
 		} catch (IOException ex) {
 			throw new BuildException(ex);
 		}

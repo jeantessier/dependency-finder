@@ -1196,16 +1196,6 @@ You can save the graph to XML with the =-xml= switch:
 
     C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -xml -out df.xml
 
-Or you can use Java serialization to save the graph:
-
-    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -serialize -out df.ser
-
-<dl>
-    <dt>NOTE:</dt>
-    <dd><i>At this time, Dependency Finder cannot deserialize the graph
-    back.</i></dd>
-</dl>
-
 ---+++++ Example
 
 Here is a simple, concrete example.  We start with a trivial Java class in
