@@ -35,8 +35,6 @@ package com.jeantessier.diff;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 public class ListBasedValidator implements Validator {
 	private Collection allowed_elements = new HashSet();
 
@@ -71,7 +69,13 @@ public class ListBasedValidator implements Validator {
 		String line;
 		while ((line = in.readLine()) != null) {
 			if (line.length() > 0) {
-				allowed_elements.add(line.trim());
+				line = line.trim();
+				int pos = line.lastIndexOf(" [");
+				if (pos != -1) {
+					allowed_elements.add(line.substring(0, pos));
+				} else {
+					allowed_elements.add(line);
+				}
 			}
 		}
 	}
@@ -89,11 +93,6 @@ public class ListBasedValidator implements Validator {
 	}
     
 	public boolean IsAllowed(String name) {
-		boolean result = allowed_elements.size() == 0 || allowed_elements.contains(name);
-
-		// System.err.println(name + "? " + result);
-		Logger.getLogger(getClass()).debug(name + "? " + result);
-
-		return result;
+		return allowed_elements.size() == 0 || allowed_elements.contains(name);
 	}
 }

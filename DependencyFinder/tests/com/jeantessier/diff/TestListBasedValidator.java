@@ -135,4 +135,58 @@ public class TestListBasedValidator extends TestCase {
 		assertTrue("package foobar",  validator.IsClassAllowed("foobar"));
 		assertTrue("package barfoo", !validator.IsClassAllowed("barfoo"));
 	}
+
+	public void testConstructorWithSuffix1() throws IOException {
+		Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("foobar [P]\n")));
+
+		assertTrue("package", validator.IsPackageAllowed("foobar"));
+		assertTrue("class",   validator.IsClassAllowed("foobar"));
+		assertTrue("class",   !validator.IsClassAllowed("foobar.foobar"));
+		assertTrue("feature", validator.IsFeatureAllowed("foobar"));
+		assertTrue("feature", !validator.IsFeatureAllowed("foobar.foobar"));
+		assertTrue("feature", !validator.IsFeatureAllowed("foobar.foobar.foobar"));
+
+		assertTrue("package", !validator.IsPackageAllowed("barfoo"));
+		assertTrue("class",   !validator.IsClassAllowed("barfoo"));
+		assertTrue("class",   !validator.IsClassAllowed("barfoo.barfoo"));
+		assertTrue("feature", !validator.IsFeatureAllowed("barfoo"));
+		assertTrue("feature", !validator.IsFeatureAllowed("barfoo.barfoo"));
+		assertTrue("feature", !validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
+	}
+
+	public void testConstructorWithSuffix2() throws IOException {
+		Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("foobar [C]\n")));
+
+		assertTrue("package", validator.IsPackageAllowed("foobar"));
+		assertTrue("class",   validator.IsClassAllowed("foobar"));
+		assertTrue("class",   !validator.IsClassAllowed("foobar.foobar"));
+		assertTrue("feature", validator.IsFeatureAllowed("foobar"));
+		assertTrue("feature", !validator.IsFeatureAllowed("foobar.foobar"));
+		assertTrue("feature", !validator.IsFeatureAllowed("foobar.foobar.foobar"));
+
+		assertTrue("package", !validator.IsPackageAllowed("barfoo"));
+		assertTrue("class",   !validator.IsClassAllowed("barfoo"));
+		assertTrue("class",   !validator.IsClassAllowed("barfoo.barfoo"));
+		assertTrue("feature", !validator.IsFeatureAllowed("barfoo"));
+		assertTrue("feature", !validator.IsFeatureAllowed("barfoo.barfoo"));
+		assertTrue("feature", !validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
+	}
+
+	public void testMergeWithSuffix() throws IOException {
+		ListBasedValidator validator = new ListBasedValidator();
+
+		validator.Load(new BufferedReader(new StringReader("foo [P]\nbar [P]")));
+
+		assertTrue("package foo",     validator.IsPackageAllowed("foo"));
+		assertTrue("package bar",     validator.IsPackageAllowed("bar"));
+		assertTrue("package foobar", !validator.IsClassAllowed("foobar"));
+		assertTrue("package barfoo", !validator.IsClassAllowed("barfoo"));
+
+		validator.Load(new BufferedReader(new StringReader("foobar [P]")));
+
+		assertTrue("package foo",     validator.IsPackageAllowed("foo"));
+		assertTrue("package bar",     validator.IsPackageAllowed("bar"));
+		assertTrue("package foobar",  validator.IsClassAllowed("foobar"));
+		assertTrue("package barfoo", !validator.IsClassAllowed("barfoo"));
+	}
 }

@@ -34,9 +34,13 @@ package com.jeantessier.dependencyfinder.cli;
 
 import java.util.*;
 
+import org.apache.oro.text.perl.*;
+
 public class ListDiffPrinter {
 	public static final boolean DEFAULT_COMPRESS    = false;
     public static final String  DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
+
+	private static final Perl5Util perl = new Perl5Util();
 	
 	private StringBuffer buffer = new StringBuffer();
 
@@ -204,49 +208,84 @@ public class ListDiffPrinter {
 	public String toString() {
 		Indent().Append("<list-diff>").EOL();
 		RaiseIndent();
-
+		
 		Indent().Append("<name>").Append(Name()).Append("</name>").EOL();
 		Indent().Append("<old>").Append(OldVersion()).Append("</old>").EOL();
 		Indent().Append("<new>").Append(NewVersion()).Append("</new>").EOL();
-	
+		
 		Indent().Append("<removed>").EOL();
 		RaiseIndent();
-
-		Iterator i;
-		String   previous;
-
-		i = Removed().iterator();
-		previous = "\n\n\n\n";
-		while (i.hasNext()) {
-			String line = (String) i.next();
-			if (!(compress && line.startsWith(previous))) {
-				Indent().Append("<line>").Append(line).Append("</line>").EOL();
-				previous = line;
-			}
-		}
-
+		PrintLines(buffer, Removed());
 		LowerIndent();
 		Indent().Append("</removed>").EOL();
-	
+		
 		Indent().Append("<added>").EOL();
 		RaiseIndent();
-		
-		i = Added().iterator();
-		previous = "\n\n\n\n";
-		while (i.hasNext()) {
-			String line = (String) i.next();
-			if (!(compress && line.startsWith(previous))) {
-				Indent().Append("<line>").Append(line).Append("</line>").EOL();
-				previous = line;
-			}
-		}
-		
+		PrintLines(buffer, Added());
 		LowerIndent();
 		Indent().Append("</added>").EOL();
-
+		
 		LowerIndent();
 		Indent().Append("</list-diff>").EOL();
 		
 		return buffer.toString();
+	}
+
+	private void PrintLines(StringBuffer buffer, Collection lines) {
+		String   previous = "\n\n\n\n";
+		
+		Iterator i = lines.iterator();
+		while (i.hasNext()) {
+			String line = (String) i.next();
+			if (!(compress && Contains(previous, line))) {
+				int pos = line.lastIndexOf(" [");
+				if (pos != -1) {
+					Indent().Append("<line>").Append(line.substring(0, pos)).Append("</line>").EOL();
+				} else {
+					Indent().Append("<line>").Append(line).Append("</line>").EOL();
+				}
+				previous = line;
+			}
+		}
+	}
+
+	private boolean Contains(String container, String contained) {
+		boolean result = false;
+
+		if (contained.endsWith(" [P]")) {
+			result = false;
+		} else if (container.endsWith(" [P]") && contained.endsWith(" [C]")) {
+			String package_name = "";
+			int pos = contained.lastIndexOf('.');
+			if (pos != -1) {
+				package_name = contained.substring(0, pos);
+			}
+			
+			result = container.equals(package_name + " [P]");
+		} else if (container.endsWith(" [P]") && contained.endsWith(" [F]")) {
+			String package_name = "";
+			synchronized (perl) {
+				if (perl.match("/^(.*)\\.[^\\.]*\\.[^\\.]*\\(.*\\)/", contained)) {
+					package_name = perl.group(1);
+				} else if (perl.match("/^(.*)\\.[^\\.]*\\.[\\^.]*/", contained)) {
+					package_name = perl.group(1);
+				}
+			}
+			
+			result = container.equals(package_name + " [P]");
+		} else if (container.endsWith(" [C]") && contained.endsWith(" [F]")) {
+			String class_name = "";
+			synchronized (perl) {
+				if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)/", contained)) {
+					class_name = perl.group(1);
+				} else if (perl.match("/^(.*)\\.[\\^.]*/", contained)) {
+					class_name = perl.group(1);
+				}
+			}
+			
+			result = container.equals(class_name + " [C]");
+		}
+		
+		return result;
 	}
 }

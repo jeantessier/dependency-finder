@@ -107,7 +107,8 @@ public class ListDocumentedElements {
 	}
 	
 	private static void Process(PackageDoc doc) {
-		out.println(doc.name());
+		out.print(doc.name());
+		out.println(" [P]");
 	}
 	
 	private static void Process(ProgramElementDoc[] docs) {
@@ -151,13 +152,15 @@ public class ListDocumentedElements {
 			if (doc instanceof ExecutableMemberDoc) {
 				out.print(((ExecutableMemberDoc) doc).signature());
 			}
-			out.println();
 
 			if (doc instanceof ClassDoc) {
+				out.println(" [C]");
 				Process(((ClassDoc) doc).fields());
 				Process(((ClassDoc) doc).constructors());
 				Process(((ClassDoc) doc).methods());
 				Process(((ClassDoc) doc).innerClasses());
+			} else {
+				out.println(" [F]");
 			}
 		}
 	}
