@@ -459,7 +459,8 @@
                  author="no"
                  version="no"
                  linksource="yes"
-                 doctitle="${ant.project.name}">
+                 doctitle="${ant.project.name}"
+                 windowtitle="${ant.project.name}">
             <sourcepath path="${srcDir}"/>
             <classpath>
                 <path refid="libs"/>
