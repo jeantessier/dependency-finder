@@ -96,12 +96,12 @@ public class DependencyClosure {
 		System.err.println("    -feature-filter");
 		System.err.println();
 		System.err.println("-includes \"str\" shorthand for the combination:");
-		System.err.println("    -scope-incldues \"str\"");
-		System.err.println("    -filter-incldues \"str\"");
+		System.err.println("    -scope-includes \"str\"");
+		System.err.println("    -filter-includes \"str\"");
 		System.err.println();
 		System.err.println("-excludes \"str\" shorthand for the combination:");
-		System.err.println("    -scope-excldues \"str\"");
-		System.err.println("    -filter-excldues \"str\"");
+		System.err.println("    -scope-excludes \"str\"");
+		System.err.println("    -filter-excludes \"str\"");
 		System.err.println();
 		System.err.println("Defaults is text output to the console.");
 		System.err.println();

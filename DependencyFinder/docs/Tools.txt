@@ -1431,6 +1431,15 @@ See also:
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-package-scope=
+   * =-class-scope=
+   * =-feature-scope=
+   * =-package-filter=
+   * =-class-filter=
+   * =-feature-filter=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1443,6 +1452,11 @@ See also:
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-class-scope=
+   * =-class-filter=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1454,6 +1468,11 @@ See also:
 ---++++ =-c2p=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-class-scope=
+   * =-package-filter=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1551,6 +1570,11 @@ See also:
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-scope-excludes _value_=
+   * =-filter-excludes _value_=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1562,6 +1586,11 @@ See also:
 ---++++ =-f2f=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-feature-scope=
+   * =-feature-filter=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1685,6 +1714,11 @@ Prints synopsis.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-scope-includes _value_=
+   * =-filter-includes _value_=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1749,6 +1783,11 @@ it is created.  If it already exists, its content is overwritten.
 ---++++ =-p2p=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-package-scope=
+   * =-package-filter=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2424,6 +2463,15 @@ of exiting vertices.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-package-scope=
+   * =-class-scope=
+   * =-feature-scope=
+   * =-package-filter=
+   * =-class-filter=
+   * =-feature-filter=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2435,6 +2483,11 @@ of exiting vertices.
 ---++++ =-c2c=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-class-scope=
+   * =-class-filter=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2448,6 +2501,11 @@ of exiting vertices.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-class-scope=
+   * =-package-filter=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2460,6 +2518,17 @@ of exiting vertices.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-chart-classes-per-package=
+   * =-chart-features-per-class=
+   * =-chart-inbounds-per-package=
+   * =-chart-outbounds-per-package=
+   * =-chart-inbounds-per-class=
+   * =-chart-outbounds-per-class=
+   * =-chart-inbounds-per-feature=
+   * =-chart-outbounds-per-feature=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2471,6 +2540,12 @@ of exiting vertices.
 ---++++ =-chart-classes=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-chart-features-per-class=
+   * =-chart-inbounds-per-class=
+   * =-chart-outbounds-per-class=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2496,6 +2571,11 @@ of exiting vertices.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-chart-inbounds-per-feature=
+   * =-chart-outbounds-per-feature=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2519,6 +2599,12 @@ of exiting vertices.
 ---++++ =-chart-inbounds=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-chart-inbounds-per-package=
+   * =-chart-inbounds-per-class=
+   * =-chart-inbounds-per-feature=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2568,6 +2654,12 @@ of exiting vertices.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-chart-outbounds-per-package=
+   * =-chart-outbounds-per-class=
+   * =-chart-outbounds-per-feature=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2615,6 +2707,12 @@ of exiting vertices.
 ---++++ =-chart-packages=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-chart-classes-per-package=
+   * =-chart-inbounds-per-package=
+   * =-chart-outbounds-per-package=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2700,6 +2798,11 @@ of exiting vertices.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-scope-excludes _value_=
+   * =-filter-excludes _value_=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2711,6 +2814,11 @@ of exiting vertices.
 ---++++ =-f2f=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-feature-scope=
+   * =-feature-filter=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2834,6 +2942,11 @@ Prints synopsis.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-scope-includes _value_=
+   * =-filter-includes _value_=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2872,6 +2985,11 @@ it is created.  If it already exists, its content is overwritten.
 ---++++ =-p2p=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-package-scope=
+   * =-package-filter=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3144,6 +3262,15 @@ See also:
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-package-scope=
+   * =-class-scope=
+   * =-feature-scope=
+   * =-package-filter=
+   * =-class-filter=
+   * =-feature-filter=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3156,6 +3283,15 @@ See also:
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-class-scope=
+   * =-class-filter=
+
+See also:
+
+   * [[#c2c][c2c]]
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3167,6 +3303,15 @@ See also:
 ---++++ =-c2p=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-class-scope=
+   * =-package-filter=
+
+See also:
+
+   * [[#c2p][c2p]]
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3264,6 +3409,11 @@ See also:
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-scope-excludes _value_=
+   * =-filter-excludes _value_=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3275,6 +3425,15 @@ See also:
 ---++++ =-f2f=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-feature-scope=
+   * =-feature-filter=
+
+See also:
+
+   * [[#f2f][f2f]]
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3398,6 +3557,11 @@ Prints synopsis.
 
 <blockquote>
 
+Shorthand for the combination of:
+
+   * =-scope-includes _value_=
+   * =-filter-includes _value_=
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3466,6 +3630,15 @@ it is created.  If it already exists, its content is overwritten.
 ---++++ =-p2p=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-package-scope=
+   * =-package-filter=
+
+See also:
+
+   * [[#p2p][p2p]]
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5333,6 +5506,13 @@ project level.
 ---++++ =-all=
 
 <blockquote>
+
+Shorthand for the combination of:
+
+   * =-project=
+   * =-groups=
+   * =-classes=
+   * =-methods=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
