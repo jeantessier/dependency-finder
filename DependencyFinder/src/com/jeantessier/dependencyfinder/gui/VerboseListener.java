@@ -65,7 +65,7 @@ public class VerboseListener extends VerboseListenerBase {
 	public void BeginGroup(LoadEvent event) {
 		super.BeginGroup(event);
 		
-		ProgressBar().setMaximum(event.Size());
+		ProgressBar().setMaximum(CurrentGroup().Size());
 		ProgressBar().setValue(0);
 		ProgressBar().setStringPainted(true);
 		

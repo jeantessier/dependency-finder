@@ -47,7 +47,7 @@ public class MetricsVerboseListener extends VerboseListener implements MetricsLi
 	public void BeginGroup(LoadEvent event) {
 		super.BeginGroup(event);
 		
-		ProgressBar().setMaximum(2 * event.Size());
+		ProgressBar().setMaximum(2 * CurrentGroup().Size());
 	}
 
 	public void StartClass(MetricsEvent event) {
