@@ -90,7 +90,7 @@ and read them.  It is a
 
 <p>To scan the current directory and its subdirectories for
 <code>.class</code> files to analyze and save the resulting dependency
-graph to <code>dg.xml</code>:</p>
+graph to <code>df.xml</code>:</p>
 
 <pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
     &lt;path&gt;
@@ -100,7 +100,7 @@ graph to <code>dg.xml</code>:</p>
 
 <p>To scan <code>DependencyFinder.jar</code> and <code>rt.jar</code> for
 <code>.class</code> files to analyze and save the resulting dependency graph
-to <code>dg.xml</code>:</p>
+to <code>df.xml</code>:</p>
 
 <pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
     &lt;path&gt;
@@ -111,7 +111,7 @@ to <code>dg.xml</code>:</p>
 
 <p>To scan <code>DependencyFinder.jar</code> and <code>rt.jar</code> for
 <code>.class</code> files to analyze and save the resulting dependency graph
-to <code>dg.xml</code>, after having minimized it:</p>
+to <code>df.xml</code>, after having minimized it:</p>
 
 <pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot; minimize=&quot;yes&quot;&gt;
     &lt;path&gt;
@@ -122,7 +122,7 @@ to <code>dg.xml</code>, after having minimized it:</p>
 
 <p>To scan the current directory and its subdirectories for
 <code>.class</code> files to analyze and save the resulting dependency
-graph to <code>dg.xml</code>, and then convert it to HTML:</p>
+graph to <code>df.xml</code>, and then convert it to HTML:</p>
 
 <pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
     &lt;path&gt;
@@ -132,31 +132,6 @@ graph to <code>dg.xml</code>, and then convert it to HTML:</p>
   &lt;xslt style=&quot;${dependencyfinder.home}/etc/DependenciesToHTML.xsl&quot;
         in=&quot;df.xml&quot;
         out=&quot;df.html&quot;/></pre>
-
-<p>With the <code>&lt;taskdef&gt;</code> task definition:</p>
-
-<pre>  &lt;taskdef name=&quot;dependencyextractor&quot;
-           classname=&quot;com.jeantessier.dependencyfinder.ant.DependencyExtractor&quot;&gt;
-    &lt;classpath&gt;
-      &lt;pathelement location=&quot;${dependencyfinder.home}/lib/DependencyFinder.jar&quot;/&gt;
-      &lt;pathelement location=&quot;${dependencyfinder.home}/lib/jakarta-oro.jar&quot;/&gt;
-      &lt;pathelement location=&quot;${dependencyfinder.home}/lib/log4j.jar&quot;/&gt;
-      &lt;pathelement location=&quot;${dependencyfinder.home}/classes&quot;/&gt;
-    &lt;/classpath&gt;
-  &lt;/taskdef&gt;
-  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
-    &lt;path&gt;
-      &lt;pathelement location=&quot;.&quot;/&gt;
-    &lt;/path&gt;
-  &lt;/dependencyextractor&gt;
-  &lt;xslt style=&quot;${dependencyfinder.home}/etc/DependenciesToHTML.xsl&quot;
-        in=&quot;df.xml&quot;
-        out=&quot;df.html&quot;/></pre>
-    
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
 
 <hr>
 

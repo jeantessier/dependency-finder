@@ -1,0 +1,115 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Ant Task Definitions</title>
+</head>
+
+<body>
+
+<h2><a name="definitions">Definitions</a></h2>
+
+<p>Dependency Finder defines a number of tasks for use with the
+<a target="_top" href="http://ant.apache.org/">Ant</a> build tool from the
+<a target="_top" href="http://apache.org/">Apache Foundation</a>.  You need
+to tell Ant where to find the classes that implement these tasks and their
+support classes.  The tasks need the following elements on the
+<code>CLASSPATH</code> from the Dependency Finder distribution:</p>
+
+<ul>
+<li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/DependencyFinder.jar</code></li>
+<li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/jakarta-oro.jar</code></li>
+<li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/log4j.jar</code></li>
+<li><code>&lt;DEPENDENCYFINDER_HOME&gt;/classes</code></li>
+</ul>
+
+<h3>In your buildfile</h3>
+
+<p>One easy to do this is to define a global <code>&lt;path&gt;</code> tag as
+part of the Ant project.</p>
+
+<pre>
+    &lt;path id="dependencyfinder"&gt;
+        &lt;pathelement location="${dependencyfinder.home}/lib/DependencyFinder.jar"/&gt;
+        &lt;pathelement location="${dependencyfinder.home}/lib/jakarta-oro.jar"/&gt;
+        &lt;pathelement location="${dependencyfinder.home}/lib/log4j.jar"/&gt;
+        &lt;pathelement location="${dependencyfinder.home}/classes"/&gt;
+    &lt;/path&gt;
+</pre>
+
+<p>You can then use this
+<a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>
+to define the tasks, based on the classes supplied by Dependency Finder.</p>
+
+<pre>
+    &lt;taskdef name="classmetrics" classname="com.jeantessier.dependencyfinder.ant.ClassMetrics"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="dependencyextractor" classname="com.jeantessier.dependencyfinder.ant.DependencyExtractor"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="dependencyreporter" classname="com.jeantessier.dependencyfinder.ant.DependencyReporter"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="dependencyclosure" classname="com.jeantessier.dependencyfinder.ant.DependencyClosure"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="dependencymetrics" classname="com.jeantessier.dependencyfinder.ant.DependencyMetrics"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="oometrics" classname="com.jeantessier.dependencyfinder.ant.OOMetrics"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="jarjardiff" classname="com.jeantessier.dependencyfinder.ant.JarJarDiff"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="listdiff" classname="com.jeantessier.dependencyfinder.ant.ListDiff"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+</pre>
+	
+<h3>With properties file</h3>
+
+<p>Another way is to put the path elements on your <code>CLASSPATH</code> and
+add the task definitions to a properties file.  Ant can read the file and do
+the <code>&lt;taskdef&gt;</code> tags implicitly.</p>
+
+<p>For example, given the following
+<code>DependencyFinderTasks.properties</code> file:</p>
+
+<pre>
+    classmetrics=com.jeantessier.dependencyfinder.ant.ClassMetrics
+    dependencyextractor=com.jeantessier.dependencyfinder.ant.DependencyExtractor
+    dependencyreporter=com.jeantessier.dependencyfinder.ant.DependencyReporter
+    dependencyclosure=com.jeantessier.dependencyfinder.ant.DependencyClosure
+    dependencymetrics=com.jeantessier.dependencyfinder.ant.DependencyMetrics
+    oometrics=com.jeantessier.dependencyfinder.ant.OOMetrics
+    jarjardiff=com.jeantessier.dependencyfinder.ant.JarJarDiff
+    listdiff=com.jeantessier.dependencyfinder.ant.ListDiff
+</pre>
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+<p>You can use the following in your buildfile:</p>
+
+<pre>
+    &lt;taskdef file="DependencyFinderTasks.properties"/&gt;
+</pre>
+
+<hr>
+
+<p align="center">Copyright &copy; 2001-2003 Jean Tessier.  All rights reserved.</p>
+
+</body>
+
+</html>

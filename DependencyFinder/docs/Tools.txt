@@ -3048,7 +3048,7 @@ Shows distribution of explicit inbound dependencies to features.
 
 Shows distribution of explicit inbound dependencies to packages.
 
-In a raw or minimized graphm this will show zero.
+In a raw or minimized graph, this will show zero.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3110,7 +3110,7 @@ Shows distribution of explicit outbound dependencies from features.
 
 Shows distribution of explicit outbound dependencies from packages.
 
-In a raw or minimized graphm this will show zero.
+In a raw or minimized graph, this will show zero.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
