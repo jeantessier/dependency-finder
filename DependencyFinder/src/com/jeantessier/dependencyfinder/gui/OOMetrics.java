@@ -264,6 +264,20 @@ public class OOMetrics extends JFrame {
 	private JComponent BuildStatusPanel() {
 		return StatusLine();
 	}
+
+	public static void Log(Logger logger, String filename) throws IOException {
+		Log(logger, filename, Level.DEBUG);
+	}
+	
+	public static void Log(Logger logger, String filename, Level level) throws IOException {
+		logger.setLevel(level);
+			
+		if ("System.out".equals(filename)) {
+			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
+		} else {
+			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
+		}
+	}
 	
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
@@ -303,29 +317,14 @@ public class OOMetrics extends JFrame {
 		}
 
 		if (command_line.IsPresent("verbose")) {
-			Logger logger = Logger.getLogger("com.jeantessier.metrics");
-			logger.setLevel(Level.DEBUG);
-			
-			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
-				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-			} else {
-				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("verbose"))));
-			}
+			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
+			Log(Logger.getLogger("com.jeantessier.metrics"), command_line.OptionalSwitch("verbose"));
 		}
 
 		if (command_line.IsPresent("trace")) {
-			Logger logger1 = Logger.getLogger("com.jeantessier.classreader");
-			Logger logger2 = Logger.getLogger("com.jeantessier.dependency");
-			logger1.setLevel(Level.DEBUG);
-			logger2.setLevel(Level.DEBUG);
-			
-			if ("System.out".equals(command_line.OptionalSwitch("trace"))) {
-				logger1.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-				logger2.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-			} else {
-				logger1.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
-				logger2.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
-			}
+			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
+			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
+			Log(Logger.getLogger("com.jeantessier.dependency"), command_line.OptionalSwitch("trace"));
 		}
 		
 		MetricsFactory factory;
