@@ -17,6 +17,16 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 17, 2005
+    </dt>
+    <dd>
+	<p>Finished te support for removing nodes from the dependency graph.
+	It turns out the logic was so twisted that I had to resort to using a
+	visitor in the end.  The new class is called
+	<code>DeletingVisitor</code>.  It traverses the graph and removes
+	specified nodes and cleans up after them.</p>
+    </dd>
+    <dt>
 	January 11, 2005
     </dt>
     <dd>
@@ -33,6 +43,13 @@
 	<a target="_blank" href="http://sourceforge.net/tracker/index.php?func=detail&aid=1100722&group_id=43305&atid=435886">#1100722</a>.</p>
 
 	<p>Fixed the bug using a CVS branch: <code>bug-1100131</code>.</p>
+    </dd>
+    <dt>
+	January 08, 2005
+    </dt>
+    <dd>
+	<p>The logic to pull out nodes is too complex.  I'm getting lost in all
+	the bookkeeping required.</p>
     </dd>
     <dt>
 	January 06, 2005
