@@ -57,7 +57,7 @@
         <td>
             Powered by
             <a href="<jsp:getProperty name="version" property="ImplementationURL"/>"><jsp:getProperty name="version" property="ImplementationTitle"/></a>
-            <jsp:getProperty name="version" property="ImplementationVersion"/> (&copy; <jsp:getProperty name="version" property="ImplementationVendor"/>)<br />
+            <jsp:getProperty name="version" property="ImplementationVersion"/> (&copy; <jsp:getProperty name="version" property="CopyrightDate"/> <jsp:getProperty name="version" property="CopyrightHolder"/>)<br />
             Compiled on <jsp:getProperty name="version" property="ImplementationDate"/>.
         </td>
     </tr>

@@ -36,7 +36,7 @@ import java.beans.*;
 
 public class VersionBeanInfo extends SimpleBeanInfo {
 	public PropertyDescriptor[] getPropertyDescriptors() {
-		PropertyDescriptor[] result = new PropertyDescriptor[11];
+		PropertyDescriptor[] result = new PropertyDescriptor[13];
 		
 		try {
 			result[0]  = new PropertyDescriptor("ResourceURL",           Version.class, "ResourceURL",           null);
@@ -50,6 +50,8 @@ public class VersionBeanInfo extends SimpleBeanInfo {
 			result[8]  = new PropertyDescriptor("SpecificationVersion",  Version.class, "SpecificationVersion",  null);
 			result[9]  = new PropertyDescriptor("SpecificationVendor",   Version.class, "SpecificationVendor",   null);
 			result[10] = new PropertyDescriptor("SpecificationDate",     Version.class, "SpecificationDate",     null);
+			result[11] = new PropertyDescriptor("CopyrightHolder",       Version.class, "CopyrightHolder",       null);
+			result[12] = new PropertyDescriptor("CopyrightDate",         Version.class, "CopyrightDate",         null);
 		} catch (IntrospectionException ex) {
 			result = null;
 		}

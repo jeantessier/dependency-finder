@@ -67,7 +67,9 @@ public class JarJarDiff {
 		System.err.print(" ");
 		System.err.print(version.ImplementationVersion());
 		System.err.print(" (c) ");
-		System.err.print(version.ImplementationVendor());
+		System.err.print(version.CopyrightDate());
+		System.err.print(" ");
+		System.err.print(version.CopyrightHolder());
 		System.err.println();
 		
 		System.err.print(version.ImplementationURL());

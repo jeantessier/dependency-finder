@@ -36,11 +36,13 @@ import java.io.*;
 import java.util.jar.*;
 
 public class Version {
-	public static final String DEFAULT_URL     = "http://dependencyfinder.jeantessier.com/";
-	public static final String DEFAULT_TITLE   = "Dependency Finder";
-	public static final String DEFAULT_VERSION = "<i>unknown</i>";
-	public static final String DEFAULT_VENDOR  = "Jean Tessier";
-	public static final String DEFAULT_DATE    = "<i>unknown</i>";
+	public static final String DEFAULT_URL              = "http://depfind.sourceforge.net/";
+	public static final String DEFAULT_TITLE            = "Dependency Finder";
+	public static final String DEFAULT_VERSION          = "<i>unknown</i>";
+	public static final String DEFAULT_VENDOR           = "Jean Tessier";
+	public static final String DEFAULT_DATE             = "<i>unknown</i>";
+	public static final String DEFAULT_COPYRIGHT_HOLDER = "Jean Tessier";
+	public static final String DEFAULT_COPYRIGHT_DATE   = "2001-2003";
 
     private String resource_url = null;
 	private String jar_name     = null;
@@ -153,6 +155,26 @@ public class Version {
 
 		if (attributes != null) {
 			result = attributes.getValue("Specification-Date");
+		}
+
+		return result;
+	}
+
+	public String CopyrightHolder() {
+		String result = DEFAULT_COPYRIGHT_HOLDER;
+
+		if (attributes != null) {
+			result = attributes.getValue("Copyright-Holder");
+		}
+
+		return result;
+	}
+
+	public String CopyrightDate() {
+		String result = DEFAULT_COPYRIGHT_DATE;
+
+		if (attributes != null) {
+			result = attributes.getValue("Copyright-Date");
 		}
 
 		return result;
