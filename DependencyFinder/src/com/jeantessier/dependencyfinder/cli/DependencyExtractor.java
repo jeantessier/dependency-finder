@@ -42,24 +42,7 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyExtractor {
-    public static final String DEFAULT_LOGFILE   = "System.out";
-    public static final String DEFAULT_TRACEFILE = "System.out";
-
-	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
-
-	public static void Log(Logger logger, String filename) throws IOException {
-		Log(logger, filename, Level.DEBUG);
-	}
-	
-	public static void Log(Logger logger, String filename, Level level) throws IOException {
-		logger.setLevel(level);
-			
-		if ("System.out".equals(filename)) {
-			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-		} else {
-			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
-		}
-	}
+    public static final String DEFAULT_LOGFILE = "System.out";
 
     public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
@@ -92,7 +75,6 @@ public class DependencyExtractor {
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",     DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("DependencyExtractor");
 		command_line.Accept(usage);
@@ -112,14 +94,13 @@ public class DependencyExtractor {
 			System.exit(1);
 		}
 
+		VerboseListener verbose_listener = new VerboseListener();
 		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.dependency"), command_line.OptionalSwitch("verbose"));
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
+			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+				verbose_listener.Writer(System.out);
+			} else {
+				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+			}
 		}
 
 		/*
@@ -135,9 +116,11 @@ public class DependencyExtractor {
 
 		NodeFactory factory = new NodeFactory();
 		CodeDependencyCollector collector = new CodeDependencyCollector(factory);
+		collector.addDependencyListener(verbose_listener);
 		
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(collector);
+		loader.addLoadListener(verbose_listener);
 		loader.Load(parameters);
 
 		if (command_line.IsPresent("minimize")) {
@@ -149,10 +132,13 @@ public class DependencyExtractor {
 		}
 
 		if (command_line.ToggleSwitch("serialize")) {
+			verbose_listener.println("Serializing the graph ...");
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
 			out.writeObject(new ArrayList(factory.Packages().values()));
 			out.close();
 		} else {
+			verbose_listener.println("Printing the graph ...");
+			
 			com.jeantessier.dependency.Printer printer;
 			if (command_line.ToggleSwitch("xml")) {
 				printer = new com.jeantessier.dependency.XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
@@ -182,5 +168,7 @@ public class DependencyExtractor {
 		if (command_line.ToggleSwitch("time")) {
 			System.err.println(DependencyExtractor.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
+
+		verbose_listener.close();
     }
 }

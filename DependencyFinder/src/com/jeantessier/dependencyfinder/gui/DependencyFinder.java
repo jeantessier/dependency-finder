@@ -49,11 +49,6 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyFinder extends JFrame {
-	public static final String DEFAULT_LOGFILE   = "System.out";
-	public static final String DEFAULT_TRACEFILE = "System.out";
-
-	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
-
 	private boolean minimize;
 	private boolean maximize;
 
@@ -1176,20 +1171,6 @@ public class DependencyFinder extends JFrame {
 		ResetQuery();
 	}
 
-	public static void Log(Logger logger, String filename) throws IOException {
-		Log(logger, filename, Level.DEBUG);
-	}
-	
-	public static void Log(Logger logger, String filename, Level level) throws IOException {
-		logger.setLevel(level);
-			
-		if ("System.out".equals(filename)) {
-			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-		} else {
-			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
-		}
-	}
-
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
@@ -1207,8 +1188,6 @@ public class DependencyFinder extends JFrame {
 		command_line.AddSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",   DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("DependencyFinder");
 		command_line.Accept(usage);
@@ -1230,16 +1209,6 @@ public class DependencyFinder extends JFrame {
 
 		if (command_line.ToggleSwitch("maximize") && command_line.ToggleSwitch("minimize")) {
 			Error(usage, "Only one of -maximize or -minimize allowed");
-		}
-
-		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.gui"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.dependency"), command_line.OptionalSwitch("verbose"));
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.gui"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
 		}
 
 		/*

@@ -45,23 +45,6 @@ public class DependencyReporter {
 	public static final String DEFAULT_SCOPE_INCLUDES  = "//";
 	public static final String DEFAULT_FILTER_INCLUDES = "//";
 	public static final String DEFAULT_LOGFILE         = "System.out";
-	public static final String DEFAULT_TRACEFILE       = "System.out";
-
-	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
-
-	public static void Log(Logger logger, String filename) throws IOException {
-		Log(logger, filename, Level.DEBUG);
-	}
-	
-	public static void Log(Logger logger, String filename, Level level) throws IOException {
-		logger.setLevel(level);
-			
-		if ("System.out".equals(filename)) {
-			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-		} else {
-			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
-		}
-	}
 
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
@@ -153,7 +136,6 @@ public class DependencyReporter {
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",                    DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("DependencyReporter");
 		command_line.Accept(usage);
@@ -173,14 +155,13 @@ public class DependencyReporter {
 			System.exit(1);
 		}
 
+		VerboseListener verbose_listener = new VerboseListener();
 		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.dependency"), command_line.OptionalSwitch("verbose"));
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
+			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+				verbose_listener.Writer(System.out);
+			} else {
+				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+			}
 		}
 
 		if (command_line.ToggleSwitch("maximize") && command_line.ToggleSwitch("minimize")) {
@@ -282,11 +263,14 @@ public class DependencyReporter {
 		while (i.hasNext()) {
 			String filename = (String) i.next();
 			Logger.getLogger(DependencyReporter.class).info("Reading " + filename);
+			verbose_listener.println("Reading " + filename);
 
 			Collection packages;
 
 			if (filename.endsWith(".xml")) {
-				packages = new NodeLoader(command_line.ToggleSwitch("validate")).Load(filename).Packages().values();
+				NodeLoader loader = new NodeLoader(command_line.ToggleSwitch("validate"));
+				loader.addDependencyListener(verbose_listener);
+				packages = loader.Load(filename).Packages().values();
 			} else if (filename.endsWith(".ser")) {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
 				packages = (Collection) in.readObject();
@@ -308,10 +292,13 @@ public class DependencyReporter {
 		Logger.getLogger(DependencyReporter.class).info("Reporting " + copier.ScopeFactory().Packages().values().size() + " package(s) ...");
 	
 		if (command_line.ToggleSwitch("serialize")) {
+			verbose_listener.println("Serializing the graph ...");
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
 			out.writeObject(copier.ScopeFactory().Packages().values());
 			out.close();
 		} else {
+			verbose_listener.println("Printing the graph ...");
+			
 			Printer printer;
 			if (command_line.IsPresent("xml")) {
 				printer = new XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
@@ -341,5 +328,7 @@ public class DependencyReporter {
 		if (command_line.ToggleSwitch("time")) {
 			System.err.println(DependencyReporter.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
+
+		verbose_listener.close();
 	}
 }

@@ -51,10 +51,6 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.metrics.*;
 
 public class OOMetrics extends JFrame {
-	public static final String DEFAULT_LOGFILE   = "System.out";
-	public static final String DEFAULT_TRACEFILE = "System.out";
-
-	private static final Layout            DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 	private static final TableCellRenderer RENDERER           = new MeasurementTableCellRenderer();
 
 	private MetricsFactory factory;
@@ -279,20 +275,6 @@ public class OOMetrics extends JFrame {
 		return result;
 	}
 
-	public static void Log(Logger logger, String filename) throws IOException {
-		Log(logger, filename, Level.DEBUG);
-	}
-	
-	public static void Log(Logger logger, String filename, Level level) throws IOException {
-		logger.setLevel(level);
-			
-		if ("System.out".equals(filename)) {
-			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-		} else {
-			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
-		}
-	}
-	
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
@@ -309,8 +291,6 @@ public class OOMetrics extends JFrame {
 		command_line.AddSingleValueSwitch("configuration");
 		command_line.AddToggleSwitch("validate");
 		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",   DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("OOMetrics");
 		command_line.Accept(usage);
@@ -330,17 +310,6 @@ public class OOMetrics extends JFrame {
 			System.exit(1);
 		}
 
-		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.gui"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.metrics"), command_line.OptionalSwitch("verbose"));
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.gui"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
-			Log(Logger.getLogger("com.jeantessier.dependency"), command_line.OptionalSwitch("trace"));
-		}
-		
 		MetricsFactory factory;
 		
 		if (command_line.IsPresent("configuration")) {

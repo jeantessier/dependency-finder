@@ -46,23 +46,6 @@ public class JarJarDiff {
 	public static final String DEFAULT_OLD_DOCUMENTATION = "old_documentation.txt";
 	public static final String DEFAULT_NEW_DOCUMENTATION = "new_documentation.txt";
 	public static final String DEFAULT_LOGFILE           = "System.out";
-	public static final String DEFAULT_TRACEFILE         = "System.out";
-
-	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
-
-	public static void Log(Logger logger, String filename) throws IOException {
-		Log(logger, filename, Level.DEBUG);
-	}
-	
-	public static void Log(Logger logger, String filename, Level level) throws IOException {
-		logger.setLevel(level);
-			
-		if ("System.out".equals(filename)) {
-			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-		} else {
-			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
-		}
-	}
 
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
@@ -92,7 +75,6 @@ public class JarJarDiff {
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",         DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",           DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("JarJarDiff");
 		command_line.Accept(usage);
@@ -112,14 +94,13 @@ public class JarJarDiff {
 			System.exit(1);
 		}
 
+		VerboseListener verbose_listener = new VerboseListener();
 		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.diff"), command_line.OptionalSwitch("verbose"));
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
+			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+				verbose_listener.Writer(System.out);
+			} else {
+				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+			}
 		}
 
 		/*
@@ -133,10 +114,12 @@ public class JarJarDiff {
 
 		Validator old_validator = new ListBasedValidator(command_line.SingleSwitch("old-documentation"));
 		ClassfileLoader old_jar = new AggregatingClassfileLoader();
+		old_jar.addLoadListener(verbose_listener);
 		old_jar.Load(command_line.MultipleSwitch("old"));
 
 		Validator new_validator = new ListBasedValidator(command_line.SingleSwitch("new-documentation"));
 		ClassfileLoader new_jar = new AggregatingClassfileLoader();
+		new_jar.addLoadListener(verbose_listener);
 		new_jar.Load(command_line.MultipleSwitch("new"));
 
 		// Starting to compare, first at package level,
@@ -144,6 +127,7 @@ public class JarJarDiff {
 		// that are in both the old and the new codebase.
 	
 		Logger.getLogger(JarJarDiff.class).info("Comparing ...");
+		verbose_listener.println("Comparing ...");
 
 		String         name        = command_line.SingleSwitch("name");
 		String         old_label   = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
@@ -153,6 +137,7 @@ public class JarJarDiff {
 		Differences differences = factory.CreateJarDifferences(name, old_label, old_jar, new_label, new_jar);
 
 		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
+		verbose_listener.println("Printing results ...");
 
 		PrintWriter out;
 		if (command_line.IsPresent("out")) {
@@ -177,5 +162,7 @@ public class JarJarDiff {
 
 		out.flush();
 		out.close();
+
+		verbose_listener.close();
 	}
 }

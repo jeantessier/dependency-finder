@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="2003-02-19" >
+<tagdiff startTag="release-20030101" endDate="2003-02-20" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.19</revision>
+			<revision>1.20</revision>
 			<prevrevision>1.16</prevrevision>
 		</file>
 	</entry>
@@ -63,9 +63,33 @@
 	</entry>
 	<entry>
 		<file>
+			<name>docs/Menu.html</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/Title.html</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/Tools.txt</name>
-			<revision>1.7</revision>
+			<revision>1.9</revision>
 			<prevrevision>1.4</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/index.html</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/style.css</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -326,6 +350,27 @@
 			<name>src/com/jeantessier/dependency/CodeDependencyCollector.java</name>
 			<revision>1.10</revision>
 			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
 	<entry>

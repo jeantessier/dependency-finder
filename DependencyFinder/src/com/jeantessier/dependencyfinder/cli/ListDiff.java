@@ -40,25 +40,6 @@ import org.apache.log4j.*;
 import com.jeantessier.commandline.*;
 
 public class ListDiff {
-	public static final String DEFAULT_LOGFILE    = "System.out";
-	public static final String DEFAULT_TRACEFILE  = "System.out";
-
-	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
-
-	public static void Log(Logger logger, String filename) throws IOException {
-		Log(logger, filename, Level.DEBUG);
-	}
-	
-	public static void Log(Logger logger, String filename, Level level) throws IOException {
-		logger.setLevel(level);
-			
-		if ("System.out".equals(filename)) {
-			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-		} else {
-			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
-		}
-	}
-
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
@@ -85,8 +66,6 @@ public class ListDiff {
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose",  DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",    DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("ListDiff");
 		command_line.Accept(usage);
@@ -104,15 +83,6 @@ public class ListDiff {
 		if (command_line.ToggleSwitch("help")) {
 			Error(usage);
 			System.exit(1);
-		}
-
-		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
 		}
 
 		/*

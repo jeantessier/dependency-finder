@@ -13,6 +13,35 @@
 
 <dl>
     <dt>
+	February 19, 2003
+    </dt>
+    <dd>
+	<p>Tools docs.</p>
+
+	<p>Added an HTML index page to the documentation directory.</p>
+
+	<p>Got rid of the <code>-trace</code> command-line switch.  If
+	you want that level of details, edit <code>log4j.properties</code>.</p>
+
+	<p>Reworked the <code>-verbose</code> command-line switch.  It
+	prints progress as files are read and data is created, kinda like
+	the status bar in the Swing applications.  The tools use the new
+	<code>VerboseListener</code> to trap events and print them to the
+	specified output stream or file.  This has helped simplify the
+	code around <code>main()</code> in the tool classes.</p>
+
+	<p>Considered optimizing event sources so they don't do anything
+	if there are no registered listeners.  With the new mechanism
+	for <code>-verbose</code>, there is always at least one listener,
+	this optimization is therefore useless, so I dropped it.  For it
+	to make sense, I would have had to complexify the life cycle of
+	<code>VerboseListener</code> too much.</p>
+
+	<p>Added <a target="_blank" href="http://www.intellij.com">IntelliJ IDEA</a>
+	and <a target="_blank" href="http://www.xref-tech.com">Xrefactory</a>
+	to the resources page.</p>
+    </dd>
+    <dt>
 	February 18, 2003
     </dt>
     <dd>

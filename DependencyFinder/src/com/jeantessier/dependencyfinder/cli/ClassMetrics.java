@@ -42,7 +42,6 @@ import com.jeantessier.commandline.*;
 
 public class ClassMetrics {
 	public static final String DEFAULT_LOGFILE   = "System.out";
-	public static final String DEFAULT_TRACEFILE = "System.out";
 
 	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
@@ -85,7 +84,6 @@ public class ClassMetrics {
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",     DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("ClassMetrics");
 		command_line.Accept(usage);
@@ -105,14 +103,13 @@ public class ClassMetrics {
 			System.exit(1);
 		}
 
+		VerboseListener verbose_listener = new VerboseListener();
 		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("verbose"), Level.INFO);
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
+			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+				verbose_listener.Writer(System.out);
+			} else {
+				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+			}
 		}
 
 		/*
@@ -129,6 +126,7 @@ public class ClassMetrics {
 		}
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
+		loader.addLoadListener(verbose_listener);
 		loader.Load(parameters);
 
 		MetricsGatherer metrics = new MetricsGatherer();
@@ -137,6 +135,8 @@ public class ClassMetrics {
 			((Classfile) i.next()).Accept(metrics);
 		}
 
+		verbose_listener.println("Printing report ...");
+		
 		PrintWriter out;
 		if (command_line.IsPresent("out")) {
 			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
@@ -224,6 +224,8 @@ public class ClassMetrics {
 		}
 
 		out.close();
+
+		verbose_listener.close();
 	}
 
 	private static void PrintCMIC(PrintWriter out, String label, Collection classes, Collection methods, Collection inner_classes, boolean list) {

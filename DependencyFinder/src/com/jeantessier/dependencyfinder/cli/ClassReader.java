@@ -42,7 +42,6 @@ import com.jeantessier.commandline.*;
 
 public class ClassReader {
 	public static final String DEFAULT_LOGFILE   = "System.out";
-	public static final String DEFAULT_TRACEFILE = "System.out";
 
 	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
@@ -83,7 +82,6 @@ public class ClassReader {
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",   DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("ClassReader");
 		command_line.Accept(usage);
@@ -103,14 +101,13 @@ public class ClassReader {
 			System.exit(1);
 		}
 
+		VerboseListener verbose_listener = new VerboseListener();
 		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("verbose"), Level.INFO);
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
+			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+				verbose_listener.Writer(System.out);
+			} else {
+				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+			}
 		}
 
 		/*
@@ -132,6 +129,7 @@ public class ClassReader {
 		}
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
+		loader.addLoadListener(verbose_listener);
 		loader.Load(parameters);
 
 		Iterator j = loader.Classfiles().iterator();
@@ -164,5 +162,7 @@ public class ClassReader {
 		}
 
 		out.close();
+
+		verbose_listener.close();
 	}
 }

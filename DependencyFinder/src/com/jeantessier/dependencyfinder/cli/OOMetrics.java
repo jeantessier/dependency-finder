@@ -46,20 +46,7 @@ public class OOMetrics {
 	public static final String DEFAULT_SORT         = "name";
 	public static final String DEFAULT_DISPOSE      = "median";
 	public static final String DEFAULT_LOGFILE      = "System.out";
-	public static final String DEFAULT_TRACEFILE    = "System.out";
 
-	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
-
-	public static void Log(Logger logger, String filename) throws IOException {
-		logger.setLevel(Level.DEBUG);
-			
-		if ("System.out".equals(filename)) {
-			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-		} else {
-			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
-		}
-	}
-	
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
@@ -102,7 +89,6 @@ public class OOMetrics {
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",    DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",   DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("OOMetrics");
 		command_line.Accept(usage);
@@ -143,14 +129,13 @@ public class OOMetrics {
 			System.exit(1);
 		}
 
+		VerboseListener verbose_listener = new VerboseListener();
 		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
-			Log(Logger.getLogger("com.jeantessier.metrics"), command_line.OptionalSwitch("verbose"));
-		}
-
-		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
-			Log(Logger.getLogger("com.jeantessier.dependency"), command_line.OptionalSwitch("trace"));
+			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+				verbose_listener.Writer(System.out);
+			} else {
+				verbose_listener.Writer(new FileWriter(command_line.OptionalSwitch("verbose")));
+			}
 		}
 
 		/*
@@ -167,6 +152,7 @@ public class OOMetrics {
 		}
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
+		loader.addLoadListener(verbose_listener);
 		loader.Load(parameters);
 
 		Logger.getLogger(OOMetrics.class).debug("Reading configuration ...");
@@ -184,6 +170,7 @@ public class OOMetrics {
 		Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
 
 		com.jeantessier.metrics.MetricsGatherer metrics = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
+		metrics.addMetricsListener(verbose_listener);
 
 		Iterator j = loader.Classfiles().iterator();
 		while (j.hasNext()) {
@@ -191,6 +178,7 @@ public class OOMetrics {
 		}
 
 		Logger.getLogger(OOMetrics.class).debug("Printing results ...");
+		verbose_listener.println("Printing results ...");
 		
 		if (command_line.IsPresent("csv")) {
 			PrintCSVFiles(start, command_line, metrics.MetricsFactory());
@@ -208,6 +196,8 @@ public class OOMetrics {
 			System.out.println();
 			System.out.println(OOMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
+
+		verbose_listener.close();
 	}
 
 	private static void PrintCSVFiles(Date start, CommandLine command_line, MetricsFactory factory) throws IOException {
