@@ -93,7 +93,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	}
 
 	public void BeginSession(LoadEvent event) {
-		// Do nothing
+		model.StatusLine().ShowInfo("Searching for classes ...");
 	}
 
 	public void BeginGroup(LoadEvent event) {

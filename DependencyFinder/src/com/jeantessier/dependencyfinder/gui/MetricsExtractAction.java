@@ -111,7 +111,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	}
 	
 	public void BeginSession(LoadEvent event) {
-		model.StatusLine().ShowInfo("Loading classes ...");
+		model.StatusLine().ShowInfo("Searching for classes ...");
 	}
 	
 	public void BeginGroup(LoadEvent event) {
