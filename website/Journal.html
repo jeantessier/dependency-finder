@@ -18,6 +18,30 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	August 05, 2003
+    </dt>
+    <dd>
+	<p>Published patch for choosing between a <code>GraphCopier</code> and
+	a <code>GraphSummarizer</code> when running dependency queries.  This
+	new patch (#784040) replaces two previous ones (#776154 and #776161)
+	and also fixes a bug in <code>ClassReader</code> where it sent its
+	<code>Printer</code> to the output stream and generated erroneous XML
+	data.</p>
+
+	<p>Found that <code>StatisticalMeasurement.CollectData()</code> was
+	both <code>synchronized</code> <b>and</b> had a
+	<code>synchronized</code> block inside that synchronized on
+	<code>this</code>.  This being redundant, I removed the synchronization
+	in the method signature and kept the internal block.  This way, it runs
+	a tinny bit faster when the data set has not changed.</p>
+    </dd>
+    <dt>
+	August 01, 2003
+    </dt>
+    <dd>
+	<p>SourceForge download counters are working again.</p>
+    </dd>
+    <dt>
 	July 28, 2003
     </dt>
     <dd>
