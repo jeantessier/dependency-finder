@@ -56,6 +56,8 @@ public class MetricsGatherer extends VisitorBase {
 	private int     sloc;
 	private boolean is_synthetic;
 	
+	private HashSet metrics_listeners = new HashSet();
+
 	public MetricsGatherer(String project_name, MetricsFactory factory) {
 		this.project_name = project_name;
 		this.factory      = factory;
@@ -108,6 +110,8 @@ public class MetricsGatherer extends VisitorBase {
 		Logger.getLogger(getClass()).debug("VisitClassfile():");
 		Logger.getLogger(getClass()).debug("    class = \"" + classfile.Class() + "\"");
 
+		fireStartClass(classfile);
+		
 		CurrentMethod(null);
 		CurrentClass(MetricsFactory().CreateClassMetrics(classfile.Class()));
 		CurrentGroup(CurrentClass().Parent());
@@ -174,6 +178,8 @@ public class MetricsGatherer extends VisitorBase {
 		if (!is_synthetic) {
 			CurrentClass().AddToMeasurement(Metrics.CLASS_SLOC, sloc);
 		}
+
+		fireStopClass(classfile, CurrentClass());
 	}
 	
 	// ConstantPool entries
@@ -266,6 +272,8 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	public void VisitMethod_info(Method_info entry) {
+		fireStartMethod(entry);
+		
 		CurrentMethod(MetricsFactory().CreateMethodMetrics(entry.FullSignature()));
 		
 		Logger.getLogger(getClass()).debug("VisitMethod_info(" + entry.FullSignature() + ")");
@@ -319,6 +327,8 @@ public class MetricsGatherer extends VisitorBase {
 		}
 
 		AddClassDependencies(ProcessDescriptor(entry.Descriptor()));
+
+		fireStopMethod(entry, CurrentMethod());
 	}
 
 	// 
@@ -556,6 +566,74 @@ public class MetricsGatherer extends VisitorBase {
 				CurrentMethod().AddToMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, other.Name());
 				other.AddToMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, CurrentMethod().Name());
 			}
+		}
+	}
+
+	public void addMetricsListener(MetricsListener listener) {
+		synchronized(metrics_listeners) {
+			metrics_listeners.add(listener);
+		}
+	}
+
+	public void removeMetricsListener(MetricsListener listener) {
+		synchronized(metrics_listeners) {
+			metrics_listeners.remove(listener);
+		}
+	}
+
+	protected void fireStartClass(Classfile classfile) {
+		MetricsEvent event = new MetricsEvent(this, classfile);
+
+		HashSet listeners;
+		synchronized(metrics_listeners) {
+			listeners = (HashSet) metrics_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((MetricsListener) i.next()).StartClass(event);
+		}
+	}
+
+	protected void fireStartMethod(Method_info method) {
+		MetricsEvent event = new MetricsEvent(this, method);
+
+		HashSet listeners;
+		synchronized(metrics_listeners) {
+			listeners = (HashSet) metrics_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((MetricsListener) i.next()).StartMethod(event);
+		}
+	}
+
+	protected void fireStopMethod(Method_info method, Metrics metrics) {
+		MetricsEvent event = new MetricsEvent(this, method, metrics);
+
+		HashSet listeners;
+		synchronized(metrics_listeners) {
+			listeners = (HashSet) metrics_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((MetricsListener) i.next()).StopMethod(event);
+		}
+	}
+
+	protected void fireStopClass(Classfile classfile, Metrics metrics) {
+		MetricsEvent event = new MetricsEvent(this, classfile, metrics);
+
+		HashSet listeners;
+		synchronized(metrics_listeners) {
+			listeners = (HashSet) metrics_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((MetricsListener) i.next()).StopClass(event);
 		}
 	}
 }

@@ -41,7 +41,7 @@ import javax.swing.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
 
-public class MetricsExtractAction extends AbstractAction implements Runnable, LoadListener {
+public class MetricsExtractAction extends AbstractAction implements Runnable, LoadListener, MetricsListener {
 	private OOMetrics model;
 	private File[]    files;
 
@@ -77,9 +77,8 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		loader.addLoadListener(this);
 		loader.Load(Arrays.asList(files));
 		
-		model.StatusLine().ShowInfo("Computing metrics ...");
-		
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.MetricsFactory());
+		gatherer.addMetricsListener(this);
 		
 		Iterator i = loader.Classfiles().iterator();
 		while (i.hasNext()) {
@@ -111,7 +110,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	}
 	
 	public void BeginGroup(LoadEvent event) {
-		group_size = event.Size();
+		group_size = 2 * event.Size();
 		count = 0;
 		
 		model.StatusLine().ShowInfo("Loading " + event.Filename() + " (" + group_size + " classes) ...");
@@ -138,6 +137,24 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	}
 	
 	public void EndSession(LoadEvent event) {
+		// Do nothing
+	}
+
+	public void StartClass(MetricsEvent event) {
+		count++;
+		
+		model.StatusLine().ShowInfo("(" + (count * 100 / group_size) + "%) Computing metrics for " + event.Classfile() + " ...");
+	}
+
+	public void StartMethod(MetricsEvent event) {
+		// Do nothing
+	}
+
+	public void StopMethod(MetricsEvent event) {
+		// Do nothing
+	}
+
+	public void StopClass(MetricsEvent event) {
 		// Do nothing
 	}
 }
