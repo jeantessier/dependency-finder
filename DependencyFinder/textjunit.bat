@@ -65,7 +65,7 @@ goto setupArgs
 rem This label provides a place for the argument list loop to break out 
 rem and for NT handling to skip to.
 
-%JAVA_BIN%\java %DEPENDENCYFINDER_OPTS% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xerces.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;c:\language\Java\junit3.7\junit.jar junit.textui.TestRunner %DEPENDENCYFINDER_CMD_LINE_ARGS%
+%JAVA_BIN%\java %DEPENDENCYFINDER_OPTS% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\src;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xmlParserAPIs.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar;c:\language\Java\junit3.7\junit.jar junit.textui.TestRunner %DEPENDENCYFINDER_CMD_LINE_ARGS%
 
 if not "%OS%"=="Windows_NT" goto mainEnd
 :winNTend
