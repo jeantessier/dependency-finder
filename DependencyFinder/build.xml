@@ -133,6 +133,9 @@
 		<attribute name="Compiler-Vendor"        value="${java.vendor}"/>
 		<attribute name="Compiler-Title"         value="${java.runtime.name}"/>
 		<attribute name="Compiler-Version"       value="${java.version}"/>
+		<section name="com/jeantessier/dependencyfinder/Version.class">
+		    <attribute name="Java-Bean" value="True"/>
+		</section>
 	    </manifest>
 	    <zipfileset dir="${classesDir}" prefix="" includes="**/*.class"/>
 	    <zipfileset dir="${srcDir}"     prefix="" includes="**/*.gif"/>
