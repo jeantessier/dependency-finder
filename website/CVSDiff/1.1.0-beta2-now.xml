@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-110b2" endDate="2004-11-11 07:14:04" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-110b2" endDate="2004-11-16 07:23:44" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.53</revision>
+			<revision>1.54</revision>
 			<prevrevision>1.49</prevrevision>
 		</file>
 	</entry>
@@ -21,15 +21,16 @@
 	</entry>
 	<entry>
 		<file>
-			<name>tomcattasks.properties</name>
-			<revision>1.1</revision>
+			<name>bin/txt2html.pl</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
-			<name>bin/txt2html.pl</name>
-			<revision>1.3</revision>
-			<prevrevision>1.2</prevrevision>
+			<name>docs/Manual.txt</name>
+			<revision>1.38</revision>
+			<prevrevision>1.37</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -44,6 +45,13 @@
 			<name>docs/tasks/dependencyclosure.html</name>
 			<revision>1.10</revision>
 			<prevrevision>1.8</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>etc/MetricsConfig.xml</name>
+			<revision>1.18</revision>
+			<prevrevision>1.17</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -124,6 +132,20 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependency/NodeHandler.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependency/NodeLoader.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependency/NullSelectionCriteria.java</name>
 			<revision>1.1</revision>
 		</file>
@@ -166,7 +188,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.11</prevrevision>
 		</file>
 	</entry>
@@ -236,7 +258,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java</name>
-			<revision>1.24</revision>
+			<revision>1.25</revision>
 			<prevrevision>1.23</prevrevision>
 		</file>
 	</entry>
@@ -292,7 +314,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
-			<revision>1.38</revision>
+			<revision>1.39</revision>
 			<prevrevision>1.36</prevrevision>
 		</file>
 	</entry>
