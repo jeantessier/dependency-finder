@@ -21,9 +21,15 @@ th.currentnavigation {
 
 .title {
 	text-align:  center;
+	font-famiy:  courier, monospace;
 	font-weight: bold;
+	font-size:   larger;
 }
 
 .result {
 	color:  black;
+}
+
+.footer {
+	font-size: smaller;
 }

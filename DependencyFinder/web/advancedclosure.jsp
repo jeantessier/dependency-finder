@@ -170,9 +170,7 @@
 
 <table border="0" cellpadding="5"><tr><td colspan="2">
 
-<p class="title">
-<code><%= application.getInitParameter("name") %></code><br />
-</p>
+<p class="title"><code><%= application.getInitParameter("name") %></code></p>
 
 </td></tr><tr><td colspan="2">
 
@@ -327,11 +325,14 @@ Follow outbounds:
 
 <hr size="3" />
 
-<pre class="result">
-
 <%
     if (request.getParameter("submit") != null) {
 	if (application.getAttribute("factory") != null) {
+%>
+
+<pre class="result">
+
+<%
 	    Date start = new Date();
 
 	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
@@ -381,8 +382,6 @@ Follow outbounds:
 	    printer.TraverseNodes(closure.Factory().Packages().values());
 
 	    Date stop = new Date();
-
-	    out.println();
 %>
 
 </pre>
@@ -401,6 +400,13 @@ Follow outbounds:
 	}
     }
 %>
+
+<p class="footer">
+Powered by
+<%= Node.class.getPackage().getImplementationTitle() %>
+<%= Node.class.getPackage().getImplementationVersion() %>
+(&copy; <%= Node.class.getPackage().getImplementationVendor() %>)
+</p>
 
 </body>
 

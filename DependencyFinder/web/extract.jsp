@@ -40,7 +40,7 @@
 <title>Extract <%= application.getInitParameter("name") %></title>
 </head>
 
-<body class="normal">
+<body>
 
 <%!
     private class MyListener implements LoadListener {
@@ -224,6 +224,13 @@
 	}
     }
 %>
+
+<p class="footer">
+Powered by
+<%= Node.class.getPackage().getImplementationTitle() %>
+<%= Node.class.getPackage().getImplementationVersion() %>
+(&copy; <%= Node.class.getPackage().getImplementationVendor() %>)
+</p>
 
 </body>
 

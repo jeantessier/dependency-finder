@@ -1,5 +1,5 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="java.io.*" %>
+<%@ page import="java.io.*, com.jeantessier.dependency.*" %>
 
 <!--
     Copyright (c) 2001-2003, Jean Tessier
@@ -40,13 +40,20 @@
 <title>Error in <%= application.getInitParameter("name") %></title>
 </head>
 
-<body class="normal">
+<body>
 
 <h1>Error:</h1>
 
 <pre>
 <% exception.printStackTrace(new PrintWriter(out)); %>
 </pre>
+
+<p class="footer">
+Powered by
+<%= Node.class.getPackage().getImplementationTitle() %>
+<%= Node.class.getPackage().getImplementationVersion() %>
+(&copy; <%= Node.class.getPackage().getImplementationVendor() %>)
+</p>
 
 </body>
 
