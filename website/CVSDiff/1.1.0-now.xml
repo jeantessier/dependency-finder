@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-110" endDate="2005-01-12 01:11:48" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-110" endDate="2005-03-05 03:11:48" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.64</revision>
+			<revision>1.66</revision>
 			<prevrevision>1.60</prevrevision>
 		</file>
 	</entry>
@@ -73,7 +73,7 @@
 	<entry>
 		<file>
 			<name>bin/OOMetricsGUI</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
@@ -87,7 +87,7 @@
 	<entry>
 		<file>
 			<name>bin/ScriptGenerator.pl</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
@@ -166,6 +166,13 @@
 			<name>bin/txt2html.pl</name>
 			<revision>1.6</revision>
 			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/Developer.txt</name>
+			<revision>1.12</revision>
+			<prevrevision>1.11</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -542,7 +549,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/classreader/ClassfileLoaderEventSource.java</name>
-			<revision>1.14</revision>
+			<revision>1.15</revision>
 			<prevrevision>1.13</prevrevision>
 		</file>
 	</entry>
@@ -709,6 +716,12 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/classreader/GroupData.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/classreader/InnerClass.java</name>
 			<revision>1.11</revision>
 			<prevrevision>1.10</prevrevision>
@@ -779,8 +792,14 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/classreader/LoadListenerBase.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/classreader/LoadListenerVisitorAdapter.java</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
@@ -829,7 +848,13 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/classreader/ModifiedOnlyDispatcher.java</name>
-			<revision>1.1</revision>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/Monitor.java</name>
+			<revision>1.4</revision>
 		</file>
 	</entry>
 	<entry>
@@ -851,6 +876,12 @@
 			<name>src/com/jeantessier/classreader/Printer.java</name>
 			<revision>1.14</revision>
 			<prevrevision>1.13</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/RemoveVisitor.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -1087,7 +1118,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/ClassNode.java</name>
-			<revision>1.12</revision>
+			<revision>1.14</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
@@ -1136,7 +1167,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/CodeDependencyCollector.java</name>
-			<revision>1.22</revision>
+			<revision>1.23</revision>
 			<prevrevision>1.21</prevrevision>
 		</file>
 	</entry>
@@ -1170,6 +1201,12 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependency/DeletingVisitor.java</name>
+			<revision>1.5</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependency/DependencyEvent.java</name>
 			<revision>1.8</revision>
 			<prevrevision>1.7</prevrevision>
@@ -1185,7 +1222,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/FeatureNode.java</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
@@ -1234,14 +1271,14 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/Node.java</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.10</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/NodeFactory.java</name>
-			<revision>1.11</revision>
+			<revision>1.14</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
@@ -1276,7 +1313,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/PackageNode.java</name>
-			<revision>1.11</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
@@ -1290,7 +1327,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependency/RegularExpressionSelectionCriteria.java</name>
-			<revision>1.5</revision>
+			<revision>1.6</revision>
 			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
@@ -1367,7 +1404,6 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/GroupData.java</name>
-			<revision>1.5</revision>
 			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
@@ -1381,7 +1417,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/VerboseListenerBase.java</name>
-			<revision>1.7</revision>
+			<revision>1.8</revision>
 			<prevrevision>1.6</prevrevision>
 		</file>
 	</entry>
@@ -1499,9 +1535,21 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassFinder.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassList.java</name>
 			<revision>1.21</revision>
 			<prevrevision>1.20</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassMatcher.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -1626,14 +1674,14 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java</name>
-			<revision>1.28</revision>
+			<revision>1.30</revision>
 			<prevrevision>1.27</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
-			<revision>1.40</revision>
+			<revision>1.42</revision>
 			<prevrevision>1.39</prevrevision>
 		</file>
 	</entry>
@@ -1731,7 +1779,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java</name>
-			<revision>1.15</revision>
+			<revision>1.17</revision>
 			<prevrevision>1.14</prevrevision>
 		</file>
 	</entry>
@@ -1745,14 +1793,14 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java</name>
-			<revision>1.13</revision>
+			<revision>1.15</revision>
 			<prevrevision>1.12</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java</name>
-			<revision>1.15</revision>
+			<revision>1.16</revision>
 			<prevrevision>1.14</prevrevision>
 		</file>
 	</entry>
@@ -2198,6 +2246,18 @@
 	</entry>
 	<entry>
 		<file>
+			<name>tests/com/jeantessier/classreader/MockRemoveVisitor.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/classreader/MockVisitor.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>tests/com/jeantessier/classreader/TestAggregatingClassfileLoader.java</name>
 			<revision>1.8</revision>
 			<prevrevision>1.7</prevrevision>
@@ -2206,7 +2266,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/classreader/TestAll.java</name>
-			<revision>1.16</revision>
+			<revision>1.17</revision>
 			<prevrevision>1.14</prevrevision>
 		</file>
 	</entry>
@@ -2227,7 +2287,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/classreader/TestClassfileLoader.java</name>
-			<revision>1.6</revision>
+			<revision>1.7</revision>
 			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
@@ -2290,7 +2350,13 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/classreader/TestModifiedOnlyDispatcher.java</name>
-			<revision>1.1</revision>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestMonitor.java</name>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2344,7 +2410,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestAll.java</name>
-			<revision>1.21</revision>
+			<revision>1.23</revision>
 			<prevrevision>1.20</prevrevision>
 		</file>
 	</entry>
@@ -2353,6 +2419,12 @@
 			<name>tests/com/jeantessier/dependency/TestAndCompositeSelectionCriteria.java</name>
 			<revision>1.4</revision>
 			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestClassNode.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2385,6 +2457,12 @@
 	</entry>
 	<entry>
 		<file>
+			<name>tests/com/jeantessier/dependency/TestCodeDependencyCollector.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>tests/com/jeantessier/dependency/TestCollectionSelectionCriteria.java</name>
 			<revision>1.7</revision>
 			<prevrevision>1.6</prevrevision>
@@ -2399,9 +2477,21 @@
 	</entry>
 	<entry>
 		<file>
+			<name>tests/com/jeantessier/dependency/TestDeletingVisitor.java</name>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>tests/com/jeantessier/dependency/TestDependencyExtractor.java</name>
-			<revision>1.16</revision>
+			<revision>1.17</revision>
 			<prevrevision>1.15</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestFeatureNode.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2484,7 +2574,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestNodeFactory.java</name>
-			<revision>1.3</revision>
+			<revision>1.4</revision>
 			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
@@ -2500,6 +2590,12 @@
 			<name>tests/com/jeantessier/dependency/TestOrCompositeSelectionCriteria.java</name>
 			<revision>1.4</revision>
 			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestPackageNode.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2568,8 +2664,14 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependencyfinder/cli/TestAll.java</name>
-			<revision>1.8</revision>
+			<revision>1.9</revision>
 			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tests/com/jeantessier/dependencyfinder/cli/TestClassMatcher.java</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2841,28 +2943,28 @@
 	<entry>
 		<file>
 			<name>web/advancedclosure.jsp</name>
-			<revision>1.29</revision>
+			<revision>1.30</revision>
 			<prevrevision>1.28</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>web/advancedmetrics.jsp</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.11</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>web/advancedquery.jsp</name>
-			<revision>1.27</revision>
+			<revision>1.28</revision>
 			<prevrevision>1.26</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>web/closure.jsp</name>
-			<revision>1.30</revision>
+			<revision>1.31</revision>
 			<prevrevision>1.29</prevrevision>
 		</file>
 	</entry>
@@ -2876,7 +2978,7 @@
 	<entry>
 		<file>
 			<name>web/extract.jsp</name>
-			<revision>1.35</revision>
+			<revision>1.39</revision>
 			<prevrevision>1.34</prevrevision>
 		</file>
 	</entry>
@@ -2890,28 +2992,35 @@
 	<entry>
 		<file>
 			<name>web/load.jsp</name>
-			<revision>1.4</revision>
+			<revision>1.7</revision>
 			<prevrevision>1.3</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>web/metrics.jsp</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.11</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>web/query.jsp</name>
-			<revision>1.30</revision>
+			<revision>1.31</revision>
 			<prevrevision>1.29</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
+			<name>web/style.css</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>web/WEB-INF/web.xml</name>
-			<revision>1.9</revision>
+			<revision>1.10</revision>
 			<prevrevision>1.8</prevrevision>
 		</file>
 	</entry>
