@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -99,8 +99,8 @@ public class MetricsComparator implements Comparator {
 		if ("name".equals(name)) {
 			result = metrics1.Name().compareTo(metrics2.Name());
 		} else {
-			Measurement m1 = metrics1.Metric(name);
-			Measurement m2 = metrics2.Metric(name);
+			Measurement m1 = metrics1.Measurement(name);
+			Measurement m2 = metrics2.Measurement(name);
 			
 			if (m1 == null && m2 != null) {
 				result = -1;

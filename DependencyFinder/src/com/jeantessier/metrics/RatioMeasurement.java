@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,26 +32,53 @@
 
 package com.jeantessier.metrics;
 
-public class RatioMeasurement extends MeasurementBase implements NumericalMeasurement {
-	private NumericalMeasurement base;
-	private NumericalMeasurement divider;
-	
-	public RatioMeasurement(String name, NumericalMeasurement base, NumericalMeasurement divider) {
-		super(name);
+import java.io.*;
 
-		this.base    = base;
-		this.divider = divider;
+import org.apache.log4j.*;
+
+public class RatioMeasurement extends NumericalMeasurementBase {
+	private String base_name;
+	private String divider_name;
+
+	public RatioMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+		super(descriptor, context, init_text);
+
+		try {
+			BufferedReader in = new BufferedReader(new StringReader(init_text));
+			base_name    = in.readLine().trim();
+			divider_name = in.readLine().trim();
+			in.close();
+		} catch (Exception ex) {
+			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
+			base_name    = null;
+			divider_name = null;
+		}
+	}
+	
+	public String BaseName() {
+		return base_name;
 	}
 
-	public void Add(Object object) {
-		// Ignore
+	public String DividerName() {
+		return divider_name;
 	}
 
 	public void Accept(MeasurementVisitor visitor) {
 		visitor.VisitRatioMeasurement(this);
 	}
 
-	public Number Value() {
-		return new Double(base.Value().doubleValue() / divider.Value().doubleValue());
+	protected double Compute() {
+		double result = Double.NaN;
+
+		if (Context() != null && BaseName() != null && DividerName() != null) {
+			Measurement base    = Context().Measurement(BaseName());
+			Measurement divider = Context().Measurement(DividerName());
+			
+			if (base instanceof NumericalMeasurement && divider instanceof NumericalMeasurement) {
+				result = ((NumericalMeasurement) base).doubleValue() / ((NumericalMeasurement) divider).doubleValue();
+			}
+		}
+		
+		return result;
 	}
 }

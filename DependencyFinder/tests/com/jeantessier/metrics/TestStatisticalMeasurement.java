@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -38,13 +38,20 @@ import junit.framework.*;
 
 import org.apache.log4j.*;
 
-public class TestStatisticalMeasurement extends TestCase {
+public class TestStatisticalMeasurement extends TestCase implements MeasurementVisitor {
+	private StatisticalMeasurement measurement;
+	private Metrics metrics;
+	private Measurement visited;
+	
 	public TestStatisticalMeasurement(String name) {
 		super(name);
 	}
 
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
+
+		metrics = new Metrics("foo");
+		measurement = new StatisticalMeasurement(null, metrics, "bar");
 	}
 	
 	protected void tearDown() throws Exception {
@@ -52,64 +59,54 @@ public class TestStatisticalMeasurement extends TestCase {
 	}
 
 	public void testAdd() {
-		StatisticalMeasurement measure = new StatisticalMeasurement("foo", "bar", new Metrics("test"));
+		measurement.Add(new Integer(1));
 
-		measure.Add(new Integer(1));
-
-		assertEquals(0, measure.NbDataPoints());
+		assertEquals(0, measurement.NbDataPoints());
 	}
 
 	public void testComputeEmpty() {
-		Metrics c = new Metrics("c");
-
-		StatisticalMeasurement measure = new StatisticalMeasurement("foo", "bar", c);
-
-		assertEquals("size", 0, measure.NbDataPoints());
-		assertTrue("minimum", Double.isNaN(measure.Minimum()));
-		assertTrue("median", Double.isNaN(measure.Median()));
-		assertTrue("average", Double.isNaN(measure.Average()));
-		assertTrue("maximum", Double.isNaN(measure.Maximum()));
-		assertEquals("sum", 0.0, measure.Sum(), 0.01);
+		assertEquals("size", 0, measurement.NbDataPoints());
+		assertTrue("minimum", Double.isNaN(measurement.Minimum()));
+		assertTrue("median", Double.isNaN(measurement.Median()));
+		assertTrue("average", Double.isNaN(measurement.Average()));
+		assertTrue("maximum", Double.isNaN(measurement.Maximum()));
+		assertEquals("sum", 0.0, measurement.Sum(), 0.01);
 	}
 
 	public void testComputeSingle() {
 		Metrics m = new Metrics("m");
-		Metrics c = new Metrics("c");
+		m.Track("bar", new CounterMeasurement(null, null, null));
+		m.AddToMeasurement("bar", 1);
 
-		c.AddSubMetrics(m);
-		
-		StatisticalMeasurement measure = new StatisticalMeasurement("foo", "bar", c);
+		metrics.AddSubMetrics(m);
 
-		m.TrackMetric("bar", 1);
-
-		assertEquals("size",    1,   measure.NbDataPoints());
-		assertEquals("minimum", 1.0, measure.Minimum(), 0.01);
-		assertEquals("median",  1.0, measure.Median(),  0.01);
-		assertEquals("average", 1.0, measure.Average(), 0.01);
-		assertEquals("maximum", 1.0, measure.Maximum(), 0.01);
-		assertEquals("sum",     1.0, measure.Sum(),     0.01);
+		assertEquals("size",    1,   measurement.NbDataPoints());
+		assertEquals("minimum", 1.0, measurement.Minimum(), 0.01);
+		assertEquals("median",  1.0, measurement.Median(),  0.01);
+		assertEquals("average", 1.0, measurement.Average(), 0.01);
+		assertEquals("maximum", 1.0, measurement.Maximum(), 0.01);
+		assertEquals("sum",     1.0, measurement.Sum(),     0.01);
 	}
 
 	public void testComputePair() {
 		Metrics m1 = new Metrics("m1");
 		Metrics m2 = new Metrics("m2");
 
-		Metrics c = new Metrics("c");
-
-		c.AddSubMetrics(m1);
-		c.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
 		
-		StatisticalMeasurement measure = new StatisticalMeasurement("foo", "bar", c);
+		m1.Track("bar", new CounterMeasurement(null, null, null));
+		m2.Track("bar", new CounterMeasurement(null, null, null));
 
-		m1.TrackMetric("bar", 1);
-		m2.TrackMetric("bar", 100);
+		m1.AddToMeasurement("bar", 1);
+		m2.AddToMeasurement("bar", 100);
 
-		assertEquals("size",      2,   measure.NbDataPoints());
-		assertEquals("minimum",   1.0, measure.Minimum(), 0.01);
-		assertEquals("median",  100.0, measure.Median(),  0.01);
-		assertEquals("average",  50.5, measure.Average(), 0.01);
-		assertEquals("maximum", 100.0, measure.Maximum(), 0.01);
-		assertEquals("sum",     101.0, measure.Sum(),     0.01);
+		assertEquals("size",      2,   measurement.NbDataPoints());
+		assertEquals("minimum",   1.0, measurement.Minimum(), 0.01);
+		assertEquals("median",  100.0, measurement.Median(),  0.01);
+		assertEquals("average",  50.5, measurement.Average(), 0.01);
+		assertEquals("maximum", 100.0, measurement.Maximum(), 0.01);
+		assertEquals("sum",     101.0, measurement.Sum(),     0.01);
 	}
 
 	public void testComputeTriple() {
@@ -117,24 +114,24 @@ public class TestStatisticalMeasurement extends TestCase {
 		Metrics m2 = new Metrics("m2");
 		Metrics m3 = new Metrics("m3");
 
-		Metrics c = new Metrics("c");
-
-		c.AddSubMetrics(m1);
-		c.AddSubMetrics(m2);
-		c.AddSubMetrics(m3);
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m3);
 		
-		StatisticalMeasurement measure = new StatisticalMeasurement("foo", "bar", c);
+		m1.Track("bar", new CounterMeasurement(null, null, null));
+		m2.Track("bar", new CounterMeasurement(null, null, null));
+		m3.Track("bar", new CounterMeasurement(null, null, null));
 
-		m1.TrackMetric("bar", 1);
-		m2.TrackMetric("bar", 10);
-		m3.TrackMetric("bar", 100);
+		m1.AddToMeasurement("bar", 1);
+		m2.AddToMeasurement("bar", 10);
+		m3.AddToMeasurement("bar", 100);
 
-		assertEquals("size",      3,   measure.NbDataPoints());
-		assertEquals("minimum",   1.0, measure.Minimum(), 0.01);
-		assertEquals("median",   10.0, measure.Median(),  0.01);
-		assertEquals("average",  37.0, measure.Average(), 0.01);
-		assertEquals("maximum", 100.0, measure.Maximum(), 0.01);
-		assertEquals("sum",     111.0, measure.Sum(),     0.01);
+		assertEquals("size",      3,   measurement.NbDataPoints());
+		assertEquals("minimum",   1.0, measurement.Minimum(), 0.01);
+		assertEquals("median",   10.0, measurement.Median(),  0.01);
+		assertEquals("average",  37.0, measurement.Average(), 0.01);
+		assertEquals("maximum", 100.0, measurement.Maximum(), 0.01);
+		assertEquals("sum",     111.0, measurement.Sum(),     0.01);
 	}
 
 	public void testComputeDie() {
@@ -145,30 +142,33 @@ public class TestStatisticalMeasurement extends TestCase {
 		Metrics m5 = new Metrics("m5");
 		Metrics m6 = new Metrics("m6");
 
-		Metrics c = new Metrics("c");
-
-		c.AddSubMetrics(m1);
-		c.AddSubMetrics(m2);
-		c.AddSubMetrics(m3);
-		c.AddSubMetrics(m4);
-		c.AddSubMetrics(m5);
-		c.AddSubMetrics(m6);
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m3);
+		metrics.AddSubMetrics(m4);
+		metrics.AddSubMetrics(m5);
+		metrics.AddSubMetrics(m6);
 		
-		StatisticalMeasurement measure = new StatisticalMeasurement("foo", "bar", c);
+		m1.Track("bar", new CounterMeasurement(null, null, null));
+		m2.Track("bar", new CounterMeasurement(null, null, null));
+		m3.Track("bar", new CounterMeasurement(null, null, null));
+		m4.Track("bar", new CounterMeasurement(null, null, null));
+		m5.Track("bar", new CounterMeasurement(null, null, null));
+		m6.Track("bar", new CounterMeasurement(null, null, null));
 
-		m1.TrackMetric("bar", 1);
-		m2.TrackMetric("bar", 2);
-		m3.TrackMetric("bar", 3);
-		m4.TrackMetric("bar", 4);
-		m5.TrackMetric("bar", 5);
-		m6.TrackMetric("bar", 6);
+		m1.AddToMeasurement("bar", 1);
+		m2.AddToMeasurement("bar", 2);
+		m3.AddToMeasurement("bar", 3);
+		m4.AddToMeasurement("bar", 4);
+		m5.AddToMeasurement("bar", 5);
+		m6.AddToMeasurement("bar", 6);
 
-		assertEquals("size",     6,   measure.NbDataPoints());
-		assertEquals("minimum",  1.0, measure.Minimum(), 0.01);
-		assertEquals("median",   4.0, measure.Median(),  0.01);
-		assertEquals("average",  3.5, measure.Average(), 0.01);
-		assertEquals("maximum",  6.0, measure.Maximum(), 0.01);
-		assertEquals("sum",     21.0, measure.Sum(),     0.01);
+		assertEquals("size",     6,   measurement.NbDataPoints());
+		assertEquals("minimum",  1.0, measurement.Minimum(), 0.01);
+		assertEquals("median",   4.0, measurement.Median(),  0.01);
+		assertEquals("average",  3.5, measurement.Average(), 0.01);
+		assertEquals("maximum",  6.0, measurement.Maximum(), 0.01);
+		assertEquals("sum",     21.0, measurement.Sum(),     0.01);
 	}
 
 	public void testComputeConstant() {
@@ -179,30 +179,33 @@ public class TestStatisticalMeasurement extends TestCase {
 		Metrics m5 = new Metrics("m5");
 		Metrics m6 = new Metrics("m6");
 
-		Metrics c = new Metrics("c");
-
-		c.AddSubMetrics(m1);
-		c.AddSubMetrics(m2);
-		c.AddSubMetrics(m3);
-		c.AddSubMetrics(m4);
-		c.AddSubMetrics(m5);
-		c.AddSubMetrics(m6);
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m3);
+		metrics.AddSubMetrics(m4);
+		metrics.AddSubMetrics(m5);
+		metrics.AddSubMetrics(m6);
 		
-		StatisticalMeasurement measure = new StatisticalMeasurement("foo", "bar", c);
+		m1.Track("bar", new CounterMeasurement(null, null, null));
+		m2.Track("bar", new CounterMeasurement(null, null, null));
+		m3.Track("bar", new CounterMeasurement(null, null, null));
+		m4.Track("bar", new CounterMeasurement(null, null, null));
+		m5.Track("bar", new CounterMeasurement(null, null, null));
+		m6.Track("bar", new CounterMeasurement(null, null, null));
 
-		m1.TrackMetric("bar", 1);
-		m2.TrackMetric("bar", 1);
-		m3.TrackMetric("bar", 1);
-		m4.TrackMetric("bar", 1);
-		m5.TrackMetric("bar", 1);
-		m6.TrackMetric("bar", 1);
+		m1.AddToMeasurement("bar", 1);
+		m2.AddToMeasurement("bar", 1);
+		m3.AddToMeasurement("bar", 1);
+		m4.AddToMeasurement("bar", 1);
+		m5.AddToMeasurement("bar", 1);
+		m6.AddToMeasurement("bar", 1);
 
-		assertEquals("size",    6,   measure.NbDataPoints());
-		assertEquals("minimum", 1.0, measure.Minimum(), 0.01);
-		assertEquals("median",  1.0, measure.Median(),  0.01);
-		assertEquals("average", 1.0, measure.Average(), 0.01);
-		assertEquals("maximum", 1.0, measure.Maximum(), 0.01);
-		assertEquals("sum",     6.0, measure.Sum(),     0.01);
+		assertEquals("size",    6,   measurement.NbDataPoints());
+		assertEquals("minimum", 1.0, measurement.Minimum(), 0.01);
+		assertEquals("median",  1.0, measurement.Median(),  0.01);
+		assertEquals("average", 1.0, measurement.Average(), 0.01);
+		assertEquals("maximum", 1.0, measurement.Maximum(), 0.01);
+		assertEquals("sum",     6.0, measurement.Sum(),     0.01);
 	}
 
 	public void testComputeExponential() {
@@ -218,39 +221,73 @@ public class TestStatisticalMeasurement extends TestCase {
 		Metrics m10 = new Metrics("m10");
 		Metrics m11 = new Metrics("m11");
 
-		Metrics c = new Metrics("c");
-
-		c.AddSubMetrics(m01);
-		c.AddSubMetrics(m02);
-		c.AddSubMetrics(m03);
-		c.AddSubMetrics(m04);
-		c.AddSubMetrics(m05);
-		c.AddSubMetrics(m06);
-		c.AddSubMetrics(m07);
-		c.AddSubMetrics(m08);
-		c.AddSubMetrics(m09);
-		c.AddSubMetrics(m10);
-		c.AddSubMetrics(m11);
+		metrics.AddSubMetrics(m01);
+		metrics.AddSubMetrics(m02);
+		metrics.AddSubMetrics(m03);
+		metrics.AddSubMetrics(m04);
+		metrics.AddSubMetrics(m05);
+		metrics.AddSubMetrics(m06);
+		metrics.AddSubMetrics(m07);
+		metrics.AddSubMetrics(m08);
+		metrics.AddSubMetrics(m09);
+		metrics.AddSubMetrics(m10);
+		metrics.AddSubMetrics(m11);
 		
-		StatisticalMeasurement measure = new StatisticalMeasurement("foo", "bar", c);
+		m01.Track("bar", new CounterMeasurement(null, null, null));
+		m02.Track("bar", new CounterMeasurement(null, null, null));
+		m03.Track("bar", new CounterMeasurement(null, null, null));
+		m04.Track("bar", new CounterMeasurement(null, null, null));
+		m05.Track("bar", new CounterMeasurement(null, null, null));
+		m06.Track("bar", new CounterMeasurement(null, null, null));
+		m07.Track("bar", new CounterMeasurement(null, null, null));
+		m08.Track("bar", new CounterMeasurement(null, null, null));
+		m09.Track("bar", new CounterMeasurement(null, null, null));
+		m10.Track("bar", new CounterMeasurement(null, null, null));
+		m11.Track("bar", new CounterMeasurement(null, null, null));
 
-		m01.TrackMetric("bar", 1);
-		m02.TrackMetric("bar", 2);
-		m03.TrackMetric("bar", 4);
-		m04.TrackMetric("bar", 8);
-		m05.TrackMetric("bar", 16);
-		m06.TrackMetric("bar", 32);
-		m07.TrackMetric("bar", 64);
-		m08.TrackMetric("bar", 128);
-		m09.TrackMetric("bar", 256);
-		m10.TrackMetric("bar", 512);
-		m11.TrackMetric("bar", 1024);
+		m01.AddToMeasurement("bar", 1);
+		m02.AddToMeasurement("bar", 2);
+		m03.AddToMeasurement("bar", 4);
+		m04.AddToMeasurement("bar", 8);
+		m05.AddToMeasurement("bar", 16);
+		m06.AddToMeasurement("bar", 32);
+		m07.AddToMeasurement("bar", 64);
+		m08.AddToMeasurement("bar", 128);
+		m09.AddToMeasurement("bar", 256);
+		m10.AddToMeasurement("bar", 512);
+		m11.AddToMeasurement("bar", 1024);
 
-		assertEquals("size",      11,   measure.NbDataPoints());
-		assertEquals("minimum",    1.0, measure.Minimum(), 0.01);
-		assertEquals("median",    32.0, measure.Median(),  0.01);
-		assertEquals("average",  186.1, measure.Average(), 0.01);
-		assertEquals("maximum", 1024.0, measure.Maximum(), 0.01);
-		assertEquals("sum",     2047.0, measure.Sum(),     0.01);
+		assertEquals("size",      11,   measurement.NbDataPoints());
+		assertEquals("minimum",    1.0, measurement.Minimum(), 0.01);
+		assertEquals("median",    32.0, measurement.Median(),  0.01);
+		assertEquals("average",  186.1, measurement.Average(), 0.01);
+		assertEquals("maximum", 1024.0, measurement.Maximum(), 0.01);
+		assertEquals("sum",     2047.0, measurement.Sum(),     0.01);
+	}
+
+	public void testAccept() {
+		visited = null;
+		measurement.Accept(this);
+		assertSame(measurement, visited);
+	}
+	
+	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+		visited = measurement;
+	}
+	
+	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+		// Do nothing
 	}
 }

@@ -32,55 +32,32 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
-
-public class TestMetricsFactory extends TestCase {
-	MetricsFactory factory;
-	
-	public TestMetricsFactory(String name) {
-		super(name);
+public class NullMeasurement implements Measurement {
+	public MeasurementDescriptor Descriptor() {
+		return null;
 	}
 
-	protected void setUp() throws Exception {
-		factory = new MetricsFactory("test");
+	public Metrics Context() {
+		return null;
 	}
 	
-	public void testCreateProjectMetrics() {
-		Metrics m1 = factory.CreateProjectMetrics("foo");
-		Metrics m2 = factory.CreateProjectMetrics("foo");
-
-		assertSame(m1, m2);
+	public String ShortName() {
+		return null;
 	}
 	
-	public void testCreateGroupMetrics() {
-		Metrics m1 = factory.CreateGroupMetrics("foo");
-		Metrics m2 = factory.CreateGroupMetrics("foo");
-
-		assertSame(m1, m2);
+	public String LongName() {
+		return null;
 	}
 	
-	public void testCreateClassMetrics() {
-		Metrics m1 = factory.CreateClassMetrics("foo");
-		Metrics m2 = factory.CreateClassMetrics("foo");
-
-		assertSame(m1, m2);
+	public boolean InRange() {
+		return false;
 	}
 	
-	public void testCreateMethodMetrics() {
-		Metrics m1 = factory.CreateMethodMetrics("foo");
-		Metrics m2 = factory.CreateMethodMetrics("foo");
-
-		assertSame(m1, m2);
+	public void Add(Object object) {
+		// Do nothing
 	}
 
-	public void testCreateStructure() {
-		Metrics method_metrics  = factory.CreateMethodMetrics("a.A.a()");
-		Metrics class_metrics   = factory.CreateClassMetrics("a.A");
-		Metrics package_metrics = factory.CreateGroupMetrics("a");
-		Metrics project_metrics = factory.CreateProjectMetrics();
-
-		assertTrue(project_metrics.SubMetrics().contains(package_metrics));
-		assertTrue(package_metrics.SubMetrics().contains(class_metrics));
-		assertTrue(class_metrics.SubMetrics().contains(method_metrics));
+	public void Accept(MeasurementVisitor visitor) {
+		// Do nothing
 	}
 }

@@ -32,55 +32,67 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import java.util.*;
 
-public class TestMetricsFactory extends TestCase {
-	MetricsFactory factory;
+import org.apache.oro.text.perl.*;
+
+public class MetricsConfiguration {
+	private static final Perl5Util perl = new Perl5Util();
 	
-	public TestMetricsFactory(String name) {
-		super(name);
+	private List project_measurements = new LinkedList();
+	private List group_measurements   = new LinkedList();
+	private List class_measurements   = new LinkedList();
+	private List method_measurements  = new LinkedList();
+	private Map  group_definitions    = new HashMap();
+	
+	public List ProjectMeasurements() {
+		return Collections.unmodifiableList(project_measurements);
 	}
 
-	protected void setUp() throws Exception {
-		factory = new MetricsFactory("test");
-	}
-	
-	public void testCreateProjectMetrics() {
-		Metrics m1 = factory.CreateProjectMetrics("foo");
-		Metrics m2 = factory.CreateProjectMetrics("foo");
-
-		assertSame(m1, m2);
-	}
-	
-	public void testCreateGroupMetrics() {
-		Metrics m1 = factory.CreateGroupMetrics("foo");
-		Metrics m2 = factory.CreateGroupMetrics("foo");
-
-		assertSame(m1, m2);
+	public void AddProjectMeasurement(MeasurementDescriptor descriptor) {
+		project_measurements.add(descriptor);
 	}
 	
-	public void testCreateClassMetrics() {
-		Metrics m1 = factory.CreateClassMetrics("foo");
-		Metrics m2 = factory.CreateClassMetrics("foo");
+	public List GroupMeasurements() {
+		return Collections.unmodifiableList(group_measurements);
+	}
 
-		assertSame(m1, m2);
+	public void AddGroupMeasurement(MeasurementDescriptor descriptor) {
+		group_measurements.add(descriptor);
 	}
 	
-	public void testCreateMethodMetrics() {
-		Metrics m1 = factory.CreateMethodMetrics("foo");
-		Metrics m2 = factory.CreateMethodMetrics("foo");
-
-		assertSame(m1, m2);
+	public List ClassMeasurements() {
+		return Collections.unmodifiableList(class_measurements);
 	}
 
-	public void testCreateStructure() {
-		Metrics method_metrics  = factory.CreateMethodMetrics("a.A.a()");
-		Metrics class_metrics   = factory.CreateClassMetrics("a.A");
-		Metrics package_metrics = factory.CreateGroupMetrics("a");
-		Metrics project_metrics = factory.CreateProjectMetrics();
+	public void AddClassMeasurement(MeasurementDescriptor descriptor) {
+		class_measurements.add(descriptor);
+	}
+	
+	public List MethodMeasurements() {
+		return Collections.unmodifiableList(method_measurements);
+	}
 
-		assertTrue(project_metrics.SubMetrics().contains(package_metrics));
-		assertTrue(package_metrics.SubMetrics().contains(class_metrics));
-		assertTrue(class_metrics.SubMetrics().contains(method_metrics));
+	public void AddMethodMeasurement(MeasurementDescriptor descriptor) {
+		method_measurements.add(descriptor);
+	}
+
+	public void AddGroupDefinition(String name, String pattern) {
+		group_definitions.put(name, pattern);
+	}
+
+	public Collection Groups(String name) {
+		Collection result = new LinkedList();
+
+		Iterator i = group_definitions.keySet().iterator();
+		while (i.hasNext()) {
+			String key = (String) i.next();
+
+			if (perl.match((String) group_definitions.get(key), name)) {
+				result.add(key);
+			}
+		}
+		
+		return result;
 	}
 }

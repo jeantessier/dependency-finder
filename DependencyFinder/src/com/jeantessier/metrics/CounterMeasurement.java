@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,26 +32,16 @@
 
 package com.jeantessier.metrics;
 
-public class CounterMeasurement extends MeasurementBase implements NumericalMeasurement {
-	private Number value;
+public class CounterMeasurement extends NumericalMeasurementBase {
+	private double value;
 
-	public CounterMeasurement(String name) {
-		this(name, new Double(0.0));
-	}
-	
-	public CounterMeasurement(String name, double starting_value) {
-		this(name, new Double(starting_value));
-	}
-	
-	public CounterMeasurement(String name, Number starting_value) {
-		super(name);
-		
-		value = starting_value;
+	public CounterMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+		super(descriptor, context, init_text);
 	}
 
 	public void Add(Object object) {
 		if (object instanceof Number) {
-			value = new Double(value.doubleValue() + ((Number) object).doubleValue());
+			value += ((Number) object).doubleValue();
 		}
 	}
 
@@ -59,7 +49,23 @@ public class CounterMeasurement extends MeasurementBase implements NumericalMeas
 		visitor.VisitCounterMeasurement(this);
 	}
 
-	public Number Value() {
+	public void Add(int i) {
+		value += i;
+	}
+	
+	public void Add(long l) {
+		value += l;
+	}
+	
+	public void Add(float f) {
+		value += f;
+	}
+	
+	public void Add(double d) {
+		value += d;
+	}
+
+	protected double Compute() {
 		return value;
 	}
 }

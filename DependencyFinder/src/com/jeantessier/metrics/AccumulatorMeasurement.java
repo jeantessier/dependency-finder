@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -34,11 +34,11 @@ package com.jeantessier.metrics;
 
 import java.util.*;
 
-public class AccumulatorMeasurement extends MeasurementBase implements NumericalMeasurement {
+public class AccumulatorMeasurement extends NumericalMeasurementBase {
 	private Collection collection = new HashSet();
 
-	public AccumulatorMeasurement(String name) {
-		super(name);
+	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+		super(descriptor, context, init_text);
 	}
 
 	public void Add(Object object) {
@@ -51,5 +51,25 @@ public class AccumulatorMeasurement extends MeasurementBase implements Numerical
 
 	public Number Value() {
 		return new Integer(collection.size());
+	}
+
+	public int intValue() {
+		return collection.size();
+	}
+
+	public long longValue() {
+		return collection.size();
+	}
+
+	public float floatValue() {
+		return collection.size();
+	}
+
+	public double doubleValue() {
+		return collection.size();
+	}
+
+	protected double Compute() {
+		return collection.size();
 	}
 }

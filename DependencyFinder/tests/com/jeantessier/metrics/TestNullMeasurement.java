@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,22 +32,55 @@
 
 package com.jeantessier.metrics;
 
-import java.util.*;
+import junit.framework.*;
 
-public abstract class SubMetricsBasedMeasurement extends MeasurementBase {
-	private Metrics metrics;
-
-	public SubMetricsBasedMeasurement(String name, Metrics metrics) {
+public class TestNullMeasurement extends TestCase implements MeasurementVisitor {
+	private NullMeasurement measurement;
+	private Measurement visited;
+	
+	public TestNullMeasurement(String name) {
 		super(name);
-
-		this.metrics = metrics;
 	}
 
-	protected Collection SubMetrics() {
-		return metrics.SubMetrics();
+	protected void setUp() {
+		measurement = new NullMeasurement();
+	}
+	
+	public void testMeasurementDescriptor() throws Exception {
+		assertNull(measurement.Descriptor());
+		assertNull(measurement.ShortName());
+		assertNull(measurement.LongName());
 	}
 
-	public void Add(Object object) {
-		// Ignore
+	public void testAdd() {
+		measurement.Add(null);
+		measurement.Add(new Object());
+		measurement.Add(measurement);
+	}
+
+	public void testAccept() {
+		visited = null;
+		measurement.Accept(this);
+		assertNull(visited);
+	}
+	
+	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+		visited = measurement;
+	}
+	
+	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+		visited = measurement;
+	}
+	
+	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+		visited = measurement;
+	}
+	
+	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+		visited = measurement;
+	}
+	
+	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+		visited = measurement;
 	}
 }

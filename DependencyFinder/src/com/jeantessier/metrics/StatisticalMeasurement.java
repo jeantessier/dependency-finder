@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,11 +32,12 @@
 
 package com.jeantessier.metrics;
 
+import java.io.*;
 import java.util.*;
 
 import org.apache.log4j.*;
 
-public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
+public class StatisticalMeasurement extends MeasurementBase {
 
 	/** Ignore StatisticalMeasurements and drill down to the next level */
 	public static final int DISPOSE_IGNORE = 0;
@@ -59,7 +60,7 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 	/** Use NbDataPoints() value on StatisticalMeasurements */
 	public static final int DISPOSE_NB_DATA_POINTS = 6;
 
-	private String monitored_metric;
+	private String monitored_measurement;
 	private int    dispose;
 	
 	private List data = new LinkedList();
@@ -73,19 +74,45 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 
 	private int nb_submetrics = -1;
 	
-	public StatisticalMeasurement(String name, String monitored_metric, Metrics metrics) {
-		this(name, monitored_metric, metrics, DISPOSE_IGNORE);
+	public StatisticalMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+		super(descriptor, context, init_text);
+
+		try {
+			BufferedReader in = new BufferedReader(new StringReader(init_text));
+			monitored_measurement = in.readLine().trim();
+
+			String dispose_text = in.readLine();
+			if (dispose_text != null) {
+				dispose_text = dispose_text.trim();
+
+				if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
+					dispose = DISPOSE_IGNORE;
+				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+					dispose = DISPOSE_MINIMUM;
+				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+					dispose = DISPOSE_MEDIAN;
+				} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+					dispose = DISPOSE_AVERAGE;
+				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+					dispose = DISPOSE_MAXIMUM;
+				} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
+					dispose = DISPOSE_SUM;
+				} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+					dispose = DISPOSE_NB_DATA_POINTS;
+				} else {
+					dispose = DISPOSE_IGNORE;
+				}
+			} else {
+				dispose = DISPOSE_IGNORE;
+			}
+			
+			in.close();
+		} catch (Exception ex) {
+			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
+			monitored_measurement = null;
+		}
 	}
 	
-	public StatisticalMeasurement(String name, String monitored_metric, Metrics metrics, int dispose) {
-		super(name, metrics);
-
-		this.monitored_metric = monitored_metric;
-		this.dispose          = dispose;
-
-		Logger.getLogger(getClass()).debug("Created for " + this.monitored_metric + " with dispose of " + this.dispose);
-	}
-
 	public double Minimum() {
 		Compute();
 		return minimum;
@@ -117,10 +144,10 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 	}
 	
 	private synchronized void Compute() {
-		if (SubMetrics().size() != nb_submetrics) {
+		if (Context().SubMetrics().size() != nb_submetrics) {
 			data = new LinkedList();
 
-			Iterator i = SubMetrics().iterator();
+			Iterator i = Context().SubMetrics().iterator();
 			while (i.hasNext()) {
 				VisitMetrics((Metrics) i.next());
 			}
@@ -148,21 +175,21 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 				
 			average = sum / nb_data_points;
 
-			nb_submetrics = SubMetrics().size();
+			nb_submetrics = Context().SubMetrics().size();
 		}
 	}
 	
 	private void VisitMetrics(Metrics metrics) {
 		Logger.getLogger(getClass()).debug("VisitMetrics: " + metrics);
 		
-		Measurement measure = metrics.Metric(monitored_metric);
+		Measurement measure = metrics.Measurement(monitored_measurement);
 
-		Logger.getLogger(getClass()).debug("measure for " + monitored_metric + " is " + measure);
+		Logger.getLogger(getClass()).debug("measure for " + monitored_measurement + " is " + measure);
 		
 		if (measure instanceof NumericalMeasurement) {
 			Number value = ((NumericalMeasurement) measure).Value();
 			
-			Logger.getLogger(getClass()).debug(monitored_metric + " on " + metrics.Name() + " is " + value);
+			Logger.getLogger(getClass()).debug(monitored_measurement + " on " + metrics.Name() + " is " + value);
 
 			if (value != null) {
 				data.add(value);
@@ -212,7 +239,7 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 					}
 					break;
 			}
-		} else if (measure == null) {
+		} else {
 			Logger.getLogger(getClass()).debug("Skipping to next level ...");
 			Iterator i = metrics.SubMetrics().iterator();
 			while (i.hasNext()) {

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -52,9 +52,9 @@ public class CSVPrinter extends Printer {
 		
 		Append("\"").Append(metrics.Name()).Append("\", ");
 			
-		Iterator names = metrics.MetricNames().iterator();
+		Iterator names = metrics.MeasurementNames().iterator();
 		while (names.hasNext()) {
-			metrics.Metric((String) names.next()).Accept(this);
+			metrics.Measurement((String) names.next()).Accept(this);
 
 			if (names.hasNext()) {
 				Append(", ");
@@ -80,10 +80,10 @@ public class CSVPrinter extends Printer {
 	private void VisitFirstMetrics(Metrics metrics) {
 		Append("\"name\", ");
 		
-		Iterator names = metrics.MetricNames().iterator();
+		Iterator names = metrics.MeasurementNames().iterator();
 		while (names.hasNext()) {
 			String      name    = (String) names.next();
-			Measurement measure = metrics.Metric(name);
+			Measurement measure = metrics.Measurement(name);
 			if (measure instanceof StatisticalMeasurement) {
 				Append("\"").Append(name).Append("(minimum)\", ");
 				Append("\"").Append(name).Append("(median)\", ");
@@ -91,7 +91,7 @@ public class CSVPrinter extends Printer {
 				Append("\"").Append(name).Append("(maximum)\", ");
 				Append("\"").Append(name).Append("(sum)\", ");
 				Append("\"").Append(name).Append("(nb)\"");
-			} else {
+			} else if (!(measure instanceof NullMeasurement)) {
 				Append("\"").Append(name).Append("\"");
 			}
 			

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -51,6 +51,8 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
 	private Metrics g;
 
+	private MeasurementDescriptor descriptor;
+	
 	public TestStatisticalMeasurementWithDispose(String name) {
 		super(name);
 	}
@@ -58,6 +60,9 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
+		descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("bar");
+		
 		m1 = new Metrics("m1");
 		m2 = new Metrics("m2");
 		m3 = new Metrics("m3");
@@ -65,18 +70,25 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 		m5 = new Metrics("m5");
 		m6 = new Metrics("m6");
 
-		m1.TrackMetric("bar", 1.0);
-		m2.TrackMetric("bar", 2.0);
-		m3.TrackMetric("bar", 3.0);
-		m4.TrackMetric("bar", 4.0);
-		m5.TrackMetric("bar", 5.0);
-		m6.TrackMetric("bar", 6.0);
+		m1.Track("bar", new CounterMeasurement(null, null, null));
+		m2.Track("bar", new CounterMeasurement(null, null, null));
+		m3.Track("bar", new CounterMeasurement(null, null, null));
+		m4.Track("bar", new CounterMeasurement(null, null, null));
+		m5.Track("bar", new CounterMeasurement(null, null, null));
+		m6.Track("bar", new CounterMeasurement(null, null, null));
 	
+		m1.AddToMeasurement("bar", 1);
+		m2.AddToMeasurement("bar", 2);
+		m3.AddToMeasurement("bar", 3);
+		m4.AddToMeasurement("bar", 4);
+		m5.AddToMeasurement("bar", 5);
+		m6.AddToMeasurement("bar", 6);
+
 		c1 = new Metrics("c1");
 		c2 = new Metrics("c2");
 
-		c1.TrackMetric(new StatisticalMeasurement("bar", "bar", c1));
-		c2.TrackMetric(new StatisticalMeasurement("bar", "bar", c2));
+		c1.Track("bar", new StatisticalMeasurement(descriptor, c1, "bar"));
+		c2.Track("bar", new StatisticalMeasurement(descriptor, c2, "bar"));
 		
 		c1.AddSubMetrics(m1);
 		c1.AddSubMetrics(m2);
@@ -96,7 +108,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testDefault() {
-		StatisticalMeasurement sm = new StatisticalMeasurement("bar", "bar", g);
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar");
 
 		assertEquals("size "    + sm,  6,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm,  1.0, sm.Minimum(), 0.01);
@@ -107,7 +119,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testIgnore() {
-		StatisticalMeasurement sm = new StatisticalMeasurement("bar", "bar", g, StatisticalMeasurement.DISPOSE_IGNORE);
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_IGNORE");
 
 		assertEquals("size "    + sm,  6,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm,  1.0, sm.Minimum(), 0.01);
@@ -118,7 +130,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testMinimum() {
-		StatisticalMeasurement sm = new StatisticalMeasurement("bar", "bar", g, StatisticalMeasurement.DISPOSE_MINIMUM);
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_MINIMUM");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 1.0, sm.Minimum(), 0.01);
@@ -129,7 +141,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testMedian() {
-		StatisticalMeasurement sm = new StatisticalMeasurement("bar", "bar", g, StatisticalMeasurement.DISPOSE_MEDIAN);
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_MEDIAN");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);
@@ -140,7 +152,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testAverage() {
-		StatisticalMeasurement sm = new StatisticalMeasurement("bar", "bar", g, StatisticalMeasurement.DISPOSE_AVERAGE);
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_AVERAGE");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 1.5, sm.Minimum(), 0.01);
@@ -151,7 +163,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testMaximum() {
-		StatisticalMeasurement sm = new StatisticalMeasurement("bar", "bar", g, StatisticalMeasurement.DISPOSE_MAXIMUM);
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_MAXIMUM");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);
@@ -162,7 +174,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testSum() {
-		StatisticalMeasurement sm = new StatisticalMeasurement("bar", "bar", g, StatisticalMeasurement.DISPOSE_SUM);
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_SUM");
 
 		assertEquals("size "    + sm,  2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm,  3.0, sm.Minimum(), 0.01);
@@ -173,7 +185,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testNbDataPoints() {
-		StatisticalMeasurement sm = new StatisticalMeasurement("bar", "bar", g, StatisticalMeasurement.DISPOSE_NB_DATA_POINTS);
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_NB_DATA_POINTS");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);

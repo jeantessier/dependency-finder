@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -108,35 +108,35 @@ public class MetricsGatherer extends VisitorBase {
 		CurrentGroup(CurrentClass().Parent());
 		CurrentProject(CurrentGroup().Parent());
 
-		CurrentProject().AddToMetric(Metrics.PACKAGES, CurrentGroup());
+		CurrentProject().AddToMeasurement(Metrics.PACKAGES, CurrentGroup());
 		
 		if ((classfile.AccessFlag() & Classfile.ACC_PUBLIC) != 0) {
-			CurrentProject().AddToMetric(Metrics.PUBLIC_CLASSES);
-			CurrentGroup().AddToMetric(Metrics.PUBLIC_CLASSES);
+			CurrentProject().AddToMeasurement(Metrics.PUBLIC_CLASSES);
+			CurrentGroup().AddToMeasurement(Metrics.PUBLIC_CLASSES);
 		}
 
 		if ((classfile.AccessFlag() & Classfile.ACC_FINAL) != 0) {
-			CurrentProject().AddToMetric(Metrics.FINAL_CLASSES);
-			CurrentGroup().AddToMetric(Metrics.FINAL_CLASSES);
+			CurrentProject().AddToMeasurement(Metrics.FINAL_CLASSES);
+			CurrentGroup().AddToMeasurement(Metrics.FINAL_CLASSES);
 		}
 
 		if ((classfile.AccessFlag() & Classfile.ACC_INTERFACE) != 0) {
-			CurrentProject().AddToMetric(Metrics.INTERFACES);
-			CurrentGroup().AddToMetric(Metrics.INTERFACES);
+			CurrentProject().AddToMeasurement(Metrics.INTERFACES);
+			CurrentGroup().AddToMeasurement(Metrics.INTERFACES);
 		}
 
 		if ((classfile.AccessFlag() & Classfile.ACC_ABSTRACT) != 0) {
-			CurrentProject().AddToMetric(Metrics.ABSTRACT_CLASSES);
-			CurrentGroup().AddToMetric(Metrics.ABSTRACT_CLASSES);
+			CurrentProject().AddToMeasurement(Metrics.ABSTRACT_CLASSES);
+			CurrentGroup().AddToMeasurement(Metrics.ABSTRACT_CLASSES);
 		}
 
 		if (classfile.SuperclassIndex() != 0) {
 			Classfile superclass = classfile.Loader().Classfile(classfile.Superclass());
 
 			if (superclass != null) {
-				MetricsFactory().CreateClassMetrics(superclass.Class()).AddToMetric(Metrics.SUBCLASSES);
+				MetricsFactory().CreateClassMetrics(superclass.Class()).AddToMeasurement(Metrics.SUBCLASSES);
 			}
-			CurrentClass().AddToMetric(Metrics.DEPTH_OF_INHERITANCE, ComputeDepthOfInheritance(superclass));
+			CurrentClass().AddToMeasurement(Metrics.DEPTH_OF_INHERITANCE, ComputeDepthOfInheritance(superclass));
 		}
 
 		Iterator i;
@@ -183,32 +183,32 @@ public class MetricsGatherer extends VisitorBase {
 
 	// Features
 	public void VisitField_info(Field_info entry) {
-		CurrentClass().AddToMetric(Metrics.ATTRIBUTES);
+		CurrentClass().AddToMeasurement(Metrics.ATTRIBUTES);
 		
 		if ((entry.AccessFlag() & Field_info.ACC_PUBLIC) != 0) {
-			CurrentClass().AddToMetric(Metrics.PUBLIC_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.PUBLIC_ATTRIBUTES);
 		} else if ((entry.AccessFlag() & Field_info.ACC_PRIVATE) != 0) {
-			CurrentClass().AddToMetric(Metrics.PRIVATE_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.PRIVATE_ATTRIBUTES);
 		} else if ((entry.AccessFlag() & Field_info.ACC_PROTECTED) != 0) {
-			CurrentClass().AddToMetric(Metrics.PROTECTED_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.PROTECTED_ATTRIBUTES);
 		} else {
-			CurrentClass().AddToMetric(Metrics.PACKAGE_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.PACKAGE_ATTRIBUTES);
 		}
 
 		if ((entry.AccessFlag() & Field_info.ACC_STATIC) != 0) {
-			CurrentClass().AddToMetric(Metrics.STATIC_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.STATIC_ATTRIBUTES);
 		}
 
 		if ((entry.AccessFlag() & Field_info.ACC_FINAL) != 0) {
-			CurrentClass().AddToMetric(Metrics.FINAL_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.FINAL_ATTRIBUTES);
 		}
 
 		if ((entry.AccessFlag() & Field_info.ACC_VOLATILE) != 0) {
-			CurrentClass().AddToMetric(Metrics.VOLATILE_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.VOLATILE_ATTRIBUTES);
 		}
 
 		if ((entry.AccessFlag() & Field_info.ACC_TRANSIENT) != 0) {
-			CurrentClass().AddToMetric(Metrics.TRANSIENT_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.TRANSIENT_ATTRIBUTES);
 		}
 
 		Iterator i = entry.Attributes().iterator();
@@ -221,36 +221,36 @@ public class MetricsGatherer extends VisitorBase {
 		CurrentMethod(MetricsFactory().CreateMethodMetrics(entry.FullSignature()));
 
 		if ((entry.AccessFlag() & Method_info.ACC_PUBLIC) != 0) {
-			CurrentClass().AddToMetric(Metrics.PUBLIC_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.PUBLIC_METHODS);
 		} else if ((entry.AccessFlag() & Method_info.ACC_PRIVATE) != 0) {
-			CurrentClass().AddToMetric(Metrics.PRIVATE_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.PRIVATE_METHODS);
 		} else if ((entry.AccessFlag() & Method_info.ACC_PROTECTED) != 0) {
-			CurrentClass().AddToMetric(Metrics.PROTECTED_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.PROTECTED_METHODS);
 		} else {
-			CurrentClass().AddToMetric(Metrics.PACKAGE_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.PACKAGE_METHODS);
 		}
 
 		if ((entry.AccessFlag() & Method_info.ACC_STATIC) != 0) {
-			CurrentClass().AddToMetric(Metrics.STATIC_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.STATIC_METHODS);
 		}
 
 		if ((entry.AccessFlag() & Method_info.ACC_FINAL) != 0) {
-			CurrentClass().AddToMetric(Metrics.FINAL_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.FINAL_METHODS);
 		}
 
 		if ((entry.AccessFlag() & Method_info.ACC_SYNCHRONIZED) != 0) {
-			CurrentClass().AddToMetric(Metrics.SYNCHRONIZED_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.SYNCHRONIZED_METHODS);
 		}
 
 		if ((entry.AccessFlag() & Method_info.ACC_NATIVE) != 0) {
-			CurrentClass().AddToMetric(Metrics.NATIVE_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.NATIVE_METHODS);
 		}
 
 		if ((entry.AccessFlag() & Method_info.ACC_ABSTRACT) != 0) {
-			CurrentClass().AddToMetric(Metrics.ABSTRACT_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.ABSTRACT_METHODS);
 		}
 
-		CurrentMethod().AddToMetric(Metrics.PARAMETERS, SignatureHelper.ParameterCount(entry.Descriptor()));
+		CurrentMethod().AddToMeasurement(Metrics.PARAMETERS, SignatureHelper.ParameterCount(entry.Descriptor()));
 		
 		Iterator i = entry.Attributes().iterator();
 		while (i.hasNext()) {
@@ -281,12 +281,12 @@ public class MetricsGatherer extends VisitorBase {
 		Object owner = attribute.Owner();
 	
 		if (owner instanceof Classfile) {
-			CurrentProject().AddToMetric(Metrics.SYNTHETIC_CLASSES);
-			CurrentGroup().AddToMetric(Metrics.SYNTHETIC_CLASSES);
+			CurrentProject().AddToMeasurement(Metrics.SYNTHETIC_CLASSES);
+			CurrentGroup().AddToMeasurement(Metrics.SYNTHETIC_CLASSES);
 		} else if (owner instanceof Field_info) {
-			CurrentClass().AddToMetric(Metrics.SYNTHETIC_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.SYNTHETIC_ATTRIBUTES);
 		} else if (owner instanceof Method_info) {
-			CurrentClass().AddToMetric(Metrics.SYNTHETIC_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.SYNTHETIC_METHODS);
 		} else {
 			Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
 		}
@@ -295,23 +295,23 @@ public class MetricsGatherer extends VisitorBase {
 	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {}
 
 	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-		CurrentMethod().AddToMetric(Metrics.NLOC, attribute.LineNumbers().size());
+		CurrentMethod().AddToMeasurement(Metrics.NLOC, attribute.LineNumbers().size());
 	}
 
 	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-		CurrentMethod().AddToMetric(Metrics.LOCAL_VARIABLES, attribute.LocalVariables().size());
+		CurrentMethod().AddToMeasurement(Metrics.LOCAL_VARIABLES, attribute.LocalVariables().size());
 	}
 
 	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
 		Object owner = attribute.Owner();
 	
 		if (owner instanceof Classfile) {
-			CurrentProject().AddToMetric(Metrics.DEPRECATED_CLASSES);
-			CurrentGroup().AddToMetric(Metrics.DEPRECATED_CLASSES);
+			CurrentProject().AddToMeasurement(Metrics.DEPRECATED_CLASSES);
+			CurrentGroup().AddToMeasurement(Metrics.DEPRECATED_CLASSES);
 		} else if (owner instanceof Field_info) {
-			CurrentClass().AddToMetric(Metrics.DEPRECATED_ATTRIBUTES);
+			CurrentClass().AddToMeasurement(Metrics.DEPRECATED_ATTRIBUTES);
 		} else if (owner instanceof Method_info) {
-			CurrentClass().AddToMetric(Metrics.DEPRECATED_METHODS);
+			CurrentClass().AddToMeasurement(Metrics.DEPRECATED_METHODS);
 		} else {
 			Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
 		}
@@ -324,44 +324,44 @@ public class MetricsGatherer extends VisitorBase {
 
 	public void VisitInnerClass(InnerClass helper) {
 		if ((helper.InnerClassInfoIndex() != helper.InnerClasses().Classfile().ClassIndex()) && (helper.InnerClassInfo().startsWith(helper.InnerClasses().Classfile().Class()))) {
-			CurrentProject().AddToMetric(Metrics.INNER_CLASSES);
-			CurrentGroup().AddToMetric(Metrics.INNER_CLASSES);
-			CurrentClass().AddToMetric(Metrics.INNER_CLASSES);
+			CurrentProject().AddToMeasurement(Metrics.INNER_CLASSES);
+			CurrentGroup().AddToMeasurement(Metrics.INNER_CLASSES);
+			CurrentClass().AddToMeasurement(Metrics.INNER_CLASSES);
 		
 			if ((helper.AccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
-				CurrentProject().AddToMetric(Metrics.PUBLIC_INNER_CLASSES);
-				CurrentGroup().AddToMetric(Metrics.PUBLIC_INNER_CLASSES);
-				CurrentClass().AddToMetric(Metrics.PUBLIC_INNER_CLASSES);
+				CurrentProject().AddToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
+				CurrentGroup().AddToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
+				CurrentClass().AddToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
 			} else if ((helper.AccessFlag() & InnerClass.ACC_PRIVATE) != 0) {
-				CurrentProject().AddToMetric(Metrics.PRIVATE_INNER_CLASSES);
-				CurrentGroup().AddToMetric(Metrics.PRIVATE_INNER_CLASSES);
-				CurrentClass().AddToMetric(Metrics.PRIVATE_INNER_CLASSES);
+				CurrentProject().AddToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
+				CurrentGroup().AddToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
+				CurrentClass().AddToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
 			} else if ((helper.AccessFlag() & InnerClass.ACC_PROTECTED) != 0) {
-				CurrentProject().AddToMetric(Metrics.PROTECTED_INNER_CLASSES);
-				CurrentGroup().AddToMetric(Metrics.PROTECTED_INNER_CLASSES);
-				CurrentClass().AddToMetric(Metrics.PROTECTED_INNER_CLASSES);
+				CurrentProject().AddToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
+				CurrentGroup().AddToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
+				CurrentClass().AddToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
 			} else {
-				CurrentProject().AddToMetric(Metrics.PACKAGE_INNER_CLASSES);
-				CurrentGroup().AddToMetric(Metrics.PACKAGE_INNER_CLASSES);
-				CurrentClass().AddToMetric(Metrics.PACKAGE_INNER_CLASSES);
+				CurrentProject().AddToMeasurement(Metrics.PACKAGE_INNER_CLASSES);
+				CurrentGroup().AddToMeasurement(Metrics.PACKAGE_INNER_CLASSES);
+				CurrentClass().AddToMeasurement(Metrics.PACKAGE_INNER_CLASSES);
 			}
 
 			if ((helper.AccessFlag() & InnerClass.ACC_STATIC) != 0) {
-				CurrentProject().AddToMetric(Metrics.STATIC_INNER_CLASSES);
-				CurrentGroup().AddToMetric(Metrics.STATIC_INNER_CLASSES);
-				CurrentClass().AddToMetric(Metrics.STATIC_INNER_CLASSES);
+				CurrentProject().AddToMeasurement(Metrics.STATIC_INNER_CLASSES);
+				CurrentGroup().AddToMeasurement(Metrics.STATIC_INNER_CLASSES);
+				CurrentClass().AddToMeasurement(Metrics.STATIC_INNER_CLASSES);
 			}
 
 			if ((helper.AccessFlag() & InnerClass.ACC_FINAL) != 0) {
-				CurrentProject().AddToMetric(Metrics.FINAL_INNER_CLASSES);
-				CurrentGroup().AddToMetric(Metrics.FINAL_INNER_CLASSES);
-				CurrentClass().AddToMetric(Metrics.FINAL_INNER_CLASSES);
+				CurrentProject().AddToMeasurement(Metrics.FINAL_INNER_CLASSES);
+				CurrentGroup().AddToMeasurement(Metrics.FINAL_INNER_CLASSES);
+				CurrentClass().AddToMeasurement(Metrics.FINAL_INNER_CLASSES);
 			}
 
 			if ((helper.AccessFlag() & InnerClass.ACC_ABSTRACT) != 0) {
-				CurrentProject().AddToMetric(Metrics.ABSTRACT_INNER_CLASSES);
-				CurrentGroup().AddToMetric(Metrics.ABSTRACT_INNER_CLASSES);
-				CurrentClass().AddToMetric(Metrics.ABSTRACT_INNER_CLASSES);
+				CurrentProject().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
+				CurrentGroup().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
+				CurrentClass().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
 			}
 		}
 	}

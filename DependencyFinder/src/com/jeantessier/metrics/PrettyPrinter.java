@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -55,9 +55,9 @@ public class PrettyPrinter extends Printer {
 		Indent().Append(metrics.Name()).Append("\n");
 		RaiseIndent();
 			
-		Iterator names = metrics.MetricNames().iterator();
+		Iterator names = metrics.MeasurementNames().iterator();
 		while (names.hasNext()) {
-			metrics.Metric((String) names.next()).Accept(this);
+			metrics.Measurement((String) names.next()).Accept(this);
 		}
 
 		LowerIndent();
@@ -67,7 +67,7 @@ public class PrettyPrinter extends Printer {
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		Indent();
-		Append(measurement.Name());
+		Append(measurement.LongName());
 		Append(": (").Append(value_format.format(measurement.NbDataPoints())).Append(")");
 		Append("\t").Append(value_format.format(measurement.Minimum()));
 		Append(" ").Append(value_format.format(measurement.Median()));
@@ -82,11 +82,13 @@ public class PrettyPrinter extends Printer {
 	}
 	
 	protected void VisitNumericalMeasurement(NumericalMeasurement measurement) {
-		Indent().Append(measurement.Name()).Append(":\t").Append(value_format.format(measurement.Value()));
-		
-		RatioMeasurement ratio = (RatioMeasurement) current_metrics.Metric(measurement.Name() + " ratio");
-		if (ratio != null) {
+		Indent().Append(measurement.LongName()).Append(":\t").Append(value_format.format(measurement.Value()));
+
+		try {
+			RatioMeasurement ratio = (RatioMeasurement) current_metrics.Measurement(measurement.LongName() + " ratio");
 			Append(" (").Append(ratio_format.format(ratio.Value())).Append(")");
+		} catch (ClassCastException ex) {
+			// Do nothing, no ratio for this measurement
 		}
 		
 		Append("\n");

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,16 +32,16 @@
 
 package com.jeantessier.metrics;
 
-public class NbSubMetricsMeasurement extends SubMetricsBasedMeasurement implements NumericalMeasurement {
-	public NbSubMetricsMeasurement(String name, Metrics metrics) {
-		super(name, metrics);
+public class NbSubMetricsMeasurement extends NumericalMeasurementBase {
+	public NbSubMetricsMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+		super(descriptor, context, init_text);
 	}
-
+	
 	public void Accept(MeasurementVisitor visitor) {
 		visitor.VisitNbSubMetricsMeasurement(this);
 	}
 
-	public Number Value() {
-		return new Integer(SubMetrics().size());
+	protected double Compute() {
+		return Context().SubMetrics().size();
 	}
 }

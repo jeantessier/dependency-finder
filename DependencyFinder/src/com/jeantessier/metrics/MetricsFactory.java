@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -68,19 +68,6 @@ public class MetricsFactory {
 	private Metrics BuildProjectMetrics(String name) {
 		Metrics result = new Metrics(name);
 
-		result.TrackMetric(new NbSubMetricsMeasurement(Metrics.GROUPS, result));
-		result.TrackMetric(new AccumulatorMeasurement(Metrics.PACKAGES));
-		result.TrackMetric(new StatisticalMeasurement("public classes per package", Metrics.PUBLIC_CLASSES, result));
-		result.TrackMetric(new StatisticalMeasurement("final classes per package", Metrics.FINAL_CLASSES, result));
-		result.TrackMetric(new StatisticalMeasurement("abstract classes per package", Metrics.ABSTRACT_CLASSES, result));
-		result.TrackMetric(new StatisticalMeasurement("interfaces per package", Metrics.INTERFACES, result));
-		result.TrackMetric(new StatisticalMeasurement("inner classes per package", Metrics.INNER_CLASSES, result));
-		result.TrackMetric(new StatisticalMeasurement("static classes per package", Metrics.STATIC_CLASSES, result));
-		result.TrackMetric(new StatisticalMeasurement("classes per package", Metrics.CLASSES, result));
-		result.TrackMetric(new StatisticalMeasurement(Metrics.NLOC, Metrics.NLOC, result, StatisticalMeasurement.DISPOSE_SUM));
-		result.TrackMetric(new StatisticalMeasurement("subclasses per class", Metrics.SUBCLASSES, result));
-		result.TrackMetric(new StatisticalMeasurement("depth of inheritance per class", Metrics.DEPTH_OF_INHERITANCE, result));
-
 		return result;
 	}
 
@@ -107,31 +94,6 @@ public class MetricsFactory {
 		Metrics project_metrics = CreateProjectMetrics();
 		Metrics result          = new Metrics(project_metrics, name);
 		project_metrics.AddSubMetrics(result);
-
-		result.TrackMetric(new StatisticalMeasurement(Metrics.NLOC, Metrics.NLOC, result, StatisticalMeasurement.DISPOSE_SUM));
-		result.TrackMetric(new NbSubMetricsMeasurement(Metrics.CLASSES, result));
-		result.TrackMetric(Metrics.PUBLIC_CLASSES);
-		result.TrackMetric(Metrics.FINAL_CLASSES);
-		result.TrackMetric(Metrics.ABSTRACT_CLASSES);
-		result.TrackMetric(Metrics.SYNTHETIC_CLASSES);
-		result.TrackMetric(Metrics.INTERFACES);
-		result.TrackMetric(Metrics.INNER_CLASSES);
-		result.TrackMetric(Metrics.DEPRECATED_CLASSES);
-		result.TrackMetric(Metrics.STATIC_CLASSES);
-
-		result.TrackMetric(new RatioMeasurement(Metrics.PUBLIC_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PUBLIC_CLASSES), (NumericalMeasurement) result.Metric(Metrics.CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.FINAL_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.FINAL_CLASSES), (NumericalMeasurement) result.Metric(Metrics.CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.ABSTRACT_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.ABSTRACT_CLASSES), (NumericalMeasurement) result.Metric(Metrics.CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.SYNTHETIC_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.SYNTHETIC_CLASSES), (NumericalMeasurement) result.Metric(Metrics.CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.INTERFACES_RATIO, (NumericalMeasurement) result.Metric(Metrics.INTERFACES), (NumericalMeasurement) result.Metric(Metrics.CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.INNER_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.INNER_CLASSES), (NumericalMeasurement) result.Metric(Metrics.CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.DEPRECATED_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.DEPRECATED_CLASSES), (NumericalMeasurement) result.Metric(Metrics.CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.STATIC_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.STATIC_CLASSES), (NumericalMeasurement) result.Metric(Metrics.CLASSES)));
-		
-		result.TrackMetric(new StatisticalMeasurement("methods per class", Metrics.METHODS, result));
-		result.TrackMetric(new StatisticalMeasurement("attributes per class", Metrics.ATTRIBUTES, result));
-		result.TrackMetric(new StatisticalMeasurement("subclasses per class", Metrics.SUBCLASSES, result));
-		result.TrackMetric(new StatisticalMeasurement("depth of inheritance per class", Metrics.DEPTH_OF_INHERITANCE, result));
 
 		return result;
 	}
@@ -165,82 +127,6 @@ public class MetricsFactory {
 		Metrics result          = new Metrics(package_metrics, name);
 		package_metrics.AddSubMetrics(result);
 
-		result.TrackMetric(new StatisticalMeasurement(Metrics.NLOC, Metrics.NLOC, result));
-
-		result.TrackMetric(new NbSubMetricsMeasurement(Metrics.METHODS, result));
-		result.TrackMetric(Metrics.PUBLIC_METHODS);
-		result.TrackMetric(Metrics.PROTECTED_METHODS);
-		result.TrackMetric(Metrics.PRIVATE_METHODS);
-		result.TrackMetric(Metrics.PACKAGE_METHODS);
-		result.TrackMetric(Metrics.FINAL_METHODS);
-		result.TrackMetric(Metrics.ABSTRACT_METHODS);
-		result.TrackMetric(Metrics.DEPRECATED_METHODS);
-		result.TrackMetric(Metrics.SYNTHETIC_METHODS);
-		result.TrackMetric(Metrics.STATIC_METHODS);
-		result.TrackMetric(Metrics.SYNCHRONIZED_METHODS);
-		result.TrackMetric(Metrics.NATIVE_METHODS);
-		result.TrackMetric(Metrics.TRIVIAL_METHODS);
-
-		result.TrackMetric(new RatioMeasurement(Metrics.PUBLIC_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.PUBLIC_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PROTECTED_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.PROTECTED_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PRIVATE_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.PRIVATE_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PACKAGE_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.PACKAGE_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.FINAL_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.FINAL_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.ABSTRACT_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.ABSTRACT_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.DEPRECATED_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.DEPRECATED_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.SYNTHETIC_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.SYNTHETIC_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.STATIC_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.STATIC_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.SYNCHRONIZED_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.SYNCHRONIZED_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.NATIVE_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.NATIVE_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		result.TrackMetric(new RatioMeasurement(Metrics.TRIVIAL_METHODS_RATIO, (NumericalMeasurement) result.Metric(Metrics.TRIVIAL_METHODS), (NumericalMeasurement) result.Metric(Metrics.METHODS)));
-		
-		result.TrackMetric(Metrics.ATTRIBUTES);
-		result.TrackMetric(Metrics.PUBLIC_ATTRIBUTES);
-		result.TrackMetric(Metrics.PROTECTED_ATTRIBUTES);
-		result.TrackMetric(Metrics.PRIVATE_ATTRIBUTES);
-		result.TrackMetric(Metrics.PACKAGE_ATTRIBUTES);
-		result.TrackMetric(Metrics.FINAL_ATTRIBUTES);
-		result.TrackMetric(Metrics.DEPRECATED_ATTRIBUTES);
-		result.TrackMetric(Metrics.SYNTHETIC_ATTRIBUTES);
-		result.TrackMetric(Metrics.STATIC_ATTRIBUTES);
-		result.TrackMetric(Metrics.TRANSIENT_ATTRIBUTES);
-		result.TrackMetric(Metrics.VOLATILE_ATTRIBUTES);
-
-		result.TrackMetric(new RatioMeasurement(Metrics.PUBLIC_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PUBLIC_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PROTECTED_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PROTECTED_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PRIVATE_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PRIVATE_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PACKAGE_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PACKAGE_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.FINAL_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.FINAL_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.DEPRECATED_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.DEPRECATED_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.SYNTHETIC_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.SYNTHETIC_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.STATIC_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.STATIC_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.TRANSIENT_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.TRANSIENT_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.VOLATILE_ATTRIBUTES_RATIO, (NumericalMeasurement) result.Metric(Metrics.VOLATILE_ATTRIBUTES), (NumericalMeasurement) result.Metric(Metrics.ATTRIBUTES)));
-		
-		result.TrackMetric(Metrics.INNER_CLASSES);
-		result.TrackMetric(Metrics.PUBLIC_INNER_CLASSES);
-		result.TrackMetric(Metrics.PROTECTED_INNER_CLASSES);
-		result.TrackMetric(Metrics.PRIVATE_INNER_CLASSES);
-		result.TrackMetric(Metrics.PACKAGE_INNER_CLASSES);
-		result.TrackMetric(Metrics.ABSTRACT_INNER_CLASSES);
-		result.TrackMetric(Metrics.FINAL_INNER_CLASSES);
-		result.TrackMetric(Metrics.STATIC_INNER_CLASSES);
-
-		result.TrackMetric(new RatioMeasurement(Metrics.PUBLIC_INNER_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PUBLIC_INNER_CLASSES), (NumericalMeasurement) result.Metric(Metrics.INNER_CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PROTECTED_INNER_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PROTECTED_INNER_CLASSES), (NumericalMeasurement) result.Metric(Metrics.INNER_CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PRIVATE_INNER_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PRIVATE_INNER_CLASSES), (NumericalMeasurement) result.Metric(Metrics.INNER_CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.PACKAGE_INNER_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.PACKAGE_INNER_CLASSES), (NumericalMeasurement) result.Metric(Metrics.INNER_CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.ABSTRACT_INNER_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.ABSTRACT_INNER_CLASSES), (NumericalMeasurement) result.Metric(Metrics.INNER_CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.FINAL_INNER_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.FINAL_INNER_CLASSES), (NumericalMeasurement) result.Metric(Metrics.INNER_CLASSES)));
-		result.TrackMetric(new RatioMeasurement(Metrics.STATIC_INNER_CLASSES_RATIO, (NumericalMeasurement) result.Metric(Metrics.STATIC_INNER_CLASSES), (NumericalMeasurement) result.Metric(Metrics.INNER_CLASSES)));
-
-		result.TrackMetric(Metrics.SUBCLASSES);
-		result.TrackMetric(Metrics.DEPTH_OF_INHERITANCE);
-		result.TrackMetric(new AccumulatorMeasurement(Metrics.INBOUND_DEPENDENCIES));
-		result.TrackMetric(new AccumulatorMeasurement(Metrics.OUTBOUND_DEPENDENCIES));
-		result.TrackMetric(new StatisticalMeasurement("parameters per method", Metrics.PARAMETERS, result));
-		result.TrackMetric(new StatisticalMeasurement("variables per method", Metrics.LOCAL_VARIABLES, result));
-
 		return result;
 	}
 
@@ -273,12 +159,6 @@ public class MetricsFactory {
 		Metrics class_metrics = CreateClassMetrics(class_name);
 		Metrics result        = new Metrics(class_metrics, name);
 		class_metrics.AddSubMetrics(result);
-
-		result.TrackMetric(Metrics.NLOC);
-		result.TrackMetric(Metrics.PARAMETERS);
-		result.TrackMetric(new AccumulatorMeasurement(Metrics.INBOUND_DEPENDENCIES));
-		result.TrackMetric(new AccumulatorMeasurement(Metrics.OUTBOUND_DEPENDENCIES));
-		result.TrackMetric(Metrics.LOCAL_VARIABLES);
 
 		return result;
 	}

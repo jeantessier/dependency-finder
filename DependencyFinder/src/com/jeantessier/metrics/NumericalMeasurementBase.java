@@ -32,55 +32,69 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import java.io.*;
 
-public class TestMetricsFactory extends TestCase {
-	MetricsFactory factory;
-	
-	public TestMetricsFactory(String name) {
-		super(name);
-	}
+import org.apache.log4j.*;
 
-	protected void setUp() throws Exception {
-		factory = new MetricsFactory("test");
+public abstract class NumericalMeasurementBase extends MeasurementBase implements NumericalMeasurement {
+	public NumericalMeasurementBase(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+		super(descriptor, context, init_text);
 	}
 	
-	public void testCreateProjectMetrics() {
-		Metrics m1 = factory.CreateProjectMetrics("foo");
-		Metrics m2 = factory.CreateProjectMetrics("foo");
+	public boolean InRange() {
+		boolean result = true;
 
-		assertSame(m1, m2);
+		if (Descriptor() != null) {
+			Object lower_threshold = Descriptor().LowerThreshold();
+			Object upper_threshold = Descriptor().UpperThreshold();
+
+			if (result && lower_threshold instanceof Number) {
+				result = ((Number) lower_threshold).doubleValue() <= Compute();
+			}
+			
+			if (result && upper_threshold instanceof Number) {
+				result = ((Number) upper_threshold).doubleValue() >= Compute();
+			}
+		}
+		
+		return result;
 	}
 	
-	public void testCreateGroupMetrics() {
-		Metrics m1 = factory.CreateGroupMetrics("foo");
-		Metrics m2 = factory.CreateGroupMetrics("foo");
+	public Number Value() {
+		return new Double(Compute());
+	}
 
-		assertSame(m1, m2);
+	public int intValue() {
+		return (int) Compute();
+	}
+
+	public long longValue() {
+		return (long) Compute();
+	}
+
+	public float floatValue() {
+		return (float) Compute();
+	}
+
+	public double doubleValue() {
+		return Compute();
+	}
+
+	public void Add(int i) {
+		// Do nothing
 	}
 	
-	public void testCreateClassMetrics() {
-		Metrics m1 = factory.CreateClassMetrics("foo");
-		Metrics m2 = factory.CreateClassMetrics("foo");
-
-		assertSame(m1, m2);
+	public void Add(long l) {
+		// Do nothing
 	}
 	
-	public void testCreateMethodMetrics() {
-		Metrics m1 = factory.CreateMethodMetrics("foo");
-		Metrics m2 = factory.CreateMethodMetrics("foo");
-
-		assertSame(m1, m2);
+	public void Add(float f) {
+		// Do nothing
 	}
-
-	public void testCreateStructure() {
-		Metrics method_metrics  = factory.CreateMethodMetrics("a.A.a()");
-		Metrics class_metrics   = factory.CreateClassMetrics("a.A");
-		Metrics package_metrics = factory.CreateGroupMetrics("a");
-		Metrics project_metrics = factory.CreateProjectMetrics();
-
-		assertTrue(project_metrics.SubMetrics().contains(package_metrics));
-		assertTrue(package_metrics.SubMetrics().contains(class_metrics));
-		assertTrue(class_metrics.SubMetrics().contains(method_metrics));
+	
+	public void Add(double d) {
+		// Do nothing
 	}
+	
+	protected abstract double Compute();
 }

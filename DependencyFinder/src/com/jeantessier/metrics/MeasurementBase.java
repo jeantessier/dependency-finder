@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -33,13 +33,35 @@
 package com.jeantessier.metrics;
 
 public abstract class MeasurementBase implements Measurement {
-	private String name;
+	private MeasurementDescriptor descriptor = null;
+	private Metrics               context    = null;
+
+	public MeasurementBase(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+		this.descriptor = descriptor;
+		this.context    = context;
+	}
 	
-	public MeasurementBase(String name) {
-		this.name = name;
+	public MeasurementDescriptor Descriptor() {
+		return descriptor;
+	}
+	
+	public Metrics Context() {
+		return context;
+	}
+	
+	public String ShortName() {
+		return Descriptor().ShortName();
+	}
+	
+	public String LongName() {
+		return Descriptor().LongName();
 	}
 
-	public String Name() {
-		return name;
+	public boolean InRange() {
+		return true;
+	}
+	
+	public void Add(Object object) {
+		// Do nothing
 	}
 }

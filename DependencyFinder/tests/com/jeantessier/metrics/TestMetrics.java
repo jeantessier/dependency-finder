@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -43,86 +43,78 @@ public class TestMetrics extends TestCase {
 		Metrics metrics = new Metrics("test");
 
 		assertEquals("test", metrics.Name());
-		assertNull(metrics.Metric("test"));
+		assertNotNull(metrics.Measurement("test"));
+		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
 		assertTrue(metrics.SubMetrics().isEmpty());
 	}
 
-	public void testTrackMetric() {
+	public void testTrack() throws Exception {
 		Metrics metrics = new Metrics("test");
 
-		metrics.TrackMetric("test1");
-		metrics.TrackMetric("test2", 2.0);
-		metrics.TrackMetric("test3", new Double(3.0));
-		metrics.TrackMetric("test4", new Integer(4));
-		
-		assertNull(metrics.Metric("test"));
-		assertNotNull(metrics.Metric("test1"));
-		assertNotNull(metrics.Metric("test2"));
-		assertNotNull(metrics.Metric("test3"));
-		assertNotNull(metrics.Metric("test4"));
-		assertEquals(0.0, ((NumericalMeasurement) metrics.Metric("test1")).Value().doubleValue(), 0.01);
-		assertEquals(2.0, ((NumericalMeasurement) metrics.Metric("test2")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("test3")).Value().doubleValue(), 0.01);
-		assertEquals(4.0, ((NumericalMeasurement) metrics.Metric("test4")).Value().doubleValue(), 0.01);
+		metrics.Track("test1", new CounterMeasurement(null, null, null));
+
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("test2");
+		descriptor.Class(CounterMeasurement.class);
+
+		metrics.Track(descriptor.create());
+
+		assertNotNull(metrics.Measurement("test1"));
+		assertNotNull(metrics.Measurement("test2"));
+
+		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
+		assertEquals(0, ((NumericalMeasurement) metrics.Measurement("test1")).intValue());
+		assertEquals(0, ((NumericalMeasurement) metrics.Measurement("test2")).intValue());
 	}
 
-	public void testAddToMetric() {
+	public void testAddToMeasurement() {
 		Metrics metrics = new Metrics("test");
 
-		metrics.TrackMetric("test0");
-		metrics.TrackMetric("test1", 1.0);
-		metrics.TrackMetric("test2", 2.0);
-		metrics.TrackMetric("test3", new Double(3.0));
-		metrics.TrackMetric("test4", new Integer(4));
+		NumericalMeasurement m0 = new CounterMeasurement(null, null, null);
+		NumericalMeasurement m1 = new CounterMeasurement(null, null, null);
+		NumericalMeasurement m2 = new CounterMeasurement(null, null, null);
 
-		assertNull(metrics.Metric("test"));
-		assertEquals(0.0, ((NumericalMeasurement) metrics.Metric("test0")).Value().doubleValue(), 0.01);
-		assertEquals(1.0, ((NumericalMeasurement) metrics.Metric("test1")).Value().doubleValue(), 0.01);
-		assertEquals(2.0, ((NumericalMeasurement) metrics.Metric("test2")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("test3")).Value().doubleValue(), 0.01);
-		assertEquals(4.0, ((NumericalMeasurement) metrics.Metric("test4")).Value().doubleValue(), 0.01);
-
-		metrics.AddToMetric("test",  1.0);
-		metrics.AddToMetric("test0", 1.0);
-		metrics.AddToMetric("test1", 1.0);
-		metrics.AddToMetric("test2", 1.0);
-		metrics.AddToMetric("test3", 1.0);
-		metrics.AddToMetric("test4", 1.0);
+		m1.Add(1);
+		m2.Add(2.5);
 		
-		assertNull(metrics.Metric("test"));
-		assertEquals(1.0, ((NumericalMeasurement) metrics.Metric("test0")).Value().doubleValue(), 0.01);
-		assertEquals(2.0, ((NumericalMeasurement) metrics.Metric("test1")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("test2")).Value().doubleValue(), 0.01);
-		assertEquals(4.0, ((NumericalMeasurement) metrics.Metric("test3")).Value().doubleValue(), 0.01);
-		assertEquals(5.0, ((NumericalMeasurement) metrics.Metric("test4")).Value().doubleValue(), 0.01);
+		metrics.Track("test0", m0);
+		metrics.Track("test1", m1);
+		metrics.Track("test2", m2);
 
-		metrics.AddToMetric("test",  new Double(1.0));
-		metrics.AddToMetric("test0", new Double(1.0));
-		metrics.AddToMetric("test1", new Double(1.0));
-		metrics.AddToMetric("test2", new Double(1.0));
-		metrics.AddToMetric("test3", new Double(1.0));
-		metrics.AddToMetric("test4", new Double(1.0));
-		
-		assertNull(metrics.Metric("test"));
-		assertEquals(2.0, ((NumericalMeasurement) metrics.Metric("test0")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("test1")).Value().doubleValue(), 0.01);
-		assertEquals(4.0, ((NumericalMeasurement) metrics.Metric("test2")).Value().doubleValue(), 0.01);
-		assertEquals(5.0, ((NumericalMeasurement) metrics.Metric("test3")).Value().doubleValue(), 0.01);
-		assertEquals(6.0, ((NumericalMeasurement) metrics.Metric("test4")).Value().doubleValue(), 0.01);
+		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
+		assertEquals(0.0, ((NumericalMeasurement) metrics.Measurement("test0")).Value().doubleValue(), 0.01);
+		assertEquals(1.0, ((NumericalMeasurement) metrics.Measurement("test1")).Value().doubleValue(), 0.01);
+		assertEquals(2.5, ((NumericalMeasurement) metrics.Measurement("test2")).Value().doubleValue(), 0.01);
 
-		metrics.AddToMetric("test",  new Integer(1));
-		metrics.AddToMetric("test0", new Integer(1));
-		metrics.AddToMetric("test1", new Integer(1));
-		metrics.AddToMetric("test2", new Integer(1));
-		metrics.AddToMetric("test3", new Integer(1));
-		metrics.AddToMetric("test4", new Integer(1));
+		metrics.AddToMeasurement("test",  1.0);
+		metrics.AddToMeasurement("test0", 1.0);
+		metrics.AddToMeasurement("test1", 1.0);
+		metrics.AddToMeasurement("test2", 1.0);
 		
-		assertNull(metrics.Metric("test"));
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("test0")).Value().doubleValue(), 0.01);
-		assertEquals(4.0, ((NumericalMeasurement) metrics.Metric("test1")).Value().doubleValue(), 0.01);
-		assertEquals(5.0, ((NumericalMeasurement) metrics.Metric("test2")).Value().doubleValue(), 0.01);
-		assertEquals(6.0, ((NumericalMeasurement) metrics.Metric("test3")).Value().doubleValue(), 0.01);
-		assertEquals(7.0, ((NumericalMeasurement) metrics.Metric("test4")).Value().doubleValue(), 0.01);
+		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
+		assertEquals(1.0, ((NumericalMeasurement) metrics.Measurement("test0")).Value().doubleValue(), 0.01);
+		assertEquals(2.0, ((NumericalMeasurement) metrics.Measurement("test1")).Value().doubleValue(), 0.01);
+		assertEquals(3.5, ((NumericalMeasurement) metrics.Measurement("test2")).Value().doubleValue(), 0.01);
+
+		metrics.AddToMeasurement("test",  new Double(1.0));
+		metrics.AddToMeasurement("test0", new Double(1.0));
+		metrics.AddToMeasurement("test1", new Double(1.0));
+		metrics.AddToMeasurement("test2", new Double(1.0));
+		
+		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
+		assertEquals(2.0, ((NumericalMeasurement) metrics.Measurement("test0")).Value().doubleValue(), 0.01);
+		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("test1")).Value().doubleValue(), 0.01);
+		assertEquals(4.5, ((NumericalMeasurement) metrics.Measurement("test2")).Value().doubleValue(), 0.01);
+
+		metrics.AddToMeasurement("test",  1);
+		metrics.AddToMeasurement("test0", 1);
+		metrics.AddToMeasurement("test1", 1);
+		metrics.AddToMeasurement("test2", 1);
+		
+		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
+		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("test0")).Value().doubleValue(), 0.01);
+		assertEquals(4.0, ((NumericalMeasurement) metrics.Measurement("test1")).Value().doubleValue(), 0.01);
+		assertEquals(5.5, ((NumericalMeasurement) metrics.Measurement("test2")).Value().doubleValue(), 0.01);
 	}
 
 	public void testAddSubMetrics() {
@@ -171,86 +163,117 @@ public class TestMetrics extends TestCase {
 		bB.AddSubMetrics(bBf);
 		bB.AddSubMetrics(bBg);
 
-		aAf.TrackMetric("0001");
-		aAf.TrackMetric("0011");
-		aAf.TrackMetric("0101");
-		aAf.TrackMetric("0111");
-		aAg.TrackMetric("0001");
-		aAg.TrackMetric("0011");
-		aAg.TrackMetric("0101");
-		aAg.TrackMetric("0111");
-		aBf.TrackMetric("0001");
-		aBf.TrackMetric("0011");
-		aBf.TrackMetric("0101");
-		aBf.TrackMetric("0111");
-		aBg.TrackMetric("0001");
-		aBg.TrackMetric("0011");
-		aBg.TrackMetric("0101");
-		aBg.TrackMetric("0111");
-		bAf.TrackMetric("1001");
-		bAf.TrackMetric("1011");
-		bAf.TrackMetric("1101");
-		bAf.TrackMetric("1111");
-		bAg.TrackMetric("1001");
-		bAg.TrackMetric("1011");
-		bAg.TrackMetric("1101");
-		bAg.TrackMetric("1111");
-		bBf.TrackMetric("1001");
-		bBf.TrackMetric("1011");
-		bBf.TrackMetric("1101");
-		bBf.TrackMetric("1111");
-		bBg.TrackMetric("1001");
-		bBg.TrackMetric("1011");
-		bBg.TrackMetric("1101");
-		bBg.TrackMetric("1111");
+		aAf.Track("0001", new CounterMeasurement(null, null, null));
+		aAf.Track("0011", new CounterMeasurement(null, null, null));
+		aAf.Track("0101", new CounterMeasurement(null, null, null));
+		aAf.Track("0111", new CounterMeasurement(null, null, null));
+		aAg.Track("0001", new CounterMeasurement(null, null, null));
+		aAg.Track("0011", new CounterMeasurement(null, null, null));
+		aAg.Track("0101", new CounterMeasurement(null, null, null));
+		aAg.Track("0111", new CounterMeasurement(null, null, null));
+		aBf.Track("0001", new CounterMeasurement(null, null, null));
+		aBf.Track("0011", new CounterMeasurement(null, null, null));
+		aBf.Track("0101", new CounterMeasurement(null, null, null));
+		aBf.Track("0111", new CounterMeasurement(null, null, null));
+		aBg.Track("0001", new CounterMeasurement(null, null, null));
+		aBg.Track("0011", new CounterMeasurement(null, null, null));
+		aBg.Track("0101", new CounterMeasurement(null, null, null));
+		aBg.Track("0111", new CounterMeasurement(null, null, null));
+		bAf.Track("1001", new CounterMeasurement(null, null, null));
+		bAf.Track("1011", new CounterMeasurement(null, null, null));
+		bAf.Track("1101", new CounterMeasurement(null, null, null));
+		bAf.Track("1111", new CounterMeasurement(null, null, null));
+		bAg.Track("1001", new CounterMeasurement(null, null, null));
+		bAg.Track("1011", new CounterMeasurement(null, null, null));
+		bAg.Track("1101", new CounterMeasurement(null, null, null));
+		bAg.Track("1111", new CounterMeasurement(null, null, null));
+		bBf.Track("1001", new CounterMeasurement(null, null, null));
+		bBf.Track("1011", new CounterMeasurement(null, null, null));
+		bBf.Track("1101", new CounterMeasurement(null, null, null));
+		bBf.Track("1111", new CounterMeasurement(null, null, null));
+		bBg.Track("1001", new CounterMeasurement(null, null, null));
+		bBg.Track("1011", new CounterMeasurement(null, null, null));
+		bBg.Track("1101", new CounterMeasurement(null, null, null));
+		bBg.Track("1111", new CounterMeasurement(null, null, null));
 
-		aA.TrackMetric("0011", 1.0);
-		aA.TrackMetric("0010", 1.0);
-		aA.TrackMetric("0111", 1.0);
-		aA.TrackMetric("0110", 1.0);
-		aB.TrackMetric("0011", 1.0);
-		aB.TrackMetric("0010", 1.0);
-		aB.TrackMetric("0111", 1.0);
-		aB.TrackMetric("0110", 1.0);
-		bA.TrackMetric("1011", 1.0);
-		bA.TrackMetric("1010", 1.0);
-		bA.TrackMetric("1111", 1.0);
-		bA.TrackMetric("1110", 1.0);
-		bB.TrackMetric("1011", 1.0);
-		bB.TrackMetric("1010", 1.0);
-		bB.TrackMetric("1111", 1.0);
-		bB.TrackMetric("1110", 1.0);
+		aA.Track("0011", new CounterMeasurement(null, null, null));
+		aA.Track("0010", new CounterMeasurement(null, null, null));
+		aA.Track("0111", new CounterMeasurement(null, null, null));
+		aA.Track("0110", new CounterMeasurement(null, null, null));
+		aB.Track("0011", new CounterMeasurement(null, null, null));
+		aB.Track("0010", new CounterMeasurement(null, null, null));
+		aB.Track("0111", new CounterMeasurement(null, null, null));
+		aB.Track("0110", new CounterMeasurement(null, null, null));
+		bA.Track("1011", new CounterMeasurement(null, null, null));
+		bA.Track("1010", new CounterMeasurement(null, null, null));
+		bA.Track("1111", new CounterMeasurement(null, null, null));
+		bA.Track("1110", new CounterMeasurement(null, null, null));
+		bB.Track("1011", new CounterMeasurement(null, null, null));
+		bB.Track("1010", new CounterMeasurement(null, null, null));
+		bB.Track("1111", new CounterMeasurement(null, null, null));
+		bB.Track("1110", new CounterMeasurement(null, null, null));
 
-		a.TrackMetric("0100", 2.0);
-		a.TrackMetric("0101", 2.0);
-		a.TrackMetric("0110", 2.0);
-		a.TrackMetric("0111", 2.0);
-		b.TrackMetric("1100", 2.0);
-		b.TrackMetric("1101", 2.0);
-		b.TrackMetric("1110", 2.0);
-		b.TrackMetric("1111", 2.0);
+		aA.AddToMeasurement("0011", 1);
+		aA.AddToMeasurement("0010", 1);
+		aA.AddToMeasurement("0111", 1);
+		aA.AddToMeasurement("0110", 1);
+		aB.AddToMeasurement("0011", 1);
+		aB.AddToMeasurement("0010", 1);
+		aB.AddToMeasurement("0111", 1);
+		aB.AddToMeasurement("0110", 1);
+		bA.AddToMeasurement("1011", 1);
+		bA.AddToMeasurement("1010", 1);
+		bA.AddToMeasurement("1111", 1);
+		bA.AddToMeasurement("1110", 1);
+		bB.AddToMeasurement("1011", 1);
+		bB.AddToMeasurement("1010", 1);
+		bB.AddToMeasurement("1111", 1);
+		bB.AddToMeasurement("1110", 1);
 
-		metrics.TrackMetric("1100", 3.0);
-		metrics.TrackMetric("1101", 3.0);
-		metrics.TrackMetric("1110", 3.0);
-		metrics.TrackMetric("1111", 3.0);
-		
+		a.Track("0100", new CounterMeasurement(null, null, null));
+		a.Track("0101", new CounterMeasurement(null, null, null));
+		a.Track("0110", new CounterMeasurement(null, null, null));
+		a.Track("0111", new CounterMeasurement(null, null, null));
+		b.Track("1100", new CounterMeasurement(null, null, null));
+		b.Track("1101", new CounterMeasurement(null, null, null));
+		b.Track("1110", new CounterMeasurement(null, null, null));
+		b.Track("1111", new CounterMeasurement(null, null, null));
+
+		a.AddToMeasurement("0100", 2);
+		a.AddToMeasurement("0101", 2);
+		a.AddToMeasurement("0110", 2);
+		a.AddToMeasurement("0111", 2);
+		b.AddToMeasurement("1100", 2);
+		b.AddToMeasurement("1101", 2);
+		b.AddToMeasurement("1110", 2);
+		b.AddToMeasurement("1111", 2);
+
+		metrics.Track("1100", new CounterMeasurement(null, null, null));
+		metrics.Track("1101", new CounterMeasurement(null, null, null));
+		metrics.Track("1110", new CounterMeasurement(null, null, null));
+		metrics.Track("1111", new CounterMeasurement(null, null, null));
+
+		metrics.AddToMeasurement("1100", 3);
+		metrics.AddToMeasurement("1101", 3);
+		metrics.AddToMeasurement("1110", 3);
+		metrics.AddToMeasurement("1111", 3);
+
 		assertEquals(2, metrics.SubMetrics().size());
-		assertNull(metrics.Metric("0000"));
-		assertNull(metrics.Metric("0001"));
-		assertNull(metrics.Metric("0010"));
-		assertNull(metrics.Metric("0011"));
-		assertNull(metrics.Metric("0100"));
-		assertNull(metrics.Metric("0101"));
-		assertNull(metrics.Metric("0110"));
-		assertNull(metrics.Metric("0111"));
-		assertNull(metrics.Metric("1000"));
-		assertNull(metrics.Metric("1001"));
-		assertNull(metrics.Metric("1010"));
-		assertNull(metrics.Metric("1011"));
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("1100")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("1101")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("1110")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Metric("1111")).Value().doubleValue(), 0.01);
+		assertEquals(NullMeasurement.class, metrics.Measurement("0000").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("0001").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("0010").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("0011").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("0100").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("0101").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("0110").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("0111").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("1000").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("1001").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("1010").getClass());
+		assertEquals(NullMeasurement.class, metrics.Measurement("1011").getClass());
+		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("1100")).Value().doubleValue(), 0.01);
+		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("1101")).Value().doubleValue(), 0.01);
+		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("1110")).Value().doubleValue(), 0.01);
+		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("1111")).Value().doubleValue(), 0.01);
 	}
 }

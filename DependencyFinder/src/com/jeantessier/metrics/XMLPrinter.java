@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -44,6 +44,7 @@ public class XMLPrinter extends Printer {
 	}
 
 	public void VisitMetrics(Metrics metrics) {
+		Append(Preamble());
 		Indent().Append("<metrics>").Append("\n");
 		RaiseIndent();
 		
@@ -51,6 +52,17 @@ public class XMLPrinter extends Printer {
 				
 		LowerIndent();
 		Indent().Append("</metrics>").Append("\n");
+	}
+
+	private String Preamble() {
+		StringBuffer result = new StringBuffer();
+
+		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
+		result.append("\n");
+		result.append("<!DOCTYPE metrics SYSTEM \"http://depfind.sourceforge.net/dtd/metrics.dtd\">\n");
+		result.append("\n");
+
+		return result.toString();
 	}
 
 	private void VisitProjectMetrics(Metrics metrics) {
@@ -113,10 +125,10 @@ public class XMLPrinter extends Printer {
 	}
 
 	private void VisitMeasurements(Metrics metrics) {
-		Iterator names = metrics.MetricNames().iterator();
+		Iterator names = metrics.MeasurementNames().iterator();
 		while (names.hasNext()) {
 			String      name    = (String) names.next();
-			Measurement measure = metrics.Metric(name);
+			Measurement measure = metrics.Measurement(name);
 
 			Indent().Append("<metric>").Append("\n");
 			RaiseIndent();

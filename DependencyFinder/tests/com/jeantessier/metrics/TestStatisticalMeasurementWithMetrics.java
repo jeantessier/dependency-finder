@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -74,60 +74,110 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		m7 = new Metrics("b.B.a");
 		m8 = new Metrics("b.B.b");
 
-		m1.TrackMetric("001", 1.0);
-		m1.TrackMetric("011", 1.0);
-		m1.TrackMetric("101", 1.0);
-		m1.TrackMetric("111", 1.0);
-		m2.TrackMetric("001", 1.0);
-		m2.TrackMetric("011", 1.0);
-		m2.TrackMetric("101", 1.0);
-		m2.TrackMetric("111", 1.0);
-		m3.TrackMetric("001", 1.0);
-		m3.TrackMetric("011", 1.0);
-		m3.TrackMetric("101", 1.0);
-		m3.TrackMetric("111", 1.0);
-		m4.TrackMetric("001", 1.0);
-		m4.TrackMetric("011", 1.0);
-		m4.TrackMetric("101", 1.0);
-		m4.TrackMetric("111", 1.0);
-		m5.TrackMetric("001", 1.0);
-		m5.TrackMetric("011", 1.0);
-		m5.TrackMetric("101", 1.0);
-		m5.TrackMetric("111", 1.0);
-		m6.TrackMetric("001", 1.0);
-		m6.TrackMetric("011", 1.0);
-		m6.TrackMetric("101", 1.0);
-		m6.TrackMetric("111", 1.0);
-		m7.TrackMetric("001", 1.0);
-		m7.TrackMetric("011", 1.0);
-		m7.TrackMetric("101", 1.0);
-		m7.TrackMetric("111", 1.0);
-		m8.TrackMetric("001", 1.0);
-		m8.TrackMetric("011", 1.0);
-		m8.TrackMetric("101", 1.0);
-		m8.TrackMetric("111", 1.0);
+		m1.Track("001", new CounterMeasurement(null, null, null));
+		m1.Track("011", new CounterMeasurement(null, null, null));
+		m1.Track("101", new CounterMeasurement(null, null, null));
+		m1.Track("111", new CounterMeasurement(null, null, null));
+		m2.Track("001", new CounterMeasurement(null, null, null));
+		m2.Track("011", new CounterMeasurement(null, null, null));
+		m2.Track("101", new CounterMeasurement(null, null, null));
+		m2.Track("111", new CounterMeasurement(null, null, null));
+		m3.Track("001", new CounterMeasurement(null, null, null));
+		m3.Track("011", new CounterMeasurement(null, null, null));
+		m3.Track("101", new CounterMeasurement(null, null, null));
+		m3.Track("111", new CounterMeasurement(null, null, null));
+		m4.Track("001", new CounterMeasurement(null, null, null));
+		m4.Track("011", new CounterMeasurement(null, null, null));
+		m4.Track("101", new CounterMeasurement(null, null, null));
+		m4.Track("111", new CounterMeasurement(null, null, null));
+		m5.Track("001", new CounterMeasurement(null, null, null));
+		m5.Track("011", new CounterMeasurement(null, null, null));
+		m5.Track("101", new CounterMeasurement(null, null, null));
+		m5.Track("111", new CounterMeasurement(null, null, null));
+		m6.Track("001", new CounterMeasurement(null, null, null));
+		m6.Track("011", new CounterMeasurement(null, null, null));
+		m6.Track("101", new CounterMeasurement(null, null, null));
+		m6.Track("111", new CounterMeasurement(null, null, null));
+		m7.Track("001", new CounterMeasurement(null, null, null));
+		m7.Track("011", new CounterMeasurement(null, null, null));
+		m7.Track("101", new CounterMeasurement(null, null, null));
+		m7.Track("111", new CounterMeasurement(null, null, null));
+		m8.Track("001", new CounterMeasurement(null, null, null));
+		m8.Track("011", new CounterMeasurement(null, null, null));
+		m8.Track("101", new CounterMeasurement(null, null, null));
+		m8.Track("111", new CounterMeasurement(null, null, null));
+	
+		m1.AddToMeasurement("001", 1);
+		m1.AddToMeasurement("011", 1);
+		m1.AddToMeasurement("101", 1);
+		m1.AddToMeasurement("111", 1);
+		m2.AddToMeasurement("001", 1);
+		m2.AddToMeasurement("011", 1);
+		m2.AddToMeasurement("101", 1);
+		m2.AddToMeasurement("111", 1);
+		m3.AddToMeasurement("001", 1);
+		m3.AddToMeasurement("011", 1);
+		m3.AddToMeasurement("101", 1);
+		m3.AddToMeasurement("111", 1);
+		m4.AddToMeasurement("001", 1);
+		m4.AddToMeasurement("011", 1);
+		m4.AddToMeasurement("101", 1);
+		m4.AddToMeasurement("111", 1);
+		m5.AddToMeasurement("001", 1);
+		m5.AddToMeasurement("011", 1);
+		m5.AddToMeasurement("101", 1);
+		m5.AddToMeasurement("111", 1);
+		m6.AddToMeasurement("001", 1);
+		m6.AddToMeasurement("011", 1);
+		m6.AddToMeasurement("101", 1);
+		m6.AddToMeasurement("111", 1);
+		m7.AddToMeasurement("001", 1);
+		m7.AddToMeasurement("011", 1);
+		m7.AddToMeasurement("101", 1);
+		m7.AddToMeasurement("111", 1);
+		m8.AddToMeasurement("001", 1);
+		m8.AddToMeasurement("011", 1);
+		m8.AddToMeasurement("101", 1);
+		m8.AddToMeasurement("111", 1);
 	
 		c1 = new Metrics("a.A");
 		c2 = new Metrics("a.B");
 		c3 = new Metrics("b.A");
 		c4 = new Metrics("b.B");
 
-		c1.TrackMetric("010", 10.0);
-		c1.TrackMetric("011", 10.0);
-		c1.TrackMetric("110", 10.0);
-		c1.TrackMetric("111", 10.0);
-		c2.TrackMetric("010", 10.0);
-		c2.TrackMetric("011", 10.0);
-		c2.TrackMetric("110", 10.0);
-		c2.TrackMetric("111", 10.0);
-		c3.TrackMetric("010", 10.0);
-		c3.TrackMetric("011", 10.0);
-		c3.TrackMetric("110", 10.0);
-		c3.TrackMetric("111", 10.0);
-		c4.TrackMetric("010", 10.0);
-		c4.TrackMetric("011", 10.0);
-		c4.TrackMetric("110", 10.0);
-		c4.TrackMetric("111", 10.0);
+		c1.Track("010", new CounterMeasurement(null, null, null));
+		c1.Track("011", new CounterMeasurement(null, null, null));
+		c1.Track("110", new CounterMeasurement(null, null, null));
+		c1.Track("111", new CounterMeasurement(null, null, null));
+		c2.Track("010", new CounterMeasurement(null, null, null));
+		c2.Track("011", new CounterMeasurement(null, null, null));
+		c2.Track("110", new CounterMeasurement(null, null, null));
+		c2.Track("111", new CounterMeasurement(null, null, null));
+		c3.Track("010", new CounterMeasurement(null, null, null));
+		c3.Track("011", new CounterMeasurement(null, null, null));
+		c3.Track("110", new CounterMeasurement(null, null, null));
+		c3.Track("111", new CounterMeasurement(null, null, null));
+		c4.Track("010", new CounterMeasurement(null, null, null));
+		c4.Track("011", new CounterMeasurement(null, null, null));
+		c4.Track("110", new CounterMeasurement(null, null, null));
+		c4.Track("111", new CounterMeasurement(null, null, null));
+	
+		c1.AddToMeasurement("010", 10);
+		c1.AddToMeasurement("011", 10);
+		c1.AddToMeasurement("110", 10);
+		c1.AddToMeasurement("111", 10);
+		c2.AddToMeasurement("010", 10);
+		c2.AddToMeasurement("011", 10);
+		c2.AddToMeasurement("110", 10);
+		c2.AddToMeasurement("111", 10);
+		c3.AddToMeasurement("010", 10);
+		c3.AddToMeasurement("011", 10);
+		c3.AddToMeasurement("110", 10);
+		c3.AddToMeasurement("111", 10);
+		c4.AddToMeasurement("010", 10);
+		c4.AddToMeasurement("011", 10);
+		c4.AddToMeasurement("110", 10);
+		c4.AddToMeasurement("111", 10);
 	
 		c1.AddSubMetrics(m1);
 		c1.AddSubMetrics(m2);
@@ -141,14 +191,23 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		g1 = new Metrics("a");
 		g2 = new Metrics("b");
 
-		g1.TrackMetric("100", 100.0);
-		g1.TrackMetric("101", 100.0);
-		g1.TrackMetric("110", 100.0);
-		g1.TrackMetric("111", 100.0);
-		g2.TrackMetric("100", 100.0);
-		g2.TrackMetric("101", 100.0);
-		g2.TrackMetric("110", 100.0);
-		g2.TrackMetric("111", 100.0);
+		g1.Track("100", new CounterMeasurement(null, null, null));
+		g1.Track("101", new CounterMeasurement(null, null, null));
+		g1.Track("110", new CounterMeasurement(null, null, null));
+		g1.Track("111", new CounterMeasurement(null, null, null));
+		g2.Track("100", new CounterMeasurement(null, null, null));
+		g2.Track("101", new CounterMeasurement(null, null, null));
+		g2.Track("110", new CounterMeasurement(null, null, null));
+		g2.Track("111", new CounterMeasurement(null, null, null));
+		
+		g1.AddToMeasurement("100", 100);
+		g1.AddToMeasurement("101", 100);
+		g1.AddToMeasurement("110", 100);
+		g1.AddToMeasurement("111", 100);
+		g2.AddToMeasurement("100", 100);
+		g2.AddToMeasurement("101", 100);
+		g2.AddToMeasurement("110", 100);
+		g2.AddToMeasurement("111", 100);
 		
 		g1.AddSubMetrics(c1);
 		g1.AddSubMetrics(c2);
@@ -166,14 +225,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 	}
 
 	public void testProject() {
-		StatisticalMeasurement m000 = new StatisticalMeasurement("foo", "000", p);
-		StatisticalMeasurement m001 = new StatisticalMeasurement("foo", "001", p);
-		StatisticalMeasurement m010 = new StatisticalMeasurement("foo", "010", p);
-		StatisticalMeasurement m011 = new StatisticalMeasurement("foo", "011", p);
-		StatisticalMeasurement m100 = new StatisticalMeasurement("foo", "100", p);
-		StatisticalMeasurement m101 = new StatisticalMeasurement("foo", "101", p);
-		StatisticalMeasurement m110 = new StatisticalMeasurement("foo", "110", p);
-		StatisticalMeasurement m111 = new StatisticalMeasurement("foo", "111", p);
+		StatisticalMeasurement m000 = new StatisticalMeasurement(null, p, "000");
+		StatisticalMeasurement m001 = new StatisticalMeasurement(null, p, "001");
+		StatisticalMeasurement m010 = new StatisticalMeasurement(null, p, "010");
+		StatisticalMeasurement m011 = new StatisticalMeasurement(null, p, "011");
+		StatisticalMeasurement m100 = new StatisticalMeasurement(null, p, "100");
+		StatisticalMeasurement m101 = new StatisticalMeasurement(null, p, "101");
+		StatisticalMeasurement m110 = new StatisticalMeasurement(null, p, "110");
+		StatisticalMeasurement m111 = new StatisticalMeasurement(null, p, "111");
 
 		assertEquals("000", 0, m000.NbDataPoints());
 		assertEquals("001", 8, m001.NbDataPoints());
@@ -186,14 +245,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 	}
 
 	public void testGroup() {
-		StatisticalMeasurement m000 = new StatisticalMeasurement("foo", "000", g1);
-		StatisticalMeasurement m001 = new StatisticalMeasurement("foo", "001", g1);
-		StatisticalMeasurement m010 = new StatisticalMeasurement("foo", "010", g1);
-		StatisticalMeasurement m011 = new StatisticalMeasurement("foo", "011", g1);
-		StatisticalMeasurement m100 = new StatisticalMeasurement("foo", "100", g1);
-		StatisticalMeasurement m101 = new StatisticalMeasurement("foo", "101", g1);
-		StatisticalMeasurement m110 = new StatisticalMeasurement("foo", "110", g1);
-		StatisticalMeasurement m111 = new StatisticalMeasurement("foo", "111", g1);
+		StatisticalMeasurement m000 = new StatisticalMeasurement(null, g1, "000");
+		StatisticalMeasurement m001 = new StatisticalMeasurement(null, g1, "001");
+		StatisticalMeasurement m010 = new StatisticalMeasurement(null, g1, "010");
+		StatisticalMeasurement m011 = new StatisticalMeasurement(null, g1, "011");
+		StatisticalMeasurement m100 = new StatisticalMeasurement(null, g1, "100");
+		StatisticalMeasurement m101 = new StatisticalMeasurement(null, g1, "101");
+		StatisticalMeasurement m110 = new StatisticalMeasurement(null, g1, "110");
+		StatisticalMeasurement m111 = new StatisticalMeasurement(null, g1, "111");
 
 		assertEquals("000", 0, m000.NbDataPoints());
 		assertEquals("001", 4, m001.NbDataPoints());
@@ -206,14 +265,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 	}
 
 	public void testClass() {
-		StatisticalMeasurement m000 = new StatisticalMeasurement("foo", "000", c1);
-		StatisticalMeasurement m001 = new StatisticalMeasurement("foo", "001", c1);
-		StatisticalMeasurement m010 = new StatisticalMeasurement("foo", "010", c1);
-		StatisticalMeasurement m011 = new StatisticalMeasurement("foo", "011", c1);
-		StatisticalMeasurement m100 = new StatisticalMeasurement("foo", "100", c1);
-		StatisticalMeasurement m101 = new StatisticalMeasurement("foo", "101", c1);
-		StatisticalMeasurement m110 = new StatisticalMeasurement("foo", "110", c1);
-		StatisticalMeasurement m111 = new StatisticalMeasurement("foo", "111", c1);
+		StatisticalMeasurement m000 = new StatisticalMeasurement(null, c1, "000");
+		StatisticalMeasurement m001 = new StatisticalMeasurement(null, c1, "001");
+		StatisticalMeasurement m010 = new StatisticalMeasurement(null, c1, "010");
+		StatisticalMeasurement m011 = new StatisticalMeasurement(null, c1, "011");
+		StatisticalMeasurement m100 = new StatisticalMeasurement(null, c1, "100");
+		StatisticalMeasurement m101 = new StatisticalMeasurement(null, c1, "101");
+		StatisticalMeasurement m110 = new StatisticalMeasurement(null, c1, "110");
+		StatisticalMeasurement m111 = new StatisticalMeasurement(null, c1, "111");
 
 		assertEquals("000", 0, m000.NbDataPoints());
 		assertEquals("001", 2, m001.NbDataPoints());
@@ -226,14 +285,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 	}
 
 	public void testMethod() {
-		StatisticalMeasurement m000 = new StatisticalMeasurement("foo", "000", m1);
-		StatisticalMeasurement m001 = new StatisticalMeasurement("foo", "001", m1);
-		StatisticalMeasurement m010 = new StatisticalMeasurement("foo", "010", m1);
-		StatisticalMeasurement m011 = new StatisticalMeasurement("foo", "011", m1);
-		StatisticalMeasurement m100 = new StatisticalMeasurement("foo", "100", m1);
-		StatisticalMeasurement m101 = new StatisticalMeasurement("foo", "101", m1);
-		StatisticalMeasurement m110 = new StatisticalMeasurement("foo", "110", m1);
-		StatisticalMeasurement m111 = new StatisticalMeasurement("foo", "111", m1);
+		StatisticalMeasurement m000 = new StatisticalMeasurement(null, m1, "000");
+		StatisticalMeasurement m001 = new StatisticalMeasurement(null, m1, "001");
+		StatisticalMeasurement m010 = new StatisticalMeasurement(null, m1, "010");
+		StatisticalMeasurement m011 = new StatisticalMeasurement(null, m1, "011");
+		StatisticalMeasurement m100 = new StatisticalMeasurement(null, m1, "100");
+		StatisticalMeasurement m101 = new StatisticalMeasurement(null, m1, "101");
+		StatisticalMeasurement m110 = new StatisticalMeasurement(null, m1, "110");
+		StatisticalMeasurement m111 = new StatisticalMeasurement(null, m1, "111");
 
 		assertEquals("000", 0, m000.NbDataPoints());
 		assertEquals("001", 0, m001.NbDataPoints());
@@ -264,14 +323,14 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 		g.AddSubMetrics(c1);
 		g.AddSubMetrics(c2);
 
-		m11.TrackMetric("bar");
-		m12.TrackMetric("bar");
-		m21.TrackMetric("bar");
-		m22.TrackMetric("bar");
+		m11.Track("bar", new CounterMeasurement(null, null, null));
+		m12.Track("bar", new CounterMeasurement(null, null, null));
+		m21.Track("bar", new CounterMeasurement(null, null, null));
+		m22.Track("bar", new CounterMeasurement(null, null, null));
 
-		c1.TrackMetric("bar");
+		c1.Track("bar", new CounterMeasurement(null, null, null));
 
-		StatisticalMeasurement sm = new StatisticalMeasurement("foo", "bar", g);
+		StatisticalMeasurement sm = new StatisticalMeasurement(null, g, "bar");
 		assertEquals(3, sm.NbDataPoints());
 	}
 }

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -92,12 +92,19 @@ public class TestMetricsComparator extends TestCase {
 		Metrics m1 = new Metrics("m1");
 		Metrics m2 = new Metrics("m2");
 
-		m1.TrackMetric("foo", 1);
-		m1.TrackMetric("bar", 2);
-		m1.TrackMetric("baz", 3);
-		m2.TrackMetric("foo", 3);
-		m2.TrackMetric("bar", 2);
-		m2.TrackMetric("baz", 1);
+		m1.Track("foo", new CounterMeasurement(null, null, null));
+		m1.Track("bar", new CounterMeasurement(null, null, null));
+		m1.Track("baz", new CounterMeasurement(null, null, null));
+		m2.Track("foo", new CounterMeasurement(null, null, null));
+		m2.Track("bar", new CounterMeasurement(null, null, null));
+		m2.Track("baz", new CounterMeasurement(null, null, null));
+		
+		m1.AddToMeasurement("foo", 1);
+		m1.AddToMeasurement("bar", 2);
+		m1.AddToMeasurement("baz", 3);
+		m2.AddToMeasurement("foo", 3);
+		m2.AddToMeasurement("bar", 2);
+		m2.AddToMeasurement("baz", 1);
 		
 		MetricsComparator c1 = new MetricsComparator("foo");
 		MetricsComparator c2 = new MetricsComparator("bar");
@@ -120,12 +127,19 @@ public class TestMetricsComparator extends TestCase {
 		Metrics m1 = new Metrics("m1");
 		Metrics m2 = new Metrics("m2");
 
-		m1.TrackMetric("foo", Double.NaN);
-		m2.TrackMetric("foo", Double.NaN);
-		m1.TrackMetric("bar", Double.NaN);
-		m2.TrackMetric("bar", 1);
-		m1.TrackMetric("baz", 1);
-		m2.TrackMetric("baz", Double.NaN);
+		m1.Track("foo", new CounterMeasurement(null, null, null));
+		m2.Track("foo", new CounterMeasurement(null, null, null));
+		m1.Track("bar", new CounterMeasurement(null, null, null));
+		m2.Track("bar", new CounterMeasurement(null, null, null));
+		m1.Track("baz", new CounterMeasurement(null, null, null));
+		m2.Track("baz", new CounterMeasurement(null, null, null));
+		
+		m1.AddToMeasurement("foo", Double.NaN);
+		m2.AddToMeasurement("foo", Double.NaN);
+		m1.AddToMeasurement("bar", Double.NaN);
+		m2.AddToMeasurement("bar", 1);
+		m1.AddToMeasurement("baz", 1);
+		m2.AddToMeasurement("baz", Double.NaN);
 		
 		MetricsComparator c1 = new MetricsComparator("foo");
 		MetricsComparator c2 = new MetricsComparator("bar");

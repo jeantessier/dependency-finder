@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -113,10 +113,10 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		List dispose = new LinkedList();
 		dispose.add(LOCAL_DISPOSE_IGNORE);
 
-		Iterator i = metrics.MetricNames().iterator();
+		Iterator i = metrics.MeasurementNames().iterator();
 		while (i.hasNext()) {
 			String metric_name = (String) i.next();
-			Measurement metric = metrics.Metric(metric_name);
+			Measurement metric = metrics.Measurement(metric_name);
 			
 			if (metric instanceof NumericalMeasurement) {
 				names.add(metric_name);
@@ -158,9 +158,9 @@ public class OOMetricsTableModel extends AbstractTableModel {
 			
 			current_values.add(current_metrics.Name());
 			
-			Iterator k = current_metrics.MetricNames().iterator();
+			Iterator k = current_metrics.MeasurementNames().iterator();
 			while (k.hasNext()) {
-				Measurement metric = current_metrics.Metric((String) k.next());
+				Measurement metric = current_metrics.Measurement((String) k.next());
 				
 				if (metric instanceof NumericalMeasurement) {
 					NumericalMeasurement num = (NumericalMeasurement) metric;

@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -33,7 +33,13 @@
 package com.jeantessier.metrics;
 
 public interface Measurement {
-	public String Name();
-	public void   Add(Object object);
-	public void   Accept(MeasurementVisitor visitor);
+	public MeasurementDescriptor Descriptor();
+	public Metrics               Context();
+	
+	public String                ShortName();
+	public String                LongName();
+	public boolean               InRange();
+	
+	public void                  Add(Object object);
+	public void                  Accept(MeasurementVisitor visitor);
 }

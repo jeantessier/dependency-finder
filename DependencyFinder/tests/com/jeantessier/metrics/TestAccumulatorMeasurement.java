@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -34,26 +34,224 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
-public class TestAccumulatorMeasurement extends TestCase {
+public class TestAccumulatorMeasurement extends TestCase implements MeasurementVisitor {
+	private AccumulatorMeasurement measurement;
+	private Measurement visited;
+	
 	public TestAccumulatorMeasurement(String name) {
 		super(name);
 	}
 
-	public void testAdd() {
-		NumericalMeasurement measure = new AccumulatorMeasurement("foobar");
+	protected void setUp() {
+		measurement = new AccumulatorMeasurement(null, null, null);
+	}
 
+	public void testMeasurementDescriptor() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(AccumulatorMeasurement.class);
+
+		measurement = (AccumulatorMeasurement) descriptor.create();
+		
+		assertNotNull(measurement.Descriptor());
+		assertEquals(AccumulatorMeasurement.class, measurement.Descriptor().Class());
+		assertEquals("foo", measurement.ShortName());
+		assertEquals("bar", measurement.LongName());
+	}
+
+	public void testCreateFromMeasurementDescriptor() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(AccumulatorMeasurement.class);
+
+		measurement = (AccumulatorMeasurement) descriptor.create();
+		
+		assertNotNull(measurement);
+		assertEquals(descriptor, measurement.Descriptor());
+		assertSame(descriptor, measurement.Descriptor());
+		assertEquals(AccumulatorMeasurement.class, measurement.getClass());
+		assertEquals("foo", measurement.ShortName());
+		assertEquals("bar", measurement.LongName());
+	}
+
+	public void testAddObject() {
 		Object o1 = new Object();
 		Object o2 = new Object();
 
-		assertEquals("zero", 0.0, measure.Value().doubleValue(), 0.01);
+		assertEquals("zero", 0, measurement.intValue());
+		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("zero", 0, measurement.Value().intValue());
 
-		measure.Add(o1);
-		assertEquals("one", 1.0, measure.Value().doubleValue(), 0.01);
+		measurement.Add(o1);
+		assertEquals("one", 1, measurement.intValue());
+		assertEquals("one", 1.0, measurement.doubleValue(), 0.01);
+		assertEquals("one", 1, measurement.Value().intValue());
 
-		measure.Add(o2);
-		assertEquals("two", 2.0, measure.Value().doubleValue(), 0.01);
+		measurement.Add(o2);
+		assertEquals("two", 2, measurement.intValue());
+		assertEquals("two", 2.0, measurement.doubleValue(), 0.01);
+		assertEquals("two", 2, measurement.Value().intValue());
 
-		measure.Add(o1);
-		assertEquals("three", 2.0, measure.Value().doubleValue(), 0.01);
+		measurement.Add(o1);
+		assertEquals("three", 2, measurement.intValue());
+		assertEquals("three", 2.0, measurement.doubleValue(), 0.01);
+		assertEquals("three", 2, measurement.Value().intValue());
+	}
+
+	public void testAddInt() {
+		assertEquals("zero", 0, measurement.intValue());
+		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("zero", 0, measurement.Value().intValue());
+
+		measurement.Add(1);
+		assertEquals("one", 0, measurement.intValue());
+		assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("one", 0, measurement.Value().intValue());
+
+		measurement.Add(1);
+		assertEquals("two", 0, measurement.intValue());
+		assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("two", 0, measurement.Value().intValue());
+	}
+
+	public void testAddFloat() {
+		assertEquals("zero", 0, measurement.intValue());
+		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("zero", 0, measurement.Value().intValue());
+
+		measurement.Add(1.0);
+		assertEquals("one", 0, measurement.intValue());
+		assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("one", 0, measurement.Value().intValue());
+
+		measurement.Add(1.0);
+		assertEquals("two", 0, measurement.intValue());
+		assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("two", 0, measurement.Value().intValue());
+	}
+
+	public void testInUndefinedRange() {
+		assertTrue(measurement.InRange());
+
+		measurement.Add(new Object());
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(new Object());
+		measurement.Add(new Object());
+
+		assertTrue(measurement.InRange());
+	}
+
+	public void testInOpenRange() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(AccumulatorMeasurement.class);
+
+		measurement = (AccumulatorMeasurement) descriptor.create();
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(new Object());
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(new Object());
+		measurement.Add(new Object());
+
+		assertTrue(measurement.InRange());
+	}
+
+	public void testInLowerBoundRange() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(AccumulatorMeasurement.class);
+		descriptor.LowerThreshold(new Integer(1));
+
+		measurement = (AccumulatorMeasurement) descriptor.create();
+		
+		assertTrue(!measurement.InRange());
+
+		measurement.Add(new Object());
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(new Object());
+		measurement.Add(new Object());
+		
+		assertTrue(measurement.InRange());
+	}
+
+	public void testInUpperBoundRange() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(AccumulatorMeasurement.class);
+		descriptor.UpperThreshold(new Float(1.5));
+
+		measurement = (AccumulatorMeasurement) descriptor.create();
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(new Object());
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(new Object());
+		measurement.Add(new Object());
+		
+		assertTrue(!measurement.InRange());
+	}
+
+	public void testInBoundRange() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(AccumulatorMeasurement.class);
+		descriptor.LowerThreshold(new Integer(1));
+		descriptor.UpperThreshold(new Float(1.5));
+
+		measurement = (AccumulatorMeasurement) descriptor.create();
+		
+		assertTrue(!measurement.InRange());
+
+		measurement.Add(new Object());
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(new Object());
+		measurement.Add(new Object());
+		
+		assertTrue(!measurement.InRange());
+	}
+
+	public void testAccept() {
+		visited = null;
+		measurement.Accept(this);
+		assertSame(measurement, visited);
+	}
+	
+	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitRatioMeasurement(RatioMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitCounterMeasurement(CounterMeasurement measurement) {
+		// Do nothing
+	}
+	
+	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+		visited = measurement;
 	}
 }
