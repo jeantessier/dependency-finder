@@ -121,84 +121,95 @@
 
 </td></tr><tr><td colspan="2">
 
-<table frame="border" rules="cols" class="controls" width="100%"><tr>
+<table border="0" class="controls" width="100%"><tr>
 
-<th class="currentnavigation">Dependency graph</th>
-<th class="navigation"><a href="closure.jsp">Transitive closure</a></th>
-<th class="navigation"><a href="metrics.jsp">Dependency metrics</a></th>
+<th><fieldset class="currentnavigation">Dependency graph</fieldset></th>
+<th><fieldset class="navigation"><a href="closure.jsp">Transitive closure</a></fieldset></th>
+<th><fieldset class="navigation"><a href="metrics.jsp">Dependency metrics</a></fieldset></th>
 
 </tr></table>
 
 </td></tr><tr><td colspan="2">
 
-<table frame="border" rules="groups" class="controls">
-
-    <colgroup span="2" />
-    <colgroup span="2" />
-
-    <tbody>
+<table border="0" class="controls">
     <tr>
-	<td colspan="2">
-	    <b>Select programming elements</b>
+	<td width="50%">
+
+<fieldset>
+    <legend>Select programming elements</legend>
+    <table>
+        <tr>
+            <td align="center" colspan="2">
+                <label title="Select packages" for="packageScope"><input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> id="packageScope">&nbsp;package</label>
+                <label title="Select classes (with their package)" for="classScope"><input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> id="classScope">&nbsp;class</label>
+                <label title="Select methods and fields (with their class and package)" for="featureScope"><input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> id="featureScope">&nbsp;feature</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                including:
+            </td>
+            <td>
+                excluding:
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="scope-includes" value="<%= scopeIncludes %>" title="Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/">
+            </td>
+            <td>
+                <input type="text" name="scope-excludes" value="<%= scopeExcludes %>" title="Package, class, method, or field must NOT match any of these expressions. E.g., /Test/">
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
 	</td>
-	<td colspan="2">
-	    <b>Show dependencies</b>
+	<td>
+
+<fieldset>
+    <legend>Show dependencies</legend>
+    <table>
+        <tr>
+            <td align="center" colspan="2">
+                <label title="Show dependencies to/from packages" for="packageFilter"><input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> id="packageFilter">&nbsp;package</label>
+                <label title="Show dependencies to/from classes" for="classFilter"><input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> id="classFilter">&nbsp;class</label>
+                <label title="Show dependencies to/from methods and fields" for="featureFilter"><input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> id="featureFilter">&nbsp;feature</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                including:
+            </td>
+            <td>
+                excluding:
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="filter-includes" value="<%= filterIncludes %>" title="Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/">
+            </td>
+            <td>
+                <input type="text" name="filter-excludes" value="<%= filterExcludes %>" title="Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/">
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
 	</td>
     </tr>
     <tr>
-	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> onMouseOver="window.status='Select packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> onMouseOver="window.status='Select classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> onMouseOver="window.status='Select methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
-	</td>
-	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    including:
-	</td>
-	<td>
-	    excluding:
-	</td>
-	<td>
-	    including:
-	</td>
-	<td>
-	    excluding:
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <input type="text" name="scope-includes" value="<%= scopeIncludes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="scope-excludes" value="<%= scopeExcludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="filter-includes" value="<%= filterIncludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="filter-excludes" value="<%= filterExcludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-    </tr>
-    </tbody>
+        <td colspan="2" align="center">
 
-    <tbody>
-    <tr>
-        <td colspan="4" align="center">
+<fieldset>
+Show
+<label title="Show dependencies that point to the selected packages, classes, methods, or fields" for="showInbounds"><input type="checkbox" name="show-inbounds" <%= showInbounds ? "checked" : "" %> id="showInbounds">&nbsp;<tt>&lt;--&nbsp;&nbsp;</tt></label>
+<label title="Show dependencies that originate from the selected packages, classes, methods, or fields" for="showOutbounds"><input type="checkbox" name="show-outbounds" <%= showOutbounds ? "checked" : "" %> id="showOutbounds">&nbsp;<tt>--&gt;&nbsp;&nbsp;</tt></label>
+<label title="Show selected packages, classes, methods, and fields even if they do not have dependencies" for="showEmptyNodes"><input type="checkbox" name="show-empty-nodes" <%= showEmptyNodes ? "checked" : "" %> id="showEmptyNodes">&nbsp;empty elements</label>
+</fieldset>
 
-Show dependencies
-<input type="checkbox" name="show-inbounds" <%= showInbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;to element
-<input type="checkbox" name="show-outbounds" <%= showOutbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that originate from the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;from element
-<input type="checkbox" name="show-empty-nodes" <%= showEmptyNodes ? "checked" : "" %> onMouseOver="window.status='Show selected packages, classes, methods, and fields even if they do not have dependencies'" onMouseOut="window.status=''">&nbsp;(empty elements)
-
-        </td>
+	</td>
     </tr>
-    </tbody>
 </table>
 
 </td></tr><tr>

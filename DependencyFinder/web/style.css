@@ -12,11 +12,12 @@ hr {
 	background: rgb(204, 204, 255);
 }
 
-th.navigation {
+fieldset {
+	padding: 0;
 }
 
-th.currentnavigation {
-	background: rgb(255, 187, 187);
+legend {
+	font-weight: bold;
 }
 
 .title {
@@ -24,6 +25,13 @@ th.currentnavigation {
 	font-famiy:  courier, monospace;
 	font-weight: bold;
 	font-size:   larger;
+}
+
+.navigation {
+}
+
+.currentnavigation {
+	background: rgb(255, 187, 187);
 }
 
 .result {

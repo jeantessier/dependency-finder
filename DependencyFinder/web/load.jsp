@@ -89,11 +89,11 @@
     </tr>
     <tr>
 	<td>
-	    <table frame="border" rules="cols" class="controls" width="100%"><tr>
+	    <table border="0" class="controls" width="100%"><tr>
 
-	    <th class="navigation"><a href="query.jsp">Dependency graph</a></th>
-	    <th class="navigation"><a href="closure.jsp">Transitive closure</a></th>
-	    <th class="navigation"><a href="metrics.jsp">Dependency metrics</a></th>
+	    <th><fieldset class="navigation"><a href="query.jsp">Dependency graph</a></fieldset></th>
+	    <th><fieldset class="navigation"><a href="closure.jsp">Transitive closure</a></fieldset></th>
+	    <th><fieldset class="navigation"><a href="metrics.jsp">Dependency metrics</a></fieldset></th>
 
 	    </tr></table>
 	</td>

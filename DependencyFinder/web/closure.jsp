@@ -96,103 +96,119 @@
 
 </td></tr><tr><td colspan="2" align="center">
 
-<table frame="border" rules="cols" class="controls" width="100%"><tr>
+<table border="0" class="controls" width="100%"><tr>
 
-<th class="navigation"><a href="query.jsp">Dependency graph</a></th>
-<th class="currentnavigation">Transitive closure</th>
-<th class="navigation"><a href="metrics.jsp">Dependency metrics</a></th>
+<th><fieldset class="navigation"><a href="query.jsp">Dependency graph</a></fieldset></th>
+<th><fieldset class="currentnavigation">Transitive closure</fieldset></th>
+<th><fieldset class="navigation"><a href="metrics.jsp">Dependency metrics</a></fieldset></th>
 
 </tr></table>
 
 </td></tr><tr><td colspan="2" align="center">
 
-<table frame="border" rules="groups" class="controls">
-
-    <colgroup span="2" />
-    <colgroup span="2" />
-
-    <tbody>
+<table border="0" class="controls">
     <tr>
-	<td colspan="2" width="50%">
-	    <b>Start with programming elements</b>
+	<td width="50%">
+
+<fieldset>
+    <legend>Start with programming elements</legend>
+    <table>
+        <tr>
+            <td>
+                including:
+            </td>
+            <td>
+                excluding:
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="start-includes" value="<%= startIncludes %>" title="Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/">
+            </td>
+            <td>
+                <input type="text" name="start-excludes" value="<%= startExcludes %>" title="Package, class, method, or field must NOT match any of these expressions. E.g., /Test/">
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
 	</td>
-	<td colspan="2" width="50%">
-	    <b>Stop with programming elements</b>
+	<td>
+
+<fieldset>
+    <legend>Stop with programming elements</legend>
+    <table>
+        <tr>
+            <td>
+                including:
+            </td>
+            <td>
+                excluding:
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="stop-includes" value="<%= stopIncludes %>" title="Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/">
+            </td>
+            <td>
+                <input type="text" name="stop-excludes" value="<%= stopExcludes %>" title="Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/">
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
 	</td>
     </tr>
     <tr>
-	<td>
-	    including:
-	</td>
-	<td>
-	    excluding:
-	</td>
-	<td>
-	    including:
-	</td>
-	<td>
-	    excluding:
+        <td colspan="2" align="center">
+
+<fieldset>
+<label title="Maximum hops against the direction dependencies.  Empty field means no limit." for="maximumInboundDepth"><input type="text" name="maximum-inbound-depth" value="<%= maximumInboundDepth %>" size="2" id="maximumInboundDepth"> <tt>&lt;--</tt></label>
+follow
+<label title="Maximum hops in the direction of dependencies.  Empty field means no limit." for="maximumOutboundDepth"><tt>--&gt;</tt> <input type="text" name="maximum-outbound-depth" value="<%= maximumOutboundDepth %>" size="2" id="maximumOutboundDepth"></label>
+</fieldset>
+
 	</td>
     </tr>
-    <tr>
-	<td>
-	    <input type="text" name="start-includes" value="<%= startIncludes %>" onMouseOver="window.status='Start with packages, classes, methods, or fields matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="start-excludes" value="<%= startExcludes %>" onMouseOver="window.status='Do NOT start with packages, classes, methods, or fields matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="stop-includes" value="<%= stopIncludes %>" onMouseOver="window.status='Stop at packages, classes, methods, or fields matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="stop-excludes" value="<%= stopExcludes %>" onMouseOver="window.status='Do NOT stop at packages, classes, methods, or fields matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-    </tr>
-    </tbody>
-
-    <tbody>
-    <tr>
-        <td colspan="4" align="center">
-
-Follow inbounds:
-<input type="text" name="maximum-inbound-depth" value="<%= maximumInboundDepth %>" size="2" onMouseOver="window.status='Maximum hops against the direction dependencies.  Empty field means no limit.'" onMouseOut="window.status=''">
-Follow outbounds:
-<input type="text" name="maximum-outbound-depth" value="<%= maximumOutboundDepth %>" size="2" onMouseOver="window.status='Maximum hops in the direction of dependencies.  Empty field means no limit.'" onMouseOut="window.status=''">
-
-        </td>
-    </tr>
-    </tbody>
 </table>
 
 </td></tr><tr><td colspan="2" align="center">
 
-<table frame="border" rules="groups" class="controls" width="100%">
-
-    <colgroup span="2" />
-    <colgroup span="2" />
-
-    <tbody>
+<table border="0" class="controls" width="100%">
     <tr>
-	<td colspan="2" width="50%">
-	    <b>Summarize programming elements</b>
+	<td align="center" width="50%">
+
+<fieldset>
+    <legend>Summarize programming elements</legend>
+    <table>
+        <tr>
+            <td align="center">
+                <label title="Start with packages" for="packageScope"><input type="radio" name="scope" value="package" <%= "package".equals(scope) ? "checked" : "" %> id="packageScope">&nbsp;package</label>
+                <label title="Start with classes (with their package)" for="classScope"><input type="radio" name="scope" value="class" <%= "class".equals(scope) ? "checked" : "" %> id="classScope">&nbsp;class</label>
+                <label title="Start with methods and fields (with their class and package)" for="featureScope"><input type="radio" name="scope" value="feature" <%= "feature".equals(scope) ? "checked" : "" %> id="featureScope">&nbsp;feature</label>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
 	</td>
-	<td colspan="2" width="50%">
-	    <b>Summarize dependencies</b>
+	<td align="center">
+
+<fieldset>
+    <legend>Summarize dependencies</legend>
+    <table>
+        <tr>
+            <td align="center">
+                <label title="Stop with packages" for="packageFilter"><input type="radio" name="filter" value="package" <%= "package".equals(filter) ? "checked" : "" %> id="packageFilter">&nbsp;package</label>
+                <label title="Stop with classes (with their package)" for="classFilter"><input type="radio" name="filter" value="class" <%= "class".equals(filter) ? "checked" : "" %> id="classFilter">&nbsp;class</label>
+                <label title="Stop with methods and fields (with their class and package)" for="featureFilter"><input type="radio" name="filter" value="feature" <%= "feature".equals(filter) ? "checked" : "" %> id="featureFilter">&nbsp;feature</label>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
 	</td>
     </tr>
-    <tr>
-	<td align="center" colspan="2">
-	    <input type="radio" name="scope" value="package" <%= "package".equals(scope) ? "checked" : "" %> onMouseOver="window.status='Start with packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="radio" name="scope" value="class" <%= "class".equals(scope) ? "checked" : "" %> onMouseOver="window.status='Start with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="radio" name="scope" value="feature" <%= "feature".equals(scope) ? "checked" : "" %> onMouseOver="window.status='Start with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
-	</td>
-	<td align="center" colspan="2">
-	    <input type="radio" name="filter" value="package" <%= "package".equals(filter) ? "checked" : "" %> onMouseOver="window.status='Stop with packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="radio" name="filter" value="class" <%= "class".equals(filter) ? "checked" : "" %> onMouseOver="window.status='Stop with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="radio" name="filter" value="feature" <%= "feature".equals(filter) ? "checked" : "" %> onMouseOver="window.status='Stop with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
-	</td>
-    </tr>
-    </tbody>
 </table>
 
 </td></tr><tr>
