@@ -57,7 +57,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 			try {
 				in = new DataInputStream(new FileInputStream(classfilename));
 				Classfile classfile = Load(in);
-				fireLoadedClassfile(null, classfile);
+				fireLoadedClassfile(classfilename, classfile);
 			} finally {
 				if (in != null) {
 					in.close();

@@ -97,7 +97,7 @@ public class TestDirectoryClassfileLoader extends TestCase implements LoadListen
 		loader.Load(TEST_FILENAME);
 
 		assertNotNull("Start",           start);
-		assertNull("LoadElement",        load);
+		assertNotNull("LoadElement",     load);
 		assertNotNull("LoadedClassfile", loaded);
 		assertNotNull("Stop",            stop);
 
@@ -140,7 +140,7 @@ public class TestDirectoryClassfileLoader extends TestCase implements LoadListen
 		loader.Load(TEST_FILENAME);
 
 		assertNotNull("Start",           start);
-		assertNull("LoadElement",        load);
+		assertNotNull("LoadElement",     load);
 		assertNotNull("LoadedClassfile", loaded);
 		assertNotNull("Stop",            stop);
 
