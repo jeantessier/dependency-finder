@@ -33,6 +33,9 @@ definitions in <code>DependencyFinder.jar</code>.</p>
 part of the Ant project.</p>
 
 <pre>
+    &lt;!-- Replace "value" with your installation's directory --&gt;
+    &lt;property name="dependencyfinder.home" value="C:/DependencyFinder"/&gt;
+
     &lt;path id="dependencyfinder"&gt;
         &lt;pathelement location="${dependencyfinder.home}/classes"/&gt;
         &lt;pathelement location="${dependencyfinder.home}/lib/DependencyFinder.jar"/&gt;
@@ -41,7 +44,20 @@ part of the Ant project.</p>
     &lt;/path&gt;
 </pre>
 
-<p>You can then use this
+<p>Some people might want to add these JAR files directly to their Ant
+installation.  This way, they do not have to deal with the
+<code>CLASSPATH</code> and extra property.  I don't recommend you do this
+because it makes upgrading Ant that much more difficult.  Every time, you must
+remember to copy the file again.  Also, you cannot deal with the
+<code>classes</code> directory in the same fashion and this could mean missing
+out on Dependency Finder patches.</p>
+
+<p>Whatever you do, make sure that Ant can find <code>log4j.properties</code>
+to initialize Log4J properly.  If you don't, the default Log4J configuration
+will log everything to a dummy appender and the tasks will take much longer to
+execute.</p>
+
+<p>Once Ant knows where to find the Dependency Finder classes, you can then use this
 <a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>
 to define the tasks, based on the classes supplied by Dependency Finder.</p>
 
@@ -98,11 +114,6 @@ the <code>&lt;taskdef&gt;</code> tags implicitly.</p>
     jarjardiff=com.jeantessier.dependencyfinder.ant.JarJarDiff
     listdiff=com.jeantessier.dependencyfinder.ant.ListDiff
 </pre>
-
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
 
 <p>You can use the following in your buildfile:</p>
 

@@ -52,6 +52,11 @@ remember to copy the file again.  Also, you cannot deal with the
 <code>classes</code> directory in the same fashion and this could mean missing
 out on Dependency Finder patches.</p>
 
+<p>Whatever you do, make sure that Ant can find <code>log4j.properties</code>
+to initialize Log4J properly.  If you don't, the default Log4J configuration
+will log everything to a dummy appender and the tasks will take much longer to
+execute.</p>
+
 <p>Once Ant knows where to find the Dependency Finder classes, you can use the
 <a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>
 to import the predefined tasks supplied by Dependency Finder.</p>

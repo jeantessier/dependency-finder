@@ -18,10 +18,27 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	October 28, 2003
+    </dt>
+    <dd>
+	<p>Expanded the documentation for dealing with Ant and XSL transforms.
+	Check out the documentation, under the "<a href="tasks/">Ant Tasks</a>"
+	heading.</p>
+
+	<p>As I was preparing a reply to the original call for help, I noticed
+	that wether or not Log4J is configured properly can have a huge impact
+	on the performance of the tasks.  In one test, running
+	<code>DependencyExtractor</code> on Dependency Finder itself took over
+	7 minutes with the missing Log4J configuration versus 14 <b>seconds</b>
+	with the configuration that ships with Dependency Finder.  So if you
+	find that Dependency Finder is a little unresponsive, you might want
+	to check your Log4J configuration.</p>
+    </dd>
+    <dt>
 	October 27, 2003
     </dt>
     <dd>
-	<p>The "No more DTM IDs" problem with using Ant's
+	<p>The "<code>No more DTM IDs<code>" problem with using Ant's
 	<code>&lt;xslt&gt;</code> task has surfaced again.  I had not given it
 	any thoughts since last April.  The solution is to upgrade Xalan in JDK
 	1.4.1 or use its <code>java.endorsed.dirs</code> settings.  I added
