@@ -17,6 +17,33 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	April 20, 2004
+    </dt>
+    <dd>
+	<p>Wrote a whole new tool to monitor usage of deprecated APIs.
+	<code>ListDeprecatedElements</code> scans JARs and collects a list of
+	names for deprecated classes, interfaces, fields, methods, and
+	constructors.  <code>DeprecationReporter</code> is a variation on
+	<code>DependencyReporter</code> that uses the list instead of
+	regular expressions to figure out the scope and does no filtering.
+	There are CLI and Ant versions of each, with associated
+	documentation.</p>
+
+	<p>Refactored <code>TestRecord</code> to use <code>StringReader</code>
+	to read back generated XML documents in strings.</p>
+
+	<p>Refactored <code>TestRegularExpressionSelectionCriteria</code> to
+	make all its fields private.</p>
+    </dd>
+    <dt>
+	April 19, 2004
+    </dt>
+    <dd>
+	<p>Wrote unit test that uses XPath to validate the generated XML from
+	<code>com.jeantessier.diff.Report</code>.  This will later help me
+	write tests that use Xalan to test the XSL transformations.</p>
+    </dd>
+    <dt>
 	April 18, 2004
     </dt>
     <dd>
