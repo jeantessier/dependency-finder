@@ -13,7 +13,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.1.0.
+For Dependency Finder version 1.1.1.
 </p>
 
 <p>
@@ -5991,70 +5991,114 @@ customized to your own usage of the library.
 </p>
 
 <p>
-For example, to find Dependency Finder's usage of Log4J, you first extract
-Dependency Finder's dependency graph and reduce it to the part that involves
-Log4J elements only.
+For example, say software <i>S</i> depends on library <i>L</i> and there is a new version
+<i>L'</i> of the library now available.  What will be the impact on <i>S</i>?  <i>L</i> can
+comprise many JAR files and many packages with no obvious root.
+</p>
+
+<p>
+Step 1: Get a list of all the symbols in <i>L</i>.  You will use a dependency graph
+later to narrow this list down to the symbols that <i>S</i> actually uses.
 </p>
 
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor -xml -out df.xml
-                            DependencyFinder.jar
-</pre>
-
-<pre>
-    C:\>DependencyReporter -xml -out df-log4j.xml
-                           -show-all
-                           -scope-includes /log4j/
-                           df.xml
-</pre>
-
-<pre>
-    C:\>DependencyGraphToText -in df-log4j.xml
-                              -out df-log4j.txt
+    C:\>ListSymbols -out <b><i>L</i>.symbols.txt</b>
+                    -class-names
+                    -method-names
+                    -feature-names
+                    <i>L</i>
 </pre>
 
 </div>
 
 <p>
-If you use multiple third-party libraries, you don't have to to repeat all the
-steps for each one.  You can supply multiple <code>-scope-includes</code> switches to
-<code>DependencyReporter</code> to get a single text file that has all the symbols across
-all third-party libraries.
-</p>
-
-<p>
-Now, <code>df-log4j.txt</code> has the list of all Log4J elements used in Dependency
-Finder.  You can pass it to <code>JarJarDiff</code> and <code>PublishedDiffToHTML</code> to limit the
-report to these elements only.
+Step 2: Build a dependency graph from <i>S</i>.
 </p>
 
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -out log4j-1.2.8-1.2.9.xml
-                   -name Log4J
-                   -old-label 1.2.8
-                   -old jakarta-log4j-1.2.8\dist\lib\log4j-1.2.8.jar
-                   -new-label 1.2.9
-                   -new jakarta-log4j-1.2.0\dist\lib\log4j-1.2.9.jar
-</pre>
-
-<pre>
-    C:\>PublishedDiffToHTML -in log4j-1.2.8-1.2.9.xml
-                            -out log4j-1.2.8-1.2.9.html
-                            -param validation-list df-log4j.txt
+    C:\>DependencyExtractor -xml -out <i>S</i>.graph.xml
+                            <i>S</i>
 </pre>
 
 </div>
 
 <p>
-If you run <code>DiffToHTML</code>, you will get a full report on what changed in the
-library.  If you run <code>PublishedDiffToHTML</code> without a validation list, you will
-get a smaller report that focuses on the public view of the library.  The
-example shown above, with the validation list, focuses exclusively on those
-parts of the library that you are actually using.
+Step 3: Get a subgraph from the symbols from <i>L</i>.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyReporter -xml -out <i>S</i>-<i>L</i>.graph.xml
+                           -show-empty-nodes
+                           -scope-includes-list <b><i>L</i>.symbols.txt</b>
+                           <i>S</i>.graph.xml
+</pre>
+
+<pre>
+    C:\>DependencyGraphToText -in <i>S</i>-<i>L</i>.graph.xml
+                              -out <b><i>S</i>-<i>L</i>.symbols.txt</b>
+</pre>
+
+</div>
+
+<p>
+If you use multiple third-party libraries, you don't have to to repeat all
+these steps for each one of them.  You can either extract symbols from all of
+them in one call or supply multiple <code>-scope-includes-list</code> switches to
+<code>DependencyReporter</code>.  Either way, in the end, you will get a single text file
+that has all the symbols across all third-party libraries.
+</p>
+
+<p>
+Now, <code><i>S</i>-<i>L</i>.symbols.txt</code> has the list of all elements from <i>L</i> used in <i>S</i>.
+You can pass it to <code>JarJarDiff</code> and <code>PublishedDiffToHTML</code> to limit the report
+to these elements only.
+</p>
+
+<p>
+Step 4: Get the differences between <i>L</i> and <i>L'</i>.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>JarJarDiff -out <i>L</i>-<i>L'</i>.diff.xml
+                   -name L
+                   -old-label L
+                   -old <i>L</i>
+                   -new-label L'
+                   -new <i>L'</i>
+</pre>
+
+</div>
+
+<p>
+Step 5: Narrow down the differences to what is used by <i>S</i>.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>PublishedDiffToHTML -in <i>L</i>-<i>L'</i>.diff.xml
+                            -out <i>S</i>-<i>L</i>-<i>L'</i>.diff.html
+                            -param validation-list <b><i>S</i>-<i>L</i>.symbols.txt</b>
+</pre>
+
+</div>
+
+<p>
+The level of detail in the final report depends on which stylesheet you use and
+what parameters you give to it.  If you run <code>DiffToHTML</code> instead of
+<code>PublishedDiffToHTML</code>, you will get a complete report on what changed in <i>L</i>.
+If you run <code>PublishedDiffToHTML</code> without a validation list, you will get a
+report that covers the entire public API of <i>L</i>.  The example shown above, with
+the validation list, focuses exclusively on those parts of the <i>L</i> that you are
+actually using in <i>S</i>.
 </p>
 
 <a name="ComputingtheD'Metric"></a>
