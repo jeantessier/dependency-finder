@@ -48,6 +48,14 @@
 
 <metrics-configuration>
     <project-measurements>
+	<measurement>
+	    <short-name>D'</short-name>
+	    <long-name>Normalized Distance</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		D'
+	    </init>
+	</measurement>
     </project-measurements>
     <group-measurements>
 	<measurement visible="no">
@@ -137,6 +145,8 @@
 		In
 		-1
 	    </init>
+	    <lower-threshold>-0.25</lower-threshold>
+	    <upper-threshold>0.25</upper-threshold>
 	</measurement>
     </group-measurements>
     <class-measurements>
