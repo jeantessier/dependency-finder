@@ -37,25 +37,25 @@ package com.jeantessier.commandline;
  *  absent or true if present on the command-line.
  */
 public class ToggleSwitch extends CommandLineSwitchBase {
-    public ToggleSwitch() {
+	public ToggleSwitch() {
 		this(false, false);
-    }
+	}
 
-    public ToggleSwitch(boolean default_value) {
+	public ToggleSwitch(boolean default_value) {
 		this(default_value, false);
-    }
+	}
 
-    public ToggleSwitch(boolean default_value, boolean mandatory) {
+	public ToggleSwitch(boolean default_value, boolean mandatory) {
 		super(new Boolean(default_value), mandatory);
-    }
+	}
 
-    public int Parse(String name, String value) throws CommandLineException {
+	public int Parse(String name, String value) throws CommandLineException {
 		Value(new Boolean(true));
 	
 		return 1;
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.Visit(this);
-    }
+	}
 }

@@ -37,10 +37,10 @@ package com.jeantessier.commandline;
  *  on the command-line.
  */
 public interface CommandLineSwitch extends Visitable {
-    public Object DefaultValue();
-    public Object Value();
-    public void Value(Object new_value);
-    public boolean Present();
-    public boolean Mandatory();
-    public int Parse(String name, String value) throws CommandLineException;
+	public Object DefaultValue();
+	public Object Value();
+	public void Value(Object new_value);
+	public boolean Present();
+	public boolean Mandatory();
+	public int Parse(String name, String value) throws CommandLineException;
 }

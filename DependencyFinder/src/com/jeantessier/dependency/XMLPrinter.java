@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 
 public class XMLPrinter extends Printer {
-    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+	public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
 
 	private boolean at_top_level = false;
 

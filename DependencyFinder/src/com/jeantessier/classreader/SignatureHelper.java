@@ -119,11 +119,11 @@ public final class SignatureHelper {
 
 		return result;
 	}
-    
+
 	public static String ReturnType(String descriptor) {
 		return Convert(descriptor.substring(descriptor.lastIndexOf(")") + 1));
 	}
-    
+
 	public static String Type(String descriptor) {
 		return Convert(descriptor);
 	}
@@ -132,7 +132,7 @@ public final class SignatureHelper {
 class SignatureIterator implements Iterator {
 	private String descriptor;
 	private int    current_pos = 0;
-    
+
 	public SignatureIterator(String descriptor) {
 		this.descriptor = descriptor;
 	}
@@ -156,7 +156,7 @@ class SignatureIterator implements Iterator {
 			}
 
 			result = SignatureHelper.Convert(descriptor.substring(current_pos, next_pos + 1));
-	    
+
 			current_pos = next_pos + 1;
 		} else {
 			throw new NoSuchElementException();
@@ -164,7 +164,7 @@ class SignatureIterator implements Iterator {
 
 		return result;
 	}
-    
+
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}

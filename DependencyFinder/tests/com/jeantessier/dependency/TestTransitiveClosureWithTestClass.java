@@ -59,7 +59,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 
 	List scope_includes;
 	
-    TransitiveClosure selector;
+	TransitiveClosure selector;
 
 	protected void setUp() throws Exception {
 		strategy = new SelectiveTraversalStrategy();

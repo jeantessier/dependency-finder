@@ -307,21 +307,21 @@ public abstract class GraphTask extends Task {
 	}
 
 	protected void CheckParameters() throws BuildException {
-        if (getSrcfile() == null) {
-            throw new BuildException("srcfile must be set!");
-        }
+		if (getSrcfile() == null) {
+			throw new BuildException("srcfile must be set!");
+		}
 		
-        if (!getSrcfile().exists()) {
-            throw new BuildException("srcfile does not exist!");
-        }
+		if (!getSrcfile().exists()) {
+			throw new BuildException("srcfile does not exist!");
+		}
 		
-        if (!getSrcfile().isFile()) {
-            throw new BuildException("srcfile is not a file!");
-        }
+		if (!getSrcfile().isFile()) {
+			throw new BuildException("srcfile is not a file!");
+		}
 
-        if (getDestfile() == null) {
-            throw new BuildException("destfile must be set!");
-        }
+		if (getDestfile() == null) {
+			throw new BuildException("destfile must be set!");
+		}
 	}
 
 	protected SelectiveTraversalStrategy Strategy() {

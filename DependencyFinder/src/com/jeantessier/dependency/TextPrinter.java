@@ -40,7 +40,7 @@ import org.apache.oro.text.perl.*;
 
 public class TextPrinter extends Printer {
 	private static final Perl5Util perl = new Perl5Util();
-    
+
 	protected static Perl5Util Perl() {
 		return perl;
 	}

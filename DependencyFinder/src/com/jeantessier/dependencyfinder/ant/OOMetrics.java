@@ -213,27 +213,27 @@ public class OOMetrics extends Task {
 	}
 	
 	public void execute() throws BuildException {
-        // first off, make sure that we've got what we need
+		// first off, make sure that we've got what we need
 
-        if (getConfiguration() == null) {
-            throw new BuildException("configuration must be set!");
-        }
+		if (getConfiguration() == null) {
+			throw new BuildException("configuration must be set!");
+		}
 		
-        if (!getConfiguration().exists()) {
-            throw new BuildException("configuration does not exist!");
-        }
+		if (!getConfiguration().exists()) {
+			throw new BuildException("configuration does not exist!");
+		}
 		
-        if (!getConfiguration().isFile()) {
-            throw new BuildException("configuration is not a file!");
-        }
+		if (!getConfiguration().isFile()) {
+			throw new BuildException("configuration is not a file!");
+		}
 
-        if (getPath() == null) {
-            throw new BuildException("path must be set!");
-        }
+		if (getPath() == null) {
+			throw new BuildException("path must be set!");
+		}
 
-        if (getDestprefix() == null) {
-            throw new BuildException("destprefix must be set!");
-        }
+		if (getDestprefix() == null) {
+			throw new BuildException("destprefix must be set!");
+		}
 
 		try {
 			log("Reading classes from path " + getPath());

@@ -36,37 +36,37 @@ package com.jeantessier.commandline;
  *  Base class for implenting the <code>CommandLineSwitch</code> interface.
  */
 public abstract class CommandLineSwitchBase implements CommandLineSwitch {
-    private   Object  default_value;
-    protected Object  value;
-    private   boolean present;
-    private   boolean mandatory;
+	private   Object  default_value;
+	protected Object  value;
+	private   boolean present;
+	private   boolean mandatory;
 
-    public CommandLineSwitchBase() {
+	public CommandLineSwitchBase() {
 		this(null, false);
-    }
+	}
 
-    public CommandLineSwitchBase(Object default_value) {
+	public CommandLineSwitchBase(Object default_value) {
 		this(default_value, false);
-    }
+	}
 
-    public CommandLineSwitchBase(boolean mandatory) {
+	public CommandLineSwitchBase(boolean mandatory) {
 		this(null, mandatory);
-    }
+	}
 
-    public CommandLineSwitchBase(Object default_value, boolean mandatory) {
+	public CommandLineSwitchBase(Object default_value, boolean mandatory) {
 		this.default_value = default_value;
 		this.mandatory     = mandatory;
 
 		this.value = null;
 
 		Present(false);
-    }
+	}
 
-    public Object DefaultValue() {
+	public Object DefaultValue() {
 		return default_value;
-    }
+	}
 
-    public Object Value() {
+	public Object Value() {
 		Object result = default_value;
 
 		if (value != null) {
@@ -74,27 +74,27 @@ public abstract class CommandLineSwitchBase implements CommandLineSwitch {
 		}
 
 		return result;
-    }
+	}
 
-    public void Value(Object new_value) {
+	public void Value(Object new_value) {
 		value = new_value;
 
 		Present(true);
-    }
+	}
 
-    public boolean Present() {
+	public boolean Present() {
 		return present;
-    }
+	}
 
-    protected void Present(boolean present) {
+	protected void Present(boolean present) {
 		this.present = present;
-    }
+	}
 
-    public boolean Mandatory() {
+	public boolean Mandatory() {
 		return mandatory;
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return Value().toString();
-    }
+	}
 }

@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface Visitable {
-    public void Accept(Visitor visitor);
+	public void Accept(Visitor visitor);
 }

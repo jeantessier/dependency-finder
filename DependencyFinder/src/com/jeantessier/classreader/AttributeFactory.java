@@ -54,7 +54,7 @@ public class AttributeFactory {
 		if (name_index > 0) {
 			String name = ((UTF8_info) classfile.ConstantPool().get(name_index)).Value();
 			Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index + " (" + name + ")");
-	    
+			
 			if (CONSTANT_VALUE.equals(name)) {
 				result = new ConstantValue_attribute(classfile, owner, in);
 			} else if (CODE.equals(name)) {

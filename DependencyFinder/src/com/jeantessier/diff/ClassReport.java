@@ -185,7 +185,7 @@ public class ClassReport extends Printer implements Comparable {
 		RaiseIndent();
 
 		Indent().Append("<name>").Append(differences.Name()).Append("</name>").EOL();
-	    
+
 		if (!differences.OldDeclaration().equals(differences.NewDeclaration())) {
 			Indent().Append("<modified-declaration>").EOL();
 			RaiseIndent();
@@ -628,7 +628,7 @@ public class ClassReport extends Printer implements Comparable {
 			if (!element.Name().equals("<init>") && !element.Name().equals("<clinit>")) {
 				result.append(" return-type=\"").append(element.ReturnType()).append("\"");
 			}
-	    
+
 			result.append(" signature=\"").append(element.Signature()).append("\"");
 			result.append(" full-signature=\"").append(element.FullSignature()).append("\"");
 

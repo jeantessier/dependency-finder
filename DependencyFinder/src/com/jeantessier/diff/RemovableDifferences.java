@@ -77,7 +77,7 @@ public abstract class RemovableDifferences implements Differences, Comparable {
 		
 		return result;
 	}
-    
+
 	public boolean IsModified() {
 		boolean result = (old_declaration != null) && (new_declaration != null) && !old_declaration.equals(new_declaration);
 
@@ -85,7 +85,7 @@ public abstract class RemovableDifferences implements Differences, Comparable {
 		
 		return result;
 	}
-    
+
 	public boolean IsNew() {
 		boolean result = (old_declaration == null) && (new_declaration != null);
 
@@ -93,7 +93,7 @@ public abstract class RemovableDifferences implements Differences, Comparable {
 		
 		return result;
 	}
-    
+
 	public boolean IsEmpty() {
 		return
 			!IsNew() &&

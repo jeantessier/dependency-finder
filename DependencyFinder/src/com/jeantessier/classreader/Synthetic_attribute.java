@@ -37,18 +37,18 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class Synthetic_attribute extends Attribute_info {
-    public Synthetic_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+	public Synthetic_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
 		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return "Synthetic";
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitSynthetic_attribute(this);
-    }
+	}
 }

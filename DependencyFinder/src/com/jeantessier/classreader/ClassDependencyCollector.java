@@ -35,10 +35,10 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class ClassDependencyCollector extends CollectorBase {
-    private Class_info this_class;
-    private boolean    top        = true;
+	private Class_info this_class;
+	private boolean    top        = true;
 
-    public void VisitClassfile(Classfile classfile) {
+	public void VisitClassfile(Classfile classfile) {
 		this_class = classfile.RawClass();
 
 		classfile.ConstantPool().Accept(this);
@@ -61,9 +61,9 @@ public class ClassDependencyCollector extends CollectorBase {
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
-    }
+	}
 
-    public void VisitClass_info(Class_info entry) {
+	public void VisitClass_info(Class_info entry) {
 		String classname = entry.Name();
 	
 		if (entry != this_class) {
@@ -75,9 +75,9 @@ public class ClassDependencyCollector extends CollectorBase {
 				Add(classname);
 			}
 		}
-    }
+	}
 
-    public void VisitFieldRef_info(FieldRef_info entry) {
+	public void VisitFieldRef_info(FieldRef_info entry) {
 		if (top) {
 			if (entry.RawClass() == this_class) {
 				top = false;
@@ -87,9 +87,9 @@ public class ClassDependencyCollector extends CollectorBase {
 		} else {
 			entry.RawNameAndType().Accept(this);
 		}
-    }
+	}
 
-    public void VisitMethodRef_info(MethodRef_info entry) {
+	public void VisitMethodRef_info(MethodRef_info entry) {
 		if (top) {
 			if (entry.RawClass() == this_class) {
 				top = false;
@@ -99,9 +99,9 @@ public class ClassDependencyCollector extends CollectorBase {
 		} else {
 			entry.RawNameAndType().Accept(this);
 		}
-    }
+	}
 
-    public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		if (top) {
 			if (entry.RawClass() == this_class) {
 				top = false;
@@ -111,78 +111,78 @@ public class ClassDependencyCollector extends CollectorBase {
 		} else {
 			entry.RawNameAndType().Accept(this);
 		}
-    }
+	}
 
-    public void VisitString_info(String_info entry) {
+	public void VisitString_info(String_info entry) {
 		if (!top) {
 			entry.RawValue().Accept(this);
 		}
-    }
+	}
 
-    public void VisitNameAndType_info(NameAndType_info entry) {
+	public void VisitNameAndType_info(NameAndType_info entry) {
 		if (!top) {
 			entry.RawType().Accept(this);
 		}
-    }
+	}
 
-    public void VisitUTF8_info(UTF8_info entry) {
+	public void VisitUTF8_info(UTF8_info entry) {
 		if (!top) {
 			ProcessSignature(entry.Value());
 		}
-    }
+	}
 
-    public void VisitField_info(Field_info entry) {
+	public void VisitField_info(Field_info entry) {
 		ProcessSignature(entry.Descriptor());
 	
 		super.VisitField_info(entry);
-    }
+	}
 
-    public void VisitMethod_info(Method_info entry) {
+	public void VisitMethod_info(Method_info entry) {
 		ProcessSignature(entry.Descriptor());
 	
 		super.VisitMethod_info(entry);
-    }
+	}
 
-    public void VisitCode_attribute(Code_attribute attribute) {
+	public void VisitCode_attribute(Code_attribute attribute) {
 		Iterator i = attribute.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
-    }
+	}
 
-    public void VisitExceptions_attribute(Exceptions_attribute attribute) {
+	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
 		Iterator i = attribute.Exceptions().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
-    }
+	}
 
-    public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
+	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
 		Iterator i = attribute.Classes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
-    }
+	}
 
-    public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
 		Iterator i = attribute.LineNumbers().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
-    }
+	}
 
-    public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
 		Iterator i = attribute.LocalVariables().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
-    }
+	}
 
-    public void VisitLocalVariable(LocalVariable helper) {
+	public void VisitLocalVariable(LocalVariable helper) {
 		ProcessSignature(helper.Descriptor());
-    }
+	}
 
-    private void ProcessSignature(String str) {
+	private void ProcessSignature(String str) {
 		int current_pos = 0;
 		int start_pos;
 		int end_pos;
@@ -198,5 +198,5 @@ public class ClassDependencyCollector extends CollectorBase {
 				current_pos = start_pos + 1;
 			}
 		}
-    }
+	}
 }

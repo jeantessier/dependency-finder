@@ -45,7 +45,7 @@ public class Classfile implements Deprecatable, Visitable {
 	public static final int ACC_ABSTRACT  = 0x0400;
 
 	private ClassfileLoader loader;
-    
+
 	private int          magic_number;
 	private int          minor_version;
 	private int          major_version;
@@ -335,7 +335,7 @@ public class Classfile implements Deprecatable, Visitable {
 			if (SuperclassIndex() != 0) {
 				result.append(" extends ").append(Superclass());
 			}
-	    
+			
 			if (Interfaces().size() != 0) {
 				result.append(" implements ");
 				Iterator i = Interfaces().iterator();

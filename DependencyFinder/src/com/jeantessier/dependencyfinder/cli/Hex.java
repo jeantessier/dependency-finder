@@ -39,7 +39,7 @@ public final class Hex {
 	private Hex() {
 		// Do nothing
 	}
-    
+
 	public static void Print(PrintStream out, byte[] bytes) {
 		for (int i=0; i<bytes.length; i++) {
 			Print(out, bytes[i]);
@@ -71,7 +71,7 @@ public final class Hex {
 	public static void Print(PrintStream out, int n) {
 		out.print(HexChar(n));
 	}
-    
+
 	public static void Print(PrintWriter out, int n) {
 		out.print(HexChar(n));
 	}

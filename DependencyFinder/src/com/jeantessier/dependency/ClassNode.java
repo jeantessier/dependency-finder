@@ -54,7 +54,7 @@ public class ClassNode extends Node {
 	public Collection Features() {
 		return Collections.unmodifiableCollection(features);
 	}
- 	
+
 	public boolean CanAddDependency(Node node) {
 		return super.CanAddDependency(node) && Package().CanAddDependency(node);
 	}

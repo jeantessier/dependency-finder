@@ -105,7 +105,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 			fireDependency(current, other);
 		}
 	}
-    
+
 	public void VisitFieldRef_info(FieldRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");

@@ -52,7 +52,7 @@ public class TestGraphSummarizer extends TestCase {
 	Node b_B_class;
 	Node b_B_b_method;
 
-    GraphSummarizer summarizer;
+	GraphSummarizer summarizer;
 
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());

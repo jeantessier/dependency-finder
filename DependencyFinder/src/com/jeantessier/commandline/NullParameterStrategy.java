@@ -37,18 +37,18 @@ package com.jeantessier.commandline;
  *  find the command-line invalid.
  */
 public class NullParameterStrategy implements ParameterStrategy {
-    private boolean satisfied = true;
+	private boolean satisfied = true;
 
-    public boolean Accept(String param) {
+	public boolean Accept(String param) {
 		satisfied = false;
 		return false;
-    }
+	}
 
-    public boolean Satisfied() {
+	public boolean Satisfied() {
 		return satisfied;
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.Visit(this);
-    }
+	}
 }

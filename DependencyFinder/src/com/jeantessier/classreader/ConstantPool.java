@@ -38,9 +38,9 @@ import java.util.*;
 import org.apache.oro.text.perl.*;
 
 public class ConstantPool extends ArrayList implements Visitable {
-    private Classfile classfile;
+	private Classfile classfile;
 
-    public ConstantPool(Classfile classfile, DataInputStream in) throws IOException {
+	public ConstantPool(Classfile classfile, DataInputStream in) throws IOException {
 		Classfile(classfile);
 
 		int count = in.readUnsignedShort();
@@ -95,19 +95,19 @@ public class ConstantPool extends ArrayList implements Visitable {
 					System.out.println("Unknown Tag " + tag);
 			}
 		}
-    }
-    
-    public Classfile Classfile() {
+	}
+
+	public Classfile Classfile() {
 		return classfile;
-    }
+	}
 
-    private void Classfile(Classfile classfile) {
+	private void Classfile(Classfile classfile) {
 		this.classfile = classfile;
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitConstantPool(this);
-    }
+	}
 
 	public String toString() {
 		StringWriter out = new StringWriter();

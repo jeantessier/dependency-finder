@@ -167,7 +167,7 @@ public class DependencyMetrics extends GraphTask {
 	}
 	
 	public void execute() throws BuildException {
-        // first off, make sure that we've got what we need
+		// first off, make sure that we've got what we need
 		CheckParameters();
 
 		VerboseListener verbose_listener = new VerboseListener(this);

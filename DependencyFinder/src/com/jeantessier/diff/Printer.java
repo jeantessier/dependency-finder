@@ -45,7 +45,7 @@ public abstract class Printer extends VisitorBase {
 	public void IndentText(String indent_text) {
 		this.indent_text = indent_text;
 	}
-    
+
 	protected Printer Append(boolean b) {
 		buffer.append(b);
 		return this;

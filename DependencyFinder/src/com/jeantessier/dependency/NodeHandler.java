@@ -47,7 +47,7 @@ public class NodeHandler extends DefaultHandler {
 	private static final int FEATURE = 3;
 
 	private NodeFactory factory;
-    
+
 	private int          current_node_type;
 	private int          current_dependency_type;
 	private Node         current_node;
@@ -69,7 +69,7 @@ public class NodeHandler extends DefaultHandler {
 	public NodeFactory Factory() {
 		return factory;
 	}
-    
+
 	public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
 		Logger.getLogger(getClass()).debug("qName = " + qName);
 

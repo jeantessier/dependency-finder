@@ -35,23 +35,23 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class Integer_info extends ConstantPoolEntry {
-    private int value;
+	private int value;
 
-    public Integer_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public Integer_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool);
 
 		value = in.readInt();
-    }
+	}
 
-    public int Value() {
+	public int Value() {
 		return value;
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return String.valueOf(Value());
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitInteger_info(this);
-    }
+	}
 }

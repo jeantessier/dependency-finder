@@ -43,14 +43,14 @@ public class ListDocumentedElements {
 	private static Collection  invalid_values = new HashSet();
 	private static PrintWriter out            = new PrintWriter(System.out);
 	
-    public static boolean start(RootDoc root) {
+	public static boolean start(RootDoc root) {
 		Process(root.specifiedPackages());
 		Process(root.classes());
 		out.close();
-        return true;
-    }
+		return true;
+	}
 
-    public static int optionLength(String option) {
+	public static int optionLength(String option) {
 		int result = 0;
 
 		if (option.equals("-tag")) {
@@ -64,7 +64,7 @@ public class ListDocumentedElements {
 		}
 
 		return result;
-    }
+	}
 
 	public static boolean validOptions(String options[][], DocErrorReporter reporter) {
 		boolean valid = true;
@@ -101,7 +101,7 @@ public class ListDocumentedElements {
 	}
 	
 	private static void Process(PackageDoc[] docs) {
-        for (int i = 0; i < docs.length; ++i) {
+		for (int i = 0; i < docs.length; ++i) {
 			Process(docs[i]);
 		}
 	}
@@ -112,7 +112,7 @@ public class ListDocumentedElements {
 	}
 	
 	private static void Process(ProgramElementDoc[] docs) {
-        for (int i = 0; i < docs.length; ++i) {
+		for (int i = 0; i < docs.length; ++i) {
 			Process(docs[i]);
 		}
 	}

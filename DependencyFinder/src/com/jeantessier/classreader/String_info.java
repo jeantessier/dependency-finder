@@ -35,31 +35,31 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class String_info extends ConstantPoolEntry {
-    private int value_index;
+	private int value_index;
 
-    public String_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public String_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool);
 
 		value_index = in.readUnsignedShort();
-    }
+	}
 
-    public int ValueIndex() {
+	public int ValueIndex() {
 		return value_index;
-    }
+	}
 
-    public UTF8_info RawValue() {
+	public UTF8_info RawValue() {
 		return (UTF8_info) ConstantPool().get(ValueIndex());
-    }
+	}
 
-    public String Value() {
+	public String Value() {
 		return RawValue().toString();
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return Value();
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitString_info(this);
-    }
+	}
 }

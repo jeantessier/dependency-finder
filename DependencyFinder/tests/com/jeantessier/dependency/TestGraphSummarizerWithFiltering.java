@@ -57,7 +57,7 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
 	List include_filter;
 	List exclude_filter;
 
-    GraphCopier copier;
+	GraphCopier copier;
 
 	protected void setUp() throws Exception {
 		strategy = new SelectiveTraversalStrategy();

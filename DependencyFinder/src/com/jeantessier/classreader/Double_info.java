@@ -35,23 +35,23 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class Double_info extends ConstantPoolEntry {
-    private double value;
+	private double value;
 
-    public Double_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public Double_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool);
 
 		value = in.readDouble();
-    }
+	}
 
-    public double Value() {
+	public double Value() {
 		return value;
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return String.valueOf(Value());
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitDouble_info(this);
-    }
+	}
 }

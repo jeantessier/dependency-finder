@@ -37,14 +37,14 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class LocalVariable implements Visitable {
-    private LocalVariableTable_attribute local_variable_table;
-    private int                          start_pc;
-    private int                          length;
-    private int                          name_index;
-    private int                          descriptor_index;
-    private int                          index;
+	private LocalVariableTable_attribute local_variable_table;
+	private int                          start_pc;
+	private int                          length;
+	private int                          name_index;
+	private int                          descriptor_index;
+	private int                          index;
 
-    public LocalVariable(LocalVariableTable_attribute local_variable_table, DataInputStream in) throws IOException {
+	public LocalVariable(LocalVariableTable_attribute local_variable_table, DataInputStream in) throws IOException {
 		LocalVariableTable(local_variable_table);
 
 		start_pc = in.readUnsignedShort();
@@ -61,57 +61,57 @@ public class LocalVariable implements Visitable {
 
 		index = in.readUnsignedShort();
 		Logger.getLogger(getClass()).debug("index: " + index);
-    }
+	}
 
-    public LocalVariableTable_attribute LocalVariableTable() {
+	public LocalVariableTable_attribute LocalVariableTable() {
 		return local_variable_table;
-    }
+	}
 
-    private void LocalVariableTable(LocalVariableTable_attribute local_variable_table) {
+	private void LocalVariableTable(LocalVariableTable_attribute local_variable_table) {
 		this.local_variable_table = local_variable_table;
-    }
+	}
 
-    public int StartPC() {
+	public int StartPC() {
 		return start_pc;
-    }
+	}
 
-    public int Length() {
+	public int Length() {
 		return length;
-    }
+	}
 
-    public int NameIndex() {
+	public int NameIndex() {
 		return name_index;
-    }
+	}
 
-    public UTF8_info RawName() {
+	public UTF8_info RawName() {
 		return (UTF8_info) LocalVariableTable().Classfile().ConstantPool().get(name_index);
-    }
+	}
 
-    public String Name() {
+	public String Name() {
 		return RawName().toString();
-    }
+	}
 
-    public int DescriptorIndex() {
+	public int DescriptorIndex() {
 		return descriptor_index;
-    }
+	}
 
-    public UTF8_info RawDescriptor() {
+	public UTF8_info RawDescriptor() {
 		return (UTF8_info) LocalVariableTable().Classfile().ConstantPool().get(descriptor_index);
-    }
+	}
 
-    public String Descriptor() {
+	public String Descriptor() {
 		return RawDescriptor().toString();
-    }
+	}
 
-    public int Index() {
+	public int Index() {
 		return index;
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return "Local variable " + Descriptor() + " " + Name();
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitLocalVariable(this);
-    }
+	}
 }

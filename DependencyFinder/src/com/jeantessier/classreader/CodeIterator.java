@@ -59,7 +59,7 @@ public class CodeIterator implements Iterator {
 
 		return result;
 	}
-    
+
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}

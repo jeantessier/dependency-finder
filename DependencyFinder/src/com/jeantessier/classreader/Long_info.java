@@ -35,23 +35,23 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class Long_info extends ConstantPoolEntry {
-    private long value;
+	private long value;
 
-    public Long_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public Long_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool);
 
 		value = in.readLong();
-    }
+	}
 
-    public long Value() {
+	public long Value() {
 		return value;
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return String.valueOf(Value());
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitLong_info(this);
-    }
+	}
 }

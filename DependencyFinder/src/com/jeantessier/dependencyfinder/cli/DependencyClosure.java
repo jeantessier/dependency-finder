@@ -41,17 +41,17 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyClosure {
-    public static final String DEFAULT_INCLUDES        = "//";
-    public static final String DEFAULT_SCOPE_INCLUDES  = "//";
-    public static final String DEFAULT_FILTER_INCLUDES = "//";
-    public static final String DEFAULT_LOGFILE         = "System.out";
+	public static final String DEFAULT_INCLUDES        = "//";
+	public static final String DEFAULT_SCOPE_INCLUDES  = "//";
+	public static final String DEFAULT_FILTER_INCLUDES = "//";
+	public static final String DEFAULT_LOGFILE         = "System.out";
 
-    public static void Error(CommandLineUsage clu, String msg) {
+	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
-    }
+	}
 
-    public static void Error(CommandLineUsage clu) {
+	public static void Error(CommandLineUsage clu) {
 		System.err.println(clu);
 		System.err.println();
 		System.err.println("-all shorthand for the combination:");
@@ -88,9 +88,9 @@ public class DependencyClosure {
 		System.err.println();
 		System.err.println("Defaults is text output to the console.");
 		System.err.println();
-    }
+	}
 
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new AtLeastParameterStrategy(1));
 		command_line.AddMultipleValuesSwitch("scope-includes",          DEFAULT_SCOPE_INCLUDES);
@@ -286,7 +286,7 @@ public class DependencyClosure {
 			}
 
 			Logger.getLogger(DependencyClosure.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
-	    
+
 			LinkMaximizer maximizer = new LinkMaximizer();
 			maximizer.TraverseNodes(packages);
 
@@ -311,13 +311,13 @@ public class DependencyClosure {
 				out = new PrintWriter(System.out);
 			}
 
-			Printer      printer;
+			Printer printer;
 			if (command_line.IsPresent("xml")) {
 				printer = new XMLPrinter(out, command_line.SingleSwitch("dtd-prefix"));
 			} else {
 				printer = new TextPrinter(out);
 			}
-	    			
+
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -334,5 +334,5 @@ public class DependencyClosure {
 		}
 
 		verbose_listener.close();
-    }
+	}
 }

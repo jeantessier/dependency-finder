@@ -37,6 +37,6 @@ package com.jeantessier.commandline;
  *  on the command-line.
  */
 public interface ParameterStrategy extends Visitable {
-    public boolean Accept(String param);
-    public boolean Satisfied();
+	public boolean Accept(String param);
+	public boolean Satisfied();
 }

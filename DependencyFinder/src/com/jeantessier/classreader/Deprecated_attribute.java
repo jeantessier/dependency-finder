@@ -37,19 +37,19 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class Deprecated_attribute extends Attribute_info {
-    public Deprecated_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+	public Deprecated_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
 		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return "Deprecated";
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitDeprecated_attribute(this);
-    }
+	}
 }
 

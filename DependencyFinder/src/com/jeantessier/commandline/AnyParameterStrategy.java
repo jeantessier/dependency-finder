@@ -39,15 +39,15 @@ package com.jeantessier.commandline;
  *  This is the default strategy for CommandLine when you do not specify one.
  */
 public class AnyParameterStrategy implements ParameterStrategy {
-    public boolean Accept(String param) {
+	public boolean Accept(String param) {
 		return true;
-    }
+	}
 
-    public boolean Satisfied() {
+	public boolean Satisfied() {
 		return true;
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.Visit(this);
-    }
+	}
 }

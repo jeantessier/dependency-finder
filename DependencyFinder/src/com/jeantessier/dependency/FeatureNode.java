@@ -41,11 +41,11 @@ public class FeatureNode extends Node {
 		super(name);
 		this.parent = parent;
 	}
-    
+
 	public ClassNode Class() {
 		return parent;
 	}
- 	
+
 	public boolean CanAddDependency(Node node) {
 		return super.CanAddDependency(node) && Class().CanAddDependency(node);
 	}

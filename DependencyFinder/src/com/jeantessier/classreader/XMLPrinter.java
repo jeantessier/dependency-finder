@@ -63,7 +63,7 @@ public class XMLPrinter extends Printer {
 		Append("<!DOCTYPE classfile SYSTEM \"").Append(dtd_prefix).Append("/classfile.dtd\">").EOL();
 		EOL();
 	}
-    
+
 	public void VisitClassfile(Classfile classfile) {
 		Iterator i;
 

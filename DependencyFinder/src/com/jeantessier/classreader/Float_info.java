@@ -35,23 +35,23 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class Float_info extends ConstantPoolEntry {
-    private float value;
+	private float value;
 
-    public Float_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public Float_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool);
 
 		value = in.readFloat();
-    }
+	}
 
-    public float Value() {
+	public float Value() {
 		return value;
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return String.valueOf(Value());
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitFloat_info(this);
-    }
+	}
 }

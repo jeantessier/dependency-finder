@@ -40,41 +40,41 @@ import java.util.*;
  *  the command-line and you retrieve them as a single <code>java.util.List</code>.
  */
 public class MultipleValuesSwitch extends CommandLineSwitchBase {
-    public MultipleValuesSwitch() {
+	public MultipleValuesSwitch() {
 		this(new LinkedList(), false);
-    }
+	}
 
-    public MultipleValuesSwitch(String default_value) {
+	public MultipleValuesSwitch(String default_value) {
 		this(Collections.singletonList(default_value), false);
-    }
+	}
 
-    public MultipleValuesSwitch(String[] default_value) {
+	public MultipleValuesSwitch(String[] default_value) {
 		this(Arrays.asList(default_value), false);
-    }
+	}
 
-    public MultipleValuesSwitch(List default_value) {
+	public MultipleValuesSwitch(List default_value) {
 		this(default_value, false);
-    }
+	}
 
-    public MultipleValuesSwitch(boolean mandatory) {
+	public MultipleValuesSwitch(boolean mandatory) {
 		this(new LinkedList(), mandatory);
-    }
+	}
 
-    public MultipleValuesSwitch(String default_value, boolean mandatory) {
+	public MultipleValuesSwitch(String default_value, boolean mandatory) {
 		this(Collections.singletonList(default_value), mandatory);
-    }
+	}
 
-    public MultipleValuesSwitch(String[] default_value, boolean mandatory) {
+	public MultipleValuesSwitch(String[] default_value, boolean mandatory) {
 		this(Arrays.asList(default_value), mandatory);
-    }
+	}
 
-    public MultipleValuesSwitch(List default_value, boolean mandatory) {
+	public MultipleValuesSwitch(List default_value, boolean mandatory) {
 		super(new LinkedList(default_value), mandatory);
 
 		this.value = new LinkedList();
-    }
+	}
 
-    public Object Value() {
+	public Object Value() {
 		Object result = DefaultValue();
 
 		if (!((List) value).isEmpty()) {
@@ -82,14 +82,14 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
 		}
 
 		return result;
-    }
+	}
 
-    public void Value(Object value) {
+	public void Value(Object value) {
 		((List) this.value).add(value);
 		super.Value(this.value);
-    }
+	}
 
-    public int Parse(String name, String value) throws CommandLineException {
+	public int Parse(String name, String value) throws CommandLineException {
 		if (value == null) {
 			throw new CommandLineException("Missing mandatory value for switch \"" + name + "\"");
 		}
@@ -97,9 +97,9 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
 		Value(value);
 	
 		return 2;
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.Visit(this);
-    }
+	}
 }

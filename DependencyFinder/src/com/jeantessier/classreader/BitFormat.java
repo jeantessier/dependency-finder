@@ -81,7 +81,7 @@ public class BitFormat {
 				result.append(binary_string[binary_string.length - max_length + i]);
 			}
 		}
-                
+		
 		return result.toString();
 	}
 }

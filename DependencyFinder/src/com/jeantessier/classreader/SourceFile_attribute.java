@@ -37,9 +37,9 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class SourceFile_attribute extends Attribute_info {
-    private int source_file_index;
+	private int source_file_index;
 
-    public SourceFile_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+	public SourceFile_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
@@ -47,26 +47,26 @@ public class SourceFile_attribute extends Attribute_info {
 
 		source_file_index = in.readUnsignedShort();
 		Logger.getLogger(getClass()).debug("Source file: " + source_file_index + " (" + SourceFile() + ")");
-    }
+	}
 
-    public int SourceFileIndex() {
+	public int SourceFileIndex() {
 		return source_file_index;
-    }
+	}
 
-    public UTF8_info RawSourceFile() {
+	public UTF8_info RawSourceFile() {
 		return (UTF8_info) Classfile().ConstantPool().get(SourceFileIndex());
-    }
+	}
 
-    public String SourceFile() {
+	public String SourceFile() {
 		return RawSourceFile().toString();
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return "Source file \"" + SourceFile() + "\"";
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitSourceFile_attribute(this);
-    }
+	}
 }
 

@@ -57,7 +57,7 @@ public class TestLinkMaximizer extends TestCase {
 	Node java_util_Collections_singleton_method;
 	Node java_util_Set_class;
 	
-    LinkMaximizer visitor;
+	LinkMaximizer visitor;
 
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();

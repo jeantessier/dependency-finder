@@ -316,7 +316,7 @@ public class DependencyReporter {
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
-	    
+
 			printer.TraverseNodes(copier.ScopeFactory().Packages().values());
 		}
 

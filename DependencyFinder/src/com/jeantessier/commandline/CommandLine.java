@@ -38,113 +38,113 @@ import java.util.*;
  *  Command-line parser.
  */
 public class CommandLine implements Visitable {
-    private static final boolean           DEFAULT_STRICT             = true;
-    private static final ParameterStrategy DEFAULT_PARAMETER_STRATEGY = new AnyParameterStrategy();
+	private static final boolean           DEFAULT_STRICT             = true;
+	private static final ParameterStrategy DEFAULT_PARAMETER_STRATEGY = new AnyParameterStrategy();
 
-    private boolean           strict;
-    private ParameterStrategy parameter_strategy;
+	private boolean           strict;
+	private ParameterStrategy parameter_strategy;
 
-    private List              parameters = new LinkedList();
-    private Map               map        = new TreeMap();
-    
-    public CommandLine() {
+	private List              parameters = new LinkedList();
+	private Map               map        = new TreeMap();
+
+	public CommandLine() {
 		this(DEFAULT_STRICT, DEFAULT_PARAMETER_STRATEGY);
-    }
+	}
 
-    public CommandLine(boolean strict) {
+	public CommandLine(boolean strict) {
 		this(strict, DEFAULT_PARAMETER_STRATEGY);
-    }
+	}
 
-    public CommandLine(ParameterStrategy parameter_strategy) {
+	public CommandLine(ParameterStrategy parameter_strategy) {
 		this(DEFAULT_STRICT, parameter_strategy);
-    }
+	}
 
-    public CommandLine(boolean strict, ParameterStrategy parameter_strategy) {
+	public CommandLine(boolean strict, ParameterStrategy parameter_strategy) {
 		Strict(strict);
 		ParameterStrategy(parameter_strategy);
-    }
+	}
 
-    public boolean Strict() {
+	public boolean Strict() {
 		return strict;
-    }
+	}
 
-    public void Strict(boolean strict) {
+	public void Strict(boolean strict) {
 		this.strict = strict;
-    }
+	}
 
-    public ParameterStrategy ParameterStrategy() {
+	public ParameterStrategy ParameterStrategy() {
 		return parameter_strategy;
-    }
+	}
 
-    public void ParameterStrategy(ParameterStrategy parameter_strategy) {
+	public void ParameterStrategy(ParameterStrategy parameter_strategy) {
 		this.parameter_strategy = parameter_strategy;
-    }
+	}
 
-    public void AddSwitch(String name, CommandLineSwitch cls) {
+	public void AddSwitch(String name, CommandLineSwitch cls) {
 		map.put(name, cls);
-    }
+	}
 
-    public void AddToggleSwitch(String name) {
+	public void AddToggleSwitch(String name) {
 		AddSwitch(name, new ToggleSwitch());
-    }
+	}
 
-    public void AddToggleSwitch(String name, boolean default_value) {
+	public void AddToggleSwitch(String name, boolean default_value) {
 		AddSwitch(name, new ToggleSwitch(default_value));
-    }
+	}
 
-    public void AddSingleValueSwitch(String name) {
+	public void AddSingleValueSwitch(String name) {
 		AddSwitch(name, new SingleValueSwitch());
-    }
+	}
 
-    public void AddSingleValueSwitch(String name, boolean mandatory) {
+	public void AddSingleValueSwitch(String name, boolean mandatory) {
 		AddSwitch(name, new SingleValueSwitch(mandatory));
-    }
+	}
 
-    public void AddSingleValueSwitch(String name, String default_value) {
+	public void AddSingleValueSwitch(String name, String default_value) {
 		AddSwitch(name, new SingleValueSwitch(default_value));
-    }
+	}
 
-    public void AddSingleValueSwitch(String name, String default_value, boolean mandatory) {
+	public void AddSingleValueSwitch(String name, String default_value, boolean mandatory) {
 		AddSwitch(name, new SingleValueSwitch(default_value, mandatory));
-    }
+	}
 
-    public void AddOptionalValueSwitch(String name) {
+	public void AddOptionalValueSwitch(String name) {
 		AddSwitch(name, new OptionalValueSwitch());
-    }
+	}
 
-    public void AddOptionalValueSwitch(String name, boolean mandatory) {
+	public void AddOptionalValueSwitch(String name, boolean mandatory) {
 		AddSwitch(name, new OptionalValueSwitch(mandatory));
-    }
+	}
 
-    public void AddOptionalValueSwitch(String name, String default_value) {
+	public void AddOptionalValueSwitch(String name, String default_value) {
 		AddSwitch(name, new OptionalValueSwitch(default_value));
-    }
+	}
 
-    public void AddOptionalValueSwitch(String name, String default_value, boolean mandatory) {
+	public void AddOptionalValueSwitch(String name, String default_value, boolean mandatory) {
 		AddSwitch(name, new OptionalValueSwitch(default_value, mandatory));
-    }
+	}
 
-    public void AddMultipleValuesSwitch(String name) {
+	public void AddMultipleValuesSwitch(String name) {
 		map.put(name, new MultipleValuesSwitch());
-    }
+	}
 
-    public void AddMultipleValuesSwitch(String name, boolean mandatory) {
+	public void AddMultipleValuesSwitch(String name, boolean mandatory) {
 		map.put(name, new MultipleValuesSwitch(mandatory));
-    }
+	}
 
-    public void AddMultipleValuesSwitch(String name, String default_value) {
+	public void AddMultipleValuesSwitch(String name, String default_value) {
 		map.put(name, new MultipleValuesSwitch(default_value));
-    }
+	}
 
-    public void AddMultipleValuesSwitch(String name, String default_value, boolean mandatory) {
+	public void AddMultipleValuesSwitch(String name, String default_value, boolean mandatory) {
 		map.put(name, new MultipleValuesSwitch(default_value, mandatory));
-    }
+	}
 
-    public CommandLineSwitch Switch(String name) {
+	public CommandLineSwitch Switch(String name) {
 		return (CommandLineSwitch) map.get(name);
-    }
+	}
 
-    public boolean ToggleSwitch(String name) {
+	public boolean ToggleSwitch(String name) {
 		boolean result = false;
 
 		CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
@@ -153,21 +153,21 @@ public class CommandLine implements Visitable {
 		}
 
 		return result;
-    }
+	}
 
-    public String SingleSwitch(String name) {
+	public String SingleSwitch(String name) {
 		return StringSwitch(name);
-    }
+	}
 
-    public String OptionalSwitch(String name) {
+	public String OptionalSwitch(String name) {
 		return StringSwitch(name);
-    }
+	}
 
-    public List MultipleSwitch(String name) {
+	public List MultipleSwitch(String name) {
 		return ListSwitch(name);
-    }
+	}
 
-    private String StringSwitch(String name) {
+	private String StringSwitch(String name) {
 		String result = null;
 
 		CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
@@ -176,9 +176,9 @@ public class CommandLine implements Visitable {
 		}
 
 		return result;
-    }
+	}
 
-    private List ListSwitch(String name) {
+	private List ListSwitch(String name) {
 		List result = null;
 
 		CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
@@ -187,9 +187,9 @@ public class CommandLine implements Visitable {
 		}
 
 		return result;
-    }
+	}
 
-    public boolean IsPresent(String name) {
+	public boolean IsPresent(String name) {
 		boolean result = false;
 
 		CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
@@ -198,13 +198,13 @@ public class CommandLine implements Visitable {
 		}
 
 		return result;
-    }
+	}
 
-    public Set KnownSwitches() {
+	public Set KnownSwitches() {
 		return map.keySet();
-    }
+	}
 
-    public Set PresentSwitches() {
+	public Set PresentSwitches() {
 		Set result = new TreeSet();
 
 		Iterator i = KnownSwitches().iterator();
@@ -218,13 +218,13 @@ public class CommandLine implements Visitable {
 		}
 
 		return result;
-    }
+	}
 
-    public List Parameters() {
+	public List Parameters() {
 		return parameters;
-    }
+	}
 
-    public void Parse(String args[]) throws CommandLineException {
+	public void Parse(String args[]) throws CommandLineException {
 		parameters = new LinkedList();
 
 		int i=0;
@@ -272,9 +272,9 @@ public class CommandLine implements Visitable {
 		if (!parameter_strategy.Satisfied()) {
 			throw new CommandLineException("Missing mandatory parameters");
 		}
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.Visit(this);
-    }
+	}
 }

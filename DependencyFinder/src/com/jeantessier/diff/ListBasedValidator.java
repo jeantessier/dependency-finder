@@ -104,15 +104,15 @@ public class ListBasedValidator implements Validator {
 	public boolean IsPackageAllowed(String name) {
 		return IsAllowed(name);
 	}
-    
+
 	public boolean IsClassAllowed(String name) {
 		return IsAllowed(name);
 	}
-    
+
 	public boolean IsFeatureAllowed(String name) {
 		return IsAllowed(name);
 	}
-    
+
 	public boolean IsAllowed(String name) {
 		Logger.getLogger(getClass()).debug("IsAllowed(\"" + name + "\")");
 		Logger.getLogger(getClass()).debug("allowed_elements.size() = " + allowed_elements.size());

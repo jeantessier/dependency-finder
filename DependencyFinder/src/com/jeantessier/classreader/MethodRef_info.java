@@ -35,19 +35,19 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class MethodRef_info extends FeatureRef_info {
-    public MethodRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public MethodRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool, in);
-    }
+	}
 
-    public boolean IsConstructor() {
+	public boolean IsConstructor() {
 		return RawNameAndType().Name().equals("<init>");
-    }
+	}
 
-    public boolean IsStaticInitializer() {
+	public boolean IsStaticInitializer() {
 		return RawNameAndType().Name().equals("<clinit>");
-    }
+	}
 
-    public String Name() {
+	public String Name() {
 		String result = null;
 
 		if (IsConstructor()) {
@@ -59,9 +59,9 @@ public class MethodRef_info extends FeatureRef_info {
 		}
 
 		return result;
-    }
+	}
 
-    public String Signature() {
+	public String Signature() {
 		StringBuffer result = new StringBuffer();
 
 		result.append(Name());
@@ -70,9 +70,9 @@ public class MethodRef_info extends FeatureRef_info {
 		}
 
 		return result.toString();
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitMethodRef_info(this);
-    }
+	}
 }

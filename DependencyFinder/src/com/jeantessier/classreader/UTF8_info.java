@@ -35,23 +35,23 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class UTF8_info extends ConstantPoolEntry {
-    private String value;
+	private String value;
 
-    public UTF8_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public UTF8_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool);
 
 		value = in.readUTF();
-    }
+	}
 
-    public String Value() {
+	public String Value() {
 		return value;
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return Value();
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitUTF8_info(this);
-    }
+	}
 }

@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public abstract class Printer extends VisitorBase {
-    private PrintWriter out;
+	private PrintWriter out;
 	private String      indent_text  = "    ";
 	private int         indent_level = 0;
 
@@ -51,50 +51,50 @@ public abstract class Printer extends VisitorBase {
 		this.indent_text = indent_text;
 	}
 	
-    protected Printer Append(boolean b) {
+	protected Printer Append(boolean b) {
 		out.print(b);
 		return this;
-    }
+	}
 
-    protected Printer Append(char c) {
+	protected Printer Append(char c) {
 		out.print(c);
 		return this;
-    }
+	}
 
-    protected Printer Append(char[] s) {
+	protected Printer Append(char[] s) {
 		out.print(s);
 		return this;
-    }
+	}
 
-    protected Printer Append(double d) {
+	protected Printer Append(double d) {
 		out.print(d);
 		return this;
-    }
+	}
 
-    protected Printer Append(float f) {
+	protected Printer Append(float f) {
 		out.print(f);
 		return this;
-    }
+	}
 
-    protected Printer Append(int i) {
+	protected Printer Append(int i) {
 		out.print(i);
 		return this;
-    }
+	}
 
-    protected Printer Append(long l) {
+	protected Printer Append(long l) {
 		out.print(l);
 		return this;
-    }
+	}
 
-    protected Printer Append(Object obj) {
+	protected Printer Append(Object obj) {
 		out.print(obj);
 		return this;
-    }
+	}
 
-    protected Printer Append(String s) {
+	protected Printer Append(String s) {
 		out.print(s);
 		return this;
-    }
+	}
 
 	protected Printer Indent() {
 		for (int i=0; i<indent_level; i++) {

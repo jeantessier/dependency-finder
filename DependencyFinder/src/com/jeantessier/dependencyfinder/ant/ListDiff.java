@@ -124,35 +124,35 @@ public class ListDiff extends Task {
 	}
 	
 	public void execute() throws BuildException {
-        // first off, make sure that we've got what we need
+		// first off, make sure that we've got what we need
 
-        if (getOld() == null) {
-            throw new BuildException("old must be set!");
-        }
+		if (getOld() == null) {
+			throw new BuildException("old must be set!");
+		}
 		
-        if (!getOld().exists()) {
-            throw new BuildException("old does not exist!");
-        }
+		if (!getOld().exists()) {
+			throw new BuildException("old does not exist!");
+		}
 		
-        if (!getOld().isFile()) {
-            throw new BuildException("old is not a file!");
-        }
+		if (!getOld().isFile()) {
+			throw new BuildException("old is not a file!");
+		}
 
-        if (getNew() == null) {
-            throw new BuildException("new must be set!");
-        }
+		if (getNew() == null) {
+			throw new BuildException("new must be set!");
+		}
 		
-        if (!getNew().exists()) {
-            throw new BuildException("new does not exist!");
-        }
+		if (!getNew().exists()) {
+			throw new BuildException("new does not exist!");
+		}
 		
-        if (!getNew().isFile()) {
-            throw new BuildException("new is not a file!");
-        }
+		if (!getNew().isFile()) {
+			throw new BuildException("new is not a file!");
+		}
 
-        if (getDestfile() == null) {
-            throw new BuildException("destfile must be set!");
-        }
+		if (getDestfile() == null) {
+			throw new BuildException("destfile must be set!");
+		}
 
 		VerboseListener verbose_listener = new VerboseListener(this);
 

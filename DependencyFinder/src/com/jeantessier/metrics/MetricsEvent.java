@@ -1,4 +1,4 @@
- /*
+/*
  *  Copyright (c) 2001-2003, Jean Tessier
  *  All rights reserved.
  *  

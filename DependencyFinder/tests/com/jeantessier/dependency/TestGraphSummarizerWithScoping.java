@@ -52,7 +52,7 @@ public class TestGraphSummarizerWithScoping extends TestCase {
 	
 	List include_scope;
 
-    GraphSummarizer summarizer;
+	GraphSummarizer summarizer;
 
 	protected void setUp() throws Exception {
 		strategy = new SelectiveTraversalStrategy();

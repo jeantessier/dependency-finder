@@ -33,11 +33,11 @@
 package com.jeantessier.commandline;
 
 public class CommandLineException extends Exception {
-    public CommandLineException() {
+	public CommandLineException() {
 		super();
-    }
+	}
 
-    public CommandLineException(String s) {
+	public CommandLineException(String s) {
 		super(s);
-    }
+	}
 }

@@ -35,37 +35,37 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public abstract class FeatureRef_info extends ConstantPoolEntry {
-    private int class_index;
-    private int name_and_type_index;
+	private int class_index;
+	private int name_and_type_index;
 
-    public FeatureRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public FeatureRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool);
 
 		class_index = in.readUnsignedShort();
 		name_and_type_index = in.readUnsignedShort();
-    }
+	}
 
-    public int ClassIndex() {
+	public int ClassIndex() {
 		return class_index;
-    }
+	}
 
-    public Class_info RawClass() {
+	public Class_info RawClass() {
 		return (Class_info) ConstantPool().get(ClassIndex());
-    }
+	}
 
-    public String Class() {
+	public String Class() {
 		return RawClass().toString();
-    }
+	}
 
-    public int NameAndTypeIndex() {
+	public int NameAndTypeIndex() {
 		return name_and_type_index;
-    }
+	}
 
-    public NameAndType_info RawNameAndType() {
+	public NameAndType_info RawNameAndType() {
 		return (NameAndType_info) ConstantPool().get(NameAndTypeIndex());
-    }
+	}
 
-    public String NameAndType() {
+	public String NameAndType() {
 		StringBuffer result = new StringBuffer();
 
 		NameAndType_info nat = RawNameAndType();
@@ -73,21 +73,21 @@ public abstract class FeatureRef_info extends ConstantPoolEntry {
 		result.append(nat.Name()).append(nat.Type());
 
 		return result.toString();
-    }
+	}
 
-    public abstract String Name();
+	public abstract String Name();
 
-    public String FullName() {
+	public String FullName() {
 		return Class() + "." + Name();
-    }
+	}
 
-    public abstract String Signature();
+	public abstract String Signature();
 
-    public String FullSignature() {
+	public String FullSignature() {
 		return Class() + "." + Signature();
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		StringBuffer result = new StringBuffer();
 
 		Class_info       c   = RawClass();
@@ -96,5 +96,5 @@ public abstract class FeatureRef_info extends ConstantPoolEntry {
 		result.append(c).append(".").append(nat.Name()).append(nat.Type());
 
 		return result.toString();
-    }
+	}
 }

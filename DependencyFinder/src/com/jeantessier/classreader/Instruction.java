@@ -583,11 +583,11 @@ public class Instruction {
 	public int Start() {
 		return start;
 	}
-    
+	
 	public int Opcode() {
 		return (code[start] & 0xff);
 	}
-    
+	
 	public String Mnemonic() {
 		String result = opcode[Opcode()];
 
@@ -597,7 +597,7 @@ public class Instruction {
 
 		return result;
 	}
-    
+	
 	public int Length() {
 		int result = length[Opcode()];
 
@@ -623,7 +623,7 @@ public class Instruction {
 					12 +                  // default + low + high
 					(high - low + 1) * 4; // (high - low + 1) * offset
 				break;
-	    
+
 			case 0xab:
 				// lookupswitch
 				padding = 3 - (start % 4);
@@ -638,7 +638,7 @@ public class Instruction {
 					8 +            // default + npairs
 					(npairs * 8);  // npairs * (match + offset)
 				break;
-	    
+
 			case 0xc4:
 				// wide
 				if ((code[start+1] & 0xff) == 0x84 /* iinc */) {
@@ -647,7 +647,7 @@ public class Instruction {
 					result = 4;
 				}
 				break;
-	    
+
 			default:
 				// Do nothing
 				break;

@@ -42,14 +42,14 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyExtractor {
-    public static final String DEFAULT_LOGFILE = "System.out";
+	public static final String DEFAULT_LOGFILE = "System.out";
 
-    public static void Error(CommandLineUsage clu, String msg) {
+	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
-    }
+	}
 
-    public static void Error(CommandLineUsage clu) {
+	public static void Error(CommandLineUsage clu) {
 		System.err.println(clu);
 		System.err.println();
 		System.err.println("If no files are specified, it processes the current directory.");
@@ -59,9 +59,9 @@ public class DependencyExtractor {
 		System.err.println();
 		System.err.println("Defaults is text output to the console.");
 		System.err.println();
-    }
+	}
 
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
 		command_line.AddToggleSwitch("serialize");
@@ -155,7 +155,7 @@ public class DependencyExtractor {
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
-	    
+
 			printer.TraverseNodes(factory.Packages().values());
 
 			out.close();
@@ -168,5 +168,5 @@ public class DependencyExtractor {
 		}
 
 		verbose_listener.close();
-    }
+	}
 }

@@ -37,41 +37,41 @@ import java.util.*;
 import org.apache.oro.text.perl.*;
 
 public class FeatureDependencyCollector extends CollectorBase {
-    private static final Perl5Util perl = new Perl5Util();
+	private static final Perl5Util perl = new Perl5Util();
 
-    private Class_info this_class;
+	private Class_info this_class;
 
-    public void VisitClassfile(Classfile classfile) {
+	public void VisitClassfile(Classfile classfile) {
 		this_class = classfile.RawClass();
 
 		classfile.ConstantPool().Accept(this);
-    }
+	}
 
-    public void VisitFieldRef_info(FieldRef_info entry) {
+	public void VisitFieldRef_info(FieldRef_info entry) {
 		if (entry.RawClass() != this_class) {
 			Add(entry.Class() + "." + entry.RawNameAndType().Name());
 		}
-    }
+	}
 
-    public void VisitMethodRef_info(MethodRef_info entry) {
+	public void VisitMethodRef_info(MethodRef_info entry) {
 		if ((entry.RawClass() != this_class) && !perl.match("/<.*init>/", entry.RawNameAndType().Name())) {
 			Add(entry.Class() + "." + entry.RawNameAndType().Name());
 		}
-    }
+	}
 
-    public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		if (entry.RawClass() != this_class) {
 			Add(entry.Class() + "." + entry.RawNameAndType().Name());
 		}
-    }
+	}
 
-    public void VisitMethod_info(Method_info entry) {
+	public void VisitMethod_info(Method_info entry) {
 		ProcessSignature(entry.Descriptor());
 	
 		super.VisitMethod_info(entry);
-    }
+	}
 
-    public void VisitCode_attribute(Code_attribute attribute) {
+	public void VisitCode_attribute(Code_attribute attribute) {
 
 		byte[] code = attribute.Code();
 
@@ -101,9 +101,9 @@ public class FeatureDependencyCollector extends CollectorBase {
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
-    }
+	}
 
-    private void ProcessSignature(String str) {
+	private void ProcessSignature(String str) {
 		int current_pos = 0;
 		int start_pos;
 		int end_pos;
@@ -119,5 +119,5 @@ public class FeatureDependencyCollector extends CollectorBase {
 				current_pos = start_pos + 1;
 			}
 		}
-    }
+	}
 }

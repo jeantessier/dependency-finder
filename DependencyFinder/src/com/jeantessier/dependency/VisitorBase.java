@@ -59,7 +59,7 @@ public abstract class VisitorBase implements Visitor {
 	protected TraversalStrategy Strategy() {
 		return strategy;
 	}
-    
+
 	public void TraverseNodes(Collection nodes) {
 		Iterator i = Strategy().Order(nodes).iterator();
 		while (i.hasNext()) {

@@ -120,15 +120,15 @@ public class DependencyExtractor extends Task {
 	}
 	
 	public void execute() throws BuildException {
-        // first off, make sure that we've got what we need
+		// first off, make sure that we've got what we need
 
-        if (getPath() == null) {
-            throw new BuildException("path must be set!");
-        }
+		if (getPath() == null) {
+			throw new BuildException("path must be set!");
+		}
 
-        if (getDestfile() == null) {
-            throw new BuildException("destfile must be set!");
-        }
+		if (getDestfile() == null) {
+			throw new BuildException("destfile must be set!");
+		}
 
 		log("Reading classes from path " + getPath());
 

@@ -37,23 +37,23 @@ package com.jeantessier.commandline;
  *  command-line.
  */
 public class SingleValueSwitch extends CommandLineSwitchBase {
-    public SingleValueSwitch() {
+	public SingleValueSwitch() {
 		this("", false);
-    }
+	}
 
-    public SingleValueSwitch(String default_value) {
+	public SingleValueSwitch(String default_value) {
 		this(default_value, false);
-    }
+	}
 
-    public SingleValueSwitch(boolean mandatory) {
+	public SingleValueSwitch(boolean mandatory) {
 		this("", mandatory);
-    }
+	}
 
-    public SingleValueSwitch(String default_value, boolean mandatory) {
+	public SingleValueSwitch(String default_value, boolean mandatory) {
 		super(default_value, mandatory);
-    }
+	}
 
-    public int Parse(String name, String value) throws CommandLineException {
+	public int Parse(String name, String value) throws CommandLineException {
 		if (value == null) {
 			throw new CommandLineException("Missing mandatory value for switch \"" + name + "\"");
 		}
@@ -61,9 +61,9 @@ public class SingleValueSwitch extends CommandLineSwitchBase {
 		Value(value);
 	
 		return 2;
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.Visit(this);
-    }
+	}
 }

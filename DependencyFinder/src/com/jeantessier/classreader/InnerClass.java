@@ -37,21 +37,21 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class InnerClass implements Visitable {
-    public static final int ACC_PUBLIC    = 0x0001;
-    public static final int ACC_PRIVATE   = 0x0002;
-    public static final int ACC_PROTECTED = 0x0004;
-    public static final int ACC_STATIC    = 0x0008;
-    public static final int ACC_FINAL     = 0x0010;
-    public static final int ACC_INTERFACE = 0x0200;
-    public static final int ACC_ABSTRACT  = 0x0400;
+	public static final int ACC_PUBLIC    = 0x0001;
+	public static final int ACC_PRIVATE   = 0x0002;
+	public static final int ACC_PROTECTED = 0x0004;
+	public static final int ACC_STATIC    = 0x0008;
+	public static final int ACC_FINAL     = 0x0010;
+	public static final int ACC_INTERFACE = 0x0200;
+	public static final int ACC_ABSTRACT  = 0x0400;
 
-    private InnerClasses_attribute inner_classes;
-    private int                    inner_class_info_index;
-    private int                    outer_class_info_index;
-    private int                    inner_name_index;
-    private int                    access_flag;
+	private InnerClasses_attribute inner_classes;
+	private int                    inner_class_info_index;
+	private int                    outer_class_info_index;
+	private int                    inner_name_index;
+	private int                    access_flag;
 
-    public InnerClass(InnerClasses_attribute inner_classes, DataInputStream in) throws IOException {
+	public InnerClass(InnerClasses_attribute inner_classes, DataInputStream in) throws IOException {
 		InnerClasses(inner_classes);
 
 		inner_class_info_index = in.readUnsignedShort();
@@ -65,25 +65,25 @@ public class InnerClass implements Visitable {
 
 		access_flag = in.readUnsignedShort();
 		Logger.getLogger(getClass()).debug("Inner class access flag: " + access_flag);
-    }
+	}
 
-    public InnerClasses_attribute InnerClasses() {
+	public InnerClasses_attribute InnerClasses() {
 		return inner_classes;
-    }
+	}
 
-    private void InnerClasses(InnerClasses_attribute inner_classes) {
+	private void InnerClasses(InnerClasses_attribute inner_classes) {
 		this.inner_classes = inner_classes;
-    }
+	}
 
-    public int InnerClassInfoIndex() {
+	public int InnerClassInfoIndex() {
 		return inner_class_info_index;
-    }
+	}
 
-    public Class_info RawInnerClassInfo() {
+	public Class_info RawInnerClassInfo() {
 		return (Class_info) inner_classes.Classfile().ConstantPool().get(InnerClassInfoIndex());
-    }
+	}
 
-    public String InnerClassInfo() {
+	public String InnerClassInfo() {
 		String result = "";
 
 		if (InnerClassInfoIndex() != 0) {
@@ -91,17 +91,17 @@ public class InnerClass implements Visitable {
 		}
 
 		return result;
-    }
+	}
 
-    public int OuterClassInfoIndex() {
+	public int OuterClassInfoIndex() {
 		return outer_class_info_index;
-    }
+	}
 
-    public Class_info RawOuterClassInfo() {
+	public Class_info RawOuterClassInfo() {
 		return (Class_info) inner_classes.Classfile().ConstantPool().get(OuterClassInfoIndex());
-    }
+	}
 
-    public String OuterClassInfo() {
+	public String OuterClassInfo() {
 		String result = "";
 
 		if (OuterClassInfoIndex() != 0) {
@@ -109,17 +109,17 @@ public class InnerClass implements Visitable {
 		}
 
 		return result;
-    }
+	}
 
-    public int InnerNameIndex() {
+	public int InnerNameIndex() {
 		return inner_name_index;
-    }
+	}
 
-    public UTF8_info RawInnerName() {
+	public UTF8_info RawInnerName() {
 		return (UTF8_info) inner_classes.Classfile().ConstantPool().get(InnerNameIndex());
-    }
+	}
 
-    public String InnerName() {
+	public String InnerName() {
 		String result = "";
 
 		if (InnerNameIndex() != 0) {
@@ -127,11 +127,11 @@ public class InnerClass implements Visitable {
 		}
 
 		return result;
-    }
+	}
 
-    public int AccessFlag() {
+	public int AccessFlag() {
 		return access_flag;
-    }
+	}
 
 	public boolean IsPublic() {
 		return (AccessFlag() & ACC_PUBLIC) != 0;
@@ -165,11 +165,11 @@ public class InnerClass implements Visitable {
 		return (AccessFlag() & ACC_ABSTRACT) != 0;
 	}
 
-    public String toString() {
+	public String toString() {
 		return InnerClassInfo();
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitInnerClass(this);
-    }
+	}
 }

@@ -140,7 +140,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
 		Logger.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + ")");
 		
-	    List elements = new ArrayList();
+		List elements = new ArrayList();
 		Perl().split(elements, OPERATORS, term);
 
 		result = (elements.size() > 0) && ((elements.size() % 2) == 1);

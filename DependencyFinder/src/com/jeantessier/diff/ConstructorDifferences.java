@@ -44,9 +44,9 @@ public class ConstructorDifferences extends FeatureDifferences {
 	 */
 	ConstructorDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
 		super(name, old_feature, new_feature);
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitConstructorDifferences(this);
-    }
+	}
 }

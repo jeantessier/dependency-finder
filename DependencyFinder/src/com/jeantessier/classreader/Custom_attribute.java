@@ -38,14 +38,14 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Custom_attribute extends Attribute_info {
-    private String name;
-    private byte[] info;
+	private String name;
+	private byte[] info;
 
-    public Custom_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+	public Custom_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		this("", classfile, owner, in);
-    }
+	}
 
-    public Custom_attribute(String name, Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+	public Custom_attribute(String name, Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
 		this.name = name;
@@ -56,22 +56,21 @@ public class Custom_attribute extends Attribute_info {
 		this.info = new byte[byte_count];
 		int bytes_read = in.read(info);
 		Logger.getLogger(getClass()).debug("Bytes read: " + bytes_read);
-    }
+	}
 
-    public String Name() {
+	public String Name() {
 		return name;
-    }
+	}
 
-    public byte[] Info() {
+	public byte[] Info() {
 		return info;
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return "Custom \"" + name + "\" " + Info().length + " byte(s)";
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitCustom_attribute(this);
-    }
+	}
 }
-

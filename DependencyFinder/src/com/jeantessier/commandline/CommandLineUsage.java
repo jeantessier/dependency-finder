@@ -40,15 +40,15 @@ import java.util.*;
 public class CommandLineUsage implements Visitor {
 	private final static String EOL = System.getProperty("line.separator", "\n");
 	
-    private String       command;
-    private StringBuffer usage   = new StringBuffer();
-    private String       switch_name;
+	private String       command;
+	private StringBuffer usage   = new StringBuffer();
+	private String       switch_name;
 
-    public CommandLineUsage(String command) {
+	public CommandLineUsage(String command) {
 		this.command = command;
-    }
+	}
 
-    public void Visit(CommandLine command_line) {
+	public void Visit(CommandLine command_line) {
 		usage.append("USAGE: ").append(command).append(EOL);
 
 		Iterator i = command_line.KnownSwitches().iterator();
@@ -59,62 +59,62 @@ public class CommandLineUsage implements Visitor {
 		}
 
 		command_line.ParameterStrategy().Accept(this);
-    }
+	}
 
-    public void Visit(ToggleSwitch cls) {
+	public void Visit(ToggleSwitch cls) {
 		if (cls.Mandatory()) {
 			usage.append("       -").append(switch_name).append(" (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		} else {
 			usage.append("       [-").append(switch_name).append("] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		}
-    }
+	}
 
-    public void Visit(SingleValueSwitch cls) {
+	public void Visit(SingleValueSwitch cls) {
 		if (cls.Mandatory()) {
 			usage.append("       -").append(switch_name).append(" value (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		} else {
 			usage.append("       [-").append(switch_name).append(" value] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		}
-    }
+	}
 
-    public void Visit(OptionalValueSwitch cls) {
+	public void Visit(OptionalValueSwitch cls) {
 		if (cls.Mandatory()) {
 			usage.append("       -").append(switch_name).append(" [value] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		} else {
 			usage.append("       [-").append(switch_name).append(" [value]] (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		}
-    }
+	}
 
-    public void Visit(MultipleValuesSwitch cls) {
+	public void Visit(MultipleValuesSwitch cls) {
 		if (cls.Mandatory()) {
 			usage.append("       (-").append(switch_name).append(" value)+ (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		} else {
 			usage.append("       (-").append(switch_name).append(" value)* (defaults to ").append(cls.DefaultValue()).append(")").append(EOL);
 		}
-    }
+	}
 
-    public void Visit(NullParameterStrategy strategy) {
-    }
+	public void Visit(NullParameterStrategy strategy) {
+	}
 
-    public void Visit(AnyParameterStrategy strategy) {
+	public void Visit(AnyParameterStrategy strategy) {
 		usage.append("       [param ...]").append(EOL);
-    }
+	}
 
-    public void Visit(AtLeastParameterStrategy strategy) {
+	public void Visit(AtLeastParameterStrategy strategy) {
 		for (int i=1; i<=strategy.NbParameters(); i++) {
 			usage.append("       ").append("param").append(i).append(EOL);
 		}
 
 		usage.append("       ...").append(EOL);
-    }
+	}
 
-    public void Visit(ExactlyParameterStrategy strategy) {
+	public void Visit(ExactlyParameterStrategy strategy) {
 		for (int i=1; i<=strategy.NbParameters(); i++) {
 			usage.append("       ").append("param").append(i).append(EOL);
 		}
-    }
+	}
 
-    public void Visit(AtMostParameterStrategy strategy) {
+	public void Visit(AtMostParameterStrategy strategy) {
 		usage.append("       ");
 
 		for (int i=1; i<=strategy.NbParameters(); i++) {
@@ -129,9 +129,9 @@ public class CommandLineUsage implements Visitor {
 		}
 
 		usage.append(EOL);
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		return usage.toString();
-    }
+	}
 }

@@ -35,24 +35,24 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class InterfaceMethodRef_info extends FeatureRef_info {
-    public InterfaceMethodRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public InterfaceMethodRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool, in);
-    }
+	}
 
-    public String Name() {
+	public String Name() {
 		return RawNameAndType().Name();
-    }
+	}
 
-    public String Signature() {
+	public String Signature() {
 		StringBuffer result = new StringBuffer();
 
 		result.append(RawNameAndType().Name());
 		result.append(SignatureHelper.Signature(RawNameAndType().Type()));
 
 		return result.toString();
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitInterfaceMethodRef_info(this);
-    }
+	}
 }

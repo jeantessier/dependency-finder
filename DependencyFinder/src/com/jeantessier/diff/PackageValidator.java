@@ -74,7 +74,7 @@ public class PackageValidator implements Validator {
 	public boolean IsPackageAllowed(String name) {
 		return IsAllowed(name);
 	}
-    
+
 	public boolean IsClassAllowed(String name) {
 		String package_name = "";
 		int pos = name.lastIndexOf('.');
@@ -84,7 +84,7 @@ public class PackageValidator implements Validator {
 		
 		return IsPackageAllowed(package_name);
 	}
-    
+
 	public boolean IsFeatureAllowed(String name) {
 		boolean result = false;
 		
