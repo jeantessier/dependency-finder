@@ -49,24 +49,34 @@ public class Monitor extends LoadListenerVisitorAdapter {
 	public void beginSession(LoadEvent event) {
 		currentClasses = new TreeMap();
 	}
-	
-	public void endClassfile(LoadEvent event) {
-		String classname = event.getClassfile().getClassName();
 
-		if (previousClasses.containsKey(classname)) {
+	public void beginFile(LoadEvent event) {
+		currentClasses.put(event.getFilename(), event.getClassfile());
+	}
+
+	public void endClassfile(LoadEvent event) {
+		if (previousClasses.containsKey(event.getFilename())) {
 			event.getClassfile().accept(removeVisitor);
-			previousClasses.remove(classname);
 		}
 		
 		super.endClassfile(event);
 
-		currentClasses.put(classname, event.getClassfile());
+		currentClasses.put(event.getFilename(), event.getClassfile());
+	}
+	
+	public void endFile(LoadEvent event) {
+		if (previousClasses.containsKey(event.getFilename())) {
+			previousClasses.remove(event.getFilename());
+		}
 	}
 	
 	public void endSession(LoadEvent event) {
 		Iterator i = previousClasses.values().iterator();
 		while (i.hasNext()) {
-			((Classfile) i.next()).accept(removeVisitor);
+			Classfile classfile = (Classfile) i.next();
+			if (classfile != null) {
+				classfile.accept(removeVisitor);
+			}
 		}
 		
 		previousClasses = currentClasses;

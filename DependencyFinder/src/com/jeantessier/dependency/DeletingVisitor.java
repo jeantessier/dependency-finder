@@ -48,7 +48,10 @@ public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase imp
 	}
 	
 	public void visitClassfile(Classfile classfile) {
-		((Node) factory.getClasses().get(classfile.getClassName())).accept(this);
+		Node classNode = (Node) factory.getClasses().get(classfile.getClassName());
+		if (classNode != null) {
+			classNode.accept(this);
+		}
 	}
 	
 	public void traverseNodes(Collection nodes) {
