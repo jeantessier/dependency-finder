@@ -5889,7 +5889,7 @@ Version name for the report.
 
 <blockquote>
 
-Input text file for the _new_ version of the list.
+Input text file for the _old_ version of the list.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6789,7 +6789,7 @@ Uses _text_ for each indentation level in textual and XML output.
 
 <blockquote>
 
-Include class-related metrics.
+Include method-related metrics.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6863,7 +6863,7 @@ When used with =-sort=, sorts in descending order.
 
 Sort the elements based on the value of their _name_ measurement.  This is
 the short name defined in the configuration file.  By default, sorts in
-ascending order of package, class, or feature name.
+ascending order of package, class, or method name (fully qualified).
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6979,7 +6979,7 @@ four files, one for each group of metrics:
    * _prefix_%5Fproject.csv
    * _prefix_%5Fgroups.csv
    * _prefix_%5Fclasses.csv
-   * _prefix_%5Ffeatures.csv
+   * _prefix_%5Fmethods.csv
 
 With =-xml=, it converts the entire metrics structure into an XML document
 that follows the

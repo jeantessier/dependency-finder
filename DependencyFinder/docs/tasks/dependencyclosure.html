@@ -18,8 +18,9 @@ point.</p>
 <a href="dependencyextractor.html">DependencyExtractor</a> and follows a trail
 of dependencies to construct a subgraph of all dependencies related to a
 starting point.  The result is a new dependency graph which is a subgraph of
-the original one.  You can use the various XXXToText and XXXToHTML XSL
-transformations to render the graph as text or HTML for human reading.</p>
+the original one.  You can use the various <code>XXXToText</code> and
+<code>XXXToHTML</code> XSL transformations to render the graph as text or HTML
+for human reading.</p>
 
 <p>You can limit the number of hops downstream, along outbound dependencies,
 with <code>maximumoutbounddepth</code>.  You can limit the number of hops
@@ -37,7 +38,7 @@ dependency graph with Java serialization.</p>
 
 <p>With the <code>xml</code> attribute, it converts the entire dependency
 graph into an XML document that follows the
-<href a="http://depfind.sourceforge.net/dtd/dependencies.dtd"><code>dependencies</code></a>
+<code><href a="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code>
 DTD.</p>
 
 <h3>Parameters</h3>

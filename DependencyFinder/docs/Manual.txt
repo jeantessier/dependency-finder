@@ -308,12 +308,13 @@ you launch using a batch file or shell script.
 At the beginning, the toolset was just a group of batch files that
 offered a basic command-line interface (CLI).  Later, I added a Swing
 graphical interface (GUI) that simply replicated the controls available
-through the CLI.  Finally, I build a web application that mirrored the
-GUI.  This might help explain why the the interface looks the way it
-does and why it may not always be very intuitive.
+through the CLI.  Then I build a web application that mirrored the GUI.
+This might help explain why the the interface looks the way it does and
+why it may not always be very intuitive.  Finally, I added a group of
+Ant tasks that mirror the major functions of the CLI.
 
 We will start with the GUI-based tools, and then talk about the CLI-based
-tools.
+tools and end with the Ant tasks.
 
 All the tools support the following two command-line switches:
 
@@ -412,6 +413,13 @@ level of detail: package, class, or method.
     [[images/Flow.gif]]
 *Document Flow*
 </div>
+
+---+++ Ant
+
+You can run the functions of the CLI as part of your build script if you are
+using the [[http://ant.apache.org/][Ant]] build tool from the
+[[http://apache.org/][Apache Foundation]].  There is a special
+[[tasks/index.html][help page]] on how to use Dependency Finder with Ant.
 
 ----
 
@@ -790,6 +798,25 @@ builds.
     &lt;target name%3D"extract" depends%3D"init"&gt;
         &lt;get src%3D"${WEB%5FAPP%5FURL}/extract.jsp?launch%3DLaunch"
              dest%3D"log.html"/&gt;
+    &lt;/target&gt;
+
+---++++ Extracting With Ant
+
+You use the =com.jeantessier.dependencyfinder.ant.DependencyExtractor= task to
+extract a graph as part of your build.  You need to associate the class to a
+tag using Ant's =&lt;taskdef&gt;= task.  You also need to tell Ant where to
+find the Dependency Finder classes.    There is a special
+[[tasks/index.html][help page]] on how to do this.
+
+    &lt;target name%3D"extract" depends%3D"init"&gt;
+        &lt;dependencyextractor destfile%3D"df.xml" xml%3D"yes"&gt;
+            &lt;path&gt;
+                &lt;pathelement location%3D"."/&gt;
+            &lt;/path&gt;
+        &lt;/dependencyextractor&gt;
+        &lt;xslt style%3D"${dependencyfinder.home}/etc/DependenciesToHTML.xsl"
+              in%3D"df.xml"
+              out%3D"df.html"/&gt;
     &lt;/target&gt;
 
 ---++++ Minimizing And Maximizing
@@ -2030,6 +2057,23 @@ and ends with the "=.csv=" suffix.
 
     C:\>OOMetrics -all -txt %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df
 
+---++++ Extracting With Ant
+
+You use the =com.jeantessier.dependencyfinder.ant.OOMetrics= task to compute
+metrics and produce a report.  You need to associate the class to a tag using
+Ant's =&lt;taskdef&gt;= task.  You also need to tell Ant where to find the
+Dependency Finder classes.    There is a special
+[[tasks/index.html][help page]] on how to do this.
+
+    &lt;oometrics allmetrics%3D"yes"
+               txt%3D"yes"
+               configuration%3D"${dependencyfinder.home}/etc/MetricsConfig.xml"
+               destprefix%3D"metrics"&gt;
+        &lt;path&gt;
+            &lt;pathelement location%3D"."/&gt;
+        &lt;/path&gt;
+    &lt;/oometrics&gt;
+
 ----
 
 ---++ API Differences
@@ -2050,6 +2094,8 @@ and verify that they are evolving in the right direction, whichever
 way you decide that is.
 
 ---+++ Extracting
+
+---++++ Extracting With the CLI
 
 You use =JarJarDiff= to extract API differences.  The following command
 computes the API differences between versions _Old_ and _New_ of
@@ -2085,6 +2131,30 @@ parameters to =-new= switches.
 By default, the raw results are written in XML to the standard output
 stream (i.e., =System.out=).  You can write it to a file by using the
 =-out= switch.
+
+---++++ Extracting With Ant
+
+You can also do the extraction from your build script if you use Ant.
+You use the =com.jeantessier.dependencyfinder.ant.JarJarDiff= task to compute
+differences and produce a report.  You need to associate the class to a tag
+using Ant's =&lt;taskdef&gt;= task.  You also need to tell Ant where to find
+the Dependency Finder classes.    There is a special
+[[tasks/index.html][help page]] on how to do this.
+
+    &lt;jarjardiff destfile%3D"xerces.xml"
+                name%3D"My Project"
+	        oldlabel%3D"Old"
+	        newlabel%3D"New"&gt;
+        &lt;old&gt;
+            &lt;pathelement location="old.jar"/&gt;
+        &lt;/old&gt;
+        &lt;new&gt;
+            &lt;pathelement location="new.jar"/&gt;
+        &lt;/new&gt;
+    &lt;/jarjardiff&gt;
+    &lt;xslt style%3D"${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"
+          in%3D"xerces.xml"
+          out%3D"xerces.html"/&gt;
 
 ---+++ Reporting
 

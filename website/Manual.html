@@ -52,6 +52,7 @@ by Jean Tessier
 <ul>
 <li><a href="#GUI">GUI</a></li>
 <li><a href="#CLI">CLI</a></li>
+<li><a href="#Ant">Ant</a></li>
 </ul>
 <li><a href="#ClassFiles">Class Files</a></li>
 <ul>
@@ -74,6 +75,7 @@ by Jean Tessier
 <li><a href="#Example">Example</a></li>
 </ul>
 <li><a href="#ExtractingWiththeWebApplication">Extracting With the Web Application</a></li>
+<li><a href="#ExtractingWithAnt">Extracting With Ant</a></li>
 <li><a href="#MinimizingAndMaximizing">Minimizing And Maximizing</a></li>
 <ul>
 <li><a href="#ExampleX">Example</a></li>
@@ -97,11 +99,16 @@ by Jean Tessier
 <ul>
 <li><a href="#ExtractingWiththeGUIX">Extracting With the GUI</a></li>
 <li><a href="#ExtractingWiththeCLIX">Extracting With the CLI</a></li>
+<li><a href="#ExtractingWithAntX">Extracting With Ant</a></li>
 </ul>
 </ul>
 <li><a href="#APIDifferences">API Differences</a></li>
 <ul>
 <li><a href="#ExtractingXX">Extracting</a></li>
+<ul>
+<li><a href="#ExtractingWiththeCLIXX">Extracting With the CLI</a></li>
+<li><a href="#ExtractingWithAntXX">Extracting With Ant</a></li>
+</ul>
 <li><a href="#ReportingX">Reporting</a></li>
 <ul>
 <li><a href="#FullList">Full List</a></li>
@@ -572,14 +579,15 @@ you launch using a batch file or shell script.
 At the beginning, the toolset was just a group of batch files that
 offered a basic command-line interface (CLI).  Later, I added a Swing
 graphical interface (GUI) that simply replicated the controls available
-through the CLI.  Finally, I build a web application that mirrored the
-GUI.  This might help explain why the the interface looks the way it
-does and why it may not always be very intuitive.
+through the CLI.  Then I build a web application that mirrored the GUI.
+This might help explain why the the interface looks the way it does and
+why it may not always be very intuitive.  Finally, I added a group of
+Ant tasks that mirror the major functions of the CLI.
 </p>
 
 <p>
 We will start with the GUI-based tools, and then talk about the CLI-based
-tools.
+tools and end with the Ant tasks.
 </p>
 
 <p>
@@ -689,6 +697,16 @@ level of detail: package, class, or method.
     <img src="images/Flow.gif" /><br />
 <b>Document Flow</b>
 </div>
+
+<a name="Ant" />
+<h3>Ant</h3>
+
+<p>
+You can run the functions of the CLI as part of your build script if you are
+using the <a href="http://ant.apache.org/">Ant</a> build tool from the
+<a href="http://apache.org/">Apache Foundation</a>.  There is a special
+<a href="tasks/index.html">help page</a> on how to use Dependency Finder with Ant.
+</p>
 
 <hr />
 
@@ -1217,6 +1235,30 @@ builds.
     &lt;target name="extract" depends="init"&gt;
         &lt;get src="${WEB_APP_URL}/extract.jsp?launch=Launch"
              dest="log.html"/&gt;
+    &lt;/target&gt;
+</pre>
+
+<a name="ExtractingWithAnt" />
+<h4>Extracting With Ant</h4>
+
+<p>
+You use the <code>com.jeantessier.dependencyfinder.ant.DependencyExtractor</code> task to
+extract a graph as part of your build.  You need to associate the class to a
+tag using Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant where to
+find the Dependency Finder classes.    There is a special
+<a href="tasks/index.html">help page</a> on how to do this.
+</p>
+
+<pre>
+    &lt;target name="extract" depends="init"&gt;
+        &lt;dependencyextractor destfile="df.xml" xml="yes"&gt;
+            &lt;path&gt;
+                &lt;pathelement location="."/&gt;
+            &lt;/path&gt;
+        &lt;/dependencyextractor&gt;
+        &lt;xslt style="${dependencyfinder.home}/etc/DependenciesToHTML.xsl"
+              in="df.xml"
+              out="df.html"/&gt;
     &lt;/target&gt;
 </pre>
 
@@ -2747,6 +2789,28 @@ and ends with the "<code>.csv</code>" suffix.
     C:\>OOMetrics -all -txt %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df
 </pre>
 
+<a name="ExtractingWithAntX" />
+<h4>Extracting With Ant</h4>
+
+<p>
+You use the <code>com.jeantessier.dependencyfinder.ant.OOMetrics</code> task to compute
+metrics and produce a report.  You need to associate the class to a tag using
+Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant where to find the
+Dependency Finder classes.    There is a special
+<a href="tasks/index.html">help page</a> on how to do this.
+</p>
+
+<pre>
+    &lt;oometrics allmetrics="yes"
+               txt="yes"
+               configuration="${dependencyfinder.home}/etc/MetricsConfig.xml"
+               destprefix="metrics"&gt;
+        &lt;path&gt;
+            &lt;pathelement location="."/&gt;
+        &lt;/path&gt;
+    &lt;/oometrics&gt;
+</pre>
+
 <hr />
 
 <a name="APIDifferences" />
@@ -2773,6 +2837,9 @@ way you decide that is.
 
 <a name="ExtractingXX" />
 <h3>Extracting</h3>
+
+<a name="ExtractingWiththeCLIXX" />
+<h4>Extracting With the CLI</h4>
 
 <p>
 You use <code>JarJarDiff</code> to extract API differences.  The following command
@@ -2818,6 +2885,35 @@ By default, the raw results are written in XML to the standard output
 stream (i.e., <code>System.out</code>).  You can write it to a file by using the
 <code>-out</code> switch.
 </p>
+
+<a name="ExtractingWithAntXX" />
+<h4>Extracting With Ant</h4>
+
+<p>
+You can also do the extraction from your build script if you use Ant.
+You use the <code>com.jeantessier.dependencyfinder.ant.JarJarDiff</code> task to compute
+differences and produce a report.  You need to associate the class to a tag
+using Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant where to find
+the Dependency Finder classes.    There is a special
+<a href="tasks/index.html">help page</a> on how to do this.
+</p>
+
+<pre>
+    &lt;jarjardiff destfile="xerces.xml"
+                name="My Project"
+	        oldlabel="Old"
+	        newlabel="New"&gt;
+        &lt;old&gt;
+            &lt;pathelement location="old.jar"/&gt;
+        &lt;/old&gt;
+        &lt;new&gt;
+            &lt;pathelement location="new.jar"/&gt;
+        &lt;/new&gt;
+    &lt;/jarjardiff&gt;
+    &lt;xslt style="${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"
+          in="xerces.xml"
+          out="xerces.html"/&gt;
+</pre>
 
 <a name="ReportingX" />
 <h3>Reporting</h3>
