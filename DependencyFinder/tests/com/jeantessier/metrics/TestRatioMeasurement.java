@@ -117,29 +117,84 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		measurement = new RatioMeasurement(null, null, null);
 		
 		assertNull(measurement.BaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
 		assertNull(measurement.DividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
 
 		measurement = new RatioMeasurement(null, null, "base\ndivider");
 
 		assertEquals("base",    measurement.BaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
 		assertEquals("divider", measurement.DividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
 
 		measurement = new RatioMeasurement(null, null, "base");
 
 		assertNull(measurement.BaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
 		assertNull(measurement.DividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
 
 		measurement = new RatioMeasurement(null, null, null);
 
 		assertNull(measurement.BaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
 		assertNull(measurement.DividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
 
 		measurement = new RatioMeasurement(null, null, "foo\nbar");
 
 		assertEquals("foo", measurement.BaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
 		assertEquals("bar", measurement.DividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
+
+		measurement = new RatioMeasurement(null, null, "foo\nbar");
+
+		assertEquals("foo", measurement.BaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.BaseDispose());
+		assertEquals("bar", measurement.DividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.DividerDispose());
+
+		measurement = new RatioMeasurement(null, null, "foo DISPOSE_MINIMUM\nbar DISPOSE_AVERAGE");
+
+		assertEquals("foo", measurement.BaseName());
+		assertEquals(StatisticalMeasurement.DISPOSE_MINIMUM, measurement.BaseDispose());
+		assertEquals("bar", measurement.DividerName());
+		assertEquals(StatisticalMeasurement.DISPOSE_AVERAGE, measurement.DividerDispose());
 	}
 
+	public void testStatistical() {
+		Metrics c  = new Metrics("foobar");
+		Metrics m1 = new Metrics("foo");
+		Metrics m2 = new Metrics("bar");
+
+		c.AddSubMetrics(m1);
+		c.AddSubMetrics(m2);
+
+		m1.Track("base",    new CounterMeasurement(null, null, null));
+		m1.Track("divider", new CounterMeasurement(null, null, null));
+		m2.Track("base",    new CounterMeasurement(null, null, null));
+		m2.Track("divider", new CounterMeasurement(null, null, null));
+
+		m1.AddToMeasurement("base",    1);
+		m1.AddToMeasurement("divider", 2);
+		m2.AddToMeasurement("base",    3);
+		m2.AddToMeasurement("divider", 4);
+
+		c.Track("base",    new StatisticalMeasurement(null, c, "base"));
+		c.Track("divider", new StatisticalMeasurement(null, c, "divider"));
+		
+		measurement = new RatioMeasurement(null, c, "base DISPOSE_MINIMUM\ndivider DISPOSE_MINIMUM");
+		assertEquals(0.5, measurement.doubleValue(), 0.01);
+		
+		measurement = new RatioMeasurement(null, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_AVERAGE");
+		assertEquals(2.0 / 3.0, measurement.doubleValue(), 0.01);
+		
+		measurement = new RatioMeasurement(null, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_NB_DATA_POINTS");
+		assertEquals(1.0, measurement.doubleValue(), 0.01);
+	}
+	
 	public void testNormal() {
 		m1.Add(10);
 		m2.Add(1);

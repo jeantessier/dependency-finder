@@ -44,6 +44,14 @@ public class CounterMeasurement extends MeasurementBase {
 
 	public CounterMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
+
+		try {
+			if (init_text != null) {
+				value = Double.parseDouble(init_text);
+			}
+		} catch (NumberFormatException ex) {
+			value = 0;
+		}
 	}
 
 	public void Add(Object object) {

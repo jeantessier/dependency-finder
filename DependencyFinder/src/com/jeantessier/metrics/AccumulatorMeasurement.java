@@ -34,6 +34,8 @@ package com.jeantessier.metrics;
 
 import java.util.*;
 
+import org.apache.log4j.*;
+
 /**
  *  <pre>
  *  &lt;init-text&gt;
@@ -44,10 +46,24 @@ import java.util.*;
  *  <p>Defaults to SET (i.e., does not count duplicates).</p>
  */
 public class AccumulatorMeasurement extends MeasurementBase {
-	private Collection collection = new HashSet();
+	private Collection collection;
 
 	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
+
+		if (init_text != null) {
+			if (init_text.trim().equalsIgnoreCase("list")) {
+				collection = new LinkedList();
+			} else if (init_text.trim().equalsIgnoreCase("set")) {
+				collection = new HashSet();
+			} else {
+				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\", using SET");
+				collection = new HashSet();
+			}
+		} else {
+			Logger.getLogger(getClass()).debug("Cannot initialize with null text, using SET");
+			collection = new HashSet();
+		}
 	}
 
 	public void Add(Object object) {

@@ -76,6 +76,32 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		assertEquals("bar", measurement.LongName());
 	}
 	
+	public void testCreateNumber() {
+		measurement = new CounterMeasurement(null, null, "2");
+		assertEquals(2.0, measurement.doubleValue(), 0.01);
+
+		measurement = new CounterMeasurement(null, null, "2.0");
+		assertEquals(2.0, measurement.doubleValue(), 0.01);
+
+		measurement = new CounterMeasurement(null, null, "-2.5");
+		assertEquals(-2.5, measurement.doubleValue(), 0.01);
+
+		measurement = new CounterMeasurement(null, null, " 2.0 ");
+		assertEquals(2.0, measurement.doubleValue(), 0.01);
+	}
+	
+	public void testCreateInvalid() {
+		measurement = new CounterMeasurement(null, null, null);
+		assertEquals(0.0, measurement.doubleValue(), 0.01);
+
+		measurement = new CounterMeasurement(null, null, "foobar");
+		assertEquals(0.0, measurement.doubleValue(), 0.01);
+	}
+
+	public void testCreateDefault() {
+		assertEquals(0.0, measurement.doubleValue(), 0.01);
+	}
+	
 	public void testAddObject() {
 		measurement.Add(new Integer(1));
 

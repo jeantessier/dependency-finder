@@ -48,15 +48,72 @@ import org.apache.log4j.*;
  */
 public class RatioMeasurement extends MeasurementBase {
 	private String base_name;
+	private int    base_dispose;
 	private String divider_name;
+	private int    divider_dispose;
 
 	public RatioMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
 
 		try {
 			BufferedReader in = new BufferedReader(new StringReader(init_text));
-			base_name    = in.readLine().trim();
-			divider_name = in.readLine().trim();
+
+			synchronized (Perl()) {
+				base_name = in.readLine().trim();
+				if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", base_name)) {
+					base_name = Perl().group(1);
+					
+					String dispose_text = Perl().group(2);
+					
+					if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
+						base_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+						base_dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+						base_dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+						base_dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+						base_dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
+						base_dispose = StatisticalMeasurement.DISPOSE_SUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+						base_dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+					} else {
+						base_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					}
+				} else {
+					base_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+				}
+				
+				divider_name = in.readLine().trim();
+				if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", divider_name)) {
+					divider_name = Perl().group(1);
+					
+					String dispose_text = Perl().group(2);
+					
+					if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
+						divider_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+						divider_dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+						divider_dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+						divider_dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+						divider_dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
+						divider_dispose = StatisticalMeasurement.DISPOSE_SUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+						divider_dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+					} else {
+						divider_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					}
+				} else {
+					divider_dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+				}
+			}
+
 			in.close();
 		} catch (Exception ex) {
 			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
@@ -68,9 +125,17 @@ public class RatioMeasurement extends MeasurementBase {
 	public String BaseName() {
 		return base_name;
 	}
+	
+	public int BaseDispose() {
+		return base_dispose;
+	}
 
 	public String DividerName() {
 		return divider_name;
+	}
+
+	public int DividerDispose() {
+		return divider_dispose;
 	}
 
 	public void Accept(MeasurementVisitor visitor) {
@@ -84,9 +149,72 @@ public class RatioMeasurement extends MeasurementBase {
 			Measurement base    = Context().Measurement(BaseName());
 			Measurement divider = Context().Measurement(DividerName());
 			
-			if (base != null && divider != null) {
-				result = base.doubleValue() / divider.doubleValue();
+			double base_value    = Double.NaN;
+			double divider_value = Double.NaN;
+
+			if (base instanceof StatisticalMeasurement) {
+				StatisticalMeasurement stats = (StatisticalMeasurement) base;
+
+				switch (BaseDispose()) {
+					case StatisticalMeasurement.DISPOSE_MINIMUM:
+						base_value = stats.Minimum();
+						break;
+					case StatisticalMeasurement.DISPOSE_MEDIAN:
+						base_value = stats.Median();
+						break;
+					case StatisticalMeasurement.DISPOSE_AVERAGE:
+						base_value = stats.Average();
+						break;
+					case StatisticalMeasurement.DISPOSE_MAXIMUM:
+						base_value = stats.Maximum();
+						break;
+					case StatisticalMeasurement.DISPOSE_SUM:
+						base_value = stats.Sum();
+						break;
+					case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
+						base_value = stats.NbDataPoints();
+						break;
+					case StatisticalMeasurement.DISPOSE_IGNORE:
+					default:
+						base_value = stats.doubleValue();
+						break;
+				}
+			} else if (base != null) {
+				base_value = base.doubleValue();
 			}
+			
+			if (divider instanceof StatisticalMeasurement) {
+				StatisticalMeasurement stats = (StatisticalMeasurement) divider;
+
+				switch (DividerDispose()) {
+					case StatisticalMeasurement.DISPOSE_MINIMUM:
+						divider_value = stats.Minimum();
+						break;
+					case StatisticalMeasurement.DISPOSE_MEDIAN:
+						divider_value = stats.Median();
+						break;
+					case StatisticalMeasurement.DISPOSE_AVERAGE:
+						divider_value = stats.Average();
+						break;
+					case StatisticalMeasurement.DISPOSE_MAXIMUM:
+						divider_value = stats.Maximum();
+						break;
+					case StatisticalMeasurement.DISPOSE_SUM:
+						divider_value = stats.Sum();
+						break;
+					case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
+						divider_value = stats.NbDataPoints();
+						break;
+					case StatisticalMeasurement.DISPOSE_IGNORE:
+					default:
+						divider_value = stats.doubleValue();
+						break;
+				}
+			} else if (divider != null) {
+				divider_value = divider.doubleValue();
+			}
+				
+			result = base_value / divider_value;
 		}
 		
 		return result;

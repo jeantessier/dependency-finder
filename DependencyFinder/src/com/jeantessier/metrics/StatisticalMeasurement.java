@@ -36,7 +36,6 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.log4j.*;
-import org.apache.oro.text.perl.*;
 
 /**
  *  <pre>
@@ -69,12 +68,6 @@ public class StatisticalMeasurement extends MeasurementBase {
 	/** Use NbDataPoints() value on StatisticalMeasurements */
 	public static final int DISPOSE_NB_DATA_POINTS = 6;
 
-	private static final Perl5Util perl = new Perl5Util();
-
-	protected static Perl5Util Perl() {
-		return perl;
-	}
-	
 	private String monitored_measurement;
 	private int    dispose;
 	private int    self_dispose;
@@ -97,30 +90,32 @@ public class StatisticalMeasurement extends MeasurementBase {
 			BufferedReader in = new BufferedReader(new StringReader(init_text));
 			monitored_measurement = in.readLine().trim();
 
-			if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", monitored_measurement)) {
-				monitored_measurement = Perl().group(1);
-				
-				String dispose_text = Perl().group(2);
+			synchronized (Perl()) {
+				if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", monitored_measurement)) {
+					monitored_measurement = Perl().group(1);
 					
-				if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
-					dispose = DISPOSE_IGNORE;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-					dispose = DISPOSE_MINIMUM;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-					dispose = DISPOSE_MEDIAN;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-					dispose = DISPOSE_AVERAGE;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-					dispose = DISPOSE_MAXIMUM;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
-					dispose = DISPOSE_SUM;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-					dispose = DISPOSE_NB_DATA_POINTS;
+					String dispose_text = Perl().group(2);
+					
+					if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
+						dispose = DISPOSE_IGNORE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+						dispose = DISPOSE_MINIMUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+						dispose = DISPOSE_MEDIAN;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+						dispose = DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+						dispose = DISPOSE_MAXIMUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
+						dispose = DISPOSE_SUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+						dispose = DISPOSE_NB_DATA_POINTS;
+					} else {
+						dispose = DISPOSE_IGNORE;
+					}
 				} else {
 					dispose = DISPOSE_IGNORE;
 				}
-			} else {
-				dispose = DISPOSE_IGNORE;
 			}
 
 			String self_dispose_text = in.readLine();

@@ -76,6 +76,31 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		assertEquals("bar", measurement.LongName());
 	}
 
+	public void testCreateSet() {
+		measurement = new AccumulatorMeasurement(null, null, "SET");
+
+		measurement.Add("abc");
+		measurement.Add("abc");
+
+		assertEquals(1, measurement.intValue());
+	}
+	
+	public void testCreateList() {
+		measurement = new AccumulatorMeasurement(null, null, "LIST");
+
+		measurement.Add("abc");
+		measurement.Add("abc");
+
+		assertEquals(2, measurement.intValue());
+	}
+
+	public void testCreateDefault() {
+		measurement.Add("abc");
+		measurement.Add("abc");
+
+		assertEquals(1, measurement.intValue());
+	}
+
 	public void testAddObject() {
 		Object o1 = new Object();
 		Object o2 = new Object();
