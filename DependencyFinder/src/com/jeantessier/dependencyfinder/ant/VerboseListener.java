@@ -70,6 +70,12 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 				break;
 		}
 	}
+
+	public void EndClassfile(LoadEvent event) {
+	    super.EndClassfile(event);
+
+		task.log("Loading " + event.Classfile() + " ...", Project.MSG_VERBOSE);
+	}
 	
 	public void EndFile(LoadEvent event) {
 		super.EndFile(event);

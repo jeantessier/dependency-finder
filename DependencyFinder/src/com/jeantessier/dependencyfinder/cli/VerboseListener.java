@@ -102,6 +102,16 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		Writer().println();
 		Writer().flush();
 	}
+
+	public void EndClassfile(LoadEvent event) {
+	    super.EndClassfile(event);
+
+		Writer().print("Loading ");
+		Writer().print(event.Classfile());
+		Writer().print(" ...");
+		Writer().println();
+		Writer().flush();
+	}
 	
 	public void EndFile(LoadEvent event) {
 		super.EndFile(event);

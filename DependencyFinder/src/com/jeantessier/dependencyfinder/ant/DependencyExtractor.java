@@ -136,7 +136,6 @@ public class DependencyExtractor extends Task {
 
 		NodeFactory factory = new NodeFactory();
 		CodeDependencyCollector collector = new CodeDependencyCollector(factory);
-		collector.addDependencyListener(verbose_listener);
 		
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(collector);
