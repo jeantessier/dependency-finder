@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2002, Jean Tessier
+ *  Copyright (c) 2001-2003, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,8 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 			NodeLoader loader = new NodeLoader();
 			loader.addDependencyListener(this);
 
-			model.ProgressBar().setIndeterminate(true);
+			// JDK 1.4 feature
+			// model.ProgressBar().setIndeterminate(true);
 			
 			model.StatusLine().ShowInfo("Loading " + filename + " ...");
 			ProgressMonitorInputStream in = new ProgressMonitorInputStream(model, "Reading " + filename, new FileInputStream(filename));
@@ -97,7 +98,8 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 		} catch (IOException ex) {
 			model.StatusLine().ShowError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());
 		} finally {
-			model.ProgressBar().setIndeterminate(false);
+			// JDK 1.4 feature
+			// model.ProgressBar().setIndeterminate(false);
 			
 			if (model.Packages() == null) {
 				model.setTitle("Dependency Finder");

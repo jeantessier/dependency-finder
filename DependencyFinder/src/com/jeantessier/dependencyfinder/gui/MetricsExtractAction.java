@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2002, Jean Tessier
+ *  Copyright (c) 2001-2003, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,8 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 
 		model.ProgressBar().setValue(0);
 		model.ProgressBar().setStringPainted(false);
-		model.ProgressBar().setIndeterminate(true);
+		// JDK 1.4 feature
+		// model.ProgressBar().setIndeterminate(true);
 		
 		model.StatusLine().ShowInfo("Generating method results ...");
 		model.MethodsModel().Metrics(model.MetricsFactory().MethodMetrics());
@@ -104,7 +105,8 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		Date stop = new Date();
 		
 		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-		model.ProgressBar().setIndeterminate(false);
+		// JDK 1.4 feature
+		// model.ProgressBar().setIndeterminate(false);
 		model.setTitle("OO Metrics - Extractor");
 	}
 	

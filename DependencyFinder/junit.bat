@@ -1,7 +1,7 @@
 @echo off
 
 rem
-rem  Copyright (c) 2001-2002, Jean Tessier
+rem  Copyright (c) 2001-2003, Jean Tessier
 rem  All rights reserved.
 rem  
 rem  Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ goto setupArgs
 rem This label provides a place for the argument list loop to break out 
 rem and for NT handling to skip to.
 
-start %JAVA_BIN%\javaw %DEPENDENCYFINDER_OPTS% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\src;%DEPENDENCYFINDER_HOME%\tests;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xmlParserAPIs.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar;c:\language\Java\junit3.7\junit.jar junit.swingui.TestRunner %DEPENDENCYFINDER_CMD_LINE_ARGS%
+start %JAVA_HOME%\bin\javaw %DEPENDENCYFINDER_OPTS% -Dorg.xml.sax.driver=org.apache.xerces.parsers.SAXParser -DDEPENDENCYFINDER_TESTS_VALIDATE=%DF_VALIDATE% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\src;%DEPENDENCYFINDER_HOME%\tests;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xmlParserAPIs.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar;c:\junit\junit.jar junit.swingui.TestRunner %DEPENDENCYFINDER_CMD_LINE_ARGS%
 
 if not "%OS%"=="Windows_NT" goto mainEnd
 :winNTend
