@@ -400,6 +400,10 @@ and read them.
 
 <blockquote>
 
+<p>
+Lists all classes it could find, based on parameters.
+</p>
+
 </blockquote>
 
 <a name="SynopsisXX" />
@@ -411,6 +415,7 @@ and read them.
     	-out filename
     	-time
     	-verbose [filename]
+	[param ...]
 </pre>
 
 <a name="DescriptionXX" />
@@ -865,7 +870,7 @@ Prints how long it took to run the command.
 <blockquote>
 
 <p>
-Produce XML output instead of the default textual.
+Writes the <code>.class</code> file information as an XML document.
 </p>
 
 <table border="0">
@@ -1985,6 +1990,10 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The prefix of the DTD URL for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2372,6 +2381,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+Writes the dependency graph as serialized Java objects.
+</p>
+
+<p>
+At this time, Dependency Finder cannot deserialize a saved graph, so this
+switch is pretty useless.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2431,6 +2449,10 @@ Validate the input XML against its DTD.
 <h4><code>-xml</code></h4>
 
 <blockquote>
+
+<p>
+Writes the dependency graph as an XML document.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2553,6 +2575,10 @@ See also:
 
 <blockquote>
 
+<p>
+The prefix of the DTD URL for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2665,6 +2691,15 @@ it is created.  If it already exists, its content is overwritten.
 
 <blockquote>
 
+<p>
+Writes the dependency graph as serialized Java objects.
+</p>
+
+<p>
+At this time, Dependency Finder cannot deserialize a saved graph, so this
+switch is pretty useless.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2707,6 +2742,10 @@ Prints how long it took to run the command.
 <h4><code>-xml</code></h4>
 
 <blockquote>
+
+<p>
+Writes the dependency graph as an XML document.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2850,6 +2889,10 @@ It combines the functionalities of the following tools:
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
+
+<p>
+The prefix of the DTD URL for the saving dependency graphs to XML documents.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4147,6 +4190,10 @@ See also:
 
 <blockquote>
 
+<p>
+The prefix of the DTD URL for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4571,6 +4618,15 @@ See also:
 
 <blockquote>
 
+<p>
+Writes the dependency graph as serialized Java objects.
+</p>
+
+<p>
+At this time, Dependency Finder cannot deserialize a saved graph, so this
+switch is pretty useless.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4630,6 +4686,10 @@ Validate the input XML against its DTD.
 <h4><code>-xml</code></h4>
 
 <blockquote>
+
+<p>
+Writes the dependency graph as an XML document.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5149,6 +5209,10 @@ report to "public" changes.
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
+
+<p>
+The prefix of the DTD URL for the XML output document.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5936,6 +6000,10 @@ See <code>-out</code> above.
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
+
+<p>
+The prefix of the DTD URL for the XML output document.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6844,6 +6912,10 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The prefix of the DTD URL for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -7059,6 +7131,10 @@ Validate the input XML against its DTD.
 <h4><code>-xml</code></h4>
 
 <blockquote>
+
+<p>
+Writes the metrics report as an XML document.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>

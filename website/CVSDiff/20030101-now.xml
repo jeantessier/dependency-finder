@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="2003-02-13" >
+<tagdiff startTag="release-20030101" endDate="2003-02-19" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.18</revision>
+			<revision>1.19</revision>
 			<prevrevision>1.16</prevrevision>
 		</file>
 	</entry>
@@ -64,7 +64,7 @@
 	<entry>
 		<file>
 			<name>docs/Tools.txt</name>
-			<revision>1.5</revision>
+			<revision>1.7</revision>
 			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
