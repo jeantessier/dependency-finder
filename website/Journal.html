@@ -17,6 +17,52 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	March 18, 2003
+    </dt>
+    <dd>
+	<p>Figured out how to keep the graphs separate while I compute the
+	transitive closure.  The selectors and the engine need to keep two
+	lists of nodes, one for each graph.  This allows the closure to only
+	copy the nodes and dependencies that will make up the closure.</p>
+
+	<p>But I have another problem.  What if class <code>A</code> depends
+	on class <code>B</code>, and method <code>foo()</code> of
+	<code>B</code> depends on class <code>C</code>.  When I traverse the
+	graph to compute the closure, is it reasonable to visit features of
+	classes for additional dependencies?</code>  Does <code>A</code>
+	transitively depend on <code>C</code> in this case?.  At runtime, it
+	would be only if <code>foo()</code> is called.  If that were the case,
+	the graph would probably have a path through it anyway, so maybe the
+	transitive closure engine doesn't need to go too far.  I'll think
+	about it some more.</p>
+    </dd>
+    <dt>
+	March 17, 2003
+    </dt>
+    <dd>
+	<p>More work on <code>TransitiveClosureEngine</code>.  I'm stuck in the
+	selectors and how they navigate the original graph and copy only what's
+	needed to the destination graph, all the while keeping track of
+	individual layers as I build the closure.</p>
+    </dd>
+    <dt>
+	March 15, 2003
+    </dt>
+    <dd>
+	<p>Finished the initial step in the new transitive closure algorithm.
+	Now, I need to work on each step's processing, where I incrementally
+	build the closure, one level at a time.</p>
+    </dd>
+    <dt>
+	March 14, 2003
+    </dt>
+    <dd>
+	<p>Started working of a <code>NodeSelector</code> to handle the initial
+	step of the new transitive closure algorithm.  I need to take a scope
+	criteria and traverse the graph, collecting nodes matching the
+	closure's starting point as I go.</p>
+    </dd>
+    <dt>
 	March 12, 2003
     </dt>
     <dd>
