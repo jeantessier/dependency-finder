@@ -68,11 +68,6 @@
 	    <long-name>Abstract Classes</long-name>
 	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	</measurement>
-	<measurement visible="no">
-	    <short-name>I</short-name>
-	    <long-name>Interfaces</long-name>
-	    <class>com.jeantessier.metrics.CounterMeasurement</class>
-	</measurement>
 	<measurement>
 	    <short-name>Ca</short-name>
 	    <long-name>Afferent Coupling</long-name>
@@ -103,7 +98,7 @@
 	    </init>
 	</measurement>
 	<measurement>
-	    <short-name>In</short-name>
+	    <short-name>I</short-name>
 	    <long-name>Instability</long-name>
 	    <class>com.jeantessier.metrics.RatioMeasurement</class>
 	    <init>
@@ -142,7 +137,7 @@
 	    <class>com.jeantessier.metrics.SumMeasurement</class>
 	    <init>
 		A
-		In
+		I
 		-1
 	    </init>
 	    <lower-threshold>-0.25</lower-threshold>
