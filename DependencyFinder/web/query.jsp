@@ -132,9 +132,9 @@ Dependency graph
     </tr>
     <tr>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-scope" <%= package_scope ? "checked" : "" %> onFocus="window.status='Select packages'" onBlur="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %> onFocus="window.status='Select classes (with their package)'" onBlur="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %> onFocus="window.status='Select methods and fields (with their class and package)'" onBlur="window.status=''">&nbsp;feature
+	    <input type="checkbox" name="package-scope" <%= package_scope ? "checked" : "" %> onMouseOver="window.status='Select packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %> onMouseOver="window.status='Select classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %> onMouseOver="window.status='Select methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
     </tr>
     <tr>
@@ -147,10 +147,10 @@ Dependency graph
     </tr>
     <tr>
 	<td>
-	    <input type="text" name="scope-includes" value="<%= scope_includes %>" onFocus="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onBlur="window.status=''">
+	    <input type="text" name="scope-includes" value="<%= scope_includes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="scope-excludes" value="<%= scope_excludes %>" onFocus="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onBlur="window.status=''">
+	    <input type="text" name="scope-excludes" value="<%= scope_excludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
 </table>
@@ -165,9 +165,9 @@ Dependency graph
     </tr>
     <tr>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-filter" <%= package_filter ? "checked" : "" %> onFocus="window.status='Show dependencies to/from packages'" onBlur="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-filter" <%= class_filter ? "checked" : "" %> onFocus="window.status='Show dependencies to/from classes'" onBlur="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-filter" <%= feature_filter ? "checked" : "" %> onFocus="window.status='Show dependencies to/from methods and fields'" onBlur="window.status=''">&nbsp;feature
+	    <input type="checkbox" name="package-filter" <%= package_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-filter" <%= class_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-filter" <%= feature_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
     </tr>
     <tr>
@@ -180,10 +180,10 @@ Dependency graph
     </tr>
     <tr>
 	<td>
-	    <input type="text" name="filter-includes" value="<%= filter_includes %>" onFocus="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onBlur="window.status=''">
+	    <input type="text" name="filter-includes" value="<%= filter_includes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="filter-excludes" value="<%= filter_excludes %>" onFocus="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onBlur="window.status=''">
+	    <input type="text" name="filter-excludes" value="<%= filter_excludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
 </table>
@@ -191,9 +191,9 @@ Dependency graph
 </td></tr><tr><td colspan="2" align="center" class="controls">
 
 Show dependencies
-<input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %> onFocus="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" onBlur="window.status=''">&nbsp;to element
-<input type="checkbox" name="show-outbounds" <%= show_outbounds ? "checked" : "" %> onFocus="window.status='Show dependencies that originate from the selected packages, classes, methods, or fields'" onBlur="window.status=''">&nbsp;from element
-<input type="checkbox" name="show-empty-nodes" <%= show_empty_nodes ? "checked" : "" %> onFocus="window.status='Show selected packages, classes, methods, and fields even if they do not have dependencies'" onBlur="window.status=''">&nbsp;(empty elements)
+<input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;to element
+<input type="checkbox" name="show-outbounds" <%= show_outbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that originate from the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;from element
+<input type="checkbox" name="show-empty-nodes" <%= show_empty_nodes ? "checked" : "" %> onMouseOver="window.status='Show selected packages, classes, methods, and fields even if they do not have dependencies'" onMouseOut="window.status=''">&nbsp;(empty elements)
 
 </td></tr></table>
 
