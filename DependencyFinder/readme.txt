@@ -180,7 +180,7 @@ JarJarDiff
 	them.  The first JAR file is considered the "old" code and
 	the second JAR file is considered the "new" code.  The
 	result is an XML document listing the changes.  You can
-	use DiffToInternalHTML and DiffToExternalHTML to render
+	use DiffToHTML and DiffToExternalHTML to render
 	the report in HTML.  The second one is more restrictive as
 	to what gets included in the report, so you can limit the
 	report to "public" changes.
@@ -188,7 +188,7 @@ JarJarDiff
 	Examples:
 
 	C:\>JarJarDiff -old old.jar -new new.jar -out result.xml
-	C:\>DiffToInternalHTML -in result.xml -out internal_report.html
+	C:\>DiffToHTML -in result.xml -out internal_report.html
 	C:\>DiffToExternalHTML -in result.xml -out external_report.html
 
 	This will compare old.jar to new.jar and write the report
@@ -197,7 +197,7 @@ JarJarDiff
 	-new-label to JarJarDiff.
 
 	C:\>JarJarDiff -old old.jar -old-label 3.0.2 -new new.jar -new-label 3.5 > result.xml
-	C:\>DiffToInternalHTML -in result.xml -out internal_report.html
+	C:\>DiffToHTML -in result.xml -out internal_report.html
 	C:\>DiffToExternalHTML -in result.xml -out external_report.html
 
 	Because DOS only allows 9 parameters to .bat files, you
