@@ -39,6 +39,7 @@
 
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="shortcut icon" href="images/logoicon.gif" type="image/gif" />
 <title>Dependency Metrics <%= application.getInitParameter("name") %></title>
 </head>
 
