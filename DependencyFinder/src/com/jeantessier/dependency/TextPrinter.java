@@ -49,14 +49,6 @@ public class TextPrinter extends Printer {
 		super(strategy);
 	}
 
-	public TextPrinter(String indent_text) {
-		super(indent_text);
-	}
-
-	public TextPrinter(TraversalStrategy strategy, String indent_text) {
-		super(strategy, indent_text);
-	}
-
 	protected void PreprocessPackageNode(PackageNode node) {
 		super.PreprocessPackageNode(node);
 

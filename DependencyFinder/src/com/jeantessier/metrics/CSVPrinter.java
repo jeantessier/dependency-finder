@@ -38,16 +38,6 @@ public class CSVPrinter extends Printer {
 	private List descriptors;
 	
 	public CSVPrinter(List descriptors) {
-		super();
-
-		this.descriptors = descriptors;
-
-		AppendHeader();
-	}
-
-	public CSVPrinter(String indent_text, List descriptors) {
-		super(indent_text);
-
 		this.descriptors = descriptors;
 
 		AppendHeader();

@@ -35,25 +35,24 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class Printer extends VisitorBase {
-	private LinkedList buffers       = new LinkedList();
-	private String     indent_text;
+	private LinkedList buffers      = new LinkedList();
+	private String     indent_text  = "    ";
 	private int        indent_level = 0;
 
 	public Printer() {
-		this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()), "    ");
+		this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()));
 	}
 
 	public Printer(TraversalStrategy strategy) {
-		this(strategy, "    ");
-	}
-
-	public Printer(String indent_text) {
-		this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()), indent_text);
-	}
-
-	public Printer(TraversalStrategy strategy, String indent_text) {
 		super(strategy);
 		PushBuffer();
+	}
+
+	public String IndentText() {
+		return indent_text;
+	}
+
+	public void IndentText(String indent_text) {
 		this.indent_text = indent_text;
 	}
 
@@ -132,7 +131,7 @@ public abstract class Printer extends VisitorBase {
 
 	protected Printer Indent() {
 		for (int i=0; i<indent_level; i++) {
-			Append(indent_text);
+			Append(IndentText());
 		}
 
 		return this;

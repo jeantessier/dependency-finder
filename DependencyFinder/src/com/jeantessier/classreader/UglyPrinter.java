@@ -33,14 +33,6 @@
 package com.jeantessier.classreader;
 
 public class UglyPrinter extends Printer {
-	public UglyPrinter() {
-		super();
-	}
-
-	public UglyPrinter(String indent_text) {
-		super(indent_text);
-	}
-	
     public void VisitClassfile(Classfile classfile) {
 		classfile.ConstantPool().Accept(this);
     }

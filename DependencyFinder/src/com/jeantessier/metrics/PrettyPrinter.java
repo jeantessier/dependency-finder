@@ -46,14 +46,6 @@ public class PrettyPrinter extends Printer {
 	private Metrics current_metrics = null;
 	
 	public PrettyPrinter(List descriptors) {
-		super();
-
-		this.descriptors = descriptors;
-	}
-
-	public PrettyPrinter(String indent_text, List descriptors) {
-		super(indent_text);
-
 		this.descriptors = descriptors;
 	}
 

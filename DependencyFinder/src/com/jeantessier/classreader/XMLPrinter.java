@@ -46,18 +46,10 @@ public class XMLPrinter extends Printer {
     private boolean top = true;
 
     public XMLPrinter() {
-		super();
-
-		AppendHeader(DEFAULT_DTD_PREFIX);
+		this(DEFAULT_DTD_PREFIX);
     }
-
-    public XMLPrinter(String indent_text) {
-		this(indent_text, DEFAULT_DTD_PREFIX);
-	}
 	
-	public XMLPrinter(String indent_text, String dtd_prefix) {
-		super(indent_text);
-
+	public XMLPrinter(String dtd_prefix) {
 		AppendHeader(dtd_prefix);
     }
 
@@ -163,11 +155,13 @@ public class XMLPrinter extends Printer {
 			top = false;
 			Indent();
 			Append("<class id=\"").Append(CurrentCount()).Append("\">");
-			entry.RawName().Accept(this);
+			// entry.RawName().Accept(this);
+			Append(entry.Name());
 			Append("</class>").EOL();
 			top = true;
 		} else {
-			entry.RawName().Accept(this);
+			// entry.RawName().Accept(this);
+			Append(entry.Name());
 		}
     }
 
@@ -619,10 +613,11 @@ public class XMLPrinter extends Printer {
 		helper.RawName().Accept(this);
 		Append("</name>");
 		
-		Append("<descriptor>");
-		helper.RawDescriptor().Accept(this);
-		Append("</descriptor>");
-		
+		// Append("<descriptor>");
+		// helper.RawDescriptor().Accept(this);
+		// Append("</descriptor>");
+
+		Append("<type>").Append(SignatureHelper.Type(helper.Descriptor())).Append("</type>");
 		Append("</local-variable>").EOL();
     }
 

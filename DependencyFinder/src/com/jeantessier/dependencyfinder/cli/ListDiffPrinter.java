@@ -35,13 +35,12 @@ package com.jeantessier.dependencyfinder.cli;
 import java.util.*;
 
 public class ListDiffPrinter {
-	public static final String  DEFAULT_INDENT_TEXT = "    ";
 	public static final boolean DEFAULT_COMPRESS    = false;
     public static final String  DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
 	
 	private StringBuffer buffer = new StringBuffer();
 
-	private String  indent_text;
+	private String  indent_text  = "    ";
 	private int     indent_level = 0;
 	private boolean compress;
 
@@ -52,30 +51,29 @@ public class ListDiffPrinter {
 	private Collection added       = new TreeSet();
 	
 	public ListDiffPrinter() {
-		this(DEFAULT_INDENT_TEXT, DEFAULT_COMPRESS, DEFAULT_DTD_PREFIX);
-	}
-	
-	public ListDiffPrinter(String indent_text) {
-		this(indent_text, DEFAULT_COMPRESS, DEFAULT_DTD_PREFIX);
+		this(DEFAULT_COMPRESS, DEFAULT_DTD_PREFIX);
 	}
 	
 	public ListDiffPrinter(boolean compress) {
-		this(DEFAULT_INDENT_TEXT, compress, DEFAULT_DTD_PREFIX);
+		this(compress, DEFAULT_DTD_PREFIX);
 	}
 	
-	public ListDiffPrinter(String indent_text, boolean compress) {
-		this(indent_text, compress, DEFAULT_DTD_PREFIX);
+	public ListDiffPrinter(String default_dtd) {
+		this(DEFAULT_COMPRESS, default_dtd);
 	}
 	
 	public ListDiffPrinter(boolean compress, String dtd_prefix) {
-		this(DEFAULT_INDENT_TEXT, compress, dtd_prefix);
-	}
-	
-	public ListDiffPrinter(String indent_text, boolean compress, String dtd_prefix) {
-		this.indent_text = indent_text;
 		this.compress    = compress;
 
 		AppendHeader(dtd_prefix);
+	}
+
+	public String IndentText() {
+		return indent_text;
+	}
+
+	public void IndentText(String indent_text) {
+		this.indent_text = indent_text;
 	}
 
 	private void AppendHeader(String dtd_prefix) {
@@ -185,7 +183,7 @@ public class ListDiffPrinter {
 
 	protected ListDiffPrinter Indent() {
 		for (int i=0; i<indent_level; i++) {
-			Append(indent_text);
+			Append(IndentText());
 		}
 
 		return this;

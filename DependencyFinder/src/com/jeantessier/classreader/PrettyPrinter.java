@@ -37,14 +37,6 @@ import java.util.*;
 public class PrettyPrinter extends Printer {
 	private boolean top = true;
 
-	public PrettyPrinter() {
-		super();
-	}
-
-	public PrettyPrinter(String indent_text) {
-		super(indent_text);
-	}
-
 	public void VisitClassfile(Classfile classfile) {
 		classfile.ConstantPool().Accept(this);
 

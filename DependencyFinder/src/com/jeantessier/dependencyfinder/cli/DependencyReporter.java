@@ -147,6 +147,7 @@ public class DependencyReporter {
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
 		command_line.AddSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
+		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("minimize");
 		command_line.AddToggleSwitch("maximize");
 		command_line.AddSingleValueSwitch("out");
@@ -313,11 +314,15 @@ public class DependencyReporter {
 		} else {
 			Printer printer;
 			if (command_line.IsPresent("xml")) {
-				printer = new XMLPrinter("\t", command_line.SingleSwitch("dtd-prefix"));
+				printer = new XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
 			} else if (command_line.ToggleSwitch("plain")) {
 				printer = new com.jeantessier.dependency.TextPrinter();
 			} else {
 				printer = new PrettyPrinter();
+			}
+			
+			if (command_line.IsPresent("indent-text")) {
+				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 	    
 			printer.TraverseNodes(copier.ScopeFactory().Packages().values());

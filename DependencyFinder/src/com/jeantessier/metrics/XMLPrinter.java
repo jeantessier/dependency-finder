@@ -44,20 +44,6 @@ public class XMLPrinter extends Printer {
 	}
 	
 	public XMLPrinter(MetricsConfiguration configuration, String dtd_prefix) {
-		super();
-
-		this.configuration = configuration;
-		
-		AppendHeader(dtd_prefix);
-	}
-
-	public XMLPrinter(String indent_text, MetricsConfiguration configuration) {
-		this(indent_text, configuration, DEFAULT_DTD_PREFIX);
-	}
-	
-	public XMLPrinter(String indent_text, MetricsConfiguration configuration, String dtd_prefix) {
-		super(indent_text);
-
 		this.configuration = configuration;
 
 		AppendHeader(dtd_prefix);

@@ -202,7 +202,7 @@
 
 <!ELEMENT local-variable-table-atttribute (local-variable*) >
 
-<!ELEMENT local-variable (name, descriptor) >
+<!ELEMENT local-variable (name, type) >
 <!ATTLIST local-variable
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED

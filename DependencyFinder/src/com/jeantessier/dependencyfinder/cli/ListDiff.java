@@ -81,6 +81,7 @@ public class ListDiff {
 		command_line.AddSingleValueSwitch("new", true);
 		command_line.AddToggleSwitch("compress");
 		command_line.AddSingleValueSwitch("dtd-prefix", ListDiffPrinter.DEFAULT_DTD_PREFIX);
+		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
@@ -149,6 +150,9 @@ public class ListDiff {
 		printer.Name(command_line.SingleSwitch("name"));
 		printer.OldVersion(command_line.SingleSwitch("old-label"));
 		printer.NewVersion(command_line.SingleSwitch("new-label"));
+		if (command_line.IsPresent("indent-text")) {
+			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		}
 		
 		Iterator i;
 

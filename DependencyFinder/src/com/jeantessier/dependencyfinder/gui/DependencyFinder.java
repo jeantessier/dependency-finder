@@ -103,7 +103,7 @@ public class DependencyFinder extends JFrame {
 
     private GraphCopier dependencies_query     = null;
 	
-    public DependencyFinder() {
+    public DependencyFinder(CommandLine command_line) {
 		this.setSize(new Dimension(800, 600));
 		this.setTitle("Dependency Finder");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -113,7 +113,7 @@ public class DependencyFinder extends JFrame {
 				}
 			});
 
-		BuildMenus();
+		BuildMenus(command_line);
 		BuildUI();
 
 		try {
@@ -178,7 +178,7 @@ public class DependencyFinder extends JFrame {
 		return status_line;
     }
 	
-    private void BuildMenus() {
+    private void BuildMenus(CommandLine command_line) {
 		menu_bar.add(file_menu);
 
 		file_menu.setText("File");
@@ -204,13 +204,17 @@ public class DependencyFinder extends JFrame {
 		toolbar.addSeparator();
 		file_menu.addSeparator();
 		
-		action = new SaveFileAction(this);
+		action = new SaveFileAction(this, command_line.SingleSwitch("dtd-prefix"));
 		menu_item = file_menu.add(action);
 		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 		menu_item.setMnemonic('s');
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
+		if (command_line.IsPresent("indent-text")) {
+			((SaveFileAction) action).IndentText(command_line.SingleSwitch("indent-text"));
+		}
+		
 		toolbar.addSeparator();
 		file_menu.addSeparator();
 		
@@ -904,6 +908,8 @@ public class DependencyFinder extends JFrame {
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
 		command_line.AddToggleSwitch("minimize");
 		command_line.AddToggleSwitch("maximize");
+		command_line.AddSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
+		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
 		command_line.AddOptionalValueSwitch("trace",   DEFAULT_TRACEFILE);
@@ -950,7 +956,7 @@ public class DependencyFinder extends JFrame {
 			// Ignore
 		}
 
-		DependencyFinder model = new DependencyFinder();
+		DependencyFinder model = new DependencyFinder(command_line);
 		model.Maximize(command_line.ToggleSwitch("maximize"));
 		model.Minimize(command_line.ToggleSwitch("minimize"));
 		model.setVisible(true);

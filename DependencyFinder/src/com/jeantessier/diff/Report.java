@@ -73,18 +73,10 @@ public class Report extends Printer {
 	private Collection new_classes             = new TreeSet();
 
 	public Report() {
-		super();
-
-		AppendHeader(DEFAULT_DTD_PREFIX);
-	}
-
-	public Report(String indent_text) {
-		this(indent_text, DEFAULT_DTD_PREFIX);
+		this(DEFAULT_DTD_PREFIX);
 	}
 	
-	public Report(String indent_text, String dtd_header) {
-		super(indent_text);
-
+	public Report(String dtd_header) {
 		AppendHeader(dtd_header);
 	}
 
@@ -135,7 +127,8 @@ public class Report extends Printer {
 		}
 	
 		if (differences.IsModified()) {
-			Visitor visitor = new ClassReport();
+			ClassReport visitor = new ClassReport();
+			visitor.IndentText(IndentText());
 			differences.Accept(visitor);
 			modified_classes.add(visitor);
 		}
@@ -167,7 +160,8 @@ public class Report extends Printer {
 		}
 	
 		if (differences.IsModified()) {
-			Visitor visitor = new ClassReport();
+			ClassReport visitor = new ClassReport();
+			visitor.IndentText(IndentText());
 			differences.Accept(visitor);
 			modified_interfaces.add(visitor);
 		}

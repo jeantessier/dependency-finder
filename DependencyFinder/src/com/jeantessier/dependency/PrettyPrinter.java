@@ -51,14 +51,6 @@ public class PrettyPrinter extends TextPrinter {
 		super(strategy);
 	}
 
-	public PrettyPrinter(String indent_text) {
-		super(indent_text);
-	}
-
-	public PrettyPrinter(TraversalStrategy strategy, String indent_text) {
-		super(strategy, indent_text);
-	}
-
 	public boolean ShowInbounds() {
 		return show_inbounds;
 	}

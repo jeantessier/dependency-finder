@@ -40,33 +40,21 @@ public class XMLPrinter extends Printer {
 	private boolean at_top_level = false;
 
 	public XMLPrinter() {
-		super();
-
-		AppendHeader(DEFAULT_DTD_PREFIX);
+		this(DEFAULT_DTD_PREFIX);
 	}
 
 	public XMLPrinter(TraversalStrategy strategy) {
-		super(strategy);
-
-		AppendHeader(DEFAULT_DTD_PREFIX);
-	}
-
-	public XMLPrinter(String indent_text) {
-		this(indent_text, DEFAULT_DTD_PREFIX);
+		this(strategy, DEFAULT_DTD_PREFIX);
 	}
 	
-	public XMLPrinter(String indent_text, String dtd_prefix) {
-		super(indent_text);
-
+	public XMLPrinter(String dtd_prefix) {
+		super();
+		
 		AppendHeader(dtd_prefix);
 	}
-
-	public XMLPrinter(TraversalStrategy strategy, String indent_text) {
-		this(strategy, indent_text, DEFAULT_DTD_PREFIX);
-	}
 	
-	public XMLPrinter(TraversalStrategy strategy, String indent_text, String dtd_prefix) {
-		super(strategy, indent_text);
+	public XMLPrinter(TraversalStrategy strategy, String dtd_prefix) {
+		super(strategy);
 
 		AppendHeader(dtd_prefix);
 	}

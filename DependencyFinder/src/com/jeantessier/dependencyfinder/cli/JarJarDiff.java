@@ -87,6 +87,7 @@ public class JarJarDiff {
 		command_line.AddSingleValueSwitch("new-label");
 		command_line.AddSingleValueSwitch("new-documentation", DEFAULT_NEW_DOCUMENTATION);
 		command_line.AddSingleValueSwitch("dtd-prefix",        Report.DEFAULT_DTD_PREFIX);
+		command_line.AddSingleValueSwitch("indent-text");
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
@@ -194,7 +195,11 @@ public class JarJarDiff {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		com.jeantessier.diff.Printer printer = new Report("\t", command_line.SingleSwitch("dtd-prefix"));
+		com.jeantessier.diff.Printer printer = new Report(command_line.SingleSwitch("dtd-prefix"));
+		if (command_line.IsPresent("indent-text")) {
+			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		}
+
 		differences.Accept(printer);
 		out.print(printer);
 

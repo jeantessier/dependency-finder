@@ -38,15 +38,26 @@ import java.io.*;
 import javax.swing.*;
 
 public class SaveFileAction extends AbstractAction implements Runnable {
-	private DependencyFinder model = null;
-	private File             file;
-	
-	public SaveFileAction(DependencyFinder model) {
+	private DependencyFinder model;
+	private String           dtd_prefix;
+
+	private String indent_text;
+	private File   file;
+
+	public SaveFileAction(DependencyFinder model, String dtd_prefix) {
 		this.model = model;
 
 		putValue(Action.LONG_DESCRIPTION, "Save file");
 		putValue(Action.NAME, "Save");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.gif")));
+	}
+
+	public String IndentText() {
+		return indent_text;
+	}
+
+	public void IndentText(String indent_text) {
+		this.indent_text = indent_text;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -60,7 +71,11 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 	}
 	
 	public void run() {
-		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter();
+		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(dtd_prefix);
+		if (indent_text != null) {
+			printer.IndentText(indent_text);
+		}
+		
 		printer.TraverseNodes(model.Packages());
 
 		try {

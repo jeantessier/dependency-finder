@@ -34,14 +34,14 @@ package com.jeantessier.classreader;
 
 public abstract class Printer extends VisitorBase {
     private StringBuffer buffer       = new StringBuffer();
-	private String       indent_text;
+	private String       indent_text  = "    ";
 	private int          indent_level = 0;
 
-	public Printer() {
-		this("    ");
+	public String IndentText() {
+		return indent_text;
 	}
 
-	public Printer(String indent_text) {
+	public void IndentText(String indent_text) {
 		this.indent_text = indent_text;
 	}
 	
@@ -97,7 +97,7 @@ public abstract class Printer extends VisitorBase {
 
 	protected Printer Indent() {
 		for (int i=0; i<indent_level; i++) {
-			Append(indent_text);
+			Append(IndentText());
 		}
 
 		return this;
