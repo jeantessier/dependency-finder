@@ -118,6 +118,8 @@ public class ConstantPool extends ArrayList implements Visitable {
 		Printer printer = new TextPrinter(writer);
 		Accept(printer);
 
+		writer.close();
+		
 		return out.toString();
 	}		
 }

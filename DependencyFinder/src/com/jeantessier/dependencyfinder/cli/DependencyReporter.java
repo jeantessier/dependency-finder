@@ -297,27 +297,28 @@ public class DependencyReporter {
 			out.close();
 		} else {
 			verbose_listener.println("Printing the graph ...");
-			
+
+			PrintWriter out;
+			if (command_line.IsPresent("out")) {
+				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+			} else {
+				out = new PrintWriter(System.out);
+			}
+
 			Printer printer;
 			if (command_line.IsPresent("xml")) {
-				if (command_line.IsPresent("out")) {
-					printer = new XMLPrinter(new PrintWriter(new FileWriter(command_line.SingleSwitch("out"))), command_line.SingleSwitch("dtd-prefix"));
-				} else {
-					printer = new XMLPrinter(new PrintWriter(System.out), command_line.SingleSwitch("dtd-prefix"));
-				}
+				printer = new XMLPrinter(out, command_line.SingleSwitch("dtd-prefix"));
 			} else {
-				if (command_line.IsPresent("out")) {
-					printer = new TextPrinter(new PrintWriter(new FileWriter(command_line.SingleSwitch("out"))));
-				} else {
-					printer = new TextPrinter(new PrintWriter(System.out));
-				}
+				printer = new TextPrinter(out);
 			}
 			
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
-
+	    
 			printer.TraverseNodes(copier.ScopeFactory().Packages().values());
+
+			out.close();
 		}
 
 		Date end = new Date();
