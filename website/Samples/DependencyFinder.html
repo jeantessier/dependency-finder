@@ -7,10 +7,1070 @@
 <h1>Dependency Finder - API Change History</h1>
 
 <ul>
+<li><a href="#20030101">20020711 to 20030101</a></li>
 <li><a href="#20020711">20020127 to 20020711</a></li>
 <li><a href="#20020127">20020115 to 20020127</a></li>
 <li><a href="#20020115">20020111 to 20020115</a></li>
 <li><a href="#20020111">20011216 to 20020111</a></li>
+</ul>
+
+<hr />
+
+<a name="20030101" />
+<h2>20020711 to 20030101</h2>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.gui.DependencyFinder$1</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.gui.OOMetrics$1</code></nobr>
+</li>
+</ul>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.LoadListener</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void LoadElement(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void LoadStart(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void LoadStop(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void BeginClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void BeginGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void BeginSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void EndClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void EndGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void EndSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementVisitor</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void VisitNameListMeasurement(com.jeantessier.metrics.NameListMeasurement)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.AggregatingClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.classreader.Classfile Load(java.io.DataInputStream) throws java.io.IOException<br>
+<b>new:</b>protected com.jeantessier.classreader.Classfile Load(java.io.DataInputStream) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected abstract void fireLoadElement(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireLoadStart(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireLoadStop(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireLoadedClassfile(java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected abstract void Load(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Load(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireBeginClassfile(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireBeginGroup(java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireBeginSession()</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireEndClassfile(java.lang.String, java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireEndGroup(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireEndSession()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassfileLoaderDecorator</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void fireLoadElement(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireLoadStart(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireLoadStop(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireLoadedClassfile(java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void fireBeginClassfile(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireBeginGroup(java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireBeginSession()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireEndClassfile(java.lang.String, java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireEndGroup(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireEndSession()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassfileLoaderEventSource</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void fireLoadElement(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireLoadStart(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireLoadStop(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireLoadedClassfile(java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void Load(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireBeginClassfile(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireBeginGroup(java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireBeginSession()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireEndClassfile(java.lang.String, java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireEndGroup(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireEndSession()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.CollectorBase</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void LoadElement(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStart(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStop(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void BeginClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void BeginGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void BeginSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.DirectoryClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Load(com.jeantessier.classreader.DirectoryExplorer) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void Load(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.JarClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void Load(java.lang.String) throws java.io.IOException<br>
+<b>new:</b>protected void Load(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.LoadEvent</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public LoadEvent(java.lang.Object, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public LoadEvent(java.lang.Object, java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+<li>
+<nobr><code>public LoadEvent(java.lang.Object, java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int size</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public LoadEvent(java.lang.Object, java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public LoadEvent(java.lang.Object, java.lang.String, java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+<li>
+<nobr><code>public LoadEvent(java.lang.Object, java.lang.String, java.lang.String, com.jeantessier.classreader.Classfile, int)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int Size()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.TransientClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.classreader.Classfile Load(java.io.DataInputStream) throws java.io.IOException<br>
+<b>new:</b>protected com.jeantessier.classreader.Classfile Load(java.io.DataInputStream) throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final com.jeantessier.classreader.BitFormat format</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ZipClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Load(java.util.Collection) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void Load(java.lang.String) throws java.io.IOException<br>
+<b>new:</b>protected void Load(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.ClassNode</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void AddDependency(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean CanAddDependency(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.CodeDependencyCollector</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void LoadElement(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStart(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStop(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void BeginClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void BeginGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void BeginSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.FeatureNode</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void AddDependency(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean CanAddDependency(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.Node</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean CanAddDependency(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.NodeLoader</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.Map Load(java.io.InputStream) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.dependency.NodeFactory Load(java.io.InputStream) throws java.io.IOException, org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.Map Load(java.io.Reader) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.dependency.NodeFactory Load(java.io.Reader) throws java.io.IOException, org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.Map Load(java.lang.String) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.dependency.NodeFactory Load(java.lang.String) throws java.io.IOException, org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.Map Load(org.xml.sax.InputSource) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.dependency.NodeFactory Load(org.xml.sax.InputSource) throws java.io.IOException, org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.PackageNode</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void AddDependency(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ListDiffPrinter</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.oro.text.perl.Perl5Util perl</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String ClassName(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection Compress(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String PackageName(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private void PrintLines(java.lang.StringBuffer, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyExtractAction</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.gui.DependencyExtractAction extends javax.swing.AbstractAction implements com.jeantessier.classreader.LoadListener, com.jeantessier.dependency.DependencyListener, java.lang.Runnable<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.gui.DependencyExtractAction extends javax.swing.AbstractAction implements com.jeantessier.classreader.LoadListener, java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Dependency(com.jeantessier.dependency.DependencyEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>private void Extract(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadElement(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStart(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStop(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void StartClass(com.jeantessier.dependency.DependencyEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void StopClass(com.jeantessier.dependency.DependencyEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void BeginClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void BeginGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void BeginSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.classreader.Collector collector</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection packages</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private javax.swing.JComponent BuildFilterPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildQueryPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildScopePanel()</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.classreader.Collector Collector()</code></nobr>
+</li>
+<li>
+<nobr><code>public void Collector(com.jeantessier.classreader.Collector)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Packages(java.util.Collection)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean advanced_mode</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JProgressBar progress_bar</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JPanel query_panel</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JMenu view_menu</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private javax.swing.JComponent BuildAdvancedFilterPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private void BuildAdvancedQueryPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildAdvancedScopePanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private void BuildFileMenu(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>javax.swing.JComponent BuildQueryPanel(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildSimpleFilterPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildSimpleFilterPanelCheckboxes()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildSimpleFilterPanelTextFields()</code></nobr>
+</li>
+<li>
+<nobr><code>private void BuildSimpleQueryPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildSimpleScopePanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildSimpleScopePanelCheckboxes()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildSimpleScopePanelTextFields()</code></nobr>
+</li>
+<li>
+<nobr><code>private void BuildViewMenu(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>javax.swing.JProgressBar ProgressBar()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.MetricsExtractAction</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.gui.MetricsExtractAction extends javax.swing.AbstractAction implements com.jeantessier.classreader.LoadListener, java.lang.Runnable<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.gui.MetricsExtractAction extends javax.swing.AbstractAction implements com.jeantessier.classreader.LoadListener, com.jeantessier.metrics.MetricsListener, java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void Extract(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadElement(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStart(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStop(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void BeginClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void BeginGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void BeginSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void EndSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void StartClass(com.jeantessier.metrics.MetricsEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void StartMethod(com.jeantessier.metrics.MetricsEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void StopClass(com.jeantessier.metrics.MetricsEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void StopMethod(com.jeantessier.metrics.MetricsEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.swing.JProgressBar progress_bar</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>javax.swing.JProgressBar ProgressBar()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.AccumulatorMeasurement</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.metrics.AccumulatorMeasurement extends com.jeantessier.metrics.MeasurementBase<br>
+<b>new:</b>public class com.jeantessier.metrics.AccumulatorMeasurement extends com.jeantessier.metrics.MeasurementBase implements com.jeantessier.metrics.CollectionMeasurement</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Collection collection</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Add(java.lang.Object)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Map terms</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection values</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private synchronized boolean EvaluateRE(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private void FilterElement(java.lang.String, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private void FilterMeasurement(com.jeantessier.metrics.CollectionMeasurement, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private void FilterMetrics(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void LogTerms(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementBase</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean cached</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean Cached()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void Cached(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementDescriptor</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean cached</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean Cached()</code></nobr>
+</li>
+<li>
+<nobr><code>public void Cached(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Metrics</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean HasMeasurement(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MetricsGatherer</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.HashSet metrics_listeners</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addMetricsListener(com.jeantessier.metrics.MetricsListener)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireStartClass(com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireStartMethod(com.jeantessier.classreader.Method_info)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireStopClass(com.jeantessier.classreader.Classfile, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void fireStopMethod(com.jeantessier.classreader.Method_info, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>public void removeMetricsListener(com.jeantessier.metrics.MetricsListener)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.NbSubMetricsMeasurement</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Number Value()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final double DELTA</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String EQUALS</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String GREATER_THAN</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String GREATER_THAN_OR_EQUAL</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String LESSER_THAN</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String LESSER_THAN_OR_EQUAL</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String NOT_EQUALS</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String OPERATORS</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.List terms</code></nobr>
+</li>
+<li>
+<nobr><code>private int value</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private boolean EvaluateTerm(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private double ResolveOperand(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean SelectMetrics(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.List Terms()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.PrettyPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean expand_accumulator_measurements</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean ExpandAccumulatorMeasurements()</code></nobr>
+</li>
+<li>
+<nobr><code>public void ExpandAccumulatorMeasurements(boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean expand_collection_measurements</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean ExpandCollectionMeasurements()</code></nobr>
+</li>
+<li>
+<nobr><code>public void ExpandCollectionMeasurements(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void VisitCollectionMeasurement(com.jeantessier.metrics.CollectionMeasurement)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitNameListMeasurement(com.jeantessier.metrics.NameListMeasurement)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Printer</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void VisitMetrics(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitNameListMeasurement(com.jeantessier.metrics.NameListMeasurement)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.RatioMeasurement</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private double value</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.SumMeasurement</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private double value</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.metrics.CollectionMeasurement</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.MetricsListener</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.BitFormat</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.gui.AdvancedQueryPanelAction</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.gui.SimpleQueryPanelAction</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.gui.WindowKiller</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.MetricsEvent</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.NameListMeasurement</code></nobr>
+</li>
 </ul>
 
 <hr />
