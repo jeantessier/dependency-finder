@@ -140,7 +140,7 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 	private boolean feature_filter          = true;
 	private List    feature_filter_includes = new LinkedList();
 	private List    feature_filter_excludes = new LinkedList();
-
+	
 	public SelectiveTraversalStrategy() {
 		ScopeIncludes().add("//");
 		FilterIncludes().add("//");
@@ -493,5 +493,37 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		}
 
 		return found;
+	}
+
+	public String toString() {
+		StringBuffer result = new StringBuffer();
+
+		result.append(getClass().getName()).append("\n");
+		result.append("\n");
+		result.append("scope_includes: ").append(scope_includes).append("\n");
+		result.append("scope_excludes: ").append(scope_excludes).append("\n");
+		result.append("package_scope: ").append(package_scope).append("\n");
+		result.append("package_scope_includes: ").append(package_scope_includes).append("\n");
+		result.append("package_scope_excludes: ").append(package_scope_excludes).append("\n");
+		result.append("class_scope: ").append(class_scope).append("\n");
+		result.append("class_scope_includes: ").append(class_scope_includes).append("\n");
+		result.append("class_scope_excludes: ").append(class_scope_excludes).append("\n");
+		result.append("feature_scope: ").append(feature_scope).append("\n");
+		result.append("feature_scope_includes: ").append(feature_scope_includes).append("\n");
+		result.append("feature_scope_excludes: ").append(feature_scope_excludes).append("\n");
+		result.append("\n");
+		result.append("filter_includes: ").append(filter_includes).append("\n");
+		result.append("filter_excludes: ").append(filter_excludes).append("\n");
+		result.append("package_filter: ").append(package_filter).append("\n");
+		result.append("package_filter_includes: ").append(package_filter_includes).append("\n");
+		result.append("package_filter_excludes: ").append(package_filter_excludes).append("\n");
+		result.append("class_filter: ").append(class_filter).append("\n");
+		result.append("class_filter_includes: ").append(class_filter_includes).append("\n");
+		result.append("class_filter_excludes: ").append(class_filter_excludes).append("\n");
+		result.append("feature_filter: ").append(feature_filter).append("\n");
+		result.append("feature_filter_includes: ").append(feature_filter_includes).append("\n");
+		result.append("feature_filter_excludes: ").append(feature_filter_excludes).append("\n");
+		
+		return result.toString();
 	}
 }
