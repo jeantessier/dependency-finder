@@ -71,9 +71,12 @@ public class OOMetrics {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
 		command_line.AddSingleValueSwitch("project-name", DEFAULT_PROJECT_NAME);
+		command_line.AddSingleValueSwitch("default-configuration", true);
+		command_line.AddSingleValueSwitch("configuration");
 		command_line.AddToggleSwitch("csv");
 		command_line.AddToggleSwitch("txt");
 		command_line.AddToggleSwitch("xml");
+		command_line.AddToggleSwitch("validate");
 		command_line.AddToggleSwitch("all");
 		command_line.AddToggleSwitch("project");
 		command_line.AddToggleSwitch("groups");
@@ -182,7 +185,15 @@ public class OOMetrics {
 			}
 		}
 		
-		com.jeantessier.metrics.MetricsGatherer metrics = new com.jeantessier.metrics.MetricsGatherer(command_line.SingleSwitch("project-name"));
+		MetricsFactory factory;
+		
+		if (command_line.IsPresent("configuration")) {
+			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("configuration")));
+		} else {
+			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("default-configuration")));
+		}
+
+		com.jeantessier.metrics.MetricsGatherer metrics = new com.jeantessier.metrics.MetricsGatherer(command_line.SingleSwitch("project-name"), factory);
 
 		Iterator j = loader.Classfiles().iterator();
 		while (j.hasNext()) {

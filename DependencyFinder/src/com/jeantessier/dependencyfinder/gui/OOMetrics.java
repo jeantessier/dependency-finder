@@ -54,7 +54,7 @@ public class OOMetrics extends JFrame {
 
 	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
-	private MetricsFactory    factory       = new MetricsFactory("Project");
+	private MetricsFactory factory;
 	
 	private JMenuBar            menu_bar      = new JMenuBar();
 	private JMenu               file_menu     = new JMenu();
@@ -69,7 +69,9 @@ public class OOMetrics extends JFrame {
 
 	private File input_file = new File(".");
 
-	public OOMetrics() {
+	public OOMetrics(MetricsFactory factory) {
+		this.factory = factory;
+		
 		this.setSize(new Dimension(800, 600));
 		this.setTitle("OO Metrics");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -255,6 +257,9 @@ public class OOMetrics extends JFrame {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
+		command_line.AddSingleValueSwitch("default-configuration", true);
+		command_line.AddSingleValueSwitch("configuration");
+		command_line.AddToggleSwitch("validate");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
 		command_line.AddOptionalValueSwitch("trace",   DEFAULT_TRACEFILE);
@@ -302,7 +307,15 @@ public class OOMetrics extends JFrame {
 				logger2.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
 			}
 		}
-
+		
+		MetricsFactory factory;
+		
+		if (command_line.IsPresent("configuration")) {
+			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("configuration")));
+		} else {
+			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("default-configuration")));
+		}
+			
 		/*
 		 *  Beginning of main processing
 		 */
@@ -313,7 +326,7 @@ public class OOMetrics extends JFrame {
 			// Ignore
 		}
 
-		OOMetrics model = new OOMetrics();
+		OOMetrics model = new OOMetrics(factory);
 		model.setVisible(true);
 	}
 }
