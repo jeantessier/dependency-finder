@@ -44,9 +44,27 @@ public class DeprecationPrinter extends Printer implements LoadListener {
 		Object owner = attribute.Owner();
 
 		if (owner instanceof Feature_info) {
-			Append(((Feature_info) owner).FullSignature()).EOL();
+			if (!((Feature_info) owner).Classfile().IsDeprecated()) {
+				Append(((Feature_info) owner).FullSignature()).EOL();
+			}
 		} else {
 			Append(owner).EOL();
+			
+			if (owner instanceof Classfile) {
+				Classfile classfile = (Classfile) owner;
+
+				Iterator i;
+
+				i = classfile.Fields().iterator();
+				while (i.hasNext()) {
+					Append(((Feature_info) i.next()).FullSignature()).EOL();
+				}
+
+				i = classfile.Methods().iterator();
+				while (i.hasNext()) {
+					Append(((Feature_info) i.next()).FullSignature()).EOL();
+				}
+			}
 		}
 	}
 	

@@ -59,11 +59,11 @@ public class TestDeprecationPrinter extends TestCase {
 	}
 	
 	public void testOneDeprecatedClass() throws IOException {
-		loader.Classfile("ModifiedPackage.DeprecatedClass").Accept(printer);
+		loader.Classfile("ModifiedPackage.DeprecatedInterface").Accept(printer);
 
 		Collection entries = Parse(writer.toString());
 		
-		assertTrue("Deprecated class", entries.contains("ModifiedPackage.DeprecatedClass"));
+		assertTrue("Deprecated class", entries.contains("ModifiedPackage.DeprecatedInterface"));
 		assertEquals("Deprecated class", 1, entries.size());
 	}
 	
@@ -89,10 +89,11 @@ public class TestDeprecationPrinter extends TestCase {
 		assertTrue("Deprecated interface",   entries.contains("ModifiedPackage.DeprecatedInterface"));
 		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedClass.deprecated_field"));
 		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedInterface.deprecated_field"));
+		assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.DeprecatedClass.DeprecatedClass()"));
 		assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.ModifiedClass.ModifiedClass(int)"));
 		assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedClass.DeprecatedMethod()"));
 		assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedInterface.DeprecatedMethod()"));
-		assertEquals("Modified class", 7, entries.size());
+		assertEquals("Classpath " + entries, 8, entries.size());
 	}
 
 	private Collection Parse(String text) throws IOException {

@@ -74,11 +74,11 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
 	}
 	
 	public boolean Match(ClassNode node) {
-		return Match(node.Name()) || Match(node.Package());
+		return Match(node.Name());
 	}
 	
 	public boolean Match(FeatureNode node) {
-		return Match(node.Name()) || Match(node.Class());
+		return Match(node.Name());
 	}
 
 	public boolean PackageMatch(String name) {

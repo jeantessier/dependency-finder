@@ -126,9 +126,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((CollectionMeasurement) factory.CreateMethodMetrics("testpackage.TestClass.TestMethod(java.lang.String)").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).Values();
-		assertTrue(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + " missing testpackage.TargetClass.TargetClass()", dependencies.contains("testpackage.TargetClass.TargetClass()"));
-		assertTrue(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + " missing testpackage.TargetClass.TargetMethod()", dependencies.contains("testpackage.TargetClass.TargetMethod()"));
-		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 2, dependencies.size());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((CollectionMeasurement) factory.CreateMethodMetrics("testpackage.TestClass.TestMethod(java.lang.String)").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).Values();
 		assertTrue(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + " missing testpackage.TargetClass", dependencies.contains("testpackage.TargetClass"));
@@ -169,13 +167,10 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((CollectionMeasurement) factory.CreateMethodMetrics("testpackage.TestClass.TestMethod(java.lang.String)").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).Values();
-		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + " missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
-		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 1, dependencies.size());
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((CollectionMeasurement) factory.CreateMethodMetrics("testpackage.TestClass.TestMethod(java.lang.String)").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).Values();
-		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + " missing java.lang.Object", dependencies.contains("java.lang.Object"));
-		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + " missing java.lang.String", dependencies.contains("java.lang.String"));
-		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 2, dependencies.size());
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 	}
 	
 	public void testpackage_TestClass_withFilterForClass() {
@@ -226,8 +221,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
 		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 		
 		dependencies = ((CollectionMeasurement) factory.CreateClassMetrics("testpackage.TestClass").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES)).Values();
-		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies + " missing java.lang.Object", dependencies.contains("java.lang.Object"));
-		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 1, dependencies.size());
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((CollectionMeasurement) factory.CreateClassMetrics("testpackage.TestClass").Measurement(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).Values();
 		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());

@@ -67,8 +67,8 @@ public class TestCollectionSelectionCriteria extends TestCase {
 		collection.add("a");
 
 		assertTrue("a",      criteria.Match(a));
-		assertTrue("a.A",    criteria.Match(a_A));
-		assertTrue("a.A.a",  criteria.Match(a_A_a));
+		assertFalse("a.A",   criteria.Match(a_A));
+		assertFalse("a.A.a", criteria.Match(a_A_a));
 
 		assertFalse("b",     criteria.Match(b));
 		assertFalse("b.B",   criteria.Match(b_B));
@@ -80,7 +80,7 @@ public class TestCollectionSelectionCriteria extends TestCase {
 
 		assertFalse("a",     criteria.Match(a));
 		assertTrue("a.A",    criteria.Match(a_A));
-		assertTrue("a.A.a",  criteria.Match(a_A_a));
+		assertFalse("a.A.a", criteria.Match(a_A_a));
 
 		assertFalse("b",     criteria.Match(b));
 		assertFalse("b.B",   criteria.Match(b_B));
