@@ -474,29 +474,41 @@ public class DependencyReporter {
 	}
 
 	private static CollectionSelectionCriteria CreateCollectionSelectionCriteria(Collection includes, Collection excludes) throws IOException {
-		Collection collection = new HashSet();
-		Iterator   i;
+		return new CollectionSelectionCriteria(LoadCollection(includes), LoadCollection(excludes));
+	}
+
+	private static Collection LoadCollection(Collection filenames) {
+		Collection result = null;
+
+		if (!filenames.isEmpty()) {
+			result = new HashSet();
 			
-		i = includes.iterator();
-		while (i.hasNext()) {
-			BufferedReader reader = new BufferedReader(new FileReader(i.next().toString()));
-			String line;
-			while ((line = reader.readLine()) != null) {
-				collection.add(line);
+			Iterator i = filenames.iterator();
+			while (i.hasNext()) {
+				String filename = i.next().toString();
+				
+				BufferedReader reader = null;
+				String line;
+				
+				try {
+					reader = new BufferedReader(new FileReader(filename));
+					while ((line = reader.readLine()) != null) {
+						result.add(line);
+					}
+				} catch (IOException ex) {
+					Logger.getLogger(DependencyReporter.class).error("Couldn't read file " + filename, ex);
+				} finally {
+					try {
+						if (reader != null) {
+							reader.close();
+						}
+					} catch (IOException ex) {
+						Logger.getLogger(DependencyReporter.class).error("Couldn't close file " + filename, ex);
+					}
+				}
 			}
-			reader.close();
 		}
 		
-		i = excludes.iterator();
-		while (i.hasNext()) {
-			BufferedReader reader = new BufferedReader(new FileReader(i.next().toString()));
-			String line;
-			while ((line = reader.readLine()) != null) {
-				collection.remove(line);
-			}
-			reader.close();
-		}
-		
-		return new CollectionSelectionCriteria(collection);
+		return result;
 	}
 }

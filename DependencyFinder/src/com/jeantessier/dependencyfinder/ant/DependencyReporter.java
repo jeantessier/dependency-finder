@@ -35,6 +35,7 @@ package com.jeantessier.dependencyfinder.ant;
 import java.io.*;
 import java.util.*;
 
+import org.apache.log4j.*;
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
@@ -349,32 +350,39 @@ public class DependencyReporter extends GraphTask {
 	}
 
 	private CollectionSelectionCriteria CreateCollectionSelectionCriteria(Path includes, Path excludes) throws IOException {
-		Collection collection = new HashSet();
+		return new CollectionSelectionCriteria(LoadCollection(includes), LoadCollection(excludes));
+	}
 
-		if (includes != null) {
-			String[] filenames = includes.list();
+	private Collection LoadCollection(Path path) {
+		Collection result = null;
+
+		if (path != null) {
+			result = new HashSet();
+			
+			String[] filenames = path.list();
 			for (int i=0; i<filenames.length; i++) {
-				BufferedReader reader = new BufferedReader(new FileReader(filenames[i]));
+				BufferedReader reader = null;
 				String line;
-				while ((line = reader.readLine()) != null) {
-					collection.add(line);
+				
+				try {
+					reader = new BufferedReader(new FileReader(filenames[i]));
+					while ((line = reader.readLine()) != null) {
+						result.add(line);
+					}
+				} catch (IOException ex) {
+					Logger.getLogger(getClass()).error("Couldn't read file " + filenames[i], ex);
+				} finally {
+					try {
+						if (reader != null) {
+							reader.close();
+						}
+					} catch (IOException ex) {
+						Logger.getLogger(getClass()).error("Couldn't close file " + filenames[i], ex);
+					}
 				}
-				reader.close();
 			}
 		}
 		
-		if (excludes != null) {
-			String[] filenames = excludes.list();
-			for (int i=0; i<filenames.length; i++) {
-				BufferedReader reader = new BufferedReader(new FileReader(filenames[i]));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					collection.remove(line);
-				}
-				reader.close();
-			}
-		}
-		
-		return new CollectionSelectionCriteria(collection);
+		return result;
 	}
 }

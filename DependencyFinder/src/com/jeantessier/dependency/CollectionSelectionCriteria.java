@@ -39,10 +39,12 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
 	private boolean match_class      = true;
 	private boolean match_feature    = true;
 
-	Collection collection;
+	Collection include;
+	Collection exclude;
 
-	public CollectionSelectionCriteria(Collection collection) {
-		this.collection = collection;
+	public CollectionSelectionCriteria(Collection include, Collection exclude) {
+		this.include = include;
+		this.exclude = exclude;
 	}
 	
 	public boolean MatchPackage() {
@@ -94,6 +96,6 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
 	}
 
 	private boolean Match(String name) {
-		return collection.contains(name);
+		return (include == null || include.contains(name)) && (exclude == null || !exclude.contains(name));
 	}
 }

@@ -17,6 +17,30 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	June 16, 2004
+    </dt>
+    <dd>
+	<p>Fixed <code>CollectionSelectionCriteria</code> so it has separate
+	include and exclude lists.  This way, I can leave the include list as
+	<code>null</code> to indicate a wildcard and explicitly exclude names
+	from a list.  The previous implementation applied the the excluded
+	list to a predefined inclusion list, preventing me from doing
+	"anything but ..." type of logic.</p>
+
+	<p>Next, I'll need to combine regular expression-based with list-based
+	selection criteria for maximum flexibility.  This will mean some kind
+	of <em>AndSelectionCriteria</em>.</p>
+    </dd>
+    <dt>
+	June 15, 2004
+    </dt>
+    <dd>
+	<p>Checked the help discussion on the project page in SourceForge and
+	found a few new messages since the last time I checked.  Somehow, I
+	don't receive emails from that discussion anymore, even though
+	SourceForge still says I'm monitoring it.</p>
+    </dd>
+    <dt>
 	June 05, 2004
     </dt>
     <dd>

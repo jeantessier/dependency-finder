@@ -37,20 +37,22 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestCollectionSelectionCriteria extends TestCase {
-	private Collection                  collection;
+	private Collection                  include;
+	private Collection                  exclude;
 	private CollectionSelectionCriteria criteria;
 
 	private PackageNode a;
-	private ClassNode a_A;
+	private ClassNode   a_A;
 	private FeatureNode a_A_a;
 	
 	private PackageNode b;
-	private ClassNode b_B;
+	private ClassNode   b_B;
 	private FeatureNode b_B_b;
 
 	protected void setUp() throws Exception {
-		collection = new HashSet();
-		criteria = new CollectionSelectionCriteria(collection);
+		include  = new HashSet();
+		exclude  = new HashSet();
+		criteria = new CollectionSelectionCriteria(include, exclude);
 
 		NodeFactory factory = new NodeFactory();
 
@@ -63,8 +65,30 @@ public class TestCollectionSelectionCriteria extends TestCase {
 		b_B_b = factory.CreateFeature("b.B.b");
 	}
 
+	public void testEmptyInclude() {
+		assertFalse("a",     criteria.Match(a));
+		assertFalse("a.A",   criteria.Match(a_A));
+		assertFalse("a.A.a", criteria.Match(a_A_a));
+
+		assertFalse("b",     criteria.Match(b));
+		assertFalse("b.B",   criteria.Match(b_B));
+		assertFalse("b.B.b", criteria.Match(b_B_b));
+	}
+
+	public void testNullInclude() {
+		criteria = new CollectionSelectionCriteria(null, exclude);
+
+		assertTrue("a",     criteria.Match(a));
+		assertTrue("a.A",   criteria.Match(a_A));
+		assertTrue("a.A.a", criteria.Match(a_A_a));
+
+		assertTrue("b",     criteria.Match(b));
+		assertTrue("b.B",   criteria.Match(b_B));
+		assertTrue("b.B.b", criteria.Match(b_B_b));
+	}
+
 	public void testMatchPackageNode() {
-		collection.add("a");
+		include.add("a");
 
 		assertTrue("a",      criteria.Match(a));
 		assertFalse("a.A",   criteria.Match(a_A));
@@ -76,7 +100,7 @@ public class TestCollectionSelectionCriteria extends TestCase {
 	}
 
 	public void testMatchClassNode() {
-		collection.add("a.A");
+		include.add("a.A");
 
 		assertFalse("a",     criteria.Match(a));
 		assertTrue("a.A",    criteria.Match(a_A));
@@ -88,7 +112,7 @@ public class TestCollectionSelectionCriteria extends TestCase {
 	}
 
 	public void testMatchFeatureNode() {
-		collection.add("a.A.a");
+		include.add("a.A.a");
 
 		assertFalse("a",     criteria.Match(a));
 		assertFalse("a.A",   criteria.Match(a_A));
@@ -100,7 +124,7 @@ public class TestCollectionSelectionCriteria extends TestCase {
 	}
 
 	public void testMatchPackageName() {
-		collection.add("a");
+		include.add("a");
 
 		assertTrue("a",      criteria.PackageMatch("a"));
 		assertFalse("a.A",   criteria.ClassMatch("a.A"));
@@ -112,7 +136,7 @@ public class TestCollectionSelectionCriteria extends TestCase {
 	}
 
 	public void testMatchClassName() {
-		collection.add("a.A");
+		include.add("a.A");
 
 		assertFalse("a",     criteria.PackageMatch("a"));
 		assertTrue("a.A",    criteria.ClassMatch("a.A"));
@@ -124,7 +148,7 @@ public class TestCollectionSelectionCriteria extends TestCase {
 	}
 
 	public void testMatchFeatureName() {
-		collection.add("a.A.a");
+		include.add("a.A.a");
 
 		assertFalse("a",     criteria.PackageMatch("a"));
 		assertFalse("a.A",   criteria.ClassMatch("a.A"));
@@ -133,5 +157,26 @@ public class TestCollectionSelectionCriteria extends TestCase {
 		assertFalse("b",     criteria.PackageMatch("b"));
 		assertFalse("b.B",   criteria.ClassMatch("b.B"));
 		assertFalse("b.B.b", criteria.FeatureMatch("b.B.b"));
+	}
+
+	public void testExclude() {
+		include.add("a");
+		include.add("a.A");
+		include.add("a.A.a");
+		exclude.add("a.A.a");
+
+		assertTrue("a",      criteria.Match(a));
+		assertTrue("a.A",    criteria.Match(a_A));
+		assertFalse("a.A.a", criteria.Match(a_A_a));
+	}
+
+	public void testExcludeOnly() {
+		exclude.add("a.A.a");
+
+		criteria = new CollectionSelectionCriteria(null, exclude);
+
+		assertTrue("a",      criteria.Match(a));
+		assertTrue("a.A",    criteria.Match(a_A));
+		assertFalse("a.A.a", criteria.Match(a_A_a));
 	}
 }
