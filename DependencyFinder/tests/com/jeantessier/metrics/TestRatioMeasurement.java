@@ -64,7 +64,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		descriptor.LongName("bar");
 		descriptor.Class(RatioMeasurement.class);
 
-		measurement = (RatioMeasurement) descriptor.create();
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement.Descriptor());
 		assertEquals(RatioMeasurement.class, measurement.Descriptor().Class());
@@ -78,7 +78,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		descriptor.LongName("bar");
 		descriptor.Class(RatioMeasurement.class);
 
-		measurement = (RatioMeasurement) descriptor.create();
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
 		assertEquals(descriptor, measurement.Descriptor());
@@ -99,7 +99,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		descriptor.Class(RatioMeasurement.class);
 		descriptor.InitText("base\ndivider");
 
-		measurement = (RatioMeasurement) descriptor.create();
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
 		assertEquals(descriptor, measurement.Descriptor());
@@ -260,7 +260,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		descriptor.LongName("bar");
 		descriptor.Class(RatioMeasurement.class);
 
-		measurement = (RatioMeasurement) descriptor.create(metrics);
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		m2.Add(1);
 		
@@ -283,7 +283,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		descriptor.InitText("base\ndivider");
 		descriptor.LowerThreshold(new Integer(1));
 
-		measurement = (RatioMeasurement) descriptor.create(metrics);
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		m2.Add(1);
 		
@@ -306,7 +306,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		descriptor.InitText("base\ndivider");
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (RatioMeasurement) descriptor.create(metrics);
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		m2.Add(1);
 		
@@ -330,7 +330,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		descriptor.LowerThreshold(new Integer(1));
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (RatioMeasurement) descriptor.create(metrics);
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		m2.Add(1);
 		

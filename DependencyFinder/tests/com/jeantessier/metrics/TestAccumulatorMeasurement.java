@@ -52,7 +52,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		descriptor.LongName("bar");
 		descriptor.Class(AccumulatorMeasurement.class);
 
-		measurement = (AccumulatorMeasurement) descriptor.create();
+		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement.Descriptor());
 		assertEquals(AccumulatorMeasurement.class, measurement.Descriptor().Class());
@@ -66,7 +66,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		descriptor.LongName("bar");
 		descriptor.Class(AccumulatorMeasurement.class);
 
-		measurement = (AccumulatorMeasurement) descriptor.create();
+		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
 		assertEquals(descriptor, measurement.Descriptor());
@@ -176,7 +176,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		descriptor.LongName("bar");
 		descriptor.Class(AccumulatorMeasurement.class);
 
-		measurement = (AccumulatorMeasurement) descriptor.create();
+		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(measurement.InRange());
 
@@ -197,7 +197,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		descriptor.Class(AccumulatorMeasurement.class);
 		descriptor.LowerThreshold(new Integer(1));
 
-		measurement = (AccumulatorMeasurement) descriptor.create();
+		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(!measurement.InRange());
 
@@ -218,7 +218,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		descriptor.Class(AccumulatorMeasurement.class);
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (AccumulatorMeasurement) descriptor.create();
+		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(measurement.InRange());
 
@@ -240,7 +240,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		descriptor.LowerThreshold(new Integer(1));
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (AccumulatorMeasurement) descriptor.create();
+		measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(!measurement.InRange());
 

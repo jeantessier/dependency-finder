@@ -52,7 +52,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		descriptor.LongName("bar");
 		descriptor.Class(CounterMeasurement.class);
 
-		measurement = (CounterMeasurement) descriptor.create();
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement.Descriptor());
 		assertEquals(CounterMeasurement.class, measurement.Descriptor().Class());
@@ -66,7 +66,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		descriptor.LongName("bar");
 		descriptor.Class(CounterMeasurement.class);
 
-		measurement = (CounterMeasurement) descriptor.create();
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
 		assertEquals(descriptor, measurement.Descriptor());
@@ -178,7 +178,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		descriptor.LongName("bar");
 		descriptor.Class(CounterMeasurement.class);
 
-		measurement = (CounterMeasurement) descriptor.create();
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(measurement.InRange());
 
@@ -198,7 +198,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		descriptor.Class(CounterMeasurement.class);
 		descriptor.LowerThreshold(new Integer(1));
 
-		measurement = (CounterMeasurement) descriptor.create();
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(!measurement.InRange());
 
@@ -218,7 +218,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		descriptor.Class(CounterMeasurement.class);
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (CounterMeasurement) descriptor.create();
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(measurement.InRange());
 
@@ -239,7 +239,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		descriptor.LowerThreshold(new Integer(1));
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (CounterMeasurement) descriptor.create();
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(!measurement.InRange());
 

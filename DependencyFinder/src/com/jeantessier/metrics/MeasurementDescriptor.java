@@ -100,11 +100,11 @@ public class MeasurementDescriptor {
 		this.upper_threshold = upper_threshold;
 	}
 
-	public Measurement create() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-		return create(null);
+	public Measurement CreateMeasurement() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		return CreateMeasurement(null);
 	}
 	
-	public Measurement create(Metrics context) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+	public Measurement CreateMeasurement(Metrics context) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		Measurement result = null;
 
 		Constructor constructor = Class().getConstructor(constructor_signature);

@@ -46,14 +46,6 @@ public class MetricsGatherer extends VisitorBase {
 	private Metrics current_group;
 	private Metrics current_class;
 	private Metrics current_method;
-	
-	public MetricsGatherer() {
-		this("Project");
-	}
-	
-	public MetricsGatherer(String project_name) {
-		this(project_name, new MetricsFactory(project_name));
-	}
 
 	public MetricsGatherer(String project_name, MetricsFactory factory) {
 		this.project_name = project_name;

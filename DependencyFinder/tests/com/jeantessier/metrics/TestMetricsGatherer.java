@@ -36,6 +36,8 @@ import junit.framework.*;
 
 import java.io.*;
 
+import org.xml.sax.*;
+
 import com.jeantessier.classreader.*;
 
 public class TestMetricsGatherer extends TestCase {
@@ -46,8 +48,8 @@ public class TestMetricsGatherer extends TestCase {
 		super(name);
 	}
 
-	public void testCreateProjectMetrics() throws IOException {
-		MetricsFactory  factory = new MetricsFactory("test");
+	public void testCreateProjectMetrics() throws IOException, SAXException {
+		MetricsFactory  factory = new MetricsFactory("test", new MetricsConfigurationLoader().Load("info/MetricsConfig.xml"));
 
 		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
 		loader.Load(new DirectoryExplorer(TEST_FILENAME));

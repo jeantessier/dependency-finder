@@ -32,22 +32,26 @@
 
 package com.jeantessier.metrics;
 
+import java.lang.reflect.*;
 import java.util.*;
 
+import org.apache.log4j.*;
 import org.apache.oro.text.perl.*;
 
 public class MetricsFactory {
 	private static final Perl5Util perl = new Perl5Util();
 
-	private String default_project_name;
-	
+	private String               default_project_name;
+	private MetricsConfiguration configuration;
+
 	private Map projects = new HashMap();
 	private Map groups   = new HashMap();
 	private Map classes  = new HashMap();
 	private Map methods  = new HashMap();
-
-	public MetricsFactory(String default_project_name) {
+	
+	public MetricsFactory(String default_project_name, MetricsConfiguration configuration) {
 		this.default_project_name = default_project_name;
+		this.configuration = configuration;
 	}
 	
 	public Metrics CreateProjectMetrics() {
@@ -68,6 +72,8 @@ public class MetricsFactory {
 	private Metrics BuildProjectMetrics(String name) {
 		Metrics result = new Metrics(name);
 
+		PopulateMetrics(result, configuration.ProjectMeasurements());
+		
 		return result;
 	}
 
@@ -94,6 +100,8 @@ public class MetricsFactory {
 		Metrics project_metrics = CreateProjectMetrics();
 		Metrics result          = new Metrics(project_metrics, name);
 		project_metrics.AddSubMetrics(result);
+
+		PopulateMetrics(result, configuration.GroupMeasurements());
 
 		return result;
 	}
@@ -126,6 +134,8 @@ public class MetricsFactory {
 		Metrics package_metrics = CreateGroupMetrics(package_name);
 		Metrics result          = new Metrics(package_metrics, name);
 		package_metrics.AddSubMetrics(result);
+
+		PopulateMetrics(result, configuration.ClassMeasurements());
 
 		return result;
 	}
@@ -160,6 +170,8 @@ public class MetricsFactory {
 		Metrics result        = new Metrics(class_metrics, name);
 		class_metrics.AddSubMetrics(result);
 
+		PopulateMetrics(result, configuration.MethodMeasurements());
+
 		return result;
 	}
 
@@ -170,4 +182,22 @@ public class MetricsFactory {
 	public Collection MethodMetrics() {
 		return Collections.unmodifiableCollection(methods.values());
 	}
+
+	private void PopulateMetrics(Metrics metrics, Collection descriptors) {
+		Iterator i = descriptors.iterator();
+		while (i.hasNext()) {
+			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+			try {
+				metrics.Track(descriptor.CreateMeasurement(metrics));
+			} catch (InstantiationException ex) {
+				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
+			} catch (IllegalAccessException ex) {
+				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
+			} catch (NoSuchMethodException ex) {
+				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
+			} catch (InvocationTargetException ex) {
+				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
+			}
+		}
+	}		
 }

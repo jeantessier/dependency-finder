@@ -35,14 +35,16 @@ package com.jeantessier.metrics;
 import junit.framework.*;
 
 public class TestMetricsFactory extends TestCase {
-	MetricsFactory factory;
+	MetricsConfiguration configuration;
+	MetricsFactory       factory;
 	
 	public TestMetricsFactory(String name) {
 		super(name);
 	}
 
 	protected void setUp() throws Exception {
-		factory = new MetricsFactory("test");
+		configuration = new MetricsConfigurationLoader().Load("info/MetricsConfig.xml");
+		factory       = new MetricsFactory("test", configuration);
 	}
 	
 	public void testCreateProjectMetrics() {
@@ -50,6 +52,7 @@ public class TestMetricsFactory extends TestCase {
 		Metrics m2 = factory.CreateProjectMetrics("foo");
 
 		assertSame(m1, m2);
+		assertEquals("project measurements", configuration.ProjectMeasurements().size(), m1.MeasurementNames().size());
 	}
 	
 	public void testCreateGroupMetrics() {
@@ -57,6 +60,7 @@ public class TestMetricsFactory extends TestCase {
 		Metrics m2 = factory.CreateGroupMetrics("foo");
 
 		assertSame(m1, m2);
+		assertEquals("group measurements", configuration.GroupMeasurements().size(), m1.MeasurementNames().size());
 	}
 	
 	public void testCreateClassMetrics() {
@@ -64,6 +68,7 @@ public class TestMetricsFactory extends TestCase {
 		Metrics m2 = factory.CreateClassMetrics("foo");
 
 		assertSame(m1, m2);
+		assertEquals("class measurements", configuration.ClassMeasurements().size(), m1.MeasurementNames().size());
 	}
 	
 	public void testCreateMethodMetrics() {
@@ -71,6 +76,7 @@ public class TestMetricsFactory extends TestCase {
 		Metrics m2 = factory.CreateMethodMetrics("foo");
 
 		assertSame(m1, m2);
+		assertEquals("method measurements", configuration.MethodMeasurements().size(), m1.MeasurementNames().size());
 	}
 
 	public void testCreateStructure() {

@@ -54,7 +54,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		descriptor.LongName("bar");
 		descriptor.Class(NbSubMetricsMeasurement.class);
 
-		measurement = (NbSubMetricsMeasurement) descriptor.create();
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement.Descriptor());
 		assertEquals(NbSubMetricsMeasurement.class, measurement.Descriptor().Class());
@@ -68,7 +68,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		descriptor.LongName("bar");
 		descriptor.Class(NbSubMetricsMeasurement.class);
 
-		Measurement measurement = descriptor.create();
+		Measurement measurement = descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
 		assertEquals(descriptor, measurement.Descriptor());
@@ -121,7 +121,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		descriptor.LongName("bar");
 		descriptor.Class(NbSubMetricsMeasurement.class);
 
-		measurement = (NbSubMetricsMeasurement) descriptor.create(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		assertTrue(measurement.InRange());
 
@@ -142,7 +142,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		descriptor.Class(NbSubMetricsMeasurement.class);
 		descriptor.LowerThreshold(new Integer(1));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.create(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		assertTrue(!measurement.InRange());
 
@@ -163,7 +163,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		descriptor.Class(NbSubMetricsMeasurement.class);
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.create(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		assertTrue(measurement.InRange());
 
@@ -185,7 +185,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		descriptor.LowerThreshold(new Integer(1));
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.create(metrics);
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		assertTrue(!measurement.InRange());
 

@@ -57,7 +57,7 @@ public class TestMetrics extends TestCase {
 		descriptor.ShortName("test2");
 		descriptor.Class(CounterMeasurement.class);
 
-		metrics.Track(descriptor.create());
+		metrics.Track(descriptor.CreateMeasurement());
 
 		assertNotNull(metrics.Measurement("test1"));
 		assertNotNull(metrics.Measurement("test2"));
