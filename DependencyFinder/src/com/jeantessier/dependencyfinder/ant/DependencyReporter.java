@@ -348,7 +348,7 @@ public class DependencyReporter extends GraphTask {
 			getFilterexcludeslist() != null;
 	}
 
-	public CollectionSelectionCriteria CreateCollectionSelectionCriteria(Path includes, Path excludes) throws IOException {
+	private CollectionSelectionCriteria CreateCollectionSelectionCriteria(Path includes, Path excludes) throws IOException {
 		Collection collection = new HashSet();
 
 		if (includes != null) {

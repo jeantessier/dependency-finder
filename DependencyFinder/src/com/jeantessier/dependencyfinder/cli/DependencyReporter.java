@@ -473,7 +473,7 @@ public class DependencyReporter {
 			switches.contains("filter-excludes-list");
 	}
 
-	public static CollectionSelectionCriteria CreateCollectionSelectionCriteria(Collection includes, Collection excludes) throws IOException {
+	private static CollectionSelectionCriteria CreateCollectionSelectionCriteria(Collection includes, Collection excludes) throws IOException {
 		Collection collection = new HashSet();
 		Iterator   i;
 			
