@@ -42,9 +42,7 @@ import com.jeantessier.dependency.*;
 import com.jeantessier.dependencyfinder.*;
 
 public class DependencyClosure {
-	public static final String DEFAULT_INCLUDES        = "//";
-	public static final String DEFAULT_SCOPE_INCLUDES  = "//";
-	public static final String DEFAULT_FILTER_INCLUDES = "//";
+	public static final String DEFAULT_START_INCLUDES  = "//";
 	public static final String DEFAULT_LOGFILE         = "System.out";
 
 	public static void showError(CommandLineUsage clu, String msg) {
@@ -54,38 +52,6 @@ public class DependencyClosure {
 
 	public static void showError(CommandLineUsage clu) {
 		System.err.println(clu);
-		System.err.println();
-		System.err.println("-all shorthand for the combination:");
-		System.err.println("    -package-scope");
-		System.err.println("    -class-scope");
-		System.err.println("    -feature-scope");
-		System.err.println("    -package-filter");
-		System.err.println("    -class-filter");
-		System.err.println("    -feature-filter");
-		System.err.println();
-		System.err.println("-p2p shorthand for the combination:");
-		System.err.println("    -package-scope");
-		System.err.println("    -package-filter");
-		System.err.println();
-		System.err.println("-c2p shorthand for the combination:");
-		System.err.println("    -class-scope");
-		System.err.println("    -package-filter");
-		System.err.println();
-		System.err.println("-c2c shorthand for the combination:");
-		System.err.println("    -class-scope");
-		System.err.println("    -class-filter");
-		System.err.println();
-		System.err.println("-f2f shorthand for the combination:");
-		System.err.println("    -feature-scope");
-		System.err.println("    -feature-filter");
-		System.err.println();
-		System.err.println("-includes \"str\" shorthand for the combination:");
-		System.err.println("    -scope-includes \"str\"");
-		System.err.println("    -filter-includes \"str\"");
-		System.err.println();
-		System.err.println("-excludes \"str\" shorthand for the combination:");
-		System.err.println("    -scope-excludes \"str\"");
-		System.err.println("    -filter-excludes \"str\"");
 		System.err.println();
 		System.err.println("Defaults is text output to the console.");
 		System.err.println();
@@ -114,36 +80,22 @@ public class DependencyClosure {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine commandLine = new CommandLine(new AtLeastParameterStrategy(1));
-		commandLine.addMultipleValuesSwitch("scope-includes",          DEFAULT_SCOPE_INCLUDES);
-		commandLine.addMultipleValuesSwitch("scope-excludes");
-		commandLine.addToggleSwitch("package-scope");
-		commandLine.addMultipleValuesSwitch("package-scope-includes");
-		commandLine.addMultipleValuesSwitch("package-scope-excludes");
-		commandLine.addToggleSwitch("class-scope");
-		commandLine.addMultipleValuesSwitch("class-scope-includes");
-		commandLine.addMultipleValuesSwitch("class-scope-excludes");
-		commandLine.addToggleSwitch("feature-scope");
-		commandLine.addMultipleValuesSwitch("feature-scope-includes");
-		commandLine.addMultipleValuesSwitch("feature-scope-excludes");
-		commandLine.addMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
-		commandLine.addMultipleValuesSwitch("filter-excludes");
-		commandLine.addToggleSwitch("package-filter");
-		commandLine.addMultipleValuesSwitch("package-filter-includes");
-		commandLine.addMultipleValuesSwitch("package-filter-excludes");
-		commandLine.addToggleSwitch("class-filter");
-		commandLine.addMultipleValuesSwitch("class-filter-includes");
-		commandLine.addMultipleValuesSwitch("class-filter-excludes");
-		commandLine.addToggleSwitch("feature-filter");
-		commandLine.addMultipleValuesSwitch("feature-filter-includes");
-		commandLine.addMultipleValuesSwitch("feature-filter-excludes");
-
-		commandLine.addToggleSwitch("all");
-		commandLine.addToggleSwitch("p2p");
-		commandLine.addToggleSwitch("c2p");
-		commandLine.addToggleSwitch("c2c");
-		commandLine.addToggleSwitch("f2f");
-		commandLine.addMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
-		commandLine.addMultipleValuesSwitch("excludes");
+		commandLine.addMultipleValuesSwitch("start-includes",          DEFAULT_START_INCLUDES);
+		commandLine.addMultipleValuesSwitch("start-excludes");
+		commandLine.addMultipleValuesSwitch("package-start-includes");
+		commandLine.addMultipleValuesSwitch("package-start-excludes");
+		commandLine.addMultipleValuesSwitch("class-start-includes");
+		commandLine.addMultipleValuesSwitch("class-start-excludes");
+		commandLine.addMultipleValuesSwitch("feature-start-includes");
+		commandLine.addMultipleValuesSwitch("feature-start-excludes");
+		commandLine.addMultipleValuesSwitch("stop-includes");
+		commandLine.addMultipleValuesSwitch("stop-excludes");
+		commandLine.addMultipleValuesSwitch("package-stop-includes");
+		commandLine.addMultipleValuesSwitch("package-stop-excludes");
+		commandLine.addMultipleValuesSwitch("class-stop-includes");
+		commandLine.addMultipleValuesSwitch("class-stop-excludes");
+		commandLine.addMultipleValuesSwitch("feature-stop-includes");
+		commandLine.addMultipleValuesSwitch("feature-stop-excludes");
 
 		commandLine.addOptionalValueSwitch("maximum-inbound-depth");
 		commandLine.addOptionalValueSwitch("maximum-outbound-depth");
@@ -199,82 +151,35 @@ public class DependencyClosure {
 
 		Date start = new Date();
 
-		RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
+		RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
 		
-		scopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
-		scopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
-		scopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
-
-		if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
+		if (commandLine.isPresent("start-includes") || (!commandLine.isPresent("package-start-includes") && !commandLine.isPresent("class-start-includes") && !commandLine.isPresent("feature-start-includes"))) {
 			// Only use the default if nothing else has been specified.
-			scopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("scope-includes"));
+			startCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("start-includes"));
 		}
-		scopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("scope-excludes"));
-		scopeCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-scope-includes"));
-		scopeCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-scope-excludes"));
-		scopeCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-scope-includes"));
-		scopeCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-scope-excludes"));
-		scopeCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-scope-includes"));
-		scopeCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-scope-excludes"));
+		startCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("start-excludes"));
+		startCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-start-includes"));
+		startCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-start-excludes"));
+		startCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-start-includes"));
+		startCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-start-excludes"));
+		startCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-start-includes"));
+		startCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-start-excludes"));
 
-		RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+		RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
 
-		filterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
-		filterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
-		filterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
-		
-		if (commandLine.isPresent("filter-includes") || (!commandLine.isPresent("package-filter-includes") && !commandLine.isPresent("class-filter-includes") && !commandLine.isPresent("feature-filter-includes"))) {
+		if (commandLine.isPresent("stop-includes") || (!commandLine.isPresent("package-stop-includes") && !commandLine.isPresent("class-stop-includes") && !commandLine.isPresent("feature-stop-includes"))) {
 			// Only use the default if nothing else has been specified.
-			filterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("filter-includes"));
+			stopCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("stop-includes"));
 		}
-		filterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("filter-excludes"));
-		filterCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-filter-includes"));
-		filterCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-filter-excludes"));
-		filterCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-filter-includes"));
-		filterCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-filter-excludes"));
-		filterCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-filter-includes"));
-		filterCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-filter-excludes"));
-	
-		if (commandLine.getToggleSwitch("all")) {
-			scopeCriteria.setMatchingPackages(true);
-			scopeCriteria.setMatchingClasses(true);
-			scopeCriteria.setMatchingFeatures(true);
-			filterCriteria.setMatchingPackages(true);
-			filterCriteria.setMatchingClasses(true);
-			filterCriteria.setMatchingFeatures(true);
-		}
-	
-		if (commandLine.getToggleSwitch("p2p")) {
-			scopeCriteria.setMatchingPackages(true);
-			filterCriteria.setMatchingPackages(true);
-		}
-	
-		if (commandLine.getToggleSwitch("c2p")) {
-			scopeCriteria.setMatchingClasses(true);
-			filterCriteria.setMatchingPackages(true);
-		}
-	
-		if (commandLine.getToggleSwitch("c2c")) {
-			scopeCriteria.setMatchingClasses(true);
-			filterCriteria.setMatchingClasses(true);
-		}
-	
-		if (commandLine.getToggleSwitch("f2f")) {
-			scopeCriteria.setMatchingFeatures(true);
-			filterCriteria.setMatchingFeatures(true);
-		}
-	
-		if (commandLine.isPresent("includes")) {
-			scopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
-			filterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
-		}
-	
-		if (commandLine.isPresent("excludes")) {
-			scopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
-			filterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
-		}
+		stopCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("stop-excludes"));
+		stopCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-stop-includes"));
+		stopCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-stop-excludes"));
+		stopCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-stop-includes"));
+		stopCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-stop-excludes"));
+		stopCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-stop-includes"));
+		stopCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-stop-excludes"));
 
-		TransitiveClosure selector = new TransitiveClosure(scopeCriteria, filterCriteria);
+		TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);
 
 		try {
 			if (commandLine.isPresent("maximum-inbound-depth")) {

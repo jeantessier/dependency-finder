@@ -45,14 +45,14 @@
 <!-- Reading the parameters and setting up the forms -->
 
 <%
-    String scopeIncludes = request.getParameter("scope-includes");
-    if (scopeIncludes == null) {
-	scopeIncludes = "//";
+    String startIncludes = request.getParameter("start-includes");
+    if (startIncludes == null) {
+	startIncludes = "//";
     }
 
-    String scopeExcludes = request.getParameter("scope-excludes");
-    if (scopeExcludes == null) {
-	scopeExcludes = "";
+    String startExcludes = request.getParameter("start-excludes");
+    if (startExcludes == null) {
+	startExcludes = "";
     }
 
     boolean packageScope = "on".equals(request.getParameter("package-scope"));
@@ -60,14 +60,14 @@
 	packageScope = true;
     }
 
-    String packageScopeIncludes = request.getParameter("package-scope-includes");
-    if (packageScopeIncludes == null) {
-	packageScopeIncludes = "";
+    String packageStartIncludes = request.getParameter("package-start-includes");
+    if (packageStartIncludes == null) {
+	packageStartIncludes = "";
     }
 
-    String packageScopeExcludes = request.getParameter("package-scope-excludes");
-    if (packageScopeExcludes == null) {
-	packageScopeExcludes = "";
+    String packageStartExcludes = request.getParameter("package-start-excludes");
+    if (packageStartExcludes == null) {
+	packageStartExcludes = "";
     }
 
     boolean classScope = "on".equals(request.getParameter("class-scope"));
@@ -75,14 +75,14 @@
 	classScope = true;
     }
 
-    String classScopeIncludes = request.getParameter("class-scope-includes");
-    if (classScopeIncludes == null) {
-	classScopeIncludes = "";
+    String classStartIncludes = request.getParameter("class-start-includes");
+    if (classStartIncludes == null) {
+	classStartIncludes = "";
     }
 
-    String classScopeExcludes = request.getParameter("class-scope-excludes");
-    if (classScopeExcludes == null) {
-	classScopeExcludes = "";
+    String classStartExcludes = request.getParameter("class-start-excludes");
+    if (classStartExcludes == null) {
+	classStartExcludes = "";
     }
 
     boolean featureScope = "on".equals(request.getParameter("feature-scope"));
@@ -90,24 +90,24 @@
 	featureScope = true;
     }
 
-    String featureScopeIncludes = request.getParameter("feature-scope-includes");
-    if (featureScopeIncludes == null) {
-	featureScopeIncludes = "";
+    String featureStartIncludes = request.getParameter("feature-start-includes");
+    if (featureStartIncludes == null) {
+	featureStartIncludes = "";
     }
 
-    String featureScopeExcludes = request.getParameter("feature-scope-excludes");
-    if (featureScopeExcludes == null) {
-	featureScopeExcludes = "";
+    String featureStartExcludes = request.getParameter("feature-start-excludes");
+    if (featureStartExcludes == null) {
+	featureStartExcludes = "";
     }
 
-    String filterIncludes = request.getParameter("filter-includes");
-    if (filterIncludes == null) {
-	filterIncludes = "//";
+    String stopIncludes = request.getParameter("stop-includes");
+    if (stopIncludes == null) {
+	stopIncludes = "//";
     }
 
-    String filterExcludes = request.getParameter("filter-excludes");
-    if (filterExcludes == null) {
-	filterExcludes = "";
+    String stopExcludes = request.getParameter("stop-excludes");
+    if (stopExcludes == null) {
+	stopExcludes = "";
     }
 
     boolean packageFilter = "on".equals(request.getParameter("package-filter"));
@@ -115,14 +115,14 @@
 	packageFilter = true;
     }
 
-    String packageFilterIncludes = request.getParameter("package-filter-includes");
-    if (packageFilterIncludes == null) {
-	packageFilterIncludes = "";
+    String packageStopIncludes = request.getParameter("package-stop-includes");
+    if (packageStopIncludes == null) {
+	packageStopIncludes = "";
     }
 
-    String packageFilterExcludes = request.getParameter("package-filter-excludes");
-    if (packageFilterExcludes == null) {
-	packageFilterExcludes = "";
+    String packageStopExcludes = request.getParameter("package-stop-excludes");
+    if (packageStopExcludes == null) {
+	packageStopExcludes = "";
     }
 
     boolean classFilter = "on".equals(request.getParameter("class-filter"));
@@ -130,14 +130,14 @@
 	classFilter = true;
     }
 
-    String classFilterIncludes = request.getParameter("class-filter-includes");
-    if (classFilterIncludes == null) {
-	classFilterIncludes = "";
+    String classStopIncludes = request.getParameter("class-stop-includes");
+    if (classStopIncludes == null) {
+	classStopIncludes = "";
     }
 
-    String classFilterExcludes = request.getParameter("class-filter-excludes");
-    if (classFilterExcludes == null) {
-	classFilterExcludes = "";
+    String classStopExcludes = request.getParameter("class-stop-excludes");
+    if (classStopExcludes == null) {
+	classStopExcludes = "";
     }
 
     boolean featureFilter = "on".equals(request.getParameter("feature-filter"));
@@ -145,14 +145,14 @@
 	featureFilter = true;
     }
 
-    String featureFilterIncludes = request.getParameter("feature-filter-includes");
-    if (featureFilterIncludes == null) {
-	featureFilterIncludes = "";
+    String featureStopIncludes = request.getParameter("feature-stop-includes");
+    if (featureStopIncludes == null) {
+	featureStopIncludes = "";
     }
 
-    String featureFilterExcludes = request.getParameter("feature-filter-excludes");
-    if (featureFilterExcludes == null) {
-	featureFilterExcludes = "";
+    String featureStopExcludes = request.getParameter("feature-stop-excludes");
+    if (featureStopExcludes == null) {
+	featureStopExcludes = "";
     }
 
     String maximumInboundDepth = request.getParameter("maximum-inbound-depth");
@@ -222,18 +222,18 @@
 	<td>
 	</td>
 	<td>
-	    <input type="text" name="scope-includes" value="<%= scopeIncludes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="start-includes" value="<%= startIncludes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="scope-excludes" value="<%= scopeExcludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="start-excludes" value="<%= startExcludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
 	</td>
 	<td>
-	    <input type="text" name="filter-includes" value="<%= filterIncludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="stop-includes" value="<%= stopIncludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="filter-excludes" value="<%= filterExcludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="stop-excludes" value="<%= stopExcludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     <tr>
@@ -241,19 +241,19 @@
 	    <input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> onMouseOver="window.status='Start with packages'" onMouseOut="window.status=''">&nbsp;package
 	</td>
 	<td>
-	    <input type="text" name="package-scope-includes" value="<%= packageScopeIncludes %>" onMouseOver="window.status='Package must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="package-start-includes" value="<%= packageStartIncludes %>" onMouseOver="window.status='Package must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="package-scope-excludes" value="<%= packageScopeExcludes %>" onMouseOver="window.status='Package must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="package-start-excludes" value="<%= packageStartExcludes %>" onMouseOver="window.status='Package must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
 	    <input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
 	</td>
 	<td>
-	    <input type="text" name="package-filter-includes" value="<%= packageFilterIncludes %>" onMouseOver="window.status='Package at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="package-stop-includes" value="<%= packageStopIncludes %>" onMouseOver="window.status='Package at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="package-filter-excludes" value="<%= packageFilterExcludes %>" onMouseOver="window.status='Package at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="package-stop-excludes" value="<%= packageStopExcludes %>" onMouseOver="window.status='Package at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     <tr>
@@ -261,19 +261,19 @@
 	    <input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> onMouseOver="window.status='Start with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
 	</td>
 	<td>
-	    <input type="text" name="class-scope-includes" value="<%= classScopeIncludes %>" onMouseOver="window.status='Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="class-start-includes" value="<%= classStartIncludes %>" onMouseOver="window.status='Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="class-scope-excludes" value="<%= classScopeExcludes %>" onMouseOver="window.status='Class must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="class-start-excludes" value="<%= classStartExcludes %>" onMouseOver="window.status='Class must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
 	    <input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
 	</td>
 	<td>
-	    <input type="text" name="class-filter-includes" value="<%= classFilterIncludes %>" onMouseOver="window.status='Class at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="class-stop-includes" value="<%= classStopIncludes %>" onMouseOver="window.status='Class at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="class-filter-excludes" value="<%= classFilterExcludes %>" onMouseOver="window.status='Class at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="class-stop-excludes" value="<%= classStopExcludes %>" onMouseOver="window.status='Class at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     <tr>
@@ -281,19 +281,19 @@
 	    <input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> onMouseOver="window.status='Start with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
 	<td>
-	    <input type="text" name="feature-scope-includes" value="<%= featureScopeIncludes %>" onMouseOver="window.status='Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="feature-start-includes" value="<%= featureStartIncludes %>" onMouseOver="window.status='Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="feature-scope-excludes" value="<%= featureScopeExcludes %>" onMouseOver="window.status='Method or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="feature-start-excludes" value="<%= featureStartExcludes %>" onMouseOver="window.status='Method or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
 	    <input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
 	<td>
-	    <input type="text" name="feature-filter-includes" value="<%= featureFilterIncludes %>" onMouseOver="window.status='Method or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="feature-stop-includes" value="<%= featureStopIncludes %>" onMouseOver="window.status='Method or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="feature-filter-excludes" value="<%= featureFilterExcludes %>" onMouseOver="window.status='Method or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="feature-stop-excludes" value="<%= featureStopExcludes %>" onMouseOver="window.status='Method or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     </tbody>
@@ -337,35 +337,27 @@ Follow outbounds:
 <%
 	    Date start = new Date();
 	    
-	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
-	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
-	    
-	    scopeCriteria.setMatchingPackages(packageScope);
-	    scopeCriteria.setMatchingClasses(classScope);
-	    scopeCriteria.setMatchingFeatures(featureScope);
-	    scopeCriteria.setGlobalIncludes(scopeIncludes);
-	    scopeCriteria.setPackageIncludes(packageScopeIncludes);
-	    scopeCriteria.setClassIncludes(classScopeIncludes);
-	    scopeCriteria.setFeatureIncludes(featureScopeIncludes);
-	    scopeCriteria.setGlobalExcludes(scopeExcludes);
-	    scopeCriteria.setPackageExcludes(packageScopeExcludes);
-	    scopeCriteria.setClassExcludes(classScopeExcludes);
-	    scopeCriteria.setFeatureExcludes(featureScopeExcludes);
+	    RegularExpressionSelectionCriteria startCriteria  = new RegularExpressionSelectionCriteria();
+	    startCriteria.setGlobalIncludes(startIncludes);
+	    startCriteria.setPackageIncludes(packageStartIncludes);
+	    startCriteria.setClassIncludes(classStartIncludes);
+	    startCriteria.setFeatureIncludes(featureStartIncludes);
+	    startCriteria.setGlobalExcludes(startExcludes);
+	    startCriteria.setPackageExcludes(packageStartExcludes);
+	    startCriteria.setClassExcludes(classStartExcludes);
+	    startCriteria.setFeatureExcludes(featureStartExcludes);
 	
-	    filterCriteria.setMatchingPackages(packageFilter);
-	    filterCriteria.setMatchingClasses(classFilter);
-	    filterCriteria.setMatchingFeatures(featureFilter);
-	    filterCriteria.setGlobalIncludes(filterIncludes);
-	    filterCriteria.setPackageIncludes(packageFilterIncludes);
-	    filterCriteria.setClassIncludes(classFilterIncludes);
-	    filterCriteria.setFeatureIncludes(featureFilterIncludes);
-	    filterCriteria.setGlobalExcludes(filterExcludes);
-	    filterCriteria.setPackageExcludes(packageFilterExcludes);
-	    filterCriteria.setClassExcludes(classFilterExcludes);
-	    filterCriteria.setFeatureExcludes(featureFilterExcludes);
+	    RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
+	    stopCriteria.setGlobalIncludes(stopIncludes);
+	    stopCriteria.setPackageIncludes(packageStopIncludes);
+	    stopCriteria.setClassIncludes(classStopIncludes);
+	    stopCriteria.setFeatureIncludes(featureStopIncludes);
+	    stopCriteria.setGlobalExcludes(stopExcludes);
+	    stopCriteria.setPackageExcludes(packageStopExcludes);
+	    stopCriteria.setClassExcludes(classStopExcludes);
+	    stopCriteria.setFeatureExcludes(featureStopExcludes);
 
-	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-	    TransitiveClosure closure = new TransitiveClosure(strategy);
+	    TransitiveClosure closure = new TransitiveClosure(startStrategy, stopStrategy);
 
 	    try {
 		closure.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth));
@@ -381,9 +373,22 @@ Follow outbounds:
 
 	    closure.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
+	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
+	    scopeCriteria.setMatchingPackages(packageScope);
+	    scopeCriteria.setMatchingClasses(classScope);
+	    scopeCriteria.setMatchingFeatures(featureScope);
+
+	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+	    filterCriteria.setMatchingPackages(packageFilter);
+	    filterCriteria.setMatchingClasses(classFilter);
+	    filterCriteria.setMatchingFeatures(featureFilter);
+
+	    GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
+	    summarizer.traverseNodes(closure.getFactory().getPackages().values());
+
 	    TextPrinter printer = new TextPrinter(new PrintWriter(out));
 
-	    printer.traverseNodes(closure.getFactory().getPackages().values());
+	    printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
 
 	    Date stop = new Date();
 %>

@@ -1110,41 +1110,35 @@ public class DependencyFinder extends JFrame {
 	}
 	
 	void doClosureQuery() {
-		RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
+		RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
 		
-		scopeCriteria.setMatchingPackages(packageScope.isSelected());
-		scopeCriteria.setMatchingClasses(classScope.isSelected());
-		scopeCriteria.setMatchingFeatures(featureScope.isSelected());
-		scopeCriteria.setGlobalIncludes(scopeIncludes.getText());
-		scopeCriteria.setGlobalExcludes(scopeExcludes.getText());
+		startCriteria.setGlobalIncludes(scopeIncludes.getText());
+		startCriteria.setGlobalExcludes(scopeExcludes.getText());
 
 		if (isAdvancedMode()) {
-			scopeCriteria.setPackageIncludes(packageScopeIncludes.getText());
-			scopeCriteria.setClassIncludes(classScopeIncludes.getText());
-			scopeCriteria.setFeatureIncludes(featureScopeIncludes.getText());
-			scopeCriteria.setPackageExcludes(packageScopeExcludes.getText());
-			scopeCriteria.setClassExcludes(classScopeExcludes.getText());
-			scopeCriteria.setFeatureExcludes(featureScopeExcludes.getText());
+			startCriteria.setPackageIncludes(packageScopeIncludes.getText());
+			startCriteria.setClassIncludes(classScopeIncludes.getText());
+			startCriteria.setFeatureIncludes(featureScopeIncludes.getText());
+			startCriteria.setPackageExcludes(packageScopeExcludes.getText());
+			startCriteria.setClassExcludes(classScopeExcludes.getText());
+			startCriteria.setFeatureExcludes(featureScopeExcludes.getText());
 		}
 	
-		RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+		RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
 		
-		filterCriteria.setMatchingPackages(packageFilter.isSelected());
-		filterCriteria.setMatchingClasses(classFilter.isSelected());
-		filterCriteria.setMatchingFeatures(featureFilter.isSelected());
-		filterCriteria.setGlobalIncludes(filterIncludes.getText());
-		filterCriteria.setGlobalExcludes(filterExcludes.getText());
+		stopCriteria.setGlobalIncludes(filterIncludes.getText());
+		stopCriteria.setGlobalExcludes(filterExcludes.getText());
 
 		if (isAdvancedMode()) {
-			filterCriteria.setPackageIncludes(packageFilterIncludes.getText());
-			filterCriteria.setClassIncludes(classFilterIncludes.getText());
-			filterCriteria.setFeatureIncludes(featureFilterIncludes.getText());
-			filterCriteria.setPackageExcludes(packageFilterExcludes.getText());
-			filterCriteria.setClassExcludes(classFilterExcludes.getText());
-			filterCriteria.setFeatureExcludes(featureFilterExcludes.getText());
+			stopCriteria.setPackageIncludes(packageFilterIncludes.getText());
+			stopCriteria.setClassIncludes(classFilterIncludes.getText());
+			stopCriteria.setFeatureIncludes(featureFilterIncludes.getText());
+			stopCriteria.setPackageExcludes(packageFilterExcludes.getText());
+			stopCriteria.setClassExcludes(classFilterExcludes.getText());
+			stopCriteria.setFeatureExcludes(featureFilterExcludes.getText());
 		}
 
-		TransitiveClosure selector = new TransitiveClosure(scopeCriteria, filterCriteria);
+		TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);
 
 		try {
 			selector.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth.getText()));
@@ -1160,9 +1154,24 @@ public class DependencyFinder extends JFrame {
 		
 		selector.traverseNodes(getPackages());
 
+		RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
+		
+		scopeCriteria.setMatchingPackages(packageScope.isSelected());
+		scopeCriteria.setMatchingClasses(classScope.isSelected());
+		scopeCriteria.setMatchingFeatures(featureScope.isSelected());
+		
+		RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+		
+		filterCriteria.setMatchingPackages(packageFilter.isSelected());
+		filterCriteria.setMatchingClasses(classFilter.isSelected());
+		filterCriteria.setMatchingFeatures(featureFilter.isSelected());
+
+		GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
+		summarizer.traverseNodes(selector.getFactory().getPackages().values());
+		
 		StringWriter out = new StringWriter();
 		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
-		printer.traverseNodes(selector.getFactory().getPackages().values());
+		printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
 		closureResultArea.setText(out.toString());
 	}		
 	

@@ -45,14 +45,14 @@
 <!-- Reading the parameters and setting up the forms -->
 
 <%
-    String scopeIncludes = request.getParameter("scope-includes");
-    if (scopeIncludes == null) {
-	scopeIncludes = "//";
+    String startIncludes = request.getParameter("start-includes");
+    if (startIncludes == null) {
+	startIncludes = "//";
     }
 
-    String scopeExcludes = request.getParameter("scope-excludes");
-    if (scopeExcludes == null) {
-	scopeExcludes = "";
+    String startExcludes = request.getParameter("start-excludes");
+    if (startExcludes == null) {
+	startExcludes = "";
     }
 
     boolean packageScope = "on".equals(request.getParameter("package-scope"));
@@ -70,14 +70,14 @@
 	featureScope = true;
     }
 
-    String filterIncludes = request.getParameter("filter-includes");
-    if (filterIncludes == null) {
-	filterIncludes = "//";
+    String stopIncludes = request.getParameter("stop-includes");
+    if (stopIncludes == null) {
+	stopIncludes = "//";
     }
 
-    String filterExcludes = request.getParameter("filter-excludes");
-    if (filterExcludes == null) {
-	filterExcludes = "";
+    String stopExcludes = request.getParameter("stop-excludes");
+    if (stopExcludes == null) {
+	stopExcludes = "";
     }
 
     boolean packageFilter = "on".equals(request.getParameter("package-filter"));
@@ -168,16 +168,16 @@
     </tr>
     <tr>
 	<td>
-	    <input type="text" name="scope-includes" value="<%= scopeIncludes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="start-includes" value="<%= startIncludes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="scope-excludes" value="<%= scopeExcludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="start-excludes" value="<%= startExcludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="filter-includes" value="<%= filterIncludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="stop-includes" value="<%= stopIncludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="filter-excludes" value="<%= filterExcludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="stop-excludes" value="<%= stopExcludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     </tbody>
@@ -221,22 +221,15 @@ Follow outbounds:
 <%
 	    Date start = new Date();
 
-	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
-	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
-	    
-	    scopeCriteria.setMatchingPackages(packageScope);
-	    scopeCriteria.setMatchingClasses(classScope);
-	    scopeCriteria.setMatchingFeatures(featureScope);
-	    scopeCriteria.setGlobalIncludes(scopeIncludes);
-	    scopeCriteria.setGlobalExcludes(scopeExcludes);
+	    RegularExpressionSelectionCriteria startCriteria  = new RegularExpressionSelectionCriteria();
+	    startCriteria.setGlobalIncludes(startIncludes);
+	    startCriteria.setGlobalExcludes(startExcludes);
 	
-	    filterCriteria.setMatchingPackages(packageFilter);
-	    filterCriteria.setMatchingClasses(classFilter);
-	    filterCriteria.setMatchingFeatures(featureFilter);
-	    filterCriteria.setGlobalIncludes(filterIncludes);
-	    filterCriteria.setGlobalExcludes(filterExcludes);
+	    RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
+	    stopCriteria.setGlobalIncludes(stopIncludes);
+	    stopCriteria.setGlobalExcludes(stopExcludes);
 
-	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(startCriteria, stopCriteria);
 	    TransitiveClosure closure = new TransitiveClosure(strategy);
 
 	    try {
@@ -253,9 +246,22 @@ Follow outbounds:
 
 	    closure.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
+	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
+	    scopeCriteria.setMatchingPackages(packageScope);
+	    scopeCriteria.setMatchingClasses(classScope);
+	    scopeCriteria.setMatchingFeatures(featureScope);
+
+	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+	    filterCriteria.setMatchingPackages(packageFilter);
+	    filterCriteria.setMatchingClasses(classFilter);
+	    filterCriteria.setMatchingFeatures(featureFilter);
+
+	    GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
+	    summarizer.traverseNodes(closure.getFactory().getPackages().values());
+
 	    TextPrinter printer = new TextPrinter(new PrintWriter(out));
 
-	    printer.traverseNodes(closure.getFactory().getPackages().values());
+	    printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
 
 	    Date stop = new Date();
 %>
