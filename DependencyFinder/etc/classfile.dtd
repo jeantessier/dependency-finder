@@ -157,7 +157,7 @@
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
-<!ELEMENT code-attribute (length, instructions, exception-handlers, attributes) >
+<!ELEMENT code-attribute (length, instructions, exception-handlers?, attributes?) >
 
 <!ELEMENT length (#PCDATA) >
 

@@ -32,18 +32,56 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+public class BitFormat {
+	public static final int  DEFAULT_MAX_LENGTH      = 32;
+	public static final int  DEFAULT_GROUP_SIZE      =  8;
+	public static final char DEFAULT_GROUP_SEPARATOR = ' ';
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+	private int  max_length;
+	private int  group_size;
+	private char group_separator;
+	
+	public BitFormat() {
+		this(DEFAULT_MAX_LENGTH, DEFAULT_GROUP_SIZE, DEFAULT_GROUP_SEPARATOR);
+	}
 
-		result.addTestSuite(TestBitFormat.class);
-		result.addTestSuite(TestAggregatingClassfileLoader.class);
-		result.addTestSuite(TestTransientClassfileLoader.class);
-		result.addTestSuite(TestDirectoryClassfileLoader.class);
-		result.addTestSuite(TestClassfile.class);
+	public BitFormat(int max_length) {
+		this(max_length, DEFAULT_GROUP_SIZE, DEFAULT_GROUP_SEPARATOR);
+	}
 
-		return result;
+	public BitFormat(int max_length, int group_size) {
+		this(max_length, group_size, DEFAULT_GROUP_SEPARATOR);
+	}
+	
+	public BitFormat(int max_length, int group_size, char group_separator) {
+		this.max_length      = max_length;
+		this.group_size      = group_size;
+		this.group_separator = group_separator;
+	}
+
+	public String format(int n) {
+		return format(Integer.toBinaryString(n).toCharArray());
+	}
+	
+	public String format(long n) {
+		return format(Long.toBinaryString(n).toCharArray());
+	}
+
+	private String format(char[] binary_string) {
+		StringBuffer result = new StringBuffer();
+
+		for (int i=0; i<max_length; i++) {
+			if (((max_length - i) % group_size == 0) && i > 0) {
+				result.append(group_separator);
+			}
+
+			if (i < max_length - binary_string.length) {
+				result.append('0');
+			} else {
+				result.append(binary_string[binary_string.length - max_length + i]);
+			}
+		}
+                
+		return result.toString();
 	}
 }

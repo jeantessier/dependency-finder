@@ -39,6 +39,7 @@ import org.apache.oro.text.perl.*;
 public class XMLPrinter extends Printer {
 	public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
 
+	private static final BitFormat format = new BitFormat(16);
 	private static final Perl5Util perl = new Perl5Util();
 
 	private String  dtd_prefix;
@@ -63,7 +64,7 @@ public class XMLPrinter extends Printer {
 	public void VisitClassfile(Classfile classfile) {
 		Iterator i;
 
-		Indent().Append("<classfile magic-number=\"").Append(classfile.MagicNumber()).Append("\" minor-version=\"").Append(classfile.MinorVersion()).Append("\" major-version=\"").Append(classfile.MajorVersion()).Append("\" access-number=\"").Append(classfile.AccessFlag()).Append("\">").EOL();
+		Indent().Append("<classfile magic-number=\"").Append(classfile.MagicNumber()).Append("\" minor-version=\"").Append(classfile.MinorVersion()).Append("\" major-version=\"").Append(classfile.MajorVersion()).Append("\" access-number=\"").Append(format.format(classfile.AccessFlag())).Append("\">").EOL();
 		RaiseIndent();
 
 		top = true;
@@ -350,7 +351,7 @@ public class XMLPrinter extends Printer {
 	}
 
 	public void VisitField_info(Field_info entry) {
-		Indent().Append("<field-info access-flag=\"").Append(entry.AccessFlag()).Append("\">").EOL();
+		Indent().Append("<field-info access-flag=\"").Append(format.format(entry.AccessFlag())).Append("\">").EOL();
 		RaiseIndent();
 
 		if (entry.IsPublic())    Indent().Append("<public/>").EOL();
@@ -381,7 +382,7 @@ public class XMLPrinter extends Printer {
 	}
 
 	public void VisitMethod_info(Method_info entry) {
-		Indent().Append("<method-info access-flag=\"").Append(entry.AccessFlag()).Append("\">").EOL();
+		Indent().Append("<method-info access-flag=\"").Append(format.format(entry.AccessFlag())).Append("\">").EOL();
 		RaiseIndent();
 
 		if (entry.IsPublic())       Indent().Append("<public/>").EOL();
@@ -434,7 +435,6 @@ public class XMLPrinter extends Printer {
 
 		Indent().Append("<length>").Append(attribute.Code().length).Append("</length>").EOL();
 
-
 		Indent().Append("<instructions>").EOL();
 		RaiseIndent();
 		i = attribute.iterator();
@@ -470,24 +470,28 @@ public class XMLPrinter extends Printer {
 		LowerIndent();
 		Indent().Append("</instructions>").EOL();
 
-		Indent().Append("<exception-handlers>").EOL();
-		RaiseIndent();
-		i = attribute.ExceptionHandlers().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+		if (!attribute.ExceptionHandlers().isEmpty()) {
+			Indent().Append("<exception-handlers>").EOL();
+			RaiseIndent();
+			i = attribute.ExceptionHandlers().iterator();
+			while (i.hasNext()) {
+				((Visitable) i.next()).Accept(this);
+			}
+			LowerIndent();
+			Indent().Append("</exception-handlers>").EOL();
 		}
-		LowerIndent();
-		Indent().Append("</exception-handlers>").EOL();
-
-		Indent().Append("<attributes>").EOL();
-		RaiseIndent();
-		i = attribute.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+		
+		if (!attribute.Attributes().isEmpty()) {
+			Indent().Append("<attributes>").EOL();
+			RaiseIndent();
+			i = attribute.Attributes().iterator();
+			while (i.hasNext()) {
+				((Visitable) i.next()).Accept(this);
+			}
+			LowerIndent();
+			Indent().Append("</attributes>").EOL();
 		}
-		LowerIndent();
-		Indent().Append("</attributes>").EOL();
-
+		
 		LowerIndent();
 		Indent().Append("</code-attribute>").EOL();
 	}
@@ -576,7 +580,7 @@ public class XMLPrinter extends Printer {
 	}
 
 	public void VisitInnerClass(InnerClass helper) {
-		Indent().Append("<inner-class access-number=\"").Append(helper.AccessFlag()).Append("\">").EOL();
+		Indent().Append("<inner-class access-number=\"").Append(format.format(helper.AccessFlag())).Append("\">").EOL();
 		RaiseIndent();
 
 		if (helper.IsPublic())    Indent().Append("<public/>").EOL();
