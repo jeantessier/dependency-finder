@@ -102,69 +102,71 @@ public class SumMeasurement extends MeasurementBase {
 	}
 
 	private double EvaluateMeasurement(String name) {
-		double result = Double.NaN;
+		double result = 0;
 
-		int dispose;
-		
-		synchronized (Perl()) {
-			if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {
-				name = Perl().group(2);
-				
-				String dispose_text = Perl().group(3);
-				
-				if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
-					dispose = StatisticalMeasurement.DISPOSE_IGNORE;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-					dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-					dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-					dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-					dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
-					dispose = StatisticalMeasurement.DISPOSE_SUM;
-				} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-					dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+		if (name.length() != 0) {
+			int dispose;
+			
+			synchronized (Perl()) {
+				if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {
+					name = Perl().group(1);
+					
+					String dispose_text = Perl().group(2);
+					
+					if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
+						dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+						dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+						dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+						dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+						dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
+						dispose = StatisticalMeasurement.DISPOSE_SUM;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+						dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+					} else {
+						dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+					}
 				} else {
 					dispose = StatisticalMeasurement.DISPOSE_IGNORE;
 				}
+			}
+			
+			Measurement measurement = Context().Measurement(name);
+			
+			if (measurement instanceof StatisticalMeasurement) {
+				StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
+				
+				switch (dispose) {
+					case StatisticalMeasurement.DISPOSE_MINIMUM:
+						result = stats.Minimum();
+						break;
+					case StatisticalMeasurement.DISPOSE_MEDIAN:
+						result = stats.Median();
+						break;
+					case StatisticalMeasurement.DISPOSE_AVERAGE:
+						result = stats.Average();
+						break;
+					case StatisticalMeasurement.DISPOSE_MAXIMUM:
+						result = stats.Maximum();
+						break;
+					case StatisticalMeasurement.DISPOSE_SUM:
+						result = stats.Sum();
+						break;
+					case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
+						result = stats.NbDataPoints();
+						break;
+					case StatisticalMeasurement.DISPOSE_IGNORE:
+					default:
+						result = stats.doubleValue();
+						break;
+				}
 			} else {
-				dispose = StatisticalMeasurement.DISPOSE_IGNORE;
+				result = measurement.doubleValue();
 			}
-		}
-
-		Measurement measurement = Context().Measurement(name);
-		
-		if (measurement instanceof StatisticalMeasurement) {
-			StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
-
-			switch (dispose) {
-				case StatisticalMeasurement.DISPOSE_MINIMUM:
-					result = stats.Minimum();
-					break;
-				case StatisticalMeasurement.DISPOSE_MEDIAN:
-					result = stats.Median();
-					break;
-				case StatisticalMeasurement.DISPOSE_AVERAGE:
-					result = stats.Average();
-					break;
-				case StatisticalMeasurement.DISPOSE_MAXIMUM:
-					result = stats.Maximum();
-					break;
-				case StatisticalMeasurement.DISPOSE_SUM:
-					result = stats.Sum();
-					break;
-				case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-					result = stats.NbDataPoints();
-					break;
-				case StatisticalMeasurement.DISPOSE_IGNORE:
-				default:
-					result = stats.doubleValue();
-					break;
-			}
-		} else {
-			result = measurement.doubleValue();
 		}
 				
 		return result;

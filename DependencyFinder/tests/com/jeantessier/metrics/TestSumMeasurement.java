@@ -87,8 +87,32 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		assertEquals(0, measurement.doubleValue(), 0.01);
 	}
 
+	public void testEmptyLineInitText() throws Exception {
+		descriptor.InitText("\n");
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+
+		assertEquals(0, measurement.doubleValue(), 0.01);
+	}
+
+	public void testDashInitText() throws Exception {
+		descriptor.InitText("-");
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+
+		assertEquals(0, measurement.doubleValue(), 0.01);
+	}
+
 	public void testConstant() throws Exception {
 		descriptor.InitText("2");
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement();
+
+		assertEquals(2, measurement.doubleValue(), 0.01);
+	}
+
+	public void testConstantAndEmptyLine() throws Exception {
+		descriptor.InitText("\n2\n");
 
 		measurement = (SumMeasurement) descriptor.CreateMeasurement();
 
@@ -129,6 +153,20 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		descriptor.InitText("bar");
 
 		metrics.Track("bar", new CounterMeasurement(null, metrics, "2"));
+		
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+
+		assertEquals(2, measurement.doubleValue(), 0.01);
+	}
+
+	public void testStatisticalMeasurement() throws Exception {
+		descriptor.InitText("bar DISPOSE_SUM");
+
+		metrics.Track("bar", new StatisticalMeasurement(null, metrics, "bar"));
+
+		Metrics submetrics = new Metrics("submetrics");
+		submetrics.Track("bar", new CounterMeasurement(null, submetrics, "2"));
+		metrics.AddSubMetrics(submetrics);
 		
 		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
 
