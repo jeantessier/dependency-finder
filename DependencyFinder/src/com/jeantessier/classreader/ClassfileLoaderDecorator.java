@@ -34,19 +34,55 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 import java.util.*;
-import java.util.jar.*;
 
-import org.apache.log4j.*;
-
-public class JarClassfileLoader extends ZipClassfileLoader {
-	public JarClassfileLoader(ClassfileLoader loader) {
-		super(loader);
+public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
+	private ClassfileLoader loader;
+	
+	public ClassfileLoaderDecorator(ClassfileLoader loader) {
+		this.loader = loader;
 	}
 
-	public void Load(String filename) throws IOException {
-		if (filename.endsWith(".jar")) {
-			Logger.getLogger(getClass()).debug("Reading " + filename);
-			Load(new JarFile(filename));
-		}
+	protected ClassfileLoader Loader() {
+		return loader;
+	}
+	
+	public Classfile Classfile(String name) {
+		return Loader().Classfile(name);
+	}
+
+	public Collection Classfiles() {
+		return Loader().Classfiles();
+	}
+
+	public Collection Classnames() {
+		return Loader().Classnames();
+	}
+
+	public void addLoadListener(LoadListener listener) {
+		Loader().addLoadListener(listener);
+	}
+
+	public void removeLoadListener(LoadListener listener) {
+		Loader().removeLoadListener(listener);
+	}
+
+	protected void fireLoadStart(String filename) {
+		Loader().fireLoadStart(filename);
+	}
+	
+	protected void fireLoadElement(String filename, String element) {
+		Loader().fireLoadElement(filename, element);
+	}
+	
+	protected void fireLoadedClassfile(String filename, Classfile classfile) {
+		Loader().fireLoadedClassfile(filename, classfile);
+	}
+	
+	protected void fireLoadStop(String filename) {
+		Loader().fireLoadStop(filename);
+	}
+
+	protected Classfile Load(DataInputStream in) throws IOException {
+		return Loader().Load(in);
 	}
 }

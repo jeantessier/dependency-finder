@@ -116,8 +116,8 @@ public class TestDependencyExtractor extends TestCase {
 		test_main_feature.AddDependency(java_util_Set_class);
 		test_test_feature.AddDependency(java_lang_Object_Object_feature);
 
-		loader = new DirectoryClassfileLoader(new String[] {TEST_FILENAME});
-		loader.Start();
+		loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+		((DirectoryClassfileLoader) loader).Load(new DirectoryExplorer(TEST_FILENAME));
 
 		test_factory = new NodeFactory();
 		loader.Classfile(TEST_CLASS).Accept(new CodeDependencyCollector(test_factory));

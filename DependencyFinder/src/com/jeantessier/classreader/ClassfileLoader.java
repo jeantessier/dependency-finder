@@ -35,13 +35,27 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-public interface ClassfileLoader {
-	public Classfile  Classfile(String name);
-	public Collection Classfiles();
-	public Collection Classnames();
+/**
+ *  Base interface for parsing <code>.class</code> files.
+ *  This should have been a Java interface, but I needed
+ *  the protected contract for the Decorator Pattern.
+ *
+ *  @see ClassfileLoaderDecorator
+ */
+public abstract class ClassfileLoader {
+	// Main methods
+	public abstract Classfile  Classfile(String name);
+	public abstract Collection Classfiles();
+	public abstract Collection Classnames();
 
-	public void Start() throws IOException;
-	
-	public void addLoadListener(LoadListener listener);
-	public void removeLoadListener(LoadListener listener);
+	// Event stuff
+	public abstract void addLoadListener(LoadListener listener);
+	public abstract void removeLoadListener(LoadListener listener);
+	protected abstract void fireLoadStart(String filename);
+	protected abstract void fireLoadElement(String filename, String element);
+	protected abstract void fireLoadedClassfile(String filename, Classfile classfile);
+	protected abstract void fireLoadStop(String filename);
+
+	// Protected contract for Decorator Pattern
+	protected abstract Classfile Load(DataInputStream in) throws IOException;
 }

@@ -37,23 +37,18 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
-public class DirectoryClassfileLoader extends ClassfileLoaderBase {
-	public DirectoryClassfileLoader(String[] filenames) {
-		super(filenames);
+public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
+	public DirectoryClassfileLoader(ClassfileLoader loader) {
+		super(loader);
 	}
 
-	public DirectoryClassfileLoader(Collection filenames) {
-		super(filenames);
-	}
-
-	public void Start() throws IOException {
-		Iterator i = new DirectoryExplorer(Filenames()).Collection().iterator();
+	public void Load(DirectoryExplorer explorer) throws IOException {
+		Iterator i = explorer.Collection().iterator();
 		while (i.hasNext()) {
 			String filename = (String) i.next();
 			Logger.getLogger(getClass()).debug("Reading " + filename);
 			fireLoadStart(filename);
-			// fireLoadElement(filename, null);
-			AddClass(filename);
+			fireLoadedClassfile(filename, Load(new DataInputStream(new FileInputStream(filename))));
 			fireLoadStop(filename);
 		}
 	}

@@ -130,38 +130,40 @@ public class ClassInheritance {
 			parameters.add(".");
 		}
 
+		ClassfileLoader loader = new AggregatingClassfileLoader();
+		
 		Iterator i = parameters.iterator();
 		while (i.hasNext()) {
-			String entry = (String) i.next();
+			String filename = (String) i.next();
 
-			ClassfileLoader loader;
-			if (entry.endsWith(".jar")) {
-				loader = new JarClassfileLoader(new String[] {entry});
-			} else if (entry.endsWith(".zip")) {
-				loader = new ZipClassfileLoader(new String[] {entry});
+			if (filename.endsWith(".jar")) {
+				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
+				jar_loader.Load(filename);
+			} else if (filename.endsWith(".zip")) {
+				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
+				zip_loader.Load(filename);
 			} else {
-				loader = new DirectoryClassfileLoader(new String[] {entry});
+				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
+				directory_loader.Load(new DirectoryExplorer(filename));
 			}
+		}
 
-			loader.Start();
-
-			Iterator j = loader.Classfiles().iterator();
-			while (j.hasNext()) {
-				Classfile classfile = (Classfile) j.next();
-
-				out.print(classfile);
-
-				if (!classfile.IsInterface() && classfile.RawSuperclass() != null) {
-					out.print(" " + classfile.Superclass());
-				}
-
-				Iterator k = classfile.Interfaces().iterator();
-				while (k.hasNext()) {
-					out.print(" " + k.next());
-				}
-
-				out.println();
+		Iterator j = loader.Classfiles().iterator();
+		while (j.hasNext()) {
+			Classfile classfile = (Classfile) j.next();
+			
+			out.print(classfile);
+			
+			if (!classfile.IsInterface() && classfile.RawSuperclass() != null) {
+				out.print(" " + classfile.Superclass());
 			}
+			
+			Iterator k = classfile.Interfaces().iterator();
+			while (k.hasNext()) {
+				out.print(" " + k.next());
+			}
+			
+			out.println();
 		}
 
 		Date end = new Date();

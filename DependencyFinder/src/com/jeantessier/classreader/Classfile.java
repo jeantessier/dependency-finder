@@ -58,22 +58,10 @@ public class Classfile implements Visitable {
 	private Map          methods    = new TreeMap();
 	private Collection   attributes = new LinkedList();
 
-	public Classfile(ClassfileLoader loader, byte[] bytes) throws IOException {
-		this(loader, new ByteArrayInputStream(bytes));
-	}
-
-	public Classfile(ClassfileLoader loader, String filename) throws IOException {
-		this(loader, new FileInputStream(filename));
-	}
-
-	public Classfile(ClassfileLoader loader, File file) throws IOException {
-		this(loader, new FileInputStream(file));
-	}
-
-	public Classfile(ClassfileLoader loader, InputStream in) throws IOException {
-		this(loader, new DataInputStream(in));
-	}
-
+	/**
+	 *  Parses the input stream and extracts the class description.
+	 *  You should only call this constructor from a ClassfileLoader.
+	 */
 	public Classfile(ClassfileLoader loader, DataInputStream in) throws IOException {
 		this.loader = loader;
 

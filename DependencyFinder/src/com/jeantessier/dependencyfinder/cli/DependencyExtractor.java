@@ -129,61 +129,32 @@ public class DependencyExtractor {
 			parameters.add(".");
 		}
 
-		NodeFactory factory = new NodeFactory();
-		Iterator    i       = parameters.iterator();
-		while (i.hasNext()) {
-			String entry = (String) i.next();
-
-			ClassfileLoader loader;
-			if (entry.endsWith(".jar")) {
-				loader = new JarClassfileLoader(new String[] {entry});
-			} else if (entry.endsWith(".zip")) {
-				loader = new ZipClassfileLoader(new String[] {entry});
-			} else {
-				loader = new DirectoryClassfileLoader(new String[] {entry});
-			}
-
-			loader.Start();
-
-			Iterator j = loader.Classfiles().iterator();
-			while (j.hasNext()) {
-				Classfile classfile = (Classfile) j.next();
+		ClassfileLoader loader = new AggregatingClassfileLoader();
 		
-				if (true) {
-					// This version scans the bytecode to capture dependencies
-					// at features scope.
-					Logger.getLogger(DependencyExtractor.class).info("Getting dependencies ...");
-					classfile.Accept(new CodeDependencyCollector(factory));
-				} else {
-					// This version scans the constant pool to capture dependencies
-					// at class scope.
+		Iterator i = parameters.iterator();
+		while (i.hasNext()) {
+			String filename = (String) i.next();
 
-					Node this_class = factory.CreateClass(classfile.Class());
-
-					Collector collector;
-					Iterator  k;
-
-					Logger.getLogger(DependencyExtractor.class).info("Getting class dependencies ...");
-					collector = new ClassDependencyCollector();
-					classfile.Accept(collector);
-					k = collector.Collection().iterator();
-					while (k.hasNext()) {
-						Node dependency = factory.CreateClass((String) k.next());
-						Logger.getLogger(DependencyExtractor.class).info("\t" + dependency.Name());
-						this_class.AddDependency(dependency);
-					}
-		    
-					Logger.getLogger(DependencyExtractor.class).info("Getting feature dependencies ...");
-					collector = new FeatureDependencyCollector();
-					classfile.Accept(collector);
-					k = collector.Collection().iterator();
-					while (k.hasNext()) {
-						Node dependency = factory.CreateFeature((String) k.next());
-						Logger.getLogger(DependencyExtractor.class).info("\t" + dependency.Name());
-						this_class.AddDependency(dependency);
-					}
-				}
+			if (filename.endsWith(".jar")) {
+				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
+				jar_loader.Load(filename);
+			} else if (filename.endsWith(".zip")) {
+				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
+				zip_loader.Load(filename);
+			} else {
+				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
+				directory_loader.Load(new DirectoryExplorer(filename));
 			}
+		}
+
+		NodeFactory factory = new NodeFactory();
+
+		Iterator j = loader.Classfiles().iterator();
+		while (j.hasNext()) {
+			Classfile classfile = (Classfile) j.next();
+			
+			Logger.getLogger(DependencyExtractor.class).info("Getting dependencies ...");
+			classfile.Accept(new CodeDependencyCollector(factory));
 		}
 	    
 		if (command_line.IsPresent("minimize")) {

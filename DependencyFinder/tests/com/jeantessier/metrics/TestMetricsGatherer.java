@@ -49,8 +49,8 @@ public class TestMetricsGatherer extends TestCase {
 	public void testCreateProjectMetrics() throws IOException {
 		MetricsFactory  factory = new MetricsFactory("test");
 
-		ClassfileLoader loader = new DirectoryClassfileLoader(new String[] {TEST_FILENAME});
-		loader.Start();
+		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+		loader.Load(new DirectoryExplorer(TEST_FILENAME));
 
 		loader.Classfile(TEST_CLASS).Accept(new MetricsGatherer("test", factory));
 

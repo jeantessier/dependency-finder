@@ -122,48 +122,44 @@ public class JarJarDiff {
 		// Collecting data, first classfiles from JARs,
 		// then package/class trees using NodeFactory.
 
-		AggregatingClassfileLoader old_jar = new AggregatingClassfileLoader();
+		ClassfileLoader old_jar = new AggregatingClassfileLoader();
 		Iterator old_sources = command_line.MultipleSwitch("old").iterator();
 		while(old_sources.hasNext()) {
-			String name = (String) old_sources.next();
+			String filename = (String) old_sources.next();
 
-			ClassfileLoader loader = null;
-			if (name.endsWith(".jar")) {
-				Logger.getLogger(JarJarDiff.class).info("Reading old JAR: " + name);
-				loader = new JarClassfileLoader(new String[] {name});
-			} else if (name.endsWith(".zip")) {
-				Logger.getLogger(JarJarDiff.class).info("Reading old ZIP file: " + name);
-				loader = new ZipClassfileLoader(new String[] {name});
+			if (filename.endsWith(".jar")) {
+				Logger.getLogger(JarJarDiff.class).info("Reading old JAR: " + filename);
+				JarClassfileLoader jar_loader = new JarClassfileLoader(old_jar);
+				jar_loader.Load(filename);
+			} else if (filename.endsWith(".zip")) {
+				Logger.getLogger(JarJarDiff.class).info("Reading old ZIP file: " + filename);
+				ZipClassfileLoader zip_loader = new ZipClassfileLoader(old_jar);
+				zip_loader.Load(filename);
 			} else {
-				Logger.getLogger(JarJarDiff.class).info("Reading old directory: " + name);
-				loader = new DirectoryClassfileLoader(new String[] {name});
+				Logger.getLogger(JarJarDiff.class).info("Reading old directory: " + filename);
+				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(old_jar);
+				directory_loader.Load(new DirectoryExplorer(filename));
 			}
-
-			loader.Start();
-			
-			old_jar.AddClassfiles(loader.Classfiles());
 		}
 		
-		AggregatingClassfileLoader new_jar = new AggregatingClassfileLoader();
+		ClassfileLoader new_jar = new AggregatingClassfileLoader();
 		Iterator new_sources = command_line.MultipleSwitch("new").iterator();
 		while(new_sources.hasNext()) {
-			String name = (String) new_sources.next();
+			String filename = (String) new_sources.next();
 
-			ClassfileLoader loader = null;
-			if (name.endsWith(".jar")) {
-				Logger.getLogger(JarJarDiff.class).info("Reading new JAR: " + name);
-				loader = new JarClassfileLoader(new String[] {name});
-			} else if (name.endsWith(".zip")) {
-				Logger.getLogger(JarJarDiff.class).info("Reading new ZIP file: " + name);
-				loader = new ZipClassfileLoader(new String[] {name});
+			if (filename.endsWith(".jar")) {
+				Logger.getLogger(JarJarDiff.class).info("Reading new JAR: " + filename);
+				JarClassfileLoader jar_loader = new JarClassfileLoader(new_jar);
+				jar_loader.Load(filename);
+			} else if (filename.endsWith(".zip")) {
+				Logger.getLogger(JarJarDiff.class).info("Reading new ZIP file: " + filename);
+				ZipClassfileLoader zip_loader = new ZipClassfileLoader(new_jar);
+				zip_loader.Load(filename);
 			} else {
-				Logger.getLogger(JarJarDiff.class).info("Reading new directory: " + name);
-				loader = new DirectoryClassfileLoader(new String[] {name});
+				Logger.getLogger(JarJarDiff.class).info("Reading new directory: " + filename);
+				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(new_jar);
+				directory_loader.Load(new DirectoryExplorer(filename));
 			}
-
-			loader.Start();
-			
-			new_jar.AddClassfiles(loader.Classfiles());
 		}
 
 		// Starting to compare, first at package level,

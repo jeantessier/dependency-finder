@@ -45,6 +45,8 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	private DependencyFinder model;
 	private File[]           files;
 
+	private ClassfileLoader loader;
+
 	public DependencyExtractAction(DependencyFinder model) {
 		this.model = model;
 
@@ -68,8 +70,25 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	public void run() {
 		Date start = new Date();
 		
+		loader = new AggregatingClassfileLoader();
+		loader.addLoadListener(this);
+		
 		for (int i=0; i<files.length; i++) {
 			Extract(files[i]);
+		}
+
+		if (model.NodeFactory() == null && model.Collector() == null) {
+			NodeFactory factory = new NodeFactory();
+			CodeDependencyCollector collector = new CodeDependencyCollector(factory);
+			collector.addDependencyListener(this);
+			
+			model.NodeFactory(factory);
+			model.Collector(collector);
+		}
+
+		Iterator i = loader.Classfiles().iterator();
+		while (i.hasNext()) {
+			((Classfile) i.next()).Accept(model.Collector());
 		}
 
 		model.Packages(model.NodeFactory().Packages().values());
@@ -92,31 +111,16 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 		model.InputFile(file);
 		String filename = model.InputFile().toString();
 
-		if (model.NodeFactory() == null && model.Collector() == null) {
-			NodeFactory factory = new NodeFactory();
-			CodeDependencyCollector collector = new CodeDependencyCollector(factory);
-			collector.addDependencyListener(this);
-			
-			model.NodeFactory(factory);
-			model.Collector(collector);
-		}
-
 		try {
-			ClassfileLoader loader;
 			if (filename.endsWith(".jar")) {
-				loader = new JarClassfileLoader(new String[] {filename});
+				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
+				jar_loader.Load(filename);
 			} else if (filename.endsWith(".zip")) {
-				loader = new ZipClassfileLoader(new String[] {filename});
+				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
+				zip_loader.Load(filename);
 			} else {
-				loader = new DirectoryClassfileLoader(new String[] {filename});
-			}
-
-			loader.addLoadListener(this);
-			loader.Start();
-
-			Iterator i = loader.Classfiles().iterator();
-			while (i.hasNext()) {
-				((Classfile) i.next()).Accept(model.Collector());
+				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
+				directory_loader.Load(new DirectoryExplorer(filename));
 			}
 		} catch (IOException ex) {
 			model.StatusLine().ShowError("Cannot extract from " + filename + ": " + ex.getClass().getName() + ": " + ex.getMessage());
@@ -129,16 +133,20 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 		model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 	}
 
-	public void LoadStop(LoadEvent event) {
-		// Do nothing
-	}
-
 	public void LoadElement(LoadEvent event) {
 		if (event.Element() == null) {
 			model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 		} else {
 			model.StatusLine().ShowInfo("Loading " + event.Filename() + " >> " + event.Element() + " ...");
 		}
+	}
+
+	public void LoadedClassfile(LoadEvent event) {
+		// Do nothing
+	}
+
+	public void LoadStop(LoadEvent event) {
+		// Do nothing
 	}
 
 	public void StartClass(DependencyEvent event) {

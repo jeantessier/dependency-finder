@@ -32,21 +32,29 @@
 
 package com.jeantessier.classreader;
 
+import java.io.*;
 import java.util.*;
 
-public class AggregatingClassfileLoader extends ClassfileLoaderBase {
-	public void AddClassfile(Classfile classfile) {
-		super.AddClassfile(classfile);
-	}
-	
-	public void AddClassfiles(Collection classfiles) {
-		Iterator i = classfiles.iterator();
-		while(i.hasNext()) {
-			AddClassfile((Classfile) i.next());
-		}
+public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
+	private Map classfiles = new TreeMap();
+
+	public Classfile Classfile(String name) {
+		return (Classfile) classfiles.get(name);
 	}
 
-	public void Start() {
-		// Do nothing
+	public Collection Classfiles() {
+		return Collections.unmodifiableCollection(classfiles.values());
+	}
+
+	public Collection Classnames() {
+		return Collections.unmodifiableCollection(classfiles.keySet());
+	}
+
+	public Classfile Load(DataInputStream in) throws IOException {
+		Classfile result = new Classfile(this, in);
+
+		classfiles.put(result.Class(), result);
+
+		return result;
 	}
 }

@@ -45,6 +45,8 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	private OOMetrics model;
 	private File[]    files;
 
+	private ClassfileLoader loader;
+
 	public MetricsExtractAction(OOMetrics model) {
 		this.model = model;
 
@@ -68,85 +70,87 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	public void run() {
 		Date start = new Date();
 		
-		AggregatingClassfileLoader target_loader = new AggregatingClassfileLoader();
+		loader = new AggregatingClassfileLoader();
+		loader.addLoadListener(this);
 		
 		for (int i=0; i<files.length; i++) {
-			Extract(target_loader, files[i]);
+			Extract(files[i]);
 		}
-
+		
 		model.StatusLine().ShowInfo("Computing metrics ...");
-
+		
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer();
-
-		Iterator i = target_loader.Classfiles().iterator();
+		
+		Iterator i = loader.Classfiles().iterator();
 		while (i.hasNext()) {
 			((Classfile) i.next()).Accept(gatherer);
 		}
-
+		
 		model.MetricsFactory(gatherer.MetricsFactory());
 		
 		model.StatusLine().ShowInfo("Generating project results ...");
-
+		
 		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.PrettyPrinter();
 		Iterator j = model.MetricsFactory().ProjectMetrics().iterator();
 		while(j.hasNext()) {
 			printer.VisitMetrics((Metrics) j.next());
 		}
 		model.ProjectArea().setText(printer.toString());
-
+		
 		model.StatusLine().ShowInfo("Generating group results ...");
 		model.GroupsModel().Metrics(model.MetricsFactory().GroupMetrics());
-
+		
 		model.StatusLine().ShowInfo("Generating class results ...");
 		model.ClassesModel().Metrics(model.MetricsFactory().ClassMetrics());
-
+		
 		model.StatusLine().ShowInfo("Generating method results ...");
 		model.MethodsModel().Metrics(model.MetricsFactory().MethodMetrics());
-
+		
 		Date stop = new Date();
 		
 		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
 		model.setTitle("OO Metrics - Extractor");
 	}
 
-	private void Extract(AggregatingClassfileLoader target_loader, File file) {
+	private void Extract(File file) {
 		model.InputFile(file);
 		String filename = model.InputFile().toString();
-
+		
 		try {
-			ClassfileLoader loader;
 			if (filename.endsWith(".jar")) {
-				loader = new JarClassfileLoader(new String[] {filename});
+				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
+				jar_loader.Load(filename);
 			} else if (filename.endsWith(".zip")) {
-				loader = new ZipClassfileLoader(new String[] {filename});
+				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
+				zip_loader.Load(filename);
 			} else {
-				loader = new DirectoryClassfileLoader(new String[] {filename});
+				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
+				directory_loader.Load(new DirectoryExplorer(filename));
 			}
-
-			loader.addLoadListener(this);
-			loader.Start();
-
-			target_loader.AddClassfiles(loader.Classfiles());
 		} catch (IOException ex) {
 			model.StatusLine().ShowError("Cannot extract from " + filename + ": " + ex.getClass().getName() + ": " + ex.getMessage());
 		}
-
+		
 		model.StatusLine().ShowInfo("Done with " + filename + ".");
 	}
-
+	
 	public void LoadStart(LoadEvent event) {
 		model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 	}
-
-	public void LoadStop(LoadEvent event) {
-		// Do nothing
-	}
-
+	
 	public void LoadElement(LoadEvent event) {
 		if (event.Element() == null) {
 			model.StatusLine().ShowInfo("Loading " + event.Filename() + " ...");
 		} else {
 			model.StatusLine().ShowInfo("Loading " + event.Filename() + " >> " + event.Element() + " ...");
 		}
+	}
+	
+	public void LoadedClassfile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void LoadStop(LoadEvent event) {
+		// Do nothing
 	}
 }

@@ -34,19 +34,21 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 import java.util.*;
-import java.util.jar.*;
 
-import org.apache.log4j.*;
-
-public class JarClassfileLoader extends ZipClassfileLoader {
-	public JarClassfileLoader(ClassfileLoader loader) {
-		super(loader);
+public class TransientClassfileLoader extends ClassfileLoaderEventSource {
+	public Classfile Classfile(String name) {
+		return null;
 	}
 
-	public void Load(String filename) throws IOException {
-		if (filename.endsWith(".jar")) {
-			Logger.getLogger(getClass()).debug("Reading " + filename);
-			Load(new JarFile(filename));
-		}
+	public Collection Classfiles() {
+		return Collections.EMPTY_LIST;
+	}
+
+	public Collection Classnames() {
+		return Collections.EMPTY_LIST;
+	}
+
+	public Classfile Load(DataInputStream in) throws IOException {
+		return new Classfile(this, in);
 	}
 }

@@ -164,29 +164,27 @@ public class OOMetrics {
 			parameters.add(".");
 		}
 
-		AggregatingClassfileLoader target_loader = new AggregatingClassfileLoader();
+		ClassfileLoader loader = new AggregatingClassfileLoader();
 		
 		Iterator i = parameters.iterator();
 		while (i.hasNext()) {
-			String entry = (String) i.next();
+			String filename = (String) i.next();
 
-			ClassfileLoader loader;
-			if (entry.endsWith(".jar")) {
-				loader = new JarClassfileLoader(new String[] {entry});
-			} else if (entry.endsWith(".zip")) {
-				loader = new ZipClassfileLoader(new String[] {entry});
+			if (filename.endsWith(".jar")) {
+				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
+				jar_loader.Load(filename);
+			} else if (filename.endsWith(".zip")) {
+				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
+				zip_loader.Load(filename);
 			} else {
-				loader = new DirectoryClassfileLoader(new String[] {entry});
+				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
+				directory_loader.Load(new DirectoryExplorer(filename));
 			}
-
-			loader.Start();
-
-			target_loader.AddClassfiles(loader.Classfiles());
 		}
-
+		
 		com.jeantessier.metrics.MetricsGatherer metrics = new com.jeantessier.metrics.MetricsGatherer(command_line.SingleSwitch("project-name"));
 
-		Iterator j = target_loader.Classfiles().iterator();
+		Iterator j = loader.Classfiles().iterator();
 		while (j.hasNext()) {
 			((Classfile) j.next()).Accept(metrics);
 		}

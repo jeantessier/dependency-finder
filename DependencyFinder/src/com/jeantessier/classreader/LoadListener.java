@@ -36,6 +36,7 @@ import java.util.*;
 
 public interface LoadListener extends EventListener {
 	public void LoadStart(LoadEvent event);
-	public void LoadStop(LoadEvent event);
 	public void LoadElement(LoadEvent event);
+	public void LoadedClassfile(LoadEvent event);
+	public void LoadStop(LoadEvent event);
 }

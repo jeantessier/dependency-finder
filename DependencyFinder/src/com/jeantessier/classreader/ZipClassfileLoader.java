@@ -38,23 +38,22 @@ import java.util.zip.*;
 
 import org.apache.log4j.*;
 
-public class ZipClassfileLoader extends ClassfileLoaderBase {
-	public ZipClassfileLoader(String[] filenames) {
-		super(filenames);
+public class ZipClassfileLoader extends ClassfileLoaderDecorator {
+	public ZipClassfileLoader(ClassfileLoader loader) {
+		super(loader);
 	}
 
-	public ZipClassfileLoader(Collection filenames) {
-		super(filenames);
-	}
-
-	public void Start() throws IOException {
-		Iterator i = Filenames().iterator();
+	public void Load(Collection filenames) throws IOException {
+		Iterator i = filenames.iterator();
 		while (i.hasNext()) {
-			String filename = (String) i.next();
-			if (filename.endsWith(".zip")) {
-				Logger.getLogger(getClass()).debug("Reading " + filename);
-				Load(new ZipFile(filename));
-			}
+			Load((String) i.next());
+		}
+	}
+
+	public void Load(String filename) throws IOException {
+		if (filename.endsWith(".zip")) {
+			Logger.getLogger(getClass()).debug("Reading " + filename);
+			Load(new ZipFile(filename));
 		}
 	}
 
@@ -80,7 +79,7 @@ public class ZipClassfileLoader extends ClassfileLoaderBase {
 						left_to_read -= read_this_turn;
 					}
 
-					AddClass(bytes);
+					fireLoadedClassfile(zipfile.getName(), Load(new DataInputStream(new ByteArrayInputStream(bytes))));
 				} catch (IOException ex) {
 					Logger.getLogger(getClass()).debug("Error loading " + entry.getName() + ": " + ex);
 				}

@@ -113,11 +113,6 @@ public class ClassList {
 
 		Date start = new Date();
 
-		List parameters = command_line.Parameters();
-		if (parameters.size() == 0) {
-			parameters.add(".");
-		}
-
 		PrintWriter out;
 		if (command_line.IsPresent("out")) {
 			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
@@ -125,22 +120,28 @@ public class ClassList {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
+		List parameters = command_line.Parameters();
+		if (parameters.size() == 0) {
+			parameters.add(".");
+		}
+
 		Iterator i = parameters.iterator();
 		while (i.hasNext()) {
-			String entry = (String) i.next();
+			String filename = (String) i.next();
 
-			out.println(entry + ":");
+			out.println(filename + ":");
 	    
 			ClassfileLoader loader;
-			if (entry.endsWith(".jar")) {
-				loader = new JarClassfileLoader(new String[] {entry});
-			} else if (entry.endsWith(".zip")) {
-				loader = new ZipClassfileLoader(new String[] {entry});
+			if (filename.endsWith(".jar")) {
+				loader = new JarClassfileLoader(new AggregatingClassfileLoader());
+				((JarClassfileLoader) loader).Load(filename);
+			} else if (filename.endsWith(".zip")) {
+				loader = new ZipClassfileLoader(new AggregatingClassfileLoader());
+				((ZipClassfileLoader) loader).Load(filename);
 			} else {
-				loader = new DirectoryClassfileLoader(new String[] {entry});
+				loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+				((DirectoryClassfileLoader) loader).Load(new DirectoryExplorer(filename));
 			}
-
-			loader.Start();
 
 			Iterator j = loader.Classfiles().iterator();
 			while (j.hasNext()) {

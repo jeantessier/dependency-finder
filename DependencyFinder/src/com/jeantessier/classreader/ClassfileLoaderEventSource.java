@@ -35,55 +35,8 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-public abstract class ClassfileLoaderBase implements ClassfileLoader {
-	private Collection filenames;
-	
-	private Map classfiles = new TreeMap();
+public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 	private HashSet load_listeners = new HashSet();
-
-	protected ClassfileLoaderBase() {
-		this(Collections.EMPTY_LIST);
-	}
-	
-	public ClassfileLoaderBase(String[] filenames) {
-		this(Arrays.asList(filenames));
-	}
-
-	public ClassfileLoaderBase(Collection filenames) {
-		this.filenames = filenames;
-	}
-
-	public Collection Filenames() {
-		return filenames;
-	}
-	
-	public Collection Classnames() {
-		return Collections.unmodifiableCollection(classfiles.keySet());
-	}
-
-	public Classfile Classfile(String name) {
-		return (Classfile) classfiles.get(name);
-	}
-
-	public Collection Classfiles() {
-		return Collections.unmodifiableCollection(classfiles.values());
-	}
-
-	protected void AddClass(byte[] bytes) throws IOException {
-		AddClassfile(new Classfile(this, bytes));
-	}
-
-	protected void AddClass(String filename) throws IOException {
-		AddClassfile(new Classfile(this, filename));
-	}
-
-	protected void AddClass(File file) throws IOException {
-		AddClassfile(new Classfile(this, file));
-	}
-
-	protected void AddClassfile(Classfile classfile) {
-		classfiles.put(classfile.Class(), classfile);
-	}
 
 	public void addLoadListener(LoadListener listener) {
 		synchronized(load_listeners) {
@@ -110,20 +63,6 @@ public abstract class ClassfileLoaderBase implements ClassfileLoader {
 			((LoadListener) i.next()).LoadStart(event);
 		}
 	}
-
-	protected void fireLoadStop(String filename) {
-		LoadEvent event = new LoadEvent(this, filename);
-
-		HashSet listeners;
-		synchronized(load_listeners) {
-			listeners = (HashSet) load_listeners.clone();
-		}
-
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).LoadStop(event);
-		}
-	}
 	
 	protected void fireLoadElement(String filename, String element) {
 		LoadEvent event = new LoadEvent(this, filename, element);
@@ -136,6 +75,34 @@ public abstract class ClassfileLoaderBase implements ClassfileLoader {
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
 			((LoadListener) i.next()).LoadElement(event);
+		}
+	}
+
+	protected void fireLoadedClassfile(String filename, Classfile classfile) {
+		LoadEvent event = new LoadEvent(this, filename, classfile);
+
+		HashSet listeners;
+		synchronized(load_listeners) {
+			listeners = (HashSet) load_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((LoadListener) i.next()).LoadedClassfile(event);
+		}
+	}
+
+	protected void fireLoadStop(String filename) {
+		LoadEvent event = new LoadEvent(this, filename);
+
+		HashSet listeners;
+		synchronized(load_listeners) {
+			listeners = (HashSet) load_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((LoadListener) i.next()).LoadStop(event);
 		}
 	}
 }
