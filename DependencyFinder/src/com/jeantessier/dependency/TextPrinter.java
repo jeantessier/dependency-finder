@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -65,6 +65,7 @@ public class TextPrinter extends Printer {
 	}
 
 	protected void PostprocessPackageNode(PackageNode node) {
+		super.PostprocessPackageNode(node);
 		LowerIndent();
 	}
 
@@ -84,6 +85,7 @@ public class TextPrinter extends Printer {
 	}
 
 	protected void PostprocessClassNode(ClassNode node) {
+		super.PostprocessClassNode(node);
 		LowerIndent();
 	}
 
@@ -110,6 +112,7 @@ public class TextPrinter extends Printer {
 	}
 
 	protected void PostprocessFeatureNode(FeatureNode node) {
+		super.PostprocessFeatureNode(node);
 		LowerIndent();
 	}
 
