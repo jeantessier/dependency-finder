@@ -233,6 +233,13 @@ public class MetricsGatherer extends VisitorBase {
 		return custom_attributes;
 	}
 
+	public void VisitClassfiles(Collection classfiles) {
+		Iterator i = classfiles.iterator();
+		while (i.hasNext()) {
+			((Classfile) i.next()).Accept(this);
+		}
+	}
+
 	// Classfile
 	public void VisitClassfile(Classfile classfile) {
 		if ((classfile.AccessFlag() & Classfile.ACC_PUBLIC) != 0) {

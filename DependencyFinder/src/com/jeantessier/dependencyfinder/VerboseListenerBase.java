@@ -47,7 +47,13 @@ public class VerboseListenerBase implements LoadListener {
 	}
 	
 	protected GroupData CurrentGroup() {
-		return (GroupData) groups.getLast();
+		GroupData result = null;
+
+		if (!groups.isEmpty()) {
+			result = (GroupData) groups.getLast();
+		}
+		
+		return result;
 	}
 
 	protected Collection VisitedFiles() {
@@ -71,9 +77,10 @@ public class VerboseListenerBase implements LoadListener {
 	}
 
 	public void BeginFile(LoadEvent event) {
+		int previous_ratio = CurrentGroup().Ratio();
+		CurrentGroup().IncrementCount();
+		
 		if (CurrentGroup().Size() > 0) {
-			int previous_ratio = CurrentGroup().Ratio();
-			CurrentGroup().IncrementCount();
 			int new_ratio = CurrentGroup().Ratio();
 			
 			if (previous_ratio != new_ratio) {

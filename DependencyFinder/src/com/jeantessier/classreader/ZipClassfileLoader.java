@@ -53,7 +53,11 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 			zipfile = new ZipFile(filename);
 
 			fireBeginGroup(filename, zipfile.size());
+
+			Logger.getLogger(getClass()).debug("Loading ZipFile " + filename);
 			Load(zipfile);
+			Logger.getLogger(getClass()).debug("Loaded ZipFile " + filename);
+
 			fireEndGroup(filename);
 		} catch (IOException ex) {
 			Logger.getLogger(getClass()).error("Cannot load Zip file \"" + filename + "\"", ex);
@@ -76,7 +80,11 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 			zipfile = new ZipInputStream(in);
 
 			fireBeginGroup(filename, -1);
+
+			Logger.getLogger(getClass()).debug("Loading ZipInputStream " + filename);
 			Load(zipfile);
+			Logger.getLogger(getClass()).debug("Loaded ZipInputStream " + filename);
+
 			fireEndGroup(filename);
 		} catch (IOException ex) {
 			Logger.getLogger(getClass()).error("Cannot load Zip file \"" + filename + "\"", ex);

@@ -93,10 +93,7 @@ public class ClassMetrics extends Task {
 		loader.Load(Arrays.asList(getPath().list()));
 
 		MetricsGatherer metrics = new MetricsGatherer();
-		Iterator i = loader.Classfiles().iterator();
-		while (i.hasNext()) {
-			((Classfile) i.next()).Accept(metrics);
-		}
+		metrics.VisitClassfiles(loader.Classfiles());
 
 		log("Saving class metrics to " + getDestfile().getAbsolutePath());
 		

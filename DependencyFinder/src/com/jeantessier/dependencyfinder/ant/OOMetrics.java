@@ -246,20 +246,16 @@ public class OOMetrics extends Task {
 			loader.addLoadListener(verbose_listener);
 			loader.Load(Arrays.asList(getPath().list()));
 			
-			com.jeantessier.metrics.MetricsGatherer metrics = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
-			metrics.addMetricsListener(verbose_listener);
+			com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
+			gatherer.addMetricsListener(verbose_listener);
+			gatherer.VisitClassfiles(loader.Classfiles());
 			
-			Iterator j = loader.Classfiles().iterator();
-			while (j.hasNext()) {
-				((Classfile) j.next()).Accept(metrics);
-			}
-
 			if (getCsv()) {
-				PrintCSVFiles(metrics.MetricsFactory());
+				PrintCSVFiles(gatherer.MetricsFactory());
 			} else if (getTxt()) {
-				PrintTextFile(metrics.MetricsFactory());
+				PrintTextFile(gatherer.MetricsFactory());
 			} else if (getXml()) {
-				PrintXMLFile(metrics.MetricsFactory());
+				PrintXMLFile(gatherer.MetricsFactory());
 			}
 		} catch (SAXException ex) {
 			throw new BuildException(ex);

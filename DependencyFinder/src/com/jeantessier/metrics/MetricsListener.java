@@ -35,8 +35,10 @@ package com.jeantessier.metrics;
 import java.util.*;
 
 public interface MetricsListener extends EventListener {
-	public void StartClass(MetricsEvent event);
-	public void StartMethod(MetricsEvent event);
-	public void StopMethod(MetricsEvent event);
-	public void StopClass(MetricsEvent event);
+	public void BeginSession(MetricsEvent event);
+	public void BeginClass(MetricsEvent event);
+	public void BeginMethod(MetricsEvent event);
+	public void EndMethod(MetricsEvent event);
+	public void EndClass(MetricsEvent event);
+	public void EndSession(MetricsEvent event);
 }

@@ -63,4 +63,12 @@ public class GroupData {
 	public int Ratio() {
 		return Count() * 100 / Size();
 	}
+
+	public String toString() {
+		StringBuffer result = new StringBuffer();
+
+		result.append("Group \"" + Name() + "\" (" + Count() + "/" + Size() + ")");
+
+		return result.toString();
+	}
 }

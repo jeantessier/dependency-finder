@@ -40,29 +40,39 @@ public class MetricsEvent extends EventObject {
 	private Classfile   classfile;
 	private Method_info method;
 	private Metrics     metrics;
+	private int         size;
+	
+	public MetricsEvent(Object source) {
+		this(source, null, null, null, 0);
+	}
 	
 	public MetricsEvent(Object source, Classfile classfile) {
-		this(source, classfile, null, null);
+		this(source, classfile, null, null, 0);
 	}
 	
 	public MetricsEvent(Object source, Classfile classfile, Metrics metrics) {
-		this(source, classfile, null, metrics);
+		this(source, classfile, null, metrics, 0);
 	}
 		
 	public MetricsEvent(Object source, Method_info method) {
-		this(source, method.Classfile(), method, null);
+		this(source, method.Classfile(), method, null, 0);
 	}
 		
 	public MetricsEvent(Object source, Method_info method, Metrics metrics) {
-		this(source, method.Classfile(), method, metrics);
+		this(source, method.Classfile(), method, metrics, 0);
+	}
+	
+	public MetricsEvent(Object source, int size) {
+		this(source, null, null, null, size);
 	}
 
-	public MetricsEvent(Object source, Classfile classfile, Method_info method, Metrics metrics) {
+	public MetricsEvent(Object source, Classfile classfile, Method_info method, Metrics metrics, int size) {
 		super(source);
 
 		this.classfile = classfile;
 		this.method    = method;
 		this.metrics   = metrics;
+		this.size      = size;
 	}
 
 	public Classfile Classfile() {
@@ -75,5 +85,9 @@ public class MetricsEvent extends EventObject {
 
 	public Metrics Metrics() {
 		return metrics;
+	}
+
+	public int Size() {
+		return size;
 	}
 }

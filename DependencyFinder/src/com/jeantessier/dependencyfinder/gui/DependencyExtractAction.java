@@ -72,7 +72,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 		Collector collector = new CodeDependencyCollector(model.NodeFactory());
 
 		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(new DependencyVerboseListener(model.StatusLine(), model.ProgressBar()));
+		loader.addLoadListener(new VerboseListener(model.StatusLine(), model.ProgressBar()));
 		loader.addLoadListener(collector);
 		loader.Load(Arrays.asList(files));
 

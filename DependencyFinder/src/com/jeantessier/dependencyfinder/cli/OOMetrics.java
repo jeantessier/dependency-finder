@@ -196,23 +196,19 @@ public class OOMetrics {
 
 		Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
 
-		com.jeantessier.metrics.MetricsGatherer metrics = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
-		metrics.addMetricsListener(verbose_listener);
-
-		Iterator j = loader.Classfiles().iterator();
-		while (j.hasNext()) {
-			((Classfile) j.next()).Accept(metrics);
-		}
+		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
+		gatherer.addMetricsListener(verbose_listener);
+		gatherer.VisitClassfiles(loader.Classfiles());
 
 		Logger.getLogger(OOMetrics.class).debug("Printing results ...");
 		verbose_listener.Print("Printing results ...");
 		
 		if (command_line.IsPresent("csv")) {
-			PrintCSVFiles(start, command_line, metrics.MetricsFactory());
+			PrintCSVFiles(start, command_line, gatherer.MetricsFactory());
 		} else if (command_line.IsPresent("txt")) {
-			PrintTextFile(start, command_line, metrics.MetricsFactory());
+			PrintTextFile(start, command_line, gatherer.MetricsFactory());
 		} else if (command_line.IsPresent("xml")) {
-			PrintXMLFile(start, command_line, metrics.MetricsFactory());
+			PrintXMLFile(start, command_line, gatherer.MetricsFactory());
 		}
 
 		Logger.getLogger(OOMetrics.class).debug("Done.");

@@ -32,8 +32,6 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.util.*;
-
 import javax.swing.*;
 
 import com.jeantessier.classreader.*;
@@ -64,12 +62,9 @@ public class VerboseListener extends VerboseListenerBase {
 	
 	public void BeginGroup(LoadEvent event) {
 		super.BeginGroup(event);
-		
-		ProgressBar().setMaximum(CurrentGroup().Size());
-		ProgressBar().setValue(0);
-		ProgressBar().setStringPainted(true);
-		
-		StatusLine().ShowInfo("Loading " + event.GroupName() + " ...");
+
+		AdjustProgressBar();
+		StatusLine().ShowInfo("Loading from " + event.GroupName() + " ...");
 	}
 	
 	public void BeginFile(LoadEvent event) {
@@ -85,6 +80,41 @@ public class VerboseListener extends VerboseListenerBase {
 	public void EndFile(LoadEvent event) {
 		super.EndFile(event);
 		
-		ProgressBar().setValue(ProgressBar().getValue() + 1);
+		AdjustProgressBar();
+	}
+
+	public void EndGroup(LoadEvent event) {
+		super.EndGroup(event);
+
+		AdjustProgressBar();
+	}
+
+	private void AdjustProgressBar() {
+		if (CurrentGroup() != null) {
+			switch (CurrentGroup().Size()) {
+				case -1:
+					// Do nothing
+					// ProgressBar().setValue(CurrentGroup().Count());
+					// ProgressBar().setStringPainted(false);
+					// JDK 1.4 feature
+					// ProgressBar().setIndeterminate(true);
+					break;
+					
+				case 0:
+					// Do nothing
+					break;
+					
+				default:
+					ProgressBar().setMaximum(CurrentGroup().Size());
+					ProgressBar().setValue(CurrentGroup().Count());
+					ProgressBar().setStringPainted(true);
+					// JDK 1.4 feature
+					// ProgressBar().setIndeterminate(false);
+					break;
+			}
+		} else {
+			ProgressBar().setValue(0);
+			ProgressBar().setStringPainted(false);
+		}
 	}
 }

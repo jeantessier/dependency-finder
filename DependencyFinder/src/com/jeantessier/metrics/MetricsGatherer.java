@@ -104,13 +104,24 @@ public class MetricsGatherer extends VisitorBase {
 	private void CurrentMethod(Metrics current_method) {
 		this.current_method = current_method;
 	}
+
+	public void VisitClassfiles(Collection classfiles) {
+		fireBeginSession(classfiles.size());
+		
+		Iterator i = classfiles.iterator();
+		while (i.hasNext()) {
+			((Classfile) i.next()).Accept(this);
+		}
+		
+		fireEndSession();
+	}
 	
 	// Classfile
 	public void VisitClassfile(Classfile classfile) {
 		Logger.getLogger(getClass()).debug("VisitClassfile():");
 		Logger.getLogger(getClass()).debug("    class = \"" + classfile.Class() + "\"");
 
-		fireStartClass(classfile);
+		fireBeginClass(classfile);
 		
 		CurrentMethod(null);
 		CurrentClass(MetricsFactory().CreateClassMetrics(classfile.Class()));
@@ -181,7 +192,7 @@ public class MetricsGatherer extends VisitorBase {
 			CurrentClass().AddToMeasurement(Metrics.CLASS_SLOC, sloc);
 		}
 
-		fireStopClass(classfile, CurrentClass());
+		fireEndClass(classfile, CurrentClass());
 	}
 	
 	// ConstantPool entries
@@ -274,7 +285,7 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	public void VisitMethod_info(Method_info entry) {
-		fireStartMethod(entry);
+		fireBeginMethod(entry);
 		
 		CurrentMethod(MetricsFactory().CreateMethodMetrics(entry.FullSignature()));
 		MetricsFactory().IncludeMethodMetrics(CurrentMethod());
@@ -331,7 +342,7 @@ public class MetricsGatherer extends VisitorBase {
 
 		AddClassDependencies(ProcessDescriptor(entry.Descriptor()));
 
-		fireStopMethod(entry, CurrentMethod());
+		fireEndMethod(entry, CurrentMethod());
 	}
 
 	// 
@@ -584,7 +595,21 @@ public class MetricsGatherer extends VisitorBase {
 		}
 	}
 
-	protected void fireStartClass(Classfile classfile) {
+	protected void fireBeginSession(int size) {
+		MetricsEvent event = new MetricsEvent(this, size);
+
+		HashSet listeners;
+		synchronized(metrics_listeners) {
+			listeners = (HashSet) metrics_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((MetricsListener) i.next()).BeginSession(event);
+		}
+	}
+
+	protected void fireBeginClass(Classfile classfile) {
 		MetricsEvent event = new MetricsEvent(this, classfile);
 
 		HashSet listeners;
@@ -594,11 +619,11 @@ public class MetricsGatherer extends VisitorBase {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((MetricsListener) i.next()).StartClass(event);
+			((MetricsListener) i.next()).BeginClass(event);
 		}
 	}
 
-	protected void fireStartMethod(Method_info method) {
+	protected void fireBeginMethod(Method_info method) {
 		MetricsEvent event = new MetricsEvent(this, method);
 
 		HashSet listeners;
@@ -608,11 +633,11 @@ public class MetricsGatherer extends VisitorBase {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((MetricsListener) i.next()).StartMethod(event);
+			((MetricsListener) i.next()).BeginMethod(event);
 		}
 	}
 
-	protected void fireStopMethod(Method_info method, Metrics metrics) {
+	protected void fireEndMethod(Method_info method, Metrics metrics) {
 		MetricsEvent event = new MetricsEvent(this, method, metrics);
 
 		HashSet listeners;
@@ -622,11 +647,11 @@ public class MetricsGatherer extends VisitorBase {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((MetricsListener) i.next()).StopMethod(event);
+			((MetricsListener) i.next()).EndMethod(event);
 		}
 	}
 
-	protected void fireStopClass(Classfile classfile, Metrics metrics) {
+	protected void fireEndClass(Classfile classfile, Metrics metrics) {
 		MetricsEvent event = new MetricsEvent(this, classfile, metrics);
 
 		HashSet listeners;
@@ -636,7 +661,21 @@ public class MetricsGatherer extends VisitorBase {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((MetricsListener) i.next()).StopClass(event);
+			((MetricsListener) i.next()).EndClass(event);
+		}
+	}
+
+	protected void fireEndSession() {
+		MetricsEvent event = new MetricsEvent(this);
+
+		HashSet listeners;
+		synchronized(metrics_listeners) {
+			listeners = (HashSet) metrics_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((MetricsListener) i.next()).EndSession(event);
 		}
 	}
 }

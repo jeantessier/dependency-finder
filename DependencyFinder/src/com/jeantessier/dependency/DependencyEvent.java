@@ -34,12 +34,14 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-import com.jeantessier.classreader.*;
-
 public class DependencyEvent extends EventObject {
 	private String classname;
 	private Node   dependent;
 	private Node   dependable;
+
+	public DependencyEvent(Object source) {
+		this(source, null, null, null);
+	}
 
 	public DependencyEvent(Object source, String classname) {
 		this(source, classname, null, null);

@@ -67,7 +67,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	public void VisitClassfile(Classfile classfile) {
 		current = Factory().CreateClass(classfile.Class());
 
-		fireStartClass(classfile.toString());
+		fireBeginClass(classfile.toString());
 		
 		if (classfile.SuperclassIndex() != 0) {
 			classfile.RawSuperclass().Accept(this);
@@ -90,7 +90,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 			((Visitable) i.next()).Accept(this);
 		}
 
-		fireStopClass(classfile.toString());
+		fireEndClass(classfile.toString());
 	}
 
 	public void VisitClass_info(Class_info entry) {
@@ -251,8 +251,8 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		}
 	}
 
-	protected void fireStartClass(String classname) {
-		DependencyEvent event = new DependencyEvent(this, classname);
+	protected void fireBeginSession() {
+		DependencyEvent event = new DependencyEvent(this);
 
 		HashSet listeners;
 		synchronized(dependency_listeners) {
@@ -261,24 +261,24 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((DependencyListener) i.next()).StartClass(event);
-		}
-	}
-
-	protected void fireStopClass(String classname) {
-		DependencyEvent event = new DependencyEvent(this, classname);
-
-		HashSet listeners;
-		synchronized(dependency_listeners) {
-			listeners = (HashSet) dependency_listeners.clone();
-		}
-
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((DependencyListener) i.next()).StopClass(event);
+			((DependencyListener) i.next()).BeginSession(event);
 		}
 	}
 	
+	protected void fireBeginClass(String classname) {
+		DependencyEvent event = new DependencyEvent(this, classname);
+
+		HashSet listeners;
+		synchronized(dependency_listeners) {
+			listeners = (HashSet) dependency_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((DependencyListener) i.next()).BeginClass(event);
+		}
+	}
+
 	protected void fireDependency(Node dependent, Node dependable) {
 		DependencyEvent event = new DependencyEvent(this, dependent, dependable);
 
@@ -290,6 +290,34 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
 			((DependencyListener) i.next()).Dependency(event);
+		}
+	}
+
+	protected void fireEndClass(String classname) {
+		DependencyEvent event = new DependencyEvent(this, classname);
+
+		HashSet listeners;
+		synchronized(dependency_listeners) {
+			listeners = (HashSet) dependency_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((DependencyListener) i.next()).EndClass(event);
+		}
+	}
+
+	protected void fireEndSession() {
+		DependencyEvent event = new DependencyEvent(this);
+
+		HashSet listeners;
+		synchronized(dependency_listeners) {
+			listeners = (HashSet) dependency_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((DependencyListener) i.next()).EndSession(event);
 		}
 	}
 

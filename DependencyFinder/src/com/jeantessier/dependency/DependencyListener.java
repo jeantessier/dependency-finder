@@ -35,7 +35,9 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public interface DependencyListener extends EventListener {
-	public void StartClass(DependencyEvent event);
-	public void StopClass(DependencyEvent event);
+	public void BeginSession(DependencyEvent event);
+	public void BeginClass(DependencyEvent event);
 	public void Dependency(DependencyEvent event);
+	public void EndClass(DependencyEvent event);
+	public void EndSession(DependencyEvent event);
 }

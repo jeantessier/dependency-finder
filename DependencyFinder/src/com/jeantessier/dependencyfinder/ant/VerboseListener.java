@@ -84,32 +84,48 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 			task.log("Skipping " + event.Filename() + " ...", Project.MSG_VERBOSE);
 		}
 	}
-
-	public void StartClass(DependencyEvent event) {
-		task.log("Getting dependencies from " + event.Classname() + " ...", Project.MSG_VERBOSE);
-	}
 	
-	public void StopClass(DependencyEvent event) {
+	public void BeginSession(DependencyEvent event) {
 		// Do nothing
+	}
+
+	public void BeginClass(DependencyEvent event) {
+		task.log("Getting dependencies from " + event.Classname() + " ...", Project.MSG_VERBOSE);
 	}
 	
 	public void Dependency(DependencyEvent event) {
 		// Do nothing
 	}
+	
+	public void EndClass(DependencyEvent event) {
+		// Do nothing
+	}
+	
+	public void EndSession(DependencyEvent event) {
+		// Do nothing
+	}
 
-	public void StartClass(MetricsEvent event) {
+	public void BeginSession(MetricsEvent event) {
+		// Do nothing
+	}
+
+	public void BeginClass(MetricsEvent event) {
 		task.log("Computing metrics for " + event.Classfile() + " ...", Project.MSG_VERBOSE);
 	}
 	
-	public void StartMethod(MetricsEvent event) {
+	public void BeginMethod(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void StopMethod(MetricsEvent event) {
+	public void EndMethod(MetricsEvent event) {
 		// Do nothing
 	}
 	
-	public void StopClass(MetricsEvent event) {
+	public void EndClass(MetricsEvent event) {
+		// Do nothing
+	}
+	
+	public void EndSession(MetricsEvent event) {
 		// Do nothing
 	}
 }

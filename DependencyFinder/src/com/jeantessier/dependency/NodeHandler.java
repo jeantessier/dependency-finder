@@ -79,7 +79,9 @@ public class NodeHandler extends DefaultHandler {
 
 		current_name.delete(0, current_name.length());
 
-		if ("package".equals(qName)) {
+		if ("dependencies".equals(qName)) {
+			fireBeginSession();
+		} else if ("package".equals(qName)) {
 			current_node_type = PACKAGE;
 		} else if ("class".equals(qName)) {
 			current_node_type = CLASS;
@@ -102,7 +104,9 @@ public class NodeHandler extends DefaultHandler {
 	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
 		Logger.getLogger(getClass()).debug("qName = " + qName);
 
-		if ("name".equals(qName)) {
+		if ("dependencies".equals(qName)) {
+			fireEndSession();
+		} else if ("name".equals(qName)) {
 			Logger.getLogger(getClass()).debug("    Processing <name> tag:");
 			Logger.getLogger(getClass()).debug("        current_name: " + current_name);
 			Logger.getLogger(getClass()).debug("        current_node_type: " + current_node_type);
@@ -115,7 +119,7 @@ public class NodeHandler extends DefaultHandler {
 				case CLASS:
 					current_class = Factory().CreateClass(current_name.toString());
 					current_node  = current_class;
-					fireStartClass(current_class.toString());
+					fireBeginClass(current_class.toString());
 					break;
 				case FEATURE:
 					current_feature = Factory().CreateFeature(current_name.toString());
@@ -180,8 +184,8 @@ public class NodeHandler extends DefaultHandler {
 		}
 	}
 
-	protected void fireStartClass(String classname) {
-		DependencyEvent event = new DependencyEvent(this, classname);
+	protected void fireBeginSession() {
+		DependencyEvent event = new DependencyEvent(this);
 
 		HashSet listeners;
 		synchronized(dependency_listeners) {
@@ -190,24 +194,24 @@ public class NodeHandler extends DefaultHandler {
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((DependencyListener) i.next()).StartClass(event);
-		}
-	}
-
-	protected void fireStopClass(String classname) {
-		DependencyEvent event = new DependencyEvent(this, classname);
-
-		HashSet listeners;
-		synchronized(dependency_listeners) {
-			listeners = (HashSet) dependency_listeners.clone();
-		}
-
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((DependencyListener) i.next()).StopClass(event);
+			((DependencyListener) i.next()).BeginSession(event);
 		}
 	}
 	
+	protected void fireBeginClass(String classname) {
+		DependencyEvent event = new DependencyEvent(this, classname);
+
+		HashSet listeners;
+		synchronized(dependency_listeners) {
+			listeners = (HashSet) dependency_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((DependencyListener) i.next()).BeginClass(event);
+		}
+	}
+
 	protected void fireDependency(Node dependent, Node dependable) {
 		DependencyEvent event = new DependencyEvent(this, dependent, dependable);
 
@@ -219,6 +223,34 @@ public class NodeHandler extends DefaultHandler {
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
 			((DependencyListener) i.next()).Dependency(event);
+		}
+	}
+
+	protected void fireEndClass(String classname) {
+		DependencyEvent event = new DependencyEvent(this, classname);
+
+		HashSet listeners;
+		synchronized(dependency_listeners) {
+			listeners = (HashSet) dependency_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((DependencyListener) i.next()).EndClass(event);
+		}
+	}
+
+	protected void fireEndSession() {
+		DependencyEvent event = new DependencyEvent(this);
+
+		HashSet listeners;
+		synchronized(dependency_listeners) {
+			listeners = (HashSet) dependency_listeners.clone();
+		}
+
+		Iterator i = listeners.iterator();
+		while(i.hasNext()) {
+			((DependencyListener) i.next()).EndSession(event);
 		}
 	}
 }

@@ -79,11 +79,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 		
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.MetricsFactory());
 		gatherer.addMetricsListener(verbose_listener);
-		
-		Iterator i = loader.Classfiles().iterator();
-		while (i.hasNext()) {
-			((Classfile) i.next()).Accept(gatherer);
-		}
+		gatherer.VisitClassfiles(loader.Classfiles());
 
 		model.ProgressBar().setValue(0);
 		model.ProgressBar().setStringPainted(false);

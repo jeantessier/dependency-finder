@@ -32,37 +32,41 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.util.*;
-
 import javax.swing.*;
 
-import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
 
 public class MetricsVerboseListener extends VerboseListener implements MetricsListener {
+	private int processed_class_count = 0;
+	
 	public MetricsVerboseListener(StatusLine status_line, JProgressBar progress_bar) {
 		super(status_line, progress_bar);
 	}
-	
-	public void BeginGroup(LoadEvent event) {
-		super.BeginGroup(event);
-		
-		ProgressBar().setMaximum(2 * CurrentGroup().Size());
-	}
 
-	public void StartClass(MetricsEvent event) {
+	public void BeginSession(MetricsEvent event) {
+		ProgressBar().setMaximum(event.Size());
+		ProgressBar().setStringPainted(true);
+	}
+	
+	public void BeginClass(MetricsEvent event) {
 		StatusLine().ShowInfo("Computing metrics for " + event.Classfile() + " ...");
 	}
 
-	public void StartMethod(MetricsEvent event) {
+	public void BeginMethod(MetricsEvent event) {
 		// Do nothing
 	}
 
-	public void StopMethod(MetricsEvent event) {
+	public void EndMethod(MetricsEvent event) {
 		// Do nothing
 	}
 
-	public void StopClass(MetricsEvent event) {
-		ProgressBar().setValue(ProgressBar().getValue() + 1);
+	public void EndClass(MetricsEvent event) {
+		processed_class_count++;
+		ProgressBar().setValue(processed_class_count);
+	}
+
+	public void EndSession(MetricsEvent event) {
+		ProgressBar().setValue(0);
+		ProgressBar().setStringPainted(false);
 	}
 }

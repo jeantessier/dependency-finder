@@ -110,16 +110,24 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 			}
 		}
 	}
+	
+	public void BeginSession(DependencyEvent event) {
+		// Do nothing
+	}
 
-	public void StartClass(DependencyEvent event) {
+	public void BeginClass(DependencyEvent event) {
 		model.StatusLine().ShowInfo("Loading dependencies for " + event.Classname() + " ...");
 	}
 	
-	public void StopClass(DependencyEvent event) {
+	public void Dependency(DependencyEvent event) {
 		// Do nothing
 	}
 	
-	public void Dependency(DependencyEvent event) {
+	public void EndClass(DependencyEvent event) {
+		// Do nothing
+	}
+	
+	public void EndSession(DependencyEvent event) {
 		// Do nothing
 	}
 }

@@ -67,7 +67,7 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 		Collector collector = new CodeDependencyCollector(model.NodeFactory());
 
 		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(new DependencyVerboseListener(model.StatusLine(), model.ProgressBar()));
+		loader.addLoadListener(new VerboseListener(model.StatusLine(), model.ProgressBar()));
 		loader.addLoadListener(collector);
 		loader.Load(Collections.singleton(model.InputFile()));
 

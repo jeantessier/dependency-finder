@@ -143,10 +143,7 @@ public class ClassMetrics {
 		loader.Load(parameters);
 
 		MetricsGatherer metrics = new MetricsGatherer();
-		Iterator i = loader.Classfiles().iterator();
-		while (i.hasNext()) {
-			((Classfile) i.next()).Accept(metrics);
-		}
+		metrics.VisitClassfiles(loader.Classfiles());
 
 		verbose_listener.Print("Printing report ...");
 		
