@@ -42,10 +42,10 @@
     </xsl:template>
   
     <xsl:template match="package[inbound | class/inbound | class/feature/inbound]">
-        <xsl:value-of select="name"/><xsl:text>
+        <xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
 </xsl:text>
         <xsl:for-each select="inbound">
-            <xsl:text disable-output-escaping="yes">    &lt;-- </xsl:text><xsl:value-of select="."/><xsl:text>
+            <xsl:text disable-output-escaping="yes">    &lt;-- </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
 </xsl:text>
         </xsl:for-each>
         <xsl:apply-templates select="class"/>
@@ -53,10 +53,10 @@
     <xsl:template match="package"></xsl:template>
   
     <xsl:template match="class[inbound | feature/inbound]">
-        <xsl:text>    </xsl:text><xsl:value-of select="name"/><xsl:text>
+        <xsl:text>    </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
 </xsl:text>
         <xsl:for-each select="inbound">
-            <xsl:text disable-output-escaping="yes">        &lt;-- </xsl:text><xsl:value-of select="."/><xsl:text>
+            <xsl:text disable-output-escaping="yes">        &lt;-- </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
 </xsl:text>
         </xsl:for-each>
         <xsl:apply-templates select="feature"/>
@@ -64,10 +64,10 @@
     <xsl:template match="class"></xsl:template>
   
     <xsl:template match="feature[inbound]">
-        <xsl:text>        </xsl:text><xsl:value-of select="name"/><xsl:text>
+        <xsl:text>        </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
 </xsl:text>
         <xsl:for-each select="inbound">
-            <xsl:text disable-output-escaping="yes">            &lt;-- </xsl:text><xsl:value-of select="."/><xsl:text>
+            <xsl:text disable-output-escaping="yes">            &lt;-- </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
 </xsl:text>
         </xsl:for-each>
     </xsl:template>

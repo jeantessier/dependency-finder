@@ -43,17 +43,17 @@
     </xsl:template>
  
     <xsl:template match="package[not(inbound) and not(class/inbound) and not(class/feature/inbound)]">
-        package <xsl:value-of select="name"/>
+        package <xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if>
         <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="class[not(inbound) and not(feature/inbound)]">
-        class   <xsl:value-of select="name"/>
+        class   <xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if>
         <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="feature[not(inbound)]">
-        feature <xsl:value-of select="name"/>
+        feature <xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if>
     </xsl:template>
 
     <xsl:template match="package|class|feature">
