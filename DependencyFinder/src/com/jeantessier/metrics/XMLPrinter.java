@@ -150,7 +150,7 @@ public class XMLPrinter extends Printer {
 		Indent().Append("<nb-data-points>").Append(measurement.NbDataPoints()).Append("</nb-data-points>\n");
 	}
 	
-	protected void VisitNumericalMeasurement(NumericalMeasurement measurement) {
+	protected void VisitMeasurement(Measurement measurement) {
 		Indent().Append("<value>").Append(measurement.Value()).Append("</value>\n");
 	}
 }

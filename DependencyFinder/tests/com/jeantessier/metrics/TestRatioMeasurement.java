@@ -39,8 +39,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	private Metrics metrics;
 	private Measurement visited;
 	
-	private NumericalMeasurement m1;
-	private NumericalMeasurement m2;
+	private Measurement m1;
+	private Measurement m2;
 
 	public TestRatioMeasurement(String name) {
 		super(name);

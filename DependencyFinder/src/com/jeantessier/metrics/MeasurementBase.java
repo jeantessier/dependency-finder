@@ -56,12 +56,65 @@ public abstract class MeasurementBase implements Measurement {
 	public String LongName() {
 		return Descriptor().LongName();
 	}
+	
+	public Number Value() {
+		return new Double(Compute());
+	}
 
-	public boolean InRange() {
-		return true;
+	public int intValue() {
+		return (int) Compute();
+	}
+
+	public long longValue() {
+		return (long) Compute();
+	}
+
+	public float floatValue() {
+		return (float) Compute();
+	}
+
+	public double doubleValue() {
+		return Compute();
 	}
 	
 	public void Add(Object object) {
 		// Do nothing
 	}
+	
+	public boolean InRange() {
+		boolean result = true;
+
+		if (Descriptor() != null) {
+			Object lower_threshold = Descriptor().LowerThreshold();
+			Object upper_threshold = Descriptor().UpperThreshold();
+
+			if (result && lower_threshold instanceof Number) {
+				result = ((Number) lower_threshold).doubleValue() <= Compute();
+			}
+			
+			if (result && upper_threshold instanceof Number) {
+				result = ((Number) upper_threshold).doubleValue() >= Compute();
+			}
+		}
+		
+		return result;
+	}
+
+	public void Add(int i) {
+		// Do nothing
+	}
+	
+	public void Add(long l) {
+		// Do nothing
+	}
+	
+	public void Add(float f) {
+		// Do nothing
+	}
+	
+	public void Add(double d) {
+		// Do nothing
+	}
+	
+	protected abstract double Compute();
 }

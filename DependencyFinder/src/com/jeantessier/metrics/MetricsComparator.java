@@ -136,9 +136,7 @@ public class MetricsComparator implements Comparator {
 	private double ExtractValue(Measurement m) {
 		double result = Double.NaN;
 
-		if (m instanceof NumericalMeasurement) {
-			result = ((NumericalMeasurement) m).Value().doubleValue();
-		} else if (m instanceof StatisticalMeasurement) {
+		if (m instanceof StatisticalMeasurement) {
 			StatisticalMeasurement sm = (StatisticalMeasurement) m;
 			switch (Dispose()) {
 				case StatisticalMeasurement.DISPOSE_MINIMUM:
@@ -169,8 +167,10 @@ public class MetricsComparator implements Comparator {
 				case StatisticalMeasurement.DISPOSE_IGNORE:
 					break;
 			}
+		} else {
+			result = m.doubleValue();
 		}
-
+		
 		return result;
 	}
 }

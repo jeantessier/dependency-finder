@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-public class NbSubMetricsMeasurement extends NumericalMeasurementBase {
+public class NbSubMetricsMeasurement extends MeasurementBase {
 	public NbSubMetricsMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
 	}

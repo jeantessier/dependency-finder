@@ -34,7 +34,16 @@ package com.jeantessier.metrics;
 
 import java.util.*;
 
-public class AccumulatorMeasurement extends NumericalMeasurementBase {
+/**
+ *  <pre>
+ *  &lt;init-text&gt;
+ *      [SET | LIST]
+ *  &lt;/init-text&gt;
+ *  </pre>
+ *
+ *  <p>Defaults to SET (i.e., does not count duplicates).</p>
+ */
+public class AccumulatorMeasurement extends MeasurementBase {
 	private Collection collection = new HashSet();
 
 	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {

@@ -81,7 +81,7 @@ public class PrettyPrinter extends Printer {
 		// Do nothing
 	}
 	
-	protected void VisitNumericalMeasurement(NumericalMeasurement measurement) {
+	protected void VisitMeasurement(Measurement measurement) {
 		Indent().Append(measurement.LongName()).Append(":\t").Append(value_format.format(measurement.Value()));
 
 		try {

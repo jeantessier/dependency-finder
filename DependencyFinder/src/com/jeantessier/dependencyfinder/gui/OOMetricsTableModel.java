@@ -118,10 +118,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 			String metric_name = (String) i.next();
 			Measurement metric = metrics.Measurement(metric_name);
 			
-			if (metric instanceof NumericalMeasurement) {
-				names.add(metric_name);
-				dispose.add(LOCAL_DISPOSE_IGNORE);
-			} else if (metric instanceof StatisticalMeasurement) {
+			if (metric instanceof StatisticalMeasurement) {
 				names.add(metric_name);
 				dispose.add(LOCAL_DISPOSE_MINIMUM);
 				names.add(metric_name);
@@ -132,6 +129,9 @@ public class OOMetricsTableModel extends AbstractTableModel {
 				dispose.add(LOCAL_DISPOSE_MAXIMUM);
 				names.add(metric_name);
 				dispose.add(LOCAL_DISPOSE_SUM);
+			} else {
+				names.add(metric_name);
+				dispose.add(LOCAL_DISPOSE_IGNORE);
 			}
 		}
 		
@@ -162,16 +162,15 @@ public class OOMetricsTableModel extends AbstractTableModel {
 			while (k.hasNext()) {
 				Measurement metric = current_metrics.Measurement((String) k.next());
 				
-				if (metric instanceof NumericalMeasurement) {
-					NumericalMeasurement num = (NumericalMeasurement) metric;
-					current_values.add(num.Value());
-				} else if (metric instanceof StatisticalMeasurement) {
+				if (metric instanceof StatisticalMeasurement) {
 					StatisticalMeasurement stats = (StatisticalMeasurement) metric;
 					current_values.add(new Double(stats.Minimum()));
 					current_values.add(new Double(stats.Median()));
 					current_values.add(new Double(stats.Average()));
 					current_values.add(new Double(stats.Maximum()));
 					current_values.add(new Double(stats.Sum()));
+				} else {
+					current_values.add(metric.Value());
 				}
 			}
 		}

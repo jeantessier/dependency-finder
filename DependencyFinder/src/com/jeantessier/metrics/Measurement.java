@@ -38,8 +38,20 @@ public interface Measurement {
 	
 	public String                ShortName();
 	public String                LongName();
+
+	public Number                Value();
+	public int                   intValue();
+	public long                  longValue();
+	public float                 floatValue();
+	public double                doubleValue();
+
 	public boolean               InRange();
-	
+
 	public void                  Add(Object object);
+	public void                  Add(int i);
+	public void                  Add(long l);
+	public void                  Add(float f);
+	public void                  Add(double d);
+	
 	public void                  Accept(MeasurementVisitor visitor);
 }

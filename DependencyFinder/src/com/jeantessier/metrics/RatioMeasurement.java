@@ -36,7 +36,17 @@ import java.io.*;
 
 import org.apache.log4j.*;
 
-public class RatioMeasurement extends NumericalMeasurementBase {
+/**
+ *  <pre>
+ *  &lt;init-text&gt;
+ *      base measurement name [DISPOSE_x]
+ *      divider measurement name [DISPOSE_x]
+ *  &lt;/init-text&gt;
+ *  </pre>
+ *  
+ *  <p>If either is missing, this measurement will be NaN.</p>
+ */
+public class RatioMeasurement extends MeasurementBase {
 	private String base_name;
 	private String divider_name;
 
@@ -74,8 +84,8 @@ public class RatioMeasurement extends NumericalMeasurementBase {
 			Measurement base    = Context().Measurement(BaseName());
 			Measurement divider = Context().Measurement(DividerName());
 			
-			if (base instanceof NumericalMeasurement && divider instanceof NumericalMeasurement) {
-				result = ((NumericalMeasurement) base).doubleValue() / ((NumericalMeasurement) divider).doubleValue();
+			if (base != null && divider != null) {
+				result = base.doubleValue() / divider.doubleValue();
 			}
 		}
 		

@@ -136,43 +136,19 @@ public class Metrics {
 	}
 	
 	public void AddToMeasurement(String name, int delta) {
-		Measurement measurement = Measurement(name);
-
-		if (measurement instanceof NumericalMeasurement) {
-			((NumericalMeasurement) measurement).Add(delta);
-		} else {
-			measurement.Add(new Integer(delta));
-		}
+		Measurement(name).Add(delta);
 	}
 	
 	public void AddToMeasurement(String name, long delta) {
-		Measurement measurement = Measurement(name);
-
-		if (measurement instanceof NumericalMeasurement) {
-			((NumericalMeasurement) measurement).Add(delta);
-		} else {
-			measurement.Add(new Long(delta));
-		}
+		Measurement(name).Add(delta);
 	}
 	
 	public void AddToMeasurement(String name, float delta) {
-		Measurement measurement = Measurement(name);
-
-		if (measurement instanceof NumericalMeasurement) {
-			((NumericalMeasurement) measurement).Add(delta);
-		} else {
-			measurement.Add(new Float(delta));
-		}
+		Measurement(name).Add(delta);
 	}
 	
 	public void AddToMeasurement(String name, double delta) {
-		Measurement measurement = Measurement(name);
-
-		if (measurement instanceof NumericalMeasurement) {
-			((NumericalMeasurement) measurement).Add(delta);
-		} else {
-			measurement.Add(new Double(delta));
-		}
+		Measurement(name).Add(delta);
 	}
 	
 	public void AddToMeasurement(String name, Object delta) {

@@ -73,7 +73,7 @@ public class CSVPrinter extends Printer {
 		Append(measurement.NbDataPoints());
 	}
 	
-	protected void VisitNumericalMeasurement(NumericalMeasurement measurement) {
+	protected void VisitMeasurement(Measurement measurement) {
 		Append(measurement.Value());
 	}
 

@@ -32,7 +32,14 @@
 
 package com.jeantessier.metrics;
 
-public class CounterMeasurement extends NumericalMeasurementBase {
+/**
+ *  <pre>
+ *  &lt;init-text&gt;
+ *      [initial value]
+ *  &lt;/init-text&gt;
+ *  </pre>
+ */
+public class CounterMeasurement extends MeasurementBase {
 	private double value;
 
 	public CounterMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {

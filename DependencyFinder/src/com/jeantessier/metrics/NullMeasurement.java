@@ -48,12 +48,48 @@ public class NullMeasurement implements Measurement {
 	public String LongName() {
 		return null;
 	}
+
+	public Number Value(){
+		return null;
+	}
 	
+	public int intValue() {
+		return 0;
+	}
+	
+	public long longValue() {
+		return 0;
+	}
+	
+	public float floatValue() {
+		return 0;
+	}
+	
+	public double doubleValue() {
+		return 0;
+	}
+
 	public boolean InRange() {
 		return false;
 	}
 	
 	public void Add(Object object) {
+		// Do nothing
+	}
+	
+	public void Add(int i) {
+		// Do nothing
+	}
+	
+	public void Add(long l) {
+		// Do nothing
+	}
+	
+	public void Add(float f) {
+		// Do nothing
+	}
+	
+	public void Add(double d) {
 		// Do nothing
 	}
 

@@ -119,7 +119,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testIgnore() {
-		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_IGNORE");
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_IGNORE");
 
 		assertEquals("size "    + sm,  6,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm,  1.0, sm.Minimum(), 0.01);
@@ -130,7 +130,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testMinimum() {
-		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_MINIMUM");
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MINIMUM");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 1.0, sm.Minimum(), 0.01);
@@ -141,7 +141,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testMedian() {
-		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_MEDIAN");
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MEDIAN");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);
@@ -152,7 +152,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testAverage() {
-		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_AVERAGE");
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_AVERAGE");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 1.5, sm.Minimum(), 0.01);
@@ -163,7 +163,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testMaximum() {
-		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_MAXIMUM");
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MAXIMUM");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);
@@ -174,7 +174,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testSum() {
-		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_SUM");
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_SUM");
 
 		assertEquals("size "    + sm,  2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm,  3.0, sm.Minimum(), 0.01);
@@ -185,7 +185,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	public void testNbDataPoints() {
-		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar\nDISPOSE_NB_DATA_POINTS");
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_NB_DATA_POINTS");
 
 		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
 		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);

@@ -118,20 +118,20 @@ public abstract class Printer implements MeasurementVisitor {
 	public abstract void VisitMetrics(Metrics metrics);
 	
 	public void VisitRatioMeasurement(RatioMeasurement measurement) {
-		VisitNumericalMeasurement(measurement);
+		VisitMeasurement(measurement);
 	}
 	
 	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
-		VisitNumericalMeasurement(measurement);
+		VisitMeasurement(measurement);
 	}
 	
 	public void VisitCounterMeasurement(CounterMeasurement measurement) {
-		VisitNumericalMeasurement(measurement);
+		VisitMeasurement(measurement);
 	}
 	
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
-		VisitNumericalMeasurement(measurement);
+		VisitMeasurement(measurement);
 	}
 
-	protected abstract void VisitNumericalMeasurement(NumericalMeasurement measurement);
+	protected abstract void VisitMeasurement(Measurement measurement);
 }

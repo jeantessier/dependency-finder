@@ -36,7 +36,16 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.log4j.*;
+import org.apache.oro.text.perl.*;
 
+/**
+ *  <pre>
+ *  &lt;init-text&gt;
+ *      monitored measurement name [DISPOSE_x]
+ *      [DISPOSE_x]
+ *  &lt;/init-text&gt;
+ *  </pre>
+ */
 public class StatisticalMeasurement extends MeasurementBase {
 
 	/** Ignore StatisticalMeasurements and drill down to the next level */
@@ -60,8 +69,15 @@ public class StatisticalMeasurement extends MeasurementBase {
 	/** Use NbDataPoints() value on StatisticalMeasurements */
 	public static final int DISPOSE_NB_DATA_POINTS = 6;
 
+	private static final Perl5Util perl = new Perl5Util();
+
+	protected static Perl5Util Perl() {
+		return perl;
+	}
+	
 	private String monitored_measurement;
 	private int    dispose;
+	private int    self_dispose;
 	
 	private List data = new LinkedList();
 
@@ -73,7 +89,7 @@ public class StatisticalMeasurement extends MeasurementBase {
 	private int    nb_data_points = 0;
 
 	private int nb_submetrics = -1;
-	
+
 	public StatisticalMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
 
@@ -81,10 +97,11 @@ public class StatisticalMeasurement extends MeasurementBase {
 			BufferedReader in = new BufferedReader(new StringReader(init_text));
 			monitored_measurement = in.readLine().trim();
 
-			String dispose_text = in.readLine();
-			if (dispose_text != null) {
-				dispose_text = dispose_text.trim();
-
+			if (Perl().match("/(.*)\\s+(dispose_\\w+)$/i", monitored_measurement)) {
+				monitored_measurement = Perl().group(1);
+				
+				String dispose_text = Perl().group(2);
+					
 				if (dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
 					dispose = DISPOSE_IGNORE;
 				} else if (dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
@@ -105,6 +122,31 @@ public class StatisticalMeasurement extends MeasurementBase {
 			} else {
 				dispose = DISPOSE_IGNORE;
 			}
+
+			String self_dispose_text = in.readLine();
+			if (self_dispose_text != null) {
+				self_dispose_text = self_dispose_text.trim();
+
+				if (self_dispose_text.equalsIgnoreCase("DISPOSE_IGNORE")) {
+					self_dispose = DISPOSE_IGNORE;
+				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_MINIMUM")) {
+					self_dispose = DISPOSE_MINIMUM;
+				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_MEDIAN")) {
+					self_dispose = DISPOSE_MEDIAN;
+				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
+					self_dispose = DISPOSE_AVERAGE;
+				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
+					self_dispose = DISPOSE_MAXIMUM;
+				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
+					self_dispose = DISPOSE_SUM;
+				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
+					self_dispose = DISPOSE_NB_DATA_POINTS;
+				} else {
+					self_dispose = DISPOSE_IGNORE;
+				}
+			} else {
+				self_dispose = DISPOSE_IGNORE;
+			}
 			
 			in.close();
 		} catch (Exception ex) {
@@ -114,36 +156,36 @@ public class StatisticalMeasurement extends MeasurementBase {
 	}
 	
 	public double Minimum() {
-		Compute();
+		CollectData();
 		return minimum;
 	}
 
 	public double Median() {
-		Compute();
+		CollectData();
 		return median;
 	}
 
 	public double Average() {
-		Compute();
+		CollectData();
 		return average;
 	}
 
 	public double Maximum() {
-		Compute();
+		CollectData();
 		return maximum;
 	}
 
 	public double Sum() {
-		Compute();
+		CollectData();
 		return sum;
 	}
 
 	public int NbDataPoints() {
-		Compute();
+		CollectData();
 		return nb_data_points;
 	}
 	
-	private synchronized void Compute() {
+	private synchronized void CollectData() {
 		if (Context().SubMetrics().size() != nb_submetrics) {
 			data = new LinkedList();
 
@@ -182,20 +224,12 @@ public class StatisticalMeasurement extends MeasurementBase {
 	private void VisitMetrics(Metrics metrics) {
 		Logger.getLogger(getClass()).debug("VisitMetrics: " + metrics);
 		
-		Measurement measure = metrics.Measurement(monitored_measurement);
+		Measurement measurement = metrics.Measurement(monitored_measurement);
 
-		Logger.getLogger(getClass()).debug("measure for " + monitored_measurement + " is " + measure);
+		Logger.getLogger(getClass()).debug("measurement for " + monitored_measurement + " is " + measurement);
 		
-		if (measure instanceof NumericalMeasurement) {
-			Number value = ((NumericalMeasurement) measure).Value();
-			
-			Logger.getLogger(getClass()).debug(monitored_measurement + " on " + metrics.Name() + " is " + value);
-
-			if (value != null) {
-				data.add(value);
-			}
-		} else if (measure instanceof StatisticalMeasurement) {
-			StatisticalMeasurement stats = (StatisticalMeasurement) measure;
+		if (measurement instanceof StatisticalMeasurement) {
+			StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
 			
 			Logger.getLogger(getClass()).debug("dispose of StatisticalMeasurements is " + dispose);
 
@@ -239,11 +273,19 @@ public class StatisticalMeasurement extends MeasurementBase {
 					}
 					break;
 			}
-		} else {
+		} else if (measurement instanceof NullMeasurement) {
 			Logger.getLogger(getClass()).debug("Skipping to next level ...");
 			Iterator i = metrics.SubMetrics().iterator();
 			while (i.hasNext()) {
 				VisitMetrics((Metrics) i.next());
+			}
+		} else {
+			Number value = measurement.Value();
+			
+			Logger.getLogger(getClass()).debug(monitored_measurement + " on " + metrics.Name() + " is " + value);
+
+			if (value != null) {
+				data.add(value);
 			}
 		}
 	}
@@ -252,8 +294,44 @@ public class StatisticalMeasurement extends MeasurementBase {
 		visitor.VisitStatisticalMeasurement(this);
 	}
 
+	protected double Compute() {
+		double result = Double.NaN;
+		
+		switch (self_dispose) {
+			case DISPOSE_MINIMUM:
+				result = Minimum();
+				break;
+				
+			case DISPOSE_MEDIAN:
+				result = Median();
+				break;
+				
+			case DISPOSE_AVERAGE:
+				result = Average();
+				break;
+				
+			case DISPOSE_MAXIMUM:
+				result = Maximum();
+				break;
+				
+			case DISPOSE_SUM:
+				result = Sum();
+				break;
+				
+			case DISPOSE_NB_DATA_POINTS:
+				result = NbDataPoints();
+				break;
+
+			case DISPOSE_IGNORE:
+			default:
+				break;
+		}
+
+		return result;
+	}
+
 	public String toString() {
-		Compute();
+		CollectData();
 		return data.toString();
 	}
 }

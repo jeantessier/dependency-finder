@@ -63,16 +63,16 @@ public class TestMetrics extends TestCase {
 		assertNotNull(metrics.Measurement("test2"));
 
 		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(0, ((NumericalMeasurement) metrics.Measurement("test1")).intValue());
-		assertEquals(0, ((NumericalMeasurement) metrics.Measurement("test2")).intValue());
+		assertEquals(0, metrics.Measurement("test1").intValue());
+		assertEquals(0, metrics.Measurement("test2").intValue());
 	}
 
 	public void testAddToMeasurement() {
 		Metrics metrics = new Metrics("test");
 
-		NumericalMeasurement m0 = new CounterMeasurement(null, null, null);
-		NumericalMeasurement m1 = new CounterMeasurement(null, null, null);
-		NumericalMeasurement m2 = new CounterMeasurement(null, null, null);
+		Measurement m0 = new CounterMeasurement(null, null, null);
+		Measurement m1 = new CounterMeasurement(null, null, null);
+		Measurement m2 = new CounterMeasurement(null, null, null);
 
 		m1.Add(1);
 		m2.Add(2.5);
@@ -82,9 +82,9 @@ public class TestMetrics extends TestCase {
 		metrics.Track("test2", m2);
 
 		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(0.0, ((NumericalMeasurement) metrics.Measurement("test0")).Value().doubleValue(), 0.01);
-		assertEquals(1.0, ((NumericalMeasurement) metrics.Measurement("test1")).Value().doubleValue(), 0.01);
-		assertEquals(2.5, ((NumericalMeasurement) metrics.Measurement("test2")).Value().doubleValue(), 0.01);
+		assertEquals(0.0, metrics.Measurement("test0").doubleValue(), 0.01);
+		assertEquals(1.0, metrics.Measurement("test1").doubleValue(), 0.01);
+		assertEquals(2.5, metrics.Measurement("test2").doubleValue(), 0.01);
 
 		metrics.AddToMeasurement("test",  1.0);
 		metrics.AddToMeasurement("test0", 1.0);
@@ -92,9 +92,9 @@ public class TestMetrics extends TestCase {
 		metrics.AddToMeasurement("test2", 1.0);
 		
 		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(1.0, ((NumericalMeasurement) metrics.Measurement("test0")).Value().doubleValue(), 0.01);
-		assertEquals(2.0, ((NumericalMeasurement) metrics.Measurement("test1")).Value().doubleValue(), 0.01);
-		assertEquals(3.5, ((NumericalMeasurement) metrics.Measurement("test2")).Value().doubleValue(), 0.01);
+		assertEquals(1.0, metrics.Measurement("test0").doubleValue(), 0.01);
+		assertEquals(2.0, metrics.Measurement("test1").doubleValue(), 0.01);
+		assertEquals(3.5, metrics.Measurement("test2").doubleValue(), 0.01);
 
 		metrics.AddToMeasurement("test",  new Double(1.0));
 		metrics.AddToMeasurement("test0", new Double(1.0));
@@ -102,9 +102,9 @@ public class TestMetrics extends TestCase {
 		metrics.AddToMeasurement("test2", new Double(1.0));
 		
 		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(2.0, ((NumericalMeasurement) metrics.Measurement("test0")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("test1")).Value().doubleValue(), 0.01);
-		assertEquals(4.5, ((NumericalMeasurement) metrics.Measurement("test2")).Value().doubleValue(), 0.01);
+		assertEquals(2.0, metrics.Measurement("test0").doubleValue(), 0.01);
+		assertEquals(3.0, metrics.Measurement("test1").doubleValue(), 0.01);
+		assertEquals(4.5, metrics.Measurement("test2").doubleValue(), 0.01);
 
 		metrics.AddToMeasurement("test",  1);
 		metrics.AddToMeasurement("test0", 1);
@@ -112,9 +112,9 @@ public class TestMetrics extends TestCase {
 		metrics.AddToMeasurement("test2", 1);
 		
 		assertEquals(NullMeasurement.class, metrics.Measurement("test").getClass());
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("test0")).Value().doubleValue(), 0.01);
-		assertEquals(4.0, ((NumericalMeasurement) metrics.Measurement("test1")).Value().doubleValue(), 0.01);
-		assertEquals(5.5, ((NumericalMeasurement) metrics.Measurement("test2")).Value().doubleValue(), 0.01);
+		assertEquals(3.0, metrics.Measurement("test0").doubleValue(), 0.01);
+		assertEquals(4.0, metrics.Measurement("test1").doubleValue(), 0.01);
+		assertEquals(5.5, metrics.Measurement("test2").doubleValue(), 0.01);
 	}
 
 	public void testAddSubMetrics() {
@@ -271,9 +271,9 @@ public class TestMetrics extends TestCase {
 		assertEquals(NullMeasurement.class, metrics.Measurement("1001").getClass());
 		assertEquals(NullMeasurement.class, metrics.Measurement("1010").getClass());
 		assertEquals(NullMeasurement.class, metrics.Measurement("1011").getClass());
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("1100")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("1101")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("1110")).Value().doubleValue(), 0.01);
-		assertEquals(3.0, ((NumericalMeasurement) metrics.Measurement("1111")).Value().doubleValue(), 0.01);
+		assertEquals(3.0, metrics.Measurement("1100").doubleValue(), 0.01);
+		assertEquals(3.0, metrics.Measurement("1101").doubleValue(), 0.01);
+		assertEquals(3.0, metrics.Measurement("1110").doubleValue(), 0.01);
+		assertEquals(3.0, metrics.Measurement("1111").doubleValue(), 0.01);
 	}
 }
