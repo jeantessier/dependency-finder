@@ -1691,10 +1691,10 @@ following commands are equivalent.
 </p>
 
 <pre>
-    C:\>c2c -scope-includes /test/ test.xml
-    C:\>c2c -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -c2c -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -class-scope -class-scope-includes /test/ -class-filter test.xml
+    C:\>c2c -show-all -scope-includes /test/ test.xml
+    C:\>c2c -show-all -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -c2c -show-all -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -show-all -class-scope -class-scope-includes /test/ -class-filter test.xml
 </pre>
 
 <p>
@@ -1713,10 +1713,10 @@ these commands are equivalent.
 </p>
 
 <pre>
-    C:\>c2p -scope-includes /test/ test.xml
-    C:\>c2p -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -c2p -scope-includes /test/ test.xml
-    C:\>DependencyReporter -class-scope -class-scope-includes /test/ -package-filter test.xml
+    C:\>c2p -show-all -scope-includes /test/ test.xml
+    C:\>c2p -show-all -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -c2p -show-all -scope-includes /test/ test.xml
+    C:\>DependencyReporter -show-all -class-scope -class-scope-includes /test/ -package-filter test.xml
 </pre>
     
 <pre>
@@ -1736,9 +1736,9 @@ equivalent.
 </p>
 
 <pre>
-    C:\>p2p test.xml
-    C:\>DependencyReporter -p2p test.xml
-    C:\>DependencyReporter -package-scope -package-filter test.xml
+    C:\>p2p -show-all test.xml
+    C:\>DependencyReporter -p2p -show-all test.xml
+    C:\>DependencyReporter -show-all -package-scope -package-filter test.xml
 </pre>
     
 <pre>
@@ -2212,17 +2212,18 @@ effect through command-line switches.
 </div>
 
 <pre>
-    C:\>DependencyReporter -package-scope  \
+    C:\>DependencyReporter -show-all       \
+                           -package-scope  \
                            -class-scope    \
                            -feature-scope
 </pre>
 
 <pre>
-    C:\>DependencyReporter -all
+    C:\>DependencyReporter -show-all -all
 </pre>
 
 <pre>
-    C:\>DependencyReporter -f2f
+    C:\>DependencyReporter -show-all -f2f
 </pre>
 
 <div align="center">
@@ -2243,7 +2244,8 @@ switches.
 </div>
 
 <pre>
-    C:\>DependencyReporter -scope-includes //           \
+    C:\>DependencyReporter -show-all                    \
+                           -scope-includes //           \
                            -scope-excludes /Test/
 </pre>
 
@@ -2491,25 +2493,27 @@ E.g.,
 </p>
 
 <pre>
-    C:\>DependencyReporter -package-scope  \
+    C:\>DependencyReporter -show-all       \
+                           -package-scope  \
                            -class-scope    \
                            -feature-scope
 </pre>
 
 <pre>
-    C:\>DependencyReporter -all
+    C:\>DependencyReporter -show-all -all
 </pre>
 
 <pre>
-    C:\>DependencyReporter -f2f
+    C:\>DependencyReporter -show-all -f2f
 </pre>
 
 <pre>
-    C:\>DependencyReporter -scope-includes //
+    C:\>DependencyReporter -show-all -scope-includes //
 </pre>
 
 <pre>
-    C:\>DependencyReporter -scope-includes //                       \
+    C:\>DependencyReporter -show-all                                \
+                           -scope-includes //                       \
                            -scope-excludes /Test/                   \
                            -feature-scope-includes /someMethod/     \
                            -feature-scope-includes /anotherMethod/
@@ -2547,7 +2551,14 @@ checkbox, the one labeled "empty nodes".
 </p>
 
 <p>
-If you are using the command-line tools, what you have to work from is most
+If you are using the command-line tools, <code>DependencyReporter</code> has switches
+matching the checkboxes from the GUI and web application.  You can use it with
+<code>-show-inbounds</code>, with or without <code>-show-empty-nodes</code>.  The Ant task also has
+matching attribtues.
+</p>
+
+<p>
+Another option with command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from <code>DependencyExtractor</code> or
 <code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
@@ -2659,7 +2670,14 @@ checkbox, the one labeled "empty nodes".
 </p>
 
 <p>
-If you are using the command-line tools, what you have to work from is most
+If you are using the command-line tools, <code>DependencyReporter</code> has switches
+matching the checkboxes from the GUI and web application.  You can use it with
+<code>-show-outbounds</code>, with or without <code>-show-empty-nodes</code>.  The Ant task also has
+matching attribtues.
+</p>
+
+<p>
+Another option with the command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from <code>DependencyExtractor</code> or
 <code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
@@ -2753,7 +2771,15 @@ that node B also depends on node A, Dependency Finder writes it as:
 </pre>
 
 <p>
-If you are using the command-line tools, what you have to work from is most
+If you are using the command-line tools, <code>DependencyReporter</code> has switches
+matching the checkboxes from the GUI and web application.  You can use it with
+both <code>-show-inbounds</code> and <code>-show-outbounds</code>, with or without
+<code>-show-empty-nodes</code>.  If you want to use all three, you can save some typing by
+using <code>-show-all</code> instead.  The Ant task also has matching attribtues.
+</p>
+
+<p>
+Another option with the command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from <code>DependencyExtractor</code> or
 <code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
@@ -2809,11 +2835,6 @@ E.g.,
 
 <a name="Summary" />
 <h4>Summary</h4>
-
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
 
 <p>
 This table summarizes which CLI tool shows which information.

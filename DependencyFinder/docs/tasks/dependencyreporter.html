@@ -387,7 +387,8 @@ dependencies and save it to <code>dg.p2p.xml</code>:</p>
 
 <pre>  &lt;dependencyreporter srcfile=&quot;df.xml&quot;
                       destfile=&quot;df.p2p.xml&quot;
-                      p2p=&quot;yes&quot;/&gt;</pre>
+                      p2p=&quot;yes&quot;
+                      showall=&quot;yes&quot;/&gt;</pre>
 
 <p>To reduce the graph in <code>dg.xml</code> to package-to-package
 dependencies among <code>com.jeantessier.*</code> packages and save
@@ -396,6 +397,7 @@ it to <code>dg.p2p.xml</code>, and then convert it to HTML:</p>
 <pre>  &lt;dependencyreporter srcfile=&quot;df.xml&quot;
                       destfile=&quot;df.p2p.xml&quot;
                       p2p=&quot;yes&quot;
+                      showall=&quot;yes&quot;
                       includes=&quot;/jeantessier/&quot;/&gt;</pre>
 
 <p>To reduce the graph in <code>dg.xml</code> to package-to-package
@@ -403,10 +405,11 @@ dependencies and save it to <code>dg.p2p.xml</code>:</p>
 
 <pre>  &lt;dependencyreporter srcfile=&quot;df.xml&quot;
                       destfile=&quot;df.p2p.xml&quot;
-                      p2p=&quot;yes&quot;/&gt;
-  &lt;xslt style=&quot;${dependencyfinder.home}/etc/DependenciesToHTML.xsl&quot;
+                      p2p=&quot;yes&quot;
+                      showall=&quot;yes&quot;/&gt;
+  &lt;xslt style=&quot;${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl&quot;
         in=&quot;df.p2p.xml&quot;
-        out=&quot;df.p2p.html&quot;/></pre>
+        out=&quot;df.p2p.html&quot;/&gt;</pre>
 
 <hr>
 

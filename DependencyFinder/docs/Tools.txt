@@ -4828,7 +4828,7 @@ document that follows the
 
 <blockquote>
 
-    DependencyReporter -p2p  -includes /jeantessier/ df.xml
+    DependencyReporter -p2p -show-all -includes /jeantessier/ df.xml
     com.jeantessier.classreader
         <-- com.jeantessier.dependency
         <-- com.jeantessier.dependencyfinder.cli

@@ -1256,10 +1256,10 @@ And narrow down the graph to class-to-class dependencies.
 =c2c= is a shortcut for a set of switches to =DependencyReporter=.  All the
 following commands are equivalent.
 
-    C:\>c2c -scope-includes /test/ test.xml
-    C:\>c2c -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -c2c -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -class-scope -class-scope-includes /test/ -class-filter test.xml
+    C:\>c2c -show-all -scope-includes /test/ test.xml
+    C:\>c2c -show-all -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -c2c -show-all -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -show-all -class-scope -class-scope-includes /test/ -class-filter test.xml
 
 For fun, I entered manually this graph description into
 [[http://www.gentleware.com?redirect=products][Poseidon for UML]].
@@ -1272,10 +1272,10 @@ For fun, I entered manually this graph description into
 We can narrow the graph further to class-to-package dependencies.  Again, all
 these commands are equivalent.
 
-    C:\>c2p -scope-includes /test/ test.xml
-    C:\>c2p -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -c2p -scope-includes /test/ test.xml
-    C:\>DependencyReporter -class-scope -class-scope-includes /test/ -package-filter test.xml
+    C:\>c2p -show-all -scope-includes /test/ test.xml
+    C:\>c2p -show-all -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -c2p -show-all -scope-includes /test/ test.xml
+    C:\>DependencyReporter -show-all -class-scope -class-scope-includes /test/ -package-filter test.xml
     
         test
             --> java.lang
@@ -1289,9 +1289,9 @@ these commands are equivalent.
 Finally, a package-to-package dependency graph.  All these commands are
 equivalent.
 
-    C:\>p2p test.xml
-    C:\>DependencyReporter -p2p test.xml
-    C:\>DependencyReporter -package-scope -package-filter test.xml
+    C:\>p2p -show-all test.xml
+    C:\>DependencyReporter -p2p -show-all test.xml
+    C:\>DependencyReporter -show-all -package-scope -package-filter test.xml
     
         --> java.lang
         --> java.util
@@ -1684,13 +1684,14 @@ effect through command-line switches.
     [[images/ScopeControls.simple.highcontrols.jpg]]
 </div>
 
-    C:\>DependencyReporter -package-scope  \
+    C:\>DependencyReporter -show-all       \
+                           -package-scope  \
                            -class-scope    \
                            -feature-scope
 
-    C:\>DependencyReporter -all
+    C:\>DependencyReporter -show-all -all
 
-    C:\>DependencyReporter -f2f
+    C:\>DependencyReporter -show-all -f2f
 
 <div align="center">
 *Scope Controls*
@@ -1707,7 +1708,8 @@ switches.
     [[images/ScopeControls.simple.highcriteria.jpg]]
 </div>
 
-    C:\>DependencyReporter -scope-includes //           \
+    C:\>DependencyReporter -show-all                    \
+                           -scope-includes //           \
                            -scope-excludes /Test/
 
 <div align="center">
@@ -1931,17 +1933,19 @@ used in scoping feature nodes, if you use it along with =-feature-scope=.
 
 E.g.,
 
-    C:\>DependencyReporter -package-scope  \
+    C:\>DependencyReporter -show-all       \
+                           -package-scope  \
                            -class-scope    \
                            -feature-scope
 
-    C:\>DependencyReporter -all
+    C:\>DependencyReporter -show-all -all
 
-    C:\>DependencyReporter -f2f
+    C:\>DependencyReporter -show-all -f2f
 
-    C:\>DependencyReporter -scope-includes //
+    C:\>DependencyReporter -show-all -scope-includes //
 
-    C:\>DependencyReporter -scope-includes //                       \
+    C:\>DependencyReporter -show-all                                \
+                           -scope-includes //                       \
                            -scope-excludes /Test/                   \
                            -feature-scope-includes /someMethod/     \
                            -feature-scope-includes /anotherMethod/
@@ -1968,7 +1972,12 @@ uncheck the one labeled "outbounds".  If a node has no inbound dependencies,
 it will appear empty.  You can remove empty nodes by unchecking the last
 checkbox, the one labeled "empty nodes".
 
-If you are using the command-line tools, what you have to work from is most
+If you are using the command-line tools, =DependencyReporter= has switches
+matching the checkboxes from the GUI and web application.  You can use it with
+=-show-inbounds=, with or without =-show-empty-nodes=.  The Ant task also has
+matching attribtues.
+
+Another option with command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from =DependencyExtractor= or
 =DependencyReporter=.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
@@ -2051,7 +2060,12 @@ uncheck the one labeled "inbounds".  If a node has no outbound dependencies,
 it will appear empty.  You can remove empty nodes by unchecking the last
 checkbox, the one labeled "empty nodes".
 
-If you are using the command-line tools, what you have to work from is most
+If you are using the command-line tools, =DependencyReporter= has switches
+matching the checkboxes from the GUI and web application.  You can use it with
+=-show-outbounds=, with or without =-show-empty-nodes=.  The Ant task also has
+matching attribtues.
+
+Another option with the command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from =DependencyExtractor= or
 =DependencyReporter=.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
@@ -2120,7 +2134,13 @@ that node B also depends on node A, Dependency Finder writes it as:
         &lt;-&gt; A
 </pre>
 
-If you are using the command-line tools, what you have to work from is most
+If you are using the command-line tools, =DependencyReporter= has switches
+matching the checkboxes from the GUI and web application.  You can use it with
+both =-show-inbounds= and =-show-outbounds=, with or without
+=-show-empty-nodes=.  If you want to use all three, you can save some typing by
+using =-show-all= instead.  The Ant task also has matching attribtues.
+
+Another option with the command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from =DependencyExtractor= or
 =DependencyReporter=.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
@@ -2164,11 +2184,6 @@ E.g.,
             <-- test.main(java.lang.String[])
 
 ---++++ Summary
-
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
 
 This table summarizes which CLI tool shows which information.
 
