@@ -102,7 +102,7 @@
 
     String stopIncludes = request.getParameter("stop-includes");
     if (stopIncludes == null) {
-	stopIncludes = "//";
+	stopIncludes = "";
     }
 
     String stopExcludes = request.getParameter("stop-excludes");
@@ -174,7 +174,7 @@
 
 <p class="title"><code><%= application.getInitParameter("name") %></code></p>
 
-</td></tr><tr><td colspan="2">
+</td></tr><tr><td colspan="2" align="center">
 
 <table frame="border" rules="cols" class="controls" width="100%"><tr>
 
@@ -184,7 +184,7 @@
 
 </tr></table>
 
-</td></tr><tr><td colspan="2">
+</td></tr><tr><td colspan="2" align="center">
 
 <table frame="border" rules="groups" class="controls">
 
@@ -193,11 +193,11 @@
 
     <tbody>
     <tr>
-	<td colspan="3">
+	<td colspan="3" width="50%">
 	    <b>Start with programming elements</b>
 	</td>
-	<td colspan="3">
-	    <b>Follow dependencies</b>
+	<td colspan="3" width="50%">
+	    <b>Stop with programming elements</b>
 	</td>
     </tr>
     <tr>
@@ -222,78 +222,78 @@
 	<td>
 	</td>
 	<td>
-	    <input type="text" name="start-includes" value="<%= startIncludes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="start-includes" value="<%= startIncludes %>" onMouseOver="window.status='Start with packages, classes, methods, or fields matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="start-excludes" value="<%= startExcludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="start-excludes" value="<%= startExcludes %>" onMouseOver="window.status='Do NOT start with packages, classes, methods, or fields matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
 	</td>
 	<td>
-	    <input type="text" name="stop-includes" value="<%= stopIncludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="stop-includes" value="<%= stopIncludes %>" onMouseOver="window.status='Stop at packages, classes, methods, or fields matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="stop-excludes" value="<%= stopExcludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> onMouseOver="window.status='Start with packages'" onMouseOut="window.status=''">&nbsp;package
-	</td>
-	<td>
-	    <input type="text" name="package-start-includes" value="<%= packageStartIncludes %>" onMouseOver="window.status='Package must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="package-start-excludes" value="<%= packageStartExcludes %>" onMouseOver="window.status='Package must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
-	</td>
-	<td>
-	    <input type="text" name="package-stop-includes" value="<%= packageStopIncludes %>" onMouseOver="window.status='Package at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="package-stop-excludes" value="<%= packageStopExcludes %>" onMouseOver="window.status='Package at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="stop-excludes" value="<%= stopExcludes %>" onMouseOver="window.status='Do NOT stop at packages, classes, methods, or fields matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     <tr>
 	<td>
-	    <input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> onMouseOver="window.status='Start with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	    package
 	</td>
 	<td>
-	    <input type="text" name="class-start-includes" value="<%= classStartIncludes %>" onMouseOver="window.status='Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="package-start-includes" value="<%= packageStartIncludes %>" onMouseOver="window.status='Start with packages matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="class-start-excludes" value="<%= classStartExcludes %>" onMouseOver="window.status='Class must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="package-start-excludes" value="<%= packageStartExcludes %>" onMouseOver="window.status='Do NOT start with packages matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
+	    package
 	</td>
 	<td>
-	    <input type="text" name="class-stop-includes" value="<%= classStopIncludes %>" onMouseOver="window.status='Class at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="package-stop-includes" value="<%= packageStopIncludes %>" onMouseOver="window.status='Stop at packages matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="class-stop-excludes" value="<%= classStopExcludes %>" onMouseOver="window.status='Class at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="package-stop-excludes" value="<%= packageStopExcludes %>" onMouseOver="window.status='Do NOT stop at packages matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     <tr>
 	<td>
-	    <input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> onMouseOver="window.status='Start with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
+	    class
 	</td>
 	<td>
-	    <input type="text" name="feature-start-includes" value="<%= featureStartIncludes %>" onMouseOver="window.status='Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="class-start-includes" value="<%= classStartIncludes %>" onMouseOver="window.status='Start with classes matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="feature-start-excludes" value="<%= featureStartExcludes %>" onMouseOver="window.status='Method or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="class-start-excludes" value="<%= classStartExcludes %>" onMouseOver="window.status='Do NOT start with classes matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
+	    class
 	</td>
 	<td>
-	    <input type="text" name="feature-stop-includes" value="<%= featureStopIncludes %>" onMouseOver="window.status='Method or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="class-stop-includes" value="<%= classStopIncludes %>" onMouseOver="window.status='Stop at classes matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="feature-stop-excludes" value="<%= featureStopExcludes %>" onMouseOver="window.status='Method or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="class-stop-excludes" value="<%= classStopExcludes %>" onMouseOver="window.status='Do not stop at classes matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    feature
+	</td>
+	<td>
+	    <input type="text" name="feature-start-includes" value="<%= featureStartIncludes %>" onMouseOver="window.status='Start with methods or fields matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	</td>
+	<td>
+	    <input type="text" name="feature-start-excludes" value="<%= featureStartExcludes %>" onMouseOver="window.status='Do NOT start with methods or fields matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	</td>
+	<td>
+	    feature
+	</td>
+	<td>
+	    <input type="text" name="feature-stop-includes" value="<%= featureStopIncludes %>" onMouseOver="window.status='Stop at methods or fields matching any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	</td>
+	<td>
+	    <input type="text" name="feature-stop-excludes" value="<%= featureStopExcludes %>" onMouseOver="window.status='Do NOT stop at method or fields matching any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     </tbody>
@@ -308,6 +308,37 @@ Follow outbounds:
 <input type="text" name="maximum-outbound-depth" value="<%= maximumOutboundDepth %>" size="2" onMouseOver="window.status='Maximum hops in the direction of dependencies.  Empty field means no limit.'" onMouseOut="window.status=''">
 
         </td>
+    </tr>
+    </tbody>
+</table>
+
+</td></tr><tr><td colspan="2" align="center">
+
+<table frame="border" rules="groups" class="controls" width="100%">
+
+    <colgroup span="2" />
+    <colgroup span="2" />
+
+    <tbody>
+    <tr>
+	<td colspan="2" width="50%">
+	    <b>Summarize programming elements</b>
+	</td>
+	<td colspan="2" width="50%">
+	    <b>Summarize dependencies</b>
+	</td>
+    </tr>
+    <tr>
+	<td align="center" colspan="2">
+	    <input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> onMouseOver="window.status='Start with packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> onMouseOver="window.status='Start with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> onMouseOver="window.status='Start with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
+	</td>
+	<td align="center" colspan="2">
+	    <input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> onMouseOver="window.status='Stop with packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> onMouseOver="window.status='Stop with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> onMouseOver="window.status='Stop with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
+	</td>
     </tr>
     </tbody>
 </table>
