@@ -22,8 +22,8 @@
 
 <hr>
 
-<a name="1.1.0 beta 3"></a>
-<h2>1.1.0 beta 2 to 1.1.0 beta 3</h2>
+<a name="1.1.0 beta3"></a>
+<h2>1.1.0 beta2 to 1.1.0 beta3</h2>
 <h3>Removed Classes:</h3>
 <ul>
 <li>
@@ -47,17 +47,6 @@
 </blockquote>
 <h3>Modified Classes:</h3>
 <blockquote>
-<h4>
-<code>com.jeantessier.classreader.Attribute_info</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void accept(com.jeantessier.classreader.Visitor)</code></nobr>
-</li>
-</ul>
-</blockquote>
 <h4>
 <code>com.jeantessier.classreader.CollectorBase</code>
 </h4>
@@ -87,17 +76,6 @@
 </li>
 <li>
 <nobr><code>public void endSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.classreader.ConstantPoolEntry</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void accept(com.jeantessier.classreader.Visitor)</code></nobr>
 </li>
 </ul>
 </blockquote>
@@ -141,31 +119,6 @@
 </ul>
 </blockquote>
 <h4>
-<code>com.jeantessier.classreader.Feature_info</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void accept(com.jeantessier.classreader.Visitor)</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.commandline.CommandLineSwitchBase</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void accept(com.jeantessier.commandline.Visitor)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract int parse(java.lang.String, java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
 <code>com.jeantessier.dependency.ClassNode</code>
 </h4>
 <blockquote>
@@ -185,41 +138,6 @@
 <ul>
 <li>
 <nobr><code>void makeConcrete()</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.dependency.ClosureSelector</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void visitClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitInboundClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitInboundFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitInboundPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitOutboundClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitOutboundFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitOutboundPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
 </li>
 </ul>
 </blockquote>
@@ -259,41 +177,6 @@
 </li>
 <li>
 <nobr><code>public void endSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.dependency.CompositeSelectionCriteria</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract boolean isMatchingClasses()</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean isMatchingFeatures()</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean isMatchingPackages()</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean matches(com.jeantessier.dependency.ClassNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean matches(com.jeantessier.dependency.FeatureNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean matches(com.jeantessier.dependency.PackageNode)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean matchesClassName(java.lang.String)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean matchesFeatureName(java.lang.String)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean matchesPackageName(java.lang.String)</code></nobr>
 </li>
 </ul>
 </blockquote>
@@ -1452,67 +1335,6 @@
 <ul>
 <li>
 <nobr><code>public void setMetrics(java.util.Collection)</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.diff.DecoratorDifferences</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void accept(com.jeantessier.diff.Visitor)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract boolean isEmpty()</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.diff.RemovableDifferences</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void accept(com.jeantessier.diff.Visitor)</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.diff.VisitorBase</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void visitClassDifferences(com.jeantessier.diff.ClassDifferences)</code></nobr>
-</li>
-<li>
-<nobr><code>public abstract void visitInterfaceDifferences(com.jeantessier.diff.InterfaceDifferences)</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.metrics.MeasurementBase</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void accept(com.jeantessier.metrics.MeasurementVisitor)</code></nobr>
-</li>
-</ul>
-</blockquote>
-<h4>
-<code>com.jeantessier.metrics.Printer</code>
-</h4>
-<blockquote>
-<h5>Removed Methods:</h5>
-<ul>
-<li>
-<nobr><code>public abstract void visitStatisticalMeasurement(com.jeantessier.metrics.StatisticalMeasurement)</code></nobr>
 </li>
 </ul>
 </blockquote>
