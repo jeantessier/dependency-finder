@@ -100,32 +100,38 @@ public class XMLPrinter extends Printer {
 		LowerIndent();
 		Indent().Append("</interfaces>").EOL();
 
-		Indent().Append("<fields>").EOL();
-		RaiseIndent();
-		i = classfile.Fields().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+		if (!classfile.Fields().isEmpty()) {
+			Indent().Append("<fields>").EOL();
+			RaiseIndent();
+			i = classfile.Fields().iterator();
+			while (i.hasNext()) {
+				((Visitable) i.next()).Accept(this);
+			}
+			LowerIndent();
+			Indent().Append("</fields>").EOL();
 		}
-		LowerIndent();
-		Indent().Append("</fields>").EOL();
 
-		Indent().Append("<methods>").EOL();
-		RaiseIndent();
-		i = classfile.Methods().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+		if (!classfile.Methods().isEmpty()) {
+			Indent().Append("<methods>").EOL();
+			RaiseIndent();
+			i = classfile.Methods().iterator();
+			while (i.hasNext()) {
+				((Visitable) i.next()).Accept(this);
+			}
+			LowerIndent();
+			Indent().Append("</methods>").EOL();
 		}
-		LowerIndent();
-		Indent().Append("</methods>").EOL();
 
-		Indent().Append("<attributes>").EOL();
-		RaiseIndent();
-		i = classfile.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+		if (!classfile.Attributes().isEmpty()) {
+			Indent().Append("<attributes>").EOL();
+			RaiseIndent();
+			i = classfile.Attributes().iterator();
+			while (i.hasNext()) {
+				((Visitable) i.next()).Accept(this);
+			}
+			LowerIndent();
+			Indent().Append("</attributes>").EOL();
 		}
-		LowerIndent();
-		Indent().Append("</attributes>").EOL();
 
 		LowerIndent();
 		Indent().Append("</classfile>").EOL();
@@ -363,11 +369,13 @@ public class XMLPrinter extends Printer {
 		
 		Indent().Append("<type>").Append(entry.Type()).Append("</type>").EOL();
 
-		Indent().Append("<attributes>").EOL();
-		RaiseIndent();
-		super.VisitField_info(entry);
-		LowerIndent();
-		Indent().Append("</attributes>").EOL();
+		if (!entry.Attributes().isEmpty()) {
+			Indent().Append("<attributes>").EOL();
+			RaiseIndent();
+			super.VisitField_info(entry);
+			LowerIndent();
+			Indent().Append("</attributes>").EOL();
+		}
 
 		LowerIndent();
 		Indent().Append("</field-info>").EOL();
@@ -397,11 +405,13 @@ public class XMLPrinter extends Printer {
 		}
 		Indent().Append("<signature>").Append(entry.Signature()).Append("</signature>").EOL();
 
-		Indent().Append("<attributes>").EOL();
-		RaiseIndent();
-		super.VisitMethod_info(entry);
-		LowerIndent();
-		Indent().Append("</attributes>").EOL();
+		if (!entry.Attributes().isEmpty()) {
+			Indent().Append("<attributes>").EOL();
+			RaiseIndent();
+			super.VisitMethod_info(entry);
+			LowerIndent();
+			Indent().Append("</attributes>").EOL();
+		}
 
 		LowerIndent();
 		Indent().Append("</method-info>").EOL();
