@@ -34,37 +34,63 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+import org.apache.log4j.*;
 
-		result.addTestSuite(TestMetrics.class);
-		result.addTestSuite(TestMetricsFactory.class);
-		result.addTestSuite(TestMeasurementDescriptor.class);
-		result.addTestSuite(TestMetricsConfiguration.class);
-		result.addTestSuite(TestMetricsConfigurationHandler.class);
-		result.addTestSuite(TestMetricsConfigurationLoader.class);
-		result.addTestSuite(TestNullMeasurement.class);
-		result.addTestSuite(TestCounterMeasurement.class);
-		result.addTestSuite(TestNameListMeasurement.class);
-		result.addTestSuite(TestSubMetricsAccumulatorMeasurement.class);
-		result.addTestSuite(TestContextAccumulatorMeasurement.class);
-		result.addTestSuite(TestRatioMeasurement.class);
-		result.addTestSuite(TestSumMeasurement.class);
-		result.addTestSuite(TestNbSubMetricsMeasurement.class);
-		result.addTestSuite(TestNbSubMetricsMeasurementSelectionCriteria.class);
-		result.addTestSuite(TestStatisticalMeasurement.class);
-		result.addTestSuite(TestStatisticalMeasurementEmpty.class);
-		result.addTestSuite(TestStatisticalMeasurementWithMetrics.class);
-		result.addTestSuite(TestStatisticalMeasurementWithDispose.class);
-		result.addTestSuite(TestMetricsComparator.class);
-		result.addTestSuite(TestMetricsGatherer.class);
-		result.addTestSuite(TestMetricsGathererEvents.class);
-		result.addTestSuite(TestMetricsGathererDependencies.class);
-		result.addTestSuite(TestMetricsGathererDependenciesFilter.class);
-		result.addTestSuite(TestMetricsGathererSLOC.class);
-		result.addTestSuite(TestXMLPrinter.class);
+public class TestStatisticalMeasurementEmpty extends TestCase {
+	private StatisticalMeasurement measurement;
+	private Metrics                metrics;
 
-		return result;
+	protected void setUp() throws Exception {
+		Logger.getLogger(getClass()).info("Starting test: " + getName());
+
+		metrics = new Metrics("foo");
+		measurement = new StatisticalMeasurement(null, metrics, "bar");
+	}
+	
+	protected void tearDown() throws Exception {
+		Logger.getLogger(getClass()).info("End of " + getName());
+	}
+
+	public void testDirect() {
+		Metrics m = new Metrics("m");
+		m.Track("bar", new CounterMeasurement(null, null, null));
+		metrics.AddSubMetrics(m);
+
+		assertTrue("Before AddToMeasurement()", measurement.Empty());
+		
+		m.AddToMeasurement("bar", 1);
+
+		assertFalse("After AddToMeasurement()", !measurement.Empty());
+	}
+
+	public void testIndirect() {
+		Metrics m = new Metrics("m");
+		metrics.AddSubMetrics(m);
+
+		Metrics sm = new Metrics("sm");
+		sm.Track("bar", new CounterMeasurement(null, null, null));
+		m.AddSubMetrics(sm);
+
+		assertTrue("Before AddToMeasurement()", measurement.Empty());
+		
+		sm.AddToMeasurement("bar", 1);
+
+		assertFalse("After AddToMeasurement()", !measurement.Empty());
+	}
+
+	public void testViaStatisticalMeasurement() {
+		Metrics m = new Metrics("m");
+		m.Track("bar", new StatisticalMeasurement(null, m, "bar"));
+		metrics.AddSubMetrics(m);
+
+		Metrics sm = new Metrics("sm");
+		sm.Track("bar", new CounterMeasurement(null, null, null));
+		m.AddSubMetrics(sm);
+
+		assertTrue("Before AddToMeasurement()", measurement.Empty());
+		
+		sm.AddToMeasurement("bar", 1);
+
+		assertFalse("After AddToMeasurement()", !measurement.Empty());
 	}
 }

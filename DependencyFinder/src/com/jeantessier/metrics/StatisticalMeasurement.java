@@ -303,6 +303,7 @@ public class StatisticalMeasurement extends MeasurementBase {
 			synchronized (this) {
 				if (Context().SubMetrics().size() != nb_submetrics) {
 					data = new LinkedList();
+					Empty(true);
 					
 					Iterator i = Context().SubMetrics().iterator();
 					while (i.hasNext()) {
@@ -346,8 +347,6 @@ public class StatisticalMeasurement extends MeasurementBase {
 					}
 					
 					nb_submetrics = Context().SubMetrics().size();
-
-					Empty(nb_data_points == 0);
 				}
 			}
 		}
@@ -424,6 +423,10 @@ public class StatisticalMeasurement extends MeasurementBase {
 			if (value != null) {
 				data.add(value);
 			}
+		}
+
+		if (super.Empty()) {
+			Empty(measurement.Empty());
 		}
 	}
 
