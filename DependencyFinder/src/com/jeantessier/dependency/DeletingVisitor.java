@@ -34,7 +34,9 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-public class DeletingVisitor implements Visitor {
+import com.jeantessier.classreader.*;
+
+public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase implements Visitor {
 	private NodeFactory factory;
 	
 	public DeletingVisitor(NodeFactory factory) {
@@ -43,6 +45,10 @@ public class DeletingVisitor implements Visitor {
 
 	public NodeFactory getFactory() {
 		return factory;
+	}
+	
+	public void visitClassfile(Classfile classfile) {
+		((Node) factory.getClasses().get(classfile.getClassName())).accept(this);
 	}
 	
 	public void traverseNodes(Collection nodes) {
