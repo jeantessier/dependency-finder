@@ -182,6 +182,7 @@ public class DependencyMetrics {
 		command_line.AddToggleSwitch("chart-features");
 		command_line.AddToggleSwitch("chart-all");
 		command_line.AddToggleSwitch("time");
+		command_line.AddToggleSwitch("validate");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
@@ -373,7 +374,7 @@ public class DependencyMetrics {
 			Collection packages;
 
 			if (filename.endsWith(".xml")) {
-				packages = new NodeLoader().Load(filename).values();
+				packages = new NodeLoader(command_line.ToggleSwitch("validate")).Load(filename).values();
 			} else if (filename.endsWith(".ser")) {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
 				packages = (Collection) in.readObject();

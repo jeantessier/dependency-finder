@@ -133,6 +133,7 @@ public class DependencyClosure {
 		command_line.AddToggleSwitch("time");
 		command_line.AddToggleSwitch("serialize");
 		command_line.AddToggleSwitch("xml");
+		command_line.AddToggleSwitch("validate");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
@@ -288,7 +289,7 @@ public class DependencyClosure {
 			Collection packages;
 
 			if (filename.endsWith(".xml")) {
-				packages = new NodeLoader().Load(filename).values();
+				packages = new NodeLoader(command_line.ToggleSwitch("validate")).Load(filename).values();
 			} else if (filename.endsWith(".ser")) {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
 				packages = (Collection) in.readObject();
