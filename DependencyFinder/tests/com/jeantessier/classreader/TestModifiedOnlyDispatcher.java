@@ -41,6 +41,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
 	private MockDispatcher            mockDispatcher;
 	private ClassfileLoaderDispatcher dispatcher;
 
+	private String testDirname;
 	private String testFilename;
 	
 	protected void setUp() throws Exception {
@@ -49,7 +50,8 @@ public class TestModifiedOnlyDispatcher extends TestCase {
 		mockDispatcher = new MockDispatcher();
 		dispatcher = new ModifiedOnlyDispatcher(mockDispatcher);
 
-		testFilename = "classes" + File.separator + getClass().getName() + "." + getName() + ".txt";
+		testDirname  = "classes";
+		testFilename = testDirname + File.separator + getClass().getName() + "." + getName() + ".txt";
 	}
 
 	protected void tearDown() throws Exception {
@@ -79,6 +81,14 @@ public class TestModifiedOnlyDispatcher extends TestCase {
 
 		assertEquals("repeat dispatch action", ClassfileLoaderDispatcher.ACTION_IGNORE, dispatcher.dispatch(testFilename));
 		assertEquals("repeat delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+	}
+	
+	public void testDispatchDirectory() throws IOException {
+		assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
+		assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
+
+		assertEquals("repeat dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
+		assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testDirname));
 	}
 	
 	public void testDispatchModifiedFile() throws IOException {

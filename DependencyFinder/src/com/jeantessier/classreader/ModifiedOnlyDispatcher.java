@@ -36,10 +36,12 @@ import java.io.*;
 import java.util.*;
 
 public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
+	private static final String EOL = System.getProperty("line.separator");
+	
 	private ClassfileLoaderDispatcher delegate;
 
 	private Map timestamps = new HashMap();
-	
+
 	public ModifiedOnlyDispatcher(ClassfileLoaderDispatcher delegate) {
 		this.delegate = delegate;
 	}
@@ -48,10 +50,12 @@ public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
 		int result = ACTION_IGNORE;
 
 		File file = new File(filename);
-		
-		Long timestamp = (Long) timestamps.get(filename);
 
-		if (timestamp == null || timestamp.longValue() < file.lastModified()) {
+		Long timestamp = (Long) timestamps.get(filename);
+		
+		if (file.isDirectory()) {
+			result = delegate.dispatch(filename);
+		} else if (timestamp == null || timestamp.longValue() < file.lastModified()) {
 			timestamp = new Long(file.lastModified());
 			timestamps.put(filename, timestamp);
 
