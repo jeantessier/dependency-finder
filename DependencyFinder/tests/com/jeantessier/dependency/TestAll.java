@@ -39,7 +39,11 @@ public class TestAll extends TestCase {
 		TestSuite result = new TestSuite();
 
 		result.addTestSuite(TestNodeFactory.class);
+		result.addTestSuite(TestDeletingVisitor.class);
 		result.addTestSuite(TestNode.class);
+		result.addTestSuite(TestPackageNode.class);
+		result.addTestSuite(TestClassNode.class);
+		result.addTestSuite(TestFeatureNode.class);
 		result.addTestSuite(TestNullSelectionCriteria.class);
 		result.addTestSuite(TestComprehensiveSelectionCriteria.class);
 		result.addTestSuite(TestAndCompositeSelectionCriteria.class);

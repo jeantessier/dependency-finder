@@ -41,6 +41,16 @@ public class PackageNode extends Node {
 		super(name, concrete);
 	}
 
+	// Only to be used by NodeFactory
+	void setConcrete(boolean concrete) {
+		Iterator i = getClasses().iterator();
+		while (!concrete && i.hasNext()) {
+			concrete = ((Node) i.next()).isConcrete();
+		}
+		
+		super.setConcrete(concrete);
+	}
+
 	public void addClass(ClassNode node) {
 		classes.add(node);
 	}

@@ -64,14 +64,8 @@ public class NodeFactory {
 
 		return result;
 	}
-
+	
 	public void deletePackage(PackageNode node) {
-		Iterator i = node.getClasses().iterator();
-		while (i.hasNext()) {
-			deleteClass((ClassNode) i.next());
-		}
-		
-		node.setConcrete(false);
 		packages.remove(node.getName());
 	}
 
@@ -108,18 +102,7 @@ public class NodeFactory {
 	}
 
 	public void deleteClass(ClassNode node) {
-		node.setConcrete(false);
-
-		Iterator i = node.getFeatures().iterator();
-		while (i.hasNext()) {
-			deleteFeature((FeatureNode) i.next());
-		}
-		
 		node.getPackageNode().removeClass(node);
-		if (node.getPackageNode().getClasses().isEmpty()) {
-			deletePackage(node.getPackageNode());
-		}
-		
 		classes.remove(node.getName());
 	}
 
@@ -159,15 +142,9 @@ public class NodeFactory {
 
 		return result;
 	}
-
+	
 	public void deleteFeature(FeatureNode node) {
-		node.setConcrete(false);
-		
 		node.getClassNode().removeFeature(node);
-		if (node.getClassNode().getFeatures().isEmpty()) {
-			deleteClass(node.getClassNode());
-		}
-		
 		features.remove(node.getName());
 	}
 	
