@@ -55,9 +55,13 @@ public class DependencyFinder extends JFrame {
 
     private boolean minimize;
     private boolean maximize;
+
+	private boolean advanced_mode = true;
+	private JPanel  query_panel   = new JPanel();
 	
     private JMenuBar          menu_bar                 = new JMenuBar();
     private JMenu             file_menu                = new JMenu();
+    private JMenu             view_menu                = new JMenu();
     private JToolBar          toolbar                  = new JToolBar();
     private JTextArea         dependencies_result_area = new JTextArea();
     private JTextArea         closure_result_area      = new JTextArea();
@@ -179,6 +183,13 @@ public class DependencyFinder extends JFrame {
     }
 	
     private void BuildMenus(CommandLine command_line) {
+		BuildFileMenu(command_line);
+		BuildViewMenu(command_line);
+
+		this.setJMenuBar(menu_bar);
+	}
+	
+    private void BuildFileMenu(CommandLine command_line) {
 		menu_bar.add(file_menu);
 
 		file_menu.setText("File");
@@ -265,8 +276,24 @@ public class DependencyFinder extends JFrame {
 		menu_item.setMnemonic('x');
 		// button = toolbar.add(action);
 		// button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
+    }
 
-		this.setJMenuBar(menu_bar);
+    private void BuildViewMenu(CommandLine command_line) {
+		menu_bar.add(view_menu);
+
+		view_menu.setText("View");
+
+		ButtonGroup group = new ButtonGroup();
+		JMenuItem menu_item;
+		
+		menu_item = new JRadioButtonMenuItem(new SimpleQueryPanelAction(this));
+		menu_item.setSelected(true);
+		group.add(menu_item);
+		view_menu.add(menu_item);
+		
+		menu_item = new JRadioButtonMenuItem(new AdvancedQueryPanelAction(this));
+		group.add(menu_item);
+		view_menu.add(menu_item);
     }
 	
     private void BuildUI() {
@@ -281,25 +308,261 @@ public class DependencyFinder extends JFrame {
 
 		result.setLayout(new BorderLayout());
 		result.add(toolbar, BorderLayout.NORTH);
-		result.add(BuildQueryPanel(), BorderLayout.CENTER);
+		result.add(BuildQueryPanel(false), BorderLayout.CENTER);
 		
 		return result;
     }
 	
-    private JComponent BuildQueryPanel() {
+    JComponent BuildQueryPanel(boolean advanced_mode) {
+		if (advanced_mode) {
+			BuildAdvancedQueryPanel();
+		} else {
+			BuildSimpleQueryPanel();
+		}
+		
+		return query_panel;
+    }
+	
+    private void BuildSimpleQueryPanel() {
+		if (advanced_mode) {
+			query_panel.removeAll();
+			query_panel.setLayout(new GridLayout(1, 2));
+			query_panel.add(BuildSimpleScopePanel());
+			query_panel.add(BuildSimpleFilterPanel());
+			query_panel.revalidate();
+			advanced_mode = false;
+		}
+    }
+	
+    private void BuildAdvancedQueryPanel() {
+		if (!advanced_mode) {
+			query_panel.removeAll();
+			query_panel.setLayout(new GridLayout(1, 2));
+			query_panel.add(BuildAdvancedScopePanel());
+			query_panel.add(BuildAdvancedFilterPanel());
+			query_panel.revalidate();
+			advanced_mode = true;
+		}
+    }
+
+    private JComponent BuildSimpleScopePanel() {
 		JPanel result = new JPanel();
 
-		result.setLayout(new GridLayout(1, 2));
-		result.add(BuildScopePanel());
-		result.add(BuildFilterPanel());
+		result.setBorder(BorderFactory.createTitledBorder("Select programming elements"));
+
+		result.setLayout(new BorderLayout());
+
+		result.add(BuildSimpleScopePanelTextFields(), BorderLayout.NORTH);
+		result.add(BuildSimpleScopePanelCheckboxes(), BorderLayout.SOUTH);
+
+		return result;
+	}
+	
+	private JComponent BuildSimpleScopePanelTextFields() {
+		JPanel result = new JPanel();
+
+		GridBagLayout      gbl = new GridBagLayout();
+		GridBagConstraints c   = new GridBagConstraints();
+		c.insets = new Insets(0, 2, 0, 2);
+		
+		result.setLayout(gbl);
+
+		JLabel scope_includes_label = new JLabel("including:");
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 0;
+		result.add(scope_includes_label);
+		gbl.setConstraints(scope_includes_label, c);
+
+		JLabel scope_excludes_label = new JLabel("excluding:");
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 0;
+		result.add(scope_excludes_label);
+		gbl.setConstraints(scope_excludes_label, c);
+
+		// -scope-includes
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 0;
+		result.add(scope_includes);
+		gbl.setConstraints(scope_includes, c);
+		
+		// -scope-excludes
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 0;
+		result.add(scope_excludes);
+		gbl.setConstraints(scope_excludes, c);
 
 		return result;
     }
 
-    private JComponent BuildScopePanel() {
+    private JComponent BuildSimpleScopePanelCheckboxes() {
 		JPanel result = new JPanel();
 
-		result.setBorder(BorderFactory.createTitledBorder("Scope"));
+		GridBagLayout      gbl = new GridBagLayout();
+		GridBagConstraints c   = new GridBagConstraints();
+		c.insets = new Insets(0, 2, 0, 2);
+		
+		result.setLayout(gbl);
+
+		// -package-scope
+		c.anchor = GridBagConstraints.EAST;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0;
+		result.add(package_scope);
+		gbl.setConstraints(package_scope, c);
+
+		// -class-scope
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 0;
+		result.add(class_scope);
+		gbl.setConstraints(class_scope, c);
+
+		// -feature-scope
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 2;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0;
+		result.add(feature_scope);
+		gbl.setConstraints(feature_scope, c);
+
+		return result;
+    }
+	
+    private JComponent BuildSimpleFilterPanel() {
+		JPanel result = new JPanel();
+
+		result.setBorder(BorderFactory.createTitledBorder("Show dependencies"));
+
+		result.setLayout(new BorderLayout());
+
+		result.add(BuildSimpleFilterPanelTextFields(), BorderLayout.NORTH);
+		result.add(BuildSimpleFilterPanelCheckboxes(), BorderLayout.SOUTH);
+
+		return result;
+	}
+	
+    private JComponent BuildSimpleFilterPanelTextFields() {
+		JPanel result = new JPanel();
+
+		GridBagLayout      gbl = new GridBagLayout();
+		GridBagConstraints c   = new GridBagConstraints();
+		c.insets = new Insets(0, 2, 0, 2);
+		
+		result.setLayout(gbl);
+
+		JLabel filter_includes_label = new JLabel("including:");
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 0;
+		result.add(filter_includes_label);
+		gbl.setConstraints(filter_includes_label, c);
+
+		JLabel filter_excludes_label = new JLabel("excluding:");
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 0;
+		result.add(filter_excludes_label);
+		gbl.setConstraints(filter_excludes_label, c);
+
+		// -filter-includes
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 0;
+		result.add(filter_includes);
+		gbl.setConstraints(filter_includes, c);
+
+		// -filter-excludes
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 0;
+		result.add(filter_excludes);
+		gbl.setConstraints(filter_excludes, c);
+
+		return result;
+    }
+	
+    private JComponent BuildSimpleFilterPanelCheckboxes() {
+		JPanel result = new JPanel();
+
+		GridBagLayout      gbl = new GridBagLayout();
+		GridBagConstraints c   = new GridBagConstraints();
+		c.insets = new Insets(0, 2, 0, 2);
+		
+		result.setLayout(gbl);
+
+		// -package-filter
+		c.anchor = GridBagConstraints.EAST;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0;
+		result.add(package_filter);
+		gbl.setConstraints(package_filter, c);
+
+		// -class-filter
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 0;
+		result.add(class_filter);
+		gbl.setConstraints(class_filter, c);
+
+		// -feature-filter
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 2;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0;
+		result.add(feature_filter);
+		gbl.setConstraints(feature_filter, c);
+
+		return result;
+    }
+
+    private JComponent BuildAdvancedScopePanel() {
+		JPanel result = new JPanel();
+
+		result.setBorder(BorderFactory.createTitledBorder("Select programming elements"));
 
 		GridBagLayout      gbl = new GridBagLayout();
 		GridBagConstraints c   = new GridBagConstraints();
@@ -337,7 +600,7 @@ public class DependencyFinder extends JFrame {
 		result.add(feature_scope);
 		gbl.setConstraints(feature_scope, c);
 
-		JLabel scope_includes_label = new JLabel("includes");
+		JLabel scope_includes_label = new JLabel("including:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
@@ -387,7 +650,7 @@ public class DependencyFinder extends JFrame {
 		result.add(feature_scope_includes);
 		gbl.setConstraints(feature_scope_includes, c);
 
-		JLabel scope_excludes_label = new JLabel("excludes");
+		JLabel scope_excludes_label = new JLabel("excluding:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 2;
@@ -440,10 +703,10 @@ public class DependencyFinder extends JFrame {
 		return result;
     }
 	
-    private JComponent BuildFilterPanel() {
+    private JComponent BuildAdvancedFilterPanel() {
 		JPanel result = new JPanel();
 
-		result.setBorder(BorderFactory.createTitledBorder("Filter"));
+		result.setBorder(BorderFactory.createTitledBorder("Show dependencies"));
 
 		GridBagLayout      gbl = new GridBagLayout();
 		GridBagConstraints c   = new GridBagConstraints();
@@ -481,7 +744,7 @@ public class DependencyFinder extends JFrame {
 		result.add(feature_filter);
 		gbl.setConstraints(feature_filter, c);
 
-		JLabel filter_includes_label = new JLabel("includes");
+		JLabel filter_includes_label = new JLabel("including:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
@@ -531,7 +794,7 @@ public class DependencyFinder extends JFrame {
 		result.add(feature_filter_includes);
 		gbl.setConstraints(feature_filter_includes, c);
 
-		JLabel filter_excludes_label = new JLabel("excludes");
+		JLabel filter_excludes_label = new JLabel("excluding:");
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 2;
@@ -726,25 +989,28 @@ public class DependencyFinder extends JFrame {
 		strategy.ClassScope(class_scope.isSelected());
 		strategy.FeatureScope(feature_scope.isSelected());
 		strategy.ScopeIncludes(scope_includes.getText());
-		strategy.PackageScopeIncludes(package_scope_includes.getText());
-		strategy.ClassScopeIncludes(class_scope_includes.getText());
-		strategy.FeatureScopeIncludes(feature_scope_includes.getText());
 		strategy.ScopeExcludes(scope_excludes.getText());
-		strategy.PackageScopeExcludes(package_scope_excludes.getText());
-		strategy.ClassScopeExcludes(class_scope_excludes.getText());
-		strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
 	
 		strategy.PackageFilter(package_filter.isSelected());
 		strategy.ClassFilter(class_filter.isSelected());
 		strategy.FeatureFilter(feature_filter.isSelected());
 		strategy.FilterIncludes(filter_includes.getText());
-		strategy.PackageFilterIncludes(package_filter_includes.getText());
-		strategy.ClassFilterIncludes(class_filter_includes.getText());
-		strategy.FeatureFilterIncludes(feature_filter_includes.getText());
 		strategy.FilterExcludes(filter_excludes.getText());
-		strategy.PackageFilterExcludes(package_filter_excludes.getText());
-		strategy.ClassFilterExcludes(class_filter_excludes.getText());
-		strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+
+		if (advanced_mode) {
+			strategy.PackageScopeIncludes(package_scope_includes.getText());
+			strategy.ClassScopeIncludes(class_scope_includes.getText());
+			strategy.FeatureScopeIncludes(feature_scope_includes.getText());
+			strategy.PackageScopeExcludes(package_scope_excludes.getText());
+			strategy.ClassScopeExcludes(class_scope_excludes.getText());
+			strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
+			strategy.PackageFilterIncludes(package_filter_includes.getText());
+			strategy.ClassFilterIncludes(class_filter_includes.getText());
+			strategy.FeatureFilterIncludes(feature_filter_includes.getText());
+			strategy.PackageFilterExcludes(package_filter_excludes.getText());
+			strategy.ClassFilterExcludes(class_filter_excludes.getText());
+			strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+		}
 
 		if (Maximize()) {
 			dependencies_query = new GraphCopier(strategy);
@@ -782,25 +1048,28 @@ public class DependencyFinder extends JFrame {
 		strategy.ClassScope(class_scope.isSelected());
 		strategy.FeatureScope(feature_scope.isSelected());
 		strategy.ScopeIncludes(scope_includes.getText());
-		strategy.PackageScopeIncludes(package_scope_includes.getText());
-		strategy.ClassScopeIncludes(class_scope_includes.getText());
-		strategy.FeatureScopeIncludes(feature_scope_includes.getText());
 		strategy.ScopeExcludes(scope_excludes.getText());
-		strategy.PackageScopeExcludes(package_scope_excludes.getText());
-		strategy.ClassScopeExcludes(class_scope_excludes.getText());
-		strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
 	
 		strategy.PackageFilter(package_filter.isSelected());
 		strategy.ClassFilter(class_filter.isSelected());
 		strategy.FeatureFilter(feature_filter.isSelected());
 		strategy.FilterIncludes(filter_includes.getText());
-		strategy.PackageFilterIncludes(package_filter_includes.getText());
-		strategy.ClassFilterIncludes(class_filter_includes.getText());
-		strategy.FeatureFilterIncludes(feature_filter_includes.getText());
 		strategy.FilterExcludes(filter_excludes.getText());
-		strategy.PackageFilterExcludes(package_filter_excludes.getText());
-		strategy.ClassFilterExcludes(class_filter_excludes.getText());
-		strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+
+		if (advanced_mode) {
+			strategy.PackageScopeIncludes(package_scope_includes.getText());
+			strategy.ClassScopeIncludes(class_scope_includes.getText());
+			strategy.FeatureScopeIncludes(feature_scope_includes.getText());
+			strategy.PackageScopeExcludes(package_scope_excludes.getText());
+			strategy.ClassScopeExcludes(class_scope_excludes.getText());
+			strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
+			strategy.PackageFilterIncludes(package_filter_includes.getText());
+			strategy.ClassFilterIncludes(class_filter_includes.getText());
+			strategy.FeatureFilterIncludes(feature_filter_includes.getText());
+			strategy.PackageFilterExcludes(package_filter_excludes.getText());
+			strategy.ClassFilterExcludes(class_filter_excludes.getText());
+			strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+		}
 		
 		TransitiveClosure selector = new TransitiveClosure(strategy);
 
@@ -834,25 +1103,28 @@ public class DependencyFinder extends JFrame {
 		strategy.ClassScope(class_scope.isSelected());
 		strategy.FeatureScope(feature_scope.isSelected());
 		strategy.ScopeIncludes(scope_includes.getText());
-		strategy.PackageScopeIncludes(package_scope_includes.getText());
-		strategy.ClassScopeIncludes(class_scope_includes.getText());
-		strategy.FeatureScopeIncludes(feature_scope_includes.getText());
 		strategy.ScopeExcludes(scope_excludes.getText());
-		strategy.PackageScopeExcludes(package_scope_excludes.getText());
-		strategy.ClassScopeExcludes(class_scope_excludes.getText());
-		strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
 	
 		strategy.PackageFilter(package_filter.isSelected());
 		strategy.ClassFilter(class_filter.isSelected());
 		strategy.FeatureFilter(feature_filter.isSelected());
 		strategy.FilterIncludes(filter_includes.getText());
-		strategy.PackageFilterIncludes(package_filter_includes.getText());
-		strategy.ClassFilterIncludes(class_filter_includes.getText());
-		strategy.FeatureFilterIncludes(feature_filter_includes.getText());
 		strategy.FilterExcludes(filter_excludes.getText());
-		strategy.PackageFilterExcludes(package_filter_excludes.getText());
-		strategy.ClassFilterExcludes(class_filter_excludes.getText());
-		strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+
+		if (advanced_mode) {
+			strategy.PackageScopeIncludes(package_scope_includes.getText());
+			strategy.ClassScopeIncludes(class_scope_includes.getText());
+			strategy.FeatureScopeIncludes(feature_scope_includes.getText());
+			strategy.PackageScopeExcludes(package_scope_excludes.getText());
+			strategy.ClassScopeExcludes(class_scope_excludes.getText());
+			strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
+			strategy.PackageFilterIncludes(package_filter_includes.getText());
+			strategy.ClassFilterIncludes(class_filter_includes.getText());
+			strategy.FeatureFilterIncludes(feature_filter_includes.getText());
+			strategy.PackageFilterExcludes(package_filter_excludes.getText());
+			strategy.ClassFilterExcludes(class_filter_excludes.getText());
+			strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+		}
 		
 		com.jeantessier.dependency.MetricsGatherer metrics = new com.jeantessier.dependency.MetricsGatherer(strategy);
 		
