@@ -48,12 +48,14 @@
 	<html>
 
 	<head>
-	    <title>Public API Change History - Version <xsl:value-of select="old"/> to Version <xsl:value-of select="new"/></title>
+	    <title><xsl:if test="product/text()"><xsl:value-of select="product"/> - </xsl:if>Public API Change History</title>
 	</head>
 
 	<body bgcolor="#ffffff">
 
-	<h1>Public API Change History - Version <xsl:value-of select="old"/> to Version <xsl:value-of select="new"/></h1>
+	<h1><xsl:if test="product/text()"><xsl:value-of select="product"/> - </xsl:if>Public API Change History</h1>
+
+	<h1><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h1>
 
 	<xsl:apply-templates/>
 

@@ -41,12 +41,14 @@
 	<html>
 
 	<head>
-	    <title>API Change History - Version <xsl:value-of select="old"/> to Version <xsl:value-of select="new"/></title>
+	    <title><xsl:if test="product/text()"><xsl:value-of select="product"/> - </xsl:if>API Change History</title>
 	</head>
 
 	<body bgcolor="#ffffff">
 
-	<h1>API Change History - Version <xsl:value-of select="old"/> to Version <xsl:value-of select="new"/></h1>
+	<h1><xsl:if test="product/text()"><xsl:value-of select="product"/> - </xsl:if>API Change History</h1>
+
+	<h1><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h1>
 
 	<xsl:apply-templates/>
 
@@ -54,6 +56,8 @@
 
 	</html>
     </xsl:template>
+
+    <xsl:template match="product | old | new"></xsl:template>
 
     <xsl:template match="removed-packages">
 	<h2>Removed Packages:</h2>
@@ -142,14 +146,7 @@
     <xsl:template match="class">
 	<h3><code><xsl:value-of select="name"/></code></h3>
 	<blockquote>
-	<xsl:if test="old-declaration">
-	    <h4>Declaration Changes:</h4>
-	    <p><nobr><code>
-		<b>old:</b> <xsl:value-of select="old-declaration"/><br/>
-		<b>new:</b> <xsl:value-of select="new-declaration"/>
-	    </code></nobr></p>
-	</xsl:if>
-	<xsl:apply-templates/>
+	    <xsl:apply-templates/>
 	</blockquote>
     </xsl:template>
 
@@ -197,23 +194,17 @@
  
     <xsl:template match="modified-fields">
 	<h4>Field Declaration Changes:</h4>
-	<blockquote>
 	<xsl:apply-templates/>
-	</blockquote>
     </xsl:template>
  
     <xsl:template match="modified-constructors">
 	<h4>Constructor Declaration Changes:</h4>
-	<blockquote>
 	<xsl:apply-templates/>
-	</blockquote>
     </xsl:template>
  
     <xsl:template match="modified-methods">
 	<h4>Method Declaration Changes:</h4>
-	<blockquote>
 	<xsl:apply-templates/>
-	</blockquote>
     </xsl:template>
  
     <xsl:template match="undeprecated-fields">
@@ -258,19 +249,40 @@
 	</ul>
     </xsl:template>
  
-    <xsl:template match="feature">
-	<xsl:if test="old-declaration">
-	    <p><nobr><code>
-		<b>old:</b> <xsl:value-of select="old-declaration"/><br/>
-		<b>new:</b> <xsl:value-of select="new-declaration"/>
-	    </code></nobr></p>
-	</xsl:if>
-	<xsl:apply-templates/>
+    <xsl:template match="class/name | feature/name"></xsl:template>
+
+    <xsl:template match="class/modified-declaration">
+	<h4>Declaration Changes:</h4>
+	<blockquote>
+	<p><nobr><code>
+	<b>old:</b> <xsl:value-of select="old-declaration"/>
+	<xsl:if test="old-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
+	<br/>
+	<b>new:</b> <xsl:value-of select="new-declaration"/>
+	<xsl:if test="new-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
+	</code></nobr></p>
+	</blockquote>
     </xsl:template>
 
-    <xsl:template match="removed-packages/name | removed-interfaces/name | removed-classes/name | deprecated-interfaces/name | deprecated-classes/name | undeprecated-interfaces/name | undeprecated-classes/name | new-packages/name | new-interfaces/name | new-classes/name | removed-fields/declaration | removed-constructors/declaration | removed-methods/declaration | deprecated-fields/declaration | deprecated-constructors/declaration | deprecated-methods/declaration | undeprecated-fields/declaration | undeprecated-constructors/declaration | undeprecated-methods/declaration | new-fields/declaration | new-constructors/declaration | new-methods/declaration">
+    <xsl:template match="modified-declaration">
+	<blockquote>
+	<p><nobr><code>
+	<b>old:</b> <xsl:value-of select="old-declaration"/>
+	<xsl:if test="old-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
+	<br/>
+	<b>new:</b> <xsl:value-of select="new-declaration"/>
+	<xsl:if test="new-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
+	</code></nobr></p>
+	</blockquote>
+    </xsl:template>
+
+    <xsl:template match="new-packages/name[@deprecated='yes'] | new-interfaces/name[@deprecated='yes'] | new-classes/name[@deprecated='yes'] | new-fields/declaration[@deprecated='yes'] | new-constructors/declaration[@deprecated='yes'] | new-methods/declaration[@deprecated='yes']">
+	<li><nobr><code><xsl:value-of select="."/> <b>[deprecated]</b></code></nobr></li>
+    </xsl:template>
+
+    <xsl:template match="name | declaration">
 	<li><nobr><code><xsl:value-of select="."/></code></nobr></li>
     </xsl:template>
- 
-    <xsl:template match="*"></xsl:template>
+
 </xsl:stylesheet>
+
