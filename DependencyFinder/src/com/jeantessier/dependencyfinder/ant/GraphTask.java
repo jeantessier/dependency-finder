@@ -63,8 +63,6 @@ public abstract class GraphTask extends Task {
 	private String  feature_filter_includes = "";
 	private String  feature_filter_excludes = "";
 
-	private boolean minimize   = false;
-	private boolean maximize   = false;
 	private boolean validate   = false;
 	private File    srcfile;
 	private File    destfile;
@@ -282,22 +280,6 @@ public abstract class GraphTask extends Task {
 	public void setExcludes(String value) {
 		setScopeexcludes(value);
 		setFilterexcludes(value);
-	}
-
-	public boolean getMinimize() {
-		return minimize;
-	}
-
-	public void setMinimize(boolean minimize) {
-		this.minimize = minimize;
-	}
-
-	public boolean getMaximize() {
-		return maximize;
-	}
-
-	public void setMaximize(boolean maximize) {
-		this.maximize = maximize;
 	}
 
 	public boolean getValidate() {

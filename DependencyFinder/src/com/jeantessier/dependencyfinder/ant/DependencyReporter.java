@@ -44,10 +44,28 @@ import com.jeantessier.dependency.*;
 
 public class DependencyReporter extends GraphTask {
 
+	private boolean minimize   = false;
+	private boolean maximize   = false;
 	private boolean serialize  = false;
 	private boolean xml        = false;
 	private String  dtd_prefix = XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indent_text;
+
+	public boolean getMinimize() {
+		return minimize;
+	}
+
+	public void setMinimize(boolean minimize) {
+		this.minimize = minimize;
+	}
+
+	public boolean getMaximize() {
+		return maximize;
+	}
+
+	public void setMaximize(boolean maximize) {
+		this.maximize = maximize;
+	}
 
 	public boolean getSerialize() {
 		return serialize;
