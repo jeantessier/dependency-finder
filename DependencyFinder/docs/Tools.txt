@@ -68,7 +68,7 @@
 <li><a href="#ClassDump">ClassDump</a></li>
 <p />
 <li><a href="#ClassList">ClassList</a></li>
-<li><a href="#SymbolList">SymbolList</a></li>
+<li><a href="#ListSymbols">ListSymbols</a></li>
 </ul>
 </td>
 </tr></table>
@@ -6783,6 +6783,227 @@ See =-out= above.
 
 ----
 
+---++ ListSymbols
+
+<blockquote>
+
+Lists all symbols it could find, based on parameters.
+
+</blockquote>
+
+---+++ Synopsis
+
+    ListSymbols
+    	[-class-names]
+    	[-field-names]
+    	[-method-names]
+    	[-local-names]
+    	[-help]
+    	[-out filename]
+    	[-time]
+    	[-verbose [filename]]
+	[-version]
+	[filename ...]
+
+---+++ Description
+
+<blockquote>
+
+Lists all the symbols in classes in a JAR file, Zip file, or directory.
+
+Shows all class names and method names and field names.  In addition, if the
+class files contain local variable tables (from =-g= passed to =javac=), it
+will list, for each method, its parameters and local variables.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-class-names=
+
+<blockquote>
+
+Lists names of classes.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-field-names=
+
+<blockquote>
+
+Lists names of fields.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+Prints synopsis.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-local-names=
+
+<blockquote>
+
+Lists names of local variables.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-method-names=
+
+<blockquote>
+
+Lists names of methods.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out filename=
+
+<blockquote>
+
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+Prints how long it took to run the command.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [filename]=
+
+<blockquote>
+
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+File names for JAR files, Zip files, and =.class= files for the tool to read.
+You can also give directory names, the tool will search it for =.class= files
+and read them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>Current directory, "=.="</td></tr>
+</table>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+List of fully qualified class name and method and field signatures, one per
+line, for all the classes the tool could find.  For parameter names and local
+variable names, the fully qualified name of the owning method is given first,
+followed by a colon, then a space, then the parameter or varialble's name, in
+alphabetical order.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+    ListSymbols classes\test.class
+    test
+    test.main(java.lang.String[])
+    test.main(java.lang.String[]): args
+    test.main(java.lang.String[]): c
+    test.main(java.lang.String[]): ex
+    test.test()
+    test.test(): this
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ListSymbols=
+
+</blockquote>
+
+----
+
 ---++ ListUnused
 
 <blockquote>
@@ -7973,167 +8194,6 @@ Here is a larger example with a defined published documentation:
 <blockquote>
 
 =_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/PublishedDiffToHTML.xsl=
-
-</blockquote>
-
-----
-
----++ SymbolList
-
-<blockquote>
-
-Lists all symbols it could find, based on parameters.
-
-</blockquote>
-
----+++ Synopsis
-
-    SymbolList
-    	[-help]
-    	[-out filename]
-    	[-time]
-    	[-verbose [filename]]
-	[-version]
-	[filename ...]
-
----+++ Description
-
-<blockquote>
-
-Lists all the symbols in classes in a JAR file, Zip file, or directory.
-
-Shows all class names and method names and field names.  In addition, if the
-class files contain local variable tables (from =-g= passed to =javac=), it
-will list, for each method, its parameters and local variables.
-
-</blockquote>
-
----+++ Switches
-
-<blockquote>
-
----++++ =-help=
-
-<blockquote>
-
-Prints synopsis.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-out filename=
-
-<blockquote>
-
-Writes the output to _filename_.  If _filename_ does not exists,
-it is created.  If it already exists, its content is overwritten.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-time=
-
-<blockquote>
-
-Prints how long it took to run the command.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-verbose [filename]=
-
-<blockquote>
-
-Writes summary processing information to _filename_.  If you do not specify
-a file, the tool will write the information to the standard output stream.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=System.out=</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-version=
-
-<blockquote>
-
-Prints version information.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
----+++ Parameters
-
-<blockquote>
-
-File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>Current directory, "=.="</td></tr>
-</table>
-
-</blockquote>
-
----+++ Output
-
-<blockquote>
-
-List of fully qualified class name and method and field signatures, one per
-line, for all the classes the tool could find.  For parameter names and local
-variable names, the fully qualified name of the owning method is given first,
-followed by a colon, then a space, then the parameter or varialble's name, in
-alphabetical order.
-
-</blockquote>
-
----+++ Examples
-
-<blockquote>
-
-    SymbolList classes\test.class
-    test
-    test.main(java.lang.String[])
-    test.main(java.lang.String[]): args
-    test.main(java.lang.String[]): c
-    test.main(java.lang.String[]): ex
-    test.test()
-    test.test(): this
-
-</blockquote>
-
----+++ Class
-
-<blockquote>
-
-=com.jeantessier.dependencyfinder.cli.SymbolList=
 
 </blockquote>
 

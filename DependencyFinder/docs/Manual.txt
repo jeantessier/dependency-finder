@@ -724,6 +724,20 @@ tools and end with the Ant tasks.
     </tr>
     <tr>
 	<td>
+	    =ListSymbols=
+	</td>
+	<td>
+	    =&lt;listsymbols&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
 	    =ListUnused=
 	</td>
 	<td>
@@ -2425,14 +2439,14 @@ of software.  Dependency Finder recognizes four sizes of _chunks_:
 </dl>
 </blockquote>
 
-It does not track metrics about class attributes because these are not
-really all that interesting.  The only measurements worth something deal
-with dependencies, and I rolled those into class metrics.
+It does not track metrics about class attributes because these are not really
+all that interesting.  The only measurements worth something deal with
+dependencies, and I rolled those into class metrics.
 
-The configuration file defines what measurements apply to which level of
-scope (package, group, class, or method).  It also defines the rules for
-creating arbitrary groups.  You can customize the content of your metrics
-report by using different configuration files.
+The configuration file defines what measurements apply to which level of scope
+(package, group, class, or method).  It also defines the rules for creating
+arbitrary groups.  You can customize the content of your metrics report by
+using different configuration files.
 
 Each measurement has a name and a class that indicates behavior associated with
 the measurement.  The semantics of each measurement are currently hardcoded in
@@ -2441,6 +2455,9 @@ make minor adjustments by specifying the class used for the measurement.  There
 are classes for counters, lists, simple mathematical expressions, etc.  Each
 measurement can be expressed as a numeric value and the configuration file can
 defines the recommanded range for that measurement.
+
+Here is a brief overview of some of the measurements, grouped by _chunk_.  The
+definitive list is in =%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml=.
 
 ---++++ Basic Method Measurements
 
@@ -2468,21 +2485,21 @@ dependency to or from this method.
 <dl>
     <dt>Inbound Intra-Class Method Dependencies (IICM)</dt>
     <dd>Other methods within the same class, that depend on this method.</dd>
-    <dt>Inbound Intra-Package Method Dependencies (IIPM)</dt>
-    <dd>Methods in other classes of the same package that depend on this
-    method.</dd>
-    <dt>Inbound Extra-Package Method Dependencies (IEPM)</dt>
-    <dd>Methods in other packages that depend on this method.</dd>
     <dt>Outbound Intra-Class Feature Dependencies (OICF)</dt>
     <dd>Methods and fields within the same class that this method depends
     on.</dd>
+    <dt>Inbound Intra-Package Method Dependencies (IIPM)</dt>
+    <dd>Methods in other classes of the same package that depend on this
+    method.</dd>
     <dt>Outbound Intra-Package Feature Dependencies (OIPF)</dt>
     <dd>Methods and fields within the classes of the same package that this
     method depends on.</dd>
-    <dt>Outbound Intra-Package Class Dependencies (OIPC)</dt>
-    <dd>Classes within the same package that this method depends on.</dd>
+    <dt>Inbound Extra-Package Method Dependencies (IEPM)</dt>
+    <dd>Methods in other packages that depend on this method.</dd>
     <dt>Outbound Extra-Package Feature Dependencies(OEPF)</dt>
     <dd>Methods and fields in other packages that this method depends on.</dd>
+    <dt>Outbound Intra-Package Class Dependencies (OIPC)</dt>
+    <dd>Classes within the same package that this method depends on.</dd>
     <dt>Outbound Extra-Package Class Dependencies (OEPC)</dt>
     <dd>Classes in other packages that this method depends on.</dd>
 </dl>
@@ -2566,15 +2583,323 @@ simple numerical measurements taken against the project.
 </dl>
 </blockquote>
 
----++++ Types of Measurements
+---+++ Dependency-Related Metrics
+
+All the dependency-related measurements can accumulate the explicit
+dependencies that make them.  All you need to do is make their class
+=com.jeantessier.metrics.NameListMeasurement= in the configuration file.  You
+can list those dependencies as part of your report by giving the =-expand=
+switch to =OOMetrics=.
+
+<table><tr><td colspan="3">
+
+---++++ Intra-Package Method-to-Class
+
+Dependency from a method to another class in the same package.
+For example, the type of a parameter or of a local variable.
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+    package p;
+    
+    public class A {
+        public void a(B b) {
+        }
+    }
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+[[images/OIPC-IIPM.gif]]
+</td><td valign="top"
+class="highlight">
+
+    package p;
+    
+    public class B {
+    }
+
+</td></tr><tr><td valign="top">
+
+    p.A.a(B)
+        OIPC: 1
+            p.B
+
+</td><td valign="top">
+
+    p.B
+        IIPM: 1
+            p.A.a(B)
+
+</td></tr><tr><td colspan="3">
+
+---++++ Extra-Package Method-to-Class
+
+Dependency from a method to another class in another package.
+For example, the type of a parameter or of a local variable.
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+    package a;
+    
+    import b.*;
+    
+    public class A {
+        public void a(B b) {
+        }
+    }
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+[[images/OEPC-IEPM.gif]]
+</td><td valign="top"
+class="highlight">
+
+    package b;
+    
+    public class B {
+    }
+
+</td></tr><tr><td valign="top">
+
+    a.A.a(B)
+        OEPC: 1
+            p.B
+
+</td><td valign="top">
+
+    b.B
+        IEPM: 1
+            a.A.a(B)
+
+</td></tr><tr><td colspan="3">
+
+---++++ Intra-Package Class-to-Class
+
+Dependency from a class to another class in the same package.
+For example, in =extends= or =implements= clauses.
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+    package p;
+    
+    public class A extends B {
+    }
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+[[images/OIP-IIP.gif]]
+</td><td valign="top"
+class="highlight">
+
+    package p;
+    
+    public class B {
+    }
+
+</td></tr><tr><td valign="top">
+
+    p.A
+        OIP: 1
+            p.B
+
+</td><td valign="top">
+
+    p.B
+        IIP: 1
+            p.A
+
+</td></tr><tr><td colspan="3">
+
+---++++ Extra-Package Class-to-Class
+
+Dependency from a class to another class in another package.
+For example, in =extends= or =implements= clauses.
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+    package a;
+    
+    import b.*;
+    
+    public class A extends B {
+    }
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+[[images/OEP-IEP.gif]]
+</td><td valign="top"
+class="highlight">
+
+    package b;
+    
+    public class B {
+    }
+
+</td></tr><tr><td valign="top">
+
+    a.A
+        OEP: 1
+            b.B
+
+</td><td valign="top">
+
+    b.B
+        IEP: 1
+            a.A
+
+</td></tr><tr><td colspan="3">
+
+---++++ Intra-Class Method-to-Method
+
+Dependency from a method to another method in the same class.
+For example, a method call, including constructors via object creation.
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+    package p;
+    
+    public class C {
+        public void a() {
+            b();
+        }
+    }
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+[[images/OICF-IICM.gif]]
+</td><td valign="top"
+class="highlight">
+
+    package p;
+    
+    public class C {
+        public void b() {
+        }
+    }
+
+</td></tr><tr><td valign="top">
+
+    p.C.a()
+        OICF: 1
+            p.C.b()
+
+</td><td valign="top">
+
+    p.C.b()
+        IICM: 1
+            p.C.a()
+
+</td></tr><tr><td colspan="3">
+
+---++++ Intra-Package Method-to-Method
+
+Dependency from a method to another method in another class in the same package.
+For example, a method call, including constructors via object creation.
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+    package p;
+    
+    public class A {
+        public void a() {
+            b.b();
+        }
+    }
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+[[images/OIPF-IIPM.gif]]
+</td><td valign="top"
+class="highlight">
+
+    package p;
+    
+    public class B {
+        public void b() {
+        }
+    }
+
+</td></tr><tr><td valign="top">
+
+    p.A.a()
+        OIPF: 1
+            p.B.b()
+
+</td><td valign="top">
+
+    p.B.b()
+        IIPM: 1
+            p.A.a()
+
+</td></tr><tr><td colspan="3">
+
+---++++ Extra-Package Method-to-Method
+
+Dependency from a method to another method in another class in another package.
+For example, a method call, including constructors via object creation.
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+    package a;
+    
+    import b.*;
+    
+    public class A {
+        public void a() {
+            b.b();
+        }
+    }
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+[[images/OEPF-IEPM.gif]]
+</td><td valign="top"
+class="highlight">
+
+    package b;
+    
+    public class B {
+        public void b() {
+        }
+    }
+
+</td></tr><tr><td valign="top">
+
+    a.A.a()
+        OEPF: 1
+            b.B.b()
+
+</td><td valign="top">
+
+    b.B.b()
+        IEPM: 1
+            a.A.a()
+
+</td></tr></table>
+
+---+++ Types of Measurements
 
 The current types of measurement are as follow:
 
 <blockquote>
 <dl>
-    <dt>=AccumulatorMeasurement=</dt>
-    <dd>Aggregates lists in submetrics on the measurement's context.
-    It uses Perl regular expressions to filter list elements.</dd>
+    <dt>=ContextAccumulatorMeasurement=</dt>
+    <dd>Aggregates lists from other measurements in the same context.  It uses
+    Perl regular expressions to filter list elements.</dd>
     <dt>=CounterMeasurement=</dt>
     <dd>A simple counter, it tallies the values that are put in it.
     If you try to add a non-number, it simply adds 1.</dd>
@@ -2604,6 +2929,9 @@ The current types of measurement are as follow:
         <li>sum</li>
         <li>number of data points</li>
     </ul></dd>
+    <dt>=SubMetricsAccumulatorMeasurement=</dt>
+    <dd>Aggregates lists from measurements in submetrics of the current
+    context.  It uses Perl regular expressions to filter list elements.</dd>
     <dt>=SumMeasurement=</dt>
     <dd>Adds up numerical values.  Use it with just one term to alias
     other measurements.</dd>
@@ -2623,9 +2951,11 @@ default, it uses the average value.
 These measurements can potentially refer to other measurements and make use of
 the disposition feature when dealing with =StatisticalMeasurement=:
 
+   * =ContextAccumulatorMeasurement=
    * =NbSubMetricsMeasurement=
    * =RatioMeasurement=
    * =StatisticalMeasurement=
+   * =SubMetricsAccumulatorMeasurement=
    * =SumMeasurement=
 
 Right now, measurement processing is fixed.  In the future, you will be able

@@ -41,7 +41,7 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependencyfinder.*;
 
-public class SymbolList {
+public class ListSymbols {
 	public static final String DEFAULT_LOGFILE = "System.out";
 
 	public static void showError(CommandLineUsage clu, String msg) {
@@ -89,7 +89,7 @@ public class SymbolList {
 		commandLine.addOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
 		commandLine.addToggleSwitch("version");
 
-		CommandLineUsage usage = new CommandLineUsage("SymbolList");
+		CommandLineUsage usage = new CommandLineUsage("ListSymbols");
 		commandLine.accept(usage);
 
 		try {
@@ -185,7 +185,7 @@ public class SymbolList {
 		Date end = new Date();
 
 		if (commandLine.getToggleSwitch("time")) {
-			System.err.println(SymbolList.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
+			System.err.println(ListSymbols.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
 		out.close();
