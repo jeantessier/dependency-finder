@@ -16,7 +16,7 @@ For Dependency Finder version <VERSION />.
 <b>Dependencies</b>
 <ul>
 <li><a href="#DependencyFinder">DependencyFinder</a></li>
-<p />
+<p></p>
 <li><a href="#DependencyExtractor">DependencyExtractor</a></li>
 <li><a href="#DependencyReporter">DependencyReporter</a></li>
 <li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
@@ -31,10 +31,10 @@ For Dependency Finder version <VERSION />.
 <li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 <li><a href="#ListUnused">ListUnused</a></li>
 <li><a href="#ListDeprecatedElements">ListDeprecatedElements</a></li>
-<p />
+<p></p>
 <li><a href="#DependencyClosure">DependencyClosure</a></li>
 <li><a href="#ClosureToText">ClosureToText</a></li>
-<p />
+<p></p>
 <li><a href="#c2c">c2c</a></li>
 <li><a href="#c2p">c2p</a></li>
 <li><a href="#f2f">f2f</a></li>
@@ -46,7 +46,7 @@ For Dependency Finder version <VERSION />.
 <li><a href="#MetricsToHTML">MetricsToHTML</a></li>
 <li><a href="#MetricsToText">MetricsToText</a></li>
 <li><a href="#OOMetricsGUI">OOMetricsGUI</a></li>
-<p />
+<p></p>
 <li><a href="#ClassMetrics">ClassMetrics</a></li>
 <li><a href="#DependencyMetrics">DependencyMetrics</a></li>
 </ul>
@@ -54,21 +54,21 @@ For Dependency Finder version <VERSION />.
 <ul>
 <li><a href="#JarJarDiff">JarJarDiff</a></li>
 <li><a href="#DiffToHTML">DiffToHTML</a></li>
-<p />
+<p></p>
 <li><a href="#ListDiff">ListDiff</a></li>
 <li><a href="#ListDiffToHTML">ListDiffToHTML</a></li>
 <li><a href="#ListDiffToText">ListDiffToText</a></li>
-<p />
+<p></p>
 <li><a href="#ListDocumentedElements">ListDocumentedElements</a></li>
 <li><a href="#PublishedDiffToHTML">PublishedDiffToHTML</a></li>
-<p />
+<p></p>
 <li><a href="#ListInheritanceDiffToText">ListInheritanceDiffToText</a></li>
 </ul>
 <b>Classfile Utilities</b>
 <ul>
 <li><a href="#ClassReader">ClassReader</a></li>
 <li><a href="#ClassDump">ClassDump</a></li>
-<p />
+<p></p>
 <li><a href="#ClassList">ClassList</a></li>
 <li><a href="#ListSymbols">ListSymbols</a></li>
 </ul>
