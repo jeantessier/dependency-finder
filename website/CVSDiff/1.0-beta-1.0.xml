@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-10beta" endTag="release-10" >
+<tagdiff startTag="release-10beta" endTag="release-10" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>

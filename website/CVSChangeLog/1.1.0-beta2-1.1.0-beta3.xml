@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
 	<entry>
+		<date>2004-11-28</date>
+		<time>06:28</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.41</revision>
+			<prevrevision>1.40</prevrevision>
+		</file>
+		<msg><![CDATA[Web App load.jsp]]></msg>
+	</entry>
+	<entry>
 		<date>2004-11-04</date>
 		<time>08:22</time>
 		<author><![CDATA[jeantessier]]></author>

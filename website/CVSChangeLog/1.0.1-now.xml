@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
 	<entry>
-		<date>2003-10-18</date>
-		<time>06:04</time>
+		<date>2004-11-23</date>
+		<time>08:15</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>build.xml</name>
-			<revision>1.37</revision>
+			<name>docs/Developer.txt</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
 		</file>
-		<msg><![CDATA[Add -version command-line switch for CLI tools]]></msg>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.39</revision>
+			<prevrevision>1.38</prevrevision>
+		</file>
+		<file>
+			<name>docs/Tools.txt</name>
+			<revision>1.37</revision>
+			<prevrevision>1.36</prevrevision>
+		</file>
+		<file>
+			<name>docs/style.css</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<msg><![CDATA[Moved dependency-related metrics to Manual.
+Renamed SymbolList to ListSymbols.
+New ListSymbols Ant task.]]></msg>
 	</entry>
 	<entry>
 		<date>2003-11-30</date>
@@ -17,10 +35,20 @@
 		<file>
 			<name>build.xml</name>
 			<revision>1.41</revision>
-			<prevrevision>1.40</prevrevision>
 		</file>
 		<msg><![CDATA[Add JPEG images.
 Use environment.]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-11</date>
+		<time>07:07</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/tasks/dependencyclosure.html</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<msg><![CDATA[Better examples]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-28</date>
@@ -66,7 +94,6 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/GroupData.java</name>
 			<revision>1.3</revision>
-			<prevrevision>1.2</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/Hex.java</name>
@@ -76,17 +103,14 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/VerboseListenerBase.java</name>
 			<revision>1.4</revision>
-			<prevrevision>1.3</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/Version.java</name>
 			<revision>1.4</revision>
-			<prevrevision>1.3</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/VersionBeanInfo.java</name>
 			<revision>1.3</revision>
-			<prevrevision>1.2</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java</name>
@@ -141,7 +165,6 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/VerboseListener.java</name>
 			<revision>1.9</revision>
-			<prevrevision>1.8</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java</name>
@@ -156,7 +179,6 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassList.java</name>
 			<revision>1.16</revision>
-			<prevrevision>1.15</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java</name>
@@ -215,12 +237,10 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/VerboseListener.java</name>
 			<revision>1.8</revision>
-			<prevrevision>1.7</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/AboutAction.java</name>
 			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/AdvancedQueryPanelAction.java</name>
@@ -237,7 +257,6 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java</name>
 			<revision>1.22</revision>
-			<prevrevision>1.21</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
@@ -267,7 +286,6 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java</name>
 			<revision>1.25</revision>
-			<prevrevision>1.24</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/MetricsQueryAction.java</name>
@@ -280,7 +298,6 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java</name>
 			<revision>1.5</revision>
-			<prevrevision>1.4</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/NewDependencyGraphAction.java</name>
@@ -293,17 +310,14 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/OOMetrics.java</name>
 			<revision>1.20</revision>
-			<prevrevision>1.19</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/OOMetricsTableModel.java</name>
 			<revision>1.14</revision>
-			<prevrevision>1.13</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java</name>
 			<revision>1.11</revision>
-			<prevrevision>1.10</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/PrinterControlAction.java</name>
@@ -312,7 +326,6 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java</name>
 			<revision>1.7</revision>
-			<prevrevision>1.6</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java</name>
@@ -334,7 +347,6 @@ Use environment.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/VerboseListener.java</name>
 			<revision>1.5</revision>
-			<prevrevision>1.4</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/WindowKiller.java</name>
@@ -618,66 +630,6 @@ com.jeantessier.classreader complete]]></msg>
 		<msg><![CDATA[Text rendering of StatisticalMeasurement now includes the ratio as a percentage, if there is any]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-22</date>
-		<time>07:14</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/VerboseListenerBase.java</name>
-			<revision>1.3</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java</name>
-			<revision>1.5</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/ant/OOMetrics.java</name>
-			<revision>1.7</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/ant/VerboseListener.java</name>
-			<revision>1.8</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java</name>
-			<revision>1.14</revision>
-			<prevrevision>1.13</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
-			<revision>1.27</revision>
-			<prevrevision>1.26</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/VerboseListener.java</name>
-			<revision>1.7</revision>
-		</file>
-		<msg><![CDATA[Rename events to support better progress information reporting in UI and more consistant nomenclature.]]></msg>
-	</entry>
-	<entry>
-		<date>2003-11-14</date>
-		<time>05:57</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/icons/about.gif</name>
-			<revision>1.1</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/icons/logo.jpg</name>
-			<revision>1.1</revision>
-		</file>
-		<msg><![CDATA[About box for branding GUI]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-28</date>
-		<time>08:36</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/dependencyfindertasks.properties</name>
-			<revision>1.1</revision>
-		</file>
-		<msg><![CDATA[Define Ant tasks inside DependencyFinder.jar]]></msg>
-	</entry>
-	<entry>
 		<date>2004-09-04</date>
 		<time>09:56</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -732,14 +684,64 @@ com.jeantessier.classreader complete]]></msg>
 		<msg><![CDATA[Remove DeprecationReport, use DependencyReporter instead.]]></msg>
 	</entry>
 	<entry>
-		<date>2003-11-27</date>
-		<time>06:47</time>
+		<date>2004-11-26</date>
+		<time>17:32</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/classreader/ConstantPool.java</name>
-			<revision>1.11</revision>
+			<name>docs/Manual.txt</name>
+			<revision>1.40</revision>
+			<prevrevision>1.39</prevrevision>
 		</file>
-		<msg><![CDATA[Use logging instead of printing to system streams.]]></msg>
+		<msg><![CDATA[Unix distribution]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-23</date>
+		<time>08:15</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>bin/ListSymbols.bat</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/SymbolList.bat</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<file>
+			<name>docs/tasks/listsymbols.html</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>src/dependencyfindertasks.properties</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/ListSymbols.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ListSymbols.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/SymbolList.java</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+		<msg><![CDATA[Moved dependency-related metrics to Manual.
+Renamed SymbolList to ListSymbols.
+New ListSymbols Ant task.]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-10</date>
+		<time>09:13</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>bin/txt2html.pl</name>
+			<revision>1.3</revision>
+		</file>
+		<msg><![CDATA[Make <a> tags comply with HTML 4.01]]></msg>
 	</entry>
 	<entry>
 		<date>2004-06-17</date>
@@ -1081,6 +1083,63 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Specify XML encoding]]></msg>
 	</entry>
 	<entry>
+		<date>2004-10-29</date>
+		<time>04:45</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>web/advancedclosure.jsp</name>
+			<revision>1.26</revision>
+			<prevrevision>1.25</prevrevision>
+		</file>
+		<file>
+			<name>web/advancedmetrics.jsp</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>web/advancedquery.jsp</name>
+			<revision>1.26</revision>
+			<prevrevision>1.25</prevrevision>
+		</file>
+		<file>
+			<name>web/closure.jsp</name>
+			<revision>1.27</revision>
+			<prevrevision>1.26</prevrevision>
+		</file>
+		<file>
+			<name>web/metrics.jsp</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>web/query.jsp</name>
+			<revision>1.29</revision>
+			<prevrevision>1.28</prevrevision>
+		</file>
+		<msg><![CDATA[Fix link to Perl explanation in the Manual]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-11</date>
+		<time>06:07</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/Node.java</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependency/NodeFactory.java</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependency/PackageNode.java</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<msg><![CDATA[Add support for referenced vs. concrete nodes]]></msg>
+	</entry>
+	<entry>
 		<date>2004-06-27</date>
 		<time>22:22</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -1238,20 +1297,6 @@ JSP files for the web application.]]></msg>
 com.jeantessier.dependency complete]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-31</date>
-		<time>07:31</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>junit.bat</name>
-			<revision>1.11</revision>
-		</file>
-		<file>
-			<name>textjunit.bat</name>
-			<revision>1.10</revision>
-		</file>
-		<msg><![CDATA[Use correct xml-apis.jar]]></msg>
-	</entry>
-	<entry>
 		<date>2004-05-22</date>
 		<time>06:43</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -1401,7 +1446,6 @@ com.jeantessier.dependency complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/metrics/MetricsConfiguration.java</name>
 			<revision>1.5</revision>
-			<prevrevision>1.4</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/metrics/MetricsConfigurationHandler.java</name>
@@ -1415,7 +1459,6 @@ com.jeantessier.dependency complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/metrics/MetricsEvent.java</name>
 			<revision>1.6</revision>
-			<prevrevision>1.5</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/metrics/MetricsFactory.java</name>
@@ -1429,7 +1472,6 @@ com.jeantessier.dependency complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/metrics/MetricsListener.java</name>
 			<revision>1.5</revision>
-			<prevrevision>1.4</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/metrics/NameListMeasurement.java</name>
@@ -1484,7 +1526,6 @@ com.jeantessier.dependency complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/text/MaximumCapacityPatternCache.java</name>
 			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
 		</file>
 		<file>
 			<name>tests/StaticInitializerTest.java</name>
@@ -1531,7 +1572,6 @@ com.jeantessier.dependency complete]]></msg>
 		<file>
 			<name>tests/com/jeantessier/classreader/TestClassfileScanner.java</name>
 			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
 		</file>
 		<file>
 			<name>tests/com/jeantessier/classreader/TestDeprecationPrinter.java</name>
@@ -1632,7 +1672,6 @@ com.jeantessier.dependency complete]]></msg>
 		<file>
 			<name>junit.bat</name>
 			<revision>1.12</revision>
-			<prevrevision>1.11</prevrevision>
 		</file>
 		<msg><![CDATA[Add Xalan for new unit tests]]></msg>
 	</entry>
@@ -1948,18 +1987,17 @@ com.jeantessier.dependency complete]]></msg>
 		<msg><![CDATA[Specify XML encoding]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-22</date>
-		<time>07:14</time>
+		<date>2004-11-23</date>
+		<time>08:15</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/metrics/MetricsListener.java</name>
-			<revision>1.4</revision>
+			<name>docs/tasks/Menu.html</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
 		</file>
-		<file>
-			<name>tests/com/jeantessier/metrics/TestMetricsGathererEvents.java</name>
-			<revision>1.4</revision>
-		</file>
-		<msg><![CDATA[Rename events to support better progress information reporting in UI and more consistant nomenclature.]]></msg>
+		<msg><![CDATA[Moved dependency-related metrics to Manual.
+Renamed SymbolList to ListSymbols.
+New ListSymbols Ant task.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-13</date>
@@ -2336,6 +2374,77 @@ All test classes and test data]]></msg>
 		<msg><![CDATA[Phase I of naming change]]></msg>
 	</entry>
 	<entry>
+		<date>2004-10-29</date>
+		<time>07:23</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassList.java</name>
+			<revision>1.20</revision>
+			<prevrevision>1.19</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java</name>
+			<revision>1.22</revision>
+			<prevrevision>1.21</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassReader.java</name>
+			<revision>1.28</revision>
+			<prevrevision>1.27</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
+			<revision>1.34</revision>
+			<prevrevision>1.33</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java</name>
+			<revision>1.29</revision>
+			<prevrevision>1.28</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java</name>
+			<revision>1.24</revision>
+			<prevrevision>1.23</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java</name>
+			<revision>1.34</revision>
+			<prevrevision>1.33</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java</name>
+			<revision>1.28</revision>
+			<prevrevision>1.27</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
+			<revision>1.37</revision>
+			<prevrevision>1.36</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/SymbolList.java</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/VerboseListener.java</name>
+			<revision>1.12</revision>
+			<prevrevision>1.11</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependencyfinder/cli/TestVerboseListener.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<msg><![CDATA[Rename setters that were named getXXX() by mistake]]></msg>
+	</entry>
+	<entry>
 		<date>2004-04-21</date>
 		<time>10:39</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -2344,6 +2453,31 @@ All test classes and test data]]></msg>
 			<revision>1.1</revision>
 		</file>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-28</date>
+		<time>05:03</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/GraphSummarizer.java</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependency/NullSelectionCriteria.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependency/TransitiveClosure.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependency/TransitiveClosureEngine.java</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<msg><![CDATA[TransitiveClosure uses TransitiveClosureEngine]]></msg>
 	</entry>
 	<entry>
 		<date>2004-03-05</date>
@@ -2383,24 +2517,41 @@ All test classes and test data]]></msg>
 		<msg><![CDATA[Make utility method private]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-22</date>
-		<time>07:14</time>
+		<date>2004-10-28</date>
+		<time>07:53</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/dependency/CodeDependencyCollector.java</name>
-			<revision>1.14</revision>
+			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
+			<revision>1.38</revision>
+			<prevrevision>1.37</prevrevision>
 		</file>
-		<msg><![CDATA[Rename events to support better progress information reporting in UI and more consistant nomenclature.]]></msg>
+		<file>
+			<name>web/advancedclosure.jsp</name>
+			<revision>1.24</revision>
+			<prevrevision>1.23</prevrevision>
+		</file>
+		<file>
+			<name>web/closure.jsp</name>
+			<revision>1.25</revision>
+			<prevrevision>1.24</prevrevision>
+		</file>
+		<msg><![CDATA[TransitiveClosure uses TransitiveClosureEngine]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-29</date>
-		<time>07:31</time>
+		<date>2004-10-11</date>
+		<time>06:07</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>web/extract.jsp</name>
-			<revision>1.31</revision>
+			<name>src/com/jeantessier/dependency/ClassNode.java</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
 		</file>
-		<msg><![CDATA[Missing Inherited Behavior pattern]]></msg>
+		<file>
+			<name>src/com/jeantessier/dependency/FeatureNode.java</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<msg><![CDATA[Add support for referenced vs. concrete nodes]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-13</date>
@@ -2413,50 +2564,6 @@ All test classes and test data]]></msg>
 		</file>
 		<msg><![CDATA[Phase X: naming changes
 All test classes and test data]]></msg>
-	</entry>
-	<entry>
-		<date>2003-11-14</date>
-		<time>05:57</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/Version.java</name>
-			<revision>1.3</revision>
-			<prevrevision>1.2</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/AboutAction.java</name>
-			<revision>1.1</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
-			<revision>1.29</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/OOMetrics.java</name>
-			<revision>1.18</revision>
-		</file>
-		<msg><![CDATA[About box for branding GUI]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-29</date>
-		<time>07:29</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>docs/tasks/Menu.html</name>
-			<revision>1.4</revision>
-			<prevrevision>1.3</prevrevision>
-		</file>
-		<file>
-			<name>docs/tasks/definitions.html</name>
-			<revision>1.4</revision>
-			<prevrevision>1.3</prevrevision>
-		</file>
-		<file>
-			<name>docs/tasks/xslt.html</name>
-			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
-		</file>
-		<msg><![CDATA[More help for Xalan and JDK 1.4]]></msg>
 	</entry>
 	<entry>
 		<date>2004-03-05</date>
@@ -2792,7 +2899,6 @@ All test classes and test data]]></msg>
 		<file>
 			<name>textjunit.bat</name>
 			<revision>1.11</revision>
-			<prevrevision>1.10</prevrevision>
 		</file>
 		<msg><![CDATA[Add Xalan for new unit tests]]></msg>
 	</entry>
@@ -2823,6 +2929,44 @@ All test classes and test data]]></msg>
 		</file>
 		<msg><![CDATA[Phase X: naming changes
 All test classes and test data]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-12</date>
+		<time>04:40</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tomcattasks.properties</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<msg><![CDATA[Load Tomcat tasks from Tomcat JARs]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-28</date>
+		<time>08:10</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>web/advancedclosure.jsp</name>
+			<revision>1.25</revision>
+			<prevrevision>1.24</prevrevision>
+		</file>
+		<msg><![CDATA[TransitiveClosure uses TransitiveClosureEngine]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-14</date>
+		<time>05:42</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java</name>
+			<revision>1.25</revision>
+			<prevrevision>1.24</prevrevision>
+		</file>
+		<msg><![CDATA[Preload all graphs for more accurate measurements]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-28</date>
@@ -2944,6 +3088,33 @@ All test classes and test data]]></msg>
 			<prevrevision>1.3</prevrevision>
 		</file>
 		<msg><![CDATA[Simplify usage of statistical measurements]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-28</date>
+		<time>08:10</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>web/closure.jsp</name>
+			<revision>1.26</revision>
+			<prevrevision>1.25</prevrevision>
+		</file>
+		<msg><![CDATA[TransitiveClosure uses TransitiveClosureEngine]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-29</date>
+		<time>07:23</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/NewMetricsAction.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/OOMetricsTableModel.java</name>
+			<revision>1.16</revision>
+			<prevrevision>1.15</prevrevision>
+		</file>
+		<msg><![CDATA[Rename setters that were named getXXX() by mistake]]></msg>
 	</entry>
 	<entry>
 		<date>2004-03-08</date>
@@ -3183,7 +3354,6 @@ All test classes and test data]]></msg>
 		<file>
 			<name>tests/com/jeantessier/metrics/TestNbSubMetricsMeasurementSelectionCriteria.java</name>
 			<revision>1.6</revision>
-			<prevrevision>1.5</prevrevision>
 		</file>
 		<file>
 			<name>tests/com/jeantessier/metrics/TestNullMeasurement.java</name>
@@ -3231,20 +3401,6 @@ All test classes and test data]]></msg>
 			<prevrevision>1.2</prevrevision>
 		</file>
 		<msg><![CDATA[Change copyright to 2004]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-28</date>
-		<time>08:55</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>docs/tasks/Menu.html</name>
-			<revision>1.3</revision>
-		</file>
-		<file>
-			<name>docs/tasks/xslt.html</name>
-			<revision>1.1</revision>
-		</file>
-		<msg><![CDATA[Bug with Xalan and DTM IDs]]></msg>
 	</entry>
 	<entry>
 		<date>2004-03-23</date>
@@ -3444,20 +3600,6 @@ Refactoring of selectors.]]></msg>
 started on com.jeantessier.dependency]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-22</date>
-		<time>07:14</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/classreader/MetricsGatherer.java</name>
-			<revision>1.7</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/classreader/ZipClassfileLoader.java</name>
-			<revision>1.10</revision>
-		</file>
-		<msg><![CDATA[Rename events to support better progress information reporting in UI and more consistant nomenclature.]]></msg>
-	</entry>
-	<entry>
 		<date>2004-09-08</date>
 		<time>08:07</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3467,6 +3609,39 @@ started on com.jeantessier.dependency]]></msg>
 			<prevrevision>1.34</prevrevision>
 		</file>
 		<msg><![CDATA[New symbol list tool (forgot to clean up text alignment bar)]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-28</date>
+		<time>07:53</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
+			<revision>1.33</revision>
+			<prevrevision>1.32</prevrevision>
+		</file>
+		<msg><![CDATA[TransitiveClosure uses TransitiveClosureEngine]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-10</date>
+		<time>09:15</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Tools.txt</name>
+			<revision>1.36</revision>
+			<prevrevision>1.35</prevrevision>
+		</file>
+		<msg><![CDATA[Update documentation to account for changed options to DependencyClosure]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-25</date>
+		<time>10:38</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java</name>
+			<revision>1.14</revision>
+			<prevrevision>1.13</prevrevision>
+		</file>
+		<msg><![CDATA[Feature Request #1071303: Added traces suggested by Joe Fisher.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-08</date>
@@ -3593,42 +3768,74 @@ com.jeantessier.dependencyfinder.diff complete
 com.jeantessier.dependency.metrics complete]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-31</date>
-		<time>07:27</time>
+		<date>2004-10-28</date>
+		<time>05:03</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/OOMetricsTableModel.java</name>
-			<revision>1.13</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/metrics/AccumulatorMeasurement.java</name>
+			<name>src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java</name>
 			<revision>1.14</revision>
+			<prevrevision>1.13</prevrevision>
 		</file>
 		<file>
-			<name>src/com/jeantessier/metrics/MeasurementBase.java</name>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
+			<revision>1.32</revision>
+			<prevrevision>1.31</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
+			<revision>1.37</revision>
+			<prevrevision>1.36</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestAll.java</name>
+			<revision>1.20</revision>
+			<prevrevision>1.19</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestGraphSummarizer.java</name>
+			<revision>1.15</revision>
+			<prevrevision>1.14</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestNullSelectionCriteria.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTransitiveClosure.java</name>
+			<revision>1.12</revision>
+			<prevrevision>1.11</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTransitiveClosureEngine.java</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTransitiveClosureNonMaximized.java</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTransitiveClosureSlice.java</name>
 			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<msg><![CDATA[TransitiveClosure uses TransitiveClosureEngine]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-11</date>
+		<time>06:07</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestAll.java</name>
+			<revision>1.19</revision>
+			<prevrevision>1.18</prevrevision>
 		</file>
 		<file>
-			<name>src/com/jeantessier/metrics/MetricsConfiguration.java</name>
-			<revision>1.4</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/text/MaximumCapacityPatternCache.java</name>
+			<name>tests/com/jeantessier/dependency/TestNodeFactory.java</name>
 			<revision>1.1</revision>
 		</file>
-		<file>
-			<name>tests/com/jeantessier/metrics/TestNbSubMetricsMeasurementSelectionCriteria.java</name>
-			<revision>1.5</revision>
-		</file>
-		<file>
-			<name>tests/com/jeantessier/text/TestAll.java</name>
-			<revision>1.1</revision>
-		</file>
-		<file>
-			<name>tests/com/jeantessier/text/TestMaximumCapacityPatternCache.java</name>
-			<revision>1.1</revision>
-		</file>
-		<msg><![CDATA[Use large cache with Perl5Util]]></msg>
+		<msg><![CDATA[Add support for referenced vs. concrete nodes]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-21</date>
@@ -3658,7 +3865,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>tests/com/jeantessier/classreader/TestAll.java</name>
 			<revision>1.10</revision>
-			<prevrevision>1.9</prevrevision>
 		</file>
 		<file>
 			<name>tests/com/jeantessier/classreader/TestXMLPrinter.java</name>
@@ -3673,7 +3879,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/metrics/AccumulatorMeasurement.java</name>
 			<revision>1.15</revision>
-			<prevrevision>1.14</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/metrics/CSVPrinter.java</name>
@@ -3694,7 +3899,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/metrics/MeasurementBase.java</name>
 			<revision>1.11</revision>
-			<prevrevision>1.10</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/metrics/MeasurementVisitor.java</name>
@@ -3747,6 +3951,17 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[XML rendering of StatisticalMeasurement includes default value]]></msg>
 	</entry>
 	<entry>
+		<date>2004-11-04</date>
+		<time>08:22</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
+			<revision>1.35</revision>
+			<prevrevision>1.34</prevrevision>
+		</file>
+		<msg><![CDATA[Adjust parameters for DependencyClosure]]></msg>
+	</entry>
+	<entry>
 		<date>2004-04-21</date>
 		<time>10:37</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3755,32 +3970,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 			<revision>1.1</revision>
 		</file>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-22</date>
-		<time>07:14</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java</name>
-			<revision>1.20</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/DependencyVerboseListener.java</name>
-			<revision>1.2</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java</name>
-			<revision>1.23</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java</name>
-			<revision>1.3</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java</name>
-			<revision>1.10</revision>
-		</file>
-		<msg><![CDATA[Rename events to support better progress information reporting in UI and more consistant nomenclature.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-05-10</date>
@@ -3804,16 +3993,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Move class Hex from package com.jeantessier.dependencyfinder.cli to package com.jeantessier.dependencyfinder.]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-31</date>
-		<time>07:27</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependency/SelectiveTraversalStrategy.java</name>
-			<revision>1.8</revision>
-		</file>
-		<msg><![CDATA[Use large cache with Perl5Util]]></msg>
-	</entry>
-	<entry>
 		<date>2004-05-01</date>
 		<time>06:34</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3833,6 +4012,28 @@ com.jeantessier.dependency.metrics complete]]></msg>
 			<revision>1.3</revision>
 		</file>
 		<msg><![CDATA[Remove spurious import statement]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-28</date>
+		<time>05:03</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTransitiveClosureWithTestClass.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<msg><![CDATA[TransitiveClosure uses TransitiveClosureEngine]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-26</date>
+		<time>17:32</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.57</revision>
+			<prevrevision>1.56</prevrevision>
+		</file>
+		<msg><![CDATA[Unix distribution]]></msg>
 	</entry>
 	<entry>
 		<date>2004-05-10</date>
@@ -3864,6 +4065,33 @@ com.jeantessier.dependency.metrics complete]]></msg>
 			<prevrevision>1.1</prevrevision>
 		</file>
 		<msg><![CDATA[Remove DeprecationReport, use DependencyReporter instead.]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-12</date>
+		<time>05:37</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
+			<revision>1.39</revision>
+			<prevrevision>1.38</prevrevision>
+		</file>
+		<msg><![CDATA[Fix labels to cover different semantics of controls for closures]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-14</date>
+		<time>05:40</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/NodeHandler.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependency/NodeLoader.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<msg><![CDATA[Ligning up statements]]></msg>
 	</entry>
 	<entry>
 		<date>2004-03-23</date>
@@ -3911,7 +4139,6 @@ Refactoring of selectors.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java</name>
 			<revision>1.15</revision>
-			<prevrevision>1.14</prevrevision>
 		</file>
 		<msg><![CDATA[New feature to show usage of each VM instruction]]></msg>
 	</entry>
@@ -3941,6 +4168,17 @@ Refactoring of selectors.]]></msg>
 		<msg><![CDATA[Change copyright to 2004]]></msg>
 	</entry>
 	<entry>
+		<date>2004-10-29</date>
+		<time>05:22</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>web/extract.jsp</name>
+			<revision>1.34</revision>
+			<prevrevision>1.33</prevrevision>
+		</file>
+		<msg><![CDATA[Separate classfile Visitor from LoadListener behavior]]></msg>
+	</entry>
+	<entry>
 		<date>2004-03-05</date>
 		<time>05:14</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3954,17 +4192,6 @@ Refactoring of selectors.]]></msg>
 			<revision>1.1</revision>
 		</file>
 		<msg><![CDATA[Ignore HTML files]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-31</date>
-		<time>07:30</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>build.xml</name>
-			<revision>1.40</revision>
-			<prevrevision>1.39</prevrevision>
-		</file>
-		<msg><![CDATA[Add Xerces to WAR file]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-08</date>
@@ -4044,12 +4271,10 @@ Parameters and local variables that other phase missed.]]></msg>
 		<file>
 			<name>tests/com/jeantessier/text/TestAll.java</name>
 			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
 		</file>
 		<file>
 			<name>tests/com/jeantessier/text/TestMaximumCapacityPatternCache.java</name>
 			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
 		</file>
 		<file>
 			<name>web/advancedclosure.jsp</name>
@@ -4078,17 +4303,14 @@ Parameters and local variables that other phase missed.]]></msg>
 		<file>
 			<name>web/extract.jsp</name>
 			<revision>1.32</revision>
-			<prevrevision>1.31</prevrevision>
 		</file>
 		<file>
 			<name>web/footer.jsp</name>
 			<revision>1.4</revision>
-			<prevrevision>1.3</prevrevision>
 		</file>
 		<file>
 			<name>web/load.jsp</name>
 			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
 		</file>
 		<file>
 			<name>web/metrics.jsp</name>
@@ -4184,7 +4406,6 @@ Parameters and local variables that other phase missed.]]></msg>
 		<file>
 			<name>src/com/jeantessier/metrics/MetricsGatherer.java</name>
 			<revision>1.20</revision>
-			<prevrevision>1.19</prevrevision>
 		</file>
 		<file>
 			<name>tests/com/jeantessier/metrics/TestAll.java</name>
@@ -4448,17 +4669,14 @@ started on com.jeantessier.dependency]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
 			<revision>1.24</revision>
-			<prevrevision>1.23</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java</name>
 			<revision>1.17</revision>
-			<prevrevision>1.16</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java</name>
 			<revision>1.23</revision>
-			<prevrevision>1.22</prevrevision>
 		</file>
 		<msg><![CDATA[Extract Node-selection behavior]]></msg>
 	</entry>
@@ -4528,77 +4746,26 @@ started on com.jeantessier.dependency]]></msg>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-18</date>
-		<time>17:49</time>
+		<date>2004-11-28</date>
+		<time>06:28</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/dependencyfinder/Version.java</name>
-			<revision>1.2</revision>
+			<name>docs/Manual.txt</name>
+			<revision>1.41</revision>
+			<prevrevision>1.40</prevrevision>
 		</file>
+		<msg><![CDATA[Web App load.jsp]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-15</date>
+		<time>09:30</time>
+		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/dependencyfinder/VersionBeanInfo.java</name>
-			<revision>1.2</revision>
+			<name>etc/MetricsConfig.xml</name>
+			<revision>1.18</revision>
+			<prevrevision>1.17</prevrevision>
 		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java</name>
-			<revision>1.6</revision>
-			<prevrevision>1.5</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassList.java</name>
-			<revision>1.15</revision>
-			<prevrevision>1.14</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java</name>
-			<revision>1.13</revision>
-			<prevrevision>1.12</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassReader.java</name>
-			<revision>1.21</revision>
-			<prevrevision>1.20</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
-			<revision>1.23</revision>
-			<prevrevision>1.22</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java</name>
-			<revision>1.20</revision>
-			<prevrevision>1.19</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java</name>
-			<revision>1.16</revision>
-			<prevrevision>1.15</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java</name>
-			<revision>1.22</revision>
-			<prevrevision>1.21</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java</name>
-			<revision>1.22</revision>
-			<prevrevision>1.21</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ListDiff.java</name>
-			<revision>1.11</revision>
-			<prevrevision>1.10</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
-			<revision>1.26</revision>
-			<prevrevision>1.25</prevrevision>
-		</file>
-		<file>
-			<name>web/footer.jsp</name>
-			<revision>1.3</revision>
-		</file>
-		<msg><![CDATA[Added copyright dates to version info]]></msg>
+		<msg><![CDATA[Fixed typo]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-07</date>
@@ -4756,48 +4923,28 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Explain why no line number info]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-30</date>
-		<time>04:34</time>
+		<date>2004-11-11</date>
+		<time>06:46</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/classreader/Classfile.java</name>
-			<revision>1.8</revision>
+			<name>build.xml</name>
+			<revision>1.52</revision>
+			<prevrevision>1.51</prevrevision>
 		</file>
 		<file>
-			<name>src/com/jeantessier/classreader/ClassfileLoader.java</name>
-			<revision>1.9</revision>
+			<name>cvs.properties</name>
+			<revision>1.1</revision>
 		</file>
 		<file>
-			<name>src/com/jeantessier/classreader/ClassfileLoaderEventSource.java</name>
-			<revision>1.9</revision>
+			<name>tomcat.properties</name>
+			<revision>1.1</revision>
 		</file>
 		<file>
-			<name>src/com/jeantessier/classreader/DirectoryClassfileLoader.java</name>
-			<revision>1.12</revision>
+			<name>tomcattasks.properties</name>
+			<revision>1.1</revision>
 		</file>
-		<msg><![CDATA[Skip badly formed .class files]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-22</date>
-		<time>07:14</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependency/DependencyEvent.java</name>
-			<revision>1.5</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependency/DependencyListener.java</name>
-			<revision>1.5</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependency/NodeHandler.java</name>
-			<revision>1.7</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/GroupData.java</name>
-			<revision>1.2</revision>
-		</file>
-		<msg><![CDATA[Rename events to support better progress information reporting in UI and more consistant nomenclature.]]></msg>
+		<msg><![CDATA[Use Tomcat's manager tasks.
+Extract properties to separate files.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-28</date>
@@ -4972,31 +5119,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 			<prevrevision>1.3</prevrevision>
 		</file>
 		<msg><![CDATA[Phase I of naming change]]></msg>
-	</entry>
-	<entry>
-		<date>2004-05-05</date>
-		<time>14:29</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>etc/InboundDependencyConfig.xml</name>
-			<revision>1.1</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/ant/OOMetrics.java</name>
-			<revision>1.11</revision>
-			<prevrevision>1.10</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
-			<revision>1.32</revision>
-			<prevrevision>1.31</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/metrics/MetricsGatherer.java</name>
-			<revision>1.22</revision>
-			<prevrevision>1.21</prevrevision>
-		</file>
-		<msg><![CDATA[Show all metrics for inbound dependency analysis]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-07</date>
@@ -5236,6 +5358,31 @@ com.jeantessier.dependencyfinder.diff complete
 com.jeantessier.dependency.metrics complete]]></msg>
 	</entry>
 	<entry>
+		<date>2004-05-05</date>
+		<time>14:29</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>etc/InboundDependencyConfig.xml</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/OOMetrics.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
+			<revision>1.32</revision>
+			<prevrevision>1.31</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/metrics/MetricsGatherer.java</name>
+			<revision>1.22</revision>
+			<prevrevision>1.21</prevrevision>
+		</file>
+		<msg><![CDATA[Show all metrics for inbound dependency analysis]]></msg>
+	</entry>
+	<entry>
 		<date>2004-02-23</date>
 		<time>15:33</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -5273,12 +5420,10 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/OOMetrics.java</name>
 			<revision>1.8</revision>
-			<prevrevision>1.7</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java</name>
 			<revision>1.7</revision>
-			<prevrevision>1.6</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassReader.java</name>
@@ -5293,7 +5438,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java</name>
 			<revision>1.21</revision>
-			<prevrevision>1.20</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java</name>
@@ -5303,30 +5447,59 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java</name>
 			<revision>1.23</revision>
-			<prevrevision>1.22</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ListDiff.java</name>
 			<revision>1.12</revision>
-			<prevrevision>1.11</prevrevision>
 		</file>
 		<msg><![CDATA[Specify XML encoding]]></msg>
 	</entry>
 	<entry>
-		<date>2003-11-27</date>
-		<time>06:47</time>
+		<date>2004-10-05</date>
+		<time>05:20</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
-			<revision>1.30</revision>
-			<prevrevision>1.29</prevrevision>
+			<name>src/com/jeantessier/classreader/Collector.java</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
 		</file>
 		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/OOMetrics.java</name>
-			<revision>1.19</revision>
-			<prevrevision>1.18</prevrevision>
+			<name>src/com/jeantessier/classreader/CollectorBase.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
 		</file>
-		<msg><![CDATA[Use logging instead of printing to system streams.]]></msg>
+		<file>
+			<name>src/com/jeantessier/classreader/DeprecationPrinter.java</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/classreader/LoadListenerVisitorAdapter.java</name>
+			<revision>1.1</revision>
+		</file>
+		<msg><![CDATA[Separate classfile Visitor from LoadListener behavior]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-29</date>
+		<time>07:23</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java</name>
+			<revision>1.12</revision>
+			<prevrevision>1.11</prevrevision>
+		</file>
+		<msg><![CDATA[Rename setters that were named getXXX() by mistake]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-12</date>
+		<time>04:40</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.54</revision>
+			<prevrevision>1.53</prevrevision>
+		</file>
+		<msg><![CDATA[Load Tomcat tasks from Tomcat JARs]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-21</date>
@@ -5392,7 +5565,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
 			<revision>1.28</revision>
-			<prevrevision>1.27</prevrevision>
 		</file>
 		<msg><![CDATA[Specify XML encoding]]></msg>
 	</entry>
@@ -5465,7 +5637,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassReader.java</name>
 			<revision>1.22</revision>
-			<prevrevision>1.21</prevrevision>
 		</file>
 		<msg><![CDATA[Aggregate multiple classfiles in one XML document]]></msg>
 	</entry>
@@ -5491,9 +5662,34 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>src/dependencyfindertasks.properties</name>
 			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
 		</file>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-04</date>
+		<time>08:22</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java</name>
+			<revision>1.15</revision>
+			<prevrevision>1.14</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java</name>
+			<revision>1.12</revision>
+			<prevrevision>1.11</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java</name>
+			<revision>1.21</revision>
+			<prevrevision>1.20</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/GraphTask.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<msg><![CDATA[Adjust parameters for DependencyClosure]]></msg>
 	</entry>
 	<entry>
 		<date>2004-01-27</date>
@@ -5522,14 +5718,15 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Extract Node-selection behavior]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-30</date>
-		<time>04:32</time>
+		<date>2004-09-23</date>
+		<time>07:32</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>web/load.jsp</name>
-			<revision>1.1</revision>
+			<name>build.xml</name>
+			<revision>1.50</revision>
+			<prevrevision>1.49</prevrevision>
 		</file>
-		<msg><![CDATA[Load JSP to read graphs in XML document]]></msg>
+		<msg><![CDATA[Rev up version number]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-10</date>
@@ -5568,18 +5765,27 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Remove all signs of use of object serialization]]></msg>
 	</entry>
 	<entry>
-		<date>2003-11-12</date>
-		<time>07:43</time>
+		<date>2004-09-20</date>
+		<time>07:03</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>tests/com/jeantessier/classreader/TestAll.java</name>
-			<revision>1.9</revision>
+			<name>build.xml</name>
+			<revision>1.49</revision>
+			<prevrevision>1.48</prevrevision>
 		</file>
+		<msg><![CDATA[Fixed date parameter to CVS task]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-25</date>
+		<time>10:04</time>
+		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>tests/com/jeantessier/classreader/TestClassfileScanner.java</name>
-			<revision>1.1</revision>
+			<name>build.xml</name>
+			<revision>1.56</revision>
+			<prevrevision>1.55</prevrevision>
 		</file>
-		<msg><![CDATA[Count files and classes before extraction]]></msg>
+		<msg><![CDATA[Generate common scripts.
+Added Unix scripts.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-04</date>
@@ -5615,7 +5821,6 @@ com.jeantessier.classreader complete]]></msg>
 		<file>
 			<name>web/WEB-INF/web.xml</name>
 			<revision>1.8</revision>
-			<prevrevision>1.7</prevrevision>
 		</file>
 		<msg><![CDATA[Change copyright to 2004]]></msg>
 	</entry>
@@ -5630,15 +5835,15 @@ com.jeantessier.classreader complete]]></msg>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-18</date>
-		<time>17:49</time>
+		<date>2004-10-29</date>
+		<time>07:23</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>build.xml</name>
-			<revision>1.38</revision>
-			<prevrevision>1.37</prevrevision>
+			<name>src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java</name>
+			<revision>1.30</revision>
+			<prevrevision>1.29</prevrevision>
 		</file>
-		<msg><![CDATA[Added copyright dates to version info]]></msg>
+		<msg><![CDATA[Rename setters that were named getXXX() by mistake]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-08</date>
@@ -5946,7 +6151,6 @@ started on com.jeantessier.dependency]]></msg>
 		<file>
 			<name>docs/Tools.txt</name>
 			<revision>1.25</revision>
-			<prevrevision>1.24</prevrevision>
 		</file>
 		<file>
 			<name>docs/tasks/classmetrics.html</name>
@@ -5964,7 +6168,6 @@ started on com.jeantessier.dependency]]></msg>
 		<file>
 			<name>src/com/jeantessier/classreader/MetricsGatherer.java</name>
 			<revision>1.8</revision>
-			<prevrevision>1.7</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/classreader/VisitorBase.java</name>
@@ -5973,7 +6176,6 @@ started on com.jeantessier.dependency]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java</name>
 			<revision>1.6</revision>
-			<prevrevision>1.5</prevrevision>
 		</file>
 		<msg><![CDATA[New feature to show usage of each VM instruction]]></msg>
 	</entry>
@@ -6093,7 +6295,6 @@ Parameters and local variables that other phase missed.]]></msg>
 		<file>
 			<name>bin/DependencyFinder.bat</name>
 			<revision>1.14</revision>
-			<prevrevision>1.13</prevrevision>
 		</file>
 		<file>
 			<name>bin/DependencyGraphToHTML.bat</name>
@@ -6189,7 +6390,6 @@ Parameters and local variables that other phase missed.]]></msg>
 		<file>
 			<name>bin/OOMetricsGUI.bat</name>
 			<revision>1.14</revision>
-			<prevrevision>1.13</prevrevision>
 		</file>
 		<file>
 			<name>bin/PublishedDiffToHTML.bat</name>
@@ -6223,18 +6423,15 @@ Parameters and local variables that other phase missed.]]></msg>
 		<msg><![CDATA[Change copyright to 2004]]></msg>
 	</entry>
 	<entry>
-		<date>2003-11-28</date>
-		<time>17:04</time>
+		<date>2004-11-04</date>
+		<time>08:22</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>bin/DependencyFinder.bat</name>
-			<revision>1.13</revision>
+			<name>etc/PublishedDiffToHTML.xsl</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
 		</file>
-		<file>
-			<name>bin/OOMetricsGUI.bat</name>
-			<revision>1.13</revision>
-		</file>
-		<msg><![CDATA[Fix Bug #804400.]]></msg>
+		<msg><![CDATA[Use new method names.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-05-05</date>
@@ -6296,19 +6493,8 @@ com.jeantessier.classreader complete]]></msg>
 		<file>
 			<name>docs/tasks/definitions.html</name>
 			<revision>1.5</revision>
-			<prevrevision>1.4</prevrevision>
 		</file>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-18</date>
-		<time>06:05</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>docs/Tools.txt</name>
-			<revision>1.24</revision>
-		</file>
-		<msg><![CDATA[Add -version command-line switch for CLI tools]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-21</date>
@@ -6319,6 +6505,27 @@ com.jeantessier.classreader complete]]></msg>
 			<revision>1.1</revision>
 		</file>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-05</date>
+		<time>05:20</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/CodeDependencyCollector.java</name>
+			<revision>1.21</revision>
+			<prevrevision>1.20</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java</name>
+			<revision>1.15</revision>
+			<prevrevision>1.14</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/ListDeprecatedElements.java</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<msg><![CDATA[Separate classfile Visitor from LoadListener behavior]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-21</date>
@@ -6344,6 +6551,265 @@ com.jeantessier.classreader complete]]></msg>
 			<revision>1.5</revision>
 		</file>
 		<msg><![CDATA[Upgrade to Xalan 2.6.0]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-11</date>
+		<time>07:07</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.53</revision>
+			<prevrevision>1.52</prevrevision>
+		</file>
+		<msg><![CDATA[Fix renamed targets]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-25</date>
+		<time>10:04</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>bin/ClassClassDiff.bat</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+		<file>
+			<name>bin/ClassDump.bat</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>bin/ClassList.bat</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>bin/ClassMetrics.bat</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>bin/ClassReader.bat</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>bin/ClosureToText.bat</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependablesToHTML.bat</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependablesToText.bat</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependencyClosure.bat</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependencyExtractor.bat</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependencyFinder</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/DependencyGraphToHTML.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependencyGraphToText.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependencyMetrics.bat</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependencyReporter.bat</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependentsToHTML.bat</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>bin/DependentsToText.bat</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>bin/DiffToHTML.bat</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>bin/HideInboundDependenciesToHTML.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/HideInboundDependenciesToText.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/HideOutboundDependenciesToHTML.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/HideOutboundDependenciesToText.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/JarJarDiff.bat</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>bin/ListDeprecatedElements.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/ListDiff.bat</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>bin/ListDiffToHTML.bat</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>bin/ListDiffToText.bat</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>bin/ListDocumentedElements</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/ListInheritanceDiffToText.bat</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>bin/ListSymbols.bat</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<file>
+			<name>bin/ListUnused.bat</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>bin/MetricsToHTML.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/MetricsToText.bat</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>bin/OOMetrics</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/OOMetricsGUI</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/PublishedDiffToHTML.bat</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>bin/ScriptGenerator.pl</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/TemplateProcessor.pm</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/TemplateProcessorRule.pm</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/XSLTProcess</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/bat.cli.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/bat.reporter.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/bat.xsl.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/c2c.bat</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>bin/c2p.bat</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>bin/f2f.bat</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>bin/p2p.bat</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<file>
+			<name>bin/sh.cli.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/sh.reporter.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/sh.xsl.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>bin/txt2html.pl</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+		<msg><![CDATA[Generate common scripts.
+Added Unix scripts.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-05-01</date>
@@ -6488,47 +6954,8 @@ com.jeantessier.classreader complete]]></msg>
 		<file>
 			<name>docs/tasks/Menu.html</name>
 			<revision>1.5</revision>
-			<prevrevision>1.4</prevrevision>
 		</file>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-18</date>
-		<time>06:05</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java</name>
-			<revision>1.5</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassList.java</name>
-			<revision>1.14</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java</name>
-			<revision>1.12</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassReader.java</name>
-			<revision>1.20</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java</name>
-			<revision>1.22</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java</name>
-			<revision>1.19</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java</name>
-			<revision>1.15</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java</name>
-			<revision>1.21</revision>
-		</file>
-		<msg><![CDATA[Add -version command-line switch for CLI tools]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-26</date>
@@ -6571,39 +6998,20 @@ com.jeantessier.classreader complete]]></msg>
 		<msg><![CDATA[Use DependencyReporter to combine graphs]]></msg>
 	</entry>
 	<entry>
-		<date>2003-11-12</date>
-		<time>07:43</time>
+		<date>2004-11-11</date>
+		<time>06:44</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/classreader/ClassfileScanner.java</name>
-			<revision>1.1</revision>
+			<name>web/advancedclosure.jsp</name>
+			<revision>1.28</revision>
+			<prevrevision>1.27</prevrevision>
 		</file>
 		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java</name>
-			<revision>1.21</revision>
-			<prevrevision>1.20</prevrevision>
+			<name>web/closure.jsp</name>
+			<revision>1.29</revision>
+			<prevrevision>1.28</prevrevision>
 		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java</name>
-			<revision>1.24</revision>
-			<prevrevision>1.23</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java</name>
-			<revision>1.4</revision>
-			<prevrevision>1.3</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java</name>
-			<revision>1.6</revision>
-			<prevrevision>1.5</prevrevision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/VerboseListener.java</name>
-			<revision>1.4</revision>
-			<prevrevision>1.3</prevrevision>
-		</file>
-		<msg><![CDATA[Count files and classes before extraction]]></msg>
+		<msg><![CDATA[Better UI for the summarization that follows the closure computation]]></msg>
 	</entry>
 	<entry>
 		<date>2003-12-15</date>
@@ -6650,7 +7058,6 @@ com.jeantessier.classreader complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependency/SelectiveTraversalStrategy.java</name>
 			<revision>1.9</revision>
-			<prevrevision>1.8</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependency/VisitorBase.java</name>
@@ -6659,24 +7066,8 @@ com.jeantessier.classreader complete]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
 			<revision>1.31</revision>
-			<prevrevision>1.30</prevrevision>
 		</file>
 		<msg><![CDATA[Extract Node-selection behavior]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-28</date>
-		<time>08:37</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>build.xml</name>
-			<revision>1.39</revision>
-			<prevrevision>1.38</prevrevision>
-		</file>
-		<file>
-			<name>docs/tasks/definitions.html</name>
-			<revision>1.3</revision>
-		</file>
-		<msg><![CDATA[Define Ant tasks inside DependencyFinder.jar]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-10</date>
@@ -6726,44 +7117,15 @@ Include version number in filenames for distribution files.]]></msg>
 		<msg><![CDATA[Closure engine stop]]></msg>
 	</entry>
 	<entry>
-		<date>2003-10-18</date>
-		<time>06:05</time>
+		<date>2004-11-15</date>
+		<time>09:29</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java</name>
-			<revision>1.21</revision>
+			<name>docs/Manual.txt</name>
+			<revision>1.38</revision>
+			<prevrevision>1.37</prevrevision>
 		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ListDiff.java</name>
-			<revision>1.10</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
-			<revision>1.25</revision>
-		</file>
-		<msg><![CDATA[Add -version command-line switch for CLI tools]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-22</date>
-		<time>07:14</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java</name>
-			<revision>1.5</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/gui/VerboseListener.java</name>
-			<revision>1.3</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/metrics/MetricsEvent.java</name>
-			<revision>1.5</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/metrics/MetricsGatherer.java</name>
-			<revision>1.19</revision>
-		</file>
-		<msg><![CDATA[Rename events to support better progress information reporting in UI and more consistant nomenclature.]]></msg>
+		<msg><![CDATA[Elaborate on metrics and measurements.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-10</date>
@@ -6811,6 +7173,17 @@ Include version number in filenames for distribution files.]]></msg>
 		</file>
 		<msg><![CDATA[Phase VIII: naming changes
 JSP files for the web application.]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-02</date>
+		<time>20:31</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.51</revision>
+			<prevrevision>1.50</prevrevision>
+		</file>
+		<msg><![CDATA[Rewrote "war" target to use Ant's <war> task]]></msg>
 	</entry>
 	<entry>
 		<date>2004-05-22</date>
@@ -7024,12 +7397,10 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>src/com/jeantessier/classreader/Classfile.java</name>
 			<revision>1.9</revision>
-			<prevrevision>1.8</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/classreader/ClassfileLoader.java</name>
 			<revision>1.10</revision>
-			<prevrevision>1.9</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/classreader/ClassfileLoaderDecorator.java</name>
@@ -7042,12 +7413,10 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>src/com/jeantessier/classreader/ClassfileLoaderEventSource.java</name>
 			<revision>1.10</revision>
-			<prevrevision>1.9</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/classreader/ClassfileScanner.java</name>
 			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/classreader/CodeIterator.java</name>
@@ -7069,7 +7438,6 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>src/com/jeantessier/classreader/ConstantPool.java</name>
 			<revision>1.12</revision>
-			<prevrevision>1.11</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/classreader/ConstantPoolEntry.java</name>
@@ -7099,7 +7467,6 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>src/com/jeantessier/classreader/DirectoryClassfileLoader.java</name>
 			<revision>1.13</revision>
-			<prevrevision>1.12</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/classreader/DirectoryExplorer.java</name>
@@ -7275,7 +7642,6 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>src/com/jeantessier/classreader/ZipClassfileLoader.java</name>
 			<revision>1.11</revision>
-			<prevrevision>1.10</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/commandline/AnyParameterStrategy.java</name>
@@ -7386,7 +7752,6 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependency/CodeDependencyCollector.java</name>
 			<revision>1.15</revision>
-			<prevrevision>1.14</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependency/CollectionSelectionCriteria.java</name>
@@ -7405,12 +7770,10 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependency/DependencyEvent.java</name>
 			<revision>1.6</revision>
-			<prevrevision>1.5</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependency/DependencyListener.java</name>
 			<revision>1.6</revision>
-			<prevrevision>1.5</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependency/FeatureNode.java</name>
@@ -7453,7 +7816,6 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>src/com/jeantessier/dependency/NodeHandler.java</name>
 			<revision>1.8</revision>
-			<prevrevision>1.7</prevrevision>
 		</file>
 		<file>
 			<name>src/com/jeantessier/dependency/NodeLoader.java</name>
@@ -7592,9 +7954,40 @@ JSP files for the web application.]]></msg>
 		<file>
 			<name>docs/tasks/xslt.html</name>
 			<revision>1.3</revision>
-			<prevrevision>1.2</prevrevision>
 		</file>
 		<msg><![CDATA[New stylesheet]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-10</date>
+		<time>09:16</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>web/advancedclosure.jsp</name>
+			<revision>1.27</revision>
+			<prevrevision>1.26</prevrevision>
+		</file>
+		<file>
+			<name>web/closure.jsp</name>
+			<revision>1.28</revision>
+			<prevrevision>1.27</prevrevision>
+		</file>
+		<msg><![CDATA[New UI to account for duality between closure and subsequent summarization]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-05</date>
+		<time>07:22</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/SymbolList.java</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+		<msg><![CDATA[Normalize processing]]></msg>
 	</entry>
 	<entry>
 		<date>2004-05-10</date>
@@ -7615,6 +8008,17 @@ JSP files for the web application.]]></msg>
 			<revision>1.5</revision>
 		</file>
 		<msg><![CDATA[Upgrade to Xalan 2.6.0]]></msg>
+	</entry>
+	<entry>
+		<date>2004-11-10</date>
+		<time>09:15</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/tasks/dependencyclosure.html</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<msg><![CDATA[Update documentation to account for changed options to DependencyClosure]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-02</date>
@@ -7908,7 +8312,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<file>
 			<name>tests/com/jeantessier/metrics/TestMetricsGathererEvents.java</name>
 			<revision>1.5</revision>
-			<prevrevision>1.4</prevrevision>
 		</file>
 		<file>
 			<name>tests/otherpackage/OtherClass.java</name>
@@ -7925,6 +8328,22 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Added test data classes to help test dependency metrics]]></msg>
 	</entry>
 	<entry>
+		<date>2004-11-16</date>
+		<time>15:34</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.55</revision>
+			<prevrevision>1.54</prevrevision>
+		</file>
+		<file>
+			<name>cvs.properties</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<msg><![CDATA[Better CVSDiff reports]]></msg>
+	</entry>
+	<entry>
 		<date>2004-04-27</date>
 		<time>07:46</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -7933,6 +8352,56 @@ com.jeantessier.dependency.metrics complete]]></msg>
 			<revision>1.3</revision>
 		</file>
 		<msg><![CDATA[Update for testing using XPath]]></msg>
+	</entry>
+	<entry>
+		<date>2004-10-05</date>
+		<time>05:20</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java</name>
+			<revision>1.28</revision>
+			<prevrevision>1.27</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/SymbolList.java</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java</name>
+			<revision>1.27</revision>
+			<prevrevision>1.26</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java</name>
+			<revision>1.12</revision>
+			<prevrevision>1.11</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestAll.java</name>
+			<revision>1.14</revision>
+			<prevrevision>1.13</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestDeprecationPrinter.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestLoadListenerVisitorAdapter.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestSymbolGatherer.java</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<msg><![CDATA[Separate classfile Visitor from LoadListener behavior]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-08</date>
@@ -8068,16 +8537,6 @@ com.jeantessier.dependency.metrics complete]]></msg>
 			<revision>1.8</revision>
 		</file>
 		<msg><![CDATA[Use OOMetrics for reporting outbound dependencies]]></msg>
-	</entry>
-	<entry>
-		<date>2003-10-30</date>
-		<time>04:32</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>web/WEB-INF/web.xml</name>
-			<revision>1.7</revision>
-		</file>
-		<msg><![CDATA[Load JSP to read graphs in XML document]]></msg>
 	</entry>
 	<entry>
 		<date>2004-01-27</date>
