@@ -59,14 +59,17 @@ public class StatisticalMeasurement extends MeasurementBase {
 	/** Use Average() value on StatisticalMeasurements */
 	public static final int DISPOSE_AVERAGE = 3;
 
+	/** Use StandardDeviation() value on StatisticalMeasurements */
+	public static final int DISPOSE_STANDARD_DEVIATION = 4;
+
 	/** Use Maximum() value on StatisticalMeasurements */
-	public static final int DISPOSE_MAXIMUM = 4;
+	public static final int DISPOSE_MAXIMUM = 5;
 
 	/** Use Sum() value on StatisticalMeasurements */
-	public static final int DISPOSE_SUM = 5;
+	public static final int DISPOSE_SUM = 6;
 
 	/** Use NbDataPoints() value on StatisticalMeasurements */
-	public static final int DISPOSE_NB_DATA_POINTS = 6;
+	public static final int DISPOSE_NB_DATA_POINTS = 7;
 
 	private String monitored_measurement;
 	private int    dispose;
@@ -74,12 +77,13 @@ public class StatisticalMeasurement extends MeasurementBase {
 	
 	private List data = new LinkedList();
 
-	private double minimum        = 0.0;
-	private double median         = 0.0;
-	private double average        = 0.0;
-	private double maximum        = 0.0;
-	private double sum            = 0.0;
-	private int    nb_data_points = 0;
+	private double minimum            = 0.0;
+	private double median             = 0.0;
+	private double average            = 0.0;
+	private double standard_deviation = 0.0;
+	private double maximum            = 0.0;
+	private double sum                = 0.0;
+	private int    nb_data_points     = 0;
 
 	private int nb_submetrics = -1;
 
@@ -104,6 +108,8 @@ public class StatisticalMeasurement extends MeasurementBase {
 						dispose = DISPOSE_MEDIAN;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
 						dispose = DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+						dispose = DISPOSE_STANDARD_DEVIATION;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
 						dispose = DISPOSE_MAXIMUM;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
@@ -130,6 +136,8 @@ public class StatisticalMeasurement extends MeasurementBase {
 					self_dispose = DISPOSE_MEDIAN;
 				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
 					self_dispose = DISPOSE_AVERAGE;
+				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+					self_dispose = DISPOSE_STANDARD_DEVIATION;
 				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
 					self_dispose = DISPOSE_MAXIMUM;
 				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
@@ -165,6 +173,15 @@ public class StatisticalMeasurement extends MeasurementBase {
 		return average;
 	}
 
+	/**
+	 *  Real standard deviation of the data set.
+	 *  This is NOT the estimator "s".
+	 */
+	public double StandardDeviation() {
+		CollectData();
+		return standard_deviation;
+	}
+
 	public double Maximum() {
 		CollectData();
 		return maximum;
@@ -182,37 +199,54 @@ public class StatisticalMeasurement extends MeasurementBase {
 	
 	private synchronized void CollectData() {
 		if (Context().SubMetrics().size() != nb_submetrics) {
-			data = new LinkedList();
-
-			Iterator i = Context().SubMetrics().iterator();
-			while (i.hasNext()) {
-				VisitMetrics((Metrics) i.next());
-			}
-
-			if (!data.isEmpty()) {
-				Collections.sort(data);
-				
-				minimum        = ((Number) data.get(0)).doubleValue();
-				median         = ((Number) data.get(data.size() / 2)).doubleValue();
-				maximum        = ((Number) data.get(data.size() - 1)).doubleValue();
-				nb_data_points = data.size();
-				
-				sum = 0.0;
-				Iterator j = data.iterator();
-				while (j.hasNext()) {
-					sum += ((Number) j.next()).doubleValue();
+			synchronized (this) {
+				if (Context().SubMetrics().size() != nb_submetrics) {
+					data = new LinkedList();
+					
+					Iterator i = Context().SubMetrics().iterator();
+					while (i.hasNext()) {
+						VisitMetrics((Metrics) i.next());
+					}
+					
+					if (!data.isEmpty()) {
+						Collections.sort(data);
+						
+						minimum        = ((Number) data.get(0)).doubleValue();
+						median         = ((Number) data.get(data.size() / 2)).doubleValue();
+						maximum        = ((Number) data.get(data.size() - 1)).doubleValue();
+						nb_data_points = data.size();
+						
+						sum = 0.0;
+						Iterator j = data.iterator();
+						while (j.hasNext()) {
+							sum += ((Number) j.next()).doubleValue();
+						}
+					} else {
+						minimum        = Double.NaN;
+						median         = Double.NaN;
+						maximum        = Double.NaN;
+						nb_data_points = 0;
+						sum            = 0.0;
+					}
+					
+					average = sum / nb_data_points;
+					
+					if (!data.isEmpty()) {
+						double temp = 0.0;
+						
+						Iterator j = data.iterator();
+						while (j.hasNext()) {
+							temp += Math.pow(((Number) j.next()).doubleValue() - average, 2);
+						}
+						
+						standard_deviation = Math.sqrt(temp / nb_data_points);
+					} else {
+						standard_deviation = Double.NaN;
+					}
+					
+					nb_submetrics = Context().SubMetrics().size();
 				}
-			} else {
-				minimum        = Double.NaN;
-				median         = Double.NaN;
-				maximum        = Double.NaN;
-				nb_data_points = 0;
-				sum            = 0.0;
 			}
-				
-			average = sum / nb_data_points;
-
-			nb_submetrics = Context().SubMetrics().size();
 		}
 	}
 	
@@ -243,7 +277,12 @@ public class StatisticalMeasurement extends MeasurementBase {
 					Logger.getLogger(getClass()).debug("using Average(): " + stats.Average());
 					data.add(new Double(stats.Average()));
 					break;
-					
+							
+				case DISPOSE_STANDARD_DEVIATION:
+					Logger.getLogger(getClass()).debug("using StandardDeviation(): " + stats.StandardDeviation());
+					data.add(new Double(stats.StandardDeviation()));
+					break;
+			
 				case DISPOSE_MAXIMUM:
 					Logger.getLogger(getClass()).debug("using Maximum(): " + stats.Maximum());
 					data.add(new Double(stats.Maximum()));
@@ -305,6 +344,10 @@ public class StatisticalMeasurement extends MeasurementBase {
 				result = Average();
 				break;
 				
+			case DISPOSE_STANDARD_DEVIATION:
+				result = StandardDeviation();
+				break;
+				
 			case DISPOSE_MAXIMUM:
 				result = Maximum();
 				break;
@@ -323,10 +366,5 @@ public class StatisticalMeasurement extends MeasurementBase {
 		}
 
 		return result;
-	}
-
-	public String toString() {
-		CollectData();
-		return data.toString();
 	}
 }

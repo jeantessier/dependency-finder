@@ -75,6 +75,8 @@ public class RatioMeasurement extends MeasurementBase {
 						base_dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
 						base_dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+						base_dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
 						base_dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
@@ -102,6 +104,8 @@ public class RatioMeasurement extends MeasurementBase {
 						divider_dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
 						divider_dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+						divider_dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
 						divider_dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
@@ -168,6 +172,9 @@ public class RatioMeasurement extends MeasurementBase {
 						case StatisticalMeasurement.DISPOSE_AVERAGE:
 							base_value = stats.Average();
 							break;
+						case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+							base_value = stats.StandardDeviation();
+							break;
 						case StatisticalMeasurement.DISPOSE_MAXIMUM:
 							base_value = stats.Maximum();
 							break;
@@ -198,6 +205,9 @@ public class RatioMeasurement extends MeasurementBase {
 							break;
 						case StatisticalMeasurement.DISPOSE_AVERAGE:
 							divider_value = stats.Average();
+							break;
+						case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+							divider_value = stats.StandardDeviation();
 							break;
 						case StatisticalMeasurement.DISPOSE_MAXIMUM:
 							divider_value = stats.Maximum();

@@ -106,88 +106,108 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	public void testDefault() {
 		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar");
 
-		assertEquals("size "    + sm,  6,   sm.NbDataPoints());
-		assertEquals("Minimum " + sm,  1.0, sm.Minimum(), 0.01);
-		assertEquals("Median "  + sm,  4.0, sm.Median(),  0.01);
-		assertEquals("Average " + sm,  3.5, sm.Average(), 0.01);
-		assertEquals("Maximum " + sm,  6.0, sm.Maximum(), 0.01);
-		assertEquals("Sum "     + sm, 21.0, sm.Sum(),     0.01);
+		assertEquals("size "               + sm,  6,    sm.NbDataPoints());
+		assertEquals("Minimum "            + sm,  1.0,  sm.Minimum(), 0.01);
+		assertEquals("Median "             + sm,  4.0,  sm.Median(),  0.01);
+		assertEquals("Average "            + sm,  3.5,  sm.Average(), 0.01);
+		assertEquals("Standard Deviation " + sm,  1.71, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm,  6.0,  sm.Maximum(), 0.01);
+		assertEquals("Sum "                + sm, 21.0,  sm.Sum(),     0.01);
 	}
 
 	public void testIgnore() {
 		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_IGNORE");
 
-		assertEquals("size "    + sm,  6,   sm.NbDataPoints());
-		assertEquals("Minimum " + sm,  1.0, sm.Minimum(), 0.01);
-		assertEquals("Median "  + sm,  4.0, sm.Median(),  0.01);
-		assertEquals("Average " + sm,  3.5, sm.Average(), 0.01);
-		assertEquals("Maximum " + sm,  6.0, sm.Maximum(), 0.01);
-		assertEquals("Sum "     + sm, 21.0, sm.Sum(),     0.01);
+		assertEquals("size "               + sm,  6,    sm.NbDataPoints());
+		assertEquals("Minimum "            + sm,  1.0,  sm.Minimum(), 0.01);
+		assertEquals("Median "             + sm,  4.0,  sm.Median(),  0.01);
+		assertEquals("Average "            + sm,  3.5,  sm.Average(), 0.01);
+		assertEquals("Standard Deviation " + sm,  1.71, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm,  6.0,  sm.Maximum(), 0.01);
+		assertEquals("Sum "                + sm, 21.0,  sm.Sum(),     0.01);
 	}
 
 	public void testMinimum() {
 		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MINIMUM");
 
-		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
-		assertEquals("Minimum " + sm, 1.0, sm.Minimum(), 0.01);
-		assertEquals("Median "  + sm, 3.0, sm.Median(),  0.01);
-		assertEquals("Average " + sm, 2.0, sm.Average(), 0.01);
-		assertEquals("Maximum " + sm, 3.0, sm.Maximum(), 0.01);
-		assertEquals("Sum "     + sm, 4.0, sm.Sum(),     0.01);
+		assertEquals("size "               + sm, 2,   sm.NbDataPoints());
+		assertEquals("Minimum "            + sm, 1.0, sm.Minimum(), 0.01);
+		assertEquals("Median "             + sm, 3.0, sm.Median(),  0.01);
+		assertEquals("Average "            + sm, 2.0, sm.Average(), 0.01);
+		assertEquals("Standard Deviation " + sm, 1.0, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm, 3.0, sm.Maximum(), 0.01);
+		assertEquals("Sum "                + sm, 4.0, sm.Sum(),     0.01);
 	}
 
 	public void testMedian() {
 		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MEDIAN");
 
-		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
-		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);
-		assertEquals("Median "  + sm, 5.0, sm.Median(),  0.01);
-		assertEquals("Average " + sm, 3.5, sm.Average(), 0.01);
-		assertEquals("Maximum " + sm, 5.0, sm.Maximum(), 0.01);
-		assertEquals("Sum "     + sm, 7.0, sm.Sum(),     0.01);
+		assertEquals("size "               + sm, 2,   sm.NbDataPoints());
+		assertEquals("Minimum "            + sm, 2.0, sm.Minimum(), 0.01);
+		assertEquals("Median "             + sm, 5.0, sm.Median(),  0.01);
+		assertEquals("Average "            + sm, 3.5, sm.Average(), 0.01);
+		assertEquals("Standard Deviation " + sm, 1.5, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm, 5.0, sm.Maximum(), 0.01);
+		assertEquals("Sum "                + sm, 7.0, sm.Sum(),     0.01);
 	}
 
 	public void testAverage() {
 		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_AVERAGE");
 
-		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
-		assertEquals("Minimum " + sm, 1.5, sm.Minimum(), 0.01);
-		assertEquals("Median "  + sm, 4.5, sm.Median(),  0.01);
-		assertEquals("Average " + sm, 3.0, sm.Average(), 0.01);
-		assertEquals("Maximum " + sm, 4.5, sm.Maximum(), 0.01);
-		assertEquals("Sum "     + sm, 6.0, sm.Sum(),     0.01);
+		assertEquals("size "               + sm, 2,   sm.NbDataPoints());
+		assertEquals("Minimum "            + sm, 1.5, sm.Minimum(), 0.01);
+		assertEquals("Median "             + sm, 4.5, sm.Median(),  0.01);
+		assertEquals("Average "            + sm, 3.0, sm.Average(), 0.01);
+		assertEquals("Standard Deviation " + sm, 1.5, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm, 4.5, sm.Maximum(), 0.01);
+		assertEquals("Sum "                + sm, 6.0, sm.Sum(),     0.01);
+	}
+
+	public void testStandardDeviation() {
+		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_STANDARD_DEVIATION");
+
+		assertEquals("size "               + sm, 2,    sm.NbDataPoints());
+		assertEquals("Minimum "            + sm, 0.5,  sm.Minimum(),            0.01);
+		assertEquals("Median "             + sm, 1.12, sm.Median(),             0.01);
+		assertEquals("Average "            + sm, 0.81, sm.Average(),            0.01);
+		assertEquals("Standard Deviation " + sm, 0.31, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm, 1.12, sm.Maximum(),            0.01);
+		assertEquals("Sum "                + sm, 1.62, sm.Sum(),                0.01);
 	}
 
 	public void testMaximum() {
 		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MAXIMUM");
 
-		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
-		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);
-		assertEquals("Median "  + sm, 6.0, sm.Median(),  0.01);
-		assertEquals("Average " + sm, 4.0, sm.Average(), 0.01);
-		assertEquals("Maximum " + sm, 6.0, sm.Maximum(), 0.01);
-		assertEquals("Sum "     + sm, 8.0, sm.Sum(),     0.01);
+		assertEquals("size "               + sm, 2,   sm.NbDataPoints());
+		assertEquals("Minimum "            + sm, 2.0, sm.Minimum(), 0.01);
+		assertEquals("Median "             + sm, 6.0, sm.Median(),  0.01);
+		assertEquals("Average "            + sm, 4.0, sm.Average(), 0.01);
+		assertEquals("Standard Deviation " + sm, 2.0, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm, 6.0, sm.Maximum(), 0.01);
+		assertEquals("Sum "                + sm, 8.0, sm.Sum(),     0.01);
 	}
 
 	public void testSum() {
 		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_SUM");
 
-		assertEquals("size "    + sm,  2,   sm.NbDataPoints());
-		assertEquals("Minimum " + sm,  3.0, sm.Minimum(), 0.01);
-		assertEquals("Median "  + sm, 18.0, sm.Median(),  0.01);
-		assertEquals("Average " + sm, 10.5, sm.Average(), 0.01);
-		assertEquals("Maximum " + sm, 18.0, sm.Maximum(), 0.01);
-		assertEquals("Sum "     + sm, 21.0, sm.Sum(),     0.01);
+		assertEquals("size "               + sm,  2,   sm.NbDataPoints());
+		assertEquals("Minimum "            + sm,  3.0, sm.Minimum(), 0.01);
+		assertEquals("Median "             + sm, 18.0, sm.Median(),  0.01);
+		assertEquals("Average "            + sm, 10.5, sm.Average(), 0.01);
+		assertEquals("Standard Deviation " + sm,  7.5, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm, 18.0, sm.Maximum(), 0.01);
+		assertEquals("Sum "                + sm, 21.0, sm.Sum(),     0.01);
 	}
 
 	public void testNbDataPoints() {
 		StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_NB_DATA_POINTS");
 
-		assertEquals("size "    + sm, 2,   sm.NbDataPoints());
-		assertEquals("Minimum " + sm, 2.0, sm.Minimum(), 0.01);
-		assertEquals("Median "  + sm, 4.0, sm.Median(),  0.01);
-		assertEquals("Average " + sm, 3.0, sm.Average(), 0.01);
-		assertEquals("Maximum " + sm, 4.0, sm.Maximum(), 0.01);
-		assertEquals("Sum "     + sm, 6.0, sm.Sum(),     0.01);
+		assertEquals("size "               + sm, 2,   sm.NbDataPoints());
+		assertEquals("Minimum "            + sm, 2.0, sm.Minimum(), 0.01);
+		assertEquals("Median "             + sm, 4.0, sm.Median(),  0.01);
+		assertEquals("Average "            + sm, 3.0, sm.Average(), 0.01);
+		assertEquals("Standard Deviation " + sm, 1.0, sm.StandardDeviation(),  0.01);
+		assertEquals("Maximum "            + sm, 4.0, sm.Maximum(), 0.01);
+		assertEquals("Sum "                + sm, 6.0, sm.Sum(),     0.01);
 	}
 }

@@ -76,6 +76,9 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 					case StatisticalMeasurement.DISPOSE_AVERAGE:
 						result.setText(String.valueOf(stat.Average()));
 						break;
+					case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+						result.setText(String.valueOf(stat.StandardDeviation()));
+						break;
 					case StatisticalMeasurement.DISPOSE_MAXIMUM:
 						result.setText(String.valueOf(stat.Maximum()));
 						break;
@@ -91,6 +94,14 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 			} else {
 				result.setText(((Measurement) value).Value().toString());
 			}
+		} else if (value instanceof Metrics) {
+			if (((Metrics) value).InRange()) {
+				result.setForeground(Color.black);
+			} else {
+				result.setForeground(Color.red);
+			}
+
+			result.setText(((Metrics) value).Name());
 		}
 		
 		return result;

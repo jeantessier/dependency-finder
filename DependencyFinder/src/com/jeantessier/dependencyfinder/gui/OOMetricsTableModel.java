@@ -43,13 +43,14 @@ import com.jeantessier.metrics.*;
 public class OOMetricsTableModel extends AbstractTableModel {
 	private static final Perl5Util perl = new Perl5Util();
 
-	private static final Integer LOCAL_DISPOSE_IGNORE         = new Integer(StatisticalMeasurement.DISPOSE_IGNORE);
-	private static final Integer LOCAL_DISPOSE_MINIMUM        = new Integer(StatisticalMeasurement.DISPOSE_MINIMUM);
-	private static final Integer LOCAL_DISPOSE_MEDIAN         = new Integer(StatisticalMeasurement.DISPOSE_MEDIAN);
-	private static final Integer LOCAL_DISPOSE_AVERAGE        = new Integer(StatisticalMeasurement.DISPOSE_AVERAGE);
-	private static final Integer LOCAL_DISPOSE_MAXIMUM        = new Integer(StatisticalMeasurement.DISPOSE_MAXIMUM);
-	private static final Integer LOCAL_DISPOSE_SUM            = new Integer(StatisticalMeasurement.DISPOSE_SUM);
-	private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS = new Integer(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS);
+	private static final Integer LOCAL_DISPOSE_IGNORE             = new Integer(StatisticalMeasurement.DISPOSE_IGNORE);
+	private static final Integer LOCAL_DISPOSE_MINIMUM            = new Integer(StatisticalMeasurement.DISPOSE_MINIMUM);
+	private static final Integer LOCAL_DISPOSE_MEDIAN             = new Integer(StatisticalMeasurement.DISPOSE_MEDIAN);
+	private static final Integer LOCAL_DISPOSE_AVERAGE            = new Integer(StatisticalMeasurement.DISPOSE_AVERAGE);
+	private static final Integer LOCAL_DISPOSE_STANDARD_DEVIATION = new Integer(StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION);
+	private static final Integer LOCAL_DISPOSE_MAXIMUM            = new Integer(StatisticalMeasurement.DISPOSE_MAXIMUM);
+	private static final Integer LOCAL_DISPOSE_SUM                = new Integer(StatisticalMeasurement.DISPOSE_SUM);
+	private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS     = new Integer(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS);
 
 	private List              descriptors;
 	private List              metrics_list;
@@ -121,6 +122,8 @@ public class OOMetricsTableModel extends AbstractTableModel {
 					names.add(descriptor.ShortName());
 					dispose.add(LOCAL_DISPOSE_AVERAGE);
 					names.add(descriptor.ShortName());
+					dispose.add(LOCAL_DISPOSE_STANDARD_DEVIATION);
+					names.add(descriptor.ShortName());
 					dispose.add(LOCAL_DISPOSE_MAXIMUM);
 					names.add(descriptor.ShortName());
 					dispose.add(LOCAL_DISPOSE_SUM);
@@ -152,7 +155,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 			Collection current_values = new ArrayList(measurement_names.length);
 			values.add(current_values);
 			
-			current_values.add(current_metrics.Name());
+			current_values.add(current_metrics);
 			
 			Iterator j = descriptors.iterator();
 			while (j.hasNext()) {
@@ -162,6 +165,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 					Measurement measurement = current_metrics.Measurement(descriptor.ShortName());
 					
 					if (measurement instanceof StatisticalMeasurement) {
+						current_values.add(measurement);
 						current_values.add(measurement);
 						current_values.add(measurement);
 						current_values.add(measurement);
@@ -213,6 +217,9 @@ public class OOMetricsTableModel extends AbstractTableModel {
 				break;
 			case StatisticalMeasurement.DISPOSE_AVERAGE:
 				result += " (avg)";
+				break;
+			case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+				result += " (sdv)";
 				break;
 			case StatisticalMeasurement.DISPOSE_MAXIMUM:
 				result += " (max)";

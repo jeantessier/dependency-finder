@@ -65,6 +65,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		assertTrue("minimum", Double.isNaN(measurement.Minimum()));
 		assertTrue("median", Double.isNaN(measurement.Median()));
 		assertTrue("average", Double.isNaN(measurement.Average()));
+		assertTrue("standard deviation", Double.isNaN(measurement.StandardDeviation()));
 		assertTrue("maximum", Double.isNaN(measurement.Maximum()));
 		assertEquals("sum", 0.0, measurement.Sum(), 0.01);
 	}
@@ -76,12 +77,13 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 
 		metrics.AddSubMetrics(m);
 
-		assertEquals("size",    1,   measurement.NbDataPoints());
-		assertEquals("minimum", 1.0, measurement.Minimum(), 0.01);
-		assertEquals("median",  1.0, measurement.Median(),  0.01);
-		assertEquals("average", 1.0, measurement.Average(), 0.01);
-		assertEquals("maximum", 1.0, measurement.Maximum(), 0.01);
-		assertEquals("sum",     1.0, measurement.Sum(),     0.01);
+		assertEquals("size",               1,   measurement.NbDataPoints());
+		assertEquals("minimum",            1.0, measurement.Minimum(), 0.01);
+		assertEquals("median",             1.0, measurement.Median(),  0.01);
+		assertEquals("average",            1.0, measurement.Average(), 0.01);
+		assertEquals("standard deviation", 0.0, measurement.StandardDeviation(), 0.01);
+		assertEquals("maximum",            1.0, measurement.Maximum(), 0.01);
+		assertEquals("sum",                1.0, measurement.Sum(),     0.01);
 	}
 
 	public void testComputePair() {
@@ -101,6 +103,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		assertEquals("minimum",   1.0, measurement.Minimum(), 0.01);
 		assertEquals("median",  100.0, measurement.Median(),  0.01);
 		assertEquals("average",  50.5, measurement.Average(), 0.01);
+		assertEquals("standard deviation", 49.5, measurement.StandardDeviation(), 0.01);
 		assertEquals("maximum", 100.0, measurement.Maximum(), 0.01);
 		assertEquals("sum",     101.0, measurement.Sum(),     0.01);
 	}
@@ -126,6 +129,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		assertEquals("minimum",   1.0, measurement.Minimum(), 0.01);
 		assertEquals("median",   10.0, measurement.Median(),  0.01);
 		assertEquals("average",  37.0, measurement.Average(), 0.01);
+		assertEquals("standard deviation", 44.7, measurement.StandardDeviation(), 0.01);
 		assertEquals("maximum", 100.0, measurement.Maximum(), 0.01);
 		assertEquals("sum",     111.0, measurement.Sum(),     0.01);
 	}
@@ -159,12 +163,13 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		m5.AddToMeasurement("bar", 5);
 		m6.AddToMeasurement("bar", 6);
 
-		assertEquals("size",     6,   measurement.NbDataPoints());
-		assertEquals("minimum",  1.0, measurement.Minimum(), 0.01);
-		assertEquals("median",   4.0, measurement.Median(),  0.01);
-		assertEquals("average",  3.5, measurement.Average(), 0.01);
-		assertEquals("maximum",  6.0, measurement.Maximum(), 0.01);
-		assertEquals("sum",     21.0, measurement.Sum(),     0.01);
+		assertEquals("size",                6,    measurement.NbDataPoints());
+		assertEquals("minimum",             1.0,  measurement.Minimum(), 0.01);
+		assertEquals("median",              4.0,  measurement.Median(),  0.01);
+		assertEquals("average",             3.5,  measurement.Average(), 0.01);
+		assertEquals("standard deviation",  1.71, measurement.StandardDeviation(), 0.01);
+		assertEquals("maximum",             6.0,  measurement.Maximum(), 0.01);
+		assertEquals("sum",                21.0,  measurement.Sum(),     0.01);
 	}
 
 	public void testComputeConstant() {
@@ -196,12 +201,13 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		m5.AddToMeasurement("bar", 1);
 		m6.AddToMeasurement("bar", 1);
 
-		assertEquals("size",    6,   measurement.NbDataPoints());
-		assertEquals("minimum", 1.0, measurement.Minimum(), 0.01);
-		assertEquals("median",  1.0, measurement.Median(),  0.01);
-		assertEquals("average", 1.0, measurement.Average(), 0.01);
-		assertEquals("maximum", 1.0, measurement.Maximum(), 0.01);
-		assertEquals("sum",     6.0, measurement.Sum(),     0.01);
+		assertEquals("size",               6,    measurement.NbDataPoints());
+		assertEquals("minimum",            1.0,  measurement.Minimum(), 0.01);
+		assertEquals("median",             1.0,  measurement.Median(),  0.01);
+		assertEquals("average",            1.0,  measurement.Average(), 0.01);
+		assertEquals("standard deviation", 0.0, measurement.StandardDeviation(), 0.01);
+		assertEquals("maximum",            1.0,  measurement.Maximum(), 0.01);
+		assertEquals("sum",                6.0,  measurement.Sum(),     0.01);
 	}
 
 	public void testComputeExponential() {
@@ -253,12 +259,13 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		m10.AddToMeasurement("bar", 512);
 		m11.AddToMeasurement("bar", 1024);
 
-		assertEquals("size",      11,   measurement.NbDataPoints());
-		assertEquals("minimum",    1.0, measurement.Minimum(), 0.01);
-		assertEquals("median",    32.0, measurement.Median(),  0.01);
-		assertEquals("average",  186.1, measurement.Average(), 0.01);
-		assertEquals("maximum", 1024.0, measurement.Maximum(), 0.01);
-		assertEquals("sum",     2047.0, measurement.Sum(),     0.01);
+		assertEquals("size",                 11,    measurement.NbDataPoints());
+		assertEquals("minimum",               1.0,  measurement.Minimum(), 0.01);
+		assertEquals("median",               32.0,  measurement.Median(),  0.01);
+		assertEquals("average",             186.1,  measurement.Average(), 0.01);
+		assertEquals("standard deviation",  304.09, measurement.StandardDeviation(), 0.01);
+		assertEquals("maximum",            1024.0,  measurement.Maximum(), 0.01);
+		assertEquals("sum",                2047.0,  measurement.Sum(),     0.01);
 	}
 
 	public void testAccept() {

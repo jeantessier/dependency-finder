@@ -84,6 +84,7 @@ public class PrettyPrinter extends Printer {
 		Append(" [").Append(value_format.format(measurement.Minimum()));
 		Append(" ").Append(value_format.format(measurement.Median()));
 		Append("/").Append(value_format.format(measurement.Average()));
+		Append(" ").Append(value_format.format(measurement.StandardDeviation()));
 		Append(" ").Append(value_format.format(measurement.Maximum()));
 		Append(" ").Append(value_format.format(measurement.Sum()));
 		Append(" (").Append(value_format.format(measurement.NbDataPoints())).Append(")]");

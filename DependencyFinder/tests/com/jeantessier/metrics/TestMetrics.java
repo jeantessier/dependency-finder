@@ -272,4 +272,31 @@ public class TestMetrics extends TestCase {
 		assertEquals(3.0, metrics.Measurement("1110").doubleValue(), 0.01);
 		assertEquals(3.0, metrics.Measurement("1111").doubleValue(), 0.01);
 	}
+
+	public void testInRange() throws Exception {
+		Metrics metrics = new Metrics("test");
+
+		assertTrue(metrics.InRange());
+
+		MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
+		descriptor1.ShortName("foo");
+		descriptor1.LongName("foo");
+		descriptor1.Class(CounterMeasurement.class);
+		descriptor1.UpperThreshold(new Integer(1));
+
+		metrics.Track(descriptor1.CreateMeasurement(metrics));
+
+		MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
+		descriptor2.ShortName("bar");
+		descriptor2.LongName("bar");
+		descriptor2.Class(CounterMeasurement.class);
+
+		metrics.Track(descriptor2.CreateMeasurement(metrics));
+
+		assertTrue(metrics.InRange());
+
+		metrics.AddToMeasurement("foo", 2);
+
+		assertFalse(metrics.InRange());
+	}
 }

@@ -165,4 +165,8 @@ public abstract class MeasurementBase implements Measurement {
 	}
 	
 	protected abstract double Compute();
+
+	public String toString() {
+		return Value().toString();
+	}
 }

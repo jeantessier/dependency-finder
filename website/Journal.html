@@ -13,6 +13,111 @@
 
 <dl>
     <dt>
+	January 20, 2003
+    </dt>
+    <dd>
+	<p>Changed initial status message in
+	<code>MetricsExtractAction</code> and
+	<code>DependencyExtractAction</code> to account for long
+	waiting time while <code>DirectoryExplorer</code> scans for
+	<code>.class</code> files.</p>
+
+	<p>I was having problems with <code>SumMeasurement</code>
+	today.  I added trace statements to track down what was going
+	on and it started going haywire.  Took me a while, but I
+	realized its <code>Compute()</code> method was not thread-safe.
+	I synchronized its processing and it is now fine.  I looked at
+	the other measurements and <code>NbSubMetricsMeasurement</code>
+	was in the same situation.  I fixed it too.</p>
+
+	<p>I noticed that cut &amp; paste of values in
+	<code>OOMetricsGUI</code> were coming through as calls to
+	<code>toString()</code>, yielding the default stringification
+	from <code>java.lang.Object</code>.  I added an implementation
+	of <code>toString()</code> to <code>MeasurementBase</code> so
+	that measurements pring their numerical value by default.  It
+	works well, except for <code>StatisticalMeasurement</code>
+	which ends up displaying itself five times.</p>
+
+	<p>Added standard deviation subvalue to
+	<code>StatisticalMeasurement</code>.</p>
+
+	<p>Added an <code>InRange()</code> method to <code>Metrics</code>
+	that returns <code>false</code> if any of the measurements is not
+	in range.</p>
+    </dd>
+    <dt>
+	January 19, 2003
+    </dt>
+    <dd>
+	<p>Found a way to separate between visited and non-visited
+	methods, classes, and groups by keeping separate lists in
+	<code>MetricsFactory</code>.</p>
+    </dd>
+    <dt>
+	January 18, 2003
+    </dt>
+    <dd>
+	<p>Looked at ways to restrict listed metrics to the classes and
+	methods actually visited, instead of all referenced elements.  I
+	tried to distinguish between getting a metrics and creating it
+	only as part of a <code>VisitX()</code> method, but that didn't
+	work since metrics would only start accumulating after their
+	call to <code>VisitX()</code>.  I'll have to try something else.</p>
+    </dd>
+    <dt>
+	January 17, 2003
+    </dt>
+    <dd>
+	<p>Tech docs.</p>
+
+	<p>Looked into Poseidon for UML, Community Edition, to generate
+	UML diagrams of Dependency Finder for the documentation.  It
+	still has a few quirks, but hey, it's free.</p>
+    </dd>
+    <dt>
+	January 16, 2003
+    </dt>
+    <dd>
+	<p>Tech docs.</p>
+    </dd>
+    <dt>
+	January 15, 2003
+    </dt>
+    <dd>
+	<p>Tech docs.  I started a developer's guide.</p>
+    </dd>
+    <dt>
+	January 14, 2003
+    </dt>
+    <dd>
+	<p>Tech docs.</p>
+    </dd>
+    <dt>
+	January 13, 2003
+    </dt>
+    <dd>
+	<p>Found and fixed bug #667642 about <code>MetricsFactory</code> not
+	recognizing static initilizers of the form "<code>static {}</code>".</p>
+
+	<p>Switched <code>log4j.properties</code> to use CHAINSAW instead
+	of log files.</code>
+
+	<p>Found another article on <a href="http://thesmallworlds.com/">Small Worlds</a>.
+	This time, it was a review in Software Development Magazine.</p>
+
+	<p>The more I think of it, the more I was to revamp
+	<code>-verbose</code> and get rid of <code>-trace</code>
+	switches.  I'll have <code>-verbose</code> behave somewhat like
+	<code>extract.jsp</code> or the status bar of the GUI tools.</p>
+    </dd>
+    <dt>
+	January 11, 2003
+    </dt>
+    <dd>
+	<p>Upgraded my testing environment from Tomcat 4.1.12 to 4.1.18.</p>
+    </dd>
+    <dt>
 	January 10, 2003
     </dt>
     <dd>

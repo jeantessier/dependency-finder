@@ -144,6 +144,7 @@ public class XMLPrinter extends Printer {
 		Indent().Append("<minimum>").Append(measurement.Minimum()).Append("</minimum>").EOL();
 		Indent().Append("<median>").Append(measurement.Median()).Append("</median>").EOL();
 		Indent().Append("<average>").Append(measurement.Average()).Append("</average>").EOL();
+		Indent().Append("<standard-deviation>").Append(measurement.StandardDeviation()).Append("</standard-deviation>").EOL();
 		Indent().Append("<maximum>").Append(measurement.Maximum()).Append("</maximum>").EOL();
 		Indent().Append("<sum>").Append(measurement.Sum()).Append("</sum>").EOL();
 		Indent().Append("<nb-data-points>").Append(measurement.NbDataPoints()).Append("</nb-data-points>").EOL();

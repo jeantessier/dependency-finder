@@ -151,6 +151,10 @@ public class MetricsComparator implements Comparator {
 					result = sm.Average();
 					break;
 					
+				case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+					result = sm.StandardDeviation();
+					break;
+					
 				case StatisticalMeasurement.DISPOSE_MAXIMUM:
 					result = sm.Maximum();
 					break;

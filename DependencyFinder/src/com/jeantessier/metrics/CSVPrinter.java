@@ -55,6 +55,7 @@ public class CSVPrinter extends Printer {
 					Append("\"").Append(descriptor.ShortName()).Append(" (min)\", ");
 					Append("\"").Append(descriptor.ShortName()).Append(" (med)\", ");
 					Append("\"").Append(descriptor.ShortName()).Append(" (avg)\", ");
+					Append("\"").Append(descriptor.ShortName()).Append(" (sdv)\", ");
 					Append("\"").Append(descriptor.ShortName()).Append(" (max)\", ");
 					Append("\"").Append(descriptor.ShortName()).Append(" (sum)\", ");
 					Append("\"").Append(descriptor.ShortName()).Append(" (nb)\"");
@@ -96,6 +97,7 @@ public class CSVPrinter extends Printer {
 		Append(measurement.Minimum()).Append(", ");
 		Append(measurement.Median()).Append(", ");
 		Append(measurement.Average()).Append(", ");
+		Append(measurement.StandardDeviation()).Append(", ");
 		Append(measurement.Maximum()).Append(", ");
 		Append(measurement.Sum()).Append(", ");
 		Append(measurement.NbDataPoints());

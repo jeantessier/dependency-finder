@@ -77,28 +77,56 @@ public class SumMeasurement extends MeasurementBase {
 
 	protected double Compute() {
 		if (!Cached()) {
-			value = 0.0;
-			
-			Iterator i = Terms().iterator();
-			while (i.hasNext()) {
-				String term = (String) i.next();
-				
-				double term_value = Double.NaN;
-				
-				try {
-					term_value = Double.parseDouble(term);
-				} catch (NumberFormatException ex) {
-					if (term.startsWith("-")) {
-						term_value = -1 * EvaluateMeasurement(term.substring(1));
-					} else {
-						term_value = EvaluateMeasurement(term);
-					}
-				}
-				
-			    value += term_value;
-			}
+			synchronized (this) {
+				if (!Cached()) {
+					value = 0.0;
 
-			Cached(true);
+					if (Context() != null) {
+						Logger.getLogger(getClass()).debug("Start computing \"" + ShortName() + "\" on \"" + Context().Name() + "\": value=" + value);
+					} else {
+						Logger.getLogger(getClass()).debug("Start computing \"" + ShortName() + "\" on null: value=" + value);
+					}
+					
+					Iterator i = Terms().iterator();
+					while (i.hasNext()) {
+						String term = (String) i.next();
+						
+						Logger.getLogger(getClass()).debug("Evaluating term \"" + term + "\"");
+						
+						double term_value = Double.NaN;
+						
+						try {
+							term_value = Double.parseDouble(term);
+						} catch (NumberFormatException ex) {
+							if (term.startsWith("-")) {
+								term_value = -1 * EvaluateMeasurement(term.substring(1));
+							} else {
+								term_value = EvaluateMeasurement(term);
+							}
+						}
+						
+						Logger.getLogger(getClass()).debug("term \"" + term + "\" is " + term_value);
+						
+						value += term_value;
+						
+						Logger.getLogger(getClass()).debug("value=" + value);
+					}
+					
+					if (Context() != null) {
+						Logger.getLogger(getClass()).debug("Stop computing \"" + ShortName() + "\" on \"" + Context().Name() + "\": value=" + value);
+					} else {
+						Logger.getLogger(getClass()).debug("Stop computing \"" + ShortName() + "\" on null: value=" + value);
+					}
+					
+					Cached(true);
+				}
+			}
+		}
+
+		if (Context() != null) {
+			Logger.getLogger(getClass()).debug("\"" + ShortName() + "\" on \"" + Context().Name() + "\": value=" + value);
+		} else {
+			Logger.getLogger(getClass()).debug("\"" + ShortName() + "\" on null: value=" + value);
 		}
 
 		return value;
@@ -124,6 +152,8 @@ public class SumMeasurement extends MeasurementBase {
 						dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
 						dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+						dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
 						dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
@@ -152,6 +182,9 @@ public class SumMeasurement extends MeasurementBase {
 						break;
 					case StatisticalMeasurement.DISPOSE_AVERAGE:
 						result = stats.Average();
+						break;
+					case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+						result = stats.StandardDeviation();
 						break;
 					case StatisticalMeasurement.DISPOSE_MAXIMUM:
 						result = stats.Maximum();

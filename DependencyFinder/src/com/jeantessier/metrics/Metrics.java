@@ -201,6 +201,17 @@ public class Metrics {
 	public Collection SubMetrics() {
 		return Collections.unmodifiableCollection(submetrics.values());
 	}
+
+	public boolean InRange() {
+		boolean result = true;
+
+		Iterator i = measurements.values().iterator();
+		while (result && i.hasNext()) {
+			result = ((Measurement) i.next()).InRange();
+		}
+		
+		return result;
+	}
 	
 	public String toString() {
 		StringBuffer result = new StringBuffer();

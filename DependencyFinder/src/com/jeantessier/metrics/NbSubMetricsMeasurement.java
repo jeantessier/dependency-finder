@@ -96,22 +96,26 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
 	protected double Compute() {
 		if (!Cached()) {
-			value = 0;
-
-			if (Terms().isEmpty()) {
-				value = Context().SubMetrics().size();
-			} else {
-				Iterator i = Context().SubMetrics().iterator();
-				while (i.hasNext()) {
-					Metrics metrics = (Metrics) i.next();
+			synchronized (this) {
+				if (!Cached()) {
+					value = 0;
 					
-					if (SelectMetrics(metrics)) {
-						value++;
+					if (Terms().isEmpty()) {
+						value = Context().SubMetrics().size();
+					} else {
+						Iterator i = Context().SubMetrics().iterator();
+						while (i.hasNext()) {
+							Metrics metrics = (Metrics) i.next();
+							
+							if (SelectMetrics(metrics)) {
+								value++;
+							}
+						}
 					}
+					
+					Cached(true);
 				}
 			}
-
-			Cached(true);
 		}
 		
 		return value;
@@ -215,6 +219,8 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 						dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_AVERAGE")) {
 						dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
+					} else if (dispose_text.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
+						dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
 						dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
 					} else if (dispose_text.equalsIgnoreCase("DISPOSE_SUM")) {
@@ -243,6 +249,9 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 						break;
 					case StatisticalMeasurement.DISPOSE_AVERAGE:
 						result = stats.Average();
+						break;
+					case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+						result = stats.StandardDeviation();
 						break;
 					case StatisticalMeasurement.DISPOSE_MAXIMUM:
 						result = stats.Maximum();
