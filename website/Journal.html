@@ -13,6 +13,34 @@
 
 <dl>
     <dt>
+	December 26, 2002
+    </dt>
+    <dd>
+	<p>Finally got around to checking that the upgrade to Xalan
+	did fix
+	<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=13106">bug 13106</a>.
+	It works, but I must still rewrite the stylesheet to comply
+	with XSLT rules.</p>
+    </dd>
+    <dt>
+	December 21, 2002
+    </dt>
+    <dd>
+ 	<p>Refactored
+	<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>.</p>
+
+ 	<p>Also refactored some of the metrics handling code to simplify
+	processing of multiple measurements.</p>
+    </dd>
+    <dt>
+	December 19, 2002
+    </dt>
+    <dd>
+ 	<p>I have been thinking some more about the progress status and
+	what information would be displayed in a dialog, such as elapsed
+	time and a guesstimate of how much more time will be required.</p>
+    </dd>
+    <dt>
 	December 11, 2002
     </dt>
     <dd>
@@ -589,7 +617,7 @@
     <dd>
 	<p>The good folks at Xalan fixed
 	<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=13106">bug 13106</a>.
-	They pointed out that I violate an XSLT rules when I reference
+	They pointed out that I violate an XSLT rule when I reference
 	validator instances in <code>match</code> clauses of
 	<code>&lt;xsl:template&gt;</code> tags.  It has been working
 	until now because Xalan is lenient, but there is no guarantee
