@@ -410,6 +410,21 @@ public class DependencyMetrics extends GraphTask {
 		VerboseListener verboseListener = new VerboseListener(this);
 
 		try {
+			NodeFactory factory = new NodeFactory();
+			
+			String[] filenames = getSrc().list();
+			for (int i=0; i<filenames.length; i++) {
+				log("Reading graph from " + filenames[i]);
+				
+				Collection packages = Collections.EMPTY_LIST;
+				
+				if (filenames[i].endsWith(".xml")) {
+					NodeLoader loader = new NodeLoader(factory, getValidate());
+					loader.addDependencyListener(verboseListener);
+					loader.load(filenames[i]);
+				}
+			}
+
 			log("Saving metrics report to " + getDestfile().getAbsolutePath());
 			
 			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
@@ -427,22 +442,7 @@ public class DependencyMetrics extends GraphTask {
 			reporter.setChartingOutboundsPerFeature(getChartoutboundsperfeature());
 
 			MetricsGatherer metrics = new MetricsGatherer(getStrategy());
-
-			String[] filenames = getSrc().list();
-			for (int i=0; i<filenames.length; i++) {
-				log("Reading graph from " + filenames[i]);
-				
-				Collection packages = Collections.EMPTY_LIST;
-				
-				if (filenames[i].endsWith(".xml")) {
-					NodeLoader loader = new NodeLoader(getValidate());
-					loader.addDependencyListener(verboseListener);
-					packages = loader.load(filenames[i]).getPackages().values();
-				}
-				
-				metrics.traverseNodes(packages);
-			}
-			
+			metrics.traverseNodes(factory.getPackages().values());
 			reporter.process(metrics);
 
 			out.close();

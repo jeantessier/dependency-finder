@@ -245,6 +245,23 @@ public class DependencyMetrics {
 		 */
 
 		Date start = new Date();
+
+		NodeFactory factory = new NodeFactory();
+		
+		Iterator i = commandLine.getParameters().iterator();
+		while (i.hasNext()) {
+			String filename = (String) i.next();
+			Logger.getLogger(DependencyMetrics.class).info("Reading " + filename);
+			verboseListener.print("Reading " + filename);
+
+			if (filename.endsWith(".xml")) {
+				NodeLoader loader = new NodeLoader(factory, commandLine.getToggleSwitch("validate"));
+				loader.addDependencyListener(verboseListener);
+				loader.load(filename);
+			}
+
+			Logger.getLogger(DependencyMetrics.class).info("Read \"" + filename + "\".");
+		}
 		
 		PrintWriter out;
 		if (commandLine.isPresent("out")) {
@@ -380,31 +397,11 @@ public class DependencyMetrics {
 			filterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
 		}
 
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-		MetricsGatherer metrics = new MetricsGatherer(strategy);
+		Logger.getLogger(DependencyMetrics.class).info("Reporting on " + factory.getPackages().size() + " package(s) ...");
+		verboseListener.print("Reporting on " + factory.getPackages().size() + " package(s) ...");
 
-		Iterator i = commandLine.getParameters().iterator();
-		while (i.hasNext()) {
-			String filename = (String) i.next();
-			Logger.getLogger(DependencyMetrics.class).info("Reading " + filename);
-			verboseListener.print("Reading " + filename);
-
-			Collection packages = Collections.EMPTY_LIST;
-
-			if (filename.endsWith(".xml")) {
-				NodeLoader loader = new NodeLoader(commandLine.getToggleSwitch("validate"));
-				loader.addDependencyListener(verboseListener);
-				packages = loader.load(filename).getPackages().values();
-			}
-
-			Logger.getLogger(DependencyMetrics.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
-
-			metrics.traverseNodes(packages);
-		}
-
-		Logger.getLogger(DependencyMetrics.class).info("Reporting " + metrics.getPackages().size() + " package(s) ...");
-		verboseListener.print("Reporting " + metrics.getPackages().size() + " package(s) ...");
-
+		MetricsGatherer metrics = new MetricsGatherer(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
+		metrics.traverseNodes(factory.getPackages().values());
 		reporter.process(metrics);
 
 		out.close();
