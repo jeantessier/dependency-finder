@@ -13,10 +13,110 @@
 
 <dl>
     <dt>
+	November 12, 2002
+    </dt>
+    <dd>
+ 	<p>I worked out the design of a new <code>TransitiveClosure</code>
+	that uses breadth-first search through the dependency graph.
+	It is not based on <code>com.jeantessier.dependency.Visitor</code>
+	and uses the Strategy pattern to decide how far to go from the
+	the scope, either up to a given path length or unbounded, with
+	separate strategies for following inbound versus outbound
+	dependencies.</p>
+
+	<p>I also laid out the design for a <i>scope selector</i> to help
+	with computing transitive closures on non-maximized graphs.  This
+	will also come in handy for the next item today.</p>
+
+	<p>I have also outlined the algorithm for finding the shortest
+	paths between two groups of nodes, using the engine that computes
+	transitive closures.  By growing closures from both groups, one
+	following inbound dependencies and the other following outbound
+	dependencies, and growing them until I have a non-empty
+	intersection, I will get a subgraph that contains all the paths
+	from A to B with minimal length.  I can use the <i>scope
+	selector</i> described above to select source and sink groups.</p>
+
+	<p>I also found out that <a href="http://sdmagazine.com/">Software
+	Development Magazine</a> is taking nominations for its Jolt Awards.
+	I'm gonna submit Dependency Finder.  But they don't want betas, so
+	I will have to push up my release schedule.  I'll have a very
+	short beta period and a release in december.  ;-)</p>
+    </dd>
+    <dt>
+	November 11, 2002
+    </dt>
+    <dd>
+ 	<p>I have been catching up on graph data structures and their
+	operations by reading my old college textbooks again.  I was
+	pleased to see that my implementation of dependency graphs was
+	not too far from implementations they discuss in the book.  I
+	was also pleased to see that <code>TransitiveClosure</code> uses
+	a depth-first search algorithm, but the breadth-first search
+	algorithm in the book is more in tune with what the class is
+	trying to do.  I will write a breath-first class when I get a
+	chance.</p>
+
+	<p>The book also has an algorithm for finding a path between two
+	<i>vertices</i> (nodes) in a graph.  I will modify it to find
+	paths betweeen two groupes of vertices.</p>
+
+	<p>Before I forget, the books are:</p>
+
+	<ul>
+	    <li>"<a href="http://www.amazon.com/exec/obidos/ASIN/067339736X/qid%3D1037115131/sr%3D11-1/ref%3Dsr%5F11%5F1/002-8674524-2273608">Data Structures and Their Algorithms</a>" by Harry R. Lewis and Larry Denenberg</li>
+	    <li>"<a href="http://www.amazon.com/exec/obidos/tg/detail/-/020130564X/qid=1037115784/sr=1-1/ref=sr_1_1/002-8674524-2273608?v=glance&s=books">Data Structures in Java</a>" by Thomas A. Standish</li>
+	    <li>"<a href="http://www.amazon.com/exec/obidos/tg/detail/-/0201072564/qid=1037115856/sr=1-1/ref=sr_1_1/002-8674524-2273608?v=glance&s=books">Data Structure Techniques</a>" by Thomas A. Standish</li>
+	    <li>"Algorithmique: conception et analyse" by Giles Brassard and Paul Bratley</li>
+	</ul>
+
+	<p></p>
+    </dd>
+    <dt>
+	November 09, 2002
+    </dt>
+    <dd>
+ 	<p>Wrote a new unit test for <code>TransitiveClosure</code>.
+	Right now, it requires a maximized graph to be useful.  I want
+	to have it accept any graph, like I did for <code>GraphCopier</code>
+	with <code>GraphSummarizer</code>.</p>
+
+	<p>Running the tests reminded me that I still have a bunch of
+	unit tests for metrics to fix, with regard to the fact that I
+	moved to JDK 1.4.</p>
+    </dd>
+    <dt>
+	November 08, 2002
+    </dt>
+    <dd>
+ 	<p>Found two references to Perl regular expressions in Java.
+	I will be able to point people to them in the manual and the
+	JSPs.  This will help with teaching people how to use the
+	regular expressions to get them data they want.</p>
+
+	<ul>
+	    <li><code><a href="http://jakarta.apache.org/oro/api/org/apache/oro/text/regex/package-summary.html#package_description">org.apache.oro.text.regex</a></code> in Jakarta ORO</li>
+	    <li><code><a href="http://java.sun.com/j2se/1.4/docs/api/java/util/regex/Pattern.html#sum">java.util.regex.Pattern</a></code> in JDK 1.4</li>
+	</ul>
+
+	<p>I will also write a more decent samples section in the
+	manual.  The current one is rather laughable.</p>
+    </dd>
+     <dt>
+	November 07, 2002
+    </dt>
+    <dd>
+ 	<p>Submitted another session for the next JavaOne conference.
+	This one is about JarJarDiff and API evolution management.  I
+	also got someone from work to give first hand experience of
+	how this stuff is used as part of an actual development
+	process.</p>
+    </dd>
+   <dt>
 	November 04, 2002
     </dt>
     <dd>
- 	<p>Entered a session for the next JavaOne conference.  I used
+ 	<p>Submitted a session for the next JavaOne conference.  I used
 	the presentation from October 23rd as the basis.  I might add
 	sessions for JarJarDiff.</p>
 
@@ -2341,6 +2441,8 @@
 	    <li>I now use the Metal look and feel.</li>
 	    <li>I made the result area non-editable.  You can still cut and paste from it (at least on Windows).</li>
 	</ul>
+
+	<p></p>
     </dd>
     <dt>
 	May 27, 2001
