@@ -49,17 +49,17 @@ public class ClassReport extends Printer implements Comparable {
 	private Collection deprecated_constructors   = new TreeSet();
 	private Collection deprecated_methods        = new TreeSet();
 
-	private Collection documented_fields         = new TreeSet();
-	private Collection documented_constructors   = new TreeSet();
-	private Collection documented_methods        = new TreeSet();
+	private Collection undocumented_fields       = new TreeSet();
+	private Collection undocumented_constructors = new TreeSet();
+	private Collection undocumented_methods      = new TreeSet();
 
 	private Collection modified_fields           = new TreeSet();
 	private Collection modified_constructors     = new TreeSet();
 	private Collection modified_methods          = new TreeSet();
 
-	private Collection undocumented_fields       = new TreeSet();
-	private Collection undocumented_constructors = new TreeSet();
-	private Collection undocumented_methods      = new TreeSet();
+	private Collection documented_fields         = new TreeSet();
+	private Collection documented_constructors   = new TreeSet();
+	private Collection documented_methods        = new TreeSet();
 
 	private Collection undeprecated_fields       = new TreeSet();
 	private Collection undeprecated_constructors = new TreeSet();
@@ -289,46 +289,46 @@ public class ClassReport extends Printer implements Comparable {
 			Indent().Append("</deprecated-methods>\n");
 		}
 
-		if (documented_fields.size() != 0) {
-			Indent().Append("<documented-fields>\n");
+		if (undocumented_fields.size() != 0) {
+			Indent().Append("<undocumented-fields>\n");
 			RaiseIndent();
 
-			Iterator i = documented_fields.iterator();
+			Iterator i = undocumented_fields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
 			}
 
 			LowerIndent();
-			Indent().Append("</documented-fields>\n");
+			Indent().Append("</undocumented-fields>\n");
 		}
 
-		if (documented_constructors.size() != 0) {
-			Indent().Append("<documented-constructors>\n");
+		if (undocumented_constructors.size() != 0) {
+			Indent().Append("<undocumented-constructors>\n");
 			RaiseIndent();
 
-			Iterator i = documented_constructors.iterator();
+			Iterator i = undocumented_constructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
 			}
 
 			LowerIndent();
-			Indent().Append("</documented-constructors>\n");
+			Indent().Append("</undocumented-constructors>\n");
 		}
 
-		if (documented_methods.size() != 0) {
-			Indent().Append("<documented-methods>\n");
+		if (undocumented_methods.size() != 0) {
+			Indent().Append("<undocumented-methods>\n");
 			RaiseIndent();
 
-			Iterator i = documented_methods.iterator();
+			Iterator i = undocumented_methods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
 			}
 
 			LowerIndent();
-			Indent().Append("</documented-methods>\n");
+			Indent().Append("</undocumented-methods>\n");
 		}
 
 		if (modified_fields.size() != 0) {
@@ -415,46 +415,46 @@ public class ClassReport extends Printer implements Comparable {
 			Indent().Append("</modified-methods>\n");
 		}
 
-		if (undocumented_fields.size() != 0) {
-			Indent().Append("<undocumented-fields>\n");
+		if (documented_fields.size() != 0) {
+			Indent().Append("<documented-fields>\n");
 			RaiseIndent();
 
-			Iterator i = undocumented_fields.iterator();
+			Iterator i = documented_fields.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 				Indent().Append("<declaration").Append(DeclarationBreakdown((Field_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
 			}
 
 			LowerIndent();
-			Indent().Append("</undocumented-fields>\n");
+			Indent().Append("</documented-fields>\n");
 		}
 
-		if (undocumented_constructors.size() != 0) {
-			Indent().Append("<undocumented-constructors>\n");
+		if (documented_constructors.size() != 0) {
+			Indent().Append("<documented-constructors>\n");
 			RaiseIndent();
 
-			Iterator i = undocumented_constructors.iterator();
+			Iterator i = documented_constructors.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
 			}
 
 			LowerIndent();
-			Indent().Append("</undocumented-constructors>\n");
+			Indent().Append("</documented-constructors>\n");
 		}
 
-		if (undocumented_methods.size() != 0) {
-			Indent().Append("<undocumented-methods>\n");
+		if (documented_methods.size() != 0) {
+			Indent().Append("<documented-methods>\n");
 			RaiseIndent();
 
-			Iterator i = undocumented_methods.iterator();
+			Iterator i = documented_methods.iterator();
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 				Indent().Append("<declaration").Append(DeclarationBreakdown((Method_info) fd.NewFeature())).Append(">").Append(fd.OldDeclaration()).Append("</declaration>\n");
 			}
 
 			LowerIndent();
-			Indent().Append("</undocumented-methods>\n");
+			Indent().Append("</documented-methods>\n");
 		}
 
 		if (undeprecated_fields.size() != 0) {

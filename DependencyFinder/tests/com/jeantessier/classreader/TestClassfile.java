@@ -30,23 +30,27 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.diff;
+package com.jeantessier.classreader;
+
+import java.io.*;
+import java.util.*;
 
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-	public TestAll(String name) {
+public class TestClassfile extends TestCase {
+	private ClassfileLoader loader;
+
+	public TestClassfile(String name) {
 		super(name);
 	}
 	
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+	protected void setUp() throws Exception {
+		loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+		((DirectoryClassfileLoader) loader).Load(new DirectoryExplorer("tests\\JarJarDiff\\new"));
+	}
 
-		result.addTestSuite(TestPackageValidator.class);
-		result.addTestSuite(TestListBasedValidator.class);
-		result.addTestSuite(TestJarDifferences.class);
-		result.addTestSuite(TestDeprecatableDifferences.class);
-
-		return result;
+	public void testDeprecated() {
+		assertTrue("ModifiedPackage.DeprecatedClass",    loader.Classfile("ModifiedPackage.DeprecatedClass").IsDeprecated());
+		assertTrue("ModifiedPackage.UndeprecatedClass", !loader.Classfile("ModifiedPackage.UndeprecatedClass").IsDeprecated());
 	}
 }

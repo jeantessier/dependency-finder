@@ -54,6 +54,8 @@ public class ClassDifferences extends RemovableDifferences {
 	public ClassDifferences(String name, Validator old_validator, Classfile old_class, Validator new_validator, Classfile new_class) {
 		super(name);
 
+		Logger.getLogger(getClass()).debug("Begin " + Name());
+
 		OldClass(old_class);
 		NewClass(new_class);
 		
@@ -69,6 +71,8 @@ public class ClassDifferences extends RemovableDifferences {
 					Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
 				}
 
+				Logger.getLogger(getClass()).debug("      Collecting fields ...");
+
 				Map field_level = new TreeMap();
 				Iterator i;
 
@@ -83,6 +87,8 @@ public class ClassDifferences extends RemovableDifferences {
 					Field_info field = (Field_info) i.next();
 					field_level.put(field.Name(), field.FullSignature());
 				}
+
+				Logger.getLogger(getClass()).debug("      Diff'ing fields ...");
 		
 				i = field_level.keySet().iterator();
 				while (i.hasNext()) {
@@ -94,7 +100,7 @@ public class ClassDifferences extends RemovableDifferences {
 
 					FeatureDifferences feature_differences = new FieldDifferences(field_fullname, old_field, new_field);
 					Differences differences = new DeprecatableDifferences(feature_differences, old_field, new_field);
-					differences = new DocumentableDifferences(feature_differences, old_validator, new_validator);
+					differences = new DocumentableDifferences(differences, old_validator, new_validator);
 					if (!differences.IsEmpty()) {
 						FeatureDifferences().add(differences);
 						if (feature_differences.IsRemoved() && new_class.LocateField(field_name) != null) {
@@ -102,6 +108,8 @@ public class ClassDifferences extends RemovableDifferences {
 						}
 					}
 				}
+
+				Logger.getLogger(getClass()).debug("      Collecting methods ...");
 
 				Map method_level = new TreeMap();
 		
@@ -117,6 +125,8 @@ public class ClassDifferences extends RemovableDifferences {
 					method_level.put(method.Signature(), method.FullSignature());
 				}
 		
+				Logger.getLogger(getClass()).debug("      Diff'ing methods ...");
+
 				i = method_level.keySet().iterator();
 				while (i.hasNext()) {
 					String method_name     = (String) i.next();
@@ -132,6 +142,7 @@ public class ClassDifferences extends RemovableDifferences {
 						feature_differences = new MethodDifferences(method_fullname, old_method, new_method);
 					}
 					Differences differences = new DeprecatableDifferences(feature_differences, old_method, new_method);
+					differences = new DocumentableDifferences(differences, old_validator, new_validator);
 					if (!differences.IsEmpty()) {
 						FeatureDifferences().add(differences);
 						if (feature_differences.IsRemoved()) {
@@ -149,7 +160,7 @@ public class ClassDifferences extends RemovableDifferences {
 			NewDeclaration(new_class.Declaration());
 		}
 
-		Logger.getLogger(getClass()).debug(Name() + " " + !IsEmpty());
+		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
 	}
 
 	public Classfile OldClass() {

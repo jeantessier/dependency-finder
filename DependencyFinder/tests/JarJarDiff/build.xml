@@ -1,4 +1,4 @@
-<project name="JarJarDiff" default="both" basedir=".">
+<project name="JarJarDiff" default="all" basedir=".">
 
     <patternset id="all.sources">
 	<include name="**/*.java"/>
@@ -11,6 +11,21 @@
         </javac>
     </target>
 
+    <target name="olddoc">
+	<javadoc packagenames="ModifiedPackage.*"
+		 author="no"
+		 version="no"
+		 private="yes">
+	    <sourcepath path="old"/>
+	    <doclet name="com.jeantessier.diff.ListDocumentedElements"
+		    path="../../classes">
+		<param name="-tag"   value="level"/>
+		<param name="-valid" value="public"/>
+		<param name="-out"   value="old.txt"/>
+	    </doclet>
+	</javadoc>
+    </target>
+
     <target name="new">
         <javac>
 	    <src path="new"/>
@@ -18,12 +33,28 @@
         </javac>
     </target>
 
-    <target name="both" depends="old, new"/>
+    <target name="newdoc">
+	<javadoc packagenames="ModifiedPackage.*"
+		 author="no"
+		 version="no"
+		 private="yes">
+	    <sourcepath path="new"/>
+	    <doclet name="com.jeantessier.diff.ListDocumentedElements"
+		    path="../../classes">
+		<param name="-tag"   value="level"/>
+		<param name="-valid" value="public"/>
+		<param name="-out"   value="new.txt"/>
+	    </doclet>
+	</javadoc>
+    </target>
+
+    <target name="all" depends="old, new, olddoc, newdoc"/>
 
     <target name="clean">
         <delete verbose="true">
 	    <fileset dir="." defaultexcludes="no">
 		<patternset>
+		    <include name="**/*.txt"/>
 		    <include name="**/*~"/>
 		    <include name="**/*.bak"/>
 		    <include name="**/*.class"/>

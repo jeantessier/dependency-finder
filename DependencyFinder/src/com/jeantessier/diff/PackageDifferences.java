@@ -48,6 +48,8 @@ public class PackageDifferences extends RemovableDifferences {
 	public PackageDifferences(String name, Validator old_validator, ClassfileLoader old_jar, PackageNode old_package, Validator new_validator, ClassfileLoader new_jar, PackageNode new_package) {
 		super(name);
 
+		Logger.getLogger(getClass()).debug("Begin " + Name());
+
 		Collection class_level = new TreeSet();
 		Iterator   i;
 	
@@ -72,6 +74,8 @@ public class PackageDifferences extends RemovableDifferences {
 				while (i.hasNext()) {
 					class_level.add(i.next().toString());
 				}
+
+				Logger.getLogger(getClass()).debug("      Diff'ing classes ...");
 		
 				i = class_level.iterator();
 				while (i.hasNext()) {
@@ -87,19 +91,19 @@ public class PackageDifferences extends RemovableDifferences {
 						class_differences = new ClassDifferences(class_name, old_validator, old_class, new_validator, new_class);
 					}
 					Differences differences = new DeprecatableDifferences(class_differences, old_class, new_class);
-					differences = new DocumentableDifferences(class_differences, old_validator, new_validator);
+					differences = new DocumentableDifferences(differences, old_validator, new_validator);
 					if (!differences.IsEmpty()) {
 						ClassDifferences().add(differences);
 					}
 				}
 
-				Logger.getLogger(getClass()).debug(Name() + " has " + ClassDifferences().size() + " class(es) that changed.");
+				Logger.getLogger(getClass()).debug("      " + Name() + " has " + ClassDifferences().size() + " class(es) that changed.");
 			}
 		} else if (new_package != null) {
 			NewDeclaration(new_package.Name());
 		}
 
-		Logger.getLogger(getClass()).debug(Name() + " " + !IsEmpty());
+		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
 	}
 
 	public Collection ClassDifferences() {

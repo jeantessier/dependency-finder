@@ -15,7 +15,7 @@
     	  notice, this list of conditions and the following disclaimer in the
     	  documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of the Jean Tessier nor the names of his contributors
+    	* Neither the name of Jean Tessier nor the names of his contributors
     	  may be used to endorse or promote products derived from this software
     	  without specific prior written permission.
     
@@ -34,7 +34,7 @@
 
 <!DOCTYPE differences [
 
-<!ELEMENT differences (name,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,documented-interfaces?,documented-classes?,modified-interfaces?,modified-classes?,undocumented-interfaces?,undocumented-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >
+<!ELEMENT differences (name,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,undocumented-interfaces?,undocumented-classes?,modified-interfaces?,modified-classes?,documented-interfaces?,documented-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >
 
 <!ELEMENT old (#PCDATA)* >
 
@@ -50,17 +50,17 @@
 
 <!ELEMENT deprecated-classes (name)* >
 
-<!ELEMENT documented-interfaces (name)* >
+<!ELEMENT undocumented-interfaces (name)* >
 
-<!ELEMENT documented-classes (name)* >
+<!ELEMENT undocumented-classes (name)* >
 
 <!ELEMENT modified-interfaces (class)* >
 
 <!ELEMENT modified-classes (class)* >
 
-<!ELEMENT undocumented-interfaces (name)* >
+<!ELEMENT documented-interfaces (name)* >
 
-<!ELEMENT undocumented-classes (name)* >
+<!ELEMENT documented-classes (name)* >
 
 <!ELEMENT undeprecated-interfaces (name)* >
 
@@ -72,7 +72,7 @@
 
 <!ELEMENT new-classes (name)* >
 
-<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,documented-fields?,documented-constructors?,documented-methods?,modified-fields?,modified-constructors?,modified-methods?,undocumented-fields?,undocumented-constructors?,undocumented-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >
+<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,undocumented-fields?,undocumented-constructors?,undocumented-methods?,modified-fields?,modified-constructors?,modified-methods?,documented-fields?,documented-constructors?,documented-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >
 
 <!ELEMENT name (#PCDATA)* >
 <!ATTLIST name
@@ -105,11 +105,11 @@
 
 <!ELEMENT deprecated-methods (declaration)* >
 
-<!ELEMENT documented-fields (declaration)* >
+<!ELEMENT undocumented-fields (declaration)* >
 
-<!ELEMENT documented-constructors (declaration)* >
+<!ELEMENT undocumented-constructors (declaration)* >
 
-<!ELEMENT documented-methods (declaration)* >
+<!ELEMENT undocumented-methods (declaration)* >
 
 <!ELEMENT modified-fields (feature)* >
 
@@ -117,11 +117,11 @@
 
 <!ELEMENT modified-methods (feature)* >
 
-<!ELEMENT undocumented-fields (declaration)* >
+<!ELEMENT documented-fields (declaration)* >
 
-<!ELEMENT undocumented-constructors (declaration)* >
+<!ELEMENT documented-constructors (declaration)* >
 
-<!ELEMENT undocumented-methods (declaration)* >
+<!ELEMENT documented-methods (declaration)* >
 
 <!ELEMENT undeprecated-fields (declaration)* >
 

@@ -32,6 +32,8 @@
 
 package com.jeantessier.diff;
 
+import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 
 /**
@@ -46,11 +48,16 @@ public class DocumentableDifferences extends DecoratorDifferences {
 	public DocumentableDifferences(Differences component, Validator old_validator, Validator new_validator) {
 		super(component);
 
+		Logger.getLogger(getClass()).debug("Begin " + Name());
+
 		NewDocumentation(!old_validator.IsAllowed(component.Name()) && new_validator.IsAllowed(component.Name()));
 		RemovedDocumentation(old_validator.IsAllowed(component.Name()) && !new_validator.IsAllowed(component.Name()));
+
+		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
 	}
 
 	public boolean NewDocumentation() {
+		Logger.getLogger(getClass()).debug(Name() + " NewDocumentation(): " + new_documentation);
 		return new_documentation;
 	}
 
@@ -59,6 +66,7 @@ public class DocumentableDifferences extends DecoratorDifferences {
 	}
 
 	public boolean RemovedDocumentation() {
+		Logger.getLogger(getClass()).debug(Name() + " RemovedDocumentation(): " + removed_documentation);
 		return removed_documentation;
 	}
 

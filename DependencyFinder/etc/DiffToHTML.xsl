@@ -15,7 +15,7 @@
     	  notice, this list of conditions and the following disclaimer in the
     	  documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of the Jean Tessier nor the names of his contributors
+    	* Neither the name of Jean Tessier nor the names of his contributors
     	  may be used to endorse or promote products derived from this software
     	  without specific prior written permission.
     
@@ -41,12 +41,12 @@
 	<html>
 
 	<head>
-	    <title><xsl:if test="product/text()"><xsl:value-of select="product"/> - </xsl:if>API Change History</title>
+	    <title><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>API Change History</title>
 	</head>
 
 	<body bgcolor="#ffffff">
 
-	<h1><xsl:if test="product/text()"><xsl:value-of select="product"/> - </xsl:if>API Change History</h1>
+	<h1><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>API Change History</h1>
 
 	<h1><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h1>
 
@@ -57,7 +57,7 @@
 	</html>
     </xsl:template>
 
-    <xsl:template match="product | old | new"></xsl:template>
+    <xsl:template match="differences/name | old | new"></xsl:template>
 
     <xsl:template match="removed-packages">
 	<h2>Removed Packages:</h2>
@@ -94,6 +94,20 @@
 	</ul>
     </xsl:template>
  
+    <xsl:template match="undocumented-interfaces">
+	<h2>Formerly Documented Interfaces:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+ 
+    <xsl:template match="undocumented-classes">
+	<h2>Formerly Documented Classes:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+ 
     <xsl:template match="modified-interfaces">
 	<h2>Modified Interfaces:</h2>
 	<blockquote>
@@ -106,6 +120,20 @@
 	<blockquote>
 	<xsl:apply-templates/>
 	</blockquote>
+    </xsl:template>
+ 
+    <xsl:template match="documented-interfaces">
+	<h2>Newly Documented Interfaces:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+ 
+    <xsl:template match="documented-classes">
+	<h2>Newly Documented Classes:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
     </xsl:template>
  
     <xsl:template match="undeprecated-interfaces">
@@ -191,7 +219,28 @@
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
- 
+
+    <xsl:template match="undocumented-fields">
+	<h2>Formerly Documented Fields:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+
+    <xsl:template match="undocumented-constructors">
+	<h2>Formerly Documented Constructors:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+
+    <xsl:template match="undocumented-methods">
+	<h2>Formerly Documented Methods:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+  
     <xsl:template match="modified-fields">
 	<h4>Field Declaration Changes:</h4>
 	<xsl:apply-templates/>
@@ -205,6 +254,27 @@
     <xsl:template match="modified-methods">
 	<h4>Method Declaration Changes:</h4>
 	<xsl:apply-templates/>
+    </xsl:template>
+ 
+    <xsl:template match="documented-fields">
+	<h2>Newly Documented Fields:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+ 
+    <xsl:template match="documented-constructors">
+	<h2>Newly Documented Constructors:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
+    </xsl:template>
+ 
+    <xsl:template match="documented-methods">
+	<h2>Newly Documented Methods:</h2>
+	<ul>
+	    <xsl:apply-templates/>
+	</ul>
     </xsl:template>
  
     <xsl:template match="undeprecated-fields">

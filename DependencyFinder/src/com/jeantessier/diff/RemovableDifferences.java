@@ -32,6 +32,8 @@
 
 package com.jeantessier.diff;
 
+import org.apache.log4j.*;
+
 /**
  *  Documents the difference, if any, for a given programming
  *  element that can be absent in either the old or the new
@@ -69,15 +71,27 @@ public abstract class RemovableDifferences implements Differences, Comparable {
 	}
 
 	public boolean IsRemoved() {
-		return (old_declaration != null) && (new_declaration == null);
+		boolean result = (old_declaration != null) && (new_declaration == null);
+
+		Logger.getLogger(getClass()).debug(Name() + " IsRemoved(): " + result);
+		
+		return result;
 	}
     
 	public boolean IsModified() {
-		return (old_declaration != null) && (new_declaration != null) && !old_declaration.equals(new_declaration);
+		boolean result = (old_declaration != null) && (new_declaration != null) && !old_declaration.equals(new_declaration);
+
+		Logger.getLogger(getClass()).debug(Name() + " IsModified(): " + result);
+		
+		return result;
 	}
     
 	public boolean IsNew() {
-		return (old_declaration == null) && (new_declaration != null);
+		boolean result = (old_declaration == null) && (new_declaration != null);
+
+		Logger.getLogger(getClass()).debug(Name() + " IsNew(): " + result);
+		
+		return result;
 	}
     
 	public boolean IsEmpty() {

@@ -32,6 +32,8 @@
 
 package com.jeantessier.diff;
 
+import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 
 /**
@@ -46,13 +48,21 @@ public class DeprecatableDifferences extends DecoratorDifferences {
 	public DeprecatableDifferences(Differences component, Deprecatable old_deprecatable, Deprecatable new_deprecatable) {
 		super(component);
 
+		Logger.getLogger(getClass()).debug("Begin " + Name());
+
 		if (old_deprecatable != null && new_deprecatable != null) {
+			Logger.getLogger(getClass()).debug("      old_deprecatable: " + old_deprecatable.IsDeprecated());
+			Logger.getLogger(getClass()).debug("      new_deprecatable: " + new_deprecatable.IsDeprecated());
+
 			RemovedDeprecation(old_deprecatable.IsDeprecated() && !new_deprecatable.IsDeprecated());
 			NewDeprecation(!old_deprecatable.IsDeprecated() && new_deprecatable.IsDeprecated());
 		}
+
+		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
 	}
 
 	public boolean NewDeprecation() {
+		Logger.getLogger(getClass()).debug(Name() + " NewDeprecation(): " + new_deprecation);
 		return new_deprecation;
 	}
 
@@ -61,6 +71,7 @@ public class DeprecatableDifferences extends DecoratorDifferences {
 	}
 
 	public boolean RemovedDeprecation() {
+		Logger.getLogger(getClass()).debug(Name() + " RemovedDeprecation(): " + removed_deprecation);
 		return removed_deprecation;
 	}
 

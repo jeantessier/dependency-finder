@@ -32,6 +32,8 @@
 
 package com.jeantessier.diff;
 
+import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 
 /**
@@ -50,6 +52,8 @@ public abstract class FeatureDifferences extends RemovableDifferences {
 	public FeatureDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
 		super(name);
 
+		Logger.getLogger(getClass()).debug("Begin " + Name());
+
 		OldFeature(old_feature);
 		NewFeature(new_feature);
 					
@@ -62,6 +66,8 @@ public abstract class FeatureDifferences extends RemovableDifferences {
 		} else if (new_feature != null) {
 			NewDeclaration(new_feature.Declaration());
 		}
+
+		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
 	}
 
 	public Feature_info OldFeature() {

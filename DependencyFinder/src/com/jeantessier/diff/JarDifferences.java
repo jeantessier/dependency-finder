@@ -34,6 +34,8 @@ package com.jeantessier.diff;
 
 import java.util.*;
 
+import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
@@ -48,10 +50,14 @@ public class JarDifferences implements Differences {
 	private Collection package_differences = new LinkedList();
 
 	public JarDifferences(String name, String old_version, Validator old_validator, ClassfileLoader old_jar, String new_version, Validator new_validator, ClassfileLoader new_jar) {
+		Logger.getLogger(getClass()).debug("Begin " + Name() + " (" + old_version + " -> " + new_version + ")");
+
 		this.name        = name;
 		this.old_version = old_version;
 		this.new_version = new_version;
 
+		Logger.getLogger(getClass()).debug("      Collecting packages ...");
+		
 		Iterator   i;
 
 		NodeFactory old_factory = new NodeFactory();
@@ -69,6 +75,8 @@ public class JarDifferences implements Differences {
 		Collection package_level = new TreeSet();
 		package_level.addAll(old_factory.Packages().keySet());
 		package_level.addAll(new_factory.Packages().keySet());
+
+		Logger.getLogger(getClass()).debug("      Diff'ing packages ...");
 	
 		i = package_level.iterator();
 		while (i.hasNext()) {
@@ -82,6 +90,8 @@ public class JarDifferences implements Differences {
 				PackageDifferences().add(differences);
 			}
 		}
+
+		Logger.getLogger(getClass()).debug("End   " + Name() + " (" + old_version + " -> " + new_version + "): " + (IsEmpty() ? "empty" : "not empty"));
 	}
 
 	public String Name() {
