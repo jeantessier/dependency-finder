@@ -46,6 +46,7 @@ public class TestGraphSummarizer extends TestCase {
 	Node a_package;
 	Node a_A_class;
 	Node a_A_a_method;
+	Node a_B_class;
 
 	Node b_package;
 	Node b_B_class;
@@ -62,6 +63,7 @@ public class TestGraphSummarizer extends TestCase {
 		a_package = factory.CreatePackage("a");
 		a_A_class = factory.CreateClass("a.A");
 		a_A_a_method = factory.CreateFeature("a.A.a");
+		a_B_class = factory.CreateClass("a.B");
 		
 		b_package = factory.CreatePackage("b");
 		b_B_class = factory.CreateClass("b.B");
@@ -177,6 +179,27 @@ public class TestGraphSummarizer extends TestCase {
 		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Outbound().contains(summarizer.ScopeFactory().CreatePackage("b")));
 		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
 		assertTrue(summarizer.ScopeFactory().CreatePackage("b").Inbound().contains(summarizer.ScopeFactory().CreatePackage("a")));
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
+	}
+
+	public void testC2CasP2CSamePackage() {
+		a_A_class.AddDependency(a_B_class);
+		
+		strategy.ClassScope(false);
+		strategy.FeatureScope(false);
+		strategy.PackageFilter(false);
+		strategy.FeatureFilter(false);
+
+		summarizer.TraverseNodes(factory.Packages().values());
+
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
+		assertTrue(summarizer.ScopeFactory().Classes().isEmpty());
+		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
+
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Inbound().size());
 		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").Outbound().size());
 	}
 

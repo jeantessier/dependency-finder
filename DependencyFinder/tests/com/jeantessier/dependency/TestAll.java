@@ -38,6 +38,7 @@ public class TestAll extends TestCase {
 	public static Test suite() {
 		TestSuite result = new TestSuite();
 
+		result.addTestSuite(TestNode.class);
 		result.addTestSuite(TestSelectiveTraversalStrategy.class);
 		result.addTestSuite(TestLinkMinimizer.class);
 		result.addTestSuite(TestLinkMinimizerSystematic.class);

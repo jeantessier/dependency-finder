@@ -54,11 +54,9 @@ public class ClassNode extends Node {
 	public Collection Features() {
 		return Collections.unmodifiableCollection(features);
 	}
-    
-	public void AddDependency(Node node) {
-		if (!Package().equals(node) && !Features().contains(node)) {
-			super.AddDependency(node);
-		}
+ 	
+	public boolean CanAddDependency(Node node) {
+		return !equals(node) && !Package().equals(node);
 	}
 
 	public void Accept(Visitor visitor) {

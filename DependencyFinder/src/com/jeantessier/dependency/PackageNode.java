@@ -48,18 +48,9 @@ public class PackageNode extends Node {
 	public Collection Classes() {
 		return Collections.unmodifiableCollection(classes);
 	}
-    
-	public void AddDependency(Node node) {
-		boolean ok = !Classes().contains(node);
-		Iterator i = Classes().iterator();
-		while (ok && i.hasNext()) {
-			ClassNode class_node = (ClassNode) i.next();
-			ok = !class_node.Features().contains(node);
-		}
 	
-		if (ok) {
-			super.AddDependency(node);
-		}
+	public boolean CanAddDependency(Node node) {
+		return !equals(node);
 	}
 
 	public void Accept(Visitor visitor) {

@@ -306,4 +306,32 @@ public class TestGraphCopier extends TestCase {
 		assertTrue(copier.ScopeFactory().Classes().isEmpty());
 		assertTrue(copier.ScopeFactory().Features().isEmpty());
 	}
+
+	public void testC2CasP2CSamePackage() {
+		NodeFactory factory   = new NodeFactory();
+		Node        a_package = factory.CreatePackage("a");
+		Node        a_A_class = factory.CreateClass("a.A");
+		Node        a_B_class = factory.CreateClass("a.B");
+	
+		a_A_class.AddDependency(a_B_class);
+
+		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
+		strategy.ClassScope(false);
+		strategy.FeatureScope(false);
+		strategy.PackageFilter(false);
+		strategy.FeatureFilter(false);
+		
+		GraphCopier copier = new GraphCopier(strategy);
+
+		copier.TraverseNodes(factory.Packages().values());
+
+		assertTrue(copier.ScopeFactory().Packages().keySet().toString(), copier.ScopeFactory().Packages().keySet().contains("a"));
+		assertTrue(copier.ScopeFactory().Classes().isEmpty());
+		assertTrue(copier.ScopeFactory().Features().isEmpty());
+
+		assertEquals(0, copier.ScopeFactory().CreatePackage("a").Inbound().size());
+		assertEquals(0, copier.ScopeFactory().CreatePackage("a").Outbound().size());
+		assertEquals(0, copier.ScopeFactory().CreatePackage("b").Inbound().size());
+		assertEquals(0, copier.ScopeFactory().CreatePackage("b").Outbound().size());
+	}
 }
