@@ -41,10 +41,11 @@
 <b>Metrics</b>
 <ul>
 <li><a href="#OOMetrics">OOMetrics</a></li>
+<li><a href="#MetricsToHTML">MetricsToHTML</a></li>
+<li><a href="#MetricsToText">MetricsToText</a></li>
 <li><a href="#OOMetricsGUI">OOMetricsGUI</a></li>
 <p />
 <li><a href="#ClassMetrics">ClassMetrics</a></li>
-<p />
 <li><a href="#DependencyMetrics">DependencyMetrics</a></li>
 </ul>
 <b>API Differences</b>
@@ -2646,7 +2647,7 @@ Translates the whole graph to HTML.
 <blockquote>
 
 Translates both outbound and inbound dependencies to HTML.
-List nodes, weaved with HTML cross-references between all the
+Lists nodes, weaved with HTML cross-references between all the
 elements for easy navigation.
 
 </blockquote>
@@ -3890,6 +3891,7 @@ Summarizes a dependency graph according to user-specified criteria.
     	[-class-scope]
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
+	[-copy-only]
     	[-dtd-prefix uri]
 	[-encoding name]
     	[-excludes value]*
@@ -3901,7 +3903,9 @@ Summarizes a dependency graph according to user-specified criteria.
     	[-feature-scope-excludes value]*
     	[-feature-scope-includes value]*
     	[-filter-excludes value]*
+    	[-filter-excludes-list filename]*
     	[-filter-includes value]*
+    	[-filter-includes-list filename]*
     	[-help]
     	[-includes value]*
     	[-indent-text text]
@@ -3916,7 +3920,13 @@ Summarizes a dependency graph according to user-specified criteria.
     	[-package-scope-excludes value]*
     	[-package-scope-includes value]*
     	[-scope-excludes value]*
+    	[-scope-excludes-list filename]*
     	[-scope-includes value]*
+    	[-scope-includes-list filename]*
+	[-show-all]
+	[-show-empty-nodes]
+	[-show-inbounds]
+	[-show-outbounds]
     	[-time]
     	[-validate]
     	[-verbose [filename]]
@@ -4126,6 +4136,21 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
+---++++ =-copy-only=
+
+<blockquote>
+
+Limit the report to dependencies that are actually in the source graph.  This
+will prevent the reporter from inferring implicit dependencies when possible.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-dtd-prefix uri=
 
 <blockquote>
@@ -4308,6 +4333,24 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
+---++++ =-filter-excludes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must NOT match any of the entries in _filename_ for the dependency to be
+included in the results.
+
+If there are multiples of this switch, the name must not match any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-filter-includes value=
 
 <blockquote>
@@ -4322,6 +4365,24 @@ If there are multiples of this switch, the name must at least one of them.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must match match an entry in _filename_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -4550,6 +4611,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
+---++++ =-scope-excludes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must NOT match any of the entries in
+_filename_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-scope-includes value=
 
 <blockquote>
@@ -4563,6 +4641,84 @@ If there are multiples of this switch, the name must at least one of them.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must match an entry in _filename_ for
+it to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-show-all=
+
+<blockquote>
+
+Shorthand for the combination of:
+
+   * =-show-empty-nodes=
+   * =-show-inbounds=
+   * =-show-outbounds=
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-show-empty-nodes=
+
+<blockquote>
+
+Lists nodes in the scope, even if they would appear empty because they have no
+inbound or outbound dependencies.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-show-inbounds=
+
+<blockquote>
+
+Lists filtered inbound dependencies for scoped nodes.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-show-outbounds=
+
+<blockquote>
+
+Lists filtered outbound dependencies for scoped nodes.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -5910,6 +6066,158 @@ identical.
 
 ----
 
+---++ ListDeprecatedElements
+
+<blockquote>
+
+Lists programming elements that are deprecated.
+
+</blockquote>
+
+---+++ Synopsis
+
+    ListDocumentedElements
+        [-help]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+	[filename ...]
+
+---+++ Description
+
+<blockquote>
+
+Lists classes, interfaces, fields, constructors, and methods that were tagged
+as deprecated by using javadoc tags.  If a class or interface is deprecated, it
+will list all its constructors, fields, and methods too.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+Prints synopsis.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out filename=
+
+<blockquote>
+
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+Prints how long it took to run the command.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [filename]=
+
+<blockquote>
+
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+File names for JAR files, Zip files, and =.class= files for the tool to read.
+You can also give directory names, the tool will search it for =.class= files
+and read them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>Current directory, "=.="</td></tr>
+</table>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+List of package names, class names, and feature names that are deprecated,
+one per line.
+
+You can pass this output to [[#DeprecationReport][DeprecationReport]] to get a
+list of areas in your code that depend on deprecated APIs.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+    ListDeprecatedElements -out deprecated_elements.txt rt.jar
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.diff.ListDeprecatedElements=
+
+</blockquote>
+
+----
+
 ---++ ListDiff
 
 <blockquote>
@@ -6416,157 +6724,6 @@ See =-out= above.
 
 ----
 
----++ ListDeprecatedElements
-
-<blockquote>
-
-Lists programming elements that are deprecated.
-
-</blockquote>
-
----+++ Synopsis
-
-    ListDocumentedElements
-        [-help]
-        [-out filename]
-        [-time]
-        [-verbose [filename]]
-        [-version]
-	[filename ...]
-
----+++ Description
-
-<blockquote>
-
-Lists classes, interfaces, fields, constructors, and methods that were
-tagged as deprecated by using javadoc tags.
-
-</blockquote>
-
----+++ Switches
-
-<blockquote>
-
----++++ =-help=
-
-<blockquote>
-
-Prints synopsis.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-out filename=
-
-<blockquote>
-
-Writes the output to _filename_.  If _filename_ does not exists,
-it is created.  If it already exists, its content is overwritten.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-time=
-
-<blockquote>
-
-Prints how long it took to run the command.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-verbose [filename]=
-
-<blockquote>
-
-Writes summary processing information to _filename_.  If you do not specify
-a file, the tool will write the information to the standard output stream.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=System.out=</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-version=
-
-<blockquote>
-
-Prints version information.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
----+++ Parameters
-
-<blockquote>
-
-File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>Current directory, "=.="</td></tr>
-</table>
-
-</blockquote>
-
----+++ Output
-
-<blockquote>
-
-List of package names, class names, and feature names that are deprecated,
-one per line.
-
-You can pass this output to [[#DeprecationReport][DeprecationReport]] to get a
-list of areas in your code that depend on deprecated APIs.
-
-</blockquote>
-
----+++ Examples
-
-<blockquote>
-
-    ListDeprecatedElements -out deprecated_elements.txt rt.jar
-
-</blockquote>
-
----+++ Class
-
-<blockquote>
-
-=com.jeantessier.diff.ListDeprecatedElements=
-
-</blockquote>
-
-----
-
 ---++ ListDocumentedElements
 
 <blockquote>
@@ -6956,6 +7113,220 @@ Running this tool on that graph yields this output:
 
 ----
 
+---++ MetricsToHTML
+
+<blockquote>
+
+Translates the whole report to HTML.
+
+</blockquote>
+
+---+++ Synopsis
+
+    MetricsToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+Translates the entire report to HTML.  If the report includes expanded
+collection measurements, it will render them as hyperlinks to possible named
+anchors inside the HTML.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD,
+such as the output of [[#OOMetrics][OOMetrics]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the metrics report in =metrics.xml= to a hyperlinked HTML file:
+
+    MetricsToHTML -in metrics.xml -out metrics.html
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToHTML.xsl=
+
+</blockquote>
+
+----
+
+---++ MetricsToText
+
+<blockquote>
+
+Translates the whole report to text.
+
+</blockquote>
+
+---+++ Synopsis
+
+    MetricsToText
+    	-in input_file.xml
+    	[-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+Translates the entire report to text.
+
+The resulting report is broken down by package, and then by class, and then by
+method.  =OOMetrics -txt= lists all packages first, followed by all classes,
+and finally by all methods.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD,
+such as the output of [[#OOMetrics][OOMetrics]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the dependency graph in =metrics.xml= to a text file:
+
+    MetricsToText -in metrics.xml -out metrics.txt
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToText.xsl=
+
+</blockquote>
+
+----
+
 ---++ OOMetrics
 
 <blockquote>
@@ -6975,6 +7346,8 @@ Computes object-oriented metrics on a codebase.
     	[-dtd-prefix uri]
 	[-encoding name]
     	[-expand]
+	[-filter-excludes-list filename]*
+	[-filter-includes-list filename]*
     	[-groups]
     	[-help]
     	[-indent-text text]
@@ -6983,6 +7356,11 @@ Computes object-oriented metrics on a codebase.
     	[-project]
     	[-project-name value]
     	[-reverse]
+	[-scope-excludes-list filename]*
+	[-scope-includes-list filename]*
+    	[-show-all-metrics]
+    	[-show-empty-metrics]
+    	[-show-hidden-measurements]
     	[-sort name]
     	[-time]
     	[-txt]
@@ -7132,6 +7510,43 @@ measurements.
 
 </blockquote>
 
+---++++ =-filter-excludes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must NOT match any of the entries in _filename_ for the dependency to be
+accounted in the report.
+
+If there are multiples of this switch, the name must not match any of them.
+
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must match an entry in _filename_ for the dependency to be accounted in the
+report.
+
+If there are multiples of this switch, the name must match at least one of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-groups=
 
 <blockquote>
@@ -7237,6 +7652,86 @@ Project name for the report.
 <blockquote>
 
 When used with =-sort=, sorts in descending order.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-excludes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must NOT match any of the entries in
+_filename_ for it to be accounted in the report.
+
+If there are multiples of this switch, the name must not match any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must match an entry in _filename_ for
+it to be accounted in the report.
+
+If there are multiples of this switch, the name must at least one of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-show-all-metrics=
+
+<blockquote>
+
+Includes metrics on classes and methods that were not analysed directly,
+but may still have valid information gathered indirectly from other classes,
+such as inbound dependencies.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-show-empty-metrics=
+
+<blockquote>
+
+Includes entries where analysis didn't gather any information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-show-hidden-measurements=
+
+<blockquote>
+
+Shows all measurements, even if they were meant to be hidden through their
+visiblity in the configuration.  This is useful when trying to debug a complex
+configuration and tracking the flow of information.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
