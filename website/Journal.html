@@ -17,6 +17,17 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	November 13, 2004
+    </dt>
+    <dd>
+	<p>Fixed <code>DependencyMetrics<code> in both the CLI and Ant task.
+	It used to process each graph input file as it was loaded, which could
+	result in some nodes being counted more than once if they show up in
+	more than one file.  By reading all graphs beforehand, they get merged
+	together before the measurements are taken, preventing double
+	count.</p>
+    </dd>
+    <dt>
 	November 11, 2004
     </dt>
     <dd>
