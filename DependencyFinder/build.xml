@@ -163,7 +163,7 @@
 	    <zipfileset dir="${libDir}"
 	                prefix="WEB-INF/lib"
 			includes="**/*.jar"
-			excludes="**/x*.jar"/>
+			excludes="**/xalan.jar"/>
 	</jar>
     </target>
 
