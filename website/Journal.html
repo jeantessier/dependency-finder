@@ -17,6 +17,52 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	December 12, 2004
+    </dt>
+    <dd>
+	<p>Wrote a section of the User Manual to describe how you can limit the
+	API diff report of a third-party library to the subset of that API that
+	you are using in your code.</p>
+
+	<p>Found a bug with the CLI scripts.  When I generated the template for
+	1.1.0 beta3, I used an example that lacked the Xerces libraries.  This
+	means that all tools that need to read XML coudn't find a proper
+	parser.  Since no one has complained yet, I guess they all use the GUI
+	or the Ant tasks.  I won't write a patch for this since the official
+	1.1.0 release is very close and will have the correct scripts.</p>
+    </dd>
+    <dt>
+	December 11, 2004
+    </dt>
+    <dd>
+	<p>Figured out how to detect if a file has changed since it was last
+	extracted.  I'll use the decorator pattern to wrap the
+	=ClassfileLoaderDispatcher= of the =ClassfileLoader= with a decorator
+	that will remember the modification date of files and instruct the
+	loader to ignore files that have not been modified.  By using a
+	decorator, I don't have to change any interfaces and I get to intercept
+	the call to the real dispatcher before it gets made.  Other solutions,
+	like a common super class for dispatchers, had the problem that the
+	subclass method was being called first.  This would necessitate some
+	kind of communication between the subclass and its superclass to get
+	the new behavior.  A decorator is a simpler, more elegant
+	solution.</p>
+
+	<p>This will not go in the 1.1.0 release, but most likely the very
+	next one.</p>
+    </dd>
+    <dt>
+	December 10, 2004
+    </dt>
+    <dd>
+	<p>Got an idea for undoing extraction of a single class on the graph.
+	If I can do that, then I can re-extract a single class that I just
+	recompiled and see it's effect on the graph without re-extracting the
+	whole graph.  I'm still strugling with detecting if a file has changed
+	since it was last extracted, so I can launch a re-extraction on a whole
+	codebase and have it pick only the files that have changed.</p>
+    </dd>
+    <dt>
 	December 09, 2004
     </dt>
     <dd>
