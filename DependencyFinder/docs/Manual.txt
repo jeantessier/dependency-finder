@@ -3056,6 +3056,31 @@ into HTML with =ListDiffToHTML=, or to text with
 
 ----
 
+---++ Bringing It All Together
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+Here are some more elaborate use cases that combine functionality from multiple
+tools.
+
+---+++ Tracking Dependencies On Deprecated Symbols
+
+This use case deals with having a large codebase and tracking 
+
+---+++ Narrowing API Differences to Actually Used API
+
+---+++ Computing the D' Metric
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+----
+
 ---++ Support
 
 Look at the current bug list on

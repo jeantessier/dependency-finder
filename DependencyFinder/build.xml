@@ -123,7 +123,7 @@
 		<attribute name="Implementation-Date"    value="${NOW}"/> 
 		<attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
 		<attribute name="Copyright-Holder"       value="Jean Tessier"/>
-		<attribute name="Copyright-Date"         value="2001-2003"/>
+		<attribute name="Copyright-Date"         value="2001-2004"/>
 		<attribute name="Compiler-Vendor"        value="${java.vendor}"/>
 		<attribute name="Compiler-Title"         value="${java.runtime.name}"/>
 		<attribute name="Compiler-Version"       value="${java.version}"/>
