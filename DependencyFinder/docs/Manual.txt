@@ -3690,18 +3690,145 @@ into HTML with =ListDiffToHTML=, or to text with
 
 ---++ Bringing It All Together
 
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
-
 Here are some more elaborate use cases that combine functionality from multiple
 tools.
 
 ---+++ Tracking Dependencies On Deprecated Symbols
 
 This use case deals with having a large codebase and tracking usage of
-deprecated classes and methods.
+deprecated classes and methods.  As your codebase grows and your third-party
+libraries get updated, it is inevitable that it will end up using deprecated
+APIs.  =javac= can list offenses, but only up to the first 100.  And the output
+is a simple flat list offenses.
+
+Dependency Finder can track all uses of deprecated APIs and group them by
+various criteria.  You can use either =DependencyReporter= or =OOMetrics=,
+depending on how you want to structure the results.
+
+But regardless of which way you go about it, you must first generate a list of
+the deprecated symbols to look for.  Run =ListDeprecatedElements= on all the
+JARs that might contain deprecated symbos.  Don't forget to include =rt.jar=.
+Save the output to a file that will list each deprecated construct, one per
+line.
+
+    % ListDeprecatedElements -out deprecated.txt          \
+                             $JAVA_HOME/jre/lib/rt.jar    \
+                             lib                          \
+                             classes
+
+_This may take a while._
+
+The examples show the CLI, but there are equivalent Ant tasks so you can put
+this in your nightly build very easily.
+
+You only need to run this command when a JAR changes.  In the example above,
+we look at third-party libraries in =lib= and the project's own codebase in
+=classes=.  The codebase is likely to change very often, but we don't have to
+wait for the tool to analyze large libraries, such as =rt.jar=, every time.  We
+can split the call and generate two lists: one list for all third-party JARs
+(fairly stable, don't have to regenerate it often) and one list for our own
+codebase (generate new list with every build to take into account the latest
+changes).
+
+    % ListDeprecatedElements -out *deprecated.libs.txt*     \
+                             $JAVA_HOME/jre/lib/rt.jar    \
+                             lib
+
+    % ListDeprecatedElements -out *deprecated.code.txt*     \
+                             classes
+
+Now, you have a list of deprecated symbols.  You can analyze your codebase to
+determine where they are being used either with a dependency graph or with
+dependency-related metrics.
+
+---++++ Using a Dependency Graph
+
+You need a dependency graph to work from.
+
+    % DependencyExtractor -xml -out graph.xml classes
+
+Then, run the =DependencyReporter= so that it shows dependencies related to
+deprecated APIs.  It can either group them by deprecated element, showing where
+they are called, or by caller, showing which deprecated element they call.
+
+For a text report organized by deprecated element, run:
+
+    % DependencyReporter -out report.txt                        \
+                         -show-*inbounds*                         \
+                         -*scope*-includes-list deprecated.txt    \
+                         graph.xml
+
+For an HTML report organized by deprecated element, run:
+
+    % DependencyReporter -xml -out report.xml                   \
+                         -show-*inbounds*                         \
+                         -*scope*-includes-list deprecated.txt    \
+                         graph.xml
+
+    %DependencyGraphToHTML -in report.xml -out report.html
+
+For a text report organized by caller, run:
+
+    % DependencyReporter -out report.txt                        \
+                         -show-*outbounds*                        \
+                         -*filter*-includes-list deprecated.txt   \
+                         graph.xml
+
+For an HTML report organized by caller, run:
+
+    % DependencyReporter -xml -out report.xml                   \
+                         -show-*outbounds*                        \
+                         -*filter*-includes-list deprecated.txt   \
+                         graph.xml
+
+    %DependencyGraphToHTML -in report.xml -out report.html
+
+You can use multiple =-scope-includes-list= and =-filter-includes-list=
+switches if your deprecated API list is in more than one file.
+
+    % DependencyReporter -out report.txt                              \
+                         -show-inbounds                               \
+                         *-scope-includes-list deprecated.libs.txt*     \
+                         *-scope-includes-list deprecated.code.txt*     \
+                         graph.xml
+
+    % DependencyReporter -out report.txt                              \
+                         -show-outbounds                              \
+                         *-filter-includes-list deprecated.libs.txt*    \
+                         *-filter-includes-list deprecated.code.txt*    \
+                         graph.xml
+
+=DeprecationReporter= can also take =-scope-excludes-list= and
+=-filter-excludes-list= switches for deprecated items that you may want to skip
+over.  There are times when reliance on a deprecated API is inevitable or too
+expensive to correct.  Yet, you don't want it to appear again and again in
+reports and distract from other use of deprecated material that can be fixed.
+You can keep track manually of the cases to ignore and pass them to
+=DependencyReporter= and they will be removed from the _includes_ list that was
+likely automatically generated.
+
+    % DependencyReporter -out report.txt                              \
+                         -show-inbounds                               \
+                         -scope-includes-list deprecated.libs.txt     \
+                         -scope-includes-list deprecated.code.txt     \
+			 *-scope-excludes-list deprecated.skip.txt*     \
+                         graph.xml
+
+=DependencyReporter= provides a simple format where a lot of data is presented
+succinctly side-by-side.  But sometimes, you want to be able to aggregate all
+this data in larger chunks.  For this, you can use =OOMetrics= instead.
+
+---++++ Using Dependency-Related Metrics
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
 
 ---+++ Narrowing API Differences to Actually Used API
 
