@@ -32,7 +32,7 @@ metrics that give you an empirical quality assessment of your code.  Once again,
 you can tailor the report to focus on the metrics that you care about and adjust
 validity thresholds to the specifics of your project.</p>
 
-<h3>Why Dependency Finder over the alternatives</h3>
+<h3>Why use Dependency Finder instead of the alternatives?</h3>
 
 <p>Dependency Finder is not the only game in town.  Tools like IntelliJ and
 Xrefactory have great features that let you track down usage of selected
@@ -73,11 +73,7 @@ encapsulation.</p>
 <a href="Manual.html">user manual</a> and the
 <a href="Tools.html">tool list</a> for all it has to offer.</p>
 
-<h3>Goal</h3>
-
-<p>The goal of this project is to have a tool, or suite of tools, that can
-extract class dependencies from compiled Java code.  The tools can get all the
-necessary information out of the <code>.class</code> files.</p>
+<h3>Why bother with dependencies at all?</h3>
 
 <p>Many authors have stressed the importance of managing depencencies (
 <a target="_blank" href="http://www.objectmentor.com/resources/listArticles?key=author&author=Robert%20C.%20Martin">Robert C. Martin</a>,
@@ -87,13 +83,92 @@ Managing dependencies means securing encapsulation and making sure that the
 code follows the architecture.  It is also essential for the modularization of
 code and favors reuse.  By extracting the information from the code itself, we
 can detect where we were sloppy, where we took shortcuts that we shouldn't
-have.  Managing the dependencies can shorten the compilation time of the
+have.  Managing the dependencies can even shorten the compilation time of the
 code.</p>
 
-<p>At first, I thought of using the Reflection API, but it shows only the
-class's attributes and method signatures.  If a method uses some other class
-for a local variable or to call a static method, that dependency that will not
-show under the Reflection API.</p>
+<p>At first, I thought of using the Reflection API, but it showed only the
+class's attributes and method signatures.  If a method used some other class
+for a local variable or called a static method, that dependency that would not
+show under the Reflection API.  So I had to build a suite of tools that could
+extract dependencies from compiled Java code directly.  The tools can get all
+the necessary information out of the <code>.class</code> files.</p>
+
+<h3>Praise for Dependency Finder</h3>
+
+<table border="0">
+
+    <tr>
+	<td><code>
+	After source control and Ant, Dependency Finder is the most used
+	software in our build process.  It makes pinpointing dependencies fast
+	because of search with regular expressions.  Through its Ant extensions,
+	the Finder is linked to our nightly build and automates tasks like
+	comparing APIs and enforcing system dependency rules.  We use Metrics
+	to help determine if work on a subsystem will require a new branch.  It
+	has delivered more productivity than any other build system we use.
+	</code></td>
+    </tr>
+    <tr>
+	<td><pre>
+	-- Tom Quigley
+	   Release Engineer
+	   <a target="_blank" href="http://www.vignette.com/">Vignette Corp.</a>
+	</pre></td>
+    </tr>
+
+    <tr>
+	<td><code>
+	It would have taken us at least twice the time to automate several parts
+	of our public API management process if it were not for the Dependency
+	Finder toolkit.
+	</code></td>
+     </tr>
+    <tr>
+	<td><pre>
+	-- Miles Chaston
+	   Vignette Application Portal Chief Architect
+	   <a target="_blank" href="http://www.vignette.com/">Vignette Corp.</a>
+	</pre></td>
+    </tr>
+
+    <tr>
+	<td><code>
+	Thanks for this excellent program ! I have cited its use in one of my
+	research papers thus far, and plan on doing so in many more.
+	</code></td>
+     </tr>
+    <tr>
+	<td><pre>
+	-- Steve Kirk
+	   Scientist
+	   <a target="_blank" href="http://www.htu.se/">University of Trollh&auml;ttan/Uddevalla</a>
+	</pre></td>
+    </tr>
+
+    <tr>
+	<td><code>
+	Congratulation for Dependency Finder, a brilliant piece of software.
+     </tr>
+    <tr>
+	<td><pre>
+	-- Christophe Thi&eacute;baud
+	   <a target="_blank" href="http://www.stylo.it/">Stylo</a>
+	</pre></td>
+    </tr>
+
+    <tr>
+	<td><code>
+	Thanks for DependencyFinder; I'm finding it useful for determining what
+	might break in other people's code prior to some refactorings.
+     </tr>
+    <tr>
+	<td><pre>
+	-- Jonathan Doughty
+	   <a target="_blank" href="http://www.mitre.org/">The MITRE Corporation</a>
+	</pre></td>
+    </tr>
+
+</table>
 
 </body>
 

@@ -17,6 +17,89 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 12, 2004
+    </dt>
+    <dd>
+	<p>Updated this journal.</p>
+
+	<p>Added quotes to the website.</p>
+
+	<p>Cleaned up leftover text on the resources page.</p>
+
+	<p>Now, I need to go and update all the copyright notices to 2004.</p>
+    </dd>
+    <dt>
+	January 08, 2004
+    </dt>
+    <dd>
+	<p>Rosalyn Lum, of
+	<a href="http://www.sdmagazine.com/jolts/">Software Development Magazine</a>,
+	sent me an email to enquire about Dependency Finder.  It seems it might
+	get mentioned in their upcoming March issue.  Yeah!</p>
+    </dd>
+    <dt>
+	January 07, 2004
+    </dt>
+    <dd>
+	<p>Researched how inherited methods are represented in compiled code.
+	Method access is resolved based on the type of the object reference
+	through which the call is made.  In the case of a concrete class
+	calling its inhrited methods, it does so against the <code>this</code>
+	implicit variable which is typed to the concrete class itself.  Hence,
+	all the dependencies are to the concrete versions of the methods.</p>
+
+	<p>Here, JDK 1.3 and JDK 1.4 differ slightly.  In JDK 1.3, the
+	compiler would resolve method calls to where they were defined in the
+	inheritance hierarchy.  In JK 1.4, the calls are resolved to the lowest
+	point in the inheritance hierarchy.  This allows redefinition of the
+	method in subsequent versions of subclasses, where appropriate.  With
+	the JDK 1.3 compiled class, it would have to be recompiled to benefit
+	from the new definitions.</p>
+
+	<p>Someone is having trouble deploying the web application in Tomcat
+	5.0.  I will have to research this further.</p>
+    </dd>
+    <dt>
+	January 06, 2004
+    </dt>
+    <dd>
+	<p>Someone is asking about classes depending on methods they inherit
+	from interfaces or abstract supeclasses.  If a concrete class calls one
+	of its own methods that it inherited from an interface or an abstract
+	superclass, there is no dependency recorded between the concrete class
+	and its ancestor.  I'll need to research this a little further.</p>
+    </dd>
+    <dt>
+	January 03, 2004
+    </dt>
+    <dd>
+	<p>I have an automated task that scrapes the SourceForge "Files" page
+	for Dependency Finder and saves the download tallies in a
+	<code>.csv</code> file.  I've been running it for over a year now.  I
+	have a nice graph in Excel showing trends and releases.  I was a little
+	apprehensive about my Windows 98 PC not crashing while I was away on
+	vacation, so I was relieved to find it still running upon my return.
+	But unfortunately, SourceForge changed the HTML for the page the day
+	after I left, with the result that I collected no data for the whole
+	time I was away.  And now, I must rewrite the HTML scrapper to
+	account for the new HTML.</p>
+    </dd>
+    <dt>
+	December 31, 2003
+    </dt>
+    <dd>
+	<p>I'm away on vacation, but I still found the time to check in on
+	messages.  Someone has been having difficulties but I think it's just a
+	corrupted <code>.class</code> file.</p>
+
+	<p>They also asked to track database calls.  I hope they meant calls on
+	the JDBC API.  It is <b>very</b> difficult to track the actual SQL from
+	within Java.  You need to setup dynamic proxies to trap all calls to
+	statement objects and resolve parameters all all other kinds of
+	transformations.  This is way beyond the capabilities of Dependency
+	Finder, and well nigh impossible with static analysis alone.</p>
+    </dd>
+    <dt>
 	December 15, 2003
     </dt>
     <dd>
