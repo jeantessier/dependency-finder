@@ -65,7 +65,12 @@ goto setupArgs
 rem This label provides a place for the argument list loop to break out 
 rem and for NT handling to skip to.
 
+if "%DEPENDENCYFINDER_CONSOLE%"=="" goto noConsole
+%JAVA_HOME%\bin\java %DEPENDENCYFINDER_OPTS% -Dorg.xml.sax.driver=org.apache.xerces.parsers.SAXParser -DDEPENDENCYFINDER_TESTS_VALIDATE=%DF_VALIDATE% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\src;%DEPENDENCYFINDER_HOME%\tests;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar;%DEPENDENCYFINDER_HOME%\lib\xalan.jar;%JUNIT_HOME%\junit.jar junit.swingui.TestRunner %DEPENDENCYFINDER_CMD_LINE_ARGS%
+goto doneRun
+:noConsole
 start %JAVA_HOME%\bin\javaw %DEPENDENCYFINDER_OPTS% -Dorg.xml.sax.driver=org.apache.xerces.parsers.SAXParser -DDEPENDENCYFINDER_TESTS_VALIDATE=%DF_VALIDATE% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\src;%DEPENDENCYFINDER_HOME%\tests;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar;%DEPENDENCYFINDER_HOME%\lib\xalan.jar;%JUNIT_HOME%\junit.jar junit.swingui.TestRunner %DEPENDENCYFINDER_CMD_LINE_ARGS%
+:doneRun
 
 if not "%OS%"=="Windows_NT" goto mainEnd
 :winNTend
