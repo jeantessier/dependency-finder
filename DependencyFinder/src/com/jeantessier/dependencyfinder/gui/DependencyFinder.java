@@ -500,7 +500,7 @@ public class DependencyFinder extends JFrame {
 	private JComponent buildSimpleFilterPanel() {
 		JPanel result = new JPanel();
 
-		result.setBorder(BorderFactory.createTitledBorder("Show dependencies"));
+		result.setBorder(BorderFactory.createTitledBorder("Show dependencies (stop for closure)"));
 
 		result.setLayout(new BorderLayout());
 
@@ -751,7 +751,7 @@ public class DependencyFinder extends JFrame {
 	private JComponent buildAdvancedFilterPanel() {
 		JPanel result = new JPanel();
 
-		result.setBorder(BorderFactory.createTitledBorder("Show dependencies"));
+		result.setBorder(BorderFactory.createTitledBorder("Show dependencies (stop for closure)"));
 
 		GridBagLayout      gbl = new GridBagLayout();
 		GridBagConstraints c   = new GridBagConstraints();
