@@ -13,6 +13,10 @@
 <hr />
 
 <h2>Table of Contents</h2>
+<table width="100%"><tr>
+<td width"50%"
+    valign="top">
+<b>Alphabetical</b>
 <ul>
 <li><a href="#ClassDump">ClassDump</a></li>
 <li><a href="#ClassInheritance">ClassInheritance</a></li>
@@ -54,6 +58,69 @@
 <li><a href="#p2p">p2p</a></li>
 </ul>
 
+</td>
+<td width="50%"
+    valign="top">
+<b>Dependencies</b>
+<ul>
+<li><a href="#DependencyFinder">DependencyFinder</a></li>
+<p />
+<li><a href="#DependencyExtractor">DependencyExtractor</a></li>
+<li><a href="#DependencyReporter">DependencyReporter</a></li>
+<li><a href="#DependenciesToHTML">DependenciesToHTML</a></li>
+<li><a href="#DependenciesToText">DependenciesToText</a></li>
+<li><a href="#DependablesToHTML">DependablesToHTML</a></li>
+<li><a href="#DependablesToText">DependablesToText</a></li>
+<li><a href="#DependentsToHTML">DependentsToHTML</a></li>
+<li><a href="#DependentsToText">DependentsToText</a></li>
+<li><a href="#ListDependablesToHTML">ListDependablesToHTML</a></li>
+<li><a href="#ListDependablesToText">ListDependablesToText</a></li>
+<li><a href="#ListDependentsToHTML">ListDependentsToHTML</a></li>
+<li><a href="#ListDependentsToText">ListDependentsToText</a></li>
+<li><a href="#ListUnused">ListUnused</a></li>
+<p />
+<li><a href="#DependencyClosure">DependencyClosure</a></li>
+<li><a href="#ClosureToText">ClosureToText</a></li>
+<li><a href="#ClosureToTreeView">ClosureToTreeView</a></li>
+<p />
+<li><a href="#c2c">c2c</a></li>
+<li><a href="#c2p">c2p</a></li>
+<li><a href="#f2f">f2f</a></li>
+<li><a href="#p2p">p2p</a></li>
+</ul>
+<b>Metrics</b>
+<ul>
+<li><a href="#OOMetrics">OOMetrics</a></li>
+<li><a href="#OOMetricsGUI">OOMetricsGUI</a></li>
+<p />
+<li><a href="#ClassMetrics">ClassMetrics</a></li>
+<p />
+<li><a href="#DependencyMetrics">DependencyMetrics</a></li>
+</ul>
+<b>API Differences</b>
+<ul>
+<li><a href="#JarJarDiff">JarJarDiff</a></li>
+<li><a href="#DiffToHTML">DiffToHTML</a></li>
+<p />
+<li><a href="#ListDiff">ListDiff</a></li>
+<li><a href="#ListDiffToHTML">ListDiffToHTML</a></li>
+<li><a href="#ListDiffToText">ListDiffToText</a></li>
+<p />
+<li><a href="#ListDocumentedElements">ListDocumentedElements</a></li>
+<li><a href="#PublishedDiffToHTML">PublishedDiffToHTML</a></li>
+<p />
+<li><a href="#ListInheritanceDiffToText">ListInheritanceDiffToText</a></li>
+</ul>
+<b>Classfile Utilities</b>
+<ul>
+<li><a href="#ClassReader">ClassReader</a></li>
+<li><a href="#ClassDump">ClassDump</a></li>
+<p />
+<li><a href="#ClassInheritance">ClassInheritance</a></li>
+<li><a href="#ClassList">ClassList</a></li>
+</ul>
+</td>
+</tr></table>
 
 <hr />
 
@@ -5505,7 +5572,7 @@ See <code>-out</code> above.
 <pre>
     ListUnused
     	-in input_file.xml
-    	[-out output_file.html]
+    	[-out output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -5537,8 +5604,8 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXX" />
-<h4><code>-out output_file.html</code></h4>
+<a name="-outoutput_file.txtXXXXXXXX" />
+<h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
 
@@ -5596,6 +5663,17 @@ See <code>-out</code> above.
 
 <p>
 <code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheet" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListUnused.xsl</code>
 </p>
 
 </blockquote>
@@ -6179,7 +6257,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXXXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -6289,7 +6367,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXXXXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
