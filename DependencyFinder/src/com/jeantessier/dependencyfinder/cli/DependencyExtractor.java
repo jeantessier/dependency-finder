@@ -65,7 +65,6 @@ public class DependencyExtractor {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
 		command_line.AddToggleSwitch("serialize");
-		command_line.AddToggleSwitch("plain");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("maximize");
 		command_line.AddToggleSwitch("minimize");
@@ -142,8 +141,6 @@ public class DependencyExtractor {
 			com.jeantessier.dependency.Printer printer;
 			if (command_line.ToggleSwitch("xml")) {
 				printer = new com.jeantessier.dependency.XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
-			} else if (command_line.ToggleSwitch("plain")) {
-				printer = new com.jeantessier.dependency.TextPrinter();
 			} else {
 				printer = new com.jeantessier.dependency.PrettyPrinter();
 			}

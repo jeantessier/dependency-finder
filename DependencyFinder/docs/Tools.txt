@@ -587,7 +587,6 @@ Takes a compiled Java _.class_ file and writes out its structure.
     	[-help]
     	[-indent-text text]
     	[-out filename]
-    	[-raw]
     	[-time]
     	[-verbose [filename]]
     	[-xml]
@@ -665,20 +664,6 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
----++++ =-raw=
-
-<blockquote>
-
-Only dumps the constant pool and shows each entry's tag value.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
 ---++++ =-time=
 
 <blockquote>
@@ -747,9 +732,6 @@ and read them.
 
 By default, prints the content of the constant pool, followed by a summary
 of the class that looks similar to the output of _javap_.
-
-With =-raw=, it only dumps the constant pool and prints a little more
-information about its internals.
 
 With =-xml=, it converts the entire =Classfile= structure into an XML
 document that follows the
@@ -2203,7 +2185,6 @@ Extracts dependencies from compiled classes.
     	-maximize
     	-minimize
     	-out filename
-    	-plain
     	-serialize
     	-time
     	-verbose [filename]
@@ -2309,18 +2290,6 @@ Minimize the dependency graph before outputing it.
 
 Writes the output to _filename_.  If _filename_ does not exists,
 it is created.  If it already exists, its content is overwritten.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-plain=
-
-<blockquote>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3540,7 +3509,6 @@ merges the graphs together into a single dependency graph.
     	-package-scope
     	[-package-scope-excludes value]*
     	[-package-scope-includes value]*
-    	-plain
     	[-scope-excludes value]*
     	[-scope-includes value]*
     	-serialize
@@ -4131,18 +4099,6 @@ If there are multiples of this switch, the name must at least one of them.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-plain=
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 

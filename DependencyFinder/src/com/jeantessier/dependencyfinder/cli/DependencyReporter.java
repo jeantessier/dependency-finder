@@ -126,7 +126,6 @@ public class DependencyReporter {
 
 		command_line.AddToggleSwitch("time");
 		command_line.AddToggleSwitch("serialize");
-		command_line.AddToggleSwitch("plain");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
 		command_line.AddSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
@@ -302,8 +301,6 @@ public class DependencyReporter {
 			Printer printer;
 			if (command_line.IsPresent("xml")) {
 				printer = new XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
-			} else if (command_line.ToggleSwitch("plain")) {
-				printer = new com.jeantessier.dependency.TextPrinter();
 			} else {
 				printer = new PrettyPrinter();
 			}
