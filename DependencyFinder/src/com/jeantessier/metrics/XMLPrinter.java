@@ -153,6 +153,7 @@ public class XMLPrinter extends Printer {
 		RaiseIndent();
 		Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>").EOL();
 		Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>").EOL();
+		Indent().Append("<value>").Append(measurement.doubleValue()).Append("</value>").EOL();
 		Indent().Append("<minimum>").Append(measurement.Minimum()).Append("</minimum>").EOL();
 		Indent().Append("<median>").Append(measurement.Median()).Append("</median>").EOL();
 		Indent().Append("<average>").Append(measurement.Average()).Append("</average>").EOL();
