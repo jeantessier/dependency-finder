@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -88,20 +88,27 @@ public abstract class VisitorBase implements Visitor {
 			result = (Node) current_nodes.getLast();
 		}
 
-		Logger.getLogger(getClass()).debug(current_nodes + ": " + result);
+		if (Logger.getLogger(getClass()).isDebugEnabled()) {
+			Logger.getLogger(getClass()).debug(current_nodes + ": " + result);
+		}
 		
 		return result;
 	}
 
 	protected void PushNode(Node current_node) {
-		Logger.getLogger(getClass()).debug(current_nodes + " + " + current_node);
+		if (Logger.getLogger(getClass()).isDebugEnabled()) {
+			Logger.getLogger(getClass()).debug(current_nodes + " + " + current_node);
+		}
+		
 		current_nodes.addLast(current_node);
 	}
 
 	protected Node PopNode() {
 		Node result = (Node) current_nodes.removeLast();
 
-		Logger.getLogger(getClass()).debug(current_nodes + " -> " + result);
+		if (Logger.getLogger(getClass()).isDebugEnabled()) {
+			Logger.getLogger(getClass()).debug(current_nodes + " -> " + result);
+		}
 		
 		return result;
 	}
