@@ -84,9 +84,9 @@ public class TestMetricsGathererSLOC extends TestCase {
 	}
 	
 	public void test_sloc_TestAbstractClass() {
-		assertEquals(Metrics.SLOC, 16, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement(Metrics.SLOC).intValue());
-		assertEquals("M", 3, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement("M").intValue());
-		assertEquals("AM", 1, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement("AM").intValue());
+		assertEquals(Metrics.SLOC, 15, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement(Metrics.SLOC).intValue());
+		assertEquals("M", 2, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement("M").intValue());
+		assertEquals("AM", 0, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement("AM").intValue());
 		assertEquals("SynthM", 0, factory.CreateClassMetrics("sloc.TestAbstractClass").Measurement("SynthM").intValue());
 	}
 	
@@ -95,7 +95,7 @@ public class TestMetricsGathererSLOC extends TestCase {
 	}
 	
 	public void test_sloc_TestAbstractClass_Method2() {
-		assertEquals(Metrics.SLOC, 1, factory.CreateMethodMetrics("sloc.TestAbstractClass.Method2()").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 0, factory.CreateMethodMetrics("sloc.TestAbstractClass.Method2()").Measurement(Metrics.SLOC).intValue());
 	}
 	
 	public void test_sloc_TestSuperClass() {
@@ -121,10 +121,10 @@ public class TestMetricsGathererSLOC extends TestCase {
 	}
 
 	public void test_sloc() {
-		assertEquals(Metrics.SLOC, 25, factory.CreateGroupMetrics("sloc").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 24, factory.CreateGroupMetrics("sloc").Measurement(Metrics.SLOC).intValue());
 	}
 
 	public void testProject() {
-		assertEquals(Metrics.SLOC, 25, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 24, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
 	}
 }
