@@ -18,6 +18,37 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	July 22, 2003
+    </dt>
+    <dd>
+	<p>Someone found a bug with <code>DependencyReporter</code>.  It does
+	not close its <code>PrintWriter</code> and ends up truncating the
+	output.  I created a patch for it, after verifying that it was the only
+	tool experiencing this problem.</p>
+
+	<p>I also created a patch for the "refresh" button (a.k.a. "reload") on
+	<code>DependencyFinder</code>.</p>
+
+	<p>I also created a patch for the clean up of calls to
+	<code>flush()</code> from a while ago.</p>
+
+	<p>I cleaned up some indentation text.  There were still places where
+	there were four spaces instead of <code>TAB</code> characters.</p>
+
+	<p>About the whole optionally using a <code>GraphCopier</code> thing,
+	I have been thinking that this functionality really belongs to the
+	advanced controls and I don't need to clutter the simple controls with
+	it.</p>
+
+	<p>Upgraded my testing environment from Clover 1.1.1 to 1.2.</p>
+    </dd>
+    <dt>
+	July 21, 2003
+    </dt>
+    <dd>
+	<p>Upgraded my testing environment from Tomcat 4.1.18 to 4.1.24.</p>
+    </dd>
+    <dt>
 	July 20, 2003
     </dt>
     <dd>
@@ -27,6 +58,15 @@
 	Added the code coverage
 	<a target="_blank" href="jcoverage/">output</a> from
 	<a target="_blank" href="http://jcoverage.com/">jcoverage</a>.</p>
+    </dd>
+    <dt>
+	July 18, 2003
+    </dt>
+    <dd>
+	<p>Toyed with the idea of using a <code>GraphCopier</code> instead
+	of a <code>GraphSummarizer</code> again.  I could prototype JSPs
+	very quickly that I'll need to work into CVS.  I might also apply
+	the same logic to the CLI and Ant tools.</p>
     </dd>
     <dt>
 	July 17, 2003
