@@ -218,7 +218,8 @@ closure streaming from <code>DependencyExtractor.main()</code> and save it to
 
 <pre>  &lt;dependencyclosure srcfile=&quot;df.xml&quot;
                      destfile=&quot;de.closure.xml&quot;
-                     p2p=&quot;yes&quot;/&gt;</pre>
+                     p2p=&quot;yes&quot;
+                     maximuminbounddepth=&quot;0&quot;/&gt;</pre>
 
 <p>To analyze the graph in <code>df.xml</code> and trace back calls to
 <code>NodeFactory.CreateXXX()</code> up to three levels deep:</p>
@@ -243,6 +244,24 @@ convert it to HTML:</p>
   &lt;xslt style=&quot;${dependencyfinder.home}/etc/ClosureToHTML.xsl&quot;
         in=&quot;create.closure.xml&quot;
         out=&quot;create.closure.html&quot;/></pre>
+
+<p>To analyze the graph in <code>df.xml</code> and trace back calls to
+<code>NodeFactory.CreateXXX()</code> up to three levels deep, summarize
+it to class-to-class dependencies, and then convert it to HTML:</p>
+
+<pre>  &lt;dependencyclosure srcfile=&quot;df.xml&quot;
+                     destfile=&quot;create.closure.xml&quot;
+                     all=&quot;yes&quot;
+                     startincludes=&quot;/NodeFactory.Create/&quot;
+                     maximuminbounddepth=&quot;3&quot;
+                     maximumoutbounddepth=&quot;0&quot;/&gt;
+  &lt;dependencyreporter srcfile=&quot;create.closure.xml&quot;
+                      destfile=&quot;c2c.create.closure.xml&quot;
+                      c2c=&quot;yes&quot;
+                      showall=&quot;yes&quot;/&gt;
+  &lt;xslt style=&quot;${dependencyfinder.home}/etc/ClosureToHTML.xsl&quot;
+        in=&quot;c2c.create.closure.xml&quot;
+        out=&quot;c2c.create.closure.html&quot;/></pre>
 
 <hr>
 
