@@ -56,7 +56,7 @@ public class LoadListenerVisitorAdapter implements LoadListener {
 	}
 	
 	public void endClassfile(LoadEvent event) {
-		((Classfile) event.getClassfile()).accept(visitor);
+		event.getClassfile().accept(visitor);
 	}
 	
 	public void endFile(LoadEvent event) {
