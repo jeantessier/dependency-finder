@@ -412,12 +412,7 @@ Only&nbsp;copy&nbsp;<input type="checkbox" name="copy-only" <%= copy_only ? "che
     }
 %>
 
-<p class="footer">
-Powered by
-<a href="<jsp:getProperty name="version" property="ImplementationURL"/>"><jsp:getProperty name="version" property="ImplementationTitle"/></a>
-<jsp:getProperty name="version" property="ImplementationVersion"/> (&copy; <jsp:getProperty name="version" property="ImplementationVendor"/>)<br />
-Compiled on <jsp:getProperty name="version" property="ImplementationDate"/>.
-</p>
+<jsp:include page="footer.jsp"/>
 
 </body>
 

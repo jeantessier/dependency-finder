@@ -43,6 +43,8 @@
 
 	private int group_size;
 	private int group_count;
+
+	private String last_extracted_filename;
 	
 	public MyListener(JspWriter out) {
 	    this.out = out;
@@ -61,21 +63,14 @@
 	    group_count = 0;
 		
 	    try {
-		out.println("Extracting from " + event.GroupName() + " (" + group_size + " classes) ...");
+		out.println();
+		out.println("Searching " + event.GroupName() + " (" + group_size + " files) ...");
 	    } catch (IOException ex) {
 		// Do nothing
 	    }
 	}
 
 	public void BeginFile(LoadEvent event) {
-	    // Do nothing
-	}
-
-	public void BeginClassfile(LoadEvent event) {
-	    // Do nothing
-	}
-
-	public void EndClassfile(LoadEvent event) {
 	    try {
 		int previous_ratio = group_count * 100 / group_size;
 		group_count++;
@@ -90,16 +85,41 @@
 		    }
 		    out.print(new_ratio + "%");
 		}
-
-		out.println("\tGetting dependencies from " + event.Classfile() + " ...");
 	    } catch (IOException ex) {
-		// Do nothing
+		// Ignore
 	    }
+	}
+
+	public void BeginClassfile(LoadEvent event) {
+	    // Do nothing
+	}
+
+	public void EndClassfile(LoadEvent event) {
+	    last_extracted_filename = event.Filename();
+
+	    try {
+		out.print("\tGetting dependencies from ");
+		out.print(event.Classfile());
+		out.print(" ...");
+		out.println();
+	    } catch (IOException ex) {
+		// Ignore
+	    }
+
 	    count++;
 	}
 
 	public void EndFile(LoadEvent event) {
-	    // Do nothing
+	    try {
+		if (!event.Filename().equals(last_extracted_filename)) {
+		    out.print("\t<i>Skipping ");
+		    out.print(event.Filename());
+		    out.print(" ...</i>");
+		    out.println();
+		}
+	    } catch (IOException ex) {
+		// Ignore
+	    }
 	}
 
 	public void EndGroup(LoadEvent event) {
@@ -248,12 +268,7 @@
     }
 %>
 
-<p class="footer">
-Powered by
-<a href="<jsp:getProperty name="version" property="ImplementationURL"/>"><jsp:getProperty name="version" property="ImplementationTitle"/></a>
-<jsp:getProperty name="version" property="ImplementationVersion"/> (&copy; <jsp:getProperty name="version" property="ImplementationVendor"/>)<br />
-Compiled on <jsp:getProperty name="version" property="ImplementationDate"/>.
-</p>
+<jsp:include page="footer.jsp"/>
 
 </body>
 

@@ -1,6 +1,3 @@
-<%@ page isErrorPage="true" %>
-<%@ page import="java.io.*" %>
-
 <!--
     Copyright (c) 2001-2003, Jean Tessier
     All rights reserved.
@@ -35,23 +32,15 @@
 
 <jsp:useBean id="version" class="com.jeantessier.dependencyfinder.Version" scope="application"/>
 
-<html>
+<table>
+    <tr>
+        <td class="footer">
+            <hr />
 
-<head>
-<link rel="stylesheet" type="text/css" href="style.css" />
-<title>Error in <%= application.getInitParameter("name") %></title>
-</head>
-
-<body>
-
-<h1>Error:</h1>
-
-<pre>
-<% exception.printStackTrace(new PrintWriter(out)); %>
-</pre>
-
-<jsp:include page="footer.jsp"/>
-
-</body>
-
-</html>
+            Powered by
+            <a href="<jsp:getProperty name="version" property="ImplementationURL"/>"><jsp:getProperty name="version" property="ImplementationTitle"/></a>
+            <jsp:getProperty name="version" property="ImplementationVersion"/> (&copy; <jsp:getProperty name="version" property="ImplementationVendor"/>)<br />
+            Compiled on <jsp:getProperty name="version" property="ImplementationDate"/>.
+        </td>
+    </tr>
+</table>

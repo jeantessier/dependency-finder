@@ -137,8 +137,13 @@
 		    <attribute name="Java-Bean" value="True"/>
 		</section>
 	    </manifest>
-	    <zipfileset dir="${classesDir}" prefix="" includes="**/*.class"/>
-	    <zipfileset dir="${srcDir}"     prefix="" includes="**/*.gif"/>
+	    <zipfileset dir="${classesDir}"
+	                prefix=""
+	                includes="**/*.class"/>
+	    <zipfileset dir="${srcDir}"
+	                prefix=""
+	                includes="**/*.gif"
+	                excludes="**/doc-files/**"/>
 	</jar>
     </target>
 
