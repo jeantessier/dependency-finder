@@ -125,6 +125,25 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		assertEquals("three", 2, measurement.Value().intValue());
 	}
 
+	public void testValues() {
+		Object o1 = new Object();
+		Object o2 = new Object();
+
+		measurement.Add(o1);
+		measurement.Add(o2);
+
+		assertEquals("size", 2, measurement.Values().size());
+		assertTrue("Missing o1", measurement.Values().contains(o1));
+		assertTrue("Missing o2", measurement.Values().contains(o2));
+
+		try {
+			measurement.Values().add(o2);
+			fail("Was allowed to modify the Values() collection");
+		} catch (UnsupportedOperationException ex) {
+			// Ignore
+		}
+	}
+
 	public void testAddInt() {
 		assertEquals("zero", 0, measurement.intValue());
 		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
