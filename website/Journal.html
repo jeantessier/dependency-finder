@@ -17,6 +17,28 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	December 29, 2004
+    </dt>
+    <dd>
+	<p>Finally got around to cleaning up some of the HTML on the website.
+	The documents say they use HTML 4.01, but I try to follow XHTML as much
+	as possible.  This sometimes yields strange results on some browsers.
+	For instance, I like to have empty named anchors as
+	<code>&lt;a name="someName" /&gt;</code> but some browsers won't see
+	the empty tag but a start tag instead and proceed to underline all text
+	after it.  So I have to write it as
+	<code>&lt;a name="someName"&gt;&lt;/a&gt;</code>.  But that doesn't
+	work for <code>&lt;br&gt;</code> or <code>&lt;hr&gt;</code> because
+	they do not allow any content and therefore the notations
+	<code>&lt;br&gt;&lt;/br&gt;</code> and
+	<code>&lt;hr&gt;&lt;/hr&gt;</code> are illegal.  For those, I can still
+	write <code>&lt;br /&gt;</code> or <code>&lt;hr /&gt;</code> because
+	the browser doesn't expect any content and simply ignores the trailing
+	<code>/</code>.  So my rule has been to write closing tags for elements
+	that can have content, and the XML empty notation when the elements
+	cannot have content.  That should fix it for most people.</p>
+    </dd>
+    <dt>
 	December 28, 2004
     </dt>
     <dd>
@@ -2571,14 +2593,14 @@
 	clear where "<code>org.xml.*</code>" would come from.  I'm thinking
 	that the JVM would probably get them from its
 	<code>BOOTCLASSPATH</code>.</li>
-	<p />
+	<p></p>
 	<li>It the tool analyzes <code>A.jar</code>, it will find dependencies
 	on packages outside of <code>A.jar</code>.  It would then be quite
 	difficult, maybe impossible, to find out in which JARs these extra
 	packages are located.  The tool would need a mapping of packages to
 	JAR;  this mapping would preferably be generated automatically by some
 	other tool.</li>
-	<p />
+	<p></p>
 	<li>It is possible to put two classes of a package in two separate
 	JARs.  This means that the tool would have to work at the class level
 	instead of the package level.</li>
