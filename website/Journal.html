@@ -18,6 +18,23 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	September 24, 2003
+    </dt>
+    <dd>
+	<p>Moved the CLI's and Ant's <code>VerboseListener</code> classes to
+	the use the new <code>VerboseListenerBase</code>.  I aligned their
+	output to match more closely that of <code>extract.jsp</code>.</p>
+
+	<p>Interestingly, I had CLI's <code>VerboseListener</code> extend from
+	<code>java.io.PrintWriter</code> for some reason.  Of course, it made
+	changing in to extend from <code>VerboseListenerBase</code> instead a
+	rather interesting experience.  Let this be a lesson against inheriting
+	implementation.  Incidentally, the other candidates for extending
+	<code>VerboseListenerBase</code> are in the GUI and already extend
+	<code>javax.swing.AbstractAction</code>.  I am not sure how I'm going
+	to deal with this one, yet.</p>
+    </dd>
+    <dt>
 	September 22, 2003
     </dt>
     <dd>
