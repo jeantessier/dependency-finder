@@ -40,6 +40,17 @@ New ListSymbols Ant task.]]></msg>
 Use environment.]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-17</date>
+		<time>09:34</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>etc/OutboundDependencyConfig.xml</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+		<msg><![CDATA[Fix misnamed measurement]]></msg>
+	</entry>
+	<entry>
 		<date>2004-11-11</date>
 		<time>07:07</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -565,6 +576,27 @@ Use environment.]]></msg>
 com.jeantessier.classreader complete]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-21</date>
+		<time>06:51</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/images/InboundDependencyConfig.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<file>
+			<name>docs/images/MartinConfig.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<file>
+			<name>docs/images/OutboundDependencyConfig.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<msg><![CDATA[Update diagrams]]></msg>
+	</entry>
+	<entry>
 		<date>2004-01-26</date>
 		<time>09:02</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -628,6 +660,59 @@ com.jeantessier.classreader complete]]></msg>
 			<prevrevision>1.5</prevrevision>
 		</file>
 		<msg><![CDATA[Text rendering of StatisticalMeasurement now includes the ratio as a percentage, if there is any]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-13</date>
+		<time>07:30</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.45</revision>
+			<prevrevision>1.44</prevrevision>
+		</file>
+		<msg><![CDATA[Limit diff report to used API]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-20</date>
+		<time>09:50</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/metrics/AccumulatorMeasurement.java</name>
+			<revision>1.19</revision>
+			<prevrevision>1.18</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/metrics/ContextAccumulatorMeasurement.java</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/metrics/StatisticalMeasurement.java</name>
+			<revision>1.19</revision>
+			<prevrevision>1.18</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/metrics/SubMetricsAccumulatorMeasurement.java</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/metrics/SumMeasurement.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<msg><![CDATA[More precise javadocs]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-10</date>
+		<time>08:18</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.59</revision>
+			<prevrevision>1.58</prevrevision>
+		</file>
+		<msg><![CDATA[Added version information to documentation]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-04</date>
@@ -1168,6 +1253,17 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		</file>
 		<msg><![CDATA[Phase VIII: naming changes
 JSP files for the web application.]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-20</date>
+		<time>09:51</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>etc/MartinConfig.xml</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<msg><![CDATA[A and I project-level summaries]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-06</date>
@@ -2000,6 +2096,22 @@ Renamed SymbolList to ListSymbols.
 New ListSymbols Ant task.]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-01</date>
+		<time>08:14</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.58</revision>
+			<prevrevision>1.57</prevrevision>
+		</file>
+		<file>
+			<name>cvs.properties</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<msg><![CDATA[Revv up version number]]></msg>
+	</entry>
+	<entry>
 		<date>2004-09-13</date>
 		<time>04:59</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -2212,17 +2324,6 @@ New ListSymbols Ant task.]]></msg>
 All test classes and test data]]></msg>
 	</entry>
 	<entry>
-		<date>2004-03-19</date>
-		<time>10:53</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>build.xml</name>
-			<revision>1.43</revision>
-			<prevrevision>1.42</prevrevision>
-		</file>
-		<msg><![CDATA[Copy log4j.properties when compiling in debug mode]]></msg>
-	</entry>
-	<entry>
 		<date>2004-09-04</date>
 		<time>09:56</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -2372,6 +2473,17 @@ All test classes and test data]]></msg>
 			<prevrevision>1.6</prevrevision>
 		</file>
 		<msg><![CDATA[Phase I of naming change]]></msg>
+	</entry>
+	<entry>
+		<date>2004-03-19</date>
+		<time>10:53</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.43</revision>
+			<prevrevision>1.42</prevrevision>
+		</file>
+		<msg><![CDATA[Copy log4j.properties when compiling in debug mode]]></msg>
 	</entry>
 	<entry>
 		<date>2004-10-29</date>
@@ -3611,6 +3723,18 @@ started on com.jeantessier.dependency]]></msg>
 		<msg><![CDATA[New symbol list tool (forgot to clean up text alignment bar)]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-17</date>
+		<time>09:33</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.48</revision>
+			<prevrevision>1.47</prevrevision>
+		</file>
+		<msg><![CDATA[Document OOMetrics examples.
+Regenerate Manual images.]]></msg>
+	</entry>
+	<entry>
 		<date>2004-10-28</date>
 		<time>07:53</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3970,6 +4094,17 @@ com.jeantessier.dependency.metrics complete]]></msg>
 			<revision>1.1</revision>
 		</file>
 		<msg><![CDATA[Track usage of deprecated APIs]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-10</date>
+		<time>07:20</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.42</revision>
+			<prevrevision>1.41</prevrevision>
+		</file>
+		<msg><![CDATA[Breaking up large codebase]]></msg>
 	</entry>
 	<entry>
 		<date>2004-05-10</date>
@@ -4347,6 +4482,17 @@ Parameters and local variables that other phase missed.]]></msg>
 		<msg><![CDATA[Separate include and exclude lists]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-21</date>
+		<time>06:52</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/style.css</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+		<msg><![CDATA[Fix broken background color]]></msg>
+	</entry>
+	<entry>
 		<date>2004-04-22</date>
 		<time>08:52</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -4653,6 +4799,28 @@ started on com.jeantessier.dependency]]></msg>
 		<msg><![CDATA[Remove DeprecationReport, use DependencyReporter instead.]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-14</date>
+		<time>07:36</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.46</revision>
+			<prevrevision>1.45</prevrevision>
+		</file>
+		<msg><![CDATA[Tracking deprecation with DependencyReporter]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-12</date>
+		<time>18:44</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.44</revision>
+			<prevrevision>1.43</prevrevision>
+		</file>
+		<msg><![CDATA[Limit diff report to used API]]></msg>
+	</entry>
+	<entry>
 		<date>2004-01-26</date>
 		<time>09:02</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -4710,6 +4878,17 @@ started on com.jeantessier.dependency]]></msg>
 			<prevrevision>1.10</prevrevision>
 		</file>
 		<msg><![CDATA[Fix XML representations]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-10</date>
+		<time>08:18</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>bin/txt2html.pl</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<msg><![CDATA[Added version information to documentation]]></msg>
 	</entry>
 	<entry>
 		<date>2004-05-22</date>
@@ -4890,6 +5069,38 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Fix XML representations]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-10</date>
+		<time>08:18</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Developer.txt</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.43</revision>
+			<prevrevision>1.42</prevrevision>
+		</file>
+		<file>
+			<name>docs/Tools.txt</name>
+			<revision>1.38</revision>
+			<prevrevision>1.37</prevrevision>
+		</file>
+		<msg><![CDATA[Added version information to documentation]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-15</date>
+		<time>08:39</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.47</revision>
+			<prevrevision>1.46</prevrevision>
+		</file>
+		<msg><![CDATA[Better example for tracking deprecation]]></msg>
+	</entry>
+	<entry>
 		<date>2004-04-21</date>
 		<time>10:39</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -4956,6 +5167,17 @@ Extract properties to separate files.]]></msg>
 			<prevrevision>1.2</prevrevision>
 		</file>
 		<msg><![CDATA[Fix and simplify]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-12</date>
+		<time>18:40</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/classreader/ClassfileLoaderEventSource.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<msg><![CDATA[Remove extra space in variable declaration]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-21</date>
@@ -5119,6 +5341,17 @@ Extract properties to separate files.]]></msg>
 			<prevrevision>1.3</prevrevision>
 		</file>
 		<msg><![CDATA[Phase I of naming change]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-21</date>
+		<time>06:51</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestClassfile.java</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+		<msg><![CDATA[Use File.separator instead of explicit '\']]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-07</date>
@@ -5491,6 +5724,17 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Rename setters that were named getXXX() by mistake]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-20</date>
+		<time>09:51</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.49</revision>
+			<prevrevision>1.48</prevrevision>
+		</file>
+		<msg><![CDATA[Clean up]]></msg>
+	</entry>
+	<entry>
 		<date>2004-11-12</date>
 		<time>04:40</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -5729,6 +5973,17 @@ com.jeantessier.dependency.metrics complete]]></msg>
 		<msg><![CDATA[Rev up version number]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-21</date>
+		<time>06:51</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/diff/TestDeprecatableDifferences.java</name>
+			<revision>1.11</revision>
+			<prevrevision>1.10</prevrevision>
+		</file>
+		<msg><![CDATA[Use File.separator instead of explicit '\']]></msg>
+	</entry>
+	<entry>
 		<date>2004-09-10</date>
 		<time>07:36</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -5844,6 +6099,17 @@ com.jeantessier.classreader complete]]></msg>
 			<prevrevision>1.29</prevrevision>
 		</file>
 		<msg><![CDATA[Rename setters that were named getXXX() by mistake]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-21</date>
+		<time>06:55</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.60</revision>
+			<prevrevision>1.59</prevrevision>
+		</file>
+		<msg><![CDATA[Set revision number to 1.1.0]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-08</date>
@@ -6434,6 +6700,17 @@ Parameters and local variables that other phase missed.]]></msg>
 		<msg><![CDATA[Use new method names.]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-01</date>
+		<time>08:14</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Developer.txt</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<msg><![CDATA[Updated build instructions]]></msg>
+	</entry>
+	<entry>
 		<date>2004-05-05</date>
 		<time>14:29</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -6485,6 +6762,165 @@ Parameters and local variables that other phase missed.]]></msg>
 		</file>
 		<msg><![CDATA[Phase II of naming change:
 com.jeantessier.classreader complete]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-17</date>
+		<time>09:34</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/images/Compiling.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/CompleteList.gif</name>
+			<revision>1.6</revision>
+		</file>
+		<file>
+			<name>docs/images/CompleteListOfDocumentedElements.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/DependencyFinderWorkflow.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/ExplicitImplicit.gif</name>
+			<revision>1.3</revision>
+		</file>
+		<file>
+			<name>docs/images/ExtractingDifferences.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/ExtractingDifferencesAndDocumentationChanges.gif</name>
+			<revision>1.3</revision>
+		</file>
+		<file>
+			<name>docs/images/Filter.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/Flow.gif</name>
+			<revision>1.3</revision>
+		</file>
+		<file>
+			<name>docs/images/InboundDependencyConfig.gif</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>docs/images/JDKWorkflow.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/ListDiff.gif</name>
+			<revision>1.6</revision>
+		</file>
+		<file>
+			<name>docs/images/ListDiff2HTML.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/ListDocumentedElements.gif</name>
+			<revision>1.3</revision>
+		</file>
+		<file>
+			<name>docs/images/MartinConfig.gif</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>docs/images/Maximized.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/MaximizedTest.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxI.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxII.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxIII.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxIV.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxTitle.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxV.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxVI.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxVII.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/MinMaxVIII.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/Minimized.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/MinimizedTest.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/OutboundDependencyConfig.gif</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>docs/images/PublicList.gif</name>
+			<revision>1.5</revision>
+		</file>
+		<file>
+			<name>docs/images/PublicListOfDocumentedElements.gif</name>
+			<revision>1.9</revision>
+		</file>
+		<file>
+			<name>docs/images/RawTest.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/RedundantI.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/RedundantII.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/RedundantIII.gif</name>
+			<revision>1.4</revision>
+		</file>
+		<file>
+			<name>docs/images/Scope.gif</name>
+			<revision>1.5</revision>
+		</file>
+		<file>
+			<name>docs/images/SelfDependency.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<file>
+			<name>docs/images/SourceFiles.gif</name>
+			<revision>1.2</revision>
+		</file>
+		<msg><![CDATA[Document OOMetrics examples.
+Regenerate Manual images.]]></msg>
 	</entry>
 	<entry>
 		<date>2004-04-21</date>
@@ -6812,6 +7248,17 @@ com.jeantessier.classreader complete]]></msg>
 Added Unix scripts.]]></msg>
 	</entry>
 	<entry>
+		<date>2004-12-13</date>
+		<time>07:31</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>bin/bat.xsl.template.txt</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<msg><![CDATA[Include DependencyFinder JARs for PublishedDiffToHTML.xsl]]></msg>
+	</entry>
+	<entry>
 		<date>2004-05-01</date>
 		<time>06:36</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -7068,6 +7515,17 @@ Added Unix scripts.]]></msg>
 			<revision>1.31</revision>
 		</file>
 		<msg><![CDATA[Extract Node-selection behavior]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-21</date>
+		<time>06:52</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.50</revision>
+			<prevrevision>1.49</prevrevision>
+		</file>
+		<msg><![CDATA[Document OOMetrics configurations]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-10</date>
@@ -8558,6 +9016,27 @@ com.jeantessier.dependency.metrics complete]]></msg>
 			<prevrevision>1.46</prevrevision>
 		</file>
 		<msg><![CDATA[Update release tag to 1.1.0 beta2]]></msg>
+	</entry>
+	<entry>
+		<date>2004-12-12</date>
+		<time>18:42</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>bin/bat.cli.template.txt</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<file>
+			<name>bin/sh.cli.template.txt</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<file>
+			<name>bin/sh.reporter.template.txt</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<msg><![CDATA[Fix Xerces libraries on CLASSPATH]]></msg>
 	</entry>
 	<entry>
 		<date>2004-09-08</date>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-101" endDate="2004-12-12 11:31:54" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-101" endDate="2004-12-22 09:33:25" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.59</revision>
+			<revision>1.60</revision>
 			<prevrevision>1.40</prevrevision>
 		</file>
 	</entry>
@@ -306,7 +306,7 @@
 	<entry>
 		<file>
 			<name>bin/bat.xsl.template.txt</name>
-			<revision>1.1</revision>
+			<revision>1.2</revision>
 		</file>
 	</entry>
 	<entry>
@@ -368,7 +368,7 @@
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.44</revision>
+			<revision>1.50</revision>
 			<prevrevision>1.32</prevrevision>
 		</file>
 	</entry>
@@ -382,7 +382,35 @@
 	<entry>
 		<file>
 			<name>docs/style.css</name>
-			<revision>1.3</revision>
+			<revision>1.4</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/Compiling.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/CompleteList.gif</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/CompleteListOfDocumentedElements.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/DependencyFinderWorkflow.gif</name>
+			<revision>1.2</revision>
 			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
@@ -465,6 +493,95 @@
 	</entry>
 	<entry>
 		<file>
+			<name>docs/images/ExplicitImplicit.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ExtractingDifferences.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ExtractingDifferencesAndDocumentationChanges.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/Filter.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/Flow.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/InboundDependencyConfig.gif</name>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/JDKWorkflow.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ListDiff.gif</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ListDiff2HTML.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ListDocumentedElements.gif</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MartinConfig.gif</name>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/Maximized.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MaximizedTest.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/images/MetricsLegend.gif</name>
 			<revision>1.2</revision>
 			<prevrevision>1.1</prevrevision>
@@ -475,6 +592,83 @@
 			<name>docs/images/MetricsStructure.gif</name>
 			<revision>1.3</revision>
 			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxI.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxII.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxIII.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxIV.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxTitle.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxV.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxVI.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxVII.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinMaxVIII.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/Minimized.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/MinimizedTest.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -517,6 +711,75 @@
 		<file>
 			<name>docs/images/OIPF-IIPM.gif</name>
 			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/OutboundDependencyConfig.gif</name>
+			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/PublicList.gif</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/PublicListOfDocumentedElements.gif</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/RawTest.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/RedundantI.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/RedundantII.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/RedundantIII.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/Scope.gif</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/SelfDependency.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/SourceFiles.gif</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -729,7 +992,7 @@
 	<entry>
 		<file>
 			<name>etc/MartinConfig.xml</name>
-			<revision>1.8</revision>
+			<revision>1.9</revision>
 			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
@@ -755,7 +1018,7 @@
 	<entry>
 		<file>
 			<name>etc/OutboundDependencyConfig.xml</name>
-			<revision>1.5</revision>
+			<revision>1.6</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2351,7 +2614,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/metrics/AccumulatorMeasurement.java</name>
-			<revision>1.18</revision>
+			<revision>1.19</revision>
 			<prevrevision>1.14</prevrevision>
 		</file>
 	</entry>
@@ -2372,7 +2635,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/metrics/ContextAccumulatorMeasurement.java</name>
-			<revision>1.3</revision>
+			<revision>1.4</revision>
 		</file>
 	</entry>
 	<entry>
@@ -2511,20 +2774,20 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/metrics/StatisticalMeasurement.java</name>
-			<revision>1.18</revision>
+			<revision>1.19</revision>
 			<prevrevision>1.14</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/metrics/SubMetricsAccumulatorMeasurement.java</name>
-			<revision>1.4</revision>
+			<revision>1.5</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>src/com/jeantessier/metrics/SumMeasurement.java</name>
-			<revision>1.10</revision>
+			<revision>1.11</revision>
 			<prevrevision>1.7</prevrevision>
 		</file>
 	</entry>
@@ -2647,7 +2910,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/classreader/TestClassfile.java</name>
-			<revision>1.7</revision>
+			<revision>1.8</revision>
 			<prevrevision>1.5</prevrevision>
 		</file>
 	</entry>
@@ -2986,7 +3249,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/diff/TestDeprecatableDifferences.java</name>
-			<revision>1.10</revision>
+			<revision>1.11</revision>
 			<prevrevision>1.6</prevrevision>
 		</file>
 	</entry>
