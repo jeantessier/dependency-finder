@@ -154,7 +154,7 @@ public class ClassReader {
 			
 			Printer printer;
 			if (command_line.ToggleSwitch("xml")) {
-				printer = new XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
+				printer = new XMLPrinter("\t", command_line.SingleSwitch("dtd-prefix"));
 			} else if (command_line.ToggleSwitch("raw")) {
 				printer = new UglyPrinter();
 			} else {
