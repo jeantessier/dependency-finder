@@ -728,14 +728,14 @@ document that follows the
 Here is a sample textual output:
 
     ClassReader classes\test.class
-    1: Method java/lang/Object.<init>()V
+    1: Method java/lang/Object.&lt;init&gt;()V
     2: Class java/lang/Object
     3: Method java/util/Collections.singleton(Ljava/lang/Object;)Ljava/util/Set;
     4: Class java/lang/NullPointerException
     5: Field Ljava/io/PrintStream; java/lang/System.out
     6: Method java/io/PrintStream.println(Ljava/lang/Object;)V
     7: Class test
-    8: "<init>"
+    8: "&lt;init&gt;"
     9: "()V"
     10: "Code"
     11: "LineNumberTable"
@@ -752,7 +752,7 @@ Here is a sample textual output:
     22: "Ljava/lang/NullPointerException;"
     23: "SourceFile"
     24: "test.java"
-    25: Name and Type <init> ()V
+    25: Name and Type &lt;init&gt; ()V
     26: "java/lang/Object"
     27: Class java/util/Collections
     28: Name and Type singleton (Ljava/lang/Object;)Ljava/util/Set;
