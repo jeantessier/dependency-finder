@@ -434,34 +434,6 @@ tools and end with the Ant tasks.
     </tr>
     <tr>
 	<td>
-	    =DependenciesToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependenciesToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    =DependenciesToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependenciesToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-    </tr>
-    <tr>
-	<td>
 	    =DependencyClosure=
 	</td>
 	<td>
@@ -494,6 +466,34 @@ tools and end with the Ant tasks.
 	</td>
 	<td>
 	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependencyGraphToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependencyGraphToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToText.xsl"&gt;=
 	</td>
 	<td>
 	    _n/a_
@@ -574,66 +574,66 @@ tools and end with the Ant tasks.
     </tr>
     <tr>
 	<td>
+	    =HideOutboundDependencyGraphToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideOutboundDependencyGraphToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =HideOutboundDependencyGraphToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideOutboundDependencyGraphToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =HideInboundDependencyGraphToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideInboundDependencyGraphToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =HideInboundDependencyGraphToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideInboundDependencyGraphToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
 	    =JarJarDiff=
 	</td>
 	<td>
 	    =&lt;jarjardiff&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    =ListDependablesToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDependablesToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    =ListDependablesToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDependablesToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    =ListDependentsToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDependentsToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    =ListDependentsToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDependentsToText.xsl"&gt;=
 	</td>
 	<td>
 	    _n/a_
@@ -1314,7 +1314,7 @@ find the Dependency Finder classes.    There is a special
                 &lt;pathelement location%3D"."/&gt;
             &lt;/path&gt;
         &lt;/dependencyextractor&gt;
-        &lt;xslt style%3D"${dependencyfinder.home}/etc/DependenciesToHTML.xsl"
+        &lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"
               in%3D"df.xml"
               out%3D"df.html"/&gt;
     &lt;/target&gt;
@@ -1917,7 +1917,7 @@ E.g.,
 ---++++ Showing Only Inbound Dependencies
 
 Inbound dependencies show you who depends on a given programming element.
-Is is very useful when assessing the impact of a change.  Dependency
+They are very useful when assessing the impact of a change.  Dependency
 Finder uses a textual notation to display them:
 
     programming element
@@ -1933,46 +1933,15 @@ In =DependencyFinder= and the web application, there are three checkboxes
 at the bottom of the control area.  They control how the graph is rendered.
 To see only inbound dependencies, check the one labeled "inbounds" and
 uncheck the one labeled "outbounds".  If a node has no inbound dependencies,
-it will appear empty.  You can further filter them out by unchecking the
-last checkbox, the one labeled "empty nodes", if you want.
+it will appear empty.  You can remove empty nodes by unchecking the last
+checkbox, the one labeled "empty nodes".
 
-If you are using the command-line tools, what you have is most likely a
-graph rendered in XML, either from =DependencyExtractor= or
+If you are using the command-line tools, what you have to work from is most
+likely a graph rendered in XML, either from =DependencyExtractor= or
 =DependencyReporter=.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
-stylesheets to show only inbound dependencies.  You can apply them with
-the following tools:
-
-    * =ListDependablesToText=
-    * =ListDependablesToHTML=
-
-E.g.,
-
-    C:\>ListDependablesToText -in test.xml
-    
-        test
-            test.main(java.lang.String[])
-            test.test()
-    java.lang
-        java.lang.Object
-            <-- test
-            <-- test.main(java.lang.String[])
-            java.lang.Object.Object()
-                <-- test.main(java.lang.String[])
-                <-- test.test()
-        java.lang.String
-            <-- test.main(java.lang.String[])
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
-                <-- test.main(java.lang.String[])
-        java.util.Set
-            <-- test.main(java.lang.String[])
-
-The HTML is weaved HTML cross-references between all the elements for easy
-navigation.
-
-You can list only non-empty nodes with:
+stylesheets to show only nodes with inbound dependencies.  You can apply them
+with the following tools:
 
     * =DependablesToText=
     * =DependablesToHTML=
@@ -1996,10 +1965,41 @@ E.g.,
         java.util.Set
             <-- test.main(java.lang.String[])
 
+The HTML version weaves cross-references between all the elements for easy
+navigation.
+
+If you only want to remove outbound dependencies and keep empty nodes, use:
+
+    * =HideOutboundDependenciesToText=
+    * =HideOutboundDependenciesToHTML=
+
+E.g.,
+
+    C:\>HideOutboundDependenciesToText -in test.xml
+    
+        test
+            test.main(java.lang.String[])
+            test.test()
+    java.lang
+        java.lang.Object
+            <-- test
+            <-- test.main(java.lang.String[])
+            java.lang.Object.Object()
+                <-- test.main(java.lang.String[])
+                <-- test.test()
+        java.lang.String
+            <-- test.main(java.lang.String[])
+    java.util
+        java.util.Collections
+            java.util.Collections.singleton(java.lang.Object)
+                <-- test.main(java.lang.String[])
+        java.util.Set
+            <-- test.main(java.lang.String[])
+
 ---++++ Showing Only Outbound Dependencies
 
 Outbound dependencies show you who a given programming element depends upon.
-Is is very useful when partitioning programming elements and figuring out
+They are very useful when partitioning programming elements and figuring out
 what other classes a given class needs in order to run.  Dependency Finder
 uses a textual notation to display them:
 
@@ -2016,22 +2016,45 @@ In =DependencyFinder= and the web application, there are three checkboxes
 at the bottom of the control area.  They control how the graph is rendered.
 To see only outbound dependencies, check the one labeled "outbounds" and
 uncheck the one labeled "inbounds".  If a node has no outbound dependencies,
-it will appear empty.  You can further filter them out by unchecking the
-last checkbox, the one labeled "empty nodes", if you want.
+it will appear empty.  You can remove empty nodes by unchecking the last
+checkbox, the one labeled "empty nodes".
 
-If you are using the command-line tools, what you have is most likely a
-graph rendered in XML, either from =DependencyExtractor= or
+If you are using the command-line tools, what you have to work from is most
+likely a graph rendered in XML, either from =DependencyExtractor= or
 =DependencyReporter=.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
-stylesheets to show only outbound dependencies.  You can apply them with
-the following tools:
+stylesheets to show only outbound dependencies.  You can apply them with the
+following tools:
 
-    * =ListDependentsToText=
-    * =ListDependentsToHTML=
+    * =DependentsToText=
+    * =DependentsToHTML=
 
 E.g.,
 
-    C:\>ListDependentsToText -in test.xml
+    C:\>DependentsToText -in test.xml
+    
+        test
+            --> java.lang.Object
+            test.main(java.lang.String[])
+                --> java.lang.Object
+                --> java.lang.Object.Object()
+                --> java.lang.String
+                --> java.util.Collections.singleton(java.lang.Object)
+                --> java.util.Set
+            test.test()
+                --> java.lang.Object.Object()
+
+The HTML version weaves cross-references between all the elements for easy
+navigation.
+
+If you only want to remove inbound dependencies and keep empty nodes, use:
+
+    * =HideInboundDependenciesToText=
+    * =HideInboundDependenciesToHTML=
+
+E.g.,
+
+    C:\>HideInboundDependenciesToText -in test.xml
     
         test
             --> java.lang.Object
@@ -2052,29 +2075,6 @@ E.g.,
             java.util.Collections.singleton(java.lang.Object)
         java.util.Set
 
-The HTML is weaved HTML cross-references between all the elements for easy
-navigation.
-
-You can list only non-empty nodes with:
-
-    * =DependentsToText=
-    * =DependentsToHTML=
-
-E.g.,
-
-    C:\>DependentsToText -in test.xml
-    
-        test
-            --> java.lang.Object
-            test.main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
-            test.test()
-                --> java.lang.Object.Object()
-
 ---++++ Showing Both Inbounds And Outbound Dependencies
 
 You can combine the two approaches we just looked at and display the full
@@ -2088,22 +2088,22 @@ that node B also depends on node A, Dependency Finder writes it as:
         &lt;-&gt; A
 </pre>
 
-If you are using the command-line tools, what you have is most likely a
-graph rendered in XML, either from =DependencyExtractor= or
+If you are using the command-line tools, what you have to work from is most
+likely a graph rendered in XML, either from =DependencyExtractor= or
 =DependencyReporter=.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
-stylesheets to show all dependencies.  You can apply them with the
+stylesheets to show whole dependency graphs.  You can apply them with the
 following tools:
 
-    * =DependenciesToText=
-    * =DependenciesToHTML=
+    * =DependencyGraphToText=
+    * =DependencyGraphToHTML=
 
-The HTML is weaved HTML cross-references between all the elements for easy
+The HTML version weaves cross-references between all the elements for easy
 navigation.
 
 E.g.,
 
-    C:\>DependenciesToText -in test.xml
+    C:\>DependencyGraphToText -in test.xml
     
         test
             --> java.lang.Object
@@ -2130,6 +2130,124 @@ E.g.,
                 <-- test.main(java.lang.String[])
         java.util.Set
             <-- test.main(java.lang.String[])
+
+---++++ Summary
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+This table summarizes which CLI tool shows which information.
+
+<blockquote>
+<table cellpadding="5">
+    <tr>
+	<th align="left">
+	    Tool
+	</th>
+	<th>
+	    outbounds
+	</th>
+	<th>
+	    inbounds
+	</th>
+	<th>
+	    empty
+	</th>
+    </tr>
+    <tr>
+	<td>
+	    =DependencyGraphToHTML=<br />
+	    =DependencyGraphToText=
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependablesToHTML=<br />
+	    =DependablesToText=
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependentsToHTML=<br />
+	    =DependentsToText=
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =HideOutboundDependenciesToHTML=<br />
+	    =HideOutboundDependenciesToText=
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =HideInboundDependenciesToHTML=<br />
+	    =HideInboundDependenciesToText=
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+    </tr>
+</table>
+</blockquote>
 
 ---+++ Transitive Closure
 
