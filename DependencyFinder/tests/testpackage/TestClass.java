@@ -1,7 +1,5 @@
 package testpackage;
 
-import java.io.*;
-
 public class TestClass implements TargetInterface {
 	public Object    test_attribute;
 

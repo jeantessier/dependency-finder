@@ -32,8 +32,6 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
-
 import junit.framework.*;
 
 import org.apache.log4j.*;
