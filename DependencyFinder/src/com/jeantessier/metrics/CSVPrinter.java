@@ -47,6 +47,12 @@ public class CSVPrinter extends Printer {
 	}
 
 	private void AppendHeader() {
+		AppendLongNames();
+		AppendShortNames();
+		AppendStatSubNames();
+	}
+	
+	private void AppendLongNames() {
 		Append("\"name\", ");
 		
 		Iterator i = descriptors.iterator();
@@ -55,15 +61,71 @@ public class CSVPrinter extends Printer {
 
 			if (descriptor.Visible()) {
 				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
-					Append("\"").Append(descriptor.ShortName()).Append(" (min)\", ");
-					Append("\"").Append(descriptor.ShortName()).Append(" (med)\", ");
-					Append("\"").Append(descriptor.ShortName()).Append(" (avg)\", ");
-					Append("\"").Append(descriptor.ShortName()).Append(" (sdv)\", ");
-					Append("\"").Append(descriptor.ShortName()).Append(" (max)\", ");
-					Append("\"").Append(descriptor.ShortName()).Append(" (sum)\", ");
-					Append("\"").Append(descriptor.ShortName()).Append(" (nb)\"");
+					Append("\"").Append(descriptor.LongName()).Append("\", ");
+					Append("\"").Append(descriptor.LongName()).Append("\", ");
+					Append("\"").Append(descriptor.LongName()).Append("\", ");
+					Append("\"").Append(descriptor.LongName()).Append("\", ");
+					Append("\"").Append(descriptor.LongName()).Append("\", ");
+					Append("\"").Append(descriptor.LongName()).Append("\", ");
+					Append("\"").Append(descriptor.LongName()).Append("\"");
+				} else {
+					Append("\"").Append(descriptor.LongName()).Append("\"");
+				}
+				
+				if (i.hasNext()) {
+					Append(", ");
+				}
+			}
+		}
+		
+		EOL();
+	}
+
+	private void AppendShortNames() {
+		Append(", ");
+		
+		Iterator i = descriptors.iterator();
+		while (i.hasNext()) {
+			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+
+			if (descriptor.Visible()) {
+				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
+					Append("\"").Append(descriptor.ShortName()).Append("\", ");
+					Append("\"").Append(descriptor.ShortName()).Append("\", ");
+					Append("\"").Append(descriptor.ShortName()).Append("\", ");
+					Append("\"").Append(descriptor.ShortName()).Append("\", ");
+					Append("\"").Append(descriptor.ShortName()).Append("\", ");
+					Append("\"").Append(descriptor.ShortName()).Append("\", ");
+					Append("\"").Append(descriptor.ShortName()).Append("\"");
 				} else {
 					Append("\"").Append(descriptor.ShortName()).Append("\"");
+				}
+				
+				if (i.hasNext()) {
+					Append(", ");
+				}
+			}
+		}
+		
+		EOL();
+	}
+
+	private void AppendStatSubNames() {
+		Append(", ");
+		
+		Iterator i = descriptors.iterator();
+		while (i.hasNext()) {
+			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+
+			if (descriptor.Visible()) {
+				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
+					Append("minimum, ");
+					Append("median, ");
+					Append("average, ");
+					Append("std dev, ");
+					Append("maxium, ");
+					Append("sum, ");
+					Append("nb");
 				}
 				
 				if (i.hasNext()) {
