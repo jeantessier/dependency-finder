@@ -178,8 +178,6 @@ public class Report extends Printer {
 
 	public String toString() {
 		Indent().Append(Preamble());
-		Indent().Append("\n");
-
 		Indent().Append("<differences>\n");
 		RaiseIndent();
 
