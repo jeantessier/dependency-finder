@@ -37,8 +37,6 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.metrics.*;
 
 public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
@@ -48,6 +46,24 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 		if (column == 0) {
 			result.setHorizontalAlignment(JLabel.LEFT);
 		} else {
+			result.setHorizontalAlignment(JLabel.CENTER);
+		}
+
+		if (!isSelected) {
+			if (((row / 3) % 2) == 0) {
+				result.setBackground(Color.white);
+			} else {
+				result.setBackground(Color.cyan);
+			}
+		}
+		
+		if (value instanceof Measurement) {
+			if (((Measurement) value).InRange()) {
+				result.setForeground(Color.black);
+			} else {
+				result.setForeground(Color.red);
+			}
+			
 			if (value instanceof StatisticalMeasurement) {
 				StatisticalMeasurement stat = (StatisticalMeasurement) value;
 				switch (((OOMetricsTableModel) table.getModel()).RawColumnDispose(column)) {
@@ -74,21 +90,6 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 				}
 			} else {
 				result.setText(((Measurement) value).Value().toString());
-			}
-			result.setHorizontalAlignment(JLabel.CENTER);
-			
-			if (((Measurement) value).InRange()) {
-				result.setForeground(Color.black);
-			} else {
-				result.setForeground(Color.red);
-			}
-		}
-
-		if (!isSelected) {
-			if (((row / 3) % 2) == 0) {
-				result.setBackground(Color.white);
-			} else {
-				result.setBackground(Color.cyan);
 			}
 		}
 		
