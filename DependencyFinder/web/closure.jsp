@@ -118,9 +118,9 @@
 
 <table frame="border" rules="cols" class="controls" width="100%"><tr>
 
-<th><a href="query.jsp">Dependency graph</a></th>
-<th style="background: #ffbbbb">Transitive closure</th>
-<th><a href="metrics.jsp">Dependency metrics</a></th>
+<th class="navigation"><a href="query.jsp">Dependency graph</a></th>
+<th class="currentnavigation">Transitive closure</th>
+<th class="navigation"><a href="metrics.jsp">Dependency metrics</a></th>
 
 </tr></table>
 

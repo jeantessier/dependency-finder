@@ -113,9 +113,9 @@
 
 <table frame="border" rules="cols" class="controls" width="100%"><tr>
 
-<th><a href="query.jsp">Dependency graph</a></th>
-<th><a href="closure.jsp">Transitive closure</a></th>
-<th style="background: #ffbbbb">Dependency metrics</th>
+<th class="navigation"><a href="query.jsp">Dependency graph</a></th>
+<th class="navigation"><a href="closure.jsp">Transitive closure</a></th>
+<th class="currentnavigation">Dependency metrics</th>
 
 </tr></table>
 
@@ -203,6 +203,8 @@
 
 <hr size="3" />
 
+<pre class="result">
+
 <%
     if (request.getParameter("submit") != null) {
 	if (application.getAttribute("factory") != null) {
@@ -225,7 +227,7 @@
 	    MetricsGatherer metrics = new MetricsGatherer(strategy);
 	    metrics.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
 	
-	    MetricsReport reporter = new MetricsReport();
+	    MetricsReport reporter = new MetricsReport(new PrintWriter(out));
 	    reporter.ListElements(list_elements);
 	    reporter.Process(metrics);
 
@@ -234,7 +236,7 @@
 	    out.println();
 %>
 
-<pre class="result"><%= reporter %></pre>
+</pre>
 
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 

@@ -40,7 +40,7 @@
 <title>Extract <%= application.getInitParameter("name") %></title>
 </head>
 
-<body>
+<body class="normal">
 
 <%!
     private class MyListener implements LoadListener {

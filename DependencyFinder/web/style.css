@@ -12,6 +12,13 @@ hr {
 	background: rgb(204, 204, 255);
 }
 
+th.navigation {
+}
+
+th.currentnavigation {
+	background: rgb(255, 187, 187);
+}
+
 .title {
 	text-align:  center;
 	font-weight: bold;

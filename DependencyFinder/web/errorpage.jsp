@@ -40,7 +40,7 @@
 <title>Error in <%= application.getInitParameter("name") %></title>
 </head>
 
-<body>
+<body class="normal">
 
 <h1>Error:</h1>
 

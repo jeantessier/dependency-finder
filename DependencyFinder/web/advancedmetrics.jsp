@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, java.util.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -70,7 +70,7 @@
 
     boolean class_scope = "on".equals(request.getParameter("class-scope"));
     if (request.getParameter("submit") == null) {
-	class_scope = false;
+	class_scope = true;
     }
 
     String class_scope_includes = request.getParameter("class-scope-includes");
@@ -85,7 +85,7 @@
 
     boolean feature_scope = "on".equals(request.getParameter("feature-scope"));
     if (request.getParameter("submit") == null) {
-	feature_scope = false;
+	feature_scope = true;
     }
 
     String feature_scope_includes = request.getParameter("feature-scope-includes");
@@ -125,7 +125,7 @@
 
     boolean class_filter = "on".equals(request.getParameter("class-filter"));
     if (request.getParameter("submit") == null) {
-	class_filter = false;
+	class_filter = true;
     }
 
     String class_filter_includes = request.getParameter("class-filter-includes");
@@ -140,7 +140,7 @@
 
     boolean feature_filter = "on".equals(request.getParameter("feature-filter"));
     if (request.getParameter("submit") == null) {
-	feature_filter = false;
+	feature_filter = true;
     }
 
     String feature_filter_includes = request.getParameter("feature-filter-includes");
@@ -173,9 +173,9 @@
 
 <table frame="border" rules="cols" class="controls" width="100%"><tr>
 
-<th><a href="advancedquery.jsp">Dependency graph</a></th>
-<th><a href="advancedclosure.jsp">Transitive closure</a></th>
-<th style="background: #ffbbbb">Dependency metrics</th>
+<th class="navigation"><a href="advancedquery.jsp">Dependency graph</a></th>
+<th class="navigation"><a href="advancedclosure.jsp">Transitive closure</a></th>
+<th class="currentnavigation">Dependency metrics</th>
 
 </tr></table>
 
@@ -319,6 +319,8 @@
 
 <hr size="3" />
 
+<pre class="result">
+
 <%
     if (request.getParameter("submit") != null) {
 	if (application.getAttribute("factory") != null) {
@@ -353,7 +355,7 @@
 	    MetricsGatherer metrics = new MetricsGatherer(strategy);
 	    metrics.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
 	
-	    MetricsReport reporter = new MetricsReport();
+	    MetricsReport reporter = new MetricsReport(new PrintWriter(out));
 	    reporter.ListElements(list_elements);
 	    reporter.Process(metrics);
 
@@ -362,7 +364,7 @@
 	    out.println();
 %>
 
-<pre class="result"><%= reporter %></pre>
+</pre>
 
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 

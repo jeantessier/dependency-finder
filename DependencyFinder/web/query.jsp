@@ -123,9 +123,9 @@
 
 <table frame="border" rules="cols" class="controls" width="100%"><tr>
 
-<th style="background: #ffbbbb">Dependency graph</th>
-<th><a href="closure.jsp">Transitive closure</a></th>
-<th><a href="metrics.jsp">Dependency metrics</a></th>
+<th class="currentnavigation">Dependency graph</th>
+<th class="navigation"><a href="closure.jsp">Transitive closure</a></th>
+<th class="navigation"><a href="metrics.jsp">Dependency metrics</a></th>
 
 </tr></table>
 
