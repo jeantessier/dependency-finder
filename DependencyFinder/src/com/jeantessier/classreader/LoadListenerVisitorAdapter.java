@@ -30,69 +30,44 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.dependencyfinder.ant;
+package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
-
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
-
-import com.jeantessier.classreader.*;
-
-public class ListDeprecatedElements extends Task {
-	private File    destfile;
-	private Path    path;
-
-	public File getDestfile() {
-		return destfile;
+public class LoadListenerVisitorAdapter implements LoadListener {
+	private Visitor visitor;
+	
+	public LoadListenerVisitorAdapter(Visitor visitor) {
+		this.visitor = visitor;
 	}
 	
-	public void setDestfile(File destfile) {
-		this.destfile = destfile;
+	public void beginSession(LoadEvent event) {
+		// Do nothing
 	}
 	
-	public Path createPath() {
-		if (path == null) {
-			path = new Path(getProject());
-		}
-
-		return path;
+	public void beginGroup(LoadEvent event) {
+		// Do nothing
 	}
 	
-	public Path getPath() {
-		return path;
+	public void beginFile(LoadEvent event) {
+		// Do nothing
 	}
 	
-	public void execute() throws BuildException {
-		// first off, make sure that we've got what we need
-
-		if (getPath() == null) {
-			throw new BuildException("path must be set!");
-		}
-
-		if (getDestfile() == null) {
-			throw new BuildException("destfile must be set!");
-		}
-
-		log("Saving elements to " + getDestfile().getAbsolutePath());
-		
-		try {
-			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-
-			log("Reading classes from path " + getPath());
-
-			VerboseListener    verboseListener = new VerboseListener(this);
-			DeprecationPrinter printer         = new DeprecationPrinter(out);
-			
-			ClassfileLoader loader = new AggregatingClassfileLoader();
-			loader.addLoadListener(verboseListener);
-			loader.addLoadListener(new LoadListenerVisitorAdapter(printer));
-			loader.load(Arrays.asList(getPath().list()));
-			
-			out.close();
-		} catch (IOException ex) {
-			throw new BuildException(ex);
-		}
+	public void beginClassfile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void endClassfile(LoadEvent event) {
+		((Classfile) event.getClassfile()).accept(visitor);
+	}
+	
+	public void endFile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void endGroup(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void endSession(LoadEvent event) {
+		// Do nothing
 	}
 }

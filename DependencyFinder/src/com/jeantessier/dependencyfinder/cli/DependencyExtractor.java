@@ -146,7 +146,7 @@ public class DependencyExtractor {
 		CodeDependencyCollector collector = new CodeDependencyCollector(factory);
 		
 		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(collector);
+		loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
 		loader.addLoadListener(verboseListener);
 		loader.load(parameters);
 

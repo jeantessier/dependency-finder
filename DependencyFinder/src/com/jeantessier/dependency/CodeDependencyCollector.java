@@ -43,7 +43,7 @@ import com.jeantessier.classreader.*;
  *  Does not see dependencies on static final simple constants
  *  (basic type or String) and does not look at local variables.
  */
-public class CodeDependencyCollector extends com.jeantessier.classreader.VisitorBase implements Collector {
+public class CodeDependencyCollector extends CollectorBase {
 	private NodeFactory factory;
 	private Node        current;
 	private HashSet     dependencyListeners = new HashSet();
@@ -319,37 +319,5 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		while(i.hasNext()) {
 			((DependencyListener) i.next()).endSession(event);
 		}
-	}
-
-	public void beginSession(LoadEvent event) {
-		// Do nothing
-	}
-
-	public void beginGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void beginClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void beginFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endClassfile(LoadEvent event) {
-		event.getClassfile().accept(this);
-	}
-	
-	public void endFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endSession(LoadEvent event) {
-		// Do nothing
 	}
 }

@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-public class DeprecationPrinter extends Printer implements LoadListener {
+public class DeprecationPrinter extends Printer {
 	public DeprecationPrinter(PrintWriter out) {
 		super(out);
 	}
@@ -66,37 +66,5 @@ public class DeprecationPrinter extends Printer implements LoadListener {
 				}
 			}
 		}
-	}
-	
-	public void beginSession(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void beginGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void beginFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void beginClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endClassfile(LoadEvent event) {
-		event.getClassfile().accept(this);
-	}
-	
-	public void endFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endSession(LoadEvent event) {
-		// Do nothing
 	}
 }

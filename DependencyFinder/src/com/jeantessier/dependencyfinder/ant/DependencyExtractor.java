@@ -138,7 +138,7 @@ public class DependencyExtractor extends Task {
 		CodeDependencyCollector collector = new CodeDependencyCollector(factory);
 		
 		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(collector);
+		loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
 		loader.addLoadListener(verboseListener);
 		loader.load(Arrays.asList(getPath().list()));
 

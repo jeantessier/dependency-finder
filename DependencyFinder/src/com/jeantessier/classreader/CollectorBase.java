@@ -56,36 +56,4 @@ public abstract class CollectorBase extends VisitorBase implements Collector {
 	public Collection getCollection() {
 		return collection;
 	}
-
-	public void beginSession(LoadEvent event) {
-		// Do nothing
-	}
-
-	public void beginGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void beginFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void beginClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endClassfile(LoadEvent event) {
-		event.getClassfile().accept(this);
-	}
-	
-	public void endFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void endSession(LoadEvent event) {
-		// Do nothing
-	}
 }

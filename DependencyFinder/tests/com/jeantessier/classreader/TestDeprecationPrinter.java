@@ -80,7 +80,7 @@ public class TestDeprecationPrinter extends TestCase {
 	
 	public void testListenerBehavior() throws IOException {
 		loader = new TransientClassfileLoader();
-		loader.addLoadListener(printer);
+		loader.addLoadListener(new LoadListenerVisitorAdapter(printer));
 		loader.load(NEW_CLASSPATH);
 
 		Collection entries = parse(writer.toString());

@@ -51,7 +51,7 @@ public class TestSymbolGatherer extends TestCase {
 		
 		gatherer = new SymbolGatherer();
 		loader   = new AggregatingClassfileLoader();
-		loader.addLoadListener(gatherer);
+		loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
 	}
 
 	public void testEmpty() {

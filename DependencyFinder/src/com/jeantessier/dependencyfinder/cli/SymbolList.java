@@ -179,7 +179,7 @@ public class SymbolList {
 			String filename = (String) i.next();
 
 			ClassfileLoader loader = new TransientClassfileLoader();
-			loader.addLoadListener(collector);
+			loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
 			loader.addLoadListener(verboseListener);
 			loader.load(Collections.singleton(filename));
 		}

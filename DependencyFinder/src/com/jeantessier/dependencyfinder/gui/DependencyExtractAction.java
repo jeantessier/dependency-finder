@@ -79,7 +79,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
-		loader.addLoadListener(collector);
+		loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
 		loader.load(Arrays.asList(files));
 
 		if (model.getMaximize()) {
