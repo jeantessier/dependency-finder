@@ -1230,7 +1230,7 @@ following commands are equivalent.
     C:\>DependencyReporter -class-scope -class-scope-includes /test/ -class-filter test.xml
 
 For fun, I entered manually this graph description into
-[[http://www.gentleware.de/products/poseidonCE.php3][Poseidon for UML]].
+[[http://www.gentleware.com?redirect=products][Poseidon for UML]].
 
 <div align="center">
     [[images/ClassClassDependencies.test.jpg]]
