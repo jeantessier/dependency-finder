@@ -190,13 +190,13 @@
     <method-measurements>
 	<measurement visible="no">
 	    <short-name>IEPM</short-name>
-	    <long-name>Inbound Extra-Class Method Dependencies</long-name>
+	    <long-name>Inbound Extra-Package Method Dependencies</long-name>
 	    <class>com.jeantessier.metrics.NameListMeasurement</class>
 	    <upper-threshold>10</upper-threshold>
 	</measurement>
 	<measurement visible="no">
 	    <short-name>OEPF</short-name>
-	    <long-name>Outbound Extra-Class Feature Dependencies</long-name>
+	    <long-name>Outbound Extra-Package Feature Dependencies</long-name>
 	    <class>com.jeantessier.metrics.NameListMeasurement</class>
 	    <upper-threshold>10</upper-threshold>
 	</measurement>
