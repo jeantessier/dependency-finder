@@ -4,6 +4,8 @@
 
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
+<title>Tools in Dependency Finder</title
+
 </head>
 
 <body>
@@ -339,6 +341,11 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -487,6 +494,11 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -521,6 +533,11 @@ and read them.
 
 <blockquote>
 
+<p>
+List of fully qualified class names, one per line, for all the classes the
+tool could find.
+</p>
+
 </blockquote>
 
 <a name="ExamplesXX" />
@@ -548,6 +565,12 @@ and read them.
 
 <blockquote>
 
+<p>
+Computes numbers from a JAR file, such as number of packages, classes and
+interfaces, average number of methods per class, number of static,
+synchronized, or abstract methods, etc.
+</p>
+
 </blockquote>
 
 <a name="SynopsisXXX" />
@@ -568,9 +591,10 @@ and read them.
 <blockquote>
 
 <p>
-Computes numbers from a JAR file, such as number of packages,
-classes and interfaces, average number of methods per class,
-number of static, synchronized, or abstract methods, etc.
+This is a simple tally of how many classses, interfaces, methods, publics,
+statics, finals, etc. there are in a given codebase.  These tallies are
+not as powerful as the metrics of <code><a href="#OOmetrics">OOMetrics</a></code>, but they can
+give you a rough idea of the size and complexity of a piece of software.
 </p>
 
 </blockquote>
@@ -650,6 +674,11 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -683,6 +712,10 @@ and read them.
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+The output format is self-explanatory.
+</p>
 
 </blockquote>
 
@@ -826,6 +859,10 @@ it is created.  If it already exists, its content is overwritten.
 
 <blockquote>
 
+<p>
+Only dumps the constant pool and shows each entry's tag value.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -856,6 +893,11 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -870,7 +912,8 @@ Prints how long it took to run the command.
 <blockquote>
 
 <p>
-Writes the <code>.class</code> file information as an XML document.
+Writes the <code>.class</code> file information as an XML document with the
+<code><a href="http://depfind.sourceforge.net/dtd/classfile.dtd">classfile</a></code> DTD.
 </p>
 
 <table border="0">
@@ -908,7 +951,19 @@ and read them.
 <blockquote>
 
 <p>
-Textual or XML rendition of the class in the <code>.class</code> file.
+By default, prints the content of the constant pool, followed by a summary
+of the class that looks similar to the output of <i>javap</i>.
+</p>
+
+<p>
+With <code>-raw</code>, it only dumps the constant pool and prints a little more
+information about its internals.
+</p>
+
+<p>
+With <code>-xml</code>, it converts the entire <code>Classfile</code> structure into an XML
+document that follows the
+<code><a href="http://depfind.sourceforge.net/dtd/classfile.dtd">classfile</a></code> DTD.
 </p>
 
 </blockquote>
@@ -967,7 +1022,11 @@ Textual or XML rendition of the class in the <code>.class</code> file.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -1067,7 +1126,7 @@ See <code>-out</code> above.
 <pre>
     ClosureToTreeView
     	-in input_file.xml
-    	[-out output_file.html]
+    	[-out output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXX" />
@@ -1088,7 +1147,11 @@ See <code>-out</code> above.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -1099,8 +1162,8 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.html" />
-<h4><code>-out output_file.html</code></h4>
+<a name="-outoutput_file.txtX" />
+<h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
 
@@ -1213,7 +1276,11 @@ Translates only inbound dependencies to HTML.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -1224,7 +1291,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlX" />
+<a name="-outoutput_file.html" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -1352,7 +1419,11 @@ Translates only inbound dependencies to text.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -1363,7 +1434,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.txtX" />
+<a name="-outoutput_file.txtXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -1500,7 +1571,11 @@ Translates both outbound and inbound dependencies to HTML.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -1511,7 +1586,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXX" />
+<a name="-outoutput_file.htmlX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -1638,7 +1713,11 @@ Translates both outbound and inbound dependencies to text.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -1649,7 +1728,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXX" />
+<a name="-outoutput_file.txtXXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -1751,6 +1830,11 @@ This text file shows both outbound and inbound dependencies.
 
 <blockquote>
 
+<p>
+Computes transitive closure in a dependency graph from a given starting
+point.
+</p>
+
 </blockquote>
 
 <a name="SynopsisXXXXXXXXXXX" />
@@ -1815,6 +1899,13 @@ of all dependencies related to a starting point.  The result
 is a new dependency graph which is a subgraph of the original
 one.  You can use the various XXXToText and XXXToHTML scripts
 to render the graph as text or HTML for human reading.
+</p>
+
+<p>
+One limitation: the graph must be maximized for anything other than
+feature-to-feature queries.  Because of a limitation in the closure
+computation, it does not detect implicit dependencies and only follows
+dependencies that have been made explicit.
 </p>
 
 <p>
@@ -1912,6 +2003,10 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from classes.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1924,6 +2019,16 @@ Shorthand for the combination of:
 <h4><code>-class-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a class is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1938,6 +2043,16 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+If a class is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1950,6 +2065,10 @@ Shorthand for the combination of:
 <h4><code>-class-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select classes (with their package) as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1964,6 +2083,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a class must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1976,6 +2104,15 @@ Shorthand for the combination of:
 <h4><code>-class-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a class must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2051,6 +2188,10 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from features.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2063,6 +2204,16 @@ Shorthand for the combination of:
 <h4><code>-feature-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a feature is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2077,6 +2228,16 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+If a feature is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2089,6 +2250,10 @@ Shorthand for the combination of:
 <h4><code>-feature-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select features (with their class and package) as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2103,6 +2268,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a feature must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2115,6 +2289,15 @@ Shorthand for the combination of:
 <h4><code>-feature-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a feature must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2129,6 +2312,16 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must NOT match the regular expression in <i>value</i> for the dependency to be
+included in the results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2141,6 +2334,16 @@ Shorthand for the combination of:
 <h4><code>-filter-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must match the regular expression in <i>value</i> for the dependency to be
+included in the results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2277,6 +2480,10 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from packages.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2289,6 +2496,16 @@ Shorthand for the combination of:
 <h4><code>-package-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a package is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2303,6 +2520,16 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+If a package is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2315,6 +2542,10 @@ Shorthand for the combination of:
 <h4><code>-package-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select packages as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2329,6 +2560,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a package must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2341,6 +2581,15 @@ Shorthand for the combination of:
 <h4><code>-package-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2355,6 +2604,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a package, class, or feature must NOT match the regular expression
+in <i>value</i> for it to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2367,6 +2625,15 @@ Shorthand for the combination of:
 <h4><code>-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package, class, or feature must match the regular expression
+in <i>value</i> for it to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2437,6 +2704,11 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2451,7 +2723,8 @@ Validate the input XML against its DTD.
 <blockquote>
 
 <p>
-Writes the dependency graph as an XML document.
+Writes the dependency graph as an XML document with the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD.
 </p>
 
 <table border="0">
@@ -2474,6 +2747,10 @@ Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 </p>
 
+<p>
+At this time, the tool cannot read serialized graphs.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2486,6 +2763,17 @@ merges the graphs together into a single dependency graph.
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+With <code>-ser</code>, it serializes the entire dependency graph with Java
+serialization.
+</p>
+
+<p>
+With <code>-xml</code>, it converts the entire dependency graph into an XML
+document that follows the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD.
+</p>
 
 </blockquote>
 
@@ -2730,6 +3018,11 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2744,7 +3037,8 @@ Prints how long it took to run the command.
 <blockquote>
 
 <p>
-Writes the dependency graph as an XML document.
+Writes the dependency graph as an XML document with the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD.
 </p>
 
 <table border="0">
@@ -2768,6 +3062,10 @@ You can also give directory names, the tool will search it for <code>.class</cod
 and read them.
 </p>
 
+<p>
+At this time, the tool cannot read serialized graphs.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2780,6 +3078,17 @@ and read them.
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+With <code>-ser</code>, it serializes the entire dependency graph with Java
+serialization.
+</p>
+
+<p>
+With <code>-xml</code>, it converts the entire dependency graph into an XML
+document that follows the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD.
+</p>
 
 </blockquote>
 
@@ -2988,12 +3297,20 @@ Minimize the dependency graph after extraction.
 
 <blockquote>
 
+<p>
+<i>none</i>
+</p>
+
 </blockquote>
 
 <a name="ExamplesXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
+
+<p>
+See the <a href="Manual.html">user manual</a>.
+</p>
 
 </blockquote>
 
@@ -3014,6 +3331,11 @@ Minimize the dependency graph after extraction.
 <h2>DependencyMetrics</h2>
 
 <blockquote>
+
+<p>
+Computes dependency numbers from a dependency graph, such as number of nodes,
+number of entering vertices, and number of exiting vertices.
+</p>
 
 </blockquote>
 
@@ -3081,9 +3403,9 @@ Minimize the dependency graph after extraction.
 <blockquote>
 
 <p>
-Computes dependency numbers from a dependency graph, such
-as number of nodes, number of entering vertices, and number
-of exiting vertices.
+This is a simple tally of how many dependencies there are in a graph.  It
+can give you a rough idea of the complexity of a given codebase, but it is
+not as powerful as the metrics computed by <code><a href="#OOMetrics">OOMetrics</a></code>.
 </p>
 
 </blockquote>
@@ -3414,6 +3736,10 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from classes.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3426,6 +3752,16 @@ Shorthand for the combination of:
 <h4><code>-class-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a class is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3440,6 +3776,16 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+If a class is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3452,6 +3798,10 @@ Shorthand for the combination of:
 <h4><code>-class-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select classes (with their package) as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3466,6 +3816,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a class must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3478,6 +3837,15 @@ Shorthand for the combination of:
 <h4><code>-class-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a class must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3536,6 +3904,10 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from features.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3548,6 +3920,16 @@ Shorthand for the combination of:
 <h4><code>-feature-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a feature is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3562,6 +3944,16 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+If a feature is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3574,6 +3966,10 @@ Shorthand for the combination of:
 <h4><code>-feature-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select features (with their class and package) as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3588,6 +3984,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a feature must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3600,6 +4005,15 @@ Shorthand for the combination of:
 <h4><code>-feature-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a feature must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3614,6 +4028,16 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must NOT match the regular expression in <i>value</i> for the dependency to be
+included in the results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3626,6 +4050,16 @@ Shorthand for the combination of:
 <h4><code>-filter-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must match the regular expression in <i>value</i> for the dependency to be
+included in the results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3732,6 +4166,10 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from packages.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3744,6 +4182,16 @@ Shorthand for the combination of:
 <h4><code>-package-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a package is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3758,6 +4206,16 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+If a package is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3770,6 +4228,10 @@ Shorthand for the combination of:
 <h4><code>-package-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select packages as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3784,6 +4246,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a package must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3796,6 +4267,15 @@ Shorthand for the combination of:
 <h4><code>-package-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3810,6 +4290,15 @@ Shorthand for the combination of:
 
 <blockquote>
 
+<p>
+The name of a package, class, or feature must NOT match the regular expression
+in <i>value</i> for it to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3822,6 +4311,15 @@ Shorthand for the combination of:
 <h4><code>-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package, class, or feature must match the regular expression
+in <i>value</i> for it to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3869,6 +4367,11 @@ Validate the input XML against its DTD.
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
+
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4112,6 +4615,10 @@ See also:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from classes.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4124,6 +4631,16 @@ See also:
 <h4><code>-class-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a class is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4138,6 +4655,16 @@ See also:
 
 <blockquote>
 
+<p>
+If a class is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4150,6 +4677,10 @@ See also:
 <h4><code>-class-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select classes (with their package) as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4164,6 +4695,15 @@ See also:
 
 <blockquote>
 
+<p>
+The name of a class must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4176,6 +4716,15 @@ See also:
 <h4><code>-class-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a class must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4259,6 +4808,10 @@ See also:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from features.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4271,6 +4824,16 @@ See also:
 <h4><code>-feature-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a feature is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4285,6 +4848,16 @@ See also:
 
 <blockquote>
 
+<p>
+If a feature is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4297,6 +4870,10 @@ See also:
 <h4><code>-feature-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select features (with their class and package) as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4311,6 +4888,15 @@ See also:
 
 <blockquote>
 
+<p>
+The name of a feature must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4323,6 +4909,15 @@ See also:
 <h4><code>-feature-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a feature must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4337,6 +4932,16 @@ See also:
 
 <blockquote>
 
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must NOT match the regular expression in <i>value</i> for the dependency to be
+included in the results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4349,6 +4954,16 @@ See also:
 <h4><code>-filter-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must match the regular expression in <i>value</i> for the dependency to be
+included in the results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4501,6 +5116,10 @@ See also:
 
 <blockquote>
 
+<p>
+Show dependencies to and/or from packages.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4513,6 +5132,16 @@ See also:
 <h4><code>-package-filter-excludes value</code></h4>
 
 <blockquote>
+
+<p>
+If a package is at the other end of the dependency, its name must NOT match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4527,6 +5156,16 @@ See also:
 
 <blockquote>
 
+<p>
+If a package is at the other end of the dependency, its name must match
+the regular expression in <i>value</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4539,6 +5178,10 @@ See also:
 <h4><code>-package-scope</code></h4>
 
 <blockquote>
+
+<p>
+Select packages as part of the query's focus.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4553,6 +5196,15 @@ See also:
 
 <blockquote>
 
+<p>
+The name of a package must NOT match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4565,6 +5217,15 @@ See also:
 <h4><code>-package-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package must match the regular expression in <i>value</i> for it
+to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4592,6 +5253,15 @@ See also:
 
 <blockquote>
 
+<p>
+The name of a package, class, or feature must NOT match the regular expression
+in <i>value</i> for it to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4604,6 +5274,15 @@ See also:
 <h4><code>-scope-includes value</code></h4>
 
 <blockquote>
+
+<p>
+The name of a package, class, or feature must match the regular expression
+in <i>value</i> for it to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4674,6 +5353,11 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4688,7 +5372,8 @@ Validate the input XML against its DTD.
 <blockquote>
 
 <p>
-Writes the dependency graph as an XML document.
+Writes the dependency graph as an XML document with the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD.
 </p>
 
 <table border="0">
@@ -4711,6 +5396,10 @@ Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 </p>
 
+<p>
+At this time, the tool cannot read serialized graphs.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -4723,6 +5412,17 @@ merges the graphs together into a single dependency graph.
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+With <code>-ser</code>, it serializes the entire dependency graph with Java
+serialization.
+</p>
+
+<p>
+With <code>-xml</code>, it converts the entire dependency graph into an XML
+document that follows the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD.
+</p>
 
 </blockquote>
 
@@ -4784,7 +5484,11 @@ Translates only outbound dependencies to HTML.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -4795,7 +5499,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXX" />
+<a name="-outoutput_file.htmlXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -4923,7 +5627,11 @@ Translates only outbound dependencies to text.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -4934,7 +5642,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXX" />
+<a name="-outoutput_file.txtXXXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -5067,7 +5775,9 @@ meaning that it relies on many other elements being stable.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/differences.dtd">differences</a></code> DTD,
+such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 </p>
 
 <table border="0">
@@ -5078,7 +5788,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXX" />
+<a name="-outoutput_file.htmlXXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -5387,6 +6097,11 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -5412,6 +6127,11 @@ Prints how long it took to run the command.
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+It writes all differences into an XML document that follows the
+<code><a href="http://depfind.sourceforge.net/dtd/differences.dtd">differences</a></code> DTD.
+</p>
 
 </blockquote>
 
@@ -5495,7 +6215,11 @@ identical.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -5506,7 +6230,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXX" />
+<a name="-outoutput_file.htmlXXXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -5616,7 +6340,11 @@ See <code>-out</code> above.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -5627,7 +6355,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXX" />
+<a name="-outoutput_file.txtXXXXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -5737,7 +6465,11 @@ See <code>-out</code> above.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -5748,7 +6480,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXX" />
+<a name="-outoutput_file.htmlXXXXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -5858,7 +6590,11 @@ See <code>-out</code> above.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -5869,7 +6605,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXX" />
+<a name="-outoutput_file.txtXXXXXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -5968,7 +6704,6 @@ See <code>-out</code> above.
     	-old-label value
     	-out filename
     	-time
-    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -6147,19 +6882,6 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXXXX" />
-<h4><code>-verbose [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
 </blockquote>
 
 <a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -6177,6 +6899,11 @@ Prints how long it took to run the command.
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+It writes the list of differences into an XML document that follows the
+<code><a href="http://depfind.sourceforge.net/dtd/list-diff.dtd">list-diff</a></code> DTD.
+</p>
 
 </blockquote>
 
@@ -6234,7 +6961,9 @@ Prints how long it took to run the command.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/list-diff.dtd">list-diff</a></code> DTD,
+such as the output of <a href="#ListDiff">ListDiff</a>.
 </p>
 
 <table border="0">
@@ -6245,7 +6974,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -6355,7 +7084,9 @@ See <code>-out</code> above.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/list-diff.dtd">list-diff</a></code> DTD,
+such as the output of <a href="#ListDiff">ListDiff</a>.
 </p>
 
 <table border="0">
@@ -6366,7 +7097,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXX" />
+<a name="-outoutput_file.txtXXXXXXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -6554,7 +7285,9 @@ javadoc tags.  This is a doclet that runs with <code>javadoc</code>.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/differences.dtd">differences</a></code> DTD,
+such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 </p>
 
 <table border="0">
@@ -6565,7 +7298,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXX" />
+<a name="-outoutput_file.txtXXXXXXXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -6675,7 +7408,11 @@ See <code>-out</code> above.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
 </p>
 
 <table border="0">
@@ -6686,7 +7423,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXXX" />
+<a name="-outoutput_file.txtXXXXXXXXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -7114,10 +7851,15 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXXXXX" />
+<a name="-verbose[filename]XXXXXXXXX" />
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
+
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7133,7 +7875,8 @@ Validate the input XML against its DTD.
 <blockquote>
 
 <p>
-Writes the metrics report as an XML document.
+Writes the metrics report as an XML document with the
+<code><a href="http://depfind.sourceforge.net/dtd/metrics.dtd">metrics</a></code> DTD.
 </p>
 
 <table border="0">
@@ -7169,6 +7912,12 @@ and read them.
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+With <code>-xml</code>, it converts the entire metrics structure into an XML document
+that follows the
+<code><a href="http://depfind.sourceforge.net/dtd/metrics.dtd">metrics</a></code> DTD.
+</p>
 
 </blockquote>
 
@@ -7317,12 +8066,20 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
+<p>
+<i>none</i>
+</p>
+
 </blockquote>
 
 <a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
+
+<p>
+See the <a href="Manual.html">user manual</a>.
+</p>
 
 </blockquote>
 
@@ -7387,7 +8144,9 @@ by setting the validation-list parameter to XSLT:
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/differences.dtd">differences</a></code> DTD,
+such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 </p>
 
 <table border="0">
@@ -7398,7 +8157,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -7492,6 +8251,10 @@ See <code>-out</code> above.
 
 <blockquote>
 
+<p>
+Applies an XSL stylesheet to an XML document.
+</p>
+
 </blockquote>
 
 <a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -7509,6 +8272,12 @@ See <code>-out</code> above.
 
 <blockquote>
 
+<p>
+This is a direct call to the processor that comes with Xalan.  It is used
+by all the other XSL transform tools; their script simply hardcodes the
+appropriate <code>-xsl</code> value.
+</p>
+
 </blockquote>
 
 <a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -7522,7 +8291,8 @@ See <code>-out</code> above.
 <blockquote>
 
 <p>
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow a DTD that is
+compatible with the stylesheet specified with <code>-xsl</code>.
 </p>
 
 <table border="0">

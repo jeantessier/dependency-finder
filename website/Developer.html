@@ -4,6 +4,8 @@
 
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
+<title>The Dependency Finder Developer Guide</title
+
 </head>
 
 <body>
@@ -199,17 +201,24 @@ pattern to traverse dependency graphs.
 <h2>OO Metrics</h2>
 
 <p>
-You use <code>com.jeantessier.metrics.MetricsGatherer</code> instance to
-read class files and compute the metrics.  It is a
+You use <code>com.jeantessier.metrics.MetricsGatherer</code> instance to read class
+files and compute the metrics.  It is a
 <code>com.jeantessier.classreader.Visitor</code> and will traverse the complete
 structure rooted at the <code>Classfile</code> instance and compute various metrics.
 </p>
 
 <p>
-The <code>MetricsGatherer</code> uses a <code>MetricsFactory</code> to create the various
-<code>Metrics</code> instances.  The factory uses a <code>MetricsConfiguration</code> instance
-to decide what measurements make up a given set of metrics.  The
-configuration is loaded at runtime from an XML file.
+The <code>MetricsGatherer</code> uses a <code>MetricsFactory</code> to create the various <code>Metrics</code>
+instances.  The factory uses a <code>MetricsConfiguration</code> instance to decide what
+measurements make up a given set of metrics.  The configuration is loaded at
+runtime from an XML file.
+</p>
+
+<p>
+By default, the value of each measurement is computed only the first time
+it is requested and then cached for further request.  You can refresh the
+caches through the API and you can turn off caching of individual
+measurements through their descriptor and in the configuration file.
 </p>
 
 <a name="DataStructure" />
