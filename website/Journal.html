@@ -17,6 +17,31 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	April 07, 2004
+    </dt>
+    <dd>
+	<p>Someone else asked me about JAR-to-JAR dependencies.  Last time I
+	pondered this question was on November 14, 2003.</p>
+
+	<p>Since then, I thought of adding another layer at the top of the
+	dependency graph, above the package layer.  But passing the JAR
+	information around all the way to the dependency extractor would
+	introduce changes in the data model that I am not completely
+	comfortable with.</p>
+
+	<p>Plus, this new layer would be incomplete.  What should I do with
+	outbound references to classes beyond the scope of the tool, that are
+	possibly in other, unknown JARs?  What should I do with packages that
+	span multiple JARs?</p>
+
+	<p>Maybe with a parallel layer besides the packages instead of above
+	it.  This would impact visitors and printers and any other parts that
+	deal with the dependency graph.  And it still doesn't solve the problem
+	of dependencies on classes outside the ones being analyzed.</p>
+
+	<p>I'll need to give this some more thought, still.</p>
+    </dd>
+    <dt>
 	April 01, 2004
     </dt>
     <dd>
@@ -1186,12 +1211,12 @@
 	on packages outside of <code>A.jar</code>.  It would then be quite
 	difficult, maybe impossible, to find out in which JARs these extra
 	packages are located.  The tool would need a mapping of packages to
-	JAR;  this mapping would preferably be generated automatically but some
+	JAR;  this mapping would preferably be generated automatically by some
 	other tool.</li>
 	<p />
-	<li>It is possible to put two classes of a same package in two separate
+	<li>It is possible to put two classes of a package in two separate
 	JARs.  This means that the tool would have to work at the class level
-	instead of that of packages.</li>
+	instead of the package level.</li>
 	</ol>
 
 	<p>I'm sorry there is no obvious answer to this problem, but I will
