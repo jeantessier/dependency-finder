@@ -35,6 +35,8 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
+import org.apache.log4j.*;
+
 public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
     private static final String EOL = System.getProperty("line.separator");
     
@@ -54,14 +56,18 @@ public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
         Long timestamp = (Long) timestamps.get(filename);
         
         if (file.isDirectory()) {
+            Logger.getLogger(getClass()).debug("Delegating ...");
             result = delegate.dispatch(filename);
         } else if (timestamp == null || timestamp.longValue() < file.lastModified()) {
             timestamp = new Long(file.lastModified());
             timestamps.put(filename, timestamp);
 
+            Logger.getLogger(getClass()).debug("Delegating ...");
             result = delegate.dispatch(filename);
+        } else {
+            Logger.getLogger(getClass()).debug("Already dispatched \"" + filename + "\": IGNORE");
         }
-        
+
         return result;
     }
 }

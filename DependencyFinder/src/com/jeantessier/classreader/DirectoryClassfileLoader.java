@@ -43,7 +43,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
     }
 
     protected void load(String filename) {
-        Logger.getLogger(getClass()).debug("Starting group from path " + filename);
+        Logger.getLogger(getClass()).debug("Starting group from path \"" + filename + "\"");
         
         try {
             DirectoryExplorer explorer = new DirectoryExplorer(filename);
@@ -56,7 +56,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
                 
                 fireBeginFile(file.getPath());
 
-                Logger.getLogger(getClass()).debug("Starting file " + file.getPath() + " (" + file.length() + " bytes)");
+                Logger.getLogger(getClass()).debug("Starting file \"" + file.getPath() + "\" (" + file.length() + " bytes)");
 
                 if (!file.isDirectory()) {
                     // No need to close "in" in finally block.  Only problems can

@@ -42,19 +42,19 @@ public class StrictDispatcher implements ClassfileLoaderDispatcher {
         
         if (filename.endsWith(".jar")) {
             result = ACTION_JAR;
-            Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_JAR");
+            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
         } else if (filename.endsWith(".zip")) {
             result = ACTION_ZIP;
-            Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_ZIP");
+            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         } else if (filename.endsWith(".class")) {
             result = ACTION_CLASS;
-            Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_CLASS");
+            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
         } else if (new File(filename).exists()) {
             result = ACTION_DIRECTORY;
-            Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_DIRECTORY");
+            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
         } else {
             result = ACTION_IGNORE;
-            Logger.getLogger(getClass()).debug("Dispatching " + filename + ": ACTION_IGNORE");
+            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
         }
         
         return result;
