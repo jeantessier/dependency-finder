@@ -140,9 +140,9 @@
     <table>
         <tr>
             <td align="center" colspan="2">
-                <label title="Select packages" for="packageScope"><input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> id="packageScope">&nbsp;package</label>
-                <label title="Select classes (with their package)" for="classScope"><input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> id="classScope">&nbsp;class</label>
-                <label title="Select methods and fields (with their class and package)" for="featureScope"><input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> id="featureScope">&nbsp;feature</label>
+                <label title="Select packages" for="packageScope"><input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> id="packageScope"> package</label>
+                <label title="Select classes (with their package)" for="classScope"><input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> id="classScope"> class</label>
+                <label title="Select methods and fields (with their class and package)" for="featureScope"><input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> id="featureScope"> feature</label>
             </td>
         </tr>
         <tr>
@@ -172,9 +172,9 @@
     <table>
         <tr>
             <td align="center" colspan="2">
-                <label title="Show dependencies to/from packages" for="packageFilter"><input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> id="packageFilter">&nbsp;package</label>
-                <label title="Show dependencies to/from classes" for="classFilter"><input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> id="classFilter">&nbsp;class</label>
-                <label title="Show dependencies to/from methods and fields" for="featureFilter"><input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> id="featureFilter">&nbsp;feature</label>
+                <label title="Show dependencies to/from packages" for="packageFilter"><input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> id="packageFilter"> package</label>
+                <label title="Show dependencies to/from classes" for="classFilter"><input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> id="classFilter"> class</label>
+                <label title="Show dependencies to/from methods and fields" for="featureFilter"><input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> id="featureFilter"> feature</label>
             </td>
         </tr>
         <tr>
@@ -202,10 +202,10 @@
         <td colspan="2" align="center">
 
 <fieldset>
-Show
-<label title="Show dependencies that point to the selected packages, classes, methods, or fields" for="showInbounds"><input type="checkbox" name="show-inbounds" <%= showInbounds ? "checked" : "" %> id="showInbounds">&nbsp;<tt>&lt;--&nbsp;&nbsp;</tt></label>
-<label title="Show dependencies that originate from the selected packages, classes, methods, or fields" for="showOutbounds"><input type="checkbox" name="show-outbounds" <%= showOutbounds ? "checked" : "" %> id="showOutbounds">&nbsp;<tt>--&gt;&nbsp;&nbsp;</tt></label>
-<label title="Show selected packages, classes, methods, and fields even if they do not have dependencies" for="showEmptyNodes"><input type="checkbox" name="show-empty-nodes" <%= showEmptyNodes ? "checked" : "" %> id="showEmptyNodes">&nbsp;empty elements</label>
+Show&nbsp;&nbsp;
+<label title="Show dependencies that point to the selected packages, classes, methods, or fields" for="showInbounds"><input type="checkbox" name="show-inbounds" <%= showInbounds ? "checked" : "" %> id="showInbounds"> <tt>&lt;--</tt>&nbsp;&nbsp;</label>
+<label title="Show dependencies that originate from the selected packages, classes, methods, or fields" for="showOutbounds"><input type="checkbox" name="show-outbounds" <%= showOutbounds ? "checked" : "" %> id="showOutbounds"> <tt>--&gt;</tt>&nbsp;&nbsp;</label>
+<label title="Show selected packages, classes, methods, and fields even if they do not have dependencies" for="showEmptyNodes"><input type="checkbox" name="show-empty-nodes" <%= showEmptyNodes ? "checked" : "" %> id="showEmptyNodes"> empty elements</label>
 </fieldset>
 
 	</td>

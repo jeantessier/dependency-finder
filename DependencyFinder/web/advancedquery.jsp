@@ -353,12 +353,12 @@
         <td colspan="2" align="center">
 
 <fieldset>
-Show
-<label title="Show dependencies that point to the selected packages, classes, methods, or fields" for="showInbounds"><input type="checkbox" name="show-inbounds" <%= showInbounds ? "checked" : "" %> id="showInbounds">&nbsp;<tt>&lt;--&nbsp;&nbsp;</tt></label>
-<label title="Show dependencies that originate from the selected packages, classes, methods, or fields" for="showOutbounds"><input type="checkbox" name="show-outbounds" <%= showOutbounds ? "checked" : "" %> id="showOutbounds">&nbsp;<tt>--&gt;&nbsp;&nbsp;</tt></label>
-<label title="Show selected packages, classes, methods, and fields even if they do not have dependencies" for="showEmptyNodes"><input type="checkbox" name="show-empty-nodes" <%= showEmptyNodes ? "checked" : "" %> id="showEmptyNodes">&nbsp;empty elements</label>
+Show&nbsp;&nbsp;
+<label title="Show dependencies that point to the selected packages, classes, methods, or fields" for="showInbounds"><input type="checkbox" name="show-inbounds" <%= showInbounds ? "checked" : "" %> id="showInbounds"> <tt>&lt;--</tt>&nbsp;&nbsp;</label>
+<label title="Show dependencies that originate from the selected packages, classes, methods, or fields" for="showOutbounds"><input type="checkbox" name="show-outbounds" <%= showOutbounds ? "checked" : "" %> id="showOutbounds"> <tt>--&gt;</tt>&nbsp;&nbsp;</label>
+<label title="Show selected packages, classes, methods, and fields even if they do not have dependencies" for="showEmptyNodes"><input type="checkbox" name="show-empty-nodes" <%= showEmptyNodes ? "checked" : "" %> id="showEmptyNodes"> empty elements</label>
 <br />
-<label title="Only copy explicit dependencies to the result graph, do not introduce implicit dependencies where explicit dependencies match the regular expressions but are otherwise out of scope" for="copyOnly">Only&nbsp;copy&nbsp;<input type="checkbox" name="copy-only" <%= copyOnly ? "checked" : "" %> id="copyOnly">&nbsp;explicit dependencies</label>
+<label title="Only copy explicit dependencies to the result graph, do not introduce implicit dependencies where explicit dependencies match the regular expressions but are otherwise out of scope" for="copyOnly">Only copy <input type="checkbox" name="copy-only" <%= copyOnly ? "checked" : "" %> id="copyOnly"> explicit dependencies</label>
 </fieldset>
 
 	</td>
