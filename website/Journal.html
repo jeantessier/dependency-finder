@@ -17,6 +17,42 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	March 08, 2005
+    </dt>
+    <dd>
+	<p>Finished installing <code>Monitor</code> in the GUI.  The
+	<code>Monitor</code> now has a notion of open vs. closed sessions.
+	An open session keeps accumulating data across load sessions.  It never
+	tries to remove files that were "not visited".  A closed session works
+	like the previous version of <code>Monitor</code> and follows closely
+	the load sessions, removing classes from files that were not visited in
+	the latest session.</p>
+    </dd>
+    <dt>
+	March 06, 2005
+    </dt>
+    <dd>
+	<p>Worked on better integration between <code>Monitor</code> and
+	<code>DependencyFinder</code> in the GUI.</p>
+
+	<p>Someone raised an interesting problem.  Say class
+	<code>MySuperClass</code> defines methods <code>m1()</code> and
+	<code>m2()</code> where <code>m1()</code> calls <code>m2()</code>,
+	introducing a dependency <code>m1()&nbsp;--&gt;&nbsp;m2()</code>.
+	Now imagine a subclass <code>SomeSubclass</code> that overrides
+	<code>m2()</code> and defines a method <code>m0()</code> that calls
+	<code>m1()</code>.  Because <code>m1()</code> depends on
+	<code>m2()</code>, which is redefined in <code>SomeSubclass</code>,
+	<code>m0()</code> really depends on <code>SomeSubclass.m2()</code>
+	and not <code>MySuperclass.m2()</code>.  But the dependency graph
+	does not know about this.  It looks at all dependencies from a very
+	narrow context and does not see the bigger picture.  This is
+	unfortunate, but it will stay that way for the foreseeable future.  It
+	would take a <b>lot</b> of work to have Dependency Finder walk through
+	the program's logic, almost simulating a program run, and I just don't
+	have the resources to get into it.</p>
+    </dd>
+    <dt>
 	March 04, 2005
     </dt>
     <dd>
