@@ -91,7 +91,9 @@ public class PrettyPrinter extends Printer {
 	}
 	
 	public void VisitRatioMeasurement(RatioMeasurement measurement) {
-		// Do nothing
+		if (!measurement.ShortName().endsWith("R")) {
+			super.VisitRatioMeasurement(measurement);
+		}
 	}
 	
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
