@@ -175,21 +175,21 @@ public class TestJarDifferences extends TestCase {
 		FeatureDifferences differences;
 
 		differences = (FeatureDifferences) feature_differences[0].Component();
-		assertEquals("[0][0][0]", "ModifiedMethod()", differences.Name());
+		assertEquals("[0][0][0]", "ModifiedPackage.ModifiedClass.ModifiedMethod()", differences.Name());
 		assertTrue(differences + ".IsRemoved()",  !differences.IsRemoved());
 		assertTrue(differences + ".IsModified()",  differences.IsModified());
 		assertTrue(differences + ".IsNew()",      !differences.IsNew());
 		assertTrue(differences + ".IsEmpty()",    !differences.IsEmpty());
 
 		differences = (FeatureDifferences) feature_differences[1].Component();
-		assertEquals("[0][0][1]", "NewMethod()", differences.Name());
+		assertEquals("[0][0][1]", "ModifiedPackage.ModifiedClass.NewMethod()", differences.Name());
 		assertTrue(differences + ".IsRemoved()",  !differences.IsRemoved());
 		assertTrue(differences + ".IsModified()", !differences.IsModified());
 		assertTrue(differences + ".IsNew()",       differences.IsNew());
 		assertTrue(differences + ".IsEmpty()",    !differences.IsEmpty());
 
 		differences = (FeatureDifferences) feature_differences[2].Component();
-		assertEquals("[0][0][2]", "RemovedMethod()", differences.Name());
+		assertEquals("[0][0][2]", "ModifiedPackage.ModifiedClass.RemovedMethod()", differences.Name());
 		assertTrue(differences + ".IsRemoved()",   differences.IsRemoved());
 		assertTrue(differences + ".IsModified()", !differences.IsModified());
 		assertTrue(differences + ".IsNew()",      !differences.IsNew());
@@ -208,21 +208,21 @@ public class TestJarDifferences extends TestCase {
 		FeatureDifferences differences;
 
 		differences = (FeatureDifferences) feature_differences[0].Component();
-		assertEquals("[0][1][0]", "ModifiedMethod()", differences.Name());
+		assertEquals("[0][1][0]", "ModifiedPackage.ModifiedInterface.ModifiedMethod()", differences.Name());
 		assertTrue(differences + ".IsRemoved()",  !differences.IsRemoved());
 		assertTrue(differences + ".IsModified()",  differences.IsModified());
 		assertTrue(differences + ".IsNew()",      !differences.IsNew());
 		assertTrue(differences + ".IsEmpty()",    !differences.IsEmpty());
 
 		differences = (FeatureDifferences) feature_differences[1].Component();
-		assertEquals("[0][1][1]", "NewMethod()", differences.Name());
+		assertEquals("[0][1][1]", "ModifiedPackage.ModifiedInterface.NewMethod()", differences.Name());
 		assertTrue(differences + ".IsRemoved()",  !differences.IsRemoved());
 		assertTrue(differences + ".IsModified()", !differences.IsModified());
 		assertTrue(differences + ".IsNew()",       differences.IsNew());
 		assertTrue(differences + ".IsEmpty()",    !differences.IsEmpty());
 
 		differences = (FeatureDifferences) feature_differences[2].Component();
-		assertEquals("[0][1][2]", "RemovedMethod()", differences.Name());
+		assertEquals("[0][1][2]", "ModifiedPackage.ModifiedInterface.RemovedMethod()", differences.Name());
 		assertTrue(differences + ".IsRemoved()",   differences.IsRemoved());
 		assertTrue(differences + ".IsModified()", !differences.IsModified());
 		assertTrue(differences + ".IsNew()",      !differences.IsNew());

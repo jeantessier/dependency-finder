@@ -65,7 +65,7 @@ public class JarJarDiff {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
-		command_line.AddSingleValueSwitch("product");
+		command_line.AddSingleValueSwitch("name");
 		command_line.AddMultipleValuesSwitch("old", true);
 		command_line.AddSingleValueSwitch("old-label");
 		command_line.AddSingleValueSwitch("old-documentation", DEFAULT_OLD_DOCUMENTATION);
@@ -175,10 +175,10 @@ public class JarJarDiff {
 	
 		Logger.getLogger(JarJarDiff.class).info("Comparing ...");
 
-		String      product     = command_line.SingleSwitch("product");
-		String      old_label   = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
-		String      new_label   = command_line.IsPresent("new-label") ? command_line.SingleSwitch("new-label") : command_line.Switch("new").toString();
-		JarDifferences differences = new JarDifferences(product, old_label, old_validator, old_jar, new_label, new_validator, new_jar);
+		String         name        = command_line.SingleSwitch("name");
+		String         old_label   = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
+		String         new_label   = command_line.IsPresent("new-label") ? command_line.SingleSwitch("new-label") : command_line.Switch("new").toString();
+		JarDifferences differences = new JarDifferences(name, old_label, old_validator, old_jar, new_label, new_validator, new_jar);
 
 		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
 

@@ -35,6 +35,8 @@ package com.jeantessier.diff;
 import java.io.*;
 import java.util.*;
 
+import org.apache.log4j.*;
+
 public class ListBasedValidator implements Validator {
 	private Collection allowed_elements = new HashSet();
 
@@ -82,8 +84,9 @@ public class ListBasedValidator implements Validator {
 	public boolean IsAllowed(String name) {
 		boolean result = allowed_elements.size() == 0 || allowed_elements.contains(name);
 
-		System.err.println(name + "? " + result);
-		
+		// System.err.println(name + "? " + result);
+		Logger.getLogger(getClass()).debug(name + "? " + result);
+
 		return result;
 	}
 }

@@ -69,27 +69,30 @@ public class ClassDifferences extends RemovableDifferences {
 					Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
 				}
 
-				Collection field_level = new TreeSet();
+				Map field_level = new TreeMap();
 				Iterator i;
 
 				i = old_class.Fields().iterator();
 				while (i.hasNext()) {
-					field_level.add(((Field_info) i.next()).Name());
+					Field_info field = (Field_info) i.next();
+					field_level.put(field.Name(), field.FullSignature());
 				}
 		
 				i = new_class.Fields().iterator();
 				while (i.hasNext()) {
-					field_level.add(((Field_info) i.next()).Name());
+					Field_info field = (Field_info) i.next();
+					field_level.put(field.Name(), field.FullSignature());
 				}
 		
-				i = field_level.iterator();
+				i = field_level.keySet().iterator();
 				while (i.hasNext()) {
-					String field_name = (String) i.next();
+					String field_name     = (String) i.next();
+					String field_fullname = (String) field_level.get(field_name);
 
 					Field_info old_field = old_class.Field(field_name);
 					Field_info new_field = new_class.Field(field_name);
 
-					FeatureDifferences feature_differences = new FieldDifferences(field_name, old_field, new_field);
+					FeatureDifferences feature_differences = new FieldDifferences(field_fullname, old_field, new_field);
 					Differences differences = new DeprecatableDifferences(feature_differences, old_field, new_field);
 					differences = new DocumentableDifferences(feature_differences, old_validator, new_validator);
 					if (!differences.IsEmpty()) {
@@ -100,30 +103,33 @@ public class ClassDifferences extends RemovableDifferences {
 					}
 				}
 
-				Collection method_level = new TreeSet();
+				Map method_level = new TreeMap();
 		
 				i = old_class.Methods().iterator();
 				while (i.hasNext()) {
-					method_level.add(((Method_info) i.next()).Signature());
+					Method_info method = (Method_info) i.next();
+					method_level.put(method.Signature(), method.FullSignature());
 				}
 		
 				i = new_class.Methods().iterator();
 				while (i.hasNext()) {
-					method_level.add(((Method_info) i.next()).Signature());
+					Method_info method = (Method_info) i.next();
+					method_level.put(method.Signature(), method.FullSignature());
 				}
 		
-				i = method_level.iterator();
+				i = method_level.keySet().iterator();
 				while (i.hasNext()) {
-					String method_name = (String) i.next();
-		    
+					String method_name     = (String) i.next();
+					String method_fullname = (String) method_level.get(method_name);
+
 					Method_info old_method = old_class.Method(method_name);
 					Method_info new_method = new_class.Method(method_name);
 		    
 					FeatureDifferences feature_differences;
 					if (((old_method != null) && old_method.IsConstructor()) || ((new_method != null) && new_method.IsConstructor())) {
-						feature_differences = new ConstructorDifferences(method_name, old_method, new_method);
+						feature_differences = new ConstructorDifferences(method_fullname, old_method, new_method);
 					} else {
-						feature_differences = new MethodDifferences(method_name, old_method, new_method);
+						feature_differences = new MethodDifferences(method_fullname, old_method, new_method);
 					}
 					Differences differences = new DeprecatableDifferences(feature_differences, old_method, new_method);
 					if (!differences.IsEmpty()) {
