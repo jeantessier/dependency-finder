@@ -4,6 +4,10 @@ by Jean Tessier
 
 ----
 
+<TOC />
+
+----
+
 ---++ Introduction
 
 This application extracts information from compiled Java code and makes

@@ -6,14 +6,94 @@
 
 <body>
 
+<a name="The+Dependency+Finder+Manual" />
 <h1>The Dependency Finder Manual</h1>
 
 <p>
 by Jean Tessier
 </p>
 
-<hr/>
+<hr />
 
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#Introduction">Introduction</li>
+<ul>
+<li><a href="#Class+Files">Class Files</li>
+<li><a href="#Dependencies">Dependencies</li>
+<li><a href="#Metrics">Metrics</li>
+<li><a href="#API+Differences">API Differences</li>
+</ul>
+<li><a href="#Installation">Installation</li>
+<ul>
+<li><a href="#Step+1:+Java+Virtual+Machine">Step 1: Java Virtual Machine</li>
+<li><a href="#Step+2:+Environment+Variables">Step 2: Environment Variables</li>
+<li><a href="#Step+3:+PATH">Step 3: <code>PATH</code></li>
+<li><a href="#Step+4:+Reboot">Step 4: Reboot</li>
+<li><a href="#Miscellaneous">Miscellaneous</li>
+</ul>
+<li><a href="#Running+Dependency+Finder">Running Dependency Finder</li>
+<ul>
+<li><a href="#GUI">GUI</li>
+<li><a href="#CLI">CLI</li>
+</ul>
+<li><a href="#Class+Files">Class Files</li>
+<ul>
+<li><a href="#Parsing">Parsing</li>
+<li><a href="#Metrics">Metrics</li>
+</ul>
+<li><a href="#Dependencies">Dependencies</li>
+<ul>
+<li><a href="#Extracting">Extracting</li>
+<ul>
+<li><a href="#Extracting+with+the+GUI">Extracting with the GUI</li>
+<li><a href="#Extracting+with+the+CLI">Extracting with the CLI</li>
+<li><a href="#com.jeantessier.dependency.CodeDependencyCollector"><code>com.jeantessier.dependency.CodeDependencyCollector</code></li>
+<li><a href="#Minimizing+and+Maximizing">Minimizing and Maximizing</li>
+</ul>
+<li><a href="#Reporting">Reporting</li>
+<ul>
+<li><a href="#Perl+Regular+Expressions">Perl Regular Expressions</li>
+<li><a href="#Textual+Output">Textual Output</li>
+<li><a href="#HTML+Output">HTML Output</li>
+</ul>
+<li><a href="#Transitive+Closure">Transitive Closure</li>
+<li><a href="#Dependency+Metrics">Dependency Metrics</li>
+</ul>
+<li><a href="#OO+Metrics">OO Metrics</li>
+<ul>
+<li><a href="#Explanation">Explanation</li>
+<li><a href="#Extracting">Extracting</li>
+<li><a href="#Reporting">Reporting</li>
+<ul>
+<li><a href="#Textual+Output">Textual Output</li>
+<li><a href="#HTML+Output">HTML Output</li>
+</ul>
+</ul>
+<li><a href="#API+Differences">API Differences</li>
+<ul>
+<li><a href="#Explanation">Explanation</li>
+<li><a href="#Extracting">Extracting</li>
+<li><a href="#Reporting">Reporting</li>
+<ul>
+<li><a href="#Full+List">Full List</li>
+<li><a href="#Public+List">Public List</li>
+<li><a href="#Filtering">Filtering</li>
+<li><a href="#Listing+Published+Documentation+Changes">Listing Published Documentation Changes</li>
+</ul>
+</ul>
+<li><a href="#Building+Dependency+Finder">Building Dependency Finder</li>
+<ul>
+<li><a href="#Compiling+a+Build">Compiling a Build</li>
+<li><a href="#Testing+the+Build">Testing the Build</li>
+</ul>
+<li><a href="#Support">Support</li>
+</ul>
+
+
+<hr />
+
+<a name="Introduction" />
 <h2>Introduction</h2>
 
 <p>
@@ -34,6 +114,7 @@ we shouldn't have.  Managing the dependencies can shorten the compilation
 time of the code.
 </p>
 
+<a name="Class+Files" />
 <h3>Class Files</h3>
 
 <p>
@@ -51,6 +132,7 @@ I undertook to parse these files and extract the information I needed
 directly from the compiled code.
 </p>
 
+<a name="Dependencies" />
 <h3>Dependencies</h3>
 
 <p>
@@ -72,6 +154,7 @@ This is also useful for code reviewers and architects when assessing the
 coupling within an application or library.
 </p>
 
+<a name="Metrics" />
 <h3>Metrics</h3>
 
 <p>
@@ -82,6 +165,7 @@ deviations from your quality guidelines, such as methods that are too
 long or have too many parameters.
 </p>
 
+<a name="API+Differences" />
 <h3>API Differences</h3>
 
 <p>
@@ -92,10 +176,12 @@ compute differences automatically, so you can quickly know what you
 might have broken in your customer's code.
 </p>
 
-<hr/>
+<hr />
 
+<a name="Installation" />
 <h2>Installation</h2>
 
+<a name="Step+1:+Java+Virtual+Machine" />
 <h3>Step 1: Java Virtual Machine</h3>
 
 <p>
@@ -118,6 +204,7 @@ use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 </p>
 
+<a name="Step+2:+Environment+Variables" />
 <h3>Step 2: Environment Variables</h3>
 
 <p>
@@ -139,6 +226,7 @@ use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 </p>
 
+<a name="Step+3:+PATH" />
 <h3>Step 3: <code>PATH</code></h3>
 
 <p>
@@ -153,12 +241,14 @@ For example, if you extracted the ZIP file in <code>C:\</code>
     SET PATH=C:\DependencyFinder\bin;%PATH%
 </pre>
 
+<a name="Step+4:+Reboot" />
 <h3>Step 4: Reboot</h3>
 
 <p>
 Under Win95/98, you will need to reboot your computer.
 </p>
 
+<a name="Miscellaneous" />
 <h3>Miscellaneous</h3>
 
 <p>
@@ -180,8 +270,9 @@ environment variable.
     SET DEPENDENCYFINDER_OPTS=-Xmx128m
 </pre>
 
-<hr/>
+<hr />
 
+<a name="Running+Dependency+Finder" />
 <h2>Running Dependency Finder</h2>
 
 <p>
@@ -283,6 +374,7 @@ command-line switches:
 </table>
 </blockquote>
 
+<a name="GUI" />
 <h3>GUI</h3>
 
 <p>
@@ -292,7 +384,7 @@ an interface for querying the graph and display the results.
 </p>
 
 <div align="center">
-    <a href="images/DependencyFinder.jpg"><img src="images/s_DependencyFinder.jpg"/></a><br />
+    <a href="images/DependencyFinder.jpg"><img src="images/s_DependencyFinder.jpg" /></a><br />
 <b>DependencyFinder</b>
 </div>
 
@@ -303,25 +395,30 @@ level of detail: package, class, or method.
 </p>
 
 <div align="center">
-    <a href="images/OOMetricsGUI.jpg"><img src="images/s_OOMetricsGUI.jpg"/></a><br />
+    <a href="images/OOMetricsGUI.jpg"><img src="images/s_OOMetricsGUI.jpg" /></a><br />
 <b>OOMetricsGUI</b>
 </div>
 
+<a name="CLI" />
 <h3>CLI</h3>
 
 <div align="center">
-    <img src="images/Flow.gif"/><br />
+    <img src="images/Flow.gif" /><br />
 <b>Document Flow</b>
 </div>
 
-<hr/>
+<hr />
 
+<a name="Class+Files" />
 <h2>Class Files</h2>
+<a name="Parsing" />
 <h3>Parsing</h3>
+<a name="Metrics" />
 <h3>Metrics</h3>
 
-<hr/>
+<hr />
 
+<a name="Dependencies" />
 <h2>Dependencies</h2>
 
 <p>
@@ -370,6 +467,7 @@ composition.  Each is linked to various other nodes of various type
 using dependency links.
 </p>
 
+<a name="Extracting" />
 <h3>Extracting</h3>
 
 <p>
@@ -392,10 +490,11 @@ You can also mix and match JARs and ZIPs and class files and
 directories.  Dependency Finder will sort it all out.
 </p>
 
+<a name="Extracting+with+the+GUI" />
 <h4>Extracting with the GUI</h4>
 
 <div align="center">
-    <a href="images/HighlightedExtractDialog.jpg"><img src="images/s_HighlightedExtractDialog.jpg"/></a><br />
+    <a href="images/HighlightedExtractDialog.jpg"><img src="images/s_HighlightedExtractDialog.jpg" /></a><br />
 <b>Extract Dialog</b>
 </div>
 
@@ -406,6 +505,7 @@ You can repeat this as needed; each time, the extracted dependencies
 will be added to the current dependency graph.
 </p>
 
+<a name="Extracting+with+the+CLI" />
 <h4>Extracting with the CLI</h4>
 
 <p>
@@ -421,6 +521,7 @@ out the files or directory on the command line.
 All the dependencies will be merged into a single output.
 </p>
 
+<a name="com.jeantessier.dependency.CodeDependencyCollector" />
 <h4><code>com.jeantessier.dependency.CodeDependencyCollector</code></h4>
 
 <p>
@@ -431,7 +532,7 @@ the description of classes and features.
 </p>
 
 <div align="center">
-    <img src="images/ExplicitImplicit.gif"/><br />
+    <img src="images/ExplicitImplicit.gif" /><br />
 <b>Explicit and Implicit Dependencies</b>
 </div>
 
@@ -442,6 +543,7 @@ dependency between two classes in two separate packages <i>implies</i> a
 dependency between the packages.
 </p>
 
+<a name="Minimizing+and+Maximizing" />
 <h4>Minimizing and Maximizing</h4>
 
 <p>
@@ -496,17 +598,18 @@ with the same graph as if you had minimized the original graph.
 </p>
 
 <div align="center">
-    <img src="images/MinMaxTitle.gif"/><br />
-    <img src="images/MinMaxI.gif"/><br />
-    <img src="images/MinMaxII.gif"/><br />
-    <img src="images/MinMaxIII.gif"/><br />
-    <img src="images/MinMaxIV.gif"/><br />
-    <img src="images/MinMaxV.gif"/><br />
-    <img src="images/MinMaxVI.gif"/><br />
-    <img src="images/MinMaxVII.gif"/><br />
-    <img src="images/MinMaxVIII.gif"/><br />
+    <img src="images/MinMaxTitle.gif" /><br />
+    <img src="images/MinMaxI.gif" /><br />
+    <img src="images/MinMaxII.gif" /><br />
+    <img src="images/MinMaxIII.gif" /><br />
+    <img src="images/MinMaxIV.gif" /><br />
+    <img src="images/MinMaxV.gif" /><br />
+    <img src="images/MinMaxVI.gif" /><br />
+    <img src="images/MinMaxVII.gif" /><br />
+    <img src="images/MinMaxVIII.gif" /><br />
 </div>
 
+<a name="Reporting" />
 <h3>Reporting</h3>
 
 <p>
@@ -535,12 +638,12 @@ process for links.
 </p>
 
 <div align="center">
-    <img src="images/Scope.gif"/><br />
+    <img src="images/Scope.gif" /><br />
 <b>Scoping</b>
 </div>
 
 <div align="center">
-    <img src="images/Filter.gif"/><br />
+    <img src="images/Filter.gif" /><br />
 <b>Filtering</b>
 </div>
 
@@ -582,7 +685,7 @@ E.g.,
 </pre>
 
 <div align="center">
-    <a href="images/HighlightedScopeControls.jpg"><img src="images/s_HighlightedScopeControls.jpg"/></a><br />
+    <a href="images/HighlightedScopeControls.jpg"><img src="images/s_HighlightedScopeControls.jpg" /></a><br />
 <b>Scope Controls GUI</b>
 </div>
 
@@ -729,10 +832,11 @@ E.g.,
 </pre>
 
 <div align="center">
-    <a href="images/HighlightedScopeCriteria.jpg"><img src="images/s_HighlightedScopeCriteria.jpg"/></a><br />
+    <a href="images/HighlightedScopeCriteria.jpg"><img src="images/s_HighlightedScopeCriteria.jpg" /></a><br />
 <b>Scope Criteria GUI</b>
 </div>
 
+<a name="Perl+Regular+Expressions" />
 <h4>Perl Regular Expressions</h4>
 
 <p>
@@ -792,6 +896,7 @@ E.g.,
 </table>
 </blockquote>
 
+<a name="Textual+Output" />
 <h4>Textual Output</h4>
 
 <p>
@@ -819,6 +924,7 @@ stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
 with either our stylesheets or your own.
 </p>
 
+<a name="HTML+Output" />
 <h4>HTML Output</h4>
 
 <p>
@@ -847,20 +953,29 @@ stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
 with either our stylesheets or your own.
 </p>
 
+<a name="Transitive+Closure" />
 <h3>Transitive Closure</h3>
+<a name="Dependency+Metrics" />
 <h3>Dependency Metrics</h3>
 
-<hr/>
+<hr />
 
+<a name="OO+Metrics" />
 <h2>OO Metrics</h2>
+<a name="Explanation" />
 <h3>Explanation</h3>
+<a name="Extracting" />
 <h3>Extracting</h3>
+<a name="Reporting" />
 <h3>Reporting</h3>
+<a name="Textual+Output" />
 <h4>Textual Output</h4>
+<a name="HTML+Output" />
 <h4>HTML Output</h4>
 
-<hr/>
+<hr />
 
+<a name="API+Differences" />
 <h2>API Differences</h2>
 
 <p>
@@ -879,6 +994,7 @@ and verify that they are evolving in the right direction, whichever
 way you decide that is.
 </p>
 
+<a name="Explanation" />
 <h3>Explanation</h3>
 
 <p>
@@ -899,6 +1015,7 @@ in both codebase, you can repeat this analysis at the class level, and
 then at the feature level.
 </p>
 
+<a name="Extracting" />
 <h3>Extracting</h3>
 
 <p>
@@ -918,7 +1035,7 @@ computes the API differences between versions <i>Old</i> and <i>New</i> of
 </pre>
 
 <div align="center">
-    <img src="images/ExtractingDifferences.gif"/><br />
+    <img src="images/ExtractingDifferences.gif" /><br />
 <b>Extracting Differences</b>
 </div>
 
@@ -946,6 +1063,7 @@ stream (i.e., <code>System.out</code>).  You can write it to a file by using the
 <code>-out</code> switch.
 </p>
 
+<a name="Reporting" />
 <h3>Reporting</h3>
 
 <p>
@@ -968,6 +1086,7 @@ stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
 with either our stylesheets or your own.
 </p>
 
+<a name="Full+List" />
 <h4>Full List</h4>
 
 <p>
@@ -982,10 +1101,11 @@ following command produces a full report from the output of the previous
 </pre>
 
 <div align="center">
-    <img src="images/CompleteList.gif"/><br />
+    <img src="images/CompleteList.gif" /><br />
 <b>Full List</b>
 </div>
 
+<a name="Public+List" />
 <h4>Public List</h4>
 
 <p>
@@ -1000,10 +1120,11 @@ of the previous <code>JarJarDiff</code> command.
 </pre>
 
 <div align="center">
-    <img src="images/PublicList.gif"/><br />
+    <img src="images/PublicList.gif" /><br />
 <b>Public List</b>
 </div>
 
+<a name="Filtering" />
 <h4>Filtering</h4>
 
 <p>
@@ -1036,7 +1157,7 @@ new codebases, saving the results in individual text files.
 </pre>
 
 <div align="center">
-    <img src="images/ListDocumentedElements.gif"/><br />
+    <img src="images/ListDocumentedElements.gif" /><br />
 <b>Extracting Documented Elements</b>
 </div>
 
@@ -1056,7 +1177,7 @@ You then feed the output from the doclet to <code>JarJarDiff</code>.
 </pre>
 
 <div align="center">
-    <img src="images/ExtractingDifferencesAndDocumentationChanges.gif"/><br />
+    <img src="images/ExtractingDifferencesAndDocumentationChanges.gif" /><br />
 <b>Extracting Differences And Documented Elements</b>
 </div>
 
@@ -1072,7 +1193,7 @@ was newly added to the documentation.
 </pre>
 
 <div align="center">
-    <img src="images/CompleteListOfDocumentedElements.gif"/><br />
+    <img src="images/CompleteListOfDocumentedElements.gif" /><br />
 <b>Full List Of Documented Elements</b>
 </div>
 
@@ -1088,10 +1209,11 @@ limit the changes to the published public API.
 </pre>
 
 <div align="center">
-    <img src="images/PublicListOfDocumentedElements.gif"/><br />
+    <img src="images/PublicListOfDocumentedElements.gif" /><br />
 <b>Public List Of Documented Elements</b>
 </div>
 
+<a name="Listing+Published+Documentation+Changes" />
 <h4>Listing Published Documentation Changes</h4>
 
 <p>
@@ -1111,7 +1233,7 @@ source or bytecode required.
 </pre>
 
 <div align="center">
-    <img src="images/ListDiff.gif"/><br />
+    <img src="images/ListDiff.gif" /><br />
 <b>Listing Differences in Documented Elements</b>
 </div>
 
@@ -1127,7 +1249,7 @@ into HTML with <code>ListDiffToHTML</code>, or to text with
 </pre>
 
 <div align="center">
-    <img src="images/ListDiff2HTML.gif"/><br />
+    <img src="images/ListDiff2HTML.gif" /><br />
 <b>Report on Differences in Documented Elements</b>
 </div>
 
@@ -1140,14 +1262,16 @@ into HTML with <code>ListDiffToHTML</code>, or to text with
     <code>ListDiff</code> instead; it is faster and simpler.</i></dd>
 </dl>
 
-<hr/>
+<hr />
 
+<a name="Building+Dependency+Finder" />
 <h2>Building Dependency Finder</h2>
 
 <pre>
     C:\>ant
 </pre>
 
+<a name="Compiling+a+Build" />
 <h3>Compiling a Build</h3>
 
 <pre>
@@ -1167,6 +1291,7 @@ or
     C:\>ant jar clean docs dist src war
 </pre>
 
+<a name="Testing+the+Build" />
 <h3>Testing the Build</h3>
 
 <pre>
@@ -1174,8 +1299,9 @@ or
     C:\>textjunit TestAll
 </pre>
 
-<hr/>
+<hr />
 
+<a name="Support" />
 <h2>Support</h2>
 
 <p>
@@ -1189,7 +1315,7 @@ You can also email me at
 <a href="mailto://jeantessier@users.sourceforge.net">jeantessier at users.sourceforge.net</a>.
 </p>
 
-<hr/>
+<hr />
 
 </body>
 

@@ -165,7 +165,7 @@ Show dependencies
 
 </td></tr><tr>
 
-<td align="left"><font size="-1">Use Perl regular expressions, <a target="_blank" href="http://depfind.sourceforge.net/Manual.html">see the manual</a></font></td>
+<td align="left"><font size="-1">Use Perl regular expressions, <a target="_blank" href="http://depfind.sourceforge.net/Manual.html#Perl+Regular+Expressions">see the manual</a></font></td>
 <td align="right"><a href="advancedquery.jsp">advanced &gt;&gt;&gt;</a></td>
 
 </tr><tr><td align="center" colspan="2">
