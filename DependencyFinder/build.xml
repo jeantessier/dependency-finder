@@ -48,9 +48,9 @@
 
 	<property name="tomcat.home"      value="/language/Java/Jakarta/jakarta-tomcat-4.1.18-LE-jdk14"/>
 
-	<property name="previous.release" value="20020711"/>
-	<property name="last.release"     value="20030101"/>
-	<property name="this.release"     value="1.0beta"/>
+	<property name="previous.release" value="20030101"/>
+	<property name="last.release"     value="10beta"/>
+	<property name="this.release"     value="10"/>
 
 	<property name="cvsroot"          value=":pserver:anonymous@cvs.depfind.sourceforge.net:/cvsroot/depfind"/>
 	<property name="cvsweb"           value="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/"/>
@@ -360,12 +360,7 @@
 		<pathelement location="${jarFile}"/>
 	    </path>
 	</extractor>
-	<xslt style="etc/DependenciesToHTML.xsl" in="${this.release}.xml" out="${this.release}.html">
-	    <classpath refid="libs"/>
-	</xslt>
-	<xslt style="etc/DependenciesToText.xsl" in="${this.release}.xml" out="${this.release}.txt">
-	    <classpath refid="libs"/>
-	</xslt>
+	<xslt style="etc/DependenciesToHTML.xsl" in="${this.release}.xml" out="${this.release}.html"/>
     </target>
 
     <target name="jarjardiff" depends="init">
@@ -383,9 +378,7 @@
 		<pathelement location="${jarFile}"/>
 	    </new>
 	</jarjardiff>
-	<xslt style="etc/DiffToHTML.xsl" in="${last.release}-${this.release}.xml" out="${last.release}-${this.release}.html">
-	    <classpath refid="libs"/>
-	</xslt>
+	<xslt style="etc/DiffToHTML.xsl" in="${last.release}-${this.release}.xml" out="${last.release}-${this.release}.html"/>
     </target>
 
     <target name="oometrics" depends="init">
@@ -397,12 +390,12 @@
 	</taskdef>
 	<oometrics allmetrics="yes" destprefix="metrics-${this.release}" txt="yes" configuration="etc\MetricsConfig.xml">
 	    <path>
-		<pathelement location="${jarfile}"/>
+		<pathelement location="${jarFile}"/>
 	    </path>
 	</oometrics>
 	<oometrics allmetrics="yes" destprefix="metrics-${this.release}" xml="yes" configuration="etc\MetricsConfig.xml">
 	    <path>
-		<pathelement location="${jarfile}"/>
+		<pathelement location="${jarFile}"/>
 	    </path>
 	</oometrics>
     </target>
