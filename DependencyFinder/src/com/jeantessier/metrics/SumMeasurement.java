@@ -40,12 +40,9 @@ import org.apache.log4j.*;
 /**
  *  <pre>
  *  &lt;init-text&gt;
- *      base measurement name [DISPOSE_x]
- *      divider measurement name [DISPOSE_x]
+ *      (number | measurement name [DISPOSE_x])*
  *  &lt;/init-text&gt;
  *  </pre>
- *  
- *  <p>If either is missing, this measurement will be NaN.</p>
  */
 public class SumMeasurement extends MeasurementBase {
 	private List terms = new LinkedList();
