@@ -15,7 +15,7 @@ rem  	* Redistributions in binary form must reproduce the above copyright
 rem  	  notice, this list of conditions and the following disclaimer in the
 rem  	  documentation and/or other materials provided with the distribution.
 rem  
-rem  	* Neither the name of the Jean Tessier nor the names of his contributors
+rem  	* Neither the name of Jean Tessier nor the names of his contributors
 rem  	  may be used to endorse or promote products derived from this software
 rem  	  without specific prior written permission.
 rem  
