@@ -40,7 +40,7 @@ import org.apache.log4j.*;
 
 import com.jeantessier.metrics.*;
 
-class TableHeaderListener extends MouseAdapter {
+class TableHeaderListener implements MouseListener, MouseMotionListener {
 	private JTable            table; 
 	private OOMetricsTableModel model; 
 
@@ -55,6 +55,7 @@ class TableHeaderListener extends MouseAdapter {
 		String column_name    = model.RawColumnName(column);
 		int    column_dispose = model.RawColumnDispose(column);
 
+		Logger.getLogger(getClass()).debug("mouseClicked");
 		Logger.getLogger(getClass()).debug("event.getX()       = " + event.getX());
 		Logger.getLogger(getClass()).debug("view_column        = " + view_column);
 		Logger.getLogger(getClass()).debug("column             = " + column);
@@ -65,11 +66,32 @@ class TableHeaderListener extends MouseAdapter {
 	}
 	
 	public void mouseEntered(MouseEvent event) {
+		Logger.getLogger(getClass()).debug("mouseEntered");
+	}
+	
+	public void mouseExited(MouseEvent event) {
+		Logger.getLogger(getClass()).debug("mouseExited");
+	}
+	
+	public void mousePressed(MouseEvent event) {
+		Logger.getLogger(getClass()).debug("mousePressed");
+	}
+	
+	public void mouseReleased(MouseEvent event) {
+		Logger.getLogger(getClass()).debug("mouseReleased");
+	}
+		
+	public void mouseDragged(MouseEvent event) {
+		Logger.getLogger(getClass()).debug("mouseDragged");
+	}
+
+	public void mouseMoved(MouseEvent event) {
 		int    view_column      = table.getColumnModel().getColumnIndexAtX(event.getX()); 
 		int    column           = table.convertColumnIndexToModel(view_column); 
 		String column_long_name = model.MeasurementLongName(column);
 		int    column_dispose   = model.RawColumnDispose(column);
 
+		Logger.getLogger(getClass()).debug("mouseMoved");
 		Logger.getLogger(getClass()).debug("event.getX()       = " + event.getX());
 		Logger.getLogger(getClass()).debug("view_column        = " + view_column);
 		Logger.getLogger(getClass()).debug("column             = " + column);

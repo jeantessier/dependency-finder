@@ -241,7 +241,9 @@ public class OOMetrics extends JFrame {
 		table.setDefaultRenderer(Object.class, RENDERER);
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
-		table.getTableHeader().addMouseListener(new TableHeaderListener(table, model));
+		TableHeaderListener listener = new TableHeaderListener(table, model);
+		table.getTableHeader().addMouseListener(listener);
+		table.getTableHeader().addMouseMotionListener(listener);
 			
 		result = new JScrollPane(table);
 
