@@ -98,8 +98,8 @@
 	    <zipfileset dir="${webDir}"
 	                prefix=""
 			excludes="**/CSV"/>
-	    <zipfileset dir="${classesDir}"
-	                prefix="WEB-INF/classes"
+	    <zipfileset dir="${srcDir}"
+	                prefix="WEB-INF/${classesDir}"
 			includes="**/*.properties"/>
 	    <zipfileset dir="${libDir}"
 	                prefix="WEB-INF/lib"
@@ -127,7 +127,7 @@
 	    <test name="TestAll"/>
 	    <classpath>
 		<path refid="libs"/>
-		<path location="classes"/>
+		<path location="${classesDir}"/>
 	    </classpath>
 	</junit>
     </target>
@@ -138,7 +138,7 @@
 			prefix="${ant.project.name}">
 		<patternset>
 		    <include name="build.xml"/>
-		    <include name="lgpl.txt"/>
+		    <include name="license.txt"/>
 		    <include name="readme.txt"/>
 		    <include name="${srcFiles}"/>
 		    <include name="${testsFiles}"/>
@@ -146,24 +146,29 @@
 		    <include name="${etcFiles}"/>
 		    <include name="${webFiles}"/>
 		    <include name="${docsFiles}"/>
-		    <exclude name="${srcFiles}/**/*.class"/>
 		    <exclude name="**/CVS"/>
 		</patternset>
 	    </zipfileset>
 	</zip>
     </target>
 
-    <target name="dist" depends="init">
+    <target name="dist" depends="jar">
         <zip zipfile="${distFile}">
 	    <zipfileset dir="." prefix="${ant.project.name}">
 		<patternset>
-		    <include name="lgpl.txt"/>
+		    <include name="license.txt"/>
 		    <include name="readme.txt"/>
 		    <include name="${binFiles}"/>
 		    <include name="${libFiles}"/>
 		    <include name="${etcFiles}"/>
 		    <include name="${docsFiles}"/>
 		    <exclude name="**/CVS"/>
+		    <exclude name="docs/**/*.txt"/>
+		</patternset>
+	    </zipfileset>
+	    <zipfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
+		<patternset>
+		    <include name="**/*.properties"/>
 		</patternset>
 	    </zipfileset>
 	</zip>
@@ -255,13 +260,9 @@
     </target>
 
     <target name="clean" depends="init">
-        <delete includeEmptyDirs="true" verbose="true">
-	    <fileset dir="${classesDir}" defaultexcludes="no">
-		<patternset>
-		    <exclude name="**/*.properties"/>
-		</patternset>
-	    </fileset>
-	</delete>
+        <delete dir="${classesDir}"
+	        includeEmptyDirs="true"
+		verbose="true"/>
         <delete verbose="true">
 	    <fileset dir="." defaultexcludes="no">
 		<patternset>
