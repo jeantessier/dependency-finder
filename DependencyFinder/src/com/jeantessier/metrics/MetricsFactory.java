@@ -124,7 +124,6 @@ public class MetricsFactory {
 	private Metrics BuildGroupMetrics(String name) {
 		Metrics project_metrics = CreateProjectMetrics();
 		Metrics result          = new Metrics(project_metrics, name);
-		project_metrics.AddSubMetrics(result);
 
 		PopulateMetrics(result, Configuration().GroupMeasurements());
 
@@ -133,6 +132,8 @@ public class MetricsFactory {
 	
 	public void IncludeGroupMetrics(Metrics metrics) {
 		included_groups.put(metrics.Name(), metrics);
+		metrics.Parent().AddSubMetrics(metrics);
+		IncludeProjectMetrics(metrics.Parent());
 	}
 
 	public Collection GroupNames() {
@@ -170,12 +171,6 @@ public class MetricsFactory {
 		}
 		Metrics package_metrics = CreateGroupMetrics(package_name);
 		Metrics result          = new Metrics(package_metrics, name);
-		package_metrics.AddSubMetrics(result);
-
-		Iterator i = Configuration().Groups(name).iterator();
-		while (i.hasNext()) {
-			CreateGroupMetrics((String) i.next()).AddSubMetrics(result);
-		}
 		
 		PopulateMetrics(result, Configuration().ClassMeasurements());
 
@@ -184,6 +179,15 @@ public class MetricsFactory {
 	
 	public void IncludeClassMetrics(Metrics metrics) {
 		included_classes.put(metrics.Name(), metrics);
+		metrics.Parent().AddSubMetrics(metrics);
+		IncludeGroupMetrics(metrics.Parent());
+
+		Iterator i = Configuration().Groups(metrics.Name()).iterator();
+		while (i.hasNext()) {
+			Metrics group_metrics = CreateGroupMetrics((String) i.next());
+			group_metrics.AddSubMetrics(metrics);
+			IncludeGroupMetrics(group_metrics);
+		}
 	}
 
 	public Collection ClassNames() {
@@ -233,6 +237,8 @@ public class MetricsFactory {
 
 	public void IncludeMethodMetrics(Metrics metrics) {
 		included_methods.put(metrics.Name(), metrics);
+		metrics.Parent().AddSubMetrics(metrics);
+		IncludeClassMetrics(metrics.Parent());
 	}
 	
 	public Collection MethodNames() {

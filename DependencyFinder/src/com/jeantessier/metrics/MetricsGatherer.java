@@ -118,8 +118,6 @@ public class MetricsGatherer extends VisitorBase {
 		CurrentProject(CurrentGroup().Parent());
 
 		MetricsFactory().IncludeClassMetrics(CurrentClass());
-		MetricsFactory().IncludeGroupMetrics(CurrentGroup());
-		MetricsFactory().IncludeProjectMetrics(CurrentProject());
 
 		CurrentProject().AddToMeasurement(Metrics.PACKAGES, CurrentGroup().Name());
 		
