@@ -45,13 +45,6 @@ public class FeatureDependencyCollector extends CollectorBase {
 		this_class = classfile.RawClass();
 
 		classfile.ConstantPool().Accept(this);
-
-		/*
-		  i = classfile.Methods().iterator();
-		  while (i.hasNext()) {
-		  ((Visitable) i.next()).Accept(this);
-		  }
-		*/
     }
 
     public void VisitFieldRef_info(FieldRef_info entry) {
