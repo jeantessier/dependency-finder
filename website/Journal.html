@@ -18,6 +18,33 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	August 15, 2003
+    </dt>
+    <dd>
+	<p>Added a <code>BeanInfo</code> helper class to the
+	<code>Version</code> class.  This way, I can use
+	<code>&lt;jsp:getProperty&gt;</code> tags in JSPs and not have to call
+	my accessors <code>getX()</code> and <code>setX()</code>.  It works on
+	Tomcat, but I remember having problems with using <code>BeanInfo</code>
+	with other application servers in the past.  I just hope they have made
+	progress since.</p>
+
+	<p>I found a bug (#789373) with using the XSL stylesheet
+	<code>PublishedDiffToHTML.xsl</code> from Ant with the
+	<code>&lt;xslt&gt;</code> task.  I will have to investigate, but I
+	should really rewrite that entire stylesheet so it complies with proper
+	XSL rules.  In the meantime, people can use the
+	<code>&lt;java&gt;</code> task to run Xalan's XSL processor,
+	<code>org.apache.xalan.xslt.Process</code>, instead.  Just make sure
+	you set <code>fork="yes"</code> on the task's attributes so that JDK
+	1.3 VMs pick up the Xalan JAR file.  The bug report has a sample Ant
+	build file that shows how to do it.  I will also add it to the
+	documentation eventually.</p>
+
+	<p>Ran <code>JarJarDiff</code> on Xerces and Xalan for the latest
+	upgrade.</p>
+    </dd>
+    <dt>
 	August 12, 2003
     </dt>
     <dd>
