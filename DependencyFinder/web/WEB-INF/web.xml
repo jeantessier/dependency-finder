@@ -48,7 +48,7 @@
     </context-param>
     <context-param>
 	<param-name>source</param-name>
-	<param-value>C:\language\Java\1.2\DependencyFinder\classes</param-value>
+	<param-value>C:\language\Java\myprojects\DependencyFinder\classes</param-value>
 	<description>Where to extract dependencies from.  Separate multiple
 	locations with commas.  Each location can either be a JAR file, a
 	ZIP file, a .class file, or a directory that will be recursively
