@@ -34,6 +34,8 @@ package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
 
+import com.jeantessier.dependencyfinder.*;
+
 public class ClassDump {
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
