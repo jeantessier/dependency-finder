@@ -32,31 +32,32 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+import java.io.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
+	private ClassfileLoaderDispatcher delegate;
 
-		result.addTestSuite(TestBitFormat.class);
-		result.addTestSuite(TestDirectoryExplorer.class);
-		result.addTestSuite(TestAggregatingClassfileLoader.class);
-		result.addTestSuite(TestTransientClassfileLoader.class);
-		result.addTestSuite(TestDirectoryClassfileLoader.class);
-		result.addTestSuite(TestClassfile.class);
-		result.addTestSuite(TestPermissiveDispatcher.class);
-		result.addTestSuite(TestStrictDispatcher.class);
-		result.addTestSuite(TestModifiedOnlyDispatcher.class);
-		result.addTestSuite(TestZipClassfileLoader.class);
-		result.addTestSuite(TestJarClassfileLoader.class);
-		result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-		result.addTestSuite(TestClassfileLoaderStrictDispatcher.class);
-		result.addTestSuite(TestClassfileScanner.class);
-		result.addTestSuite(TestXMLPrinter.class);
-		result.addTestSuite(TestDeprecationPrinter.class);
-		result.addTestSuite(TestLoadListenerVisitorAdapter.class);
-		result.addTestSuite(TestSymbolGatherer.class);
+	private Map timestamps = new HashMap();
+	
+	public ModifiedOnlyDispatcher(ClassfileLoaderDispatcher delegate) {
+		this.delegate = delegate;
+	}
+	
+	public int dispatch(String filename) {
+		int result = ACTION_IGNORE;
 
+		File file = new File(filename);
+		
+		Long timestamp = (Long) timestamps.get(filename);
+
+		if (timestamp == null || timestamp.longValue() < file.lastModified()) {
+			timestamp = new Long(file.lastModified());
+			timestamps.put(filename, timestamp);
+
+			result = delegate.dispatch(filename);
+		}
+		
 		return result;
 	}
 }

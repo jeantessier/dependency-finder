@@ -32,30 +32,33 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+public class MockDispatcher implements ClassfileLoaderDispatcher {
+	public static final int ACTION = -1;
 
-		result.addTestSuite(TestBitFormat.class);
-		result.addTestSuite(TestDirectoryExplorer.class);
-		result.addTestSuite(TestAggregatingClassfileLoader.class);
-		result.addTestSuite(TestTransientClassfileLoader.class);
-		result.addTestSuite(TestDirectoryClassfileLoader.class);
-		result.addTestSuite(TestClassfile.class);
-		result.addTestSuite(TestPermissiveDispatcher.class);
-		result.addTestSuite(TestStrictDispatcher.class);
-		result.addTestSuite(TestModifiedOnlyDispatcher.class);
-		result.addTestSuite(TestZipClassfileLoader.class);
-		result.addTestSuite(TestJarClassfileLoader.class);
-		result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-		result.addTestSuite(TestClassfileLoaderStrictDispatcher.class);
-		result.addTestSuite(TestClassfileScanner.class);
-		result.addTestSuite(TestXMLPrinter.class);
-		result.addTestSuite(TestDeprecationPrinter.class);
-		result.addTestSuite(TestLoadListenerVisitorAdapter.class);
-		result.addTestSuite(TestSymbolGatherer.class);
+	private Map counts = new HashMap();
+
+	public int dispatch(String filename) {
+		Integer count = (Integer) counts.get(filename);
+
+		if (count != null) {
+			count = new Integer(count.intValue() + 1);
+		} else {
+			count = new Integer(1);
+		}
+		counts.put(filename, count);
+		
+		return ACTION;
+	}
+
+	public int getDispatchCount(String filename) {
+		int result = 0;
+
+		Integer count = (Integer) counts.get(filename);
+		if (count != null) {
+			result = count.intValue();
+		}
 
 		return result;
 	}

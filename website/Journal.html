@@ -17,6 +17,14 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 04, 2005
+    </dt>
+    <dd>
+	<p>Stated implementing a <code>ClassfileLoaderDispatcher</code>
+	decorator to support reloading only <code>.class</code> files that have
+	changed.</p>
+    </dd>
+    <dt>
 	January 03, 2005
     </dt>
     <dd>
@@ -145,22 +153,26 @@
 	and needs Dependency Finder's JARs.  I changed the template to include
 	them all the time, just like the Unix template was doing.</p>
     </dd>
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
     <dt>
 	December 11, 2004
     </dt>
     <dd>
 	<p>Figured out how to detect if a file has changed since it was last
 	extracted.  I'll use the decorator pattern to wrap the
-	=ClassfileLoaderDispatcher= of the =ClassfileLoader= with a decorator
-	that will remember the modification date of files and instruct the
-	loader to ignore files that have not been modified.  By using a
-	decorator, I don't have to change any interfaces and I get to intercept
-	the call to the real dispatcher before it gets made.  Other solutions,
-	like a common super class for dispatchers, had the problem that the
-	subclass method was being called first.  This would necessitate some
-	kind of communication between the subclass and its superclass to get
-	the new behavior.  A decorator is a simpler, more elegant
-	solution.</p>
+	<code>ClassfileLoaderDispatcher</code> of the
+	<code>ClassfileLoader</code> with a decorator that will remember the
+	modification date of files and instruct the loader to ignore files that
+	have not been modified.  By using a decorator, I don't have to change
+	any interfaces and I get to intercept the call to the real dispatcher
+	before it gets made.  Other solutions, like a common super class for
+	dispatchers, had the problem that the subclass method was being called
+	first.  This would necessitate some kind of communication between the
+	subclass and its superclass to get the new behavior.  A decorator is a
+	simpler, more elegant solution.</p>
 
 	<p>This will not go in the 1.1.0 release, but most likely the very
 	next one.</p>

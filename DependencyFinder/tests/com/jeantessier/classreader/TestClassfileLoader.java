@@ -39,7 +39,7 @@ import junit.framework.*;
 
 import org.apache.log4j.*;
 
-public class TestClassfileLoader extends TestCase implements LoadListener {
+public abstract class TestClassfileLoader extends TestCase implements LoadListener {
 	public static final String TEST_DIR = "tests" + File.separator + "JarJarDiff";
 
 	private LinkedList beginSessionEvents;
