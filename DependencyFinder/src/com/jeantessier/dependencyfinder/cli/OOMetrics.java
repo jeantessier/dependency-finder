@@ -224,7 +224,6 @@ public class OOMetrics {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
 			
 			if (command_line.IsPresent("out")) {
 				out.close();
@@ -248,7 +247,6 @@ public class OOMetrics {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
 			
 			if (command_line.IsPresent("out")) {
 				out.close();
@@ -272,7 +270,6 @@ public class OOMetrics {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
 			
 			if (command_line.IsPresent("out")) {
 				out.close();
@@ -296,7 +293,6 @@ public class OOMetrics {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
 		
 			if (command_line.IsPresent("out")) {
 				out.close();
@@ -332,7 +328,7 @@ public class OOMetrics {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
+
 			out.println();
 		}
 
@@ -348,7 +344,7 @@ public class OOMetrics {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
+
 			out.println();
 		}
 
@@ -364,7 +360,7 @@ public class OOMetrics {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
+
 			out.println();
 		}
 		
@@ -380,7 +376,7 @@ public class OOMetrics {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
+
 			out.println();
 		}
 		
@@ -412,7 +408,6 @@ public class OOMetrics {
 		}
 
 		printer.VisitMetrics(metrics);
-		out.print(printer);
 
 		out.close();
 	}

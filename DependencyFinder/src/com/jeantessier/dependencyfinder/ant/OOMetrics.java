@@ -377,7 +377,7 @@ public class OOMetrics extends Task {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
+
 			out.println();
 		}
 
@@ -393,7 +393,7 @@ public class OOMetrics extends Task {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
+
 			out.println();
 		}
 
@@ -409,7 +409,7 @@ public class OOMetrics extends Task {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
+
 			out.println();
 		}
 		
@@ -425,7 +425,7 @@ public class OOMetrics extends Task {
 			}
 
 			printer.VisitMetrics(metrics);
-			out.print(printer);
+
 			out.println();
 		}
 		
