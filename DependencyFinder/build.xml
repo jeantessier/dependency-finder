@@ -137,18 +137,18 @@
 
     <target name="war" depends="jar"
 	    description="Compiles and builds the web application archive">
-        <jar jarfile="${warFile}">
-	    <zipfileset dir="${webDir}"
-	                prefix=""
-			excludes="**/CSV"/>
-	    <zipfileset dir="${srcDir}"
-	                prefix="WEB-INF/${classesDir}"
-			includes="**/*.properties"/>
-	    <zipfileset dir="${libDir}"
-	                prefix="WEB-INF/lib"
-			includes="**/*.jar"
-			excludes="**/xalan.jar"/>
-	</jar>
+        <war destfile="${warFile}"
+	     webxml="${webDir}/WEB-INF/web.xml">
+	    <zipfileset dir="${webDir}">
+		<exclude name="**/CSV"/>
+		<exclude name="**/WEB-INF/*"/>
+	    </zipfileset>
+	    <classes dir="${srcDir}"
+		     includes="**/*.properties"/>
+	    <lib dir="${libDir}"
+		 includes="**/*.jar"
+		 excludes="**/xalan.jar"/>
+	</war>
     </target>
 
     <target name="undeploy" depends="init">
