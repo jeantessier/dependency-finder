@@ -89,7 +89,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitClass_info(Class_info entry) {
-		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitClass_info():");
+		Logger.getLogger(getClass()).debug("VisitClass_info():");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
 		if (entry.Name().startsWith("[")) {
 			ProcessDescriptor(entry.Name());
@@ -102,7 +102,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
     
 	public void VisitFieldRef_info(FieldRef_info entry) {
-		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitFieldRef_info():");
+		Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
@@ -115,7 +115,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitMethodRef_info(MethodRef_info entry) {
-		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitMethodRef_info():");
+		Logger.getLogger(getClass()).debug("VisitMethodRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
@@ -130,7 +130,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitInterfaceMethodRef_info():");
+		Logger.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
@@ -143,7 +143,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitField_info(Field_info entry) {
-		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitField_info():");
+		Logger.getLogger(getClass()).debug("VisitField_info():");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
 		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
 
@@ -155,7 +155,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitMethod_info(Method_info entry) {
-		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitMethod_info():");
+		Logger.getLogger(getClass()).debug("VisitMethod_info():");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
 		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
 	
@@ -171,7 +171,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitCode_attribute(Code_attribute attribute) {
-		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitCode_attribute() ...");
+		Logger.getLogger(getClass()).debug("VisitCode_attribute() ...");
 
 		byte[] code = attribute.Code();
 

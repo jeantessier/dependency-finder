@@ -99,6 +99,7 @@ public class MetricsGatherer extends VisitorBase {
 	
 	// Classfile
 	public void VisitClassfile(Classfile classfile) {
+		CurrentMethod(null);
 		CurrentClass(MetricsFactory().CreateClassMetrics(classfile.Class()));
 		CurrentGroup(CurrentClass().Parent());
 		CurrentProject(CurrentGroup().Parent());
@@ -126,6 +127,7 @@ public class MetricsGatherer extends VisitorBase {
 		}
 
 		if (classfile.SuperclassIndex() != 0) {
+			// AddClassDependency(classfile.Superclass());
 			classfile.RawSuperclass().Accept(this);
 
 			Classfile superclass = classfile.Loader().Classfile(classfile.Superclass());
@@ -137,6 +139,12 @@ public class MetricsGatherer extends VisitorBase {
 		}
 
 		Iterator i;
+
+		i = classfile.Interfaces().iterator();
+		while (i.hasNext()) {
+			// AddClassClassDependency(((Class_info) i.next()).Name());
+			((Class_info) i.next()).Accept(this);
+		}
 
 		i = classfile.Attributes().iterator();
 		while (i.hasNext()) {
@@ -167,10 +175,24 @@ public class MetricsGatherer extends VisitorBase {
 	
 	// ConstantPool entries
 	public void VisitClass_info(Class_info entry) {
-		AddClassClassDependency(entry.Name());
+		Logger.getLogger(getClass()).debug("VisitClass_info():");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
+		if (entry.Name().startsWith("[")) {
+			AddClassDependencies(ProcessDescriptor(entry.Name()));
+		} else {
+			AddClassDependency(entry.Name());
+		}
 	}
 	
-	public void VisitFieldRef_info(FieldRef_info entry) {}
+	public void VisitFieldRef_info(FieldRef_info entry) {
+		Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
+
+		entry.RawClass().Accept(this);
+	}
+
 	public void VisitMethodRef_info(MethodRef_info entry) {}
 	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {}
 	public void VisitString_info(String_info entry) {}
@@ -222,13 +244,22 @@ public class MetricsGatherer extends VisitorBase {
 			CurrentClass().AddToMeasurement(Metrics.TRANSIENT_ATTRIBUTES);
 		}
 		
+		Logger.getLogger(getClass()).debug(entry.FullSignature() + ": sloc now " + sloc + " ...");
+		Logger.getLogger(getClass()).debug(entry.FullSignature() + ": is_synthetic now " + is_synthetic + " ...");
+		
 		Iterator i = entry.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
+		
+		Logger.getLogger(getClass()).debug(entry.FullSignature() + ": sloc now " + sloc + " ...");
+		Logger.getLogger(getClass()).debug(entry.FullSignature() + ": is_synthetic now " + is_synthetic + " ...");
 
 		if (!is_synthetic) {
-			CurrentClass().AddToMeasurement(Metrics.SLOC, sloc);
+			Logger.getLogger(getClass()).debug(entry.FullSignature() + ": CLASS_SLOC is " + CurrentClass().Measurement(Metrics.CLASS_SLOC).intValue());
+			Logger.getLogger(getClass()).debug(entry.FullSignature() + ": Adding " + sloc + " to SLOC ...");
+			CurrentClass().AddToMeasurement(Metrics.CLASS_SLOC, sloc);
+			Logger.getLogger(getClass()).debug(entry.FullSignature() + ": CLASS_SLOC is now " + CurrentClass().Measurement(Metrics.CLASS_SLOC).intValue());
 		}
 	}
 
@@ -278,14 +309,23 @@ public class MetricsGatherer extends VisitorBase {
 		}
 
 		CurrentMethod().AddToMeasurement(Metrics.PARAMETERS, SignatureHelper.ParameterCount(entry.Descriptor()));
+
+		Logger.getLogger(getClass()).debug(entry.FullSignature() + ": sloc now " + sloc + " ...");
+		Logger.getLogger(getClass()).debug(entry.FullSignature() + ": is_synthetic now " + is_synthetic + " ...");
 		
 		Iterator i = entry.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
+		
+		Logger.getLogger(getClass()).debug(entry.FullSignature() + ": sloc now " + sloc + " ...");
+		Logger.getLogger(getClass()).debug(entry.FullSignature() + ": is_synthetic now " + is_synthetic + " ...");
 
 		if (!is_synthetic) {
-			CurrentClass().AddToMeasurement(Metrics.SLOC, sloc);
+			Logger.getLogger(getClass()).debug(entry.FullSignature() + ": SLOC is " + CurrentMethod().Measurement(Metrics.SLOC).intValue());
+			Logger.getLogger(getClass()).debug(entry.FullSignature() + ": Adding " + sloc + " to SLOC ...");
+			CurrentMethod().AddToMeasurement(Metrics.SLOC, sloc);
+			Logger.getLogger(getClass()).debug(entry.FullSignature() + ": SLOC is now " + CurrentMethod().Measurement(Metrics.SLOC).intValue());
 		}
 	}
 
@@ -409,19 +449,60 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	public void VisitLineNumber(LineNumber helper) {
+		Logger.getLogger(getClass()).debug("Visiting one line number ...");
 		sloc++;
+		Logger.getLogger(getClass()).debug("sloc now " + sloc + " ...");
 	}
 
-	private void AddClassClassDependency(String classname) {
-		if (!CurrentClass().Name().equals(classname)) {
-			Metrics other = MetricsFactory().CreateMethodMetrics(classname);
-			
-			if (CurrentClass().Parent().equals(other.Parent())) {
-				CurrentClass().AddToMeasurement(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES);
-				other.AddToMeasurement(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES);
+	private Collection ProcessDescriptor(String str) {
+		Collection result = new LinkedList();
+		
+		Logger.getLogger(getClass()).debug("ProcessDescriptor: " + str);
+
+		int current_pos = 0;
+		int start_pos;
+		int end_pos;
+
+		while ((start_pos = str.indexOf('L', current_pos)) != -1) {
+			if ((end_pos = str.indexOf(';', start_pos)) != -1) {
+				String classname = SignatureHelper.Path2ClassName(str.substring(start_pos + 1, end_pos));
+				result.add(classname);
+				current_pos = end_pos + 1;
 			} else {
-				CurrentClass().AddToMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES);
-				other.AddToMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES);
+				current_pos = start_pos + 1;
+			}
+		}
+
+		Logger.getLogger(getClass()).debug("ProcessDescriptor: " + result);
+		
+		return result;
+	}
+
+	private void AddClassDependencies(Collection classnames) {
+		Iterator i = classnames.iterator();
+		while (i.hasNext()) {
+			AddClassDependency((String) i.next());
+		}
+	}
+	
+	private void AddClassDependency(String classname) {
+		Logger.getLogger(getClass()).debug("AddClassClassDependency " + CurrentClass().Name() + " -> " + classname + " ...");
+
+		if (CurrentMethod() != null) {
+			
+		} else {
+			if (!CurrentClass().Name().equals(classname)) {
+				Metrics other = MetricsFactory().CreateClassMetrics(classname);
+				
+				if (CurrentClass().Parent().equals(other.Parent())) {
+					Logger.getLogger(getClass()).debug("Intra-Package ...");
+					CurrentClass().AddToMeasurement(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES, other.Name());
+					other.AddToMeasurement(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES, CurrentClass().Name());
+				} else {
+					Logger.getLogger(getClass()).debug("Extra-Package ...");
+					CurrentClass().AddToMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES, other.Name());
+					other.AddToMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES, CurrentClass().Name());
+				}
 			}
 		}
 	}

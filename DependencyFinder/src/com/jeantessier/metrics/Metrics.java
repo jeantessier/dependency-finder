@@ -84,6 +84,7 @@ public class Metrics {
 
 	public static final String DEPTH_OF_INHERITANCE  = "DOI";
 	public static final String SUBCLASSES            = "SUB";
+	public static final String CLASS_SLOC            = "class SLOC";
 
 	public static final String SLOC            = "SLOC";
 	public static final String PARAMETERS      = "PARAM";
