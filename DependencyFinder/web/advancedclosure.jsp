@@ -177,15 +177,29 @@ Transitive closure
 
 </td></tr><tr><td colspan="2">
 
-<table class="controls"><tr><td class="controls">
+<table frame="border" rules="groups" class="controls">
 
-<table border="0">
+    <colgroup span="3" />
+    <colgroup span="3" />
+
+    <tbody>
     <tr>
 	<td colspan="3">
 	    <b>Start with programming elements</b>
 	</td>
+	<td colspan="3">
+	    <b>Follow dependencies</b>
+	</td>
     </tr>
     <tr>
+	<td>
+	</td>
+	<td>
+	    including:
+	</td>
+	<td>
+	    excluding:
+	</td>
 	<td>
 	</td>
 	<td>
@@ -204,6 +218,14 @@ Transitive closure
 	<td>
 	    <input type="text" name="scope-excludes" value="<%= scope_excludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
+	<td>
+	</td>
+	<td>
+	    <input type="text" name="filter-includes" value="<%= filter_includes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	</td>
+	<td>
+	    <input type="text" name="filter-excludes" value="<%= filter_excludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	</td>
     </tr>
     <tr>
 	<td>
@@ -215,60 +237,6 @@ Transitive closure
 	<td>
 	    <input type="text" name="package-scope-excludes" value="<%= package_scope_excludes %>" onMouseOver="window.status='Package must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
-    </tr>
-    <tr>
-	<td>
-	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %> onMouseOver="window.status='Start with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
-	</td>
-	<td>
-	    <input type="text" name="class-scope-includes" value="<%= class_scope_includes %>" onMouseOver="window.status='Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="class-scope-excludes" value="<%= class_scope_excludes %>" onMouseOver="window.status='Class must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %> onMouseOver="window.status='Start with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
-	</td>
-	<td>
-	    <input type="text" name="feature-scope-includes" value="<%= feature_scope_includes %>" onMouseOver="window.status='Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="feature-scope-excludes" value="<%= feature_scope_excludes %>" onMouseOver="window.status='Method or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-    </tr>
-</table>
-
-</td><td class="controls">
-
-<table border="0">
-     <tr>
-	<td colspan="3">
-	    <b>Follow dependencies</b>
-	</td>
-    </tr>
-   <tr>
-	<td>
-	</td>
-	<td>
-	    including:
-	</td>
-	<td>
-	    excluding:
-	</td>
-    </tr>
-    <tr>
-	<td>
-	</td>
-	<td>
-	    <input type="text" name="filter-includes" value="<%= filter_includes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
-	</td>
-	<td>
-	    <input type="text" name="filter-excludes" value="<%= filter_excludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
-	</td>
-    </tr>
-    <tr>
 	<td>
 	    <input type="checkbox" name="package-filter" <%= package_filter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
 	</td>
@@ -281,6 +249,15 @@ Transitive closure
     </tr>
     <tr>
 	<td>
+	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %> onMouseOver="window.status='Start with classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	</td>
+	<td>
+	    <input type="text" name="class-scope-includes" value="<%= class_scope_includes %>" onMouseOver="window.status='Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	</td>
+	<td>
+	    <input type="text" name="class-scope-excludes" value="<%= class_scope_excludes %>" onMouseOver="window.status='Class must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	</td>
+	<td>
 	    <input type="checkbox" name="class-filter" <%= class_filter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
 	</td>
 	<td>
@@ -292,6 +269,15 @@ Transitive closure
     </tr>
     <tr>
 	<td>
+	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %> onMouseOver="window.status='Start with methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
+	</td>
+	<td>
+	    <input type="text" name="feature-scope-includes" value="<%= feature_scope_includes %>" onMouseOver="window.status='Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	</td>
+	<td>
+	    <input type="text" name="feature-scope-excludes" value="<%= feature_scope_excludes %>" onMouseOver="window.status='Method or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	</td>
+	<td>
 	    <input type="checkbox" name="feature-filter" <%= feature_filter ? "checked" : "" %> onMouseOver="window.status='Follow dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
 	<td>
@@ -301,23 +287,28 @@ Transitive closure
 	    <input type="text" name="feature-filter-excludes" value="<%= feature_filter_excludes %>" onMouseOver="window.status='Method or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
-</table>
+    </tbody>
 
-</td></tr><tr><td colspan="2" align="center" class="controls">
+    <tbody>
+    <tr>
+        <td colspan="6" align="center">
 
 Follow inbounds:
 <input type="text" name="maximum-inbound-depth" value="<%= maximum_inbound_depth %>" size="2" onMouseOver="window.status='Maximum hops against the direction dependencies.  Empty field means no limit.'" onMouseOut="window.status=''">
 Follow outbounds:
 <input type="text" name="maximum-outbound-depth" value="<%= maximum_outbound_depth %>" size="2" onMouseOver="window.status='Maximum hops in the direction of dependencies.  Empty field means no limit.'" onMouseOut="window.status=''">
 
-</td></tr></table>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </td></tr><tr>
 
 <td align="left"><font size="-1">Use Perl regular expressions, <a target="_blank" href="http://depfind.sourceforge.net/Manual.html#Perl+Regular+Expressions">see the manual</a></font></td>
 <td align="right"><a href="closure.jsp">&lt;&lt;&lt; simple</a></td>
 
-</td></tr><tr><td align="center" colspan="2">
+</tr><tr><td align="center" colspan="2">
 
 <input type="submit" name="submit" value="Run Query"/>
 

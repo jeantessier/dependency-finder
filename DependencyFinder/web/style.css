@@ -4,13 +4,8 @@ body {
 }
 
 table.controls {
-	background: rgb(204, 204, 255);
-	border:     3 outset;
-}
-
-td.controls {
-	padding: 4;
-	border:  1 inset;
+	background:   rgb(204, 204, 255);
+	border-width: 3;
 }
 
 hr {
