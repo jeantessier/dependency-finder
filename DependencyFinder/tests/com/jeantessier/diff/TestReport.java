@@ -33,7 +33,13 @@
 package com.jeantessier.diff;
 
 import java.io.*;
+import java.util.*;
 
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
+
+import org.apache.xpath.*;
+import org.w3c.dom.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
@@ -41,11 +47,16 @@ import org.apache.oro.text.perl.*;
 
 import junit.framework.*;
 
+import com.jeantessier.classreader.*;
+
 public class TestReport extends TestCase implements ErrorHandler {
 	private static final String READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
 
 	private static final String SPECIFIC_ENCODING   = "iso-latin-1";
 	private static final String SPECIFIC_DTD_PREFIX = "./etc";
+
+	public static final String OLD_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
+	public static final String NEW_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
 
 	private Visitor   printer;
 	private XMLReader reader;
@@ -56,9 +67,11 @@ public class TestReport extends TestCase implements ErrorHandler {
 		reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
 		reader.setFeature("http://xml.org/sax/features/validation", true);
 		reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
-		reader.setErrorHandler(this);
+// 		reader.setErrorHandler(this);
 
 		perl = new Perl5Util();
+
+		System.out.println(">>>>>>>>>> " + getName() + " <<<<<<<<<<");
 	}
 
 	public void testDefaultDTDPrefix() {
@@ -125,6 +138,42 @@ public class TestReport extends TestCase implements ErrorHandler {
 		}
 	}
 
+	public void testContent() throws IOException, ParserConfigurationException, SAXException, TransformerException {
+		ClassfileLoader old_jar = new AggregatingClassfileLoader();
+		old_jar.Load(Collections.singleton(OLD_CLASSPATH));
+
+		ClassfileLoader new_jar = new AggregatingClassfileLoader();
+		new_jar.Load(Collections.singleton(NEW_CLASSPATH));
+
+		Validator old_validator = new ListBasedValidator(new BufferedReader(new FileReader(OLD_CLASSPATH + ".txt")));
+		Validator new_validator = new ListBasedValidator(new BufferedReader(new FileReader(NEW_CLASSPATH + ".txt")));
+
+		DifferencesFactory factory = new DifferencesFactory(old_validator, new_validator);
+		JarDifferences jar_differences = (JarDifferences) factory.CreateJarDifferences("test", "old", old_jar, "new", new_jar);
+
+		printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+		jar_differences.Accept(printer);
+
+		String xml_document = printer.toString();
+
+		try {
+			reader.parse(new InputSource(new StringReader(xml_document)));
+		} catch (SAXException ex) {
+			fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xml_document);
+		} catch (IOException ex) {
+			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
+		}
+
+		InputSource in  = new InputSource(new StringBufferInputStream(xml_document));
+		Document    doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
+
+		assertNotNull("//differences", XPathAPI.selectSingleNode(doc, "//differences"));
+		assertNotNull("*/old[text()='old']", XPathAPI.selectSingleNode(doc, "*/old[text()='old']"));
+		assertEquals("*/modified-classes/class", 1, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
+		assertEquals("*/name", 0, XPathAPI.selectNodeList(doc, "*/name").getLength());
+		assertEquals("*/modified-methods/feature", 1, XPathAPI.selectNodeList(doc, "*/modified-methods/feature").getLength());
+	}
+	
 	public void error(SAXParseException ex) {
 		// Ignore
 	}
