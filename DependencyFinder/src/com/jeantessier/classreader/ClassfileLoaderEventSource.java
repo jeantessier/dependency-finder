@@ -36,20 +36,20 @@ import java.io.*;
 import java.util.*;
 
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
+	private ClassfileLoader dir_loader = new DirectoryClassfileLoader(this);
+	private ClassfileLoader jar_loader = new JarClassfileLoader(this);
+	private ClassfileLoader zip_loader = new ZipClassfileLoader(this);
+
 	private HashSet load_listeners = new HashSet();
 
 	protected void Load(String filename) {
-		ClassfileLoader loader;
-
 		if (filename.endsWith(".jar")) {
-			loader = new JarClassfileLoader(this);
+			jar_loader.Load(filename);
 		} else if (filename.endsWith(".zip")) {
-			loader = new ZipClassfileLoader(this);
+			zip_loader.Load(filename);
 		} else {
-			loader = new DirectoryClassfileLoader(this);
+			dir_loader.Load(filename);
 		}
-		
-		loader.Load(filename);
 	}
 
 	public void addLoadListener(LoadListener listener) {
