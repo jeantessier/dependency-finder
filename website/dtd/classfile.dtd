@@ -121,7 +121,7 @@
 
 <!ELEMENT fields (field-info*) >
 
-<!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, name, type)>
+<!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, name, type, attributes)>
 <!ATTLIST field-info
           access-number CDATA #REQUIRED
 >
