@@ -1,0 +1,306 @@
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+
+<h1>The Dependency Finder Developer Guide</h1>
+
+<p>
+by Jean Tessier
+</p>
+
+<hr />
+
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Installation">Installation</a></li>
+<ul>
+<li><a href="#JavaApplication">Java Application</a></li>
+<ul>
+<li><a href="#JAVA_HOME"><code>JAVA_HOME</code></a></li>
+<li><a href="#DEPENDENCYFINDER_HOME"><code>DEPENDENCYFINDER_HOME</code></a></li>
+<li><a href="#DEPENDENCYFINDER_OPTS"><code>DEPENDENCYFINDER_OPTS</code></a></li>
+</ul>
+<li><a href="#WebApplication">Web Application</a></li>
+<ul>
+<li><a href="#web.xml"><code>web.xml</code></a></li>
+</ul>
+</ul>
+<li><a href="#HistoryBehindDependencyFinder">History Behind Dependency Finder</a></li>
+<ul>
+<li><a href="#ClassFiles">Class Files</a></li>
+<li><a href="#Dependencies">Dependencies</a></li>
+<li><a href="#Metrics">Metrics</a></li>
+<li><a href="#APIDifferences">API Differences</a></li>
+</ul>
+<li><a href="#ClassFilesX">Class Files</a></li>
+<ul>
+<li><a href="#ClassfileLoader"><code>ClassfileLoader</code></a></li>
+<li><a href="#Visitor"><code>Visitor</code></a></li>
+</ul>
+<li><a href="#DependenciesX">Dependencies</a></li>
+<li><a href="#OOMetrics">OO Metrics</a></li>
+<ul>
+<li><a href="#DataStructure">Data Structure</a></li>
+</ul>
+<li><a href="#APIDifferencesX">API Differences</a></li>
+<li><a href="#BuildingDependencyFinder">Building Dependency Finder</a></li>
+<ul>
+<li><a href="#CompilingaBuild">Compiling a Build</a></li>
+<li><a href="#TestingtheBuild">Testing the Build</a></li>
+<li><a href="#MakingaRelease">Making a Release</a></li>
+</ul>
+</ul>
+
+
+<hr />
+
+<a name="Introduction" />
+<h2>Introduction</h2>
+
+<hr />
+
+<a name="Installation" />
+<h2>Installation</h2>
+<a name="JavaApplication" />
+<h3>Java Application</h3>
+<a name="JAVA_HOME" />
+<h4><code>JAVA_HOME</code></h4>
+<a name="DEPENDENCYFINDER_HOME" />
+<h4><code>DEPENDENCYFINDER_HOME</code></h4>
+<a name="DEPENDENCYFINDER_OPTS" />
+<h4><code>DEPENDENCYFINDER_OPTS</code></h4>
+<a name="WebApplication" />
+<h3>Web Application</h3>
+<a name="web.xml" />
+<h4><code>web.xml</code></h4>
+
+<hr />
+
+<a name="HistoryBehindDependencyFinder" />
+<h2>History Behind Dependency Finder</h2>
+<a name="ClassFiles" />
+<h3>Class Files</h3>
+<a name="Dependencies" />
+<h3>Dependencies</h3>
+<a name="Metrics" />
+<h3>Metrics</h3>
+<a name="APIDifferences" />
+<h3>API Differences</h3>
+
+<hr />
+
+<a name="ClassFilesX" />
+<h2>Class Files</h2>
+
+<p>
+You use the <code>com.jeantessier.classreader</code> package to parse compiled
+Java code.  You feed <code>.class</code> files to a <code>ClassfileLoader</code> and you get
+instances of <code>Classfile</code> back.
+</p>
+
+<a name="ClassfileLoader" />
+<h3><code>ClassfileLoader</code></h3>
+
+<p>
+The <code>ClassfileLoader</code> classes you will use the most often derive from
+<code>ClassfileLoaderEventSource</code>.  These loaders are the ones who actually
+create instances of <code>Classfile</code>.  They also keep track of <code>LoadListener</code>
+objects and drive the event model associated parsing class files.
+</p>
+
+<p>
+<code>ClassfileLoader</code> has only one public method for loading classes that
+takes a collection of names.  This defines a session.  Listeners will
+receive a <code>BeginSession</code> event at the beginning of the method and an
+<code>EndSession</code> event just before the method returns.  Each name in the
+collection defines a group.  This can be a JAR file, a Zip file, a
+directory hierarchy containing <code>.class</code> files, or even a single <code>.class</code>
+file.  Each group starts with a <code>BeginGroup</code> and ends with an <code>EndGroup</code>
+event.  Finally, the loader sends a <code>BeginClassfile</code> event before
+processing every class file, and an <code>EndClassfile</code> event afterwards.
+</p>
+
+<p>
+There are two concrete subclasses of <code>ClassfileLoaderEventSource</code>:
+</p>
+
+<ul>
+<li>AggregatingClassfileLoader</li>
+<li>TransientClassfileLoader</li>
+</ul>
+
+<p>
+They differ in whether or not they keep track of the classes they parse.
+</p>
+
+<p>
+You can get instances of <code>Classfile</code> either from <code>EndClassfile</code> events
+or by querying the loader.  You can traverse them with objects that
+implement <code>com.jeantessier.classreader.Visitor</code>.  They have callback
+methods that get called by the various parts of <code>Classfile</code> objects.
+</p>
+
+<p>
+Depending on the nature of a given name for a group, the loader uses a
+decorator loader to actually open input streams to individual class files.
+These decorators are subclasses of <code>ClassfileLoaderDecorator</code>.  They are:
+</p>
+
+<ul>
+<li>DirectoryClassfileLoader</li>
+<li>ZipClassfileLoader</li>
+<li>JarClassfileLoader</li>
+</ul>
+
+<p>
+A decorator opens input streams from the data sources and passes them to an
+underlying <code>ClassfileLoader</code>.
+</p>
+
+<p>
+The reason for the distinction is because the first kind handles how long
+the <code>Classfile</code> instances remain in memory, while the second kind handles
+various input file types.
+</p>
+
+<a name="Visitor" />
+<h3><code>Visitor</code></h3>
+
+<p>
+You can implement the <code>Visitor</code> interface to traverse <code>Classfile</code> structures.
+It has callback methods that get called by various parts of the structure.
+</p>
+
+<p>
+Look at the code of <code>ClassMetrics</code> for an example of using the Visitor
+pattern to traverse <code>Classfile</code> instances.
+</p>
+
+<hr />
+
+<a name="DependenciesX" />
+<h2>Dependencies</h2>
+
+<p>
+Look at the code of <code>DependencyMetrics</code> for an example of using the Visitor
+pattern to traverse dependency graphs.
+</p>
+
+<hr />
+
+<a name="OOMetrics" />
+<h2>OO Metrics</h2>
+
+<p>
+You use <code>com.jeantessier.metrics.MetricsGatherer</code> instance to
+read class files and compute the metrics.  It is a
+<code>com.jeantessier.classreader.Visitor</code> and will traverse the complete
+structure rooted at the <code>Classfile</code> instance and compute various metrics.
+</p>
+
+<p>
+The <code>MetricsGatherer</code> uses a <code>MetricsFactory</code> to create the various
+<code>Metrics</code> instances.  The factory uses a <code>MetricsConfiguration</code> instance
+to decide what measurements make up a given set of metrics.  The
+configuration is loaded at runtime from an XML file.
+</p>
+
+<a name="DataStructure" />
+<h3>Data Structure</h3>
+
+<div align="center">
+    <img src="images/MetricsLegend.gif" /><br />
+    <img src="images/MetricsStructure.gif" /><br />
+</div>
+
+<hr />
+
+<a name="APIDifferencesX" />
+<h2>API Differences</h2>
+
+<p>
+You can use <code>com.jeantessier.classreader.ClassfileLoader</code> classes to
+examine the baseline of your codebase; be they in JAR files, loose
+class files, or a combination of both.  You can apply the same treatment
+to your latest codebase.  You now have two sets <code>Classfile</code> instances.
+</p>
+
+<p>
+You can use <code>com.jeantessier.dependency.NodeFactory</code> to create a tree
+of packages, classes, and features from each codebase.  You can then
+start to compare them to each other.  If a package is in the old
+codebase but not in the new one, you can mark it as having been removed.
+If it is not in the old codebase but it is in new one, then you can
+mark it as having been recently added.  For packages that are present
+in both codebase, you can repeat this analysis at the class level, and
+then at the feature level.
+</p>
+
+<hr />
+
+<a name="BuildingDependencyFinder" />
+<h2>Building Dependency Finder</h2>
+
+<pre>
+    C:\>ant
+</pre>
+
+<a name="CompilingaBuild" />
+<h3>Compiling a Build</h3>
+
+<pre>
+    C:\>ant jar
+    C:\>ant clean
+    C:\>ant docs
+    C:\>ant dist
+    C:\>ant src
+    C:\>ant war
+</pre>
+
+<p>
+or
+</p>
+
+<pre>
+    C:\>ant jar clean docs dist src war
+</pre>
+
+<a name="TestingtheBuild" />
+<h3>Testing the Build</h3>
+
+<pre>
+    C:\>ant tests
+    C:\>textjunit TestAll
+</pre>
+
+<a name="MakingaRelease" />
+<h3>Making a Release</h3>
+
+<ol>
+<li><code>cvs tag release-20030101</code></li>
+<li><code>ant realclean</code></li>
+<li>Generate the documentation using perl script (Manual, Developer, Tools)</li>
+<li><code>ant jar clean docs dist war src</code></li>
+<li><code>ant ftp</code></li>
+<li><code>cvs log -rrelease-20020711:release-20030101</code></li>
+<li>Create new release on SourceForge.net</li>
+<li>Notify monitoring people</li>
+<li>Close bugs</li>
+<li>Close feature requests</li>
+<li>New news item</li>
+<li>Post to news groups (<code>comp.lang.java</code>, <code>comp.lang.java.announce</code>, <code>comp.lang.java.softwaretools</code>, <code>comp.software.measurement</code>, <code>comp.software-eng</code>)</li>
+<li>Generate sample files</li>
+</ol>
+
+<hr />
+
+</body>
+
+</html>

@@ -8,7 +8,7 @@
 
 <body>
 
-<h1>The Dependency Finder Manual</h1>
+<h1>The Dependency Finder User Manual</h1>
 
 <p>
 by Jean Tessier
@@ -21,14 +21,21 @@ by Jean Tessier
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Installation">Installation</a></li>
 <ul>
-<li><a href="#JavaApplication">Java Application</a></li>
+<li><a href="#JavaApplicationonWindows">Java Application on Windows</a></li>
 <ul>
 <li><a href="#Step1:JavaVirtualMachine">Step 1: Java Virtual Machine</a></li>
-<li><a href="#Step2:ExtractDependencyFinder">Step 2: Extract Dependency Finder</a></li>
+<li><a href="#Step2:DeployDependencyFinder">Step 2: Deploy Dependency Finder</a></li>
 <li><a href="#Step3:EnvironmentVariables">Step 3: Environment Variables</a></li>
 <li><a href="#Step4:PATH">Step 4: <code>PATH</code></a></li>
 <li><a href="#Step5:Reboot">Step 5: Reboot</a></li>
 <li><a href="#Miscellaneous">Miscellaneous</a></li>
+</ul>
+<li><a href="#JavaApplicationonUnix">Java Application on Unix</a></li>
+<ul>
+<li><a href="#Step1:JavaVirtualMachineX">Step 1: Java Virtual Machine</a></li>
+<li><a href="#Step2:DeployDependencyFinderX">Step 2: Deploy Dependency Finder</a></li>
+<li><a href="#Step3:EnvironmentVariablesX">Step 3: Environment Variables</a></li>
+<li><a href="#Step4:PATHX">Step 4: <code>PATH</code></a></li>
 </ul>
 <li><a href="#WebApplication">Web Application</a></li>
 <ul>
@@ -37,35 +44,36 @@ by Jean Tessier
 </ul>
 </ul>
 <li><a href="#HistoryBehindDependencyFinder">History Behind Dependency Finder</a></li>
-<ul>
-<li><a href="#ClassFiles">Class Files</a></li>
-<li><a href="#Dependencies">Dependencies</a></li>
-<li><a href="#Metrics">Metrics</a></li>
-<li><a href="#APIDifferences">API Differences</a></li>
-</ul>
 <li><a href="#RunningDependencyFinder">Running Dependency Finder</a></li>
 <ul>
 <li><a href="#GUI">GUI</a></li>
 <li><a href="#CLI">CLI</a></li>
 </ul>
-<li><a href="#ClassFilesX">Class Files</a></li>
+<li><a href="#ClassFiles">Class Files</a></li>
 <ul>
-<li><a href="#MetricsX">Metrics</a></li>
-<li><a href="#Tools">Tools</a></li>
+<li><a href="#ClassReader">ClassReader</a></li>
+<li><a href="#ClassDump">ClassDump</a></li>
+<li><a href="#ClassInheritance">ClassInheritance</a></li>
+<li><a href="#ClassMetrics">ClassMetrics</a></li>
+<li><a href="#ClassList">ClassList</a></li>
 </ul>
-<li><a href="#DependenciesX">Dependencies</a></li>
+<li><a href="#Dependencies">Dependencies</a></li>
 <ul>
 <li><a href="#Extracting">Extracting</a></li>
 <ul>
-<li><a href="#ExtractingwiththeGUI">Extracting with the GUI</a></li>
-<li><a href="#ExtractingwiththeCLI">Extracting with the CLI</a></li>
-<li><a href="#MinimizingandMaximizing">Minimizing and Maximizing</a></li>
+<li><a href="#DependenciesonSelf">Dependencies on Self</a></li>
+<li><a href="#ExtractingWiththeGUI">Extracting With the GUI</a></li>
+<li><a href="#ExtractingWiththeCLI">Extracting With the CLI</a></li>
+<li><a href="#ExtractingWiththeWebApplication">Extracting With the Web Application</a></li>
+<li><a href="#MinimizingAndMaximizing">Minimizing And Maximizing</a></li>
 </ul>
 <li><a href="#Reporting">Reporting</a></li>
 <ul>
 <li><a href="#PerlRegularExpressions">Perl Regular Expressions</a></li>
-<li><a href="#TextualOutput">Textual Output</a></li>
-<li><a href="#HTMLOutput">HTML Output</a></li>
+<li><a href="#AdvancedView">Advanced View</a></li>
+<li><a href="#ShowingOnlyInboundDependencies">Showing Only Inbound Dependencies</a></li>
+<li><a href="#ShowingOnlyOutboundDependencies">Showing Only Outbound Dependencies</a></li>
+<li><a href="#ShowingBothInboundsAndOutboundDependencies">Showing Both Inbounds And Outbound Dependencies</a></li>
 </ul>
 <li><a href="#TransitiveClosure">Transitive Closure</a></li>
 <li><a href="#DependencyMetrics">Dependency Metrics</a></li>
@@ -76,13 +84,13 @@ by Jean Tessier
 <li><a href="#ExtractingX">Extracting</a></li>
 <li><a href="#ReportingX">Reporting</a></li>
 <ul>
-<li><a href="#TextualOutputX">Textual Output</a></li>
-<li><a href="#HTMLOutputX">HTML Output</a></li>
+<li><a href="#TextualOutput">Textual Output</a></li>
+<li><a href="#CSVOutput">CSV Output</a></li>
+<li><a href="#XMLOutput">XML Output</a></li>
 </ul>
 </ul>
-<li><a href="#APIDifferencesX">API Differences</a></li>
+<li><a href="#APIDifferences">API Differences</a></li>
 <ul>
-<li><a href="#ExplanationX">Explanation</a></li>
 <li><a href="#ExtractingXX">Extracting</a></li>
 <li><a href="#ReportingXX">Reporting</a></li>
 <ul>
@@ -91,11 +99,6 @@ by Jean Tessier
 <li><a href="#Filtering">Filtering</a></li>
 <li><a href="#ListingPublishedDocumentationChanges">Listing Published Documentation Changes</a></li>
 </ul>
-</ul>
-<li><a href="#BuildingDependencyFinder">Building Dependency Finder</a></li>
-<ul>
-<li><a href="#CompilingaBuild">Compiling a Build</a></li>
-<li><a href="#TestingtheBuild">Testing the Build</a></li>
 </ul>
 <li><a href="#Support">Support</a></li>
 </ul>
@@ -117,27 +120,27 @@ Many authors have stressed the importance of managing depencencies
 <a href="http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid=980962318/sr=8-1/ref=aps_sr_b_1_1/105-0176284-9920776">John Lakos</a>).
 Managing
 dependencies means securing encapsulation and making sure that the code
-follows the architecture.  It is also essential for the modularization
-of code and favors reuse.  By extracting the information from the code
-itself, we can detect where we were sloppy, where we took shortcuts that
-we shouldn't have.  Managing the dependencies can shorten the compilation
-time of the code.
+follows the architecture.  It is also essential for the modularization of
+code and favors reuse.  By extracting the information from the code itself,
+we can detect where we were sloppy, where we took shortcuts that we
+shouldn't have.  Managing the dependencies can shorten the compilation time
+of the code.
 </p>
 
 <p>
 This application also includes tools for computing metrics based on
-information extracted from compiled Java code.  These measurements are
-also helpful guides during development and can point out areas in the
-code that need improvement.
+information extracted from compiled Java code.  These measurements can be
+helpful to guide development and can point out areas where the code needs
+improvement.
 </p>
 
 <p>
-Finally, this application includes a tool that computes the changes in
-the API of a system between successive versions.  You can use it as a
-consumer of libraries to verify that the parts you are dependending
-upon have not changed.  You can use it as a producer of libraries to
-assertain the impact your changes might have on your customers.  You
-can even use it to monitor the evolution of your software.
+Finally, this application includes a tool that computes the changes in the
+API of a system between successive versions.  If you use third-party
+libraries, you can use it to verity that the parts you are dependending
+upon have not changed.  If you provide libraries to others, you can use it
+to assertain the impact changes might have on your customers.  You can even
+use it to monitor the evolution of your own software.
 </p>
 
 <hr />
@@ -145,8 +148,8 @@ can even use it to monitor the evolution of your software.
 <a name="Installation" />
 <h2>Installation</h2>
 
-<a name="JavaApplication" />
-<h3>Java Application</h3>
+<a name="JavaApplicationonWindows" />
+<h3>Java Application on Windows</h3>
 
 <p>
 Dependency Finder comes as a ZIP file that includes everything you need
@@ -158,7 +161,7 @@ to run it.
 
 <p>
 You need to have a Java Virtual Machine installed.  You can get one for
-free from <a href="http://www.javasoft.com/">JavaSoft</a>.  Make sure you define
+free from <a href="http://java.sun.com/">Sun Microsytems</a>.  Make sure you define
 the <code>JAVA_HOME</code> environment variable.
 </p>
 
@@ -176,12 +179,12 @@ use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 </p>
 
-<a name="Step2:ExtractDependencyFinder" />
-<h4>Step 2: Extract Dependency Finder</h4>
+<a name="Step2:DeployDependencyFinder" />
+<h4>Step 2: Deploy Dependency Finder</h4>
 
 <p>
 Extract the ZIP file to some directory you like.  The extraction will
-create a subdirectory named "DependnecyFinder" that is the root of the
+create a subdirectory named "DependencyFinder" that is the root of the
 package.
 </p>
 
@@ -192,6 +195,9 @@ directory called <code>C:\DependencyFinder\</code>.
 
 <a name="Step3:EnvironmentVariables" />
 <h4>Step 3: Environment Variables</h4>
+
+<i>This is only required on Win95/98.  Under WinNT, the scripts are smart
+enough to find out where you installed Dependency Finder on their own.</i>
 
 <p>
 Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it
@@ -212,10 +218,6 @@ use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 </p>
 
-<i>This is only required with Win95/98.  Under WinNT, the scripts are
-smart enough to find out where you installed Dependency Finder on their
-own.</i>
-
 <a name="Step4:PATH" />
 <h4>Step 4: <code>PATH</code></h4>
 
@@ -235,8 +237,12 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 <h4>Step 5: Reboot</h4>
 
 <p>
-Under Win95/98, you will need to reboot your computer for the changes to
-the environment to take effect.
+<i>This is only required on Win95/98.</i>
+</p>
+
+<p>
+Under Win95/98, you will need to reboot your computer for the changes to the
+environment to take effect.
 </p>
 
 <a name="Miscellaneous" />
@@ -252,34 +258,185 @@ environment variable.
 </pre>
 
 <p>
-If you get the message "Out of environment space" while running the
-scripts on a Windows machine, you will need to add the following line
-to your <code>C:\CONFIG.SYS</code> file and then reboot.
+If you get the message "Out of environment space" while running the scripts
+on a Windows machine, you will need to add the following line to your
+<code>C:\CONFIG.SYS</code> file and then reboot.
 </p>
 
 <pre>
     shell=command.com /e:8192 /p
 </pre>
 
+<p>
+This reserves more space for environment variables in the DOS shell. You can
+type:
+</p>
+
+<pre>
+    C:\>command /?
+</pre>
+
+<p>
+for more details.
+</p>
+
+<a name="JavaApplicationonUnix" />
+<h3>Java Application on Unix</h3>
+
+<p>
+At this time, Dependency Finder does not have shell scripts to launch any
+of the tools the way it does under DOS.
+</p>
+
+<a name="Step1:JavaVirtualMachineX" />
+<h4>Step 1: Java Virtual Machine</h4>
+
+<p>
+You need to have a Java Virtual Machine installed.  You can get one for
+free from Linux or Solaris from <a href="http://java.sun.com/">Sun Microsytems</a>.
+Make sure you define the <code>JAVA_HOME</code> environment variable.
+</p>
+
+<p>
+Suppose you installed JDK 1.3 in <code>/usr/java</code>.
+</p>
+
+<p>
+For sh or bash:
+</p>
+
+<pre>
+    JAVA_HOME=/usr/java
+    export JAVA_HOME
+</pre>
+
+<p>
+For csh or tcsh:
+</p>
+
+<pre>
+    setenv JAVA_HOME /usr/java
+</pre>
+
+<p>
+You can put this line in your <code>.cshrc</code> file.
+</p>
+
+<a name="Step2:DeployDependencyFinderX" />
+<h4>Step 2: Deploy Dependency Finder</h4>
+
+<p>
+Extract the ZIP file to some directory you like.  The extraction will
+create a subdirectory named "DependencyFinder" that is the root of the
+package.
+</p>
+
+<pre>
+    $ unzip DependencyFinder.zip
+</pre>
+
+<p>
+For example, if you extract it to <code>$HOME</code>, you will endup with a
+directory called <code>$HOME/DependencyFinder/</code>.
+</p>
+
+<a name="Step3:EnvironmentVariablesX" />
+<h4>Step 3: Environment Variables</h4>
+
+<p>
+Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it
+point to the directory where you installed Dependency Finder.
+</p>
+
+<p>
+If the VM runs out of memory, try modifying the <code>DEPENDENCYFINDER_OPTS</code>
+environment variable to allocate more memory to the JVM.
+</p>
+
+<p>
+Suppose you extracted the ZIP file in <code>$HOME</code>.
+</p>
+
+<p>
+For sh or bash:
+</p>
+
+<pre>
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
+    export DEPENDENCYFINDER_HOME
+    DEPENDENCYFINDER_OPTS=-Xmx128m
+    export DEPENDENCYFINDER_OPTS
+</pre>
+
+<p>
+For csh or tcsh:
+</p>
+
+<pre>
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder
+    setenv DEPENDENCYFINDER_OPTS -Xmx128m
+</pre>
+
+<p>
+You can put these lines in your <code>.cshrc</code> file.
+</p>
+
+<a name="Step4:PATHX" />
+<h4>Step 4: <code>PATH</code></h4>
+
+<p>
+Add the directory where you put the Unix scripts to your <code>PATH</code> variable.
+</p>
+
+<p>
+Suppose you extracted the ZIP file in <code>$HOME</code>.
+</p>
+
+<p>
+For sh or bash:
+</p>
+
+<pre>
+    PATH=$DEPENDENCYFINDER_HOME\bin;$PATH
+    export PATH
+</pre>
+
+<p>
+For csh or tcsh:
+</p>
+
+<pre>
+    set path = ($DEPENDENCYFINDER_HOME\bin $path)
+</pre>
+
+<p>
+You can put this line in your <code>.cshrc</code> file.
+</p>
+
 <a name="WebApplication" />
 <h3>Web Application</h3>
 
 <p>
-Dependency Finder also comes as a web application that you can easily
-deploy in just about any J2EE servlet container.
+Dependency Finder also comes as a web application that you can easily deploy
+in just about any J2EE servlet container.
 </p>
 
 <a name="Step1:DeployWARFile" />
 <h4>Step 1: Deploy WAR File</h4>
 
 <p>
-Use your favorite servlet container to deploy the WAR file.  For
-instance, under Tomcat:
+Use your favorite servlet container to deploy the WAR file.  Most of them
+have tools for deploying WAR files.  For some of them, it can be as simple
+as deploying the WAR file to a specific directory.
+</p>
+
+<p>
+For instance, under Tomcat on Windows:
 </p>
 
 <pre>
     C:\>%CATALINA_HOME%\bin\shutdown
-    C:\>COPY DependencyFinder.war %CATALINA_HOME%\webapps
+    C:\>copy DependencyFinder.war %CATALINA_HOME%\webapps
     C:\>%CATALINA_HOME%\bin\startup
 </pre>
 
@@ -287,11 +444,11 @@ instance, under Tomcat:
 <h4>Step 2: Configure <code>web.xml</code> file</h4>
 
 <p>
-Next, you need to tell the wep application where to find the Java
-classes to extract dependencies from.  This is done via the <code>web.xml</code>
-file in the <code>WEB-INF\</code> directory.  Some application servers expose
-the content of this file through some form of user interface.  Under
-Tomcat, you have to edit the file yourself using a text editor.
+Next, you need to tell the wep application where to find the Java classes to
+extract dependencies from.  This is done via the <code>web.xml</code> file in the
+<code>WEB-INF\</code> directory.  Some application servers expose the content of this
+file through some form of user interface.  Under Tomcat, you have to edit
+the file yourself using a text editor.
 </p>
 
 <p>
@@ -306,9 +463,9 @@ There are three application variable to adjust.
 	    <b><code>name</code></b>
 	</td>
 	<td>
-	    Used in the JSPs to tell the users what that are looking
-	    at.  Put the name of the application that you are
-	    extracting from here.
+	    Used in the JSPs to tell the users what that are looking at.
+	    Put the name of the application that you are extracting from
+	    here, it will be shown in titles by the JSPs.
 	</td>
     </tr>
     <tr>
@@ -317,10 +474,10 @@ There are three application variable to adjust.
 	</td>
 	<td>
 	    Use this variable to tell Dependency Finder where to locate
-	    classes to extract.  You can separate multiple locations
-	    by using commas.  Each location can either be a JAR file,
-	    a ZIP file, a <code>.class</code> file, or a directory that will be
-	    recursively searched for <code>.class</code> files.
+	    classes find which to extract a dependency graph.  You can
+	    separate multiple locations by using commas.  Each location
+	    can either be a JAR file, a ZIP file, a <code>.class</code> file, or a
+	    directory that will be recursively searched for <code>.class</code> files.
 	</td>
     </tr>
     <tr>
@@ -328,17 +485,18 @@ There are three application variable to adjust.
 	    <b><code>mode</code></b>
 	</td>
 	<td>
-	    Tells Dependency Finder whether to <i>minimize</i> or <i>maximize</i>
-	    the resulting graph, or just leave it alone (<i>raw</i>, the
-	    default value).
+	    Optional.  Tells Dependency Finder whether to <i>minimize</i> or
+	    <i>maximize</i> the resulting graph, or just leave it alone (<i>raw</i>,
+	    the default value).  See below for the implications of
+	    minimizing or maximizing a graph.
 	</td>
     </tr>
 </table>
 </blockquote>
 
 <p>
-Under some servlet containers, for example Tomcat, you will need to
-restart the servlet container for the changes to take effect.
+Under some servlet containers, for example Tomcat, you will need to restart
+the servlet container for the changes to take effect.
 </p>
 
 <pre>
@@ -346,30 +504,32 @@ restart the servlet container for the changes to take effect.
     C:\>%CATALINA_HOME%\bin\startup
 </pre>
 
+<p>
+Or you can you the deployment tool in Tomcat Manager to install the web
+application.
+</p>
+
 <hr />
 
 <a name="HistoryBehindDependencyFinder" />
 <h2>History Behind Dependency Finder</h2>
 
 <p>
-This project started because another project of mine became so complex
-that I couldn't track dependencies in my head anymore.  I looked for
-a tool to help me and the only ones I could find were very expensive.
-So I resolved to build my own tool.
+This project started because another project of mine became so complex that
+I couldn't track dependencies in my head anymore.  I looked for a tool to
+help me and the only ones I could find were very expensive.  So I resolved
+to build my own tool.
 </p>
 
 <p>
-I haven't touched that other project since.
+I haven't touched that other project since I started working on Dependency
+Finder.
 </p>
-
-<a name="ClassFiles" />
-<h3>Class Files</h3>
 
 <p>
 At first, I thought of using the Reflection API, but it shows only the
 class's attributes and method signatures.  If a method uses other classes
-as part of its processing, that dependency will not show under the
-Reflection API.
+as part of its processing, the Reflection API will not show that dependency.
 </p>
 
 <p>
@@ -380,48 +540,13 @@ I undertook to parse these files and extract the information I needed
 directly from the compiled code.
 </p>
 
-<a name="Dependencies" />
-<h3>Dependencies</h3>
-
 <p>
-Dependencies occur when one class uses the services of another class.
-This can happen when a class inherits from another, has an attribute
-whose type is of another class, or when one of its methods calls a
-method on an object of another class.
-</p>
-
-<p>
-Knowing about dependencies is useful for programmers when deciding the
-impact of a change.  When you're about to rename a feature or class,
-it is useful to know all the places in the codebase where it is being
-used.
-</p>
-
-<p>
-This is also useful for code reviewers and architects when assessing the
-coupling within an application or library.
-</p>
-
-<a name="Metrics" />
-<h3>Metrics</h3>
-
-<p>
-Object-oriented metrics help assess the quality of a piece of software.
-You can use them to verify that your architecture evolves in the right
-direction, from version to version.  You can also use them to spot
-deviations from your quality guidelines, such as methods that are too
-long or have too many parameters.
-</p>
-
-<a name="APIDifferences" />
-<h3>API Differences</h3>
-
-<p>
-If you are developing some kind of library or framework, that is,
-software that will be used and/or extended by others, you need to know
-what changed from version to version.  The <code>JarJarDiff</code> tool can
-compute differences automatically, so you can quickly know what you
-might have broken in your customer's code.
+Once I had access to the code structure, I got started on tools to report
+<i>interesting</i> information about it.  I started with dependencies and
+quickly moved up to metrics and API differences.  At the beginning, the
+output was only to standard output or a file.  Quickly, I added XSL
+stylesheets so it would look a little better.  Eventually, I added Swing
+application to keep the data in memory and play with it a while.
 </p>
 
 <hr />
@@ -431,8 +556,8 @@ might have broken in your customer's code.
 
 <p>
 Once you have installed Dependency Finder, you are ready to use all the
-tools now at your disposal.  All of them are Java applications that you
-launch using a batch file or shell script.
+tools now at your disposal.  Almost all of them are Java applications that
+you launch using a batch file or shell script.
 </p>
 
 <p>
@@ -441,7 +566,7 @@ offered a basic command-line interface (CLI).  Later, I added a Swing
 graphical interface (GUI) that simply replicated the controls available
 through the CLI.  Finally, I build a web application that mirrored the
 GUI.  This might help explain why the the interface looks the way it
-does and why it may not always be optimally intuitive.
+does and why it may not always be very intuitive.
 </p>
 
 <p>
@@ -450,7 +575,7 @@ tools.
 </p>
 
 <p>
-All the tools support the following three command-line switches:
+All the tools support the following two command-line switches:
 </p>
 
 <blockquote>
@@ -469,23 +594,12 @@ All the tools support the following three command-line switches:
     <tr>
 	<td valign="top"
 	    nowrap="true">
-	    <code>-trace [filename]</code>
-	</td>
-	<td>
-	    Writes <i>very</i> detailed processing information to <i>filename</i>.
-	    If you do not specify a file, the tool will write the
-	    information to the standard output stream.
-	</td>
-    </tr>
-    <tr>
-	<td valign="top"
-	    nowrap="true">
 	    <code>-verbose [filename]</code>
 	</td>
 	<td>
-	    Writes summary processing information to <i>filename</i>.
-	    If you do not specify a file, the tool will write the
-	    information to the standard output stream.
+	    Writes summary processing information to <i>filename</i>.  If you do
+	    not specify a file, the tool will write the information to the
+	    standard output stream.
 	</td>
     </tr>
 </table>
@@ -505,7 +619,7 @@ command-line switches:
 	    <code>-in</code>
 	</td>
 	<td>
-	    Many of the CLI tools are automated translation of XML data
+	    Many of the CLI tools are automated translations of XML data
 	    into either HTML or plain text.  The scripts have hard-coded
 	    XSL stylesheets.  You specify the XML input with this switch.
 	</td>
@@ -516,9 +630,8 @@ command-line switches:
 	    <code>-out filename</code>
 	</td>
 	<td>
-	    Writes the output of the command to <i>filename</i>.  Most
-	    commands default to the standard output if you do not
-	    use <code>-out</code>.
+	    Writes the output of the command to <i>filename</i>.  Most commands
+	    default to the standard output if you do not use <code>-out</code>.
 	</td>
     </tr>
     <tr>
@@ -527,11 +640,10 @@ command-line switches:
 	    <code>-time</code>
 	</td>
 	<td>
-	    Prints the time it took to run the command.  If you run
-	    commands against a large codebase or dependency graph,
-	    it can take a substantial amount of time before it returns.
-	    This information can help you plan lenghty operations in
-	    the future.
+	    Prints the time it took to run the command.  If you run commands
+	    against a large codebase or dependency graph, it can take a
+	    substantial amount of time before it returns.  This information
+	    can help you plan lenghty operations in the future.
 	</td>
     </tr>
 </table>
@@ -547,7 +659,7 @@ an interface for querying the graph and display the results.
 </p>
 
 <div align="center">
-    <a href="images/DependencyFinder.jpg"><img src="images/s_DependencyFinder.jpg" /></a><br />
+    <a href="images/DependencyFinder.query.jpg"><img src="images/s_DependencyFinder.query.jpg" /></a><br />
 <b>DependencyFinder</b>
 </div>
 
@@ -558,7 +670,7 @@ level of detail: package, class, or method.
 </p>
 
 <div align="center">
-    <a href="images/OOMetricsGUI.jpg"><img src="images/s_OOMetricsGUI.jpg" /></a><br />
+    <a href="images/OOMetricsGUI.sample.jpg"><img src="images/s_OOMetricsGUI.sample.jpg" /></a><br />
 <b>OOMetricsGUI</b>
 </div>
 
@@ -572,83 +684,72 @@ level of detail: package, class, or method.
 
 <hr />
 
-<a name="ClassFilesX" />
+<a name="ClassFiles" />
 <h2>Class Files</h2>
 
 <p>
-You use the <code>com.jeantessier.classreader</code> package to parse compiled
-Java code.  You feed files to a <code>ClassfileLoader</code> and you get instances
-of <code>Classfile</code> from it.
+Dependency Finder uses specialized classes to parse <code>.class</code> files.  It also
+includes some tools for looking at the contents of these files.
 </p>
+
+<a name="ClassReader" />
+<h3>ClassReader</h3>
 
 <p>
-There are two kinds of <code>ClassfileLoader</code>.  The first kind opens input
-streams from the data sources and passes these streams to an underlying
-<code>ClassfileLoader</code> of the second kind.  The second kind creates the
-<code>Classfile</code> instances and fires processing events to registered listeners.
-The reason for the separation is because the first kind handles various
-file types, while the second kind handles how long the <code>Classfile</code>
-instances remain in memory.
+Use this tool to put the class in a <code>.class</code> file in human-readable form.
+With the <code>-xml</code> switch, it dumps the complete structure to an XML file
+that you can manipulate with your favorite XML editor.
 </p>
+
+<a name="ClassDump" />
+<h3>ClassDump</h3>
+<a name="ClassInheritance" />
+<h3>ClassInheritance</h3>
+<a name="ClassMetrics" />
+<h3>ClassMetrics</h3>
 
 <p>
-The first kind derives from <code>ClassfileLoaderDecorator</code> and follows the
-decorator pattern.  It wraps another <code>ClassfileLoader</code>, passing it input
-streams and triggering event firing.  It includes the following concrete
-classes:
+This is a simple tally of how many classses, interfaces, methods, publics,
+statics, finals, etc. there are in a given codebase.  These tallies are
+not as powerful as the metrics of <code>OOMetrics</code>, but they can give you a
+rough idea of the size and complexity of a piece of software.
 </p>
 
-<ul>
-<li>DirectoryClassfileLoader</li>
-<li>ZipClassfileLoader</li>
-<li>JarClassfileLoader</li>
-</ul>
-
-<p>
-The second kind derives from <code>ClassfileLoaderEventSource</code>.  These classes
-create instances of <code>Classfile</code> and keep track of <code>LoadListener</code> objects.
-It includes the following concrete classes:
-</p>
-
-<ul>
-<li>AggregatingClassfileLoader</li>
-<li>TransientClassfileLoader</li>
-</ul>
-
-<p>
-Once you have an instance of <code>Classfile</code>, you can traverse it with a
-class that implements <code>com.jeantessier.classreader.Visitor</code>.  It has
-callback methods that get called by the various components of the
-<code>Classfile</code>.
-</p>
-
-<a name="MetricsX" />
-<h3>Metrics</h3>
-<a name="Tools" />
-<h3>Tools</h3>
-
-<ul>
-<li>ClassReader</li>
-<li>ClassDump</li>
-<li>ClassInheritance</li>
-<li>ClassMetrics</li>
-<li>ClassList</li>
-</ul>
+<a name="ClassList" />
+<h3>ClassList</h3>
 
 <hr />
 
-<a name="DependenciesX" />
+<a name="Dependencies" />
 <h2>Dependencies</h2>
 
 <p>
-Dependency Finder builds dependency graphs based on the information
-in class files.
+Dependencies occur when one class uses the services of another class.  This
+can happen when a class inherits from another, has an attribute whose type
+is of another class, or when one of its methods calls a method on an object
+of another class.
 </p>
 
 <p>
-As we mentioned earlier, a dependency is when the functioning of one
-element <code>A</code> requires the presence of another element <code>B</code>.  We say that
-<code>A</code> <i>depends</i> on <code>B</code> and we write it:
+Knowing about dependencies is useful for programmers when deciding the
+impact of a change.  When you're about to rename a feature or class, it is
+useful to know all the places in the codebase where it is being used.
+</p>
+
+<p>
+This is also useful for code reviewers and architects when assessing the
+coupling within an application or library.
+</p>
+
+<p>
+Dependency Finder builds dependency graphs based on the information in
+class files.
+</p>
+
+<p>
+As we mentioned earlier, a dependency is when the functioning of one element
+<code>A</code> requires the presence of another element <code>B</code>.  We say that <code>A</code> <i>depends</i>
+on <code>B</code> and we write it:
 </p>
 
 <pre>
@@ -656,10 +757,10 @@ element <code>A</code> requires the presence of another element <code>B</code>. 
 </pre>
 
 <p>
-We say that <code>A</code> has an <i>outbound</i> dependency while <code>B</code> has an
-<i>inbound</i> dependency.  It is the same dependency, but whether it
-is inbound or outbound is relative to how you look at it.  We also
-say that <code>A</code> is a <i>dependent</i> and <code>B</code> is <i>dependable</i>.
+We say that <code>A</code> has an <i>outbound</i> dependency while <code>B</code> has an <i>inbound</i>
+dependency.  It is the same dependency, but whether it is inbound or
+outbound is relative to how you look at it.  We also say that <code>A</code> is a
+<i>dependent</i> and <code>B</code> is <i>dependable</i>.
 </p>
 
 <p>
@@ -740,11 +841,63 @@ dependency between two classes in two separate packages <i>implies</i> a
 dependency between the packages.
 </p>
 
-<a name="ExtractingwiththeGUI" />
-<h4>Extracting with the GUI</h4>
+<a name="DependenciesonSelf" />
+<h4>Dependencies on Self</h4>
+
+<p>
+If we look closely at this model, we see that recursive method calls and
+certain types of recursive structures can generate dependencies between
+a programming elemend (i.e., a class or a method) and itself.  Or, if a
+method has a parameter or local variable whose type is the enclosing
+class itself, or if an attribute's type is its enclosing class, this
+introduce a dependency from the feature to the class of which it is a
+part of.
+</p>
 
 <div align="center">
-    <a href="images/HighlightedExtractDialog.jpg"><img src="images/s_HighlightedExtractDialog.jpg" /></a><br />
+    <img src="images/SelfDependency.gif" /><br />
+<b>Dependencies on Self</b>
+</div>
+
+<p>
+Dependency Finder does not keep track of dependencies on self.  Dependency
+analysis is useful for two things:
+</p>
+
+<ol>
+<li>Compile-time dependencies</li>
+<li>Runtime dependencies</li>
+</ol>
+
+<p>
+You use compile-time dependency, or change impact analysis, to answer
+questions such as "If I change X, what else might I have to change too?"
+Dependencies on self are not all that useful here.  If I am changing X,
+I don't need to be told that X will be impacted.  Likewise, if I am making
+changes to features of a class, I don't need to be told that the class
+will be impacted; I am already editing it.  I do, however, need to know
+what other features in this class might be impacted.
+</p>
+
+<p>
+You use runtime dependency analysis to answer questions such as "For class
+X to run, what other classes do I need?"  The class as a whole is the unit
+of loading.  If a feature needs its class, the class is forcibly already
+loaded otherwise the JVM would never had gotten to the feature to begin
+with.  Likewise, if a class needs itself, well it is already there.
+</p>
+
+<p>
+So Dependency Finder does not keep track of dependencies on self.  This
+includes implicit dependencies from a class or feature to its package, or
+from a package to itself.
+</p>
+
+<a name="ExtractingWiththeGUI" />
+<h4>Extracting With the GUI</h4>
+
+<div align="center">
+    <a href="images/DependencyFinder.extract.high.jpg"><img src="images/s_DependencyFinder.extract.high.jpg" /></a><br />
 <b>Extract Dialog</b>
 </div>
 
@@ -752,15 +905,23 @@ dependency between the packages.
 Select <code>File&nbsp;|&nbsp;Extract</code>; this will popup a file dialog.
 Select the files and/or directories to extract from and click <code>Extract</code>.
 You can repeat this command as often as needed; each time, the extracted
-dependencies will be added to the current dependency graph.
+dependencies will be added to the current dependency graph in memory.
 </p>
 
-<a name="ExtractingwiththeCLI" />
-<h4>Extracting with the CLI</h4>
+<p>
+You can save the current dependency graph to an XML file by using
+<code>File&nbsp;|&nbsp;Save</code>.  You can later reload the graph by using
+<code>File&nbsp;|&nbsp;Open</code>.  Note that it is usually faster to extract the
+information again from class files than to load it from an XML file.
+</p>
+
+<a name="ExtractingWiththeCLI" />
+<h4>Extracting With the CLI</h4>
 
 <p>
 You use <code>DependencyExtractor</code> to extract dependencies.  Simply string
-out the files and directories on the command line.
+out the files and directories on the command line.  All the dependencies
+are merged into a single output.
 </p>
 
 <p>
@@ -772,28 +933,164 @@ E.g.,
 </pre>
 
 <p>
-All the dependencies are merged into a single output.
+You can specify an output file with the <code>-out</code> switch:
 </p>
 
-<a name="MinimizingandMaximizing" />
-<h4>Minimizing and Maximizing</h4>
+<pre>
+    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df.txt
+</pre>
+
+<p>
+You can save the graph to XML with the <code>-xml</code> switch:
+</p>
+
+<pre>
+    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -xml -out df.xml
+</pre>
+
+<p>
+Or you can use Java serialization to save the graph:
+</p>
+
+<pre>
+    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -serialize -out df.ser
+</pre>
+
+<dl>
+    <dt>NOTE:</dt>
+    <dd><i>At this time, Dependency Finder cannot deserialize the graph
+    back.</i></dd>
+</dl>
+
+<a name="ExtractingWiththeWebApplication" />
+<h4>Extracting With the Web Application</h4>
+
+<p>
+You use <code>extract.jsp</code> to generate a dependency graph for the web application.
+The graph will stay in memory for the lifetime of the process serving the
+application, or until you extract it again with the JSP.  This graph can
+get pretty big, so make sure you allocate enough memory to the application
+server.
+</p>
+
+<p>
+If you just call <code>extract.jsp</code>, it will print statistics on the current
+graph, if any.  These include the number of nodes in the graph, how long
+it took to extract it, and a timestamp of when it was extracted.
+</p>
+
+<p>
+If you click on the <i>Launch</i> button, or call <code>extract.jsp?launch=Launch</code>,
+it will start to extract a new dependency graph.  The previous one will
+remain in use for other callers until the extraction terminates successfully.
+The JSP prints the name of classes as it extracts them.  And at the end, it
+prints how many classes it read and how it it took to analyze them.
+</p>
+
+<p>
+You can use the URL "<code>extract.jsp?launch=Launch</code>" to automatically
+update the graph after automated compilation runs, such as during nightly
+builds.
+</p>
+
+<pre>
+    &lt;target name="extract" depends="init"&gt;
+        &lt;get src="${WEB_APP_URL}/extract.jsp?launch=Launch"
+             dest="log.html"/&gt;
+    &lt;/target&gt;
+</pre>
+
+<a name="MinimizingAndMaximizing" />
+<h4>Minimizing And Maximizing</h4>
+
+<p>
+It is often the case that an explicit dependency in the code can be implied
+from another explicit dependency in that code.  For example, take the
+following code snippet:
+</p>
+
+<pre>
+    class A extends B {
+        public void a() {
+            b();
+        }
+    }
+</pre>
+
+<pre>
+    class B {
+        public void b() {}
+    }
+</pre>
+
+<p>
+We can analyze the dependencies and this is a subset of the resulting
+dependency graph:
+</p>
+
+<div align="center">
+    <img src="images/RedundantI.gif" /><br />
+<b>Raw</b>
+</div>
+
+<p>
+Clearly, the dependency <code>A.a()&nbsp;-->&nbsp;B.b()</code> implies the dependency
+<code>A&nbsp;-->&nbsp;B</code>.  We say that the latter is <i>redundant</i>; it does not
+add anything to the overall connectivity of the graph.  Another, very
+frequent, example of this situation occurs with constructors.
+</p>
+
+<pre>
+    class A extends B {}
+    class B {}
+</pre>
+
+<div align="center">
+    <img src="images/RedundantII.gif" /><br />
+<b>Raw</b>
+</div>
+
+<p>
+Another variation occurs when a method either calls a method on an object
+it received as a parameter or throws a new <code>Exception</code> that is part of
+its <code>throws</code> clause.
+</p>
+
+<pre>
+    class A {
+        public void a(B b) {
+            b.b();
+        }
+    }
+</pre>
+
+<pre>
+    class B {
+        public void b() {}
+    }
+</pre>
+
+<div align="center">
+    <img src="images/RedundantIII.gif" /><br />
+<b>Raw</b>
+</div>
 
 <p>
 We <i>minimize</i> the dependency graph when we remove redundant dependencies.
-If method <code>a()</code> in class <code>A</code> calls method <code>b()</code> in class <code>B</code>, the
-dependency <code>A.a()&nbsp;-->&nbsp;B.b()</code> implies the dependency
-<code>A&nbsp;-->&nbsp;B</code>.  If the latter is also present in the code, let's
-say because <code>A extends B</code>, then it becomes explicit and redundant, since
-is was already introduced by the former dependency.  We can safely remove
-the explicit reference to <code>A&nbsp;-->&nbsp;B</code> without any loss of
-information.
+In the first example above, we would remove the dependency
+<code>A&nbsp;-->&nbsp;B</code>.  Here is what would be the resulting graph:
 </p>
 
+<div align="center">
+    <img src="images/Minimized.gif" /><br />
+<b>Minimized</b>
+</div>
+
 <p>
-We <i>maximize</i> the dependency graph when we expose all implicit
-dependencies by making them explicit.  To take back our previous
-example, <code>A.a()&nbsp;-->&nbsp;B.b()</code>, maximizing it will introduce
-the following dependencies:
+We <i>maximize</i> the dependency graph when we expose all implicit dependencies
+by making them explicit.  Staying with our example,
+<code>A.a()&nbsp;-->&nbsp;B.b()</code>, maximizing it would introduce these
+dependencies:
 </p>
 
 <ul>
@@ -802,8 +1099,13 @@ the following dependencies:
 <li><code>A&nbsp;-->&nbsp;B</code></li>
 </ul>
 
+<div align="center">
+    <img src="images/Maximized.gif" /><br />
+<b>Maximized</b>
+</div>
+
 <p>
-Maximizing and minimizing the dependency graph deals with the trade off
+Maximizing and minimizing a dependency graph deals with the trade off
 between space and time.  Minimizing the graph saves on space, but it
 takes longer to traverse the graph to find if there is a dependency
 between two given nodes.  Maximizing the graph saves on time, since all
@@ -835,28 +1137,27 @@ with the same graph as if you had minimized the original graph.
 <h3>Reporting</h3>
 
 <p>
-<i>Reporting</i> is the act of displaying a dependency graph, or more often
-a subset of it.  The graph is composed of nodes and links.  We apply
-scoping to the nodes and filtering to the links.  In each case, we will
-use Perl regular expressions to indicate which nodes and links we are
-interested in.
+<i>Reporting</i> means displaying a dependency graph.  More often than not, the
+graph on display is a subset of a larger graph.  A graph is composed of nodes
+and links.  When we display a subset of a graph, we must choose which nodes
+and which links to include in the subset.  We use Perl regular expressions to
+indicate what we are interested in.
 </p>
 
 <p>
-So, reporting deals with selecting a subset of the dependency graph;
-that is, choosing a subset of the nodes making up the graph and a
-subset of the links to or from these nodes.  The <i>scope</i> selects the
-nodes in the source graph that will be copied into the destination
-graph.  The <i>filter</i> selects the links (i.e., the dependencies) to or
-from scoped nodes that will be copied into the destination graph,
-along with the nodes at the other end of these link if they were not
-already in the destination graph.
+So, reporting deals with selecting a subset of the dependency graph; that is,
+choosing a subset of the nodes making up the graph and a subset of the links
+to or from these nodes.  The <i>scope</i> selects the nodes in the source graph
+that will be copied into the destination graph.  We then <i>filter</i> the links
+(i.e., the dependencies) to or from nodes in the scope that will be copied
+into the destination graph.  We must also copy the nodes at the other end of
+these link if they were not already in the destination graph.
 </p>
 
 <p>
-We use the term <i>scoping</i> when talking about the selection process for
-nodes.  We use the term <i>filtering</i> when talking about the selection
-process for links.
+We use the term <i>scoping</i> when talking about the selection process for nodes.
+The GUI and the JSPs have a section labeled "Select programming elements" to
+group the controls that govern scoping.
 </p>
 
 <div align="center">
@@ -864,33 +1165,32 @@ process for links.
 <b>Scoping</b>
 </div>
 
+<p>
+We use the term <i>filtering</i> when talking about the selection process for
+links.  The GUI and the JSPs have a section labeled "Show dependencies" to
+group the controls that govern filtering.
+</p>
+
 <div align="center">
     <img src="images/Filter.gif" /><br />
 <b>Filtering</b>
 </div>
 
 <p>
-Both scoping and filtering have their own selection process that
-includes inclusion and exclusion criteria.  A given node is selected
-if it meets any of the inclusion criteria for scoping and meets none
-of the exclusion criteria for scoping.  Once a node is selected, we
-look at the nodes at the other end of links into and out of that node;
-the link is selected if the other node meets any of the inclusion
-criteria for filtering and meets none of the exclusion criteria for
-filtering.
+Now both scoping and filtering have similar user interfaces.  I will talk
+about the one for scoping here, but the filtering interface works the same
+way.
 </p>
 
 <p>
-From the start, you decide if each selection process applies to
-packages, classes, and features.  In <code>DependencyFinder</code>, you do this
-through checkboxes.  In <code>DependencyReporter</code>, you do it through
-specific command line switches.  <code>DependencyReporter</code> also has
-shortcuts that can replace multiple switches.
+First, a set of checkboxes narrow the search to only packages, classes,
+features, or combinations thereof.  In the CLI, you achieve the same
+effect through command-line switches.
 </p>
 
-<p>
-E.g.,
-</p>
+<div align="center">
+    <img src="images/ScopeControls.simple.highcontrols.jpg" /><br />
+</div>
 
 <pre>
     C:\>DependencyReporter -package-scope  \
@@ -907,152 +1207,28 @@ E.g.,
 </pre>
 
 <div align="center">
-    <a href="images/HighlightedScopeControls.jpg"><img src="images/s_HighlightedScopeControls.jpg" /></a><br />
-<b>Scope Controls GUI</b>
+<b>Scope Controls</b>
 </div>
 
 <p>
-Each process has separate criteria for inclusion and exclusion.  They
-work the same way, as far as matching nodes is concerned.  The
-difference is only in how the process uses the outcome to decide
-whether to keep a node or link or not.  For a node or link to be
-selected, it must meet AT LEAST ONE of the relevant inclusion
-criteria and NONE of the relevant exclusion criteria.
-</p>
-
-<p>
-In each case, the criteria are a series of regular expressions applied
-to a node's name.  Each series is composed of the union of two groups
-out of four difference sets.  Which sets are selected depends on the
-type of the node, whether it is a node for a package, class, or
-feature.
-</p>
-
-<p>
-The first set of regular expressions applies regardless of the type
-of node.  You specify it with the top text field in the GUI.  This
-is the only set that you can specify when using the simple form.  Of
-the remaining three sets, one applies only to package nodes, one only
-to class nodes, and the last one only to feature nodes.  The GUI
-places each one on a row with the corresponding labels.
-</p>
-
-<p>
-The following table summarizes which sets are relevant.  Each column
-in the GUI follows these rules.  The columns of GUI elements match
-scoping inclusion, scoping exclusion, filtering inclusion, and
-filtering exclusion respectively.
+Second, you specify Perl regular expressions in two text fields.  A node must
+match the regular expression in the first field and <b>not</b> match the one in
+the second field.  You can put multiple regular expressions in one field,
+separate them with commans and they will be or'ed together.  On the
+command-line, just repeat the switches.
 </p>
 
 <div align="center">
-<table border="3"
-       cellpadding="5">
-    <caption align="bottom"><b>Relevant Selection Criteria</b></caption>
-    <tr>
-	<td />
-	<td align="center">
-	    <b>package</b><br />node or link
-	</td>
-	<td align="center">
-	    <b>class</b><br />node or link
-	</td>
-	<td align="center">
-	    <b>feature</b><br />node or link
-	</td>
-    </tr>
-    <tr>
-	<td align="center">
-	</td>
-	<td align="center">
-	    X
-	</td>
-	<td align="center">
-	    X
-	</td>
-	<td align="center">
-	    X
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    package
-	</td>
-	<td align="center">
-	    X
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    class
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-	<td align="center">
-	    X
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    feature
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-	<td align="center">
-	    X
-	</td>
-    </tr>
-</table>
+    <img src="images/ScopeControls.simple.highcriteria.jpg" /><br />
 </div>
 
-<p>
-To repeat, each criterion is a set of Perl regular expressions.  For
-scoping, the name of the node must match at least one of the regular
-expressions for it to meet the criterion.  Filtering is always done
-relative to a node that is in scope.  A link will be selected if the
-name of the node at the other end of the link passes the filtering
-selection process.
-</p>
-
-<p>
-In <code>DependencyFinder</code>, you specify criteria through a number of text
-areas.  In <code>DependencyReporter</code>, you do it with specific command line
-switches.  You specify multiple regular expressions for a set by
-using separating them with commas in the GUI or by using the same
-command line switch multiple times.
-</p>
-
-<p>
-E.g.,
-</p>
-
 <pre>
-    C:\>DependencyReporter -scope-includes //
-</pre>
-
-<pre>
-    C:\>DependencyReporter -scope-includes //                       \
-                           -scope-excludes /Test/                   \
-                           -feature-scope-includes /someMethod/     \
-                           -feature-scope-includes /anotherMethod/
+    C:\>DependencyReporter -scope-includes //           \
+                           -scope-excludes /Test/
 </pre>
 
 <div align="center">
-    <a href="images/HighlightedScopeCriteria.jpg"><img src="images/s_HighlightedScopeCriteria.jpg" /></a><br />
-<b>Scope Criteria GUI</b>
+<b>Scope Criteria</b>
 </div>
 
 <a name="PerlRegularExpressions" />
@@ -1075,7 +1251,73 @@ Here are links to pages explaining Perl regular expressions:
 </ul>
 
 <p>
-E.g.,
+Special characters in regular expressions:
+</p>
+
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    <b><code>[A-Z]</code></b>
+	</td>
+	<td>
+	    Capitals
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>\w</code></b>
+	</td>
+	<td>
+	    Alphanumerics [A-Za-z0-9_]
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>\W</code></b>
+	</td>
+	<td>
+	    Non-alphanumerics [^A-Za-z0-9_]
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>\w+</code></b>
+	</td>
+	<td>
+	    At least one alphanumeric
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>\s</code></b>
+	</td>
+	<td>
+	    Space, including tab, carriage return, and line feed
+	</td>
+    </tr>
+     <tr>
+	<td valign="top">
+	    <b><code>\s*</code></b>
+	</td>
+	<td>
+	    Zero or more white space
+	</td>
+    </tr>
+   <tr>
+	<td valign="top">
+	    <b><code>\.</code></b>
+	</td>
+	<td>
+	    Matches '.', as opposed to any character
+	</td>
+    </tr>
+</table>
+</blockquote>
+
+<p>
+Sample rules:
 </p>
 
 <blockquote>
@@ -1126,94 +1368,591 @@ E.g.,
 </table>
 </blockquote>
 
-<a name="TextualOutput" />
-<h4>Textual Output</h4>
+<p>
+Examples:
+</p>
+
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    <b><code>/java/</code></b>
+	</td>
+	<td>
+	    Matches anything with "<code>java</code>" in it.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>/^java/</code></b>
+	</td>
+	<td>
+	    Matches anything that starts with "<code>java</code>".
+	</td>
+    </tr>
+     <tr>
+	<td valign="top">
+	    <b><code>/^com.jeantessier/</code></b>
+	</td>
+	<td>
+	    Matches anything that starts with "<code>com.jeantessier</code>".  Here,
+	    the '.' really matches any single character, which obviously
+	    includes the '.' character itself.
+	</td>
+    </tr>
+   <tr>
+	<td valign="top">
+	    <b><code>/Node.Accept\(/</code></b>
+	</td>
+	<td>
+	    Matches any <code>Accept()</code> method of any class ending in "<code>Node</code>".
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>/Test/</code></b>
+	</td>
+	<td>
+	    Matches anything with "<code>Test</code>" in it.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>/(Node)\.\1\(/</code></b>
+	</td>
+	<td>
+	    Matches any constructor for <code>Node</code>.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top" nowrap>
+	    <b><code>/(\w*Measurement)\.\1\(/</code></b>
+	</td>
+	<td>
+	    Matches any constructor for classes ending in <code>Measurement</code>.
+	</td>
+    </tr>
+</table>
+</blockquote>
+
+<a name="AdvancedView" />
+<h4>Advanced View</h4>
+
+<div align="center">
+    <img src="images/ScopeControls.advanced.jpg" /><br />
+</div>
 
 <p>
-Dependency Finder includes XSL stylesheets for representing a dependency
-graph using simple text.  The stylesheets can either render the whole
-graph or only show inbound or outbound dependencies.
+Both scoping and filtering have their own selection process that
+includes inclusion and exclusion criteria.  A given node is selected
+if it meets any of the inclusion criteria for scoping and meets none
+of the exclusion criteria for scoping.  Once a node is selected, we
+look at the nodes at the other end of links to and from this node;
+the link is selected if the other node meets any of the inclusion
+criteria for filtering and meets none of the exclusion criteria for
+filtering.
 </p>
 
 <p>
-The stylesheets include:
+From the start, you decide if each selection process applies to
+packages, classes, and features.  In <code>DependencyFinder</code>, you do this
+through checkboxes.  In <code>DependencyReporter</code>, you do it through
+specific command line switches.  <code>DependencyReporter</code> also has
+shortcuts that can replace multiple switches.
+</p>
+
+<p>
+E.g.,
+</p>
+
+<pre>
+    C:\>DependencyReporter -package-scope  \
+                           -class-scope    \
+                           -feature-scope
+</pre>
+
+<pre>
+    C:\>DependencyReporter -all
+</pre>
+
+<pre>
+    C:\>DependencyReporter -f2f
+</pre>
+
+<div align="center">
+    <img src="images/ScopeControls.advanced.highcontrols.jpg" /><br />
+<b>Scope Controls GUI</b>
+</div>
+
+<p>
+Each process has separate criteria for inclusion and exclusion.  They
+work the same way, as far as matching nodes is concerned.  The
+difference is only in how the process uses the outcome to decide
+whether to keep a node or link or not.  For a node or link to be
+selected, it must meet AT LEAST ONE of the relevant inclusion
+criteria and NONE of the relevant exclusion criteria.
+</p>
+
+<p>
+In each case, the criteria are a series of regular expressions applied
+to a node's name.  Each series is composed of the union of two groups
+out of four difference sets.  Which sets are selected depends on the
+type of the node, whether it is a node for a package, class, or
+feature.
+</p>
+
+<p>
+The first set of regular expressions applies regardless of the type
+of node.  You specify it with the top text field in the GUI.  This
+is the only set that you can specify when using the simple form.  Of
+the remaining three sets, one applies only to package nodes, one only
+to class nodes, and the last one only to feature nodes.  The GUI
+places each one on a row with the corresponding labels.
+</p>
+
+<p>
+The following picture summarizes which sets are relevant.  Regular
+expressions in the red areas apply to packages, those in the white
+areas apply to classes, and those in blue areas apply to features.
+</p>
+
+<div align="center">
+    <img src="images/ScopeControls.selection.jpg" /><br />
+<b>Relevant Selection Criteria</b>
+</div>
+
+<p>
+To repeat, each criterion is a set of Perl regular expressions.  For
+scoping, the name of the node must match at least one of the regular
+expressions for it to meet the criterion.  Filtering is always done
+relative to a node that is in scope.  A link will be selected if the
+name of the node at the other end of the link passes the filtering
+selection process.
+</p>
+
+<p>
+In <code>DependencyFinder</code>, you specify criteria through a number of text
+areas.  In <code>DependencyReporter</code>, you do it with specific command line
+switches.  You specify multiple regular expressions for a set by
+using separating them with commas in the GUI or by using the same
+command line switch multiple times.
+</p>
+
+<p>
+E.g.,
+</p>
+
+<pre>
+    C:\>DependencyReporter -scope-includes //
+</pre>
+
+<pre>
+    C:\>DependencyReporter -scope-includes //                       \
+                           -scope-excludes /Test/                   \
+                           -feature-scope-includes /someMethod/     \
+                           -feature-scope-includes /anotherMethod/
+</pre>
+
+<div align="center">
+    <img src="images/ScopeControls.advanced.highcriteria.jpg" /><br />
+<b>Scope Criteria GUI</b>
+</div>
+
+<a name="ShowingOnlyInboundDependencies" />
+<h4>Showing Only Inbound Dependencies</h4>
+
+<p>
+Inbound dependencies show you who depends on a given programming element.
+Is is very useful when assessing the impact of a change.  Dependency
+Finder uses a textual notation to display them:
+</p>
+
+<pre>
+    programming element
+        &lt;-- dependent 1
+        &lt;-- dependent 2
+            ...
+</pre>
+
+<p>
+When there are a lot of dependencies, either because the graph is very big
+or an element is highly connected, it is useful to filter out the other
+dependencies so that inbound ones stand out and are easier to read.
+</p>
+
+<p>
+In <code>DependencyFinder</code> and the web application, there are three checkboxes
+at the bottom of the control area.  They control how the graph is rendered.
+To see only inbound dependencies, check the one labeled "inbounds" and
+uncheck the one labeled "outbounds".  If a node has no inbound dependencies,
+it will appear empty.  You can further filter them out by unchecking the
+last checkbox, the one labeled "empty nodes", if you want.
+</p>
+
+<p>
+If you are using the command-line tools, what you have is most likely a
+graph rendered in XML, either from <code>DependencyExtractor</code> or
+<code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
+something more user-friendly.  Dependency Finder provides two sample
+stylesheets to show only inbound dependencies.  You can apply them with
+the following tools:
 </p>
 
 <ul>
-<li>DependablesToText.xsl</li>
-<li>DependenciesToText.xsl</li>
-<li>DependentsToText.xsl</li>
-<li>ListDependablesToText.xsl</li>
-<li>ListDependentsToText.xsl</li>
+<li><code>ListDependablesToText</code></li>
+<li><code>ListDependablesToHTML</code></li>
 </ul>
 
 <p>
-You can run them using the script of the same name and the <code>-in</code> and
-<code>-out</code> switches.  The scripts call <code>XSLTProcess</code> and specify the XSL
-stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
-with either our stylesheets or your own.
-</p>
-
-<a name="HTMLOutput" />
-<h4>HTML Output</h4>
-
-<p>
-Dependency Finder includes XSL stylesheets for representing a dependency
-graph using HTML.  The stylesheets can either render the whole graph or
-only show inbound or outbound dependencies.  Dependency Finder renders
-dependencies as hyperlinks to the appropriate node.
+The HTML is weaved HTML cross-references between all the elements for easy
+navigation.
 </p>
 
 <p>
-The stylesheets include:
+You can list only non-empty nodes with:
 </p>
 
 <ul>
-<li>DependablesToHTML.xsl</li>
-<li>DependenciesToHTML.xsl</li>
-<li>DependentsToHTML.xsl</li>
-<li>ListDependablesToHTML.xsl</li>
-<li>ListDependentsToHTML.xsl</li>
+<li><code>DependablesToText</code></li>
+<li><code>DependablesToHTML</code></li>
+</ul>
+
+<a name="ShowingOnlyOutboundDependencies" />
+<h4>Showing Only Outbound Dependencies</h4>
+
+<p>
+Outbound dependencies show you who a given programming element depends upon.
+Is is very useful when partitioning programming elements and figuring out
+what other classes a given class needs in order to run.  Dependency Finder
+uses a textual notation to display them:
+</p>
+
+<pre>
+    programming element
+        --&gt; dependable 1
+        --&gt; dependable 2
+            ...
+</pre>
+
+<p>
+When there are a lot of dependencies, either because the graph is very big
+or an element is highly connected, it is useful to filter out the other
+dependencies so that outbound ones stand out and are easier to read.
+</p>
+
+<p>
+In <code>DependencyFinder</code> and the web application, there are three checkboxes
+at the bottom of the control area.  They control how the graph is rendered.
+To see only outbound dependencies, check the one labeled "outbounds" and
+uncheck the one labeled "inbounds".  If a node has no outbound dependencies,
+it will appear empty.  You can further filter them out by unchecking the
+last checkbox, the one labeled "empty nodes", if you want.
+</p>
+
+<p>
+If you are using the command-line tools, what you have is most likely a
+graph rendered in XML, either from <code>DependencyExtractor</code> or
+<code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
+something more user-friendly.  Dependency Finder provides two sample
+stylesheets to show only outbound dependencies.  You can apply them with
+the following tools:
+</p>
+
+<ul>
+<li><code>ListDependentsToText</code></li>
+<li><code>ListDependentsToHTML</code></li>
 </ul>
 
 <p>
-You can run them using the script of the same name and the <code>-in</code> and
-<code>-out</code> switches.  The scripts call <code>XSLTProcess</code> and specify the XSL
-stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
-with either our stylesheets or your own.
+The HTML is weaved HTML cross-references between all the elements for easy
+navigation.
 </p>
+
+<p>
+You can list only non-empty nodes with:
+</p>
+
+<ul>
+<li><code>DependentsToText</code></li>
+<li><code>DependentsToHTML</code></li>
+</ul>
+
+<a name="ShowingBothInboundsAndOutboundDependencies" />
+<h4>Showing Both Inbounds And Outbound Dependencies</h4>
+
+<p>
+You can combine the two approaches we just looked at and display the full
+graph.  For the sake of brevity, when a node A depends on a node B and
+that node B also depends on node A, Dependency Finder writes it as:
+</p>
+
+<pre>
+    A
+        &lt;-&gt; B
+    B
+        &lt;-&gt; A
+</pre>
+
+<p>
+If you are using the command-line tools, what you have is most likely a
+graph rendered in XML, either from <code>DependencyExtractor</code> or
+<code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
+something more user-friendly.  Dependency Finder provides two sample
+stylesheets to show all dependencies.  You can apply them with the
+following tools:
+</p>
+
+<ul>
+<li><code>ListDependenciesToText</code></li>
+<li><code>ListDependenciesToHTML</code></li>
+</ul>
+
+<p>
+The HTML is weaved HTML cross-references between all the elements for easy
+navigation.
+</p>
+
+<p>
+You can list only non-empty nodes with:
+</p>
+
+<ul>
+<li><code>DependenciesToText</code></li>
+<li><code>DependenciesToHTML</code></li>
+</ul>
 
 <a name="TransitiveClosure" />
 <h3>Transitive Closure</h3>
 <a name="DependencyMetrics" />
 <h3>Dependency Metrics</h3>
 
+<p>
+This is a simple tally of how many dependencies there are in a graph.  It
+can give you a rough idea of the complexity of a given codebase, but it is
+not as powerful as the metrics computed by <code>OOMetrics</code>.
+</p>
+
 <hr />
 
 <a name="OOMetrics" />
 <h2>OO Metrics</h2>
+
+<p>
+Object-oriented software metrics help assess the quality of a piece of
+software.  You can use them to verify that your architecture evolves in the
+right direction, from version to version.  You can also use them to spot
+deviations from your quality guidelines, such as methods that have too many
+parameters or are too long.
+</p>
+
+<p>
+Dependency Finder can use the information it extracts from class files to
+compute software quality metrics.  Metrics measure certain aspects of
+software and provide a quantitative assessment of its quality.
+</p>
+
+<p>
+Dependency Finder recognizes four levels of metrics:
+</p>
+
+<ul>
+<li>Project</li>
+<li>Group</li>
+<li>Class</li>
+<li>Method</li>
+</ul>
+
+<p>
+Each metrics is composed of a number of measurements.  What measurements
+make up a given metrics level is defined in a configuration file written
+in XML.
+</p>
+
 <a name="Explanation" />
 <h3>Explanation</h3>
+
+<p>
+A set of metrics is a group of measurements pertaining to a given <i>chunk</i>
+of software.  Dependency Finder recognizes four sizes of <i>chunks</i>:
+</p>
+
+<blockquote>
+<dl>
+    <dt>Project</dt>
+    <dd>These metrics apply to the project as a whole.</dd>
+    <dt>Group</dt>
+    <dd>These metrics apply to groups of classes.  A Java
+    package is a <i>de facto</i> group, but you can specify
+    arbitrary groups using Perl regular expressions.</dd>
+    <dt>Class</dt>
+    <dd>These metrics apply to a single class.</dd>
+    <dt>Method</dt>
+    <dd>These metrics apply to individual methods within
+    a class.</dd>
+</dl>
+</blockquote>
+
+<p>
+It does not track metrics about class attributes because these are not
+really all that interesting.  The only measurements worth something deal
+with dependencies, and I rolled those into class metrics.
+</p>
+
+<p>
+The configuration file defines what measurements apply to which level of
+scope (package, group, class, or method).  It also defines the rules for
+creating arbitrary groups.  You can customize the content of your metrics
+report by using different configuration files.
+</p>
+
+<p>
+Each measurement has a name and a class that has the semantics of the
+measurement.  There are classes for counters, lists, simple
+mathematical expressions, etc.  Each measurement can be expressed as a
+numeric value and the configuration file can defines the recommanded range
+for that measurement.
+</p>
+
+<p>
+The current types of measurement are as follow:
+</p>
+
+<blockquote>
+<dl>
+    <dt><code>AccumulatorMeasurement</code></dt>
+    <dd>Aggregates lists in submetrics on the measurement's context.
+    It uses Perl regular expressions to filter list elements.</dd>
+    <dt><code>CounterMeasurement</code></dt>
+    <dd>A simple counter, it tallies the values that are put in it.
+    If you try to add a non-number, it simply adds 1.</dd>
+    <dt><code>NameListMeasurement</code></dt>
+    <dd>Accumulates a set of values.  Its numerical value is the
+    cardinality (i.e., size) of the set.  <code>OOMetrics</code> uses it to
+    keep track of dependencies.</dd>
+    <dt><code>NbSubMetricsMeasurement</code></dt>
+    <dd>Counts how many submetrics there are in the measurement's
+    context.  It can use selection criteria while counting.  These
+    are akin to "WHERE C > 10".</dd>
+    <dt><code>RatioMeasurement</code></dt>
+    <dd>Divides one measurement (base) by another (divider).  Both
+    must be in the same context.</dd>
+    <dt><code>StatisticalMeasurement</code></dt>
+    <dd>Computes the statistical properties of a given measurement
+    across the submetrics of the measurement's context.  Given a
+    measurement name, it explores the tree of metrics rooted at the
+    context and finds the numerical value of these named measurements
+    in the tree.  For these measurements, it computes:
+    <ul>
+        <li>minimum value</li>
+        <li>median value</li>
+        <li>average value</li>
+        <li>standard deviation</li>
+        <li>maximum value</li>
+        <li>sum</li>
+        <li>number of data points</li>
+    </ul></dd>
+    <dt><code>SumMeasurement</code></dt>
+    <dd>Adds up numerical values.  Use it with just one term to alias
+    other measurements.</dd>
+</dl>
+</blockquote>
+
+<p>
+Whenever a measurement references another measurement, there is a chance
+that that measurement is in fact a <code>StatisticalMeasurement</code> standing in
+for a collection of others at the levels below.  The measurment making
+the reference can specify explicitly which subvalue (i.e., minimum, median,
+etc.) of the <code>StatisticalMeasurement</code> it wants to use for its own
+computation.  Or, it can rely on the <code>StatisticalMeasurement</code>'s self
+disposition setting.  A <code>StatisticalMeasurement</code> can specify explicitly
+which of its subvalues it wants to use for its numerical value.  By
+default, this is the average value.
+</p>
+
+<p>
+These measurements can potentially refer to other measurements and fall
+under this disposition feature:
+</p>
+
+<ul>
+<li><code>NbSubMetricsMeasurement</code></li>
+<li><code>RatioMeasurement</code></li>
+<li><code>StatisticalMeasurement</code></li>
+<li><code>SumMeasurement</code></li>
+</ul>
+
+<p>
+Right now, measurement processing is fixed.  In the future, you will be able
+to define your own types of measurements and plug them into the framework.
+</p>
+
+<p>
+<code>OOMetrics</code> and <code>OOMetricsGUI</code> create one project-level metrics for the
+whole project.  This level has measurements that span the entire analyzed
+codebase.  For each <code>.class</code> file, they create one class-level metrics for
+that class, and one method-level metrics for each of its methods.
+</p>
+
+<p>
+The tools add Class-level metrics to relevant group-level metrics.  One such
+group, which the tools create automatically for each class, is named after
+the package that this class belongs to.  You can define additional groups
+in the configuration file by providing a name for the group and one or more
+Perl regular expressions.  If the class name matches any of the regular
+expressions, the class will be added to that group.  This allows you to
+group together classes for a component or module that might span multiple
+Java packages.
+</p>
+
+<p>
+E.g.,
+</p>
+
+<pre>
+    &lt;group-definitions&gt;
+        &lt;group-definition&gt;
+            &lt;name&gt;Servlet API&lt;/name&gt;
+            &lt;pattern&gt;/^javax.servlet/&lt;/pattern&gt;
+        &lt;/group-definition&gt;
+        &lt;group-definition&gt;
+            &lt;name&gt;Test&lt;/name&gt;
+            &lt;pattern&gt;/test/i&lt;/pattern&gt;
+        &lt;/group-definition&gt;
+    &lt;/group-definitions&gt;
+</pre>
+
 <a name="ExtractingX" />
 <h3>Extracting</h3>
+
 <a name="ReportingX" />
 <h3>Reporting</h3>
-<a name="TextualOutputX" />
+<a name="TextualOutput" />
 <h4>Textual Output</h4>
-<a name="HTMLOutputX" />
-<h4>HTML Output</h4>
+<a name="CSVOutput" />
+<h4>CSV Output</h4>
+
+<p>
+Perfect for loading in Microsoft Excel and charting.
+</p>
+
+<a name="XMLOutput" />
+<h4>XML Output</h4>
 
 <hr />
 
-<a name="APIDifferencesX" />
+<a name="APIDifferences" />
 <h2>API Differences</h2>
 
 <p>
-If you are developing libraries or frameworks, your clients depend on
-your published set of APIs for their own development efforts.  It
-becomes important, as you release new revisions of your software, to
-keep track of which parts of the published API changed, so that you
-can tell your clients how to upgrade their code.
+If you are developing libraries or frameworks, that is, software that will
+be used and/or extended by others, you need to know what changed from
+version to version.  Your clients depend on your published set of APIs for
+their own development efforts.  It becomes important, as you release new
+revisions of your software, to keep track of which parts of the published
+API changed, so that you can tell your clients how to upgrade their code.
+The <code>JarJarDiff</code> tool can compute differences automatically, so you can
+quickly know what you might have broken in your customer's code.
 </p>
 
 <p>
@@ -1222,27 +1961,6 @@ look at what changed across your software since the latest baseline.
 This allows you to keep track of changes to the classes and methods
 and verify that they are evolving in the right direction, whichever
 way you decide that is.
-</p>
-
-<a name="ExplanationX" />
-<h3>Explanation</h3>
-
-<p>
-You can use <code>com.jeantessier.classreader.ClassfileLoader</code> classes to
-examine the baseline of your codebase; be they in JAR files, loose
-class files, or a combination of both.  You can apply the same treatment
-to your latest codebase.  You now have two sets <code>Classfile</code> instances.
-</p>
-
-<p>
-You can use <code>com.jeantessier.dependency.NodeFactory</code> to create a tree
-of packages, classes, and features from each codebase.  You can then
-start to compare them to each other.  If a package is in the old
-codebase but not in the new one, you can mark it as having been removed.
-If it is not in the old codebase but it is in new one, then you can
-mark it as having been recently added.  For packages that are present
-in both codebase, you can repeat this analysis at the class level, and
-then at the feature level.
 </p>
 
 <a name="ExtractingXX" />
@@ -1358,18 +2076,22 @@ of the previous <code>JarJarDiff</code> command.
 <h4>Filtering</h4>
 
 <p>
-You can also limit the reporting to specific programming elements
-that have been earmarked using special javadoc tags.
+You can also limit the reporting to specific programming elements that have
+been earmarked using special javadoc tags.
 </p>
 
 <p>
-You get the list of earmarked elements by running a specialized
-doclet.
+You get the list of earmarked elements by running a specialized doclet.
 </p>
 
 <p>
-The following commands run this doclet on the old as well as the
-new codebases, saving the results in individual text files.
+The following commands run this doclet on the old as well as the new
+codebases, saving the results in individual text files.
+</p>
+
+<p>
+In this first case, the command will only list elements that you marked as
+<code>@level published</code>.
 </p>
 
 <pre>
@@ -1383,6 +2105,65 @@ new codebases, saving the results in individual text files.
     C:\>ListDocumentedElements -tag level         \
                                -valid published   \
                                -out new-list.txt  \
+                               new.java
+</pre>
+
+<p>
+If you add Dependency Finder's JAR file to your <code>CLASSPATH</code>, you can call
+<code>javadoc</code> directly instead:
+</p>
+
+<pre>
+    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements  \
+               -tag level                                           \
+               -valid published                                     \
+               -out old-list.txt                                    \
+               old.java
+</pre>
+
+<pre>
+    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements  \
+               -tag level                                           \
+               -valid published                                     \
+               -out new-list.txt                                    \
+               new.java
+</pre>
+
+<p>
+Or, as an Ant task:
+</p>
+
+<pre>
+    &lt;target name="listdocumentedelements" depends="init"&gt;
+        &lt;javadoc packagenames="${packageNames}"&gt;
+	    &lt;sourcepath path="src"/&gt;
+	    &lt;classpath refid="libs"/&gt;
+	    &lt;doclet name="com.jeantessier.diff.ListDocumentedElements"
+		    path="${classesDir}"&gt;
+		&lt;param name="-tag" value="level"/&gt;
+		&lt;param name="-invalid" value="developer"/&gt;
+		&lt;param name="-out" value="df.txt"/&gt;
+	    &lt;/doclet&gt;
+	&lt;/javadoc&gt;
+    &lt;/target&gt;
+</pre>
+
+<p>
+In this second case, the command will only list elements that you did marked
+not mark as <code>@level developer</code>.
+</p>
+
+<pre>
+    C:\>ListDocumentedElements -tag level          \
+                               -invalid published  \
+                               -out old-list.txt   \
+                               old.java
+</pre>
+
+<pre>
+    C:\>ListDocumentedElements -tag level          \
+                               -invalid developer  \
+                               -out new-list.txt   \
                                new.java
 </pre>
 
@@ -1408,7 +2189,7 @@ You then feed the output from the doclet to <code>JarJarDiff</code>.
 
 <div align="center">
     <img src="images/ExtractingDifferencesAndDocumentationChanges.gif" /><br />
-<b>Extracting Differences And Documented Elements</b>
+<b>Extracting Differences on Documented Elements</b>
 </div>
 
 <p>
@@ -1491,43 +2272,6 @@ into HTML with <code>ListDiffToHTML</code>, or to text with
     is written in HTML.  But we recommend that you use
     <code>ListDiff</code> instead; it is faster and simpler.</i></dd>
 </dl>
-
-<hr />
-
-<a name="BuildingDependencyFinder" />
-<h2>Building Dependency Finder</h2>
-
-<pre>
-    C:\>ant
-</pre>
-
-<a name="CompilingaBuild" />
-<h3>Compiling a Build</h3>
-
-<pre>
-    C:\>ant jar
-    C:\>ant clean
-    C:\>ant docs
-    C:\>ant dist
-    C:\>ant src
-    C:\>ant war
-</pre>
-
-<p>
-or
-</p>
-
-<pre>
-    C:\>ant jar clean docs dist src war
-</pre>
-
-<a name="TestingtheBuild" />
-<h3>Testing the Build</h3>
-
-<pre>
-    C:\>ant tests
-    C:\>textjunit TestAll
-</pre>
 
 <hr />
 
