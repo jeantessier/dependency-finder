@@ -152,7 +152,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	}
 
 	public void StartClass(DependencyEvent event) {
-		model.StatusLine().ShowInfo("Analyzing " + event.Classname() + " ...");
+		// model.StatusLine().ShowInfo("Analyzing " + event.Classname() + " ...");
 	}
 	
 	public void StopClass(DependencyEvent event) {
