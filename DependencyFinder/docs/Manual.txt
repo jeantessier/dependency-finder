@@ -3690,11 +3690,10 @@ into HTML with =ListDiffToHTML=, or to text with
 
 <dl>
     <dt>NOTE:</dt>
-    <dd><i>You can also use =ListDocumentationDiffToText=
-    and =ListDocumentationDiffToHTML= to extract similar
-    information from the output of JarJarDiff.  The list
-    is written in HTML.  But we recommend that you use
-    =ListDiff= instead; it is faster and simpler.</i></dd>
+    <dd><i>You can also use =ListDocumentationDiffToText= and
+    =ListDocumentationDiffToHTML= to extract similar information from the
+    output of =JarJarDiff=.  The list is written in HTML.  But we recommend
+    that you use =ListDiff= instead; it is faster and simpler.</i></dd>
 </dl>
 
 ----
@@ -3711,9 +3710,56 @@ tools.
 
 ---+++ Tracking Dependencies On Deprecated Symbols
 
-This use case deals with having a large codebase and tracking 
+This use case deals with having a large codebase and tracking usage of
+deprecated classes and methods.
 
 ---+++ Narrowing API Differences to Actually Used API
+
+We often use third party libraries for specific functions.  For example,
+Dependency Finder use Log4J for logging and Jakarta-ORO for regular expression
+matching.  When these third-party libraries are upgraded, we need to figure out
+the impact on our own code.
+
+This is where =JarJarDiff= can help.  But it reports _all_ changes in the
+library, a lot of which may be internal changes or changes in areas that we are
+not using.  We can run the output through =PublishedDiffToHTML= to limit it to
+externally visible elements (public and protected), but that may not be enough.
+The third-party library provider may not provide a list of their published API
+to further restrict =PublishedDiffToHTML=, but we can build our own using
+Dependency Finder.
+
+For example, to find Dependency Finder's usage of Log4J:
+
+    % DependencyExtractor -xml -out df.xml DependencyFinder.jar
+
+    % DependencyReporter -xml -out df-log4j.xml df.xml   \
+                         -package-scope                  \
+                         -class-scope                    \
+                         -feature-scope                  \
+                         -scope-includes /log4j/
+
+    % DependencyGraphToText -in df-log4j.xml -out df-log4j.txt
+
+Now, =df-log4j.txt= has the list of all Log4J elements used in Dependency
+Finder.  I can supply it to =JarJarDiff= and =PublishedDiffToHTML= to limit the
+report to these elements only.
+
+    % JarJarDiff -out log4j-1.2.8-1.2.9.xml                          \
+                 -name Log4J                                         \
+                 -old-label 1.2.8                                    \
+		 -old jakarta-log4j-1.2.8\dist\lib\log4j-1.2.8.jar   \
+                 -new-label 1.2.9                                    \
+		 -new jakarta-log4j-1.2.0\dist\lib\log4j-1.2.9.jar
+
+    % PublishedDiffToHTML -in log4j-1.2.8-1.2.9.xml             \
+                          -out log4j-1.2.8-1.2.9.html           \
+                          -param validation-list df-log4j.txt
+
+If you use multiple third-party libraries, you don't have to to repeat all the
+steps for each one.  You can supply multiple =-scope-includes= switches to
+=DependencyReporter= to get a single text file that has all the symbols across
+all third-party libraries.  Then, run =JarJarDiff= and =PublishedDiffToHTML= on
+each library that has an upgrade.
 
 ---+++ Computing the D' Metric
 
