@@ -38,6 +38,12 @@ import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
+/**
+ *  Collects metrics from Classfile instances.
+ *  
+ *  This class can only approximate SLOC based on information provided
+ *  by the compiler.
+ */
 public class MetricsGatherer extends VisitorBase {
 	private String         project_name;
 	private MetricsFactory factory;
@@ -269,6 +275,9 @@ public class MetricsGatherer extends VisitorBase {
 		Logger.getLogger(getClass()).debug("Private: " + (entry.AccessFlag() & Method_info.ACC_PRIVATE));
 		Logger.getLogger(getClass()).debug("Protected: " + (entry.AccessFlag() & Method_info.ACC_PROTECTED));
 		Logger.getLogger(getClass()).debug("Static: " + (entry.AccessFlag() & Method_info.ACC_STATIC));
+
+		sloc = 0;
+		is_synthetic = false;
 		
 		if ((entry.AccessFlag() & Method_info.ACC_PUBLIC) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PUBLIC_METHODS);
@@ -302,9 +311,6 @@ public class MetricsGatherer extends VisitorBase {
 		}
 
 		CurrentMethod().AddToMeasurement(Metrics.PARAMETERS, SignatureHelper.ParameterCount(entry.Descriptor()));
-
-		sloc = 0;
-		is_synthetic = false;
 		
 		super.VisitMethod_info(entry);
 		
