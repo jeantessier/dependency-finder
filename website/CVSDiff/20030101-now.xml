@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="'2003-03-12 01:07:42'" >
+<tagdiff startTag="release-20030101" endDate="'2003-03-13 01:32:27'" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -40,7 +40,49 @@
 	</entry>
 	<entry>
 		<file>
+			<name>bin/DependenciesToHTML.bat</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependenciesToText.bat</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyClosure.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>bin/DependencyFinder.bat</name>
+			<revision>1.9</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyMetrics.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyReporter.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/OOMetrics.bat</name>
 			<revision>1.8</revision>
 			<prevrevision>1.7</prevrevision>
 		</file>
@@ -48,6 +90,34 @@
 	<entry>
 		<file>
 			<name>bin/OOMetricsGUI.bat</name>
+			<revision>1.9</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/c2c.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/c2p.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/f2f.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/p2p.bat</name>
 			<revision>1.8</revision>
 			<prevrevision>1.7</prevrevision>
 		</file>
@@ -365,6 +435,39 @@
 			<name>lib/log4j.jar</name>
 			<revision>1.5</revision>
 			<prevrevision>1.4</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>lib/xalan.jar</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>lib/xalan.lic</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>lib/xercesImpl.jar</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>lib/xml-apis.jar</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>lib/xmlParserAPIs.jar</name>
 		</file>
 	</entry>
 	<entry>

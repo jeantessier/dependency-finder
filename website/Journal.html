@@ -12,6 +12,12 @@
 <h2>Jean's Journal</h2>
 
 <dl>
+	
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
     <dt>
 	March 12, 2003
     </dt>
@@ -52,23 +58,42 @@
 	<code>Printer</code> with a <code>java.io.Writer</code> and be done
 	with it.</p>
 	
-	<p>I also kept looking at the new Xerces and Xalan.  All the unit tests
-	are passing, but <code>PublishedDiffToHTML</code> prints nothing when
-	I pass it a validation list.  I must figure out if this is due to the
-	new Xalan or the test data.  I tried a couple of code samples, but they
-	are still too large for me to track exactly what is going on.</p>
-	
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
-	
+	<blockquote>
 	<p><em>I'm not too happy with the way the sequence diagrams came out
 	too, but that's the fault of the tool I've been using.  And even the
 	class diagram has undesireable artifacts.  I have no budget for this
 	project, so I could not use the one I would have really wanted.  And
 	the one I ended up using was quicker to use than a plain drawing
 	editor.</em></p>
+	</blockquote>
+	
+	<p>I also kept looking at the new Xerces and Xalan.  All the unit tests
+	are passing, but <code>PublishedDiffToHTML</code> prints nothing when
+	I pass it a validation list.  I must figure out if this is due to the
+	new Xalan or the test data.  I tried a couple of code samples, but they
+	are still too large for me to track exactly what is going on.</p>
+
+	<p>I upgraded the libraries anyway, I will figure out the kinks
+	later:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Xerces</td>
+	        <td>:</td>
+		<td>2.2.1</td>
+	        <td>-></td>
+		<td>2.3.0</td>
+	    </tr>
+	    <tr>
+	        <td>Xalan</td>
+	        <td>:</td>
+		<td>2.4.1</td>
+	        <td>-></td>
+		<td>2.5 D1</td>
+	    </tr>
+	</table>
+	</blockquote>
    </dd>
     <dt>
 	March 11, 2003
