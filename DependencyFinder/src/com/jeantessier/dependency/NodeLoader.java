@@ -42,26 +42,45 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 public class NodeLoader {
-	private static final String DEFAULT_READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
+	private static final String  DEFAULT_READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
+	private static final boolean DEFAULT_VALIDATE         = false;
 
 	private String      reader_classname;
 	private NodeHandler handler;
+	private boolean     validate;
 
 	public NodeLoader() {
-		this(new NodeFactory(), DEFAULT_READER_CLASSNAME);
+		this(new NodeFactory(), DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
 	}
 
 	public NodeLoader(NodeFactory factory) {
-		this(factory, DEFAULT_READER_CLASSNAME);
+		this(factory, DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
 	}
 
 	public NodeLoader(String reader_classname) {
-		this(new NodeFactory(), reader_classname);
+		this(new NodeFactory(), reader_classname, DEFAULT_VALIDATE);
+	}
+
+	public NodeLoader(boolean validate) {
+		this(new NodeFactory(), DEFAULT_READER_CLASSNAME, validate);
 	}
 
 	public NodeLoader(NodeFactory factory, String reader_classname) {
+		this(factory, reader_classname, DEFAULT_VALIDATE);
+	}
+
+	public NodeLoader(NodeFactory factory, boolean validate) {
+		this(factory, DEFAULT_READER_CLASSNAME, validate);
+	}
+
+	public NodeLoader(String reader_classname, boolean validate) {
+		this(new NodeFactory(), reader_classname, validate);
+	}
+	
+	public NodeLoader(NodeFactory factory, String reader_classname, boolean validate) {
 		this.reader_classname = reader_classname;
 		this.handler          = new NodeHandler(factory);
+		this.validate         = validate;
 	}
 
 	public Map Load(String filename) throws IOException, SAXException {
@@ -83,9 +102,13 @@ public class NodeLoader {
 		reader.setDTDHandler(handler);
 		reader.setContentHandler(handler);
 		reader.setErrorHandler(handler);
+
 		try {
-			reader.setFeature("http://xml.org/sax/features/validation", true);
-			// reader.parse(in);
+			if (validate) {
+				Logger.getLogger(getClass()).warn("XML validation turned on");
+				System.out.println("XML validation turned on");
+				reader.setFeature("http://xml.org/sax/features/validation", true);
+			}
 		} catch (Exception ex) {
 			Logger.getLogger(getClass()).warn("Problem setting validation feature on XML reader",ex);
 		}
