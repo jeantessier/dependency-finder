@@ -50,10 +50,10 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     }
     
     public void traverseNodes(Collection nodes) {
-// 		Iterator i = nodes.iterator();
-// 		while (i.hasNext()) {
-// 			((Node) i.next()).accept(this);
-// 		}
+//         Iterator i = nodes.iterator();
+//         while (i.hasNext()) {
+//             ((Node) i.next()).accept(this);
+//         }
     }
 
     /*

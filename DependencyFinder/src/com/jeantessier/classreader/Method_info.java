@@ -134,7 +134,7 @@ public class Method_info extends Feature_info {
                     result.append(", ");
                 }
             }
-        }		
+        }
 
         return result.toString();
     }

@@ -8,16 +8,16 @@ rem  Redistribution and use in source and binary forms, with or without
 rem  modification, are permitted provided that the following conditions
 rem  are met:
 rem  
-rem  	* Redistributions of source code must retain the above copyright
-rem  	  notice, this list of conditions and the following disclaimer.
+rem     * Redistributions of source code must retain the above copyright
+rem       notice, this list of conditions and the following disclaimer.
 rem  
-rem  	* Redistributions in binary form must reproduce the above copyright
-rem  	  notice, this list of conditions and the following disclaimer in the
-rem  	  documentation and/or other materials provided with the distribution.
+rem     * Redistributions in binary form must reproduce the above copyright
+rem       notice, this list of conditions and the following disclaimer in the
+rem       documentation and/or other materials provided with the distribution.
 rem  
-rem  	* Neither the name of Jean Tessier nor the names of his contributors
-rem  	  may be used to endorse or promote products derived from this software
-rem  	  without specific prior written permission.
+rem     * Neither the name of Jean Tessier nor the names of his contributors
+rem       may be used to endorse or promote products derived from this software
+rem       without specific prior written permission.
 rem  
 rem  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 rem  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT

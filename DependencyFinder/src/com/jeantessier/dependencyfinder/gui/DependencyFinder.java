@@ -1125,7 +1125,7 @@ public class DependencyFinder extends JFrame {
             
             dependenciesResultArea.setText(out.toString());
         }
-    }		
+    }
     
     void clearClosureResult() {
         closureResultArea.setText("");
@@ -1195,7 +1195,7 @@ public class DependencyFinder extends JFrame {
         com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
         printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
         closureResultArea.setText(out.toString());
-    }		
+    }
     
     void clearMetricsResult() {
         metricsResultArea.setText("");
@@ -1247,7 +1247,7 @@ public class DependencyFinder extends JFrame {
         
         metricsResultArea.setText(out.toString());
         metricsChartModel.setMetrics(metrics);
-    }		
+    }
 
     void setNewDependencyGraph() {
         setInputFiles(new LinkedList());

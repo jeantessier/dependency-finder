@@ -102,7 +102,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         assertEquals("End Method",    16, endMethodEvents.size());
         assertEquals("End Class",      9, endClassEvents.size());
         assertEquals("End Session",    1, endSessionEvents.size());
-    }	
+    }
     
     public void testEventsWithNothing() throws IOException {
         loader.load(Collections.EMPTY_SET);
@@ -115,7 +115,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         assertEquals("End Method",     0, endMethodEvents.size());
         assertEquals("End Class",      0, endClassEvents.size());
         assertEquals("End Session",    1, endSessionEvents.size());
-    }	
+    }
     
     public void beginSession(MetricsEvent event) {
         beginSessionEvents.add(event);

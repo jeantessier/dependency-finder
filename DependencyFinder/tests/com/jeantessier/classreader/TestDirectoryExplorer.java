@@ -51,7 +51,7 @@ public class TestDirectoryExplorer extends TestCase {
         
         assertEquals("size", 1, list.size());
         assertEquals(TEST_FILENAME, ((File) list.get(0)).getPath());
-    }	
+    }
 
     public void testExploreOtherFilename() throws IOException {
         DirectoryExplorer explorer = new DirectoryExplorer(OTHER_FILENAME);
@@ -60,13 +60,13 @@ public class TestDirectoryExplorer extends TestCase {
         
         assertEquals("size", 1, list.size());
         assertEquals(OTHER_FILENAME, ((File) list.get(0)).getPath());
-    }	
+    }
 
     public void testExploreMissingFilename() throws IOException {
         DirectoryExplorer explorer = new DirectoryExplorer(MISSING_FILENAME);
         
         assertEquals("size", 0, explorer.getCollection().size());
-    }	
+    }
 
     public void testExploreDirectory() throws IOException {
         DirectoryExplorer explorer = new DirectoryExplorer(TEST_DIRNAME);
@@ -75,7 +75,7 @@ public class TestDirectoryExplorer extends TestCase {
         
         assertEquals("size", 59, list.size());
         assertEquals(TEST_DIRNAME, ((File) list.get(0)).getPath());
-    }	
+    }
     
     public void testExploreMultipleDirectories() throws IOException {
         Collection directories = new ArrayList();
@@ -88,7 +88,7 @@ public class TestDirectoryExplorer extends TestCase {
         
         assertEquals("size", 118, list.size());
         assertEquals(TEST_DIRNAME, ((File) list.get(0)).getPath());
-    }	
+    }
     
     public void testExploreSingletonFile() throws IOException {
         Collection files = new ArrayList();
@@ -100,5 +100,5 @@ public class TestDirectoryExplorer extends TestCase {
         
         assertEquals("size", 1, list.size());
         assertEquals(TEST_FILENAME, ((File) list.get(0)).getPath());
-    }	
+    }
 }

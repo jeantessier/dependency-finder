@@ -8,16 +8,16 @@
 #   modification, are permitted provided that the following conditions
 #   are met:
 #   
-#   	* Redistributions of source code must retain the above copyright
-#   	  notice, this list of conditions and the following disclaimer.
+#       * Redistributions of source code must retain the above copyright
+#         notice, this list of conditions and the following disclaimer.
 #   
-#   	* Redistributions in binary form must reproduce the above copyright
-#   	  notice, this list of conditions and the following disclaimer in the
-#   	  documentation and/or other materials provided with the distribution.
+#       * Redistributions in binary form must reproduce the above copyright
+#         notice, this list of conditions and the following disclaimer in the
+#         documentation and/or other materials provided with the distribution.
 #   
-#   	* Neither the name of Jean Tessier nor the names of his contributors
-#   	  may be used to endorse or promote products derived from this software
-#   	  without specific prior written permission.
+#       * Neither the name of Jean Tessier nor the names of his contributors
+#         may be used to endorse or promote products derived from this software
+#         without specific prior written permission.
 #   
 #   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 #   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,17 +59,17 @@ if (/^---(\++)\s*(.*)\s*/) {
     $anchor =~ s/=//g;
 
     while (exists $ANCHORS{$anchor}) {
-	$anchor .= "X";
+        $anchor .= "X";
     }
     $ANCHORS{$anchor} = 1;
 
     while ($TOC_LEVEL < $level) {
-	$TOC .= "<ul>\n";
-	$TOC_LEVEL++;
+        $TOC .= "<ul>\n";
+        $TOC_LEVEL++;
     }
     while ($TOC_LEVEL > $level) {
-	$TOC .= "</ul>\n";
-	$TOC_LEVEL--;
+        $TOC .= "</ul>\n";
+        $TOC_LEVEL--;
     }
     $TOC .= "<li><a href=\"#$anchor\">$title</a></li>\n" if $TOC_LEVEL > 1;
 
@@ -83,19 +83,19 @@ if (/^---(\++)\s*(.*)\s*/) {
     $_ = "<hr />\n";
 } elsif (/^\s*$/) {
     if ($in_paragraph) {
-	$in_paragraph = !$in_paragraph;
-	$TEXT .= "</p>\n";
+        $in_paragraph = !$in_paragraph;
+        $TEXT .= "</p>\n";
     } elsif ($in_quote) {
-	$in_quote = !$in_quote;
-	$TEXT .= "</pre>\n";
+        $in_quote = !$in_quote;
+        $TEXT .= "</pre>\n";
     } elsif ($in_ordered_list) {
-	$in_ordered_list = !$in_ordered_list;
-	$TEXT .= "</ol>\n";
+        $in_ordered_list = !$in_ordered_list;
+        $TEXT .= "</ol>\n";
     } elsif ($in_unordered_list) {
-	$in_unordered_list = !$in_unordered_list;
-	$TEXT .= "</ul>\n";
+        $in_unordered_list = !$in_unordered_list;
+        $TEXT .= "</ul>\n";
     } elsif ($in_html) {
-	$in_html = !$in_html;
+        $in_html = !$in_html;
     }
 } elsif (/^(\s*)((\S+)\s*(\S.*))/) {
     local ($indent, $text, $marker, $content) = ($1, $2, $3, $4);
@@ -105,27 +105,27 @@ if (/^---(\++)\s*(.*)\s*/) {
     chomp $content;
 
     if (!$in_paragraph && !$in_quote && !$in_html && ($marker =~ /^\d+$/ || $marker eq "*")) {
-	$_ = "<li>$content</li>\n";
+        $_ = "<li>$content</li>\n";
     }
 
     if (!$in_paragraph && !$in_quote && !$in_html && !$in_ordered_list && !$in_unordered_list && !$in_html) {
-	if ($indent_level) {
-	    if ($marker =~ /^\d+$/ && !$in_ordered_list) {
-		$in_ordered_list = !$in_ordered_list;
-		$TEXT .= "<ol>\n";
-	    } elsif ($marker eq "*" && !$in_unordered_list) {
-		$in_unordered_list = !$in_unordered_list;
-		$TEXT .= "<ul>\n";
-	    } elsif (!$in_quote) {
-		$in_quote = !$in_quote;
-		$TEXT .= "<pre>\n";
-	    }
-	} elsif (/^</) {
-	    $in_html = !$in_html;
-	} else {
-	    $in_paragraph = !$in_paragraph;
-	    $TEXT .= "<p>\n";
-	}
+        if ($indent_level) {
+            if ($marker =~ /^\d+$/ && !$in_ordered_list) {
+                $in_ordered_list = !$in_ordered_list;
+                $TEXT .= "<ol>\n";
+            } elsif ($marker eq "*" && !$in_unordered_list) {
+                $in_unordered_list = !$in_unordered_list;
+                $TEXT .= "<ul>\n";
+            } elsif (!$in_quote) {
+                $in_quote = !$in_quote;
+                $TEXT .= "<pre>\n";
+            }
+        } elsif (/^</) {
+            $in_html = !$in_html;
+        } else {
+            $in_paragraph = !$in_paragraph;
+            $TEXT .= "<p>\n";
+        }
     }
 }
 
@@ -150,8 +150,8 @@ END {
     $TEXT .= "</html>\n";
 
     while ($TOC_LEVEL > 1) {
-	$TOC .= "</ul>\n";
-	$TOC_LEVEL--;
+        $TOC .= "</ul>\n";
+        $TOC_LEVEL--;
     }
     
     $TOC =~ s/=\b([^=]*)\b=/<code>\1<\/code>/g;

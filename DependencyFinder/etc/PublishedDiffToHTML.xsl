@@ -176,7 +176,7 @@
                                                                       new-declaration/@visibility='package' or
                                                                       new-declaration/@visibility='protected')) or
                                                                  (old-declaration/@visibility='protected' and
-                                                         	     (new-declaration/@visibility='package' or
+                                                                     (new-declaration/@visibility='package' or
                                                                       new-declaration/@visibility='private')) or
                                                                  (not(old-declaration/@abstract) and new-declaration/@abstract) or
                                                                  (not(old-declaration/@static) and new-declaration/@static) or
@@ -277,7 +277,7 @@
                                                                              (old-declaration/@visibility='protected' and
                                                                                  (new-declaration/@visibility='package' or
                                                                                   new-declaration/@visibility='private')) or
-                                         				     (not(old-declaration/@abstract) and new-declaration/@abstract) or
+                                                                             (not(old-declaration/@abstract) and new-declaration/@abstract) or
                                                                              (not(old-declaration/@static) and new-declaration/@static) or
                                                                              (not(old-declaration/@final) and new-declaration/@final) or
                                                                              (old-declaration/@return-type!=new-declaration/@return-type) or
@@ -298,7 +298,7 @@
                                                                         (old-declaration/@visibility='protected' and
                                                                             (new-declaration/@visibility='package' or
                                                                              new-declaration/@visibility='private')) or
-                                         			        (not(old-declaration/@abstract) and new-declaration/@abstract) or
+                                                                        (not(old-declaration/@abstract) and new-declaration/@abstract) or
                                                                         (not(old-declaration/@static) and new-declaration/@static) or
                                                                         (not(old-declaration/@final) and new-declaration/@final) or
                                                                         (old-declaration/@return-type!=new-declaration/@return-type) or

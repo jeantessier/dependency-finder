@@ -43,8 +43,8 @@ public class MeasurementDescriptor {
     private String     initText;
     private Comparable lowerThreshold;
     private Comparable upperThreshold;
-    private boolean    visible        = true;	
-    private boolean    cached         = true;	
+    private boolean    visible        = true;
+    private boolean    cached         = true;
 
     public String getShortName() {
         return shortName;

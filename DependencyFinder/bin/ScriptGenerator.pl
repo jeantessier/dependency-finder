@@ -8,16 +8,16 @@
 #   modification, are permitted provided that the following conditions
 #   are met:
 #   
-#   	* Redistributions of source code must retain the above copyright
-#   	  notice, this list of conditions and the following disclaimer.
+#       * Redistributions of source code must retain the above copyright
+#         notice, this list of conditions and the following disclaimer.
 #   
-#   	* Redistributions in binary form must reproduce the above copyright
-#   	  notice, this list of conditions and the following disclaimer in the
-#   	  documentation and/or other materials provided with the distribution.
+#       * Redistributions in binary form must reproduce the above copyright
+#         notice, this list of conditions and the following disclaimer in the
+#         documentation and/or other materials provided with the distribution.
 #   
-#   	* Neither the name of Jean Tessier nor the names of his contributors
-#   	  may be used to endorse or promote products derived from this software
-#   	  without specific prior written permission.
+#       * Neither the name of Jean Tessier nor the names of his contributors
+#         may be used to endorse or promote products derived from this software
+#         without specific prior written permission.
 #   
 #   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 #   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -39,42 +39,42 @@ require "getopts.pl";
 &Getopts (":cguvw");
 
 %TEMPLATES = ("ClassClassDiff" => ".cli.template.txt",
-	      "ClassDump" => ".cli.template.txt",
-	      "ClassFinder" => ".cli.template.txt",
-	      "ClassList" => ".cli.template.txt",
-	      "ClassMetrics" => ".cli.template.txt",
-	      "ClassReader" => ".cli.template.txt",
-	      "ClosureToText" => ".xsl.template.txt",
-	      "DependablesToHTML" => ".xsl.template.txt",
-	      "DependablesToText" => ".xsl.template.txt",
-	      "DependencyClosure" => ".cli.template.txt",
-	      "DependencyExtractor" => ".cli.template.txt",
-	      "DependencyGraphToHTML" => ".xsl.template.txt",
-	      "DependencyGraphToText" => ".xsl.template.txt",
-	      "DependencyMetrics" => ".cli.template.txt",
-	      "DependencyReporter" => ".cli.template.txt",
-	      "DependentsToHTML" => ".xsl.template.txt",
-	      "DependentsToText" => ".xsl.template.txt",
-	      "DiffToHTML" => ".xsl.template.txt",
-	      "HideInboundDependenciesToHTML" => ".xsl.template.txt",
-	      "HideInboundDependenciesToText" => ".xsl.template.txt",
-	      "HideOutboundDependenciesToHTML" => ".xsl.template.txt",
-	      "HideOutboundDependenciesToText" => ".xsl.template.txt",
-	      "JarJarDiff" => ".cli.template.txt",
-	      "ListDeprecatedElements" => ".cli.template.txt",
-	      "ListDiff" => ".cli.template.txt",
-	      "ListDiffToHTML" => ".xsl.template.txt",
-	      "ListDiffToText" => ".xsl.template.txt",
-	      "ListInheritanceDiffToText" => ".xsl.template.txt",
-	      "ListSymbols" => ".cli.template.txt",
-	      "ListUnused" => ".xsl.template.txt",
-	      "MetricsToHTML" => ".xsl.template.txt",
-	      "MetricsToText" => ".xsl.template.txt",
-	      "PublishedDiffToHTML" => ".xsl.template.txt",
-	      "c2c" => ".reporter.template.txt",
-	      "c2p" => ".reporter.template.txt",
-	      "f2f" => ".reporter.template.txt",
-	      "p2p" => ".reporter.template.txt");
+              "ClassDump" => ".cli.template.txt",
+              "ClassFinder" => ".cli.template.txt",
+              "ClassList" => ".cli.template.txt",
+              "ClassMetrics" => ".cli.template.txt",
+              "ClassReader" => ".cli.template.txt",
+              "ClosureToText" => ".xsl.template.txt",
+              "DependablesToHTML" => ".xsl.template.txt",
+              "DependablesToText" => ".xsl.template.txt",
+              "DependencyClosure" => ".cli.template.txt",
+              "DependencyExtractor" => ".cli.template.txt",
+              "DependencyGraphToHTML" => ".xsl.template.txt",
+              "DependencyGraphToText" => ".xsl.template.txt",
+              "DependencyMetrics" => ".cli.template.txt",
+              "DependencyReporter" => ".cli.template.txt",
+              "DependentsToHTML" => ".xsl.template.txt",
+              "DependentsToText" => ".xsl.template.txt",
+              "DiffToHTML" => ".xsl.template.txt",
+              "HideInboundDependenciesToHTML" => ".xsl.template.txt",
+              "HideInboundDependenciesToText" => ".xsl.template.txt",
+              "HideOutboundDependenciesToHTML" => ".xsl.template.txt",
+              "HideOutboundDependenciesToText" => ".xsl.template.txt",
+              "JarJarDiff" => ".cli.template.txt",
+              "ListDeprecatedElements" => ".cli.template.txt",
+              "ListDiff" => ".cli.template.txt",
+              "ListDiffToHTML" => ".xsl.template.txt",
+              "ListDiffToText" => ".xsl.template.txt",
+              "ListInheritanceDiffToText" => ".xsl.template.txt",
+              "ListSymbols" => ".cli.template.txt",
+              "ListUnused" => ".xsl.template.txt",
+              "MetricsToHTML" => ".xsl.template.txt",
+              "MetricsToText" => ".xsl.template.txt",
+              "PublishedDiffToHTML" => ".xsl.template.txt",
+              "c2c" => ".reporter.template.txt",
+              "c2p" => ".reporter.template.txt",
+              "f2f" => ".reporter.template.txt",
+              "p2p" => ".reporter.template.txt");
 
 if ($opt_g) {
     &Generate("sh", "");
@@ -90,9 +90,9 @@ sub Generate {
     local ($target_shell, $target_extension) = @_;
 
     foreach $command (sort keys %TEMPLATES) {
-	&Process($command,
-		 $target_shell . $TEMPLATES{$command},
-		 $command . $target_extension);
+        &Process($command,
+                 $target_shell . $TEMPLATES{$command},
+                 $command . $target_extension);
     }
 }
 
@@ -100,10 +100,10 @@ sub Clean {
     local ($target_extension) = @_;
 
     foreach $command (sort keys %TEMPLATES) {
-	local ($filename) = $command . $target_extension;
+        local ($filename) = $command . $target_extension;
 
-	print "Deleting $filename\n" if $opt_v && -e $filename;
-	unlink($filename) ;
+        print "Deleting $filename\n" if $opt_v && -e $filename;
+        unlink($filename) ;
     }
 }
 
@@ -114,13 +114,13 @@ sub Process {
     local ($filename_mtime) = (stat $filename)[9];
 
     if ($filename_mtime <= $template_mtime) {
-	print "Generating $filename\n" if $opt_v;
-	
-	local ($processor) = new TemplateProcessor ($template);
-	$processor->AddRules(new TemplateProcessorRule("##COMMAND##", $command));
+        print "Generating $filename\n" if $opt_v;
 
-	open (FILEHANDLE, "> $filename");
-	print FILEHANDLE $processor->Process;
-	close (FILEHANDLE);
+        local ($processor) = new TemplateProcessor ($template);
+        $processor->AddRules(new TemplateProcessorRule("##COMMAND##", $command));
+
+        open (FILEHANDLE, "> $filename");
+        print FILEHANDLE $processor->Process;
+        close (FILEHANDLE);
     }
 }
