@@ -193,7 +193,7 @@ public class XMLPrinter extends Printer {
 			Append("</field-ref-info>").EOL();
 			top = true;
 		} else {
-			nat.RawType().Accept(this);
+			Append(SignatureHelper.Type(nat.Type()));
 			Append(" ");
 			c.Accept(this);
 			Append(".");
@@ -221,10 +221,13 @@ public class XMLPrinter extends Printer {
 			Append("</method-ref-info>").EOL();
 			top = true;
 		} else {
+			
+			Append(SignatureHelper.ReturnType(nat.Type()));
+			Append(" ");
 			c.Accept(this);
 			Append(".");
 			nat.RawName().Accept(this);
-			nat.RawType().Accept(this);
+			Append(SignatureHelper.Signature(nat.Type()));
 		}
 	}
 
@@ -248,10 +251,12 @@ public class XMLPrinter extends Printer {
 			Append("</interface-method-ref-info>").EOL();
 			top = true;
 		} else {
+			Append(SignatureHelper.ReturnType(nat.Type()));
+			Append(" ");
 			c.Accept(this);
 			Append(".");
 			nat.RawName().Accept(this);
-			nat.RawType().Accept(this);
+			Append(SignatureHelper.Signature(nat.Type()));
 		}
 	}
 
@@ -460,7 +465,9 @@ public class XMLPrinter extends Printer {
 				case 0xc1: // instanceof
 				case 0xc5: // multianewarray
 					int index = ((instr.Code()[instr.Start()+1] & 0xff) << 8) | (instr.Code()[instr.Start()+2] & 0xff);
-					Append(instr).Append(" ").Append(EscapeXMLCharacters(attribute.Classfile().ConstantPool().get(index).toString()));
+					Append(instr);
+					Append(" ");
+					((ConstantPoolEntry) attribute.Classfile().ConstantPool().get(index)).Accept(this);
 					break;
 				default:
 					Append(instr);
