@@ -133,14 +133,7 @@ public class ClassList {
 
 			out.println(filename + ":");
 			
-			ClassfileLoader loader;
-			if (filename.endsWith(".jar")) {
-				loader = new JarClassfileLoader(new AggregatingClassfileLoader());
-			} else if (filename.endsWith(".zip")) {
-				loader = new ZipClassfileLoader(new AggregatingClassfileLoader());
-			} else {
-				loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-			}
+			ClassfileLoader loader = new AggregatingClassfileLoader();
 			loader.Load(filename);
 
 			Iterator j = loader.Classfiles().iterator();
