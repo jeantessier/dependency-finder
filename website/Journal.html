@@ -17,6 +17,36 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	October 04, 2004
+    </dt>
+    <dd>
+	<p>Finished <code>LoadListenerVisitorAdapter</code>.</p>
+
+	<p>I also noticed that I have quite a few tools that do similar things.
+	I need to align the naming of all these tools.
+	<code>ListDeprecatedElements</code> lists symbols from compiled code.
+	It focuses solely on elements marked as deprecated.  It uses a
+	<code>Printer</code> to print elements as it finds them.
+	<code>SymbolList</code> lists symbols from compiled code.  You can
+	choose between class names and feature names, but it offers no
+	filtering.  It uses a <code>Collector</code> to assemble the output and
+	prints it as a separate operation.  <code>ListDocumentedElements</code>
+	lists symbols from source code by filtering of special javadoc tags.</p>
+    </dd>
+    <dt>
+	October 03, 2004
+    </dt>
+    <dd>
+	<p>As I developed <code>SymbolList</code>, I realized that the way it
+	ties a <code>LoadListener</code> and a <code>Visitor</code> was common
+	to a few classes and that each one was reimplementing it, always in the
+	same manner.  I decided to get rid of this code duplication by putting
+	it in a <code>LoadListenerVisitorAdapter</code>.  From now on, if you
+	want a visitor to get called as classfiles are loaded, you will be able
+	to wrap the visitor in a <code>LoadListenerVisitorAdapter</code> and
+	then register it as a load listener.</p>
+    </dd>
+    <dt>
 	October 01, 2004
     </dt>
     <dd>
