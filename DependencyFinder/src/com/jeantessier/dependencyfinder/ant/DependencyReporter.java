@@ -38,18 +38,16 @@ import java.util.*;
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
-import com.jeantessier.classreader.*;
+import org.xml.sax.*;
+
 import com.jeantessier.dependency.*;
 
-public class DependencyExtractor extends Task {
-	private boolean serialize   = false;
-	private boolean xml         = false;
-	private boolean minimize    = false;
-	private boolean maximize    = false;
-	private String  dtd_prefix  = com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX;
+public class DependencyReporter extends DependencyTask {
+
+	private boolean serialize  = false;
+	private boolean xml        = false;
+	private String  dtd_prefix = XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indent_text;
-	private File    destfile;
-	private Path    path;
 
 	public boolean getSerialize() {
 		return serialize;
@@ -67,22 +65,6 @@ public class DependencyExtractor extends Task {
 		this.xml = xml;
 	}
 
-	public boolean getMinimize() {
-		return minimize;
-	}
-
-	public void setMinimize(boolean minimize) {
-		this.minimize = minimize;
-	}
-
-	public boolean getMaximize() {
-		return maximize;
-	}
-
-	public void setMaximize(boolean maximize) {
-		this.maximize = maximize;
-	}
-
 	public String getDtdprefix() {
 		return dtd_prefix;
 	}
@@ -98,82 +80,74 @@ public class DependencyExtractor extends Task {
 	public void setIntenttext(String indent_text) {
 		this.indent_text = indent_text;
 	}
-
-	public File getDestfile() {
-		return destfile;
-	}
-	
-	public void setDestfile(File destfile) {
-		this.destfile = destfile;
-	}
-	
-	public Path createPath() {
-		if (path == null) {
-			path = new Path(getProject());
-		}
-
-		return path;
-	}
-	
-	public Path getPath() {
-		return path;
-	}
 	
 	public void execute() throws BuildException {
         // first off, make sure that we've got what we need
-
-        if (getPath() == null) {
-            throw new BuildException("path must be set!");
-        }
-
-        if (getDestfile() == null) {
-            throw new BuildException("destfile must be set!");
-        }
+		CheckParameters();
 
 		VerboseListener verbose_listener = new VerboseListener(this);
 
-		NodeFactory factory = new NodeFactory();
-		CodeDependencyCollector collector = new CodeDependencyCollector(factory);
-		collector.addDependencyListener(verbose_listener);
-		
-		ClassfileLoader loader = new TransientClassfileLoader();
-		loader.addLoadListener(collector);
-		loader.addLoadListener(verbose_listener);
-		loader.Load(Arrays.asList(getPath().list()));
-
-		if (getMinimize()) {
-			LinkMinimizer minimizer = new LinkMinimizer();
-			minimizer.TraverseNodes(factory.Packages().values());
-		} else if (getMaximize()) {
-			LinkMaximizer maximizer = new LinkMaximizer();
-			maximizer.TraverseNodes(factory.Packages().values());
-		}
-
-		log("Saving dependency graph to " + getDestfile().getAbsolutePath());
-		
 		try {
+			GraphCopier copier;
+			if (getMaximize()) {
+				copier = new GraphCopier(Strategy());
+			} else {
+				copier = new GraphSummarizer(Strategy());
+			}
+
+			String filename = getSrcfile().getAbsolutePath();
+			log("Reading " + filename);
+				
+			Collection packages;
+			if (filename.endsWith(".xml")) {
+				NodeLoader loader = new NodeLoader(getValidate());
+				loader.addDependencyListener(verbose_listener);
+				packages = loader.Load(filename).Packages().values();
+			} else if (filename.endsWith(".ser")) {
+				ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
+				packages = (Collection) in.readObject();
+			} else {
+				packages = Collections.EMPTY_LIST;
+			}
+				
+			if (getMaximize()) {
+				log("Maximizing ...");
+				new LinkMaximizer().TraverseNodes(packages);
+			} else if (getMinimize()) {
+				log("Minimizing ...");
+				new LinkMinimizer().TraverseNodes(packages);
+			}
+				
+			copier.TraverseNodes(packages);
+
+			log("Saving dependency graph to " + getDestfile().getAbsolutePath());
+		
 			if (getSerialize()) {
 				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(getDestfile()));
-				out.writeObject(new ArrayList(factory.Packages().values()));
+				out.writeObject(new ArrayList(copier.ScopeFactory().Packages().values()));
 				out.close();
 			} else {
-				com.jeantessier.dependency.Printer printer;
+				Printer printer;
 				if (getXml()) {
-					printer = new com.jeantessier.dependency.XMLPrinter(getDtdprefix());
+					printer = new XMLPrinter(getDtdprefix());
 				} else {
-					printer = new com.jeantessier.dependency.TextPrinter();
+					printer = new TextPrinter();
 				}
 				
 				if (getIndenttext() != null) {
 					printer.IndentText(getIndenttext());
 				}
 				
-				printer.TraverseNodes(factory.Packages().values());
+				printer.TraverseNodes(copier.ScopeFactory().Packages().values());
 				
 				PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 				out.print(printer);
 				out.close();
 			}
+		} catch (SAXException ex) {
+			throw new BuildException(ex);
+		} catch (ClassNotFoundException ex) {
+			throw new BuildException(ex);
 		} catch (IOException ex) {
 			throw new BuildException(ex);
 		}

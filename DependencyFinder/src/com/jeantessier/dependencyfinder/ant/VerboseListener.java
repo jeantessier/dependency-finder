@@ -46,19 +46,18 @@ public class VerboseListener implements LoadListener, DependencyListener, Metric
 	}
 	
 	public void BeginSession(LoadEvent event) {
-		task.log("Searching for classes ...");
+		task.log("Searching for classes ...", Project.MSG_VERBOSE);
 	}
 	
 	public void BeginGroup(LoadEvent event) {
-		task.log("Searching " + event.Filename() + " ...");
+		task.log("Searching " + event.Filename() + " ...", Project.MSG_VERBOSE);
 	}
 	
 	public void BeginClassfile(LoadEvent event) {
-
 		if (event.Element() != null) {
-			task.log("Loading " + event.Filename() + " >> " + event.Element() + " ...");
+			task.log("Loading " + event.Filename() + " >> " + event.Element() + " ...", Project.MSG_VERBOSE);
 		} else {
-			task.log("Loading " + event.Filename() + " ...");
+			task.log("Loading " + event.Filename() + " ...", Project.MSG_VERBOSE);
 		}
 	}
 	
@@ -75,7 +74,7 @@ public class VerboseListener implements LoadListener, DependencyListener, Metric
 	}
 
 	public void StartClass(DependencyEvent event) {
-		task.log("Getting dependencies from " + event.Classname() + " ...");
+		task.log("Getting dependencies from " + event.Classname() + " ...", Project.MSG_VERBOSE);
 	}
 	
 	public void StopClass(DependencyEvent event) {
@@ -87,7 +86,7 @@ public class VerboseListener implements LoadListener, DependencyListener, Metric
 	}
 
 	public void StartClass(MetricsEvent event) {
-		task.log("Computing metrics for " + event.Classfile() + " ...");
+		task.log("Computing metrics for " + event.Classfile() + " ...", Project.MSG_VERBOSE);
 	}
 	
 	public void StartMethod(MetricsEvent event) {

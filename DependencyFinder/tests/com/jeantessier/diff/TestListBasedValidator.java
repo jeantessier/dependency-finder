@@ -100,8 +100,29 @@ public class TestListBasedValidator extends TestCase {
 		assertTrue("feature", !validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
 	}
 
-	public void testMissingFile() throws IOException {
+	public void testMissingFile1() throws IOException {
 		Validator validator = new ListBasedValidator("no such file");
+
+		assertTrue("package", validator.IsPackageAllowed("foobar"));
+		assertTrue("class",   validator.IsClassAllowed("foobar"));
+		assertTrue("class",   validator.IsClassAllowed("foobar.foobar"));
+		assertTrue("feature", validator.IsFeatureAllowed("foobar"));
+		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar"));
+		assertTrue("feature", validator.IsFeatureAllowed("foobar.foobar.foobar"));
+
+		assertTrue("package", validator.IsPackageAllowed("barfoo"));
+		assertTrue("class",   validator.IsClassAllowed("barfoo"));
+		assertTrue("class",   validator.IsClassAllowed("barfoo.barfoo"));
+		assertTrue("feature", validator.IsFeatureAllowed("barfoo"));
+		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo"));
+		assertTrue("feature", validator.IsFeatureAllowed("barfoo.barfoo.barfoo"));
+	}
+
+	public void testMissingFile2() throws IOException {
+		File file = new File("no such file");
+		assertFalse("File exists", file.exists());
+		
+		Validator validator = new ListBasedValidator(file);
 
 		assertTrue("package", validator.IsPackageAllowed("foobar"));
 		assertTrue("class",   validator.IsClassAllowed("foobar"));

@@ -48,6 +48,10 @@ public class ListBasedValidator implements Validator {
 		Load(filename);
 	}
 
+	public ListBasedValidator(File file) throws IOException {
+		Load(file);
+	}
+
 	public ListBasedValidator(BufferedReader in) throws IOException {
 		Load(in);
 	}
@@ -66,7 +70,22 @@ public class ListBasedValidator implements Validator {
 			}
 		}
 	}
-	
+		
+	public void Load(File file) throws IOException {
+		BufferedReader in = null;
+		
+		try {
+			in = new BufferedReader(new FileReader(file));
+			Load(in);
+		} catch (FileNotFoundException ex) {
+			// Ignore
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+	}
+
 	public void Load(BufferedReader in) throws IOException {
 		String line;
 		while ((line = in.readLine()) != null) {
