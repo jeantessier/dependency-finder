@@ -49,7 +49,10 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     private HashSet loadListeners = new HashSet();
 
     private LinkedList groupNames = new LinkedList();
+    private LinkedList groupSizes = new LinkedList();
 
+    private int    previousDispatch;
+    
     public ClassfileLoaderEventSource() {
         this(DEFAULT_DISPATCHER);
     }
@@ -59,46 +62,66 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
     
     protected void load(String filename) {
-        switch (dispatcher.dispatch(filename)) {
+        int dispatch = dispatcher.dispatch(filename);
+
+        previousDispatch = dispatch;
+        
+        switch (dispatch) {
             case ClassfileLoaderDispatcher.ACTION_IGNORE:
+                Logger.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
                 break;
 
             case ClassfileLoaderDispatcher.ACTION_CLASS:
             case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
+                Logger.getLogger(getClass()).debug("DIRECTORY or CLASS \"" + filename + "\"");
                 dirLoader.load(filename);
                 break;
 
             case ClassfileLoaderDispatcher.ACTION_ZIP:
+                Logger.getLogger(getClass()).debug("ZIP \"" + filename + "\"");
                 zipLoader.load(filename);
                 break;
 
             case ClassfileLoaderDispatcher.ACTION_JAR:
+                Logger.getLogger(getClass()).debug("JAR \"" + filename + "\"");
                 jarLoader.load(filename);
                 break;
 
             default:
+                Logger.getLogger(getClass()).debug("default (IGNORE) \"" + filename + "\"");
                 break;
         }
     }
 
     protected void load(String filename, InputStream in) {
-        switch (dispatcher.dispatch(filename)) {
+        int dispatch = dispatcher.dispatch(filename);
+
+        if (dispatch == ClassfileLoaderDispatcher.ACTION_IGNORE && getTopGroupSize() == 1 &&  filename.equals(getTopGroupName())) {
+            dispatch = previousDispatch;
+        }
+        
+        switch (dispatch) {
             case ClassfileLoaderDispatcher.ACTION_IGNORE:
+                Logger.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
                 break;
 
             case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
+                Logger.getLogger(getClass()).debug("DIRECTORY \"" + filename + "\"");
                 dirLoader.load(filename, in);
                 break;
 
             case ClassfileLoaderDispatcher.ACTION_ZIP:
+                Logger.getLogger(getClass()).debug("ZIP \"" + filename + "\"");
                 zipLoader.load(filename, in);
                 break;
 
             case ClassfileLoaderDispatcher.ACTION_JAR:
+                Logger.getLogger(getClass()).debug("JAR \"" + filename + "\"");
                 jarLoader.load(filename, in);
                 break;
 
             case ClassfileLoaderDispatcher.ACTION_CLASS:
+                Logger.getLogger(getClass()).debug("CLASS \"" + filename + "\"");
                 try {
                     fireBeginClassfile(filename);
                     Classfile classfile = load(new DataInputStream(in));
@@ -109,6 +132,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
                 break;
                 
             default:
+                Logger.getLogger(getClass()).debug("default (IGNORE) \"" + filename + "\"");
                 break;
         }
     }
@@ -126,6 +150,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     protected void fireBeginSession() {
+        Logger.getLogger(getClass()).debug("Begin session");
+        
         LoadEvent event = new LoadEvent(this, null, null, null);
 
         HashSet listeners;
@@ -140,6 +166,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     protected void fireBeginGroup(String groupName, int size) {
+        Logger.getLogger(getClass()).debug("Begin group \"" + groupName + "\" of size " + size);
+
         LoadEvent event = new LoadEvent(this, groupName, size);
 
         HashSet listeners;
@@ -153,9 +181,12 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         }
 
         pushGroupName(groupName);
+        pushGroupSize(size);
     }
     
     protected void fireBeginFile(String filename) {
+        Logger.getLogger(getClass()).debug("Begin file \"" + filename + "\"");
+        
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
         HashSet listeners;
@@ -170,6 +201,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
     
     protected void fireBeginClassfile(String filename) {
+        Logger.getLogger(getClass()).debug("Begin classfile \"" + filename + "\"");
+        
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
         HashSet listeners;
@@ -184,6 +217,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     protected void fireEndClassfile(String filename, Classfile classfile) {
+        Logger.getLogger(getClass()).debug("End classfile \"" + filename + "\": " + ((classfile != null) ? classfile.getClassName() : "nothing"));
+        
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, classfile);
 
         HashSet listeners;
@@ -198,6 +233,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     protected void fireEndFile(String filename) {
+        Logger.getLogger(getClass()).debug("End file \"" + filename + "\"");
+        
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
         HashSet listeners;
@@ -212,6 +249,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     protected void fireEndGroup(String groupName) {
+        Logger.getLogger(getClass()).debug("End group \"" + groupName + "\"");
+        
         LoadEvent event = new LoadEvent(this, groupName, null, null);
 
         HashSet listeners;
@@ -225,9 +264,12 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         }
 
         popGroupName();
+        popGroupSize();
     }
 
     protected void fireEndSession() {
+        Logger.getLogger(getClass()).debug("End session");
+        
         LoadEvent event = new LoadEvent(this, null, null, null);
 
         HashSet listeners;
@@ -257,5 +299,23 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
     private String popGroupName() {
         return (String) groupNames.removeLast();
+    }
+
+    private int getTopGroupSize() {
+        Integer result = null;
+
+        if (!groupSizes.isEmpty()) {
+            result = (Integer) groupSizes.getLast();
+        }
+
+        return result.intValue();
+    }
+
+    private void pushGroupSize(int size) {
+        groupSizes.addLast(new Integer(size));
+    }
+
+    private int popGroupSize() {
+        return ((Integer) groupSizes.removeLast()).intValue();
     }
 }

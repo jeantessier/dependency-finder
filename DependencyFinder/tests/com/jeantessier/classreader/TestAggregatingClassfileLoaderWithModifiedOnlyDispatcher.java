@@ -32,33 +32,40 @@
 
 package com.jeantessier.classreader;
 
+import java.io.*;
+import java.util.*;
+
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite();
+import org.apache.log4j.*;
 
-        result.addTestSuite(TestBitFormat.class);
-        result.addTestSuite(TestDirectoryExplorer.class);
-        result.addTestSuite(TestAggregatingClassfileLoader.class);
-        result.addTestSuite(TestTransientClassfileLoader.class);
-        result.addTestSuite(TestDirectoryClassfileLoader.class);
-        result.addTestSuite(TestClassfile.class);
-        result.addTestSuite(TestPermissiveDispatcher.class);
-        result.addTestSuite(TestStrictDispatcher.class);
-        result.addTestSuite(TestModifiedOnlyDispatcher.class);
-        result.addTestSuite(TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher.class);
-        result.addTestSuite(TestZipClassfileLoader.class);
-        result.addTestSuite(TestJarClassfileLoader.class);
-        result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-        result.addTestSuite(TestClassfileLoaderStrictDispatcher.class);
-        result.addTestSuite(TestClassfileScanner.class);
-        result.addTestSuite(TestXMLPrinter.class);
-        result.addTestSuite(TestDeprecationPrinter.class);
-        result.addTestSuite(TestLoadListenerVisitorAdapter.class);
-        result.addTestSuite(TestMonitor.class);
-        result.addTestSuite(TestSymbolGatherer.class);
+public class TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher extends TestCase {
+    public static final String TEST_CLASS    = "test";
+    public static final String TEST_DIR      = "classes" + File.separator + "testpackage";
+    public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
+    
+    private AggregatingClassfileLoader loader;
 
-        return result;
+    protected void setUp() throws Exception {
+        Logger.getLogger(getClass()).info("Starting test: " + getName());
+
+        loader = new AggregatingClassfileLoader(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));
+    }
+
+    protected void tearDown() throws Exception {
+        Logger.getLogger(getClass()).info("End of " + getName());
+    }
+    
+    public void testDirectory() throws IOException {
+        loader.load(Collections.singleton(TEST_DIR));
+
+        assertEquals("Nb Classfiles", 6, loader.getAllClassNames().size());
+    }
+    
+    public void testClassfile() throws IOException {
+        loader.load(Collections.singleton(TEST_FILENAME));
+
+        assertEquals("Nb Classfiles", 1, loader.getAllClassNames().size());
+        assertNotNull("No Classfile from " + TEST_FILENAME, loader.getClassfile(TEST_CLASS));
     }
 }
