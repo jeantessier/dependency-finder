@@ -84,7 +84,7 @@ public class TestMetricsGatherer extends TestCase {
 	}
 	
 	public void test_test() {
-		assertEquals(Metrics.SLOC, 5, factory.CreateClassMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 6, factory.CreateClassMetrics("test").Measurement(Metrics.SLOC).intValue());
 		assertEquals("M", 2, factory.CreateClassMetrics("test").Measurement("M").intValue());
 		assertEquals(Metrics.PUBLIC_METHODS, 2, factory.CreateClassMetrics("test").Measurement(Metrics.PUBLIC_METHODS).intValue());
 		assertEquals(Metrics.PROTECTED_METHODS, 0, factory.CreateClassMetrics("test").Measurement(Metrics.PROTECTED_METHODS).intValue());
@@ -136,11 +136,10 @@ public class TestMetricsGatherer extends TestCase {
 	}
 
 	public void test_() {
-		assertEquals(Metrics.SLOC, 5, factory.CreateGroupMetrics("").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 6, factory.CreateGroupMetrics("").Measurement(Metrics.SLOC).intValue());
 	}
 
 	public void testProject() {
-		// assertEquals(Metrics.SLOC, 5, factory.CreateProjectMetrics("Project").Measurement(Metrics.SLOC).intValue());
-		assertEquals(Metrics.SLOC, 5, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 6, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
 	}
 }
