@@ -17,6 +17,27 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 29, 2004
+    </dt>
+    <dd>
+	<p>Dependency Finder is three years old!</p>
+
+	<p>I have been thinking some more about tracking inter-JAR
+	dependencies.  I could come up with some kind of <code>GroupNode</code>
+	that would be the parent of <code>PackageNode</code>.  But this
+	assumes that packages are wholly contained in one location, which is
+	not necessarily the case.  An alternative would be for groups to be
+	made of arbitrary sets of classfiles, kinda like the group functionality
+	in <code>OOMetrics</code>, where classes can be part of more than one
+	grouping.  Some groups represent packages while others could represent
+	JAR files.  Still needs more thought.</p>
+
+	<p>The <a href="http://groups.yahoo.com/group/pragprog/">praprog</a>
+	mailing list had a discussion on dependency cycles and some of the
+	theory behind cycle detection and resolution.  Looks like I'll need to
+	hit the books to keep myself current.  :-)</p>
+    </dd>
+    <dt>
 	January 27, 2004
     </dt>
     <dd>
