@@ -146,4 +146,22 @@ public class TestMetricsConfiguration extends TestCase {
 		assertTrue(groups.contains("foo"));
 		assertTrue(groups.contains("bar"));
 	}
+
+	public void testGroupDefinitionsWithMultipleREs() {
+		Collection groups;
+
+		groups = config.Groups("foobar");
+		assertEquals(0, groups.size());
+		
+		config.AddGroupDefinition("foo", "/foo/");
+		config.AddGroupDefinition("foo", "/bar/");
+
+		groups = config.Groups("foo only");
+		assertEquals(1, groups.size());
+		assertTrue(groups.contains("foo"));
+
+		groups = config.Groups("bar only");
+		assertEquals(1, groups.size());
+		assertTrue(groups.contains("foo"));
+	}
 }

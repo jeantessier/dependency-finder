@@ -78,18 +78,30 @@ public class MetricsConfiguration {
 	}
 
 	public void AddGroupDefinition(String name, String pattern) {
-		group_definitions.put(name, pattern);
+		Collection bucket = (Collection) group_definitions.get(name);
+
+		if (bucket == null) {
+			bucket = new LinkedList();
+			group_definitions.put(name, bucket);
+		}
+
+		bucket.add(pattern);
 	}
 
 	public Collection Groups(String name) {
-		Collection result = new LinkedList();
+		Collection result = new HashSet();
 
 		Iterator i = group_definitions.keySet().iterator();
 		while (i.hasNext()) {
 			String key = (String) i.next();
 
-			if (perl.match((String) group_definitions.get(key), name)) {
-				result.add(key);
+			if (group_definitions.get(key) != null) {
+				Iterator j = ((Collection) group_definitions.get(key)).iterator();
+				while (j.hasNext()) {
+					if (perl.match((String) j.next(), name)) {
+						result.add(key);
+					}
+				}
 			}
 		}
 		
