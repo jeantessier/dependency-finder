@@ -17,6 +17,17 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	October 10, 2004
+    </dt>
+    <dd>
+	<p>Build initial support for distinguishing between referenced versus
+	concrete nodes in the dependency graph.  <code>NodeFactory</code> now
+	has versions of its <code>createX()</code> methods that take a boolean
+	parameter to mark nodes as concrete.  The default is for them to be
+	marked as referenced only.  Marking a node as concrete makes its
+	ancestors concrete, but not its sibblings nor descendants.</p>
+    </dd>
+    <dt>
 	October 04, 2004
     </dt>
     <dd>
