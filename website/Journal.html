@@ -17,6 +17,43 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 28, 2005
+    </dt>
+    <dd>
+	<p>Finally got <code>Monitor</code> to behave properly.  But now, it's
+	the <code>DeletingVisitor</code> that seems to be missing some
+	dependencies.  I extract a graph, change a space in one file,
+	recompile, and re-extract (just the one file) and all of a sudden, the
+	graph has different numbers of inbound and outbound dependencies.
+	Worse, if I remove all <code>.class</code> files and re-extract,
+	effectively removing the entire graph, I end up with a partial graph
+	with no outbound dependencies but some inbound ones left.  Puzzling</p>
+    </dd>
+    <dt>
+	January 26, 2005
+    </dt>
+    <dd>
+	<p>Started coding <code>Monitor</code>, but I keep on missing some
+	aspect of tracking files because the behavior is not quite there
+	yet.</p>
+    </dd>
+    <dt>
+	January 24, 2005
+    </dt>
+    <dd>
+	<p>Further design for <code>Monitor</code> (on paper only).</p>
+    </dd>
+    <dt>
+	January 22, 2005
+    </dt>
+    <dd>
+	<p>Worked on a possible design for an object that could monitor what
+	files are being read and what classes are in them, so it can roll back
+	changes to the dependency graph from a class before it is re-read.  I
+	don't have a name for it yet, so I'll just call it <code>Monitor</code>
+	in the meantime.</p>
+    </dd>
+    <dt>
 	January 20, 2005
     </dt>
     <dd>
