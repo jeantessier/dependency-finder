@@ -1,5 +1,6 @@
 body {
 	background: white;
+	white-space: nowrap;
 }
 
 a {
