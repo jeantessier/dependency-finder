@@ -98,7 +98,7 @@ directory called =C:\DependencyFinder\=.
 ---++++ Step 3: Environment Variables
 
 <i>This is only required on Win95/98.  Under WinNT, the scripts are smart
-enough to find out where you installed Dependency Finder on their own.</i>
+enough to find out on their own where you installed Dependency Finder.</i>
 
 Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
 point to the directory where you installed Dependency Finder.
@@ -182,6 +182,9 @@ For example, if you extract it to =$HOME=, you will endup with a
 directory called =$HOME/DependencyFinder/=.
 
 ---++++ Step 3: Environment Variables
+
+<i>This is seldom required.  The scripts are smart enough to find out on their
+own where you installed Dependency Finder.</i>
 
 Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
 point to the directory where you installed Dependency Finder.
@@ -2396,9 +2399,10 @@ Dependency Finder recognizes four levels of metrics:
    * Class
    * Method
 
-Each metrics is composed of a number of measurements.  What measurements
-make up a given metrics level is defined in a configuration file written
-in XML.
+Each metrics is composed of a number of measurements.  What measurements make
+up a given metrics level is defined in a configuration file written in XML.
+You can specify a custom configuration file or let the tool use the default
+one in =%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml=.
 
 ---+++ Explanation
 
@@ -2430,11 +2434,139 @@ scope (package, group, class, or method).  It also defines the rules for
 creating arbitrary groups.  You can customize the content of your metrics
 report by using different configuration files.
 
-Each measurement has a name and a class that has the semantics of the
-measurement.  There are classes for counters, lists, simple
-mathematical expressions, etc.  Each measurement can be expressed as a
-numeric value and the configuration file can defines the recommanded range
-for that measurement.
+Each measurement has a name and a class that indicates behavior associated with
+the measurement.  The semantics of each measurement are currently hardcoded in
+the =MetricsGatherer=.  It decides which basic values are computed.  You can
+make minor adjustments by specifying the class used for the measurement.  There
+are classes for counters, lists, simple mathematical expressions, etc.  Each
+measurement can be expressed as a numeric value and the configuration file can
+defines the recommanded range for that measurement.
+
+---++++ Basic Method Measurements
+
+The following basic measurements are computed for each method.
+
+The following are simple numerical measurements taken against the method.
+
+<blockquote>
+<dl>
+    <dt>Parameters (PARAM)</dt>
+    <dd>Number of parameters for the method.  Very long signatures are often
+    seen as a sign of poor design.</dd>
+    <dt>Single Line of Code (SLOC)</dt>
+    <dd>Number of code lines in the method.  Comments and empty lines are not
+    counted.  Large methods are usually a sign of poor design.</dd>
+    <dt>Local Variables (LVAR)</dt>
+    <dd>Number of local variables use by the method.</dd>
+</dl>
+</blockquote>
+
+The following measurements list classes, methods, and fields that have a
+dependency to or from this method.
+
+<blockquote>
+<dl>
+    <dt>Inbound Intra-Class Method Dependencies (IICM)</dt>
+    <dd>Other methods within the same class, that depend on this method.</dd>
+    <dt>Inbound Intra-Package Method Dependencies (IIPM)</dt>
+    <dd>Methods in other classes of the same package that depend on this
+    method.</dd>
+    <dt>Inbound Extra-Package Method Dependencies (IEPM)</dt>
+    <dd>Methods in other packages that depend on this method.</dd>
+    <dt>Outbound Intra-Class Feature Dependencies (OICF)</dt>
+    <dd>Methods and fields within the same class that this method depends
+    on.</dd>
+    <dt>Outbound Intra-Package Feature Dependencies (OIPF)</dt>
+    <dd>Methods and fields within the classes of the same package that this
+    method depends on.</dd>
+    <dt>Outbound Intra-Package Class Dependencies (OIPC)</dt>
+    <dd>Classes within the same package that this method depends on.</dd>
+    <dt>Outbound Extra-Package Feature Dependencies(OEPF)</dt>
+    <dd>Methods and fields in other packages that this method depends on.</dd>
+    <dt>Outbound Extra-Package Class Dependencies (OEPC)</dt>
+    <dd>Classes in other packages that this method depends on.</dd>
+</dl>
+</blockquote>
+
+---++++ Basic Class Measurements
+
+The following basic measurements are computed for each class.
+
+The following are simple numerical measurements taken against the class.
+
+<blockquote>
+<dl>
+    <dt>Single Line of Code (SLOC)</dt>
+    <dd>Number of code lines in the class.  Comments and empty lines are not
+    counted.  Large classes are usually a sign of poor design.</dd>
+    <dt>Subclasses (SUB)</dt>
+    <dd>Number of direct subclasses of this class.</dd>
+    <dt>Depth of Inheritance (DOI)</dt>
+    <dd>How many hops there are between the top of the inheritance
+    hierarchy and this class.</dd>
+    <dt>Attributes (A)</dt>
+    <dd>Number of attributes in this class.</dd>
+    <dt>Methods (M)</dt>
+    <dd>Number of methods in this class</dd>
+    <dt>Inner Classes (IC)</dt>
+    <dd>Number of inner classes in this class.</dd>
+</dl>
+</blockquote>
+
+The following measurements list classes, methods, and fields that have a
+dependency to or from this method.
+
+<blockquote>
+<dl>
+    <dt>Inbound Intra-Package Dependencies (IIP)</dt>
+    <dd>Classes of the same package that depend on this class.</dd>
+    <dt>Inbound Extra-Package Dependencies (IEP)</dt>
+    <dd>Classes in other packages that depend on this class.</dd>
+    <dt>Outbound Intra-Package Dependencies (OIP)</dt>
+    <dd>Classes of the same package that this class depends on.</dd>
+    <dt>Outbound Extra-Package Dependencies (OEP)</dt>
+    <dd>Classes of other packages that this class depends on.</dd>
+    <dt>Inbound Intra-Package Method Dependencies(IIPM)</dt>
+    <dd>Methods and fields in other classes of the same package that depend on
+    this class.</dd>
+    <dt>Inbound Extra-Package Method Dependencies (IEPM)</dt>
+    <dd>Methods in other packages that depend on this class.</dd>
+</dl>
+</blockquote>
+
+---++++ Basic Group Measurements
+
+The following basic measurements are computed for each group.  They are simple
+numerical measurements taken against the group.
+
+Each package is automatically a group.  The configuration file can also define
+additional arbitrary groups that will be collected in addition to
+package-related groups.
+
+<blockquote>
+<dl>
+    <dt>Classes (C)</dt>
+    <dd>Number of classes in this group.</dd>
+    <dt>Interfaces (I)</dt>
+    <dd>Number of interfaces in this group</dd>
+</dl>
+</blockquote>
+
+---++++ Basic Project Measurements
+
+The following basic measurements are computed for the whole project.  They are
+simple numerical measurements taken against the project.
+
+<blockquote>
+<dl>
+    <dt>Groups (G)</dt>
+    <dd>Number of groups in the project.</dd>
+    <dt>Packages (P)</dt>
+    <dd>Number of packages in the project</dd>
+</dl>
+</blockquote>
+
+---++++ Types of Measurements
 
 The current types of measurement are as follow:
 
@@ -2480,16 +2612,16 @@ The current types of measurement are as follow:
 
 Whenever a measurement references another measurement, there is a chance
 that that measurement is in fact a =StatisticalMeasurement= standing in
-for a collection of others at the levels below.  The measurment making
+for a collection of others at the levels below.  The measurement making
 the reference can specify explicitly which subvalue (i.e., minimum, median,
 etc.) of the =StatisticalMeasurement= it wants to use for its own
 computation.  Or, it can rely on the =StatisticalMeasurement='s self
 disposition setting.  A =StatisticalMeasurement= can specify explicitly
 which of its subvalues it wants to use for its numerical value.  By
-default, this is the average value.
+default, it uses the average value.
 
-These measurements can potentially refer to other measurements and fall
-under this disposition feature:
+These measurements can potentially refer to other measurements and make use of
+the disposition feature when dealing with =StatisticalMeasurement=:
 
    * =NbSubMetricsMeasurement=
    * =RatioMeasurement=
@@ -2534,20 +2666,20 @@ written in XML.  You set the file with the =-configuration= switch to
 either command.  There is also a =-default-configuration= switch that
 kicks if you do not provide a =-configuration= switch.  This is how the
 launching scripts can point to the standard configuration in
-=%DEPENDENCYFINDER_HOME%/etc/MetricsConfig.xml= even if you don't
+=%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml= even if you don't
 specify a configuration on the command-line.
 
 There are two configurations that come bundled with Dependency Finder.
 
 <blockquote>
 <dl>
-    <dt>=%DEPENDENCYFINDER_HOME%/etc/MetricsConfig.xml=</dt>
+    <dt>=%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml=</dt>
     <dd>It has a series of measurements and statistical compilations at
     various levels.  It can assist you in evaluating the size and
     complexity of your software.  You can use it to find large classes
     or methods, or to find pieces with a disproportionate number of
     dependencies.</dd>
-    <dt>=%DEPENDENCYFINDER_HOME%/etc/MartinConfig.xml=</dt>
+    <dt>=%DEPENDENCYFINDER_HOME%\etc\MartinConfig.xml=</dt>
     <dd>Computes =I=, =A=, and =D'=, as per Robert C. Martin's
     article.</dd>
 </dl>
@@ -2578,7 +2710,7 @@ exist.
 </dl>
 </blockquote>
 
-Look at =%DEPENDENCYFINDER_HOME%/etc/MartinConfig.xml= for an exemple
+Look at =%DEPENDENCYFINDER_HOME%\etc\MartinConfig.xml= for an exemple
 of how you can combine these types of measurements to compute complex
 values.
 
