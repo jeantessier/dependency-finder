@@ -176,6 +176,14 @@ public class MetricsGatherer extends VisitorBase {
 	// Features
 	public void VisitField_info(Field_info entry) {
 		CurrentClass().AddToMeasurement(Metrics.ATTRIBUTES);
+
+		Logger.getLogger(getClass()).debug("VisitField_info(" + entry.FullSignature() + ")");
+		Logger.getLogger(getClass()).debug("Current class: " + CurrentClass().Name());
+		Logger.getLogger(getClass()).debug("Access flag: " + entry.AccessFlag());
+		Logger.getLogger(getClass()).debug("Public: " + (entry.AccessFlag() & Method_info.ACC_PUBLIC));
+		Logger.getLogger(getClass()).debug("Private: " + (entry.AccessFlag() & Method_info.ACC_PRIVATE));
+		Logger.getLogger(getClass()).debug("Protected: " + (entry.AccessFlag() & Method_info.ACC_PROTECTED));
+		Logger.getLogger(getClass()).debug("Static: " + (entry.AccessFlag() & Method_info.ACC_STATIC));
 		
 		if ((entry.AccessFlag() & Field_info.ACC_PUBLIC) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PUBLIC_ATTRIBUTES);
