@@ -40,31 +40,38 @@ import org.apache.log4j.*;
 public class ListBasedValidator implements Validator {
 	private Collection allowed_elements = new HashSet();
 
+	public ListBasedValidator() {
+		// Do nothing
+	}
+
 	public ListBasedValidator(String filename) throws IOException {
-		try {
-			Initialize(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
-		} catch (FileNotFoundException ex) {
-			// Ignore
-		}
+		Load(filename);
 	}
 
 	public ListBasedValidator(BufferedReader in) throws IOException {
-		Initialize(in);
+		Load(in);
 	}
 	
-	private void Initialize(BufferedReader in) throws IOException {
+	public void Load(String filename) throws IOException {
+		BufferedReader in = null;
+		
 		try {
-			String line;
-			while ((line = in.readLine()) != null) {
-				if (line.length() > 0) {
-					allowed_elements.add(line.trim());
-				}
-			}
+			in = new BufferedReader(new FileReader(filename));
+			Load(in);
 		} catch (FileNotFoundException ex) {
 			// Ignore
 		} finally {
 			if (in != null) {
 				in.close();
+			}
+		}
+	}
+	
+	public void Load(BufferedReader in) throws IOException {
+		String line;
+		while ((line = in.readLine()) != null) {
+			if (line.length() > 0) {
+				allowed_elements.add(line.trim());
 			}
 		}
 	}
