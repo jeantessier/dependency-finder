@@ -557,4 +557,46 @@ or
     1 Post to news groups (=comp.lang.java.announce=, =comp.lang.java.softwaretools=, =comp.software.measurement=, =comp.software-eng=)
     1 Generate sample files
 
+---+++ Computing Code Coverage
+
+---++++ jcoverage
+
+You can use [[http://www.jcoverage.com/][jcoverage]] and the build file in
+=build.jcoverage.xml=.
+
+    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
+    1 =ant realclean=
+    1 =ant -f build.jcoverage.xml realclean=
+    1 =ant=
+    1 =ant -f build.jcoverage.xml instrument=
+    1 =ant tests=
+    1 =ant -f build.jcoverage.xml tests=
+    1 =ant -f build.jcoverage.xml report=
+
+To publish the results:
+
+    1 archive the =jcoverage= directory
+    1 Use =scp= to transfer the archive to SourceForge
+    1 Use =ssh= to login to SourceForge
+    1 extract the archive in the root of the website
+
+---++++ Clover
+
+You can use [[http://www.cenqua.com/clover/][clover]] and the build file in
+=build.clover.xml=.
+
+    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar;%CLOVER%5FHOME%\lib;%CLOVER%5FHOME%\lib\clover.jar=
+    1 =ant -f build.clover.xml realclean=
+    1 =ant -f build.clover.xml with.clover compiletests=
+    1 =ant tests=
+    1 =ant -f build.clover.xml alltests=
+    1 =ant -f build.clover.xml report.html=
+
+To publish the results:
+
+    1 archive the =clover= directory
+    1 Use =scp= to transfer the archive to SourceForge
+    1 Use =ssh= to login to SourceForge
+    1 extract the archive in the root of the website
+
 ----
