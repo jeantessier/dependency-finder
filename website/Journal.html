@@ -17,6 +17,44 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	December 05, 2003
+    </dt>
+    <dd>
+	<p>Steve Kirk sent me his <code>rt.jar</code> file.  I tried
+	<code>ClassList</code> on it with logging turned on to see exactly
+	where it fails.  I also discovered
+	"<code>javap -c <i>classname</i></code>" which dumps the instruction
+	sequence for each method.  I compared the sequence from my logs with the
+	one from <code>javap</code> to see if I'm interpreting the bytecode
+	correctly.</p>
+
+	<p>It turns out the class
+	<code>com.jeantessier.classreader.Instruction</code> had the wrong
+	size the instruction "<code>fstore</code>".  It listed it as 1 byte when
+	it is really 2 bytes.  This threw off the bytecode reader and eventually
+	led to some runtime exception that crashed the program.  I have fixed it
+	and published a patch for it as
+	<a href="http://sourceforge.net/tracker/index.php?func=detail&aid=855085&group_id=43305&atid=435886">patch #855085</a>.</p>
+
+	<p>I find it had to believe that it took over two years for this bug to
+	surface.  I'm very tempted right now to write a tool that counts the
+	number of times each instruction is present in a give codebase.  With it,
+	I could see if maybe some other rarely used instruction is also be wrong
+	in <code>com.jeantessier.classreader.Instruction</code>.</p>
+    </dd>
+    <dt>
+	December 04, 2003
+    </dt>
+    <dd>
+	<p>Steve Kirk has been having problems analyzing <code>rt.jar</code>
+	from JDK 1.4.2_01 on Linux.  From the error message he sent me, it
+	seems the bytecode is screwed up.  One instruction tries to look up
+	entry 47105 in a constant pool that has only 445 entries.  It would
+	appear that the compiler generated bad bytecode.  In any other
+	software, I'd believe that.  But in the JDK itself?  I'll have him
+	send me the file so I can investigate this myself.</p>
+    </dd>
+    <dt>
 	December 03, 2003
     </dt>
     <dd>
