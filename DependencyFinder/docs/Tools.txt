@@ -3922,6 +3922,11 @@ original one.  You can use the various XXXToText and
 XXXToHTML scripts to render the graph as text or HTML for
 human reading.
 
+This tool can read multiple graphs and apply the same
+selection criteria across them to generate an aggregated
+result.  With sufficiently wide criteria, you can use this
+tool to combine multiple graphs into one.
+
 See also:
 
    * [[#DependencyGraphToHTML][DependencyGraphToHTML]]
