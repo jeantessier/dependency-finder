@@ -32,6 +32,7 @@
 
 package com.jeantessier.metrics;
 
+import java.io.*;
 import java.text.*;
 import java.util.*;
 
@@ -45,7 +46,9 @@ public class TextPrinter extends Printer {
 	
 	private Metrics current_metrics = null;
 	
-	public TextPrinter(List descriptors) {
+	public TextPrinter(PrintWriter out, List descriptors) {
+		super(out);
+		
 		this.descriptors = descriptors;
 	}
 

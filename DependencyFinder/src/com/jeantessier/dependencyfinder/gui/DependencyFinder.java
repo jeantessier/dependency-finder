@@ -1054,7 +1054,8 @@ public class DependencyFinder extends JFrame {
 
 	void RefreshDependenciesDisplay() {
 		if (dependencies_query != null) {
-			com.jeantessier.dependency.TextPrinter printer = new com.jeantessier.dependency.TextPrinter();
+			StringWriter out = new StringWriter();
+			com.jeantessier.dependency.TextPrinter printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
 
 			printer.ShowInbounds(show_inbounds.isSelected());
 			printer.ShowOutbounds(show_outbounds.isSelected());
@@ -1062,7 +1063,7 @@ public class DependencyFinder extends JFrame {
 			
 			printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
 			
-			dependencies_result_area.setText(printer.toString());
+			dependencies_result_area.setText(out.toString());
 		}
 	}		
 	
@@ -1115,10 +1116,11 @@ public class DependencyFinder extends JFrame {
 		}
 		
 		selector.TraverseNodes(Packages());
-		
-		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter();
+
+		StringWriter out = new StringWriter();
+		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
 		printer.TraverseNodes(selector.Factory().Packages().values());
-		closure_result_area.setText(printer.toString());
+		closure_result_area.setText(out.toString());
 	}		
 	
 	void ClearMetricsResult() {

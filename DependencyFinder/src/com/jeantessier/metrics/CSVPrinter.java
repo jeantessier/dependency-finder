@@ -32,12 +32,15 @@
 
 package com.jeantessier.metrics;
 
+import java.io.*;
 import java.util.*;
 
 public class CSVPrinter extends Printer {
 	private List descriptors;
 	
-	public CSVPrinter(List descriptors) {
+	public CSVPrinter(PrintWriter out, List descriptors) {
+		super(out);
+		
 		this.descriptors = descriptors;
 
 		AppendHeader();

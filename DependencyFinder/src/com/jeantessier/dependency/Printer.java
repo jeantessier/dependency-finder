@@ -32,20 +32,22 @@
 
 package com.jeantessier.dependency;
 
+import java.io.*;
 import java.util.*;
 
 public abstract class Printer extends VisitorBase {
-	private LinkedList buffers      = new LinkedList();
-	private String     indent_text  = "    ";
-	private int        indent_level = 0;
+	private PrintWriter out;
+	private String      indent_text  = "    ";
+	private int         indent_level = 0;
 
-	public Printer() {
-		this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()));
+	public Printer(PrintWriter out) {
+		this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()), out);
 	}
 
-	public Printer(TraversalStrategy strategy) {
+	public Printer(TraversalStrategy strategy, PrintWriter out) {
 		super(strategy);
-		PushBuffer();
+
+		this.out = out;
 	}
 
 	public String IndentText() {
@@ -55,77 +57,49 @@ public abstract class Printer extends VisitorBase {
 	public void IndentText(String indent_text) {
 		this.indent_text = indent_text;
 	}
-
-	private StringBuffer CurrentBuffer() {
-		return (StringBuffer) buffers.getLast();
-	}
-
-	protected void PushBuffer() {
-		buffers.add(new StringBuffer());
-	}
-
-	protected void PopBuffer(String message) {
-		StringBuffer buffer = (StringBuffer) buffers.removeLast();
-
-		Indent().Append(message).EOL();
-		CurrentBuffer().append(buffer);
-	}
-
-	protected void KillBuffer() {
-		buffers.removeLast();
-	}
-
-	protected int CurrentBufferLength() {
-		return CurrentBuffer().length();
-	}
 	
 	protected Printer Append(boolean b) {
-		CurrentBuffer().append(b);
+		out.print(b);
 		return this;
 	}
 
 	protected Printer Append(char c) {
-		CurrentBuffer().append(c);
+		out.print(c);
 		return this;
 	}
 
-	protected Printer Append(char[] str) {
-		CurrentBuffer().append(str);
-		return this;
-	}
-
-	protected Printer Append(char[] str, int offset, int len) {
-		CurrentBuffer().append(str, offset, len);
+	protected Printer Append(char[] s) {
+		out.print(s);
 		return this;
 	}
 
 	protected Printer Append(double d) {
-		CurrentBuffer().append(d);
+		out.print(d);
 		return this;
 	}
 
 	protected Printer Append(float f) {
-		CurrentBuffer().append(f);
+		out.print(f);
 		return this;
 	}
 
 	protected Printer Append(int i) {
-		CurrentBuffer().append(i);
+		out.print(i);
 		return this;
 	}
 
 	protected Printer Append(long l) {
-		CurrentBuffer().append(l);
+		out.print(l);
 		return this;
 	}
 
 	protected Printer Append(Object obj) {
-		CurrentBuffer().append(obj);
+		out.print(obj);
 		return this;
 	}
 
-	protected Printer Append(String str) {
-		CurrentBuffer().append(str);
+	protected Printer Append(String s) {
+		out.print(s);
 		return this;
 	}
 
@@ -138,7 +112,8 @@ public abstract class Printer extends VisitorBase {
 	}
 
 	protected Printer EOL() {
-		return Append(System.getProperty("line.separator", "\n"));
+		out.println();
+		return this;
 	}
 
 	protected void RaiseIndent() {
@@ -147,9 +122,5 @@ public abstract class Printer extends VisitorBase {
 
 	protected void LowerIndent() {
 		indent_level--;
-	}
-
-	public String toString() {
-		return CurrentBuffer().toString();
 	}
 }

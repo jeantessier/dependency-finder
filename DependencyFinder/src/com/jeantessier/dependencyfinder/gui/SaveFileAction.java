@@ -71,16 +71,15 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 	}
 	
 	public void run() {
-		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(dtd_prefix);
-		if (indent_text != null) {
-			printer.IndentText(indent_text);
-		}
-		
-		printer.TraverseNodes(model.Packages());
-
 		try {
 			PrintWriter out = new PrintWriter(new FileWriter(file));
-			out.println(printer);
+			com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, dtd_prefix);
+			if (indent_text != null) {
+				printer.IndentText(indent_text);
+			}
+		
+			printer.TraverseNodes(model.Packages());
+
 			out.close();
 		} catch (IOException ex) {
 			model.StatusLine().ShowError("Cannot save: " + ex.getClass().getName() + ": " + ex.getMessage());

@@ -279,74 +279,74 @@ public class OOMetrics extends Task {
 		com.jeantessier.metrics.Printer printer;
 
 		if (getProjectmetrics()) {
-			metrics = new ArrayList(factory.ProjectMetrics());
-			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().ProjectMeasurements());
-			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
-			}
-
-			printer.VisitMetrics(metrics);
-
 			String filename = getDestprefix().getAbsolutePath() + "_project.csv";
 			log("Saving metrics to " + filename);
 
 			PrintWriter out = new PrintWriter(new FileWriter(filename));
-			out.print(printer);
+			
+			metrics = new ArrayList(factory.ProjectMetrics());
+			Collections.sort(metrics, comparator);
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ProjectMeasurements());
+			if (getIndenttext() != null) {
+				printer.IndentText(getIndenttext());
+			}
+
+			printer.VisitMetrics(metrics);
+
 			out.close();
 		}
 
 		if (getGroupmetrics()) {
-			metrics = new ArrayList(factory.GroupMetrics());
-			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().GroupMeasurements());
-			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
-			}
-
-			printer.VisitMetrics(metrics);
-
 			String filename = getDestprefix().getAbsolutePath() + "_groups.csv";
 			log("Saving metrics to " + filename);
 
 			PrintWriter out = new PrintWriter(new FileWriter(filename));
-			out.print(printer);
+
+			metrics = new ArrayList(factory.GroupMetrics());
+			Collections.sort(metrics, comparator);
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().GroupMeasurements());
+			if (getIndenttext() != null) {
+				printer.IndentText(getIndenttext());
+			}
+
+			printer.VisitMetrics(metrics);
+
 			out.close();
 		}
 
 		if (getClassmetrics()) {
-			metrics = new ArrayList(factory.ClassMetrics());
-			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().ClassMeasurements());
-			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
-			}
-
-			printer.VisitMetrics(metrics);
-
 			String filename = getDestprefix().getAbsolutePath() + "_classes.csv";
 			log("Saving metrics to " + filename);
 
 			PrintWriter out = new PrintWriter(new FileWriter(filename));
-			out.print(printer);
-			out.close();
-		}
 
-		if (getMethodmetrics()) {
-			metrics = new ArrayList(factory.MethodMetrics());
+			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().MethodMeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ClassMeasurements());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
 			}
 
 			printer.VisitMetrics(metrics);
 
+			out.close();
+		}
+
+		if (getMethodmetrics()) {
 			String filename = getDestprefix().getAbsolutePath() + "_methods.csv";
 			log("Saving metrics to " + filename);
 
 			PrintWriter out = new PrintWriter(new FileWriter(filename));
-			out.print(printer);
+
+			metrics = new ArrayList(factory.MethodMetrics());
+			Collections.sort(metrics, comparator);
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().MethodMeasurements());
+			if (getIndenttext() != null) {
+				printer.IndentText(getIndenttext());
+			}
+
+			printer.VisitMetrics(metrics);
+
 			out.close();
 		}
 	}
@@ -370,7 +370,7 @@ public class OOMetrics extends Task {
 			out.println("---------------");
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(factory.Configuration().ProjectMeasurements());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ProjectMeasurements());
 			printer.ExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
@@ -386,7 +386,7 @@ public class OOMetrics extends Task {
 			out.println("-------------");
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(factory.Configuration().GroupMeasurements());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().GroupMeasurements());
 			printer.ExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
@@ -402,7 +402,7 @@ public class OOMetrics extends Task {
 			out.println("-------------");
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(factory.Configuration().ClassMeasurements());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ClassMeasurements());
 			printer.ExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
@@ -418,7 +418,7 @@ public class OOMetrics extends Task {
 			out.println("--------------");
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(factory.Configuration().MethodMeasurements());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().MethodMeasurements());
 			printer.ExpandCollectionMeasurements(getExpand());
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
@@ -438,20 +438,20 @@ public class OOMetrics extends Task {
 			comparator.Reverse();
 		}
 
+		String filename = getDestprefix().getAbsolutePath() + ".xml";
+		log("Saving metrics to " + filename);
+		
+		PrintWriter out = new PrintWriter(new FileWriter(filename));
+
 		List metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
-		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(factory.Configuration(), getDtdprefix());
+		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), getDtdprefix());
 		if (getIndenttext() != null) {
 			printer.IndentText(getIndenttext());
 		}
 
 		printer.VisitMetrics(metrics);
 
-		String filename = getDestprefix().getAbsolutePath() + ".xml";
-		log("Saving metrics to " + filename);
-		
-		PrintWriter out = new PrintWriter(new FileWriter(filename));
-		out.print(printer);
 		out.close();
 	}
 }

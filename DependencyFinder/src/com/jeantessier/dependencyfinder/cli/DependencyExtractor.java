@@ -137,12 +137,19 @@ public class DependencyExtractor {
 			out.close();
 		} else {
 			verbose_listener.println("Printing the graph ...");
+
+			PrintWriter out;
+			if (command_line.IsPresent("out")) {
+				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+			} else {
+				out = new PrintWriter(System.out);
+			}
 			
 			com.jeantessier.dependency.Printer printer;
 			if (command_line.ToggleSwitch("xml")) {
-				printer = new com.jeantessier.dependency.XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
+				printer = new com.jeantessier.dependency.XMLPrinter(out, command_line.SingleSwitch("dtd-prefix"));
 			} else {
-				printer = new com.jeantessier.dependency.TextPrinter();
+				printer = new com.jeantessier.dependency.TextPrinter(out);
 			}
 			
 			if (command_line.IsPresent("indent-text")) {
@@ -151,13 +158,7 @@ public class DependencyExtractor {
 	    
 			printer.TraverseNodes(factory.Packages().values());
 
-			if (command_line.IsPresent("out")) {
-				PrintWriter out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
-				out.print(printer);
-				out.close();
-			} else {
-				System.out.print(printer);
-			}
+			out.close();
 		}
 
 		Date end = new Date();

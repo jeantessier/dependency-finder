@@ -145,11 +145,13 @@ public class DependencyReporter extends GraphTask {
 				out.writeObject(new ArrayList(copier.ScopeFactory().Packages().values()));
 				out.close();
 			} else {
+				PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
+
 				Printer printer;
 				if (getXml()) {
-					printer = new XMLPrinter(getDtdprefix());
+					printer = new XMLPrinter(out, getDtdprefix());
 				} else {
-					printer = new TextPrinter();
+					printer = new TextPrinter(out);
 				}
 				
 				if (getIndenttext() != null) {
@@ -158,8 +160,6 @@ public class DependencyReporter extends GraphTask {
 				
 				printer.TraverseNodes(copier.ScopeFactory().Packages().values());
 				
-				PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-				out.print(printer);
 				out.close();
 			}
 		} catch (SAXException ex) {

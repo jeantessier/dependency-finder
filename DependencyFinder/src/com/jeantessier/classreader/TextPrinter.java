@@ -32,11 +32,16 @@
 
 package com.jeantessier.classreader;
 
+import java.io.*;
 import java.util.*;
 
 public class TextPrinter extends Printer {
 	private boolean top = true;
 
+	public TextPrinter(PrintWriter out) {
+		super(out);
+	}
+	
 	public void VisitClassfile(Classfile classfile) {
 		classfile.ConstantPool().Accept(this);
 

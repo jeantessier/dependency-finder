@@ -159,11 +159,13 @@ public class DependencyExtractor extends Task {
 				out.writeObject(new ArrayList(factory.Packages().values()));
 				out.close();
 			} else {
+				PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
+
 				com.jeantessier.dependency.Printer printer;
 				if (getXml()) {
-					printer = new com.jeantessier.dependency.XMLPrinter(getDtdprefix());
+					printer = new com.jeantessier.dependency.XMLPrinter(out, getDtdprefix());
 				} else {
-					printer = new com.jeantessier.dependency.TextPrinter();
+					printer = new com.jeantessier.dependency.TextPrinter(out);
 				}
 				
 				if (getIndenttext() != null) {
@@ -172,8 +174,6 @@ public class DependencyExtractor extends Task {
 				
 				printer.TraverseNodes(factory.Packages().values());
 				
-				PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-				out.print(printer);
 				out.close();
 			}
 		} catch (IOException ex) {

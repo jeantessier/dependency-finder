@@ -32,6 +32,7 @@
 
 package com.jeantessier.metrics;
 
+import java.io.*;
 import java.util.*;
 
 public class XMLPrinter extends Printer {
@@ -39,11 +40,13 @@ public class XMLPrinter extends Printer {
 
 	private MetricsConfiguration configuration;
 	
-	public XMLPrinter(MetricsConfiguration configuration) {
-		this(configuration, DEFAULT_DTD_PREFIX);
+	public XMLPrinter(PrintWriter out, MetricsConfiguration configuration) {
+		this(out, configuration, DEFAULT_DTD_PREFIX);
 	}
 	
-	public XMLPrinter(MetricsConfiguration configuration, String dtd_prefix) {
+	public XMLPrinter(PrintWriter out, MetricsConfiguration configuration, String dtd_prefix) {
+		super(out);
+		
 		this.configuration = configuration;
 
 		AppendHeader(dtd_prefix);

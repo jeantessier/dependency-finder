@@ -32,6 +32,7 @@
 
 package com.jeantessier.classreader;
 
+import java.io.*;
 import java.util.*;
 
 import org.apache.oro.text.perl.*;
@@ -46,11 +47,13 @@ public class XMLPrinter extends Printer {
 	
 	private boolean top = true;
 
-	public XMLPrinter() {
-		this(DEFAULT_DTD_PREFIX);
+	public XMLPrinter(PrintWriter out) {
+		this(out, DEFAULT_DTD_PREFIX);
 	}
 	
-	public XMLPrinter(String dtd_prefix) {
+	public XMLPrinter(PrintWriter out, String dtd_prefix) {
+		super(out);
+		
 		AppendHeader(dtd_prefix);
 	}
 

@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, java.util.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -323,6 +323,8 @@ Show dependencies
 
 <hr size="3" />
 
+<pre class="result">
+
 <%
     if (request.getParameter("submit") != null) {
 	if (application.getAttribute("factory") != null) {
@@ -361,7 +363,7 @@ Show dependencies
 	
 	    dependencies_query.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
 
-	    TextPrinter printer = new TextPrinter();
+	    TextPrinter printer = new TextPrinter(new PrintWriter(out));
 
 	    printer.ShowInbounds(show_inbounds);
 	    printer.ShowOutbounds(show_outbounds);
@@ -374,7 +376,7 @@ Show dependencies
 	    out.println();
 %>
 
-<pre class="result"><%= printer %></pre>
+</pre>
 
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 

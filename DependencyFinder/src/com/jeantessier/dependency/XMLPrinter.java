@@ -32,6 +32,7 @@
 
 package com.jeantessier.dependency;
 
+import java.io.*;
 import java.util.*;
 
 public class XMLPrinter extends Printer {
@@ -39,22 +40,22 @@ public class XMLPrinter extends Printer {
 
 	private boolean at_top_level = false;
 
-	public XMLPrinter() {
-		this(DEFAULT_DTD_PREFIX);
+	public XMLPrinter(PrintWriter out) {
+		this(out, DEFAULT_DTD_PREFIX);
 	}
 
-	public XMLPrinter(TraversalStrategy strategy) {
-		this(strategy, DEFAULT_DTD_PREFIX);
+	public XMLPrinter(TraversalStrategy strategy, PrintWriter out) {
+		this(strategy, out, DEFAULT_DTD_PREFIX);
 	}
 	
-	public XMLPrinter(String dtd_prefix) {
-		super();
+	public XMLPrinter(PrintWriter out, String dtd_prefix) {
+		super(out);
 		
 		AppendHeader(dtd_prefix);
 	}
 	
-	public XMLPrinter(TraversalStrategy strategy, String dtd_prefix) {
-		super(strategy);
+	public XMLPrinter(TraversalStrategy strategy, PrintWriter out, String dtd_prefix) {
+		super(strategy, out);
 
 		AppendHeader(dtd_prefix);
 	}

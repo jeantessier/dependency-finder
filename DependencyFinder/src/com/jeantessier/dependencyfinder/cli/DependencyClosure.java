@@ -303,12 +303,19 @@ public class DependencyClosure {
 			out.close();
 		} else {
 			verbose_listener.println("Printing the graph ...");
-			
-			Printer printer;
-			if (command_line.IsPresent("xml")) {
-				printer = new XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
+
+			PrintWriter out;
+			if (command_line.IsPresent("out")) {
+				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
 			} else {
-				printer = new TextPrinter();
+				out = new PrintWriter(System.out);
+			}
+
+			Printer      printer;
+			if (command_line.IsPresent("xml")) {
+				printer = new XMLPrinter(out, command_line.SingleSwitch("dtd-prefix"));
+			} else {
+				printer = new TextPrinter(out);
 			}
 	    			
 			if (command_line.IsPresent("indent-text")) {
@@ -316,14 +323,8 @@ public class DependencyClosure {
 			}
 
 			printer.TraverseNodes(selector.Factory().Packages().values());
-	    
-			if (command_line.IsPresent("out")) {
-				PrintWriter out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
-				out.print(printer);
-				out.close();
-			} else {
-				System.out.print(printer);
-			}
+
+			out.close();
 		}
 
 		Date end = new Date();

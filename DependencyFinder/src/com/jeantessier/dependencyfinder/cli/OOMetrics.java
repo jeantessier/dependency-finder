@@ -218,7 +218,7 @@ public class OOMetrics {
 			
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().ProjectMeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ProjectMeasurements());
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -242,7 +242,7 @@ public class OOMetrics {
 
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().GroupMeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().GroupMeasurements());
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -266,7 +266,7 @@ public class OOMetrics {
 
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().ClassMeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().ClassMeasurements());
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -290,7 +290,7 @@ public class OOMetrics {
 
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
-			printer = new com.jeantessier.metrics.CSVPrinter(factory.Configuration().MethodMeasurements());
+			printer = new com.jeantessier.metrics.CSVPrinter(out, factory.Configuration().MethodMeasurements());
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
@@ -325,7 +325,7 @@ public class OOMetrics {
 			out.println("---------------");
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(factory.Configuration().ProjectMeasurements());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ProjectMeasurements());
 			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
@@ -341,7 +341,7 @@ public class OOMetrics {
 			out.println("-------------");
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(factory.Configuration().GroupMeasurements());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().GroupMeasurements());
 			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
@@ -357,7 +357,7 @@ public class OOMetrics {
 			out.println("-------------");
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(factory.Configuration().ClassMeasurements());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().ClassMeasurements());
 			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
@@ -373,7 +373,7 @@ public class OOMetrics {
 			out.println("--------------");
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);
-			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(factory.Configuration().MethodMeasurements());
+			com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.Configuration().MethodMeasurements());
 			printer.ExpandCollectionMeasurements(command_line.ToggleSwitch("expand"));
 			if (command_line.IsPresent("indent-text")) {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
@@ -392,7 +392,7 @@ public class OOMetrics {
 		if (command_line.IsPresent("out")) {
 			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + ".xml"));
 		} else {
-			out = new PrintWriter(new OutputStreamWriter(System.out));
+			out = new PrintWriter(System.out);
 		}
 
 		MetricsComparator comparator = new MetricsComparator(command_line.SingleSwitch("sort"));
@@ -406,7 +406,7 @@ public class OOMetrics {
 
 		metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
-		printer = new com.jeantessier.metrics.XMLPrinter(factory.Configuration(), command_line.SingleSwitch("dtd-prefix"));
+		printer = new com.jeantessier.metrics.XMLPrinter(out, factory.Configuration(), command_line.SingleSwitch("dtd-prefix"));
 		if (command_line.IsPresent("indent-text")) {
 			printer.IndentText(command_line.SingleSwitch("indent-text"));
 		}

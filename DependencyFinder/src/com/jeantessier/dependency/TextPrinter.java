@@ -32,6 +32,7 @@
 
 package com.jeantessier.dependency;
 
+import java.io.*;
 import java.util.*;
 
 import org.apache.log4j.*;
@@ -47,15 +48,15 @@ public class TextPrinter extends Printer {
 	private boolean show_inbounds    = true;
 	private boolean show_outbounds   = true;
 	private boolean show_empty_nodes = true;
-	
+
 	private Map dependencies = new TreeMap();
 
-	public TextPrinter() {
-		super();
+	public TextPrinter(PrintWriter out) {
+		super(out);
 	}
 
-	public TextPrinter(TraversalStrategy strategy) {
-		super(strategy);
+	public TextPrinter(TraversalStrategy strategy, PrintWriter out) {
+		super(strategy, out);
 	}
 
 	public boolean ShowInbounds() {
@@ -85,11 +86,9 @@ public class TextPrinter extends Printer {
 	protected void PreprocessPackageNode(PackageNode node) {
 		Logger.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
-		PushNode(node);
+		super.PreprocessPackageNode(node);
 
 		RaiseIndent();
-
-		PushBuffer();
 
 		dependencies.clear();
 	}
@@ -97,17 +96,19 @@ public class TextPrinter extends Printer {
 	protected void PreprocessAfterDependenciesPackageNode(PackageNode node) {
 		Logger.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
+		if (ShowPackageNode(node) || !dependencies.isEmpty()) {
+			LowerIndent();
+			Indent().Append(node.Name()).EOL();
+			RaiseIndent();
+		}
+		
 		PrintDependencies(dependencies);
 	}
 	
 	protected void PostprocessPackageNode(PackageNode node) {
-		super.PostprocessPackageNode(node);
 		LowerIndent();
-		if (ShowEmptyNodes() || !dependencies.isEmpty() || CurrentBufferLength() > 0) {
-			PopBuffer(node.Name());
-		} else {
-			KillBuffer();
-		}
+
+		super.PostprocessPackageNode(node);
 	}
 
 	public void VisitInboundPackageNode(PackageNode node) {
@@ -143,11 +144,9 @@ public class TextPrinter extends Printer {
 	protected void PreprocessClassNode(ClassNode node) {
 		Logger.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
-		PushNode(node);
+		super.PreprocessClassNode(node);
 
 		RaiseIndent();
-
-		PushBuffer();
 
 		dependencies.clear();
 	}
@@ -155,17 +154,19 @@ public class TextPrinter extends Printer {
 	protected void PreprocessAfterDependenciesClassNode(ClassNode node) {
 		Logger.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
+		if (ShowClassNode(node) || !dependencies.isEmpty()) {
+			LowerIndent();
+			Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).EOL();
+			RaiseIndent();
+		}
+
 		PrintDependencies(dependencies);
 	}
 
 	protected void PostprocessClassNode(ClassNode node) {
-		super.PostprocessClassNode(node);
 		LowerIndent();
-		if (ShowEmptyNodes() || !dependencies.isEmpty() || CurrentBufferLength() > 0) {
-			PopBuffer(node.Name().substring(node.Name().lastIndexOf('.') + 1));
-		} else {
-			KillBuffer();
-		}
+
+		super.PostprocessClassNode(node);
 	}
 	
 	public void VisitInboundClassNode(ClassNode node) {
@@ -203,7 +204,7 @@ public class TextPrinter extends Printer {
 	protected void PreprocessFeatureNode(FeatureNode node) {
 		Logger.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
-		PushNode(node);
+		super.PreprocessFeatureNode(node);
 
 		RaiseIndent();
 
@@ -213,7 +214,7 @@ public class TextPrinter extends Printer {
 	protected void PostprocessFeatureNode(FeatureNode node) {
 		Logger.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
-		if (ShowEmptyNodes() || !dependencies.isEmpty()) {
+		if (ShowFeatureNode(node) || !dependencies.isEmpty()) {
 			LowerIndent();
 			if (Perl().match("/([^\\.]*\\(.*\\))$/", node.Name())) {
 				Indent().Append(Perl().group(1)).EOL();
@@ -226,8 +227,10 @@ public class TextPrinter extends Printer {
 		}
 		
 		PrintDependencies(dependencies);
-		super.PostprocessFeatureNode(node);
+
 		LowerIndent();
+
+		super.PostprocessFeatureNode(node);
 	}
 
 	public void VisitInboundFeatureNode(FeatureNode node) {
@@ -258,6 +261,42 @@ public class TextPrinter extends Printer {
 		} else {
 			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
 		}
+	}
+
+	private boolean ShowPackageNode(PackageNode node) {
+		boolean result = ShowNode(node);
+
+		Iterator i = node.Classes().iterator();
+		while (!result && i.hasNext()) {
+			result = ShowClassNode((ClassNode) i.next());
+		}
+		
+		return result;
+	}
+
+	private boolean ShowClassNode(ClassNode node) {
+		boolean result = ShowNode(node);
+
+		Iterator i = node.Features().iterator();
+		while (!result && i.hasNext()) {
+			result = ShowFeatureNode((FeatureNode) i.next());
+		}
+		
+		return result;
+	}
+	
+	private boolean ShowFeatureNode(FeatureNode node) {
+		return ShowNode(node);
+	}
+	
+	private boolean ShowNode(Node node) {
+		boolean result = ShowEmptyNodes();
+
+		if (!result) {
+			result = (ShowOutbounds() && !node.Outbound().isEmpty()) || (ShowInbounds() && !node.Inbound().isEmpty());
+		}
+
+		return result;
 	}
 	
 	private void PrintDependencies(Map dependencies) {

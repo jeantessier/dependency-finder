@@ -122,9 +122,9 @@ public class ClassReader {
 			Printer printer;
 
 			if (command_line.ToggleSwitch("xml")) {
-				printer = new XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
+				printer = new XMLPrinter(out, command_line.SingleSwitch("dtd-prefix"));
 			} else {
-				printer = new TextPrinter();
+				printer = new TextPrinter(out);
 			}
 			
 			if (command_line.IsPresent("indent-text")) {

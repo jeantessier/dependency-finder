@@ -32,13 +32,18 @@
 
 package com.jeantessier.metrics;
 
+import java.io.*;
 import java.util.*;
 
 public abstract class Printer implements MeasurementVisitor {
-	private StringBuffer buffer       = new StringBuffer();
-	private String       indent_text  = "    ";
-	private int          indent_level = 0;
+	private PrintWriter out;
+	private String      indent_text  = "    ";
+	private int         indent_level = 0;
 
+	public Printer(PrintWriter out) {
+		this.out = out;
+	}
+	
 	public String IndentText() {
 		return indent_text;
 	}
@@ -48,52 +53,47 @@ public abstract class Printer implements MeasurementVisitor {
 	}
 
 	protected Printer Append(boolean b) {
-		buffer.append(b);
+		out.print(b);
 		return this;
 	}
 
 	protected Printer Append(char c) {
-		buffer.append(c);
+		out.print(c);
 		return this;
 	}
 
-	protected Printer Append(char[] str) {
-		buffer.append(str);
-		return this;
-	}
-
-	protected Printer Append(char[] str, int offset, int len) {
-		buffer.append(str, offset, len);
+	protected Printer Append(char[] s) {
+		out.print(s);
 		return this;
 	}
 
 	protected Printer Append(double d) {
-		buffer.append(d);
+		out.print(d);
 		return this;
 	}
 
 	protected Printer Append(float f) {
-		buffer.append(f);
+		out.print(f);
 		return this;
 	}
 
 	protected Printer Append(int i) {
-		buffer.append(i);
+		out.print(i);
 		return this;
 	}
 
 	protected Printer Append(long l) {
-		buffer.append(l);
+		out.print(l);
 		return this;
 	}
 
 	protected Printer Append(Object obj) {
-		buffer.append(obj);
+		out.print(obj);
 		return this;
 	}
 
-	protected Printer Append(String str) {
-		buffer.append(str);
+	protected Printer Append(String s) {
+		out.print(s);
 		return this;
 	}
 
@@ -106,7 +106,8 @@ public abstract class Printer implements MeasurementVisitor {
 	}
 
 	protected Printer EOL() {
-		return Append(System.getProperty("line.separator", "\n"));
+		out.println();
+		return this;
 	}
 	
 	protected void RaiseIndent() {
@@ -115,10 +116,6 @@ public abstract class Printer implements MeasurementVisitor {
 
 	protected void LowerIndent() {
 		indent_level--;
-	}
-
-	public String toString() {
-		return buffer.toString();
 	}
 
 	public void VisitMetrics(Collection metrics) {
