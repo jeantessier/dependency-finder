@@ -37,7 +37,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Metrics {
-	public static final String PACKAGES = "packages";
+	public static final String PACKAGES = "P";
 	
 	public static final String CLASSES            = "C";
 	public static final String PUBLIC_CLASSES     = "PUBC";
