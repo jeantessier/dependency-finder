@@ -65,7 +65,7 @@ goto setupArgs
 rem This label provides a place for the argument list loop to break out
 rem and for NT handling to skip to.
 
-%JAVA_HOME%\bin\java %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar" com.jeantessier.dependencyfinder.cli.ClassClassDiff %DEPENDENCYFINDER_CMD_LINE_ARGS%
+"%JAVA_HOME%\bin\java" %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar" com.jeantessier.dependencyfinder.cli.ClassClassDiff %DEPENDENCYFINDER_CMD_LINE_ARGS%
 
 if not "%OS%"=="Windows_NT" goto mainEnd
 :winNTend
