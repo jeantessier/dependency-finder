@@ -132,8 +132,6 @@ public class ClassReader {
 			}
 
 			classfile.Accept(printer);
-			
-			out.println(printer);
 		}
 
 		Date end = new Date();
