@@ -17,6 +17,28 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	November 11, 2003
+    </dt>
+    <dd>
+	<p>Fixed the progress bar in the GUI.  <code>DependencyFinder</code>
+	and <code>OOMetricsGUI</code> now scan ahead to count files and classes
+	and use this information to drive a more accurate progress bar.</p>
+    </dd>
+    <dt>
+	November 07, 2003
+    </dt>
+    <dd>
+	<p>Svetlin Stanchev brought up the idea of having the web application
+	produce HTML instead of pre-formatted text.  I already have an
+	unscheduled task for this, so now I must decide wether or not to move
+	it forward.  I could use a dedicated <code>Printer</code> subclass,
+	like I do for text rendering.  This has the disadvantage of
+	duplicating the logic of rendering a dependency graph to a Java class
+	and an XSL transformation.  But I already did it for the text form, so
+	there is a precedent ...  I'm just not sure it really is a good
+	thing.</p>
+    </dd>
+    <dt>
 	October 30, 2003
     </dt>
     <dd>
