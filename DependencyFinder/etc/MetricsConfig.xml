@@ -646,7 +646,7 @@
 	<measurement>
 	    <short-name>IC</short-name>
 	    <long-name>Inner Classes</long-name>
-	    <class>com.jeantessier.metrics.NbSubMetricsMeasurement</class>
+	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	</measurement>
 	<measurement>
 	    <short-name>PUBIC</short-name>
