@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changelog>
+	<entry>
+		<date>2004-09-20</date>
+		<time>07:03</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.49</revision>
+		</file>
+		<msg><![CDATA[Fixed date parameter to CVS task]]></msg>
+	</entry>
+</changelog>
