@@ -215,13 +215,13 @@ public class ListDiffPrinter {
 		
 		Indent().Append("<removed>").EOL();
 		RaiseIndent();
-		PrintLines(buffer, Removed());
+		PrintLines(buffer, compress ? Compress(Removed()) : Removed());
 		LowerIndent();
 		Indent().Append("</removed>").EOL();
 		
 		Indent().Append("<added>").EOL();
 		RaiseIndent();
-		PrintLines(buffer, Added());
+		PrintLines(buffer, compress ? Compress(Added()) : Added());
 		LowerIndent();
 		Indent().Append("</added>").EOL();
 		
@@ -232,58 +232,66 @@ public class ListDiffPrinter {
 	}
 
 	private void PrintLines(StringBuffer buffer, Collection lines) {
-		String   previous = "\n\n\n\n";
-		
 		Iterator i = lines.iterator();
 		while (i.hasNext()) {
 			String line = (String) i.next();
-			if (!(compress && Contains(previous, line))) {
-				int pos = line.lastIndexOf(" [");
-				if (pos != -1) {
-					Indent().Append("<line>").Append(line.substring(0, pos)).Append("</line>").EOL();
-				} else {
-					Indent().Append("<line>").Append(line).Append("</line>").EOL();
-				}
-				previous = line;
+
+			int pos = line.lastIndexOf(" [");
+			if (pos != -1) {
+				Indent().Append("<line>").Append(line.substring(0, pos)).Append("</line>").EOL();
+			} else {
+				Indent().Append("<line>").Append(line).Append("</line>").EOL();
 			}
 		}
 	}
 
-	private boolean Contains(String container, String contained) {
-		boolean result = false;
+	private Collection Compress(Collection lines) {
+		Collection result = new TreeSet();
 
-		if (contained.endsWith(" [P]")) {
-			result = false;
-		} else if (container.endsWith(" [P]") && contained.endsWith(" [C]")) {
-			String package_name = "";
-			int pos = contained.lastIndexOf('.');
-			if (pos != -1) {
-				package_name = contained.substring(0, pos);
+		Iterator i = lines.iterator();
+		while (i.hasNext()) {
+			String line = (String) i.next();
+
+			boolean add = true;
+			if (line.endsWith(" [C]")) {
+				String package_name = PackageName(line);
+				
+				add = !lines.contains(package_name + " [P]");
+			} else if (line.endsWith(" [F]")) {
+				String class_name   = ClassName(line);
+				String package_name = PackageName(class_name);
+
+				add = !lines.contains(package_name + " [P]") && !lines.contains(class_name + " [C]");
 			}
 			
-			result = container.equals(package_name + " [P]");
-		} else if (container.endsWith(" [P]") && contained.endsWith(" [F]")) {
-			String package_name = "";
-			synchronized (perl) {
-				if (perl.match("/^(.*)\\.[^\\.]*\\.[^\\.]*\\(.*\\)/", contained)) {
-					package_name = perl.group(1);
-				} else if (perl.match("/^(.*)\\.[^\\.]*\\.[\\^.]*/", contained)) {
-					package_name = perl.group(1);
-				}
+			if (add) {
+				result.add(line);
 			}
-			
-			result = container.equals(package_name + " [P]");
-		} else if (container.endsWith(" [C]") && contained.endsWith(" [F]")) {
-			String class_name = "";
-			synchronized (perl) {
-				if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)/", contained)) {
-					class_name = perl.group(1);
-				} else if (perl.match("/^(.*)\\.[\\^.]*/", contained)) {
-					class_name = perl.group(1);
-				}
+		}
+		
+		return result;
+	}
+
+	private String PackageName(String class_name) {
+		String result = "";
+
+		int pos = class_name.lastIndexOf('.');
+		if (pos != -1) {
+			result = class_name.substring(0, pos);
+		}
+		
+		return result;
+	}
+
+	private String ClassName(String feature_name) {
+		String result = "";
+
+		synchronized (perl) {
+			if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)/", feature_name)) {
+				result = perl.group(1);
+			} else if (perl.match("/^(.*)\\.[\\^.]*/", feature_name)) {
+				result = perl.group(1);
 			}
-			
-			result = container.equals(class_name + " [C]");
 		}
 		
 		return result;
