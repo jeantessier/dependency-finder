@@ -682,7 +682,7 @@ with either our stylesheets or your own.
 You use =DiffToHTML= to convert all API differences to HTML.
 
 <div align="center">
-    [[images/FullList.gif]]
+    [[images/CompleteList.gif]]
 *Full List*
 </div>
 
@@ -705,14 +705,14 @@ You get the list of earmarked elements by running a specialized
 doclet.
 
 <div align="center">
-    [[images/ExtractingDocumentedElements.gif]]
+    [[images/ListDocumentedElements.gif]]
 *Extracting Documented Elements*
 </div>
 
 You then feed the output from the servlet to =JarJarDiff=.
 
 <div align="center">
-    [[images/ExtractingDifferencesAndDocumentedElements.gif]]
+    [[images/ExtractingDifferencesAndDocumentationChanges.gif]]
 *Extracting Differences And Documented Elements*
 </div>
 
@@ -721,7 +721,7 @@ changes in what is no more part of the documentation and what
 was newly added to the documentation.
 
 <div align="center">
-    [[images/FullListOfDocumentedElements.gif]]
+    [[images/CompleteListOfDocumentedElements.gif]]
 *Full List Of Documented Elements*
 </div>
 
