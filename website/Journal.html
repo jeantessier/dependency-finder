@@ -17,6 +17,36 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	June 05, 2004
+    </dt>
+    <dd>
+	<p>Discussed possible new icons with my friend who worked on Shrek 2.
+	We brainstormed some ideas around a possible team and made some
+	promising sketches.  I'm eager to see what he'll come up with.</p>
+    </dd>
+    <dt>
+	June 03, 2004
+    </dt>
+    <dd>
+	<p>As I was tryin to explain scoping and filtering to someone, I came
+	upon a new way of explaining it.  The graph really has two dimensions:
+	aggregation betweeen packages, classes, and features, and dependencies
+	between the nodes as a separate dimension.  Scoping select specific
+	nodes along the aggregation dimention, while filtering selects
+	specific dependencies along the other dimension.  Maybe that will make
+	it a little easier for people to understand what I mean and how to use
+	regular expressions in either context.</p>
+
+	<p>There was also some confusion around the
+	<code>com.jeantessier.dependency.Visitor</code> classes.  Most of them
+	traverse a graph and leave it intact, but <code>LinkMaximizer</code>
+	and <code>LinkMinimizer</code> actually modify the graph in-place.
+	This means that if you run either one of them on the nodes in a given
+	factory, you can access the maximized or minimized graph through that
+	same factory.  But if you use a GraphCopier to get a subgraph, you
+	need to go to the copier's internal factory to get at the subgraph.</p>
+    </dd>
+    <dt>
 	May 31, 2004
     </dt>
     <dd>
