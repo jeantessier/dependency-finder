@@ -273,6 +273,16 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 		measurement.Accept(this);
 		assertSame(measurement, visited);
 	}
+
+	public void testToString() {
+		Metrics m = new Metrics("m");
+		m.Track("bar", new CounterMeasurement(null, null, null));
+		m.AddToMeasurement("bar", 1);
+
+		metrics.AddSubMetrics(m);
+
+		assertEquals("toString()", "1 [1 1/1 0 1 1 (1)]", measurement.toString());
+	}
 	
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		visited = measurement;

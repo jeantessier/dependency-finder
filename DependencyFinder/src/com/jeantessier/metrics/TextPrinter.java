@@ -79,15 +79,7 @@ public class TextPrinter extends Printer {
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		Indent();
-		Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("):");
-		Append(" ").Append(value_format.format(measurement.doubleValue()));
-		Append(" [").Append(value_format.format(measurement.Minimum()));
-		Append(" ").Append(value_format.format(measurement.Median()));
-		Append("/").Append(value_format.format(measurement.Average()));
-		Append(" ").Append(value_format.format(measurement.StandardDeviation()));
-		Append(" ").Append(value_format.format(measurement.Maximum()));
-		Append(" ").Append(value_format.format(measurement.Sum()));
-		Append(" (").Append(value_format.format(measurement.NbDataPoints())).Append(")]");
+		Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("): ").Append(measurement);
 		EOL();
 	}
 	

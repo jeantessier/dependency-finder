@@ -33,6 +33,7 @@
 package com.jeantessier.metrics;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 import org.apache.log4j.*;
@@ -46,6 +47,7 @@ import org.apache.log4j.*;
  *  </pre>
  */
 public class StatisticalMeasurement extends MeasurementBase {
+	private static final NumberFormat value_format = new DecimalFormat("#.##");
 
 	/** Ignore StatisticalMeasurements and drill down to the next level */
 	public static final int DISPOSE_IGNORE = 0;
@@ -366,5 +368,20 @@ public class StatisticalMeasurement extends MeasurementBase {
 		}
 
 		return result;
+	}
+
+	public String toString() {
+		StringBuffer result = new StringBuffer();
+
+		result.append(value_format.format(doubleValue()));
+		result.append(" [").append(value_format.format(Minimum()));
+		result.append(" ").append(value_format.format(Median()));
+		result.append("/").append(value_format.format(Average()));
+		result.append(" ").append(value_format.format(StandardDeviation()));
+		result.append(" ").append(value_format.format(Maximum()));
+		result.append(" ").append(value_format.format(Sum()));
+		result.append(" (").append(value_format.format(NbDataPoints())).append(")]");
+		
+		return result.toString();
 	}
 }
