@@ -11,9 +11,17 @@
     <property environment="env"/>
 
     <property file="tomcat.properties"/>
-    <taskdef file="tomcattasks.properties">
+    <taskdef resource="org/apache/catalina/ant/catalina.tasks">
 	<classpath>
-	    <pathelement location="${tomcat.home}/server/lib/catalina-ant.jar"/>
+	    <fileset dir="${tomcat.home}/bin">
+		<include name="**/commons-*.jar"/>
+	    </fileset>
+	    <fileset dir="${tomcat.home}/common/lib">
+		<include name="**/*.jar"/>
+	    </fileset>
+	    <fileset dir="${tomcat.home}/server/lib">
+		<include name="**/*.jar"/>
+	    </fileset>
 	</classpath>
     </taskdef>
 
