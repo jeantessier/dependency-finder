@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-110b2" endDate="2004-11-16 07:31:06" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-110b2" endDate="2004-11-27 10:30:28" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.54</revision>
+			<revision>1.57</revision>
 			<prevrevision>1.49</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>cvs.properties</name>
-			<revision>1.1</revision>
+			<revision>1.2</revision>
 		</file>
 	</entry>
 	<entry>
@@ -21,23 +21,344 @@
 	</entry>
 	<entry>
 		<file>
-			<name>bin/txt2html.pl</name>
-			<revision>1.3</revision>
+			<name>bin/ClassClassDiff.bat</name>
+			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ClassDump.bat</name>
+			<prevrevision>1.10</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ClassList.bat</name>
+			<prevrevision>1.10</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ClassMetrics.bat</name>
+			<prevrevision>1.10</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ClassReader.bat</name>
+			<prevrevision>1.10</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ClosureToText.bat</name>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependablesToHTML.bat</name>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependablesToText.bat</name>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyClosure.bat</name>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyExtractor.bat</name>
+			<prevrevision>1.10</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyFinder</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyGraphToHTML.bat</name>
 			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
+			<name>bin/DependencyGraphToText.bat</name>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyMetrics.bat</name>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependencyReporter.bat</name>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependentsToHTML.bat</name>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DependentsToText.bat</name>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/DiffToHTML.bat</name>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/HideInboundDependenciesToHTML.bat</name>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/HideInboundDependenciesToText.bat</name>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/HideOutboundDependenciesToHTML.bat</name>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/HideOutboundDependenciesToText.bat</name>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/JarJarDiff.bat</name>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ListDeprecatedElements.bat</name>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ListDiff.bat</name>
+			<prevrevision>1.6</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ListDiffToHTML.bat</name>
+			<prevrevision>1.6</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ListDiffToText.bat</name>
+			<prevrevision>1.6</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ListDocumentedElements</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ListInheritanceDiffToText.bat</name>
+			<prevrevision>1.6</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ListUnused.bat</name>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/MetricsToHTML.bat</name>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/MetricsToText.bat</name>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/OOMetrics</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/OOMetricsGUI</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/PublishedDiffToHTML.bat</name>
+			<prevrevision>1.6</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/ScriptGenerator.pl</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/SymbolList.bat</name>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/TemplateProcessor.pm</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/TemplateProcessorRule.pm</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/XSLTProcess</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/bat.cli.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/bat.reporter.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/bat.xsl.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/c2c.bat</name>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/c2p.bat</name>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/f2f.bat</name>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/p2p.bat</name>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/sh.cli.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/sh.reporter.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/sh.xsl.template.txt</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/txt2html.pl</name>
+			<revision>1.4</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/Developer.txt</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.38</revision>
+			<revision>1.40</revision>
 			<prevrevision>1.37</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/Tools.txt</name>
-			<revision>1.36</revision>
+			<revision>1.37</revision>
 			<prevrevision>1.35</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/style.css</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/Menu.html</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -45,6 +366,12 @@
 			<name>docs/tasks/dependencyclosure.html</name>
 			<revision>1.10</revision>
 			<prevrevision>1.8</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/tasks/listsymbols.html</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -59,6 +386,13 @@
 			<name>etc/PublishedDiffToHTML.xsl</name>
 			<revision>1.6</revision>
 			<prevrevision>1.5</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/dependencyfindertasks.properties</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -215,6 +549,12 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependencyfinder/ant/ListSymbols.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java</name>
 			<revision>1.12</revision>
 			<prevrevision>1.11</prevrevision>
@@ -285,6 +625,12 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ListSymbols.java</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
 			<revision>1.37</revision>
 			<prevrevision>1.36</prevrevision>
@@ -293,7 +639,6 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/SymbolList.java</name>
-			<revision>1.5</revision>
 			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
@@ -344,6 +689,13 @@
 			<name>src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java</name>
 			<revision>1.12</revision>
 			<prevrevision>1.11</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java</name>
+			<revision>1.14</revision>
+			<prevrevision>1.13</prevrevision>
 		</file>
 	</entry>
 	<entry>
