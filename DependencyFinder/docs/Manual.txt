@@ -454,10 +454,10 @@ tools and end with the Ant tasks.
 	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependenciesToText.xsl"&gt;=
 	</td>
 	<td>
-	    
+	    _n/a_
 	</td>
 	<td>
-	    
+	    _n/a_
 	</td>
     </tr>
     <tr>
@@ -2597,6 +2597,21 @@ way you decide that is.
 
 ---++++ Extracting With the CLI
 
+Typically, you compile Java source files to =.class= files and javadocs.
+You may even combine the =.class= files into one or more JAR files.  From
+source code in =.java= files, you can use =javadoc= to generate HTML
+documentation or you can use =javac=/=jar= to generate executable code in JAR
+files.
+
+<div align="center">
+    [[images/Compiling.gif]]
+*Compilation Workflow*
+</div>
+
+The tools in Dependency Finder work from the executable code, either in
+JAR files or in individual =.class= files; they do not work from either the
+source code or the generated javadoc.
+
 You use =JarJarDiff= to extract API differences.  The following command
 computes the API differences between versions _Old_ and _New_ of
 _My Project_.  The differences are saved as an XML document in the file
@@ -2702,13 +2717,19 @@ of the previous =JarJarDiff= command.
 
 ---++++ Filtering
 
+=ListDocumentedElements= is a Java doclet that can list all packages, classes,
+interfaces, fields, constructors, and methods in a given set of Java source
+files.  You can run this tool on the "old version" source files to get the list
+of everything in it (old list), and on the "new version" to get the list of
+everything in the "new version" (new list).  All you have left to do is compare
+the two lists, either yourself or with the =ListDiff= tool.  This will show you
+the names of all the additions and removals between the two versions.
+
 You can also limit the reporting to specific programming elements that have
-been earmarked using special javadoc tags.
-
-You get the list of earmarked elements by running a specialized doclet.
-
-The following commands run this doclet on the old as well as the new
-codebases, saving the results in individual text files.
+been earmarked using special javadoc tags.  You get the list of earmarked
+elements with =ListDocumentedElements=.  The following commands run this doclet
+on the old as well as the new codebases, saving the results in individual text
+files.
 
 In this first case, the command will only list elements that you marked as
 =@level published=.
