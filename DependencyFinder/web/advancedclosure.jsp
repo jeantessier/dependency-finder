@@ -365,7 +365,7 @@ Follow outbounds:
 
 	    closure.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
 
-	    PrettyPrinter printer = new PrettyPrinter();
+	    TextPrinter printer = new TextPrinter();
 
 	    printer.TraverseNodes(closure.Factory().Packages().values());
 

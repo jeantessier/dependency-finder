@@ -233,7 +233,7 @@ Show dependencies
 	
 	    dependencies_query.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
 
-	    PrettyPrinter printer = new PrettyPrinter();
+	    TextPrinter printer = new TextPrinter();
 
 	    printer.ShowInbounds(show_inbounds);
 	    printer.ShowOutbounds(show_outbounds);
