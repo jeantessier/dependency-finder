@@ -3,32 +3,32 @@ package ModifiedPackage;
 /** @level public */
 public interface ModifiedInterface {
 	/** @deprecated */
-	public int deprecated_field = 1;
+	public int deprecatedField = 1;
 
 	/** @level private */
-	public int undocumented_field = 1;
+	public int undocumentedField = 1;
 	
-	public float modified_field = 1;
+	public float modifiedField = 1;
 
 	/** @level public */
-	public int documented_field = 1;
+	public int documentedField = 1;
 
-	public int undeprecated_field = 1;
+	public int undeprecatedField = 1;
 
-	public int new_field = 1;
+	public int newField = 1;
 
 	/** @deprecated */
-	public void DeprecatedMethod();
+	public void deprecatedMethod();
 
 	/** @level private */
-	public void UndocumentedMethod();
+	public void undocumentedMethod();
 	
-	public boolean ModifiedMethod();
+	public boolean modifiedMethod();
 
 	/** @level public */
-	public void DocumentedMethod();
+	public void documentedMethod();
 
-	public void UndeprecatedMethod();
+	public void undeprecatedMethod();
 
-	public void NewMethod();
+	public void newMethod();
 }

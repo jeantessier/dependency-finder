@@ -72,9 +72,9 @@ public class TestDeprecationPrinter extends TestCase {
 
 		Collection entries = parse(writer.toString());
 		
-		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedClass.deprecated_field"));
+		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedClass.deprecatedField"));
 		assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.ModifiedClass.ModifiedClass(int)"));
-		assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedClass.DeprecatedMethod()"));
+		assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedClass.deprecatedMethod()"));
 		assertEquals("Modified class", 3, entries.size());
 	}
 	
@@ -87,12 +87,12 @@ public class TestDeprecationPrinter extends TestCase {
 		
 		assertTrue("Deprecated class",       entries.contains("ModifiedPackage.DeprecatedClass"));
 		assertTrue("Deprecated interface",   entries.contains("ModifiedPackage.DeprecatedInterface"));
-		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedClass.deprecated_field"));
-		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedInterface.deprecated_field"));
+		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedClass.deprecatedField"));
+		assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedInterface.deprecatedField"));
 		assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.DeprecatedClass.DeprecatedClass()"));
 		assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.ModifiedClass.ModifiedClass(int)"));
-		assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedClass.DeprecatedMethod()"));
-		assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedInterface.DeprecatedMethod()"));
+		assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedClass.deprecatedMethod()"));
+		assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedInterface.deprecatedMethod()"));
 		assertEquals("Classpath " + entries, 8, entries.size());
 	}
 

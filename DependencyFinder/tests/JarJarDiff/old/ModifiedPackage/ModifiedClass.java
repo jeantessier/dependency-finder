@@ -2,20 +2,20 @@ package ModifiedPackage;
 
 /** @level public */
 public class ModifiedClass {
-	public int removed_field;
+	public int removedField;
 
-	public int deprecated_field;
+	public int deprecatedField;
 
 	/** @level public */
-	public int undocumented_field;
+	public int undocumentedField;
 	
-	public int modified_field;
+	public int modifiedField;
 
 	/** @level private */
-	public int documented_field;
+	public int documentedField;
 
 	/** @deprecated */
-	public int undeprecated_field;
+	public int undeprecatedField;
 
 	/**
 	 *  Removed Constructor
@@ -56,24 +56,24 @@ public class ModifiedClass {
 	public ModifiedClass(int i, int j, int k, int m, int n) {
 	}
 	
-	public void RemovedMethod() {
+	public void removedMethod() {
 	}
 
-	public void DeprecatedMethod() {
+	public void deprecatedMethod() {
 	}
 
 	/** @level public */
-	public void UndocumentedMethod() {
+	public void undocumentedMethod() {
 	}
 	
-	public void ModifiedMethod() {
+	public void modifiedMethod() {
 	}
 
 	/** @level private */
-	public void DocumentedMethod() {
+	public void documentedMethod() {
 	}
 
 	/** @deprecated */
-	public void UndeprecatedMethod() {
+	public void undeprecatedMethod() {
 	}
 }

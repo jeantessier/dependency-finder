@@ -3,19 +3,19 @@ package ModifiedPackage;
 /** @level public */
 public class ModifiedClass {
 	/** @deprecated */
-	public int deprecated_field;
+	public int deprecatedField;
 
 	/** @level private */
-	public int undocumented_field;
+	public int undocumentedField;
 	
-	public float modified_field;
+	public float modifiedField;
 
 	/** @level public */
-	public int documented_field;
+	public int documentedField;
 
-	public int undeprecated_field;
+	public int undeprecatedField;
 
-	public int new_field;
+	public int newField;
 
 	/**
 	 *  Deprecated Constructor
@@ -57,24 +57,24 @@ public class ModifiedClass {
 	}
 
 	/** @deprecated */
-	public void DeprecatedMethod() {
+	public void deprecatedMethod() {
 	}
 
 	/** @level private */
-	public void UndocumentedMethod() {
+	public void undocumentedMethod() {
 	}
 	
-	public boolean ModifiedMethod() {
+	public boolean modifiedMethod() {
 		return false;
 	}
 
 	/** @level public */
-	public void DocumentedMethod() {
+	public void documentedMethod() {
 	}
 
-	public void UndeprecatedMethod() {
+	public void undeprecatedMethod() {
 	}
 	
-	public void NewMethod() {
+	public void newMethod() {
 	}
 }
