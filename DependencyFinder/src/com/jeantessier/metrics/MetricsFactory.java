@@ -41,7 +41,7 @@ import org.apache.oro.text.perl.*;
 public class MetricsFactory {
 	private static final Perl5Util perl = new Perl5Util();
 
-	private String               default_project_name;
+	private String               project_name;
 	private MetricsConfiguration configuration;
 
 	private Map projects = new HashMap();
@@ -49,13 +49,13 @@ public class MetricsFactory {
 	private Map classes  = new HashMap();
 	private Map methods  = new HashMap();
 	
-	public MetricsFactory(String default_project_name, MetricsConfiguration configuration) {
-		this.default_project_name = default_project_name;
+	public MetricsFactory(String project_name, MetricsConfiguration configuration) {
+		this.project_name  = project_name;
 		this.configuration = configuration;
 	}
 	
 	public Metrics CreateProjectMetrics() {
-		return CreateProjectMetrics(default_project_name);
+		return CreateProjectMetrics(project_name);
 	}
 	
 	public Metrics CreateProjectMetrics(String name) {
@@ -199,5 +199,43 @@ public class MetricsFactory {
 				Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.ShortName() + "\"", ex);
 			}
 		}
-	}		
+	}
+
+	public String toString() {
+		StringBuffer result = new StringBuffer();
+
+		result.append("Factory for project \"").append(project_name).append("\"\n");
+
+		Iterator i;
+		
+		result.append("projects:\n");
+		i = projects.entrySet().iterator();
+		while (i.hasNext()) {
+			Map.Entry entry = (Map.Entry) i.next();
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("\n");
+		}
+		
+		result.append("groups:\n");
+		i = groups.entrySet().iterator();
+		while (i.hasNext()) {
+			Map.Entry entry = (Map.Entry) i.next();
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("\n");
+		}
+		
+		result.append("classes:\n");
+		i = classes.entrySet().iterator();
+		while (i.hasNext()) {
+			Map.Entry entry = (Map.Entry) i.next();
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("\n");
+		}
+		
+		result.append("methods:\n");
+		i = methods.entrySet().iterator();
+		while (i.hasNext()) {
+			Map.Entry entry = (Map.Entry) i.next();
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("\n");
+		}
+		
+		return result.toString();
+	}
 }

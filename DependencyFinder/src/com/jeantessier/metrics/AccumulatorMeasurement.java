@@ -78,22 +78,6 @@ public class AccumulatorMeasurement extends MeasurementBase {
 		return new Integer(collection.size());
 	}
 
-	public int intValue() {
-		return collection.size();
-	}
-
-	public long longValue() {
-		return collection.size();
-	}
-
-	public float floatValue() {
-		return collection.size();
-	}
-
-	public double doubleValue() {
-		return collection.size();
-	}
-
 	protected double Compute() {
 		return collection.size();
 	}

@@ -67,13 +67,14 @@ public class PrettyPrinter extends Printer {
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		Indent();
-		Append(measurement.LongName());
-		Append(": (").Append(value_format.format(measurement.NbDataPoints())).Append(")");
-		Append("\t").Append(value_format.format(measurement.Minimum()));
+		Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("):");
+		Append(" ").Append(value_format.format(measurement.doubleValue()));
+		Append(" [").Append(value_format.format(measurement.Minimum()));
 		Append(" ").Append(value_format.format(measurement.Median()));
 		Append("/").Append(value_format.format(measurement.Average()));
 		Append(" ").Append(value_format.format(measurement.Maximum()));
-		Append(" (").Append(value_format.format(measurement.Sum())).Append(")");
+		Append(" ").Append(value_format.format(measurement.Sum()));
+		Append(" (").Append(value_format.format(measurement.NbDataPoints())).Append(")]");
 		Append("\n");
 	}
 	
@@ -82,10 +83,10 @@ public class PrettyPrinter extends Printer {
 	}
 	
 	protected void VisitMeasurement(Measurement measurement) {
-		Indent().Append(measurement.LongName()).Append(":\t").Append(value_format.format(measurement.Value()));
+		Indent().Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("):\t").Append(value_format.format(measurement.Value()));
 
 		try {
-			RatioMeasurement ratio = (RatioMeasurement) current_metrics.Measurement(measurement.LongName() + " ratio");
+			RatioMeasurement ratio = (RatioMeasurement) current_metrics.Measurement(measurement.ShortName() + "R");
 			Append(" (").Append(ratio_format.format(ratio.Value())).Append(")");
 		} catch (ClassCastException ex) {
 			// Do nothing, no ratio for this measurement

@@ -127,14 +127,15 @@ public class XMLPrinter extends Printer {
 	private void VisitMeasurements(Metrics metrics) {
 		Iterator names = metrics.MeasurementNames().iterator();
 		while (names.hasNext()) {
-			String      name    = (String) names.next();
-			Measurement measure = metrics.Measurement(name);
+			String      name        = (String) names.next();
+			Measurement measurement = metrics.Measurement(name);
 
 			Indent().Append("<metric>").Append("\n");
 			RaiseIndent();
-			Indent().Append("<name>").Append(name).Append("</name>\n");
+			Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>\n");
+			Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>\n");
 
-			measure.Accept(this);
+			measurement.Accept(this);
 				
 			LowerIndent();
 			Indent().Append("</metric>").Append("\n");

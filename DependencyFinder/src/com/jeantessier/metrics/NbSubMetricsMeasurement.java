@@ -41,6 +41,10 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 		visitor.VisitNbSubMetricsMeasurement(this);
 	}
 
+	public Number Value() {
+		return new Integer(Context().SubMetrics().size());
+	}
+
 	protected double Compute() {
 		return Context().SubMetrics().size();
 	}

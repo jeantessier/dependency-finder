@@ -39,52 +39,71 @@ import org.apache.log4j.*;
 public class Metrics {
 	public static final String PACKAGES = "packages";
 	
-	public static final String PUBLIC_CLASSES     = "public classes";
-	public static final String FINAL_CLASSES      = "final classes";
-	public static final String ABSTRACT_CLASSES   = "abstract classes";
-	public static final String SYNTHETIC_CLASSES  = "synthetic classes";
-	public static final String INTERFACES         = "interfaces";
-	public static final String DEPRECATED_CLASSES = "deprecated classes";
+	public static final String CLASSES            = "C";
+	public static final String PUBLIC_CLASSES     = "PUBC";
+	public static final String FINAL_CLASSES      = "FINC";
+	public static final String ABSTRACT_CLASSES   = "ABSC";
+	public static final String SYNTHETIC_CLASSES  = "SYNTHC";
+	public static final String INTERFACES         = "I";
+	public static final String DEPRECATED_CLASSES = "DEPC";
+	public static final String STATIC_CLASSES     = "STAC";
 
-	public static final String PUBLIC_METHODS       = "public methods";
-	public static final String PROTECTED_METHODS    = "protected methods";
-	public static final String PRIVATE_METHODS      = "private methods";
-	public static final String PACKAGE_METHODS      = "package methods";
-	public static final String FINAL_METHODS        = "final methods";
-	public static final String ABSTRACT_METHODS     = "abstract methods";
-	public static final String DEPRECATED_METHODS   = "deprecated methods";
-	public static final String SYNTHETIC_METHODS    = "synthetic methods";
-	public static final String STATIC_METHODS       = "static methods";
-	public static final String SYNCHRONIZED_METHODS = "synchronized methods";
-	public static final String NATIVE_METHODS       = "native methods";
+	public static final String PUBLIC_METHODS       = "PUBM";
+	public static final String PROTECTED_METHODS    = "PROM";
+	public static final String PRIVATE_METHODS      = "PRIM";
+	public static final String PACKAGE_METHODS      = "PACM";
+	public static final String FINAL_METHODS        = "FINM";
+	public static final String ABSTRACT_METHODS     = "ABSM";
+	public static final String DEPRECATED_METHODS   = "DEPM";
+	public static final String SYNTHETIC_METHODS    = "SYNTHM";
+	public static final String STATIC_METHODS       = "STAM";
+	public static final String SYNCHRONIZED_METHODS = "SYNCHM";
+	public static final String NATIVE_METHODS       = "NATM";
+	public static final String TRIVIAL_METHODS      = "TRIM";
 
-	public static final String ATTRIBUTES            = "attributes";
-	public static final String PUBLIC_ATTRIBUTES     = "public attributes";
-	public static final String PROTECTED_ATTRIBUTES  = "protected attributes";
-	public static final String PRIVATE_ATTRIBUTES    = "private attributes";
-	public static final String PACKAGE_ATTRIBUTES    = "package attributes";
-	public static final String FINAL_ATTRIBUTES      = "final attributes";
-	public static final String DEPRECATED_ATTRIBUTES = "deprecated attributes";
-	public static final String SYNTHETIC_ATTRIBUTES  = "synthetic attributes";
-	public static final String STATIC_ATTRIBUTES     = "static attributes";
-	public static final String TRANSIENT_ATTRIBUTES  = "transient attributes";
-	public static final String VOLATILE_ATTRIBUTES   = "volatile attributes";
+	public static final String ATTRIBUTES            = "A";
+	public static final String PUBLIC_ATTRIBUTES     = "PUBA";
+	public static final String PROTECTED_ATTRIBUTES  = "PROA";
+	public static final String PRIVATE_ATTRIBUTES    = "PRIA";
+	public static final String PACKAGE_ATTRIBUTES    = "PACA";
+	public static final String FINAL_ATTRIBUTES      = "FINA";
+	public static final String DEPRECATED_ATTRIBUTES = "DEPA";
+	public static final String SYNTHETIC_ATTRIBUTES  = "SYNTHA";
+	public static final String STATIC_ATTRIBUTES     = "STAA";
+	public static final String TRANSIENT_ATTRIBUTES  = "TRAA";
+	public static final String VOLATILE_ATTRIBUTES   = "VOLA";
 
-	public static final String INNER_CLASSES           = "inner classes";
-	public static final String PUBLIC_INNER_CLASSES    = "public inner classes";
-	public static final String PROTECTED_INNER_CLASSES = "protected inner classes";
-	public static final String PRIVATE_INNER_CLASSES   = "private inner classes";
-	public static final String PACKAGE_INNER_CLASSES   = "package inner classes";
-	public static final String ABSTRACT_INNER_CLASSES  = "abstract inner classes";
-	public static final String FINAL_INNER_CLASSES     = "final inner classes";
-	public static final String STATIC_INNER_CLASSES    = "static inner classes";
+	public static final String INNER_CLASSES           = "IC";
+	public static final String PUBLIC_INNER_CLASSES    = "PUBIC";
+	public static final String PROTECTED_INNER_CLASSES = "PROIC";
+	public static final String PRIVATE_INNER_CLASSES   = "PRIIC";
+	public static final String PACKAGE_INNER_CLASSES   = "PACIC";
+	public static final String ABSTRACT_INNER_CLASSES  = "ABSIC";
+	public static final String FINAL_INNER_CLASSES     = "FINIC";
+	public static final String STATIC_INNER_CLASSES    = "STAIC";
 
-	public static final String DEPTH_OF_INHERITANCE  = "depth of inheritance";
-	public static final String SUBCLASSES            = "subclasses";
+	public static final String DEPTH_OF_INHERITANCE  = "DOI";
+	public static final String SUBCLASSES            = "SUB";
 
-	public static final String NLOC            = "number of lines of code";
-	public static final String PARAMETERS      = "parameters";
-	public static final String LOCAL_VARIABLES = "local variables";
+	public static final String SLOC            = "SLOC";
+	public static final String PARAMETERS      = "PARAM";
+	public static final String LOCAL_VARIABLES = "VAR";
+
+	public static final String INBOUND_INTRA_PACKAGE_DEPENDENCIES  = "IIP";
+	public static final String INBOUND_EXTRA_PACKAGE_DEPENDENCIES  = "IEP";
+	public static final String OUTBOUND_INTRA_PACKAGE_DEPENDENCIES = "OIP";
+	public static final String OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES = "OEP";
+	
+	public static final String INBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES    = "IICF";
+	public static final String INBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES  = "IIPF";
+	public static final String INBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES    = "IIPC";
+	public static final String INBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES  = "IEPF";
+	public static final String INBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES    = "IEPC";
+	public static final String OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES   = "OICF";
+	public static final String OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES = "OIPF";
+	public static final String OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES   = "OIPC";
+	public static final String OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES = "OEPF";
+	public static final String OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES   = "OEPC";
 	
 	private Metrics parent;
 	private String  name;
@@ -154,7 +173,7 @@ public class Metrics {
 	public void AddToMeasurement(String name, Object delta) {
 		Measurement(name).Add(delta);
 	}
-		
+
 	public Measurement Measurement(String name) {
 		Measurement result = (Measurement) measurements.get(name);
 		
@@ -167,7 +186,7 @@ public class Metrics {
 	}
 
 	public Collection MeasurementNames() {
-		return Collections.unmodifiableCollection(measurements.keySet());
+		return Collections.unmodifiableCollection(new TreeSet(measurements.keySet()));
 	}
 	
 	public Metrics AddSubMetrics(Metrics metrics) {

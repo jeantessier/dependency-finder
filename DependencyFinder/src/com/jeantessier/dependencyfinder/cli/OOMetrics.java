@@ -50,6 +50,16 @@ public class OOMetrics {
 
 	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
+	public static void Log(Logger logger, String filename) throws IOException {
+		logger.setLevel(Level.DEBUG);
+			
+		if ("System.out".equals(filename)) {
+			logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
+		} else {
+			logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(filename)));
+		}
+	}
+	
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
@@ -131,29 +141,13 @@ public class OOMetrics {
 		}
 
 		if (command_line.IsPresent("verbose")) {
-			Logger logger = Logger.getLogger("com.jeantessier.metrics");
-			logger.setLevel(Level.DEBUG);
-			
-			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
-				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-			} else {
-				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("verbose"))));
-			}
+			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
+			Log(Logger.getLogger("com.jeantessier.metrics"), command_line.OptionalSwitch("verbose"));
 		}
 
 		if (command_line.IsPresent("trace")) {
-			Logger logger1 = Logger.getLogger("com.jeantessier.classreader");
-			Logger logger2 = Logger.getLogger("com.jeantessier.dependency");
-			logger1.setLevel(Level.DEBUG);
-			logger2.setLevel(Level.DEBUG);
-			
-			if ("System.out".equals(command_line.OptionalSwitch("trace"))) {
-				logger1.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-				logger2.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
-			} else {
-				logger1.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
-				logger2.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
-			}
+			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
+			Log(Logger.getLogger("com.jeantessier.dependency"), command_line.OptionalSwitch("trace"));
 		}
 
 		/*
@@ -161,6 +155,8 @@ public class OOMetrics {
 		 */
 
 		Date start = new Date();
+
+		Logger.getLogger(OOMetrics.class).debug("Reading sources ...");
 
 		List parameters = command_line.Parameters();
 		if (parameters.size() == 0) {
@@ -184,22 +180,30 @@ public class OOMetrics {
 				directory_loader.Load(new DirectoryExplorer(filename));
 			}
 		}
+
+		Logger.getLogger(OOMetrics.class).debug("Reading configuration ...");
+
+		String project_name = command_line.SingleSwitch("project-name");
 		
 		MetricsFactory factory;
 		
 		if (command_line.IsPresent("configuration")) {
-			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("configuration")));
+			factory = new MetricsFactory(project_name, new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("configuration")));
 		} else {
-			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("default-configuration")));
+			factory = new MetricsFactory(project_name, new MetricsConfigurationLoader(command_line.ToggleSwitch("validate")).Load(command_line.SingleSwitch("default-configuration")));
 		}
 
-		com.jeantessier.metrics.MetricsGatherer metrics = new com.jeantessier.metrics.MetricsGatherer(command_line.SingleSwitch("project-name"), factory);
+		Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
+
+		com.jeantessier.metrics.MetricsGatherer metrics = new com.jeantessier.metrics.MetricsGatherer(project_name, factory);
 
 		Iterator j = loader.Classfiles().iterator();
 		while (j.hasNext()) {
 			((Classfile) j.next()).Accept(metrics);
 		}
 
+		Logger.getLogger(OOMetrics.class).debug("Printing results ...");
+		
 		if (command_line.IsPresent("csv")) {
 			PrintCSVFiles(start, command_line, metrics.MetricsFactory());
 		} else if (command_line.IsPresent("txt")) {
@@ -207,6 +211,8 @@ public class OOMetrics {
 		} else if (command_line.IsPresent("xml")) {
 			PrintXMLFile(start, command_line, metrics.MetricsFactory());
 		}
+
+		Logger.getLogger(OOMetrics.class).debug("Done.");
 
 		if (command_line.ToggleSwitch("time")) {
 			Date end = new Date();
@@ -338,7 +344,7 @@ public class OOMetrics {
 		com.jeantessier.metrics.Printer printer;
 
 		if (command_line.ToggleSwitch("projects") || command_line.ToggleSwitch("all")) {
-			out.println("Project metrics:");
+			out.println("Project metrics");
 			out.println("---------------");
 			metrics = new ArrayList(factory.ProjectMetrics());
 			Collections.sort(metrics, comparator);
@@ -352,7 +358,7 @@ public class OOMetrics {
 		}
 
 		if (command_line.ToggleSwitch("groups") || command_line.ToggleSwitch("all")) {
-			out.println("Package metrics:");
+			out.println("Package metrics");
 			out.println("---------------");
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
@@ -366,7 +372,7 @@ public class OOMetrics {
 		}
 
 		if (command_line.ToggleSwitch("classes") || command_line.ToggleSwitch("all")) {
-			out.println("Class metrics:");
+			out.println("Class metrics");
 			out.println("-------------");
 			metrics = new ArrayList(factory.ClassMetrics());
 			Collections.sort(metrics, comparator);
@@ -380,7 +386,7 @@ public class OOMetrics {
 		}
 		
 		if (command_line.ToggleSwitch("methods") || command_line.ToggleSwitch("all")) {
-			out.println("Method metrics:");
+			out.println("Method metrics");
 			out.println("--------------");
 			metrics = new ArrayList(factory.MethodMetrics());
 			Collections.sort(metrics, comparator);

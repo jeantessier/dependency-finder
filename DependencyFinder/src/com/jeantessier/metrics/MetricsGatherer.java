@@ -212,6 +212,14 @@ public class MetricsGatherer extends VisitorBase {
 	public void VisitMethod_info(Method_info entry) {
 		CurrentMethod(MetricsFactory().CreateMethodMetrics(entry.FullSignature()));
 
+		Logger.getLogger(getClass()).debug("VisitMethod_info(" + entry.FullSignature() + ")");
+		Logger.getLogger(getClass()).debug("Current class: " + CurrentClass().Name());
+		Logger.getLogger(getClass()).debug("Access flag: " + entry.AccessFlag());
+		Logger.getLogger(getClass()).debug("Public: " + (entry.AccessFlag() & Method_info.ACC_PUBLIC));
+		Logger.getLogger(getClass()).debug("Private: " + (entry.AccessFlag() & Method_info.ACC_PRIVATE));
+		Logger.getLogger(getClass()).debug("Protected: " + (entry.AccessFlag() & Method_info.ACC_PROTECTED));
+		Logger.getLogger(getClass()).debug("Static: " + (entry.AccessFlag() & Method_info.ACC_STATIC));
+		
 		if ((entry.AccessFlag() & Method_info.ACC_PUBLIC) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.PUBLIC_METHODS);
 		} else if ((entry.AccessFlag() & Method_info.ACC_PRIVATE) != 0) {
@@ -250,17 +258,24 @@ public class MetricsGatherer extends VisitorBase {
 		}
 	}
 
+	// 
 	// Attributes
-	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {}
-
-	public void VisitCode_attribute(Code_attribute attribute) {
-		Iterator i = attribute.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
+	//
+	
+	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
+		// Do nothing
 	}
 
-	public void VisitExceptions_attribute(Exceptions_attribute attribute) {}
+// 	public void VisitCode_attribute(Code_attribute attribute) {
+// 		Iterator i = attribute.Attributes().iterator();
+// 		while (i.hasNext()) {
+// 			((Visitable) i.next()).Accept(this);
+// 		}
+// 	}
+
+	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
+		// Do nothing
+	}
 
 	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
 		Iterator i = attribute.Classes().iterator();
@@ -284,10 +299,12 @@ public class MetricsGatherer extends VisitorBase {
 		}
 	}
 
-	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {}
+	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {
+		// Do nothing
+	}
 
 	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-		CurrentMethod().AddToMeasurement(Metrics.NLOC, attribute.LineNumbers().size());
+		CurrentMethod().AddToMeasurement(Metrics.SLOC, attribute.LineNumbers().size());
 	}
 
 	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
@@ -309,10 +326,21 @@ public class MetricsGatherer extends VisitorBase {
 		}
 	}
 
-	public void VisitCustom_attribute(Custom_attribute attribute) {}
+	public void VisitCustom_attribute(Custom_attribute attribute) {
+		// Do nothing
+	}
 
+	// 
 	// Attribute helpers
-	public void VisitExceptionHandler(ExceptionHandler helper) {}
+	//
+	
+	public void VisitExceptionHandler(ExceptionHandler helper) {
+		// The lines in the catch{} block are caught in
+		// the line number table.  This adds one for the
+		// catch{} line itself.  Adding one for the try{
+		// line will be difficult.
+		CurrentMethod().AddToMeasurement(Metrics.SLOC);
+	}
 
 	public void VisitInnerClass(InnerClass helper) {
 		if ((helper.InnerClassInfoIndex() != helper.InnerClasses().Classfile().ClassIndex()) && (helper.InnerClassInfo().startsWith(helper.InnerClasses().Classfile().Class()))) {
@@ -358,4 +386,3 @@ public class MetricsGatherer extends VisitorBase {
 		}
 	}
 }
-
