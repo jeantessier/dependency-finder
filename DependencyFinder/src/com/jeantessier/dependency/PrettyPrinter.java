@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -102,12 +102,12 @@ public class PrettyPrinter extends TextPrinter {
 	}
 	
 	protected void PostprocessPackageNode(PackageNode node) {
-		super.PostprocessPackageNode(node);
 		if (ShowEmptyNodes() || !dependencies.isEmpty() || CurrentBufferLength() > 0) {
 			PopBuffer(node.Name());
 		} else {
 			KillBuffer();
 		}
+		super.PostprocessPackageNode(node);
 	}
 
 	public void VisitInboundPackageNode(PackageNode node) {
@@ -161,12 +161,12 @@ public class PrettyPrinter extends TextPrinter {
 	}
 
 	protected void PostprocessClassNode(ClassNode node) {
-		super.PostprocessClassNode(node);
 		if (ShowEmptyNodes() || !dependencies.isEmpty() || CurrentBufferLength() > 0) {
 			PopBuffer(node.Name().substring(node.Name().lastIndexOf('.') + 1));
 		} else {
 			KillBuffer();
 		}
+		super.PostprocessClassNode(node);
 	}
 	
 	public void VisitInboundClassNode(ClassNode node) {
