@@ -40,44 +40,76 @@ import org.apache.log4j.*;
 /**
  *  Accumulates entries in submetrics, filtering with regular
  *  expressions.  If no regular expressions are given, matches
- *  everything.  Otherwise, each entry must match at least one
- *  of the regular expressions, using Perl5Util.  This measurement
- *  will use Perl5Util.group(1) if not null, or else the fill
- *  string.
+ *  everything for the given measurement, which must implement
+ *  the <code>CollectionMeasurement</code> interface.  Regular
+ *  expressions matching using <code>Perl5Util</code> from
+ *  Jakarta-ORO.  This measurement will use
+ *  <code>Perl5Util.group(1)</code> if not null, or else the
+ *  full string.
  * 
  *  <pre>
  *  &lt;init-text&gt;
- *      measurement name
- *      (perl regular expression)*
+ *      measurement name [perl regular expression]
+ *      ...
  *  &lt;/init-text&gt;
  *  </pre>
  */
 public class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {
-	private String name  = null;
-	private List   terms = new LinkedList();
+	private Map terms = new HashMap();
 
 	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
 
-		try {
-			BufferedReader in   = new BufferedReader(new StringReader(init_text));
-			String         line = in.readLine();
+		if (init_text != null) {
+			try {
+				BufferedReader in   = new BufferedReader(new StringReader(init_text));
+				String         line;
+				
+				while ((line = in.readLine()) != null) {
+					synchronized (Perl()) {
+						if (Perl().match("/^\\s*(\\S+)\\s*(.*)/", line)) {
+							String name = Perl().group(1);
+							String re   = Perl().group(2);
 
-			if (line != null) {
-				name = line.trim();
-			}
-			
-			while ((line = in.readLine()) != null) {
-				terms.add(line.trim());
-			}
+							Collection res = (Collection) terms.get(name);
+							if (res == null) {
+								res = new ArrayList();
+								terms.put(name, res);
+							}
 
-			in.close();
-		} catch (Exception ex) {
-			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
-			terms.clear();
+							if (re != null && re.length() > 0) {
+								res.add(re);
+							}
+						}
+					}
+				}
+				
+				in.close();
+			} catch (Exception ex) {
+				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
+				terms.clear();
+			}
 		}
+
+		LogTerms(init_text);
 	}
 
+	private void LogTerms(String init_text) {
+		Logger.getLogger(getClass()).debug("Initialize with\n" + init_text);
+		Logger.getLogger(getClass()).debug("Terms:");
+
+		Iterator i = terms.entrySet().iterator();
+		while (i.hasNext()) {
+			Map.Entry entry = (Map.Entry) i.next();
+			Logger.getLogger(getClass()).debug("\t" + entry.getKey());
+
+			Iterator j = ((Collection) entry.getValue()).iterator();
+			while (j.hasNext()) {
+				Logger.getLogger(getClass()).debug("\t\t" + j.next());
+			}
+		}
+	}
+	
 	public void Accept(MeasurementVisitor visitor) {
 		visitor.VisitAccumulatorMeasurement(this);
 	}
@@ -98,21 +130,33 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 	}
 
 	private void FilterMetrics(Metrics metrics, Collection results) {
-		Measurement measurement = metrics.Measurement(name);
-		if (measurement instanceof CollectionMeasurement) {
-			Iterator i = ((CollectionMeasurement) measurement).Values().iterator();
-			while (i.hasNext()) {
-				FilterElement((String) i.next(), results);
+		Iterator i = terms.entrySet().iterator();
+		while (i.hasNext()) {
+			Map.Entry  entry = (Map.Entry)  i.next();
+			String     name  = (String)     entry.getKey();
+			Collection res   = (Collection) entry.getValue();
+		
+			Measurement measurement = metrics.Measurement(name);
+			if (measurement instanceof CollectionMeasurement) {
+				FilterMeasurement((CollectionMeasurement) measurement, res, results);
 			}
 		}
 	}
 
-	private void FilterElement(String element, Collection results) {
-		if (terms.isEmpty()) {
+	private void FilterMeasurement(CollectionMeasurement measurement, Collection res, Collection results) {
+		Iterator i = measurement.Values().iterator();
+		while (i.hasNext()) {
+			FilterElement((String) i.next(), res, results);
+		}
+	}
+		
+	
+	private void FilterElement(String element, Collection res, Collection results) {
+		if (res.isEmpty()) {
 			results.add(element);
 		} else {
 			boolean found = false;
-			Iterator i = terms.iterator();
+			Iterator i = res.iterator();
 			while (!found && i.hasNext()) {
 				found = EvaluateRE((String) i.next(), element, results);
 			}
