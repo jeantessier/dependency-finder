@@ -40,6 +40,14 @@ import javax.swing.table.*;
 import com.jeantessier.metrics.*;
 
 public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
+	private static final Color PRIMARY_NORMAL_BACKGROUND        = new Color(247, 247, 247);
+	private static final Color SECONDARY_NORMAL_BACKGROUND      = new Color(223, 223, 223);
+	private static final Color NORMAL_FOREGROUND                = Color.black;
+
+	private static final Color PRIMARY_HIGHLIGHTED_BACKGROUND   = new Color(255, 223, 223);
+	private static final Color SECONDARY_HIGHLIGHTED_BACKGROUND = new Color(255, 207, 207);
+	private static final Color HIGHLIGHTED_FOREGROUND           = Color.red;
+
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		JLabel result = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		
@@ -48,20 +56,12 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 		} else {
 			result.setHorizontalAlignment(JLabel.CENTER);
 		}
-
-		if (!isSelected) {
-			if (((row / 3) % 2) == 0) {
-				result.setBackground(Color.white);
-			} else {
-				result.setBackground(Color.cyan);
-			}
-		}
 		
 		if (value instanceof Measurement) {
 			if (((Measurement) value).InRange()) {
-				result.setForeground(Color.black);
+				NormalCell(isSelected, row, result);
 			} else {
-				result.setForeground(Color.red);
+				HighlightedCell(isSelected, row, result);
 			}
 			
 			if (value instanceof StatisticalMeasurement) {
@@ -96,14 +96,40 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 			}
 		} else if (value instanceof Metrics) {
 			if (((Metrics) value).InRange()) {
-				result.setForeground(Color.black);
+				NormalCell(isSelected, row, result);
 			} else {
-				result.setForeground(Color.red);
+				HighlightedCell(isSelected, row, result);
 			}
 
 			result.setText(((Metrics) value).Name());
+		} else {
+			NormalCell(isSelected, row, result);
 		}
 		
 		return result;
+	}
+
+	private void NormalCell(boolean isSelected, int row, JLabel result) {
+		result.setForeground(NORMAL_FOREGROUND);
+
+		if (!isSelected) {
+			if (((row / 3) % 2) == 0) {
+				result.setBackground(PRIMARY_NORMAL_BACKGROUND);
+			} else {
+				result.setBackground(SECONDARY_NORMAL_BACKGROUND);
+			}
+		}
+	}
+
+	private void HighlightedCell(boolean isSelected, int row, JLabel result) {
+		result.setForeground(HIGHLIGHTED_FOREGROUND);
+
+		if (!isSelected) {
+			if (((row / 3) % 2) == 0) {
+				result.setBackground(PRIMARY_HIGHLIGHTED_BACKGROUND);
+			} else {
+				result.setBackground(SECONDARY_HIGHLIGHTED_BACKGROUND);
+			}
+		}
 	}
 }
