@@ -336,33 +336,35 @@ Follow outbounds:
 
 <%
 	    Date start = new Date();
-
-	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
-		
-	    strategy.PackageScope(package_scope);
-	    strategy.ClassScope(class_scope);
-	    strategy.FeatureScope(feature_scope);
-	    strategy.ScopeIncludes(scope_includes);
-	    strategy.PackageScopeIncludes(package_scope_includes);
-	    strategy.ClassScopeIncludes(class_scope_includes);
-	    strategy.FeatureScopeIncludes(feature_scope_includes);
-	    strategy.ScopeExcludes(scope_excludes);
-	    strategy.PackageScopeExcludes(package_scope_excludes);
-	    strategy.ClassScopeExcludes(class_scope_excludes);
-	    strategy.FeatureScopeExcludes(feature_scope_excludes);
+	    
+	    RegularExpressionSelectionCriteria scope_criteria  = new RegularExpressionSelectionCriteria();
+	    RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+	    
+	    scope_criteria.MatchPackage(package_scope);
+	    scope_criteria.MatchClass(class_scope);
+	    scope_criteria.MatchFeature(feature_scope);
+	    scope_criteria.GlobalIncludes(scope_includes);
+	    scope_criteria.PackageIncludes(package_scope_includes);
+	    scope_criteria.ClassIncludes(class_scope_includes);
+	    scope_criteria.FeatureIncludes(feature_scope_includes);
+	    scope_criteria.GlobalExcludes(scope_excludes);
+	    scope_criteria.PackageExcludes(package_scope_excludes);
+	    scope_criteria.ClassExcludes(class_scope_excludes);
+	    scope_criteria.FeatureExcludes(feature_scope_excludes);
 	
-	    strategy.PackageFilter(package_filter);
-	    strategy.ClassFilter(class_filter);
-	    strategy.FeatureFilter(feature_filter);
-	    strategy.FilterIncludes(filter_includes);
-	    strategy.PackageFilterIncludes(package_filter_includes);
-	    strategy.ClassFilterIncludes(class_filter_includes);
-	    strategy.FeatureFilterIncludes(feature_filter_includes);
-	    strategy.FilterExcludes(filter_excludes);
-	    strategy.PackageFilterExcludes(package_filter_excludes);
-	    strategy.ClassFilterExcludes(class_filter_excludes);
-	    strategy.FeatureFilterExcludes(feature_filter_excludes);
+	    filter_criteria.MatchPackage(package_filter);
+	    filter_criteria.MatchClass(class_filter);
+	    filter_criteria.MatchFeature(feature_filter);
+	    filter_criteria.GlobalIncludes(filter_includes);
+	    filter_criteria.PackageIncludes(package_filter_includes);
+	    filter_criteria.ClassIncludes(class_filter_includes);
+	    filter_criteria.FeatureIncludes(feature_filter_includes);
+	    filter_criteria.GlobalExcludes(filter_excludes);
+	    filter_criteria.PackageExcludes(package_filter_excludes);
+	    filter_criteria.ClassExcludes(class_filter_excludes);
+	    filter_criteria.FeatureExcludes(feature_filter_excludes);
 
+	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 	    TransitiveClosure closure = new TransitiveClosure(strategy);
 
 	    try {

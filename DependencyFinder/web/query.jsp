@@ -226,22 +226,24 @@ Show dependencies
 <%
 	    Date start = new Date();
 
-	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
-		
-	    strategy.PackageScope(package_scope);
-	    strategy.ClassScope(class_scope);
-	    strategy.FeatureScope(feature_scope);
-	    strategy.ScopeIncludes(scope_includes);
-	    strategy.ScopeExcludes(scope_excludes);
+	    RegularExpressionSelectionCriteria scope_criteria  = new RegularExpressionSelectionCriteria();
+	    RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+	    
+	    scope_criteria.MatchPackage(package_scope);
+	    scope_criteria.MatchClass(class_scope);
+	    scope_criteria.MatchFeature(feature_scope);
+	    scope_criteria.GlobalIncludes(scope_includes);
+	    scope_criteria.GlobalExcludes(scope_excludes);
 	
-	    strategy.PackageFilter(package_filter);
-	    strategy.ClassFilter(class_filter);
-	    strategy.FeatureFilter(feature_filter);
-	    strategy.FilterIncludes(filter_includes);
-	    strategy.FilterExcludes(filter_excludes);
+	    filter_criteria.MatchPackage(package_filter);
+	    filter_criteria.MatchClass(class_filter);
+	    filter_criteria.MatchFeature(feature_filter);
+	    filter_criteria.GlobalIncludes(filter_includes);
+	    filter_criteria.GlobalExcludes(filter_excludes);
 
-	    GraphCopier dependencies_query = new GraphSummarizer(strategy);
+	    GraphCopier dependencies_query = new GraphSummarizer(scope_criteria, filter_criteria);
 	    if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
+		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 		dependencies_query = new GraphCopier(strategy);
 	    }
 	
