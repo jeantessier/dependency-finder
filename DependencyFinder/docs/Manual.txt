@@ -666,9 +666,8 @@ stream (i.e., =System.out=).  You can write it to a file by using the
 Dependency Finder includes XSL stylesheets for representing differences
 using HTML.  The stylesheets include:
 
-    * DiffToExternalHTML.xsl
     * DiffToHTML.xsl
-    * DiffToInternalHTML.xsl
+    * DiffToExternalHTML.xsl
 
 You can run them using the script of the same name and the =-in= and
 =-out= switches.  The scripts call =XSLTProcess= and specify the XSL
