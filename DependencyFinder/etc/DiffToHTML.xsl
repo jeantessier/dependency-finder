@@ -221,21 +221,21 @@
     </xsl:template>
 
     <xsl:template match="undocumented-fields">
-	<h2>Formerly Documented Fields:</h2>
+	<h4>Formerly Documented Fields:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
 
     <xsl:template match="undocumented-constructors">
-	<h2>Formerly Documented Constructors:</h2>
+	<h4>Formerly Documented Constructors:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
 
     <xsl:template match="undocumented-methods">
-	<h2>Formerly Documented Methods:</h2>
+	<h4>Formerly Documented Methods:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
@@ -257,21 +257,21 @@
     </xsl:template>
  
     <xsl:template match="documented-fields">
-	<h2>Newly Documented Fields:</h2>
+	<h4>Newly Documented Fields:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="documented-constructors">
-	<h2>Newly Documented Constructors:</h2>
+	<h4>Newly Documented Constructors:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="documented-methods">
-	<h2>Newly Documented Methods:</h2>
+	<h4>Newly Documented Methods:</h4>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>

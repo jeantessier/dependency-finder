@@ -15,7 +15,7 @@
     	  notice, this list of conditions and the following disclaimer in the
     	  documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of the Jean Tessier nor the names of his contributors
+    	* Neither the name of Jean Tessier nor the names of his contributors
     	  may be used to endorse or promote products derived from this software
     	  without specific prior written permission.
     
@@ -49,12 +49,12 @@
 	<html>
 
 	<head>
-	    <title><xsl:if test="product/text()"><xsl:value-of select="product"/> - </xsl:if>Public API Change History</title>
+	    <title><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>Public API Change History</title>
 	</head>
 
 	<body bgcolor="#ffffff">
 
-	<h1><xsl:if test="product/text()"><xsl:value-of select="product"/> - </xsl:if>Public API Change History</h1>
+	<h1><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>Public API Change History</h1>
 
 	<h1><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h1>
 
@@ -65,7 +65,7 @@
 	</html>
     </xsl:template>
 
-    <xsl:template match="product | old | new"></xsl:template>
+    <xsl:template match="differences/name | old | new"></xsl:template>
 
     <xsl:template match="removed-packages[name[validator:IsPackageAllowed($validator,text())]]">
 	<h2>Removed Packages:</h2>
