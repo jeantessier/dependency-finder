@@ -36,9 +36,10 @@ import org.apache.tools.ant.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
+import com.jeantessier.dependencyfinder.*;
 import com.jeantessier.metrics.*;
 
-public class VerboseListener implements LoadListener, DependencyListener, MetricsListener {
+public class VerboseListener extends VerboseListenerBase implements DependencyListener, MetricsListener {
 	private Task task;
 
 	public VerboseListener(Task task) {
@@ -46,39 +47,36 @@ public class VerboseListener implements LoadListener, DependencyListener, Metric
 	}
 	
 	public void BeginSession(LoadEvent event) {
+		super.BeginSession(event);
+		
 		task.log("Searching for classes ...", Project.MSG_VERBOSE);
 	}
 	
 	public void BeginGroup(LoadEvent event) {
-		task.log("Searching " + event.GroupName() + " ...", Project.MSG_VERBOSE);
-	}
-	
-	public void BeginFile(LoadEvent event) {
-		if (event.Filename().startsWith(event.GroupName())) {
-			task.log("Found " + event.Filename() + " ...", Project.MSG_VERBOSE);
-		} else {
-			task.log("Found " + event.GroupName() + " >> " + event.Filename() + " ...", Project.MSG_VERBOSE);
+		super.BeginGroup(event);
+
+		switch (CurrentGroup().Size()) {
+			case -1:
+				task.log("Searching " + CurrentGroup().Name() + " ...", Project.MSG_VERBOSE);
+				break;
+
+			case 0:
+			case 1:
+				task.log("Searching " + CurrentGroup().Name() + " (" + CurrentGroup().Size() + " file) ...", Project.MSG_VERBOSE);
+				break;
+
+			default:
+				task.log("Searching " + CurrentGroup().Name() + " (" + CurrentGroup().Size() + " files) ...", Project.MSG_VERBOSE);
+				break;
 		}
 	}
 	
-	public void BeginClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
 	public void EndFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndSession(LoadEvent event) {
-		// Do nothing
+		super.EndFile(event);
+
+		if (!VisitedFiles().contains(event.Filename())) {
+			task.log("Skipping " + event.Filename() + " ...", Project.MSG_VERBOSE);
+		}
 	}
 
 	public void StartClass(DependencyEvent event) {

@@ -176,7 +176,7 @@ public class OOMetrics {
 		}
 
 		Logger.getLogger(OOMetrics.class).debug("Printing results ...");
-		verbose_listener.println("Printing results ...");
+		verbose_listener.Print("Printing results ...");
 		
 		if (command_line.IsPresent("csv")) {
 			PrintCSVFiles(start, command_line, metrics.MetricsFactory());
@@ -195,7 +195,7 @@ public class OOMetrics {
 			System.out.println(OOMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 
 	private static void PrintCSVFiles(Date start, CommandLine command_line, MetricsFactory factory) throws IOException {

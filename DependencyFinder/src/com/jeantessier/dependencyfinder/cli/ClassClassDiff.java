@@ -126,7 +126,7 @@ public class ClassClassDiff {
 		// that are in both the old and the new codebase.
 	
 		Logger.getLogger(JarJarDiff.class).info("Comparing ...");
-		verbose_listener.println("Comparing ...");
+		verbose_listener.Print("Comparing ...");
 
 		String name = command_line.SingleSwitch("name");
 		Classfile old_class = (Classfile) old_jar.Classfiles().iterator().next();
@@ -136,7 +136,7 @@ public class ClassClassDiff {
 		Differences differences = factory.CreateClassDifferences(name, old_class, new_class);
 
 		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
-		verbose_listener.println("Printing results ...");
+		verbose_listener.Print("Printing results ...");
 
 		PrintWriter out;
 		if (command_line.IsPresent("out")) {
@@ -161,6 +161,6 @@ public class ClassClassDiff {
 
 		out.close();
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 }

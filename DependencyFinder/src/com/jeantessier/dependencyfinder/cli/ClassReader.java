@@ -142,6 +142,6 @@ public class ClassReader {
 
 		out.close();
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 }

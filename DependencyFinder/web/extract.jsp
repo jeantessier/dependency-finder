@@ -63,6 +63,8 @@
 	}
 
 	public void BeginFile(LoadEvent event) {
+	    super.BeginFile(event);
+
 	    try {
 		out.print(RatioIndicator());
 	    } catch (IOException ex) {

@@ -360,7 +360,7 @@ public class DependencyMetrics {
 		while (i.hasNext()) {
 			String filename = (String) i.next();
 			Logger.getLogger(DependencyMetrics.class).info("Reading " + filename);
-			verbose_listener.println("Reading " + filename);
+			verbose_listener.Print("Reading " + filename);
 
 			Collection packages;
 
@@ -381,7 +381,7 @@ public class DependencyMetrics {
 		}
 
 		Logger.getLogger(DependencyMetrics.class).info("Reporting " + metrics.Packages().size() + " package(s) ...");
-		verbose_listener.println("Reporting " + metrics.Packages().size() + " package(s) ...");
+		verbose_listener.Print("Reporting " + metrics.Packages().size() + " package(s) ...");
 
 		reporter.Process(metrics);
 		
@@ -394,6 +394,6 @@ public class DependencyMetrics {
 
 		out.close();
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 }

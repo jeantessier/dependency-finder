@@ -93,7 +93,7 @@ public class TestVerboseListener extends TestCase {
 	public void testPrintWriter() {
 		String test_text = "foobar";
 		
-		listener.println(test_text);
+		listener.Print(test_text);
 
 		assertEquals(test_text + System.getProperty("line.separator"), writer.toString());
 	}

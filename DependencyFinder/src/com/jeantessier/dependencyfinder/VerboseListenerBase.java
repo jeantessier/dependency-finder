@@ -58,6 +58,10 @@ public class VerboseListenerBase implements LoadListener {
 		return ratio_indicator;
 	}
 	
+	private void RatioIndicator(String ratio_indicator) {
+		this.ratio_indicator = ratio_indicator;
+	}
+	
 	public void BeginSession(LoadEvent event) {
 		// Do nothing
 	}
@@ -83,7 +87,9 @@ public class VerboseListenerBase implements LoadListener {
 				}
 				buffer.append(new_ratio).append("%");
 
-				ratio_indicator = buffer.toString();
+				RatioIndicator(buffer.toString());
+			} else {
+				RatioIndicator("");
 			}
 		}
 	}

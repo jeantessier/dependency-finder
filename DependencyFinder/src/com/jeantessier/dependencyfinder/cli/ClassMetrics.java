@@ -119,7 +119,7 @@ public class ClassMetrics {
 			((Classfile) i.next()).Accept(metrics);
 		}
 
-		verbose_listener.println("Printing report ...");
+		verbose_listener.Print("Printing report ...");
 		
 		PrintWriter out;
 		if (command_line.IsPresent("out")) {
@@ -209,7 +209,7 @@ public class ClassMetrics {
 
 		out.close();
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 
 	private static void PrintCMIC(PrintWriter out, String label, Collection classes, Collection methods, Collection inner_classes, boolean list) {

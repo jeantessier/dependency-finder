@@ -131,12 +131,12 @@ public class DependencyExtractor {
 		}
 
 		if (command_line.ToggleSwitch("serialize")) {
-			verbose_listener.println("Serializing the graph ...");
+			verbose_listener.Print("Serializing the graph ...");
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
 			out.writeObject(new ArrayList(factory.Packages().values()));
 			out.close();
 		} else {
-			verbose_listener.println("Printing the graph ...");
+			verbose_listener.Print("Printing the graph ...");
 
 			PrintWriter out;
 			if (command_line.IsPresent("out")) {
@@ -167,6 +167,6 @@ public class DependencyExtractor {
 			System.err.println(DependencyExtractor.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 }

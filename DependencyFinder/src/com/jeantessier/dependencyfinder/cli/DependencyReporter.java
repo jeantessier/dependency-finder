@@ -263,7 +263,7 @@ public class DependencyReporter {
 		while (i.hasNext()) {
 			String filename = (String) i.next();
 			Logger.getLogger(DependencyReporter.class).info("Reading " + filename);
-			verbose_listener.println("Reading " + filename);
+			verbose_listener.Print("Reading " + filename);
 
 			Collection packages;
 
@@ -292,12 +292,12 @@ public class DependencyReporter {
 		Logger.getLogger(DependencyReporter.class).info("Reporting " + copier.ScopeFactory().Packages().values().size() + " package(s) ...");
 	
 		if (command_line.ToggleSwitch("serialize")) {
-			verbose_listener.println("Serializing the graph ...");
+			verbose_listener.Print("Serializing the graph ...");
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
 			out.writeObject(copier.ScopeFactory().Packages().values());
 			out.close();
 		} else {
-			verbose_listener.println("Printing the graph ...");
+			verbose_listener.Print("Printing the graph ...");
 
 			PrintWriter out;
 			if (command_line.IsPresent("out")) {
@@ -328,6 +328,6 @@ public class DependencyReporter {
 			System.err.println(DependencyReporter.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 }

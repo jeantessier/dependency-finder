@@ -134,6 +134,6 @@ public class ClassList {
 
 		out.close();
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 }

@@ -36,14 +36,11 @@ import java.io.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
+import com.jeantessier.dependencyfinder.*;
 import com.jeantessier.metrics.*;
 
-public class VerboseListener extends PrintWriter implements LoadListener, DependencyListener, MetricsListener {
+public class VerboseListener extends VerboseListenerBase implements DependencyListener, MetricsListener {
 	private PrintWriter writer = new NullPrintWriter();
-
-	public VerboseListener() {
-		super(new NullPrintWriter());
-	}
 	
 	public PrintWriter Writer() {
 		return writer;
@@ -61,172 +58,69 @@ public class VerboseListener extends PrintWriter implements LoadListener, Depend
 		this.writer = writer;
 	}
 
-	public void flush() {
-		Writer().flush();
-	}
-
-	public void close() {
+	public void Close() {
 		Writer().close();
 	}
-
-	public boolean checkError() {
-		return Writer().checkError();
-	}
-
-	protected void setError() {
-		// Do nothing
-	}
-
-	public void write(int c) {
-		Writer().write(c);
-	}
-
-	public void write(char[] buf, int off, int len) {
-		Writer().write(buf, off, len);
-	}
-
-	public void write(char[] buf) {
-		Writer().write(buf);
-	}
-
-	public void write(String s, int off, int len) {
-		Writer().write(s, off, len);
-	}
-
-	public void write(String s) {
-		Writer().write(s);
-	}
-
-	public void print(boolean b) {
-		Writer().print(b);
-	}
-
-	public void print(char c) {
-		Writer().print(c);
-	}
-
-	public void print(int i) {
-		Writer().print(i);
-	}
-
-	public void print(long l) {
-		Writer().print(l);
-	}
-
-	public void print(float f) {
-		Writer().print(f);
-	}
-
-	public void print(double d) {
-		Writer().print(d);
-	}
-
-	public void print(char[] s) {
-		Writer().print(s);
-	}
-
-	public void print(String s) {
-		Writer().print(s);
-	}
-
-	public void print(Object obj) {
-		Writer().print(obj);
-	}
-
-	public void println() {
-		Writer().println();
-	}
-
-	public void println(boolean x) {
-		Writer().println(x);
-	}
-
-	public void println(char x) {
-		Writer().println(x);
-	}
-
-	public void println(int x) {
-		Writer().println(x);
-	}
-
-	public void println(long x) {
-		Writer().println(x);
-	}
-
-	public void println(float x) {
-		Writer().println(x);
-	}
-
-	public void println(double x) {
-		Writer().println(x);
-	}
-
-	public void println(char[] x) {
-		Writer().println(x);
-	}
-
-	public void println(String x) {
-		Writer().println(x);
-	}
-
-	public void println(Object x) {
+	
+	public void Print(String x) {
 		Writer().println(x);
 	}
 	
 	public void BeginSession(LoadEvent event) {
-		print("Searching for classes ...");
-		println();
-		flush();
+		super.BeginSession(event);
+		
+		Writer().print("Searching for classes ...");
+		Writer().println();
+		Writer().flush();
 	}
 	
 	public void BeginGroup(LoadEvent event) {
-		print("Searching ");
-		print(event.GroupName());
-		print(" ...");
-		println();
-		flush();
-	}
-	
-	public void BeginFile(LoadEvent event) {
-		print("Found ");
+		super.BeginGroup(event);
+		
+		Writer().print("Searching ");
+		Writer().print(event.GroupName());
 
-		if (!event.Filename().startsWith(event.GroupName())) {
-			print(event.GroupName());
-			print(" >> ");
+		switch (CurrentGroup().Size()) {
+			case -1:
+				break;
+
+			case 0:
+			case 1:
+				Writer().print(" (");
+				Writer().print(CurrentGroup().Size());
+				Writer().print(" file)");
+				break;
+
+			default:
+				Writer().print(" (");
+				Writer().print(CurrentGroup().Size());
+				Writer().print(" files)");
+				break;
 		}
-
-		print(event.Filename());
-		print(" ...");
-		println();
-		flush();
-	}
-	
-	public void BeginClassfile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndClassfile(LoadEvent event) {
-		// Do nothing
+		
+		Writer().print(" ...");
+		Writer().println();
+		Writer().flush();
 	}
 	
 	public void EndFile(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndGroup(LoadEvent event) {
-		// Do nothing
-	}
-	
-	public void EndSession(LoadEvent event) {
-		// Do nothing
+		super.EndFile(event);
+		
+		if (!VisitedFiles().contains(event.Filename())) {
+			Writer().print("Skipping ");
+			Writer().print(event.Filename());
+			Writer().print(" ...");
+			Writer().println();
+			Writer().flush();
+		}
 	}
 
 	public void StartClass(DependencyEvent event) {
-		print("Getting dependencies from ");
-		print(event.Classname());
-		print(" ...");
-		println();
-		flush();
+		Writer().print("Getting dependencies from ");
+		Writer().print(event.Classname());
+		Writer().print(" ...");
+		Writer().println();
+		Writer().flush();
 	}
 	
 	public void StopClass(DependencyEvent event) {
@@ -238,11 +132,11 @@ public class VerboseListener extends PrintWriter implements LoadListener, Depend
 	}
 
 	public void StartClass(MetricsEvent event) {
-		print("Computing metrics for ");
-		print(event.Classfile());
-		print(" ...");
-		println();
-		flush();
+		Writer().print("Computing metrics for ");
+		Writer().print(event.Classfile());
+		Writer().print(" ...");
+		Writer().println();
+		Writer().flush();
 	}
 	
 	public void StartMethod(MetricsEvent event) {

@@ -127,7 +127,7 @@ public class JarJarDiff {
 		// that are in both the old and the new codebase.
 	
 		Logger.getLogger(JarJarDiff.class).info("Comparing ...");
-		verbose_listener.println("Comparing ...");
+		verbose_listener.Print("Comparing ...");
 
 		String name      = command_line.SingleSwitch("name");
 		String old_label = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
@@ -137,7 +137,7 @@ public class JarJarDiff {
 		Differences differences = factory.CreateJarDifferences(name, old_label, old_jar, new_label, new_jar);
 
 		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
-		verbose_listener.println("Printing results ...");
+		verbose_listener.Print("Printing results ...");
 
 		PrintWriter out;
 		if (command_line.IsPresent("out")) {
@@ -162,6 +162,6 @@ public class JarJarDiff {
 
 		out.close();
 
-		verbose_listener.close();
+		verbose_listener.Close();
 	}
 }
