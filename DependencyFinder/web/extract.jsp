@@ -2,11 +2,11 @@
 <html>
 
 <head>
+<link rel="stylesheet" type="text/css" href="style.css" />
 <title>Extract <%= application.getInitParameter("name") %></title>
 </head>
 
-<!-- midnight blue over blanched almond -->
-<body text="191970" bgcolor="#ffebcd">
+<body>
 
 <%!
     private class MyListener implements LoadListener {
@@ -48,9 +48,9 @@
 
 <table>
     <tr>
-	<td align = center>
-	    <b><code><%= application.getInitParameter("name") %></code><br />
-	    Extract Dependency Graph</b>
+	<td class="title">
+	    <code><%= application.getInitParameter("name") %></code><br />
+	    Extract Dependency Graph
 	</td>
     </tr>
     <tr>
@@ -104,7 +104,7 @@
 
 <p>Extracting dependency graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
 
-<pre>
+<pre class="result">
 
 <%
 	Date start = new Date();
@@ -158,24 +158,22 @@
 	application.setAttribute("factory", factory);
 	application.setAttribute("start",   start);
 	application.setAttribute("delta",   new Double(delta));
-
-	out.println();
-	switch (listener.Count()) {
-	    case 0:
-		out.println("Processed nothing in " + delta + " secs.");
-		break;
-	    case 1:
-		out.println("Processed 1 class in " + delta + " secs.");
-		break;
-	    default:
-		out.println("Processed " + listener.Count() + " classes in " + delta + " secs.");
-		break;
-	}
 %>
 
 </pre>
 
 <%
+	switch (listener.Count()) {
+	    case 0:
+		out.println("<p>Processed nothing in " + delta + " secs.</p>");
+		break;
+	    case 1:
+		out.println("<p>Processed 1 class in " + delta + " secs.</p>");
+		break;
+	    default:
+		out.println("<p>Processed " + listener.Count() + " classes in " + delta + " secs.</p>");
+		break;
+	}
     }
 %>
 

@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<link rel="stylesheet" type="text/css" href="style.css" />
 <title>Query <%= application.getInitParameter("name") %></title>
 </head>
 
@@ -134,23 +135,20 @@
     }
 %>
 
-<!-- midnight blue over blanched almond -->
-<body text="191970" bgcolor="#ffebcd">
+<body>
 
 <form action="<%= request.getRequestURI() %>" method="post">
 
 <table border="0" cellpadding="5"><tr><td colspan="2">
 
-<div align="center">
-<p><b>
+<p class="title">
 <code><%= application.getInitParameter("name") %></code><br />
 Dependency graph
-</b></p>
-</div>
+</p>
 
 </td></tr><tr><td colspan="2">
 
-<table border="3" bgcolor="ccccff" cellpadding="4"><tr><td>
+<table class="controls"><tr><td class="controls">
 
 <table border="0">
     <tr>
@@ -213,7 +211,7 @@ Dependency graph
     </tr>
 </table>
 
-</td><td>
+</td><td class="controls">
 
 <table border="0">
     <tr>
@@ -276,7 +274,7 @@ Dependency graph
     </tr>
 </table>
 
-</td></tr><tr><td colspan="2" align="center">
+</td></tr><tr><td colspan="2" align="center" class="controls">
 
 Show dependencies
 <input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %> onFocus="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" onBlur="window.status=''">&nbsp;to element
@@ -351,9 +349,7 @@ Show dependencies
 	    out.println();
 %>
 
-<font color="black">
-<pre><%= printer %></pre>
-</font>
+<pre class="result"><%= printer %></pre>
 
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 

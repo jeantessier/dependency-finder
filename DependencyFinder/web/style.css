@@ -1,0 +1,27 @@
+body {
+	background: rgb(255, 235, 205);
+	color:      rgb( 25,  25, 112);
+}
+
+table.controls {
+	background: rgb(204, 204, 255);
+	border:     3 outset;
+}
+
+td.controls {
+	padding: 4;
+	border:  1 inset;
+}
+
+hr {
+	background: rgb(204, 204, 255);
+}
+
+.title {
+	text-align:  center;
+	font-weight: bold;
+}
+
+.result {
+	color:  black;
+}
