@@ -86,23 +86,19 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 			((Classfile) i.next()).Accept(gatherer);
 		}
 		
-		model.StatusLine().ShowInfo("Generating project results ...");
-		
-		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.PrettyPrinter(model.MetricsFactory().Configuration().ProjectMeasurements());
-		Iterator j = model.MetricsFactory().ProjectMetrics().iterator();
-		while(j.hasNext()) {
-			printer.VisitMetrics((Metrics) j.next());
-		}
-		model.ProjectArea().setText(printer.toString());
-		
-		model.StatusLine().ShowInfo("Generating group results ...");
-		model.GroupsModel().Metrics(model.MetricsFactory().GroupMetrics());
+		model.StatusLine().ShowInfo("Generating method results ...");
+		model.MethodsModel().Metrics(model.MetricsFactory().MethodMetrics());
 		
 		model.StatusLine().ShowInfo("Generating class results ...");
 		model.ClassesModel().Metrics(model.MetricsFactory().ClassMetrics());
 		
-		model.StatusLine().ShowInfo("Generating method results ...");
-		model.MethodsModel().Metrics(model.MetricsFactory().MethodMetrics());
+		model.StatusLine().ShowInfo("Generating group results ...");
+		model.GroupsModel().Metrics(model.MetricsFactory().GroupMetrics());
+		
+		model.StatusLine().ShowInfo("Generating project results ...");
+		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.PrettyPrinter(model.MetricsFactory().Configuration().ProjectMeasurements());
+		printer.VisitMetrics(model.MetricsFactory().ProjectMetrics());
+		model.ProjectArea().setText(printer.toString());
 		
 		Date stop = new Date();
 		
