@@ -39,7 +39,7 @@ import org.apache.tools.ant.*;
 
 import com.jeantessier.dependency.*;
 
-public abstract class DependencyTask extends Task {
+public abstract class GraphTask extends Task {
 	private String  scope_includes = "//";
 	private String  scope_excludes = "";
 	private boolean package_scope;

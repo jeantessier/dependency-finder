@@ -42,7 +42,7 @@ import org.xml.sax.*;
 
 import com.jeantessier.dependency.*;
 
-public class DependencyReporter extends DependencyTask {
+public class DependencyReporter extends GraphTask {
 
 	private boolean serialize  = false;
 	private boolean xml        = false;
