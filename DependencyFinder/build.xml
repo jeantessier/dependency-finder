@@ -67,7 +67,7 @@
 	<property name="jarFile"      value="${libDir}/${ant.project.name}.jar"/>
 	<property name="warFile"      value="${ant.project.name}-${release}.war"/>
 	<property name="zipFile"      value="${ant.project.name}-${release}.src.zip"/>
-	<property name="distFile"     value="${ant.project.name}-${release}.zip"/>
+	<property name="distFile"     value="${ant.project.name}-${release}"/>
 
 	<mkdir dir="${classesDir}"/>
 	<mkdir dir="${apiDir}"/>
@@ -91,6 +91,15 @@
 	    <patternset refid="all.sources"/>
         </javac>
         <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
+    </target>
+
+    <target name="generatebin" depends="init">
+	<exec executable="perl"
+	      dir="${binDir}">
+	    <arg value="ScriptGenerator.pl"/>
+	    <arg value="-g"/>
+	    <arg value="-v"/>
+	</exec>
     </target>
 
     <target name="tests" depends="compiletests"
@@ -253,19 +262,18 @@
 	</zip>
     </target>
 
-    <target name="dist" depends="jar"
+    <target name="dist.zip" depends="jar, generatebin"
 	    description="Compiles and builds the binary distribution">
-        <zip zipfile="${distFile}">
+        <zip zipfile="${distFile}.zip">
 	    <zipfileset dir="." prefix="${ant.project.name}">
 		<patternset>
 		    <include name="license.txt"/>
 		    <include name="readme.txt"/>
-		    <include name="${binFiles}"/>
+		    <include name="${binFiles}/**/*.bat"/>
 		    <include name="${libFiles}"/>
 		    <include name="${etcFiles}"/>
 		    <include name="${docsFiles}"/>
 		    <exclude name="**/CVS"/>
-		    <exclude name="${binDir}/**/*.pl"/>
 		    <exclude name="${docsDir}/**/*.txt"/>
 		</patternset>
 	    </zipfileset>
@@ -275,6 +283,38 @@
 		</patternset>
 	    </zipfileset>
 	</zip>
+    </target>
+
+    <target name="dist.tar" depends="jar, generatebin"
+	    description="Compiles and builds the binary distribution">
+        <fixcrlf srcdir="${binDir}"
+                 excludes="**/*.*"
+                 eol="unix"
+		 eof="remove"/>
+        <tar destfile="${distFile}.tar.gz" compression="gzip">
+	    <tarfileset dir="." prefix="${ant.project.name}">
+		<patternset>
+		    <include name="license.txt"/>
+		    <include name="readme.txt"/>
+		    <include name="${libFiles}"/>
+		    <include name="${etcFiles}"/>
+		    <include name="${docsFiles}"/>
+		    <exclude name="**/CVS"/>
+		    <exclude name="${docsDir}/**/*.txt"/>
+		</patternset>
+	    </tarfileset>
+	    <tarfileset dir="." prefix="${ant.project.name}" mode="755">
+		<patternset>
+		    <include name="${binFiles}"/>
+		    <exclude name="${binDir}/**/*.*"/>
+		</patternset>
+	    </tarfileset>
+	    <tarfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
+		<patternset>
+		    <include name="**/*.properties"/>
+		</patternset>
+	    </tarfileset>
+	</tar>
     </target>
 
     <target name="ftp" depends="init"
@@ -288,7 +328,7 @@
 	    <fileset dir=".">
 		<patternset>
 		    <include name="${zipFile}"/>
-		    <include name="${distFile}"/>
+		    <include name="${distFile}.*"/>
 		    <include name="${warFile}"/>
 		</patternset>
 	    </fileset>
@@ -474,7 +514,16 @@
 	</delete>
     </target>
 
-    <target name="realclean" depends="clearlogs, cleandocs, clean"
+    <target name="cleanbin" depends="init">
+	<exec executable="perl"
+	      dir="${binDir}">
+	    <arg value="ScriptGenerator.pl"/>
+	    <arg value="-c"/>
+	    <arg value="-v"/>
+	</exec>
+    </target>
+
+    <target name="realclean" depends="clearlogs, cleandocs, cleanbin, clean"
 	    description="Removes all produced files">
 	<delete file="${jarFile}"/>
     </target>
