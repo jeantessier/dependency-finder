@@ -698,7 +698,10 @@ Dependency Finder includes XSL stylesheets for representing differences
 using HTML.  The stylesheets include:
 
     * DiffToHTML.xsl
-    * DiffToExternalHTML.xsl
+    * PublishedDiffToHTML.xsl
+    * ListDocumentationDiffToText.xsl
+    * ListDocumentationDiffToHTML.xsl
+    * ListInheritanceDiffToText.xsl
 
 You can run them using the script of the same name and the =-in= and
 =-out= switches.  The scripts call =XSLTProcess= and specify the XSL
@@ -716,7 +719,7 @@ You use =DiffToHTML= to convert all API differences to HTML.
 
 ---++++ Public List
 
-You use =DiffToExternalHTML= to convert only public API differences
+You use =PublishedDiffToHTML= to convert only public API differences
 to HTML.
 
 <div align="center">
@@ -760,6 +763,13 @@ limit the changes to the published public API.
     [[images/PublicListOfDocumentedElements.gif]]
 *Public List Of Documented Elements*
 </div>
+
+---++++ Listing Published Documentation Changes
+
+You use =ListDocumentationDiffToText=  and
+=ListDocumentationDiffToHTML= to list changes in what
+is considered part of the published API.  The list is
+written in HTML.
 
 ----
 
