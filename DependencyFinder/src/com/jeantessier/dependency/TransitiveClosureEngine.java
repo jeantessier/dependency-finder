@@ -32,37 +32,43 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+public class TransitiveClosureEngine {
+	private NodeFactory factory    = new NodeFactory();
+	private Collection  coverage   = new HashSet();
+	private LinkedList  selections = new LinkedList();
+	private LinkedList  layers     = new LinkedList();
+	
+	public TransitiveClosureEngine(Collection packages, SelectionCriteria start_criteria, SelectionCriteria stop_criteria) {
+		NodeSelector selector = new NodeSelector(factory, start_criteria);
+		selector.TraverseNodes(packages);
 
-		result.addTestSuite(TestNode.class);
-		result.addTestSuite(TestComprehensiveSelectionCriteria.class);
-		result.addTestSuite(TestRegularExpressionSelectionCriteria.class);
-		result.addTestSuite(TestSelectiveTraversalStrategy.class);
-		result.addTestSuite(TestLinkMinimizer.class);
-		result.addTestSuite(TestLinkMinimizerSystematic.class);
-		result.addTestSuite(TestLinkMaximizer.class);
-		result.addTestSuite(TestLinkMaximizerSystematic.class);
-		result.addTestSuite(TestTextPrinter.class);
-		result.addTestSuite(TestXMLPrinter.class);
-		result.addTestSuite(TestDependencyExtractor.class);
-		result.addTestSuite(TestGraphCopier.class);
-		result.addTestSuite(TestGraphCopierWithFiltering.class);
-		result.addTestSuite(TestGraphSummarizer.class);
-		result.addTestSuite(TestGraphSummarizerWithScoping.class);
-		result.addTestSuite(TestGraphSummarizerWithFiltering.class);
-		result.addTestSuite(TestTransitiveClosure.class);
-		result.addTestSuite(TestTransitiveClosureWithTestClass.class);
-		result.addTestSuite(TestTransitiveClosureSlice.class);
-		result.addTestSuite(TestTransitiveClosureNonMaximized.class);
-		result.addTestSuite(TestNodeSelector.class);
-		result.addTestSuite(TestOutboundSelector.class);
-		result.addTestSuite(TestTransitiveClosureEngine.class);
-		result.addTestSuite(TestMetricsGatherer.class);
+		coverage.addAll(selector.SelectedNodes());
+		selections.add(selector.SelectedNodes());
+		layers.add(selector.CopiedNodes());
+	}
 
-		return result;
+	public NodeFactory Factory() {
+		return factory;
+	}
+
+	public int NbLayers() {
+		return layers.size();
+	}
+	
+	public Collection Layer(int i) {
+		return (Collection) layers.get(i);
+	}
+
+	public void grow() {
+		OutboundSelector selector = new OutboundSelector(factory, coverage);
+		selector.TraverseNodes((Collection) selections.getLast());
+
+		if (!selector.CopiedNodes().isEmpty()) {
+			coverage.addAll(selector.SelectedNodes());
+			selections.add(selector.SelectedNodes());
+			layers.add(selector.CopiedNodes());
+		}
 	}
 }
