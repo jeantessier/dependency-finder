@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="2003-02-05" >
+<tagdiff startTag="release-20030101" endDate="2003-02-06" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -31,13 +31,13 @@
 	<entry>
 		<file>
 			<name>docs/Developer.txt</name>
-			<revision>1.1</revision>
+			<revision>1.2</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.19</revision>
+			<revision>1.21</revision>
 			<prevrevision>1.15</prevrevision>
 		</file>
 	</entry>
@@ -46,6 +46,18 @@
 			<name>docs/Tools.txt</name>
 			<revision>1.5</revision>
 			<prevrevision>1.4</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ClassClassDependencies.test.jpg</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ClassPackageDependencies.test.jpg</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -95,6 +107,12 @@
 	</entry>
 	<entry>
 		<file>
+			<name>docs/images/MaximizedTest.gif</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/images/MetricsLegend.gif</name>
 			<revision>1.1</revision>
 		</file>
@@ -113,6 +131,12 @@
 	</entry>
 	<entry>
 		<file>
+			<name>docs/images/MinimizedTest.gif</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/images/OOMetricsGUI.extract.high.jpg</name>
 			<revision>1.1</revision>
 		</file>
@@ -126,6 +150,18 @@
 		<file>
 			<name>docs/images/OOMetricsGUI.sample.jpg</name>
 			<revision>1.2</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/PackagePackageDependencies.test.jpg</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/RawTest.gif</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
