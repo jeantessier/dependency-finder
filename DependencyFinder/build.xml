@@ -39,6 +39,7 @@
 	<property name="binFiles"         value="${binDir}/**"/>
 	<property name="libFiles"         value="${libDir}/**"/>
 	<property name="etcFiles"         value="${etcDir}/**"/>
+	<property name="webFiles"         value="${webDir}/**"/>
 	<property name="docsFiles"        value="${docsDir}/**"/>
 
 	<property name="jarFile"          value="${libDir}/${ant.project.name}.jar"/>
