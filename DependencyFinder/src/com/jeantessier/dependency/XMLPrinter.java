@@ -39,7 +39,7 @@ public class XMLPrinter extends Printer {
 	public static final String DEFAULT_ENCODING   = "utf-8";
 	public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
 
-	private boolean at_top_level = false;
+	private boolean atTopLevel = false;
 
 	public XMLPrinter(PrintWriter out) {
 		this(out, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
@@ -49,123 +49,123 @@ public class XMLPrinter extends Printer {
 		this(strategy, out, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
 	}
 	
-	public XMLPrinter(PrintWriter out, String encoding, String dtd_prefix) {
+	public XMLPrinter(PrintWriter out, String encoding, String dtdPrefix) {
 		super(out);
 		
-		AppendHeader(encoding, dtd_prefix);
+		appendHeader(encoding, dtdPrefix);
 	}
 	
-	public XMLPrinter(TraversalStrategy strategy, PrintWriter out, String encoding, String dtd_prefix) {
+	public XMLPrinter(TraversalStrategy strategy, PrintWriter out, String encoding, String dtdPrefix) {
 		super(strategy, out);
 
-		AppendHeader(encoding, dtd_prefix);
+		appendHeader(encoding, dtdPrefix);
 	}
 
-	private void AppendHeader(String encoding, String dtd_prefix) {
-		Append("<?xml version=\"1.0\" encoding=\"").Append(encoding).Append("\" ?>").EOL();
-		EOL();
-		Append("<!DOCTYPE dependencies SYSTEM \"").Append(dtd_prefix).Append("/dependencies.dtd\">").EOL();
-		EOL();
+	private void appendHeader(String encoding, String dtdPrefix) {
+		append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>").eol();
+		eol();
+		append("<!DOCTYPE dependencies SYSTEM \"").append(dtdPrefix).append("/dependencies.dtd\">").eol();
+		eol();
 	}
 
 	public void traverseNodes(Collection nodes) {
-		if (at_top_level) {
+		if (atTopLevel) {
 			super.traverseNodes(nodes);
 		} else {
-			at_top_level = true;
-			Indent().Append("<dependencies>").EOL();
-			RaiseIndent();
+			atTopLevel = true;
+			indent().append("<dependencies>").eol();
+			raiseIndent();
 			super.traverseNodes(nodes);
-			LowerIndent();
-			Indent().Append("</dependencies>").EOL();
-			at_top_level = false;
+			lowerIndent();
+			indent().append("</dependencies>").eol();
+			atTopLevel = false;
 		}
 	}
 
 	protected void preprocessPackageNode(PackageNode node) {
 		super.preprocessPackageNode(node);
 
-		if (ShowPackageNode(node)) {
-			Indent().Append("<package>").EOL();
-			RaiseIndent();
-			Indent().Append("<name>").Append(node.getName()).Append("</name>").EOL();
+		if (shouldShowPackageNode(node)) {
+			indent().append("<package>").eol();
+			raiseIndent();
+			indent().append("<name>").append(node.getName()).append("</name>").eol();
 		}
 	}
 
 	protected void postprocessPackageNode(PackageNode node) {
-		if (ShowPackageNode(node)) {
-			LowerIndent();
-			Indent().Append("</package>").EOL();
+		if (shouldShowPackageNode(node)) {
+			lowerIndent();
+			indent().append("</package>").eol();
 		}
 	}
 
 	public void visitInboundPackageNode(PackageNode node) {
-		if (ShowInbounds()) {
-			Indent().Append("<inbound type=\"package\">").Append(node.getName()).Append("</inbound>").EOL();
+		if (isShowInbounds()) {
+			indent().append("<inbound type=\"package\">").append(node.getName()).append("</inbound>").eol();
 		}
 	}
 
 	public void visitOutboundPackageNode(PackageNode node) {
-		if (ShowOutbounds()) {
-			Indent().Append("<outbound type=\"package\">").Append(node.getName()).Append("</outbound>").EOL();
+		if (isShowOutbounds()) {
+			indent().append("<outbound type=\"package\">").append(node.getName()).append("</outbound>").eol();
 		}
 	}
 
 	protected void preprocessClassNode(ClassNode node) {
 		super.preprocessClassNode(node);
 
-		if (ShowClassNode(node)) {
-			Indent().Append("<class>").EOL();
-			RaiseIndent();
-			Indent().Append("<name>").Append(node.getName()).Append("</name>").EOL();
+		if (shouldShowClassNode(node)) {
+			indent().append("<class>").eol();
+			raiseIndent();
+			indent().append("<name>").append(node.getName()).append("</name>").eol();
 		}
 	}
 
 	protected void postprocessClassNode(ClassNode node) {
-		if (ShowClassNode(node)) {
-			LowerIndent();
-			Indent().Append("</class>").EOL();
+		if (shouldShowClassNode(node)) {
+			lowerIndent();
+			indent().append("</class>").eol();
 		}
 	}
 
 	public void visitInboundClassNode(ClassNode node) {
-		if (ShowInbounds()) {
-			Indent().Append("<inbound type=\"class\">").Append(node.getName()).Append("</inbound>").EOL();
+		if (isShowInbounds()) {
+			indent().append("<inbound type=\"class\">").append(node.getName()).append("</inbound>").eol();
 		}
 	}
 
 	public void visitOutboundClassNode(ClassNode node) {
-		if (ShowOutbounds()) {
-			Indent().Append("<outbound type=\"class\">").Append(node.getName()).Append("</outbound>").EOL();
+		if (isShowOutbounds()) {
+			indent().append("<outbound type=\"class\">").append(node.getName()).append("</outbound>").eol();
 		}
 	}
 
 	protected void preprocessFeatureNode(FeatureNode node) {
 		super.preprocessFeatureNode(node);
 
-		if (ShowFeatureNode(node)) {
-			Indent().Append("<feature>").EOL();
-			RaiseIndent();
-			Indent().Append("<name>").Append(node.getName()).Append("</name>").EOL();
+		if (shouldShowFeatureNode(node)) {
+			indent().append("<feature>").eol();
+			raiseIndent();
+			indent().append("<name>").append(node.getName()).append("</name>").eol();
 		}
 	}
 
 	protected void postprocessFeatureNode(FeatureNode node) {
-		if (ShowFeatureNode(node)) {
-			LowerIndent();
-			Indent().Append("</feature>").EOL();
+		if (shouldShowFeatureNode(node)) {
+			lowerIndent();
+			indent().append("</feature>").eol();
 		}
 	}
 
 	public void visitInboundFeatureNode(FeatureNode node) {
-		if (ShowInbounds()) {
-			Indent().Append("<inbound type=\"feature\">").Append(node.getName()).Append("</inbound>").EOL();
+		if (isShowInbounds()) {
+			indent().append("<inbound type=\"feature\">").append(node.getName()).append("</inbound>").eol();
 		}
 	}
 
 	public void visitOutboundFeatureNode(FeatureNode node) {
-		if (ShowOutbounds()) {
-			Indent().Append("<outbound type=\"feature\">").Append(node.getName()).Append("</outbound>").EOL();
+		if (isShowOutbounds()) {
+			indent().append("<outbound type=\"feature\">").append(node.getName()).append("</outbound>").eol();
 		}
 	}
 }

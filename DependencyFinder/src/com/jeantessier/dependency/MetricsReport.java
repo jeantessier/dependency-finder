@@ -38,114 +38,114 @@ import java.util.*;
 public class MetricsReport {
 	private PrintWriter out;
 
-	boolean list_elements               = false;
-	boolean classes_per_package_chart   = false;
-	boolean features_per_class_chart    = false;
-	boolean inbounds_per_package_chart  = false;
-	boolean outbounds_per_package_chart = false;
-	boolean inbounds_per_class_chart    = false;
-	boolean outbounds_per_class_chart   = false;
-	boolean inbounds_per_feature_chart  = false;
-	boolean outbounds_per_feature_chart = false;
+	boolean listingElements             = false;
+	boolean chartingClassesPerPackage   = false;
+	boolean chartingFeaturesPerClass    = false;
+	boolean chartingInboundsPerPackage  = false;
+	boolean chartingOutboundsPerPackage = false;
+	boolean chartingInboundsPerClass    = false;
+	boolean chartingOutboundsPerClass   = false;
+	boolean chartingInboundsPerFeature  = false;
+	boolean chartingOutboundsPerFeature = false;
 
 	public MetricsReport(PrintWriter out) {
 		this.out = out;
 	}
 	
-	public boolean ListElements() {
-		return list_elements;
+	public boolean isListingElements() {
+		return listingElements;
 	}
 
-	public void ListElements(boolean list_elements) {
-		this.list_elements = list_elements;
+	public void setListingElements(boolean listingElements) {
+		this.listingElements = listingElements;
 	}
 	
-	public boolean ClassesPerPackageChart() {
-		return classes_per_package_chart;
+	public boolean isChartingClassesPerPackage() {
+		return chartingClassesPerPackage;
 	}
 
-	public void ClassesPerPackageChart(boolean classes_per_package_chart) {
-		this.classes_per_package_chart = classes_per_package_chart;
+	public void setChartingClassesPerPackage(boolean chartingClassesPerPackage) {
+		this.chartingClassesPerPackage = chartingClassesPerPackage;
 	}
 	
-	public boolean FeaturesPerClassChart() {
-		return features_per_class_chart;
+	public boolean isChartingFeaturesPerClass() {
+		return chartingFeaturesPerClass;
 	}
 
-	public void FeaturesPerClassChart(boolean features_per_class_chart) {
-		this.features_per_class_chart = features_per_class_chart;
+	public void setChartingFeaturesPerClass(boolean chartingFeaturesPerClass) {
+		this.chartingFeaturesPerClass = chartingFeaturesPerClass;
 	}
 	
-	public boolean InboundsPerPackageChart() {
-		return inbounds_per_package_chart;
+	public boolean isChartingInboundsPerPackage() {
+		return chartingInboundsPerPackage;
 	}
 
-	public void InboundsPerPackageChart(boolean inbounds_per_package_chart) {
-		this.inbounds_per_package_chart = inbounds_per_package_chart;
+	public void setChartingInboundsPerPackage(boolean chartingInboundsPerPackage) {
+		this.chartingInboundsPerPackage = chartingInboundsPerPackage;
 	}
 	
-	public boolean OutboundsPerPackageChart() {
-		return outbounds_per_package_chart;
+	public boolean isChartingOutboundsPerPackage() {
+		return chartingOutboundsPerPackage;
 	}
 
-	public void OutboundsPerPackageChart(boolean outbounds_per_package_chart) {
-		this.outbounds_per_package_chart = outbounds_per_package_chart;
+	public void setChartingOutboundsPerPackage(boolean chartingOutboundsPerPackage) {
+		this.chartingOutboundsPerPackage = chartingOutboundsPerPackage;
 	}
 	
-	public boolean InboundsPerClassChart() {
-		return inbounds_per_class_chart;
+	public boolean isChartingInboundsPerClass() {
+		return chartingInboundsPerClass;
 	}
 
-	public void InboundsPerClassChart(boolean inbounds_per_class_chart) {
-		this.inbounds_per_class_chart = inbounds_per_class_chart;
+	public void setChartingInboundsPerClass(boolean chartingInboundsPerClass) {
+		this.chartingInboundsPerClass = chartingInboundsPerClass;
 	}
 	
-	public boolean OutboundsPerClassChart() {
-		return outbounds_per_class_chart;
+	public boolean isChartingOutboundsPerClass() {
+		return chartingOutboundsPerClass;
 	}
 
-	public void OutboundsPerClassChart(boolean outbounds_per_class_chart) {
-		this.outbounds_per_class_chart = outbounds_per_class_chart;
+	public void setChartingOutboundsPerClass(boolean chartingOutboundsPerClass) {
+		this.chartingOutboundsPerClass = chartingOutboundsPerClass;
 	}
 	
-	public boolean InboundsPerFeatureChart() {
-		return inbounds_per_feature_chart;
+	public boolean isChartingInboundsPerFeature() {
+		return chartingInboundsPerFeature;
 	}
 
-	public void InboundsPerFeatureChart(boolean inbounds_per_feature_chart) {
-		this.inbounds_per_feature_chart = inbounds_per_feature_chart;
+	public void setChartingInboundsPerFeature(boolean chartingInboundsPerFeature) {
+		this.chartingInboundsPerFeature = chartingInboundsPerFeature;
 	}
 	
-	public boolean OutboundsPerFeatureChart() {
-		return outbounds_per_feature_chart;
+	public boolean isChartingOutboundsPerFeature() {
+		return chartingOutboundsPerFeature;
 	}
 
-	public void OutboundsPerFeatureChart(boolean outbounds_per_feature_chart) {
-		this.outbounds_per_feature_chart = outbounds_per_feature_chart;
+	public void setChartingOutboundsPerFeature(boolean chartingOutboundsPerFeature) {
+		this.chartingOutboundsPerFeature = chartingOutboundsPerFeature;
 	}
 	
-	public void Process(MetricsGatherer metrics) {
+	public void process(MetricsGatherer metrics) {
 		Iterator j;
 		
-		out.println(metrics.Packages().size() + " package(s)");
-		if (ListElements()) {
-			j = metrics.Packages().iterator();
+		out.println(metrics.getPackages().size() + " package(s)");
+		if (isListingElements()) {
+			j = metrics.getPackages().iterator();
 			while (j.hasNext()) {
 				out.println("    " + j.next());
 			}
 		}
 		
-		out.println(metrics.Classes().size() + " class(es)");
-		if (ListElements()) {
-			j = metrics.Classes().iterator();
+		out.println(metrics.getClasses().size() + " class(es)");
+		if (isListingElements()) {
+			j = metrics.getClasses().iterator();
 			while (j.hasNext()) {
 				out.println("    " + j.next());
 			}
 		}
 
-		out.println(metrics.Features().size() + " feature(s)");
-		if (ListElements()) {
-			j = metrics.Features().iterator();
+		out.println(metrics.getFeatures().size() + " feature(s)");
+		if (isListingElements()) {
+			j = metrics.getFeatures().iterator();
 			while (j.hasNext()) {
 				out.println("    " + j.next());
 			}
@@ -153,81 +153,81 @@ public class MetricsReport {
 
 		out.println();
 
-		out.println(metrics.NbOutbound() + " outbound link(s)");
-		out.println("    " + metrics.NbOutboundPackages() + " from package(s) (average " + (metrics.NbOutboundPackages() / (double) metrics.Packages().size()) + " per package)");
-		out.println("    " + metrics.NbOutboundClasses() + " from class(es) (average " + (metrics.NbOutboundClasses() / (double) metrics.Classes().size()) + " per class)");
-		out.println("    " + metrics.NbOutboundFeatures() + " from feature(s) (average " + (metrics.NbOutboundFeatures() / (double) metrics.Features().size()) + " per feature)");
+		out.println(metrics.getNbOutbound() + " outbound link(s)");
+		out.println("    " + metrics.getNbOutboundPackages() + " from package(s) (average " + (metrics.getNbOutboundPackages() / (double) metrics.getPackages().size()) + " per package)");
+		out.println("    " + metrics.getNbOutboundClasses() + " from class(es) (average " + (metrics.getNbOutboundClasses() / (double) metrics.getClasses().size()) + " per class)");
+		out.println("    " + metrics.getNbOutboundFeatures() + " from feature(s) (average " + (metrics.getNbOutboundFeatures() / (double) metrics.getFeatures().size()) + " per feature)");
 
-		out.println(metrics.NbInbound() + " inbound link(s)");
-		out.println("    " + metrics.NbInboundPackages() + " to package(s) (average " + (metrics.NbInboundPackages() / (double) metrics.Packages().size()) + " per package)");
-		out.println("    " + metrics.NbInboundClasses() + " to class(es) (average " + (metrics.NbInboundClasses() / (double) metrics.Classes().size()) + " per class)");
-		out.println("    " + metrics.NbInboundFeatures() + " to feature(s) (average " + (metrics.NbInboundFeatures() / (double) metrics.Features().size()) + " per feature)");
+		out.println(metrics.getNbInbound() + " inbound link(s)");
+		out.println("    " + metrics.getNbInboundPackages() + " to package(s) (average " + (metrics.getNbInboundPackages() / (double) metrics.getPackages().size()) + " per package)");
+		out.println("    " + metrics.getNbInboundClasses() + " to class(es) (average " + (metrics.getNbInboundClasses() / (double) metrics.getClasses().size()) + " per class)");
+		out.println("    " + metrics.getNbInboundFeatures() + " to feature(s) (average " + (metrics.getNbInboundFeatures() / (double) metrics.getFeatures().size()) + " per feature)");
 
-		if (ClassesPerPackageChart()   ||
-			FeaturesPerClassChart()    ||
-			InboundsPerPackageChart()  ||
-			OutboundsPerPackageChart() ||
-			InboundsPerClassChart()    ||
-			OutboundsPerClassChart()   ||
-			InboundsPerFeatureChart()  ||
-			OutboundsPerFeatureChart()) {
+		if (isChartingClassesPerPackage()   ||
+			isChartingFeaturesPerClass()    ||
+			isChartingInboundsPerPackage()  ||
+			isChartingOutboundsPerPackage() ||
+			isChartingInboundsPerClass()    ||
+			isChartingOutboundsPerClass()   ||
+			isChartingInboundsPerFeature()  ||
+			isChartingOutboundsPerFeature()) {
 
 			out.println();
 
 			out.print("n");
-			if (ClassesPerPackageChart()) {
+			if (isChartingClassesPerPackage()) {
 				out.print(", \"classes per package\"");
 			}
-			if (FeaturesPerClassChart()) {
+			if (isChartingFeaturesPerClass()) {
 				out.print(", \"features per class\"");
 			}
-			if (InboundsPerPackageChart()) {
+			if (isChartingInboundsPerPackage()) {
 				out.print(", \"inbounds per package\"");
 			}
-			if (OutboundsPerPackageChart()) {
+			if (isChartingOutboundsPerPackage()) {
 				out.print(", \"outbounds per package\"");
 			}
-			if (InboundsPerClassChart()) {
+			if (isChartingInboundsPerClass()) {
 				out.print(", \"inbounds per class\"");
 			}
-			if (OutboundsPerClassChart()) {
+			if (isChartingOutboundsPerClass()) {
 				out.print(", \"outbounds per class\"");
 			}
-			if (InboundsPerFeatureChart()) {
+			if (isChartingInboundsPerFeature()) {
 				out.print(", \"inbounds per feature\"");
 			}
-			if (OutboundsPerFeatureChart()) {
+			if (isChartingOutboundsPerFeature()) {
 				out.print(", \"outbounds per feature\"");
 			}
 			out.println();
 
-			for (int k=0; k<=metrics.ChartMaximum(); k++) {
-				long[] data_point = metrics.ChartData(k);
+			for (int k=0; k<=metrics.getChartMaximum(); k++) {
+				long[] dataPoint = metrics.getChartData(k);
 				
 				out.print(k);
-				if (ClassesPerPackageChart()) {
-					out.print(", " + data_point[MetricsGatherer.CLASSES_PER_PACKAGE]);
+				if (isChartingClassesPerPackage()) {
+					out.print(", " + dataPoint[MetricsGatherer.CLASSES_PER_PACKAGE]);
 				}
-				if (FeaturesPerClassChart()) {
-					out.print(", " + data_point[MetricsGatherer.FEATURES_PER_CLASS]);
+				if (isChartingFeaturesPerClass()) {
+					out.print(", " + dataPoint[MetricsGatherer.FEATURES_PER_CLASS]);
 				}
-				if (InboundsPerPackageChart()) {
-					out.print(", " + data_point[MetricsGatherer.INBOUNDS_PER_PACKAGE]);
+				if (isChartingInboundsPerPackage()) {
+					out.print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_PACKAGE]);
 				}
-				if (OutboundsPerPackageChart()) {
-					out.print(", " + data_point[MetricsGatherer.OUTBOUNDS_PER_PACKAGE]);
+				if (isChartingOutboundsPerPackage()) {
+					out.print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_PACKAGE]);
 				}
-				if (InboundsPerClassChart()) {
-					out.print(", " + data_point[MetricsGatherer.INBOUNDS_PER_CLASS]);
+				if (isChartingInboundsPerClass()) {
+					out.print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_CLASS]);
 				}
-				if (OutboundsPerClassChart()) {
-					out.print(", " + data_point[MetricsGatherer.OUTBOUNDS_PER_CLASS]);
+				if (isChartingOutboundsPerClass()) {
+					out.print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_CLASS]);
 				}
-				if (InboundsPerFeatureChart()) {
-					out.print(", " + data_point[MetricsGatherer.INBOUNDS_PER_FEATURE]);
+				if (isChartingInboundsPerFeature()) {
+					out.print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_FEATURE]);
 				}
-				if (OutboundsPerFeatureChart()) {
-					out.print(", " + data_point[MetricsGatherer.OUTBOUNDS_PER_FEATURE]);
+				if (isChartingOutboundsPerFeature()) {
+					out.print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_FEATURE]);
 				}
 				out.println();
 			}

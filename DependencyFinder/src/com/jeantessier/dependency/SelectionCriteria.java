@@ -33,9 +33,9 @@
 package com.jeantessier.dependency;
 
 public interface SelectionCriteria {
-	public boolean doesPackageMatching();
-	public boolean doesClassMatching();
-	public boolean doesFeatureMatching();
+	public boolean isMatchingPackages();
+	public boolean isMatchingClasses();
+	public boolean isMatchingFeatures();
 
 	public boolean matches(PackageNode node);
 	public boolean matches(ClassNode node);

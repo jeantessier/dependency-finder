@@ -59,15 +59,15 @@ public class DependencyEvent extends EventObject {
 		this.dependable = dependable;
 	}
 
-	public String Classname() {
+	public String getClassName() {
 		return classname;
 	}
 
-	public Node Dependent() {
+	public Node getDependent() {
 		return dependent;
 	}
 
-	public Node Dependable() {
+	public Node getDependable() {
 		return dependable;
 	}
 }

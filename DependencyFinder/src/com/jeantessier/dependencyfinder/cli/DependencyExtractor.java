@@ -152,10 +152,10 @@ public class DependencyExtractor {
 
 		if (command_line.isPresent("minimize")) {
 			LinkMinimizer minimizer = new LinkMinimizer();
-			minimizer.traverseNodes(factory.Packages().values());
+			minimizer.traverseNodes(factory.getPackages().values());
 		} else if (command_line.isPresent("maximize")) {
 			LinkMaximizer maximizer = new LinkMaximizer();
-			maximizer.traverseNodes(factory.Packages().values());
+			maximizer.traverseNodes(factory.getPackages().values());
 		}
 
 		verbose_listener.Print("Printing the graph ...");
@@ -175,10 +175,10 @@ public class DependencyExtractor {
 		}
 			
 		if (command_line.isPresent("indent-text")) {
-			printer.IndentText(command_line.getSingleSwitch("indent-text"));
+			printer.setIndentText(command_line.getSingleSwitch("indent-text"));
 		}
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		out.close();
 

@@ -201,77 +201,77 @@ public class DependencyClosure {
 
 		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.MatchPackage(command_line.getToggleSwitch("package-scope"));
-		scope_criteria.MatchClass(command_line.getToggleSwitch("class-scope"));
-		scope_criteria.MatchFeature(command_line.getToggleSwitch("feature-scope"));
+		scope_criteria.setMatchingPackages(command_line.getToggleSwitch("package-scope"));
+		scope_criteria.setMatchingClasses(command_line.getToggleSwitch("class-scope"));
+		scope_criteria.setMatchingFeatures(command_line.getToggleSwitch("feature-scope"));
 
 		if (command_line.isPresent("scope-includes") || (!command_line.isPresent("package-scope-includes") && !command_line.isPresent("class-scope-includes") && !command_line.isPresent("feature-scope-includes"))) {
 			// Only use the default if nothing else has been specified.
-			scope_criteria.GlobalIncludes(command_line.getMultipleSwitch("scope-includes"));
+			scope_criteria.setGlobalIncludes(command_line.getMultipleSwitch("scope-includes"));
 		}
-		scope_criteria.GlobalExcludes(command_line.getMultipleSwitch("scope-excludes"));
-		scope_criteria.PackageIncludes(command_line.getMultipleSwitch("package-scope-includes"));
-		scope_criteria.PackageExcludes(command_line.getMultipleSwitch("package-scope-excludes"));
-		scope_criteria.ClassIncludes(command_line.getMultipleSwitch("class-scope-includes"));
-		scope_criteria.ClassExcludes(command_line.getMultipleSwitch("class-scope-excludes"));
-		scope_criteria.FeatureIncludes(command_line.getMultipleSwitch("feature-scope-includes"));
-		scope_criteria.FeatureExcludes(command_line.getMultipleSwitch("feature-scope-excludes"));
+		scope_criteria.setGlobalExcludes(command_line.getMultipleSwitch("scope-excludes"));
+		scope_criteria.setPackageIncludes(command_line.getMultipleSwitch("package-scope-includes"));
+		scope_criteria.setPackageExcludes(command_line.getMultipleSwitch("package-scope-excludes"));
+		scope_criteria.setClassIncludes(command_line.getMultipleSwitch("class-scope-includes"));
+		scope_criteria.setClassExcludes(command_line.getMultipleSwitch("class-scope-excludes"));
+		scope_criteria.setFeatureIncludes(command_line.getMultipleSwitch("feature-scope-includes"));
+		scope_criteria.setFeatureExcludes(command_line.getMultipleSwitch("feature-scope-excludes"));
 
 		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
 
-		filter_criteria.MatchPackage(command_line.getToggleSwitch("package-filter"));
-		filter_criteria.MatchClass(command_line.getToggleSwitch("class-filter"));
-		filter_criteria.MatchFeature(command_line.getToggleSwitch("feature-filter"));
+		filter_criteria.setMatchingPackages(command_line.getToggleSwitch("package-filter"));
+		filter_criteria.setMatchingClasses(command_line.getToggleSwitch("class-filter"));
+		filter_criteria.setMatchingFeatures(command_line.getToggleSwitch("feature-filter"));
 		
 		if (command_line.isPresent("filter-includes") || (!command_line.isPresent("package-filter-includes") && !command_line.isPresent("class-filter-includes") && !command_line.isPresent("feature-filter-includes"))) {
 			// Only use the default if nothing else has been specified.
-			filter_criteria.GlobalIncludes(command_line.getMultipleSwitch("filter-includes"));
+			filter_criteria.setGlobalIncludes(command_line.getMultipleSwitch("filter-includes"));
 		}
-		filter_criteria.GlobalExcludes(command_line.getMultipleSwitch("filter-excludes"));
-		filter_criteria.PackageIncludes(command_line.getMultipleSwitch("package-filter-includes"));
-		filter_criteria.PackageExcludes(command_line.getMultipleSwitch("package-filter-excludes"));
-		filter_criteria.ClassIncludes(command_line.getMultipleSwitch("class-filter-includes"));
-		filter_criteria.ClassExcludes(command_line.getMultipleSwitch("class-filter-excludes"));
-		filter_criteria.FeatureIncludes(command_line.getMultipleSwitch("feature-filter-includes"));
-		filter_criteria.FeatureExcludes(command_line.getMultipleSwitch("feature-filter-excludes"));
+		filter_criteria.setGlobalExcludes(command_line.getMultipleSwitch("filter-excludes"));
+		filter_criteria.setPackageIncludes(command_line.getMultipleSwitch("package-filter-includes"));
+		filter_criteria.setPackageExcludes(command_line.getMultipleSwitch("package-filter-excludes"));
+		filter_criteria.setClassIncludes(command_line.getMultipleSwitch("class-filter-includes"));
+		filter_criteria.setClassExcludes(command_line.getMultipleSwitch("class-filter-excludes"));
+		filter_criteria.setFeatureIncludes(command_line.getMultipleSwitch("feature-filter-includes"));
+		filter_criteria.setFeatureExcludes(command_line.getMultipleSwitch("feature-filter-excludes"));
 	
 		if (command_line.getToggleSwitch("all")) {
-			scope_criteria.MatchPackage(true);
-			scope_criteria.MatchClass(true);
-			scope_criteria.MatchFeature(true);
-			filter_criteria.MatchPackage(true);
-			filter_criteria.MatchClass(true);
-			filter_criteria.MatchFeature(true);
+			scope_criteria.setMatchingPackages(true);
+			scope_criteria.setMatchingClasses(true);
+			scope_criteria.setMatchingFeatures(true);
+			filter_criteria.setMatchingPackages(true);
+			filter_criteria.setMatchingClasses(true);
+			filter_criteria.setMatchingFeatures(true);
 		}
 	
 		if (command_line.getToggleSwitch("p2p")) {
-			scope_criteria.MatchPackage(true);
-			filter_criteria.MatchPackage(true);
+			scope_criteria.setMatchingPackages(true);
+			filter_criteria.setMatchingPackages(true);
 		}
 	
 		if (command_line.getToggleSwitch("c2p")) {
-			scope_criteria.MatchClass(true);
-			filter_criteria.MatchPackage(true);
+			scope_criteria.setMatchingClasses(true);
+			filter_criteria.setMatchingPackages(true);
 		}
 	
 		if (command_line.getToggleSwitch("c2c")) {
-			scope_criteria.MatchClass(true);
-			filter_criteria.MatchClass(true);
+			scope_criteria.setMatchingClasses(true);
+			filter_criteria.setMatchingClasses(true);
 		}
 	
 		if (command_line.getToggleSwitch("f2f")) {
-			scope_criteria.MatchFeature(true);
-			filter_criteria.MatchFeature(true);
+			scope_criteria.setMatchingFeatures(true);
+			filter_criteria.setMatchingFeatures(true);
 		}
 	
 		if (command_line.isPresent("includes")) {
-			scope_criteria.GlobalIncludes(command_line.getMultipleSwitch("includes"));
-			filter_criteria.GlobalIncludes(command_line.getMultipleSwitch("includes"));
+			scope_criteria.setGlobalIncludes(command_line.getMultipleSwitch("includes"));
+			filter_criteria.setGlobalIncludes(command_line.getMultipleSwitch("includes"));
 		}
 	
 		if (command_line.isPresent("excludes")) {
-			scope_criteria.GlobalExcludes(command_line.getMultipleSwitch("excludes"));
-			filter_criteria.GlobalExcludes(command_line.getMultipleSwitch("excludes"));
+			scope_criteria.setGlobalExcludes(command_line.getMultipleSwitch("excludes"));
+			filter_criteria.setGlobalExcludes(command_line.getMultipleSwitch("excludes"));
 		}
 
 		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
@@ -279,18 +279,18 @@ public class DependencyClosure {
 
 		try {
 			if (command_line.isPresent("maximum-inbound-depth")) {
-				selector.MaximumInboundDepth(Long.parseLong(command_line.getSingleSwitch("maximum-inbound-depth")));
+				selector.setMaximumInboundDepth(Long.parseLong(command_line.getSingleSwitch("maximum-inbound-depth")));
 			}
 		} catch (NumberFormatException ex) {
-			selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+			selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 
 		try {
 			if (command_line.isPresent("maximum-outbound-depth")) {
-				selector.MaximumOutboundDepth(Long.parseLong(command_line.getSingleSwitch("maximum-outbound-depth")));
+				selector.setMaximumOutboundDepth(Long.parseLong(command_line.getSingleSwitch("maximum-outbound-depth")));
 			}
 		} catch (NumberFormatException ex) {
-			selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+			selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 		
 		Iterator i = command_line.getParameters().iterator();
@@ -304,7 +304,7 @@ public class DependencyClosure {
 			if (filename.endsWith(".xml")) {
 				NodeLoader loader = new NodeLoader(command_line.getToggleSwitch("validate"));
 				loader.addDependencyListener(verbose_listener);
-				packages = loader.Load(filename).Packages().values();
+				packages = loader.load(filename).getPackages().values();
 			}
 
 			Logger.getLogger(DependencyClosure.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
@@ -316,7 +316,7 @@ public class DependencyClosure {
 		}
 
 
-		Logger.getLogger(DependencyClosure.class).info("Reporting " + selector.Factory().Packages().values().size() + " package(s) ...");
+		Logger.getLogger(DependencyClosure.class).info("Reporting " + selector.getFactory().getPackages().values().size() + " package(s) ...");
 	
 		verbose_listener.Print("Printing the graph ...");
 
@@ -335,10 +335,10 @@ public class DependencyClosure {
 		}
 
 		if (command_line.isPresent("indent-text")) {
-			printer.IndentText(command_line.getSingleSwitch("indent-text"));
+			printer.setIndentText(command_line.getSingleSwitch("indent-text"));
 		}
 
-		printer.traverseNodes(selector.Factory().Packages().values());
+		printer.traverseNodes(selector.getFactory().getPackages().values());
 
 		out.close();
 

@@ -35,68 +35,68 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class TransitiveClosureEngine {
-	private ClosureLayerSelector layer_selector;
-	private ClosureStopSelector  stop_selector;
+	private ClosureLayerSelector layerSelector;
+	private ClosureStopSelector  stopSelector;
 	
 	private NodeFactory factory    = new NodeFactory();
 	private Collection  coverage   = new HashSet();
 	private LinkedList  selections = new LinkedList();
 	private LinkedList  layers     = new LinkedList();
 	
-	public TransitiveClosureEngine(Collection packages, SelectionCriteria start_criteria, SelectionCriteria stop_criteria, ClosureLayerSelector layer_selector) {
-		this.layer_selector = layer_selector;
-		this.layer_selector.setFactory(factory);
-		this.layer_selector.setCoverage(coverage);
+	public TransitiveClosureEngine(Collection packages, SelectionCriteria startCriteria, SelectionCriteria stopCriteria, ClosureLayerSelector layerSelector) {
+		this.layerSelector = layerSelector;
+		this.layerSelector.setFactory(factory);
+		this.layerSelector.setCoverage(coverage);
 
-		this.stop_selector = new ClosureStopSelector(stop_criteria);
+		this.stopSelector = new ClosureStopSelector(stopCriteria);
 		
-		Init(packages, start_criteria);
+		init(packages, startCriteria);
 	}
 
-	private void Init(Collection packages, SelectionCriteria start_criteria) {
+	private void init(Collection packages, SelectionCriteria start_criteria) {
 		ClosureStartSelector start_selector = new ClosureStartSelector(factory, start_criteria);
 		start_selector.traverseNodes(packages);
-		stop_selector.traverseNodes(start_selector.getCopiedNodes());
-		GatherResults(start_selector);
+		stopSelector.traverseNodes(start_selector.getCopiedNodes());
+		gatherResults(start_selector);
 	}
 
-	public NodeFactory Factory() {
+	public NodeFactory getFactory() {
 		return factory;
 	}
 
-	public int NbLayers() {
+	public int getNbLayers() {
 		return layers.size();
 	}
 	
-	public Collection Layer(int i) {
+	public Collection getLayer(int i) {
 		return (Collection) layers.get(i);
 	}
 
-	public void ComputeAllLayers() {
-		while (!stop_selector.Done()) {
-			ComputeNextLayer();
+	public void computeAllLayers() {
+		while (!stopSelector.isDone()) {
+			computeNextLayer();
 		}
 	}
 
-	public void ComputeLayers(int nb_layers) {
-		for (int i=0; !stop_selector.Done() && i<nb_layers; i++) {
-			ComputeNextLayer();
+	public void computeLayers(int nb_layers) {
+		for (int i=0; !stopSelector.isDone() && i<nb_layers; i++) {
+			computeNextLayer();
 		}
 	}
 
-	public void ComputeNextLayer() {
-		if (!stop_selector.Done()) {
-			layer_selector.reset();
-			layer_selector.traverseNodes((Collection) selections.getLast());
+	public void computeNextLayer() {
+		if (!stopSelector.isDone()) {
+			layerSelector.reset();
+			layerSelector.traverseNodes((Collection) selections.getLast());
 
-			stop_selector.traverseNodes(layer_selector.getCopiedNodes());
-			if (!layer_selector.getCopiedNodes().isEmpty()) {
-				GatherResults(layer_selector);
+			stopSelector.traverseNodes(layerSelector.getCopiedNodes());
+			if (!layerSelector.getCopiedNodes().isEmpty()) {
+				gatherResults(layerSelector);
 			}
 		}
 	}
 
-	private void GatherResults(ClosureSelector selector) {
+	private void gatherResults(ClosureSelector selector) {
 		coverage.addAll(selector.getSelectedNodes());
 		selections.add(selector.getSelectedNodes());
 		layers.add(selector.getCopiedNodes());

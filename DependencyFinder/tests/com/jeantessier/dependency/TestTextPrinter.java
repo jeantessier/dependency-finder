@@ -48,13 +48,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowInboundsPackageTrue() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createPackage("empty");
 
-		visitor.ShowInbounds(true);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(true);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -68,13 +68,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowInboundsPackageFalse() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createPackage("empty");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -87,13 +87,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowInboundsClassTrue() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createClass("empty.Empty");
 
-		visitor.ShowInbounds(true);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(true);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -110,13 +110,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowInboundsClassFalse() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createClass("empty.Empty");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -132,13 +132,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowInboundsFeatureTrue() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
-		visitor.ShowInbounds(true);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(true);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -158,13 +158,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowInboundsFeatureFalse() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -183,13 +183,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowOutboundsPackageTrue() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createPackage("empty");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(true);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(true);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -203,13 +203,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowOutboundsPackageFalse() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createPackage("empty");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -222,13 +222,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowOutboundsClassTrue() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createClass("empty.Empty");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(true);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(true);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -245,13 +245,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowOutboundsClassFalse() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createClass("empty.Empty");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -267,13 +267,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowOutboundsFeatureTrue() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(true);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(true);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -293,13 +293,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowOutboundsFeatureFalse() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
-		visitor.ShowInbounds(false);
-		visitor.ShowOutbounds(false);
+		visitor.setShowInbounds(false);
+		visitor.setShowOutbounds(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -318,14 +318,14 @@ public class TestTextPrinter extends TestCase {
 	}
 	
 	public void testShowEmptyPackageTrue() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createPackage("empty");
 
-		visitor.ShowEmptyNodes(true);
+		visitor.setShowEmptyNodes(true);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -348,14 +348,14 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowEmptyPackageFalse() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createPackage("empty");
 
-		visitor.ShowEmptyNodes(false);
+		visitor.setShowEmptyNodes(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -377,13 +377,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowEmptyClassTrue() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createClass("empty.Empty");
 
-		visitor.ShowEmptyNodes(true);
+		visitor.setShowEmptyNodes(true);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -405,13 +405,13 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowEmptyClassFalse() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createClass("empty.Empty");
 
-		visitor.ShowEmptyNodes(false);
+		visitor.setShowEmptyNodes(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -431,12 +431,12 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowEmptyFeatureTrue() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
-		visitor.ShowEmptyNodes(true);
+		visitor.setShowEmptyNodes(true);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -457,12 +457,12 @@ public class TestTextPrinter extends TestCase {
 	}
 
 	public void testShowEmptyFeatureFalse() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
-		visitor.ShowEmptyNodes(false);
+		visitor.setShowEmptyNodes(false);
 
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));

@@ -53,20 +53,20 @@ public class TestLinkMaximizerSystematic extends TestCase {
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a()");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a()");
 	
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b()");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b()");
 	}
 
 	public void testPackagePackage() {
 		a.addDependency(b);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     1, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b", a.getOutboundDependencies().contains(b));
@@ -88,7 +88,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a.addDependency(b_B);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     2, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b",   a.getOutboundDependencies().contains(b));
@@ -112,7 +112,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a.addDependency(b_B_b);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     3, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b",     a.getOutboundDependencies().contains(b));
@@ -138,7 +138,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a_A.addDependency(b);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     1, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b", a.getOutboundDependencies().contains(b));
@@ -162,7 +162,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a_A.addDependency(b_B);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     2, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b",   a.getOutboundDependencies().contains(b));
@@ -191,7 +191,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a_A.addDependency(b_B);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     2, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b",   a.getOutboundDependencies().contains(b));
@@ -219,7 +219,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a_A.addDependency(b_B_b);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     3, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b",     a.getOutboundDependencies().contains(b));
@@ -251,7 +251,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a_A_a.addDependency(b);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     1, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b", a.getOutboundDependencies().contains(b));
@@ -277,7 +277,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a_A_a.addDependency(b_B);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     2, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b",   a.getOutboundDependencies().contains(b));
@@ -309,7 +309,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a_A_a.addDependency(b_B_b);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     3, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b",     a.getOutboundDependencies().contains(b));
@@ -349,7 +349,7 @@ public class TestLinkMaximizerSystematic extends TestCase {
 		a_A_a.addDependency(b_B_b);
 
 		Visitor visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 
 		assertEquals("a outbound",     3, a.getOutboundDependencies().size());
 		assertTrue("Missing a --> b",     a.getOutboundDependencies().contains(b));

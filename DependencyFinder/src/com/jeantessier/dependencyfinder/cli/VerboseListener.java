@@ -125,27 +125,27 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		}
 	}
 	
-	public void BeginSession(DependencyEvent event) {
+	public void beginSession(DependencyEvent event) {
 		// Do nothing
 	}
 
-	public void BeginClass(DependencyEvent event) {
+	public void beginClass(DependencyEvent event) {
 		Writer().print("Getting dependencies from ");
-		Writer().print(event.Classname());
+		Writer().print(event.getClassName());
 		Writer().print(" ...");
 		Writer().println();
 		Writer().flush();
 	}
 	
-	public void Dependency(DependencyEvent event) {
+	public void dependency(DependencyEvent event) {
 		// Do nothing
 	}
 	
-	public void EndClass(DependencyEvent event) {
+	public void endClass(DependencyEvent event) {
 		// Do nothing
 	}
 	
-	public void EndSession(DependencyEvent event) {
+	public void endSession(DependencyEvent event) {
 		// Do nothing
 	}
 

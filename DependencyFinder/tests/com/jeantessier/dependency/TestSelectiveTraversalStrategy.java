@@ -66,17 +66,17 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		strategy        = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 		factory         = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
 		
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 		
-		c     = factory.CreatePackage("c");
-		c_C   = factory.CreateClass("c.C");
-		c_C_c = factory.CreateFeature("c.C.c");
+		c     = factory.createPackage("c");
+		c_C   = factory.createClass("c.C");
+		c_C_c = factory.createFeature("c.C.c");
 		
 		include = new LinkedList();
 		include.add("/^b/");
@@ -86,9 +86,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 	
 	public void testScope() {
-		scope_criteria.MatchPackage(true);
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(true);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
 
 		assertTrue("a not in package scope",  strategy.isInScope(a));
 		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
@@ -100,9 +100,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
 		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(true);
-		scope_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(true);
+		scope_criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package scope",       !strategy.isInScope(a));
 		assertTrue("a.A not in package scope",  strategy.isInScope(a_A));
@@ -114,9 +114,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",      strategy.isInScope(c_C));
 		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(true);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package scope",         !strategy.isInScope(a));
 		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
@@ -130,11 +130,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testScopeIncludes() {
-		scope_criteria.GlobalIncludes(include);
+		scope_criteria.setGlobalIncludes(include);
 
-		scope_criteria.MatchPackage(true);
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(true);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package scope",     !strategy.isInScope(a));
 		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
@@ -146,9 +146,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
 		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(true);
-		scope_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(true);
+		scope_criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package scope",       !strategy.isInScope(a));
 		assertTrue("a.A in package scope",     !strategy.isInScope(a_A));
@@ -160,9 +160,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",     !strategy.isInScope(c_C));
 		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(true);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package scope",         !strategy.isInScope(a));
 		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
@@ -176,11 +176,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testScopeExcludes() {
-		scope_criteria.GlobalExcludes(exclude);
+		scope_criteria.setGlobalExcludes(exclude);
 
-		scope_criteria.MatchPackage(true);
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(true);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
 
 		assertTrue("a not in package scope",  strategy.isInScope(a));
 		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
@@ -192,9 +192,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
 		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(true);
-		scope_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(true);
+		scope_criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package scope",       !strategy.isInScope(a));
 		assertTrue("a.A not in package scope",  strategy.isInScope(a_A));
@@ -206,9 +206,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",     !strategy.isInScope(c_C));
 		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(true);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package scope",         !strategy.isInScope(a));
 		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
@@ -222,9 +222,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testFilter() {
-		filter_criteria.MatchPackage(true);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		filter_criteria.setMatchingPackages(true);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 
 		assertTrue("a not in package filter",  strategy.isInFilter(a));
 		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
@@ -236,9 +236,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
 		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(true);
-		filter_criteria.MatchFeature(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(true);
+		filter_criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package filter",       !strategy.isInFilter(a));
 		assertTrue("a.A not in package filter",  strategy.isInFilter(a_A));
@@ -250,9 +250,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",      strategy.isInFilter(c_C));
 		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(true);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package filter",         !strategy.isInFilter(a));
 		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
@@ -266,11 +266,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testFilterIncludes() {
-		filter_criteria.GlobalIncludes(include);
+		filter_criteria.setGlobalIncludes(include);
 
-		filter_criteria.MatchPackage(true);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		filter_criteria.setMatchingPackages(true);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package filter",     !strategy.isInFilter(a));
 		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
@@ -282,9 +282,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
 		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(true);
-		filter_criteria.MatchFeature(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(true);
+		filter_criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package filter",       !strategy.isInFilter(a));
 		assertTrue("a.A in package filter",     !strategy.isInFilter(a_A));
@@ -296,9 +296,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",     !strategy.isInFilter(c_C));
 		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(true);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package filter",         !strategy.isInFilter(a));
 		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
@@ -312,11 +312,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testFilterExcludes() {
-		filter_criteria.GlobalExcludes(exclude);
+		filter_criteria.setGlobalExcludes(exclude);
 
-		filter_criteria.MatchPackage(true);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		filter_criteria.setMatchingPackages(true);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 
 		assertTrue("a not in package filter",  strategy.isInFilter(a));
 		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
@@ -328,9 +328,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
 		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(true);
-		filter_criteria.MatchFeature(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(true);
+		filter_criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package filter",       !strategy.isInFilter(a));
 		assertTrue("a.A not in package filter",  strategy.isInFilter(a_A));
@@ -342,9 +342,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",     !strategy.isInFilter(c_C));
 		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(true);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package filter",         !strategy.isInFilter(a));
 		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));

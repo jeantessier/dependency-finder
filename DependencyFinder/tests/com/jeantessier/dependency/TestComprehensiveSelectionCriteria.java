@@ -54,17 +54,17 @@ public class TestComprehensiveSelectionCriteria extends TestCase {
 		criteria = new ComprehensiveSelectionCriteria();
 		factory = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
 		
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 		
-		c     = factory.CreatePackage("c");
-		c_C   = factory.CreateClass("c.C");
-		c_C_c = factory.CreateFeature("c.C.c");
+		c     = factory.createPackage("c");
+		c_C   = factory.createClass("c.C");
+		c_C_c = factory.createFeature("c.C.c");
 	}
 	
 	public void testMatch() {

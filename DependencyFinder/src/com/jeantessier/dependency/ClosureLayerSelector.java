@@ -64,14 +64,14 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
 	}
 	
 	public void visitPackageNode(PackageNode node) {
-		currentNode = getFactory().CreatePackage(node.getName());
+		currentNode = getFactory().createPackage(node.getName());
 	}
 	
 	public void visitInboundPackageNode(PackageNode node) {
 		if (!getCoverage().contains(node)) {
 			getSelectedNodes().add(node);
 
-			Node copy = getFactory().CreatePackage(node.getName());
+			Node copy = getFactory().createPackage(node.getName());
 			getCopiedNodes().add(copy);
 			copy.addDependency(currentNode);
 		}
@@ -81,21 +81,21 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
 		if (!getCoverage().contains(node)) {
 			getSelectedNodes().add(node);
 
-			Node copy = getFactory().CreatePackage(node.getName());
+			Node copy = getFactory().createPackage(node.getName());
 			getCopiedNodes().add(copy);
 			currentNode.addDependency(copy);
 		}
 	}
 
 	public void visitClassNode(ClassNode node) {
-		currentNode = getFactory().CreateClass(node.getName());
+		currentNode = getFactory().createClass(node.getName());
 	}
 	
 	public void visitInboundClassNode(ClassNode node) {
 		if (!getCoverage().contains(node)) {
 			getSelectedNodes().add(node);
 
-			Node copy = getFactory().CreateClass(node.getName());
+			Node copy = getFactory().createClass(node.getName());
 			getCopiedNodes().add(copy);
 			copy.addDependency(currentNode);
 		}
@@ -105,21 +105,21 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
 		if (!getCoverage().contains(node)) {
 			getSelectedNodes().add(node);
 
-			Node copy = getFactory().CreateClass(node.getName());
+			Node copy = getFactory().createClass(node.getName());
 			getCopiedNodes().add(copy);
 			currentNode.addDependency(copy);
 		}
 	}
 
 	public void visitFeatureNode(FeatureNode node) {
-		currentNode = getFactory().CreateFeature(node.getName());
+		currentNode = getFactory().createFeature(node.getName());
 	}
 	
 	public void visitInboundFeatureNode(FeatureNode node) {
 		if (!getCoverage().contains(node)) {
 			getSelectedNodes().add(node);
 
-			Node copy = getFactory().CreateFeature(node.getName());
+			Node copy = getFactory().createFeature(node.getName());
 			getCopiedNodes().add(copy);
 			copy.addDependency(currentNode);
 		}
@@ -129,7 +129,7 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
 		if (!getCoverage().contains(node)) {
 			getSelectedNodes().add(node);
 
-			Node copy = getFactory().CreateFeature(node.getName());
+			Node copy = getFactory().createFeature(node.getName());
 			getCopiedNodes().add(copy);
 			currentNode.addDependency(copy);
 		}

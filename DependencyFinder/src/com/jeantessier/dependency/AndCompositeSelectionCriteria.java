@@ -39,34 +39,34 @@ public class AndCompositeSelectionCriteria extends CompositeSelectionCriteria {
 		super(subcriteria);
 	}
 	
-	public boolean doesPackageMatching() {
+	public boolean isMatchingPackages() {
 		boolean result = true;
 
 		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).doesPackageMatching();
+			result = ((SelectionCriteria) i.next()).isMatchingPackages();
 		}
 		
 		return result;
 	}
 	
-	public boolean doesClassMatching() {
+	public boolean isMatchingClasses() {
 		boolean result = true;
 
 		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).doesClassMatching();
+			result = ((SelectionCriteria) i.next()).isMatchingClasses();
 		}
 		
 		return result;
 	}
 	
-	public boolean doesFeatureMatching() {
+	public boolean isMatchingFeatures() {
 		boolean result = true;
 
 		Iterator i = getSubcriteria().iterator();
 		while (result && i.hasNext()) {
-			result = ((SelectionCriteria) i.next()).doesFeatureMatching();
+			result = ((SelectionCriteria) i.next()).isMatchingFeatures();
 		}
 		
 		return result;

@@ -35,22 +35,22 @@ package com.jeantessier.dependency;
 import org.apache.log4j.*;
 
 public class GraphSummarizer extends GraphCopier {
-	private SelectionCriteria scope_criteria;
-	private SelectionCriteria filter_criteria;
+	private SelectionCriteria scopeCriteria;
+	private SelectionCriteria filterCriteria;
 
-	public GraphSummarizer(SelectionCriteria scope_criteria, SelectionCriteria filter_criteria) {
-		super(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
+	public GraphSummarizer(SelectionCriteria scopeCriteria, SelectionCriteria filterCriteria) {
+		super(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 
-		this.scope_criteria  = scope_criteria;
-		this.filter_criteria = filter_criteria;
+		this.scopeCriteria  = scopeCriteria;
+		this.filterCriteria = filterCriteria;
 	}
 	
 	public void visitPackageNode(PackageNode node) {
 		Logger.getLogger(getClass()).debug("node = " + node);
 		
-		boolean in_scope = scope_criteria.matchesPackageName(node.getName());
+		boolean inScope = scopeCriteria.matchesPackageName(node.getName());
 
-		if (in_scope) {
+		if (inScope) {
 			preprocessPackageNode(node);
 			
 			if (getStrategy().doPreOutboundTraversal()) {
@@ -66,7 +66,7 @@ public class GraphSummarizer extends GraphCopier {
 			
 		traverseNodes(node.getClasses());
 
-		if (in_scope) {
+		if (inScope) {
 			postprocessBeforeDependenciesPackageNode(node);
 
 			if (getStrategy().doPostOutboundTraversal()) {
@@ -82,37 +82,37 @@ public class GraphSummarizer extends GraphCopier {
 	}
 
 	protected void preprocessPackageNode(PackageNode node) {
-		if (scope_criteria.doesPackageMatching()) {
+		if (scopeCriteria.isMatchingPackages()) {
 			super.preprocessPackageNode(node);
 		}
 	}
 	
 	protected void postprocessPackageNode(PackageNode node) {
-		if (scope_criteria.doesPackageMatching()) {
+		if (scopeCriteria.isMatchingPackages()) {
 			super.postprocessPackageNode(node);
 		}
 	}
 
 	public void visitInboundPackageNode(PackageNode node) {
-		if (getCurrentNode() != null && filter_criteria.matchesPackageName(node.getName())) {
-			if (filter_criteria.doesPackageMatching()) {
-				FilterFactory().CreatePackage(node.getName()).addDependency(getCurrentNode());
+		if (getCurrentNode() != null && filterCriteria.matchesPackageName(node.getName())) {
+			if (filterCriteria.isMatchingPackages()) {
+				getFilterFactory().createPackage(node.getName()).addDependency(getCurrentNode());
 			}
 		}
 	}
 
 	public void visitOutboundPackageNode(PackageNode node) {
-		if (getCurrentNode() != null && filter_criteria.matchesPackageName(node.getName())) {
-			if (filter_criteria.doesPackageMatching()) {
-				getCurrentNode().addDependency(FilterFactory().CreatePackage(node.getName()));
+		if (getCurrentNode() != null && filterCriteria.matchesPackageName(node.getName())) {
+			if (filterCriteria.isMatchingPackages()) {
+				getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName()));
 			}
 		}
 	}
 
 	public void visitClassNode(ClassNode node) {
-		boolean in_scope = scope_criteria.matchesClassName(node.getName());
+		boolean inScope = scopeCriteria.matchesClassName(node.getName());
 		
-		if (in_scope) {
+		if (inScope) {
 			preprocessClassNode(node);
 			
 			if (getStrategy().doPreOutboundTraversal()) {
@@ -128,7 +128,7 @@ public class GraphSummarizer extends GraphCopier {
 		
 		traverseNodes(node.getFeatures());
 			
-		if (in_scope) {
+		if (inScope) {
 			postprocessBeforeDependenciesClassNode(node);
 
 			if (getStrategy().doPostOutboundTraversal()) {
@@ -144,41 +144,41 @@ public class GraphSummarizer extends GraphCopier {
 	}
 
 	protected void preprocessClassNode(ClassNode node) {
-		if (scope_criteria.doesClassMatching()) {
+		if (scopeCriteria.isMatchingClasses()) {
 			super.preprocessClassNode(node);
 		}
 	}
 	
 	protected void postprocessClassNode(ClassNode node) {
-		if (scope_criteria.doesClassMatching()) {
+		if (scopeCriteria.isMatchingClasses()) {
 			super.postprocessClassNode(node);
 		}
 	}
 
 	public void visitInboundClassNode(ClassNode node) {
-		if (getCurrentNode() != null && filter_criteria.matchesClassName(node.getName())) {
-			if (filter_criteria.doesPackageMatching()) {
-				FilterFactory().CreatePackage(node.getPackageNode().getName()).addDependency(getCurrentNode());
+		if (getCurrentNode() != null && filterCriteria.matchesClassName(node.getName())) {
+			if (filterCriteria.isMatchingPackages()) {
+				getFilterFactory().createPackage(node.getPackageNode().getName()).addDependency(getCurrentNode());
 			}
-			if (filter_criteria.doesClassMatching()) {
-				FilterFactory().CreateClass(node.getName()).addDependency(getCurrentNode());
+			if (filterCriteria.isMatchingClasses()) {
+				getFilterFactory().createClass(node.getName()).addDependency(getCurrentNode());
 			}
 		}
 	}
 
 	public void visitOutboundClassNode(ClassNode node) {
-		if (getCurrentNode() != null && filter_criteria.matchesClassName(node.getName())) {
-			if (filter_criteria.doesPackageMatching()) {
-				getCurrentNode().addDependency(FilterFactory().CreatePackage(node.getPackageNode().getName()));
+		if (getCurrentNode() != null && filterCriteria.matchesClassName(node.getName())) {
+			if (filterCriteria.isMatchingPackages()) {
+				getCurrentNode().addDependency(getFilterFactory().createPackage(node.getPackageNode().getName()));
 			}
-			if (filter_criteria.doesClassMatching()) {
-				getCurrentNode().addDependency(FilterFactory().CreateClass(node.getName()));
+			if (filterCriteria.isMatchingClasses()) {
+				getCurrentNode().addDependency(getFilterFactory().createClass(node.getName()));
 			}
 		}
 	}
 
 	public void visitFeatureNode(FeatureNode node) {
-		if (scope_criteria.matchesFeatureName(node.getName())) {
+		if (scopeCriteria.matchesFeatureName(node.getName())) {
 			preprocessFeatureNode(node);
 			
 			if (getStrategy().doPreOutboundTraversal()) {
@@ -202,41 +202,41 @@ public class GraphSummarizer extends GraphCopier {
 	}
 
 	protected void preprocessFeatureNode(FeatureNode node) {
-		if (scope_criteria.doesFeatureMatching()) {
+		if (scopeCriteria.isMatchingFeatures()) {
 			super.preprocessFeatureNode(node);
 		}
 	}
 	
 	protected void postprocessFeatureNode(FeatureNode node) {
-		if (scope_criteria.doesFeatureMatching()) {
+		if (scopeCriteria.isMatchingFeatures()) {
 			super.postprocessFeatureNode(node);
 		}
 	}
 	
 	public void visitInboundFeatureNode(FeatureNode node) {
-		if (getCurrentNode() != null && filter_criteria.matchesFeatureName(node.getName())) {
-			if (filter_criteria.doesPackageMatching()) {
-				FilterFactory().CreatePackage(node.getClassNode().getPackageNode().getName()).addDependency(getCurrentNode());
+		if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
+			if (filterCriteria.isMatchingPackages()) {
+				getFilterFactory().createPackage(node.getClassNode().getPackageNode().getName()).addDependency(getCurrentNode());
 			}
-			if (filter_criteria.doesClassMatching()) {
-				FilterFactory().CreateClass(node.getClassNode().getName()).addDependency(getCurrentNode());
+			if (filterCriteria.isMatchingClasses()) {
+				getFilterFactory().createClass(node.getClassNode().getName()).addDependency(getCurrentNode());
 			}
-			if (filter_criteria.doesFeatureMatching()) {
-				FilterFactory().CreateFeature(node.getName()).addDependency(getCurrentNode());
+			if (filterCriteria.isMatchingFeatures()) {
+				getFilterFactory().createFeature(node.getName()).addDependency(getCurrentNode());
 			}
 		}
 	}
 
 	public void visitOutboundFeatureNode(FeatureNode node) {
-		if (getCurrentNode() != null && filter_criteria.matchesFeatureName(node.getName())) {
-			if (filter_criteria.doesPackageMatching()) {
-				getCurrentNode().addDependency(FilterFactory().CreatePackage(node.getClassNode().getPackageNode().getName()));
+		if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
+			if (filterCriteria.isMatchingPackages()) {
+				getCurrentNode().addDependency(getFilterFactory().createPackage(node.getClassNode().getPackageNode().getName()));
 			}
-			if (filter_criteria.doesClassMatching()) {
-				getCurrentNode().addDependency(FilterFactory().CreateClass(node.getClassNode().getName()));
+			if (filterCriteria.isMatchingClasses()) {
+				getCurrentNode().addDependency(getFilterFactory().createClass(node.getClassNode().getName()));
 			}
-			if (filter_criteria.doesFeatureMatching()) {
-				getCurrentNode().addDependency(FilterFactory().CreateFeature(node.getName()));
+			if (filterCriteria.isMatchingFeatures()) {
+				getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName()));
 			}
 		}
 	}

@@ -33,15 +33,15 @@
 package com.jeantessier.dependency;
 
 public class ComprehensiveSelectionCriteria implements SelectionCriteria {
-	public boolean doesPackageMatching() {
+	public boolean isMatchingPackages() {
 		return true;
 	}
 	
-	public boolean doesClassMatching() {
+	public boolean isMatchingClasses() {
 		return true;
 	}
 	
-	public boolean doesFeatureMatching() {
+	public boolean isMatchingFeatures() {
 		return true;
 	}
 

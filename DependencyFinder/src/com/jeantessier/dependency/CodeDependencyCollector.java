@@ -46,7 +46,7 @@ import com.jeantessier.classreader.*;
 public class CodeDependencyCollector extends com.jeantessier.classreader.VisitorBase implements Collector {
 	private NodeFactory factory;
 	private Node        current;
-	private HashSet     dependency_listeners = new HashSet();
+	private HashSet     dependencyListeners = new HashSet();
 
 	public CodeDependencyCollector() {
 		this(new NodeFactory());
@@ -56,16 +56,16 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		this.factory = factory;
 	}
 
-	public NodeFactory Factory() {
+	public NodeFactory getFactory() {
 		return factory;
 	}
 
 	public Collection getCollection() {
-		return Factory().Packages().values();
+		return getFactory().getPackages().values();
 	}
 
 	public void visitClassfile(Classfile classfile) {
-		current = Factory().CreateClass(classfile.getClassName());
+		current = getFactory().createClass(classfile.getClassName());
 
 		fireBeginClass(classfile.toString());
 		
@@ -97,9 +97,9 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("VisitClass_info():");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
 		if (entry.getName().startsWith("[")) {
-			ProcessDescriptor(entry.getName());
+			processDescriptor(entry.getName());
 		} else {
-			Node other = Factory().CreateClass(entry.getName());
+			Node other = getFactory().createClass(entry.getName());
 			current.addDependency(other);
 			Logger.getLogger(getClass()).info("Class_info dependency: " + current + " --> " + other);
 			fireDependency(current, other);
@@ -111,12 +111,12 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
-		Node other = Factory().CreateFeature(entry.getFullSignature());
+		Node other = getFactory().createFeature(entry.getFullSignature());
 		current.addDependency(other);
 		Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
 		fireDependency(current, other);
 
-		ProcessDescriptor(entry.getRawNameAndType().getType());
+		processDescriptor(entry.getRawNameAndType().getType());
 	}
 
 	public void visitMethodRef_info(MethodRef_info entry) {
@@ -125,12 +125,12 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		if (!entry.isStaticInitializer()) {
-			Node other  = Factory().CreateFeature(entry.getFullSignature());
+			Node other  = getFactory().createFeature(entry.getFullSignature());
 			current.addDependency(other);
 			Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
 			fireDependency(current, other);
 
-			ProcessDescriptor(entry.getRawNameAndType().getType());
+			processDescriptor(entry.getRawNameAndType().getType());
 		}
 	}
 
@@ -139,12 +139,12 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
-		Node other  = Factory().CreateFeature(entry.getFullSignature());
+		Node other  = getFactory().createFeature(entry.getFullSignature());
 		current.addDependency(other);
 		Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
 		fireDependency(current, other);
 
-		ProcessDescriptor(entry.getRawNameAndType().getType());
+		processDescriptor(entry.getRawNameAndType().getType());
 	}
 
 	public void visitField_info(Field_info entry) {
@@ -152,9 +152,9 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
 		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
 
-		current = Factory().CreateFeature(entry.getFullSignature());
+		current = getFactory().createFeature(entry.getFullSignature());
 
-		ProcessDescriptor(entry.getDescriptor());
+		processDescriptor(entry.getDescriptor());
 	
 		super.visitField_info(entry);
 	}
@@ -164,9 +164,9 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
 		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
 	
-		current = Factory().CreateFeature(entry.getFullSignature());
+		current = getFactory().createFeature(entry.getFullSignature());
 
-		ProcessDescriptor(entry.getDescriptor());
+		processDescriptor(entry.getDescriptor());
 
 		super.visitMethod_info(entry);
 	}
@@ -219,7 +219,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		}
 	}
 
-	private void ProcessDescriptor(String str) {
+	private void processDescriptor(String str) {
 		int current_pos = 0;
 		int start_pos;
 		int end_pos;
@@ -228,7 +228,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 			if ((end_pos = str.indexOf(';', start_pos)) != -1) {
 				String classname = SignatureHelper.path2ClassName(str.substring(start_pos + 1, end_pos));
 				Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
-				Node other = Factory().CreateClass(classname);
+				Node other = getFactory().createClass(classname);
 				current.addDependency(other);
 				Logger.getLogger(getClass()).info("descriptor dependency: " + current + " --> " + other);
 				fireDependency(current, other);
@@ -240,14 +240,14 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void addDependencyListener(DependencyListener listener) {
-		synchronized(dependency_listeners) {
-			dependency_listeners.add(listener);
+		synchronized(dependencyListeners) {
+			dependencyListeners.add(listener);
 		}
 	}
 
 	public void removeDependencyListener(DependencyListener listener) {
-		synchronized(dependency_listeners) {
-			dependency_listeners.remove(listener);
+		synchronized(dependencyListeners) {
+			dependencyListeners.remove(listener);
 		}
 	}
 
@@ -255,13 +255,13 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		DependencyEvent event = new DependencyEvent(this);
 
 		HashSet listeners;
-		synchronized(dependency_listeners) {
-			listeners = (HashSet) dependency_listeners.clone();
+		synchronized(dependencyListeners) {
+			listeners = (HashSet) dependencyListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((DependencyListener) i.next()).BeginSession(event);
+			((DependencyListener) i.next()).beginSession(event);
 		}
 	}
 	
@@ -269,13 +269,13 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		DependencyEvent event = new DependencyEvent(this, classname);
 
 		HashSet listeners;
-		synchronized(dependency_listeners) {
-			listeners = (HashSet) dependency_listeners.clone();
+		synchronized(dependencyListeners) {
+			listeners = (HashSet) dependencyListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((DependencyListener) i.next()).BeginClass(event);
+			((DependencyListener) i.next()).beginClass(event);
 		}
 	}
 
@@ -283,13 +283,13 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		DependencyEvent event = new DependencyEvent(this, dependent, dependable);
 
 		HashSet listeners;
-		synchronized(dependency_listeners) {
-			listeners = (HashSet) dependency_listeners.clone();
+		synchronized(dependencyListeners) {
+			listeners = (HashSet) dependencyListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((DependencyListener) i.next()).Dependency(event);
+			((DependencyListener) i.next()).dependency(event);
 		}
 	}
 
@@ -297,13 +297,13 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		DependencyEvent event = new DependencyEvent(this, classname);
 
 		HashSet listeners;
-		synchronized(dependency_listeners) {
-			listeners = (HashSet) dependency_listeners.clone();
+		synchronized(dependencyListeners) {
+			listeners = (HashSet) dependencyListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((DependencyListener) i.next()).EndClass(event);
+			((DependencyListener) i.next()).endClass(event);
 		}
 	}
 
@@ -311,13 +311,13 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		DependencyEvent event = new DependencyEvent(this);
 
 		HashSet listeners;
-		synchronized(dependency_listeners) {
-			listeners = (HashSet) dependency_listeners.clone();
+		synchronized(dependencyListeners) {
+			listeners = (HashSet) dependencyListeners.clone();
 		}
 
 		Iterator i = listeners.iterator();
 		while(i.hasNext()) {
-			((DependencyListener) i.next()).EndSession(event);
+			((DependencyListener) i.next()).endSession(event);
 		}
 	}
 

@@ -62,14 +62,14 @@ public class TestGraphSummarizer extends TestCase {
 		filter_criteria = new RegularExpressionSelectionCriteria();
 		factory         = new NodeFactory();
 
-		a_package = factory.CreatePackage("a");
-		a_A_class = factory.CreateClass("a.A");
-		a_A_a_method = factory.CreateFeature("a.A.a");
-		a_B_class = factory.CreateClass("a.B");
+		a_package = factory.createPackage("a");
+		a_A_class = factory.createClass("a.A");
+		a_A_a_method = factory.createFeature("a.A.a");
+		a_B_class = factory.createClass("a.B");
 		
-		b_package = factory.CreatePackage("b");
-		b_B_class = factory.CreateClass("b.B");
-		b_B_b_method = factory.CreateFeature("b.B.b");
+		b_package = factory.createPackage("b");
+		b_B_class = factory.createClass("b.B");
+		b_B_b_method = factory.createFeature("b.B.b");
 		
 		summarizer = new GraphSummarizer(scope_criteria, filter_criteria);
 	}
@@ -81,361 +81,361 @@ public class TestGraphSummarizer extends TestCase {
 	public void testP2PasP2P() {
 		a_package.addDependency(b_package);
 		
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().isEmpty());
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(1, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().contains(summarizer.ScopeFactory().CreatePackage("b")));
-		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().contains(summarizer.ScopeFactory().CreatePackage("a")));
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().contains(summarizer.getScopeFactory().createPackage("b")));
+		assertEquals(1, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("b").getInboundDependencies().contains(summarizer.getScopeFactory().createPackage("a")));
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 	}
 
 	public void testP2PasC2C() {
 		a_package.addDependency(b_package);
 		
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("a.A"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("b.B"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
 	}
 
 	public void testP2PasF2F() {
 		a_package.addDependency(b_package);
 		
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("a.A.a"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("b.B.b"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("a.A"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("b.B"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().contains("a.A.a"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().contains("b.B.b"));
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("a.A.a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("a.A.a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getOutboundDependencies().size());
 	}
 
 	public void testC2CasP2P() {
 		a_A_class.addDependency(b_B_class);
 		
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().isEmpty());
-		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(1, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().contains(summarizer.ScopeFactory().CreatePackage("b")));
-		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().contains(summarizer.ScopeFactory().CreatePackage("a")));
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().contains(summarizer.getScopeFactory().createPackage("b")));
+		assertEquals(1, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("b").getInboundDependencies().contains(summarizer.getScopeFactory().createPackage("a")));
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 	}
 
 	public void testC2CasP2CSamePackage() {
 		a_A_class.addDependency(a_B_class);
 		
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().isEmpty());
-		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 	}
 
 	public void testC2CasC2C() {
 		a_A_class.addDependency(b_B_class);
 		
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("a.A"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("b.B"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getInboundDependencies().size());
-		assertEquals(1, summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().contains(summarizer.ScopeFactory().CreateClass("b.B")));
-		assertEquals(1, summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().contains(summarizer.ScopeFactory().CreateClass("a.A")));
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getInboundDependencies().size());
+		assertEquals(1, summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().contains(summarizer.getScopeFactory().createClass("b.B")));
+		assertEquals(1, summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().contains(summarizer.getScopeFactory().createClass("a.A")));
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
 	}
 
 	public void testC2CasF2F() {
 		a_A_class.addDependency(b_B_class);
 		
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("a.A.a"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("b.B.b"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("a.A"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("b.B"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().contains("a.A.a"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().contains("b.B.b"));
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("a.A.a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("a.A.a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getOutboundDependencies().size());
 	}
 
 	public void testF2FasP2P() {
 		a_A_a_method.addDependency(b_B_b_method);
 		
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().isEmpty());
-		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(1, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().contains(summarizer.ScopeFactory().CreatePackage("b")));
-		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().contains(summarizer.ScopeFactory().CreatePackage("a")));
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().contains(summarizer.getScopeFactory().createPackage("b")));
+		assertEquals(1, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("b").getInboundDependencies().contains(summarizer.getScopeFactory().createPackage("a")));
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 	}
 
 	public void testF2FasC2C() {
 		a_A_a_method.addDependency(b_B_b_method);
 		
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("a.A"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("b.B"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getInboundDependencies().size());
-		assertEquals(1, summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().contains(summarizer.ScopeFactory().CreateClass("b.B")));
-		assertEquals(1, summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().contains(summarizer.ScopeFactory().CreateClass("a.A")));
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getInboundDependencies().size());
+		assertEquals(1, summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().contains(summarizer.getScopeFactory().createClass("b.B")));
+		assertEquals(1, summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().contains(summarizer.getScopeFactory().createClass("a.A")));
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
 	}
 
 	public void testF2FasF2F() {
 		a_A_a_method.addDependency(b_B_b_method);
 		
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("a.A.a"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("b.B.b"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("a.A"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("b.B"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().contains("a.A.a"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().contains("b.B.b"));
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a.A.a").getInboundDependencies().size());
-		assertEquals(1, summarizer.ScopeFactory().CreateFeature("a.A.a").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreateFeature("a.A.a").getOutboundDependencies().contains(summarizer.ScopeFactory().CreateFeature("b.B.b")));
-		assertEquals(1, summarizer.ScopeFactory().CreateFeature("b.B.b").getInboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreateFeature("b.B.b").getInboundDependencies().contains(summarizer.ScopeFactory().CreateFeature("a.A.a")));
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b.B.b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("a.A.a").getInboundDependencies().size());
+		assertEquals(1, summarizer.getScopeFactory().createFeature("a.A.a").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createFeature("a.A.a").getOutboundDependencies().contains(summarizer.getScopeFactory().createFeature("b.B.b")));
+		assertEquals(1, summarizer.getScopeFactory().createFeature("b.B.b").getInboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createFeature("b.B.b").getInboundDependencies().contains(summarizer.getScopeFactory().createFeature("a.A.a")));
+		assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getOutboundDependencies().size());
 	}
 
 	public void testF2CasP2P() {
 		a_A_a_method.addDependency(b_B_class);
 		
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().isEmpty());
-		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(1, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().contains(summarizer.ScopeFactory().CreatePackage("b")));
-		assertEquals(1, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().contains(summarizer.ScopeFactory().CreatePackage("a")));
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().contains(summarizer.getScopeFactory().createPackage("b")));
+		assertEquals(1, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("b").getInboundDependencies().contains(summarizer.getScopeFactory().createPackage("a")));
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 	}
 
 	public void testF2CasC2C() {
 		a_A_a_method.addDependency(b_B_class);
 		
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingFeatures(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.ScopeFactory().Features().isEmpty());
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("a.A"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("b.B"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty());
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a.A").getInboundDependencies().size());
-		assertEquals(1, summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreateClass("a.A").getOutboundDependencies().contains(summarizer.ScopeFactory().CreateClass("b.B")));
-		assertEquals(1, summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreateClass("b.B").getInboundDependencies().contains(summarizer.ScopeFactory().CreateClass("a.A")));
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b.B").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a.A").getInboundDependencies().size());
+		assertEquals(1, summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createClass("a.A").getOutboundDependencies().contains(summarizer.getScopeFactory().createClass("b.B")));
+		assertEquals(1, summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createClass("b.B").getInboundDependencies().contains(summarizer.getScopeFactory().createClass("a.A")));
+		assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
 	}
 
 	public void testF2CasF2F() {
 		a_A_a_method.addDependency(b_B_class);
 		
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
 
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("a"));
-		assertTrue(summarizer.ScopeFactory().Packages().keySet().toString(), summarizer.ScopeFactory().Packages().keySet().contains("b"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("a.A"));
-		assertTrue(summarizer.ScopeFactory().Classes().keySet().toString(), summarizer.ScopeFactory().Classes().keySet().contains("b.B"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("a.A.a"));
-		assertTrue(summarizer.ScopeFactory().Features().keySet().toString(), summarizer.ScopeFactory().Features().keySet().contains("b.B.b"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("a"));
+		assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().keySet().contains("b"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("a.A"));
+		assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().keySet().contains("b.B"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().contains("a.A.a"));
+		assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().keySet().contains("b.B.b"));
 
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreatePackage("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateClass("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createClass("b").getOutboundDependencies().size());
 
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("a").getOutboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b").getInboundDependencies().size());
-		assertEquals(0, summarizer.ScopeFactory().CreateFeature("b").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("a").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("a").getOutboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("b").getInboundDependencies().size());
+		assertEquals(0, summarizer.getScopeFactory().createFeature("b").getOutboundDependencies().size());
 	}
 }

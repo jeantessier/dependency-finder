@@ -110,18 +110,18 @@ public class DependencyClosure extends GraphTask {
 
 			try {
 				if (getMaximuminbounddepth() != null) {
-					selector.MaximumInboundDepth(Long.parseLong(getMaximuminbounddepth()));
+					selector.setMaximumInboundDepth(Long.parseLong(getMaximuminbounddepth()));
 				}
 			} catch (NumberFormatException ex) {
-				selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+				selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 			}
 			
 			try {
 				if (getMaximumoutbounddepth() != null) {
-					selector.MaximumOutboundDepth(Long.parseLong(getMaximumoutbounddepth()));
+					selector.setMaximumOutboundDepth(Long.parseLong(getMaximumoutbounddepth()));
 				}
 			} catch (NumberFormatException ex) {
-				selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+				selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 			}
 		
 			String[] filenames = getSrc().list();
@@ -133,7 +133,7 @@ public class DependencyClosure extends GraphTask {
 				if (filenames[i].endsWith(".xml")) {
 					NodeLoader loader = new NodeLoader(getValidate());
 					loader.addDependencyListener(verbose_listener);
-					packages = loader.Load(filenames[i]).Packages().values();
+					packages = loader.load(filenames[i]).getPackages().values();
 				}
 				
 				log("Maximizing ...");
@@ -154,10 +154,10 @@ public class DependencyClosure extends GraphTask {
 			}
 				
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 				
-			printer.traverseNodes(selector.Factory().Packages().values());
+			printer.traverseNodes(selector.getFactory().getPackages().values());
 				
 			out.close();
 		} catch (SAXException ex) {

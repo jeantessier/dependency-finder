@@ -50,17 +50,17 @@ public class TestNode extends TestCase {
 	protected void setUp() throws Exception {
 		NodeFactory factory = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
-		a_A_b = factory.CreateFeature("a.A.b");
-		a_B   = factory.CreateClass("a.B");
-		a_B_a = factory.CreateFeature("a.B.a");
-		a_B_b = factory.CreateFeature("a.B.b");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
+		a_A_b = factory.createFeature("a.A.b");
+		a_B   = factory.createClass("a.B");
+		a_B_a = factory.createFeature("a.B.a");
+		a_B_b = factory.createFeature("a.B.b");
 
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 	}
 
 	public void testPackageCanAddDependency() {

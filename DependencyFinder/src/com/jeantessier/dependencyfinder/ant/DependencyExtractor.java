@@ -144,10 +144,10 @@ public class DependencyExtractor extends Task {
 
 		if (getMinimize()) {
 			LinkMinimizer minimizer = new LinkMinimizer();
-			minimizer.traverseNodes(factory.Packages().values());
+			minimizer.traverseNodes(factory.getPackages().values());
 		} else if (getMaximize()) {
 			LinkMaximizer maximizer = new LinkMaximizer();
-			maximizer.traverseNodes(factory.Packages().values());
+			maximizer.traverseNodes(factory.getPackages().values());
 		}
 
 		log("Saving dependency graph to " + getDestfile().getAbsolutePath());
@@ -163,10 +163,10 @@ public class DependencyExtractor extends Task {
 			}
 				
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 				
-			printer.traverseNodes(factory.Packages().values());
+			printer.traverseNodes(factory.getPackages().values());
 				
 			out.close();
 		} catch (IOException ex) {

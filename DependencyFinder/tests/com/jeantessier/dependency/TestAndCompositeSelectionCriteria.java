@@ -47,9 +47,9 @@ public class TestAndCompositeSelectionCriteria extends TestCase {
 	protected void setUp() throws Exception {
 		NodeFactory factory = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
 
 		subcriteria = new ArrayList();
 		criteria    = new AndCompositeSelectionCriteria(subcriteria);
@@ -63,77 +63,77 @@ public class TestAndCompositeSelectionCriteria extends TestCase {
 	
 	public void testMatchWithOneFalseSubcriteria() {
 		MockSelectionCriteria mock = new MockSelectionCriteria();
-		mock.Value(false);
+		mock.setValue(false);
 		subcriteria.add(mock);
 
-		assertEquals("a",     mock.Value(), criteria.matches(a));
-		assertEquals("a.A",   mock.Value(), criteria.matches(a_A));
-		assertEquals("a.A.a", mock.Value(), criteria.matches(a_A_a));
+		assertEquals("a",     mock.getValue(), criteria.matches(a));
+		assertEquals("a.A",   mock.getValue(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock.getValue(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithOneTrueSubcriteria() {
 		MockSelectionCriteria mock = new MockSelectionCriteria();
-		mock.Value(true);
+		mock.setValue(true);
 		subcriteria.add(mock);
 
-		assertEquals("a",     mock.Value(), criteria.matches(a));
-		assertEquals("a.A",   mock.Value(), criteria.matches(a_A));
-		assertEquals("a.A.a", mock.Value(), criteria.matches(a_A_a));
+		assertEquals("a",     mock.getValue(), criteria.matches(a));
+		assertEquals("a.A",   mock.getValue(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock.getValue(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithTwoSubcriteriaFalseFalse() {
 		MockSelectionCriteria mock1 = new MockSelectionCriteria();
-		mock1.Value(false);
+		mock1.setValue(false);
 		subcriteria.add(mock1);
 
 		MockSelectionCriteria mock2 = new MockSelectionCriteria();
-		mock2.Value(false);
+		mock2.setValue(false);
 		subcriteria.add(mock2);
 
-		assertEquals("a",     mock1.Value() && mock2.Value(), criteria.matches(a));
-		assertEquals("a.A",   mock1.Value() && mock2.Value(), criteria.matches(a_A));
-		assertEquals("a.A.a", mock1.Value() && mock2.Value(), criteria.matches(a_A_a));
+		assertEquals("a",     mock1.getValue() && mock2.getValue(), criteria.matches(a));
+		assertEquals("a.A",   mock1.getValue() && mock2.getValue(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock1.getValue() && mock2.getValue(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithTwoSubcriteriaFalseTrue() {
 		MockSelectionCriteria mock1 = new MockSelectionCriteria();
-		mock1.Value(false);
+		mock1.setValue(false);
 		subcriteria.add(mock1);
 
 		MockSelectionCriteria mock2 = new MockSelectionCriteria();
-		mock2.Value(true);
+		mock2.setValue(true);
 		subcriteria.add(mock2);
 
-		assertEquals("a",     mock1.Value() && mock2.Value(), criteria.matches(a));
-		assertEquals("a.A",   mock1.Value() && mock2.Value(), criteria.matches(a_A));
-		assertEquals("a.A.a", mock1.Value() && mock2.Value(), criteria.matches(a_A_a));
+		assertEquals("a",     mock1.getValue() && mock2.getValue(), criteria.matches(a));
+		assertEquals("a.A",   mock1.getValue() && mock2.getValue(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock1.getValue() && mock2.getValue(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithTwoSubcriteriaTrueFalse() {
 		MockSelectionCriteria mock1 = new MockSelectionCriteria();
-		mock1.Value(true);
+		mock1.setValue(true);
 		subcriteria.add(mock1);
 
 		MockSelectionCriteria mock2 = new MockSelectionCriteria();
-		mock2.Value(false);
+		mock2.setValue(false);
 		subcriteria.add(mock2);
 
-		assertEquals("a",     mock1.Value() && mock2.Value(), criteria.matches(a));
-		assertEquals("a.A",   mock1.Value() && mock2.Value(), criteria.matches(a_A));
-		assertEquals("a.A.a", mock1.Value() && mock2.Value(), criteria.matches(a_A_a));
+		assertEquals("a",     mock1.getValue() && mock2.getValue(), criteria.matches(a));
+		assertEquals("a.A",   mock1.getValue() && mock2.getValue(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock1.getValue() && mock2.getValue(), criteria.matches(a_A_a));
 	}
 	
 	public void testMatchWithTwoSubcriteriaTrueTrue() {
 		MockSelectionCriteria mock1 = new MockSelectionCriteria();
-		mock1.Value(true);
+		mock1.setValue(true);
 		subcriteria.add(mock1);
 
 		MockSelectionCriteria mock2 = new MockSelectionCriteria();
-		mock2.Value(true);
+		mock2.setValue(true);
 		subcriteria.add(mock2);
 
-		assertEquals("a",     mock1.Value() && mock2.Value(), criteria.matches(a));
-		assertEquals("a.A",   mock1.Value() && mock2.Value(), criteria.matches(a_A));
-		assertEquals("a.A.a", mock1.Value() && mock2.Value(), criteria.matches(a_A_a));
+		assertEquals("a",     mock1.getValue() && mock2.getValue(), criteria.matches(a));
+		assertEquals("a.A",   mock1.getValue() && mock2.getValue(), criteria.matches(a_A));
+		assertEquals("a.A.a", mock1.getValue() && mock2.getValue(), criteria.matches(a_A_a));
 	}
 }

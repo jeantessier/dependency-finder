@@ -63,24 +63,24 @@ public class TestMetricsGatherer extends TestCase {
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 
-		_package = factory.CreatePackage("");
-		test_class = factory.CreateClass("test");
-		test_main_method = factory.CreateFeature("test.main(java.lang.String[])");
-		test_test_method = factory.CreateFeature("test.test()");
+		_package = factory.createPackage("");
+		test_class = factory.createClass("test");
+		test_main_method = factory.createFeature("test.main(java.lang.String[])");
+		test_test_method = factory.createFeature("test.test()");
 		
-		java_lang_package = factory.CreatePackage("java.lang");
-		java_lang_Object_class = factory.CreateClass("java.lang.Object");
-		java_lang_Object_Object_method = factory.CreateFeature("java.lang.Object.Object()");
-		java_lang_String_class = factory.CreateClass("java.lang.String");
+		java_lang_package = factory.createPackage("java.lang");
+		java_lang_Object_class = factory.createClass("java.lang.Object");
+		java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
+		java_lang_String_class = factory.createClass("java.lang.String");
 
-		java_io_package = factory.CreatePackage("java.io");
-		java_io_Writer_class = factory.CreateClass("java.io.Writer");
-		java_io_Writer_write_method = factory.CreateFeature("java.io.Writer.write(int)");
+		java_io_package = factory.createPackage("java.io");
+		java_io_Writer_class = factory.createClass("java.io.Writer");
+		java_io_Writer_write_method = factory.createFeature("java.io.Writer.write(int)");
 		
-		java_util_package = factory.CreatePackage("java.util");
-		java_util_Collections_class = factory.CreateClass("java.util.Collections");
-		java_util_Collections_singleton_method = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
-		java_util_Set_class = factory.CreateClass("java.util.Set");
+		java_util_package = factory.createPackage("java.util");
+		java_util_Collections_class = factory.createClass("java.util.Collections");
+		java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
+		java_util_Set_class = factory.createClass("java.util.Set");
 
 		test_class.addDependency(java_lang_Object_class);
 		test_main_method.addDependency(java_lang_Object_class);
@@ -94,20 +94,20 @@ public class TestMetricsGatherer extends TestCase {
 	}
 
 	public void testEverything() throws IOException {
-		metrics.traverseNodes(factory.Packages().values());
+		metrics.traverseNodes(factory.getPackages().values());
 
-		assertEquals("Number of packages", 4, metrics.Packages().size());
-		assertEquals("Number of classes",  6, metrics.Classes().size());
-		assertEquals("Number of features", 5, metrics.Features().size());
+		assertEquals("Number of packages", 4, metrics.getPackages().size());
+		assertEquals("Number of classes",  6, metrics.getClasses().size());
+		assertEquals("Number of features", 5, metrics.getFeatures().size());
 
-		assertEquals("Number of inbounds",             7, metrics.NbInbound());
-		assertEquals("Number of inbounds to packages", 0, metrics.NbInboundPackages());
-		assertEquals("Number of inbounds to classes",  4, metrics.NbInboundClasses());
-		assertEquals("Number of inbounds to features", 3, metrics.NbInboundFeatures());
+		assertEquals("Number of inbounds",             7, metrics.getNbInbound());
+		assertEquals("Number of inbounds to packages", 0, metrics.getNbInboundPackages());
+		assertEquals("Number of inbounds to classes",  4, metrics.getNbInboundClasses());
+		assertEquals("Number of inbounds to features", 3, metrics.getNbInboundFeatures());
 
-		assertEquals("Number of outbounds",               7, metrics.NbOutbound());
-		assertEquals("Number of outbounds from packages", 0, metrics.NbOutboundPackages());
-		assertEquals("Number of outbounds from classes",  1, metrics.NbOutboundClasses());
-		assertEquals("Number of outbounds from features", 6, metrics.NbOutboundFeatures());
+		assertEquals("Number of outbounds",               7, metrics.getNbOutbound());
+		assertEquals("Number of outbounds from packages", 0, metrics.getNbOutboundPackages());
+		assertEquals("Number of outbounds from classes",  1, metrics.getNbOutboundClasses());
+		assertEquals("Number of outbounds from features", 6, metrics.getNbOutboundFeatures());
 	}
 }

@@ -43,7 +43,7 @@ public class ClosureStopSelector implements Visitor {
 		this.criteria = criteria;
 	}
 
-	public boolean Done() {
+	public boolean isDone() {
 		return done;
 	}
 	

@@ -135,14 +135,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowInboundsPackageTrue() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createPackage("empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(true);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(true);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -168,14 +168,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowInboundsPackageFalse() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createPackage("empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -200,14 +200,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowInboundsClassTrue() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createClass("empty.Empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(true);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(true);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -242,14 +242,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowInboundsClassFalse() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createClass("empty.Empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -283,14 +283,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowInboundsFeatureTrue() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(true);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(true);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -334,14 +334,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowInboundsFeatureFalse() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -384,14 +384,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowOutboundsPackageTrue() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createPackage("empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(true);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(true);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -417,14 +417,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowOutboundsPackageFalse() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createPackage("empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -449,14 +449,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowOutboundsClassTrue() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createClass("empty.Empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(true);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(true);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -491,14 +491,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowOutboundsClassFalse() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createClass("empty.Empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -532,14 +532,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowOutboundsFeatureTrue() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(true);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(true);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -583,14 +583,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowOutboundsFeatureFalse() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowInbounds(false);
-		printer.ShowOutbounds(false);
+		printer.setShowInbounds(false);
+		printer.setShowOutbounds(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -633,15 +633,15 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 	
 	public void testShowEmptyPackageTrue() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createPackage("empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowEmptyNodes(true);
+		printer.setShowEmptyNodes(true);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -684,15 +684,15 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowEmptyPackageFalse() throws IOException {
-		factory.CreatePackage("outbound").addDependency(factory.CreatePackage("inbound"));
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreatePackage("empty");
+		factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createPackage("empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowEmptyNodes(false);
+		printer.setShowEmptyNodes(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -732,14 +732,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowEmptyClassTrue() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createClass("empty.Empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowEmptyNodes(true);
+		printer.setShowEmptyNodes(true);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -783,14 +783,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowEmptyClassFalse() throws IOException {
-		factory.CreateClass("outbound.Outbound").addDependency(factory.CreateClass("inbound.Inbound"));
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateClass("empty.Empty");
+		factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createClass("empty.Empty");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowEmptyNodes(false);
+		printer.setShowEmptyNodes(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -828,13 +828,13 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowEmptyFeatureTrue() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowEmptyNodes(true);
+		printer.setShowEmptyNodes(true);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
@@ -879,13 +879,13 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 	}
 
 	public void testShowEmptyFeatureFalse() throws IOException {
-		factory.CreateFeature("outbound.Outbound.outbound()").addDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
-		factory.CreateFeature("empty.Empty.empty()");
+		factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+		factory.createFeature("empty.Empty.empty()");
 
 		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-		printer.ShowEmptyNodes(false);
+		printer.setShowEmptyNodes(false);
 
-		printer.traverseNodes(factory.Packages().values());
+		printer.traverseNodes(factory.getPackages().values());
 
 		int            line_number = 0;
 		BufferedReader in          = new BufferedReader(new StringReader(out.toString()));

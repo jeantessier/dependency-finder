@@ -60,465 +60,465 @@ public class TestTransitiveClosureEngine extends TestCase {
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
 		
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 		
-		c     = factory.CreatePackage("c");
-		c_C   = factory.CreateClass("c.C");
-		c_C_c = factory.CreateFeature("c.C.c");
+		c     = factory.createPackage("c");
+		c_C   = factory.createClass("c.C");
+		c_C_c = factory.createFeature("c.C.c");
 
 		a_A_a.addDependency(b_B_b);
 		b_B_b.addDependency(c_C_c);
 
 		start_criteria = new RegularExpressionSelectionCriteria();
 		stop_criteria  = new RegularExpressionSelectionCriteria();
-		stop_criteria.GlobalIncludes("");
+		stop_criteria.setGlobalIncludes("");
 	}
 
 	public void testSelectScope() {
-		start_criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.setGlobalIncludes("/a.A.a/");
 
 		GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(start_criteria, new RegularExpressionSelectionCriteria()));
 
-		copier.traverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.getPackages().values());
 		
-		assertEquals("packages in scope: " , 1, copier.ScopeFactory().Packages().values().size());
-		assertEquals("classes in scope"    , 1, copier.ScopeFactory().Classes().values().size());
-		assertEquals("features in scope"   , 1, copier.ScopeFactory().Features().values().size());
+		assertEquals("packages in scope: " , 1, copier.getScopeFactory().getPackages().values().size());
+		assertEquals("classes in scope"    , 1, copier.getScopeFactory().getClasses().values().size());
+		assertEquals("features in scope"   , 1, copier.getScopeFactory().getFeatures().values().size());
 
-		assertEquals("package b in scope"    , a,     copier.ScopeFactory().Packages().get("a"));
-		assertEquals("class a.A in scope"    , a_A,   copier.ScopeFactory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, copier.ScopeFactory().Features().get("a.A.a"));
+		assertEquals("package b in scope"    , a,     copier.getScopeFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope"    , a_A,   copier.getScopeFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, copier.getScopeFactory().getFeatures().get("a.A.a"));
 	}
 
 	public void testOutboundStartingPoint() {
-		start_criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.setGlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
 
-		assertEquals("Nb layers", 1, engine.NbLayers());
+		assertEquals("Nb layers", 1, engine.getNbLayers());
 
-		assertEquals("layer 0", 1, engine.Layer(0).size());
-		assertEquals("a.A.a in layer 0", a_A_a, engine.Layer(0).iterator().next());
-		assertNotSame("a.A.a in layer 0", a_A_a, engine.Layer(0).iterator().next());
+		assertEquals("layer 0", 1, engine.getLayer(0).size());
+		assertEquals("a.A.a in layer 0", a_A_a, engine.getLayer(0).iterator().next());
+		assertNotSame("a.A.a in layer 0", a_A_a, engine.getLayer(0).iterator().next());
 
-		assertEquals("Nb outbounds from a.A.a", 0, ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from a.A.a", 0, ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 1, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   1, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   1, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 1, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   1, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   1, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
 	}
 
 	public void testOneOutboundLayer() {
-		start_criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.setGlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 2, engine.NbLayers());
+		assertEquals("Nb layers", 2, engine.getNbLayers());
 
-		assertEquals("layer 1", 1, engine.Layer(1).size());
-		assertEquals("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
-		assertNotSame("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
+		assertEquals("layer 1", 1, engine.getLayer(1).size());
+		assertEquals("b.B.b in layer 1", b_B_b, engine.getLayer(1).iterator().next());
+		assertNotSame("b.B.b in layer 1", b_B_b, engine.getLayer(1).iterator().next());
 
-		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
-		assertEquals("Nb outbounds from b.B.b", 0,                       ((Node) engine.Layer(1).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from b.B.b", 0,                       ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   2, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
 	}
 
 	public void testTwoOutboundLayers() {
-		start_criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.setGlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
+		engine.computeNextLayer();
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 3, engine.NbLayers());
+		assertEquals("Nb layers", 3, engine.getNbLayers());
 
-		assertEquals("layer 2", 1, engine.Layer(1).size());
-		assertEquals("c.C.c in layer 2", c_C_c, engine.Layer(2).iterator().next());
-		assertNotSame("c.C.c in layer 2", c_C_c, engine.Layer(2).iterator().next());
+		assertEquals("layer 2", 1, engine.getLayer(1).size());
+		assertEquals("c.C.c in layer 2", c_C_c, engine.getLayer(2).iterator().next());
+		assertNotSame("c.C.c in layer 2", c_C_c, engine.getLayer(2).iterator().next());
 
-		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
-		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getOutboundDependencies().size());
-		assertEquals("Nb outbounds from c.C.c", 0,                       ((Node) engine.Layer(2).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from c.C.c", 0,                       ((Node) engine.getLayer(2).iterator().next()).getOutboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   3, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testThreeOutboundLayers() {
-		start_criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.setGlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
+		engine.computeNextLayer();
+		engine.computeNextLayer();
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 3, engine.NbLayers());
+		assertEquals("Nb layers", 3, engine.getNbLayers());
 
-		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
-		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getOutboundDependencies().size());
-		assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getOutboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   3, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testFourOutboundLayers() {
-		start_criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.setGlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
+		engine.computeNextLayer();
+		engine.computeNextLayer();
+		engine.computeNextLayer();
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 3, engine.NbLayers());
+		assertEquals("Nb layers", 3, engine.getNbLayers());
 
-		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getOutboundDependencies().size());
-		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getOutboundDependencies().size());
-		assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
+		assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getOutboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   3, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testInboundStartingPoint() {
-		start_criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
 
-		assertEquals("Nb layers", 1, engine.NbLayers());
+		assertEquals("Nb layers", 1, engine.getNbLayers());
 
-		assertEquals("layer 0", 1, engine.Layer(0).size());
-		assertEquals("c.C.c in layer 0", c_C_c, engine.Layer(0).iterator().next());
-		assertNotSame("c.C.c in layer 0", c_C_c, engine.Layer(0).iterator().next());
+		assertEquals("layer 0", 1, engine.getLayer(0).size());
+		assertEquals("c.C.c in layer 0", c_C_c, engine.getLayer(0).iterator().next());
+		assertNotSame("c.C.c in layer 0", c_C_c, engine.getLayer(0).iterator().next());
 
-		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 1, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   1, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   1, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 1, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   1, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   1, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testOneInboundLayer() {
-		start_criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 2, engine.NbLayers());
+		assertEquals("Nb layers", 2, engine.getNbLayers());
 
-		assertEquals("layer 1", 1, engine.Layer(1).size());
-		assertEquals("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
-		assertNotSame("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
+		assertEquals("layer 1", 1, engine.getLayer(1).size());
+		assertEquals("b.B.b in layer 1", b_B_b, engine.getLayer(1).iterator().next());
+		assertNotSame("b.B.b in layer 1", b_B_b, engine.getLayer(1).iterator().next());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   2, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testTwoInboundLayers() {
-		start_criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeNextLayer();
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 3, engine.NbLayers());
+		assertEquals("Nb layers", 3, engine.getNbLayers());
 
-		assertEquals("layer 2", 1, engine.Layer(1).size());
-		assertEquals("a.A.a in layer 2", a_A_a, engine.Layer(2).iterator().next());
-		assertNotSame("a.A.a in layer 2", a_A_a, engine.Layer(2).iterator().next());
+		assertEquals("layer 2", 1, engine.getLayer(1).size());
+		assertEquals("a.A.a in layer 2", a_A_a, engine.getLayer(2).iterator().next());
+		assertNotSame("a.A.a in layer 2", a_A_a, engine.getLayer(2).iterator().next());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from a.A.a", 0,                      ((Node) engine.Layer(2).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from a.A.a", 0,                      ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   3, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testThreeInboundLayers() {
-		start_criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeNextLayer();
+		engine.computeNextLayer();
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 3, engine.NbLayers());
+		assertEquals("Nb layers", 3, engine.getNbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   3, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testFourInboundLayers() {
-		start_criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeNextLayer();
+		engine.computeNextLayer();
+		engine.computeNextLayer();
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 3, engine.NbLayers());
+		assertEquals("Nb layers", 3, engine.getNbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   3, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testStopCriteria() {
-		start_criteria.GlobalIncludes("/c.C.c/");
-		stop_criteria.GlobalIncludes("/b.B.b/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
+		stop_criteria.setGlobalIncludes("/b.B.b/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
-		engine.ComputeNextLayer();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeNextLayer();
+		engine.computeNextLayer();
+		engine.computeNextLayer();
+		engine.computeNextLayer();
 
-		assertEquals("Nb layers", 2, engine.NbLayers());
+		assertEquals("Nb layers", 2, engine.getNbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   2, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testComputeAllLayers() {
-		start_criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeAllLayers();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeAllLayers();
 
-		assertEquals("Nb layers", 3, engine.NbLayers());
+		assertEquals("Nb layers", 3, engine.getNbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.Layer(2).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   3, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   3, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
-		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
-		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package a in scope",     a,     engine.getFactory().getPackages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.getFactory().getClasses().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.getFactory().getFeatures().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testComputeAllLayersWithStopCriteria() {
-		start_criteria.GlobalIncludes("/c.C.c/");
-		stop_criteria.GlobalIncludes("/b.B.b/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
+		stop_criteria.setGlobalIncludes("/b.B.b/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeAllLayers();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeAllLayers();
 
-		assertEquals("Nb layers", 2, engine.NbLayers());
+		assertEquals("Nb layers", 2, engine.getNbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   2, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testComputeAllLayersUntilStartCriteria() {
-		start_criteria.GlobalIncludes("/c.C.c/");
-		stop_criteria.GlobalIncludes("//");
+		start_criteria.setGlobalIncludes("/c.C.c/");
+		stop_criteria.setGlobalIncludes("//");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeAllLayers();
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeAllLayers();
 
-		assertEquals("Nb layers", 1, engine.NbLayers());
+		assertEquals("Nb layers", 1, engine.getNbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 1, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   1, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   1, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 1, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   1, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   1, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testCompute1LayerOnly() {
-		start_criteria.GlobalIncludes("/c.C.c/");
-		stop_criteria.GlobalIncludes("");
+		start_criteria.setGlobalIncludes("/c.C.c/");
+		stop_criteria.setGlobalIncludes("");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeLayers(1);
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeLayers(1);
 
-		assertEquals("Nb layers", 2, engine.NbLayers());
+		assertEquals("Nb layers", 2, engine.getNbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   2, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 
 	public void testCompute4LayersWithStopCriteria() {
-		start_criteria.GlobalIncludes("/c.C.c/");
-		stop_criteria.GlobalIncludes("/b.B.b/");
+		start_criteria.setGlobalIncludes("/c.C.c/");
+		stop_criteria.setGlobalIncludes("/b.B.b/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
-		engine.ComputeLayers(4);
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.computeLayers(4);
 
-		assertEquals("Nb layers", 2, engine.NbLayers());
+		assertEquals("Nb layers", 2, engine.getNbLayers());
 
-		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.Layer(0).iterator().next()).getInboundDependencies().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
 		
-		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
-		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
-		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+		assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
+		assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
+		assertEquals("features in scope",   2, engine.getFactory().getFeatures().values().size());
 
-		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
-		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
-		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
-		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+		assertEquals("package b in scope",     b,     engine.getFactory().getPackages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.getFactory().getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.getFactory().getFeatures().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.getFactory().getPackages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.getFactory().getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.getFactory().getFeatures().get("c.C.c"));
 	}
 }

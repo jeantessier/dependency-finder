@@ -35,9 +35,9 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class CollectionSelectionCriteria implements SelectionCriteria {
-	private boolean match_package    = true;
-	private boolean match_class      = true;
-	private boolean match_feature    = true;
+	private boolean matchingPackages = true;
+	private boolean matchingClasses  = true;
+	private boolean matchingFeatures = true;
 
 	Collection include;
 	Collection exclude;
@@ -47,55 +47,55 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
 		this.exclude = exclude;
 	}
 	
-	public boolean doesPackageMatching() {
-		return match_package;
+	public boolean isMatchingPackages() {
+		return matchingPackages;
 	}
 
-	public void MatchPackage(boolean match_package) {
-		this.match_package = match_package;
+	public void setMatchingPackages(boolean matchingPackages) {
+		this.matchingPackages = matchingPackages;
 	}
 
-	public boolean doesClassMatching() {
-		return match_class;
+	public boolean isMatchingClasses() {
+		return matchingClasses;
 	}
 
-	public void MatchClass(boolean match_class) {
-		this.match_class = match_class;
+	public void setMatchingClasses(boolean matchingClasses) {
+		this.matchingClasses = matchingClasses;
 	}
 	
-	public boolean doesFeatureMatching() {
-		return match_feature;
+	public boolean isMatchingFeatures() {
+		return matchingFeatures;
 	}
 
-	public void MatchFeature(boolean match_feature) {
-		this.match_feature = match_feature;
+	public void setMatchingFeatures(boolean matchingFeatures) {
+		this.matchingFeatures = matchingFeatures;
 	}
 
 	public boolean matches(PackageNode node) {
-		return Match(node.getName());
+		return matchesName(node.getName());
 	}
 	
 	public boolean matches(ClassNode node) {
-		return Match(node.getName());
+		return matchesName(node.getName());
 	}
 	
 	public boolean matches(FeatureNode node) {
-		return Match(node.getName());
+		return matchesName(node.getName());
 	}
 
 	public boolean matchesPackageName(String name) {
-		return Match(name);
+		return matchesName(name);
 	}
 	
 	public boolean matchesClassName(String name) {
-		return Match(name);
+		return matchesName(name);
 	}
 	
 	public boolean matchesFeatureName(String name) {
-		return Match(name);
+		return matchesName(name);
 	}
 
-	private boolean Match(String name) {
+	private boolean matchesName(String name) {
 		return (include == null || include.contains(name)) && (exclude == null || !exclude.contains(name));
 	}
 }

@@ -49,18 +49,18 @@ public class MetricsTableModel extends AbstractTableModel {
 	}
 	
 	public int getColumnCount() {
-		return MetricsGatherer.NbCharts();
+		return MetricsGatherer.getNbCharts();
 	}
 
 	public int getRowCount() {
-		return Metrics().ChartMaximum() + 1;
+		return Metrics().getChartMaximum() + 1;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return new Long(Metrics().ChartData(rowIndex)[columnIndex]);
+		return new Long(Metrics().getChartData(rowIndex)[columnIndex]);
 	}
 
 	public String getColumnName(int column) {
-		return MetricsGatherer.ChartName(column);
+		return MetricsGatherer.getChartName(column);
 	}
 }

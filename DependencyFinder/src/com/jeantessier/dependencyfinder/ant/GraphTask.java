@@ -340,18 +340,18 @@ public abstract class GraphTask extends Task {
 	protected SelectionCriteria ScopeCriteria() throws BuildException {
 		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
-		result.MatchPackage(getPackagescope());
-		result.MatchClass(getClassscope());
-		result.MatchFeature(getFeaturescope());
+		result.setMatchingPackages(getPackagescope());
+		result.setMatchingClasses(getClassscope());
+		result.setMatchingFeatures(getFeaturescope());
 
-		result.GlobalIncludes(getScopeincludes());
-		result.GlobalExcludes(getScopeexcludes());
-		result.PackageIncludes(getPackagescopeincludes());
-		result.PackageExcludes(getPackagescopeexcludes());
-		result.ClassIncludes(getClassscopeincludes());
-		result.ClassExcludes(getClassscopeexcludes());
-		result.FeatureIncludes(getFeaturescopeincludes());
-		result.FeatureExcludes(getFeaturescopeexcludes());
+		result.setGlobalIncludes(getScopeincludes());
+		result.setGlobalExcludes(getScopeexcludes());
+		result.setPackageIncludes(getPackagescopeincludes());
+		result.setPackageExcludes(getPackagescopeexcludes());
+		result.setClassIncludes(getClassscopeincludes());
+		result.setClassExcludes(getClassscopeexcludes());
+		result.setFeatureIncludes(getFeaturescopeincludes());
+		result.setFeatureExcludes(getFeaturescopeexcludes());
 
 		return result;
 	}
@@ -359,18 +359,18 @@ public abstract class GraphTask extends Task {
 	protected SelectionCriteria FilterCriteria() throws BuildException {
 		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
-		result.MatchPackage(getPackagefilter());
-		result.MatchClass(getClassfilter());
-		result.MatchFeature(getFeaturefilter());
+		result.setMatchingPackages(getPackagefilter());
+		result.setMatchingClasses(getClassfilter());
+		result.setMatchingFeatures(getFeaturefilter());
 
-		result.GlobalIncludes(getFilterincludes());
-		result.GlobalExcludes(getFilterexcludes());
-		result.PackageIncludes(getPackagefilterincludes());
-		result.PackageExcludes(getPackagefilterexcludes());
-		result.ClassIncludes(getClassfilterincludes());
-		result.ClassExcludes(getClassfilterexcludes());
-		result.FeatureIncludes(getFeaturefilterincludes());
-		result.FeatureExcludes(getFeaturefilterexcludes());
+		result.setGlobalIncludes(getFilterincludes());
+		result.setGlobalExcludes(getFilterexcludes());
+		result.setPackageIncludes(getPackagefilterincludes());
+		result.setPackageExcludes(getPackagefilterexcludes());
+		result.setClassIncludes(getClassfilterincludes());
+		result.setClassExcludes(getClassfilterexcludes());
+		result.setFeatureIncludes(getFeaturefilterincludes());
+		result.setFeatureExcludes(getFeaturefilterexcludes());
 
 		return result;
 	}

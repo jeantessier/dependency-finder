@@ -69,18 +69,18 @@ public class DifferencesFactory {
 		NodeFactory old_factory = new NodeFactory();
 		i = old_jar.getAllClassfiles().iterator();
 		while (i.hasNext()) {
-			old_factory.CreateClass(i.next().toString());
+			old_factory.createClass(i.next().toString());
 		}
 
 		NodeFactory new_factory = new NodeFactory();
 		i = new_jar.getAllClassfiles().iterator();
 		while (i.hasNext()) {
-			new_factory.CreateClass(i.next().toString());
+			new_factory.createClass(i.next().toString());
 		}
 		
 		Collection package_level = new TreeSet();
-		package_level.addAll(old_factory.Packages().keySet());
-		package_level.addAll(new_factory.Packages().keySet());
+		package_level.addAll(old_factory.getPackages().keySet());
+		package_level.addAll(new_factory.getPackages().keySet());
 		
 		Logger.getLogger(getClass()).debug("      Diff'ing packages ...");
 		
@@ -88,8 +88,8 @@ public class DifferencesFactory {
 		while (i.hasNext()) {
 			String package_name = (String) i.next();
 			
-			PackageNode old_package = (PackageNode) old_factory.Packages().get(package_name);
-			PackageNode new_package = (PackageNode) new_factory.Packages().get(package_name);
+			PackageNode old_package = (PackageNode) old_factory.getPackages().get(package_name);
+			PackageNode new_package = (PackageNode) new_factory.getPackages().get(package_name);
 			
 			Differences differences = CreatePackageDifferences(package_name, old_package, new_package);
 			if (!differences.IsEmpty()) {

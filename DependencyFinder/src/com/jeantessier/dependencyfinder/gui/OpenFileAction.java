@@ -83,7 +83,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 			model.StatusLine().ShowInfo("Loading " + filename + " ...");
 			ProgressMonitorInputStream in = new ProgressMonitorInputStream(model, "Reading " + filename, new FileInputStream(filename));
 			in.getProgressMonitor().setMillisToDecideToPopup(0);
-			model.NodeFactory(loader.Load(in));
+			model.NodeFactory(loader.load(in));
 			model.setTitle("Dependency Finder - " + filename);
 
 			if (model.Maximize()) {
@@ -111,23 +111,23 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 		}
 	}
 	
-	public void BeginSession(DependencyEvent event) {
+	public void beginSession(DependencyEvent event) {
 		// Do nothing
 	}
 
-	public void BeginClass(DependencyEvent event) {
-		model.StatusLine().ShowInfo("Loading dependencies for " + event.Classname() + " ...");
+	public void beginClass(DependencyEvent event) {
+		model.StatusLine().ShowInfo("Loading dependencies for " + event.getClassName() + " ...");
 	}
 	
-	public void Dependency(DependencyEvent event) {
+	public void dependency(DependencyEvent event) {
 		// Do nothing
 	}
 	
-	public void EndClass(DependencyEvent event) {
+	public void endClass(DependencyEvent event) {
 		// Do nothing
 	}
 	
-	public void EndSession(DependencyEvent event) {
+	public void endSession(DependencyEvent event) {
 		// Do nothing
 	}
 }

@@ -67,19 +67,19 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		filter_criteria = new RegularExpressionSelectionCriteria();
 		factory         = new NodeFactory();
 
-		_package = factory.CreatePackage("");
-		test_class = factory.CreateClass("test");
-		test_main_method = factory.CreateFeature("test.main(String[])");
-		test_Test_method = factory.CreateFeature("test.test()");
+		_package = factory.createPackage("");
+		test_class = factory.createClass("test");
+		test_main_method = factory.createFeature("test.main(String[])");
+		test_Test_method = factory.createFeature("test.test()");
 		
-		java_lang_package = factory.CreatePackage("java.lang");
-		java_lang_Object_class = factory.CreateClass("java.lang.Object");
-		java_lang_Object_Object_method = factory.CreateFeature("java.lang.Object.Object()");
-		java_lang_String_class = factory.CreateClass("java.lang.String");
+		java_lang_package = factory.createPackage("java.lang");
+		java_lang_Object_class = factory.createClass("java.lang.Object");
+		java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
+		java_lang_String_class = factory.createClass("java.lang.String");
 		
-		java_util_package = factory.CreatePackage("java.util");
-		java_util_Collections_class = factory.CreateClass("java.util.Collections");
-		java_util_Collections_singleton_method = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
+		java_util_package = factory.createPackage("java.util");
+		java_util_Collections_class = factory.createClass("java.util.Collections");
+		java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
 		
 		test_class.addDependency(java_lang_Object_class);
 		test_main_method.addDependency(java_lang_Object_class);
@@ -95,223 +95,223 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCompleteClosure() {
-		scope_criteria.GlobalIncludes(scope_includes) ;
+		scope_criteria.setGlobalIncludes(scope_includes) ;
 		
-		selector.traverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.getPackages().values());
 
 		assertEquals("Different number of packages",
-					 factory.Packages().size(),
-					 selector.Factory().Packages().size());
+					 factory.getPackages().size(),
+					 selector.getFactory().getPackages().size());
 		assertEquals("Different number of classes",
-					 factory.Classes().size(),
-					 selector.Factory().Classes().size());
+					 factory.getClasses().size(),
+					 selector.getFactory().getClasses().size());
 		assertEquals("Different number of features",
-					 factory.Features().size(),
-					 selector.Factory().Features().size());
+					 factory.getFeatures().size(),
+					 selector.getFactory().getFeatures().size());
 
 		Iterator i;
 
-		i = selector.Factory().Packages().keySet().iterator();
+		i = selector.getFactory().getPackages().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Packages().get(key), selector.Factory().Packages().get(key));
-			assertTrue(factory.Packages().get(key) != selector.Factory().Packages().get(key));
+			assertEquals(factory.getPackages().get(key), selector.getFactory().getPackages().get(key));
+			assertTrue(factory.getPackages().get(key) != selector.getFactory().getPackages().get(key));
 			assertEquals("Package " + key + " has different inbound count",
-						 ((Node) factory.Packages().get(key)).getInboundDependencies().size(),
-						 ((Node) selector.Factory().Packages().get(key)).getInboundDependencies().size());
+						 ((Node) factory.getPackages().get(key)).getInboundDependencies().size(),
+						 ((Node) selector.getFactory().getPackages().get(key)).getInboundDependencies().size());
 			assertEquals("Package " + key + " has different outbound count",
-						 ((Node) factory.Packages().get(key)).getOutboundDependencies().size(),
-						 ((Node) selector.Factory().Packages().get(key)).getOutboundDependencies().size());
+						 ((Node) factory.getPackages().get(key)).getOutboundDependencies().size(),
+						 ((Node) selector.getFactory().getPackages().get(key)).getOutboundDependencies().size());
 		}
 		
-		i = selector.Factory().Classes().keySet().iterator();
+		i = selector.getFactory().getClasses().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Classes().get(key), selector.Factory().Classes().get(key));
-			assertTrue(factory.Classes().get(key) != selector.Factory().Classes().get(key));
+			assertEquals(factory.getClasses().get(key), selector.getFactory().getClasses().get(key));
+			assertTrue(factory.getClasses().get(key) != selector.getFactory().getClasses().get(key));
 			assertEquals("Class " + key + " has different inbound count",
-						 ((Node) factory.Classes().get(key)).getInboundDependencies().size(),
-						 ((Node) selector.Factory().Classes().get(key)).getInboundDependencies().size());
+						 ((Node) factory.getClasses().get(key)).getInboundDependencies().size(),
+						 ((Node) selector.getFactory().getClasses().get(key)).getInboundDependencies().size());
 			assertEquals("Class " + key + " has different outbound count",
-						 ((Node) factory.Classes().get(key)).getOutboundDependencies().size(),
-						 ((Node) selector.Factory().Classes().get(key)).getOutboundDependencies().size());
+						 ((Node) factory.getClasses().get(key)).getOutboundDependencies().size(),
+						 ((Node) selector.getFactory().getClasses().get(key)).getOutboundDependencies().size());
 		}
 		
-		i = selector.Factory().Features().keySet().iterator();
+		i = selector.getFactory().getFeatures().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Features().get(key), selector.Factory().Features().get(key));
-			assertTrue(factory.Features().get(key) != selector.Factory().Features().get(key));
+			assertEquals(factory.getFeatures().get(key), selector.getFactory().getFeatures().get(key));
+			assertTrue(factory.getFeatures().get(key) != selector.getFactory().getFeatures().get(key));
 			assertEquals("Feature " + key + " has different inbound count",
-						 ((Node) factory.Features().get(key)).getInboundDependencies().size(),
-						 ((Node) selector.Factory().Features().get(key)).getInboundDependencies().size());
+						 ((Node) factory.getFeatures().get(key)).getInboundDependencies().size(),
+						 ((Node) selector.getFactory().getFeatures().get(key)).getInboundDependencies().size());
 			assertEquals("Feature " + key + " has different outbound count",
-						 ((Node) factory.Features().get(key)).getOutboundDependencies().size(),
-						 ((Node) selector.Factory().Features().get(key)).getOutboundDependencies().size());
+						 ((Node) factory.getFeatures().get(key)).getOutboundDependencies().size(),
+						 ((Node) selector.getFactory().getFeatures().get(key)).getOutboundDependencies().size());
 		}
 	}
 
 	public void testCopyAllNodesOnly() {
-		scope_criteria.GlobalIncludes(scope_includes) ;
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setGlobalIncludes(scope_includes) ;
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.getPackages().values());
 
 		assertEquals("Different number of packages",
 					 1,
-					 selector.Factory().Packages().size());
+					 selector.getFactory().getPackages().size());
 		assertEquals("Different number of classes",
 					 1,
-					 selector.Factory().Classes().size());
+					 selector.getFactory().getClasses().size());
 		assertEquals("Different number of features",
 					 2,
-					 selector.Factory().Features().size());
+					 selector.getFactory().getFeatures().size());
 
 		Iterator i;
 
-		i = selector.Factory().Packages().keySet().iterator();
+		i = selector.getFactory().getPackages().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Packages().get(key), selector.Factory().Packages().get(key));
-			assertTrue(factory.Packages().get(key) != selector.Factory().Packages().get(key));
-			assertTrue(((Node) selector.Factory().Packages().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.Factory().Packages().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getPackages().get(key), selector.getFactory().getPackages().get(key));
+			assertTrue(factory.getPackages().get(key) != selector.getFactory().getPackages().get(key));
+			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.Factory().Classes().keySet().iterator();
+		i = selector.getFactory().getClasses().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Classes().get(key), selector.Factory().Classes().get(key));
-			assertTrue(factory.Classes().get(key) != selector.Factory().Classes().get(key));
-			assertTrue(((Node) selector.Factory().Classes().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.Factory().Classes().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getClasses().get(key), selector.getFactory().getClasses().get(key));
+			assertTrue(factory.getClasses().get(key) != selector.getFactory().getClasses().get(key));
+			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.Factory().Features().keySet().iterator();
+		i = selector.getFactory().getFeatures().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Features().get(key), selector.Factory().Features().get(key));
-			assertTrue(factory.Features().get(key) != selector.Factory().Features().get(key));
-			assertTrue(((Node) selector.Factory().Features().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.Factory().Features().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getFeatures().get(key), selector.getFactory().getFeatures().get(key));
+			assertTrue(factory.getFeatures().get(key) != selector.getFactory().getFeatures().get(key));
+			assertTrue(((Node) selector.getFactory().getFeatures().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.getFactory().getFeatures().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
 	public void testCopyPackageNodesOnly() {
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		scope_criteria.GlobalIncludes(scope_includes) ;
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		scope_criteria.setGlobalIncludes(scope_includes) ;
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.getPackages().values());
 
-		assertTrue(selector.Factory().Packages().isEmpty());
-		assertTrue(selector.Factory().Classes().isEmpty());
-		assertTrue(selector.Factory().Features().isEmpty());
+		assertTrue(selector.getFactory().getPackages().isEmpty());
+		assertTrue(selector.getFactory().getClasses().isEmpty());
+		assertTrue(selector.getFactory().getFeatures().isEmpty());
 	}
 
 	public void testCopyClassNodesOnly() {
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchFeature(false);
-		scope_criteria.GlobalIncludes(scope_includes) ;
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingFeatures(false);
+		scope_criteria.setGlobalIncludes(scope_includes) ;
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.getPackages().values());
 
 		assertEquals("Different number of packages",
 					 1,
-					 selector.Factory().Packages().size());
+					 selector.getFactory().getPackages().size());
 		assertEquals("Different number of classes",
 					 1,
-					 selector.Factory().Classes().size());
-		assertTrue(selector.Factory().Features().isEmpty());
+					 selector.getFactory().getClasses().size());
+		assertTrue(selector.getFactory().getFeatures().isEmpty());
 
 		Iterator i;
 
-		i = selector.Factory().Packages().keySet().iterator();
+		i = selector.getFactory().getPackages().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Packages().get(key), selector.Factory().Packages().get(key));
-			assertTrue(factory.Packages().get(key) != selector.Factory().Packages().get(key));
-			assertTrue(((Node) selector.Factory().Packages().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.Factory().Packages().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getPackages().get(key), selector.getFactory().getPackages().get(key));
+			assertTrue(factory.getPackages().get(key) != selector.getFactory().getPackages().get(key));
+			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.Factory().Classes().keySet().iterator();
+		i = selector.getFactory().getClasses().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Classes().get(key), selector.Factory().Classes().get(key));
-			assertTrue(factory.Classes().get(key) != selector.Factory().Classes().get(key));
-			assertTrue(((Node) selector.Factory().Classes().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.Factory().Classes().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getClasses().get(key), selector.getFactory().getClasses().get(key));
+			assertTrue(factory.getClasses().get(key) != selector.getFactory().getClasses().get(key));
+			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
 	public void testCopyFeatureNodesOnly() {
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		scope_criteria.GlobalIncludes(scope_includes) ;
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setGlobalIncludes(scope_includes) ;
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.getPackages().values());
 
 		assertEquals("Different number of packages",
 					 1,
-					 selector.Factory().Packages().size());
+					 selector.getFactory().getPackages().size());
 		assertEquals("Different number of classes",
 					 1,
-					 selector.Factory().Classes().size());
+					 selector.getFactory().getClasses().size());
 		assertEquals("Different number of features",
 					 2,
-					 selector.Factory().Features().size());
+					 selector.getFactory().getFeatures().size());
 
 		Iterator i;
 
-		i = selector.Factory().Packages().keySet().iterator();
+		i = selector.getFactory().getPackages().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Packages().get(key), selector.Factory().Packages().get(key));
-			assertTrue(factory.Packages().get(key) != selector.Factory().Packages().get(key));
-			assertTrue(((Node) selector.Factory().Packages().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.Factory().Packages().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getPackages().get(key), selector.getFactory().getPackages().get(key));
+			assertTrue(factory.getPackages().get(key) != selector.getFactory().getPackages().get(key));
+			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.getFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.Factory().Classes().keySet().iterator();
+		i = selector.getFactory().getClasses().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Classes().get(key), selector.Factory().Classes().get(key));
-			assertTrue(factory.Classes().get(key) != selector.Factory().Classes().get(key));
-			assertTrue(((Node) selector.Factory().Classes().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.Factory().Classes().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getClasses().get(key), selector.getFactory().getClasses().get(key));
+			assertTrue(factory.getClasses().get(key) != selector.getFactory().getClasses().get(key));
+			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.getFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
 		}
 		
-		i = selector.Factory().Features().keySet().iterator();
+		i = selector.getFactory().getFeatures().keySet().iterator();
 		while(i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Features().get(key), selector.Factory().Features().get(key));
-			assertTrue(factory.Features().get(key) != selector.Factory().Features().get(key));
-			assertTrue(((Node) selector.Factory().Features().get(key)).getInboundDependencies().isEmpty());
-			assertTrue(((Node) selector.Factory().Features().get(key)).getOutboundDependencies().isEmpty());
+			assertEquals(factory.getFeatures().get(key), selector.getFactory().getFeatures().get(key));
+			assertTrue(factory.getFeatures().get(key) != selector.getFactory().getFeatures().get(key));
+			assertTrue(((Node) selector.getFactory().getFeatures().get(key)).getInboundDependencies().isEmpty());
+			assertTrue(((Node) selector.getFactory().getFeatures().get(key)).getOutboundDependencies().isEmpty());
 		}
 	}
 
 	public void testCopyNothing() {
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
 		
-		selector.traverseNodes(factory.Packages().values());
+		selector.traverseNodes(factory.getPackages().values());
 
-		assertTrue(selector.Factory().Packages().isEmpty());
-		assertTrue(selector.Factory().Classes().isEmpty());
-		assertTrue(selector.Factory().Features().isEmpty());
+		assertTrue(selector.getFactory().getPackages().isEmpty());
+		assertTrue(selector.getFactory().getClasses().isEmpty());
+		assertTrue(selector.getFactory().getFeatures().isEmpty());
 	}
 }

@@ -255,129 +255,129 @@ public class DependencyMetrics {
 
 		MetricsReport reporter = new MetricsReport(out);
 		
-		reporter.ListElements(command_line.getToggleSwitch("list"));
-		reporter.ClassesPerPackageChart(command_line.getToggleSwitch("chart-classes-per-package"));
-		reporter.FeaturesPerClassChart(command_line.getToggleSwitch("chart-features-per-class"));
-		reporter.InboundsPerPackageChart(command_line.getToggleSwitch("chart-inbounds-per-package"));
-		reporter.OutboundsPerPackageChart(command_line.getToggleSwitch("chart-outbounds-per-package"));
-		reporter.InboundsPerClassChart(command_line.getToggleSwitch("chart-inbounds-per-class"));
-		reporter.OutboundsPerClassChart(command_line.getToggleSwitch("chart-outbounds-per-class"));
-		reporter.InboundsPerFeatureChart(command_line.getToggleSwitch("chart-inbounds-per-feature"));
-		reporter.OutboundsPerFeatureChart(command_line.getToggleSwitch("chart-outbounds-per-feature"));
+		reporter.setListingElements(command_line.getToggleSwitch("list"));
+		reporter.setChartingClassesPerPackage(command_line.getToggleSwitch("chart-classes-per-package"));
+		reporter.setChartingFeaturesPerClass(command_line.getToggleSwitch("chart-features-per-class"));
+		reporter.setChartingInboundsPerPackage(command_line.getToggleSwitch("chart-inbounds-per-package"));
+		reporter.setChartingOutboundsPerPackage(command_line.getToggleSwitch("chart-outbounds-per-package"));
+		reporter.setChartingInboundsPerClass(command_line.getToggleSwitch("chart-inbounds-per-class"));
+		reporter.setChartingOutboundsPerClass(command_line.getToggleSwitch("chart-outbounds-per-class"));
+		reporter.setChartingInboundsPerFeature(command_line.getToggleSwitch("chart-inbounds-per-feature"));
+		reporter.setChartingOutboundsPerFeature(command_line.getToggleSwitch("chart-outbounds-per-feature"));
 
 		if (command_line.getToggleSwitch("chart-all")) {
-			reporter.ClassesPerPackageChart(true);
-			reporter.FeaturesPerClassChart(true);
-			reporter.InboundsPerPackageChart(true);
-			reporter.OutboundsPerPackageChart(true);
-			reporter.InboundsPerClassChart(true);
-			reporter.OutboundsPerClassChart(true);
-			reporter.InboundsPerFeatureChart(true);
-			reporter.OutboundsPerFeatureChart(true);
+			reporter.setChartingClassesPerPackage(true);
+			reporter.setChartingFeaturesPerClass(true);
+			reporter.setChartingInboundsPerPackage(true);
+			reporter.setChartingOutboundsPerPackage(true);
+			reporter.setChartingInboundsPerClass(true);
+			reporter.setChartingOutboundsPerClass(true);
+			reporter.setChartingInboundsPerFeature(true);
+			reporter.setChartingOutboundsPerFeature(true);
 		}
 		
 		if (command_line.getToggleSwitch("chart-inbounds")) {
-			reporter.InboundsPerPackageChart(true);
-			reporter.InboundsPerClassChart(true);
-			reporter.InboundsPerFeatureChart(true);
+			reporter.setChartingInboundsPerPackage(true);
+			reporter.setChartingInboundsPerClass(true);
+			reporter.setChartingInboundsPerFeature(true);
 		}
 		
 		if (command_line.getToggleSwitch("chart-outbounds")) {
-			reporter.OutboundsPerPackageChart(true);
-			reporter.OutboundsPerClassChart(true);
-			reporter.OutboundsPerFeatureChart(true);
+			reporter.setChartingOutboundsPerPackage(true);
+			reporter.setChartingOutboundsPerClass(true);
+			reporter.setChartingOutboundsPerFeature(true);
 		}
 		
 		if (command_line.getToggleSwitch("chart-packages")) {
-			reporter.ClassesPerPackageChart(true);
-			reporter.InboundsPerPackageChart(true);
-			reporter.OutboundsPerPackageChart(true);
+			reporter.setChartingClassesPerPackage(true);
+			reporter.setChartingInboundsPerPackage(true);
+			reporter.setChartingOutboundsPerPackage(true);
 		}
 		
 		if (command_line.getToggleSwitch("chart-classes")) {
-			reporter.FeaturesPerClassChart(true);
-			reporter.InboundsPerClassChart(true);
-			reporter.OutboundsPerClassChart(true);
+			reporter.setChartingFeaturesPerClass(true);
+			reporter.setChartingInboundsPerClass(true);
+			reporter.setChartingOutboundsPerClass(true);
 		}
 		
 		if (command_line.getToggleSwitch("chart-features")) {
-			reporter.InboundsPerFeatureChart(true);
-			reporter.OutboundsPerFeatureChart(true);
+			reporter.setChartingInboundsPerFeature(true);
+			reporter.setChartingOutboundsPerFeature(true);
 		}
 
 		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.MatchPackage(command_line.getToggleSwitch("package-scope"));
-		scope_criteria.MatchClass(command_line.getToggleSwitch("class-scope"));
-		scope_criteria.MatchFeature(command_line.getToggleSwitch("feature-scope"));
+		scope_criteria.setMatchingPackages(command_line.getToggleSwitch("package-scope"));
+		scope_criteria.setMatchingClasses(command_line.getToggleSwitch("class-scope"));
+		scope_criteria.setMatchingFeatures(command_line.getToggleSwitch("feature-scope"));
 
 		if (command_line.isPresent("scope-includes") || (!command_line.isPresent("package-scope-includes") && !command_line.isPresent("class-scope-includes") && !command_line.isPresent("feature-scope-includes"))) {
 			// Only use the default if nothing else has been specified.
-			scope_criteria.GlobalIncludes(command_line.getMultipleSwitch("scope-includes"));
+			scope_criteria.setGlobalIncludes(command_line.getMultipleSwitch("scope-includes"));
 		}
-		scope_criteria.GlobalExcludes(command_line.getMultipleSwitch("scope-excludes"));
-		scope_criteria.PackageIncludes(command_line.getMultipleSwitch("package-scope-includes"));
-		scope_criteria.PackageExcludes(command_line.getMultipleSwitch("package-scope-excludes"));
-		scope_criteria.ClassIncludes(command_line.getMultipleSwitch("class-scope-includes"));
-		scope_criteria.ClassExcludes(command_line.getMultipleSwitch("class-scope-excludes"));
-		scope_criteria.FeatureIncludes(command_line.getMultipleSwitch("feature-scope-includes"));
-		scope_criteria.FeatureExcludes(command_line.getMultipleSwitch("feature-scope-excludes"));
+		scope_criteria.setGlobalExcludes(command_line.getMultipleSwitch("scope-excludes"));
+		scope_criteria.setPackageIncludes(command_line.getMultipleSwitch("package-scope-includes"));
+		scope_criteria.setPackageExcludes(command_line.getMultipleSwitch("package-scope-excludes"));
+		scope_criteria.setClassIncludes(command_line.getMultipleSwitch("class-scope-includes"));
+		scope_criteria.setClassExcludes(command_line.getMultipleSwitch("class-scope-excludes"));
+		scope_criteria.setFeatureIncludes(command_line.getMultipleSwitch("feature-scope-includes"));
+		scope_criteria.setFeatureExcludes(command_line.getMultipleSwitch("feature-scope-excludes"));
 
 		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
 
-		filter_criteria.MatchPackage(command_line.getToggleSwitch("package-filter"));
-		filter_criteria.MatchClass(command_line.getToggleSwitch("class-filter"));
-		filter_criteria.MatchFeature(command_line.getToggleSwitch("feature-filter"));
+		filter_criteria.setMatchingPackages(command_line.getToggleSwitch("package-filter"));
+		filter_criteria.setMatchingClasses(command_line.getToggleSwitch("class-filter"));
+		filter_criteria.setMatchingFeatures(command_line.getToggleSwitch("feature-filter"));
 		
 		if (command_line.isPresent("filter-includes") || (!command_line.isPresent("package-filter-includes") && !command_line.isPresent("class-filter-includes") && !command_line.isPresent("feature-filter-includes"))) {
 			// Only use the default if nothing else has been specified.
-			filter_criteria.GlobalIncludes(command_line.getMultipleSwitch("filter-includes"));
+			filter_criteria.setGlobalIncludes(command_line.getMultipleSwitch("filter-includes"));
 		}
-		filter_criteria.GlobalExcludes(command_line.getMultipleSwitch("filter-excludes"));
-		filter_criteria.PackageIncludes(command_line.getMultipleSwitch("package-filter-includes"));
-		filter_criteria.PackageExcludes(command_line.getMultipleSwitch("package-filter-excludes"));
-		filter_criteria.ClassIncludes(command_line.getMultipleSwitch("class-filter-includes"));
-		filter_criteria.ClassExcludes(command_line.getMultipleSwitch("class-filter-excludes"));
-		filter_criteria.FeatureIncludes(command_line.getMultipleSwitch("feature-filter-includes"));
-		filter_criteria.FeatureExcludes(command_line.getMultipleSwitch("feature-filter-excludes"));
+		filter_criteria.setGlobalExcludes(command_line.getMultipleSwitch("filter-excludes"));
+		filter_criteria.setPackageIncludes(command_line.getMultipleSwitch("package-filter-includes"));
+		filter_criteria.setPackageExcludes(command_line.getMultipleSwitch("package-filter-excludes"));
+		filter_criteria.setClassIncludes(command_line.getMultipleSwitch("class-filter-includes"));
+		filter_criteria.setClassExcludes(command_line.getMultipleSwitch("class-filter-excludes"));
+		filter_criteria.setFeatureIncludes(command_line.getMultipleSwitch("feature-filter-includes"));
+		filter_criteria.setFeatureExcludes(command_line.getMultipleSwitch("feature-filter-excludes"));
 	
 		if (command_line.getToggleSwitch("all")) {
-			scope_criteria.MatchPackage(true);
-			scope_criteria.MatchClass(true);
-			scope_criteria.MatchFeature(true);
-			filter_criteria.MatchPackage(true);
-			filter_criteria.MatchClass(true);
-			filter_criteria.MatchFeature(true);
+			scope_criteria.setMatchingPackages(true);
+			scope_criteria.setMatchingClasses(true);
+			scope_criteria.setMatchingFeatures(true);
+			filter_criteria.setMatchingPackages(true);
+			filter_criteria.setMatchingClasses(true);
+			filter_criteria.setMatchingFeatures(true);
 		}
 	
 		if (command_line.getToggleSwitch("p2p")) {
-			scope_criteria.MatchPackage(true);
-			filter_criteria.MatchPackage(true);
+			scope_criteria.setMatchingPackages(true);
+			filter_criteria.setMatchingPackages(true);
 		}
 	
 		if (command_line.getToggleSwitch("c2p")) {
-			scope_criteria.MatchClass(true);
-			filter_criteria.MatchPackage(true);
+			scope_criteria.setMatchingClasses(true);
+			filter_criteria.setMatchingPackages(true);
 		}
 	
 		if (command_line.getToggleSwitch("c2c")) {
-			scope_criteria.MatchClass(true);
-			filter_criteria.MatchClass(true);
+			scope_criteria.setMatchingClasses(true);
+			filter_criteria.setMatchingClasses(true);
 		}
 	
 		if (command_line.getToggleSwitch("f2f")) {
-			scope_criteria.MatchFeature(true);
-			filter_criteria.MatchFeature(true);
+			scope_criteria.setMatchingFeatures(true);
+			filter_criteria.setMatchingFeatures(true);
 		}
 	
 		if (command_line.isPresent("includes")) {
-			scope_criteria.GlobalIncludes(command_line.getMultipleSwitch("includes"));
-			filter_criteria.GlobalIncludes(command_line.getMultipleSwitch("includes"));
+			scope_criteria.setGlobalIncludes(command_line.getMultipleSwitch("includes"));
+			filter_criteria.setGlobalIncludes(command_line.getMultipleSwitch("includes"));
 		}
 	
 		if (command_line.isPresent("excludes")) {
-			scope_criteria.GlobalExcludes(command_line.getMultipleSwitch("excludes"));
-			filter_criteria.GlobalExcludes(command_line.getMultipleSwitch("excludes"));
+			scope_criteria.setGlobalExcludes(command_line.getMultipleSwitch("excludes"));
+			filter_criteria.setGlobalExcludes(command_line.getMultipleSwitch("excludes"));
 		}
 
 		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
@@ -394,7 +394,7 @@ public class DependencyMetrics {
 			if (filename.endsWith(".xml")) {
 				NodeLoader loader = new NodeLoader(command_line.getToggleSwitch("validate"));
 				loader.addDependencyListener(verbose_listener);
-				packages = loader.Load(filename).Packages().values();
+				packages = loader.load(filename).getPackages().values();
 			}
 
 			Logger.getLogger(DependencyMetrics.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
@@ -402,10 +402,10 @@ public class DependencyMetrics {
 			metrics.traverseNodes(packages);
 		}
 
-		Logger.getLogger(DependencyMetrics.class).info("Reporting " + metrics.Packages().size() + " package(s) ...");
-		verbose_listener.Print("Reporting " + metrics.Packages().size() + " package(s) ...");
+		Logger.getLogger(DependencyMetrics.class).info("Reporting " + metrics.getPackages().size() + " package(s) ...");
+		verbose_listener.Print("Reporting " + metrics.getPackages().size() + " package(s) ...");
 
-		reporter.Process(metrics);
+		reporter.process(metrics);
 
 		out.close();
 		

@@ -44,73 +44,73 @@ public class NodeFactory {
 	private Map classes  = new HashMap();
 	private Map features = new HashMap();
 
-	public PackageNode CreatePackage(String package_name) {
-		Logger.getLogger(getClass()).debug("CreatePackage(" + package_name + ")");
-		PackageNode result = (PackageNode) packages.get(package_name);
+	public PackageNode createPackage(String packageName) {
+		Logger.getLogger(getClass()).debug("Create package \"" + packageName + "\"");
+		PackageNode result = (PackageNode) packages.get(packageName);
 
 		if (result == null) {
-			result = new PackageNode(package_name);
-			packages.put(package_name, result);
-			Logger.getLogger(getClass()).debug("Added package \"" + package_name + "\"");
+			result = new PackageNode(packageName);
+			packages.put(packageName, result);
+			Logger.getLogger(getClass()).debug("Added package \"" + packageName + "\"");
 		}
 
 		return result;
 	}
 
-	public Map Packages() {
+	public Map getPackages() {
 		return Collections.unmodifiableMap(packages);
 	}
 
-	public ClassNode CreateClass(String class_name) {
-		Logger.getLogger(getClass()).debug("CreateClass(" + class_name + ")");
-		ClassNode result = (ClassNode) classes.get(class_name);
+	public ClassNode createClass(String className) {
+		Logger.getLogger(getClass()).debug("Create class \"" + className + "\"");
+		ClassNode result = (ClassNode) classes.get(className);
 
 		if (result == null) {
-			String package_name = "";
-			int pos = class_name.lastIndexOf('.');
+			String packageName = "";
+			int pos = className.lastIndexOf('.');
 			if (pos != -1) {
-				package_name = class_name.substring(0, pos);
+				packageName = className.substring(0, pos);
 			}
-			PackageNode parent = CreatePackage(package_name);
-			result = new ClassNode(parent, class_name);
+			PackageNode parent = createPackage(packageName);
+			result = new ClassNode(parent, className);
 			parent.addClass(result);
-			classes.put(class_name, result);
-			Logger.getLogger(getClass()).debug("Added class \"" + class_name + "\"");
+			classes.put(className, result);
+			Logger.getLogger(getClass()).debug("Added class \"" + className + "\"");
 		}
 
 		return result;
 	}
 
-	public Map Classes() {
+	public Map getClasses() {
 		return Collections.unmodifiableMap(classes);
 	}
 
-	public FeatureNode CreateFeature(String feature_name) {
-		Logger.getLogger(getClass()).debug("CreateFeature(" + feature_name + ")");
-		FeatureNode result = (FeatureNode) features.get(feature_name);
+	public FeatureNode createFeature(String featureName) {
+		Logger.getLogger(getClass()).debug("Create feature \"" + featureName + "\"");
+		FeatureNode result = (FeatureNode) features.get(featureName);
 
 		if (result == null) {
-			String parent_name = null;
+			String parentName = null;
 
-			if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)$/", feature_name)) {
-				parent_name = perl.group(1);
-			} else if (perl.match("/^(.*)\\.[^\\.]*$/", feature_name)) {
-				parent_name = perl.group(1);
+			if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)$/", featureName)) {
+				parentName = perl.group(1);
+			} else if (perl.match("/^(.*)\\.[^\\.]*$/", featureName)) {
+				parentName = perl.group(1);
 			} else {
-				parent_name = "";
+				parentName = "";
 			}
 
-			ClassNode parent = CreateClass(parent_name);
-			result = new FeatureNode(parent, feature_name);
+			ClassNode parent = createClass(parentName);
+			result = new FeatureNode(parent, featureName);
 			parent.addFeature(result);
-			features.put(feature_name, result);
-			Logger.getLogger(getClass()).debug("Added feature \"" + feature_name + "\"");
+			features.put(featureName, result);
+			Logger.getLogger(getClass()).debug("Added feature \"" + featureName + "\"");
 		}
 
 		return result;
 	}
 
-	public Map Features() {
+	public Map getFeatures() {
 		return Collections.unmodifiableMap(features);
 	}
 }

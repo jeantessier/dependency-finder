@@ -60,14 +60,14 @@ public class TestGraphSummarizerWithScoping extends TestCase {
 		filter_criteria = new RegularExpressionSelectionCriteria();
 		factory         = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
-		a_A_b = factory.CreateFeature("a.A.b");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
+		a_A_b = factory.createFeature("a.A.b");
 		
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 		
 		a_A_a.addDependency(a_A_b);
 		a_A_a.addDependency(b_B_b);
@@ -75,22 +75,22 @@ public class TestGraphSummarizerWithScoping extends TestCase {
 		include_scope = new LinkedList();
 		include_scope.add("/^a/");
 
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		scope_criteria.GlobalIncludes(include_scope);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		scope_criteria.setGlobalIncludes(include_scope);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
 
 		summarizer = new GraphSummarizer(scope_criteria, filter_criteria);
 	}
 
 	public void testIncludeF2F() {
-		summarizer.traverseNodes(factory.Packages().values());
+		summarizer.traverseNodes(factory.getPackages().values());
 
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").getInboundDependencies().isEmpty());
-		assertEquals(summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().toString(),
+		assertTrue(summarizer.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
+		assertEquals(summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().toString(),
 					 1, 
-					 summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").getOutboundDependencies().contains(b));
+					 summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+		assertTrue(summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().contains(b));
 	}
 }

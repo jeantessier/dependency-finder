@@ -195,7 +195,7 @@ public class DependencyFinder extends JFrame {
 	}
 
 	public Collection Packages() {
-		return NodeFactory().Packages().values();
+		return NodeFactory().getPackages().values();
 	}
 
 	public NodeFactory NodeFactory() {
@@ -1046,36 +1046,36 @@ public class DependencyFinder extends JFrame {
 	void DependencyQuery() {
 		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.MatchPackage(package_scope.isSelected());
-		scope_criteria.MatchClass(class_scope.isSelected());
-		scope_criteria.MatchFeature(feature_scope.isSelected());
-		scope_criteria.GlobalIncludes(scope_includes.getText());
-		scope_criteria.GlobalExcludes(scope_excludes.getText());
+		scope_criteria.setMatchingPackages(package_scope.isSelected());
+		scope_criteria.setMatchingClasses(class_scope.isSelected());
+		scope_criteria.setMatchingFeatures(feature_scope.isSelected());
+		scope_criteria.setGlobalIncludes(scope_includes.getText());
+		scope_criteria.setGlobalExcludes(scope_excludes.getText());
 
 		if (AdvancedMode()) {
-			scope_criteria.PackageIncludes(package_scope_includes.getText());
-			scope_criteria.ClassIncludes(class_scope_includes.getText());
-			scope_criteria.FeatureIncludes(feature_scope_includes.getText());
-			scope_criteria.PackageExcludes(package_scope_excludes.getText());
-			scope_criteria.ClassExcludes(class_scope_excludes.getText());
-			scope_criteria.FeatureExcludes(feature_scope_excludes.getText());
+			scope_criteria.setPackageIncludes(package_scope_includes.getText());
+			scope_criteria.setClassIncludes(class_scope_includes.getText());
+			scope_criteria.setFeatureIncludes(feature_scope_includes.getText());
+			scope_criteria.setPackageExcludes(package_scope_excludes.getText());
+			scope_criteria.setClassExcludes(class_scope_excludes.getText());
+			scope_criteria.setFeatureExcludes(feature_scope_excludes.getText());
 		}
 	
 		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
 		
-		filter_criteria.MatchPackage(package_filter.isSelected());
-		filter_criteria.MatchClass(class_filter.isSelected());
-		filter_criteria.MatchFeature(feature_filter.isSelected());
-		filter_criteria.GlobalIncludes(filter_includes.getText());
-		filter_criteria.GlobalExcludes(filter_excludes.getText());
+		filter_criteria.setMatchingPackages(package_filter.isSelected());
+		filter_criteria.setMatchingClasses(class_filter.isSelected());
+		filter_criteria.setMatchingFeatures(feature_filter.isSelected());
+		filter_criteria.setGlobalIncludes(filter_includes.getText());
+		filter_criteria.setGlobalExcludes(filter_excludes.getText());
 
 		if (AdvancedMode()) {
-			filter_criteria.PackageIncludes(package_filter_includes.getText());
-			filter_criteria.ClassIncludes(class_filter_includes.getText());
-			filter_criteria.FeatureIncludes(feature_filter_includes.getText());
-			filter_criteria.PackageExcludes(package_filter_excludes.getText());
-			filter_criteria.ClassExcludes(class_filter_excludes.getText());
-			filter_criteria.FeatureExcludes(feature_filter_excludes.getText());
+			filter_criteria.setPackageIncludes(package_filter_includes.getText());
+			filter_criteria.setClassIncludes(class_filter_includes.getText());
+			filter_criteria.setFeatureIncludes(feature_filter_includes.getText());
+			filter_criteria.setPackageExcludes(package_filter_excludes.getText());
+			filter_criteria.setClassExcludes(class_filter_excludes.getText());
+			filter_criteria.setFeatureExcludes(feature_filter_excludes.getText());
 		}
 
 		if ((AdvancedMode() && copy_only.isSelected()) || Maximize()) {
@@ -1095,11 +1095,11 @@ public class DependencyFinder extends JFrame {
 			StringWriter out = new StringWriter();
 			com.jeantessier.dependency.TextPrinter printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
 
-			printer.ShowInbounds(show_inbounds.isSelected());
-			printer.ShowOutbounds(show_outbounds.isSelected());
-			printer.ShowEmptyNodes(show_empty_nodes.isSelected());
+			printer.setShowInbounds(show_inbounds.isSelected());
+			printer.setShowOutbounds(show_outbounds.isSelected());
+			printer.setShowEmptyNodes(show_empty_nodes.isSelected());
 			
-			printer.traverseNodes(dependencies_query.ScopeFactory().Packages().values());
+			printer.traverseNodes(dependencies_query.getScopeFactory().getPackages().values());
 			
 			dependencies_result_area.setText(out.toString());
 		}
@@ -1112,58 +1112,58 @@ public class DependencyFinder extends JFrame {
 	void ClosureQuery() {
 		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.MatchPackage(package_scope.isSelected());
-		scope_criteria.MatchClass(class_scope.isSelected());
-		scope_criteria.MatchFeature(feature_scope.isSelected());
-		scope_criteria.GlobalIncludes(scope_includes.getText());
-		scope_criteria.GlobalExcludes(scope_excludes.getText());
+		scope_criteria.setMatchingPackages(package_scope.isSelected());
+		scope_criteria.setMatchingClasses(class_scope.isSelected());
+		scope_criteria.setMatchingFeatures(feature_scope.isSelected());
+		scope_criteria.setGlobalIncludes(scope_includes.getText());
+		scope_criteria.setGlobalExcludes(scope_excludes.getText());
 
 		if (AdvancedMode()) {
-			scope_criteria.PackageIncludes(package_scope_includes.getText());
-			scope_criteria.ClassIncludes(class_scope_includes.getText());
-			scope_criteria.FeatureIncludes(feature_scope_includes.getText());
-			scope_criteria.PackageExcludes(package_scope_excludes.getText());
-			scope_criteria.ClassExcludes(class_scope_excludes.getText());
-			scope_criteria.FeatureExcludes(feature_scope_excludes.getText());
+			scope_criteria.setPackageIncludes(package_scope_includes.getText());
+			scope_criteria.setClassIncludes(class_scope_includes.getText());
+			scope_criteria.setFeatureIncludes(feature_scope_includes.getText());
+			scope_criteria.setPackageExcludes(package_scope_excludes.getText());
+			scope_criteria.setClassExcludes(class_scope_excludes.getText());
+			scope_criteria.setFeatureExcludes(feature_scope_excludes.getText());
 		}
 	
 		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
 		
-		filter_criteria.MatchPackage(package_filter.isSelected());
-		filter_criteria.MatchClass(class_filter.isSelected());
-		filter_criteria.MatchFeature(feature_filter.isSelected());
-		filter_criteria.GlobalIncludes(filter_includes.getText());
-		filter_criteria.GlobalExcludes(filter_excludes.getText());
+		filter_criteria.setMatchingPackages(package_filter.isSelected());
+		filter_criteria.setMatchingClasses(class_filter.isSelected());
+		filter_criteria.setMatchingFeatures(feature_filter.isSelected());
+		filter_criteria.setGlobalIncludes(filter_includes.getText());
+		filter_criteria.setGlobalExcludes(filter_excludes.getText());
 
 		if (AdvancedMode()) {
-			filter_criteria.PackageIncludes(package_filter_includes.getText());
-			filter_criteria.ClassIncludes(class_filter_includes.getText());
-			filter_criteria.FeatureIncludes(feature_filter_includes.getText());
-			filter_criteria.PackageExcludes(package_filter_excludes.getText());
-			filter_criteria.ClassExcludes(class_filter_excludes.getText());
-			filter_criteria.FeatureExcludes(feature_filter_excludes.getText());
+			filter_criteria.setPackageIncludes(package_filter_includes.getText());
+			filter_criteria.setClassIncludes(class_filter_includes.getText());
+			filter_criteria.setFeatureIncludes(feature_filter_includes.getText());
+			filter_criteria.setPackageExcludes(package_filter_excludes.getText());
+			filter_criteria.setClassExcludes(class_filter_excludes.getText());
+			filter_criteria.setFeatureExcludes(feature_filter_excludes.getText());
 		}
 
 		TraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 		TransitiveClosure selector = new TransitiveClosure(strategy);
 
 		try {
-			selector.MaximumInboundDepth(Long.parseLong(maximum_inbound_depth.getText()));
+			selector.setMaximumInboundDepth(Long.parseLong(maximum_inbound_depth.getText()));
 		} catch (NumberFormatException ex) {
-			selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+			selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 
 		try {
-			selector.MaximumOutboundDepth(Long.parseLong(maximum_outbound_depth.getText()));
+			selector.setMaximumOutboundDepth(Long.parseLong(maximum_outbound_depth.getText()));
 		} catch (NumberFormatException ex) {
-			selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+			selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 		
 		selector.traverseNodes(Packages());
 
 		StringWriter out = new StringWriter();
 		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
-		printer.traverseNodes(selector.Factory().Packages().values());
+		printer.traverseNodes(selector.getFactory().getPackages().values());
 		closure_result_area.setText(out.toString());
 	}		
 	
@@ -1174,36 +1174,36 @@ public class DependencyFinder extends JFrame {
 	void MetricsQuery() {
 		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		scope_criteria.MatchPackage(package_scope.isSelected());
-		scope_criteria.MatchClass(class_scope.isSelected());
-		scope_criteria.MatchFeature(feature_scope.isSelected());
-		scope_criteria.GlobalIncludes(scope_includes.getText());
-		scope_criteria.GlobalExcludes(scope_excludes.getText());
+		scope_criteria.setMatchingPackages(package_scope.isSelected());
+		scope_criteria.setMatchingClasses(class_scope.isSelected());
+		scope_criteria.setMatchingFeatures(feature_scope.isSelected());
+		scope_criteria.setGlobalIncludes(scope_includes.getText());
+		scope_criteria.setGlobalExcludes(scope_excludes.getText());
 
 		if (AdvancedMode()) {
-			scope_criteria.PackageIncludes(package_scope_includes.getText());
-			scope_criteria.ClassIncludes(class_scope_includes.getText());
-			scope_criteria.FeatureIncludes(feature_scope_includes.getText());
-			scope_criteria.PackageExcludes(package_scope_excludes.getText());
-			scope_criteria.ClassExcludes(class_scope_excludes.getText());
-			scope_criteria.FeatureExcludes(feature_scope_excludes.getText());
+			scope_criteria.setPackageIncludes(package_scope_includes.getText());
+			scope_criteria.setClassIncludes(class_scope_includes.getText());
+			scope_criteria.setFeatureIncludes(feature_scope_includes.getText());
+			scope_criteria.setPackageExcludes(package_scope_excludes.getText());
+			scope_criteria.setClassExcludes(class_scope_excludes.getText());
+			scope_criteria.setFeatureExcludes(feature_scope_excludes.getText());
 		}
 	
 		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
 		
-		filter_criteria.MatchPackage(package_filter.isSelected());
-		filter_criteria.MatchClass(class_filter.isSelected());
-		filter_criteria.MatchFeature(feature_filter.isSelected());
-		filter_criteria.GlobalIncludes(filter_includes.getText());
-		filter_criteria.GlobalExcludes(filter_excludes.getText());
+		filter_criteria.setMatchingPackages(package_filter.isSelected());
+		filter_criteria.setMatchingClasses(class_filter.isSelected());
+		filter_criteria.setMatchingFeatures(feature_filter.isSelected());
+		filter_criteria.setGlobalIncludes(filter_includes.getText());
+		filter_criteria.setGlobalExcludes(filter_excludes.getText());
 
 		if (AdvancedMode()) {
-			filter_criteria.PackageIncludes(package_filter_includes.getText());
-			filter_criteria.ClassIncludes(class_filter_includes.getText());
-			filter_criteria.FeatureIncludes(feature_filter_includes.getText());
-			filter_criteria.PackageExcludes(package_filter_excludes.getText());
-			filter_criteria.ClassExcludes(class_filter_excludes.getText());
-			filter_criteria.FeatureExcludes(feature_filter_excludes.getText());
+			filter_criteria.setPackageIncludes(package_filter_includes.getText());
+			filter_criteria.setClassIncludes(class_filter_includes.getText());
+			filter_criteria.setFeatureIncludes(feature_filter_includes.getText());
+			filter_criteria.setPackageExcludes(package_filter_excludes.getText());
+			filter_criteria.setClassExcludes(class_filter_excludes.getText());
+			filter_criteria.setFeatureExcludes(feature_filter_excludes.getText());
 		}
 
 		TraversalStrategy                          strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
@@ -1213,7 +1213,7 @@ public class DependencyFinder extends JFrame {
 
 		StringWriter out = new StringWriter();
 		MetricsReport report = new MetricsReport(new PrintWriter(out));
-		report.Process(metrics);
+		report.process(metrics);
 		
 		metrics_result_area.setText(out.toString());
 		metrics_chart_model.Metrics(metrics);

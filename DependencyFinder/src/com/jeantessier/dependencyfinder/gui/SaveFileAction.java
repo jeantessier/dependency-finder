@@ -78,7 +78,7 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 			PrintWriter out = new PrintWriter(new FileWriter(file));
 			com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, encoding, dtd_prefix);
 			if (indent_text != null) {
-				printer.IndentText(indent_text);
+				printer.setIndentText(indent_text);
 			}
 		
 			printer.traverseNodes(model.Packages());

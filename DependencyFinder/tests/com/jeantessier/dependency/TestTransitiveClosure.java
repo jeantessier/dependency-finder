@@ -55,10 +55,10 @@ public class TestTransitiveClosure extends TestCase {
 		filter_criteria = new RegularExpressionSelectionCriteria();
 		factory         = new NodeFactory();
 
-		A = factory.CreateClass("A");
-		B = factory.CreateClass("B");
-		C = factory.CreateClass("C");
-		D = factory.CreateClass("D");
+		A = factory.createClass("A");
+		B = factory.createClass("B");
+		C = factory.createClass("C");
+		D = factory.createClass("D");
 
 		A.addDependency(B);
 		A.addDependency(C);
@@ -79,95 +79,95 @@ public class TestTransitiveClosure extends TestCase {
 		includes = new ArrayList(1);
 		includes.add("//");
 
-		scope_criteria.MatchPackage(false);
-		scope_criteria.MatchFeature(false);
-		scope_criteria.GlobalIncludes(includes);
-		filter_criteria.MatchPackage(false);
-		filter_criteria.MatchFeature(false);
-		filter_criteria.GlobalIncludes(includes);
+		scope_criteria.setMatchingPackages(false);
+		scope_criteria.setMatchingFeatures(false);
+		scope_criteria.setGlobalIncludes(includes);
+		filter_criteria.setMatchingPackages(false);
+		filter_criteria.setMatchingFeatures(false);
+		filter_criteria.setGlobalIncludes(includes);
 
 		selector = new TransitiveClosure(new SortedTraversalStrategy(new SelectiveTraversalStrategy(scope_criteria, filter_criteria)));
 	}
 	
 	public void testFullConnectivity() {
-		selector.SinglePath(false);
+		selector.setSinglePath(false);
 
 		A.accept(selector);
 		B.accept(selector);
 		C.accept(selector);
 		D.accept(selector);
 
-		assertEquals(4, selector.Factory().Classes().size());
-		assertTrue(selector.Factory().Classes().values().contains(A));
-		assertTrue(selector.Factory().Classes().values().contains(B));
-		assertTrue(selector.Factory().Classes().values().contains(C));
-		assertTrue(selector.Factory().Classes().values().contains(D));
+		assertEquals(4, selector.getFactory().getClasses().size());
+		assertTrue(selector.getFactory().getClasses().values().contains(A));
+		assertTrue(selector.getFactory().getClasses().values().contains(B));
+		assertTrue(selector.getFactory().getClasses().values().contains(C));
+		assertTrue(selector.getFactory().getClasses().values().contains(D));
 
-		assertEquals(3, selector.Factory().CreateClass("A").getInboundDependencies().size());
-		assertEquals(3, selector.Factory().CreateClass("A").getOutboundDependencies().size());
-		assertEquals(3, selector.Factory().CreateClass("B").getInboundDependencies().size());
-		assertEquals(3, selector.Factory().CreateClass("B").getOutboundDependencies().size());
-		assertEquals(3, selector.Factory().CreateClass("C").getInboundDependencies().size());
-		assertEquals(3, selector.Factory().CreateClass("C").getOutboundDependencies().size());
-		assertEquals(3, selector.Factory().CreateClass("D").getInboundDependencies().size());
-		assertEquals(3, selector.Factory().CreateClass("D").getOutboundDependencies().size());
+		assertEquals(3, selector.getFactory().createClass("A").getInboundDependencies().size());
+		assertEquals(3, selector.getFactory().createClass("A").getOutboundDependencies().size());
+		assertEquals(3, selector.getFactory().createClass("B").getInboundDependencies().size());
+		assertEquals(3, selector.getFactory().createClass("B").getOutboundDependencies().size());
+		assertEquals(3, selector.getFactory().createClass("C").getInboundDependencies().size());
+		assertEquals(3, selector.getFactory().createClass("C").getOutboundDependencies().size());
+		assertEquals(3, selector.getFactory().createClass("D").getInboundDependencies().size());
+		assertEquals(3, selector.getFactory().createClass("D").getOutboundDependencies().size());
 
-		assertTrue(selector.Factory().CreateClass("A").getInboundDependencies().contains(B));
-		assertTrue(selector.Factory().CreateClass("A").getInboundDependencies().contains(C));
-		assertTrue(selector.Factory().CreateClass("A").getInboundDependencies().contains(D));
-		assertTrue(selector.Factory().CreateClass("A").getOutboundDependencies().contains(B));
-		assertTrue(selector.Factory().CreateClass("A").getOutboundDependencies().contains(C));
-		assertTrue(selector.Factory().CreateClass("A").getOutboundDependencies().contains(D));
-		assertTrue(selector.Factory().CreateClass("B").getInboundDependencies().contains(A));
-		assertTrue(selector.Factory().CreateClass("B").getInboundDependencies().contains(C));
-		assertTrue(selector.Factory().CreateClass("B").getInboundDependencies().contains(D));
-		assertTrue(selector.Factory().CreateClass("B").getOutboundDependencies().contains(A));
-		assertTrue(selector.Factory().CreateClass("B").getOutboundDependencies().contains(C));
-		assertTrue(selector.Factory().CreateClass("B").getOutboundDependencies().contains(D));
-		assertTrue(selector.Factory().CreateClass("C").getInboundDependencies().contains(A));
-		assertTrue(selector.Factory().CreateClass("C").getInboundDependencies().contains(B));
-		assertTrue(selector.Factory().CreateClass("C").getInboundDependencies().contains(D));
-		assertTrue(selector.Factory().CreateClass("C").getOutboundDependencies().contains(A));
-		assertTrue(selector.Factory().CreateClass("C").getOutboundDependencies().contains(B));
-		assertTrue(selector.Factory().CreateClass("C").getOutboundDependencies().contains(D));
-		assertTrue(selector.Factory().CreateClass("D").getInboundDependencies().contains(A));
-		assertTrue(selector.Factory().CreateClass("D").getInboundDependencies().contains(B));
-		assertTrue(selector.Factory().CreateClass("D").getInboundDependencies().contains(C));
-		assertTrue(selector.Factory().CreateClass("D").getOutboundDependencies().contains(A));
-		assertTrue(selector.Factory().CreateClass("D").getOutboundDependencies().contains(B));
-		assertTrue(selector.Factory().CreateClass("D").getOutboundDependencies().contains(C));
+		assertTrue(selector.getFactory().createClass("A").getInboundDependencies().contains(B));
+		assertTrue(selector.getFactory().createClass("A").getInboundDependencies().contains(C));
+		assertTrue(selector.getFactory().createClass("A").getInboundDependencies().contains(D));
+		assertTrue(selector.getFactory().createClass("A").getOutboundDependencies().contains(B));
+		assertTrue(selector.getFactory().createClass("A").getOutboundDependencies().contains(C));
+		assertTrue(selector.getFactory().createClass("A").getOutboundDependencies().contains(D));
+		assertTrue(selector.getFactory().createClass("B").getInboundDependencies().contains(A));
+		assertTrue(selector.getFactory().createClass("B").getInboundDependencies().contains(C));
+		assertTrue(selector.getFactory().createClass("B").getInboundDependencies().contains(D));
+		assertTrue(selector.getFactory().createClass("B").getOutboundDependencies().contains(A));
+		assertTrue(selector.getFactory().createClass("B").getOutboundDependencies().contains(C));
+		assertTrue(selector.getFactory().createClass("B").getOutboundDependencies().contains(D));
+		assertTrue(selector.getFactory().createClass("C").getInboundDependencies().contains(A));
+		assertTrue(selector.getFactory().createClass("C").getInboundDependencies().contains(B));
+		assertTrue(selector.getFactory().createClass("C").getInboundDependencies().contains(D));
+		assertTrue(selector.getFactory().createClass("C").getOutboundDependencies().contains(A));
+		assertTrue(selector.getFactory().createClass("C").getOutboundDependencies().contains(B));
+		assertTrue(selector.getFactory().createClass("C").getOutboundDependencies().contains(D));
+		assertTrue(selector.getFactory().createClass("D").getInboundDependencies().contains(A));
+		assertTrue(selector.getFactory().createClass("D").getInboundDependencies().contains(B));
+		assertTrue(selector.getFactory().createClass("D").getInboundDependencies().contains(C));
+		assertTrue(selector.getFactory().createClass("D").getOutboundDependencies().contains(A));
+		assertTrue(selector.getFactory().createClass("D").getOutboundDependencies().contains(B));
+		assertTrue(selector.getFactory().createClass("D").getOutboundDependencies().contains(C));
 	}
 
 	public void testSinglePathThroughFullConnectivity() {
-		selector.SinglePath(true);
+		selector.setSinglePath(true);
 
 		A.accept(selector);
 		B.accept(selector);
 		C.accept(selector);
 		D.accept(selector);
 
-		assertEquals(4, selector.Factory().Classes().size());
-		assertTrue(selector.Factory().Classes().values().contains(A));
-		assertTrue(selector.Factory().Classes().values().contains(B));
-		assertTrue(selector.Factory().Classes().values().contains(C));
-		assertTrue(selector.Factory().Classes().values().contains(D));
+		assertEquals(4, selector.getFactory().getClasses().size());
+		assertTrue(selector.getFactory().getClasses().values().contains(A));
+		assertTrue(selector.getFactory().getClasses().values().contains(B));
+		assertTrue(selector.getFactory().getClasses().values().contains(C));
+		assertTrue(selector.getFactory().getClasses().values().contains(D));
 
-		assertEquals(0, selector.Factory().CreateClass("A").getInboundDependencies().size());
-		assertEquals(1, selector.Factory().CreateClass("A").getOutboundDependencies().size());
-		assertEquals(1, selector.Factory().CreateClass("B").getInboundDependencies().size());
-		assertEquals(1, selector.Factory().CreateClass("B").getOutboundDependencies().size());
-		assertEquals(1, selector.Factory().CreateClass("C").getInboundDependencies().size());
-		assertEquals(1, selector.Factory().CreateClass("C").getOutboundDependencies().size());
-		assertEquals(1, selector.Factory().CreateClass("D").getInboundDependencies().size());
-		assertEquals(0, selector.Factory().CreateClass("D").getOutboundDependencies().size());
+		assertEquals(0, selector.getFactory().createClass("A").getInboundDependencies().size());
+		assertEquals(1, selector.getFactory().createClass("A").getOutboundDependencies().size());
+		assertEquals(1, selector.getFactory().createClass("B").getInboundDependencies().size());
+		assertEquals(1, selector.getFactory().createClass("B").getOutboundDependencies().size());
+		assertEquals(1, selector.getFactory().createClass("C").getInboundDependencies().size());
+		assertEquals(1, selector.getFactory().createClass("C").getOutboundDependencies().size());
+		assertEquals(1, selector.getFactory().createClass("D").getInboundDependencies().size());
+		assertEquals(0, selector.getFactory().createClass("D").getOutboundDependencies().size());
 
-		assertTrue(selector.Factory().CreateClass("A").getInboundDependencies().isEmpty());
-		assertTrue(selector.Factory().CreateClass("A").getOutboundDependencies().contains(B));
-		assertTrue(selector.Factory().CreateClass("B").getInboundDependencies().contains(A));
-		assertTrue(selector.Factory().CreateClass("B").getOutboundDependencies().contains(C));
-		assertTrue(selector.Factory().CreateClass("C").getInboundDependencies().contains(B));
-		assertTrue(selector.Factory().CreateClass("C").getOutboundDependencies().contains(D));
-		assertTrue(selector.Factory().CreateClass("D").getInboundDependencies().contains(C));
-		assertTrue(selector.Factory().CreateClass("D").getOutboundDependencies().isEmpty());
+		assertTrue(selector.getFactory().createClass("A").getInboundDependencies().isEmpty());
+		assertTrue(selector.getFactory().createClass("A").getOutboundDependencies().contains(B));
+		assertTrue(selector.getFactory().createClass("B").getInboundDependencies().contains(A));
+		assertTrue(selector.getFactory().createClass("B").getOutboundDependencies().contains(C));
+		assertTrue(selector.getFactory().createClass("C").getInboundDependencies().contains(B));
+		assertTrue(selector.getFactory().createClass("C").getOutboundDependencies().contains(D));
+		assertTrue(selector.getFactory().createClass("D").getInboundDependencies().contains(C));
+		assertTrue(selector.getFactory().createClass("D").getOutboundDependencies().isEmpty());
 	}
 }

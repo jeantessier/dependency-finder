@@ -41,7 +41,7 @@ import org.apache.oro.text.perl.*;
 public class TextPrinter extends Printer {
 	private static final Perl5Util perl = new Perl5Util();
 
-	protected static Perl5Util Perl() {
+	protected static Perl5Util perl() {
 		return perl;
 	}
 
@@ -60,7 +60,7 @@ public class TextPrinter extends Printer {
 		
 		super.preprocessPackageNode(node);
 
-		RaiseIndent();
+		raiseIndent();
 
 		dependencies.clear();
 	}
@@ -68,23 +68,23 @@ public class TextPrinter extends Printer {
 	protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
 		Logger.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
-		if (ShowPackageNode(node) || !dependencies.isEmpty()) {
-			LowerIndent();
-			Indent().Append(node.getName()).EOL();
-			RaiseIndent();
+		if (shouldShowPackageNode(node) || !dependencies.isEmpty()) {
+			lowerIndent();
+			indent().append(node.getName()).eol();
+			raiseIndent();
 		}
 		
-		PrintDependencies(dependencies);
+		printDependencies(dependencies);
 	}
 	
 	protected void postprocessPackageNode(PackageNode node) {
-		LowerIndent();
+		lowerIndent();
 
 		super.postprocessPackageNode(node);
 	}
 
 	public void visitInboundPackageNode(PackageNode node) {
-		if (ShowInbounds()) {
+		if (isShowInbounds()) {
 			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
@@ -99,7 +99,7 @@ public class TextPrinter extends Printer {
 	}
 
 	public void visitOutboundPackageNode(PackageNode node) {
-		if (ShowOutbounds()) {
+		if (isShowOutbounds()) {
 			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
@@ -118,7 +118,7 @@ public class TextPrinter extends Printer {
 		
 		super.preprocessClassNode(node);
 
-		RaiseIndent();
+		raiseIndent();
 
 		dependencies.clear();
 	}
@@ -126,23 +126,23 @@ public class TextPrinter extends Printer {
 	protected void preprocessAfterDependenciesClassNode(ClassNode node) {
 		Logger.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
-		if (ShowClassNode(node) || !dependencies.isEmpty()) {
-			LowerIndent();
-			Indent().Append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).EOL();
-			RaiseIndent();
+		if (shouldShowClassNode(node) || !dependencies.isEmpty()) {
+			lowerIndent();
+			indent().append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
+			raiseIndent();
 		}
 
-		PrintDependencies(dependencies);
+		printDependencies(dependencies);
 	}
 
 	protected void postprocessClassNode(ClassNode node) {
-		LowerIndent();
+		lowerIndent();
 
 		super.postprocessClassNode(node);
 	}
 	
 	public void visitInboundClassNode(ClassNode node) {
-		if (ShowInbounds()) {
+		if (isShowInbounds()) {
 			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
@@ -158,7 +158,7 @@ public class TextPrinter extends Printer {
 	}
 
 	public void visitOutboundClassNode(ClassNode node) {
-		if (ShowOutbounds()) {
+		if (isShowOutbounds()) {
 			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
@@ -178,7 +178,7 @@ public class TextPrinter extends Printer {
 		
 		super.preprocessFeatureNode(node);
 
-		RaiseIndent();
+		raiseIndent();
 
 		dependencies.clear();
 	}
@@ -186,27 +186,27 @@ public class TextPrinter extends Printer {
 	protected void postprocessFeatureNode(FeatureNode node) {
 		Logger.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
-		if (ShowFeatureNode(node) || !dependencies.isEmpty()) {
-			LowerIndent();
-			if (Perl().match("/([^\\.]*\\(.*\\))$/", node.getName())) {
-				Indent().Append(Perl().group(1)).EOL();
-			} else if (Perl().match("/([^\\.]*)$/", node.getName())) {
-				Indent().Append(Perl().group(1)).EOL();
+		if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {
+			lowerIndent();
+			if (perl().match("/([^\\.]*\\(.*\\))$/", node.getName())) {
+				indent().append(perl().group(1)).eol();
+			} else if (perl().match("/([^\\.]*)$/", node.getName())) {
+				indent().append(perl().group(1)).eol();
 			} else {
-				Indent().Append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).EOL();
+				indent().append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
 			}
-			RaiseIndent();
+			raiseIndent();
 		}
 		
-		PrintDependencies(dependencies);
+		printDependencies(dependencies);
 
-		LowerIndent();
+		lowerIndent();
 
 		super.postprocessFeatureNode(node);
 	}
 
 	public void visitInboundFeatureNode(FeatureNode node) {
-		if (ShowInbounds()) {
+		if (isShowInbounds()) {
 			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
@@ -221,7 +221,7 @@ public class TextPrinter extends Printer {
 	}
 
 	public void visitOutboundFeatureNode(FeatureNode node) {
-		if (ShowOutbounds()) {
+		if (isShowOutbounds()) {
 			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
@@ -235,16 +235,16 @@ public class TextPrinter extends Printer {
 		}
 	}
 	
-	private void PrintDependencies(Map dependencies) {
+	private void printDependencies(Map dependencies) {
 		Iterator i = dependencies.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
 			if (((Integer) entry.getValue()).intValue() < 0) {
-				Indent().Append("<-- ").Append(entry.getKey()).EOL();
+				indent().append("<-- ").append(entry.getKey()).eol();
 			} else if (((Integer) entry.getValue()).intValue() > 0) {
-				Indent().Append("--> ").Append(entry.getKey()).EOL();
+				indent().append("--> ").append(entry.getKey()).eol();
 			} else {
-				Indent().Append("<-> ").Append(entry.getKey()).EOL();
+				indent().append("<-> ").append(entry.getKey()).eol();
 			}
 		}
 	}

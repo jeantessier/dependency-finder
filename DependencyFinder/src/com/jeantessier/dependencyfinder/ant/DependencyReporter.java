@@ -232,7 +232,7 @@ public class DependencyReporter extends GraphTask {
 				if (filenames[i].endsWith(".xml")) {
 					NodeLoader loader = new NodeLoader(getValidate());
 					loader.addDependencyListener(verbose_listener);
-					packages = loader.Load(filenames[i]).Packages().values();
+					packages = loader.load(filenames[i]).getPackages().values();
 				}
 				
 				if (getMaximize()) {
@@ -258,14 +258,14 @@ public class DependencyReporter extends GraphTask {
 			}
 				
 			if (getIndenttext() != null) {
-				printer.IndentText(getIndenttext());
+				printer.setIndentText(getIndenttext());
 			}
 
-			printer.ShowInbounds(getShowinbounds());
-			printer.ShowOutbounds(getShowoutbounds());
-			printer.ShowEmptyNodes(getShowemptynodes());
+			printer.setShowInbounds(getShowinbounds());
+			printer.setShowOutbounds(getShowoutbounds());
+			printer.setShowEmptyNodes(getShowemptynodes());
 				
-			printer.traverseNodes(copier.ScopeFactory().Packages().values());
+			printer.traverseNodes(copier.getScopeFactory().getPackages().values());
 				
 			out.close();
 		} catch (SAXException ex) {

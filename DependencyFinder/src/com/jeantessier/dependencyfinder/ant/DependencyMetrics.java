@@ -179,15 +179,15 @@ public class DependencyMetrics extends GraphTask {
 
 			MetricsReport reporter = new MetricsReport(out);
 			
-			reporter.ListElements(getList());
-			reporter.ClassesPerPackageChart(getChartclassesperpackage());
-			reporter.FeaturesPerClassChart(getChartfeaturesperclass());
-			reporter.InboundsPerPackageChart(getChartinboundsperpackage());
-			reporter.OutboundsPerPackageChart(getChartoutboundsperpackage());
-			reporter.InboundsPerClassChart(getChartinboundsperclass());
-			reporter.OutboundsPerClassChart(getChartoutboundsperclass());
-			reporter.InboundsPerFeatureChart(getChartinboundsperfeature());
-			reporter.OutboundsPerFeatureChart(getChartoutboundsperfeature());
+			reporter.setListingElements(getList());
+			reporter.setChartingClassesPerPackage(getChartclassesperpackage());
+			reporter.setChartingFeaturesPerClass(getChartfeaturesperclass());
+			reporter.setChartingInboundsPerPackage(getChartinboundsperpackage());
+			reporter.setChartingOutboundsPerPackage(getChartoutboundsperpackage());
+			reporter.setChartingInboundsPerClass(getChartinboundsperclass());
+			reporter.setChartingOutboundsPerClass(getChartoutboundsperclass());
+			reporter.setChartingInboundsPerFeature(getChartinboundsperfeature());
+			reporter.setChartingOutboundsPerFeature(getChartoutboundsperfeature());
 
 			MetricsGatherer metrics = new MetricsGatherer(Strategy());
 
@@ -200,13 +200,13 @@ public class DependencyMetrics extends GraphTask {
 				if (filenames[i].endsWith(".xml")) {
 					NodeLoader loader = new NodeLoader(getValidate());
 					loader.addDependencyListener(verbose_listener);
-					packages = loader.Load(filenames[i]).Packages().values();
+					packages = loader.load(filenames[i]).getPackages().values();
 				}
 				
 				metrics.traverseNodes(packages);
 			}
 			
-			reporter.Process(metrics);
+			reporter.process(metrics);
 
 			out.close();
 		} catch (SAXException ex) {

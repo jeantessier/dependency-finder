@@ -57,17 +57,17 @@ public class TestClosureOutboundSelector extends TestCase {
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
 		
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 		
-		c     = factory.CreatePackage("c");
-		c_C   = factory.CreateClass("c.C");
-		c_C_c = factory.CreateFeature("c.C.c");
+		c     = factory.createPackage("c");
+		c_C   = factory.createClass("c.C");
+		c_C_c = factory.createFeature("c.C.c");
 
 		a_A_a.addDependency(b_B_b);
 		b_B_b.addDependency(c_C_c);
@@ -110,28 +110,28 @@ public class TestClosureOutboundSelector extends TestCase {
 		ClosureOutboundSelector selector = new ClosureOutboundSelector(local_factory, Collections.EMPTY_SET);
 		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertEquals("packages in scope", 2, local_factory.Packages().size());
-		assertEquals("classes in scope" , 2, local_factory.Classes().size());
-		assertEquals("features in scope", 2, local_factory.Features().size());
+		assertEquals("packages in scope", 2, local_factory.getPackages().size());
+		assertEquals("classes in scope" , 2, local_factory.getClasses().size());
+		assertEquals("features in scope", 2, local_factory.getFeatures().size());
 
-		assertEquals("package b in scope"    , b,     local_factory.Packages().get("b"));
-		assertEquals("class b.B in scope"    , b_B,   local_factory.Classes().get("b.B"));
-		assertEquals("feature b.B.b in scope", b_B_b, local_factory.Features().get("b.B.b"));
-		assertEquals("package c in scope"    , c,     local_factory.Packages().get("c"));
-		assertEquals("class c.C in scope"    , c_C,   local_factory.Classes().get("c.C"));
-		assertEquals("feature c.C.c in scope", c_C_c, local_factory.Features().get("c.C.c"));
+		assertEquals("package b in scope"    , b,     local_factory.getPackages().get("b"));
+		assertEquals("class b.B in scope"    , b_B,   local_factory.getClasses().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, local_factory.getFeatures().get("b.B.b"));
+		assertEquals("package c in scope"    , c,     local_factory.getPackages().get("c"));
+		assertEquals("class c.C in scope"    , c_C,   local_factory.getClasses().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, local_factory.getFeatures().get("c.C.c"));
 
-		assertNotSame("package b in scope"    , b,     local_factory.Packages().get("b"));
-		assertNotSame("class b.B in scope"    , b_B,   local_factory.Classes().get("b.B"));
-		assertNotSame("feature b.B.b in scope", b_B_b, local_factory.Features().get("b.B.b"));
-		assertNotSame("package c in scope"    , c,     local_factory.Packages().get("c"));
-		assertNotSame("class c.C in scope"    , c_C,   local_factory.Classes().get("c.C"));
-		assertNotSame("feature c.C.c in scope", c_C_c, local_factory.Features().get("c.C.c"));
+		assertNotSame("package b in scope"    , b,     local_factory.getPackages().get("b"));
+		assertNotSame("class b.B in scope"    , b_B,   local_factory.getClasses().get("b.B"));
+		assertNotSame("feature b.B.b in scope", b_B_b, local_factory.getFeatures().get("b.B.b"));
+		assertNotSame("package c in scope"    , c,     local_factory.getPackages().get("c"));
+		assertNotSame("class c.C in scope"    , c_C,   local_factory.getClasses().get("c.C"));
+		assertNotSame("feature c.C.c in scope", c_C_c, local_factory.getFeatures().get("c.C.c"));
 
 		assertEquals("nodes in selection", 1, selector.getCopiedNodes().size());
 		assertEquals("c.C.c in selection", c_C_c, selector.getCopiedNodes().iterator().next());
 		assertNotSame("c.C.c in selection", c_C_c, selector.getCopiedNodes().iterator().next());
-		assertSame("c.C.c in selection", local_factory.Features().get("c.C.c"), selector.getCopiedNodes().iterator().next());
+		assertSame("c.C.c in selection", local_factory.getFeatures().get("c.C.c"), selector.getCopiedNodes().iterator().next());
 		assertEquals("c.C.c's inbounds",  1, ((Node) selector.getCopiedNodes().iterator().next()).getInboundDependencies().size());
 		assertEquals("c.C.c's outbounds", 0, ((Node) selector.getCopiedNodes().iterator().next()).getOutboundDependencies().size());
 	}
@@ -199,7 +199,7 @@ public class TestClosureOutboundSelector extends TestCase {
 		assertTrue("c.C in selection",   selector.getCopiedNodes().contains(c_C));
 		assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
 
-		assertEquals("b's outbounds", 3, local_factory.CreatePackage("b").getOutboundDependencies().size());
+		assertEquals("b's outbounds", 3, local_factory.createPackage("b").getOutboundDependencies().size());
 	}
 
 	public void testThreeCopiedNodesFromClass() {
@@ -217,7 +217,7 @@ public class TestClosureOutboundSelector extends TestCase {
 		assertTrue("c.C in selection",   selector.getCopiedNodes().contains(c_C));
 		assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
 
-		assertEquals("b.B's outbounds", 3, local_factory.CreateClass("b.B").getOutboundDependencies().size());
+		assertEquals("b.B's outbounds", 3, local_factory.createClass("b.B").getOutboundDependencies().size());
 	}
 
 	public void testThreeCopiedNodesFromFeature() {
@@ -235,7 +235,7 @@ public class TestClosureOutboundSelector extends TestCase {
 		assertTrue("c.C in selection",   selector.getCopiedNodes().contains(c_C));
 		assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
 
-		assertEquals("b.B.b's outbounds", 3, local_factory.CreateFeature("b.B.b").getOutboundDependencies().size());
+		assertEquals("b.B.b's outbounds", 3, local_factory.createFeature("b.B.b").getOutboundDependencies().size());
 	}
 
 	public void testTwoSelectedNodeWithPackageInCoverage() {
@@ -297,7 +297,7 @@ public class TestClosureOutboundSelector extends TestCase {
 		assertTrue("c.C in selection",   selector.getCopiedNodes().contains(c_C));
 		assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
 
-		assertEquals("b.B.b's outbounds", 2, local_factory.CreateFeature("b.B.b").getOutboundDependencies().size());
+		assertEquals("b.B.b's outbounds", 2, local_factory.createFeature("b.B.b").getOutboundDependencies().size());
 	}
 
 	public void testTwoCopiedNodeWithClassInCoverage() {
@@ -314,7 +314,7 @@ public class TestClosureOutboundSelector extends TestCase {
 		assertTrue("c in selection",     selector.getCopiedNodes().contains(c));
 		assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
 
-		assertEquals("b.B.b's outbounds", 2, local_factory.CreateFeature("b.B.b").getOutboundDependencies().size());
+		assertEquals("b.B.b's outbounds", 2, local_factory.createFeature("b.B.b").getOutboundDependencies().size());
 	}
 
 	public void testTwoCopiedNodeWithFeatureInCoverage() {
@@ -331,7 +331,7 @@ public class TestClosureOutboundSelector extends TestCase {
 		assertTrue("c in selection",   selector.getCopiedNodes().contains(c));
 		assertTrue("c.C in selection", selector.getCopiedNodes().contains(c_C));
 
-		assertEquals("b.B.b's outbounds", 2, local_factory.CreateFeature("b.B.b").getOutboundDependencies().size());
+		assertEquals("b.B.b's outbounds", 2, local_factory.createFeature("b.B.b").getOutboundDependencies().size());
 	}
 
 	public void testReset() {

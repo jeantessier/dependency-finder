@@ -35,23 +35,23 @@ package com.jeantessier.dependency;
 public class MockSelectionCriteria implements SelectionCriteria {
 	private boolean value = false;
 
-	public boolean Value() {
+	public boolean getValue() {
 		return value;
 	}
 	
-	public void Value(boolean value) {
+	public void setValue(boolean value) {
 		this.value = value;
 	}
 	
-	public boolean doesPackageMatching() {
+	public boolean isMatchingPackages() {
 		return value;
 	}
 	
-	public boolean doesClassMatching() {
+	public boolean isMatchingClasses() {
 		return value;
 	}
 	
-	public boolean doesFeatureMatching() {
+	public boolean isMatchingFeatures() {
 		return value;
 	}
 

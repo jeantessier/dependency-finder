@@ -62,20 +62,20 @@ public class TestLinkMaximizer extends TestCase {
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 
-		_package = factory.CreatePackage("");
-		test_class = factory.CreateClass("test");
-		test_main_method = factory.CreateFeature("test.main(String[])");
-		test_test_method = factory.CreateFeature("test.test()");
+		_package = factory.createPackage("");
+		test_class = factory.createClass("test");
+		test_main_method = factory.createFeature("test.main(String[])");
+		test_test_method = factory.createFeature("test.test()");
 		
-		java_lang_package = factory.CreatePackage("java.lang");
-		java_lang_Object_class = factory.CreateClass("java.lang.Object");
-		java_lang_Object_Object_method = factory.CreateFeature("java.lang.Object.Object()");
-		java_lang_String_class = factory.CreateClass("java.lang.String");
+		java_lang_package = factory.createPackage("java.lang");
+		java_lang_Object_class = factory.createClass("java.lang.Object");
+		java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
+		java_lang_String_class = factory.createClass("java.lang.String");
 		
-		java_util_package = factory.CreatePackage("java.util");
-		java_util_Collections_class = factory.CreateClass("java.util.Collections");
-		java_util_Collections_singleton_method = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
-		java_util_Set_class = factory.CreateClass("java.util.Set");
+		java_util_package = factory.createPackage("java.util");
+		java_util_Collections_class = factory.createClass("java.util.Collections");
+		java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
+		java_util_Set_class = factory.createClass("java.util.Set");
 	
 		test_class.addDependency(java_lang_Object_class);
 		test_main_method.addDependency(java_lang_Object_class);
@@ -86,7 +86,7 @@ public class TestLinkMaximizer extends TestCase {
 		test_test_method.addDependency(java_lang_Object_Object_method);
 
 		visitor = new LinkMaximizer();
-		visitor.traverseNodes(factory.Packages().values());
+		visitor.traverseNodes(factory.getPackages().values());
 	}
 
 	public void test_package() {

@@ -39,17 +39,17 @@ public class MetricsGatherer extends VisitorBase {
 	private Collection classes  = new LinkedList();
 	private Collection features = new LinkedList();
 
-	private long nb_outbound = 0;
-	private long nb_inbound = 0;
-	private long nb_outbound_packages = 0;
-	private long nb_inbound_packages = 0;
-	private long nb_outbound_classes = 0;
-	private long nb_inbound_classes = 0;
-	private long nb_outbound_features = 0;
-	private long nb_inbound_features = 0;
+	private long nbOutbound = 0;
+	private long nbInbound = 0;
+	private long nbOutboundPackages = 0;
+	private long nbInboundPackages = 0;
+	private long nbOutboundClasses = 0;
+	private long nbInboundClasses = 0;
+	private long nbOutboundFeatures = 0;
+	private long nbInboundFeatures = 0;
 
-	private Map chart_data = new TreeMap();
-	private int chart_maximum = 0;
+	private Map chartData = new TreeMap();
+	private int chartMaximum = 0;
 	public static final int CHART_INDEX           = 0;
 	public static final int CLASSES_PER_PACKAGE   = 1;
 	public static final int FEATURES_PER_CLASS    = 2;
@@ -71,11 +71,11 @@ public class MetricsGatherer extends VisitorBase {
 												 "Inbounds per Feature",
 												 "Outbounds per Feature"};
 
-	public static int NbCharts() {
+	public static int getNbCharts() {
 		return NB_CHARTS;
 	}
 	
-	public static String ChartName(int i) {
+	public static String getChartName(int i) {
 		return CHART_NAMES[i];
 	}
 	
@@ -87,71 +87,71 @@ public class MetricsGatherer extends VisitorBase {
 		super(strategy);
 	}
 
-	public long[] ChartData(int i) {
+	public long[] getChartData(int i) {
 		long[] result = null;
 
 		Integer key = new Integer(i);
-		result = (long[]) chart_data.get(key);
+		result = (long[]) chartData.get(key);
 
 		if (result == null) {
 			result = new long[NB_CHARTS];
 			result[CHART_INDEX] = i;
-			chart_data.put(key, result);
+			chartData.put(key, result);
 
-			if (chart_maximum < i) {
-				chart_maximum = i;
+			if (chartMaximum < i) {
+				chartMaximum = i;
 			}
 		}
 
 		return result;
 	}
 
-	public int ChartMaximum() {
-		return chart_maximum;
+	public int getChartMaximum() {
+		return chartMaximum;
 	}
 	
-	public Collection Packages() {
+	public Collection getPackages() {
 		return packages;
 	}
 
-	public Collection Classes() {
+	public Collection getClasses() {
 		return classes;
 	}
 
-	public Collection Features() {
+	public Collection getFeatures() {
 		return features;
 	}
 
-	public long NbOutbound() {
-		return nb_outbound;
+	public long getNbOutbound() {
+		return nbOutbound;
 	}
 
-	public long NbInbound() {
-		return nb_inbound;
+	public long getNbInbound() {
+		return nbInbound;
 	}
 
-	public long NbOutboundPackages() {
-		return nb_outbound_packages;
+	public long getNbOutboundPackages() {
+		return nbOutboundPackages;
 	}
 
-	public long NbInboundPackages() {
-		return nb_inbound_packages;
+	public long getNbInboundPackages() {
+		return nbInboundPackages;
 	}
 
-	public long NbOutboundClasses() {
-		return nb_outbound_classes;
+	public long getNbOutboundClasses() {
+		return nbOutboundClasses;
 	}
 
-	public long NbInboundClasses() {
-		return nb_inbound_classes;
+	public long getNbInboundClasses() {
+		return nbInboundClasses;
 	}
 
-	public long NbOutboundFeatures() {
-		return nb_outbound_features;
+	public long getNbOutboundFeatures() {
+		return nbOutboundFeatures;
 	}
 
-	public long NbInboundFeatures() {
-		return nb_inbound_features;
+	public long getNbInboundFeatures() {
+		return nbInboundFeatures;
 	}
 	
 	public void preprocessPackageNode(PackageNode node) {
@@ -159,9 +159,9 @@ public class MetricsGatherer extends VisitorBase {
 
 		packages.add(node);
 		
-		ChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;
-		ChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;
-		ChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_PACKAGE]++;
+		getChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;
+		getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;
+		getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_PACKAGE]++;
 	}
 
 	/**
@@ -169,8 +169,8 @@ public class MetricsGatherer extends VisitorBase {
 	 */
 	public void visitInboundPackageNode(PackageNode node) {
 		if (getStrategy().isInFilter(node)) {
-			nb_inbound++;
-			nb_outbound_packages++;
+			nbInbound++;
+			nbOutboundPackages++;
 		}
 	}
 
@@ -179,8 +179,8 @@ public class MetricsGatherer extends VisitorBase {
 	 */
 	public void visitOutboundPackageNode(PackageNode node) {
 		if (getStrategy().isInFilter(node)) {
-			nb_outbound++;
-			nb_inbound_packages++;
+			nbOutbound++;
+			nbInboundPackages++;
 		}
 	}
 
@@ -189,9 +189,9 @@ public class MetricsGatherer extends VisitorBase {
 
 		classes.add(node);
 		
-		ChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;
-		ChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;
-		ChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;
+		getChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;
+		getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;
+		getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;
 	}
 
 	/**
@@ -199,8 +199,8 @@ public class MetricsGatherer extends VisitorBase {
 	 */
 	public void visitInboundClassNode(ClassNode node) {
 		if (getStrategy().isInFilter(node)) {
-			nb_inbound++;
-			nb_outbound_classes++;
+			nbInbound++;
+			nbOutboundClasses++;
 		}
 	}
 
@@ -209,8 +209,8 @@ public class MetricsGatherer extends VisitorBase {
 	 */
 	public void visitOutboundClassNode(ClassNode node) {
 		if (getStrategy().isInFilter(node)) {
-			nb_outbound++;
-			nb_inbound_classes++;
+			nbOutbound++;
+			nbInboundClasses++;
 		}
 	}
 
@@ -219,8 +219,8 @@ public class MetricsGatherer extends VisitorBase {
 
 		features.add(node);
 		
-		ChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;
-		ChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;
+		getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;
+		getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;
 	}
 
 	/**
@@ -228,8 +228,8 @@ public class MetricsGatherer extends VisitorBase {
 	 */
 	public void visitInboundFeatureNode(FeatureNode node) {
 		if (getStrategy().isInFilter(node)) {
-			nb_inbound++;
-			nb_outbound_features++;
+			nbInbound++;
+			nbOutboundFeatures++;
 		}
 	}
 
@@ -238,8 +238,8 @@ public class MetricsGatherer extends VisitorBase {
 	 */
 	public void visitOutboundFeatureNode(FeatureNode node) {
 		if (getStrategy().isInFilter(node)) {
-			nb_outbound++;
-			nb_inbound_features++;
+			nbOutbound++;
+			nbInboundFeatures++;
 		}
 	}
 }

@@ -64,17 +64,17 @@ public class TestGraphCopierWithFiltering extends TestCase {
 		filter_criteria = new RegularExpressionSelectionCriteria();
 		factory         = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
 		
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 		
-		c     = factory.CreatePackage("c");
-		c_C   = factory.CreateClass("c.C");
-		c_C_c = factory.CreateFeature("c.C.c");
+		c     = factory.createPackage("c");
+		c_C   = factory.createClass("c.C");
+		c_C_c = factory.createFeature("c.C.c");
 		
 		include_filter = new LinkedList();
 		include_filter.add("/^b/");
@@ -89,31 +89,31 @@ public class TestGraphCopierWithFiltering extends TestCase {
 		a_A_a.addDependency(b_B_b);
 		a_A_a.addDependency(c_C_c);
 		
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
-		filter_criteria.GlobalIncludes(include_filter);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
+		filter_criteria.setGlobalIncludes(include_filter);
 		
-		copier.traverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.getPackages().values());
 
-		assertTrue(copier.ScopeFactory().CreatePackage("a").getInboundDependencies().isEmpty());
-		assertTrue(copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().isEmpty());
+		assertTrue(copier.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
+		assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().isEmpty());
 	}
 
 	public void testExcludeFilterF2FtoP2P() {
 		a_A_a.addDependency(b_B_b);
 		a_A_a.addDependency(c_C_c);
 		
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
-		filter_criteria.GlobalExcludes(exclude_filter);
+		scope_criteria.setMatchingClasses(false);
+		scope_criteria.setMatchingFeatures(false);
+		filter_criteria.setMatchingClasses(false);
+		filter_criteria.setMatchingFeatures(false);
+		filter_criteria.setGlobalExcludes(exclude_filter);
 		
-		copier.traverseNodes(factory.Packages().values());
+		copier.traverseNodes(factory.getPackages().values());
 
-		assertTrue(copier.ScopeFactory().CreatePackage("a").getInboundDependencies().isEmpty());
-		assertTrue(copier.ScopeFactory().CreatePackage("a").getOutboundDependencies().isEmpty());
+		assertTrue(copier.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
+		assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().isEmpty());
 	}
 }

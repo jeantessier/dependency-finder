@@ -62,17 +62,17 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		criteria = new RegularExpressionSelectionCriteria();
 		factory = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
 		
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 		
-		c     = factory.CreatePackage("c");
-		c_C   = factory.CreateClass("c.C");
-		c_C_c = factory.CreateFeature("c.C.c");
+		c     = factory.createPackage("c");
+		c_C   = factory.createClass("c.C");
+		c_C_c = factory.createFeature("c.C.c");
 		
 		include = new LinkedList();
 		include.add("/^b/");
@@ -85,7 +85,7 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		List expected = new ArrayList();
 		expected.add("/test/");
 
-		List test = RegularExpressionSelectionCriteria.ParseRE("/test/");
+		List test = RegularExpressionSelectionCriteria.parseRE("/test/");
 		
 		assertEquals("size", expected.size(), test.size());
 		assertEquals("/test/", expected.get(0), test.get(0));
@@ -95,7 +95,7 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		List expected = new ArrayList();
 		expected.add("/test");
 
-		List test = RegularExpressionSelectionCriteria.ParseRE("/test");
+		List test = RegularExpressionSelectionCriteria.parseRE("/test");
 		
 		assertEquals("size", expected.size(), test.size());
 		assertEquals("/test", expected.get(0), test.get(0));
@@ -106,7 +106,7 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		expected.add("/test1/");
 		expected.add("/test2/");
 
-		List test = RegularExpressionSelectionCriteria.ParseRE("/test1/,/test2/");
+		List test = RegularExpressionSelectionCriteria.parseRE("/test1/,/test2/");
 		
 		assertEquals("size", expected.size(), test.size());
 		assertEquals("/test1/", expected.get(0), test.get(0));
@@ -117,7 +117,7 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		List expected = new ArrayList();
 		expected.add("/test1\\/test2/");
 
-		List test = RegularExpressionSelectionCriteria.ParseRE("/test1\\/test2/");
+		List test = RegularExpressionSelectionCriteria.parseRE("/test1\\/test2/");
 		
 		assertEquals("size", expected.size(), test.size());
 		assertEquals("/test1\\/test2/", expected.get(0), test.get(0));
@@ -127,16 +127,16 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		List expected = new ArrayList();
 		expected.add("m=test1\\=test2=i");
 
-		List test = RegularExpressionSelectionCriteria.ParseRE("m=test1\\=test2=i");
+		List test = RegularExpressionSelectionCriteria.parseRE("m=test1\\=test2=i");
 		
 		assertEquals("size", expected.size(), test.size());
 		assertEquals("m=test1\\=test2=i", expected.get(0), test.get(0));
 	}
 	
 	public void testMatch() {
-		criteria.MatchPackage(true);
-		criteria.MatchClass(false);
-		criteria.MatchFeature(false);
+		criteria.setMatchingPackages(true);
+		criteria.setMatchingClasses(false);
+		criteria.setMatchingFeatures(false);
 
 		assertTrue("a not in package scope",  criteria.matches(a));
 		assertTrue("a.A in package scope",   !criteria.matches(a_A));
@@ -148,9 +148,9 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		assertTrue("c.C in package scope",   !criteria.matches(c_C));
 		assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
 
-		criteria.MatchPackage(false);
-		criteria.MatchClass(true);
-		criteria.MatchFeature(false);
+		criteria.setMatchingPackages(false);
+		criteria.setMatchingClasses(true);
+		criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package scope",       !criteria.matches(a));
 		assertTrue("a.A not in package scope",  criteria.matches(a_A));
@@ -162,9 +162,9 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		assertTrue("c.C in package scope",      criteria.matches(c_C));
 		assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
 
-		criteria.MatchPackage(false);
-		criteria.MatchClass(false);
-		criteria.MatchFeature(true);
+		criteria.setMatchingPackages(false);
+		criteria.setMatchingClasses(false);
+		criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package scope",         !criteria.matches(a));
 		assertTrue("a.A in package scope",       !criteria.matches(a_A));
@@ -178,11 +178,11 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 	}
 
 	public void testGlobalIncludes() {
-		criteria.GlobalIncludes(include);
+		criteria.setGlobalIncludes(include);
 
-		criteria.MatchPackage(true);
-		criteria.MatchClass(false);
-		criteria.MatchFeature(false);
+		criteria.setMatchingPackages(true);
+		criteria.setMatchingClasses(false);
+		criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package scope",     !criteria.matches(a));
 		assertTrue("a.A in package scope",   !criteria.matches(a_A));
@@ -194,9 +194,9 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		assertTrue("c.C in package scope",   !criteria.matches(c_C));
 		assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
 
-		criteria.MatchPackage(false);
-		criteria.MatchClass(true);
-		criteria.MatchFeature(false);
+		criteria.setMatchingPackages(false);
+		criteria.setMatchingClasses(true);
+		criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package scope",       !criteria.matches(a));
 		assertTrue("a.A in package scope",     !criteria.matches(a_A));
@@ -208,9 +208,9 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		assertTrue("c.C in package scope",     !criteria.matches(c_C));
 		assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
 
-		criteria.MatchPackage(false);
-		criteria.MatchClass(false);
-		criteria.MatchFeature(true);
+		criteria.setMatchingPackages(false);
+		criteria.setMatchingClasses(false);
+		criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package scope",         !criteria.matches(a));
 		assertTrue("a.A in package scope",       !criteria.matches(a_A));
@@ -224,11 +224,11 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 	}
 
 	public void testGlobalExcludes() {
-		criteria.GlobalExcludes(exclude);
+		criteria.setGlobalExcludes(exclude);
 
-		criteria.MatchPackage(true);
-		criteria.MatchClass(false);
-		criteria.MatchFeature(false);
+		criteria.setMatchingPackages(true);
+		criteria.setMatchingClasses(false);
+		criteria.setMatchingFeatures(false);
 
 		assertTrue("a not in package scope",  criteria.matches(a));
 		assertTrue("a.A in package scope",   !criteria.matches(a_A));
@@ -240,9 +240,9 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		assertTrue("c.C in package scope",   !criteria.matches(c_C));
 		assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
 
-		criteria.MatchPackage(false);
-		criteria.MatchClass(true);
-		criteria.MatchFeature(false);
+		criteria.setMatchingPackages(false);
+		criteria.setMatchingClasses(true);
+		criteria.setMatchingFeatures(false);
 
 		assertTrue("a in package scope",       !criteria.matches(a));
 		assertTrue("a.A not in package scope",  criteria.matches(a_A));
@@ -254,9 +254,9 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 		assertTrue("c.C in package scope",     !criteria.matches(c_C));
 		assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
 
-		criteria.MatchPackage(false);
-		criteria.MatchClass(false);
-		criteria.MatchFeature(true);
+		criteria.setMatchingPackages(false);
+		criteria.setMatchingClasses(false);
+		criteria.setMatchingFeatures(true);
 
 		assertTrue("a in package scope",         !criteria.matches(a));
 		assertTrue("a.A in package scope",       !criteria.matches(a_A));

@@ -33,8 +33,8 @@
 package com.jeantessier.dependency;
 
 public class GraphCopier extends VisitorBase {
-	private NodeFactory scope_factory  = new NodeFactory();
-	private NodeFactory filter_factory = new NodeFactory();
+	private NodeFactory scopeFactory  = new NodeFactory();
+	private NodeFactory filterFactory = new NodeFactory();
 
 	public GraphCopier() {
 		super();
@@ -44,59 +44,59 @@ public class GraphCopier extends VisitorBase {
 		super(strategy);
 	}
 	
-	public NodeFactory ScopeFactory() {
-		return scope_factory;
+	public NodeFactory getScopeFactory() {
+		return scopeFactory;
 	}
 	
-	public NodeFactory FilterFactory() {
-		return filter_factory;
+	public NodeFactory getFilterFactory() {
+		return filterFactory;
 	}
 
 	protected void preprocessPackageNode(PackageNode node) {
-		super.preprocessPackageNode(ScopeFactory().CreatePackage(node.getName()));
+		super.preprocessPackageNode(getScopeFactory().createPackage(node.getName()));
 	}
 
 	public void visitInboundPackageNode(PackageNode node) {
 		if (getStrategy().isInFilter(node)) {
-			FilterFactory().CreatePackage(node.getName()).addDependency(getCurrentNode());
+			getFilterFactory().createPackage(node.getName()).addDependency(getCurrentNode());
 		}
 	}
 
 	public void visitOutboundPackageNode(PackageNode node) {
 		if (getStrategy().isInFilter(node)) {
-			getCurrentNode().addDependency(FilterFactory().CreatePackage(node.getName()));
+			getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName()));
 		}
 	}
 
 	protected void preprocessClassNode(ClassNode node) {
-		super.preprocessClassNode(ScopeFactory().CreateClass(node.getName()));
+		super.preprocessClassNode(getScopeFactory().createClass(node.getName()));
 	}
 
 	public void visitInboundClassNode(ClassNode node) {
 		if (getStrategy().isInFilter(node)) {
-			FilterFactory().CreateClass(node.getName()).addDependency(getCurrentNode());
+			getFilterFactory().createClass(node.getName()).addDependency(getCurrentNode());
 		}
 	}
 
 	public void visitOutboundClassNode(ClassNode node) {
 		if (getStrategy().isInFilter(node)) {
-			getCurrentNode().addDependency(FilterFactory().CreateClass(node.getName()));
+			getCurrentNode().addDependency(getFilterFactory().createClass(node.getName()));
 		}
 	}
 
 	protected void preprocessFeatureNode(FeatureNode node) {
-		super.preprocessFeatureNode(ScopeFactory().CreateFeature(node.getName()));
+		super.preprocessFeatureNode(getScopeFactory().createFeature(node.getName()));
 	}
 
 	public void visitInboundFeatureNode(FeatureNode node) {
 		if (getStrategy().isInFilter(node)) {
-			FilterFactory().CreateFeature(node.getName()).addDependency(getCurrentNode());
+			getFilterFactory().createFeature(node.getName()).addDependency(getCurrentNode());
 		}
 	}
 
 	public void visitOutboundFeatureNode(FeatureNode node) {
 		if (getStrategy().isInFilter(node)) {
-			getCurrentNode().addDependency(FilterFactory().CreateFeature(node.getName()));
+			getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName()));
 		}
 	}
 }

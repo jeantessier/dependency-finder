@@ -42,19 +42,19 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 public class NodeLoader {
-	private static final String  DEFAULT_READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
+	private static final String  DEFAULT_READER_CLASS_NAME = "org.apache.xerces.parsers.SAXParser";
 	private static final boolean DEFAULT_VALIDATE         = false;
 
 	private NodeHandler handler;
-	private String      reader_classname;
+	private String      readerClassName;
 	private boolean     validate;
 
 	public NodeLoader() {
-		this(new NodeFactory(), DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
+		this(new NodeFactory(), DEFAULT_READER_CLASS_NAME, DEFAULT_VALIDATE);
 	}
 
 	public NodeLoader(NodeFactory factory) {
-		this(factory, DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
+		this(factory, DEFAULT_READER_CLASS_NAME, DEFAULT_VALIDATE);
 	}
 
 	public NodeLoader(String reader_classname) {
@@ -62,7 +62,7 @@ public class NodeLoader {
 	}
 
 	public NodeLoader(boolean validate) {
-		this(new NodeFactory(), DEFAULT_READER_CLASSNAME, validate);
+		this(new NodeFactory(), DEFAULT_READER_CLASS_NAME, validate);
 	}
 
 	public NodeLoader(NodeFactory factory, String reader_classname) {
@@ -70,7 +70,7 @@ public class NodeLoader {
 	}
 
 	public NodeLoader(NodeFactory factory, boolean validate) {
-		this(factory, DEFAULT_READER_CLASSNAME, validate);
+		this(factory, DEFAULT_READER_CLASS_NAME, validate);
 	}
 
 	public NodeLoader(String reader_classname, boolean validate) {
@@ -79,17 +79,17 @@ public class NodeLoader {
 	
 	public NodeLoader(NodeFactory factory, String reader_classname, boolean validate) {
 		this.handler          = new NodeHandler(factory);
-		this.reader_classname = reader_classname;
+		this.readerClassName = reader_classname;
 		this.validate         = validate;
 	}
 
-	public NodeFactory Load(String filename) throws IOException, SAXException {
+	public NodeFactory load(String filename) throws IOException, SAXException {
 		NodeFactory result = null;
 
 		FileReader in = null;
 		try {
 			in = new FileReader(filename);
-			result = Load(in);
+			result = load(in);
 		} finally {
 			if (in != null) {
 				in.close();
@@ -99,16 +99,16 @@ public class NodeLoader {
 		return result;
 	}
 
-	public NodeFactory Load(InputStream in) throws IOException, SAXException {
-		return Load(new InputSource(in));
+	public NodeFactory load(InputStream in) throws IOException, SAXException {
+		return load(new InputSource(in));
 	}
 
-	public NodeFactory Load(Reader in) throws IOException, SAXException {
-		return Load(new InputSource(in));
+	public NodeFactory load(Reader in) throws IOException, SAXException {
+		return load(new InputSource(in));
 	}
 
-	public NodeFactory Load(InputSource in) throws IOException, SAXException {
-		XMLReader reader = XMLReaderFactory.createXMLReader(reader_classname);
+	public NodeFactory load(InputSource in) throws IOException, SAXException {
+		XMLReader reader = XMLReaderFactory.createXMLReader(readerClassName);
 		reader.setDTDHandler(handler);
 		reader.setContentHandler(handler);
 		reader.setErrorHandler(handler);
@@ -129,7 +129,7 @@ public class NodeLoader {
 	
 		reader.parse(in);
 	
-		return handler.Factory();
+		return handler.getFactory();
 	}
 
 	public void addDependencyListener(DependencyListener listener) {

@@ -57,17 +57,17 @@ public class TestClosureStopSelector extends TestCase {
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 
-		a     = factory.CreatePackage("a");
-		a_A   = factory.CreateClass("a.A");
-		a_A_a = factory.CreateFeature("a.A.a");
+		a     = factory.createPackage("a");
+		a_A   = factory.createClass("a.A");
+		a_A_a = factory.createFeature("a.A.a");
 		
-		b     = factory.CreatePackage("b");
-		b_B   = factory.CreateClass("b.B");
-		b_B_b = factory.CreateFeature("b.B.b");
+		b     = factory.createPackage("b");
+		b_B   = factory.createClass("b.B");
+		b_B_b = factory.createFeature("b.B.b");
 		
-		c     = factory.CreatePackage("c");
-		c_C   = factory.CreateClass("c.C");
-		c_C_c = factory.CreateFeature("c.C.c");
+		c     = factory.createPackage("c");
+		c_C   = factory.createClass("c.C");
+		c_C_c = factory.createFeature("c.C.c");
 
 		a_A_a.addDependency(b_B_b);
 		b_B_b.addDependency(c_C_c);
@@ -75,37 +75,37 @@ public class TestClosureStopSelector extends TestCase {
 
 	public void testEmpty() {
 		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.GlobalIncludes("/b.B.b/");
+		local_criteria.setGlobalIncludes("/b.B.b/");
 
 		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
 		selector.traverseNodes(Collections.EMPTY_SET);
 
-		assertTrue("Failed to recognize empty collection", selector.Done());
+		assertTrue("Failed to recognize empty collection", selector.isDone());
 	}
 
 	public void testPositive() {
 		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.GlobalIncludes("/b.B.b/");
+		local_criteria.setGlobalIncludes("/b.B.b/");
 
 		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
 		selector.traverseNodes(Collections.singleton(b_B_b));
 
-		assertTrue("Failed to recognize target", selector.Done());
+		assertTrue("Failed to recognize target", selector.isDone());
 	}
 
 	public void testNegative() {
 		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.GlobalIncludes("/b.B.b/");
+		local_criteria.setGlobalIncludes("/b.B.b/");
 
 		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
 		selector.traverseNodes(Collections.singleton(a_A_a));
 
-		assertFalse("Failed to ignore non-target", selector.Done());
+		assertFalse("Failed to ignore non-target", selector.isDone());
 	}
 
 	public void testMultiple() {
 		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
-		local_criteria.GlobalIncludes("/b.B.b/");
+		local_criteria.setGlobalIncludes("/b.B.b/");
 
 		Collection targets = new ArrayList();
 		targets.add(a_A_a);
@@ -114,6 +114,6 @@ public class TestClosureStopSelector extends TestCase {
 		ClosureStopSelector selector = new ClosureStopSelector(local_criteria);
 		selector.traverseNodes(targets);
 
-		assertTrue("Failed to recognize target", selector.Done());
+		assertTrue("Failed to recognize target", selector.isDone());
 	}
 }

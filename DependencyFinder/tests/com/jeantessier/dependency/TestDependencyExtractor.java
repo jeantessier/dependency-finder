@@ -78,27 +78,27 @@ public class TestDependencyExtractor extends TestCase {
 
 		factory = new NodeFactory();
 
-		_package = factory.CreatePackage("");
-		test_class = factory.CreateClass("test");
-		test_main_feature = factory.CreateFeature("test.main(java.lang.String[])");
-		test_test_feature = factory.CreateFeature("test.test()");
+		_package = factory.createPackage("");
+		test_class = factory.createClass("test");
+		test_main_feature = factory.createFeature("test.main(java.lang.String[])");
+		test_test_feature = factory.createFeature("test.test()");
 		
-		java_io_package = factory.CreatePackage("java.io");
-		java_io_PrintStream_class = factory.CreateClass("java.io.PrintStream");
-		java_io_PrintStream_println_feature = factory.CreateFeature("java.io.PrintStream.println(java.lang.Object)");
+		java_io_package = factory.createPackage("java.io");
+		java_io_PrintStream_class = factory.createClass("java.io.PrintStream");
+		java_io_PrintStream_println_feature = factory.createFeature("java.io.PrintStream.println(java.lang.Object)");
 
-		java_lang_package = factory.CreatePackage("java.lang");
-		java_lang_NullPointerException_class = factory.CreateClass("java.lang.NullPointerException");
-		java_lang_Object_class = factory.CreateClass("java.lang.Object");
-		java_lang_Object_Object_feature = factory.CreateFeature("java.lang.Object.Object()");
-		java_lang_String_class = factory.CreateClass("java.lang.String");
-		java_lang_System_class = factory.CreateClass("java.lang.System");
-		java_lang_System_out_feature = factory.CreateFeature("java.lang.System.out");
+		java_lang_package = factory.createPackage("java.lang");
+		java_lang_NullPointerException_class = factory.createClass("java.lang.NullPointerException");
+		java_lang_Object_class = factory.createClass("java.lang.Object");
+		java_lang_Object_Object_feature = factory.createFeature("java.lang.Object.Object()");
+		java_lang_String_class = factory.createClass("java.lang.String");
+		java_lang_System_class = factory.createClass("java.lang.System");
+		java_lang_System_out_feature = factory.createFeature("java.lang.System.out");
 		
-		java_util_package = factory.CreatePackage("java.util");
-		java_util_Collections_class = factory.CreateClass("java.util.Collections");
-		java_util_Collections_singleton_feature = factory.CreateFeature("java.util.Collections.singleton(java.lang.Object)");
-		java_util_Set_class = factory.CreateClass("java.util.Set");
+		java_util_package = factory.createPackage("java.util");
+		java_util_Collections_class = factory.createClass("java.util.Collections");
+		java_util_Collections_singleton_feature = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
+		java_util_Set_class = factory.createClass("java.util.Set");
 		
 		test_class.addDependency(java_lang_Object_class);
 		test_main_feature.addDependency(java_io_PrintStream_class);
@@ -125,64 +125,64 @@ public class TestDependencyExtractor extends TestCase {
 	
 	public void testPackageList() {
 		assertEquals("Different list of packages",
-					 factory.Packages().keySet(),
-					 test_factory.Packages().keySet());
+					 factory.getPackages().keySet(),
+					 test_factory.getPackages().keySet());
 	}
 	
 	public void testClassList() {
 		assertEquals("Different list of classes",
-					 factory.Classes().keySet(),
-					 test_factory.Classes().keySet());
+					 factory.getClasses().keySet(),
+					 test_factory.getClasses().keySet());
 	}
 	
 	public void testFeatureList() {
 		assertEquals("Different list of features",
-					 factory.Features().keySet(),
-					 test_factory.Features().keySet());
+					 factory.getFeatures().keySet(),
+					 test_factory.getFeatures().keySet());
 	}
 	
 	public void testPackages() {
-		Iterator i = factory.Packages().keySet().iterator();
+		Iterator i = factory.getPackages().keySet().iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Packages().get(key), test_factory.Packages().get(key));
-			assertTrue(key + " is same", factory.Packages().get(key) != test_factory.Packages().get(key));
+			assertEquals(factory.getPackages().get(key), test_factory.getPackages().get(key));
+			assertTrue(key + " is same", factory.getPackages().get(key) != test_factory.getPackages().get(key));
 			assertEquals(key + " inbounds",
-						 ((Node) factory.Packages().get(key)).getInboundDependencies().size(),
-						 ((Node) test_factory.Packages().get(key)).getInboundDependencies().size());
+						 ((Node) factory.getPackages().get(key)).getInboundDependencies().size(),
+						 ((Node) test_factory.getPackages().get(key)).getInboundDependencies().size());
 			assertEquals(key + " outbounds",
-						 ((Node) factory.Packages().get(key)).getOutboundDependencies().size(),
-						 ((Node) test_factory.Packages().get(key)).getOutboundDependencies().size());
+						 ((Node) factory.getPackages().get(key)).getOutboundDependencies().size(),
+						 ((Node) test_factory.getPackages().get(key)).getOutboundDependencies().size());
 		}
 	}
 	
 	public void testClasses() {
-		Iterator i = factory.Classes().keySet().iterator();
+		Iterator i = factory.getClasses().keySet().iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Classes().get(key), test_factory.Classes().get(key));
-			assertTrue(key + " is same", factory.Classes().get(key) != test_factory.Classes().get(key));
+			assertEquals(factory.getClasses().get(key), test_factory.getClasses().get(key));
+			assertTrue(key + " is same", factory.getClasses().get(key) != test_factory.getClasses().get(key));
 			assertEquals(key + " inbounds",
-						 ((Node) factory.Classes().get(key)).getInboundDependencies().size(),
-						 ((Node) test_factory.Classes().get(key)).getInboundDependencies().size());
+						 ((Node) factory.getClasses().get(key)).getInboundDependencies().size(),
+						 ((Node) test_factory.getClasses().get(key)).getInboundDependencies().size());
 			assertEquals(key + " outbounds",
-						 ((Node) factory.Classes().get(key)).getOutboundDependencies().size(),
-						 ((Node) test_factory.Classes().get(key)).getOutboundDependencies().size());
+						 ((Node) factory.getClasses().get(key)).getOutboundDependencies().size(),
+						 ((Node) test_factory.getClasses().get(key)).getOutboundDependencies().size());
 		}
 	}
 	
 	public void testFeatures() {
-		Iterator i = factory.Features().keySet().iterator();
+		Iterator i = factory.getFeatures().keySet().iterator();
 		while (i.hasNext()) {
 			Object key = i.next();
-			assertEquals(factory.Features().get(key), test_factory.Features().get(key));
-			assertTrue(key + " is same", factory.Features().get(key) != test_factory.Features().get(key));
+			assertEquals(factory.getFeatures().get(key), test_factory.getFeatures().get(key));
+			assertTrue(key + " is same", factory.getFeatures().get(key) != test_factory.getFeatures().get(key));
 			assertEquals(key + " inbounds",
-						 ((Node) factory.Features().get(key)).getInboundDependencies().size(),
-						 ((Node) test_factory.Features().get(key)).getInboundDependencies().size());
+						 ((Node) factory.getFeatures().get(key)).getInboundDependencies().size(),
+						 ((Node) test_factory.getFeatures().get(key)).getInboundDependencies().size());
 			assertEquals(key + " outbounds",
-						 ((Node) factory.Features().get(key)).getOutboundDependencies().size(),
-						 ((Node) test_factory.Features().get(key)).getOutboundDependencies().size());
+						 ((Node) factory.getFeatures().get(key)).getOutboundDependencies().size(),
+						 ((Node) test_factory.getFeatures().get(key)).getOutboundDependencies().size());
 		}
 	}
 
@@ -195,7 +195,7 @@ public class TestDependencyExtractor extends TestCase {
 		Classfile classfile = loader.getClassfile("StaticInitializerTest");
 		classfile.accept(new CodeDependencyCollector(factory));
 
-		Collection feature_names = factory.Features().keySet();
+		Collection feature_names = factory.getFeatures().keySet();
 		
 		Iterator i = classfile.getAllMethods().iterator();
 		while (i.hasNext()) {

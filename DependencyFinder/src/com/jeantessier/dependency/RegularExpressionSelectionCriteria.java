@@ -42,180 +42,180 @@ import com.jeantessier.text.*;
 public class RegularExpressionSelectionCriteria implements SelectionCriteria {
 	private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-	private List    global_includes  = new LinkedList();
-	private List    global_excludes  = new LinkedList();
-	private boolean match_package    = true;
-	private List    package_includes = new LinkedList();
-	private List    package_excludes = new LinkedList();
-	private boolean match_class      = true;
-	private List    class_includes   = new LinkedList();
-	private List    class_excludes   = new LinkedList();
-	private boolean match_feature    = true;
-	private List    feature_includes = new LinkedList();
-	private List    feature_excludes = new LinkedList();
+	private List    globalIncludes   = new LinkedList();
+	private List    globalExcludes   = new LinkedList();
+	private boolean matchingPackages = true;
+	private List    packageIncludes  = new LinkedList();
+	private List    packageExcludes  = new LinkedList();
+	private boolean matchingClasses  = true;
+	private List    classIncludes    = new LinkedList();
+	private List    classExcludes    = new LinkedList();
+	private boolean matchingFeatures = true;
+	private List    featureIncludes  = new LinkedList();
+	private List    featureExcludes  = new LinkedList();
 	
 	public RegularExpressionSelectionCriteria() {
-		GlobalIncludes().add("//");
+		getGlobalIncludes().add("//");
 	}
 	
-	public List GlobalIncludes() {
-		return global_includes;
+	public List getGlobalIncludes() {
+		return globalIncludes;
 	}
 
-	public void GlobalIncludes(String global_includes) {
-		GlobalIncludes(ParseRE(global_includes));
+	public void setGlobalIncludes(String globalIncludes) {
+		setGlobalIncludes(parseRE(globalIncludes));
 	}
 	
-	public void GlobalIncludes(List global_includes) {
-		this.global_includes = global_includes;
+	public void setGlobalIncludes(List globalIncludes) {
+		this.globalIncludes = globalIncludes;
 	}
 
-	public List GlobalExcludes() {
-		return global_excludes;
+	public List getGlobalExcludes() {
+		return globalExcludes;
 	}
 
-	public void GlobalExcludes(String global_excludes) {
-		GlobalExcludes(ParseRE(global_excludes));
+	public void setGlobalExcludes(String globalExcludes) {
+		setGlobalExcludes(parseRE(globalExcludes));
 	}
 
-	public void GlobalExcludes(List global_excludes) {
-		this.global_excludes = global_excludes;
+	public void setGlobalExcludes(List globalExcludes) {
+		this.globalExcludes = globalExcludes;
 	}
 
-	public boolean doesPackageMatching() {
-		return match_package;
+	public boolean isMatchingPackages() {
+		return matchingPackages;
 	}
 
-	public void MatchPackage(boolean match_package) {
-		this.match_package = match_package;
+	public void setMatchingPackages(boolean matchingPackages) {
+		this.matchingPackages = matchingPackages;
 	}
 
-	public List PackageIncludes() {
-		return package_includes;
+	public List getPackageIncludes() {
+		return packageIncludes;
 	}
 
-	public void PackageIncludes(String package_includes) {
-		PackageIncludes(ParseRE(package_includes));
+	public void setPackageIncludes(String packageIncludes) {
+		setPackageIncludes(parseRE(packageIncludes));
 	}
 
-	public void PackageIncludes(List package_includes) {
-		this.package_includes = package_includes;
+	public void setPackageIncludes(List packageIncludes) {
+		this.packageIncludes = packageIncludes;
 	}
 
-	public List PackageExcludes() {
-		return package_excludes;
+	public List getPackageExcludes() {
+		return packageExcludes;
 	}
 
-	public void PackageExcludes(String package_excludes) {
-		PackageExcludes(ParseRE(package_excludes));
+	public void setPackageExcludes(String packageExcludes) {
+		setPackageExcludes(parseRE(packageExcludes));
 	}
 
-	public void PackageExcludes(List package_excludes) {
-		this.package_excludes = package_excludes;
+	public void setPackageExcludes(List packageExcludes) {
+		this.packageExcludes = packageExcludes;
 	}
 
-	public boolean doesClassMatching() {
-		return match_class;
+	public boolean isMatchingClasses() {
+		return matchingClasses;
 	}
 
-	public void MatchClass(boolean match_class) {
-		this.match_class = match_class;
+	public void setMatchingClasses(boolean matchingClasses) {
+		this.matchingClasses = matchingClasses;
 	}
 
-	public List ClassIncludes() {
-		return class_includes;
+	public List getClassIncludes() {
+		return classIncludes;
 	}
 
-	public void ClassIncludes(String class_includes) {
-		ClassIncludes(ParseRE(class_includes));
+	public void setClassIncludes(String classIncludes) {
+		setClassIncludes(parseRE(classIncludes));
 	}
 
-	public void ClassIncludes(List class_includes) {
-		this.class_includes = class_includes;
+	public void setClassIncludes(List classIncludes) {
+		this.classIncludes = classIncludes;
 	}
 
-	public List ClassExcludes() {
-		return class_excludes;
+	public List getClassExcludes() {
+		return classExcludes;
 	}
 
-	public void ClassExcludes(String class_excludes) {
-		ClassExcludes(ParseRE(class_excludes));
+	public void setClassExcludes(String classExcludes) {
+		setClassExcludes(parseRE(classExcludes));
 	}
 
-	public void ClassExcludes(List class_excludes) {
-		this.class_excludes = class_excludes;
+	public void setClassExcludes(List classExcludes) {
+		this.classExcludes = classExcludes;
 	}
 
-	public boolean doesFeatureMatching() {
-		return match_feature;
+	public boolean isMatchingFeatures() {
+		return matchingFeatures;
 	}
 
-	public void MatchFeature(boolean match_feature) {
-		this.match_feature = match_feature;
+	public void setMatchingFeatures(boolean matchingFeatures) {
+		this.matchingFeatures = matchingFeatures;
 	}
 
-	public List FeatureIncludes() {
-		return feature_includes;
+	public List getFeatureIncludes() {
+		return featureIncludes;
 	}
 
-	public void FeatureIncludes(String feature_includes) {
-		FeatureIncludes(ParseRE(feature_includes));
+	public void setFeatureIncludes(String featureIncludes) {
+		setFeatureIncludes(parseRE(featureIncludes));
 	}
 
-	public void FeatureIncludes(List feature_includes) {
-		this.feature_includes = feature_includes;
+	public void setFeatureIncludes(List featureIncludes) {
+		this.featureIncludes = featureIncludes;
 	}
 
-	public List FeatureExcludes() {
-		return feature_excludes;
+	public List getFeatureExcludes() {
+		return featureExcludes;
 	}
 
-	public void FeatureExcludes(String feature_excludes) {
-		FeatureExcludes(ParseRE(feature_excludes));
+	public void setFeatureExcludes(String featureExcludes) {
+		setFeatureExcludes(parseRE(featureExcludes));
 	}
 
-	public void FeatureExcludes(List feature_excludes) {
-		this.feature_excludes = feature_excludes;
+	public void setFeatureExcludes(List featureExcludes) {
+		this.featureExcludes = featureExcludes;
 	}
 
 	public boolean matches(PackageNode node) {
-		return doesPackageMatching() && matchesPackageName(node.getName());
+		return isMatchingPackages() && matchesPackageName(node.getName());
 	}
 	
 	public boolean matches(ClassNode node) {
-		return doesClassMatching() && matchesClassName(node.getName());
+		return isMatchingClasses() && matchesClassName(node.getName());
 	}
 	
 	public boolean matches(FeatureNode node) {
-		return doesFeatureMatching() && matchesFeatureName(node.getName());
+		return isMatchingFeatures() && matchesFeatureName(node.getName());
 	}
 
 	public boolean matchesPackageName(String name) {
-		return Match(GlobalIncludes(), PackageIncludes(), name) &&
-			!Match(GlobalExcludes(), PackageExcludes(), name);
+		return matches(getGlobalIncludes(), getPackageIncludes(), name) &&
+			!matches(getGlobalExcludes(), getPackageExcludes(), name);
 	}
 
 	public boolean matchesClassName(String name) {
-		return Match(GlobalIncludes(), ClassIncludes(), name) &&
-			!Match(GlobalExcludes(), ClassExcludes(), name);
+		return matches(getGlobalIncludes(), getClassIncludes(), name) &&
+			!matches(getGlobalExcludes(), getClassExcludes(), name);
 	}
 
 	public boolean matchesFeatureName(String name) {
-		return Match(GlobalIncludes(), FeatureIncludes(), name) &&
-			!Match(GlobalExcludes(), FeatureExcludes(), name);
+		return matches(getGlobalIncludes(), getFeatureIncludes(), name) &&
+			!matches(getGlobalExcludes(), getFeatureExcludes(), name);
 	}
 
-	private boolean Match(List global_regular_expressions, List regular_expressions, String name) {
+	private boolean matches(List globalRegularExpressions, List regularExpressions, String name) {
 		boolean  found = false;
 		Iterator i;
 
-		i = global_regular_expressions.iterator();
+		i = globalRegularExpressions.iterator();
 		while (!found && i.hasNext()) {
 			String condition = (String) i.next();
 			found = perl.match(condition, name);
 		}
 
-		i = regular_expressions.iterator();
+		i = regularExpressions.iterator();
 		while (!found && i.hasNext()) {
 			String condition = (String) i.next();
 			found = perl.match(condition, name);
@@ -225,7 +225,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
 	}
 
 	// Should be private, but left at package-level for the unit tests.
-	protected static List ParseRE(String re) {
+	protected static List parseRE(String re) {
 		List result = new LinkedList();
 
 		Logger logger = Logger.getLogger(RegularExpressionSelectionCriteria.class);

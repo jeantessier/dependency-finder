@@ -85,23 +85,23 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
 		}
 	}
 	
-	public void BeginSession(DependencyEvent event) {
+	public void beginSession(DependencyEvent event) {
 		// Do nothing
 	}
 
-	public void BeginClass(DependencyEvent event) {
-		task.log("Getting dependencies from " + event.Classname() + " ...", Project.MSG_VERBOSE);
+	public void beginClass(DependencyEvent event) {
+		task.log("Getting dependencies from " + event.getClassName() + " ...", Project.MSG_VERBOSE);
 	}
 	
-	public void Dependency(DependencyEvent event) {
+	public void dependency(DependencyEvent event) {
 		// Do nothing
 	}
 	
-	public void EndClass(DependencyEvent event) {
+	public void endClass(DependencyEvent event) {
 		// Do nothing
 	}
 	
-	public void EndSession(DependencyEvent event) {
+	public void endSession(DependencyEvent event) {
 		// Do nothing
 	}
 
