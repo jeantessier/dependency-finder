@@ -76,29 +76,29 @@ public class PackageValidator implements Validator {
 	}
 
 	public boolean isClassAllowed(String name) {
-		String package_name = "";
+		String packageName = "";
 		int pos = name.lastIndexOf('.');
 		if (pos != -1) {
-			package_name = name.substring(0, pos);
+			packageName = name.substring(0, pos);
 		}
 		
-		return isPackageAllowed(package_name);
+		return isPackageAllowed(packageName);
 	}
 
 	public boolean isFeatureAllowed(String name) {
 		boolean result = false;
 		
-		String class_name = "";
+		String className = "";
 		synchronized (perl) {
 			if (perl.match("/^(.+)\\.[^\\.]+\\(.*\\)$/", name)) {
-				class_name = perl.group(1);
+				className = perl.group(1);
 			} else if (perl.match("/^(.+)\\.[^\\.]+$/", name)) {
-				class_name = perl.group(1);
+				className = perl.group(1);
 			}
 		}
 
-		if (!class_name.equals("")) {
-			result = isClassAllowed(class_name);
+		if (!className.equals("")) {
+			result = isClassAllowed(className);
 		}
 
 		return result;

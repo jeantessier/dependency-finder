@@ -38,8 +38,8 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
 
 public class MetricsVerboseListener extends VerboseListener implements MetricsListener {
-	public MetricsVerboseListener(StatusLine status_line, JProgressBar progress_bar) {
-		super(status_line, progress_bar);
+	public MetricsVerboseListener(StatusLine statusLine, JProgressBar progressBar) {
+		super(statusLine, progressBar);
 	}
 
 	public void endSession(LoadEvent event) {

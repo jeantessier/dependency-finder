@@ -50,13 +50,13 @@ public class AttributeFactory {
 	public static Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		Attribute_info result = null;
 
-		int name_index = in.readUnsignedShort();
-		if (name_index > 0) {
-			Object entry = classfile.getConstantPool().get(name_index);
+		int nameIndex = in.readUnsignedShort();
+		if (nameIndex > 0) {
+			Object entry = classfile.getConstantPool().get(nameIndex);
 
 			if (entry instanceof UTF8_info) {
 				String name = ((UTF8_info) entry).getValue();
-				Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index + " (" + name + ")");
+				Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex + " (" + name + ")");
 				
 				if (CONSTANT_VALUE.equals(name)) {
 					result = new ConstantValue_attribute(classfile, owner, in);
@@ -87,7 +87,7 @@ public class AttributeFactory {
 				result = new Custom_attribute(classfile, owner, in);
 			}
 		} else {
-			Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index);
+			Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex);
 
 			Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with no name");
 			result = new Custom_attribute(classfile, owner, in);

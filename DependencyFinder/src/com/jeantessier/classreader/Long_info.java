@@ -37,8 +37,8 @@ import java.io.*;
 public class Long_info extends ConstantPoolEntry {
 	private long value;
 
-	public Long_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool);
+	public Long_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool);
 
 		value = in.readLong();
 	}

@@ -55,8 +55,8 @@ public class LineNumber implements Visitable {
 		return lineNumberTable;
 	}
 
-	private void setLineNumberTable(LineNumberTable_attribute line_number_table) {
-		this.lineNumberTable = line_number_table;
+	private void setLineNumberTable(LineNumberTable_attribute lineNumberTable) {
+		this.lineNumberTable = lineNumberTable;
 	}
 
 	public int getStartPC() {

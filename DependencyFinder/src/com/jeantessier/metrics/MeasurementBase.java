@@ -120,34 +120,34 @@ public abstract class MeasurementBase implements Measurement {
 		boolean result = true;
 
 		if (getDescriptor() != null) {
-			Comparable lower_threshold = getDescriptor().getLowerThreshold();
-			Comparable upper_threshold = getDescriptor().getUpperThreshold();
+			Comparable lowerThreshold = getDescriptor().getLowerThreshold();
+			Comparable upperThreshold = getDescriptor().getUpperThreshold();
 
-			if (result && lower_threshold != null) {
-				if (lower_threshold instanceof String) {
+			if (result && lowerThreshold != null) {
+				if (lowerThreshold instanceof String) {
 					try {
-						result = Double.parseDouble((String) lower_threshold) <= compute();
+						result = Double.parseDouble((String) lowerThreshold) <= compute();
 					} catch (NumberFormatException ex) {
 						// Ignore
 					}
-				} else if (lower_threshold instanceof Number) {
-					result = ((Number) lower_threshold).doubleValue() <= compute();
+				} else if (lowerThreshold instanceof Number) {
+					result = ((Number) lowerThreshold).doubleValue() <= compute();
 				} else {
-					result = lower_threshold.compareTo(getValue()) <= 0;
+					result = lowerThreshold.compareTo(getValue()) <= 0;
 				}
 			}
 			
-			if (result && upper_threshold != null) {
-				if (upper_threshold instanceof String) {
+			if (result && upperThreshold != null) {
+				if (upperThreshold instanceof String) {
 					try {
-						result = Double.parseDouble((String) upper_threshold) >= compute();
+						result = Double.parseDouble((String) upperThreshold) >= compute();
 					} catch (NumberFormatException ex) {
 						// Ignore
 					}
-				} else if (upper_threshold instanceof Number) {
-					result = ((Number) upper_threshold).doubleValue() >= compute();
+				} else if (upperThreshold instanceof Number) {
+					result = ((Number) upperThreshold).doubleValue() >= compute();
 				} else {
-					result = upper_threshold.compareTo(getValue()) >= 0;
+					result = upperThreshold.compareTo(getValue()) >= 0;
 				}
 			}
 		}

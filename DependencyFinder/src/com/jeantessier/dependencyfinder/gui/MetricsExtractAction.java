@@ -77,14 +77,14 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 
 		model.getProgressBar().setMaximum(scanner.getNbFiles() + scanner.getNbClasses());
 
-		MetricsVerboseListener verbose_listener = new MetricsVerboseListener(model.getStatusLine(), model.getProgressBar());
+		MetricsVerboseListener verboseListener = new MetricsVerboseListener(model.getStatusLine(), model.getProgressBar());
 		
 		loader = new AggregatingClassfileLoader();
-		loader.addLoadListener(verbose_listener);
+		loader.addLoadListener(verboseListener);
 		loader.load(Arrays.asList(files));
 		
 		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.getMetricsFactory());
-		gatherer.addMetricsListener(verbose_listener);
+		gatherer.addMetricsListener(verboseListener);
 		gatherer.visitClassfiles(loader.getAllClassfiles());
 
 		// JDK 1.4 feature

@@ -46,9 +46,9 @@ public class InnerClasses_attribute extends Attribute_info {
 		int byteCount = in.readInt();
 		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		int class_count = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + class_count + " inner class(es) ...");
-		for (int i=0; i<class_count; i++) {
+		int classCount = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + classCount + " inner class(es) ...");
+		for (int i=0; i<classCount; i++) {
 			Logger.getLogger(getClass()).debug("Inner class " + i + ":");
 			classes.add(new InnerClass(this, in));
 		}

@@ -37,8 +37,8 @@ import java.io.*;
 public class Integer_info extends ConstantPoolEntry {
 	private int value;
 
-	public Integer_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool);
+	public Integer_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool);
 
 		value = in.readInt();
 	}

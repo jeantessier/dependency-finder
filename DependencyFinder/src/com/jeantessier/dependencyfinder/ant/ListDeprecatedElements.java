@@ -82,11 +82,11 @@ public class ListDeprecatedElements extends Task {
 
 			log("Reading classes from path " + getPath());
 
-			VerboseListener    verbose_listener = new VerboseListener(this);
-			DeprecationPrinter printer          = new DeprecationPrinter(out);
+			VerboseListener    verboseListener = new VerboseListener(this);
+			DeprecationPrinter printer         = new DeprecationPrinter(out);
 			
 			ClassfileLoader loader = new AggregatingClassfileLoader();
-			loader.addLoadListener(verbose_listener);
+			loader.addLoadListener(verboseListener);
 			loader.addLoadListener(printer);
 			loader.load(Arrays.asList(getPath().list()));
 			

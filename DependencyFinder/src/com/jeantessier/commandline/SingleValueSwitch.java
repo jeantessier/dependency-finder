@@ -41,16 +41,16 @@ public class SingleValueSwitch extends CommandLineSwitchBase {
 		this("", false);
 	}
 
-	public SingleValueSwitch(String default_value) {
-		this(default_value, false);
+	public SingleValueSwitch(String defaultValue) {
+		this(defaultValue, false);
 	}
 
 	public SingleValueSwitch(boolean mandatory) {
 		this("", mandatory);
 	}
 
-	public SingleValueSwitch(String default_value, boolean mandatory) {
-		super(default_value, mandatory);
+	public SingleValueSwitch(String defaultValue, boolean mandatory) {
+		super(defaultValue, mandatory);
 	}
 
 	public int parse(String name, String value) throws CommandLineException {

@@ -512,17 +512,17 @@ public class MetricsGatherer extends VisitorBase {
 		
 		Logger.getLogger(getClass()).debug("ProcessDescriptor: " + str);
 
-		int current_pos = 0;
-		int start_pos;
-		int end_pos;
+		int currentPos = 0;
+		int startPos;
+		int endPos;
 
-		while ((start_pos = str.indexOf('L', current_pos)) != -1) {
-			if ((end_pos = str.indexOf(';', start_pos)) != -1) {
-				String classname = SignatureHelper.path2ClassName(str.substring(start_pos + 1, end_pos));
+		while ((startPos = str.indexOf('L', currentPos)) != -1) {
+			if ((endPos = str.indexOf(';', startPos)) != -1) {
+				String classname = SignatureHelper.path2ClassName(str.substring(startPos + 1, endPos));
 				result.add(classname);
-				current_pos = end_pos + 1;
+				currentPos = endPos + 1;
 			} else {
-				current_pos = start_pos + 1;
+				currentPos = startPos + 1;
 			}
 		}
 

@@ -50,19 +50,19 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
 	}
 	
 	public void mouseClicked(MouseEvent event) {
-		int    view_column    = table.getColumnModel().getColumnIndexAtX(event.getX()); 
-		int    column         = table.convertColumnIndexToModel(view_column); 
-		String column_name    = model.getRawColumnName(column);
-		int    column_dispose = model.getRawColumnDispose(column);
+		int    viewColumn    = table.getColumnModel().getColumnIndexAtX(event.getX()); 
+		int    column        = table.convertColumnIndexToModel(viewColumn); 
+		String columnName    = model.getRawColumnName(column);
+		int    columnDispose = model.getRawColumnDispose(column);
 
 		Logger.getLogger(getClass()).debug("mouseClicked");
 		Logger.getLogger(getClass()).debug("event.getX()       = " + event.getX());
-		Logger.getLogger(getClass()).debug("view_column        = " + view_column);
+		Logger.getLogger(getClass()).debug("view column        = " + viewColumn);
 		Logger.getLogger(getClass()).debug("column             = " + column);
-		Logger.getLogger(getClass()).debug("raw column_name    = " + column_name);
-		Logger.getLogger(getClass()).debug("raw column_dispose = " + column_dispose);
+		Logger.getLogger(getClass()).debug("raw column name    = " + columnName);
+		Logger.getLogger(getClass()).debug("raw column dispose = " + columnDispose);
 
-		model.sortOn(column_name, column_dispose);
+		model.sortOn(columnName, columnDispose);
 	}
 	
 	public void mouseEntered(MouseEvent event) {
@@ -89,10 +89,10 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
 		if (event.getComponent() instanceof JComponent) {
 			JComponent component = (JComponent) event.getComponent();
 			
-			int                   view_column    = table.getColumnModel().getColumnIndexAtX(event.getX()); 
-			int                   column         = table.convertColumnIndexToModel(view_column); 
-			MeasurementDescriptor descriptor     = model.getColumnDescriptor(column);
-			int                   column_dispose = model.getRawColumnDispose(column);
+			int                   viewColumn    = table.getColumnModel().getColumnIndexAtX(event.getX()); 
+			int                   column        = table.convertColumnIndexToModel(viewColumn); 
+			MeasurementDescriptor descriptor    = model.getColumnDescriptor(column);
+			int                   columnDispose = model.getRawColumnDispose(column);
 			
 			String text = null;
 			
@@ -102,14 +102,14 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
 				tooltip.append(descriptor.getLongName());
 				
 				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-					switch (column_dispose) {
+					switch (columnDispose) {
 						case StatisticalMeasurement.DISPOSE_MINIMUM:
 						case StatisticalMeasurement.DISPOSE_MEDIAN:
 						case StatisticalMeasurement.DISPOSE_AVERAGE:
 						case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
 						case StatisticalMeasurement.DISPOSE_MAXIMUM:
 						case StatisticalMeasurement.DISPOSE_SUM:
-							tooltip.append(", ").append(StatisticalMeasurement.getDisposeLabel(column_dispose));
+							tooltip.append(", ").append(StatisticalMeasurement.getDisposeLabel(columnDispose));
 							break;
 						case StatisticalMeasurement.DISPOSE_IGNORE:
 						case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:

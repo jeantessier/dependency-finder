@@ -55,8 +55,8 @@ import java.util.*;
  *  </pre>
  */
 public class SubMetricsAccumulatorMeasurement extends AccumulatorMeasurement {
-	public SubMetricsAccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
-		super(descriptor, context, init_text);
+	public SubMetricsAccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+		super(descriptor, context, initText);
 	}
 	
 	public void accept(MeasurementVisitor visitor) {

@@ -37,8 +37,8 @@ import java.io.*;
 public class UTF8_info extends ConstantPoolEntry {
 	private String value;
 
-	public UTF8_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool);
+	public UTF8_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool);
 
 		value = in.readUTF();
 	}

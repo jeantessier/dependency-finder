@@ -41,16 +41,16 @@ public class OptionalValueSwitch extends CommandLineSwitchBase {
 		this("", false);
 	}
 
-	public OptionalValueSwitch(String default_value) {
-		this(default_value, false);
+	public OptionalValueSwitch(String defaultValue) {
+		this(defaultValue, false);
 	}
 
 	public OptionalValueSwitch(boolean mandatory) {
 		this("", mandatory);
 	}
 
-	public OptionalValueSwitch(String default_value, boolean mandatory) {
-		super(default_value, mandatory);
+	public OptionalValueSwitch(String defaultValue, boolean mandatory) {
+		super(defaultValue, mandatory);
 	}
 
 	public int parse(String name, String value) throws CommandLineException {

@@ -43,12 +43,12 @@ public class LocalVariableTable_attribute extends Attribute_info {
 	public LocalVariableTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
-		int byte_count = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
+		int byteCount = in.readInt();
+		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		int local_variable_table_length = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + local_variable_table_length + " local variable(s) ...");
-		for (int i=0; i<local_variable_table_length; i++) {
+		int localVariableTableLength = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + localVariableTableLength + " local variable(s) ...");
+		for (int i=0; i<localVariableTableLength; i++) {
 			Logger.getLogger(getClass()).debug("Local variable " + i + ":");
 			localVariables.add(new LocalVariable(this, in));
 		}

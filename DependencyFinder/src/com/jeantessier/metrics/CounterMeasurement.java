@@ -48,12 +48,12 @@ package com.jeantessier.metrics;
 public class CounterMeasurement extends MeasurementBase {
 	private double value;
 
-	public CounterMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
-		super(descriptor, context, init_text);
+	public CounterMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+		super(descriptor, context, initText);
 
 		try {
-			if (init_text != null) {
-				value = Double.parseDouble(init_text);
+			if (initText != null) {
+				value = Double.parseDouble(initText);
 			}
 		} catch (NumberFormatException ex) {
 			value = 0;

@@ -57,30 +57,30 @@ public class NodeLoader {
 		this(factory, DEFAULT_READER_CLASS_NAME, DEFAULT_VALIDATE);
 	}
 
-	public NodeLoader(String reader_classname) {
-		this(new NodeFactory(), reader_classname, DEFAULT_VALIDATE);
+	public NodeLoader(String readerClassName) {
+		this(new NodeFactory(), readerClassName, DEFAULT_VALIDATE);
 	}
 
 	public NodeLoader(boolean validate) {
 		this(new NodeFactory(), DEFAULT_READER_CLASS_NAME, validate);
 	}
 
-	public NodeLoader(NodeFactory factory, String reader_classname) {
-		this(factory, reader_classname, DEFAULT_VALIDATE);
+	public NodeLoader(NodeFactory factory, String readerClassName) {
+		this(factory, readerClassName, DEFAULT_VALIDATE);
 	}
 
 	public NodeLoader(NodeFactory factory, boolean validate) {
 		this(factory, DEFAULT_READER_CLASS_NAME, validate);
 	}
 
-	public NodeLoader(String reader_classname, boolean validate) {
-		this(new NodeFactory(), reader_classname, validate);
+	public NodeLoader(String readerClassName, boolean validate) {
+		this(new NodeFactory(), readerClassName, validate);
 	}
 	
-	public NodeLoader(NodeFactory factory, String reader_classname, boolean validate) {
-		this.handler          = new NodeHandler(factory);
-		this.readerClassName = reader_classname;
-		this.validate         = validate;
+	public NodeLoader(NodeFactory factory, String readerClassName, boolean validate) {
+		this.handler         = new NodeHandler(factory);
+		this.readerClassName = readerClassName;
+		this.validate        = validate;
 	}
 
 	public NodeFactory load(String filename) throws IOException, SAXException {

@@ -99,9 +99,9 @@ public class Classfile implements Deprecatable, Visitable {
 		int interfaceCount = in.readUnsignedShort();
 		Logger.getLogger(getClass()).debug("Reading " + interfaceCount + " interface(s)");
 		for (int i=0; i<interfaceCount; i++) {
-			Class_info interface_info = (Class_info) constantPool.get(in.readUnsignedShort());
-			Logger.getLogger(getClass()).debug("    " + interface_info.getName());
-			interfaces.put(interface_info.getName(), interface_info);
+			Class_info interfaceInfo = (Class_info) constantPool.get(in.readUnsignedShort());
+			Logger.getLogger(getClass()).debug("    " + interfaceInfo.getName());
+			interfaces.put(interfaceInfo.getName(), interfaceInfo);
 		}
 
 		// Retrieving the fields
@@ -109,8 +109,8 @@ public class Classfile implements Deprecatable, Visitable {
 		Logger.getLogger(getClass()).debug("Reading " + fieldCount + " field(s)");
 		for (int i=0; i<fieldCount; i++) {
 			Logger.getLogger(getClass()).debug("Field " + i + ":");
-			Field_info field_info = new Field_info(this, in);
-			fields.put(field_info.getName(), field_info);
+			Field_info fieldInfo = new Field_info(this, in);
+			fields.put(fieldInfo.getName(), fieldInfo);
 		}
 
 		// Retrieving the methods
@@ -118,8 +118,8 @@ public class Classfile implements Deprecatable, Visitable {
 		Logger.getLogger(getClass()).debug("Reading " + methodCount + " method(s)");
 		for (int i=0; i<methodCount; i++) {
 			Logger.getLogger(getClass()).debug("Method " + i + ":");
-			Method_info method_info = new Method_info(this, in);
-			methods.put(method_info.getSignature(), method_info);
+			Method_info methodInfo = new Method_info(this, in);
+			methods.put(methodInfo.getSignature(), methodInfo);
 		}
 
 		// Retrieving the attributes

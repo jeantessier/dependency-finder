@@ -63,9 +63,9 @@ public class LinkMaximizer extends VisitorBase {
 	protected void postprocessFeatureNode(FeatureNode node) {
 		Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
 		while (i.hasNext()) {
-			Node outbound_node = (Node) i.next();
-			node.getClassNode().addDependency(outbound_node);
-			node.getClassNode().getPackageNode().addDependency(outbound_node);
+			Node outboundNode = (Node) i.next();
+			node.getClassNode().addDependency(outboundNode);
+			node.getClassNode().getPackageNode().addDependency(outboundNode);
 		}
 
 		super.postprocessFeatureNode(node);

@@ -53,11 +53,11 @@ public class TransitiveClosureEngine {
 		init(packages, startCriteria);
 	}
 
-	private void init(Collection packages, SelectionCriteria start_criteria) {
-		ClosureStartSelector start_selector = new ClosureStartSelector(factory, start_criteria);
-		start_selector.traverseNodes(packages);
-		stopSelector.traverseNodes(start_selector.getCopiedNodes());
-		gatherResults(start_selector);
+	private void init(Collection packages, SelectionCriteria startCriteria) {
+		ClosureStartSelector startSelector = new ClosureStartSelector(factory, startCriteria);
+		startSelector.traverseNodes(packages);
+		stopSelector.traverseNodes(startSelector.getCopiedNodes());
+		gatherResults(startSelector);
 	}
 
 	public NodeFactory getFactory() {
@@ -78,8 +78,8 @@ public class TransitiveClosureEngine {
 		}
 	}
 
-	public void computeLayers(int nb_layers) {
-		for (int i=0; !stopSelector.isDone() && i<nb_layers; i++) {
+	public void computeLayers(int nbLayers) {
+		for (int i=0; !stopSelector.isDone() && i<nbLayers; i++) {
 			computeNextLayer();
 		}
 	}

@@ -43,12 +43,12 @@ public class Exceptions_attribute extends Attribute_info {
 	public Exceptions_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
-		int byte_count = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
+		int byteCount = in.readInt();
+		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		int exception_count = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + exception_count + " exception(s) ...");
-		for (int i=0; i<exception_count; i++) {
+		int exceptionCount = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + exceptionCount + " exception(s) ...");
+		for (int i=0; i<exceptionCount; i++) {
 			Logger.getLogger(getClass()).debug("Exception " + i + ":");
 			Class_info exception = (Class_info) classfile.getConstantPool().get(in.readUnsignedShort());
 			exceptions.add(exception);

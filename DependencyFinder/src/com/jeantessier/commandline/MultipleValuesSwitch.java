@@ -44,32 +44,32 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
 		this(new LinkedList(), false);
 	}
 
-	public MultipleValuesSwitch(String default_value) {
-		this(Collections.singletonList(default_value), false);
+	public MultipleValuesSwitch(String defaultValue) {
+		this(Collections.singletonList(defaultValue), false);
 	}
 
-	public MultipleValuesSwitch(String[] default_value) {
-		this(Arrays.asList(default_value), false);
+	public MultipleValuesSwitch(String[] defaultValue) {
+		this(Arrays.asList(defaultValue), false);
 	}
 
-	public MultipleValuesSwitch(List default_value) {
-		this(default_value, false);
+	public MultipleValuesSwitch(List defaultValue) {
+		this(defaultValue, false);
 	}
 
 	public MultipleValuesSwitch(boolean mandatory) {
 		this(new LinkedList(), mandatory);
 	}
 
-	public MultipleValuesSwitch(String default_value, boolean mandatory) {
-		this(Collections.singletonList(default_value), mandatory);
+	public MultipleValuesSwitch(String defaultValue, boolean mandatory) {
+		this(Collections.singletonList(defaultValue), mandatory);
 	}
 
-	public MultipleValuesSwitch(String[] default_value, boolean mandatory) {
-		this(Arrays.asList(default_value), mandatory);
+	public MultipleValuesSwitch(String[] defaultValue, boolean mandatory) {
+		this(Arrays.asList(defaultValue), mandatory);
 	}
 
-	public MultipleValuesSwitch(List default_value, boolean mandatory) {
-		super(new LinkedList(default_value), mandatory);
+	public MultipleValuesSwitch(List defaultValue, boolean mandatory) {
+		super(new LinkedList(defaultValue), mandatory);
 
 		this.value = new LinkedList();
 	}

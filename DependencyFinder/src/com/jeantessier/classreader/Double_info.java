@@ -37,8 +37,8 @@ import java.io.*;
 public class Double_info extends ConstantPoolEntry {
 	private double value;
 
-	public Double_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool);
+	public Double_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool);
 
 		value = in.readDouble();
 	}
