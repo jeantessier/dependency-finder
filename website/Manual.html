@@ -89,6 +89,7 @@ by Jean Tessier
 <li><a href="#ShowingOnlyInboundDependencies">Showing Only Inbound Dependencies</a></li>
 <li><a href="#ShowingOnlyOutboundDependencies">Showing Only Outbound Dependencies</a></li>
 <li><a href="#ShowingBothInboundsAndOutboundDependencies">Showing Both Inbounds And Outbound Dependencies</a></li>
+<li><a href="#Summary">Summary</a></li>
 </ul>
 <li><a href="#TransitiveClosure">Transitive Closure</a></li>
 <li><a href="#DependencyMetrics">Dependency Metrics</a></li>
@@ -710,34 +711,6 @@ tools and end with the Ant tasks.
     </tr>
     <tr>
 	<td>
-	    <code>DependenciesToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependenciesToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <code>DependenciesToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependenciesToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-    </tr>
-    <tr>
-	<td>
 	    <code>DependencyClosure</code>
 	</td>
 	<td>
@@ -770,6 +743,34 @@ tools and end with the Ant tasks.
 	</td>
 	<td>
 	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependencyGraphToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependencyGraphToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependencyGraphToText.xsl"&gt;</code>
 	</td>
 	<td>
 	    <i>n/a</i>
@@ -850,66 +851,66 @@ tools and end with the Ant tasks.
     </tr>
     <tr>
 	<td>
+	    <code>HideOutboundDependencyGraphToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/HideOutboundDependencyGraphToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>HideOutboundDependencyGraphToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/HideOutboundDependencyGraphToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>HideInboundDependencyGraphToHTML</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/HideInboundDependencyGraphToHTML.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>HideInboundDependencyGraphToText</code>
+	</td>
+	<td>
+	    <code>&lt;xslt style="${dependencyfinder.home}/etc/HideInboundDependencyGraphToText.xsl"&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
 	    <code>JarJarDiff</code>
 	</td>
 	<td>
 	    <code>&lt;jarjardiff&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <code>ListDependablesToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDependablesToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <code>ListDependablesToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDependablesToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <code>ListDependentsToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDependentsToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <code>ListDependentsToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDependentsToText.xsl"&gt;</code>
 	</td>
 	<td>
 	    <i>n/a</i>
@@ -1756,7 +1757,7 @@ find the Dependency Finder classes.    There is a special
                 &lt;pathelement location="."/&gt;
             &lt;/path&gt;
         &lt;/dependencyextractor&gt;
-        &lt;xslt style="${dependencyfinder.home}/etc/DependenciesToHTML.xsl"
+        &lt;xslt style="${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"
               in="df.xml"
               out="df.html"/&gt;
     &lt;/target&gt;
@@ -2465,7 +2466,7 @@ E.g.,
 
 <p>
 Inbound dependencies show you who depends on a given programming element.
-Is is very useful when assessing the impact of a change.  Dependency
+They are very useful when assessing the impact of a change.  Dependency
 Finder uses a textual notation to display them:
 </p>
 
@@ -2487,60 +2488,17 @@ In <code>DependencyFinder</code> and the web application, there are three checkb
 at the bottom of the control area.  They control how the graph is rendered.
 To see only inbound dependencies, check the one labeled "inbounds" and
 uncheck the one labeled "outbounds".  If a node has no inbound dependencies,
-it will appear empty.  You can further filter them out by unchecking the
-last checkbox, the one labeled "empty nodes", if you want.
+it will appear empty.  You can remove empty nodes by unchecking the last
+checkbox, the one labeled "empty nodes".
 </p>
 
 <p>
-If you are using the command-line tools, what you have is most likely a
-graph rendered in XML, either from <code>DependencyExtractor</code> or
+If you are using the command-line tools, what you have to work from is most
+likely a graph rendered in XML, either from <code>DependencyExtractor</code> or
 <code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
-stylesheets to show only inbound dependencies.  You can apply them with
-the following tools:
-</p>
-
-<ul>
-<li><code>ListDependablesToText</code></li>
-<li><code>ListDependablesToHTML</code></li>
-</ul>
-
-<p>
-E.g.,
-</p>
-
-<pre>
-    C:\>ListDependablesToText -in test.xml
-</pre>
-    
-<pre>
-        test
-            test.main(java.lang.String[])
-            test.test()
-    java.lang
-        java.lang.Object
-            <-- test
-            <-- test.main(java.lang.String[])
-            java.lang.Object.Object()
-                <-- test.main(java.lang.String[])
-                <-- test.test()
-        java.lang.String
-            <-- test.main(java.lang.String[])
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
-                <-- test.main(java.lang.String[])
-        java.util.Set
-            <-- test.main(java.lang.String[])
-</pre>
-
-<p>
-The HTML is weaved HTML cross-references between all the elements for easy
-navigation.
-</p>
-
-<p>
-You can list only non-empty nodes with:
+stylesheets to show only nodes with inbound dependencies.  You can apply them
+with the following tools:
 </p>
 
 <ul>
@@ -2571,12 +2529,55 @@ E.g.,
             <-- test.main(java.lang.String[])
 </pre>
 
+<p>
+The HTML version weaves cross-references between all the elements for easy
+navigation.
+</p>
+
+<p>
+If you only want to remove outbound dependencies and keep empty nodes, use:
+</p>
+
+<ul>
+<li><code>HideOutboundDependenciesToText</code></li>
+<li><code>HideOutboundDependenciesToHTML</code></li>
+</ul>
+
+<p>
+E.g.,
+</p>
+
+<pre>
+    C:\>HideOutboundDependenciesToText -in test.xml
+</pre>
+    
+<pre>
+        test
+            test.main(java.lang.String[])
+            test.test()
+    java.lang
+        java.lang.Object
+            <-- test
+            <-- test.main(java.lang.String[])
+            java.lang.Object.Object()
+                <-- test.main(java.lang.String[])
+                <-- test.test()
+        java.lang.String
+            <-- test.main(java.lang.String[])
+    java.util
+        java.util.Collections
+            java.util.Collections.singleton(java.lang.Object)
+                <-- test.main(java.lang.String[])
+        java.util.Set
+            <-- test.main(java.lang.String[])
+</pre>
+
 <a name="ShowingOnlyOutboundDependencies" />
 <h4>Showing Only Outbound Dependencies</h4>
 
 <p>
 Outbound dependencies show you who a given programming element depends upon.
-Is is very useful when partitioning programming elements and figuring out
+They are very useful when partitioning programming elements and figuring out
 what other classes a given class needs in order to run.  Dependency Finder
 uses a textual notation to display them:
 </p>
@@ -2599,60 +2600,17 @@ In <code>DependencyFinder</code> and the web application, there are three checkb
 at the bottom of the control area.  They control how the graph is rendered.
 To see only outbound dependencies, check the one labeled "outbounds" and
 uncheck the one labeled "inbounds".  If a node has no outbound dependencies,
-it will appear empty.  You can further filter them out by unchecking the
-last checkbox, the one labeled "empty nodes", if you want.
+it will appear empty.  You can remove empty nodes by unchecking the last
+checkbox, the one labeled "empty nodes".
 </p>
 
 <p>
-If you are using the command-line tools, what you have is most likely a
-graph rendered in XML, either from <code>DependencyExtractor</code> or
+If you are using the command-line tools, what you have to work from is most
+likely a graph rendered in XML, either from <code>DependencyExtractor</code> or
 <code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
-stylesheets to show only outbound dependencies.  You can apply them with
-the following tools:
-</p>
-
-<ul>
-<li><code>ListDependentsToText</code></li>
-<li><code>ListDependentsToHTML</code></li>
-</ul>
-
-<p>
-E.g.,
-</p>
-
-<pre>
-    C:\>ListDependentsToText -in test.xml
-</pre>
-    
-<pre>
-        test
-            --> java.lang.Object
-            test.main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
-            test.test()
-                --> java.lang.Object.Object()
-    java.lang
-        java.lang.Object
-            java.lang.Object.Object()
-        java.lang.String
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
-        java.util.Set
-</pre>
-
-<p>
-The HTML is weaved HTML cross-references between all the elements for easy
-navigation.
-</p>
-
-<p>
-You can list only non-empty nodes with:
+stylesheets to show only outbound dependencies.  You can apply them with the
+following tools:
 </p>
 
 <ul>
@@ -2681,6 +2639,49 @@ E.g.,
                 --> java.lang.Object.Object()
 </pre>
 
+<p>
+The HTML version weaves cross-references between all the elements for easy
+navigation.
+</p>
+
+<p>
+If you only want to remove inbound dependencies and keep empty nodes, use:
+</p>
+
+<ul>
+<li><code>HideInboundDependenciesToText</code></li>
+<li><code>HideInboundDependenciesToHTML</code></li>
+</ul>
+
+<p>
+E.g.,
+</p>
+
+<pre>
+    C:\>HideInboundDependenciesToText -in test.xml
+</pre>
+    
+<pre>
+        test
+            --> java.lang.Object
+            test.main(java.lang.String[])
+                --> java.lang.Object
+                --> java.lang.Object.Object()
+                --> java.lang.String
+                --> java.util.Collections.singleton(java.lang.Object)
+                --> java.util.Set
+            test.test()
+                --> java.lang.Object.Object()
+    java.lang
+        java.lang.Object
+            java.lang.Object.Object()
+        java.lang.String
+    java.util
+        java.util.Collections
+            java.util.Collections.singleton(java.lang.Object)
+        java.util.Set
+</pre>
+
 <a name="ShowingBothInboundsAndOutboundDependencies" />
 <h4>Showing Both Inbounds And Outbound Dependencies</h4>
 
@@ -2698,21 +2699,21 @@ that node B also depends on node A, Dependency Finder writes it as:
 </pre>
 
 <p>
-If you are using the command-line tools, what you have is most likely a
-graph rendered in XML, either from <code>DependencyExtractor</code> or
+If you are using the command-line tools, what you have to work from is most
+likely a graph rendered in XML, either from <code>DependencyExtractor</code> or
 <code>DependencyReporter</code>.  You can use XML stylesheets to convert the XML to
 something more user-friendly.  Dependency Finder provides two sample
-stylesheets to show all dependencies.  You can apply them with the
+stylesheets to show whole dependency graphs.  You can apply them with the
 following tools:
 </p>
 
 <ul>
-<li><code>DependenciesToText</code></li>
-<li><code>DependenciesToHTML</code></li>
+<li><code>DependencyGraphToText</code></li>
+<li><code>DependencyGraphToHTML</code></li>
 </ul>
 
 <p>
-The HTML is weaved HTML cross-references between all the elements for easy
+The HTML version weaves cross-references between all the elements for easy
 navigation.
 </p>
 
@@ -2721,7 +2722,7 @@ E.g.,
 </p>
 
 <pre>
-    C:\>DependenciesToText -in test.xml
+    C:\>DependencyGraphToText -in test.xml
 </pre>
     
 <pre>
@@ -2751,6 +2752,127 @@ E.g.,
         java.util.Set
             <-- test.main(java.lang.String[])
 </pre>
+
+<a name="Summary" />
+<h4>Summary</h4>
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+<p>
+This table summarizes which CLI tool shows which information.
+</p>
+
+<blockquote>
+<table cellpadding="5">
+    <tr>
+	<th align="left">
+	    Tool
+	</th>
+	<th>
+	    outbounds
+	</th>
+	<th>
+	    inbounds
+	</th>
+	<th>
+	    empty
+	</th>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependencyGraphToHTML</code><br />
+	    <code>DependencyGraphToText</code>
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependablesToHTML</code><br />
+	    <code>DependablesToText</code>
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>DependentsToHTML</code><br />
+	    <code>DependentsToText</code>
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>HideOutboundDependenciesToHTML</code><br />
+	    <code>HideOutboundDependenciesToText</code>
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <code>HideInboundDependenciesToHTML</code><br />
+	    <code>HideInboundDependenciesToText</code>
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+	<td align="center"
+	    valign="middle">
+	    -
+	</td>
+	<td align="center"
+	    valign="middle">
+	    X
+	</td>
+    </tr>
+</table>
+</blockquote>
 
 <a name="TransitiveClosure" />
 <h3>Transitive Closure</h3>

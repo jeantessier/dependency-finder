@@ -27,21 +27,21 @@
 <li><a href="#ClosureToText">ClosureToText</a></li>
 <li><a href="#DependablesToHTML">DependablesToHTML</a></li>
 <li><a href="#DependablesToText">DependablesToText</a></li>
-<li><a href="#DependenciesToHTML">DependenciesToHTML</a></li>
-<li><a href="#DependenciesToText">DependenciesToText</a></li>
 <li><a href="#DependencyClosure">DependencyClosure</a></li>
 <li><a href="#DependencyExtractor">DependencyExtractor</a></li>
 <li><a href="#DependencyFinder">DependencyFinder</a></li>
+<li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
+<li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
 <li><a href="#DependencyMetrics">DependencyMetrics</a></li>
 <li><a href="#DependencyReporter">DependencyReporter</a></li>
 <li><a href="#DependentsToHTML">DependentsToHTML</a></li>
 <li><a href="#DependentsToText">DependentsToText</a></li>
 <li><a href="#DiffToHTML">DiffToHTML</a></li>
+<li><a href="#HideOutboundDependenciesToHTML">HideOutboundDependenciesToHTML</a></li>
+<li><a href="#HideOutboundDependenciesToText">HideOutboundDependenciesToText</a></li>
+<li><a href="#HideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
+<li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 <li><a href="#JarJarDiff">JarJarDiff</a></li>
-<li><a href="#ListDependablesToHTML">ListDependablesToHTML</a></li>
-<li><a href="#ListDependablesToText">ListDependablesToText</a></li>
-<li><a href="#ListDependentsToHTML">ListDependentsToHTML</a></li>
-<li><a href="#ListDependentsToText">ListDependentsToText</a></li>
 <li><a href="#ListDiff">ListDiff</a></li>
 <li><a href="#ListDiffToHTML">ListDiffToHTML</a></li>
 <li><a href="#ListDiffToText">ListDiffToText</a></li>
@@ -67,16 +67,16 @@
 <p />
 <li><a href="#DependencyExtractor">DependencyExtractor</a></li>
 <li><a href="#DependencyReporter">DependencyReporter</a></li>
-<li><a href="#DependenciesToHTML">DependenciesToHTML</a></li>
-<li><a href="#DependenciesToText">DependenciesToText</a></li>
+<li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
+<li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
 <li><a href="#DependablesToHTML">DependablesToHTML</a></li>
 <li><a href="#DependablesToText">DependablesToText</a></li>
 <li><a href="#DependentsToHTML">DependentsToHTML</a></li>
 <li><a href="#DependentsToText">DependentsToText</a></li>
-<li><a href="#ListDependablesToHTML">ListDependablesToHTML</a></li>
-<li><a href="#ListDependablesToText">ListDependablesToText</a></li>
-<li><a href="#ListDependentsToHTML">ListDependentsToHTML</a></li>
-<li><a href="#ListDependentsToText">ListDependentsToText</a></li>
+<li><a href="#HideOutboundDependenciesToHTML">HideOutboundDependenciesToHTML</a></li>
+<li><a href="#HideOutboundDependenciesToText">HideOutboundDependenciesToText</a></li>
+<li><a href="#HideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
+<li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 <li><a href="#ListUnused">ListUnused</a></li>
 <p />
 <li><a href="#DependencyClosure">DependencyClosure</a></li>
@@ -1608,348 +1608,6 @@ Running this tool on that graph yields this output:
 
 <hr />
 
-<a name="DependenciesToHTML" />
-<h2>DependenciesToHTML</h2>
-
-<blockquote>
-
-<p>
-Translates the whole graph to HTML.
-</p>
-
-</blockquote>
-
-<a name="SynopsisXXXXXXX" />
-<h3>Synopsis</h3>
-
-<pre>
-    DependenciesToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
-</pre>
-
-<a name="DescriptionXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-<p>
-Translates both outbound and inbound dependencies to HTML.
-List nodes, weaved with HTML cross-references between all the
-elements for easy navigation.
-</p>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-ininput_file.xmlXXX" />
-<h4><code>-in input_file.xml</code></h4>
-
-<blockquote>
-
-<p>
-The XML file to be translated.  The document has to follow the
-<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
-such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
-<a href="#DependencyReporter">DependencyReporter</a>, or
-<a href="#DependencyClosure">DependencyClosure</a>.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outoutput_file.htmlX" />
-<h4><code>-out output_file.html</code></h4>
-
-<blockquote>
-
-<p>
-Where to put the outcome of the translation.
-</p>
-
-<p>
-If not specified, the translation goes to the standard output.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
-<a name="ParametersXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<p>
-<i>none</i>
-</p>
-
-</blockquote>
-
-<a name="OutputXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-<p>
-See <code>-out</code> above.
-</p>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to a hyperlinked
-HTML file, for ease of use:
-</p>
-
-<pre>
-    DependenciesToHTML -in dg.xml -out dependencies.html
-</pre>
-
-<p>
-This HTML file shows both outbound and inbound dependencies.
-</p>
-
-</blockquote>
-
-<a name="ClassXXXXXXX" />
-<h3>Class</h3>
-
-<blockquote>
-
-<p>
-<code>org.apache.xalan.xslt.Process</code>
-</p>
-
-</blockquote>
-
-<a name="XSLStylesheetXXX" />
-<h3>XSL Stylesheet</h3>
-
-<blockquote>
-
-<p>
-<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependenciesToHTML.xsl</code>
-</p>
-
-</blockquote>
-
-<hr />
-
-<a name="DependenciesToText" />
-<h2>DependenciesToText</h2>
-
-<blockquote>
-
-<p>
-Translates the whole graph to text.
-</p>
-
-</blockquote>
-
-<a name="SynopsisXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<pre>
-    DependenciesToText
-    	-in input_file.xml
-    	[-out output_file.txt]
-</pre>
-
-<a name="DescriptionXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-<p>
-Translates both outbound and inbound dependencies to text.
-</p>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-ininput_file.xmlXXXX" />
-<h4><code>-in input_file.xml</code></h4>
-
-<blockquote>
-
-<p>
-The XML file to be translated.  The document has to follow the
-<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
-such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
-<a href="#DependencyReporter">DependencyReporter</a>, or
-<a href="#DependencyClosure">DependencyClosure</a>.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outoutput_file.txtXX" />
-<h4><code>-out output_file.txt</code></h4>
-
-<blockquote>
-
-<p>
-Where to put the outcome of the translation.
-</p>
-
-<p>
-If not specified, the translation goes to the standard output.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
-<a name="ParametersXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<p>
-<i>none</i>
-</p>
-
-</blockquote>
-
-<a name="OutputXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-<p>
-See <code>-out</code> above.
-</p>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to a plain text:
-</p>
-
-<pre>
-    DependenciesToText -in dg.xml
-</pre>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to a plain text
-file, for ease of use:
-</p>
-
-<pre>
-    DependenciesToText -in dg.xml -out dependencies.txt
-</pre>
-
-<p>
-This text file shows both outbound and inbound dependencies.
-</p>
-
-<p>
-Here is another example that uses the following dependency graph:
-</p>
-
-<pre>
-    Empty
-    &nbsp;
-    Bidirectional1 <---> Bidirectional2
-    &nbsp;
-    Outbound ----> Middle ----> Inbound
-       |                           ^
-       |                           |
-       \---------------------------/
-</pre>
-
-<p>
-Running this tool on that graph yields this output:
-</p>
-
-<pre>
-    DependenciesToText -in sample.xml
-    &nbsp;
-        Outbound
-            --> Middle
-            --> Inbound
-        Middle
-            --> Inbound
-            <-- Outbound
-        Inbound
-            <-- Outbound
-            <-- Middle
-        Bidirectional1
-            --> Bidirectional2
-            <-- Bidirectional2
-        Bidirectional2
-            --> Bidirectional1
-            <-- Bidirectional1
-        Empty
-</pre>
-
-</blockquote>
-
-<a name="ClassXXXXXXXX" />
-<h3>Class</h3>
-
-<blockquote>
-
-<p>
-<code>org.apache.xalan.xslt.Process</code>
-</p>
-
-</blockquote>
-
-<a name="XSLStylesheetXXXX" />
-<h3>XSL Stylesheet</h3>
-
-<blockquote>
-
-<p>
-<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependenciesToText.xsl</code>
-</p>
-
-</blockquote>
-
-<hr />
-
 <a name="DependencyClosure" />
 <h2>DependencyClosure</h2>
 
@@ -1962,7 +1620,7 @@ point.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXX" />
+<a name="SynopsisXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -2011,7 +1669,7 @@ point.
 	...
 </pre>
 
-<a name="DescriptionXXXXXXXXX" />
+<a name="DescriptionXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -2046,21 +1704,21 @@ See also:
 </p>
 
 <ul>
-<li><a href="#DependenciesToHTML">DependenciesToHTML</a></li>
-<li><a href="#DependenciesToText">DependenciesToText</a></li>
+<li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
+<li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
 <li><a href="#DependablesToHTML">DependablesToHTML</a></li>
 <li><a href="#DependablesToText">DependablesToText</a></li>
 <li><a href="#DependentsToHTML">DependentsToHTML</a></li>
 <li><a href="#DependentsToText">DependentsToText</a></li>
-<li><a href="#ListDependablesToHTML">ListDependablesToHTML</a></li>
-<li><a href="#ListDependablesToText">ListDependablesToText</a></li>
-<li><a href="#ListDependentsToHTML">ListDependentsToHTML</a></li>
-<li><a href="#ListDependentsToText">ListDependentsToText</a></li>
+<li><a href="#HideOutboundDependenciesToHTML">HideOutboundDependenciesToHTML</a></li>
+<li><a href="#HideOutboundDependenciesToText">HideOutboundDependenciesToText</a></li>
+<li><a href="#HideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
+<li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 </ul>
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXX" />
+<a name="SwitchesXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -2888,7 +2546,7 @@ Writes the dependency graph as an XML document with the
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXX" />
+<a name="ParametersXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -2910,7 +2568,7 @@ At this time, the tool cannot read serialized graphs.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXX" />
+<a name="OutputXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -2932,7 +2590,7 @@ document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXX" />
+<a name="ExamplesXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
@@ -2976,7 +2634,7 @@ It followed all dependencies leading out of <code>Outbound</code>.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXX" />
+<a name="ClassXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -3000,7 +2658,7 @@ Extracts dependencies from compiled classes.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -3018,7 +2676,7 @@ Extracts dependencies from compiled classes.
 	[filename ...]
 </pre>
 
-<a name="DescriptionXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -3034,21 +2692,21 @@ See also:
 </p>
 
 <ul>
-<li><a href="#DependenciesToHTML">DependenciesToHTML</a></li>
-<li><a href="#DependenciesToText">DependenciesToText</a></li>
+<li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
+<li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
 <li><a href="#DependablesToHTML">DependablesToHTML</a></li>
 <li><a href="#DependablesToText">DependablesToText</a></li>
 <li><a href="#DependentsToHTML">DependentsToHTML</a></li>
 <li><a href="#DependentsToText">DependentsToText</a></li>
-<li><a href="#ListDependablesToHTML">ListDependablesToHTML</a></li>
-<li><a href="#ListDependablesToText">ListDependablesToText</a></li>
-<li><a href="#ListDependentsToHTML">ListDependentsToHTML</a></li>
-<li><a href="#ListDependentsToText">ListDependentsToText</a></li>
+<li><a href="#HideOutboundDependenciesToHTML">HideOutboundDependenciesToHTML</a></li>
+<li><a href="#HideOutboundDependenciesToText">HideOutboundDependenciesToText</a></li>
+<li><a href="#HideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
+<li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 </ul>
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -3233,7 +2891,7 @@ Writes the dependency graph as an XML document with the
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXX" />
+<a name="ParametersXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -3256,7 +2914,7 @@ At this time, the tool cannot read serialized graphs.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXX" />
+<a name="OutputXXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -3278,7 +2936,7 @@ document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
@@ -3315,7 +2973,7 @@ to <code>dg.xml</code>, after having minimized it:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXX" />
+<a name="ClassXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -3339,7 +2997,7 @@ Swing application for dependency analysis.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -3351,7 +3009,7 @@ Swing application for dependency analysis.
     	[-minimize]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -3375,7 +3033,7 @@ It combines the functionalities of the following tools:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -3467,6 +3125,280 @@ Minimize the dependency graph after extraction.
 
 </blockquote>
 
+<a name="ParametersXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<p>
+See the <a href="Manual.html">user manual</a>.
+</p>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="DependencyGraphToHTML" />
+<h2>DependencyGraphToHTML</h2>
+
+<blockquote>
+
+<p>
+Translates the whole graph to HTML.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    DependencyGraphToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+</pre>
+
+<a name="DescriptionXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Translates both outbound and inbound dependencies to HTML.
+List nodes, weaved with HTML cross-references between all the
+elements for easy navigation.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.htmlX" />
+<h4><code>-out output_file.html</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<p>
+To convert the dependency graph in <code>dg.xml</code> to a hyperlinked
+HTML file, for ease of use:
+</p>
+
+<pre>
+    DependencyGraphToHTML -in dg.xml -out dependencies.html
+</pre>
+
+<p>
+This HTML file shows both outbound and inbound dependencies.
+</p>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependencyGraphToHTML.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="DependencyGraphToText" />
+<h2>DependencyGraphToText</h2>
+
+<blockquote>
+
+<p>
+Translates the whole graph to text.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    DependencyGraphToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Translates both outbound and inbound dependencies to text.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.txtXX" />
+<h4><code>-out output_file.txt</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
 <a name="ParametersXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
@@ -3484,7 +3416,7 @@ Minimize the dependency graph after extraction.
 <blockquote>
 
 <p>
-<i>none</i>
+See <code>-out</code> above.
 </p>
 
 </blockquote>
@@ -3495,8 +3427,65 @@ Minimize the dependency graph after extraction.
 <blockquote>
 
 <p>
-See the <a href="Manual.html">user manual</a>.
+To convert the dependency graph in <code>dg.xml</code> to a plain text:
 </p>
+
+<pre>
+    DependencyGraphToText -in dg.xml
+</pre>
+
+<p>
+To convert the dependency graph in <code>dg.xml</code> to a plain text
+file, for ease of use:
+</p>
+
+<pre>
+    DependencyGraphToText -in dg.xml -out dependencies.txt
+</pre>
+
+<p>
+This text file shows both outbound and inbound dependencies.
+</p>
+
+<p>
+Here is another example that uses the following dependency graph:
+</p>
+
+<pre>
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+</pre>
+
+<p>
+Running this tool on that graph yields this output:
+</p>
+
+<pre>
+    DependencyGraphToText -in sample.xml
+    &nbsp;
+        Outbound
+            --> Middle
+            --> Inbound
+        Middle
+            --> Inbound
+            <-- Outbound
+        Inbound
+            <-- Outbound
+            <-- Middle
+        Bidirectional1
+            --> Bidirectional2
+            <-- Bidirectional2
+        Bidirectional2
+            --> Bidirectional1
+            <-- Bidirectional1
+        Empty
+</pre>
 
 </blockquote>
 
@@ -3506,7 +3495,18 @@ See the <a href="Manual.html">user manual</a>.
 <blockquote>
 
 <p>
-<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependencyGraphToText.xsl</code>
 </p>
 
 </blockquote>
@@ -4802,16 +4802,16 @@ See also:
 </p>
 
 <ul>
-<li><a href="#DependenciesToHTML">DependenciesToHTML</a></li>
-<li><a href="#DependenciesToText">DependenciesToText</a></li>
+<li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
+<li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
 <li><a href="#DependablesToHTML">DependablesToHTML</a></li>
 <li><a href="#DependablesToText">DependablesToText</a></li>
 <li><a href="#DependentsToHTML">DependentsToHTML</a></li>
 <li><a href="#DependentsToText">DependentsToText</a></li>
-<li><a href="#ListDependablesToHTML">ListDependablesToHTML</a></li>
-<li><a href="#ListDependablesToText">ListDependablesToText</a></li>
-<li><a href="#ListDependentsToHTML">ListDependentsToHTML</a></li>
-<li><a href="#ListDependentsToText">ListDependentsToText</a></li>
+<li><a href="#HideOutboundDependenciesToHTML">HideOutboundDependenciesToHTML</a></li>
+<li><a href="#HideOutboundDependenciesToText">HideOutboundDependenciesToText</a></li>
+<li><a href="#HideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
+<li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 <li><a href="#c2c">c2c</a></li>
 <li><a href="#c2p">c2p</a></li>
 <li><a href="#f2f">f2f</a></li>
@@ -6255,6 +6255,690 @@ To convert the difference report in <code>report.xml</code> to HTML:
 
 <hr />
 
+<a name="HideOutboundDependenciesToHTML" />
+<h2>HideOutboundDependenciesToHTML</h2>
+
+<blockquote>
+
+<p>
+Show nodes with only their inbound dependencies as HTML, including nodes that
+have no inbound dependencies.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    HideOutboundDependenciesToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Translates only inbound dependencies to HTML.
+Lists nodes, weaved with HTML cross-references between all the
+elements for easy navigation.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXXXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.htmlXXXX" />
+<h4><code>-out output_file.html</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<p>
+To convert the dependency graph in <code>dg.xml</code> to a hyperlinked
+HTML file with only inbound dependencies:
+</p>
+
+<pre>
+    HideOutboundDependenciesToHTML -in dg.xml -out dependencies.html
+</pre>
+
+<p>
+An element with many inbound dependencies is said to be dependable,
+meaning that many other elements rely on it being stable.
+</p>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/HideOutboundDependenciesToHTML.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="HideOutboundDependenciesToText" />
+<h2>HideOutboundDependenciesToText</h2>
+
+<blockquote>
+
+<p>
+Show nodes with only their inbound dependencies as text, including nodes that
+have no inbound dependencies.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    HideOutboundDependenciesToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Translates only inbound dependencies to text.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXXXXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.txtXXXX" />
+<h4><code>-out output_file.txt</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<p>
+To convert the dependency graph in <code>dg.xml</code> to plain text
+with only inbound dependencies:
+</p>
+
+<pre>
+    HideOutboundDependenciesToText -in dg.xml
+</pre>
+
+<p>
+To convert the dependency graph in <code>dg.xml</code> to a plain text
+file with only inbound dependencies:
+</p>
+
+<pre>
+    HideOutboundDependenciesToText -in dg.xml -out dependencies.txt
+</pre>
+
+<p>
+An element with many inbound dependencies is said to be dependable,
+meaning that many other elements rely on it being stable.
+</p>
+
+<p>
+Here is another example that uses the following dependency graph:
+</p>
+
+<pre>
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+</pre>
+
+<p>
+Running this tool on that graph yields this output:
+</p>
+
+<pre>
+    HideOutboundDependenciesToText -in sample.xml
+    &nbsp;
+        Outbound
+        Middle
+            <-- Outbound
+        Inbound
+            <-- Outbound
+            <-- Middle
+        Bidirectional1
+            <-- Bidirectional2
+        Bidirectional2
+            <-- Bidirectional1
+        Empty
+</pre>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/HideOutboundDependenciesToText.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="HideInboundDependenciesToHTML" />
+<h2>HideInboundDependenciesToHTML</h2>
+
+<blockquote>
+
+<p>
+Show nodes with only their outbound dependencies as HTML, including nodes that
+have no outbound dependencies.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    HideInboundDependenciesToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Translates only outbound dependencies to HTML.
+Lists nodes, weaved with HTML cross-references between all the
+elements for easy navigation.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXXXXXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.htmlXXXXX" />
+<h4><code>-out output_file.html</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<p>
+To convert the dependency graph in <code>dg.xml</code> to a hyperlinked
+HTML file with only outboud dependencies:
+</p>
+
+<pre>
+    HideInboundDependenciesToHTML -in dg.xml -out dependencies.html
+</pre>
+
+<p>
+An element with many outbound dependencies is said to be dependent,
+meaning that it relies on many other elements being stable.
+</p>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/HideInboundDependenciesToHTML.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="HideInboundDependenciesToText" />
+<h2>HideInboundDependenciesToText</h2>
+
+<blockquote>
+
+<p>
+Show nodes with only their outbound dependencies as text, including nodes that
+have no outbound dependencies.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    HideInboundDependenciesToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Translates only outbound dependencies to text.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXXXXXXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.txtXXXXX" />
+<h4><code>-out output_file.txt</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<p>
+To convert the dependency graph in <code>dg.xml</code> to plain text
+with only outboud dependencies:
+</p>
+
+<pre>
+    HideInboundDependenciesToText -in dg.xml
+</pre>
+
+<p>
+To convert the dependency graph in <code>dg.xml</code> to a plain text
+file with only outboud dependencies:
+</p>
+
+<pre>
+    HideInboundDependenciesToText -in dg.xml -out dependencies.txt
+</pre>
+
+<p>
+An element with many outbound dependencies is said to be dependent,
+meaning that it relies on many other elements being stable.
+</p>
+
+<p>
+Here is another example that uses the following dependency graph:
+</p>
+
+<pre>
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+</pre>
+
+<p>
+Running this tool on that graph yields this output:
+</p>
+
+<pre>
+    HideInboundDependenciesToText -in sample.xml
+    &nbsp;
+        Outbound
+            --> Middle
+            --> Inbound
+        Middle
+            --> Inbound
+        Inbound
+        Bidirectional1
+            --> Bidirectional2
+        Bidirectional2
+            --> Bidirectional1
+        Empty
+</pre>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/HideInboundDependenciesToText.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
 <a name="JarJarDiff" />
 <h2>JarJarDiff</h2>
 
@@ -6266,7 +6950,7 @@ Computes API differences between two versions of a codebase.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -6286,7 +6970,7 @@ Computes API differences between two versions of a codebase.
     	[-verbose [filename]]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -6305,7 +6989,7 @@ report to "public" changes.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -6543,7 +7227,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -6554,7 +7238,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -6566,7 +7250,7 @@ It writes all differences into an XML document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
@@ -6599,697 +7283,13 @@ identical.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
-<blockquote>
-
-<p>
-<code>com.jeantessier.dependencyfinder.cli.JarJarDiff</code>
-</p>
-
-</blockquote>
-
-<hr />
-
-<a name="ListDependablesToHTML" />
-<h2>ListDependablesToHTML</h2>
-
-<blockquote>
-
-<p>
-Show nodes with only their inbound dependencies as HTML, including nodes that
-have no inbound dependencies.
-</p>
-
-</blockquote>
-
-<a name="SynopsisXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<pre>
-    ListDependablesToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-<p>
-Translates only inbound dependencies to HTML.
-Lists nodes, weaved with HTML cross-references between all the
-elements for easy navigation.
-</p>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-ininput_file.xmlXXXXXXXX" />
-<h4><code>-in input_file.xml</code></h4>
-
-<blockquote>
-
-<p>
-The XML file to be translated.  The document has to follow the
-<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
-such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
-<a href="#DependencyReporter">DependencyReporter</a>, or
-<a href="#DependencyClosure">DependencyClosure</a>.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outoutput_file.htmlXXXX" />
-<h4><code>-out output_file.html</code></h4>
-
-<blockquote>
-
-<p>
-Where to put the outcome of the translation.
-</p>
-
-<p>
-If not specified, the translation goes to the standard output.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<p>
-<i>none</i>
-</p>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-<p>
-See <code>-out</code> above.
-</p>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to a hyperlinked
-HTML file with only inbound dependencies:
-</p>
-
-<pre>
-    ListDependablesToHTML -in dg.xml -out dependencies.html
-</pre>
-
-<p>
-An element with many inbound dependencies is said to be dependable,
-meaning that many other elements rely on it being stable.
-</p>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
-<blockquote>
-
-<p>
-<code>org.apache.xalan.xslt.Process</code>
-</p>
-
-</blockquote>
-
-<a name="XSLStylesheetXXXXXXXX" />
-<h3>XSL Stylesheet</h3>
-
-<blockquote>
-
-<p>
-<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDependablesToHTML.xsl</code>
-</p>
-
-</blockquote>
-
-<hr />
-
-<a name="ListDependablesToText" />
-<h2>ListDependablesToText</h2>
-
-<blockquote>
-
-<p>
-Show nodes with only their inbound dependencies as text, including nodes that
-have no inbound dependencies.
-</p>
-
-</blockquote>
-
-<a name="SynopsisXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<pre>
-    ListDependablesToText
-    	-in input_file.xml
-    	[-out output_file.txt]
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-<p>
-Translates only inbound dependencies to text.
-</p>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-ininput_file.xmlXXXXXXXXX" />
-<h4><code>-in input_file.xml</code></h4>
-
-<blockquote>
-
-<p>
-The XML file to be translated.  The document has to follow the
-<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
-such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
-<a href="#DependencyReporter">DependencyReporter</a>, or
-<a href="#DependencyClosure">DependencyClosure</a>.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outoutput_file.txtXXXX" />
-<h4><code>-out output_file.txt</code></h4>
-
-<blockquote>
-
-<p>
-Where to put the outcome of the translation.
-</p>
-
-<p>
-If not specified, the translation goes to the standard output.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<p>
-<i>none</i>
-</p>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-<p>
-See <code>-out</code> above.
-</p>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to plain text
-with only inbound dependencies:
-</p>
-
-<pre>
-    ListDependablesToText -in dg.xml
-</pre>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to a plain text
-file with only inbound dependencies:
-</p>
-
-<pre>
-    ListDependablesToText -in dg.xml -out dependencies.txt
-</pre>
-
-<p>
-An element with many inbound dependencies is said to be dependable,
-meaning that many other elements rely on it being stable.
-</p>
-
-<p>
-Here is another example that uses the following dependency graph:
-</p>
-
-<pre>
-    Empty
-    &nbsp;
-    Bidirectional1 <---> Bidirectional2
-    &nbsp;
-    Outbound ----> Middle ----> Inbound
-       |                           ^
-       |                           |
-       \---------------------------/
-</pre>
-
-<p>
-Running this tool on that graph yields this output:
-</p>
-
-<pre>
-    ListDependablesToText -in sample.xml
-    &nbsp;
-        Outbound
-        Middle
-            <-- Outbound
-        Inbound
-            <-- Outbound
-            <-- Middle
-        Bidirectional1
-            <-- Bidirectional2
-        Bidirectional2
-            <-- Bidirectional1
-        Empty
-</pre>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
-<blockquote>
-
-<p>
-<code>org.apache.xalan.xslt.Process</code>
-</p>
-
-</blockquote>
-
-<a name="XSLStylesheetXXXXXXXXX" />
-<h3>XSL Stylesheet</h3>
-
-<blockquote>
-
-<p>
-<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDependablesToText.xsl</code>
-</p>
-
-</blockquote>
-
-<hr />
-
-<a name="ListDependentsToHTML" />
-<h2>ListDependentsToHTML</h2>
-
-<blockquote>
-
-<p>
-Show nodes with only their outbound dependencies as HTML, including nodes that
-have no outbound dependencies.
-</p>
-
-</blockquote>
-
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<pre>
-    ListDependentsToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-<p>
-Translates only outbound dependencies to HTML.
-Lists nodes, weaved with HTML cross-references between all the
-elements for easy navigation.
-</p>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-ininput_file.xmlXXXXXXXXXX" />
-<h4><code>-in input_file.xml</code></h4>
-
-<blockquote>
-
-<p>
-The XML file to be translated.  The document has to follow the
-<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
-such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
-<a href="#DependencyReporter">DependencyReporter</a>, or
-<a href="#DependencyClosure">DependencyClosure</a>.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outoutput_file.htmlXXXXX" />
-<h4><code>-out output_file.html</code></h4>
-
-<blockquote>
-
-<p>
-Where to put the outcome of the translation.
-</p>
-
-<p>
-If not specified, the translation goes to the standard output.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<p>
-<i>none</i>
-</p>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-<p>
-See <code>-out</code> above.
-</p>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to a hyperlinked
-HTML file with only outboud dependencies:
-</p>
-
-<pre>
-    ListDependentsToHTML -in dg.xml -out dependencies.html
-</pre>
-
-<p>
-An element with many outbound dependencies is said to be dependent,
-meaning that it relies on many other elements being stable.
-</p>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
-<blockquote>
-
-<p>
-<code>org.apache.xalan.xslt.Process</code>
-</p>
-
-</blockquote>
-
-<a name="XSLStylesheetXXXXXXXXXX" />
-<h3>XSL Stylesheet</h3>
-
-<blockquote>
-
-<p>
-<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDependentsToHTML.xsl</code>
-</p>
-
-</blockquote>
-
-<hr />
-
-<a name="ListDependentsToText" />
-<h2>ListDependentsToText</h2>
-
-<blockquote>
-
-<p>
-Show nodes with only their outbound dependencies as text, including nodes that
-have no outbound dependencies.
-</p>
-
-</blockquote>
-
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<pre>
-    ListDependentsToText
-    	-in input_file.xml
-    	[-out output_file.txt]
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-<p>
-Translates only outbound dependencies to text.
-</p>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-ininput_file.xmlXXXXXXXXXXX" />
-<h4><code>-in input_file.xml</code></h4>
-
-<blockquote>
-
-<p>
-The XML file to be translated.  The document has to follow the
-<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
-such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
-<a href="#DependencyReporter">DependencyReporter</a>, or
-<a href="#DependencyClosure">DependencyClosure</a>.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outoutput_file.txtXXXXX" />
-<h4><code>-out output_file.txt</code></h4>
-
-<blockquote>
-
-<p>
-Where to put the outcome of the translation.
-</p>
-
-<p>
-If not specified, the translation goes to the standard output.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<p>
-<i>none</i>
-</p>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-<p>
-See <code>-out</code> above.
-</p>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to plain text
-with only outboud dependencies:
-</p>
-
-<pre>
-    ListDependentsToText -in dg.xml
-</pre>
-
-<p>
-To convert the dependency graph in <code>dg.xml</code> to a plain text
-file with only outboud dependencies:
-</p>
-
-<pre>
-    ListDependentsToText -in dg.xml -out dependencies.txt
-</pre>
-
-<p>
-An element with many outbound dependencies is said to be dependent,
-meaning that it relies on many other elements being stable.
-</p>
-
-<p>
-Here is another example that uses the following dependency graph:
-</p>
-
-<pre>
-    Empty
-    &nbsp;
-    Bidirectional1 <---> Bidirectional2
-    &nbsp;
-    Outbound ----> Middle ----> Inbound
-       |                           ^
-       |                           |
-       \---------------------------/
-</pre>
-
-<p>
-Running this tool on that graph yields this output:
-</p>
-
-<pre>
-    ListDependentsToText -in sample.xml
-    &nbsp;
-        Outbound
-            --> Middle
-            --> Inbound
-        Middle
-            --> Inbound
-        Inbound
-        Bidirectional1
-            --> Bidirectional2
-        Bidirectional2
-            --> Bidirectional1
-        Empty
-</pre>
-
-</blockquote>
-
 <a name="ClassXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
 
 <p>
-<code>org.apache.xalan.xslt.Process</code>
-</p>
-
-</blockquote>
-
-<a name="XSLStylesheetXXXXXXXXXXX" />
-<h3>XSL Stylesheet</h3>
-
-<blockquote>
-
-<p>
-<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDependentsToText.xsl</code>
+<code>com.jeantessier.dependencyfinder.cli.JarJarDiff</code>
 </p>
 
 </blockquote>
@@ -8264,7 +8264,10 @@ Lists programming elements that have no inbound dependencies.
 <blockquote>
 
 <p>
-Lists programming elements that have no inbound dependencies.
+Lists programming elements that have no inbound dependencies.  This does
+necessarily imply that the programming element is unused.  It could be a method
+that gets called through an interface or a superclass declaration, or it could
+be an implementation class that is activated via reflection.
 </p>
 
 </blockquote>
