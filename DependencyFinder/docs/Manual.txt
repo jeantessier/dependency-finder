@@ -743,6 +743,108 @@ with the same graph as if you had minimized the original graph.
     [[images/MinMaxVIII.gif]]
 </div>
 
+Here are the number of dependencies in various graphs.
+
+<table border="3"
+       rules="groups"
+       cellpadding="3">
+    <colgroup />
+    <colgroup span="2" />
+    <colgroup />
+    <colgroup span="2" />
+    <thead>
+    <tr>
+	<td>*Software*</td>
+	<td align="center"
+	    colspan="2">*Minimized*</td>
+	<td align="center">*Raw*</td>
+	<td align="center"
+	    colspan="2">*Maximized*</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+	<td>=test.java=</td>
+	<td align="right">5</td>
+	<td align="right">(-29%)</td>
+	<td align="right">7</td>
+	<td align="right">27</td>
+	<td align="right">(+286%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>Jakarta-ORO</td>
+	<td align="right">2,301</td>
+	<td align="right">(-13%)</td>
+	<td align="right">2,652</td>
+	<td align="right">4,641</td>
+	<td align="right">(+75%)</td>
+    </tr>
+    <tr>
+	<td>Log4J</td>
+	<td align="right">10,880</td>
+	<td align="right">(-16%)</td>
+	<td align="right">12,961</td>
+	<td align="right">27,215</td>
+	<td align="right">(+110%)</td>
+    </tr>
+    <tr>
+	<td>Xerces</td>
+	<td align="right">38,194</td>
+	<td align="right">(-13%)</td>
+	<td align="right">43,893</td>
+	<td align="right">80,472</td>
+	<td align="right">(+83%)</td>
+    </tr>
+    <tr>
+	<td>Xalan</td>
+	<td align="right">35,317</td>
+	<td align="right">(-15%)</td>
+	<td align="right">41,594</td>
+	<td align="right">81,745</td>
+	<td align="right">(+97%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>Ant</td>
+	<td align="right">22,057</td>
+	<td align="right">(-16%)</td>
+	<td align="right">26,184</td>
+	<td align="right">50,585</td>
+	<td align="right">(+93%)</td>
+    </tr>
+    <tr>
+	<td>Ant w/ optional</td>
+	<td align="right">42,140</td>
+	<td align="right">(-16%)</td>
+	<td align="right">50,165</td>
+	<td align="right">99,178</td>
+	<td align="right">(+98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>Dependency Finder</td>
+	<td align="right">13,098</td>
+	<td align="right">(-18%)</td>
+	<td align="right">15,897</td>
+	<td align="right">28,923</td>
+	<td align="right">(+82%)</td>
+    </tr>
+    </tbody>
+</table>
+
+=test.java=
+
+    import java.util.*;
+    public class test {
+        public static void main(String[] args) {
+            Collection c = Collections.singleton(new Object());
+        }
+    }
+
 ---+++ Reporting
 
 _Reporting_ means displaying a dependency graph.  More often than not, the
