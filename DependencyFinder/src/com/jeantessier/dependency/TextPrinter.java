@@ -45,7 +45,8 @@ public class TextPrinter extends Printer {
         return perl;
     }
 
-    private Map dependencies = new TreeMap();
+    private boolean showInferred = true;
+    private Map     dependencies = new TreeMap();
 
     public TextPrinter(PrintWriter out) {
         super(out);
@@ -53,6 +54,14 @@ public class TextPrinter extends Printer {
 
     public TextPrinter(TraversalStrategy strategy, PrintWriter out) {
         super(strategy, out);
+    }
+
+    public boolean isShowInferred() {
+        return showInferred;
+    }
+
+    public void setShowInferred(boolean showInferred) {
+        this.showInferred = showInferred;
     }
     
     protected void preprocessPackageNode(PackageNode node) {
@@ -238,7 +247,7 @@ public class TextPrinter extends Printer {
     protected Printer printNodeName(Node node, String name) {
         super.printNodeName(node, name);
 
-        if (!node.isConfirmed()) {
+        if (isShowInferred() && !node.isConfirmed()) {
             append(" *");
         }
         

@@ -617,35 +617,35 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
     
-//     public void testSetFlagInferredToFalse() throws IOException {
-//         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
-//         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-//         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-//         factory.createPackage("empty");
+    public void testSetFlagInferredToFalse() throws IOException {
+        factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
+        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
+        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
+        factory.createPackage("empty");
 
-//         visitor.setShowInferred(false);
+        visitor.setShowInferred(false);
 
-//         visitor.traverseNodes(factory.getPackages().values());
+        visitor.traverseNodes(factory.getPackages().values());
 
-//         int            lineNumber = 0;
-//         BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
 
-//         assertEquals("line " + ++lineNumber, "empty", in.readLine());
-//         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
-//         assertEquals("line " + ++lineNumber, "    <-- outbound", in.readLine());
-//         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
-//         assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound", in.readLine());
-//         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-//         assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
-//         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
-//         assertEquals("line " + ++lineNumber, "    --> inbound", in.readLine());
-//         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
-//         assertEquals("line " + ++lineNumber, "        --> inbound.Inbound", in.readLine());
-//         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-//         assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <-- outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --> inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --> inbound.Inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound()", in.readLine());
 
-//         assertEquals("End of file", null, in.readLine());
-//     }
+        assertEquals("End of file", null, in.readLine());
+    }
     
     public void testShowEmptyPackageTrueWithConfirmed() throws IOException {
         factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
