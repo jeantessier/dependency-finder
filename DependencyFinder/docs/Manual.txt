@@ -721,7 +721,7 @@ following commands are equivalent.
     C:\>DependencyReporter -c2c -class-scope-includes /test/ test.xml
     C:\>DependencyReporter -class-scope -class-scope-includes /test/ -class-filter test.xml
 
-For fun, I entered manually entered this graph description into
+For fun, I entered manually this graph description into
 [[http://www.gentleware.de/products/poseidonCE.php3][Poseidon for UML]].
 
 <div align="center">
