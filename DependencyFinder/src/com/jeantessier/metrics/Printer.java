@@ -32,6 +32,8 @@
 
 package com.jeantessier.metrics;
 
+import java.util.*;
+
 public abstract class Printer implements MeasurementVisitor {
 	private StringBuffer buffer       = new StringBuffer();
 	private String       indent_text  = "    ";
@@ -119,6 +121,13 @@ public abstract class Printer implements MeasurementVisitor {
 		return buffer.toString();
 	}
 
+	public void VisitMetrics(Collection metrics) {
+		Iterator i = metrics.iterator();
+		while(i.hasNext()) {
+			VisitMetrics((Metrics) i.next());
+		}
+	}
+	
 	public abstract void VisitMetrics(Metrics metrics);
 	
 	public void VisitRatioMeasurement(RatioMeasurement measurement) {

@@ -235,10 +235,7 @@ public class OOMetrics {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 
-			i = metrics.iterator();
-			while(i.hasNext()) {
-				printer.VisitMetrics((Metrics) i.next());
-			}
+			printer.VisitMetrics(metrics);
 			out.print(printer);
 			
 			if (command_line.IsPresent("out")) {
@@ -262,10 +259,7 @@ public class OOMetrics {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 
-			i = metrics.iterator();
-			while(i.hasNext()) {
-				printer.VisitMetrics((Metrics) i.next());
-			}
+			printer.VisitMetrics(metrics);
 			out.print(printer);
 			
 			if (command_line.IsPresent("out")) {
@@ -289,10 +283,7 @@ public class OOMetrics {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 
-			i = metrics.iterator();
-			while(i.hasNext()) {
-				printer.VisitMetrics((Metrics) i.next());
-			}
+			printer.VisitMetrics(metrics);
 			out.print(printer);
 			
 			if (command_line.IsPresent("out")) {
@@ -318,10 +309,7 @@ public class OOMetrics {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 
-			i = metrics.iterator();
-			while(i.hasNext()) {
-				printer.VisitMetrics((Metrics) i.next());
-			}
+			printer.VisitMetrics(metrics);
 			out.print(printer);
 		
 			if (command_line.IsPresent("out")) {
@@ -357,10 +345,7 @@ public class OOMetrics {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 
-			i = metrics.iterator();
-			while(i.hasNext()) {
-				printer.VisitMetrics((Metrics) i.next());
-			}
+			printer.VisitMetrics(metrics);
 			out.print(printer);
 			out.println();
 		}
@@ -376,10 +361,7 @@ public class OOMetrics {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 
-			i = metrics.iterator();
-			while(i.hasNext()) {
-				printer.VisitMetrics((Metrics) i.next());
-			}
+			printer.VisitMetrics(metrics);
 			out.print(printer);
 			out.println();
 		}
@@ -395,10 +377,7 @@ public class OOMetrics {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 
-			i = metrics.iterator();
-			while(i.hasNext()) {
-				printer.VisitMetrics((Metrics) i.next());
-			}
+			printer.VisitMetrics(metrics);
 			out.print(printer);
 			out.println();
 		}
@@ -414,11 +393,9 @@ public class OOMetrics {
 				printer.IndentText(command_line.SingleSwitch("indent-text"));
 			}
 
-			i = metrics.iterator();
-			while(i.hasNext()) {
-				printer.VisitMetrics((Metrics) i.next());
-			}
+			printer.VisitMetrics(metrics);
 			out.print(printer);
+			out.println();
 		}
 		
 		out.close();
@@ -444,15 +421,11 @@ public class OOMetrics {
 		metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
 		printer = new com.jeantessier.metrics.XMLPrinter(factory.Configuration(), command_line.SingleSwitch("dtd-prefix"));
-		// printer.IndentText("\t");
 		if (command_line.IsPresent("indent-text")) {
 			printer.IndentText(command_line.SingleSwitch("indent-text"));
 		}
 
-		i = metrics.iterator();
-		while(i.hasNext()) {
-			printer.VisitMetrics((Metrics) i.next());
-		}
+		printer.VisitMetrics(metrics);
 		out.print(printer);
 
 		out.close();
