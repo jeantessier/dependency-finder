@@ -247,7 +247,7 @@ public class OOMetrics {
 
 		if (command_line.ToggleSwitch("groups") || command_line.ToggleSwitch("all")) {
 			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_packages.csv"));
+				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_groups.csv"));
 			} else {
 				out.println("Packages:");
 			}
@@ -288,10 +288,8 @@ public class OOMetrics {
 			
 			if (command_line.IsPresent("out")) {
 				out.close();
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_methods.csv"));
 			} else {
 				out.println();
-				out.println("Methods:");
 			}
 		}
 
@@ -351,8 +349,8 @@ public class OOMetrics {
 		}
 
 		if (command_line.ToggleSwitch("groups") || command_line.ToggleSwitch("all")) {
-			out.println("Package metrics");
-			out.println("---------------");
+			out.println("Group metrics");
+			out.println("-------------");
 			metrics = new ArrayList(factory.GroupMetrics());
 			Collections.sort(metrics, comparator);
 			com.jeantessier.metrics.PrettyPrinter printer = new com.jeantessier.metrics.PrettyPrinter(factory.Configuration().GroupMeasurements());
