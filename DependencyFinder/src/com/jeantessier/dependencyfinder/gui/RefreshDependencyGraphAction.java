@@ -69,6 +69,8 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 
 		model.getProgressBar().setMaximum(scanner.getNbFiles());
 
+		model.getMonitor().setClosedSession(true);
+
 		ClassfileLoader loader = new TransientClassfileLoader(model.getClassfileLoaderDispatcher());
 		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
 		loader.addLoadListener(model.getMonitor());

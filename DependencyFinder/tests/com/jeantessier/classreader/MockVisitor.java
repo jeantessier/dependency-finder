@@ -44,4 +44,8 @@ public class MockVisitor extends VisitorBase {
 	public void visitClassfile(Classfile classfile) {
 		visitedClasses.add(classfile);
 	}
+
+	public void reset() {
+		visitedClasses.clear();
+	}
 }

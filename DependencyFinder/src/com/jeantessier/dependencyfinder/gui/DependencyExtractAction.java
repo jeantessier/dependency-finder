@@ -77,9 +77,9 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 		scanner.load(model.getInputFiles());
 
 		model.getProgressBar().setMaximum(scanner.getNbFiles());
-		
-		Collector collector = new CodeDependencyCollector(model.getNodeFactory());
 
+		model.getMonitor().setClosedSession(false);
+		
 		ClassfileLoader loader = new TransientClassfileLoader(model.getClassfileLoaderDispatcher());
 		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
 		loader.addLoadListener(model.getMonitor());

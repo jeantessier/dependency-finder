@@ -40,6 +40,7 @@ public class Monitor extends LoadListenerVisitorAdapter {
 	private RemoveVisitor removeVisitor;
 	
 	private Map fileToClass = new HashMap();
+	private boolean closedSession = true;
 
 	// Package-level access for tests only
 	Collection previousFiles = new TreeSet();
@@ -51,6 +52,18 @@ public class Monitor extends LoadListenerVisitorAdapter {
 		this.removeVisitor = removeVisitor;
 	}
 
+	public boolean isClosedSession() {
+		return closedSession;
+	}
+	
+	public void setClosedSession(boolean closedSession) {
+		if (!this.closedSession && closedSession) {
+			closeSession();
+		}
+		
+		this.closedSession = closedSession;
+	}
+	
 	public void beginFile(LoadEvent event) {
 		Logger.getLogger(getClass()).debug("beginFile(..., " + event.getFilename() + ", ...)");
 		
@@ -78,14 +91,24 @@ public class Monitor extends LoadListenerVisitorAdapter {
 	
 	public void endSession(LoadEvent event) {
 		Logger.getLogger(getClass()).debug("endSession(...)");
-		
+
+		if (isClosedSession()) {
+			removeUnreadFiles();
+			closeSession();
+		}
+	}
+
+
+	private void removeUnreadFiles() {
 		Iterator i = previousFiles.iterator();
 		while (i.hasNext()) {
 			String classname = (String) fileToClass.get(i.next());
 			Logger.getLogger(getClass()).debug("Removing " + classname + " ...");
 			removeVisitor.removeClass(classname);
 		}
-		
+	}
+
+	private void closeSession() {
 		previousFiles = currentFiles;
 		currentFiles  = new TreeSet();
 	}

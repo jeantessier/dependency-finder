@@ -44,4 +44,8 @@ public class MockRemoveVisitor implements RemoveVisitor {
 	public void removeClass(String classname) {
 		visitedClasses.add(classname);
 	}
+
+	public void reset() {
+		visitedClasses.clear();
+	}
 }
