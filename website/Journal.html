@@ -17,6 +17,20 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	February 21, 2005
+    </dt>
+    <dd>
+	<p>Fixed <code>DependencyFinder</code> to use the new
+	<code>Monitor</code> when re-extracting <code>.class</code> file.  In
+	the process, I fixed it so it retains all extracted locations instead
+	of just the last one, like it used to do.  I had to make changes to
+	many of the action classes, but overall the structure has improved a
+	little.  It still needs more testing.</p>
+
+	<p>Adjusted <code>load.jsp</code> to remove the monitor and dispatcher
+	when loading the graph from XML files.</p>
+    </dd>
+    <dt>
 	February 18, 2005
     </dt>
     <dd>
