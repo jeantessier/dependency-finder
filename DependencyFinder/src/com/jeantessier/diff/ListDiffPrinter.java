@@ -38,7 +38,7 @@ import org.apache.oro.text.perl.*;
 
 public class ListDiffPrinter {
 	public static final boolean DEFAULT_COMPRESS    = false;
-    public static final String  DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
+	public static final String  DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
 
 	private static final Perl5Util perl = new Perl5Util();
 	

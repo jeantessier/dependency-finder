@@ -17,11 +17,15 @@ support classes.  The tasks need the following elements on the
 <code>CLASSPATH</code> from the Dependency Finder distribution:</p>
 
 <ul>
+<li><code>&lt;DEPENDENCYFINDER_HOME&gt;/classes</code></li>
 <li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/DependencyFinder.jar</code></li>
 <li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/jakarta-oro.jar</code></li>
 <li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/log4j.jar</code></li>
-<li><code>&lt;DEPENDENCYFINDER_HOME&gt;/classes</code></li>
 </ul>
+
+<p>It is better if you put <code>classes</code> first.  This way, patch
+files that come as loose classes will take precedence over the older
+definitions in <code>DependencyFinder.jar</code>.</p>
 
 <h3>In your buildfile</h3>
 
@@ -30,10 +34,10 @@ part of the Ant project.</p>
 
 <pre>
     &lt;path id="dependencyfinder"&gt;
+        &lt;pathelement location="${dependencyfinder.home}/classes"/&gt;
         &lt;pathelement location="${dependencyfinder.home}/lib/DependencyFinder.jar"/&gt;
         &lt;pathelement location="${dependencyfinder.home}/lib/jakarta-oro.jar"/&gt;
         &lt;pathelement location="${dependencyfinder.home}/lib/log4j.jar"/&gt;
-        &lt;pathelement location="${dependencyfinder.home}/classes"/&gt;
     &lt;/path&gt;
 </pre>
 
