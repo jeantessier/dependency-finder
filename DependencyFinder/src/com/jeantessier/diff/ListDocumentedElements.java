@@ -132,6 +132,10 @@ public class ListDocumentedElements {
 
 		if (is_visible) {
 			out.print(doc.qualifiedName());
+			if (doc instanceof ConstructorDoc) {
+				out.print(".");
+				out.print(doc.name());
+			}
 			if (doc instanceof ExecutableMemberDoc) {
 				out.print(((ExecutableMemberDoc) doc).signature());
 			}
