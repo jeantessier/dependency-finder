@@ -32,7 +32,7 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, this-class, superclass, interfaces, fields, methods, attributes)>
+<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, this-class, superclass, interfaces, fields?, methods?, attributes?)>
 <!ATTLIST classfile
           magic-number  CDATA #REQUIRED
           minor-version CDATA #REQUIRED
@@ -121,7 +121,7 @@
 
 <!ELEMENT fields (field-info*) >
 
-<!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, name, type, attributes)>
+<!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, name, type, attributes?)>
 <!ATTLIST field-info
           access-number CDATA #REQUIRED
 >
@@ -138,7 +138,7 @@
 
 <!ELEMENT methods (method-info*) >
 
-<!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, native?, abstract?, strict?, name, return-type?, signature, attributes)>
+<!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, native?, abstract?, strict?, name, return-type?, signature, attributes?)>
 <!ATTLIST method-info
           access-number CDATA #REQUIRED
 >
