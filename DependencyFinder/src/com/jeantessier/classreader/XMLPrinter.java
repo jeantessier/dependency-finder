@@ -34,8 +34,12 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
+import org.apache.oro.text.perl.*;
+
 public class XMLPrinter extends Printer {
-    private boolean top          = true;
+	private static final Perl5Util perl = new Perl5Util();
+	
+    private boolean top = true;
 
     public XMLPrinter() {
 		super();
@@ -48,63 +52,75 @@ public class XMLPrinter extends Printer {
     public void VisitClassfile(Classfile classfile) {
 		Iterator i;
 
-		Indent().Append("<CLASSFILE>\n");
+		Indent().Append("<classfile magic-number=\"").Append(classfile.MagicNumber()).Append("\" minor-version=\"").Append(classfile.MinorVersion()).Append("\" major-version=\"").Append(classfile.MajorVersion()).Append("\" access-number=\"").Append(classfile.AccessFlag()).Append("\">\n");
 		RaiseIndent();
 
-		Indent().Append("<MAGIC-NUMBER>").Append(classfile.MagicNumber()).Append("</MAGIC-NUMBER>\n");
-		Indent().Append("<MINOR-VERSION>").Append(classfile.MinorVersion()).Append("</MINOR-VERSION>\n");
-		Indent().Append("<MAJOR-VERSION>").Append(classfile.MajorVersion()).Append("</MAJOR-VERSION>\n");
-
+		top = true;
 		classfile.ConstantPool().Accept(this);
+		top = false;
+		
+		if (classfile.IsPublic())     Indent().Append("<public/>\n");
+		if (classfile.IsFinal())      Indent().Append("<final/>\n");
+		if (classfile.IsSuper())      Indent().Append("<super/>\n");
+		if (classfile.IsInterface())  Indent().Append("<interface/>\n");
+		if (classfile.IsAbstract())   Indent().Append("<abstract/>\n");
 
-		Indent().Append("<ACCESS-FLAG>").Append(classfile.AccessFlag()).Append("</ACCESS-FLAG>\n");
-		Indent().Append("<THIS-CLASS>").Append(classfile.Class()).Append("</THIS-CLASS>\n");
-		Indent().Append("<SUPERCLASS>").Append(classfile.Superclass()).Append("</SUPERCLASS>\n");
+		Indent();
+		Append("<this-class>");
+		classfile.RawClass().Accept(this);
+		Append("</this-class>\n");
 
-		Indent().Append("<INTERFACES>\n");
+		Indent();
+		Append("<superclass>");
+		if (classfile.SuperclassIndex() != 0) {
+			classfile.RawSuperclass().Accept(this);
+		}
+		Append("</superclass>\n");
+
+		Indent().Append("<interfaces>\n");
 		RaiseIndent();
 		i = classfile.Interfaces().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
 		LowerIndent();
-		Indent().Append("</INTERFACES>\n");
+		Indent().Append("</interfaces>\n");
 
-		Indent().Append("<FIELDS>\n");
+		Indent().Append("<fields>\n");
 		RaiseIndent();
 		i = classfile.Fields().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
 		LowerIndent();
-		Indent().Append("</FIELDS>\n");
+		Indent().Append("</fields>\n");
 
-		Indent().Append("<METHODS>\n");
+		Indent().Append("<methods>\n");
 		RaiseIndent();
 		i = classfile.Methods().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
 		LowerIndent();
-		Indent().Append("</METHODS>\n");
+		Indent().Append("</methods>\n");
 
-		Indent().Append("<ATTRIBUTES>\n");
+		Indent().Append("<attributes>\n");
 		RaiseIndent();
 		i = classfile.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
 		LowerIndent();
-		Indent().Append("</ATTRIBUTES>\n");
+		Indent().Append("</attributes>\n");
 
 		LowerIndent();
-		Indent().Append("</CLASSFILE>\n");
+		Indent().Append("</classfile>\n");
     }
 
     public void VisitConstantPool(ConstantPool constant_pool) {
 		ResetCount();
 
-		Indent().Append("<CONSTANT-POOL>\n");
+		Indent().Append("<constant-pool>\n");
 		RaiseIndent();
 
 		Iterator i = constant_pool.iterator();
@@ -117,16 +133,16 @@ public class XMLPrinter extends Printer {
 		}
 
 		LowerIndent();
-		Indent().Append("</CONSTANT-POOL>\n");
+		Indent().Append("</constant-pool>\n");
     }
 
     public void VisitClass_info(Class_info entry) {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<CLASS ID=\"").Append(CurrentCount()).Append("\">");
+			Append("<class id=\"").Append(CurrentCount()).Append("\">");
 			entry.RawName().Accept(this);
-			Append("</CLASS>\n");
+			Append("</class>\n");
 			top = true;
 		} else {
 			entry.RawName().Accept(this);
@@ -140,17 +156,17 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<FIELD-REF-INFO ID=\"").Append(CurrentCount()).Append("\">");
-			Append("<CLASS>");
+			Append("<field-ref-info id=\"").Append(CurrentCount()).Append("\">");
+			Append("<class>");
 			c.Accept(this);
-			Append("</CLASS>");
-			Append("<TYPE>");
+			Append("</class>");
+			Append("<type>");
 			nat.RawType().Accept(this);
-			Append("</TYPE>");
-			Append("<NAME>");
+			Append("</type>");
+			Append("<name>");
 			nat.RawName().Accept(this);
-			Append("</NAME>");
-			Append("</FIELD-REF-INFO>\n");
+			Append("</name>");
+			Append("</field-ref-info>\n");
 			top = true;
 		} else {
 			nat.RawType().Accept(this);
@@ -168,17 +184,17 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<METHOD-REF-INFO ID=\"").Append(CurrentCount()).Append("\">");
-			Append("<CLASS>");
+			Append("<method-ref-info id=\"").Append(CurrentCount()).Append("\">");
+			Append("<class>");
 			c.Accept(this);
-			Append("</CLASS>");
-			Append("<NAME>");
+			Append("</class>");
+			Append("<name>");
 			nat.RawName().Accept(this);
-			Append("</NAME>");
-			Append("<TYPE>");
+			Append("</name>");
+			Append("<type>");
 			nat.RawType().Accept(this);
-			Append("</TYPE>");
-			Append("</METHOD-REF-INFO>\n");
+			Append("</type>");
+			Append("</method-ref-info>\n");
 			top = true;
 		} else {
 			c.Accept(this);
@@ -195,17 +211,17 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<INTERFACE-METHOD-REF-INFO ID=\"").Append(CurrentCount()).Append("\">");
-			Append("<CLASS>");
+			Append("<interface-method-ref-info id=\"").Append(CurrentCount()).Append("\">");
+			Append("<class>");
 			c.Accept(this);
-			Append("</CLASS>");
-			Append("<NAME>");
+			Append("</class>");
+			Append("<name>");
 			nat.RawName().Accept(this);
-			Append("</NAME>");
-			Append("<TYPE>");
+			Append("</name>");
+			Append("<type>");
 			nat.RawType().Accept(this);
-			Append("</TYPE>");
-			Append("</INTERFACE-METHOD-REF-INFO>\n");
+			Append("</type>");
+			Append("</interface-method-ref-info>\n");
 			top = true;
 		} else {
 			c.Accept(this);
@@ -219,9 +235,9 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<STRING-INFO ID=\"").Append(CurrentCount()).Append("\">");
+			Append("<string-info id=\"").Append(CurrentCount()).Append("\">");
 			entry.RawValue().Accept(this);
-			Append("</STRING-INFO>\n");
+			Append("</string-info>\n");
 			top = true;
 		} else {
 			entry.RawValue().Accept(this);
@@ -232,9 +248,9 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<INTEGER-INFO ID=\"").Append(CurrentCount()).Append("\">");
+			Append("<integer-info id=\"").Append(CurrentCount()).Append("\">");
 			Append(entry.Value());
-			Append("</INTEGER-INFO>\n");
+			Append("</integer-info>\n");
 			top = true;
 		} else {
 			Append(entry.Value());
@@ -245,9 +261,9 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<FLOAT-INFO ID=\"").Append(CurrentCount()).Append("\">");
+			Append("<float-info id=\"").Append(CurrentCount()).Append("\">");
 			Append(entry.Value());
-			Append("</FLOAT-INFO>\n");
+			Append("</float-info>\n");
 			top = true;
 		} else {
 			Append(entry.Value());
@@ -258,9 +274,9 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<LONG-INFO ID=\"").Append(CurrentCount()).Append("\">");
+			Append("<long-info id=\"").Append(CurrentCount()).Append("\">");
 			Append(entry.Value());
-			Append("</LONG-INFO>\n");
+			Append("</long-info>\n");
 			top = true;
 		} else {
 			Append(entry.Value());
@@ -271,9 +287,9 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<DOUBLE-INFO ID=\"").Append(CurrentCount()).Append("\">");
+			Append("<double-info id=\"").Append(CurrentCount()).Append("\">");
 			Append(entry.Value());
-			Append("</DOUBLE-INFO>\n");
+			Append("</double-info>\n");
 			top = true;
 		} else {
 			Append(entry.Value());
@@ -284,14 +300,14 @@ public class XMLPrinter extends Printer {
 		if (top) {
 			top = false;
 			Indent();
-			Append("<NAME-AND-TYPE-INFO ID=\"").Append(CurrentCount()).Append("\">");
-			Append("<NAME>");
+			Append("<name-and-type-info id=\"").Append(CurrentCount()).Append("\">");
+			Append("<name>");
 			entry.RawName().Accept(this);
-			Append("</NAME>");
-			Append("<TYPE>");
+			Append("</name>");
+			Append("<type>");
 			entry.RawType().Accept(this);
-			Append("</TYPE>");
-			Append("</NAME-AND-TYPE-INFO>\n");
+			Append("</type>");
+			Append("</name-and-type-info>\n");
 			top = true;
 		} else {
 			entry.RawName().Accept(this);
@@ -303,101 +319,101 @@ public class XMLPrinter extends Printer {
     public void VisitUTF8_info(UTF8_info entry) {
 		if (top) {
 			top = false;
-			Indent().Append("<UTF8-INFO ID=").Append(CurrentCount()).Append(">");
-			Append(entry.Value());
-			Append("</UTF8-INFO>\n");
+			Indent().Append("<utf8-info id=\"").Append(CurrentCount()).Append("\">");
+			Append(EscapeXMLCharacters(entry.Value()));
+			Append("</utf8-info>\n");
 			top = true;
 		} else {
-			Append(entry.Value());
+			Append(EscapeXMLCharacters(entry.Value()));
 		}
     }
 
     public void VisitField_info(Field_info entry) {
-		Indent().Append("<FIELD-INFO ACCESS-FLAG=\"").Append(entry.AccessFlag()).Append("\">\n");
+		Indent().Append("<field-info access-flag=\"").Append(entry.AccessFlag()).Append("\">\n");
 		RaiseIndent();
 
-		if (entry.IsPublic())    Indent().Append("<PUBLIC/>\n");
-		if (entry.IsProtected()) Indent().Append("<PROTECTED/>\n");
-		if (entry.IsPrivate())   Indent().Append("<PRIVATE/>\n");
-		if (entry.IsStatic())    Indent().Append("<STATIC/>\n");
-		if (entry.IsFinal())     Indent().Append("<FINAL/>\n");
-		if (entry.IsVolatile())  Indent().Append("<VOLATILE/>\n");
-		if (entry.IsTransient()) Indent().Append("<TRANSIENT/>\n");
+		if (entry.IsPublic())    Indent().Append("<public/>\n");
+		if (entry.IsProtected()) Indent().Append("<protected/>\n");
+		if (entry.IsPrivate())   Indent().Append("<private/>\n");
+		if (entry.IsStatic())    Indent().Append("<static/>\n");
+		if (entry.IsFinal())     Indent().Append("<final/>\n");
+		if (entry.IsVolatile())  Indent().Append("<volatile/>\n");
+		if (entry.IsTransient()) Indent().Append("<transient/>\n");
 	
-		Indent().Append("<NAME>").Append(entry.Name()).Append("</NAME>\n");
-		Indent().Append("<TYPE>").Append(entry.Type()).Append("</TYPE>\n");
+		Indent();
+		Append("<name>");
+		entry.RawName().Accept(this);
+		Append("</name>\n");
+		
+		Indent().Append("<type>").Append(entry.Type()).Append("</type>\n");
 
 		LowerIndent();
-		Indent().Append("</FIELD-INFO>\n");
+		Indent().Append("</field-info>\n");
     }
 
     public void VisitMethod_info(Method_info entry) {
-		Indent().Append("<METHOD-INFO ACCESS-FLAG=\"").Append(entry.AccessFlag()).Append("\">\n");
+		Indent().Append("<method-info access-flag=\"").Append(entry.AccessFlag()).Append("\">\n");
 		RaiseIndent();
 
-		if (entry.IsPublic())       Indent().Append("<PUBLIC/>\n");
-		if (entry.IsProtected())    Indent().Append("<PROTECTED/>\n");
-		if (entry.IsPrivate())      Indent().Append("<PRIVATE/>\n");
-		if (entry.IsStatic())       Indent().Append("<STATIC/>\n");
-		if (entry.IsFinal())        Indent().Append("<FINAL/>\n");
-		if (entry.IsSynchronized()) Indent().Append("<SYNCHRONIZED/>\n");
-		if (entry.IsNative())       Indent().Append("<NATIVE/>\n");
-		if (entry.IsAbstract())     Indent().Append("<ABSTRACT/>\n");
+		if (entry.IsPublic())       Indent().Append("<public/>\n");
+		if (entry.IsProtected())    Indent().Append("<protected/>\n");
+		if (entry.IsPrivate())      Indent().Append("<private/>\n");
+		if (entry.IsStatic())       Indent().Append("<static/>\n");
+		if (entry.IsFinal())        Indent().Append("<final/>\n");
+		if (entry.IsSynchronized()) Indent().Append("<synchronized/>\n");
+		if (entry.IsNative())       Indent().Append("<native/>\n");
+		if (entry.IsAbstract())     Indent().Append("<abstract/>\n");
+		if (entry.IsStrict())       Indent().Append("<strict/>\n");
 
-		Indent().Append("<NAME>").Append(entry.Name()).Append("</NAME>\n");
+		Indent();
+		Append("<name>");
+		entry.RawName().Accept(this);
+		Append("</name>\n");
+		
 		if (!entry.Name().equals("<init>") && !entry.Name().equals("<clinit>")) {
-			Indent().Append("<RETURN-TYPE>").Append((entry.ReturnType() != null) ? entry.ReturnType() : "void").Append("</RETURN-TYPE>\n");
+			Indent().Append("<return-type>").Append((entry.ReturnType() != null) ? entry.ReturnType() : "void").Append("</return-type>\n");
 		}
-		Indent().Append("<SIGNATURE>").Append(entry.Signature()).Append("</SIGNATURE>\n");
+		Indent().Append("<signature>").Append(entry.Signature()).Append("</signature>\n");
 
-		Indent().Append("<EXCEPTIONS>\n");
+		Indent().Append("<attributes>\n");
 		RaiseIndent();
-		Iterator i = entry.Exceptions().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}		
-		LowerIndent();
-		Indent().Append("</EXCEPTIONS>\n");
-
-		Indent().Append("<ATTRIBUTES>\n");
-		RaiseIndent();
-		i = entry.Attributes().iterator();
+		Iterator i = entry.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
 		LowerIndent();
-		Indent().Append("</ATTRIBUTES>\n");
+		Indent().Append("</attributes>\n");
 
 		LowerIndent();
-		Indent().Append("</METHOD-INFO>\n");
+		Indent().Append("</method-info>\n");
     }
 
     public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
-		Indent().Append("<CONSTANT-VALUE-ATTRIBUTE>\n");
+		Indent().Append("<constant-value-attribute>\n");
 		RaiseIndent();
 
 		attribute.RawValue().Accept(this);
 
 		LowerIndent();
-		Indent().Append("</CONSTANT-VALUE-ATTRIBUTE>\n");
+		Indent().Append("</constant-value-attribute>\n");
     }
 
     public void VisitCode_attribute(Code_attribute attribute) {
 		Iterator i;
 		
-		Indent().Append("<CODE-ATTRIBUTE>\n");
+		Indent().Append("<code-attribute>\n");
 		RaiseIndent();
 
-		Indent().Append("<LENGTH>").Append(attribute.Code().length).Append("</LENGTH>\n");
+		Indent().Append("<length>").Append(attribute.Code().length).Append("</length>\n");
 
 
-		Indent().Append("<INSTRUCTIONS>\n");
+		Indent().Append("<instructions>\n");
 		RaiseIndent();
 		i = attribute.iterator();
 		while (i.hasNext()) {
 			Instruction instr = (Instruction) i.next();
 			Indent();
-			Append("<INSTRUCTION PC=\"").Append(instr.Start()).Append(" LENGTH=\"").Append(instr.Length()).Append("\">");
+			Append("<instruction pc=\"").Append(instr.Start()).Append("\" length=\"").Append(instr.Length()).Append("\">");
 			switch (instr.Opcode()) {
 				case 0xb2: // getstatic
 				case 0xb3: // putstatic
@@ -413,54 +429,57 @@ public class XMLPrinter extends Printer {
 				case 0xc1: // instanceof
 				case 0xc5: // multianewarray
 					int index = ((instr.Code()[instr.Start()+1] & 0xff) << 8) | (instr.Code()[instr.Start()+2] & 0xff);
-					Append(instr).Append(" ").Append(attribute.Classfile().ConstantPool().get(index));
+					Append(instr).Append(" ").Append(EscapeXMLCharacters(attribute.Classfile().ConstantPool().get(index).toString()));
 					break;
 				default:
 					Append(instr);
 					break;
 			}
-			Append("</INSTRUCTION>\n");
+			Append("</instruction>\n");
 		}
 		LowerIndent();
-		Indent().Append("</INSTRUCTIONS>\n");
+		Indent().Append("</instructions>\n");
 
-		Indent().Append("<EXCEPTION-HANDLERS>\n");
+		Indent().Append("<exception-handlers>\n");
 		RaiseIndent();
 		i = attribute.ExceptionHandlers().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
 		LowerIndent();
-		Indent().Append("</EXCEPTION-HANDLERS>\n");
+		Indent().Append("</exception-handlers>\n");
 
-		Indent().Append("<ATTRIBUTES>\n");
+		Indent().Append("<attributes>\n");
 		RaiseIndent();
 		i = attribute.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
 		LowerIndent();
-		Indent().Append("</ATTRIBUTES>\n");
+		Indent().Append("</attributes>\n");
 
 		LowerIndent();
-		Indent().Append("</CODE-ATTRIBUTE>\n");
+		Indent().Append("</code-attribute>\n");
     }
 
     public void VisitExceptions_attribute(Exceptions_attribute attribute) {
-		Indent().Append("<EXCEPTIONS-ATTRIBUTE>\n");
+		Indent().Append("<exceptions-attribute>\n");
 		RaiseIndent();
 
 		Iterator i = attribute.Exceptions().iterator();
 		while (i.hasNext()) {
+			Indent();
+			Append("<exception>");
 			((Visitable) i.next()).Accept(this);
+			Append("</exception>\n");
 		}
 
 		LowerIndent();
-		Indent().Append("</EXCEPTIONS-ATTRIBUTE>\n");
+		Indent().Append("</exceptions-attribute>\n");
     }
 
     public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
-		Indent().Append("<INNER-CLASSES-ATTRIBUTE>\n");
+		Indent().Append("<inner-classes-attribute>\n");
 		RaiseIndent();
 
 		Iterator i = attribute.Classes().iterator();
@@ -469,22 +488,19 @@ public class XMLPrinter extends Printer {
 		}
 
 		LowerIndent();
-		Indent().Append("</INNER-CLASSES-ATTRIBUTE>\n");
+		Indent().Append("</inner-classes-attribute>\n");
     }
 
     public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
-		Indent().Append("<SYNTHETIC-ATTRIBUTE/>\n");
+		Indent().Append("<synthetic-attribute/>\n");
     }
 
     public void VisitSourceFile_attribute(SourceFile_attribute attribute) {
-		Indent();
-		Append("<SOURCE-FILE-ATTRIBUTE>");
-		Append(attribute.SourceFile());
-		Append("</SOURCE-FILE-ATTRIBUTE>\n");
+		Indent().Append("<source-file-attribute>").Append(attribute.SourceFile()).Append("</source-file-attribute>\n");
     }
 
     public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-		Indent().Append("<LINE-NUMBER-TABLE-ATTRIBUTE>\n");
+		Indent().Append("<line-number-table-attribute>\n");
 		RaiseIndent();
 
 		Iterator i = attribute.LineNumbers().iterator();
@@ -493,11 +509,11 @@ public class XMLPrinter extends Printer {
 		}
 
 		LowerIndent();
-		Indent().Append("</LINE-NUMBER-TABLE-ATTRIBUTE>\n");
+		Indent().Append("</line-number-table-attribute>\n");
     }
 
     public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-		Indent().Append("<LOCAL-VARIABLE-TABLE-ATTRIBUTE>\n");
+		Indent().Append("<local-variable-table-attribute>\n");
 		RaiseIndent();
 
 		Iterator i = attribute.LocalVariables().iterator();
@@ -506,42 +522,95 @@ public class XMLPrinter extends Printer {
 		}
 
 		LowerIndent();
-		Indent().Append("</LOCAL-VARIABLE-TABLE-ATTRIBUTE>\n");
+		Indent().Append("</local-variable-table-attribute>\n");
     }
 
     public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
-		Indent().Append("<DEPRECATED-ATTRIBUTE/>\n");
+		Indent().Append("<deprecated-attribute/>\n");
     }
 
     public void VisitExceptionHandler(ExceptionHandler helper) {
 		Indent();
-		Append("<EXCEPTION-HANDLER>");
-		Append("<START-PC>").Append(helper.StartPC()).Append("</START-PC>");
-		Append("<END-PC>").Append(helper.EndPC()).Append("</END-PC>");
-		Append("<HANDLER-PC>").Append(helper.HandlerPC()).Append("</HANDLER-PC>");
-		Append("<CATCH-TYPE>").Append(helper.CatchType()).Append("</CATCH-TYPE>");
-		Append("</EXCEPTION-HANDLER>\n");
+		Append("<exception-handler>");
+		Append("<start-pc>").Append(helper.StartPC()).Append("</start-pc>");
+		Append("<end-pc>").Append(helper.EndPC()).Append("</end-pc>");
+		Append("<handler-pc>").Append(helper.HandlerPC()).Append("</handler-pc>");
+
+		Append("<catch-type>");
+		if (helper.CatchTypeIndex() != 0) {
+			helper.RawCatchType().Accept(this);
+		}
+		Append("</catch-type>");
+
+		Append("</exception-handler>\n");
     }
 
     public void VisitInnerClass(InnerClass helper) {
+		Indent().Append("<inner-class access-number=\"").Append(helper.AccessFlag()).Append("\">\n");
+		RaiseIndent();
+
+		if (helper.IsPublic())    Indent().Append("<public/>\n");
+		if (helper.IsProtected()) Indent().Append("<protected/>\n");
+		if (helper.IsPrivate())   Indent().Append("<private/>\n");
+		if (helper.IsStatic())    Indent().Append("<static/>\n");
+		if (helper.IsFinal())     Indent().Append("<final/>\n");
+		if (helper.IsInterface()) Indent().Append("<interface/>\n");
+		if (helper.IsAbstract())  Indent().Append("<abstract/>\n");
+
 		Indent();
-		Append("<INNER-CLASS>");
-		Append("</INNER-CLASS>\n");
+		Append("<inner-class-info>");
+		if (helper.InnerClassInfoIndex() != 0) {
+			helper.RawInnerClassInfo().Accept(this);
+		}
+		Append("</inner-class-info>\n");
+
+		Indent();
+		Append("<outer-class-info>");
+		if (helper.OuterClassInfoIndex() != 0) {
+			helper.RawOuterClassInfo().Accept(this);
+		}
+		Append("</outer-class-info>\n");
+
+		Indent();
+		Append("<inner-name>");
+		if (helper.InnerNameIndex() != 0) {
+			helper.RawInnerName().Accept(this);
+		}
+		Append("</inner-name>\n");
+
+		LowerIndent();
+		Indent().Append("</inner-class>\n");
     }
 
     public void VisitLineNumber(LineNumber helper) {
 		Indent();
-		Append("<LINE-NUMBER>");
-		Append("<START-PC>").Append(helper.StartPC()).Append("</START-PC>");
-		Append("<LINE>").Append(helper.LineNumber()).Append("</LINE>");
-		Append("</LINE-NUMBER>\n");
+		Append("<line-number>");
+		Append("<start-pc>").Append(helper.StartPC()).Append("</start-pc>");
+		Append("<line>").Append(helper.LineNumber()).Append("</line>");
+		Append("</line-number>\n");
     }
 
     public void VisitLocalVariable(LocalVariable helper) {
 		Indent();
-		Append("<LOCAL-VARIABLE PC=\"").Append(helper.StartPC()).Append(" LENGTH=\"").Append(helper.Length()).Append("\">");
-		Append("<NAME>").Append(helper.Name()).Append("</NAME>");
-		Append("<DESCRIPTOR>").Append(helper.Name()).Append("</DESCRIPTOR>");
-		Append("</LOCAL-VARIABLE>\n");
+		Append("<local-variable pc=\"").Append(helper.StartPC()).Append("\" length=\"").Append(helper.Length()).Append("\">");
+		Append("<name>");
+		helper.RawName().Accept(this);
+		Append("</name>");
+		
+		Append("<descriptor>");
+		helper.RawDescriptor().Accept(this);
+		Append("</descriptor>");
+		
+		Append("</local-variable>\n");
     }
+
+	private String EscapeXMLCharacters(String text) {
+		String result = text;
+
+		result = perl.substitute("s/&/&amp;/g", result);
+		result = perl.substitute("s/</&lt;/g", result);
+		result = perl.substitute("s/>/&gt;/g", result);
+		
+		return result;
+	}
 }

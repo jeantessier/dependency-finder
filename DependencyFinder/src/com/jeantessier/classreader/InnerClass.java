@@ -133,6 +133,38 @@ public class InnerClass implements Visitable {
 		return access_flag;
     }
 
+	public boolean IsPublic() {
+		return (AccessFlag() & ACC_PUBLIC) != 0;
+	}
+
+	public boolean IsProtected() {
+		return (AccessFlag() & ACC_PROTECTED) != 0;
+	}
+
+	public boolean IsPrivate() {
+		return (AccessFlag() & ACC_PRIVATE) != 0;
+	}
+
+	public boolean IsPackage() {
+		return (AccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
+	}
+
+	public boolean IsStatic() {
+		return (AccessFlag() & ACC_STATIC) != 0;
+	}
+
+	public boolean IsFinal() {
+		return (AccessFlag() & ACC_FINAL) != 0;
+	}
+
+	public boolean IsInterface() {
+		return (AccessFlag() & ACC_INTERFACE) != 0;
+	}
+
+	public boolean IsAbstract() {
+		return (AccessFlag() & ACC_ABSTRACT) != 0;
+	}
+
     public String toString() {
 		return InnerClassInfo();
     }
