@@ -44,8 +44,6 @@ public class DependencyClosure {
     public static final String DEFAULT_INCLUDES               = "//";
     public static final String DEFAULT_SCOPE_INCLUDES         = "//";
     public static final String DEFAULT_FILTER_INCLUDES        = "//";
-	public static final String DEFAULT_MAXIMUM_INBOUND_DEPTH  = "0";
-	public static final String DEFAULT_MAXIMUM_OUTBOUND_DEPTH = "";
     public static final String DEFAULT_LOGFILE                = "System.out";
     public static final String DEFAULT_TRACEFILE              = "System.out";
 
@@ -78,6 +76,10 @@ public class DependencyClosure {
 		System.err.println("-c2c shorthand for the combination:");
 		System.err.println("    -class-scope");
 		System.err.println("    -class-filter");
+		System.err.println();
+		System.err.println("-f2f shorthand for the combination:");
+		System.err.println("    -feature-scope");
+		System.err.println("    -feature-filter");
 		System.err.println();
 		System.err.println("-includes \"str\" shorthand for the combination:");
 		System.err.println("    -scope-incldues \"str\"");
@@ -121,11 +123,12 @@ public class DependencyClosure {
 		command_line.AddToggleSwitch("p2p");
 		command_line.AddToggleSwitch("c2p");
 		command_line.AddToggleSwitch("c2c");
+		command_line.AddToggleSwitch("f2f");
 		command_line.AddMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
 		command_line.AddMultipleValuesSwitch("excludes");
 
-		command_line.AddSingleValueSwitch("maximum-inbound-depth",      DEFAULT_MAXIMUM_INBOUND_DEPTH);
-		command_line.AddSingleValueSwitch("maximum-outbound-depth",     DEFAULT_MAXIMUM_OUTBOUND_DEPTH);
+		command_line.AddOptionalValueSwitch("maximum-inbound-depth");
+		command_line.AddOptionalValueSwitch("maximum-outbound-depth");
 		
 		command_line.AddToggleSwitch("time");
 		command_line.AddToggleSwitch("serialize");
@@ -262,13 +265,17 @@ public class DependencyClosure {
 		TransitiveClosure selector = new TransitiveClosure(strategy);
 
 		try {
-			selector.MaximumInboundDepth(Long.parseLong(command_line.SingleSwitch("maximum-inbound-depth")));
+			if (command_line.IsPresent("maximum-inbound-depth")) {
+				selector.MaximumInboundDepth(Long.parseLong(command_line.SingleSwitch("maximum-inbound-depth")));
+			}
 		} catch (NumberFormatException ex) {
 			selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
 
 		try {
-			selector.MaximumOutboundDepth(Long.parseLong(command_line.SingleSwitch("maximum-outbound-depth")));
+			if (command_line.IsPresent("maximum-outbound-depth")) {
+				selector.MaximumOutboundDepth(Long.parseLong(command_line.SingleSwitch("maximum-outbound-depth")));
+			}
 		} catch (NumberFormatException ex) {
 			selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
