@@ -44,6 +44,16 @@ import com.jeantessier.dependency.*;
 
 public class DependencyReporter extends GraphTask {
 
+	private Path    scope_includes_list;
+	private Path    scope_excludes_list;
+	private Path    filter_includes_list;
+	private Path    filter_excludes_list;
+
+	private boolean show_inbounds    = false;
+	private boolean show_outbounds   = false;
+	private boolean show_empty_nodes = false;
+	private boolean show_all         = false;
+
 	private boolean minimize   = false;
 	private boolean maximize   = false;
 	private boolean copy_only  = false;
@@ -51,7 +61,85 @@ public class DependencyReporter extends GraphTask {
 	private String  encoding   = XMLPrinter.DEFAULT_ENCODING;
 	private String  dtd_prefix = XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indent_text;
+	
+	public Path createScopeincludeslist() {
+		if (scope_includes_list == null) {
+			scope_includes_list = new Path(getProject());
+		}
 
+		return scope_includes_list;
+	}
+	
+	public Path getScopeincludeslist() {
+		return scope_includes_list;
+	}
+	
+	public Path createScopeexcludeslist() {
+		if (scope_excludes_list == null) {
+			scope_excludes_list = new Path(getProject());
+		}
+
+		return scope_excludes_list;
+	}
+	
+	public Path getScopeexcludeslist() {
+		return scope_excludes_list;
+	}
+	
+	public Path createFilterincludeslist() {
+		if (filter_includes_list == null) {
+			filter_includes_list = new Path(getProject());
+		}
+
+		return filter_includes_list;
+	}
+	
+	public Path getFilterincludeslist() {
+		return filter_includes_list;
+	}
+	
+	public Path createFilterexcludeslist() {
+		if (filter_excludes_list == null) {
+			filter_excludes_list = new Path(getProject());
+		}
+
+		return filter_excludes_list;
+	}
+	
+	public Path getFilterexcludeslist() {
+		return filter_excludes_list;
+	}
+	
+	public boolean getShowinbounds() {
+		return show_inbounds;
+	}
+
+	public void setShowinbounds(boolean show_inbounds) {
+		this.show_inbounds = show_inbounds;
+	}
+	
+	public boolean getShowoutbounds() {
+		return show_outbounds;
+	}
+
+	public void setShowoutbounds(boolean show_outbounds) {
+		this.show_outbounds = show_outbounds;
+	}
+	
+	public boolean getShowemptynodes() {
+		return show_empty_nodes;
+	}
+
+	public void setShowemptynodes(boolean show_empty_nodes) {
+		this.show_empty_nodes = show_empty_nodes;
+	}
+	
+	public void setShowAll(boolean show_all) {
+		setShowinbounds(show_all);
+		setShowoutbounds(show_all);
+		setShowemptynodes(show_all);
+	}
+	
 	public boolean getMinimize() {
 		return minimize;
 	}
@@ -107,6 +195,18 @@ public class DependencyReporter extends GraphTask {
 	public void setIntenttext(String indent_text) {
 		this.indent_text = indent_text;
 	}
+
+	protected void CheckParameters() throws BuildException {
+		super.CheckParameters();
+
+		if (HasScopeRegularExpressionSwitches() && HasScopeListSwitches()) {
+			throw new BuildException("Cannot have scope attributes for regular expressions and lists at the same time!");
+		}
+
+		if (HasFilterRegularExpressionSwitches() && HasFilterListSwitches()) {
+			throw new BuildException("Cannot have filter attributes for regular expressions and lists at the same time!");
+		}
+	}
 	
 	public void execute() throws BuildException {
 		// first off, make sure that we've got what we need
@@ -159,6 +259,10 @@ public class DependencyReporter extends GraphTask {
 			if (getIndenttext() != null) {
 				printer.IndentText(getIndenttext());
 			}
+
+			printer.ShowInbounds(getShowinbounds());
+			printer.ShowOutbounds(getShowoutbounds());
+			printer.ShowEmptyNodes(getShowemptynodes());
 				
 			printer.TraverseNodes(copier.ScopeFactory().Packages().values());
 				
@@ -168,5 +272,109 @@ public class DependencyReporter extends GraphTask {
 		} catch (IOException ex) {
 			throw new BuildException(ex);
 		}
+	}
+
+	protected SelectionCriteria ScopeCriteria() throws BuildException {
+		SelectionCriteria result = new ComprehensiveSelectionCriteria();
+
+		try {
+			if (HasScopeRegularExpressionSwitches()) {
+				result = super.ScopeCriteria();
+			} else if (HasScopeListSwitches()) {
+				result = CreateCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());
+			}
+		} catch (IOException ex) {
+			throw new BuildException(ex);
+		}
+
+		return result;
+	}
+
+	protected SelectionCriteria FilterCriteria() throws BuildException {
+		SelectionCriteria result = new ComprehensiveSelectionCriteria();
+		
+		try {
+			if (HasFilterRegularExpressionSwitches()) {
+				result = super.FilterCriteria();
+			} else if (HasFilterListSwitches()) {
+				result = CreateCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());
+			}
+		} catch (IOException ex) {
+			throw new BuildException(ex);
+		}
+
+		return result;
+	}
+	
+	private boolean HasScopeRegularExpressionSwitches() {
+		return
+			!getScopeincludes().equals("//") ||
+			!getScopeexcludes().equals("") ||
+			getPackagescope() ||
+			!getPackagescopeincludes().equals("") ||
+			!getPackagescopeexcludes().equals("") ||
+			getClassscope() ||
+			!getClassscopeincludes().equals("") ||
+			!getClassscopeexcludes().equals("") ||
+			getFeaturescope() ||
+			!getFeaturescopeincludes().equals("") ||
+			!getFeaturescopeexcludes().equals("");
+	}
+
+	private boolean HasScopeListSwitches() {
+		return
+			getScopeincludeslist() != null ||
+			getScopeexcludeslist() != null;
+	}
+
+	private boolean HasFilterRegularExpressionSwitches() {
+		return
+			!getFilterincludes().equals("//") ||
+			!getFilterexcludes().equals("") ||
+			getPackagefilter() ||
+			!getPackagefilterincludes().equals("") ||
+			!getPackagefilterexcludes().equals("") ||
+			getClassfilter() ||
+			!getClassfilterincludes().equals("") ||
+			!getClassfilterexcludes().equals("") ||
+			getFeaturefilter() ||
+			!getFeaturefilterincludes().equals("") ||
+			!getFeaturefilterexcludes().equals("");
+	}
+
+	private boolean HasFilterListSwitches() {
+		return
+			getFilterincludeslist() != null ||
+			getFilterexcludeslist() != null;
+	}
+
+	public CollectionSelectionCriteria CreateCollectionSelectionCriteria(Path includes, Path excludes) throws IOException {
+		Collection collection = new HashSet();
+
+		if (includes != null) {
+			String[] filenames = includes.list();
+			for (int i=0; i<filenames.length; i++) {
+				BufferedReader reader = new BufferedReader(new FileReader(filenames[i]));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					collection.add(line);
+				}
+				reader.close();
+			}
+		}
+		
+		if (excludes != null) {
+			String[] filenames = excludes.list();
+			for (int i=0; i<filenames.length; i++) {
+				BufferedReader reader = new BufferedReader(new FileReader(filenames[i]));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					collection.remove(line);
+				}
+				reader.close();
+			}
+		}
+		
+		return new CollectionSelectionCriteria(collection);
 	}
 }

@@ -337,7 +337,7 @@ public abstract class GraphTask extends Task {
 		}
 	}
 
-	protected RegularExpressionSelectionCriteria ScopeCriteria() {
+	protected SelectionCriteria ScopeCriteria() throws BuildException {
 		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
 		result.MatchPackage(getPackagescope());
@@ -356,7 +356,7 @@ public abstract class GraphTask extends Task {
 		return result;
 	}
 
-	protected RegularExpressionSelectionCriteria FilterCriteria() {
+	protected SelectionCriteria FilterCriteria() throws BuildException {
 		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
 		result.MatchPackage(getPackagefilter());
@@ -375,7 +375,7 @@ public abstract class GraphTask extends Task {
 		return result;
 	}
 	
-	protected TraversalStrategy Strategy() {
+	protected TraversalStrategy Strategy() throws BuildException {
 		return new SelectiveTraversalStrategy(ScopeCriteria(), FilterCriteria());
 	}
 }

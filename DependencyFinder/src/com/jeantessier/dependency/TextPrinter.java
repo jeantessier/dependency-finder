@@ -45,10 +45,6 @@ public class TextPrinter extends Printer {
 		return perl;
 	}
 
-	private boolean show_inbounds    = true;
-	private boolean show_outbounds   = true;
-	private boolean show_empty_nodes = true;
-
 	private Map dependencies = new TreeMap();
 
 	public TextPrinter(PrintWriter out) {
@@ -57,30 +53,6 @@ public class TextPrinter extends Printer {
 
 	public TextPrinter(TraversalStrategy strategy, PrintWriter out) {
 		super(strategy, out);
-	}
-
-	public boolean ShowInbounds() {
-		return show_inbounds;
-	}
-
-	public void ShowInbounds(boolean show_inbounds) {
-		this.show_inbounds = show_inbounds;
-	}
-	
-	public boolean ShowOutbounds() {
-		return show_outbounds;
-	}
-
-	public void ShowOutbounds(boolean show_outbounds) {
-		this.show_outbounds = show_outbounds;
-	}
-	
-	public boolean ShowEmptyNodes() {
-		return show_empty_nodes;
-	}
-
-	public void ShowEmptyNodes(boolean show_empty_nodes) {
-		this.show_empty_nodes = show_empty_nodes;
 	}
 	
 	protected void PreprocessPackageNode(PackageNode node) {
@@ -261,42 +233,6 @@ public class TextPrinter extends Printer {
 		} else {
 			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
 		}
-	}
-
-	private boolean ShowPackageNode(PackageNode node) {
-		boolean result = ShowNode(node);
-
-		Iterator i = node.Classes().iterator();
-		while (!result && i.hasNext()) {
-			result = ShowClassNode((ClassNode) i.next());
-		}
-		
-		return result;
-	}
-
-	private boolean ShowClassNode(ClassNode node) {
-		boolean result = ShowNode(node);
-
-		Iterator i = node.Features().iterator();
-		while (!result && i.hasNext()) {
-			result = ShowFeatureNode((FeatureNode) i.next());
-		}
-		
-		return result;
-	}
-	
-	private boolean ShowFeatureNode(FeatureNode node) {
-		return ShowNode(node);
-	}
-	
-	private boolean ShowNode(Node node) {
-		boolean result = ShowEmptyNodes();
-
-		if (!result) {
-			result = (ShowOutbounds() && !node.Outbound().isEmpty()) || (ShowInbounds() && !node.Inbound().isEmpty());
-		}
-
-		return result;
 	}
 	
 	private void PrintDependencies(Map dependencies) {

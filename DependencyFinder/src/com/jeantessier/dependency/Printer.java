@@ -37,8 +37,12 @@ import java.util.*;
 
 public abstract class Printer extends VisitorBase {
 	private PrintWriter out;
-	private String      indent_text  = "    ";
-	private int         indent_level = 0;
+
+	private String  indent_text      = "    ";
+	private int     indent_level     = 0;
+	private boolean show_inbounds    = true;
+	private boolean show_outbounds   = true;
+	private boolean show_empty_nodes = true;
 
 	public Printer(PrintWriter out) {
 		this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()), out);
@@ -56,6 +60,30 @@ public abstract class Printer extends VisitorBase {
 
 	public void IndentText(String indent_text) {
 		this.indent_text = indent_text;
+	}
+
+	public boolean ShowInbounds() {
+		return show_inbounds;
+	}
+
+	public void ShowInbounds(boolean show_inbounds) {
+		this.show_inbounds = show_inbounds;
+	}
+	
+	public boolean ShowOutbounds() {
+		return show_outbounds;
+	}
+
+	public void ShowOutbounds(boolean show_outbounds) {
+		this.show_outbounds = show_outbounds;
+	}
+	
+	public boolean ShowEmptyNodes() {
+		return show_empty_nodes;
+	}
+
+	public void ShowEmptyNodes(boolean show_empty_nodes) {
+		this.show_empty_nodes = show_empty_nodes;
 	}
 	
 	protected Printer Append(boolean b) {
@@ -122,5 +150,41 @@ public abstract class Printer extends VisitorBase {
 
 	protected void LowerIndent() {
 		indent_level--;
+	}
+
+	protected boolean ShowPackageNode(PackageNode node) {
+		boolean result = ShowNode(node);
+
+		Iterator i = node.Classes().iterator();
+		while (!result && i.hasNext()) {
+			result = ShowClassNode((ClassNode) i.next());
+		}
+		
+		return result;
+	}
+
+	protected boolean ShowClassNode(ClassNode node) {
+		boolean result = ShowNode(node);
+
+		Iterator i = node.Features().iterator();
+		while (!result && i.hasNext()) {
+			result = ShowFeatureNode((FeatureNode) i.next());
+		}
+		
+		return result;
+	}
+	
+	protected boolean ShowFeatureNode(FeatureNode node) {
+		return ShowNode(node);
+	}
+	
+	protected boolean ShowNode(Node node) {
+		boolean result = ShowEmptyNodes();
+
+		if (!result) {
+			result = (ShowOutbounds() && !node.Outbound().isEmpty()) || (ShowInbounds() && !node.Inbound().isEmpty());
+		}
+
+		return result;
 	}
 }

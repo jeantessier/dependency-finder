@@ -87,6 +87,11 @@ public class DependencyReporter {
 		System.err.println("    -scope-excludes \"str\"");
 		System.err.println("    -filter-excludes \"str\"");
 		System.err.println();
+		System.err.println("-show-all shorthand for the combination:");
+		System.err.println("    -show-inbounds");
+		System.err.println("    -show-outbounds");
+		System.err.println("    -show-empty-nodes");
+		System.err.println();
 		System.err.println("Defaults is text output to the console.");
 		System.err.println();
 	}
@@ -110,7 +115,7 @@ public class DependencyReporter {
 		System.err.print(version.ImplementationDate());
 		System.err.println();
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new AtLeastParameterStrategy(1));
@@ -145,6 +150,16 @@ public class DependencyReporter {
 		command_line.AddMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
 		command_line.AddMultipleValuesSwitch("excludes");
 
+		command_line.AddMultipleValuesSwitch("scope-includes-list");
+		command_line.AddMultipleValuesSwitch("scope-excludes-list");
+		command_line.AddMultipleValuesSwitch("filter-includes-list");
+		command_line.AddMultipleValuesSwitch("filter-excludes-list");
+
+		command_line.AddToggleSwitch("show-all");
+		command_line.AddToggleSwitch("show-inbounds");
+		command_line.AddToggleSwitch("show-outbounds");
+		command_line.AddToggleSwitch("show-empty-nodes");
+		
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
 		command_line.AddSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
@@ -197,91 +212,135 @@ public class DependencyReporter {
 			Error(usage, "Only one of -maximize or -minimize allowed");
 		}
 
+		if (HasScopeRegularExpressionSwitches(command_line) && HasScopeListSwitches(command_line)) {
+			Error(usage, "You can use switches for regular expressions or lists for scope, but not at the same time");
+		}
+
+		if (HasFilterRegularExpressionSwitches(command_line) && HasFilterListSwitches(command_line)) {
+			Error(usage, "You can use switches for regular expressions or lists for filter, but not at the same time");
+		}
+		
 		/*
 		 *  Beginning of main processing
 		 */
 
 		Date start = new Date();
 
-		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
-		
-		scope_criteria.MatchPackage(command_line.ToggleSwitch("package-scope"));
-		scope_criteria.MatchClass(command_line.ToggleSwitch("class-scope"));
-		scope_criteria.MatchFeature(command_line.ToggleSwitch("feature-scope"));
+		SelectionCriteria scope_criteria = new ComprehensiveSelectionCriteria();
 
-		if (command_line.IsPresent("scope-includes") || (!command_line.IsPresent("package-scope-includes") && !command_line.IsPresent("class-scope-includes") && !command_line.IsPresent("feature-scope-includes"))) {
-			// Only use the default if nothing else has been specified.
-			scope_criteria.GlobalIncludes(command_line.MultipleSwitch("scope-includes"));
-		}
-		scope_criteria.GlobalExcludes(command_line.MultipleSwitch("scope-excludes"));
-		scope_criteria.PackageIncludes(command_line.MultipleSwitch("package-scope-includes"));
-		scope_criteria.PackageExcludes(command_line.MultipleSwitch("package-scope-excludes"));
-		scope_criteria.ClassIncludes(command_line.MultipleSwitch("class-scope-includes"));
-		scope_criteria.ClassExcludes(command_line.MultipleSwitch("class-scope-excludes"));
-		scope_criteria.FeatureIncludes(command_line.MultipleSwitch("feature-scope-includes"));
-		scope_criteria.FeatureExcludes(command_line.MultipleSwitch("feature-scope-excludes"));
+		if (HasScopeRegularExpressionSwitches(command_line)) {
+			RegularExpressionSelectionCriteria regular_expression_scope_criteria = new RegularExpressionSelectionCriteria();
+			
+			regular_expression_scope_criteria.MatchPackage(command_line.ToggleSwitch("package-scope"));
+			regular_expression_scope_criteria.MatchClass(command_line.ToggleSwitch("class-scope"));
+			regular_expression_scope_criteria.MatchFeature(command_line.ToggleSwitch("feature-scope"));
+			
+			if (command_line.IsPresent("scope-includes") || (!command_line.IsPresent("package-scope-includes") && !command_line.IsPresent("class-scope-includes") && !command_line.IsPresent("feature-scope-includes"))) {
+				// Only use the default if nothing else has been specified.
+				regular_expression_scope_criteria.GlobalIncludes(command_line.MultipleSwitch("scope-includes"));
+			}
+			regular_expression_scope_criteria.GlobalExcludes(command_line.MultipleSwitch("scope-excludes"));
+			regular_expression_scope_criteria.PackageIncludes(command_line.MultipleSwitch("package-scope-includes"));
+			regular_expression_scope_criteria.PackageExcludes(command_line.MultipleSwitch("package-scope-excludes"));
+			regular_expression_scope_criteria.ClassIncludes(command_line.MultipleSwitch("class-scope-includes"));
+			regular_expression_scope_criteria.ClassExcludes(command_line.MultipleSwitch("class-scope-excludes"));
+			regular_expression_scope_criteria.FeatureIncludes(command_line.MultipleSwitch("feature-scope-includes"));
+			regular_expression_scope_criteria.FeatureExcludes(command_line.MultipleSwitch("feature-scope-excludes"));
+			
+			if (command_line.ToggleSwitch("all")) {
+				regular_expression_scope_criteria.MatchPackage(true);
+				regular_expression_scope_criteria.MatchClass(true);
+				regular_expression_scope_criteria.MatchFeature(true);
+			}
+			
+			if (command_line.ToggleSwitch("p2p")) {
+				regular_expression_scope_criteria.MatchPackage(true);
+			}
+			
+			if (command_line.ToggleSwitch("c2p")) {
+				regular_expression_scope_criteria.MatchClass(true);
+			}
+			
+			if (command_line.ToggleSwitch("c2c")) {
+				regular_expression_scope_criteria.MatchClass(true);
+			}
+			
+			if (command_line.ToggleSwitch("f2f")) {
+				regular_expression_scope_criteria.MatchFeature(true);
+			}
+			
+			if (command_line.IsPresent("includes")) {
+				regular_expression_scope_criteria.GlobalIncludes(command_line.MultipleSwitch("includes"));
+			}
+			
+			if (command_line.IsPresent("excludes")) {
+				regular_expression_scope_criteria.GlobalExcludes(command_line.MultipleSwitch("excludes"));
+			}
 
-		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+			scope_criteria = regular_expression_scope_criteria;
+		} else if (HasScopeListSwitches(command_line)) {
+			scope_criteria = CreateCollectionSelectionCriteria(command_line.MultipleSwitch("scope-includes-list"), command_line.MultipleSwitch("scope-excludes-list"));
+		}
 
-		filter_criteria.MatchPackage(command_line.ToggleSwitch("package-filter"));
-		filter_criteria.MatchClass(command_line.ToggleSwitch("class-filter"));
-		filter_criteria.MatchFeature(command_line.ToggleSwitch("feature-filter"));
-		
-		if (command_line.IsPresent("filter-includes") || (!command_line.IsPresent("package-filter-includes") && !command_line.IsPresent("class-filter-includes") && !command_line.IsPresent("feature-filter-includes"))) {
-			// Only use the default if nothing else has been specified.
-			filter_criteria.GlobalIncludes(command_line.MultipleSwitch("filter-includes"));
-		}
-		filter_criteria.GlobalExcludes(command_line.MultipleSwitch("filter-excludes"));
-		filter_criteria.PackageIncludes(command_line.MultipleSwitch("package-filter-includes"));
-		filter_criteria.PackageExcludes(command_line.MultipleSwitch("package-filter-excludes"));
-		filter_criteria.ClassIncludes(command_line.MultipleSwitch("class-filter-includes"));
-		filter_criteria.ClassExcludes(command_line.MultipleSwitch("class-filter-excludes"));
-		filter_criteria.FeatureIncludes(command_line.MultipleSwitch("feature-filter-includes"));
-		filter_criteria.FeatureExcludes(command_line.MultipleSwitch("feature-filter-excludes"));
-	
-		if (command_line.ToggleSwitch("all")) {
-			scope_criteria.MatchPackage(true);
-			scope_criteria.MatchClass(true);
-			scope_criteria.MatchFeature(true);
-			filter_criteria.MatchPackage(true);
-			filter_criteria.MatchClass(true);
-			filter_criteria.MatchFeature(true);
-		}
-	
-		if (command_line.ToggleSwitch("p2p")) {
-			scope_criteria.MatchPackage(true);
-			filter_criteria.MatchPackage(true);
-		}
-	
-		if (command_line.ToggleSwitch("c2p")) {
-			scope_criteria.MatchClass(true);
-			filter_criteria.MatchPackage(true);
-		}
-	
-		if (command_line.ToggleSwitch("c2c")) {
-			scope_criteria.MatchClass(true);
-			filter_criteria.MatchClass(true);
-		}
-	
-		if (command_line.ToggleSwitch("f2f")) {
-			scope_criteria.MatchFeature(true);
-			filter_criteria.MatchFeature(true);
-		}
-	
-		if (command_line.IsPresent("includes")) {
-			scope_criteria.GlobalIncludes(command_line.MultipleSwitch("includes"));
-			filter_criteria.GlobalIncludes(command_line.MultipleSwitch("includes"));
-		}
-	
-		if (command_line.IsPresent("excludes")) {
-			scope_criteria.GlobalExcludes(command_line.MultipleSwitch("excludes"));
-			filter_criteria.GlobalExcludes(command_line.MultipleSwitch("excludes"));
+		SelectionCriteria filter_criteria = new ComprehensiveSelectionCriteria();
+
+		if (HasFilterRegularExpressionSwitches(command_line)) {
+			RegularExpressionSelectionCriteria regular_expression_filter_criteria = new RegularExpressionSelectionCriteria();
+			
+			regular_expression_filter_criteria.MatchPackage(command_line.ToggleSwitch("package-filter"));
+			regular_expression_filter_criteria.MatchClass(command_line.ToggleSwitch("class-filter"));
+			regular_expression_filter_criteria.MatchFeature(command_line.ToggleSwitch("feature-filter"));
+			
+			if (command_line.IsPresent("filter-includes") || (!command_line.IsPresent("package-filter-includes") && !command_line.IsPresent("class-filter-includes") && !command_line.IsPresent("feature-filter-includes"))) {
+				// Only use the default if nothing else has been specified.
+				regular_expression_filter_criteria.GlobalIncludes(command_line.MultipleSwitch("filter-includes"));
+			}
+			regular_expression_filter_criteria.GlobalExcludes(command_line.MultipleSwitch("filter-excludes"));
+			regular_expression_filter_criteria.PackageIncludes(command_line.MultipleSwitch("package-filter-includes"));
+			regular_expression_filter_criteria.PackageExcludes(command_line.MultipleSwitch("package-filter-excludes"));
+			regular_expression_filter_criteria.ClassIncludes(command_line.MultipleSwitch("class-filter-includes"));
+			regular_expression_filter_criteria.ClassExcludes(command_line.MultipleSwitch("class-filter-excludes"));
+			regular_expression_filter_criteria.FeatureIncludes(command_line.MultipleSwitch("feature-filter-includes"));
+			regular_expression_filter_criteria.FeatureExcludes(command_line.MultipleSwitch("feature-filter-excludes"));
+			
+			if (command_line.ToggleSwitch("all")) {
+				regular_expression_filter_criteria.MatchPackage(true);
+				regular_expression_filter_criteria.MatchClass(true);
+				regular_expression_filter_criteria.MatchFeature(true);
+			}
+			
+			if (command_line.ToggleSwitch("p2p")) {
+				regular_expression_filter_criteria.MatchPackage(true);
+			}
+			
+			if (command_line.ToggleSwitch("c2p")) {
+				regular_expression_filter_criteria.MatchPackage(true);
+			}
+			
+			if (command_line.ToggleSwitch("c2c")) {
+				regular_expression_filter_criteria.MatchClass(true);
+			}
+			
+			if (command_line.ToggleSwitch("f2f")) {
+				regular_expression_filter_criteria.MatchFeature(true);
+			}
+			
+			if (command_line.IsPresent("includes")) {
+				regular_expression_filter_criteria.GlobalIncludes(command_line.MultipleSwitch("includes"));
+			}
+			
+			if (command_line.IsPresent("excludes")) {
+				regular_expression_filter_criteria.GlobalExcludes(command_line.MultipleSwitch("excludes"));
+			}
+
+			filter_criteria = regular_expression_filter_criteria;
+		} else if (HasFilterListSwitches(command_line)) {
+			filter_criteria = CreateCollectionSelectionCriteria(command_line.MultipleSwitch("filter-includes-list"), command_line.MultipleSwitch("filter-excludes-list"));
 		}
 
 		GraphCopier copier;
 		if (command_line.ToggleSwitch("copy-only") || command_line.ToggleSwitch("maximize")) {
-			SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
-			copier = new GraphCopier(strategy);
+			copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
 		} else {
 			copier = new GraphSummarizer(scope_criteria, filter_criteria);
 		}
@@ -332,7 +391,11 @@ public class DependencyReporter {
 		if (command_line.IsPresent("indent-text")) {
 			printer.IndentText(command_line.SingleSwitch("indent-text"));
 		}
-	    
+
+		printer.ShowInbounds(command_line.IsPresent("show-all") || command_line.IsPresent("show-inbounds"));
+		printer.ShowOutbounds(command_line.IsPresent("show-all") || command_line.IsPresent("show-outbounds"));
+		printer.ShowEmptyNodes(command_line.IsPresent("show-all") || command_line.IsPresent("show-empty-nodes"));
+
 		printer.TraverseNodes(copier.ScopeFactory().Packages().values());
 
 		out.close();
@@ -344,5 +407,96 @@ public class DependencyReporter {
 		}
 
 		verbose_listener.Close();
+	}
+
+	private static boolean HasScopeRegularExpressionSwitches(CommandLine command_line) {
+		Collection switches = command_line.PresentSwitches();
+
+		return
+			switches.contains("scope-includes") ||
+			switches.contains("scope-excludes") ||
+			switches.contains("package-scope") ||
+			switches.contains("package-scope-includes") ||
+			switches.contains("package-scope-excludes") ||
+			switches.contains("class-scope") ||
+			switches.contains("class-scope-includes") ||
+			switches.contains("class-scope-excludes") ||
+			switches.contains("feature-scope") ||
+			switches.contains("feature-scope-includes") ||
+			switches.contains("feature-scope-excludes") ||
+			switches.contains("all") ||
+			switches.contains("p2p") ||
+			switches.contains("c2p") ||
+			switches.contains("c2c") ||
+			switches.contains("f2f") ||
+			switches.contains("includes") ||
+			switches.contains("excludes");
+	}
+
+	private static boolean HasScopeListSwitches(CommandLine command_line) {
+		Collection switches = command_line.PresentSwitches();
+
+		return
+			switches.contains("scope-includes-list") ||
+			switches.contains("scope-excludes-list");
+	}
+
+	private static boolean HasFilterRegularExpressionSwitches(CommandLine command_line) {
+		Collection switches = command_line.PresentSwitches();
+
+		return
+			switches.contains("filter-includes") ||
+			switches.contains("filter-excludes") ||
+			switches.contains("package-filter") ||
+			switches.contains("package-filter-includes") ||
+			switches.contains("package-filter-excludes") ||
+			switches.contains("class-filter") ||
+			switches.contains("class-filter-includes") ||
+			switches.contains("class-filter-excludes") ||
+			switches.contains("feature-filter") ||
+			switches.contains("feature-filter-includes") ||
+			switches.contains("feature-filter-excludes") ||
+			switches.contains("all") ||
+			switches.contains("p2p") ||
+			switches.contains("c2p") ||
+			switches.contains("c2c") ||
+			switches.contains("f2f") ||
+			switches.contains("includes") ||
+			switches.contains("excludes");
+	}
+
+	private static boolean HasFilterListSwitches(CommandLine command_line) {
+		Collection switches = command_line.PresentSwitches();
+
+		return
+			switches.contains("filter-includes-list") ||
+			switches.contains("filter-excludes-list");
+	}
+
+	public static CollectionSelectionCriteria CreateCollectionSelectionCriteria(Collection includes, Collection excludes) throws IOException {
+		Collection collection = new HashSet();
+		Iterator   i;
+			
+		i = includes.iterator();
+		while (i.hasNext()) {
+			BufferedReader reader = new BufferedReader(new FileReader(i.next().toString()));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				collection.add(line);
+			}
+			reader.close();
+		}
+		
+		i = excludes.iterator();
+		while (i.hasNext()) {
+			BufferedReader reader = new BufferedReader(new FileReader(i.next().toString()));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				collection.remove(line);
+			}
+			reader.close();
+		}
+		
+		return new CollectionSelectionCriteria(collection);
 	}
 }
