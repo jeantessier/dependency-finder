@@ -49,10 +49,10 @@ public class TestDeprecatableDifferences extends TestCase {
 		factory = new DifferencesFactory(validator, validator);
 		
 		oldLoader = new AggregatingClassfileLoader();
-		oldLoader.load(Collections.singleton("tests\\JarJarDiff\\old"));
+		oldLoader.load(Collections.singleton("tests" + File.separator + "JarJarDiff" + File.separator + "old"));
 
 		newLoader = new AggregatingClassfileLoader();
-		newLoader.load(Collections.singleton("tests\\JarJarDiff\\new"));
+		newLoader.load(Collections.singleton("tests" + File.separator + "JarJarDiff" + File.separator + "new"));
 	}
 
 	public void testNotDeprecatedNotDeprecatedDifferent() {

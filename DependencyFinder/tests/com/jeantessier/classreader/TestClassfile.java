@@ -42,7 +42,7 @@ public class TestClassfile extends TestCase {
 
 	protected void setUp() throws Exception {
 		loader = new AggregatingClassfileLoader();
-		loader.load(Collections.singleton("tests\\JarJarDiff\\new"));
+		loader.load(Collections.singleton("tests" + File.separator + "JarJarDiff" + File.separator + "new"));
 	}
 
 	public void testDeprecated() {
