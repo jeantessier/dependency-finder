@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="'2003-04-26 01:08:24'" >
+<tagdiff startTag="release-20030101" endTag="release-10beta" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.24</revision>
+			<revision>1.27</revision>
 			<prevrevision>1.16</prevrevision>
 		</file>
 	</entry>
@@ -263,13 +263,13 @@
 	<entry>
 		<file>
 			<name>docs/Developer.txt</name>
-			<revision>1.3</revision>
+			<revision>1.5</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.29</revision>
+			<revision>1.30</revision>
 			<prevrevision>1.15</prevrevision>
 		</file>
 	</entry>
@@ -325,7 +325,7 @@
 	<entry>
 		<file>
 			<name>docs/images/CompleteList.gif</name>
-			<revision>1.3</revision>
+			<revision>1.5</revision>
 			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
@@ -350,6 +350,12 @@
 	<entry>
 		<file>
 			<name>docs/images/DependencyFinder.query.jpg</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/DependencyFinderWorkflow.gif</name>
 			<revision>1.1</revision>
 		</file>
 	</entry>
@@ -457,8 +463,14 @@
 	</entry>
 	<entry>
 		<file>
+			<name>docs/images/JDKWorkflow.gif</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/images/ListDiff.gif</name>
-			<revision>1.3</revision>
+			<revision>1.5</revision>
 			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
@@ -479,13 +491,13 @@
 	<entry>
 		<file>
 			<name>docs/images/Maximized.gif</name>
-			<revision>1.1</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/images/MaximizedTest.gif</name>
-			<revision>1.1</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -503,13 +515,13 @@
 	<entry>
 		<file>
 			<name>docs/images/Minimized.gif</name>
-			<revision>1.1</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/images/MinimizedTest.gif</name>
-			<revision>1.1</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -545,7 +557,7 @@
 	<entry>
 		<file>
 			<name>docs/images/PublicListOfDocumentedElements.gif</name>
-			<revision>1.6</revision>
+			<revision>1.8</revision>
 			<prevrevision>1.5</prevrevision>
 		</file>
 	</entry>
@@ -558,19 +570,26 @@
 	<entry>
 		<file>
 			<name>docs/images/RedundantI.gif</name>
-			<revision>1.1</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/images/RedundantII.gif</name>
-			<revision>1.1</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/images/RedundantIII.gif</name>
-			<revision>1.1</revision>
+			<revision>1.3</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/Scope.gif</name>
+			<revision>1.4</revision>
+			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -612,6 +631,12 @@
 	<entry>
 		<file>
 			<name>docs/images/SelfDependency.gif</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/SourceFiles.gif</name>
 			<revision>1.1</revision>
 		</file>
 	</entry>
@@ -2440,6 +2465,41 @@
 			<name>web/closure.jsp</name>
 			<revision>1.13</revision>
 			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>web/errorpage.jsp</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>web/extract.jsp</name>
+			<revision>1.18</revision>
+			<prevrevision>1.17</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>web/query.jsp</name>
+			<revision>1.17</revision>
+			<prevrevision>1.13</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>web/style.css</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>web/WEB-INF/web.xml</name>
+			<revision>1.6</revision>
+			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
 </tagdiff>
