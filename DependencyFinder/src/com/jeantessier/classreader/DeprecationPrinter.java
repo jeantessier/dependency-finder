@@ -32,27 +32,53 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+import java.io.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+public class DeprecationPrinter extends Printer implements LoadListener {
+	public DeprecationPrinter(PrintWriter out) {
+		super(out);
+	}
+	
+	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
+		Object owner = attribute.Owner();
 
-		result.addTestSuite(TestBitFormat.class);
-		result.addTestSuite(TestDirectoryExplorer.class);
-		result.addTestSuite(TestAggregatingClassfileLoader.class);
-		result.addTestSuite(TestTransientClassfileLoader.class);
-		result.addTestSuite(TestDirectoryClassfileLoader.class);
-		result.addTestSuite(TestClassfile.class);
-		result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-		result.addTestSuite(TestZipClassfileLoader.class);
-		result.addTestSuite(TestJarClassfileLoader.class);
-		result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-		result.addTestSuite(TestClassfileLoaderStrictDispatcher.class);
-		result.addTestSuite(TestClassfileScanner.class);
-		result.addTestSuite(TestXMLPrinter.class);
-		result.addTestSuite(TestDeprecationPrinter.class);
-
-		return result;
+		if (owner instanceof Feature_info) {
+			Append(((Feature_info) owner).FullSignature()).EOL();
+		} else {
+			Append(owner).EOL();
+		}
+	}
+	
+	public void BeginSession(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void BeginGroup(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void BeginFile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void BeginClassfile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void EndClassfile(LoadEvent event) {
+		event.Classfile().Accept(this);
+	}
+	
+	public void EndFile(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void EndGroup(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void EndSession(LoadEvent event) {
+		// Do nothing
 	}
 }

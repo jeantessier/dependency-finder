@@ -30,29 +30,69 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.dependencyfinder.ant;
 
-import junit.framework.*;
+import java.io.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+import org.apache.tools.ant.*;
+import org.apache.tools.ant.types.*;
 
-		result.addTestSuite(TestBitFormat.class);
-		result.addTestSuite(TestDirectoryExplorer.class);
-		result.addTestSuite(TestAggregatingClassfileLoader.class);
-		result.addTestSuite(TestTransientClassfileLoader.class);
-		result.addTestSuite(TestDirectoryClassfileLoader.class);
-		result.addTestSuite(TestClassfile.class);
-		result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-		result.addTestSuite(TestZipClassfileLoader.class);
-		result.addTestSuite(TestJarClassfileLoader.class);
-		result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-		result.addTestSuite(TestClassfileLoaderStrictDispatcher.class);
-		result.addTestSuite(TestClassfileScanner.class);
-		result.addTestSuite(TestXMLPrinter.class);
-		result.addTestSuite(TestDeprecationPrinter.class);
+import com.jeantessier.classreader.*;
 
-		return result;
+public class ListDeprecatedElements extends Task {
+	private File    destfile;
+	private Path    path;
+
+	public File getDestfile() {
+		return destfile;
+	}
+	
+	public void setDestfile(File destfile) {
+		this.destfile = destfile;
+	}
+	
+	public Path createPath() {
+		if (path == null) {
+			path = new Path(getProject());
+		}
+
+		return path;
+	}
+	
+	public Path getPath() {
+		return path;
+	}
+	
+	public void execute() throws BuildException {
+		// first off, make sure that we've got what we need
+
+		if (getPath() == null) {
+			throw new BuildException("path must be set!");
+		}
+
+		if (getDestfile() == null) {
+			throw new BuildException("destfile must be set!");
+		}
+
+		log("Saving elements to " + getDestfile().getAbsolutePath());
+		
+		try {
+			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
+
+			log("Reading classes from path " + getPath());
+
+			VerboseListener    verbose_listener = new VerboseListener(this);
+			DeprecationPrinter printer          = new DeprecationPrinter(out);
+			
+			ClassfileLoader loader = new AggregatingClassfileLoader();
+			loader.addLoadListener(verbose_listener);
+			loader.addLoadListener(printer);
+			loader.Load(Arrays.asList(getPath().list()));
+			
+			out.close();
+		} catch (IOException ex) {
+			throw new BuildException(ex);
+		}
 	}
 }

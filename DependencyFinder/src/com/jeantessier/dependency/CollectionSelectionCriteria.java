@@ -32,39 +32,68 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+public class CollectionSelectionCriteria implements SelectionCriteria {
+	private boolean match_package    = true;
+	private boolean match_class      = true;
+	private boolean match_feature    = true;
 
-		result.addTestSuite(TestNode.class);
-		result.addTestSuite(TestComprehensiveSelectionCriteria.class);
-		result.addTestSuite(TestRegularExpressionSelectionCriteria.class);
-		result.addTestSuite(TestCollectionSelectionCriteria.class);
-		result.addTestSuite(TestSelectiveTraversalStrategy.class);
-		result.addTestSuite(TestLinkMinimizer.class);
-		result.addTestSuite(TestLinkMinimizerSystematic.class);
-		result.addTestSuite(TestLinkMaximizer.class);
-		result.addTestSuite(TestLinkMaximizerSystematic.class);
-		result.addTestSuite(TestTextPrinter.class);
-		result.addTestSuite(TestXMLPrinter.class);
-		result.addTestSuite(TestDependencyExtractor.class);
-		result.addTestSuite(TestGraphCopier.class);
-		result.addTestSuite(TestGraphCopierWithFiltering.class);
-		result.addTestSuite(TestGraphSummarizer.class);
-		result.addTestSuite(TestGraphSummarizerWithScoping.class);
-		result.addTestSuite(TestGraphSummarizerWithFiltering.class);
-		result.addTestSuite(TestTransitiveClosure.class);
-		result.addTestSuite(TestTransitiveClosureWithTestClass.class);
-		result.addTestSuite(TestTransitiveClosureSlice.class);
-		result.addTestSuite(TestTransitiveClosureNonMaximized.class);
-		result.addTestSuite(TestClosureStartSelector.class);
-		result.addTestSuite(TestClosureOutboundSelector.class);
-		result.addTestSuite(TestClosureInboundSelector.class);
-		result.addTestSuite(TestTransitiveClosureEngine.class);
-		result.addTestSuite(TestMetricsGatherer.class);
+	Collection collection;
 
-		return result;
+	public CollectionSelectionCriteria(Collection collection) {
+		this.collection = collection;
+	}
+	
+	public boolean MatchPackage() {
+		return match_package;
+	}
+
+	public void MatchPackage(boolean match_package) {
+		this.match_package = match_package;
+	}
+
+	public boolean MatchClass() {
+		return match_class;
+	}
+
+	public void MatchClass(boolean match_class) {
+		this.match_class = match_class;
+	}
+	
+	public boolean MatchFeature() {
+		return match_feature;
+	}
+
+	public void MatchFeature(boolean match_feature) {
+		this.match_feature = match_feature;
+	}
+
+	public boolean Match(PackageNode node) {
+		return Match(node.Name());
+	}
+	
+	public boolean Match(ClassNode node) {
+		return Match(node.Name()) || Match(node.Package());
+	}
+	
+	public boolean Match(FeatureNode node) {
+		return Match(node.Name()) || Match(node.Class());
+	}
+
+	public boolean PackageMatch(String name) {
+		return Match(name);
+	}
+	
+	public boolean ClassMatch(String name) {
+		return Match(name);
+	}
+	
+	public boolean FeatureMatch(String name) {
+		return Match(name);
+	}
+
+	private boolean Match(String name) {
+		return collection.contains(name);
 	}
 }
