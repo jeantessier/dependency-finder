@@ -100,8 +100,6 @@
 	    }
 	}
     }
-
-    private ClassfileLoaderDispatcher dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
 %>
 
 <html>
@@ -225,17 +223,32 @@
 	Date start = new Date();
 	VerboseListener listener = new VerboseListener(out);
 
+	ClassfileLoaderDispatcher dispatcher = (ClassfileLoaderDispatcher) application.getAttribute("dispatcher");
+	if (dispatcher == null) {
+	    dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+	}
+
+	NodeFactory factory = (NodeFactory) application.getAttribute("factory");
+	if (factory == null) {
+	    factory = new NodeFactory();
+	}
+
+	Monitor monitor = (Monitor) application.getAttribute("monitor");
+	if (monitor == null) {
+	    CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
+	    DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
+
+	    monitor = new Monitor(collector, deletingVisitor);
+	}
+
 	Perl5Util perl = new Perl5Util();
 
 	Collection sources = new LinkedList();
 	perl.split(sources, "/,\\s*/", application.getInitParameter("source"));
 
-	NodeFactory factory = new NodeFactory();
-	CodeDependencyCollector collector = new CodeDependencyCollector(factory);
-
 	ClassfileLoader loader = new TransientClassfileLoader(dispatcher);
 	loader.addLoadListener(listener);
-	loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
+	loader.addLoadListener(monitor);
 	loader.load(sources);
 
 	if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
@@ -251,9 +264,11 @@
 
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	application.setAttribute("factory", factory);
-	application.setAttribute("start",   formatter.format(start));
-	application.setAttribute("delta",   new Double(delta));
+	application.setAttribute("dispatcher", dispatcher);
+	application.setAttribute("factory",    factory);
+	application.setAttribute("monitor",    monitor);
+	application.setAttribute("start",      formatter.format(start));
+	application.setAttribute("delta",      new Double(delta));
 %>
 
 </pre>
