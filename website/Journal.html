@@ -12,11 +12,47 @@
 <h2>Jean's Journal</h2>
 
 <dl>
-	
 <!--
          11111111112222222222333333333344444444445555555555666666666677777777778
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
+    <dt>
+	October 29, 2003
+    </dt>
+    <dd>
+	<p>Svetlin Stanchev requested a variation of the web application that
+	can read in a dependency graph saved as an XML document.  This way,
+	one can build on one machine, including generating the graph, and only
+	copy the graph to the web server machine instead of copying all the
+	classes resulting from the compilation.  It sounded like a good idea
+	and so I added <code>load.jsp</code> to do just that.  I might have to
+	redesign the footer a little and the web app's parameters.  One
+	drawback is that in order to read the XML document, the web application
+	needs an XML parser.  This means I need to add Xerces to the web app,
+	bumping up the WAR file's size considerably.</p>
+
+	<p>By configuring Log4J correctly, Svetlin Stanchev took graph
+	extraction from 6 hours down to 10 minutes.  I'm happy about that.</p>
+
+	<p>I was trying to analyze the main JAR file of Together Control
+	Center as an example of working with a large piece of software (i.e.,
+	with a huge number of classes).  I didn't get very far because one
+	of the classes in the JAR appeared corrupted and broke the whole
+	<code>.class</code> file loading process.  I adjusted
+	<code>ClassfileLoaderEventSource</code> so it can skip single,
+	malformed classes without aborting everything.  It turns out they used
+	an obfuscator and it added a text file with a <code>.class</code>
+	extension, fooling Dependency Finder into trying to parse it like a
+	regular <code>.class</code> file with bytecode in it.</p>
+
+	<p>I gave a shot at <a target="_blank" href="http://sourceforge.net/tracker/index.php?func=detail&aid=825582&group_id=43305&atid=435887">Feature Request 825582</a>,
+	the one about the pattern cache for <code>Perl5Util</code>.  I tried
+	to build a cache based on a simple <code>HashMap</code> with
+	"unlimited" capacity, but when I use it in
+	<code>SelectiveTraversalStrategy</code>, I get a bunch of
+	<code>OutOfmemoryError</code> even from seemingly unrelated areas of
+	the code.  More later...</p>
+    </dd>
     <dt>
 	October 28, 2003
     </dt>
@@ -52,12 +88,12 @@
 	October 24, 2003
     </dt>
     <dd>
-	<p>Someone asked me to include a property file for Ant tasks directly
-	into <code>DependencyFinder.jar</code>.  They also asked for more
-	extended Ant documentation.  I have had a task on my desk to provide
-	more process-related documentation for the Ant tasks and provide
-	examples of how to use them together to provide added value.  I guess
-	it's time I get to it.</p>
+	<p>Svetlin Stanchev asked me to include a property file for Ant tasks
+	directly into <code>DependencyFinder.jar</code>, and also asked for
+	more extended Ant documentation.  I have had a task on my desk to
+	provide more process-related documentation for the Ant tasks and
+	provide examples of how to use them together to provide added value.  I
+	guess it's time I get to it.</p>
 
 	<p>Jason Bell, in his JDJ editorial for October 2003, talks about
 	"dependency rot" and how tracking dependencies is critical.  I need
@@ -99,9 +135,10 @@
 	thing took about 13 hours.  They dug around a bit and found that
 	<code>Perl5Util</code> only caches 20 regular expressions at a time by
 	default.  Their query was taking forever because the ORO engine was
-	constantly recompiling regular expressions.  They entered Feature
-	Request 825582 at SourceForge.net to request some way to adjust the
-	caching configuration for <code>Perl5Util</code>.</p>
+	constantly recompiling regular expressions.  They entered
+	<a target="_blank" href="http://sourceforge.net/tracker/index.php?func=detail&aid=825582&group_id=43305&atid=435887">Feature Request 825582</a>
+	at SourceForge.net to request some way to adjust the caching
+	configuration for <code>Perl5Util</code>.</p>
 
 	<p>I added a <code>-version</code> switch to most CLI tools.  It
 	prints version information from the JAR file's manifest and then exits
