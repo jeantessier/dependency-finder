@@ -32,8 +32,11 @@
 
 package com.jeantessier.classreader;
 
+import java.util.*;
+
 public interface Visitor {
 	// Classfile
+	public void VisitClassfiles(Collection classfiles);
 	public void VisitClassfile(Classfile classfile);
 
 	// ConstantPool entries

@@ -33,6 +33,7 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
+import java.util.*;
 
 public abstract class Printer extends VisitorBase {
 	private PrintWriter out;
@@ -49,6 +50,16 @@ public abstract class Printer extends VisitorBase {
 
 	public void IndentText(String indent_text) {
 		this.indent_text = indent_text;
+	}
+
+	public void VisitClassfiles(Collection classfiles) {
+		Indent().Append("<classfiles>").EOL();
+		RaiseIndent();
+
+		super.VisitClassfiles(classfiles);
+
+		LowerIndent();
+		Indent().Append("</classfiles>").EOL();
 	}
 	
 	protected Printer Append(boolean b) {

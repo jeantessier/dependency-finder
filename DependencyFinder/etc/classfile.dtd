@@ -32,6 +32,8 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<!ELEMENT classfiles (classfile*)>
+
 <!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
 <!ATTLIST classfile
           magic-number  CDATA #REQUIRED

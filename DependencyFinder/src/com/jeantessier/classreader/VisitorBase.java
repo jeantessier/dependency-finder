@@ -62,6 +62,7 @@ public abstract class VisitorBase implements Visitor {
 		}
 	}
 
+	// Classfile
 	public void VisitClassfiles(Collection classfiles) {
 		Iterator i = classfiles.iterator();
 		while (i.hasNext()) {
@@ -69,7 +70,6 @@ public abstract class VisitorBase implements Visitor {
 		}
 	}
 
-	// Classfile
 	public void VisitClassfile(Classfile classfile) {
 		Iterator i;
 

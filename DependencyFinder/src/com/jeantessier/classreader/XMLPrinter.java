@@ -60,10 +60,10 @@ public class XMLPrinter extends Printer {
 	private void AppendHeader(String dtd_prefix) {
 		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>").EOL();
 		EOL();
-		Append("<!DOCTYPE classfile SYSTEM \"").Append(dtd_prefix).Append("/classfile.dtd\">").EOL();
+		Append("<!DOCTYPE classfiles SYSTEM \"").Append(dtd_prefix).Append("/classfile.dtd\">").EOL();
 		EOL();
 	}
-
+	
 	public void VisitClassfile(Classfile classfile) {
 		Iterator i;
 

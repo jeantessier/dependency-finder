@@ -144,24 +144,19 @@ public class ClassReader {
 		loader.addLoadListener(verbose_listener);
 		loader.Load(parameters);
 
-		Iterator j = loader.Classfiles().iterator();
-		while (j.hasNext()) {
-			Classfile classfile = (Classfile) j.next();
-			
-			Printer printer;
-
-			if (command_line.ToggleSwitch("xml")) {
-				printer = new XMLPrinter(out, command_line.SingleSwitch("dtd-prefix"));
-			} else {
-				printer = new TextPrinter(out);
-			}
-			
-			if (command_line.IsPresent("indent-text")) {
-				printer.IndentText(command_line.SingleSwitch("indent-text"));
-			}
-
-			classfile.Accept(printer);
+		Printer printer;
+		
+		if (command_line.ToggleSwitch("xml")) {
+			printer = new XMLPrinter(out, command_line.SingleSwitch("dtd-prefix"));
+		} else {
+			printer = new TextPrinter(out);
 		}
+		
+		if (command_line.IsPresent("indent-text")) {
+			printer.IndentText(command_line.SingleSwitch("indent-text"));
+		}
+
+		printer.VisitClassfiles(loader.Classfiles());
 
 		Date end = new Date();
 
