@@ -55,6 +55,11 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		name_list.LongName("name list");
 		name_list.Class(NameListMeasurement.class);
 
+		MeasurementDescriptor number_list = new MeasurementDescriptor();
+		number_list.ShortName("NbL");
+		number_list.LongName("number list");
+		number_list.Class(NameListMeasurement.class);
+
 		MeasurementDescriptor counter = new MeasurementDescriptor();
 		counter.ShortName("NL");
 		counter.LongName("counter");
@@ -65,9 +70,18 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		m1.AddToMeasurement("NL", "def");
 		m1.AddToMeasurement("NL", "ghi");
 
+		m1.Track(number_list.CreateMeasurement(m1));
+		m1.AddToMeasurement("NbL", "123");
+		m1.AddToMeasurement("NbL", "456");
+		m1.AddToMeasurement("NbL", "789");
+
 		m2.Track(name_list.CreateMeasurement(m2));
 		m2.AddToMeasurement("NL", "jkl");
 		m2.AddToMeasurement("NL", "abc");
+
+		m2.Track(number_list.CreateMeasurement(m2));
+		m2.AddToMeasurement("NbL", "159");
+		m2.AddToMeasurement("NbL", "248");
 
 		m3.Track(counter.CreateMeasurement(m3));
 		m3.AddToMeasurement("NL", 1);
@@ -78,7 +92,6 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
 		descriptor.Class(AccumulatorMeasurement.class);
-		descriptor.InitText("NL");
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
@@ -92,7 +105,37 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		assertEquals("bar", measurement.LongName());
 	}
 
+	public void testNullInit() throws Exception {
+		AccumulatorMeasurement measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		assertEquals(0, measurement.intValue());
+		assertTrue(measurement.Values().isEmpty());
+
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m3);
+
+		assertEquals(0, measurement.intValue());
+		assertTrue(measurement.Values().isEmpty());
+	}
+
+	public void testEmptyInit() throws Exception {
+		descriptor.InitText("");
+
+		AccumulatorMeasurement measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		assertEquals(0, measurement.intValue());
+		assertTrue(measurement.Values().isEmpty());
+
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m3);
+
+		assertEquals(0, measurement.intValue());
+		assertTrue(measurement.Values().isEmpty());
+	}
+
 	public void testRawValues() throws Exception {
+		descriptor.InitText("NL");
+
 		AccumulatorMeasurement measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
 		assertTrue(measurement.Values().isEmpty());
@@ -108,8 +151,23 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 		assertTrue("\"jkl\" not in " + measurement.Values(), measurement.Values().contains("jkl"));
 	}
 
-	public void testFilteredValues() throws Exception {
-		descriptor.InitText("NL\n/a/\n/k/");
+	public void testSingleFiltered() throws Exception {
+		descriptor.InitText("NL /a/");
+
+		AccumulatorMeasurement measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		assertEquals(0, measurement.intValue());
+		assertTrue(measurement.Values().isEmpty());
+
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m3);
+
+		assertEquals(1, measurement.intValue());
+		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
+	}
+
+	public void testMultiFilterFiltered() throws Exception {
+		descriptor.InitText("NL /a/\nNL /k/");
 
 		AccumulatorMeasurement measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
@@ -125,7 +183,7 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 	}
 
 	public void testModifiedValues() throws Exception {
-		descriptor.InitText("NL\n/(a)/");
+		descriptor.InitText("NL /(a)/");
 
 		AccumulatorMeasurement measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
 		assertEquals(0, measurement.intValue());
@@ -137,6 +195,23 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 
 		assertEquals(1, measurement.intValue());
 		assertTrue("\"a\" not in " + measurement.Values(), measurement.Values().contains("a"));
+	}
+
+	public void testMultiMeasurements() throws Exception {
+		descriptor.InitText("NL /a/\nNbL /2/");
+
+		AccumulatorMeasurement measurement = (AccumulatorMeasurement) descriptor.CreateMeasurement(metrics);
+		assertEquals(0, measurement.intValue());
+		assertTrue(measurement.Values().isEmpty());
+
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m3);
+
+		assertEquals(3, measurement.intValue());
+		assertTrue("\"abc\" not in " + measurement.Values(), measurement.Values().contains("abc"));
+		assertTrue("\"123\" not in " + measurement.Values(), measurement.Values().contains("123"));
+		assertTrue("\"248\" not in " + measurement.Values(), measurement.Values().contains("248"));
 	}
 
 	public void testAccept() throws Exception {
