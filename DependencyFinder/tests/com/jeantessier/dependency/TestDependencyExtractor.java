@@ -46,32 +46,32 @@ public class TestDependencyExtractor extends TestCase {
 	public static final String TEST_CLASS    = "test";
 	public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 	
-	NodeFactory factory;
+	private NodeFactory factory;
 	
-	Node _package;
-	Node test_class;
-	Node test_main_feature;
-	Node test_test_feature;
+	private Node _package;
+	private Node test_class;
+	private Node test_main_feature;
+	private Node test_test_feature;
 		
-	Node java_io_package;
-	Node java_io_PrintStream_class;
-	Node java_io_PrintStream_println_feature;
+	private Node java_io_package;
+	private Node java_io_PrintStream_class;
+	private Node java_io_PrintStream_println_feature;
 	
-	Node java_lang_package;
-	Node java_lang_NullPointerException_class;
-	Node java_lang_Object_class;
-	Node java_lang_Object_Object_feature;
-	Node java_lang_String_class;
-	Node java_lang_System_class;
-	Node java_lang_System_out_feature;
+	private Node java_lang_package;
+	private Node java_lang_NullPointerException_class;
+	private Node java_lang_Object_class;
+	private Node java_lang_Object_Object_feature;
+	private Node java_lang_String_class;
+	private Node java_lang_System_class;
+	private Node java_lang_System_out_feature;
 		
-	Node java_util_package;
-	Node java_util_Collections_class;
-	Node java_util_Collections_singleton_feature;
-	Node java_util_Set_class;
+	private Node java_util_package;
+	private Node java_util_Collections_class;
+	private Node java_util_Collections_singleton_feature;
+	private Node java_util_Set_class;
 
-	ClassfileLoader loader;
-	NodeFactory     testFactory;
+	private ClassfileLoader loader;
+	private NodeFactory     testFactory;
 
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
