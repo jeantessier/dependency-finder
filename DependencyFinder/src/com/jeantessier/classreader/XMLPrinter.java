@@ -52,6 +52,7 @@ public class XMLPrinter extends Printer {
     public void VisitClassfile(Classfile classfile) {
 		Iterator i;
 
+		Append(Preamble());
 		Indent().Append("<classfile magic-number=\"").Append(classfile.MagicNumber()).Append("\" minor-version=\"").Append(classfile.MinorVersion()).Append("\" major-version=\"").Append(classfile.MajorVersion()).Append("\" access-number=\"").Append(classfile.AccessFlag()).Append("\">\n");
 		RaiseIndent();
 
@@ -116,6 +117,17 @@ public class XMLPrinter extends Printer {
 		LowerIndent();
 		Indent().Append("</classfile>\n");
     }
+
+	private String Preamble() {
+		StringBuffer result = new StringBuffer();
+
+		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
+		result.append("\n");
+		result.append("<!DOCTYPE classfile SYSTEM \"http://depfind.sourceforge.net/dtd/classfile.dtd\">\n");
+		result.append("\n");
+
+		return result.toString();
+	}
 
     public void VisitConstantPool(ConstantPool constant_pool) {
 		ResetCount();

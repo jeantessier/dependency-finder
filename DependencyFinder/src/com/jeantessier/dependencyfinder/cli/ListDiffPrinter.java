@@ -214,24 +214,9 @@ public class ListDiffPrinter {
         
 		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
 		result.append("\n");
-		result.append("<!DOCTYPE list-diff [\n");
+		result.append("<!DOCTYPE list-diff STSTEM \"http://depfind.sourceforge.net/dtd/list-diff.dtd\">\n");
 		result.append("\n");
-		result.append("<!ELEMENT list-diff (name,old,new,removed,added) >\n");
-		result.append("\n");
-		result.append("<!ELEMENT name (#PCDATA)* >\n");
-		result.append("\n");
-		result.append("<!ELEMENT old (#PCDATA)* >\n");
-		result.append("\n");
-		result.append("<!ELEMENT new (#PCDATA)* >\n");
-		result.append("\n");
-		result.append("<!ELEMENT removed (line)* >\n");
-		result.append("\n");
-		result.append("<!ELEMENT added (line)* >\n");
-		result.append("\n");
-		result.append("<!ELEMENT line (#PCDATA)* >\n");
-		result.append("\n");
-		result.append("]>\n");
-        
+
 		return result.toString();
 	}
 }

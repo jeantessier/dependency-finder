@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -73,29 +73,7 @@ public class XMLPrinter extends Printer {
 
 		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
 		result.append("\n");
-		result.append("<!DOCTYPE dependencies [\n");
-		result.append("\n");
-		result.append("<!ELEMENT dependencies (package)* >\n");
-		result.append("\n");
-		result.append("<!ELEMENT package (name,outbound*,inbound*,class*) >\n");
-		result.append("\n");
-		result.append("<!ELEMENT class (name,outbound*,inbound*,feature*) >\n");
-		result.append("\n");
-		result.append("<!ELEMENT feature (name,outbound*,inbound*) >\n");
-		result.append("\n");
-		result.append("<!ELEMENT name (#PCDATA)* >\n");
-		result.append("\n");
-		result.append("<!ELEMENT outbound (#PCDATA)* >\n");
-		result.append("<!ATTLIST outbound\n");
-		result.append("          type (package|class|feature) #REQUIRED\n");
-		result.append(">\n");
-		result.append("\n");
-		result.append("<!ELEMENT inbound (#PCDATA)* >\n");
-		result.append("<!ATTLIST inbound\n");
-		result.append("          type (package|class|feature) #REQUIRED\n");
-		result.append(">\n");
-		result.append("\n");
-		result.append("]>\n");
+		result.append("<!DOCTYPE dependencies SYSTEM \"http://depfind.sourceforge.net/dtd/dependencies.dtd\">\n");
 		result.append("\n");
 
 		return result.toString();
