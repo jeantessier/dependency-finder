@@ -247,6 +247,9 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -369,6 +372,9 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -399,6 +405,9 @@ and read them.
 
 <blockquote>
 
+List of fully qualified class names, one per line, for all the classes the
+tool could find.
+
 </blockquote>
 
 ---+++ Examples
@@ -421,6 +430,10 @@ and read them.
 
 <blockquote>
 
+Computes numbers from a JAR file, such as number of packages, classes and
+interfaces, average number of methods per class, number of static,
+synchronized, or abstract methods, etc.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -436,9 +449,10 @@ and read them.
 
 <blockquote>
 
-Computes numbers from a JAR file, such as number of packages,
-classes and interfaces, average number of methods per class,
-number of static, synchronized, or abstract methods, etc.
+This is a simple tally of how many classses, interfaces, methods, publics,
+statics, finals, etc. there are in a given codebase.  These tallies are
+not as powerful as the metrics of =[[#OOmetrics][OOMetrics]]=, but they can
+give you a rough idea of the size and complexity of a piece of software.
 
 </blockquote>
 
@@ -505,6 +519,9 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -534,6 +551,8 @@ and read them.
 ---+++ Output
 
 <blockquote>
+
+The output format is self-explanatory.
 
 </blockquote>
 
@@ -650,6 +669,8 @@ it is created.  If it already exists, its content is overwritten.
 
 <blockquote>
 
+Only dumps the constant pool and shows each entry's tag value.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -676,6 +697,9 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -688,7 +712,8 @@ Prints how long it took to run the command.
 
 <blockquote>
 
-Writes the =.class= file information as an XML document.
+Writes the =.class= file information as an XML document with the
+=[[http://depfind.sourceforge.net/dtd/classfile.dtd][classfile]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -720,7 +745,15 @@ and read them.
 
 <blockquote>
 
-Textual or XML rendition of the class in the =.class= file.
+By default, prints the content of the constant pool, followed by a summary
+of the class that looks similar to the output of _javap_.
+
+With =-raw=, it only dumps the constant pool and prints a little more
+information about its internals.
+
+With =-xml=, it converts the entire =Classfile= structure into an XML
+document that follows the
+=[[http://depfind.sourceforge.net/dtd/classfile.dtd][classfile]]= DTD.
 
 </blockquote>
 
@@ -766,7 +799,11 @@ Textual or XML rendition of the class in the =.class= file.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -844,7 +881,7 @@ See =-out= above.
 
     ClosureToTreeView
     	-in input_file.xml
-    	[-out output_file.html]
+    	[-out output_file.txt]
 
 ---+++ Description
 
@@ -860,7 +897,11 @@ See =-out= above.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -870,7 +911,7 @@ The XML file to convert to translate.
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-out output_file.txt=
 
 <blockquote>
 
@@ -956,7 +997,11 @@ Translates only inbound dependencies to HTML.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -1060,7 +1105,11 @@ Translates only inbound dependencies to text.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -1169,7 +1218,11 @@ Translates both outbound and inbound dependencies to HTML.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -1272,7 +1325,11 @@ Translates both outbound and inbound dependencies to text.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -1355,6 +1412,9 @@ This text file shows both outbound and inbound dependencies.
 
 <blockquote>
 
+Computes transitive closure in a dependency graph from a given starting
+point.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -1414,6 +1474,11 @@ of all dependencies related to a starting point.  The result
 is a new dependency graph which is a subgraph of the original
 one.  You can use the various XXXToText and XXXToHTML scripts
 to render the graph as text or HTML for human reading.
+
+One limitation: the graph must be maximized for anything other than
+feature-to-feature queries.  Because of a limitation in the closure
+computation, it does not detect implicit dependencies and only follows
+dependencies that have been made explicit.
 
 See also:
 
@@ -1489,6 +1554,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Show dependencies to and/or from classes.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1500,6 +1567,12 @@ Shorthand for the combination of:
 ---++++ =-class-filter-excludes value=
 
 <blockquote>
+
+If a class is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1513,6 +1586,12 @@ Shorthand for the combination of:
 
 <blockquote>
 
+If a class is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1524,6 +1603,8 @@ Shorthand for the combination of:
 ---++++ =-class-scope=
 
 <blockquote>
+
+Select classes (with their package) as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1537,6 +1618,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a class must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1548,6 +1634,11 @@ Shorthand for the combination of:
 ---++++ =-class-scope-includes value=
 
 <blockquote>
+
+The name of a class must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1609,6 +1700,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Show dependencies to and/or from features.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1620,6 +1713,12 @@ Shorthand for the combination of:
 ---++++ =-feature-filter-excludes value=
 
 <blockquote>
+
+If a feature is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1633,6 +1732,12 @@ Shorthand for the combination of:
 
 <blockquote>
 
+If a feature is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1644,6 +1749,8 @@ Shorthand for the combination of:
 ---++++ =-feature-scope=
 
 <blockquote>
+
+Select features (with their class and package) as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1657,6 +1764,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a feature must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1668,6 +1780,11 @@ Shorthand for the combination of:
 ---++++ =-feature-scope-includes value=
 
 <blockquote>
+
+The name of a feature must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1681,6 +1798,12 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a package, class, or feature at the other end of the dependency
+must NOT match the regular expression in _value_ for the dependency to be
+included in the results.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1692,6 +1815,12 @@ Shorthand for the combination of:
 ---++++ =-filter-includes value=
 
 <blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must match the regular expression in _value_ for the dependency to be
+included in the results.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1806,6 +1935,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Show dependencies to and/or from packages.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1817,6 +1948,12 @@ Shorthand for the combination of:
 ---++++ =-package-filter-excludes value=
 
 <blockquote>
+
+If a package is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1830,6 +1967,12 @@ Shorthand for the combination of:
 
 <blockquote>
 
+If a package is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1841,6 +1984,8 @@ Shorthand for the combination of:
 ---++++ =-package-scope=
 
 <blockquote>
+
+Select packages as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1854,6 +1999,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a package must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1865,6 +2015,11 @@ Shorthand for the combination of:
 ---++++ =-package-scope-includes value=
 
 <blockquote>
+
+The name of a package must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1878,6 +2033,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a package, class, or feature must NOT match the regular expression
+in _value_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1889,6 +2049,11 @@ Shorthand for the combination of:
 ---++++ =-scope-includes value=
 
 <blockquote>
+
+The name of a package, class, or feature must match the regular expression
+in _value_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1947,6 +2112,9 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1959,7 +2127,8 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
-Writes the dependency graph as an XML document.
+Writes the dependency graph as an XML document with the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1978,6 +2147,8 @@ Writes the dependency graph as an XML document.
 Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
+At this time, the tool cannot read serialized graphs.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -1989,6 +2160,13 @@ merges the graphs together into a single dependency graph.
 ---+++ Output
 
 <blockquote>
+
+With =-ser=, it serializes the entire dependency graph with Java
+serialization.
+
+With =-xml=, it converts the entire dependency graph into an XML
+document that follows the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
 
 </blockquote>
 
@@ -2187,6 +2365,9 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2199,7 +2380,8 @@ Prints how long it took to run the command.
 
 <blockquote>
 
-Writes the dependency graph as an XML document.
+Writes the dependency graph as an XML document with the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2219,6 +2401,8 @@ File names for JAR files, Zip files, and =.class= files for the tool to read.
 You can also give directory names, the tool will search it for =.class= files
 and read them.
 
+At this time, the tool cannot read serialized graphs.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2230,6 +2414,13 @@ and read them.
 ---+++ Output
 
 <blockquote>
+
+With =-ser=, it serializes the entire dependency graph with Java
+serialization.
+
+With =-xml=, it converts the entire dependency graph into an XML
+document that follows the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
 
 </blockquote>
 
@@ -2389,11 +2580,15 @@ _none_
 
 <blockquote>
 
+_none_
+
 </blockquote>
 
 ---+++ Examples
 
 <blockquote>
+
+See the [[Manual.html][user manual]].
 
 </blockquote>
 
@@ -2410,6 +2605,9 @@ _none_
 ---++ DependencyMetrics
 
 <blockquote>
+
+Computes dependency numbers from a dependency graph, such as number of nodes,
+number of entering vertices, and number of exiting vertices.
 
 </blockquote>
 
@@ -2472,9 +2670,9 @@ _none_
 
 <blockquote>
 
-Computes dependency numbers from a dependency graph, such
-as number of nodes, number of entering vertices, and number
-of exiting vertices.
+This is a simple tally of how many dependencies there are in a graph.  It
+can give you a rough idea of the complexity of a given codebase, but it is
+not as powerful as the metrics computed by =[[#OOMetrics][OOMetrics]]=.
 
 </blockquote>
 
@@ -2749,6 +2947,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Show dependencies to and/or from classes.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2760,6 +2960,12 @@ Shorthand for the combination of:
 ---++++ =-class-filter-excludes value=
 
 <blockquote>
+
+If a class is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2773,6 +2979,12 @@ Shorthand for the combination of:
 
 <blockquote>
 
+If a class is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2784,6 +2996,8 @@ Shorthand for the combination of:
 ---++++ =-class-scope=
 
 <blockquote>
+
+Select classes (with their package) as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2797,6 +3011,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a class must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2808,6 +3027,11 @@ Shorthand for the combination of:
 ---++++ =-class-scope-includes value=
 
 <blockquote>
+
+The name of a class must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2855,6 +3079,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Show dependencies to and/or from features.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2866,6 +3092,12 @@ Shorthand for the combination of:
 ---++++ =-feature-filter-excludes value=
 
 <blockquote>
+
+If a feature is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2879,6 +3111,12 @@ Shorthand for the combination of:
 
 <blockquote>
 
+If a feature is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2890,6 +3128,8 @@ Shorthand for the combination of:
 ---++++ =-feature-scope=
 
 <blockquote>
+
+Select features (with their class and package) as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2903,6 +3143,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a feature must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2914,6 +3159,11 @@ Shorthand for the combination of:
 ---++++ =-feature-scope-includes value=
 
 <blockquote>
+
+The name of a feature must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2927,6 +3177,12 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a package, class, or feature at the other end of the dependency
+must NOT match the regular expression in _value_ for the dependency to be
+included in the results.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2938,6 +3194,12 @@ Shorthand for the combination of:
 ---++++ =-filter-includes value=
 
 <blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must match the regular expression in _value_ for the dependency to be
+included in the results.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3026,6 +3288,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Show dependencies to and/or from packages.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3037,6 +3301,12 @@ Shorthand for the combination of:
 ---++++ =-package-filter-excludes value=
 
 <blockquote>
+
+If a package is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3050,6 +3320,12 @@ Shorthand for the combination of:
 
 <blockquote>
 
+If a package is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3061,6 +3337,8 @@ Shorthand for the combination of:
 ---++++ =-package-scope=
 
 <blockquote>
+
+Select packages as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3074,6 +3352,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a package must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3085,6 +3368,11 @@ Shorthand for the combination of:
 ---++++ =-package-scope-includes value=
 
 <blockquote>
+
+The name of a package must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3098,6 +3386,11 @@ Shorthand for the combination of:
 
 <blockquote>
 
+The name of a package, class, or feature must NOT match the regular expression
+in _value_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3109,6 +3402,11 @@ Shorthand for the combination of:
 ---++++ =-scope-includes value=
 
 <blockquote>
+
+The name of a package, class, or feature must match the regular expression
+in _value_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3149,6 +3447,9 @@ Validate the input XML against its DTD.
 ---++++ =-verbose [filename]=
 
 <blockquote>
+
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3348,6 +3649,8 @@ See also:
 
 <blockquote>
 
+Show dependencies to and/or from classes.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3359,6 +3662,12 @@ See also:
 ---++++ =-class-filter-excludes value=
 
 <blockquote>
+
+If a class is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3372,6 +3681,12 @@ See also:
 
 <blockquote>
 
+If a class is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3383,6 +3698,8 @@ See also:
 ---++++ =-class-scope=
 
 <blockquote>
+
+Select classes (with their package) as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3396,6 +3713,11 @@ See also:
 
 <blockquote>
 
+The name of a class must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3407,6 +3729,11 @@ See also:
 ---++++ =-class-scope-includes value=
 
 <blockquote>
+
+The name of a class must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3472,6 +3799,8 @@ See also:
 
 <blockquote>
 
+Show dependencies to and/or from features.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3483,6 +3812,12 @@ See also:
 ---++++ =-feature-filter-excludes value=
 
 <blockquote>
+
+If a feature is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3496,6 +3831,12 @@ See also:
 
 <blockquote>
 
+If a feature is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3507,6 +3848,8 @@ See also:
 ---++++ =-feature-scope=
 
 <blockquote>
+
+Select features (with their class and package) as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3520,6 +3863,11 @@ See also:
 
 <blockquote>
 
+The name of a feature must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3531,6 +3879,11 @@ See also:
 ---++++ =-feature-scope-includes value=
 
 <blockquote>
+
+The name of a feature must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3544,6 +3897,12 @@ See also:
 
 <blockquote>
 
+The name of a package, class, or feature at the other end of the dependency
+must NOT match the regular expression in _value_ for the dependency to be
+included in the results.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3555,6 +3914,12 @@ See also:
 ---++++ =-filter-includes value=
 
 <blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must match the regular expression in _value_ for the dependency to be
+included in the results.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3677,6 +4042,8 @@ See also:
 
 <blockquote>
 
+Show dependencies to and/or from packages.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3688,6 +4055,12 @@ See also:
 ---++++ =-package-filter-excludes value=
 
 <blockquote>
+
+If a package is at the other end of the dependency, its name must NOT match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must not match any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3701,6 +4074,12 @@ See also:
 
 <blockquote>
 
+If a package is at the other end of the dependency, its name must match
+the regular expression in _value_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must at least one of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3712,6 +4091,8 @@ See also:
 ---++++ =-package-scope=
 
 <blockquote>
+
+Select packages as part of the query's focus.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3725,6 +4106,11 @@ See also:
 
 <blockquote>
 
+The name of a package must NOT match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3736,6 +4122,11 @@ See also:
 ---++++ =-package-scope-includes value=
 
 <blockquote>
+
+The name of a package must match the regular expression in _value_ for it
+to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3761,6 +4152,11 @@ See also:
 
 <blockquote>
 
+The name of a package, class, or feature must NOT match the regular expression
+in _value_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3772,6 +4168,11 @@ See also:
 ---++++ =-scope-includes value=
 
 <blockquote>
+
+The name of a package, class, or feature must match the regular expression
+in _value_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3830,6 +4231,9 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3842,7 +4246,8 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
-Writes the dependency graph as an XML document.
+Writes the dependency graph as an XML document with the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3861,6 +4266,8 @@ Writes the dependency graph as an XML document.
 Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
+At this time, the tool cannot read serialized graphs.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3872,6 +4279,13 @@ merges the graphs together into a single dependency graph.
 ---+++ Output
 
 <blockquote>
+
+With =-ser=, it serializes the entire dependency graph with Java
+serialization.
+
+With =-xml=, it converts the entire dependency graph into an XML
+document that follows the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
 
 </blockquote>
 
@@ -3919,7 +4333,11 @@ Translates only outbound dependencies to HTML.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4023,7 +4441,11 @@ Translates only outbound dependencies to text.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4130,7 +4552,9 @@ meaning that it relies on many other elements being stable.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD,
+such as the output of [[#JarJarDiff][JarJarDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4400,6 +4824,9 @@ Prints how long it took to run the command.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4421,6 +4848,9 @@ _none_
 ---+++ Output
 
 <blockquote>
+
+It writes all differences into an XML document that follows the
+=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD.
 
 </blockquote>
 
@@ -4484,7 +4914,11 @@ identical.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4578,7 +5012,11 @@ See =-out= above.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4672,7 +5110,11 @@ See =-out= above.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4766,7 +5208,11 @@ See =-out= above.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4854,7 +5300,6 @@ See =-out= above.
     	-old-label value
     	-out filename
     	-time
-    	-verbose [filename]
 
 ---+++ Description
 
@@ -5009,18 +5454,6 @@ Prints how long it took to run the command.
 
 </blockquote>
 
----++++ =-verbose [filename]=
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=System.out=</td></tr>
-</table>
-
-</blockquote>
-
 </blockquote>
 
 ---+++ Parameters
@@ -5034,6 +5467,9 @@ _none_
 ---+++ Output
 
 <blockquote>
+
+It writes the list of differences into an XML document that follows the
+=[[http://depfind.sourceforge.net/dtd/list-diff.dtd][list-diff]]= DTD.
 
 </blockquote>
 
@@ -5079,7 +5515,9 @@ _none_
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/list-diff.dtd][list-diff]]= DTD,
+such as the output of [[#ListDiff][ListDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5173,7 +5611,9 @@ See =-out= above.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/list-diff.dtd][list-diff]]= DTD,
+such as the output of [[#ListDiff][ListDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5329,7 +5769,9 @@ javadoc tags.  This is a doclet that runs with =javadoc=.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD,
+such as the output of [[#JarJarDiff][JarJarDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5423,7 +5865,11 @@ See =-out= above.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5803,6 +6249,9 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -5815,7 +6264,8 @@ Validate the input XML against its DTD.
 
 <blockquote>
 
-Writes the metrics report as an XML document.
+Writes the metrics report as an XML document with the
+=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5846,6 +6296,10 @@ and read them.
 ---+++ Output
 
 <blockquote>
+
+With =-xml=, it converts the entire metrics structure into an XML document
+that follows the
+=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD.
 
 </blockquote>
 
@@ -5964,11 +6418,15 @@ _none_
 
 <blockquote>
 
+_none_
+
 </blockquote>
 
 ---+++ Examples
 
 <blockquote>
+
+See the [[Manual.html][user manual]].
 
 </blockquote>
 
@@ -6018,7 +6476,9 @@ by setting the validation-list parameter to XSLT:
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD,
+such as the output of [[#JarJarDiff][JarJarDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -6102,6 +6562,8 @@ See =-out= above.
 
 <blockquote>
 
+Applies an XSL stylesheet to an XML document.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -6115,6 +6577,10 @@ See =-out= above.
 
 <blockquote>
 
+This is a direct call to the processor that comes with Xalan.  It is used
+by all the other XSL transform tools; their script simply hardcodes the
+appropriate =-xsl= value.
+
 </blockquote>
 
 ---+++ Switches
@@ -6125,7 +6591,8 @@ See =-out= above.
 
 <blockquote>
 
-The XML file to convert to translate.
+The XML file to be translated.  The document has to follow a DTD that is
+compatible with the stylesheet specified with =-xsl=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
