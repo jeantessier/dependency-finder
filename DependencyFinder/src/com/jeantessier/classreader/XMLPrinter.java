@@ -37,21 +37,21 @@ import java.util.*;
 import org.apache.oro.text.perl.*;
 
 public class XMLPrinter extends Printer {
-    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+	public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
 
 	private static final Perl5Util perl = new Perl5Util();
 
 	private String  dtd_prefix;
 	
-    private boolean top = true;
+	private boolean top = true;
 
-    public XMLPrinter() {
+	public XMLPrinter() {
 		this(DEFAULT_DTD_PREFIX);
-    }
+	}
 	
 	public XMLPrinter(String dtd_prefix) {
 		AppendHeader(dtd_prefix);
-    }
+	}
 
 	private void AppendHeader(String dtd_prefix) {
 		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>").EOL();
@@ -60,7 +60,7 @@ public class XMLPrinter extends Printer {
 		EOL();
 	}
     
-    public void VisitClassfile(Classfile classfile) {
+	public void VisitClassfile(Classfile classfile) {
 		Iterator i;
 
 		Indent().Append("<classfile magic-number=\"").Append(classfile.MagicNumber()).Append("\" minor-version=\"").Append(classfile.MinorVersion()).Append("\" major-version=\"").Append(classfile.MajorVersion()).Append("\" access-number=\"").Append(classfile.AccessFlag()).Append("\">").EOL();
@@ -137,9 +137,9 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</classfile>").EOL();
-    }
+	}
 
-    public void VisitConstantPool(ConstantPool constant_pool) {
+	public void VisitConstantPool(ConstantPool constant_pool) {
 		ResetCount();
 
 		Indent().Append("<constant-pool>").EOL();
@@ -156,9 +156,9 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</constant-pool>").EOL();
-    }
+	}
 
-    public void VisitClass_info(Class_info entry) {
+	public void VisitClass_info(Class_info entry) {
 		if (top) {
 			top = false;
 			Indent();
@@ -171,9 +171,9 @@ public class XMLPrinter extends Printer {
 			// entry.RawName().Accept(this);
 			Append(entry.Name());
 		}
-    }
+	}
 
-    public void VisitFieldRef_info(FieldRef_info entry) {
+	public void VisitFieldRef_info(FieldRef_info entry) {
 		Class_info       c   = entry.RawClass();
 		NameAndType_info nat = entry.RawNameAndType();
 
@@ -199,9 +199,9 @@ public class XMLPrinter extends Printer {
 			Append(".");
 			nat.RawName().Accept(this);
 		}
-    }
+	}
 
-    public void VisitMethodRef_info(MethodRef_info entry) {
+	public void VisitMethodRef_info(MethodRef_info entry) {
 		Class_info       c   = entry.RawClass();
 		NameAndType_info nat = entry.RawNameAndType();
 
@@ -226,9 +226,9 @@ public class XMLPrinter extends Printer {
 			nat.RawName().Accept(this);
 			nat.RawType().Accept(this);
 		}
-    }
+	}
 
-    public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		Class_info       c   = entry.RawClass();
 		NameAndType_info nat = entry.RawNameAndType();
 
@@ -253,9 +253,9 @@ public class XMLPrinter extends Printer {
 			nat.RawName().Accept(this);
 			nat.RawType().Accept(this);
 		}
-    }
+	}
 
-    public void VisitString_info(String_info entry) {
+	public void VisitString_info(String_info entry) {
 		if (top) {
 			top = false;
 			Indent();
@@ -266,9 +266,9 @@ public class XMLPrinter extends Printer {
 		} else {
 			entry.RawValue().Accept(this);
 		}
-    }
+	}
 
-    public void VisitInteger_info(Integer_info entry) {
+	public void VisitInteger_info(Integer_info entry) {
 		if (top) {
 			top = false;
 			Indent();
@@ -279,9 +279,9 @@ public class XMLPrinter extends Printer {
 		} else {
 			Append(entry.Value());
 		}
-    }
+	}
 
-    public void VisitFloat_info(Float_info entry) {
+	public void VisitFloat_info(Float_info entry) {
 		if (top) {
 			top = false;
 			Indent();
@@ -292,9 +292,9 @@ public class XMLPrinter extends Printer {
 		} else {
 			Append(entry.Value());
 		}
-    }
+	}
 
-    public void VisitLong_info(Long_info entry) {
+	public void VisitLong_info(Long_info entry) {
 		if (top) {
 			top = false;
 			Indent();
@@ -305,9 +305,9 @@ public class XMLPrinter extends Printer {
 		} else {
 			Append(entry.Value());
 		}
-    }
+	}
 
-    public void VisitDouble_info(Double_info entry) {
+	public void VisitDouble_info(Double_info entry) {
 		if (top) {
 			top = false;
 			Indent();
@@ -318,9 +318,9 @@ public class XMLPrinter extends Printer {
 		} else {
 			Append(entry.Value());
 		}
-    }
+	}
 
-    public void VisitNameAndType_info(NameAndType_info entry) {
+	public void VisitNameAndType_info(NameAndType_info entry) {
 		if (top) {
 			top = false;
 			Indent();
@@ -338,9 +338,9 @@ public class XMLPrinter extends Printer {
 			Append(" ");
 			entry.RawType().Accept(this);
 		}
-    }
+	}
 
-    public void VisitUTF8_info(UTF8_info entry) {
+	public void VisitUTF8_info(UTF8_info entry) {
 		if (top) {
 			top = false;
 			Indent().Append("<utf8-info id=\"").Append(CurrentCount()).Append("\">");
@@ -350,9 +350,9 @@ public class XMLPrinter extends Printer {
 		} else {
 			Append(EscapeXMLCharacters(entry.Value()));
 		}
-    }
+	}
 
-    public void VisitField_info(Field_info entry) {
+	public void VisitField_info(Field_info entry) {
 		Indent().Append("<field-info access-flag=\"").Append(entry.AccessFlag()).Append("\">").EOL();
 		RaiseIndent();
 
@@ -381,9 +381,9 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</field-info>").EOL();
-    }
+	}
 
-    public void VisitMethod_info(Method_info entry) {
+	public void VisitMethod_info(Method_info entry) {
 		Indent().Append("<method-info access-flag=\"").Append(entry.AccessFlag()).Append("\">").EOL();
 		RaiseIndent();
 
@@ -417,9 +417,9 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</method-info>").EOL();
-    }
+	}
 
-    public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
+	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
 		Indent().Append("<constant-value-attribute>").EOL();
 		RaiseIndent();
 
@@ -427,9 +427,9 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</constant-value-attribute>").EOL();
-    }
+	}
 
-    public void VisitCode_attribute(Code_attribute attribute) {
+	public void VisitCode_attribute(Code_attribute attribute) {
 		Iterator i;
 		
 		Indent().Append("<code-attribute>").EOL();
@@ -491,9 +491,9 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</code-attribute>").EOL();
-    }
+	}
 
-    public void VisitExceptions_attribute(Exceptions_attribute attribute) {
+	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
 		Indent().Append("<exceptions-attribute>").EOL();
 		RaiseIndent();
 
@@ -507,9 +507,9 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</exceptions-attribute>").EOL();
-    }
+	}
 
-    public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
+	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
 		Indent().Append("<inner-classes-attribute>").EOL();
 		RaiseIndent();
 
@@ -520,17 +520,17 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</inner-classes-attribute>").EOL();
-    }
+	}
 
-    public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
+	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
 		Indent().Append("<synthetic-attribute/>").EOL();
-    }
+	}
 
-    public void VisitSourceFile_attribute(SourceFile_attribute attribute) {
+	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {
 		Indent().Append("<source-file-attribute>").Append(attribute.SourceFile()).Append("</source-file-attribute>").EOL();
-    }
+	}
 
-    public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
 		Indent().Append("<line-number-table-attribute>").EOL();
 		RaiseIndent();
 
@@ -541,9 +541,9 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</line-number-table-attribute>").EOL();
-    }
+	}
 
-    public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
 		Indent().Append("<local-variable-table-attribute>").EOL();
 		RaiseIndent();
 
@@ -554,13 +554,13 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</local-variable-table-attribute>").EOL();
-    }
+	}
 
-    public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
+	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
 		Indent().Append("<deprecated-attribute/>").EOL();
-    }
+	}
 
-    public void VisitExceptionHandler(ExceptionHandler helper) {
+	public void VisitExceptionHandler(ExceptionHandler helper) {
 		Indent();
 		Append("<exception-handler>");
 		Append("<start-pc>").Append(helper.StartPC()).Append("</start-pc>");
@@ -574,9 +574,9 @@ public class XMLPrinter extends Printer {
 		Append("</catch-type>");
 
 		Append("</exception-handler>").EOL();
-    }
+	}
 
-    public void VisitInnerClass(InnerClass helper) {
+	public void VisitInnerClass(InnerClass helper) {
 		Indent().Append("<inner-class access-number=\"").Append(helper.AccessFlag()).Append("\">").EOL();
 		RaiseIndent();
 
@@ -611,17 +611,17 @@ public class XMLPrinter extends Printer {
 
 		LowerIndent();
 		Indent().Append("</inner-class>").EOL();
-    }
+	}
 
-    public void VisitLineNumber(LineNumber helper) {
+	public void VisitLineNumber(LineNumber helper) {
 		Indent();
 		Append("<line-number>");
 		Append("<start-pc>").Append(helper.StartPC()).Append("</start-pc>");
 		Append("<line>").Append(helper.LineNumber()).Append("</line>");
 		Append("</line-number>").EOL();
-    }
+	}
 
-    public void VisitLocalVariable(LocalVariable helper) {
+	public void VisitLocalVariable(LocalVariable helper) {
 		Indent();
 		Append("<local-variable pc=\"").Append(helper.StartPC()).Append("\" length=\"").Append(helper.Length()).Append("\">");
 		Append("<name>");
@@ -634,7 +634,7 @@ public class XMLPrinter extends Printer {
 
 		Append("<type>").Append(SignatureHelper.Type(helper.Descriptor())).Append("</type>");
 		Append("</local-variable>").EOL();
-    }
+	}
 
 	private String EscapeXMLCharacters(String text) {
 		String result = text;

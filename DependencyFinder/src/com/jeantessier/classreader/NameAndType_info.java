@@ -35,49 +35,49 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class NameAndType_info extends ConstantPoolEntry {
-    private int name_index;
-    private int type_index;
+	private int name_index;
+	private int type_index;
 
-    public NameAndType_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
+	public NameAndType_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
 		super(constant_pool);
 
 		name_index = in.readUnsignedShort();
 		type_index = in.readUnsignedShort();
-    }
+	}
 
-    public int NameIndex() {
+	public int NameIndex() {
 		return name_index;
-    }
+	}
 
-    public UTF8_info RawName() {
+	public UTF8_info RawName() {
 		return (UTF8_info) ConstantPool().get(NameIndex());
-    }
+	}
 
-    public String Name() {
+	public String Name() {
 		return RawName().toString();
-    }
+	}
 
-    public int TypeIndex() {
+	public int TypeIndex() {
 		return type_index;
-    }
+	}
 
-    public UTF8_info RawType() {
+	public UTF8_info RawType() {
 		return (UTF8_info) ConstantPool().get(TypeIndex());
-    }
+	}
 
-    public String Type() {
+	public String Type() {
 		return RawType().toString();
-    }
+	}
 
-    public String toString() {
+	public String toString() {
 		StringBuffer result = new StringBuffer();
 
 		result.append(Name()).append(" -> ").append(Type());
 
 		return result.toString();
-    }
+	}
 
-    public void Accept(Visitor visitor) {
+	public void Accept(Visitor visitor) {
 		visitor.VisitNameAndType_info(this);
-    }
+	}
 }
