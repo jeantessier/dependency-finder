@@ -75,6 +75,11 @@
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
+        <javac destdir="${classesDir}" excludes="JarJarDiff/**" deprecation="yes">
+	    <src path="${testsDir}"/>
+	    <classpath refid="libs"/>
+	    <patternset refid="all.sources"/>
+        </javac>
     </target>
 
     <target name="compiledebug" depends="init"
