@@ -38,8 +38,8 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
-	private static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();
-
+	public static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();
+	
 	private ClassfileLoaderDispatcher dispatcher;
 	
 	private ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);

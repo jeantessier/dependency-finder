@@ -67,8 +67,9 @@ public class DependencyFinder extends JFrame {
 	private StatusLine        statusLine             = new StatusLine(420);
 	private JProgressBar      progressBar            = new JProgressBar();
 
-	private File        inputFile   = new File(".");
-	private NodeFactory nodeFactory = null;
+	private ClassfileLoaderDispatcher dispatcher  = null;
+	private File                      inputFile   = new File(".");
+	private NodeFactory               nodeFactory = null;
 
 	private JCheckBox  packageScope          = new JCheckBox("packages");
 	private JCheckBox  classScope            = new JCheckBox("classes");
@@ -184,6 +185,18 @@ public class DependencyFinder extends JFrame {
 
 	public void setMinimize(boolean minimize) {
 		this.minimize = minimize;
+	}
+	
+	public ClassfileLoaderDispatcher getClassfileLoaderDispatcher() {
+		if (dispatcher == null) {
+			dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+		}
+		
+		return dispatcher;
+	}
+
+	public void clearClassfileLoaderDispatcher() {
+		dispatcher = null;
 	}
 	
 	public File getInputFile() {

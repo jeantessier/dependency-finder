@@ -100,6 +100,8 @@
 	    }
 	}
     }
+
+    private ClassfileLoaderDispatcher dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
 %>
 
 <html>
@@ -231,7 +233,7 @@
 	NodeFactory factory = new NodeFactory();
 	CodeDependencyCollector collector = new CodeDependencyCollector(factory);
 
-	ClassfileLoader loader = new TransientClassfileLoader();
+	ClassfileLoader loader = new TransientClassfileLoader(dispatcher);
 	loader.addLoadListener(listener);
 	loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
 	loader.load(sources);

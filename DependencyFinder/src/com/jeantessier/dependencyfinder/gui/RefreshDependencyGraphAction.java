@@ -72,7 +72,7 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 		model.setNodeFactory(new NodeFactory());
 		Collector collector = new CodeDependencyCollector(model.getNodeFactory());
 
-		ClassfileLoader loader = new TransientClassfileLoader();
+		ClassfileLoader loader = new TransientClassfileLoader(model.getClassfileLoaderDispatcher());
 		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
 		loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
 		loader.load(Collections.singleton(model.getInputFile()));

@@ -17,6 +17,32 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 20, 2005
+    </dt>
+    <dd>
+	<p>It's one of those bugs.  The moment I put in logging statements, the
+	<code>ModifiedOnlyDispatcher</code> suddenly starts to work.  Well, now
+	the classfile loader is loading the correct files.</p>
+
+	<p>Used <code>ModifiedOnlyDispatcher</code> in
+	<code>DependencyFinder</code>.  But along with
+	<code>extract.jsp</code>, it does not yet adjust its dependency graph
+	correctly.  I need to make them keep the old graph, remove reloaded
+	classes, and somehow remove classes that have altogether disappeared.
+	More work ahead.</p>
+    </dd>
+    <dt>
+	January 19, 2005
+    </dt>
+    <dd>
+	<p>Tried <code>ModifiedOnlyDispatcher</code> with
+	<code>extract.jsp</code>.  It was a little overeager, skipping
+	directories without even looking if files in them had changed.  So I
+	modified it to not do anything special with directories and always
+	delegate to the underlying dispatcher.  Somehow, it doesn't seem to
+	really skip unmodified files, so I'll have to investigate further.</p>
+    </dd>
+    <dt>
 	January 18, 2005
     </dt>
     <dd>
