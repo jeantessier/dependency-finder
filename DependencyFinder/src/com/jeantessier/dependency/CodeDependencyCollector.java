@@ -38,6 +38,11 @@ import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
+/**
+ *  Traverses a Classfile and extracts dependencies from its code.
+ *  Does not see dependencies on static final simple constants
+ *  (basic type or String) and does not look at local variables.
+ */
 public class CodeDependencyCollector extends com.jeantessier.classreader.VisitorBase implements Collector {
 	private NodeFactory factory;
 	private Node        current;
