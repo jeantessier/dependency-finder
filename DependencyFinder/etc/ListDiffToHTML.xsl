@@ -61,6 +61,17 @@
 
     <xsl:template match="removed">
 	<h3>No Longer in Published API:</h3>
+
+	<font color="gray" size="-1">
+	<p>The elements in this list are no longer documented because
+	they were either:</p>
+	<ul style="list-style-type: circle">
+	    <li>removed entirely</li>
+	    <li>went from public or protected to private or default visibility</li>
+	    <li>no longer part of the published API through javadoc tags</li>
+	</ul>
+	</font>
+
 	<xsl:choose>
 	    <xsl:when test="line">
 		<ul>
@@ -75,6 +86,17 @@
 
     <xsl:template match="added">
 	<h3>Newly Published:</h3>
+
+	<font color="gray" size="-1">
+	<p>The elements in this list are new to documentation because
+	they were either:</p>
+	<ul style="list-style-type: circle">
+	    <li>addded recently</li>
+	    <li>went from private or default visibility to public or protected</li>
+	    <li>have been made part of the published API through javadoc tags</li>
+	</ul>
+	</font>
+
 	<xsl:choose>
 	    <xsl:when test="line">
 		<ul>
