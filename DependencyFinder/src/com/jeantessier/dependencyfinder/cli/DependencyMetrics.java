@@ -216,8 +216,15 @@ public class DependencyMetrics {
 		 */
 
 		Date start = new Date();
+		
+		PrintWriter out;
+		if (command_line.IsPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+		} else {
+			out = new PrintWriter(new OutputStreamWriter(System.out));
+		}
 
-		MetricsReport reporter = new MetricsReport();
+		MetricsReport reporter = new MetricsReport(out);
 		
 		reporter.ListElements(command_line.ToggleSwitch("list"));
 		reporter.ClassesPerPackageChart(command_line.ToggleSwitch("chart-classes-per-package"));
@@ -377,15 +384,6 @@ public class DependencyMetrics {
 		verbose_listener.println("Reporting " + metrics.Packages().size() + " package(s) ...");
 
 		reporter.Process(metrics);
-		
-		PrintWriter out;
-		if (command_line.IsPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
-		} else {
-			out = new PrintWriter(new OutputStreamWriter(System.out));
-		}
-
-		out.print(reporter);
 		
 		Date end = new Date();
 

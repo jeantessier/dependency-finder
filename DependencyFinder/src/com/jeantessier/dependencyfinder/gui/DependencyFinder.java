@@ -1161,10 +1161,11 @@ public class DependencyFinder extends JFrame {
 		
 		metrics.TraverseNodes(Packages());
 
-		MetricsReport report = new MetricsReport();
+		StringWriter out = new StringWriter();
+		MetricsReport report = new MetricsReport(new PrintWriter(out));
 		report.Process(metrics);
 		
-		metrics_result_area.setText(report.toString());
+		metrics_result_area.setText(out.toString());
 		metrics_chart_model.Metrics(metrics);
 	}		
 

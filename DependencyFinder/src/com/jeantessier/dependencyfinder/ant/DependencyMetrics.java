@@ -173,7 +173,11 @@ public class DependencyMetrics extends GraphTask {
 		VerboseListener verbose_listener = new VerboseListener(this);
 
 		try {
-			MetricsReport reporter = new MetricsReport();
+			log("Saving metrics report to " + getDestfile().getAbsolutePath());
+			
+			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
+
+			MetricsReport reporter = new MetricsReport(out);
 			
 			reporter.ListElements(getList());
 			reporter.ClassesPerPackageChart(getChartclassesperpackage());
@@ -205,10 +209,6 @@ public class DependencyMetrics extends GraphTask {
 			metrics.TraverseNodes(packages);
 			reporter.Process(metrics);
 
-			log("Saving metrics report to " + getDestfile().getAbsolutePath());
-		
-			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-			out.print(reporter);
 			out.close();
 		} catch (SAXException ex) {
 			throw new BuildException(ex);

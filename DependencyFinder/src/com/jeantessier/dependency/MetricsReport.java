@@ -36,8 +36,7 @@ import java.io.*;
 import java.util.*;
 
 public class MetricsReport {
-	private StringWriter buffer = new StringWriter();
-	private PrintWriter  out    = new PrintWriter(buffer);
+	private PrintWriter out;
 
 	boolean list_elements               = false;
 	boolean classes_per_package_chart   = false;
@@ -49,6 +48,10 @@ public class MetricsReport {
 	boolean inbounds_per_feature_chart  = false;
 	boolean outbounds_per_feature_chart = false;
 
+	public MetricsReport(PrintWriter out) {
+		this.out = out;
+	}
+	
 	public boolean ListElements() {
 		return list_elements;
 	}
@@ -232,9 +235,5 @@ public class MetricsReport {
 
 		out.flush();
 		out.close();
-	}
-
-	public String toString() {
-		return buffer.toString();
 	}
 }
