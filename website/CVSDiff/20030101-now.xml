@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="'2003-03-04 01:13:59'" >
+<tagdiff startTag="release-20030101" endDate="'2003-03-05 01:58:25'" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.21</revision>
+			<revision>1.22</revision>
 			<prevrevision>1.16</prevrevision>
 		</file>
 	</entry>
@@ -74,7 +74,7 @@
 	<entry>
 		<file>
 			<name>docs/Menu.html</name>
-			<revision>1.1</revision>
+			<revision>1.2</revision>
 		</file>
 	</entry>
 	<entry>
@@ -520,7 +520,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/MeasurementTableCellRenderer.java</name>
-			<revision>1.5</revision>
+			<revision>1.6</revision>
 			<prevrevision>1.3</prevrevision>
 		</file>
 	</entry>
@@ -548,8 +548,15 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/OOMetricsTableModel.java</name>
-			<revision>1.10</revision>
+			<revision>1.11</revision>
 			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/TableHeaderListener.java</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -629,7 +636,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/metrics/StatisticalMeasurement.java</name>
-			<revision>1.10</revision>
+			<revision>1.11</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
@@ -643,7 +650,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/metrics/TextPrinter.java</name>
-			<revision>1.1</revision>
+			<revision>1.2</revision>
 		</file>
 	</entry>
 	<entry>
@@ -708,7 +715,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/metrics/TestStatisticalMeasurement.java</name>
-			<revision>1.9</revision>
+			<revision>1.10</revision>
 			<prevrevision>1.8</prevrevision>
 		</file>
 	</entry>
