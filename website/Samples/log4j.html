@@ -7,9 +7,75 @@
 <h1>Log4J - API Change History</h1>
 
 <ul>
+<li><a href="#1.2.8">1.2.7 to 1.2.8</a></li>
 <li><a href="#1.2.7">1.2.6 to 1.2.7</a></li>
 <li><a href="#1.2.6">1.2.5 to 1.2.6</a></li>
 <li><a href="#1.2.5">1.2.3 to 1.2.5</a></li>
+</ul>
+
+<hr />
+
+<a name="1.2.8"></a>
+<h2>1.2.7 to 1.2.8</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>org.apache.log4j.AppenderSkeleton</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void close()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean requiresLayout()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.Layout</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void activateOptions()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.jmx.AbstractDynamicMBean</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.lang.Object getAttribute(java.lang.String) throws javax.management.AttributeNotFoundException, javax.management.MBeanException, javax.management.ReflectionException</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract javax.management.MBeanInfo getMBeanInfo()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.Object invoke(java.lang.String, java.lang.Object[], java.lang.String[]) throws javax.management.MBeanException, javax.management.ReflectionException</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void setAttribute(javax.management.Attribute) throws javax.management.AttributeNotFoundException, javax.management.InvalidAttributeValueException, javax.management.MBeanException, javax.management.ReflectionException</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Packages:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.log4j.or.jms</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.log4j.xml.Log4jEntityResolver</code></nobr>
+</li>
 </ul>
 
 <hr />

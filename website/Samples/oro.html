@@ -7,8 +7,65 @@
 <h1>ORO - API Change History</h1>
 
 <ul>
+<li><a href="#2.0.7">2.0.7-dev-1 to 2.0.7</a></li>
 <li><a href="#2.0.7-dev-1">2.0.6 to 2.0.7-dev-1</a></li>
 </ul>
+
+<hr />
+
+<a name="2.0.7"></a>
+<h2>2.0.7-dev-1 to 2.0.7</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>org.apache.oro.text.awk.AwkMatchResult</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>void _incrementMatchBeginOffset(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.oro.text.regex.Perl5Compiler</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String __META_CHARS</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private int __parseCharacterClass() throws org.apache.oro.text.regex.MalformedPatternException</code></nobr>
+</li>
+<li>
+<nobr><code>private void __setCharacterClassBits(char[], int, char, char)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.oro.text.regex.Perl5Matcher</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private boolean __tryExpression(org.apache.oro.text.regex.Perl5Pattern, int)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private boolean __tryExpression(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
 
 <hr />
 
