@@ -37,38 +37,37 @@ import java.util.*;
 public class XMLPrinter extends Printer {
 	public XMLPrinter() {
 		super();
+
+		AppendHeader();
 	}
 
 	public XMLPrinter(String indent_text) {
 		super(indent_text);
+
+		AppendHeader();
+	}
+
+	private void AppendHeader() {
+		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>").EOL();
+		EOL();
+		Append("<!DOCTYPE metrics SYSTEM \"http://depfind.sourceforge.net/dtd/metrics.dtd\">").EOL();
+		EOL();
 	}
 
 	public void VisitMetrics(Metrics metrics) {
-		Append(Preamble());
-		Indent().Append("<metrics>").Append("\n");
+		Indent().Append("<metrics>").EOL();
 		RaiseIndent();
 		
 		VisitProjectMetrics(metrics);
 				
 		LowerIndent();
-		Indent().Append("</metrics>").Append("\n");
-	}
-
-	private String Preamble() {
-		StringBuffer result = new StringBuffer();
-
-		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
-		result.append("\n");
-		result.append("<!DOCTYPE metrics SYSTEM \"http://depfind.sourceforge.net/dtd/metrics.dtd\">\n");
-		result.append("\n");
-
-		return result.toString();
+		Indent().Append("</metrics>").EOL();
 	}
 
 	private void VisitProjectMetrics(Metrics metrics) {
-		Indent().Append("<project>").Append("\n");
+		Indent().Append("<project>").EOL();
 		RaiseIndent();
-		Indent().Append("<name>").Append(metrics.Name()).Append("</name>\n");
+		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
 
 		VisitMeasurements(metrics);
 
@@ -78,13 +77,13 @@ public class XMLPrinter extends Printer {
 		}
 				
 		LowerIndent();
-		Indent().Append("</project>").Append("\n");
+		Indent().Append("</project>").EOL();
 	}
 
 	private void VisitGroupMetrics(Metrics metrics) {
-		Indent().Append("<group>").Append("\n");
+		Indent().Append("<group>").EOL();
 		RaiseIndent();
-		Indent().Append("<name>").Append(metrics.Name()).Append("</name>\n");
+		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
 
 		VisitMeasurements(metrics);
 
@@ -94,13 +93,13 @@ public class XMLPrinter extends Printer {
 		}
 				
 		LowerIndent();
-		Indent().Append("</group>").Append("\n");
+		Indent().Append("</group>").EOL();
 	}
 
 	private void VisitClassMetrics(Metrics metrics) {
-		Indent().Append("<class>").Append("\n");
+		Indent().Append("<class>").EOL();
 		RaiseIndent();
-		Indent().Append("<name>").Append(metrics.Name()).Append("</name>\n");
+		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
 
 		VisitMeasurements(metrics);
 
@@ -110,18 +109,18 @@ public class XMLPrinter extends Printer {
 		}
 				
 		LowerIndent();
-		Indent().Append("</class>").Append("\n");
+		Indent().Append("</class>").EOL();
 	}
 
 	private void VisitMethodMetrics(Metrics metrics) {
-		Indent().Append("<method>").Append("\n");
+		Indent().Append("<method>").EOL();
 		RaiseIndent();
-		Indent().Append("<name>").Append(metrics.Name()).Append("</name>\n");
+		Indent().Append("<name>").Append(metrics.Name()).Append("</name>").EOL();
 
 		VisitMeasurements(metrics);
 				
 		LowerIndent();
-		Indent().Append("</method>").Append("\n");
+		Indent().Append("</method>").EOL();
 	}
 
 	private void VisitMeasurements(Metrics metrics) {
@@ -130,28 +129,32 @@ public class XMLPrinter extends Printer {
 			String      name        = (String) names.next();
 			Measurement measurement = metrics.Measurement(name);
 
-			Indent().Append("<metric>").Append("\n");
-			RaiseIndent();
-			Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>\n");
-			Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>\n");
-
 			measurement.Accept(this);
-				
-			LowerIndent();
-			Indent().Append("</metric>").Append("\n");
 		}
 	}
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
-		Indent().Append("<minimum>").Append(measurement.Minimum()).Append("</minimum>\n");
-		Indent().Append("<median>").Append(measurement.Median()).Append("</median>\n");
-		Indent().Append("<average>").Append(measurement.Average()).Append("</average>\n");
-		Indent().Append("<maximum>").Append(measurement.Maximum()).Append("</maximum>\n");
-		Indent().Append("<sum>").Append(measurement.Sum()).Append("</sum>\n");
-		Indent().Append("<nb-data-points>").Append(measurement.NbDataPoints()).Append("</nb-data-points>\n");
+		Indent().Append("<measurement>").EOL();
+		RaiseIndent();
+		Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>").EOL();
+		Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>").EOL();
+		Indent().Append("<minimum>").Append(measurement.Minimum()).Append("</minimum>").EOL();
+		Indent().Append("<median>").Append(measurement.Median()).Append("</median>").EOL();
+		Indent().Append("<average>").Append(measurement.Average()).Append("</average>").EOL();
+		Indent().Append("<maximum>").Append(measurement.Maximum()).Append("</maximum>").EOL();
+		Indent().Append("<sum>").Append(measurement.Sum()).Append("</sum>").EOL();
+		Indent().Append("<nb-data-points>").Append(measurement.NbDataPoints()).Append("</nb-data-points>").EOL();
+		LowerIndent();
+		Indent().Append("</measurement>").EOL();
 	}
 	
 	protected void VisitMeasurement(Measurement measurement) {
-		Indent().Append("<value>").Append(measurement.Value()).Append("</value>\n");
+		Indent().Append("<measurement>").EOL();
+		RaiseIndent();
+		Indent().Append("<short-name>").Append(measurement.ShortName()).Append("</short-name>").EOL();
+		Indent().Append("<long-name>").Append(measurement.LongName()).Append("</long-name>").EOL();
+		Indent().Append("<value>").Append(measurement.Value()).Append("</value>").EOL();
+		LowerIndent();
+		Indent().Append("</measurement>").EOL();
 	}
 }
