@@ -2,12 +2,12 @@
 <html>
 
 <head>
-<title>Extract</title>
+<title>Extract <%= application.getInitParameter("name") %></title>
 </head>
 
 <body bgcolor="#ffffff">
 
-<p>Extracting Dependency Graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
+<p>Extracting dependency graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
 
 <%!
     private class MyListener implements LoadListener {
@@ -58,6 +58,7 @@
     </tr>
     <tr>
 	<td align="center">
+	    <br/>
 	    <form method="post" action="<%= request.getRequestURI() %>">
 		<input type="submit" name="launch" value="Launch"/>
 	    </form>
@@ -74,7 +75,7 @@
 		<tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Packages().size() %></td><td>packages</td></tr>
 		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Classes().size() %></td><td>classes</td></tr>
 		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Features().size() %></td><td>features</td></tr>
-		<tr><td colspan="3">And it took <%= application.getAttribute("delta") %> second(s) to extract it.</td></tr>
+		<tr><td colspan="3">Extracting it took <%= application.getAttribute("delta") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
 
 <%
 	} else {
@@ -147,6 +148,7 @@
 	double delta = (stop.getTime() - start.getTime()) / (double) 1000;
 
 	application.setAttribute("factory", factory);
+	application.setAttribute("start",   start);
 	application.setAttribute("delta",   new Double(delta));
 
 	out.println();
