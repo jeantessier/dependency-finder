@@ -199,9 +199,9 @@
               path="${tomcat.path}"/>
     </target>
 
-    <target name="webapp.redeploy" depends="undeploy, deploy"
+    <target name="webapp.redeploy" depends="webapp.undeploy, webapp.deploy"
 	    description="Undeploys and then deploys the web application to a Tomcat container"/>
-    <target name="webapp.restart" depends="stop, start"
+    <target name="webapp.restart" depends="webapp.stop, webapp.start"
 	    description="Stops and then starts the web application in a Tomcat container"/>
 
     <!--
