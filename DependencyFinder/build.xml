@@ -93,6 +93,9 @@
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
+    </target>
+
+    <target name="tests" depends="compiletestsdebug">
 	<ant dir="tests/JarJarDiff" inheritAll="false"/>
     </target>
 
