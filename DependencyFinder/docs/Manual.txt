@@ -787,7 +787,7 @@ doclet.
 *Extracting Documented Elements*
 </div>
 
-You then feed the output from the servlet to =JarJarDiff=.
+You then feed the output from the doclet to =JarJarDiff=.
 
 <div align="center">
     [[images/ExtractingDifferencesAndDocumentationChanges.gif]]
@@ -813,10 +813,28 @@ limit the changes to the published public API.
 
 ---++++ Listing Published Documentation Changes
 
-You use =ListDocumentationDiffToText=  and
-=ListDocumentationDiffToHTML= to list changes in what
-is considered part of the published API.  The list is
-written in HTML.
+You use =ListDiff= to list changes in what is
+considered part of the published API.
+
+<div align="center">
+    [[images/ListDiff.gif]]
+*Listing Differences in Documented Elements*
+</div>
+
+=ListDiff= writes in XML and you can convert this XML
+into HTML with =ListDiffToHTML=, or to text with
+=ListDiffToText=.
+
+<div align="center">
+    [[images/ListDiff2HTML.gif]]
+*Report on Differences in Documented Elements*
+</div>
+
+Note: you can also use =ListDocumentationDiffToText=
+and =ListDocumentationDiffToHTML= to extract similar
+information from the output of JarJarDiff.  The list
+is written in HTML.  But we recommend that you use
+=ListDiff= instead; it is faster and simpler.
 
 ----
 
