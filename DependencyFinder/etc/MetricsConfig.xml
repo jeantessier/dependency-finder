@@ -126,7 +126,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>SUB</short-name>
-	    <long-name>Subclasses per group</long-name>
+	    <long-name>Subclasses per class</long-name>
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		SUB
@@ -134,7 +134,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>DOI</short-name>
-	    <long-name>Depth of Inheritance per group</long-name>
+	    <long-name>Depth of Inheritance per class</long-name>
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		DOI
