@@ -317,12 +317,12 @@ public class OOMetrics extends JFrame {
 		}
 
 		if (command_line.IsPresent("verbose")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
+			Log(Logger.getLogger("com.jeantessier.dependencyfinder.gui"), command_line.OptionalSwitch("verbose"));
 			Log(Logger.getLogger("com.jeantessier.metrics"), command_line.OptionalSwitch("verbose"));
 		}
 
 		if (command_line.IsPresent("trace")) {
-			Log(Logger.getLogger("com.jeantessier.dependencyfinder.cli"), command_line.OptionalSwitch("verbose"));
+			Log(Logger.getLogger("com.jeantessier.dependencyfinder.gui"), command_line.OptionalSwitch("verbose"));
 			Log(Logger.getLogger("com.jeantessier.classreader"), command_line.OptionalSwitch("trace"));
 			Log(Logger.getLogger("com.jeantessier.dependency"), command_line.OptionalSwitch("trace"));
 		}
