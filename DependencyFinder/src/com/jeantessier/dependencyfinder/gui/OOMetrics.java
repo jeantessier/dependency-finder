@@ -57,6 +57,7 @@ public class OOMetrics extends JFrame {
 	
 	private JMenuBar     menu_bar      = new JMenuBar();
 	private JMenu        file_menu     = new JMenu();
+	private JMenu        help_menu     = new JMenu();
 	private JToolBar     toolbar       = new JToolBar();
 	private JTextArea    project_area  = new JTextArea();
 	private JButton      filter_button = new JButton("Filter:");
@@ -70,7 +71,7 @@ public class OOMetrics extends JFrame {
 	
 	private File input_file = new File(".");
 
-	public OOMetrics(MetricsFactory factory) {
+	public OOMetrics(CommandLine command_line, MetricsFactory factory) {
 		this.factory = factory;
 		
 		this.setSize(new Dimension(800, 600));
@@ -83,7 +84,7 @@ public class OOMetrics extends JFrame {
 		classes_model = new OOMetricsTableModel(factory.Configuration().ClassMeasurements());
 		methods_model = new OOMetricsTableModel(factory.Configuration().MethodMeasurements());
 		
-		BuildMenus();
+		BuildMenus(command_line);
 		BuildUI();
 
 		try {
@@ -140,7 +141,14 @@ public class OOMetrics extends JFrame {
 		return progress_bar;
 	}
 	
-	private void BuildMenus() {
+	private void BuildMenus(CommandLine command_line) {
+		BuildFileMenu(command_line);
+		BuildHelpMenu(command_line);
+
+		this.setJMenuBar(menu_bar);
+	}
+	
+	private void BuildFileMenu(CommandLine command_line) {
 		menu_bar.add(file_menu);
 
 		file_menu.setText("File");
@@ -177,6 +185,19 @@ public class OOMetrics extends JFrame {
 		// button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		this.setJMenuBar(menu_bar);
+	}
+
+	private void BuildHelpMenu(CommandLine command_line) {
+		menu_bar.add(help_menu);
+
+		help_menu.setText("Help");
+
+		Action action;
+		JMenuItem menu_item;
+
+		action = new AboutAction(this);
+		menu_item = help_menu.add(action);
+		menu_item.setMnemonic('a');
 	}
 	
 	private void BuildUI() {
@@ -330,7 +351,7 @@ public class OOMetrics extends JFrame {
 			// Ignore
 		}
 
-		OOMetrics model = new OOMetrics(factory);
+		OOMetrics model = new OOMetrics(command_line, factory);
 		model.setVisible(true);
 	}
 }

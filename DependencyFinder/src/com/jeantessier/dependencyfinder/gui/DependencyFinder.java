@@ -58,6 +58,7 @@ public class DependencyFinder extends JFrame {
 	private JMenuBar          menu_bar                 = new JMenuBar();
 	private JMenu             file_menu                = new JMenu();
 	private JMenu             view_menu                = new JMenu();
+	private JMenu             help_menu                = new JMenu();
 	private JToolBar          toolbar                  = new JToolBar();
 	private JTextArea         dependencies_result_area = new JTextArea();
 	private JTextArea         closure_result_area      = new JTextArea();
@@ -216,6 +217,7 @@ public class DependencyFinder extends JFrame {
 	private void BuildMenus(CommandLine command_line) {
 		BuildFileMenu(command_line);
 		BuildViewMenu(command_line);
+		BuildHelpMenu(command_line);
 
 		this.setJMenuBar(menu_bar);
 	}
@@ -313,7 +315,7 @@ public class DependencyFinder extends JFrame {
 		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
 		menu_item.setMnemonic('x');
 	}
-
+	
 	private void BuildViewMenu(CommandLine command_line) {
 		menu_bar.add(view_menu);
 
@@ -331,7 +333,20 @@ public class DependencyFinder extends JFrame {
 		group.add(menu_item);
 		view_menu.add(menu_item);
 	}
-	
+
+	private void BuildHelpMenu(CommandLine command_line) {
+		menu_bar.add(help_menu);
+
+		help_menu.setText("Help");
+
+		Action action;
+		JMenuItem menu_item;
+
+		action = new AboutAction(this);
+		menu_item = help_menu.add(action);
+		menu_item.setMnemonic('a');
+	}
+
 	private void BuildUI() {
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(BuildControlPanel(), BorderLayout.NORTH);

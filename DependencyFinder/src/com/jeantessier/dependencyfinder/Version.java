@@ -35,6 +35,8 @@ package com.jeantessier.dependencyfinder;
 import java.io.*;
 import java.util.jar.*;
 
+import org.apache.log4j.*;
+
 public class Version {
 	public static final String DEFAULT_URL              = "http://depfind.sourceforge.net/";
 	public static final String DEFAULT_TITLE            = "Dependency Finder";
@@ -49,16 +51,20 @@ public class Version {
 
 	private Attributes attributes = null;
 	
-	public Version() throws IOException {
+	public Version() {
 		resource_url = getClass().getResource("Version.class").toString();
 		
 		if (resource_url.startsWith("jar:file:")) {
 			jar_name = resource_url.substring(9, resource_url.indexOf(".jar!") + 4);
-			
-			JarFile  jar      = new JarFile(jar_name);
-			Manifest manifest = jar.getManifest();
-			
-			attributes = manifest.getMainAttributes();
+
+			try {
+				JarFile  jar      = new JarFile(jar_name);
+				Manifest manifest = jar.getManifest();
+				
+				attributes = manifest.getMainAttributes();
+			} catch (IOException ex) {
+				Logger.getLogger(getClass()).error("Could not get version information, using defaults", ex);
+			}
 		}
 	}
 	
