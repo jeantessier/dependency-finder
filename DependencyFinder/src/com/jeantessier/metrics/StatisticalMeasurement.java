@@ -298,7 +298,7 @@ public class StatisticalMeasurement extends MeasurementBase {
 		return nb_data_points;
 	}
 	
-	private synchronized void CollectData() {
+	private void CollectData() {
 		if (Context().SubMetrics().size() != nb_submetrics) {
 			synchronized (this) {
 				if (Context().SubMetrics().size() != nb_submetrics) {
