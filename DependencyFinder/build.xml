@@ -93,7 +93,7 @@
 
     <target name="war" depends="jar">
         <jar jarfile="${warFile}">
-	    <zipfileset dir="${webDir}" prefix="" includes="**/*.jsp"/>
+	    <zipfileset dir="${webDir}" prefix="" excludes="**/CSV"/>
 	    <zipfileset dir="${libDir}" prefix="WEB-INF/lib" includes="**/*.jar"/>
 	</jar>
     </target>

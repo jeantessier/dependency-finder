@@ -26,7 +26,7 @@
     </context-param>
 
     <welcome-file-list>
-	<welcome-file>env.jsp</welcome-file>
+	<welcome-file>query.jsp</welcome-file>
     </welcome-file-list>
 
 </web-app>

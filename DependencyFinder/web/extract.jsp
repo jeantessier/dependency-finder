@@ -53,10 +53,10 @@
 
     if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 	out.println("Maximizing ...");
-	new LinkMaximizer().TraverseNodes(factory.Packages().Values());
+	new LinkMaximizer().TraverseNodes(factory.Packages().values());
     } else if ("minimize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 	out.println("Minimizing ...");
-	new LinkMinimizer().TraverseNodes(factory.Packages().Values());
+	new LinkMinimizer().TraverseNodes(factory.Packages().values());
     }
 
     application.setAttribute("factory", factory);
