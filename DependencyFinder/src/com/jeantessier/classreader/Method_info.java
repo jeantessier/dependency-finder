@@ -94,7 +94,7 @@ public class Method_info extends Feature_info {
 			result.append(Classfile().Class().substring(Classfile().Class().lastIndexOf(".") + 1));
 			result.append(SignatureHelper.Signature(Descriptor()));
 		} else if (IsStaticInitializer()) {
-			result.append("{}");
+			result.append("static {}");
 		} else {
 			result.append(Name());
 			result.append(SignatureHelper.Signature(Descriptor()));
