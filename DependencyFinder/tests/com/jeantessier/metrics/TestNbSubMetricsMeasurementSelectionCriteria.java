@@ -170,29 +170,46 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
 		String operators = "/(<)|(<=)|(>)|(>=)|(==)|(!=)/";
 		org.apache.oro.text.perl.Perl5Util perl = new org.apache.oro.text.perl.Perl5Util();
 
-		Vector result;
 		List   list = new ArrayList();
 		String str;
 
+		list.clear();
 		str = "";
-		result = perl.split(operators, str);
-		assertEquals(str + " " + result, 1, result.size());
-		assertEquals("split(\"\") expected [] but was " + result, "", result.get(0));
+		perl.split(list, operators, str);
+		assertEquals("split(\"" + str + "\") expected [] but was " + list, 0, list.size());
 
+		list.clear();
 		str = "P";
-		result = perl.split(operators, str);
-		assertEquals(str + " " + result, 1, result.size());
+		perl.split(list, operators, str);
+		assertEquals("split(\"" + str + "\") expected [\"P\"] but was " + list, 1, list.size());
+		assertEquals("split(\"" + str + "\") expected [\"P\"] but was " + list, str, list.get(0));
 
+		list.clear();
 		str = "P > 0";
-		result = perl.split(operators, str);
-		assertEquals(str + " " + result, 3, result.size());
+		perl.split(list, operators, str);
+		assertEquals("split(\"" + str + "\") expected [\"P \", \">\", \" 0\"] but was " + list, 3, list.size());
+		assertEquals("split(\"" + str + "\") expected [\"P \", \">\", \" 0\"] but was " + list, "P ", list.get(0));
+		assertEquals("split(\"" + str + "\") expected [\"P \", \">\", \" 0\"] but was " + list, ">", list.get(1));
+		assertEquals("split(\"" + str + "\") expected [\"P \", \">\", \" 0\"] but was " + list, " 0", list.get(2));
 
+		list.clear();
 		str = "1 < P < 3";
-		result = perl.split(operators, str);
-		assertEquals(str + " " + result, 5, result.size());
+		perl.split(list, operators, str);
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, 5, list.size());
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, "1 ", list.get(0));
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, "<", list.get(1));
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, " P ", list.get(2));
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, "<", list.get(3));
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, " 3", list.get(4));
 
+		list.clear();
 		str = "1 < P DISPOSE_MEAN < 3";
-		result = perl.split(operators, str);
-		assertEquals(str + " " + result, 5, result.size());
+		perl.split(list, operators, str);
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, 5, list.size());
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, "1 ", list.get(0));
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, "<", list.get(1));
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, " P DISPOSE_MEAN ", list.get(2));
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, "<", list.get(3));
+		assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, " 3", list.get(4));
 	}
 }
