@@ -154,7 +154,7 @@ public class DependencyFinder extends JFrame {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception ex) {
-			System.err.println("Trying to set look and feel: " + ex);
+			Logger.getLogger(DependencyFinder.class).error("Unable to set look and feel", ex);
 		}
 		
 		status_line.ShowInfo("Ready.");

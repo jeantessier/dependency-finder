@@ -91,7 +91,7 @@ public class OOMetrics extends JFrame {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception ex) {
-			System.err.println("Trying to set look and feel: " + ex);
+			Logger.getLogger(OOMetrics.class).error("Unable to set look and feel", ex);
 		}
 		
 		status_line.ShowInfo("Ready.");

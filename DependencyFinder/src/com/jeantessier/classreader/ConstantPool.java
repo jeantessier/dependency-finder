@@ -35,6 +35,7 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
+import org.apache.log4j.*;
 import org.apache.oro.text.perl.*;
 
 public class ConstantPool extends ArrayList implements Visitable {
@@ -92,7 +93,8 @@ public class ConstantPool extends ArrayList implements Visitable {
 					add(new UTF8_info(this, in));
 					break;
 				default:
-					System.out.println("Unknown Tag " + tag);
+					Logger.getLogger(getClass()).info("Unknown Tag " + tag);
+					break;
 			}
 		}
 	}
