@@ -45,7 +45,10 @@ public class DeprecatableDifferences extends DecoratorDifferences {
 	private boolean new_deprecation;
 	private boolean removed_deprecation;
 
-	public DeprecatableDifferences(Differences component, Deprecatable old_deprecatable, Deprecatable new_deprecatable) {
+	/**
+	 *  Only the DifferencesFactory can create instances of this class.
+	 */
+	DeprecatableDifferences(Differences component, Deprecatable old_deprecatable, Deprecatable new_deprecatable) {
 		super(component);
 
 		Logger.getLogger(getClass()).debug("Begin " + Name());

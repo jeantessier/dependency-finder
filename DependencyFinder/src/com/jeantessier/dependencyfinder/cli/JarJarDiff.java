@@ -178,7 +178,9 @@ public class JarJarDiff {
 		String         name        = command_line.SingleSwitch("name");
 		String         old_label   = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
 		String         new_label   = command_line.IsPresent("new-label") ? command_line.SingleSwitch("new-label") : command_line.Switch("new").toString();
-		JarDifferences differences = new JarDifferences(name, old_label, old_validator, old_jar, new_label, new_validator, new_jar);
+
+		DifferencesFactory factory = new DifferencesFactory(old_validator, new_validator);
+		Differences differences = factory.CreateJarDifferences(name, old_label, old_jar, new_label, new_jar);
 
 		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
 

@@ -39,7 +39,10 @@ import com.jeantessier.classreader.*;
  *  All behavior is handled by superclasses.
  */
 public class FieldDifferences extends FeatureDifferences {
-	public FieldDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
+	/**
+	 *  Only the DifferencesFactory can create instances of this class.
+	 */
+	FieldDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
 		super(name, old_feature, new_feature);
 	}
 

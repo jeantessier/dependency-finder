@@ -45,7 +45,10 @@ public class DocumentableDifferences extends DecoratorDifferences {
 	private boolean new_documentation;
 	private boolean removed_documentation;
 
-	public DocumentableDifferences(Differences component, Validator old_validator, Validator new_validator) {
+	/**
+	 *  Only the DifferencesFactory can create instances of this class.
+	 */
+	DocumentableDifferences(Differences component, Validator old_validator, Validator new_validator) {
 		super(component);
 
 		Logger.getLogger(getClass()).debug("Begin " + Name());

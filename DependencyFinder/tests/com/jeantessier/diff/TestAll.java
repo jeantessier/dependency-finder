@@ -44,8 +44,8 @@ public class TestAll extends TestCase {
 
 		result.addTestSuite(TestPackageValidator.class);
 		result.addTestSuite(TestListBasedValidator.class);
-		result.addTestSuite(TestJarDifferences.class);
 		result.addTestSuite(TestDeprecatableDifferences.class);
+		result.addTestSuite(TestDifferencesFactory.class);
 
 		return result;
 	}

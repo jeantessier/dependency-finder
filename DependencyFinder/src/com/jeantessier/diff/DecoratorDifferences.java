@@ -39,7 +39,10 @@ package com.jeantessier.diff;
 public abstract class DecoratorDifferences implements Differences {
 	private Differences component;
 
-	public DecoratorDifferences(Differences component) {
+	/**
+	 *  Only the DifferencesFactory can create instances of this class.
+	 */
+	DecoratorDifferences(Differences component) {
 		this.component = component;
 	}
 

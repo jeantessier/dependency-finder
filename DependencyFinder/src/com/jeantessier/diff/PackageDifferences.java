@@ -45,65 +45,25 @@ import com.jeantessier.dependency.*;
 public class PackageDifferences extends RemovableDifferences {
 	private Collection class_differences = new LinkedList();
 
-	public PackageDifferences(String name, Validator old_validator, ClassfileLoader old_jar, PackageNode old_package, Validator new_validator, ClassfileLoader new_jar, PackageNode new_package) {
+	/**
+	 *  Only the DifferencesFactory can create instances of this class.
+	 */
+	PackageDifferences(String name, PackageNode old_package, PackageNode new_package) {
 		super(name);
 
-		Logger.getLogger(getClass()).debug("Begin " + Name());
-
-		Collection class_level = new TreeSet();
-		Iterator   i;
-	
 		if (old_package != null) {
 			OldDeclaration(old_package.Name());
-
-			i = old_package.Classes().iterator();
-			while (i.hasNext()) {
-				class_level.add(i.next().toString());
-			}
-	    
-			if (new_package != null) {
-				NewDeclaration(new_package.Name());
-
-				if (IsModified()) {
-					Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
-				} else {
-					Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
-				}
-
-				i = new_package.Classes().iterator();
-				while (i.hasNext()) {
-					class_level.add(i.next().toString());
-				}
-
-				Logger.getLogger(getClass()).debug("      Diff'ing classes ...");
-		
-				i = class_level.iterator();
-				while (i.hasNext()) {
-					String class_name = (String) i.next();
-		    
-					Classfile old_class = old_jar.Classfile(class_name);
-					Classfile new_class = new_jar.Classfile(class_name);
-		    
-					ClassDifferences class_differences;
-					if (((old_class != null) && old_class.IsInterface()) || ((new_class != null) && new_class.IsInterface())) {
-						class_differences = new InterfaceDifferences(class_name, old_validator, old_class, new_validator, new_class);
-					} else {
-						class_differences = new ClassDifferences(class_name, old_validator, old_class, new_validator, new_class);
-					}
-					Differences differences = new DeprecatableDifferences(class_differences, old_class, new_class);
-					differences = new DocumentableDifferences(differences, old_validator, new_validator);
-					if (!differences.IsEmpty()) {
-						ClassDifferences().add(differences);
-					}
-				}
-
-				Logger.getLogger(getClass()).debug("      " + Name() + " has " + ClassDifferences().size() + " class(es) that changed.");
-			}
-		} else if (new_package != null) {
-			NewDeclaration(new_package.Name());
 		}
 
-		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
+		if (new_package != null) {
+			NewDeclaration(new_package.Name());
+		}
+	
+		if (IsModified()) {
+			Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
+		} else {
+			Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
+		}
 	}
 
 	public Collection ClassDifferences() {

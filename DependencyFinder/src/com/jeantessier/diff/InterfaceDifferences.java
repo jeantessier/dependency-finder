@@ -39,8 +39,11 @@ import com.jeantessier.classreader.*;
  *  All behavior is handled by superclasses.
  */
 public class InterfaceDifferences extends ClassDifferences {
-	public InterfaceDifferences(String name, Validator old_validator, Classfile old_class, Validator new_validator, Classfile new_class) {
-		super(name, old_validator, old_class, new_validator, new_class);
+	/**
+	 *  Only the DifferencesFactory can create instances of this class.
+	 */
+	InterfaceDifferences(String name, Classfile old_class, Classfile new_class) {
+		super(name, old_class, new_class);
 	}
 
 	public void Accept(Visitor visitor) {

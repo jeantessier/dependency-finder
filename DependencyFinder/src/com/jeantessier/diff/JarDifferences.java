@@ -49,50 +49,13 @@ public class JarDifferences implements Differences {
 
 	private Collection package_differences = new LinkedList();
 
-	public JarDifferences(String name, String old_version, Validator old_validator, ClassfileLoader old_jar, String new_version, Validator new_validator, ClassfileLoader new_jar) {
-		Logger.getLogger(getClass()).debug("Begin " + name + " (" + old_version + " -> " + new_version + ")");
-
+	/**
+	 *  Only the DifferencesFactory can create instances of this class.
+	 */
+	JarDifferences(String name, String old_version, String new_version) {
 		this.name        = name;
 		this.old_version = old_version;
 		this.new_version = new_version;
-
-		Logger.getLogger(getClass()).debug("      Collecting packages ...");
-		
-		Iterator   i;
-
-		NodeFactory old_factory = new NodeFactory();
-		i = old_jar.Classfiles().iterator();
-		while (i.hasNext()) {
-			old_factory.CreateClass(i.next().toString());
-		}
-
-		NodeFactory new_factory = new NodeFactory();
-		i = new_jar.Classfiles().iterator();
-		while (i.hasNext()) {
-			new_factory.CreateClass(i.next().toString());
-		}
-
-		Collection package_level = new TreeSet();
-		package_level.addAll(old_factory.Packages().keySet());
-		package_level.addAll(new_factory.Packages().keySet());
-
-		Logger.getLogger(getClass()).debug("      Diff'ing packages ...");
-	
-		i = package_level.iterator();
-		while (i.hasNext()) {
-			String package_name = (String) i.next();
-	    
-			PackageNode old_package = (PackageNode) old_factory.Packages().get(package_name);
-			PackageNode new_package = (PackageNode) new_factory.Packages().get(package_name);
-	    
-			Differences differences = new PackageDifferences(package_name, old_validator, old_jar, old_package, new_validator, new_jar, new_package);
-			differences = new DocumentableDifferences(differences, old_validator, new_validator);
-			if (!differences.IsEmpty()) {
-				PackageDifferences().add(differences);
-			}
-		}
-
-		Logger.getLogger(getClass()).debug("End   " + Name() + " (" + old_version + " -> " + new_version + "): " + (IsEmpty() ? "empty" : "not empty"));
 	}
 
 	public String Name() {

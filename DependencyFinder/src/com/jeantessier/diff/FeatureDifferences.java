@@ -49,25 +49,28 @@ public abstract class FeatureDifferences extends RemovableDifferences {
 	
 	private boolean inherited = false;
 
-	public FeatureDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
+	/**
+	 *  Only the DifferencesFactory can create instances of this class.
+	 */
+	protected FeatureDifferences(String name, Feature_info old_feature, Feature_info new_feature) {
 		super(name);
-
-		Logger.getLogger(getClass()).debug("Begin " + Name());
 
 		OldFeature(old_feature);
 		NewFeature(new_feature);
 					
 		if (old_feature != null) {
 			OldDeclaration(old_feature.Declaration());
-
-			if (new_feature != null) {
-				NewDeclaration(new_feature.Declaration());
-			}
-		} else if (new_feature != null) {
+		}
+		
+		if (new_feature != null) {
 			NewDeclaration(new_feature.Declaration());
 		}
-
-		Logger.getLogger(getClass()).debug("End   " + Name() + ": " + (IsEmpty() ? "empty" : "not empty"));
+	
+		if (IsModified()) {
+			Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
+		} else {
+			Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
+		}
 	}
 
 	public Feature_info OldFeature() {

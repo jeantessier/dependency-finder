@@ -46,7 +46,7 @@ public abstract class RemovableDifferences implements Differences, Comparable {
 	private String old_declaration = null;
 	private String new_declaration = null;
 
-	public RemovableDifferences(String name) {
+	protected RemovableDifferences(String name) {
 		this.name = name;
 	}
 
