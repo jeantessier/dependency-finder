@@ -143,9 +143,11 @@
 	                prefix=""
 	                includes="**/*.class"/>
 	    <zipfileset dir="${srcDir}"
-	                prefix=""
-	                includes="**/*.gif"
-	                excludes="**/doc-files/**"/>
+	                prefix="">
+		<include name="dependencyfindertasks.properties"/>
+		<include name="**/*.gif"/>
+		<exclude name="**/doc-files/**"/>
+	    </zipfileset>
 	</jar>
     </target>
 
