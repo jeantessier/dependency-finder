@@ -40,47 +40,47 @@ public class Metrics {
 	public static final String PACKAGES = "P";
 	
 	public static final String CLASSES            = "C";
-	public static final String PUBLIC_CLASSES     = "PUBC";
-	public static final String FINAL_CLASSES      = "FINC";
-	public static final String ABSTRACT_CLASSES   = "ABSC";
-	public static final String SYNTHETIC_CLASSES  = "SYNTHC";
+	public static final String PUBLIC_CLASSES     = "PuC";
+	public static final String FINAL_CLASSES      = "FC";
+	public static final String ABSTRACT_CLASSES   = "AC";
+	public static final String SYNTHETIC_CLASSES  = "SynthC";
 	public static final String INTERFACES         = "I";
-	public static final String DEPRECATED_CLASSES = "DEPC";
-	public static final String STATIC_CLASSES     = "STAC";
+	public static final String DEPRECATED_CLASSES = "DC";
+	public static final String STATIC_CLASSES     = "SC";
 
-	public static final String PUBLIC_METHODS       = "PUBM";
-	public static final String PROTECTED_METHODS    = "PROM";
-	public static final String PRIVATE_METHODS      = "PRIM";
-	public static final String PACKAGE_METHODS      = "PACM";
-	public static final String FINAL_METHODS        = "FINM";
-	public static final String ABSTRACT_METHODS     = "ABSM";
-	public static final String DEPRECATED_METHODS   = "DEPM";
-	public static final String SYNTHETIC_METHODS    = "SYNTHM";
-	public static final String STATIC_METHODS       = "STAM";
-	public static final String SYNCHRONIZED_METHODS = "SYNCHM";
-	public static final String NATIVE_METHODS       = "NATM";
-	public static final String TRIVIAL_METHODS      = "TRIM";
+	public static final String PUBLIC_METHODS       = "PuM";
+	public static final String PROTECTED_METHODS    = "ProM";
+	public static final String PRIVATE_METHODS      = "ProM";
+	public static final String PACKAGE_METHODS      = "PaM";
+	public static final String FINAL_METHODS        = "FM";
+	public static final String ABSTRACT_METHODS     = "AM";
+	public static final String DEPRECATED_METHODS   = "DM";
+	public static final String SYNTHETIC_METHODS    = "SynthM";
+	public static final String STATIC_METHODS       = "SM";
+	public static final String SYNCHRONIZED_METHODS = "SynchM";
+	public static final String NATIVE_METHODS       = "NM";
+	public static final String TRIVIAL_METHODS      = "TM";
 
 	public static final String ATTRIBUTES            = "A";
-	public static final String PUBLIC_ATTRIBUTES     = "PUBA";
-	public static final String PROTECTED_ATTRIBUTES  = "PROA";
-	public static final String PRIVATE_ATTRIBUTES    = "PRIA";
-	public static final String PACKAGE_ATTRIBUTES    = "PACA";
-	public static final String FINAL_ATTRIBUTES      = "FINA";
-	public static final String DEPRECATED_ATTRIBUTES = "DEPA";
-	public static final String SYNTHETIC_ATTRIBUTES  = "SYNTHA";
-	public static final String STATIC_ATTRIBUTES     = "STAA";
-	public static final String TRANSIENT_ATTRIBUTES  = "TRAA";
-	public static final String VOLATILE_ATTRIBUTES   = "VOLA";
+	public static final String PUBLIC_ATTRIBUTES     = "PuA";
+	public static final String PROTECTED_ATTRIBUTES  = "ProA";
+	public static final String PRIVATE_ATTRIBUTES    = "PriA";
+	public static final String PACKAGE_ATTRIBUTES    = "PaA";
+	public static final String FINAL_ATTRIBUTES      = "FA";
+	public static final String DEPRECATED_ATTRIBUTES = "DA";
+	public static final String SYNTHETIC_ATTRIBUTES  = "SynthA";
+	public static final String STATIC_ATTRIBUTES     = "SA";
+	public static final String TRANSIENT_ATTRIBUTES  = "TA";
+	public static final String VOLATILE_ATTRIBUTES   = "VA";
 
 	public static final String INNER_CLASSES           = "IC";
-	public static final String PUBLIC_INNER_CLASSES    = "PUBIC";
-	public static final String PROTECTED_INNER_CLASSES = "PROIC";
-	public static final String PRIVATE_INNER_CLASSES   = "PRIIC";
-	public static final String PACKAGE_INNER_CLASSES   = "PACIC";
-	public static final String ABSTRACT_INNER_CLASSES  = "ABSIC";
-	public static final String FINAL_INNER_CLASSES     = "FINIC";
-	public static final String STATIC_INNER_CLASSES    = "STAIC";
+	public static final String PUBLIC_INNER_CLASSES    = "PuIC";
+	public static final String PROTECTED_INNER_CLASSES = "ProIC";
+	public static final String PRIVATE_INNER_CLASSES   = "PriIC";
+	public static final String PACKAGE_INNER_CLASSES   = "PaIC";
+	public static final String ABSTRACT_INNER_CLASSES  = "AIC";
+	public static final String FINAL_INNER_CLASSES     = "FIC";
+	public static final String STATIC_INNER_CLASSES    = "SIC";
 
 	public static final String DEPTH_OF_INHERITANCE  = "DOI";
 	public static final String SUBCLASSES            = "SUB";
@@ -88,7 +88,7 @@ public class Metrics {
 
 	public static final String SLOC            = "SLOC";
 	public static final String PARAMETERS      = "PARAM";
-	public static final String LOCAL_VARIABLES = "VAR";
+	public static final String LOCAL_VARIABLES = "LVAR";
 
 	public static final String INBOUND_INTRA_PACKAGE_DEPENDENCIES  = "IIP";
 	public static final String INBOUND_EXTRA_PACKAGE_DEPENDENCIES  = "IEP";
