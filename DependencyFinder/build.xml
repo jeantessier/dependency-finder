@@ -1,0 +1,266 @@
+<project name="DependencyFinder" default="compiletestsdebug" basedir=".">
+
+    <patternset id="all.sources">
+	<include name="**/*.java"/>
+    </patternset>
+
+    <path id="libs">
+	<fileset dir="lib">
+	    <include name="**/*.jar"/>
+	</fileset>
+	<pathelement location="classes"/>
+    </path>
+
+    <target name="init">
+	<tstamp/>
+
+	<!--
+        <property name="build.compiler" value="classic"/>
+	-->
+
+	<property name="packageNames"   value="com.jeantessier.*"/>
+
+	<property name="srcDir"         value="src"/>
+	<property name="testsDir"       value="tests"/>
+	<property name="binDir"         value="bin"/>
+	<property name="classesDir"     value="classes"/>
+	<property name="libDir"         value="lib"/>
+	<property name="etcDir"         value="etc"/>
+	<property name="docsDir"        value="docs"/>
+	<property name="logsDir"        value="logs"/>
+
+	<property name="srcFiles"       value="${srcDir}/**"/>
+	<property name="testsFiles"     value="${testsDir}/**"/>
+	<property name="binFiles"       value="${binDir}/**"/>
+	<property name="libFiles"       value="${libDir}/**"/>
+	<property name="etcFiles"       value="${etcDir}/**"/>
+	<property name="docsFiles"      value="${docsDir}/**"/>
+
+	<property name="jarFile"        value="${libDir}/${ant.project.name}.jar"/>
+	<property name="zipFile"        value="${ant.project.name}.${DSTAMP}.src.zip"/>
+	<property name="distFile"       value="${ant.project.name}.${DSTAMP}.zip"/>
+
+	<mkdir dir="${classesDir}"/>
+	<mkdir dir="${docsDir}"/>
+	<mkdir dir="${logsDir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac destdir="${classesDir}">
+	    <src path="${srcDir}"/>
+	    <classpath refid="libs"/>
+	    <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="compiletests" depends="compile">
+        <javac destdir="${classesDir}">
+	    <src path="${testsDir}"/>
+	    <classpath refid="libs"/>
+	    <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="deprecation" depends="init">
+        <javac destdir="${classesDir}" deprecation="yes">
+	    <src path="${srcDir}"/>
+	    <classpath refid="libs"/>
+	    <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="compiledebug" depends="init">
+        <javac destdir="${classesDir}" debug="on">
+	    <src path="${srcDir}"/>
+	    <classpath refid="libs"/>
+	    <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="compiletestsdebug" depends="compiledebug">
+        <javac destdir="${classesDir}" debug="on">
+	    <src path="${testsDir}"/>
+	    <classpath refid="libs"/>
+	    <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar jarfile="${jarFile}">
+	    <zipfileset dir="${classesDir}" prefix="" includes="**/*.class"/>
+	    <zipfileset dir="${srcDir}"     prefix="" includes="**/*.gif"/>
+	</jar>
+    </target>
+
+    <target name="alltests" depends="init">
+	<junit>
+	    <formatter type="plain" usefile="no"/>
+	    <test name="TestAll"/>
+	    <classpath>
+		<path refid="libs"/>
+		<path location="classes"/>
+	    </classpath>
+	</junit>
+    </target>
+
+    <target name="src" depends="init">
+        <zip zipfile="${zipFile}">
+	    <zipfileset dir="."
+			prefix="${ant.project.name}">
+		<patternset>
+		    <include name="build.xml"/>
+		    <include name="lgpl.txt"/>
+		    <include name="readme.txt"/>
+		    <include name="${srcFiles}"/>
+		    <include name="${testsFiles}"/>
+		    <include name="${binFiles}"/>
+		    <include name="${etcFiles}"/>
+		    <exclude name="${srcFiles}/**/*.class"/>
+		</patternset>
+	    </zipfileset>
+	</zip>
+    </target>
+
+    <target name="dist" depends="init">
+        <zip zipfile="${distFile}">
+	    <zipfileset dir="." prefix="${ant.project.name}">
+		<patternset>
+		    <include name="lgpl.txt"/>
+		    <include name="readme.txt"/>
+		    <include name="${binFiles}"/>
+		    <include name="${libFiles}"/>
+		    <include name="${etcFiles}"/>
+		    <include name="${docsFiles}"/>
+		</patternset>
+	    </zipfileset>
+	</zip>
+    </target>
+
+    <target name="ftp" depends="init">
+        <ftp server="upload.attbi.com"
+	     userid="jeantessier"
+	     password="45box165"
+	     remotedir="DependencyFinder/download"
+	     action="del"
+	     verbose="yes">
+	    <fileset>
+		<patternset>
+		    <include name="*.zip"/>
+		</patternset>
+	    </fileset>
+	</ftp>
+        <ftp server="upload.attbi.com"
+	     userid="jeantessier"
+	     password="45box165"
+	     remotedir="DependencyFinder/download"
+	     action="put"
+	     verbose="yes">
+	    <fileset dir=".">
+		<patternset>
+		    <include name="${distFile}"/>
+		</patternset>
+	    </fileset>
+	</ftp>
+    </target>
+
+    <target name="docs" depends="init">
+        <javadoc packagenames="${packageNames}"
+		 destdir="${docsDir}"
+		 author="no"
+	         version="no"
+		 doctitle="${ant.project.name}">
+	    <sourcepath path="${srcDir}"/>
+	    <classpath refid="libs"/>
+	</javadoc>
+    </target>
+
+    <!--
+	"docletPath" does not work in this version of Ant.
+    -->
+    <target name="doclint">
+        <javadoc packagenames="${packageNames}"
+		 version="no"
+		 author="no">
+	    <sourcepath path="${srcDir}"/>
+	    <classpath refid="libs"/>
+	    <doclet name="com.jollem.doclint.DocLint"
+		    path="C:\language\Java\doclint-1.0a2\doclint.jar"/>
+  	</javadoc>
+    </target>
+
+    <!--
+        UMLDoclet produces UML class diagrams in HTML next to
+	a class's javadoc documentation.  The diagrams are
+	simplistic and ugly.  Not very useful.
+	"docletPath" does not work in this version of Ant.
+    -->
+    <target name="umldoclet">
+        <javadoc sourcepath="${srcDir}"
+	         destdir="${docsDir}"
+	         packagenames="${packageNames}"
+		 version="no"
+		 author="no"
+		 doclet="JP.co.esm.caddies.doclets.UMLDoclet"
+		 docletPath="D:\language\Java\UMLDoclet"/>
+    </target>
+
+    <!--
+        RedDoclet produces petal files for Rational Rose.
+	But the resulting petal files do not model interfaces
+	properly (abstract classes instead of Interface
+	stereotype).
+	"docletPath" does not work in this version of Ant.
+    -->
+    <target name="reddoclet">
+        <javadoc sourcepath="${srcDir}"
+	         packagenames="${packageNames}"
+		 version="no"
+		 author="no"
+		 doclet="JP.co.esm.caddies.doclets.RedDoclet"
+		 docletPath="D:\language\Java\java2rose"/>
+    </target>
+
+    <target name="clearlogs" depends="init">
+        <delete verbose="true">
+	    <fileset dir=".">
+		<patternset>
+		    <include name="**/*.log"/>
+		</patternset>
+	    </fileset>
+	</delete>
+        <delete dir="logs" verbose="true"/>
+    </target>
+
+    <target name="clean" depends="init">
+        <delete dir="${classesDir}"
+		includeEmptyDirs="true"
+	        verbose="true"/>
+        <delete verbose="true">
+	    <fileset dir="." defaultexcludes="no">
+		<patternset>
+		    <include name="**/*~"/>
+		    <include name="**/*.bak"/>
+		    <include name="**/*.class"/>
+		</patternset>
+	    </fileset>
+	</delete>
+    </target>
+
+    <target name="cleandocs" depends="init">
+        <delete dir="${docsDir}"
+		includeEmptyDirs="true"
+	        verbose="true"/>
+        <delete verbose="true">
+	    <fileset dir=".">
+		<patternset>
+		    <include name="**/*.red"/>
+		</patternset>
+	    </fileset>
+	</delete>
+    </target>
+
+    <target name="realclean" depends="clearlogs, cleandocs, clean">
+	<delete file="${jarFile}"/>
+    </target>
+
+</project>

@@ -1,0 +1,315 @@
+/*
+ *  Dependency Finder - Computes quality factors from compiled Java code
+ *  Copyright (C) 2001  Jean Tessier
+ * 
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ * 
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ * 
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+package com.jeantessier.dependencyfinder.cli;
+
+import java.io.*;
+import java.util.*;
+
+import org.apache.log4j.*;
+
+import com.jeantessier.commandline.*;
+import com.jeantessier.dependency.*;
+
+public class DependencyReporter {
+	public static final String DEFAULT_INCLUDES        = "//";
+	public static final String DEFAULT_SCOPE_INCLUDES  = "//";
+	public static final String DEFAULT_FILTER_INCLUDES = "//";
+	public static final String DEFAULT_LOGFILE         = "System.out";
+	public static final String DEFAULT_TRACEFILE       = "System.out";
+
+	public static void Error(CommandLineUsage clu, String msg) {
+		System.err.println(msg);
+		Error(clu);
+	}
+
+	public static void Error(CommandLineUsage clu) {
+		System.err.println(clu);
+		System.err.println();
+		System.err.println("-all shorthand for the combination:");
+		System.err.println("    -package-scope");
+		System.err.println("    -class-scope");
+		System.err.println("    -feature-scope");
+		System.err.println("    -package-filter");
+		System.err.println("    -class-filter");
+		System.err.println("    -feature-filter");
+		System.err.println();
+		System.err.println("-p2p shorthand for the combination:");
+		System.err.println("    -package-scope");
+		System.err.println("    -package-filter");
+		System.err.println();
+		System.err.println("-c2p shorthand for the combination:");
+		System.err.println("    -class-scope");
+		System.err.println("    -package-filter");
+		System.err.println();
+		System.err.println("-c2c shorthand for the combination:");
+		System.err.println("    -class-scope");
+		System.err.println("    -class-filter");
+		System.err.println();
+		System.err.println("-f2f shorthand for the combination:");
+		System.err.println("    -feature-scope");
+		System.err.println("    -feature-filter");
+		System.err.println();
+		System.err.println("-includes \"str\" shorthand for the combination:");
+		System.err.println("    -scope-incldues \"str\"");
+		System.err.println("    -filter-incldues \"str\"");
+		System.err.println();
+		System.err.println("-excludes \"str\" shorthand for the combination:");
+		System.err.println("    -scope-excldues \"str\"");
+		System.err.println("    -filter-excldues \"str\"");
+		System.err.println();
+		System.err.println("Defaults is text output to the console.");
+		System.err.println();
+	}
+
+	public static void main(String[] args) throws Exception {
+		// Parsing the command line
+		CommandLine command_line = new CommandLine(new AtLeastParameterStrategy(1));
+		command_line.AddMultipleValuesSwitch("scope-includes",          DEFAULT_SCOPE_INCLUDES);
+		command_line.AddMultipleValuesSwitch("scope-excludes");
+		command_line.AddToggleSwitch("package-scope");
+		command_line.AddMultipleValuesSwitch("package-scope-includes");
+		command_line.AddMultipleValuesSwitch("package-scope-excludes");
+		command_line.AddToggleSwitch("class-scope");
+		command_line.AddMultipleValuesSwitch("class-scope-includes");
+		command_line.AddMultipleValuesSwitch("class-scope-excludes");
+		command_line.AddToggleSwitch("feature-scope");
+		command_line.AddMultipleValuesSwitch("feature-scope-includes");
+		command_line.AddMultipleValuesSwitch("feature-scope-excludes");
+		command_line.AddMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
+		command_line.AddMultipleValuesSwitch("filter-excludes");
+		command_line.AddToggleSwitch("package-filter");
+		command_line.AddMultipleValuesSwitch("package-filter-includes");
+		command_line.AddMultipleValuesSwitch("package-filter-excludes");
+		command_line.AddToggleSwitch("class-filter");
+		command_line.AddMultipleValuesSwitch("class-filter-includes");
+		command_line.AddMultipleValuesSwitch("class-filter-excludes");
+		command_line.AddToggleSwitch("feature-filter");
+		command_line.AddMultipleValuesSwitch("feature-filter-includes");
+		command_line.AddMultipleValuesSwitch("feature-filter-excludes");
+
+		command_line.AddToggleSwitch("all");
+		command_line.AddToggleSwitch("p2p");
+		command_line.AddToggleSwitch("c2p");
+		command_line.AddToggleSwitch("c2c");
+		command_line.AddToggleSwitch("f2f");
+		command_line.AddMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
+		command_line.AddMultipleValuesSwitch("excludes");
+
+		command_line.AddToggleSwitch("time");
+		command_line.AddToggleSwitch("serialize");
+		command_line.AddToggleSwitch("plain");
+		command_line.AddToggleSwitch("xml");
+		command_line.AddToggleSwitch("minimize");
+		command_line.AddToggleSwitch("maximize");
+		command_line.AddSingleValueSwitch("out");
+		command_line.AddToggleSwitch("help");
+		command_line.AddOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
+		command_line.AddOptionalValueSwitch("trace",                    DEFAULT_TRACEFILE);
+
+		CommandLineUsage usage = new CommandLineUsage("DependencyReporter");
+		command_line.Accept(usage);
+
+		try {
+			command_line.Parse(args);
+		} catch (IllegalArgumentException ex) {
+			Error(usage, ex.toString());
+			System.exit(1);
+		} catch (CommandLineException ex) {
+			Error(usage, ex.toString());
+			System.exit(1);
+		}
+
+		if (command_line.ToggleSwitch("help")) {
+			Error(usage);
+			System.exit(1);
+		}
+
+		if (command_line.IsPresent("verbose")) {
+			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
+
+			} else {
+
+			}
+		}
+
+		if (command_line.IsPresent("trace")) {
+			if ("System.out".equals(command_line.OptionalSwitch("trace"))) {
+
+			} else {
+
+			}
+		}
+
+		if (command_line.ToggleSwitch("maximize") && command_line.ToggleSwitch("minimize")) {
+			Error(usage, "Only one of -maximize or -minimize allowed");
+		}
+
+		/*
+		 *  Beginning of main processing
+		 */
+
+		Date start = new Date();
+
+		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
+	
+		strategy.PackageScope(false);
+		strategy.ClassScope(false);
+		strategy.FeatureScope(false);
+		strategy.PackageFilter(false);
+		strategy.ClassFilter(false);
+		strategy.FeatureFilter(false);
+
+		if (command_line.IsPresent("scope-includes") || (!command_line.IsPresent("package-scope-includes") && !command_line.IsPresent("class-scope-includes") && !command_line.IsPresent("feature-scope-includes"))) {
+			// Only use the default if nothing else has been specified.
+			strategy.ScopeIncludes(command_line.MultipleSwitch("scope-includes"));
+		}
+		strategy.ScopeExcludes(command_line.MultipleSwitch("scope-excludes"));
+		strategy.PackageScope(command_line.ToggleSwitch("package-scope"));
+		strategy.PackageScopeIncludes(command_line.MultipleSwitch("package-scope-includes"));
+		strategy.PackageScopeExcludes(command_line.MultipleSwitch("package-scope-excludes"));
+		strategy.ClassScope(command_line.ToggleSwitch("class-scope"));
+		strategy.ClassScopeIncludes(command_line.MultipleSwitch("class-scope-includes"));
+		strategy.ClassScopeExcludes(command_line.MultipleSwitch("class-scope-excludes"));
+		strategy.FeatureScope(command_line.ToggleSwitch("feature-scope"));
+		strategy.FeatureScopeIncludes(command_line.MultipleSwitch("feature-scope-includes"));
+		strategy.FeatureScopeExcludes(command_line.MultipleSwitch("feature-scope-excludes"));
+	
+		if (command_line.IsPresent("filter-includes") || (!command_line.IsPresent("package-filter-includes") && !command_line.IsPresent("class-filter-includes") && !command_line.IsPresent("feature-filter-includes"))) {
+			// Only use the default if nothing else has been specified.
+			strategy.FilterIncludes(command_line.MultipleSwitch("filter-includes"));
+		}
+		strategy.FilterExcludes(command_line.MultipleSwitch("filter-excludes"));
+		strategy.PackageFilter(command_line.ToggleSwitch("package-filter"));
+		strategy.PackageFilterIncludes(command_line.MultipleSwitch("package-filter-includes"));
+		strategy.PackageFilterExcludes(command_line.MultipleSwitch("package-filter-excludes"));
+		strategy.ClassFilter(command_line.ToggleSwitch("class-filter"));
+		strategy.ClassFilterIncludes(command_line.MultipleSwitch("class-filter-includes"));
+		strategy.ClassFilterExcludes(command_line.MultipleSwitch("class-filter-excludes"));
+		strategy.FeatureFilter(command_line.ToggleSwitch("feature-filter"));
+		strategy.FeatureFilterIncludes(command_line.MultipleSwitch("feature-filter-includes"));
+		strategy.FeatureFilterExcludes(command_line.MultipleSwitch("feature-filter-excludes"));
+	
+		if (command_line.ToggleSwitch("all")) {
+			strategy.PackageScope(true);
+			strategy.ClassScope(true);
+			strategy.FeatureScope(true);
+			strategy.PackageFilter(true);
+			strategy.ClassFilter(true);
+			strategy.FeatureFilter(true);
+		}
+	
+		if (command_line.ToggleSwitch("p2p")) {
+			strategy.PackageScope(true);
+			strategy.PackageFilter(true);
+		}
+	
+		if (command_line.ToggleSwitch("c2p")) {
+			strategy.ClassScope(true);
+			strategy.PackageFilter(true);
+		}
+	
+		if (command_line.ToggleSwitch("c2c")) {
+			strategy.ClassScope(true);
+			strategy.ClassFilter(true);
+		}
+	
+		if (command_line.ToggleSwitch("f2f")) {
+			strategy.FeatureScope(true);
+			strategy.FeatureFilter(true);
+		}
+	
+		if (command_line.IsPresent("includes")) {
+			strategy.ScopeIncludes(command_line.MultipleSwitch("includes"));
+			strategy.FilterIncludes(command_line.MultipleSwitch("includes"));
+		}
+	
+		if (command_line.IsPresent("excludes")) {
+			strategy.ScopeExcludes(command_line.MultipleSwitch("excludes"));
+			strategy.FilterExcludes(command_line.MultipleSwitch("excludes"));
+		}
+
+		GraphCopier copier;
+		if (command_line.ToggleSwitch("maximize")) {
+			copier = new GraphCopier(strategy);
+		} else {
+			copier = new GraphSummarizer(strategy);
+		}
+		
+		Iterator i = command_line.Parameters().iterator();
+		while (i.hasNext()) {
+			String filename = (String) i.next();
+			Category.getInstance(DependencyReporter.class.getName()).info("Reading " + filename);
+
+			Collection packages;
+
+			if (filename.endsWith(".xml")) {
+				packages = new NodeLoader().Load(filename).values();
+			} else if (filename.endsWith(".ser")) {
+				ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
+				packages = (Collection) in.readObject();
+			} else {
+				packages = Collections.EMPTY_LIST;
+			}
+
+			Category.getInstance(DependencyReporter.class.getName()).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
+
+			if (command_line.ToggleSwitch("maximize")) {
+				new LinkMaximizer().TraverseNodes(packages);
+			} else if (command_line.ToggleSwitch("minimize")) {
+				new LinkMinimizer().TraverseNodes(packages);
+			}
+
+			copier.TraverseNodes(packages);
+		}
+
+		Category.getInstance(DependencyReporter.class.getName()).info("Reporting " + copier.Scope().size() + " package(s) ...");
+	
+		if (command_line.ToggleSwitch("serialize")) {
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));
+			out.writeObject(copier.Scope());
+			out.close();
+		} else {
+			Printer printer;
+			if (command_line.IsPresent("xml")) {
+				printer = new XMLPrinter();
+			} else if (command_line.ToggleSwitch("plain")) {
+				printer = new com.jeantessier.dependency.TextPrinter();
+			} else {
+				printer = new PrettyPrinter();
+			}
+	    
+			printer.TraverseNodes(copier.Scope());
+	    
+			if (command_line.IsPresent("out")) {
+				PrintWriter out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+				out.print(printer);
+				out.close();
+			} else {
+				System.out.print(printer);
+			}
+		}
+
+		Date end = new Date();
+
+		if (command_line.ToggleSwitch("time")) {
+			System.err.println(DependencyReporter.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
+		}
+	}
+}
