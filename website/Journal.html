@@ -17,6 +17,16 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	November 04, 2004
+    </dt>
+    <dd>
+	<p>It turns out the problem with the switch
+	<code>-start-includes /^com.jeantessier.dependency.NodeFactory/</code>
+	was related to the DOS command interpreter.  It somehow stripped the
+	caret from the regular expression.  Putting double quotes around it
+	fixed it.</p>
+    </dd>
+    <dt>
 	November 03, 2004
     </dt>
     <dd>
