@@ -17,6 +17,28 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	October 28, 2004
+    </dt>
+    <dd>
+	<p>Thought of a new feature for transitive closures.  I was tracking
+	calls that go through an interface-implementation transition a few
+	times.  Because of the dependency severing nature of those transitions,
+	I could not compute the closure for the whole call sequence
+	automatially.  This got me the idea that if the dependency graph were
+	to keep track of inheritance and implementation information, the tools
+	would be able to cross the interface-implementation transition and
+	compute larger sequences.  This will take some while.</p>
+
+	<p>Fixed the broken link to Perl help in the web app.</p>
+
+	<p>Fixed <code>extract.jsp</code> where I had forgotten to account for
+	the fact that <code>CodeDependencyCollector</code> was no longer a
+	<code>LoadListener</code>.</p>
+
+	<p>Fixed a number of setters that were mistakenly named
+	<code>getXXX()</code> when I changed the naming scheme.</p>
+    </dd>
+    <dt>
 	October 27, 2004
     </dt>
     <dd>
