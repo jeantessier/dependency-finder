@@ -166,6 +166,15 @@ OOMetrics
 OOMetricsGUI
 	A Swing-based version of OOMetrics.
 
+ListDocumentedElements
+	Lists classes, interfaces, fields, constructors, and methods
+	that were tagged as part of the published API by using custom
+	javadoc tags.  This is a doclet that you run with javadoc.
+
+	Examples:
+
+	C:\>ListDocumentableElements -tag level -valid publicAPI -out list.txt
+
 JarJarDiff
 	Takes two JAR files and computes the API changes between
 	them.  The first JAR file is considered the "old" code and
