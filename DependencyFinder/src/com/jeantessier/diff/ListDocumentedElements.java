@@ -118,7 +118,8 @@ public class ListDocumentedElements {
 
 	private static void Process(ProgramElementDoc doc) {
 		// boolean is_visible = doc.isPublic() || doc.isProtected();
-		boolean is_visible = true;
+		// boolean is_visible = true;
+		boolean is_visible = !doc.name().equals("<clinit>");
 
 		Tag[] tags = doc.tags(tag_name);
 
