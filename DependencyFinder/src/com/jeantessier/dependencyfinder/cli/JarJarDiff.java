@@ -63,6 +63,7 @@ public class JarJarDiff {
 	public static void main(String[] args) throws Exception {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine(new NullParameterStrategy());
+		command_line.AddSingleValueSwitch("product");
 		command_line.AddMultipleValuesSwitch("old", true);
 		command_line.AddSingleValueSwitch("old-label");
 		command_line.AddMultipleValuesSwitch("new", true);
@@ -182,7 +183,7 @@ public class JarJarDiff {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		com.jeantessier.diff.Printer printer = new Report();
+		com.jeantessier.diff.Printer printer = new Report(command_line.SingleSwitch("product"));
 		differences.Accept(printer);
 		out.print(printer);
 

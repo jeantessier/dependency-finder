@@ -37,6 +37,7 @@ import java.util.*;
 import com.jeantessier.classreader.*;
 
 public class Report extends Printer {
+	private String product;
 	private String old_version;
 	private String new_version;
 
@@ -55,12 +56,16 @@ public class Report extends Printer {
 	private Collection new_interfaces = new TreeSet();
 	private Collection new_classes = new TreeSet();
 
-	public Report() {
+	public Report(String product) {
 		super();
+
+		this.product = product;
 	}
 
-	public Report(String indent) {
+	public Report(String indent, String product) {
 		super(indent);
+
+		this.product = product;
 	}
 
 	public void VisitJarDifferences(JarDifferences differences) {
@@ -143,6 +148,7 @@ public class Report extends Printer {
 		Indent().Append("<differences>\n");
 		RaiseIndent();
 
+		Indent().Append("<product>").Append(product).Append("</product>\n");
 		Indent().Append("<old>").Append(old_version).Append("</old>\n");
 		Indent().Append("<new>").Append(new_version).Append("</new>\n");
 	
@@ -323,7 +329,9 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!DOCTYPE differences [\n");
 		result.append("\n");
-		result.append("<!ELEMENT differences (old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,modified-interfaces?,modified-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >\n");
+		result.append("<!ELEMENT differences (product,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,modified-interfaces?,modified-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >\n");
+		result.append("\n");
+		result.append("<!ELEMENT product (#PCDATA)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT old (#PCDATA)* >\n");
 		result.append("\n");
@@ -353,7 +361,7 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!ELEMENT new-classes (name)* >\n");
 		result.append("\n");
-		result.append("<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,modified-fields?,modified-interfaces?,modified-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-interfaces?,new-methods?) >\n");
+		result.append("<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,modified-fields?,modified-constructors?,modified-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >\n");
 		result.append("<!ATTLIST class\n");
 		result.append("          visibility (public|package) #IMPLIED\n");
 		result.append(">\n");
