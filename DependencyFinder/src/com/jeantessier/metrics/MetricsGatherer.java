@@ -117,6 +117,10 @@ public class MetricsGatherer extends VisitorBase {
 		CurrentGroup(CurrentClass().Parent());
 		CurrentProject(CurrentGroup().Parent());
 
+		MetricsFactory().IncludeClassMetrics(CurrentClass());
+		MetricsFactory().IncludeGroupMetrics(CurrentGroup());
+		MetricsFactory().IncludeProjectMetrics(CurrentProject());
+
 		CurrentProject().AddToMeasurement(Metrics.PACKAGES, CurrentGroup().Name());
 		
 		if ((classfile.AccessFlag() & Classfile.ACC_PUBLIC) != 0) {
@@ -275,6 +279,7 @@ public class MetricsGatherer extends VisitorBase {
 		fireStartMethod(entry);
 		
 		CurrentMethod(MetricsFactory().CreateMethodMetrics(entry.FullSignature()));
+		MetricsFactory().IncludeMethodMetrics(CurrentMethod());
 		
 		Logger.getLogger(getClass()).debug("VisitMethod_info(" + entry.FullSignature() + ")");
 		Logger.getLogger(getClass()).debug("Current class: " + CurrentClass().Name());

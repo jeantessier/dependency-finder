@@ -48,6 +48,11 @@ public class MetricsFactory {
 	private Map groups   = new HashMap();
 	private Map classes  = new HashMap();
 	private Map methods  = new HashMap();
+
+	private Map included_projects = new HashMap();
+	private Map included_groups   = new HashMap();
+	private Map included_classes  = new HashMap();
+	private Map included_methods  = new HashMap();
 	
 	public MetricsFactory(String project_name, MetricsConfiguration configuration) {
 		this.project_name  = project_name;
@@ -84,15 +89,27 @@ public class MetricsFactory {
 		
 		return result;
 	}
+	
+	public void IncludeProjectMetrics(Metrics metrics) {
+		included_projects.put(metrics.Name(), metrics);
+	}
 
 	public Collection ProjectNames() {
-		return Collections.unmodifiableCollection(projects.keySet());
+		return Collections.unmodifiableCollection(included_projects.keySet());
 	}
 	
 	public Collection ProjectMetrics() {
-		return Collections.unmodifiableCollection(projects.values());
+		return Collections.unmodifiableCollection(included_projects.values());
 	}
 	
+	public Collection AllProjectNames() {
+		return Collections.unmodifiableCollection(projects.keySet());
+	}
+	
+	public Collection AllProjectMetrics() {
+		return Collections.unmodifiableCollection(projects.values());
+	}
+
 	public Metrics CreateGroupMetrics(String name) {
 		Metrics result = (Metrics) groups.get(name);
 
@@ -113,12 +130,24 @@ public class MetricsFactory {
 
 		return result;
 	}
+	
+	public void IncludeGroupMetrics(Metrics metrics) {
+		included_groups.put(metrics.Name(), metrics);
+	}
 
 	public Collection GroupNames() {
-		return Collections.unmodifiableCollection(groups.keySet());
+		return Collections.unmodifiableCollection(included_groups.keySet());
 	}
 
 	public Collection GroupMetrics() {
+		return Collections.unmodifiableCollection(included_groups.values());
+	}
+
+	public Collection AllGroupNames() {
+		return Collections.unmodifiableCollection(groups.keySet());
+	}
+
+	public Collection AllGroupMetrics() {
 		return Collections.unmodifiableCollection(groups.values());
 	}
 
@@ -152,15 +181,27 @@ public class MetricsFactory {
 
 		return result;
 	}
+	
+	public void IncludeClassMetrics(Metrics metrics) {
+		included_classes.put(metrics.Name(), metrics);
+	}
 
 	public Collection ClassNames() {
-		return Collections.unmodifiableCollection(classes.keySet());
+		return Collections.unmodifiableCollection(included_classes.keySet());
 	}
 
 	public Collection ClassMetrics() {
-		return Collections.unmodifiableCollection(classes.values());
+		return Collections.unmodifiableCollection(included_classes.values());
+	}
+
+	public Collection AllClassNames() {
+		return Collections.unmodifiableCollection(classes.keySet());
 	}
 	
+	public Collection AllClassMetrics() {
+		return Collections.unmodifiableCollection(classes.values());
+	}
+
 	public Metrics CreateMethodMetrics(String name) {
 		Metrics result = (Metrics) methods.get(name);
 
@@ -190,11 +231,23 @@ public class MetricsFactory {
 		return result;
 	}
 
+	public void IncludeMethodMetrics(Metrics metrics) {
+		included_methods.put(metrics.Name(), metrics);
+	}
+	
 	public Collection MethodNames() {
-		return Collections.unmodifiableCollection(methods.keySet());
+		return Collections.unmodifiableCollection(included_methods.keySet());
 	}
 
 	public Collection MethodMetrics() {
+		return Collections.unmodifiableCollection(included_methods.values());
+	}
+	
+	public Collection AllMethodNames() {
+		return Collections.unmodifiableCollection(methods.keySet());
+	}
+
+	public Collection AllMethodMetrics() {
 		return Collections.unmodifiableCollection(methods.values());
 	}
 
@@ -203,6 +256,11 @@ public class MetricsFactory {
 		groups.clear();
 		classes.clear();
 		methods.clear();
+		
+		included_projects.clear();
+		included_groups.clear();
+		included_classes.clear();
+		included_methods.clear();
 	}
 	
 	private void PopulateMetrics(Metrics metrics, Collection descriptors) {

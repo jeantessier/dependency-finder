@@ -45,12 +45,13 @@ public class TestMetricsGatherer extends TestCase {
 	public static final String TEST_CLASS    = "test";
 	public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 
-	private MetricsFactory factory;
+	private MetricsFactory  factory;
+	private ClassfileLoader loader;
 	
 	protected void setUp() throws Exception {
 		factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml"));
 
-		ClassfileLoader loader = new AggregatingClassfileLoader();
+		loader = new AggregatingClassfileLoader();
 		loader.Load(Collections.singleton(TEST_FILENAME));
 
 		loader.Classfile(TEST_CLASS).Accept(new MetricsGatherer("test", factory));
@@ -61,28 +62,43 @@ public class TestMetricsGatherer extends TestCase {
 		assertTrue(factory.ProjectNames().toString() + " does not contain project \"test\"", factory.ProjectNames().contains("test"));
 
 		assertTrue(factory.GroupNames().toString() + " does not contain package \"\"", factory.GroupNames().contains(""));
-		assertTrue(factory.GroupNames().toString() + " does not contain package \"java.lang\"", factory.GroupNames().contains("java.lang"));
-		assertTrue(factory.GroupNames().toString() + " does not contain package \"java.util\"", factory.GroupNames().contains("java.util"));
-		assertTrue(factory.GroupNames().toString() + " does not contain package \"java.io\"", factory.GroupNames().contains("java.util"));
-		assertEquals(factory.GroupNames().toString(), 4, factory.GroupNames().size());
+		assertEquals(factory.GroupNames().toString(), 1, factory.GroupNames().size());
 
-		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.io.PrintStream\"", factory.ClassNames().contains("java.io.PrintStream"));
-		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.lang.NullPointerException\"", factory.ClassNames().contains("java.lang.NullPointerException"));
-		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.lang.Object\"", factory.ClassNames().contains("java.lang.Object"));
-		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.lang.String\"", factory.ClassNames().contains("java.lang.String"));
-		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.lang.System\"", factory.ClassNames().contains("java.lang.System"));
-		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.util.Collections\"", factory.ClassNames().contains("java.util.Collections"));
-		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.util.Collection\"", factory.ClassNames().contains("java.util.Collection"));
-		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.util.Set\"", factory.ClassNames().contains("java.util.Set"));
 		assertTrue(factory.ClassNames().toString() + " does not contain class \"test\"", factory.ClassNames().contains("test"));
-		assertEquals(factory.ClassNames().toString(), 9, factory.ClassNames().size());
+		assertEquals(factory.ClassNames().toString(), 1, factory.ClassNames().size());
 
-		assertTrue(factory.MethodNames().toString() + " does not contain method \"java.io.PrintStream.println(java.lang.Object)\"", factory.MethodNames().contains("java.io.PrintStream.println(java.lang.Object)"));
-		assertTrue(factory.MethodNames().toString() + " does not contain method \"java.lang.Object.Object()\"", factory.MethodNames().contains("java.lang.Object.Object()"));
-		assertTrue(factory.MethodNames().toString() + " does not contain method \"java.util.Collections.singleton(java.lang.Object)\"", factory.MethodNames().contains("java.util.Collections.singleton(java.lang.Object)"));
 		assertTrue(factory.MethodNames().toString() + " does not contain method \"test.main(java.lang.String[])\"", factory.MethodNames().contains("test.main(java.lang.String[])"));
 		assertTrue(factory.MethodNames().toString() + " does not contain method \"test.test()\"", factory.MethodNames().contains("test.test()"));
-		assertEquals(factory.MethodNames().toString(), 5, factory.MethodNames().size());
+		assertEquals(factory.MethodNames().toString(), 2, factory.MethodNames().size());
+	}
+	
+	public void testNbAllElements() throws IOException, SAXException {
+		assertEquals("factory.AllProjectNames().size()", 1, factory.AllProjectNames().size());
+		assertTrue(factory.AllProjectNames().toString() + " does not contain project \"test\"", factory.AllProjectNames().contains("test"));
+
+		assertTrue(factory.AllGroupNames().toString() + " does not contain package \"\"", factory.AllGroupNames().contains(""));
+		assertTrue(factory.AllGroupNames().toString() + " does not contain package \"java.lang\"", factory.AllGroupNames().contains("java.lang"));
+		assertTrue(factory.AllGroupNames().toString() + " does not contain package \"java.util\"", factory.AllGroupNames().contains("java.util"));
+		assertTrue(factory.AllGroupNames().toString() + " does not contain package \"java.io\"", factory.AllGroupNames().contains("java.util"));
+		assertEquals(factory.AllGroupNames().toString(), 4, factory.AllGroupNames().size());
+
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"java.io.PrintStream\"", factory.AllClassNames().contains("java.io.PrintStream"));
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"java.lang.NullPointerException\"", factory.AllClassNames().contains("java.lang.NullPointerException"));
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"java.lang.Object\"", factory.AllClassNames().contains("java.lang.Object"));
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"java.lang.String\"", factory.AllClassNames().contains("java.lang.String"));
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"java.lang.System\"", factory.AllClassNames().contains("java.lang.System"));
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"java.util.Collections\"", factory.AllClassNames().contains("java.util.Collections"));
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"java.util.Collection\"", factory.AllClassNames().contains("java.util.Collection"));
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"java.util.Set\"", factory.AllClassNames().contains("java.util.Set"));
+		assertTrue(factory.AllClassNames().toString() + " does not contain class \"test\"", factory.AllClassNames().contains("test"));
+		assertEquals(factory.AllClassNames().toString(), 9, factory.AllClassNames().size());
+
+		assertTrue(factory.AllMethodNames().toString() + " does not contain method \"java.io.PrintStream.println(java.lang.Object)\"", factory.AllMethodNames().contains("java.io.PrintStream.println(java.lang.Object)"));
+		assertTrue(factory.AllMethodNames().toString() + " does not contain method \"java.lang.Object.Object()\"", factory.AllMethodNames().contains("java.lang.Object.Object()"));
+		assertTrue(factory.AllMethodNames().toString() + " does not contain method \"java.util.Collections.singleton(java.lang.Object)\"", factory.AllMethodNames().contains("java.util.Collections.singleton(java.lang.Object)"));
+		assertTrue(factory.AllMethodNames().toString() + " does not contain method \"test.main(java.lang.String[])\"", factory.AllMethodNames().contains("test.main(java.lang.String[])"));
+		assertTrue(factory.AllMethodNames().toString() + " does not contain method \"test.test()\"", factory.AllMethodNames().contains("test.test()"));
+		assertEquals(factory.AllMethodNames().toString(), 5, factory.AllMethodNames().size());
 	}
 	
 	public void test_test_test() {

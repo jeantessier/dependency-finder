@@ -47,34 +47,82 @@ public class TestMetricsFactory extends TestCase {
 	
 	public void testCreateProjectMetrics() {
 		Metrics m1 = factory.CreateProjectMetrics("foo");
-		Metrics m2 = factory.CreateProjectMetrics("foo");
+		assertNotNull(m1);
+		assertEquals("New metrics name", "foo", m1.Name());
 
+		Metrics m2 = factory.CreateProjectMetrics("foo");
 		assertSame(m1, m2);
 		assertEquals("project measurements", configuration.ProjectMeasurements().size(), m1.MeasurementNames().size());
+	}
+			
+	public void testIncludeProjectMetrics() {
+		Metrics m1 = factory.CreateProjectMetrics("foo");
+
+		assertFalse("ProjectMetrics() contains external metrics", factory.ProjectMetrics().contains(m1));
+
+		factory.IncludeProjectMetrics(m1);
+
+		assertTrue("ProjectMetrics() does not contain internal metrics", factory.ProjectMetrics().contains(m1));
 	}
 	
 	public void testCreateGroupMetrics() {
 		Metrics m1 = factory.CreateGroupMetrics("foo");
-		Metrics m2 = factory.CreateGroupMetrics("foo");
+		assertNotNull(m1);
+		assertEquals("New metrics name", "foo", m1.Name());
 
+		Metrics m2 = factory.CreateGroupMetrics("foo");
 		assertSame(m1, m2);
 		assertEquals("group measurements", configuration.GroupMeasurements().size(), m1.MeasurementNames().size());
 	}
-	
+			
+	public void testIncludeGroupMetrics() {
+		Metrics m1 = factory.CreateGroupMetrics("foo");
+
+		assertFalse("GroupMetrics() contains external metrics", factory.GroupMetrics().contains(m1));
+
+		factory.IncludeGroupMetrics(m1);
+
+		assertTrue("GroupMetrics() does not contain internal metrics", factory.GroupMetrics().contains(m1));
+	}
+
 	public void testCreateClassMetrics() {
 		Metrics m1 = factory.CreateClassMetrics("foo");
-		Metrics m2 = factory.CreateClassMetrics("foo");
+		assertNotNull(m1);
+		assertEquals("New metrics name", "foo", m1.Name());
 
+		Metrics m2 = factory.CreateClassMetrics("foo");
 		assertSame(m1, m2);
 		assertEquals("class measurements", configuration.ClassMeasurements().size(), m1.MeasurementNames().size());
 	}
-	
+		
+	public void testIncludeClassMetrics() {
+		Metrics m1 = factory.CreateClassMetrics("foo");
+
+		assertFalse("ClassMetrics() contains external metrics", factory.ClassMetrics().contains(m1));
+
+		factory.IncludeClassMetrics(m1);
+
+		assertTrue("ClassMetrics() does not contain internal metrics", factory.ClassMetrics().contains(m1));
+	}
+
 	public void testCreateMethodMetrics() {
 		Metrics m1 = factory.CreateMethodMetrics("foo");
-		Metrics m2 = factory.CreateMethodMetrics("foo");
+		assertNotNull(m1);
+		assertEquals("New metrics name", "foo", m1.Name());
 
+		Metrics m2 = factory.CreateMethodMetrics("foo");
 		assertSame(m1, m2);
 		assertEquals("method measurements", configuration.MethodMeasurements().size(), m1.MeasurementNames().size());
+	}
+	
+	public void testIncludeMethodMetrics() {
+		Metrics m1 = factory.CreateMethodMetrics("foo");
+
+		assertFalse("MethodMetrics() contains external metrics", factory.MethodMetrics().contains(m1));
+
+		factory.IncludeMethodMetrics(m1);
+
+		assertTrue("MethodMetrics() does not contain internal metrics", factory.MethodMetrics().contains(m1));
 	}
 	
 	public void testCreateStaticInitializerMetrics() {
@@ -100,11 +148,11 @@ public class TestMetricsFactory extends TestCase {
 
 		Metrics metrics = factory.CreateClassMetrics("com.foobar.Foobar");
 
-		assertEquals("Number of groups", 3, factory.GroupMetrics().size());
+		assertEquals("Number of groups", 3, factory.AllGroupMetrics().size());
 
-		assertTrue("Group foo missing",        factory.GroupNames().contains("foo"));
-		assertTrue("Group bar missing",        factory.GroupNames().contains("bar"));
-		assertTrue("Group com.foobar missing", factory.GroupNames().contains("com.foobar"));
+		assertTrue("Group foo missing",        factory.AllGroupNames().contains("foo"));
+		assertTrue("Group bar missing",        factory.AllGroupNames().contains("bar"));
+		assertTrue("Group com.foobar missing", factory.AllGroupNames().contains("com.foobar"));
 
 		assertTrue("Not in foo",        factory.CreateGroupMetrics("foo").SubMetrics().contains(metrics));
 		assertTrue("Not in bar",        factory.CreateGroupMetrics("bar").SubMetrics().contains(metrics));
