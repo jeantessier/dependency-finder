@@ -77,6 +77,7 @@ public class ClassReader {
 		CommandLine command_line = new CommandLine(new AtLeastParameterStrategy(1));
 		command_line.AddToggleSwitch("raw");
 		command_line.AddToggleSwitch("xml");
+		command_line.AddSingleValueSwitch("dtd-prefix", XMLPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
@@ -153,7 +154,7 @@ public class ClassReader {
 			
 			Printer printer;
 			if (command_line.ToggleSwitch("xml")) {
-				printer = new XMLPrinter();
+				printer = new XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
 			} else if (command_line.ToggleSwitch("raw")) {
 				printer = new UglyPrinter();
 			} else {

@@ -40,8 +40,8 @@ import org.apache.log4j.*;
 import com.jeantessier.commandline.*;
 
 public class ListDiff {
-	public static final String DEFAULT_LOGFILE           = "System.out";
-	public static final String DEFAULT_TRACEFILE         = "System.out";
+	public static final String DEFAULT_LOGFILE    = "System.out";
+	public static final String DEFAULT_TRACEFILE  = "System.out";
 
 	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
@@ -80,11 +80,12 @@ public class ListDiff {
 		command_line.AddSingleValueSwitch("new-label");
 		command_line.AddSingleValueSwitch("new", true);
 		command_line.AddToggleSwitch("compress");
+		command_line.AddSingleValueSwitch("dtd-prefix", ListDiffPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
-		command_line.AddOptionalValueSwitch("trace",   DEFAULT_TRACEFILE);
+		command_line.AddOptionalValueSwitch("verbose",  DEFAULT_LOGFILE);
+		command_line.AddOptionalValueSwitch("trace",    DEFAULT_TRACEFILE);
 
 		CommandLineUsage usage = new CommandLineUsage("ListDiff");
 		command_line.Accept(usage);
@@ -144,7 +145,7 @@ public class ListDiff {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 		
-		ListDiffPrinter printer = new ListDiffPrinter(command_line.ToggleSwitch("compress"));
+		ListDiffPrinter printer = new ListDiffPrinter(command_line.ToggleSwitch("compress"), command_line.SingleSwitch("dtd-prefix"));
 		printer.Name(command_line.SingleSwitch("name"));
 		printer.OldVersion(command_line.SingleSwitch("old-label"));
 		printer.NewVersion(command_line.SingleSwitch("new-label"));

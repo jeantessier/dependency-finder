@@ -35,28 +35,38 @@ package com.jeantessier.metrics;
 import java.util.*;
 
 public class XMLPrinter extends Printer {
+    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+
 	private MetricsConfiguration configuration;
 	
 	public XMLPrinter(MetricsConfiguration configuration) {
+		this(configuration, DEFAULT_DTD_PREFIX);
+	}
+	
+	public XMLPrinter(MetricsConfiguration configuration, String dtd_prefix) {
 		super();
 
 		this.configuration = configuration;
 		
-		AppendHeader();
+		AppendHeader(dtd_prefix);
 	}
 
 	public XMLPrinter(String indent_text, MetricsConfiguration configuration) {
+		this(indent_text, configuration, DEFAULT_DTD_PREFIX);
+	}
+	
+	public XMLPrinter(String indent_text, MetricsConfiguration configuration, String dtd_prefix) {
 		super(indent_text);
 
 		this.configuration = configuration;
 
-		AppendHeader();
+		AppendHeader(dtd_prefix);
 	}
 
-	private void AppendHeader() {
+	private void AppendHeader(String dtd_prefix) {
 		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>").EOL();
 		EOL();
-		Append("<!DOCTYPE metrics SYSTEM \"http://depfind.sourceforge.net/dtd/metrics.dtd\">").EOL();
+		Append("<!DOCTYPE metrics SYSTEM \"").Append(dtd_prefix).Append("/metrics.dtd\">").EOL();
 		EOL();
 	}
 

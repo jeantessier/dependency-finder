@@ -37,26 +37,34 @@ import java.util.*;
 import org.apache.oro.text.perl.*;
 
 public class XMLPrinter extends Printer {
+    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+
 	private static final Perl5Util perl = new Perl5Util();
+
+	private String  dtd_prefix;
 	
     private boolean top = true;
 
     public XMLPrinter() {
 		super();
 
-		AppendHeader();
+		AppendHeader(DEFAULT_DTD_PREFIX);
     }
 
     public XMLPrinter(String indent_text) {
+		this(indent_text, DEFAULT_DTD_PREFIX);
+	}
+	
+	public XMLPrinter(String indent_text, String dtd_prefix) {
 		super(indent_text);
 
-		AppendHeader();
+		AppendHeader(dtd_prefix);
     }
 
-	private void AppendHeader() {
+	private void AppendHeader(String dtd_prefix) {
 		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>").EOL();
 		EOL();
-		Append("<!DOCTYPE classfile SYSTEM \"http://depfind.sourceforge.net/dtd/classfile.dtd\">").EOL();
+		Append("<!DOCTYPE classfile SYSTEM \"").Append(dtd_prefix).Append("/classfile.dtd\">").EOL();
 		EOL();
 	}
     

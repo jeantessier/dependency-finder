@@ -35,36 +35,46 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class XMLPrinter extends Printer {
+    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+
 	private boolean at_top_level = false;
 
 	public XMLPrinter() {
 		super();
 
-		AppendHeader();
+		AppendHeader(DEFAULT_DTD_PREFIX);
 	}
 
 	public XMLPrinter(TraversalStrategy strategy) {
 		super(strategy);
 
-		AppendHeader();
+		AppendHeader(DEFAULT_DTD_PREFIX);
 	}
 
 	public XMLPrinter(String indent_text) {
+		this(indent_text, DEFAULT_DTD_PREFIX);
+	}
+	
+	public XMLPrinter(String indent_text, String dtd_prefix) {
 		super(indent_text);
 
-		AppendHeader();
+		AppendHeader(dtd_prefix);
 	}
 
 	public XMLPrinter(TraversalStrategy strategy, String indent_text) {
+		this(strategy, indent_text, DEFAULT_DTD_PREFIX);
+	}
+	
+	public XMLPrinter(TraversalStrategy strategy, String indent_text, String dtd_prefix) {
 		super(strategy, indent_text);
 
-		AppendHeader();
+		AppendHeader(dtd_prefix);
 	}
 
-	private void AppendHeader() {
+	private void AppendHeader(String dtd_prefix) {
 		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>").EOL();
 		EOL();
-		Append("<!DOCTYPE dependencies SYSTEM \"http://depfind.sourceforge.net/dtd/dependencies.dtd\">").EOL();
+		Append("<!DOCTYPE dependencies SYSTEM \"").Append(dtd_prefix).Append("/dependencies.dtd\">").EOL();
 		EOL();
 	}
 

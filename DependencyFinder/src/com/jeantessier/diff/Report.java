@@ -39,6 +39,8 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Report extends Printer {
+    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+
 	private String name;
 	private String old_version;
 	private String new_version;
@@ -73,19 +75,23 @@ public class Report extends Printer {
 	public Report() {
 		super();
 
-		AppendHeader();
+		AppendHeader(DEFAULT_DTD_PREFIX);
 	}
 
-	public Report(String indent) {
-		super(indent);
+	public Report(String indent_text) {
+		this(indent_text, DEFAULT_DTD_PREFIX);
+	}
+	
+	public Report(String indent_text, String dtd_header) {
+		super(indent_text);
 
-		AppendHeader();
+		AppendHeader(dtd_header);
 	}
 
-	private void AppendHeader() {
+	private void AppendHeader(String dtd_header) {
 		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").EOL();
 		EOL();
-		Append("<!DOCTYPE differences SYSTEM \"http://depfind.sourceforge.net/dtd/differences.dtd\">").EOL();
+		Append("<!DOCTYPE differences SYSTEM \"").Append(dtd_header).Append("/differences.dtd\">").EOL();
 		EOL();
 	}
 

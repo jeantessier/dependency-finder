@@ -35,8 +35,9 @@ package com.jeantessier.dependencyfinder.cli;
 import java.util.*;
 
 public class ListDiffPrinter {
-	private static final String  DEFAULT_INDENT_TEXT = "    ";
-	private static final boolean DEFAULT_COMPRESS    = false;
+	public static final String  DEFAULT_INDENT_TEXT = "    ";
+	public static final boolean DEFAULT_COMPRESS    = false;
+    public static final String  DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
 	
 	private StringBuffer buffer = new StringBuffer();
 
@@ -51,28 +52,36 @@ public class ListDiffPrinter {
 	private Collection added       = new TreeSet();
 	
 	public ListDiffPrinter() {
-		this(DEFAULT_INDENT_TEXT, DEFAULT_COMPRESS);
+		this(DEFAULT_INDENT_TEXT, DEFAULT_COMPRESS, DEFAULT_DTD_PREFIX);
 	}
 	
 	public ListDiffPrinter(String indent_text) {
-		this(indent_text, DEFAULT_COMPRESS);
+		this(indent_text, DEFAULT_COMPRESS, DEFAULT_DTD_PREFIX);
 	}
 	
 	public ListDiffPrinter(boolean compress) {
-		this(DEFAULT_INDENT_TEXT, compress);
+		this(DEFAULT_INDENT_TEXT, compress, DEFAULT_DTD_PREFIX);
 	}
-
+	
 	public ListDiffPrinter(String indent_text, boolean compress) {
+		this(indent_text, compress, DEFAULT_DTD_PREFIX);
+	}
+	
+	public ListDiffPrinter(boolean compress, String dtd_prefix) {
+		this(DEFAULT_INDENT_TEXT, compress, dtd_prefix);
+	}
+	
+	public ListDiffPrinter(String indent_text, boolean compress, String dtd_prefix) {
 		this.indent_text = indent_text;
 		this.compress    = compress;
 
-		AppendHeader();
+		AppendHeader(dtd_prefix);
 	}
 
-	private void AppendHeader() {
+	private void AppendHeader(String dtd_prefix) {
 		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").EOL();
 		EOL();
-		Append("<!DOCTYPE list-diff STSTEM \"http://depfind.sourceforge.net/dtd/list-diff.dtd\">").EOL();
+		Append("<!DOCTYPE list-diff SYSTEM \"").Append(dtd_prefix).Append("/list-diff.dtd\">").EOL();
 		EOL();
 	}
 

@@ -86,6 +86,7 @@ public class DependencyExtractor {
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("maximize");
 		command_line.AddToggleSwitch("minimize");
+		command_line.AddSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
@@ -168,7 +169,7 @@ public class DependencyExtractor {
 		} else {
 			com.jeantessier.dependency.Printer printer;
 			if (command_line.ToggleSwitch("xml")) {
-				printer = new com.jeantessier.dependency.XMLPrinter();
+				printer = new com.jeantessier.dependency.XMLPrinter("\t", command_line.SingleSwitch("dtd-prefix"));
 			} else if (command_line.ToggleSwitch("plain")) {
 				printer = new com.jeantessier.dependency.TextPrinter();
 			} else {

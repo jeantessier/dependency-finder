@@ -144,10 +144,11 @@ public class DependencyClosure {
 		command_line.AddOptionalValueSwitch("maximum-inbound-depth");
 		command_line.AddOptionalValueSwitch("maximum-outbound-depth");
 		
-		command_line.AddToggleSwitch("time");
 		command_line.AddToggleSwitch("serialize");
 		command_line.AddToggleSwitch("xml");
 		command_line.AddToggleSwitch("validate");
+		command_line.AddSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
+		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
 		command_line.AddOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
@@ -317,7 +318,7 @@ public class DependencyClosure {
 		} else {
 			Printer printer;
 			if (command_line.IsPresent("xml")) {
-				printer = new XMLPrinter();
+				printer = new XMLPrinter("\t", command_line.SingleSwitch("dtd-prefix"));
 			} else {
 				printer = new PrettyPrinter();
 			}
