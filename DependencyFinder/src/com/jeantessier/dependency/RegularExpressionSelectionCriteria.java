@@ -225,7 +225,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
 	}
 
 	// Should be private, but left at package-level for the unit tests.
-	protected static List parseRE(String re) {
+	static List parseRE(String re) {
 		List result = new LinkedList();
 
 		Logger logger = Logger.getLogger(RegularExpressionSelectionCriteria.class);
