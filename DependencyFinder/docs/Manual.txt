@@ -934,7 +934,7 @@ Total: seven dependencies.
 *Raw*
 </div>
 
-The redundant dependencies are show in bold.  We can remove them by minimizing
+The redundant dependencies are shown in bold.  We can remove them by minimizing
 the graph.
 
 <div align="center">
