@@ -16,6 +16,20 @@ the CVS repository that hosts Dependency Finder.</p>
 
 <table cellspacing="3">
     <tr>
+	<td>1.1.0 beta1</td>
+	<td>-</td>
+	<td>&nbsp;</td>
+	<td><a href="1.1.0-beta1-now.xml">XML</a></td>
+	<td><a href="1.1.0-beta1-now.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>1.0.1</td>
+	<td>-</td>
+	<td>1.1.0 beta1</td>
+	<td><a href="1.0.1-1.1.0-beta1.xml">XML</a></td>
+	<td><a href="1.0.1-1.1.0-beta1.html">HTML</a></td>
+    </tr>
+    <tr>
 	<td>1.0.1</td>
 	<td>-</td>
 	<td>&nbsp;</td>
@@ -65,11 +79,11 @@ the CVS repository that hosts Dependency Finder.</p>
     &lt;target name="currentreport" depends="init"&gt;
 	&lt;cvstagdiff cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind"
 		    package="DependencyFinder"
-		    startTag="release-20020711"
-		    endDate="release-20030101"
-		    destFile="20020711-20030101.xml"/&gt;
-	&lt;style in="20020711-20030101.xml"
-	       out="20020711-20030101.html"
+		    startTag="release-10"
+		    endTag="release-101"
+		    destFile="10-101.xml"/&gt;
+	&lt;style in="10-101.xml"
+	       out="10-101.html"
 	       style="${ant.home}/etc/tagdiff.xsl"&gt;
 	    &lt;param name="title"  expression="Dependency Finder"/&gt;
 	    &lt;param name="module" expression="DependencyFinder"/&gt;

@@ -16,11 +16,39 @@ the CVS repository that hosts Dependency Finder.</p>
 
 <table cellspacing="3">
     <tr>
+	<td>1.1.0 beta1</td>
+	<td>-</td>
+	<td>&nbsp;</td>
+	<td><a href="1.1.0-beta1-now.xml">XML</a></td>
+	<td><a href="1.1.0-beta1-now.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>1.0.1</td>
+	<td>-</td>
+	<td>1.1.0 beta1</td>
+	<td><a href="1.0.1-1.1.0-beta1.xml">XML</a></td>
+	<td><a href="1.0.1-1.1.0-beta1.html">HTML</a></td>
+    </tr>
+    <tr>
 	<td>1.0.1</td>
 	<td>-</td>
 	<td>&nbsp;</td>
 	<td><a href="1.0.1-now.xml">XML</a></td>
 	<td><a href="1.0.1-now.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>1.0</td>
+	<td>-</td>
+	<td>1.0.1</td>
+	<td><a href="1.0-1.0.1.xml">XML</a></td>
+	<td><a href="1.0-1.0.1.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>1.0 beta</td>
+	<td>-</td>
+	<td>1.0</td>
+	<td><a href="1.0-beta-1.0.xml">XML</a></td>
+	<td><a href="1.0-beta-1.0.html">HTML</a></td>
     </tr>
 </table>
 
@@ -29,11 +57,11 @@ the CVS repository that hosts Dependency Finder.</p>
 <pre>
     &lt;target name="currentreport" depends="init"&gt;
 	&lt;cvschangelog cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind"
-		      start="11 Jul 2002"
-		      end="01 Jan 2003"
-		      destFile="20020711-20030101.xml"/&gt;
-	&lt;style in="20020711-20030101.xml"
-	       out="20020711-20030101.html"
+		      start="05 Jun 2003"
+		      end="29 Nov 2003"
+		      destFile="10-101.xml"/&gt;
+	&lt;style in="10-101.xml"
+	       out="10-101.html"
 	       style="${ant.home}/etc/changelog.xsl"&gt;
 	    &lt;param name="title"  expression="Dependency Finder"/&gt;
 	    &lt;param name="module" expression="DependencyFinder"/&gt;

@@ -1,0 +1,2367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html401/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Dependency Finder</title>
+<style type="text/css">
+          body, p {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 80%;
+            color: #000000;
+            background-color: #ffffff;
+          }
+          tr, td {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            background: #eeeee0;
+          }
+          td {
+            padding-left: 20px;
+          }
+      .dateAndAuthor {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: left;
+            background: #a6caf0;
+            padding-left: 3px;
+      }
+          a {
+            color: #000000;
+          }
+          pre {
+            font-weight: bold;
+          }
+        </style>
+</head>
+<body>
+<h1>
+<a name="top">Dependency Finder</a>
+</h1>
+<p style="text-align: right">Designed for use with <a href="http://jakarta.apache.org/ant/">Ant</a>.</p>
+<hr>
+<table cellspacing="1" width="100%" border="0">
+<tr>
+<td class="dateAndAuthor">2004-09-13 05:44 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase X: naming changes
+All test classes and test data</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/JarJarDiff/new/ModifiedPackage/ModifiedClass.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/JarJarDiff/new/ModifiedPackage/ModifiedClass.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/JarJarDiff/new/ModifiedPackage/ModifiedInterface.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/JarJarDiff/new/ModifiedPackage/ModifiedInterface.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/JarJarDiff/old/ModifiedPackage/ModifiedClass.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/JarJarDiff/old/ModifiedPackage/ModifiedClass.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/JarJarDiff/old/ModifiedPackage/ModifiedInterface.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/JarJarDiff/old/ModifiedPackage/ModifiedInterface.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestDifferencesFactory.java?r1=1.11&r2=1.10">tests/com/jeantessier/diff/TestDifferencesFactory.java (1.11)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-13 05:43 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase X: naming changes
+All test classes and test data</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDeprecationPrinter.java?r1=1.6&r2=1.5">tests/com/jeantessier/classreader/TestDeprecationPrinter.java (1.6)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-13 04:59 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase X: naming changes
+All test classes and test data</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/SymbolGatherer.java?r1=1.2&r2=1.1">src/com/jeantessier/classreader/SymbolGatherer.java (1.2)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-13 04:59 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase X: naming changes
+All test classes and test data</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/otherpackage/SourceClass.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/otherpackage/SourceClass.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/otherpackage/TargetClass.java?rev=1.2&content-type=text/x-cvsweb-markup">tests/otherpackage/TargetClass.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/sloc/TestAbstractClass.java?rev=1.2&content-type=text/x-cvsweb-markup">tests/sloc/TestAbstractClass.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/sloc/TestClass.java?rev=1.2&content-type=text/x-cvsweb-markup">tests/sloc/TestClass.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/sloc/TestInterface.java?rev=1.2&content-type=text/x-cvsweb-markup">tests/sloc/TestInterface.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/testpackage/SourceClass.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/testpackage/SourceClass.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/testpackage/TargetClass.java?rev=1.2&content-type=text/x-cvsweb-markup">tests/testpackage/TargetClass.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/testpackage/TestClass.java?rev=1.4&content-type=text/x-cvsweb-markup">tests/testpackage/TestClass.java (1.4)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-13 04:59 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase X: naming changes
+All test classes and test data</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/SymbolList.java?r1=1.2&r2=1.1">src/com/jeantessier/dependencyfinder/cli/SymbolList.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoader.java?r1=1.4&r2=1.3">tests/com/jeantessier/classreader/TestClassfileLoader.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoaderPermissiveDispatcher.java?r1=1.4&r2=1.3">tests/com/jeantessier/classreader/TestClassfileLoaderPermissiveDispatcher.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoaderStrictDispatcher.java?r1=1.4&r2=1.3">tests/com/jeantessier/classreader/TestClassfileLoaderStrictDispatcher.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDeprecationPrinter.java?r1=1.5&r2=1.4">tests/com/jeantessier/classreader/TestDeprecationPrinter.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDirectoryClassfileLoader.java?r1=1.14&r2=1.13">tests/com/jeantessier/classreader/TestDirectoryClassfileLoader.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestJarClassfileLoader.java?r1=1.4&r2=1.3">tests/com/jeantessier/classreader/TestJarClassfileLoader.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestSymbolGatherer.java?r1=1.2&r2=1.1">tests/com/jeantessier/classreader/TestSymbolGatherer.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestXMLPrinter.java?r1=1.6&r2=1.5">tests/com/jeantessier/classreader/TestXMLPrinter.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestZipClassfileLoader.java?r1=1.4&r2=1.3">tests/com/jeantessier/classreader/TestZipClassfileLoader.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureInboundSelector.java?r1=1.5&r2=1.4">tests/com/jeantessier/dependency/TestClosureInboundSelector.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureOutboundSelector.java?r1=1.5&r2=1.4">tests/com/jeantessier/dependency/TestClosureOutboundSelector.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureStartSelector.java?r1=1.5&r2=1.4">tests/com/jeantessier/dependency/TestClosureStartSelector.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureStopSelector.java?r1=1.5&r2=1.4">tests/com/jeantessier/dependency/TestClosureStopSelector.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestDependencyExtractor.java?r1=1.15&r2=1.14">tests/com/jeantessier/dependency/TestDependencyExtractor.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphCopier.java?r1=1.12&r2=1.11">tests/com/jeantessier/dependency/TestGraphCopier.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphCopierWithFiltering.java?r1=1.12&r2=1.11">tests/com/jeantessier/dependency/TestGraphCopierWithFiltering.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizer.java?r1=1.14&r2=1.13">tests/com/jeantessier/dependency/TestGraphSummarizer.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizerWithFiltering.java?r1=1.12&r2=1.11">tests/com/jeantessier/dependency/TestGraphSummarizerWithFiltering.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizerWithScoping.java?r1=1.10&r2=1.9">tests/com/jeantessier/dependency/TestGraphSummarizerWithScoping.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestSelectiveTraversalStrategy.java?r1=1.11&r2=1.10">tests/com/jeantessier/dependency/TestSelectiveTraversalStrategy.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTextPrinter.java?r1=1.8&r2=1.7">tests/com/jeantessier/dependency/TestTextPrinter.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosure.java?r1=1.11&r2=1.10">tests/com/jeantessier/dependency/TestTransitiveClosure.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureEngine.java?r1=1.7&r2=1.6">tests/com/jeantessier/dependency/TestTransitiveClosureEngine.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureNonMaximized.java?r1=1.8&r2=1.7">tests/com/jeantessier/dependency/TestTransitiveClosureNonMaximized.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureWithTestClass.java?r1=1.10&r2=1.9">tests/com/jeantessier/dependency/TestTransitiveClosureWithTestClass.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestXMLPrinter.java?r1=1.9&r2=1.8">tests/com/jeantessier/dependency/TestXMLPrinter.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependencyfinder/cli/TestVerboseListener.java?r1=1.6&r2=1.5">tests/com/jeantessier/dependencyfinder/cli/TestVerboseListener.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestDeprecatableDifferences.java?r1=1.10&r2=1.9">tests/com/jeantessier/diff/TestDeprecatableDifferences.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestDifferencesFactory.java?r1=1.10&r2=1.9">tests/com/jeantessier/diff/TestDifferencesFactory.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestListDiffPrinter.java?r1=1.7&r2=1.6">tests/com/jeantessier/diff/TestListDiffPrinter.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestReport.java?r1=1.9&r2=1.8">tests/com/jeantessier/diff/TestReport.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestContextAccumulatorMeasurement.java?r1=1.4&r2=1.3">tests/com/jeantessier/metrics/TestContextAccumulatorMeasurement.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsFactory.java?r1=1.15&r2=1.14">tests/com/jeantessier/metrics/TestMetricsFactory.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependencies.java?r1=1.16&r2=1.15">tests/com/jeantessier/metrics/TestMetricsGathererDependencies.java (1.16)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependenciesFilter.java?r1=1.6&r2=1.5">tests/com/jeantessier/metrics/TestMetricsGathererDependenciesFilter.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependenciesScope.java?r1=1.5&r2=1.4">tests/com/jeantessier/metrics/TestMetricsGathererDependenciesScope.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererEvents.java?r1=1.9&r2=1.8">tests/com/jeantessier/metrics/TestMetricsGathererEvents.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererSLOC.java?r1=1.12&r2=1.11">tests/com/jeantessier/metrics/TestMetricsGathererSLOC.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestSubMetricsAccumulatorMeasurement.java?r1=1.4&r2=1.3">tests/com/jeantessier/metrics/TestSubMetricsAccumulatorMeasurement.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestXMLPrinter.java?r1=1.6&r2=1.5">tests/com/jeantessier/metrics/TestXMLPrinter.java (1.6)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-10 07:37 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Added projet-level counts of methods and attributes</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/MetricsConfig.xml?rev=1.17&content-type=text/x-cvsweb-markup">etc/MetricsConfig.xml (1.17)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-10 07:36 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Fix web app undeploy to reflect new name of the WAR file.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml?r1=1.48&r2=1.47">build.xml (1.48)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-10 07:36 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase VIII: naming changes
+JSP files for the web application.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp?rev=1.23&content-type=text/x-cvsweb-markup">web/advancedclosure.jsp (1.23)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedmetrics.jsp?rev=1.10&content-type=text/x-cvsweb-markup">web/advancedmetrics.jsp (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp?rev=1.25&content-type=text/x-cvsweb-markup">web/advancedquery.jsp (1.25)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp?rev=1.24&content-type=text/x-cvsweb-markup">web/closure.jsp (1.24)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp?rev=1.33&content-type=text/x-cvsweb-markup">web/extract.jsp (1.33)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/load.jsp?rev=1.3&content-type=text/x-cvsweb-markup">web/load.jsp (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/metrics.jsp?rev=1.10&content-type=text/x-cvsweb-markup">web/metrics.jsp (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp?rev=1.28&content-type=text/x-cvsweb-markup">web/query.jsp (1.28)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-10 07:35 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase VIII: naming changes
+JSP files for the web application.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/VersionBeanInfo.java?rev=1.4&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/VersionBeanInfo.java (1.4)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 08:45 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase VII: naming changes
+Parameters and local variables that other phase missed.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/MultipleValuesSwitch.java?r1=1.9&r2=1.8">src/com/jeantessier/commandline/MultipleValuesSwitch.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/OptionalValueSwitch.java?r1=1.9&r2=1.8">src/com/jeantessier/commandline/OptionalValueSwitch.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/SingleValueSwitch.java?r1=1.9&r2=1.8">src/com/jeantessier/commandline/SingleValueSwitch.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ToggleSwitch.java?r1=1.9&r2=1.8">src/com/jeantessier/commandline/ToggleSwitch.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CodeDependencyCollector.java?r1=1.20&r2=1.19">src/com/jeantessier/dependency/CodeDependencyCollector.java (1.20)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/LinkMaximizer.java?r1=1.7&r2=1.6">src/com/jeantessier/dependency/LinkMaximizer.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/NodeLoader.java?r1=1.12&r2=1.11">src/com/jeantessier/dependency/NodeLoader.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TransitiveClosureEngine.java?r1=1.8&r2=1.7">src/com/jeantessier/dependency/TransitiveClosureEngine.java (1.8)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 08:45 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase VII: naming changes
+Parameters and local variables that other phase missed.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MeasurementBase.java?r1=1.14&r2=1.13">src/com/jeantessier/metrics/MeasurementBase.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsGatherer.java?r1=1.27&r2=1.26">src/com/jeantessier/metrics/MetricsGatherer.java (1.27)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/SubMetricsAccumulatorMeasurement.java?r1=1.4&r2=1.3">src/com/jeantessier/metrics/SubMetricsAccumulatorMeasurement.java (1.4)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 08:45 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase VII: naming changes
+Parameters and local variables that other phase missed.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/PackageValidator.java?r1=1.9&r2=1.8">src/com/jeantessier/diff/PackageValidator.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/CounterMeasurement.java?r1=1.12&r2=1.11">src/com/jeantessier/metrics/CounterMeasurement.java (1.12)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 08:45 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase VII: naming changes
+Parameters and local variables that other phase missed.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/AttributeFactory.java?r1=1.10&r2=1.9">src/com/jeantessier/classreader/AttributeFactory.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Classfile.java?r1=1.11&r2=1.10">src/com/jeantessier/classreader/Classfile.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Double_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/Double_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Exceptions_attribute.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/Exceptions_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/InnerClasses_attribute.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/InnerClasses_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Integer_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/Integer_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LineNumber.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/LineNumber.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LocalVariableTable_attribute.java?r1=1.9&r2=1.8">src/com/jeantessier/classreader/LocalVariableTable_attribute.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Long_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/Long_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/UTF8_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/UTF8_info.java (1.8)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 08:45 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase VII: naming changes
+Parameters and local variables that other phase missed.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/ListDeprecatedElements.java?r1=1.4&r2=1.3">src/com/jeantessier/dependencyfinder/ant/ListDeprecatedElements.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java?r1=1.29&r2=1.28">src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java (1.29)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java?r1=1.8&r2=1.7">src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/TableHeaderListener.java?r1=1.11&r2=1.10">src/com/jeantessier/dependencyfinder/gui/TableHeaderListener.java (1.11)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 08:07 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>New symbol list tool (forgot to clean up text alignment bar)</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Tools.txt?r1=1.35&r2=1.34">docs/Tools.txt (1.35)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 08:04 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>New symbol list tool</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Tools.txt?r1=1.34&r2=1.33">docs/Tools.txt (1.34)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 07:55 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>New symbol list tool</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/SymbolList.bat?rev=1.1&content-type=text/x-cvsweb-markup">bin/SymbolList.bat (1.1)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/SymbolGatherer.java?rev=1.1&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/SymbolGatherer.java (1.1)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/SymbolList.java?rev=1.1&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/SymbolList.java (1.1)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 07:55 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>New symbol list tool</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestSymbolGatherer.java?rev=1.1&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestSymbolGatherer.java (1.1)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-08 07:50 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Make sensitive to DEPENDENCYFINDER_CONSOLE</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/junit.bat?rev=1.14&content-type=text/x-cvsweb-markup">junit.bat (1.14)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-07 08:10 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase V of naming change:
+com.jeantessier.dependencyfinder complete
+com.jeantessier.dependencyfinder.ant complete
+com.jeantessier.dependencyfinder.cli complete
+com.jeantessier.dependencyfinder.gui complete
+com.jeantessier.dependencyfinder.diff complete
+com.jeantessier.dependency.metrics complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestNameListMeasurement.java?rev=1.5&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestNameListMeasurement.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestNbSubMetricsMeasurement.java?rev=1.14&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestNbSubMetricsMeasurement.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestNbSubMetricsMeasurementSelectionCriteria.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestNbSubMetricsMeasurementSelectionCriteria.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestNullMeasurement.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestNullMeasurement.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestRatioMeasurement.java?rev=1.14&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestRatioMeasurement.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestStatisticalMeasurement.java?rev=1.15&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestStatisticalMeasurement.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestStatisticalMeasurementEmpty.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestStatisticalMeasurementEmpty.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestStatisticalMeasurementWithDispose.java?rev=1.11&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestStatisticalMeasurementWithDispose.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestStatisticalMeasurementWithMetrics.java?rev=1.9&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestStatisticalMeasurementWithMetrics.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestSubMetricsAccumulatorMeasurement.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestSubMetricsAccumulatorMeasurement.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestSumMeasurement.java?rev=1.10&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestSumMeasurement.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestXMLPrinter.java?r1=1.5&r2=1.4">tests/com/jeantessier/metrics/TestXMLPrinter.java (1.5)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-07 08:10 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase V of naming change:
+com.jeantessier.dependencyfinder complete
+com.jeantessier.dependencyfinder.ant complete
+com.jeantessier.dependencyfinder.cli complete
+com.jeantessier.dependencyfinder.gui complete
+com.jeantessier.dependencyfinder.diff complete
+com.jeantessier.dependency.metrics complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyQueryAction.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/DependencyQueryAction.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/FilterActionListener.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/FilterActionListener.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MeasurementTableCellRenderer.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/MeasurementTableCellRenderer.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java?r1=1.28&r2=1.27">src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java (1.28)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsQueryAction.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/MetricsQueryAction.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsTableModel.java?r1=1.8&r2=1.7">src/com/jeantessier/dependencyfinder/gui/MetricsTableModel.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java?r1=1.7&r2=1.6">src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/NewDependencyGraphAction.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/NewDependencyGraphAction.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/NewMetricsAction.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/NewMetricsAction.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/OOMetrics.java?r1=1.22&r2=1.21">src/com/jeantessier/dependencyfinder/gui/OOMetrics.java (1.22)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/OOMetricsTableModel.java?rev=1.15&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/OOMetricsTableModel.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java?r1=1.14&r2=1.13">src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/PrinterControlAction.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/PrinterControlAction.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java?r1=1.11&r2=1.10">src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java?r1=1.13&r2=1.12">src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/SimpleQueryPanelAction.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/SimpleQueryPanelAction.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/StatusLine.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/StatusLine.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/TableHeaderListener.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/TableHeaderListener.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/VerboseListener.java?r1=1.7&r2=1.6">src/com/jeantessier/dependencyfinder/gui/VerboseListener.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ClassDifferences.java?r1=1.12&r2=1.11">src/com/jeantessier/diff/ClassDifferences.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ClassReport.java?r1=1.15&r2=1.14">src/com/jeantessier/diff/ClassReport.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ConstructorDifferences.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/ConstructorDifferences.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/DecoratorDifferences.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/DecoratorDifferences.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/DeprecatableDifferences.java?r1=1.9&r2=1.8">src/com/jeantessier/diff/DeprecatableDifferences.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Differences.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/Differences.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/DifferencesFactory.java?r1=1.8&r2=1.7">src/com/jeantessier/diff/DifferencesFactory.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/DocumentableDifferences.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/DocumentableDifferences.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/FeatureDifferences.java?r1=1.9&r2=1.8">src/com/jeantessier/diff/FeatureDifferences.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/FieldDifferences.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/FieldDifferences.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/InterfaceDifferences.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/InterfaceDifferences.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/JarDifferences.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/JarDifferences.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ListBasedValidator.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/ListBasedValidator.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ListDiffPrinter.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/ListDiffPrinter.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ListDocumentedElements.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/ListDocumentedElements.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/MethodDifferences.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/MethodDifferences.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/PackageDifferences.java?r1=1.11&r2=1.10">src/com/jeantessier/diff/PackageDifferences.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/PackageValidator.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/PackageValidator.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Printer.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/Printer.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/RemovableDifferences.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/RemovableDifferences.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Report.java?r1=1.21&r2=1.20">src/com/jeantessier/diff/Report.java (1.21)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Validator.java?rev=1.5&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/Validator.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Visitor.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/Visitor.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/VisitorBase.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/VisitorBase.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/AccumulatorMeasurement.java?rev=1.18&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/AccumulatorMeasurement.java (1.18)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/CollectionMeasurement.java?rev=1.4&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/CollectionMeasurement.java (1.4)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-07 08:10 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase V of naming change:
+com.jeantessier.dependencyfinder complete
+com.jeantessier.dependencyfinder.ant complete
+com.jeantessier.dependencyfinder.cli complete
+com.jeantessier.dependencyfinder.gui complete
+com.jeantessier.dependencyfinder.diff complete
+com.jeantessier.dependency.metrics complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java?r1=1.10&r2=1.9">src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java?r1=1.13&r2=1.12">src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java?r1=1.14&r2=1.13">src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java?r1=1.11&r2=1.10">src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java?r1=1.20&r2=1.19">src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java (1.20)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/GraphTask.java?r1=1.10&r2=1.9">src/com/jeantessier/dependencyfinder/ant/GraphTask.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/JarJarDiff.java?r1=1.8&r2=1.7">src/com/jeantessier/dependencyfinder/ant/JarJarDiff.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/ListDiff.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/ListDiff.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/OOMetrics.java?r1=1.14&r2=1.13">src/com/jeantessier/dependencyfinder/ant/OOMetrics.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/VerboseListener.java?r1=1.12&r2=1.11">src/com/jeantessier/dependencyfinder/ant/VerboseListener.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java?r1=1.11&r2=1.10">src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassDump.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/ClassDump.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassList.java?r1=1.19&r2=1.18">src/com/jeantessier/dependencyfinder/cli/ClassList.java (1.19)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java?r1=1.21&r2=1.20">src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java (1.21)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassReader.java?r1=1.27&r2=1.26">src/com/jeantessier/dependencyfinder/cli/ClassReader.java (1.27)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java?r1=1.31&r2=1.30">src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java (1.31)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java?r1=1.27&r2=1.26">src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java (1.27)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-07 08:10 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase V of naming change:
+com.jeantessier.dependencyfinder complete
+com.jeantessier.dependencyfinder.ant complete
+com.jeantessier.dependencyfinder.cli complete
+com.jeantessier.dependencyfinder.gui complete
+com.jeantessier.dependencyfinder.diff complete
+com.jeantessier.dependency.metrics complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/GroupData.java?rev=1.4&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/GroupData.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/Hex.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/Hex.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/VerboseListenerBase.java?r1=1.6&r2=1.5">src/com/jeantessier/dependencyfinder/VerboseListenerBase.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/Version.java?rev=1.5&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/Version.java (1.5)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-07 08:10 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase V of naming change:
+com.jeantessier.dependencyfinder complete
+com.jeantessier.dependencyfinder.ant complete
+com.jeantessier.dependencyfinder.cli complete
+com.jeantessier.dependencyfinder.gui complete
+com.jeantessier.dependencyfinder.diff complete
+com.jeantessier.dependency.metrics complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/CSVPrinter.java?rev=1.14&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/CSVPrinter.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/ContextAccumulatorMeasurement.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/ContextAccumulatorMeasurement.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/CounterMeasurement.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/CounterMeasurement.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/Measurement.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/Measurement.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MeasurementBase.java?rev=1.13&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MeasurementBase.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MeasurementDescriptor.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MeasurementDescriptor.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MeasurementVisitor.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MeasurementVisitor.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/Metrics.java?rev=1.17&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/Metrics.java (1.17)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsComparator.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MetricsComparator.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsConfiguration.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MetricsConfiguration.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsConfigurationHandler.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MetricsConfigurationHandler.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsConfigurationLoader.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MetricsConfigurationLoader.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsEvent.java?r1=1.8&r2=1.7">src/com/jeantessier/metrics/MetricsEvent.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsFactory.java?rev=1.16&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MetricsFactory.java (1.16)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsGatherer.java?r1=1.26&r2=1.25">src/com/jeantessier/metrics/MetricsGatherer.java (1.26)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsListener.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MetricsListener.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/NameListMeasurement.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/NameListMeasurement.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/NbSubMetricsMeasurement.java?rev=1.15&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/NbSubMetricsMeasurement.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/NullMeasurement.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/NullMeasurement.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/Printer.java?rev=1.14&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/Printer.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/RatioMeasurement.java?rev=1.12&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/RatioMeasurement.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/StatisticalMeasurement.java?rev=1.18&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/StatisticalMeasurement.java (1.18)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/SubMetricsAccumulatorMeasurement.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/SubMetricsAccumulatorMeasurement.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/SumMeasurement.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/SumMeasurement.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/TextPrinter.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/TextPrinter.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/XMLPrinter.java?rev=1.19&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/XMLPrinter.java (1.19)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependencyfinder/cli/TestVerboseListener.java?r1=1.5&r2=1.4">tests/com/jeantessier/dependencyfinder/cli/TestVerboseListener.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestDeprecatableDifferences.java?r1=1.9&r2=1.8">tests/com/jeantessier/diff/TestDeprecatableDifferences.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestDifferencesFactory.java?r1=1.9&r2=1.8">tests/com/jeantessier/diff/TestDifferencesFactory.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestListBasedValidator.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/diff/TestListBasedValidator.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestListDiffPrinter.java?rev=1.6&content-type=text/x-cvsweb-markup">tests/com/jeantessier/diff/TestListDiffPrinter.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestPackageValidator.java?rev=1.6&content-type=text/x-cvsweb-markup">tests/com/jeantessier/diff/TestPackageValidator.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestReport.java?r1=1.8&r2=1.7">tests/com/jeantessier/diff/TestReport.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestContextAccumulatorMeasurement.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestContextAccumulatorMeasurement.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestCounterMeasurement.java?rev=1.14&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestCounterMeasurement.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMeasurementDescriptor.java?rev=1.5&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMeasurementDescriptor.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetrics.java?rev=1.11&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetrics.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsComparator.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsComparator.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsConfiguration.java?rev=1.6&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsConfiguration.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsConfigurationHandler.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsConfigurationHandler.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsConfigurationLoader.java?rev=1.6&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsConfigurationLoader.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsFactory.java?rev=1.14&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsFactory.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGatherer.java?r1=1.22&r2=1.21">tests/com/jeantessier/metrics/TestMetricsGatherer.java (1.22)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependencies.java?r1=1.15&r2=1.14">tests/com/jeantessier/metrics/TestMetricsGathererDependencies.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependenciesFilter.java?r1=1.5&r2=1.4">tests/com/jeantessier/metrics/TestMetricsGathererDependenciesFilter.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependenciesScope.java?r1=1.4&r2=1.3">tests/com/jeantessier/metrics/TestMetricsGathererDependenciesScope.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererEvents.java?r1=1.8&r2=1.7">tests/com/jeantessier/metrics/TestMetricsGathererEvents.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererSLOC.java?r1=1.11&r2=1.10">tests/com/jeantessier/metrics/TestMetricsGathererSLOC.java (1.11)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-07 08:10 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase V of naming change:
+com.jeantessier.dependencyfinder complete
+com.jeantessier.dependencyfinder.ant complete
+com.jeantessier.dependencyfinder.cli complete
+com.jeantessier.dependencyfinder.gui complete
+com.jeantessier.dependencyfinder.diff complete
+com.jeantessier.dependency.metrics complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java?r1=1.23&r2=1.22">src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java (1.23)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java?r1=1.33&r2=1.32">src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java (1.33)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java?r1=1.27&r2=1.26">src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java (1.27)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java?r1=1.5&r2=1.4">src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ListDiff.java?r1=1.15&r2=1.14">src/com/jeantessier/dependencyfinder/cli/ListDiff.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/OOMetrics.java?r1=1.36&r2=1.35">src/com/jeantessier/dependencyfinder/cli/OOMetrics.java (1.36)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/VerboseListener.java?r1=1.11&r2=1.10">src/com/jeantessier/dependencyfinder/cli/VerboseListener.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/AboutAction.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/AboutAction.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/AdvancedQueryPanelAction.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/AdvancedQueryPanelAction.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/AllQueriesAction.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/AllQueriesAction.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/ClosureQueryAction.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/ClosureQueryAction.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java?r1=1.26&r2=1.25">src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java (1.26)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java?r1=1.36&r2=1.35">src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java (1.36)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-06 08:43 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase IV of naming change:
+com.jeantessier.dependency complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java?r1=1.30&r2=1.29">src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java (1.30)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java?r1=1.26&r2=1.25">src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java (1.26)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java?r1=1.22&r2=1.21">src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java (1.22)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java?r1=1.32&r2=1.31">src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java (1.32)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/VerboseListener.java?r1=1.10&r2=1.9">src/com/jeantessier/dependencyfinder/cli/VerboseListener.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java?r1=1.35&r2=1.34">src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java (1.35)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsTableModel.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/MetricsTableModel.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java?r1=1.13&r2=1.12">src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java?r1=1.12&r2=1.11">src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/DifferencesFactory.java?r1=1.7&r2=1.6">src/com/jeantessier/diff/DifferencesFactory.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/MockSelectionCriteria.java?r1=1.3&r2=1.2">tests/com/jeantessier/dependency/MockSelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestAndCompositeSelectionCriteria.java?r1=1.3&r2=1.2">tests/com/jeantessier/dependency/TestAndCompositeSelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureInboundSelector.java?r1=1.4&r2=1.3">tests/com/jeantessier/dependency/TestClosureInboundSelector.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureOutboundSelector.java?r1=1.4&r2=1.3">tests/com/jeantessier/dependency/TestClosureOutboundSelector.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureStartSelector.java?r1=1.4&r2=1.3">tests/com/jeantessier/dependency/TestClosureStartSelector.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureStopSelector.java?r1=1.4&r2=1.3">tests/com/jeantessier/dependency/TestClosureStopSelector.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestCollectionSelectionCriteria.java?r1=1.6&r2=1.5">tests/com/jeantessier/dependency/TestCollectionSelectionCriteria.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestComprehensiveSelectionCriteria.java?r1=1.4&r2=1.3">tests/com/jeantessier/dependency/TestComprehensiveSelectionCriteria.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestDependencyExtractor.java?r1=1.14&r2=1.13">tests/com/jeantessier/dependency/TestDependencyExtractor.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphCopier.java?r1=1.11&r2=1.10">tests/com/jeantessier/dependency/TestGraphCopier.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphCopierWithFiltering.java?r1=1.11&r2=1.10">tests/com/jeantessier/dependency/TestGraphCopierWithFiltering.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizer.java?r1=1.13&r2=1.12">tests/com/jeantessier/dependency/TestGraphSummarizer.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizerWithFiltering.java?r1=1.11&r2=1.10">tests/com/jeantessier/dependency/TestGraphSummarizerWithFiltering.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizerWithScoping.java?r1=1.9&r2=1.8">tests/com/jeantessier/dependency/TestGraphSummarizerWithScoping.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMaximizer.java?r1=1.9&r2=1.8">tests/com/jeantessier/dependency/TestLinkMaximizer.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMaximizerSystematic.java?r1=1.8&r2=1.7">tests/com/jeantessier/dependency/TestLinkMaximizerSystematic.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMinimizer.java?r1=1.9&r2=1.8">tests/com/jeantessier/dependency/TestLinkMinimizer.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMinimizerSystematic.java?r1=1.8&r2=1.7">tests/com/jeantessier/dependency/TestLinkMinimizerSystematic.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestMetricsGatherer.java?r1=1.4&r2=1.3">tests/com/jeantessier/dependency/TestMetricsGatherer.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestNode.java?r1=1.6&r2=1.5">tests/com/jeantessier/dependency/TestNode.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestOrCompositeSelectionCriteria.java?r1=1.3&r2=1.2">tests/com/jeantessier/dependency/TestOrCompositeSelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestRegularExpressionSelectionCriteria.java?r1=1.5&r2=1.4">tests/com/jeantessier/dependency/TestRegularExpressionSelectionCriteria.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestSelectiveTraversalStrategy.java?r1=1.10&r2=1.9">tests/com/jeantessier/dependency/TestSelectiveTraversalStrategy.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTextPrinter.java?r1=1.7&r2=1.6">tests/com/jeantessier/dependency/TestTextPrinter.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosure.java?r1=1.10&r2=1.9">tests/com/jeantessier/dependency/TestTransitiveClosure.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureEngine.java?r1=1.6&r2=1.5">tests/com/jeantessier/dependency/TestTransitiveClosureEngine.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureNonMaximized.java?r1=1.7&r2=1.6">tests/com/jeantessier/dependency/TestTransitiveClosureNonMaximized.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureSlice.java?r1=1.9&r2=1.8">tests/com/jeantessier/dependency/TestTransitiveClosureSlice.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureWithTestClass.java?r1=1.9&r2=1.8">tests/com/jeantessier/dependency/TestTransitiveClosureWithTestClass.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestXMLPrinter.java?r1=1.8&r2=1.7">tests/com/jeantessier/dependency/TestXMLPrinter.java (1.8)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-06 08:43 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase IV of naming change:
+com.jeantessier.dependency complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/AndCompositeSelectionCriteria.java?r1=1.3&r2=1.2">src/com/jeantessier/dependency/AndCompositeSelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureLayerSelector.java?r1=1.4&r2=1.3">src/com/jeantessier/dependency/ClosureLayerSelector.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureStartSelector.java?r1=1.4&r2=1.3">src/com/jeantessier/dependency/ClosureStartSelector.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureStopSelector.java?r1=1.4&r2=1.3">src/com/jeantessier/dependency/ClosureStopSelector.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CodeDependencyCollector.java?r1=1.19&r2=1.18">src/com/jeantessier/dependency/CodeDependencyCollector.java (1.19)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CollectionSelectionCriteria.java?r1=1.6&r2=1.5">src/com/jeantessier/dependency/CollectionSelectionCriteria.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ComprehensiveSelectionCriteria.java?r1=1.4&r2=1.3">src/com/jeantessier/dependency/ComprehensiveSelectionCriteria.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/DependencyEvent.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/DependencyEvent.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/DependencyListener.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/DependencyListener.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/GraphCopier.java?r1=1.8&r2=1.7">src/com/jeantessier/dependency/GraphCopier.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/GraphSummarizer.java?r1=1.9&r2=1.8">src/com/jeantessier/dependency/GraphSummarizer.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/MetricsGatherer.java?r1=1.9&r2=1.8">src/com/jeantessier/dependency/MetricsGatherer.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/MetricsReport.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/MetricsReport.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/NodeFactory.java?r1=1.8&r2=1.7">src/com/jeantessier/dependency/NodeFactory.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/NodeHandler.java?r1=1.10&r2=1.9">src/com/jeantessier/dependency/NodeHandler.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/NodeLoader.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/NodeLoader.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/OrCompositeSelectionCriteria.java?r1=1.3&r2=1.2">src/com/jeantessier/dependency/OrCompositeSelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/Printer.java?r1=1.11&r2=1.10">src/com/jeantessier/dependency/Printer.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/RegularExpressionSelectionCriteria.java?r1=1.4&r2=1.3">src/com/jeantessier/dependency/RegularExpressionSelectionCriteria.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/SelectionCriteria.java?r1=1.4&r2=1.3">src/com/jeantessier/dependency/SelectionCriteria.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TextPrinter.java?r1=1.13&r2=1.12">src/com/jeantessier/dependency/TextPrinter.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TransitiveClosure.java?r1=1.10&r2=1.9">src/com/jeantessier/dependency/TransitiveClosure.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TransitiveClosureEngine.java?r1=1.7&r2=1.6">src/com/jeantessier/dependency/TransitiveClosureEngine.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/XMLPrinter.java?r1=1.15&r2=1.14">src/com/jeantessier/dependency/XMLPrinter.java (1.15)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-06 08:43 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase IV of naming change:
+com.jeantessier.dependency complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java?r1=1.12&r2=1.11">src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java?r1=1.13&r2=1.12">src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java?r1=1.10&r2=1.9">src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java?r1=1.19&r2=1.18">src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java (1.19)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/GraphTask.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/GraphTask.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/VerboseListener.java?r1=1.11&r2=1.10">src/com/jeantessier/dependencyfinder/ant/VerboseListener.java (1.11)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-05 08:38 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase III of naming change:
+started on com.jeantessier.dependency</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/AndCompositeSelectionCriteria.java?r1=1.2&r2=1.1">src/com/jeantessier/dependency/AndCompositeSelectionCriteria.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClassNode.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/ClassNode.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureInboundSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/ClosureInboundSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureLayerSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/ClosureLayerSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureOutboundSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/ClosureOutboundSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/ClosureSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureStartSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/ClosureStartSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClosureStopSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/ClosureStopSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CodeDependencyCollector.java?r1=1.18&r2=1.17">src/com/jeantessier/dependency/CodeDependencyCollector.java (1.18)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CollectionSelectionCriteria.java?r1=1.5&r2=1.4">src/com/jeantessier/dependency/CollectionSelectionCriteria.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CompositeSelectionCriteria.java?r1=1.2&r2=1.1">src/com/jeantessier/dependency/CompositeSelectionCriteria.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ComprehensiveSelectionCriteria.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/ComprehensiveSelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/DecoratorTraversalStrategy.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/DecoratorTraversalStrategy.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/FeatureNode.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/FeatureNode.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/GraphCopier.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/GraphCopier.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/GraphSummarizer.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/GraphSummarizer.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/LinkMaximizer.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/LinkMaximizer.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/LinkMinimizer.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/LinkMinimizer.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/MetricsGatherer.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/MetricsGatherer.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/Node.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/Node.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/NodeFactory.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/NodeFactory.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/NodeHandler.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/NodeHandler.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/OrCompositeSelectionCriteria.java?r1=1.2&r2=1.1">src/com/jeantessier/dependency/OrCompositeSelectionCriteria.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/PackageNode.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/PackageNode.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/Printer.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/Printer.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/RegularExpressionSelectionCriteria.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/RegularExpressionSelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/SelectionCriteria.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/SelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/SelectiveTraversalStrategy.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/SelectiveTraversalStrategy.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/SortedTraversalStrategy.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/SortedTraversalStrategy.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TextPrinter.java?rev=1.12&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/TextPrinter.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TransitiveClosure.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/TransitiveClosure.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TransitiveClosureEngine.java?r1=1.6&r2=1.5">src/com/jeantessier/dependency/TransitiveClosureEngine.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TraversalStrategy.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/TraversalStrategy.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/Visitor.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/Visitor.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/VisitorBase.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/VisitorBase.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/XMLPrinter.java?rev=1.14&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/XMLPrinter.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java?r1=1.12&r2=1.11">src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java?r1=1.18&r2=1.17">src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java (1.18)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java?r1=1.10&r2=1.9">src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassList.java?r1=1.18&r2=1.17">src/com/jeantessier/dependencyfinder/cli/ClassList.java (1.18)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java?r1=1.20&r2=1.19">src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java (1.20)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassReader.java?r1=1.26&r2=1.25">src/com/jeantessier/dependencyfinder/cli/ClassReader.java (1.26)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java?rev=1.29&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java (1.29)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java?r1=1.25&r2=1.24">src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java (1.25)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java?rev=1.21&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java (1.21)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java?r1=1.31&r2=1.30">src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java (1.31)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java?r1=1.26&r2=1.25">src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java (1.26)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java?r1=1.4&r2=1.3">src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ListDiff.java?rev=1.14&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/ListDiff.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/OOMetrics.java?r1=1.35&r2=1.34">src/com/jeantessier/dependencyfinder/cli/OOMetrics.java (1.35)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java?r1=1.25&r2=1.24">src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java (1.25)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java?rev=1.34&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java (1.34)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-05 08:38 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase III of naming change:
+started on com.jeantessier.dependency</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/OOMetrics.java?rev=1.21&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/OOMetrics.java (1.21)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java?rev=1.12&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/OpenFileAction.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java?r1=1.10&r2=1.9">src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/DifferencesFactory.java?r1=1.6&r2=1.5">src/com/jeantessier/diff/DifferencesFactory.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/PackageDifferences.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/PackageDifferences.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/MockSelectionCriteria.java?r1=1.2&r2=1.1">tests/com/jeantessier/dependency/MockSelectionCriteria.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestAndCompositeSelectionCriteria.java?r1=1.2&r2=1.1">tests/com/jeantessier/dependency/TestAndCompositeSelectionCriteria.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureInboundSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestClosureInboundSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureOutboundSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestClosureOutboundSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureStartSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestClosureStartSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestClosureStopSelector.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestClosureStopSelector.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestCollectionSelectionCriteria.java?r1=1.5&r2=1.4">tests/com/jeantessier/dependency/TestCollectionSelectionCriteria.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestComprehensiveSelectionCriteria.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestComprehensiveSelectionCriteria.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestDependencyExtractor.java?r1=1.13&r2=1.12">tests/com/jeantessier/dependency/TestDependencyExtractor.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphCopier.java?rev=1.10&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestGraphCopier.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphCopierWithFiltering.java?rev=1.10&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestGraphCopierWithFiltering.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizer.java?rev=1.12&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestGraphSummarizer.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizerWithFiltering.java?rev=1.10&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestGraphSummarizerWithFiltering.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizerWithScoping.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestGraphSummarizerWithScoping.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMaximizer.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestLinkMaximizer.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMaximizerSystematic.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestLinkMaximizerSystematic.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMinimizer.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestLinkMinimizer.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMinimizerSystematic.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestLinkMinimizerSystematic.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestMetricsGatherer.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestMetricsGatherer.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestNode.java?rev=1.5&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestNode.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestOrCompositeSelectionCriteria.java?r1=1.2&r2=1.1">tests/com/jeantessier/dependency/TestOrCompositeSelectionCriteria.java (1.2)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestRegularExpressionSelectionCriteria.java?rev=1.4&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestRegularExpressionSelectionCriteria.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestSelectiveTraversalStrategy.java?rev=1.9&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestSelectiveTraversalStrategy.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTextPrinter.java?rev=1.6&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestTextPrinter.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosure.java?rev=1.9&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestTransitiveClosure.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureEngine.java?rev=1.5&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestTransitiveClosureEngine.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureNonMaximized.java?rev=1.6&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestTransitiveClosureNonMaximized.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureSlice.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestTransitiveClosureSlice.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureWithTestClass.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestTransitiveClosureWithTestClass.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestXMLPrinter.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestXMLPrinter.java (1.7)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-05 08:38 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase III of naming change:
+started on com.jeantessier.dependency</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AnyParameterStrategy.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/AnyParameterStrategy.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AtLeastParameterStrategy.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/AtLeastParameterStrategy.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AtMostParameterStrategy.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/AtMostParameterStrategy.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLine.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/CommandLine.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineSwitch.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/CommandLineSwitch.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineSwitchBase.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/CommandLineSwitchBase.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineUsage.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/CommandLineUsage.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CountingParameterStrategy.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/CountingParameterStrategy.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ExactlyParameterStrategy.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/ExactlyParameterStrategy.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/MultipleValuesSwitch.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/MultipleValuesSwitch.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/NullParameterStrategy.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/NullParameterStrategy.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/OptionalValueSwitch.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/OptionalValueSwitch.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ParameterStrategy.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/ParameterStrategy.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/SingleValueSwitch.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/SingleValueSwitch.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ToggleSwitch.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/ToggleSwitch.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/Visitable.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/Visitable.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/Visitor.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/commandline/Visitor.java (1.8)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-04 21:43 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase II of naming change:
+com.jeantessier.classreader complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CodeDependencyCollector.java?r1=1.17&r2=1.16">src/com/jeantessier/dependency/CodeDependencyCollector.java (1.17)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java?r1=1.9&r2=1.8">src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java?r1=1.19&r2=1.18">src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java (1.19)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-04 21:43 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase II of naming change:
+com.jeantessier.classreader complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Attribute_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/Attribute_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/BitFormat.java?rev=1.5&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/BitFormat.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Class_info.java?r1=1.7&r2=1.6">src/com/jeantessier/classreader/Class_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoaderDispatcher.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ClassfileLoaderDispatcher.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoaderEventSource.java?r1=1.12&r2=1.11">src/com/jeantessier/classreader/ClassfileLoaderEventSource.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileScanner.java?r1=1.4&r2=1.3">src/com/jeantessier/classreader/ClassfileScanner.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Code_attribute.java?r1=1.9&r2=1.8">src/com/jeantessier/classreader/Code_attribute.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantPool.java?r1=1.14&r2=1.13">src/com/jeantessier/classreader/ConstantPool.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantPoolEntry.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ConstantPoolEntry.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantValue_attribute.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/ConstantValue_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Custom_attribute.java?r1=1.9&r2=1.8">src/com/jeantessier/classreader/Custom_attribute.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Deprecated_attribute.java?r1=1.9&r2=1.8">src/com/jeantessier/classreader/Deprecated_attribute.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/DeprecationPrinter.java?r1=1.5&r2=1.4">src/com/jeantessier/classreader/DeprecationPrinter.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/DirectoryClassfileLoader.java?r1=1.15&r2=1.14">src/com/jeantessier/classreader/DirectoryClassfileLoader.java (1.15)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/DirectoryExplorer.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/DirectoryExplorer.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ExceptionHandler.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/ExceptionHandler.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/FeatureDependencyCollector.java?r1=1.10&r2=1.9">src/com/jeantessier/classreader/FeatureDependencyCollector.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/FeatureRef_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/FeatureRef_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/FieldRef_info.java?r1=1.7&r2=1.6">src/com/jeantessier/classreader/FieldRef_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/InnerClass.java?r1=1.10&r2=1.9">src/com/jeantessier/classreader/InnerClass.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Instruction.java?r1=1.10&r2=1.9">src/com/jeantessier/classreader/Instruction.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/InterfaceMethodRef_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/InterfaceMethodRef_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/JarClassfileLoader.java?r1=1.12&r2=1.11">src/com/jeantessier/classreader/JarClassfileLoader.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LineNumberTable_attribute.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/LineNumberTable_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LocalVariable.java?r1=1.9&r2=1.8">src/com/jeantessier/classreader/LocalVariable.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LocalVariableTable_attribute.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/LocalVariableTable_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/MethodRef_info.java?r1=1.9&r2=1.8">src/com/jeantessier/classreader/MethodRef_info.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/MetricsGatherer.java?r1=1.11&r2=1.10">src/com/jeantessier/classreader/MetricsGatherer.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/NameAndType_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/NameAndType_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/PermissiveDispatcher.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/PermissiveDispatcher.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/SourceFile_attribute.java?r1=1.9&r2=1.8">src/com/jeantessier/classreader/SourceFile_attribute.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/StrictDispatcher.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/StrictDispatcher.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/String_info.java?r1=1.8&r2=1.7">src/com/jeantessier/classreader/String_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Synthetic_attribute.java?r1=1.9&r2=1.8">src/com/jeantessier/classreader/Synthetic_attribute.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/XMLPrinter.java?r1=1.27&r2=1.26">src/com/jeantessier/classreader/XMLPrinter.java (1.27)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ZipClassfileLoader.java?r1=1.13&r2=1.12">src/com/jeantessier/classreader/ZipClassfileLoader.java (1.13)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-04 21:43 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase II of naming change:
+com.jeantessier.classreader complete</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java?r1=1.24&r2=1.23">src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java (1.24)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java?r1=1.27&r2=1.26">src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java (1.27)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java?r1=1.9&r2=1.8">src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsGatherer.java?r1=1.25&r2=1.24">src/com/jeantessier/metrics/MetricsGatherer.java (1.25)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileScanner.java?r1=1.4&r2=1.3">tests/com/jeantessier/classreader/TestClassfileScanner.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDirectoryExplorer.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestDirectoryExplorer.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestPermissiveDispatcher.java?rev=1.4&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestPermissiveDispatcher.java (1.4)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-04 09:56 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase I of naming change</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfile.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestClassfile.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoader.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestClassfileLoader.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoaderPermissiveDispatcher.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestClassfileLoaderPermissiveDispatcher.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoaderStrictDispatcher.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestClassfileLoaderStrictDispatcher.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileScanner.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestClassfileScanner.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDeprecationPrinter.java?rev=1.4&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestDeprecationPrinter.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDirectoryClassfileLoader.java?rev=1.13&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestDirectoryClassfileLoader.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestJarClassfileLoader.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestJarClassfileLoader.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestTransientClassfileLoader.java?rev=1.6&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestTransientClassfileLoader.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestXMLPrinter.java?rev=1.5&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestXMLPrinter.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestZipClassfileLoader.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestZipClassfileLoader.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestDependencyExtractor.java?rev=1.12&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestDependencyExtractor.java (1.12)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependencyfinder/cli/TestVerboseListener.java?rev=1.4&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependencyfinder/cli/TestVerboseListener.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestDeprecatableDifferences.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/diff/TestDeprecatableDifferences.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestDifferencesFactory.java?rev=1.8&content-type=text/x-cvsweb-markup">tests/com/jeantessier/diff/TestDifferencesFactory.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/diff/TestReport.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/diff/TestReport.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGatherer.java?rev=1.21&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsGatherer.java (1.21)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependencies.java?rev=1.14&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsGathererDependencies.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependenciesFilter.java?rev=1.4&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsGathererDependenciesFilter.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererDependenciesScope.java?rev=1.3&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsGathererDependenciesScope.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererEvents.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsGathererEvents.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestMetricsGathererSLOC.java?rev=1.10&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestMetricsGathererSLOC.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/metrics/TestXMLPrinter.java?rev=1.4&content-type=text/x-cvsweb-markup">tests/com/jeantessier/metrics/TestXMLPrinter.java (1.4)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-04 09:56 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase I of naming change</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/JarJarDiff.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/JarJarDiff.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/ListDeprecatedElements.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/ListDeprecatedElements.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/OOMetrics.java?rev=1.13&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/OOMetrics.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/VerboseListener.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/VerboseListener.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassList.java?rev=1.17&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/ClassList.java (1.17)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java?rev=1.18&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/ClassMetrics.java (1.18)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassReader.java?rev=1.25&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/ClassReader.java (1.25)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java?rev=1.24&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java (1.24)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java?rev=1.25&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java (1.25)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/ListDeprecatedElements.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/OOMetrics.java?rev=1.34&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/OOMetrics.java (1.34)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/VerboseListener.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/VerboseListener.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java?rev=1.23&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java (1.23)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java?rev=1.26&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java (1.26)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/MetricsVerboseListener.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/VerboseListener.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/gui/VerboseListener.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ClassDifferences.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/ClassDifferences.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ClassReport.java?rev=1.14&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/ClassReport.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/DeprecatableDifferences.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/DeprecatableDifferences.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/DifferencesFactory.java?rev=1.5&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/DifferencesFactory.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/FeatureDifferences.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/FeatureDifferences.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Report.java?rev=1.20&content-type=text/x-cvsweb-markup">src/com/jeantessier/diff/Report.java (1.20)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsEvent.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MetricsEvent.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsGatherer.java?rev=1.24&content-type=text/x-cvsweb-markup">src/com/jeantessier/metrics/MetricsGatherer.java (1.24)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestAggregatingClassfileLoader.java?rev=1.7&content-type=text/x-cvsweb-markup">tests/com/jeantessier/classreader/TestAggregatingClassfileLoader.java (1.7)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-04 09:56 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase I of naming change</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/AggregatingClassfileLoader.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/AggregatingClassfileLoader.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/AttributeFactory.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/AttributeFactory.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Attribute_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Attribute_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassDependencyCollector.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ClassDependencyCollector.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Class_info.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Class_info.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Classfile.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Classfile.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoader.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ClassfileLoader.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoaderDecorator.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ClassfileLoaderDecorator.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoaderEventSource.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ClassfileLoaderEventSource.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileScanner.java?rev=1.3&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ClassfileScanner.java (1.3)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/CodeIterator.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/CodeIterator.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Code_attribute.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Code_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Collector.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Collector.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/CollectorBase.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/CollectorBase.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantPool.java?rev=1.13&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ConstantPool.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantValue_attribute.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ConstantValue_attribute.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Custom_attribute.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Custom_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Deprecatable.java?rev=1.4&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Deprecatable.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Deprecated_attribute.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Deprecated_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/DeprecationPrinter.java?rev=1.4&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/DeprecationPrinter.java (1.4)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/DirectoryClassfileLoader.java?rev=1.14&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/DirectoryClassfileLoader.java (1.14)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Double_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Double_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ExceptionHandler.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ExceptionHandler.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Exceptions_attribute.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Exceptions_attribute.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/FeatureDependencyCollector.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/FeatureDependencyCollector.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/FeatureRef_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/FeatureRef_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Feature_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Feature_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/FieldRef_info.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/FieldRef_info.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Field_info.java?rev=1.6&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Field_info.java (1.6)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Float_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Float_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/InnerClass.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/InnerClass.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/InnerClasses_attribute.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/InnerClasses_attribute.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Instruction.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Instruction.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Integer_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Integer_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/InterfaceMethodRef_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/InterfaceMethodRef_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/JarClassfileLoader.java?rev=1.11&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/JarClassfileLoader.java (1.11)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LineNumber.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/LineNumber.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LineNumberTable_attribute.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/LineNumberTable_attribute.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LoadEvent.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/LoadEvent.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LoadListener.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/LoadListener.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LocalVariable.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/LocalVariable.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LocalVariableTable_attribute.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/LocalVariableTable_attribute.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Long_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Long_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/MethodRef_info.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/MethodRef_info.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Method_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Method_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/MetricsGatherer.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/MetricsGatherer.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/NameAndType_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/NameAndType_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Printer.java?rev=1.13&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Printer.java (1.13)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/SignatureHelper.java?rev=1.9&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/SignatureHelper.java (1.9)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/SourceFile_attribute.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/SourceFile_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/String_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/String_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Synthetic_attribute.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Synthetic_attribute.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/TextPrinter.java?rev=1.5&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/TextPrinter.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/TransientClassfileLoader.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/TransientClassfileLoader.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/UTF8_info.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/UTF8_info.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Visitable.java?rev=1.7&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Visitable.java (1.7)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Visitor.java?rev=1.8&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/Visitor.java (1.8)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/VisitorBase.java?rev=1.10&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/VisitorBase.java (1.10)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/XMLPrinter.java?rev=1.26&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/XMLPrinter.java (1.26)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ZipClassfileLoader.java?rev=1.12&content-type=text/x-cvsweb-markup">src/com/jeantessier/classreader/ZipClassfileLoader.java (1.12)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-09-04 09:56 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Phase I of naming change</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CodeDependencyCollector.java?rev=1.16&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/CodeDependencyCollector.java (1.16)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TransitiveClosureEngine.java?rev=1.5&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/TransitiveClosureEngine.java (1.5)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/VerboseListenerBase.java?rev=1.5&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/VerboseListenerBase.java (1.5)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-06-27 22:22 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>New composite selection criteria</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/AndCompositeSelectionCriteria.java?rev=1.1&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/AndCompositeSelectionCriteria.java (1.1)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CompositeSelectionCriteria.java?rev=1.1&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/CompositeSelectionCriteria.java (1.1)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/OrCompositeSelectionCriteria.java?rev=1.1&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/OrCompositeSelectionCriteria.java (1.1)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-06-27 22:22 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>New composite selection criteria</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/MockSelectionCriteria.java?rev=1.1&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/MockSelectionCriteria.java (1.1)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestAll.java?rev=1.18&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestAll.java (1.18)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestAndCompositeSelectionCriteria.java?rev=1.1&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestAndCompositeSelectionCriteria.java (1.1)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestOrCompositeSelectionCriteria.java?rev=1.1&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestOrCompositeSelectionCriteria.java (1.1)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-06-17 07:30 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Separate include and exclude lists</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestCollectionSelectionCriteria.java?rev=1.4&content-type=text/x-cvsweb-markup">tests/com/jeantessier/dependency/TestCollectionSelectionCriteria.java (1.4)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-06-17 07:30 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Separate include and exclude lists</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java?rev=1.17&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java (1.17)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java?rev=1.30&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java (1.30)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-06-17 07:30 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Separate include and exclude lists</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CollectionSelectionCriteria.java?rev=1.4&content-type=text/x-cvsweb-markup">src/com/jeantessier/dependency/CollectionSelectionCriteria.java (1.4)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-06-01 05:45 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Fix DependencyReporter documentation</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/tasks/dependencyreporter.html?rev=1.12&content-type=text/x-cvsweb-markup">docs/tasks/dependencyreporter.html (1.12)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-06-01 05:45 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Fix DependencyReporter documentation</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Manual.txt?rev=1.37&content-type=text/x-cvsweb-markup">docs/Manual.txt (1.37)</a>
+</li>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Tools.txt?rev=1.33&content-type=text/x-cvsweb-markup">docs/Tools.txt (1.33)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-05-24 06:11 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Fix bad Ant example</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Developer.txt?rev=1.8&content-type=text/x-cvsweb-markup">docs/Developer.txt (1.8)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-05-24 05:31 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Update release tag to 1.1.0 beta2</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml?r1=1.47&r2=1.46">build.xml (1.47)</a>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="dateAndAuthor">2004-05-23 05:45 jeantessier</td>
+</tr>
+<tr>
+<td>
+<pre>Revv up the version number.
+Include version number in filenames for distribution files.</pre>
+<ul>
+<li>
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml?rev=1.46&content-type=text/x-cvsweb-markup">build.xml (1.46)</a>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+</body>
+</html>
