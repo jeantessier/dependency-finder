@@ -186,6 +186,10 @@ public class Metrics {
 		return result;
 	}
 
+	public boolean HasMeasurement(String name) {
+		return measurements.get(name) != null;
+	}
+	
 	public Collection MeasurementNames() {
 		return Collections.unmodifiableCollection(new TreeSet(measurements.keySet()));
 	}

@@ -133,12 +133,13 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
 		Logger.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + ")");
 		
-		Vector elements = Perl().split(OPERATORS, term);
+	    List elements = new ArrayList();
+		Perl().split(elements, OPERATORS, term);
 
-		result = (elements.size() % 2) == 1;
+		result = (elements.size() > 0) && ((elements.size() % 2) == 1);
 		
 		if (elements.size() == 1) {
-			result = !(metrics.Measurement((String) elements.remove(0)) instanceof NullMeasurement);
+			result = metrics.HasMeasurement((String) elements.remove(0));
 		} else {
 			while (result && (elements.size() > 2) && ((elements.size() % 2) == 1)) {
 				String left_string  = (String) elements.remove(0);
