@@ -217,11 +217,11 @@ public class StatisticalMeasurement extends MeasurementBase {
 	}
 	
 	private void VisitMetrics(Metrics metrics) {
-		Logger.getLogger(getClass()).debug("VisitMetrics: " + metrics);
+		Logger.getLogger(getClass()).debug("VisitMetrics: " + metrics.Name());
 		
 		Measurement measurement = metrics.Measurement(monitored_measurement);
 
-		Logger.getLogger(getClass()).debug("measurement for " + monitored_measurement + " is " + measurement);
+		Logger.getLogger(getClass()).debug("measurement for " + monitored_measurement + " is " + measurement.getClass());
 		
 		if (measurement instanceof StatisticalMeasurement) {
 			StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
