@@ -133,26 +133,15 @@
     </target>
 
     <target name="ftp" depends="init">
-        <ftp server="upload.attbi.com"
-	     userid="jeantessier"
-	     password="45box165"
-	     remotedir="DependencyFinder/download"
-	     action="del"
-	     verbose="yes">
-	    <fileset>
-		<patternset>
-		    <include name="*.zip"/>
-		</patternset>
-	    </fileset>
-	</ftp>
-        <ftp server="upload.attbi.com"
-	     userid="jeantessier"
-	     password="45box165"
-	     remotedir="DependencyFinder/download"
+        <ftp server="upload.sourceforge.net"
+	     userid="anonymous"
+	     password="jeantessier@hotmail.com"
+	     remotedir="incoming"
 	     action="put"
 	     verbose="yes">
 	    <fileset dir=".">
 		<patternset>
+		    <include name="${zipFile}"/>
 		    <include name="${distFile}"/>
 		</patternset>
 	    </fileset>
