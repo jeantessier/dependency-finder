@@ -17,6 +17,30 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	October 30, 2003
+    </dt>
+    <dd>
+	<p>Fixed <code>MaximumCapacityPatternCache</code>.  It turns out that
+	<code>Perl5Util</code> use a second cache internally which is
+	initialized with the pattern cache's capacity.  This additional cache
+	pre-allocates memory proportionally to the capacity, in my case
+	proportionally to <code>Integer.MAX_VALUE</code>, or about 2 billions.
+	I changed my cache to use a hard-coded value of 20.  That should be
+	enough to keep things going.</p>
+
+	<p>I added my new cache in a few other <code>Perl5Util</code> instances
+	where they might run into many regular expressions.  I had to create a
+	new package, <code>com.jeantessier.text</code> for the ORO-related
+	class.</p>
+
+	<p>Added <code>xml-apis.jar</code> and <code>xercesImpl.jar</code> to
+	the web application's WAR file.</p>
+
+	<p>Fixed <code>junit.bat</code> and <code>textjunit.bat</code> to use
+	<code>xml-apis.jar</code> instead of the former
+	<code>xmlParserAPIs.jar</code>.</p>
+    </dd>
+    <dt>
 	October 29, 2003
     </dt>
     <dd>
