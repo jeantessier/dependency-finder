@@ -237,15 +237,14 @@ public class ClassMetrics {
 				out.println(" " + Instruction.Mnemonic(opcode) + ": " + metrics.Instructions()[opcode]);
 			}
 		}
+
+		out.close();
 		
 		Date end = new Date();
 
 		if (command_line.ToggleSwitch("time")) {
-			out.println();
-			out.println(ClassMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
+			System.err.println(ClassMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
-
-		out.close();
 
 		verbose_listener.Close();
 	}

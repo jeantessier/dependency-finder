@@ -406,15 +406,14 @@ public class DependencyMetrics {
 		verbose_listener.Print("Reporting " + metrics.Packages().size() + " package(s) ...");
 
 		reporter.Process(metrics);
+
+		out.close();
 		
 		Date end = new Date();
 
 		if (command_line.ToggleSwitch("time")) {
-			out.println();
-			out.println(DependencyMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
+			System.err.println(DependencyMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
-
-		out.close();
 
 		verbose_listener.Close();
 	}

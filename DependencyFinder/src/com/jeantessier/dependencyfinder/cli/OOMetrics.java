@@ -214,11 +214,10 @@ public class OOMetrics {
 
 		Logger.getLogger(OOMetrics.class).debug("Done.");
 
-		if (command_line.ToggleSwitch("time")) {
-			Date end = new Date();
+		Date end = new Date();
 
-			System.out.println();
-			System.out.println(OOMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
+		if (command_line.ToggleSwitch("time")) {
+			System.err.println(OOMetrics.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
 
 		verbose_listener.Close();
