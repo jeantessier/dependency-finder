@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -51,305 +51,305 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.metrics.*;
 
 public class OOMetrics extends JFrame {
-	private static final TableCellRenderer RENDERER = new MeasurementTableCellRenderer();
+    private static final TableCellRenderer RENDERER = new MeasurementTableCellRenderer();
 
-	private MetricsFactory factory;
-	
-	private JMenuBar     menuBar      = new JMenuBar();
-	private JMenu        fileMenu     = new JMenu();
-	private JMenu        helpMenu     = new JMenu();
-	private JToolBar     toolbar       = new JToolBar();
-	private JTextArea    projectArea  = new JTextArea();
-	private JButton      filterButton = new JButton("Filter:");
-	private JTextField   filterField  = new JTextField("//");
-	private StatusLine   statusLine   = new StatusLine(420);
-	private JProgressBar progressBar  = new JProgressBar();
+    private MetricsFactory factory;
+    
+    private JMenuBar     menuBar      = new JMenuBar();
+    private JMenu        fileMenu     = new JMenu();
+    private JMenu        helpMenu     = new JMenu();
+    private JToolBar     toolbar       = new JToolBar();
+    private JTextArea    projectArea  = new JTextArea();
+    private JButton      filterButton = new JButton("Filter:");
+    private JTextField   filterField  = new JTextField("//");
+    private StatusLine   statusLine   = new StatusLine(420);
+    private JProgressBar progressBar  = new JProgressBar();
 
-	private OOMetricsTableModel groupsModel;
-	private OOMetricsTableModel classesModel;
-	private OOMetricsTableModel methodsModel;
-	
-	private File inputFile = new File(".");
+    private OOMetricsTableModel groupsModel;
+    private OOMetricsTableModel classesModel;
+    private OOMetricsTableModel methodsModel;
+    
+    private File inputFile = new File(".");
 
-	public OOMetrics(CommandLine commandLine, MetricsFactory factory) {
-		this.factory = factory;
-		
-		this.setSize(new Dimension(800, 600));
-		this.setTitle("OO Metrics");
-		this.setIconImage(new ImageIcon(getClass().getResource("icons/logoicon.gif")).getImage());
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.addWindowListener(new WindowKiller());
+    public OOMetrics(CommandLine commandLine, MetricsFactory factory) {
+        this.factory = factory;
+        
+        this.setSize(new Dimension(800, 600));
+        this.setTitle("OO Metrics");
+        this.setIconImage(new ImageIcon(getClass().getResource("icons/logoicon.gif")).getImage());
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.addWindowListener(new WindowKiller());
 
-		groupsModel  = new OOMetricsTableModel(factory.getConfiguration().getGroupMeasurements());
-		classesModel = new OOMetricsTableModel(factory.getConfiguration().getClassMeasurements());
-		methodsModel = new OOMetricsTableModel(factory.getConfiguration().getMethodMeasurements());
-		
-		buildMenus(commandLine);
-		buildUI();
+        groupsModel  = new OOMetricsTableModel(factory.getConfiguration().getGroupMeasurements());
+        classesModel = new OOMetricsTableModel(factory.getConfiguration().getClassMeasurements());
+        methodsModel = new OOMetricsTableModel(factory.getConfiguration().getMethodMeasurements());
+        
+        buildMenus(commandLine);
+        buildUI();
 
-		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-			SwingUtilities.updateComponentTreeUI(this);
-		} catch (Exception ex) {
-			Logger.getLogger(OOMetrics.class).error("Unable to set look and feel", ex);
-		}
-		
-		statusLine.showInfo("Ready.");
-	}
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception ex) {
+            Logger.getLogger(OOMetrics.class).error("Unable to set look and feel", ex);
+        }
+        
+        statusLine.showInfo("Ready.");
+    }
 
-	MetricsFactory getMetricsFactory() {
-		return factory;
-	}
+    MetricsFactory getMetricsFactory() {
+        return factory;
+    }
 
-	void setMetricsFactory(MetricsFactory factory) {
-		this.factory = factory;
-	}
-	
-	JTextArea getProjectArea() {
-		return projectArea;
-	}
+    void setMetricsFactory(MetricsFactory factory) {
+        this.factory = factory;
+    }
+    
+    JTextArea getProjectArea() {
+        return projectArea;
+    }
 
-	OOMetricsTableModel getGroupsModel() {
-		return groupsModel;
-	}
+    OOMetricsTableModel getGroupsModel() {
+        return groupsModel;
+    }
 
-	OOMetricsTableModel getClassesModel() {
-		return classesModel;
-	}
+    OOMetricsTableModel getClassesModel() {
+        return classesModel;
+    }
 
-	OOMetricsTableModel getMethodsModel() {
-		return methodsModel;
-	}
-	
-	File getInputFile() {
-		return inputFile;
-	}
+    OOMetricsTableModel getMethodsModel() {
+        return methodsModel;
+    }
+    
+    File getInputFile() {
+        return inputFile;
+    }
 
-	void setInputFile(File inputFile) {
-		this.inputFile = inputFile;
-	}
+    void setInputFile(File inputFile) {
+        this.inputFile = inputFile;
+    }
 
-	JTextComponent getFilterField() {
-		return filterField;
-	}
-	
-	StatusLine getStatusLine() {
-		return statusLine;
-	}
-		
-	JProgressBar getProgressBar() {
-		return progressBar;
-	}
-	
-	private void buildMenus(CommandLine commandLine) {
-		buildFileMenu(commandLine);
-		buildHelpMenu(commandLine);
+    JTextComponent getFilterField() {
+        return filterField;
+    }
+    
+    StatusLine getStatusLine() {
+        return statusLine;
+    }
+        
+    JProgressBar getProgressBar() {
+        return progressBar;
+    }
+    
+    private void buildMenus(CommandLine commandLine) {
+        buildFileMenu(commandLine);
+        buildHelpMenu(commandLine);
 
-		this.setJMenuBar(menuBar);
-	}
-	
-	private void buildFileMenu(CommandLine commandLine) {
-		menuBar.add(fileMenu);
+        this.setJMenuBar(menuBar);
+    }
+    
+    private void buildFileMenu(CommandLine commandLine) {
+        menuBar.add(fileMenu);
 
-		fileMenu.setText("File");
+        fileMenu.setText("File");
 
-		Action action;
-		JMenuItem menuItem;
-		JButton button;
-		
-		action = new MetricsExtractAction(this);
-		menuItem = fileMenu.add(action);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK));
-		menuItem.setMnemonic('e');
-		button = toolbar.add(action);
-		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
+        Action action;
+        JMenuItem menuItem;
+        JButton button;
+        
+        action = new MetricsExtractAction(this);
+        menuItem = fileMenu.add(action);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK));
+        menuItem.setMnemonic('e');
+        button = toolbar.add(action);
+        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
-		toolbar.addSeparator();
-		fileMenu.addSeparator();
-		
-		action = new NewMetricsAction(this);
-		menuItem = fileMenu.add(action);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
-		menuItem.setMnemonic('n');
-		button = toolbar.add(action);
-		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
+        toolbar.addSeparator();
+        fileMenu.addSeparator();
+        
+        action = new NewMetricsAction(this);
+        menuItem = fileMenu.add(action);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+        menuItem.setMnemonic('n');
+        button = toolbar.add(action);
+        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
-		toolbar.addSeparator();
-		fileMenu.addSeparator();
+        toolbar.addSeparator();
+        fileMenu.addSeparator();
 
-		action = new ExitAction(this);
-		menuItem = fileMenu.add(action);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
-		menuItem.setMnemonic('x');
+        action = new ExitAction(this);
+        menuItem = fileMenu.add(action);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
+        menuItem.setMnemonic('x');
 
-		this.setJMenuBar(menuBar);
-	}
+        this.setJMenuBar(menuBar);
+    }
 
-	private void buildHelpMenu(CommandLine commandLine) {
-		menuBar.add(helpMenu);
+    private void buildHelpMenu(CommandLine commandLine) {
+        menuBar.add(helpMenu);
 
-		helpMenu.setText("Help");
+        helpMenu.setText("Help");
 
-		Action action;
-		JMenuItem menuItem;
+        Action action;
+        JMenuItem menuItem;
 
-		action = new AboutAction(this);
-		menuItem = helpMenu.add(action);
-		menuItem.setMnemonic('a');
-	}
-	
-	private void buildUI() {
-		this.getContentPane().setLayout(new BorderLayout());
-		this.getContentPane().add(buildControlPanel(), BorderLayout.NORTH);
-		this.getContentPane().add(buildResultPanel(), BorderLayout.CENTER);
-		this.getContentPane().add(buildStatusPanel(), BorderLayout.SOUTH);
-	}
+        action = new AboutAction(this);
+        menuItem = helpMenu.add(action);
+        menuItem.setMnemonic('a');
+    }
+    
+    private void buildUI() {
+        this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().add(buildControlPanel(), BorderLayout.NORTH);
+        this.getContentPane().add(buildResultPanel(), BorderLayout.CENTER);
+        this.getContentPane().add(buildStatusPanel(), BorderLayout.SOUTH);
+    }
 
-	private JComponent buildControlPanel() {
-		return toolbar;
-	}
-	
-	private JComponent buildResultPanel() {
-		JPanel result = new JPanel();
+    private JComponent buildControlPanel() {
+        return toolbar;
+    }
+    
+    private JComponent buildResultPanel() {
+        JPanel result = new JPanel();
 
-		result.setLayout(new BorderLayout());
-		result.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT, buildProjectPanel(), buildChartsPanel()), BorderLayout.CENTER);
-		result.add(buildFilterPanel(), BorderLayout.SOUTH);
-		
-		return result;
-	}
+        result.setLayout(new BorderLayout());
+        result.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT, buildProjectPanel(), buildChartsPanel()), BorderLayout.CENTER);
+        result.add(buildFilterPanel(), BorderLayout.SOUTH);
+        
+        return result;
+    }
 
-	private JComponent buildProjectPanel() {
-		JComponent result = new JScrollPane(projectArea);
-		
-		projectArea.setEditable(false);
-		
-		return result;
-	}
+    private JComponent buildProjectPanel() {
+        JComponent result = new JScrollPane(projectArea);
+        
+        projectArea.setEditable(false);
+        
+        return result;
+    }
 
-	private JComponent buildChartsPanel() {
-		JTabbedPane result = new JTabbedPane();
+    private JComponent buildChartsPanel() {
+        JTabbedPane result = new JTabbedPane();
 
-		// result.setBorder(BorderFactory.createTitledBorder("Data"));
-		result.addTab("Groups",  buildGroupsChartPanel());
-		result.addTab("Classes", buildClassesChartPanel());
-		result.addTab("Methods", buildMethodsChartPanel());
-		
-		return result;
-	}
+        // result.setBorder(BorderFactory.createTitledBorder("Data"));
+        result.addTab("Groups",  buildGroupsChartPanel());
+        result.addTab("Classes", buildClassesChartPanel());
+        result.addTab("Methods", buildMethodsChartPanel());
+        
+        return result;
+    }
 
-	private JComponent buildGroupsChartPanel() {
-		return buildChartPanel(getGroupsModel());
-	}
+    private JComponent buildGroupsChartPanel() {
+        return buildChartPanel(getGroupsModel());
+    }
 
-	private JComponent buildClassesChartPanel() {
-		return buildChartPanel(getClassesModel());
-	}
-	
-	private JComponent buildMethodsChartPanel() {
-		return buildChartPanel(getMethodsModel());
-	}
-	
-	private JComponent buildChartPanel(OOMetricsTableModel model) {
-		JComponent result;
+    private JComponent buildClassesChartPanel() {
+        return buildChartPanel(getClassesModel());
+    }
+    
+    private JComponent buildMethodsChartPanel() {
+        return buildChartPanel(getMethodsModel());
+    }
+    
+    private JComponent buildChartPanel(OOMetricsTableModel model) {
+        JComponent result;
 
-		JTable table = new JTable(model);
+        JTable table = new JTable(model);
 
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.setRowSelectionAllowed(true);
-		table.setDefaultRenderer(Object.class, RENDERER);
-		table.setShowHorizontalLines(false);
-		table.setShowVerticalLines(false);
-		TableHeaderListener listener = new TableHeaderListener(table, model);
-		table.getTableHeader().addMouseListener(listener);
-		table.getTableHeader().addMouseMotionListener(listener);
-			
-		result = new JScrollPane(table);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setRowSelectionAllowed(true);
+        table.setDefaultRenderer(Object.class, RENDERER);
+        table.setShowHorizontalLines(false);
+        table.setShowVerticalLines(false);
+        TableHeaderListener listener = new TableHeaderListener(table, model);
+        table.getTableHeader().addMouseListener(listener);
+        table.getTableHeader().addMouseMotionListener(listener);
+            
+        result = new JScrollPane(table);
 
-		return result;
-	}
+        return result;
+    }
 
-	private JComponent buildFilterPanel() {
-		JPanel result = new JPanel();
+    private JComponent buildFilterPanel() {
+        JPanel result = new JPanel();
 
-		result.setLayout(new BorderLayout());
-		result.add(filterButton, BorderLayout.WEST);
-		result.add(filterField,  BorderLayout.CENTER);
+        result.setLayout(new BorderLayout());
+        result.add(filterButton, BorderLayout.WEST);
+        result.add(filterField,  BorderLayout.CENTER);
 
-		filterButton.addActionListener(new FilterActionListener(this));
-		
-		return result;
-	}
+        filterButton.addActionListener(new FilterActionListener(this));
+        
+        return result;
+    }
 
-	private JComponent buildStatusPanel() {
-		JPanel result = new JPanel();
+    private JComponent buildStatusPanel() {
+        JPanel result = new JPanel();
 
-		Dimension size = getProgressBar().getPreferredSize();
-		size.width = 100;
-		getProgressBar().setPreferredSize(size);
-		getProgressBar().setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-		
-		result.setLayout(new BorderLayout());
-		result.add(getStatusLine(),  BorderLayout.CENTER);
-		result.add(getProgressBar(), BorderLayout.EAST);
-		
-		return result;
-	}
+        Dimension size = getProgressBar().getPreferredSize();
+        size.width = 100;
+        getProgressBar().setPreferredSize(size);
+        getProgressBar().setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        
+        result.setLayout(new BorderLayout());
+        result.add(getStatusLine(),  BorderLayout.CENTER);
+        result.add(getProgressBar(), BorderLayout.EAST);
+        
+        return result;
+    }
 
-	public static void showError(CommandLineUsage clu, String msg) {
-		System.err.println(msg);
-		showError(clu);
-	}
+    public static void showError(CommandLineUsage clu, String msg) {
+        System.err.println(msg);
+        showError(clu);
+    }
 
-	public static void showError(CommandLineUsage clu) {
-		System.err.println(clu);
-	}
+    public static void showError(CommandLineUsage clu) {
+        System.err.println(clu);
+    }
 
-	public static void main(String[] args) throws Exception {
-		// Parsing the command line
-		CommandLine commandLine = new CommandLine(new NullParameterStrategy());
-		commandLine.addSingleValueSwitch("default-configuration", true);
-		commandLine.addSingleValueSwitch("configuration");
-		commandLine.addToggleSwitch("validate");
-		commandLine.addToggleSwitch("help");
+    public static void main(String[] args) throws Exception {
+        // Parsing the command line
+        CommandLine commandLine = new CommandLine(new NullParameterStrategy());
+        commandLine.addSingleValueSwitch("default-configuration", true);
+        commandLine.addSingleValueSwitch("configuration");
+        commandLine.addToggleSwitch("validate");
+        commandLine.addToggleSwitch("help");
 
-		CommandLineUsage usage = new CommandLineUsage("OOMetrics");
-		commandLine.accept(usage);
+        CommandLineUsage usage = new CommandLineUsage("OOMetrics");
+        commandLine.accept(usage);
 
-		try {
-			commandLine.parse(args);
-		} catch (IllegalArgumentException ex) {
-			showError(usage, ex.toString());
-			System.exit(1);
-		} catch (CommandLineException ex) {
-			showError(usage, ex.toString());
-			System.exit(1);
-		}
+        try {
+            commandLine.parse(args);
+        } catch (IllegalArgumentException ex) {
+            showError(usage, ex.toString());
+            System.exit(1);
+        } catch (CommandLineException ex) {
+            showError(usage, ex.toString());
+            System.exit(1);
+        }
 
-		if (commandLine.getToggleSwitch("help")) {
-			showError(usage);
-			System.exit(1);
-		}
+        if (commandLine.getToggleSwitch("help")) {
+            showError(usage);
+            System.exit(1);
+        }
 
-		MetricsFactory factory;
-		
-		if (commandLine.isPresent("configuration")) {
-			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(commandLine.getToggleSwitch("validate")).load(commandLine.getSingleSwitch("configuration")));
-		} else {
-			factory = new MetricsFactory("Project", new MetricsConfigurationLoader(commandLine.getToggleSwitch("validate")).load(commandLine.getSingleSwitch("default-configuration")));
-		}
-			
-		/*
-		 *  Beginning of main processing
-		 */
+        MetricsFactory factory;
+        
+        if (commandLine.isPresent("configuration")) {
+            factory = new MetricsFactory("Project", new MetricsConfigurationLoader(commandLine.getToggleSwitch("validate")).load(commandLine.getSingleSwitch("configuration")));
+        } else {
+            factory = new MetricsFactory("Project", new MetricsConfigurationLoader(commandLine.getToggleSwitch("validate")).load(commandLine.getSingleSwitch("default-configuration")));
+        }
+            
+        /*
+         *  Beginning of main processing
+         */
 
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception ex) {
-			// Ignore
-		}
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            // Ignore
+        }
 
-		OOMetrics model = new OOMetrics(commandLine, factory);
-		model.setVisible(true);
-	}
+        OOMetrics model = new OOMetrics(commandLine, factory);
+        model.setVisible(true);
+    }
 }

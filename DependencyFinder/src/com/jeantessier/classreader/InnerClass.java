@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,135 +37,135 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class InnerClass implements Visitable {
-	public static final int ACC_PUBLIC    = 0x0001;
-	public static final int ACC_PRIVATE   = 0x0002;
-	public static final int ACC_PROTECTED = 0x0004;
-	public static final int ACC_STATIC    = 0x0008;
-	public static final int ACC_FINAL     = 0x0010;
-	public static final int ACC_INTERFACE = 0x0200;
-	public static final int ACC_ABSTRACT  = 0x0400;
+    public static final int ACC_PUBLIC    = 0x0001;
+    public static final int ACC_PRIVATE   = 0x0002;
+    public static final int ACC_PROTECTED = 0x0004;
+    public static final int ACC_STATIC    = 0x0008;
+    public static final int ACC_FINAL     = 0x0010;
+    public static final int ACC_INTERFACE = 0x0200;
+    public static final int ACC_ABSTRACT  = 0x0400;
 
-	private InnerClasses_attribute innerClasses;
-	private int                    innerClassInfoIndex;
-	private int                    outerClassInfoIndex;
-	private int                    innerNameIndex;
-	private int                    accessFlag;
+    private InnerClasses_attribute innerClasses;
+    private int                    innerClassInfoIndex;
+    private int                    outerClassInfoIndex;
+    private int                    innerNameIndex;
+    private int                    accessFlag;
 
-	public InnerClass(InnerClasses_attribute innerClasses, DataInputStream in) throws IOException {
-		this.innerClasses = innerClasses;
+    public InnerClass(InnerClasses_attribute innerClasses, DataInputStream in) throws IOException {
+        this.innerClasses = innerClasses;
 
-		innerClassInfoIndex = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Inner class info index: " + innerClassInfoIndex + " (" + getInnerClassInfo() + ")");
+        innerClassInfoIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Inner class info index: " + innerClassInfoIndex + " (" + getInnerClassInfo() + ")");
 
-		outerClassInfoIndex = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Outer class info index: " + outerClassInfoIndex + " (" + getOuterClassInfo() + ")");
+        outerClassInfoIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Outer class info index: " + outerClassInfoIndex + " (" + getOuterClassInfo() + ")");
 
-		innerNameIndex = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Inner name index: " + innerNameIndex + " (" + getInnerName() + ")");
+        innerNameIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Inner name index: " + innerNameIndex + " (" + getInnerName() + ")");
 
-		accessFlag = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Inner class access flag: " + accessFlag);
-	}
+        accessFlag = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Inner class access flag: " + accessFlag);
+    }
 
-	public InnerClasses_attribute getInnerClasses() {
-		return innerClasses;
-	}
+    public InnerClasses_attribute getInnerClasses() {
+        return innerClasses;
+    }
 
-	public int getInnerClassInfoIndex() {
-		return innerClassInfoIndex;
-	}
+    public int getInnerClassInfoIndex() {
+        return innerClassInfoIndex;
+    }
 
-	public Class_info getRawInnerClassInfo() {
-		return (Class_info) innerClasses.getClassfile().getConstantPool().get(getInnerClassInfoIndex());
-	}
+    public Class_info getRawInnerClassInfo() {
+        return (Class_info) innerClasses.getClassfile().getConstantPool().get(getInnerClassInfoIndex());
+    }
 
-	public String getInnerClassInfo() {
-		String result = "";
+    public String getInnerClassInfo() {
+        String result = "";
 
-		if (getInnerClassInfoIndex() != 0) {
-			result = getRawInnerClassInfo().toString();
-		}
+        if (getInnerClassInfoIndex() != 0) {
+            result = getRawInnerClassInfo().toString();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public int getOuterClassInfoIndex() {
-		return outerClassInfoIndex;
-	}
+    public int getOuterClassInfoIndex() {
+        return outerClassInfoIndex;
+    }
 
-	public Class_info getRawOuterClassInfo() {
-		return (Class_info) innerClasses.getClassfile().getConstantPool().get(getOuterClassInfoIndex());
-	}
+    public Class_info getRawOuterClassInfo() {
+        return (Class_info) innerClasses.getClassfile().getConstantPool().get(getOuterClassInfoIndex());
+    }
 
-	public String getOuterClassInfo() {
-		String result = "";
+    public String getOuterClassInfo() {
+        String result = "";
 
-		if (getOuterClassInfoIndex() != 0) {
-			result = getRawOuterClassInfo().toString();
-		}
+        if (getOuterClassInfoIndex() != 0) {
+            result = getRawOuterClassInfo().toString();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public int getInnerNameIndex() {
-		return innerNameIndex;
-	}
+    public int getInnerNameIndex() {
+        return innerNameIndex;
+    }
 
-	public UTF8_info getRawInnerName() {
-		return (UTF8_info) innerClasses.getClassfile().getConstantPool().get(getInnerNameIndex());
-	}
+    public UTF8_info getRawInnerName() {
+        return (UTF8_info) innerClasses.getClassfile().getConstantPool().get(getInnerNameIndex());
+    }
 
-	public String getInnerName() {
-		String result = "";
+    public String getInnerName() {
+        String result = "";
 
-		if (getInnerNameIndex() != 0) {
-			result = getRawInnerName().toString();
-		}
+        if (getInnerNameIndex() != 0) {
+            result = getRawInnerName().toString();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public int getAccessFlag() {
-		return accessFlag;
-	}
+    public int getAccessFlag() {
+        return accessFlag;
+    }
 
-	public boolean isPublic() {
-		return (getAccessFlag() & ACC_PUBLIC) != 0;
-	}
+    public boolean isPublic() {
+        return (getAccessFlag() & ACC_PUBLIC) != 0;
+    }
 
-	public boolean isProtected() {
-		return (getAccessFlag() & ACC_PROTECTED) != 0;
-	}
+    public boolean isProtected() {
+        return (getAccessFlag() & ACC_PROTECTED) != 0;
+    }
 
-	public boolean isPrivate() {
-		return (getAccessFlag() & ACC_PRIVATE) != 0;
-	}
+    public boolean isPrivate() {
+        return (getAccessFlag() & ACC_PRIVATE) != 0;
+    }
 
-	public boolean isPackage() {
-		return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
-	}
+    public boolean isPackage() {
+        return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
+    }
 
-	public boolean isStatic() {
-		return (getAccessFlag() & ACC_STATIC) != 0;
-	}
+    public boolean isStatic() {
+        return (getAccessFlag() & ACC_STATIC) != 0;
+    }
 
-	public boolean isFinal() {
-		return (getAccessFlag() & ACC_FINAL) != 0;
-	}
+    public boolean isFinal() {
+        return (getAccessFlag() & ACC_FINAL) != 0;
+    }
 
-	public boolean isInterface() {
-		return (getAccessFlag() & ACC_INTERFACE) != 0;
-	}
+    public boolean isInterface() {
+        return (getAccessFlag() & ACC_INTERFACE) != 0;
+    }
 
-	public boolean isAbstract() {
-		return (getAccessFlag() & ACC_ABSTRACT) != 0;
-	}
+    public boolean isAbstract() {
+        return (getAccessFlag() & ACC_ABSTRACT) != 0;
+    }
 
-	public String toString() {
-		return getInnerClassInfo();
-	}
+    public String toString() {
+        return getInnerClassInfo();
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitInnerClass(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitInnerClass(this);
+    }
 }

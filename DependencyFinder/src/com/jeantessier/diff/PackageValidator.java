@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,73 +38,73 @@ import java.util.*;
 import org.apache.oro.text.perl.*;
 
 public class PackageValidator implements Validator {
-	private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util perl = new Perl5Util();
 
-	private Collection allowedPackages = new HashSet();
+    private Collection allowedPackages = new HashSet();
 
-	public PackageValidator(String filename) throws IOException {
-		try {
-			init(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
-		} catch (FileNotFoundException ex) {
-			// Ignore
-		}
-	}
+    public PackageValidator(String filename) throws IOException {
+        try {
+            init(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
+        } catch (FileNotFoundException ex) {
+            // Ignore
+        }
+    }
 
-	public PackageValidator(BufferedReader in) throws IOException {
-		init(in);
-	}
-	
-	private void init(BufferedReader in) throws IOException {
-		try {
-			String line;
-			while ((line = in.readLine()) != null) {
-				if (line.length() > 0) {
-					allowedPackages.add(line.trim());
-				}
-			}
-		} catch (FileNotFoundException ex) {
-			// Ignore
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-		}
-	}
+    public PackageValidator(BufferedReader in) throws IOException {
+        init(in);
+    }
+    
+    private void init(BufferedReader in) throws IOException {
+        try {
+            String line;
+            while ((line = in.readLine()) != null) {
+                if (line.length() > 0) {
+                    allowedPackages.add(line.trim());
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            // Ignore
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+    }
 
-	public boolean isPackageAllowed(String name) {
-		return isAllowed(name);
-	}
+    public boolean isPackageAllowed(String name) {
+        return isAllowed(name);
+    }
 
-	public boolean isClassAllowed(String name) {
-		String packageName = "";
-		int pos = name.lastIndexOf('.');
-		if (pos != -1) {
-			packageName = name.substring(0, pos);
-		}
-		
-		return isPackageAllowed(packageName);
-	}
+    public boolean isClassAllowed(String name) {
+        String packageName = "";
+        int pos = name.lastIndexOf('.');
+        if (pos != -1) {
+            packageName = name.substring(0, pos);
+        }
+        
+        return isPackageAllowed(packageName);
+    }
 
-	public boolean isFeatureAllowed(String name) {
-		boolean result = false;
-		
-		String className = "";
-		synchronized (perl) {
-			if (perl.match("/^(.+)\\.[^\\.]+\\(.*\\)$/", name)) {
-				className = perl.group(1);
-			} else if (perl.match("/^(.+)\\.[^\\.]+$/", name)) {
-				className = perl.group(1);
-			}
-		}
+    public boolean isFeatureAllowed(String name) {
+        boolean result = false;
+        
+        String className = "";
+        synchronized (perl) {
+            if (perl.match("/^(.+)\\.[^\\.]+\\(.*\\)$/", name)) {
+                className = perl.group(1);
+            } else if (perl.match("/^(.+)\\.[^\\.]+$/", name)) {
+                className = perl.group(1);
+            }
+        }
 
-		if (!className.equals("")) {
-			result = isClassAllowed(className);
-		}
+        if (!className.equals("")) {
+            result = isClassAllowed(className);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public boolean isAllowed(String name) {
-		return allowedPackages.size() == 0 || allowedPackages.contains(name);
-	}
+    public boolean isAllowed(String name) {
+        return allowedPackages.size() == 0 || allowedPackages.contains(name);
+    }
 }

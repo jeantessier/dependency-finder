@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -36,50 +36,50 @@ import java.io.*;
 import java.util.*;
 
 public class ClassfileScanner extends ClassfileLoaderEventSource {
-	private int nbFiles;
-	private int nbClasses;
-	
-	public ClassfileScanner() {
-		super();
-	}
+    private int nbFiles;
+    private int nbClasses;
+    
+    public ClassfileScanner() {
+        super();
+    }
 
-	public ClassfileScanner(ClassfileLoaderDispatcher dispatcher) {
-		super(dispatcher);
-	}
+    public ClassfileScanner(ClassfileLoaderDispatcher dispatcher) {
+        super(dispatcher);
+    }
 
-	public int getNbFiles() {
-		return nbFiles;
-	}
+    public int getNbFiles() {
+        return nbFiles;
+    }
 
-	public int getNbClasses() {
-		return nbClasses;
-	}
-	
-	public Classfile getClassfile(String name) {
-		return null;
-	}
+    public int getNbClasses() {
+        return nbClasses;
+    }
+    
+    public Classfile getClassfile(String name) {
+        return null;
+    }
 
-	public Collection getAllClassfiles() {
-		return Collections.EMPTY_LIST;
-	}
+    public Collection getAllClassfiles() {
+        return Collections.EMPTY_LIST;
+    }
 
-	public Collection getAllClassNames() {
-		return Collections.EMPTY_LIST;
-	}
+    public Collection getAllClassNames() {
+        return Collections.EMPTY_LIST;
+    }
 
-	protected Classfile load(DataInputStream in) throws IOException {
-		return null;
-	}
+    protected Classfile load(DataInputStream in) throws IOException {
+        return null;
+    }
 
-	protected void fireBeginFile(String filename) {
-		super.fireBeginFile(filename);
-		
-		nbFiles++;
-	}
-	
-	protected void fireBeginClassfile(String filename) {
-		super.fireBeginClassfile(filename);
-		
-		nbClasses++;
-	}
+    protected void fireBeginFile(String filename) {
+        super.fireBeginFile(filename);
+        
+        nbFiles++;
+    }
+    
+    protected void fireBeginClassfile(String filename) {
+        super.fireBeginClassfile(filename);
+        
+        nbClasses++;
+    }
 }

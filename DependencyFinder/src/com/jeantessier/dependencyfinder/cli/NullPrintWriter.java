@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,121 +35,121 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 
 public class NullPrintWriter extends PrintWriter {
-	private static final Writer NULL_WRITER = new StringWriter();
-	
-	public NullPrintWriter() {
-		super(NULL_WRITER);
-	}
+    private static final Writer NULL_WRITER = new StringWriter();
+    
+    public NullPrintWriter() {
+        super(NULL_WRITER);
+    }
 
-	public void flush() {
-		// Do nothing
-	}
+    public void flush() {
+        // Do nothing
+    }
 
-	public void close() {
-		// Do nothing
-	}
+    public void close() {
+        // Do nothing
+    }
 
-	public boolean checkError() {
-		return false;
-	}
+    public boolean checkError() {
+        return false;
+    }
 
-	protected void setError() {
-		// Do nothing
-	}
+    protected void setError() {
+        // Do nothing
+    }
 
-	public void write(int c) {
-		// Do nothing
-	}
+    public void write(int c) {
+        // Do nothing
+    }
 
-	public void write(char[] buf, int off, int len) {
-		// Do nothing
-	}
+    public void write(char[] buf, int off, int len) {
+        // Do nothing
+    }
 
-	public void write(char[] buf) {
-		// Do nothing
-	}
+    public void write(char[] buf) {
+        // Do nothing
+    }
 
-	public void write(String s, int off, int len) {
-		// Do nothing
-	}
+    public void write(String s, int off, int len) {
+        // Do nothing
+    }
 
-	public void write(String s) {
-		// Do nothing
-	}
+    public void write(String s) {
+        // Do nothing
+    }
 
-	public void print(boolean b) {
-		// Do nothing
-	}
+    public void print(boolean b) {
+        // Do nothing
+    }
 
-	public void print(char c) {
-		// Do nothing
-	}
+    public void print(char c) {
+        // Do nothing
+    }
 
-	public void print(int i) {
-		// Do nothing
-	}
+    public void print(int i) {
+        // Do nothing
+    }
 
-	public void print(long l) {
-		// Do nothing
-	}
+    public void print(long l) {
+        // Do nothing
+    }
 
-	public void print(float f) {
-		// Do nothing
-	}
+    public void print(float f) {
+        // Do nothing
+    }
 
-	public void print(double d) {
-		// Do nothing
-	}
+    public void print(double d) {
+        // Do nothing
+    }
 
-	public void print(char[] s) {
-		// Do nothing
-	}
+    public void print(char[] s) {
+        // Do nothing
+    }
 
-	public void print(String s) {
-		// Do nothing
-	}
+    public void print(String s) {
+        // Do nothing
+    }
 
-	public void print(Object obj) {
-		// Do nothing
-	}
+    public void print(Object obj) {
+        // Do nothing
+    }
 
-	public void println() {
-		// Do nothing
-	}
+    public void println() {
+        // Do nothing
+    }
 
-	public void println(boolean x) {
-		// Do nothing
-	}
+    public void println(boolean x) {
+        // Do nothing
+    }
 
-	public void println(char x) {
-		// Do nothing
-	}
+    public void println(char x) {
+        // Do nothing
+    }
 
-	public void println(int x) {
-		// Do nothing
-	}
+    public void println(int x) {
+        // Do nothing
+    }
 
-	public void println(long x) {
-		// Do nothing
-	}
+    public void println(long x) {
+        // Do nothing
+    }
 
-	public void println(float x) {
-		// Do nothing
-	}
+    public void println(float x) {
+        // Do nothing
+    }
 
-	public void println(double x) {
-		// Do nothing
-	}
+    public void println(double x) {
+        // Do nothing
+    }
 
-	public void println(char[] x) {
-		// Do nothing
-	}
+    public void println(char[] x) {
+        // Do nothing
+    }
 
-	public void println(String x) {
-		// Do nothing
-	}
+    public void println(String x) {
+        // Do nothing
+    }
 
-	public void println(Object x) {
-		// Do nothing
-	}
+    public void println(Object x) {
+        // Do nothing
+    }
 }

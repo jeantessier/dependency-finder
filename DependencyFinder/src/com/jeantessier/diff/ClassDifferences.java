@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -46,60 +46,60 @@ import com.jeantessier.classreader.*;
  *  @see Visitor
  */
 public class ClassDifferences extends RemovableDifferences {
-	private Classfile oldClass;
-	private Classfile newClass;
+    private Classfile oldClass;
+    private Classfile newClass;
 
-	private Collection featureDifferences = new LinkedList();
+    private Collection featureDifferences = new LinkedList();
 
-	/**
-	 *  Only the DifferencesFactory can create instances of this class.
-	 */
-	ClassDifferences(String name, Classfile oldClass, Classfile newClass) {
-		super(name);
+    /**
+     *  Only the DifferencesFactory can create instances of this class.
+     */
+    ClassDifferences(String name, Classfile oldClass, Classfile newClass) {
+        super(name);
 
-		setOldClass(oldClass);
-		setNewClass(newClass);
-		
-		if (oldClass != null) {
-			setOldDeclaration(oldClass.getDeclaration());
-		}
+        setOldClass(oldClass);
+        setNewClass(newClass);
+        
+        if (oldClass != null) {
+            setOldDeclaration(oldClass.getDeclaration());
+        }
 
-		if (newClass != null) {
-			setNewDeclaration(newClass.getDeclaration());
-		}
-	
-		if (isModified()) {
-			Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
-		} else {
-			Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
-		}
-	}
+        if (newClass != null) {
+            setNewDeclaration(newClass.getDeclaration());
+        }
+    
+        if (isModified()) {
+            Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
+        } else {
+            Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
+        }
+    }
 
-	public Classfile getOldClass() {
-		return oldClass;
-	}
+    public Classfile getOldClass() {
+        return oldClass;
+    }
 
-	protected void setOldClass(Classfile oldClass) {
-		this.oldClass = oldClass;
-	}
+    protected void setOldClass(Classfile oldClass) {
+        this.oldClass = oldClass;
+    }
 
-	public Classfile getNewClass() {
-		return newClass;
-	}
+    public Classfile getNewClass() {
+        return newClass;
+    }
 
-	protected void setNewClass(Classfile newClass) {
-		this.newClass = newClass;
-	}
+    protected void setNewClass(Classfile newClass) {
+        this.newClass = newClass;
+    }
 
-	public Collection getFeatureDifferences() {
-		return featureDifferences;
-	}
+    public Collection getFeatureDifferences() {
+        return featureDifferences;
+    }
 
-	public boolean isModified() {
-		return super.isModified() || (getFeatureDifferences().size() != 0);
-	}
+    public boolean isModified() {
+        return super.isModified() || (getFeatureDifferences().size() != 0);
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitClassDifferences(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitClassDifferences(this);
+    }
 }

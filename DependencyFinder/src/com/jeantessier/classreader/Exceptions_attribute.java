@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,33 +38,33 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Exceptions_attribute extends Attribute_info {
-	private Collection exceptions = new LinkedList();
+    private Collection exceptions = new LinkedList();
 
-	public Exceptions_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-		super(classfile, owner);
+    public Exceptions_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        super(classfile, owner);
 
-		int byteCount = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		int exceptionCount = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + exceptionCount + " exception(s) ...");
-		for (int i=0; i<exceptionCount; i++) {
-			Logger.getLogger(getClass()).debug("Exception " + i + ":");
-			Class_info exception = (Class_info) classfile.getConstantPool().get(in.readUnsignedShort());
-			exceptions.add(exception);
-			Logger.getLogger(getClass()).debug("Class " + exception);
-		}
-	}
+        int exceptionCount = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + exceptionCount + " exception(s) ...");
+        for (int i=0; i<exceptionCount; i++) {
+            Logger.getLogger(getClass()).debug("Exception " + i + ":");
+            Class_info exception = (Class_info) classfile.getConstantPool().get(in.readUnsignedShort());
+            exceptions.add(exception);
+            Logger.getLogger(getClass()).debug("Class " + exception);
+        }
+    }
 
-	public Collection getExceptions() {
-		return exceptions;
-	}
+    public Collection getExceptions() {
+        return exceptions;
+    }
 
-	public String toString() {
-		return "Exceptions";
-	}
+    public String toString() {
+        return "Exceptions";
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitExceptions_attribute(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitExceptions_attribute(this);
+    }
 }

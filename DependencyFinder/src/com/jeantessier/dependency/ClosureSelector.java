@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,59 +35,59 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class ClosureSelector implements Visitor {
-	private Collection selectedNodes;
-	private Collection copiedNodes;
+    private Collection selectedNodes;
+    private Collection copiedNodes;
 
-	private NodeFactory factory;
-	
-	public ClosureSelector() {
-		reset();
-	}
-	
-	public ClosureSelector(NodeFactory factory) {
-		this();
-		setFactory(factory);
-	}
+    private NodeFactory factory;
+    
+    public ClosureSelector() {
+        reset();
+    }
+    
+    public ClosureSelector(NodeFactory factory) {
+        this();
+        setFactory(factory);
+    }
 
-	public void reset() {
-		selectedNodes = new HashSet();
-		copiedNodes   = new HashSet();
-	}
+    public void reset() {
+        selectedNodes = new HashSet();
+        copiedNodes   = new HashSet();
+    }
 
-	public NodeFactory getFactory() {
-		return factory;
-	}
+    public NodeFactory getFactory() {
+        return factory;
+    }
 
-	public void setFactory(NodeFactory factory) {
-		this.factory = factory;
-	}
-	
-	public Collection getSelectedNodes() {
-		return selectedNodes;
-	}
+    public void setFactory(NodeFactory factory) {
+        this.factory = factory;
+    }
+    
+    public Collection getSelectedNodes() {
+        return selectedNodes;
+    }
 
-	public Collection getCopiedNodes() {
-		return copiedNodes;
-	}
-	
-	public void traverseNodes(Collection nodes) {
-		Iterator i = nodes.iterator();
-		while (i.hasNext()) {
-			((Node) i.next()).accept(this);
-		}
-	}
+    public Collection getCopiedNodes() {
+        return copiedNodes;
+    }
+    
+    public void traverseNodes(Collection nodes) {
+        Iterator i = nodes.iterator();
+        while (i.hasNext()) {
+            ((Node) i.next()).accept(this);
+        }
+    }
 
-	protected void traverseInbound(Collection nodes) {
-		Iterator i = nodes.iterator();
-		while (i.hasNext()) {
-			((Node) i.next()).acceptInbound(this);
-		}
-	}
+    protected void traverseInbound(Collection nodes) {
+        Iterator i = nodes.iterator();
+        while (i.hasNext()) {
+            ((Node) i.next()).acceptInbound(this);
+        }
+    }
 
-	protected void traverseOutbound(Collection nodes) {
-		Iterator i = nodes.iterator();
-		while (i.hasNext()) {
-			((Node) i.next()).acceptOutbound(this);
-		}
-	}
+    protected void traverseOutbound(Collection nodes) {
+        Iterator i = nodes.iterator();
+        while (i.hasNext()) {
+            ((Node) i.next()).acceptOutbound(this);
+        }
+    }
 }

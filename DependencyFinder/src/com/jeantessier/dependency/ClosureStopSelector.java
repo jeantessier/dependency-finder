@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,68 +35,68 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class ClosureStopSelector implements Visitor {
-	private boolean done = false;
-	
-	private SelectionCriteria criteria;
-	
-	public ClosureStopSelector(SelectionCriteria criteria) {
-		this.criteria = criteria;
-	}
+    private boolean done = false;
+    
+    private SelectionCriteria criteria;
+    
+    public ClosureStopSelector(SelectionCriteria criteria) {
+        this.criteria = criteria;
+    }
 
-	public boolean isDone() {
-		return done;
-	}
-	
-	public void traverseNodes(Collection nodes) {
-		if (nodes.isEmpty()) {
-			done = true;
-		} else {
-			Iterator i = nodes.iterator();
-			while (i.hasNext()) {
-				((Node) i.next()).accept(this);
-			}
-		}
-	}
+    public boolean isDone() {
+        return done;
+    }
+    
+    public void traverseNodes(Collection nodes) {
+        if (nodes.isEmpty()) {
+            done = true;
+        } else {
+            Iterator i = nodes.iterator();
+            while (i.hasNext()) {
+                ((Node) i.next()).accept(this);
+            }
+        }
+    }
 
-	public void visitPackageNode(PackageNode node) {
-		if (criteria.matches(node)) {
-			done = true;
-		}
-	}
-	
-	public void visitInboundPackageNode(PackageNode node) {
-		// Do nothing
-	}
-	
-	public void visitOutboundPackageNode(PackageNode node) {
-		// Do nothing
-	}
+    public void visitPackageNode(PackageNode node) {
+        if (criteria.matches(node)) {
+            done = true;
+        }
+    }
+    
+    public void visitInboundPackageNode(PackageNode node) {
+        // Do nothing
+    }
+    
+    public void visitOutboundPackageNode(PackageNode node) {
+        // Do nothing
+    }
 
-	public void visitClassNode(ClassNode node) {
-		if (criteria.matches(node)) {
-			done = true;
-		}
-	}
-	
-	public void visitInboundClassNode(ClassNode node) {
-		// Do nothing
-	}
-	
-	public void visitOutboundClassNode(ClassNode node) {
-		// Do nothing
-	}
+    public void visitClassNode(ClassNode node) {
+        if (criteria.matches(node)) {
+            done = true;
+        }
+    }
+    
+    public void visitInboundClassNode(ClassNode node) {
+        // Do nothing
+    }
+    
+    public void visitOutboundClassNode(ClassNode node) {
+        // Do nothing
+    }
 
-	public void visitFeatureNode(FeatureNode node) {
-		if (criteria.matches(node)) {
-			done = true;
-		}
-	}
-	
-	public void visitInboundFeatureNode(FeatureNode node) {
-		// Do nothing
-	}
-	
-	public void visitOutboundFeatureNode(FeatureNode node) {
-		// Do nothing
-	}
+    public void visitFeatureNode(FeatureNode node) {
+        if (criteria.matches(node)) {
+            done = true;
+        }
+    }
+    
+    public void visitInboundFeatureNode(FeatureNode node) {
+        // Do nothing
+    }
+    
+    public void visitOutboundFeatureNode(FeatureNode node) {
+        // Do nothing
+    }
 }

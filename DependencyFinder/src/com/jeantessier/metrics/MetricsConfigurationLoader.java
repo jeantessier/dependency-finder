@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -42,94 +42,94 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 public class MetricsConfigurationLoader {
-	private static final String  DEFAULT_READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
-	private static final boolean DEFAULT_VALIDATE         = false;
+    private static final String  DEFAULT_READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
+    private static final boolean DEFAULT_VALIDATE         = false;
 
-	private MetricsConfigurationHandler handler;
-	private String                      readerClassname;
-	private boolean                     validate;
+    private MetricsConfigurationHandler handler;
+    private String                      readerClassname;
+    private boolean                     validate;
 
-	public MetricsConfigurationLoader() {
-		this(new MetricsConfiguration(), DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
-	}
+    public MetricsConfigurationLoader() {
+        this(new MetricsConfiguration(), DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
+    }
 
-	public MetricsConfigurationLoader(MetricsConfiguration configuration) {
-		this(configuration, DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
-	}
+    public MetricsConfigurationLoader(MetricsConfiguration configuration) {
+        this(configuration, DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
+    }
 
-	public MetricsConfigurationLoader(String readerClassname) {
-		this(new MetricsConfiguration(), readerClassname, DEFAULT_VALIDATE);
-	}
+    public MetricsConfigurationLoader(String readerClassname) {
+        this(new MetricsConfiguration(), readerClassname, DEFAULT_VALIDATE);
+    }
 
-	public MetricsConfigurationLoader(boolean validate) {
-		this(new MetricsConfiguration(), DEFAULT_READER_CLASSNAME, validate);
-	}
+    public MetricsConfigurationLoader(boolean validate) {
+        this(new MetricsConfiguration(), DEFAULT_READER_CLASSNAME, validate);
+    }
 
-	public MetricsConfigurationLoader(MetricsConfiguration configuration, String readerClassname) {
-		this(configuration, readerClassname, DEFAULT_VALIDATE);
-	}
+    public MetricsConfigurationLoader(MetricsConfiguration configuration, String readerClassname) {
+        this(configuration, readerClassname, DEFAULT_VALIDATE);
+    }
 
-	public MetricsConfigurationLoader(MetricsConfiguration configuration, boolean validate) {
-		this(configuration, DEFAULT_READER_CLASSNAME, validate);
-	}
+    public MetricsConfigurationLoader(MetricsConfiguration configuration, boolean validate) {
+        this(configuration, DEFAULT_READER_CLASSNAME, validate);
+    }
 
-	public MetricsConfigurationLoader(String readerClassname, boolean validate) {
-		this(new MetricsConfiguration(), readerClassname, validate);
-	}
-	
-	public MetricsConfigurationLoader(MetricsConfiguration configuration, String readerClassname, boolean validate) {
-		this.handler          = new MetricsConfigurationHandler(configuration);
-		this.readerClassname = readerClassname;
-		this.validate         = validate;
-	}
+    public MetricsConfigurationLoader(String readerClassname, boolean validate) {
+        this(new MetricsConfiguration(), readerClassname, validate);
+    }
+    
+    public MetricsConfigurationLoader(MetricsConfiguration configuration, String readerClassname, boolean validate) {
+        this.handler          = new MetricsConfigurationHandler(configuration);
+        this.readerClassname = readerClassname;
+        this.validate         = validate;
+    }
 
-	public MetricsConfiguration load(String filename) throws IOException, SAXException {
-		MetricsConfiguration result = null;
+    public MetricsConfiguration load(String filename) throws IOException, SAXException {
+        MetricsConfiguration result = null;
 
-		FileReader in = null;
+        FileReader in = null;
 
-		try {
-			in = new FileReader(filename);
-			result = load(in);
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-		}
+        try {
+            in = new FileReader(filename);
+            result = load(in);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public MetricsConfiguration load(InputStream in) throws IOException, SAXException {
-		return load(new InputSource(in));
-	}
+    public MetricsConfiguration load(InputStream in) throws IOException, SAXException {
+        return load(new InputSource(in));
+    }
 
-	public MetricsConfiguration load(Reader in) throws IOException, SAXException {
-		return load(new InputSource(in));
-	}
+    public MetricsConfiguration load(Reader in) throws IOException, SAXException {
+        return load(new InputSource(in));
+    }
 
-	public MetricsConfiguration load(InputSource in) throws IOException, SAXException {
-		XMLReader reader = XMLReaderFactory.createXMLReader(readerClassname);
-		reader.setDTDHandler(handler);
-		reader.setContentHandler(handler);
-		reader.setErrorHandler(handler);
+    public MetricsConfiguration load(InputSource in) throws IOException, SAXException {
+        XMLReader reader = XMLReaderFactory.createXMLReader(readerClassname);
+        reader.setDTDHandler(handler);
+        reader.setContentHandler(handler);
+        reader.setErrorHandler(handler);
 
-		try {
-			if (validate) {
-				Logger.getLogger(getClass()).warn("XML validation turned on");
-				reader.setFeature("http://xml.org/sax/features/validation", true);
-				reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
-			} else {
-				Logger.getLogger(getClass()).info("XML validation turned off");
-				reader.setFeature("http://xml.org/sax/features/validation", false);
-				reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-			}
-		} catch (Exception ex) {
-			Logger.getLogger(getClass()).warn("Problem setting validation feature on XML reader",ex);
-		}
-	
-		reader.parse(in);
-	
-		return handler.getMetricsConfiguration();
-	}
+        try {
+            if (validate) {
+                Logger.getLogger(getClass()).warn("XML validation turned on");
+                reader.setFeature("http://xml.org/sax/features/validation", true);
+                reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
+            } else {
+                Logger.getLogger(getClass()).info("XML validation turned off");
+                reader.setFeature("http://xml.org/sax/features/validation", false);
+                reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(getClass()).warn("Problem setting validation feature on XML reader",ex);
+        }
+    
+        reader.parse(in);
+    
+        return handler.getMetricsConfiguration();
+    }
 }

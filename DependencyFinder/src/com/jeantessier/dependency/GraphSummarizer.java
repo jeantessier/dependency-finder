@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,203 +35,203 @@ package com.jeantessier.dependency;
 import org.apache.log4j.*;
 
 public class GraphSummarizer extends GraphCopier {
-	private SelectionCriteria scopeCriteria;
-	private SelectionCriteria filterCriteria;
+    private SelectionCriteria scopeCriteria;
+    private SelectionCriteria filterCriteria;
 
-	public GraphSummarizer(SelectionCriteria scopeCriteria, SelectionCriteria filterCriteria) {
-		super(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
+    public GraphSummarizer(SelectionCriteria scopeCriteria, SelectionCriteria filterCriteria) {
+        super(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 
-		this.scopeCriteria  = scopeCriteria;
-		this.filterCriteria = filterCriteria;
-	}
-	
-	public void visitPackageNode(PackageNode node) {
-		Logger.getLogger(getClass()).debug("node = " + node);
-		
-		boolean inScope = scopeCriteria.matchesPackageName(node.getName());
+        this.scopeCriteria  = scopeCriteria;
+        this.filterCriteria = filterCriteria;
+    }
+    
+    public void visitPackageNode(PackageNode node) {
+        Logger.getLogger(getClass()).debug("node = " + node);
+        
+        boolean inScope = scopeCriteria.matchesPackageName(node.getName());
 
-		if (inScope) {
-			preprocessPackageNode(node);
-			
-			if (getStrategy().doPreOutboundTraversal()) {
-				traverseOutbound(node.getOutboundDependencies());
-			}
-			
-			if (getStrategy().doPreInboundTraversal()) {
-				traverseInbound(node.getInboundDependencies());
-			}
-			
-			preprocessAfterDependenciesPackageNode(node);
-		}
-			
-		traverseNodes(node.getClasses());
+        if (inScope) {
+            preprocessPackageNode(node);
+            
+            if (getStrategy().doPreOutboundTraversal()) {
+                traverseOutbound(node.getOutboundDependencies());
+            }
+            
+            if (getStrategy().doPreInboundTraversal()) {
+                traverseInbound(node.getInboundDependencies());
+            }
+            
+            preprocessAfterDependenciesPackageNode(node);
+        }
+            
+        traverseNodes(node.getClasses());
 
-		if (inScope) {
-			postprocessBeforeDependenciesPackageNode(node);
+        if (inScope) {
+            postprocessBeforeDependenciesPackageNode(node);
 
-			if (getStrategy().doPostOutboundTraversal()) {
-				traverseOutbound(node.getOutboundDependencies());
-			}
-			
-			if (getStrategy().doPostInboundTraversal()) {
-				traverseInbound(node.getInboundDependencies());
-			}
+            if (getStrategy().doPostOutboundTraversal()) {
+                traverseOutbound(node.getOutboundDependencies());
+            }
+            
+            if (getStrategy().doPostInboundTraversal()) {
+                traverseInbound(node.getInboundDependencies());
+            }
 
-			postprocessPackageNode(node);
-		}
-	}
+            postprocessPackageNode(node);
+        }
+    }
 
-	protected void preprocessPackageNode(PackageNode node) {
-		if (scopeCriteria.isMatchingPackages()) {
-			super.preprocessPackageNode(node);
-		}
-	}
-	
-	protected void postprocessPackageNode(PackageNode node) {
-		if (scopeCriteria.isMatchingPackages()) {
-			super.postprocessPackageNode(node);
-		}
-	}
+    protected void preprocessPackageNode(PackageNode node) {
+        if (scopeCriteria.isMatchingPackages()) {
+            super.preprocessPackageNode(node);
+        }
+    }
+    
+    protected void postprocessPackageNode(PackageNode node) {
+        if (scopeCriteria.isMatchingPackages()) {
+            super.postprocessPackageNode(node);
+        }
+    }
 
-	public void visitInboundPackageNode(PackageNode node) {
-		if (getCurrentNode() != null && filterCriteria.matchesPackageName(node.getName())) {
-			if (filterCriteria.isMatchingPackages()) {
-				getFilterFactory().createPackage(node.getName()).addDependency(getCurrentNode());
-			}
-		}
-	}
+    public void visitInboundPackageNode(PackageNode node) {
+        if (getCurrentNode() != null && filterCriteria.matchesPackageName(node.getName())) {
+            if (filterCriteria.isMatchingPackages()) {
+                getFilterFactory().createPackage(node.getName()).addDependency(getCurrentNode());
+            }
+        }
+    }
 
-	public void visitOutboundPackageNode(PackageNode node) {
-		if (getCurrentNode() != null && filterCriteria.matchesPackageName(node.getName())) {
-			if (filterCriteria.isMatchingPackages()) {
-				getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName()));
-			}
-		}
-	}
+    public void visitOutboundPackageNode(PackageNode node) {
+        if (getCurrentNode() != null && filterCriteria.matchesPackageName(node.getName())) {
+            if (filterCriteria.isMatchingPackages()) {
+                getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName()));
+            }
+        }
+    }
 
-	public void visitClassNode(ClassNode node) {
-		boolean inScope = scopeCriteria.matchesClassName(node.getName());
-		
-		if (inScope) {
-			preprocessClassNode(node);
-			
-			if (getStrategy().doPreOutboundTraversal()) {
-				traverseOutbound(node.getOutboundDependencies());
-			}
-			
-			if (getStrategy().doPreInboundTraversal()) {
-				traverseInbound(node.getInboundDependencies());
-			}
-		
-			preprocessAfterDependenciesClassNode(node);
-		}
-		
-		traverseNodes(node.getFeatures());
-			
-		if (inScope) {
-			postprocessBeforeDependenciesClassNode(node);
+    public void visitClassNode(ClassNode node) {
+        boolean inScope = scopeCriteria.matchesClassName(node.getName());
+        
+        if (inScope) {
+            preprocessClassNode(node);
+            
+            if (getStrategy().doPreOutboundTraversal()) {
+                traverseOutbound(node.getOutboundDependencies());
+            }
+            
+            if (getStrategy().doPreInboundTraversal()) {
+                traverseInbound(node.getInboundDependencies());
+            }
+        
+            preprocessAfterDependenciesClassNode(node);
+        }
+        
+        traverseNodes(node.getFeatures());
+            
+        if (inScope) {
+            postprocessBeforeDependenciesClassNode(node);
 
-			if (getStrategy().doPostOutboundTraversal()) {
-				traverseOutbound(node.getOutboundDependencies());
-			}
-			
-			if (getStrategy().doPostInboundTraversal()) {
-				traverseInbound(node.getInboundDependencies());
-			}
-			
-			postprocessClassNode(node);
-		}
-	}
+            if (getStrategy().doPostOutboundTraversal()) {
+                traverseOutbound(node.getOutboundDependencies());
+            }
+            
+            if (getStrategy().doPostInboundTraversal()) {
+                traverseInbound(node.getInboundDependencies());
+            }
+            
+            postprocessClassNode(node);
+        }
+    }
 
-	protected void preprocessClassNode(ClassNode node) {
-		if (scopeCriteria.isMatchingClasses()) {
-			super.preprocessClassNode(node);
-		}
-	}
-	
-	protected void postprocessClassNode(ClassNode node) {
-		if (scopeCriteria.isMatchingClasses()) {
-			super.postprocessClassNode(node);
-		}
-	}
+    protected void preprocessClassNode(ClassNode node) {
+        if (scopeCriteria.isMatchingClasses()) {
+            super.preprocessClassNode(node);
+        }
+    }
+    
+    protected void postprocessClassNode(ClassNode node) {
+        if (scopeCriteria.isMatchingClasses()) {
+            super.postprocessClassNode(node);
+        }
+    }
 
-	public void visitInboundClassNode(ClassNode node) {
-		if (getCurrentNode() != null && filterCriteria.matchesClassName(node.getName())) {
-			if (filterCriteria.isMatchingClasses()) {
-				getFilterFactory().createClass(node.getName()).addDependency(getCurrentNode());
-			} else if (filterCriteria.isMatchingPackages()) {
-				getFilterFactory().createPackage(node.getPackageNode().getName()).addDependency(getCurrentNode());
-			}
-		}
-	}
+    public void visitInboundClassNode(ClassNode node) {
+        if (getCurrentNode() != null && filterCriteria.matchesClassName(node.getName())) {
+            if (filterCriteria.isMatchingClasses()) {
+                getFilterFactory().createClass(node.getName()).addDependency(getCurrentNode());
+            } else if (filterCriteria.isMatchingPackages()) {
+                getFilterFactory().createPackage(node.getPackageNode().getName()).addDependency(getCurrentNode());
+            }
+        }
+    }
 
-	public void visitOutboundClassNode(ClassNode node) {
-		if (getCurrentNode() != null && filterCriteria.matchesClassName(node.getName())) {
-			if (filterCriteria.isMatchingClasses()) {
-				getCurrentNode().addDependency(getFilterFactory().createClass(node.getName()));
-			} else if (filterCriteria.isMatchingPackages()) {
-				getCurrentNode().addDependency(getFilterFactory().createPackage(node.getPackageNode().getName()));
-			}
-		}
-	}
+    public void visitOutboundClassNode(ClassNode node) {
+        if (getCurrentNode() != null && filterCriteria.matchesClassName(node.getName())) {
+            if (filterCriteria.isMatchingClasses()) {
+                getCurrentNode().addDependency(getFilterFactory().createClass(node.getName()));
+            } else if (filterCriteria.isMatchingPackages()) {
+                getCurrentNode().addDependency(getFilterFactory().createPackage(node.getPackageNode().getName()));
+            }
+        }
+    }
 
-	public void visitFeatureNode(FeatureNode node) {
-		if (scopeCriteria.matchesFeatureName(node.getName())) {
-			preprocessFeatureNode(node);
-			
-			if (getStrategy().doPreOutboundTraversal()) {
-				traverseOutbound(node.getOutboundDependencies());
-			}
-			
-			if (getStrategy().doPreInboundTraversal()) {
-				traverseInbound(node.getInboundDependencies());
-			}
-			
-			if (getStrategy().doPostOutboundTraversal()) {
-				traverseOutbound(node.getOutboundDependencies());
-			}
-			
-			if (getStrategy().doPostInboundTraversal()) {
-				traverseInbound(node.getInboundDependencies());
-			}
-			
-			postprocessFeatureNode(node);
-		}
-	}
+    public void visitFeatureNode(FeatureNode node) {
+        if (scopeCriteria.matchesFeatureName(node.getName())) {
+            preprocessFeatureNode(node);
+            
+            if (getStrategy().doPreOutboundTraversal()) {
+                traverseOutbound(node.getOutboundDependencies());
+            }
+            
+            if (getStrategy().doPreInboundTraversal()) {
+                traverseInbound(node.getInboundDependencies());
+            }
+            
+            if (getStrategy().doPostOutboundTraversal()) {
+                traverseOutbound(node.getOutboundDependencies());
+            }
+            
+            if (getStrategy().doPostInboundTraversal()) {
+                traverseInbound(node.getInboundDependencies());
+            }
+            
+            postprocessFeatureNode(node);
+        }
+    }
 
-	protected void preprocessFeatureNode(FeatureNode node) {
-		if (scopeCriteria.isMatchingFeatures()) {
-			super.preprocessFeatureNode(node);
-		}
-	}
-	
-	protected void postprocessFeatureNode(FeatureNode node) {
-		if (scopeCriteria.isMatchingFeatures()) {
-			super.postprocessFeatureNode(node);
-		}
-	}
-	
-	public void visitInboundFeatureNode(FeatureNode node) {
-		if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
-			if (filterCriteria.isMatchingFeatures()) {
-				getFilterFactory().createFeature(node.getName()).addDependency(getCurrentNode());
-			} else if (filterCriteria.isMatchingClasses()) {
-				getFilterFactory().createClass(node.getClassNode().getName()).addDependency(getCurrentNode());
-			} else if (filterCriteria.isMatchingPackages()) {
-				getFilterFactory().createPackage(node.getClassNode().getPackageNode().getName()).addDependency(getCurrentNode());
-			}
-		}
-	}
+    protected void preprocessFeatureNode(FeatureNode node) {
+        if (scopeCriteria.isMatchingFeatures()) {
+            super.preprocessFeatureNode(node);
+        }
+    }
+    
+    protected void postprocessFeatureNode(FeatureNode node) {
+        if (scopeCriteria.isMatchingFeatures()) {
+            super.postprocessFeatureNode(node);
+        }
+    }
+    
+    public void visitInboundFeatureNode(FeatureNode node) {
+        if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
+            if (filterCriteria.isMatchingFeatures()) {
+                getFilterFactory().createFeature(node.getName()).addDependency(getCurrentNode());
+            } else if (filterCriteria.isMatchingClasses()) {
+                getFilterFactory().createClass(node.getClassNode().getName()).addDependency(getCurrentNode());
+            } else if (filterCriteria.isMatchingPackages()) {
+                getFilterFactory().createPackage(node.getClassNode().getPackageNode().getName()).addDependency(getCurrentNode());
+            }
+        }
+    }
 
-	public void visitOutboundFeatureNode(FeatureNode node) {
-		if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
-			if (filterCriteria.isMatchingFeatures()) {
-				getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName()));
-			} else if (filterCriteria.isMatchingClasses()) {
-				getCurrentNode().addDependency(getFilterFactory().createClass(node.getClassNode().getName()));
-			} else if (filterCriteria.isMatchingPackages()) {
-				getCurrentNode().addDependency(getFilterFactory().createPackage(node.getClassNode().getPackageNode().getName()));
-			}
-		}
-	}
+    public void visitOutboundFeatureNode(FeatureNode node) {
+        if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
+            if (filterCriteria.isMatchingFeatures()) {
+                getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName()));
+            } else if (filterCriteria.isMatchingClasses()) {
+                getCurrentNode().addDependency(getFilterFactory().createClass(node.getClassNode().getName()));
+            } else if (filterCriteria.isMatchingPackages()) {
+                getCurrentNode().addDependency(getFilterFactory().createPackage(node.getClassNode().getPackageNode().getName()));
+            }
+        }
+    }
 }

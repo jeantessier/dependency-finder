@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -58,135 +58,135 @@ import org.apache.log4j.*;
  *  </pre>
  */
 public abstract class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {
-	private Map        terms  = new HashMap();
-	private Collection values = new TreeSet();
+    private Map        terms  = new HashMap();
+    private Collection values = new TreeSet();
 
-	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
-		super(descriptor, context, initText);
+    public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+        super(descriptor, context, initText);
 
-		if (initText != null) {
-			try {
-				BufferedReader in   = new BufferedReader(new StringReader(initText));
-				String         line;
-				
-				while ((line = in.readLine()) != null) {
-					synchronized (perl()) {
-						if (perl().match("/^\\s*(\\S+)\\s*(.*)/", line)) {
-							String name = perl().group(1);
-							String re   = perl().group(2);
+        if (initText != null) {
+            try {
+                BufferedReader in   = new BufferedReader(new StringReader(initText));
+                String         line;
+                
+                while ((line = in.readLine()) != null) {
+                    synchronized (perl()) {
+                        if (perl().match("/^\\s*(\\S+)\\s*(.*)/", line)) {
+                            String name = perl().group(1);
+                            String re   = perl().group(2);
 
-							Collection res = (Collection) terms.get(name);
-							if (res == null) {
-								res = new ArrayList();
-								terms.put(name, res);
-							}
+                            Collection res = (Collection) terms.get(name);
+                            if (res == null) {
+                                res = new ArrayList();
+                                terms.put(name, res);
+                            }
 
-							if (re != null && re.length() > 0) {
-								res.add(re);
-							}
-						}
-					}
-				}
-				
-				in.close();
-			} catch (Exception ex) {
-				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
-				terms.clear();
-			}
-		}
+                            if (re != null && re.length() > 0) {
+                                res.add(re);
+                            }
+                        }
+                    }
+                }
+                
+                in.close();
+            } catch (Exception ex) {
+                Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+                terms.clear();
+            }
+        }
 
-		logTerms(initText);
-	}
+        logTerms(initText);
+    }
 
-	private void logTerms(String initText) {
-		Logger.getLogger(getClass()).debug("Initialize with\n" + initText);
-		Logger.getLogger(getClass()).debug("Terms:");
+    private void logTerms(String initText) {
+        Logger.getLogger(getClass()).debug("Initialize with\n" + initText);
+        Logger.getLogger(getClass()).debug("Terms:");
 
-		Iterator i = terms.entrySet().iterator();
-		while (i.hasNext()) {
-			Map.Entry entry = (Map.Entry) i.next();
-			Logger.getLogger(getClass()).debug("\t" + entry.getKey());
+        Iterator i = terms.entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry entry = (Map.Entry) i.next();
+            Logger.getLogger(getClass()).debug("\t" + entry.getKey());
 
-			Iterator j = ((Collection) entry.getValue()).iterator();
-			while (j.hasNext()) {
-				Logger.getLogger(getClass()).debug("\t\t" + j.next());
-			}
-		}
-	}
+            Iterator j = ((Collection) entry.getValue()).iterator();
+            while (j.hasNext()) {
+                Logger.getLogger(getClass()).debug("\t\t" + j.next());
+            }
+        }
+    }
 
-	public Number getValue() {
-		return new Integer(getValues().size());
-	}
+    public Number getValue() {
+        return new Integer(getValues().size());
+    }
 
-	public boolean isEmpty() {
-		return getValues().isEmpty();
-	}
-	
-	protected double compute() {
-		return getValues().size();
-	}
+    public boolean isEmpty() {
+        return getValues().isEmpty();
+    }
+    
+    protected double compute() {
+        return getValues().size();
+    }
 
-	public Collection getValues() {
-		if (!isCached()) {
-			values.clear();
-			
-			populateValues();
+    public Collection getValues() {
+        if (!isCached()) {
+            values.clear();
+            
+            populateValues();
 
-			setCached(true);
-		}
-		
-		return Collections.unmodifiableCollection(values);
-	}
+            setCached(true);
+        }
+        
+        return Collections.unmodifiableCollection(values);
+    }
 
-	protected abstract void populateValues();
+    protected abstract void populateValues();
 
-	protected void filterMetrics(Metrics metrics) {
-		Iterator i = terms.entrySet().iterator();
-		while (i.hasNext()) {
-			Map.Entry  entry = (Map.Entry)  i.next();
-			String     name  = (String)     entry.getKey();
-			Collection res   = (Collection) entry.getValue();
-		
-			Measurement measurement = metrics.getMeasurement(name);
-			if (measurement instanceof CollectionMeasurement) {
-				filterMeasurement((CollectionMeasurement) measurement, res);
-			}
-		}
-	}
-	
-	private void filterMeasurement(CollectionMeasurement measurement, Collection res) {
-		if (res.isEmpty()) {
-			values.addAll(measurement.getValues());
-		} else {
-			Iterator i = measurement.getValues().iterator();
-			while (i.hasNext()) {
-				filterElement((String) i.next(), res);
-			}
-		}
-	}
-	
-	private void filterElement(String element, Collection res) {
-		boolean found = false;
-		Iterator i = res.iterator();
-		while (!found && i.hasNext()) {
-			found = evaluateRE((String) i.next(), element);
-		}
-	}
-	
-	private boolean evaluateRE(String re, String element) {
-		boolean result = false;
+    protected void filterMetrics(Metrics metrics) {
+        Iterator i = terms.entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry  entry = (Map.Entry)  i.next();
+            String     name  = (String)     entry.getKey();
+            Collection res   = (Collection) entry.getValue();
+        
+            Measurement measurement = metrics.getMeasurement(name);
+            if (measurement instanceof CollectionMeasurement) {
+                filterMeasurement((CollectionMeasurement) measurement, res);
+            }
+        }
+    }
+    
+    private void filterMeasurement(CollectionMeasurement measurement, Collection res) {
+        if (res.isEmpty()) {
+            values.addAll(measurement.getValues());
+        } else {
+            Iterator i = measurement.getValues().iterator();
+            while (i.hasNext()) {
+                filterElement((String) i.next(), res);
+            }
+        }
+    }
+    
+    private void filterElement(String element, Collection res) {
+        boolean found = false;
+        Iterator i = res.iterator();
+        while (!found && i.hasNext()) {
+            found = evaluateRE((String) i.next(), element);
+        }
+    }
+    
+    private boolean evaluateRE(String re, String element) {
+        boolean result = false;
 
-		synchronized (perl()) {
-			if (perl().match(re, element)) {
-				result = true;
-				if (perl().group(1) != null) {
-					values.add(perl().group(1));
-				} else {
-					values.add(element);
-				}
-			}
-		}
+        synchronized (perl()) {
+            if (perl().match(re, element)) {
+                result = true;
+                if (perl().group(1) != null) {
+                    values.add(perl().group(1));
+                } else {
+                    values.add(element);
+                }
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

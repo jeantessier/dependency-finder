@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -36,65 +36,65 @@ package com.jeantessier.commandline;
  *  Base class for implenting the <code>CommandLineSwitch</code> interface.
  */
 public abstract class CommandLineSwitchBase implements CommandLineSwitch {
-	private   Object  defaultValue;
-	protected Object  value;
-	private   boolean present;
-	private   boolean mandatory;
+    private   Object  defaultValue;
+    protected Object  value;
+    private   boolean present;
+    private   boolean mandatory;
 
-	public CommandLineSwitchBase() {
-		this(null, false);
-	}
+    public CommandLineSwitchBase() {
+        this(null, false);
+    }
 
-	public CommandLineSwitchBase(Object defaultValue) {
-		this(defaultValue, false);
-	}
+    public CommandLineSwitchBase(Object defaultValue) {
+        this(defaultValue, false);
+    }
 
-	public CommandLineSwitchBase(boolean mandatory) {
-		this(null, mandatory);
-	}
+    public CommandLineSwitchBase(boolean mandatory) {
+        this(null, mandatory);
+    }
 
-	public CommandLineSwitchBase(Object defaultValue, boolean mandatory) {
-		this.defaultValue = defaultValue;
-		this.mandatory    = mandatory;
+    public CommandLineSwitchBase(Object defaultValue, boolean mandatory) {
+        this.defaultValue = defaultValue;
+        this.mandatory    = mandatory;
 
-		this.value = null;
+        this.value = null;
 
-		isPresent(false);
-	}
+        isPresent(false);
+    }
 
-	public Object getDefaultValue() {
-		return defaultValue;
-	}
+    public Object getDefaultValue() {
+        return defaultValue;
+    }
 
-	public Object getValue() {
-		Object result = defaultValue;
+    public Object getValue() {
+        Object result = defaultValue;
 
-		if (value != null) {
-			result = value;
-		}
+        if (value != null) {
+            result = value;
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public void setValue(Object value) {
-		this.value = value;
+    public void setValue(Object value) {
+        this.value = value;
 
-		isPresent(true);
-	}
+        isPresent(true);
+    }
 
-	public boolean isPresent() {
-		return present;
-	}
+    public boolean isPresent() {
+        return present;
+    }
 
-	protected void isPresent(boolean present) {
-		this.present = present;
-	}
+    protected void isPresent(boolean present) {
+        this.present = present;
+    }
 
-	public boolean isMandatory() {
-		return mandatory;
-	}
+    public boolean isMandatory() {
+        return mandatory;
+    }
 
-	public String toString() {
-		return getValue().toString();
-	}
+    public String toString() {
+        return getValue().toString();
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,40 +35,40 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class FieldRef_info extends FeatureRef_info {
-	public FieldRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-		super(constantPool, in);
-	}
+    public FieldRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+        super(constantPool, in);
+    }
 
-	public String getNameAndType() {
-		StringBuffer result = new StringBuffer();
+    public String getNameAndType() {
+        StringBuffer result = new StringBuffer();
 
-		NameAndType_info nat = getRawNameAndType();
+        NameAndType_info nat = getRawNameAndType();
 
-		result.append(nat.getType()).append(" ").append(nat.getName());
+        result.append(nat.getType()).append(" ").append(nat.getName());
 
-		return result.toString();
-	}
+        return result.toString();
+    }
 
-	public String getName() {
-		return getRawNameAndType().getName();
-	}
+    public String getName() {
+        return getRawNameAndType().getName();
+    }
 
-	public String getSignature() {
-		return getRawNameAndType().getName();
-	}
+    public String getSignature() {
+        return getRawNameAndType().getName();
+    }
 
-	public String toString() {
-		StringBuffer result = new StringBuffer();
+    public String toString() {
+        StringBuffer result = new StringBuffer();
 
-		Class_info       c   = getRawClass();
-		NameAndType_info nat = getRawNameAndType();
+        Class_info       c   = getRawClass();
+        NameAndType_info nat = getRawNameAndType();
 
-		result.append(nat.getType()).append(" ").append(c).append(".").append(nat.getName());
+        result.append(nat.getType()).append(" ").append(c).append(".").append(nat.getName());
 
-		return result.toString();
-	}
+        return result.toString();
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitFieldRef_info(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitFieldRef_info(this);
+    }
 }

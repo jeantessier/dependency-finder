@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,56 +38,56 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.dependencyfinder.*;
 
 public class VerboseListener extends VerboseListenerBase {
-	private StatusLine   statusLine;
-	private JProgressBar progressBar;
+    private StatusLine   statusLine;
+    private JProgressBar progressBar;
 
-	public VerboseListener(StatusLine statusLine, JProgressBar progressBar) {
-		this.statusLine  = statusLine;
-		this.progressBar = progressBar;
-	}
+    public VerboseListener(StatusLine statusLine, JProgressBar progressBar) {
+        this.statusLine  = statusLine;
+        this.progressBar = progressBar;
+    }
 
-	protected StatusLine getStatusLine() {
-		return statusLine;
-	}
+    protected StatusLine getStatusLine() {
+        return statusLine;
+    }
 
-	protected JProgressBar getProgressBar() {
-		return progressBar;
-	}
-	
-	public void beginSession(LoadEvent event) {
-		super.beginSession(event);
-		
-		getStatusLine().showInfo("Searching for classes ...");
-		getProgressBar().setValue(0);
-		getProgressBar().setStringPainted(true);
-	}
-	
-	public void beginGroup(LoadEvent event) {
-		super.beginGroup(event);
+    protected JProgressBar getProgressBar() {
+        return progressBar;
+    }
+    
+    public void beginSession(LoadEvent event) {
+        super.beginSession(event);
+        
+        getStatusLine().showInfo("Searching for classes ...");
+        getProgressBar().setValue(0);
+        getProgressBar().setStringPainted(true);
+    }
+    
+    public void beginGroup(LoadEvent event) {
+        super.beginGroup(event);
 
-		getStatusLine().showInfo("Loading from " + event.getGroupName() + " ...");
-	}
-	
-	public void beginFile(LoadEvent event) {
-		super.beginFile(event);
-		
-		if (event.getFilename().startsWith(event.getGroupName())) {
-			getStatusLine().showInfo("Found " + event.getFilename() + " ...");
-		} else {
-			getStatusLine().showInfo("Found " + event.getGroupName() + " >> " + event.getFilename() + " ...");
-		}
-	}
-	
-	public void endFile(LoadEvent event) {
-		super.endFile(event);
-		
-		getProgressBar().setValue(getProgressBar().getValue() + 1);
-	}
-	
-	public void endSession(LoadEvent event) {
-		super.endSession(event);
-		
-		getProgressBar().setValue(0);
-		getProgressBar().setStringPainted(false);
-	}
+        getStatusLine().showInfo("Loading from " + event.getGroupName() + " ...");
+    }
+    
+    public void beginFile(LoadEvent event) {
+        super.beginFile(event);
+        
+        if (event.getFilename().startsWith(event.getGroupName())) {
+            getStatusLine().showInfo("Found " + event.getFilename() + " ...");
+        } else {
+            getStatusLine().showInfo("Found " + event.getGroupName() + " >> " + event.getFilename() + " ...");
+        }
+    }
+    
+    public void endFile(LoadEvent event) {
+        super.endFile(event);
+        
+        getProgressBar().setValue(getProgressBar().getValue() + 1);
+    }
+    
+    public void endSession(LoadEvent event) {
+        super.endSession(event);
+        
+        getProgressBar().setValue(0);
+        getProgressBar().setStringPainted(false);
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -42,49 +42,49 @@ import com.jeantessier.classreader.*;
  *  documentation for the API.
  */
 public class DocumentableDifferences extends DecoratorDifferences {
-	private boolean newDocumentation;
-	private boolean removedDocumentation;
+    private boolean newDocumentation;
+    private boolean removedDocumentation;
 
-	/**
-	 *  Only the DifferencesFactory can create instances of this class.
-	 */
-	DocumentableDifferences(Differences component, Validator oldValidator, Validator newValidator) {
-		super(component);
+    /**
+     *  Only the DifferencesFactory can create instances of this class.
+     */
+    DocumentableDifferences(Differences component, Validator oldValidator, Validator newValidator) {
+        super(component);
 
-		Logger.getLogger(getClass()).debug("Begin " + getName());
+        Logger.getLogger(getClass()).debug("Begin " + getName());
 
-		setNewDocumentation(!oldValidator.isAllowed(component.getName()) && newValidator.isAllowed(component.getName()));
-		setRemovedDocumentation(oldValidator.isAllowed(component.getName()) && !newValidator.isAllowed(component.getName()));
+        setNewDocumentation(!oldValidator.isAllowed(component.getName()) && newValidator.isAllowed(component.getName()));
+        setRemovedDocumentation(oldValidator.isAllowed(component.getName()) && !newValidator.isAllowed(component.getName()));
 
-		Logger.getLogger(getClass()).debug("End   " + getName() + ": " + (isEmpty() ? "empty" : "not empty"));
-	}
+        Logger.getLogger(getClass()).debug("End   " + getName() + ": " + (isEmpty() ? "empty" : "not empty"));
+    }
 
-	public boolean isNewDocumentation() {
-		Logger.getLogger(getClass()).debug(getName() + " NewDocumentation(): " + newDocumentation);
-		return newDocumentation;
-	}
+    public boolean isNewDocumentation() {
+        Logger.getLogger(getClass()).debug(getName() + " NewDocumentation(): " + newDocumentation);
+        return newDocumentation;
+    }
 
-	public void setNewDocumentation(boolean newDocumentation) {
-		this.newDocumentation = newDocumentation;
-	}
+    public void setNewDocumentation(boolean newDocumentation) {
+        this.newDocumentation = newDocumentation;
+    }
 
-	public boolean isRemovedDocumentation() {
-		Logger.getLogger(getClass()).debug(getName() + " RemovedDocumentation(): " + removedDocumentation);
-		return removedDocumentation;
-	}
+    public boolean isRemovedDocumentation() {
+        Logger.getLogger(getClass()).debug(getName() + " RemovedDocumentation(): " + removedDocumentation);
+        return removedDocumentation;
+    }
 
-	public void setRemovedDocumentation(boolean removedDocumentation) {
-		this.removedDocumentation = removedDocumentation;
-	}
+    public void setRemovedDocumentation(boolean removedDocumentation) {
+        this.removedDocumentation = removedDocumentation;
+    }
 
-	public boolean isEmpty() {
-		return
-			!isNewDocumentation() &&
-			!isRemovedDocumentation() &&
-			getComponent().isEmpty();
-	}
+    public boolean isEmpty() {
+        return
+            !isNewDocumentation() &&
+            !isRemovedDocumentation() &&
+            getComponent().isEmpty();
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitDocumentableDifferences(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitDocumentableDifferences(this);
+    }
 }

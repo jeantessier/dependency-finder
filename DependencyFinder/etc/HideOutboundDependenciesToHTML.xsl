@@ -8,16 +8,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,49 +38,49 @@
     <xsl:strip-space elements="*"/> 
 
     <xsl:template match="dependencies">
-	<html>
+        <html>
 
-	<head>
-	</head>
+        <head>
+        </head>
 
-	<body bgcolor="#ffffff">
-	<code>
-	    <xsl:apply-templates/>
-	</code>
-	</body>
+        <body bgcolor="#ffffff">
+        <code>
+            <xsl:apply-templates/>
+        </code>
+        </body>
 
-	</html>
+        </html>
     </xsl:template>
   
     <xsl:template match="package">
-	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<h1><a name="{$name}"><xsl:value-of select="$name"/></a></h1>
-	<blockquote>
-	<xsl:apply-templates select="inbound"/>
-	<xsl:apply-templates select="class"/>
-	</blockquote>
+        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
+        <h1><a name="{$name}"><xsl:value-of select="$name"/></a></h1>
+        <blockquote>
+        <xsl:apply-templates select="inbound"/>
+        <xsl:apply-templates select="class"/>
+        </blockquote>
     </xsl:template>
   
     <xsl:template match="class">
-	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<h2><a name="{$name}"><xsl:value-of select="$name"/></a></h2>
-	<blockquote>
-	<xsl:apply-templates select="inbound"/>
-	<xsl:apply-templates select="feature"/>
-	</blockquote>
+        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
+        <h2><a name="{$name}"><xsl:value-of select="$name"/></a></h2>
+        <blockquote>
+        <xsl:apply-templates select="inbound"/>
+        <xsl:apply-templates select="feature"/>
+        </blockquote>
     </xsl:template>
   
     <xsl:template match="feature">
-	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<h3><a name="{$name}"><xsl:value-of select="$name"/></a></h3>
-	<blockquote>
-	<xsl:apply-templates select="inbound"/>
-	</blockquote>
+        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
+        <h3><a name="{$name}"><xsl:value-of select="$name"/></a></h3>
+        <blockquote>
+        <xsl:apply-templates select="inbound"/>
+        </blockquote>
     </xsl:template>
   
     <xsl:template match="inbound">
-	<xsl:variable name="name"><xsl:value-of select="."/></xsl:variable>
-	&lt;-- <a href="#{$name}"><xsl:value-of select="$name"/></a><br/>
+        <xsl:variable name="name"><xsl:value-of select="."/></xsl:variable>
+        &lt;-- <a href="#{$name}"><xsl:value-of select="$name"/></a><br/>
     </xsl:template>
   
 </xsl:stylesheet>

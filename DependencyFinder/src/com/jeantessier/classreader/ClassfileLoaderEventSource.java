@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,224 +38,224 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
-	public static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();
-	
-	private ClassfileLoaderDispatcher dispatcher;
-	
-	private ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);
-	private ClassfileLoader jarLoader = new JarClassfileLoader(this);
-	private ClassfileLoader zipLoader = new ZipClassfileLoader(this);
+    public static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();
+    
+    private ClassfileLoaderDispatcher dispatcher;
+    
+    private ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);
+    private ClassfileLoader jarLoader = new JarClassfileLoader(this);
+    private ClassfileLoader zipLoader = new ZipClassfileLoader(this);
 
-	private HashSet loadListeners = new HashSet();
+    private HashSet loadListeners = new HashSet();
 
-	private LinkedList groupNames = new LinkedList();
+    private LinkedList groupNames = new LinkedList();
 
-	public ClassfileLoaderEventSource() {
-		this(DEFAULT_DISPATCHER);
-	}
+    public ClassfileLoaderEventSource() {
+        this(DEFAULT_DISPATCHER);
+    }
 
-	public ClassfileLoaderEventSource(ClassfileLoaderDispatcher dispatcher) {
-		this.dispatcher = dispatcher;
-	}
-	
-	protected void load(String filename) {
-		switch (dispatcher.dispatch(filename)) {
-			case ClassfileLoaderDispatcher.ACTION_IGNORE:
-				break;
+    public ClassfileLoaderEventSource(ClassfileLoaderDispatcher dispatcher) {
+        this.dispatcher = dispatcher;
+    }
+    
+    protected void load(String filename) {
+        switch (dispatcher.dispatch(filename)) {
+            case ClassfileLoaderDispatcher.ACTION_IGNORE:
+                break;
 
-			case ClassfileLoaderDispatcher.ACTION_CLASS:
-			case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
-				dirLoader.load(filename);
-				break;
+            case ClassfileLoaderDispatcher.ACTION_CLASS:
+            case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
+                dirLoader.load(filename);
+                break;
 
-			case ClassfileLoaderDispatcher.ACTION_ZIP:
-				zipLoader.load(filename);
-				break;
+            case ClassfileLoaderDispatcher.ACTION_ZIP:
+                zipLoader.load(filename);
+                break;
 
-			case ClassfileLoaderDispatcher.ACTION_JAR:
-				jarLoader.load(filename);
-				break;
+            case ClassfileLoaderDispatcher.ACTION_JAR:
+                jarLoader.load(filename);
+                break;
 
-			default:
-				break;
-		}
-	}
+            default:
+                break;
+        }
+    }
 
-	protected void load(String filename, InputStream in) {
-		switch (dispatcher.dispatch(filename)) {
-			case ClassfileLoaderDispatcher.ACTION_IGNORE:
-				break;
+    protected void load(String filename, InputStream in) {
+        switch (dispatcher.dispatch(filename)) {
+            case ClassfileLoaderDispatcher.ACTION_IGNORE:
+                break;
 
-			case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
-				dirLoader.load(filename, in);
-				break;
+            case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
+                dirLoader.load(filename, in);
+                break;
 
-			case ClassfileLoaderDispatcher.ACTION_ZIP:
-				zipLoader.load(filename, in);
-				break;
+            case ClassfileLoaderDispatcher.ACTION_ZIP:
+                zipLoader.load(filename, in);
+                break;
 
-			case ClassfileLoaderDispatcher.ACTION_JAR:
-				jarLoader.load(filename, in);
-				break;
+            case ClassfileLoaderDispatcher.ACTION_JAR:
+                jarLoader.load(filename, in);
+                break;
 
-			case ClassfileLoaderDispatcher.ACTION_CLASS:
-				try {
-					fireBeginClassfile(filename);
-					Classfile classfile = load(new DataInputStream(in));
-					fireEndClassfile(filename, classfile);
-				} catch (IOException ex) {
-					Logger.getLogger(getClass()).warn("Cannot load class from file \"" + filename + "\"", ex);
-				}
-				break;
-				
-			default:
-				break;
-		}
-	}
+            case ClassfileLoaderDispatcher.ACTION_CLASS:
+                try {
+                    fireBeginClassfile(filename);
+                    Classfile classfile = load(new DataInputStream(in));
+                    fireEndClassfile(filename, classfile);
+                } catch (IOException ex) {
+                    Logger.getLogger(getClass()).warn("Cannot load class from file \"" + filename + "\"", ex);
+                }
+                break;
+                
+            default:
+                break;
+        }
+    }
 
-	public void addLoadListener(LoadListener listener) {
-		synchronized(loadListeners) {
-			loadListeners.add(listener);
-		}
-	}
+    public void addLoadListener(LoadListener listener) {
+        synchronized(loadListeners) {
+            loadListeners.add(listener);
+        }
+    }
 
-	public void removeLoadListener(LoadListener listener) {
-		synchronized(loadListeners) {
-			loadListeners.remove(listener);
-		}
-	}
+    public void removeLoadListener(LoadListener listener) {
+        synchronized(loadListeners) {
+            loadListeners.remove(listener);
+        }
+    }
 
-	protected void fireBeginSession() {
-		LoadEvent event = new LoadEvent(this, null, null, null);
+    protected void fireBeginSession() {
+        LoadEvent event = new LoadEvent(this, null, null, null);
 
-		HashSet listeners;
-		synchronized(loadListeners) {
-			listeners = (HashSet) loadListeners.clone();
-		}
+        HashSet listeners;
+        synchronized(loadListeners) {
+            listeners = (HashSet) loadListeners.clone();
+        }
 
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).beginSession(event);
-		}
-	}
+        Iterator i = listeners.iterator();
+        while(i.hasNext()) {
+            ((LoadListener) i.next()).beginSession(event);
+        }
+    }
 
-	protected void fireBeginGroup(String groupName, int size) {
-		LoadEvent event = new LoadEvent(this, groupName, size);
+    protected void fireBeginGroup(String groupName, int size) {
+        LoadEvent event = new LoadEvent(this, groupName, size);
 
-		HashSet listeners;
-		synchronized(loadListeners) {
-			listeners = (HashSet) loadListeners.clone();
-		}
+        HashSet listeners;
+        synchronized(loadListeners) {
+            listeners = (HashSet) loadListeners.clone();
+        }
 
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).beginGroup(event);
-		}
+        Iterator i = listeners.iterator();
+        while(i.hasNext()) {
+            ((LoadListener) i.next()).beginGroup(event);
+        }
 
-		pushGroupName(groupName);
-	}
-	
-	protected void fireBeginFile(String filename) {
-		LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
+        pushGroupName(groupName);
+    }
+    
+    protected void fireBeginFile(String filename) {
+        LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
-		HashSet listeners;
-		synchronized(loadListeners) {
-			listeners = (HashSet) loadListeners.clone();
-		}
+        HashSet listeners;
+        synchronized(loadListeners) {
+            listeners = (HashSet) loadListeners.clone();
+        }
 
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).beginFile(event);
-		}
-	}
-	
-	protected void fireBeginClassfile(String filename) {
-		LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
+        Iterator i = listeners.iterator();
+        while(i.hasNext()) {
+            ((LoadListener) i.next()).beginFile(event);
+        }
+    }
+    
+    protected void fireBeginClassfile(String filename) {
+        LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
-		HashSet listeners;
-		synchronized(loadListeners) {
-			listeners = (HashSet) loadListeners.clone();
-		}
+        HashSet listeners;
+        synchronized(loadListeners) {
+            listeners = (HashSet) loadListeners.clone();
+        }
 
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).beginClassfile(event);
-		}
-	}
+        Iterator i = listeners.iterator();
+        while(i.hasNext()) {
+            ((LoadListener) i.next()).beginClassfile(event);
+        }
+    }
 
-	protected void fireEndClassfile(String filename, Classfile classfile) {
-		LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, classfile);
+    protected void fireEndClassfile(String filename, Classfile classfile) {
+        LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, classfile);
 
-		HashSet listeners;
-		synchronized(loadListeners) {
-			listeners = (HashSet) loadListeners.clone();
-		}
+        HashSet listeners;
+        synchronized(loadListeners) {
+            listeners = (HashSet) loadListeners.clone();
+        }
 
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).endClassfile(event);
-		}
-	}
+        Iterator i = listeners.iterator();
+        while(i.hasNext()) {
+            ((LoadListener) i.next()).endClassfile(event);
+        }
+    }
 
-	protected void fireEndFile(String filename) {
-		LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
+    protected void fireEndFile(String filename) {
+        LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
-		HashSet listeners;
-		synchronized(loadListeners) {
-			listeners = (HashSet) loadListeners.clone();
-		}
+        HashSet listeners;
+        synchronized(loadListeners) {
+            listeners = (HashSet) loadListeners.clone();
+        }
 
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).endFile(event);
-		}
-	}
+        Iterator i = listeners.iterator();
+        while(i.hasNext()) {
+            ((LoadListener) i.next()).endFile(event);
+        }
+    }
 
-	protected void fireEndGroup(String groupName) {
-		LoadEvent event = new LoadEvent(this, groupName, null, null);
+    protected void fireEndGroup(String groupName) {
+        LoadEvent event = new LoadEvent(this, groupName, null, null);
 
-		HashSet listeners;
-		synchronized(loadListeners) {
-			listeners = (HashSet) loadListeners.clone();
-		}
+        HashSet listeners;
+        synchronized(loadListeners) {
+            listeners = (HashSet) loadListeners.clone();
+        }
 
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).endGroup(event);
-		}
+        Iterator i = listeners.iterator();
+        while(i.hasNext()) {
+            ((LoadListener) i.next()).endGroup(event);
+        }
 
-		popGroupName();
-	}
+        popGroupName();
+    }
 
-	protected void fireEndSession() {
-		LoadEvent event = new LoadEvent(this, null, null, null);
+    protected void fireEndSession() {
+        LoadEvent event = new LoadEvent(this, null, null, null);
 
-		HashSet listeners;
-		synchronized(loadListeners) {
-			listeners = (HashSet) loadListeners.clone();
-		}
+        HashSet listeners;
+        synchronized(loadListeners) {
+            listeners = (HashSet) loadListeners.clone();
+        }
 
-		Iterator i = listeners.iterator();
-		while(i.hasNext()) {
-			((LoadListener) i.next()).endSession(event);
-		}
-	}
+        Iterator i = listeners.iterator();
+        while(i.hasNext()) {
+            ((LoadListener) i.next()).endSession(event);
+        }
+    }
 
-	private String getTopGroupName() {
-		String result = null;
+    private String getTopGroupName() {
+        String result = null;
 
-		if (!groupNames.isEmpty()) {
-			result = (String) groupNames.getLast();
-		}
+        if (!groupNames.isEmpty()) {
+            result = (String) groupNames.getLast();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private void pushGroupName(String groupName) {
-		groupNames.addLast(groupName);
-	}
+    private void pushGroupName(String groupName) {
+        groupNames.addLast(groupName);
+    }
 
-	private String popGroupName() {
-		return (String) groupNames.removeLast();
-	}
+    private String popGroupName() {
+        return (String) groupNames.removeLast();
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,107 +35,107 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class Node implements Comparable {
-	private String  name     = "";
-	private boolean concrete = false;
-	
-	private Collection inbound  = new HashSet();
-	private Collection outbound = new HashSet();
+    private String  name     = "";
+    private boolean concrete = false;
+    
+    private Collection inbound  = new HashSet();
+    private Collection outbound = new HashSet();
 
-	public Node(String name, boolean concrete) {
-		this.name     = name;
-		this.concrete = concrete;
-	}
+    public Node(String name, boolean concrete) {
+        this.name     = name;
+        this.concrete = concrete;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public boolean isConcrete() {
-		return concrete;
-	}
+    public boolean isConcrete() {
+        return concrete;
+    }
 
-	// Only to be used by NodeFactory and DeletingVisitor
-	void setConcrete(boolean concrete) {
-		this.concrete = concrete;
-	}
-	
-	public boolean canAddDependencyTo(Node node) {
-		return !equals(node);
-	}
-	
-	public void addDependency(Node node) {
-		if (canAddDependencyTo(node) && node.canAddDependencyTo(this)) {
-			outbound.add(node);
-			node.inbound.add(this);
-		}
-	}
+    // Only to be used by NodeFactory and DeletingVisitor
+    void setConcrete(boolean concrete) {
+        this.concrete = concrete;
+    }
+    
+    public boolean canAddDependencyTo(Node node) {
+        return !equals(node);
+    }
+    
+    public void addDependency(Node node) {
+        if (canAddDependencyTo(node) && node.canAddDependencyTo(this)) {
+            outbound.add(node);
+            node.inbound.add(this);
+        }
+    }
 
-	public void addDependencies(Collection nodes) {
-		Iterator i = nodes.iterator();
-		while (i.hasNext()) {
-			addDependency((Node) i.next());
-		}
-	}
+    public void addDependencies(Collection nodes) {
+        Iterator i = nodes.iterator();
+        while (i.hasNext()) {
+            addDependency((Node) i.next());
+        }
+    }
 
-	public void removeDependency(Node node) {
-		outbound.remove(node);
-		node.inbound.remove(this);
-	}
+    public void removeDependency(Node node) {
+        outbound.remove(node);
+        node.inbound.remove(this);
+    }
 
-	public void removeDependencies(Collection nodes) {
-		Iterator i = nodes.iterator();
-		while (i.hasNext()) {
-			removeDependency((Node) i.next());
-		}
-	}
+    public void removeDependencies(Collection nodes) {
+        Iterator i = nodes.iterator();
+        while (i.hasNext()) {
+            removeDependency((Node) i.next());
+        }
+    }
 
-	public Collection getInboundDependencies() {
-		return Collections.unmodifiableCollection(inbound);
-	}
+    public Collection getInboundDependencies() {
+        return Collections.unmodifiableCollection(inbound);
+    }
 
-	public Collection getOutboundDependencies() {
-		return Collections.unmodifiableCollection(outbound);
-	}
+    public Collection getOutboundDependencies() {
+        return Collections.unmodifiableCollection(outbound);
+    }
 
-	public abstract void accept(Visitor visitor);
-	public abstract void acceptInbound(Visitor visitor);
-	public abstract void acceptOutbound(Visitor visitor);
+    public abstract void accept(Visitor visitor);
+    public abstract void acceptInbound(Visitor visitor);
+    public abstract void acceptOutbound(Visitor visitor);
 
-	public int hashCode() {
-		return getName().hashCode();
-	}
+    public int hashCode() {
+        return getName().hashCode();
+    }
 
-	public boolean equals(Object object) {
-		boolean result;
+    public boolean equals(Object object) {
+        boolean result;
 
-		if (this == object) {
-			result = true;
-		} else if (object == null || getClass() != object.getClass()) {
-			result = false;
-		} else {
-			Node other = (Node) object;
-			result = getName().equals(other.getName());
-		}
+        if (this == object) {
+            result = true;
+        } else if (object == null || getClass() != object.getClass()) {
+            result = false;
+        } else {
+            Node other = (Node) object;
+            result = getName().equals(other.getName());
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public int compareTo(Object object) {
-		int result;
+    public int compareTo(Object object) {
+        int result;
 
-		if (this == object) {
-			result = 0;
-		} else if (object == null || !(object instanceof Node)) {
-			throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got a " + object.getClass().getName());
-		} else {
-			Node other = (Node) object;
-			result = getName().compareTo(other.getName());
-		}
+        if (this == object) {
+            result = 0;
+        } else if (object == null || !(object instanceof Node)) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got a " + object.getClass().getName());
+        } else {
+            Node other = (Node) object;
+            result = getName().compareTo(other.getName());
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public String toString() {
-		return getName();
-	}
+    public String toString() {
+        return getName();
+    }
 }

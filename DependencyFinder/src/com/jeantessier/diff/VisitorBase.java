@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,101 +33,101 @@
 package com.jeantessier.diff;
 
 public abstract class VisitorBase implements Visitor {
-	private int deprecatableLevel = 0;
-	private int documentableLevel = 0;
-	
-	private boolean deprecated[]   = new boolean[4];
-	private boolean undeprecated[] = new boolean[4];
-	private boolean documented[]   = new boolean[4];
-	private boolean undocumented[] = new boolean[4];
+    private int deprecatableLevel = 0;
+    private int documentableLevel = 0;
+    
+    private boolean deprecated[]   = new boolean[4];
+    private boolean undeprecated[] = new boolean[4];
+    private boolean documented[]   = new boolean[4];
+    private boolean undocumented[] = new boolean[4];
 
-	private void raiseDeprecatableLevel() {
-		deprecatableLevel++;
-	}
+    private void raiseDeprecatableLevel() {
+        deprecatableLevel++;
+    }
 
-	private void lowerDeprecatableLevel() {
-		deprecatableLevel--;
-	}
+    private void lowerDeprecatableLevel() {
+        deprecatableLevel--;
+    }
 
-	private void raiseDocumentableLevel() {
-		documentableLevel++;
-	}
+    private void raiseDocumentableLevel() {
+        documentableLevel++;
+    }
 
-	private void lowerDocumentableLevel() {
-		documentableLevel--;
-	}
-	
-	public boolean isDeprecated() {
-		return deprecated[deprecatableLevel];
-	}
+    private void lowerDocumentableLevel() {
+        documentableLevel--;
+    }
+    
+    public boolean isDeprecated() {
+        return deprecated[deprecatableLevel];
+    }
 
-	public void setDeprecated(boolean deprecated) {
-		this.deprecated[deprecatableLevel] = deprecated;
-	}
-	
-	public boolean isUndeprecated() {
-		return undeprecated[deprecatableLevel];
-	}
+    public void setDeprecated(boolean deprecated) {
+        this.deprecated[deprecatableLevel] = deprecated;
+    }
+    
+    public boolean isUndeprecated() {
+        return undeprecated[deprecatableLevel];
+    }
 
-	public void setUndeprecated(boolean undeprecated) {
-		this.undeprecated[deprecatableLevel] = undeprecated;
-	}
+    public void setUndeprecated(boolean undeprecated) {
+        this.undeprecated[deprecatableLevel] = undeprecated;
+    }
 
-	public boolean isDocumented() {
-		return documented[documentableLevel];
-	}
+    public boolean isDocumented() {
+        return documented[documentableLevel];
+    }
 
-	public void setDocumented(boolean documented) {
-		this.documented[documentableLevel] = documented;
-	}
-	
-	public boolean isUndocumented() {
-		return undocumented[documentableLevel];
-	}
+    public void setDocumented(boolean documented) {
+        this.documented[documentableLevel] = documented;
+    }
+    
+    public boolean isUndocumented() {
+        return undocumented[documentableLevel];
+    }
 
-	public void setUndocumented(boolean undocumented) {
-		this.undocumented[documentableLevel] = undocumented;
-	}
-	
-	public void visitJarDifferences(JarDifferences differences) {
-		// Do nothing
-	}
-		
-	public void visitPackageDifferences(PackageDifferences differences) {
-		// Do nothing
-	}
+    public void setUndocumented(boolean undocumented) {
+        this.undocumented[documentableLevel] = undocumented;
+    }
+    
+    public void visitJarDifferences(JarDifferences differences) {
+        // Do nothing
+    }
+        
+    public void visitPackageDifferences(PackageDifferences differences) {
+        // Do nothing
+    }
 
-	public void visitFieldDifferences(FieldDifferences differences) {
-		// Do nothing
-	}
-	
-	public void visitConstructorDifferences(ConstructorDifferences differences) {
-		// Do nothing
-	}
+    public void visitFieldDifferences(FieldDifferences differences) {
+        // Do nothing
+    }
+    
+    public void visitConstructorDifferences(ConstructorDifferences differences) {
+        // Do nothing
+    }
 
-	public void visitMethodDifferences(MethodDifferences differences) {
-		// Do nothing
-	}
+    public void visitMethodDifferences(MethodDifferences differences) {
+        // Do nothing
+    }
 
-	public void visitDeprecatableDifferences(DeprecatableDifferences differences) {
-		raiseDeprecatableLevel();
-		
-		setDeprecated(differences.isNewDeprecation());
-		setUndeprecated(differences.isRemovedDeprecation());
+    public void visitDeprecatableDifferences(DeprecatableDifferences differences) {
+        raiseDeprecatableLevel();
+        
+        setDeprecated(differences.isNewDeprecation());
+        setUndeprecated(differences.isRemovedDeprecation());
 
-		differences.getComponent().accept(this);
-		
-		lowerDeprecatableLevel();
-	}
-	
-	public void visitDocumentableDifferences(DocumentableDifferences differences) {
-		raiseDocumentableLevel();
-		
-		setDocumented(differences.isNewDocumentation());
-		setUndocumented(differences.isRemovedDocumentation());
+        differences.getComponent().accept(this);
+        
+        lowerDeprecatableLevel();
+    }
+    
+    public void visitDocumentableDifferences(DocumentableDifferences differences) {
+        raiseDocumentableLevel();
+        
+        setDocumented(differences.isNewDocumentation());
+        setUndocumented(differences.isRemovedDocumentation());
 
-		differences.getComponent().accept(this);
-		
-		lowerDocumentableLevel();
-	}
+        differences.getComponent().accept(this);
+        
+        lowerDocumentableLevel();
+    }
 }

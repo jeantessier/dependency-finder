@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,211 +35,211 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class MetricsGatherer extends VisitorBase {
-	private Collection packages = new LinkedList();
-	private Collection classes  = new LinkedList();
-	private Collection features = new LinkedList();
+    private Collection packages = new LinkedList();
+    private Collection classes  = new LinkedList();
+    private Collection features = new LinkedList();
 
-	private long nbOutbound = 0;
-	private long nbInbound = 0;
-	private long nbOutboundPackages = 0;
-	private long nbInboundPackages = 0;
-	private long nbOutboundClasses = 0;
-	private long nbInboundClasses = 0;
-	private long nbOutboundFeatures = 0;
-	private long nbInboundFeatures = 0;
+    private long nbOutbound = 0;
+    private long nbInbound = 0;
+    private long nbOutboundPackages = 0;
+    private long nbInboundPackages = 0;
+    private long nbOutboundClasses = 0;
+    private long nbInboundClasses = 0;
+    private long nbOutboundFeatures = 0;
+    private long nbInboundFeatures = 0;
 
-	private Map chartData = new TreeMap();
-	private int chartMaximum = 0;
-	public static final int CHART_INDEX           = 0;
-	public static final int CLASSES_PER_PACKAGE   = 1;
-	public static final int FEATURES_PER_CLASS    = 2;
-	public static final int INBOUNDS_PER_PACKAGE  = 3;
-	public static final int OUTBOUNDS_PER_PACKAGE = 4;
-	public static final int INBOUNDS_PER_CLASS    = 5;
-	public static final int OUTBOUNDS_PER_CLASS   = 6;
-	public static final int INBOUNDS_PER_FEATURE  = 7;
-	public static final int OUTBOUNDS_PER_FEATURE = 8;
-	public static final int NB_CHARTS             = 9;
+    private Map chartData = new TreeMap();
+    private int chartMaximum = 0;
+    public static final int CHART_INDEX           = 0;
+    public static final int CLASSES_PER_PACKAGE   = 1;
+    public static final int FEATURES_PER_CLASS    = 2;
+    public static final int INBOUNDS_PER_PACKAGE  = 3;
+    public static final int OUTBOUNDS_PER_PACKAGE = 4;
+    public static final int INBOUNDS_PER_CLASS    = 5;
+    public static final int OUTBOUNDS_PER_CLASS   = 6;
+    public static final int INBOUNDS_PER_FEATURE  = 7;
+    public static final int OUTBOUNDS_PER_FEATURE = 8;
+    public static final int NB_CHARTS             = 9;
 
-	private static final String[] CHART_NAMES = {"n",
-												 "Classes per Package",
-												 "Feafures per Class",
-												 "Inbounds per Package",
-												 "Outbounds per Package",
-												 "Inbounds per Class",
-												 "Outbounds per Class",
-												 "Inbounds per Feature",
-												 "Outbounds per Feature"};
+    private static final String[] CHART_NAMES = {"n",
+                                                 "Classes per Package",
+                                                 "Feafures per Class",
+                                                 "Inbounds per Package",
+                                                 "Outbounds per Package",
+                                                 "Inbounds per Class",
+                                                 "Outbounds per Class",
+                                                 "Inbounds per Feature",
+                                                 "Outbounds per Feature"};
 
-	public static int getNbCharts() {
-		return NB_CHARTS;
-	}
-	
-	public static String getChartName(int i) {
-		return CHART_NAMES[i];
-	}
-	
-	public MetricsGatherer() {
-		super();
-	}
+    public static int getNbCharts() {
+        return NB_CHARTS;
+    }
+    
+    public static String getChartName(int i) {
+        return CHART_NAMES[i];
+    }
+    
+    public MetricsGatherer() {
+        super();
+    }
 
-	public MetricsGatherer(TraversalStrategy strategy) {
-		super(strategy);
-	}
+    public MetricsGatherer(TraversalStrategy strategy) {
+        super(strategy);
+    }
 
-	public long[] getChartData(int i) {
-		long[] result = null;
+    public long[] getChartData(int i) {
+        long[] result = null;
 
-		Integer key = new Integer(i);
-		result = (long[]) chartData.get(key);
+        Integer key = new Integer(i);
+        result = (long[]) chartData.get(key);
 
-		if (result == null) {
-			result = new long[NB_CHARTS];
-			result[CHART_INDEX] = i;
-			chartData.put(key, result);
+        if (result == null) {
+            result = new long[NB_CHARTS];
+            result[CHART_INDEX] = i;
+            chartData.put(key, result);
 
-			if (chartMaximum < i) {
-				chartMaximum = i;
-			}
-		}
+            if (chartMaximum < i) {
+                chartMaximum = i;
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public int getChartMaximum() {
-		return chartMaximum;
-	}
-	
-	public Collection getPackages() {
-		return packages;
-	}
+    public int getChartMaximum() {
+        return chartMaximum;
+    }
+    
+    public Collection getPackages() {
+        return packages;
+    }
 
-	public Collection getClasses() {
-		return classes;
-	}
+    public Collection getClasses() {
+        return classes;
+    }
 
-	public Collection getFeatures() {
-		return features;
-	}
+    public Collection getFeatures() {
+        return features;
+    }
 
-	public long getNbOutbound() {
-		return nbOutbound;
-	}
+    public long getNbOutbound() {
+        return nbOutbound;
+    }
 
-	public long getNbInbound() {
-		return nbInbound;
-	}
+    public long getNbInbound() {
+        return nbInbound;
+    }
 
-	public long getNbOutboundPackages() {
-		return nbOutboundPackages;
-	}
+    public long getNbOutboundPackages() {
+        return nbOutboundPackages;
+    }
 
-	public long getNbInboundPackages() {
-		return nbInboundPackages;
-	}
+    public long getNbInboundPackages() {
+        return nbInboundPackages;
+    }
 
-	public long getNbOutboundClasses() {
-		return nbOutboundClasses;
-	}
+    public long getNbOutboundClasses() {
+        return nbOutboundClasses;
+    }
 
-	public long getNbInboundClasses() {
-		return nbInboundClasses;
-	}
+    public long getNbInboundClasses() {
+        return nbInboundClasses;
+    }
 
-	public long getNbOutboundFeatures() {
-		return nbOutboundFeatures;
-	}
+    public long getNbOutboundFeatures() {
+        return nbOutboundFeatures;
+    }
 
-	public long getNbInboundFeatures() {
-		return nbInboundFeatures;
-	}
-	
-	public void preprocessPackageNode(PackageNode node) {
-		super.preprocessPackageNode(node);
+    public long getNbInboundFeatures() {
+        return nbInboundFeatures;
+    }
+    
+    public void preprocessPackageNode(PackageNode node) {
+        super.preprocessPackageNode(node);
 
-		packages.add(node);
-		
-		getChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;
-		getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;
-		getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_PACKAGE]++;
-	}
+        packages.add(node);
+        
+        getChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;
+        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;
+        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_PACKAGE]++;
+    }
 
-	/**
-	 *  PackageNode --> CurrentNode()
-	 */
-	public void visitInboundPackageNode(PackageNode node) {
-		if (getStrategy().isInFilter(node)) {
-			nbInbound++;
-			nbOutboundPackages++;
-		}
-	}
+    /**
+     *  PackageNode --> CurrentNode()
+     */
+    public void visitInboundPackageNode(PackageNode node) {
+        if (getStrategy().isInFilter(node)) {
+            nbInbound++;
+            nbOutboundPackages++;
+        }
+    }
 
-	/**
-	 *  CurrentNode() --> PackageNode
-	 */
-	public void visitOutboundPackageNode(PackageNode node) {
-		if (getStrategy().isInFilter(node)) {
-			nbOutbound++;
-			nbInboundPackages++;
-		}
-	}
+    /**
+     *  CurrentNode() --> PackageNode
+     */
+    public void visitOutboundPackageNode(PackageNode node) {
+        if (getStrategy().isInFilter(node)) {
+            nbOutbound++;
+            nbInboundPackages++;
+        }
+    }
 
-	public void preprocessClassNode(ClassNode node) {
-		super.preprocessClassNode(node);
+    public void preprocessClassNode(ClassNode node) {
+        super.preprocessClassNode(node);
 
-		classes.add(node);
-		
-		getChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;
-		getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;
-		getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;
-	}
+        classes.add(node);
+        
+        getChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;
+        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;
+        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;
+    }
 
-	/**
-	 *  ClassNode --> CurrentNode()
-	 */
-	public void visitInboundClassNode(ClassNode node) {
-		if (getStrategy().isInFilter(node)) {
-			nbInbound++;
-			nbOutboundClasses++;
-		}
-	}
+    /**
+     *  ClassNode --> CurrentNode()
+     */
+    public void visitInboundClassNode(ClassNode node) {
+        if (getStrategy().isInFilter(node)) {
+            nbInbound++;
+            nbOutboundClasses++;
+        }
+    }
 
-	/**
-	 *  CurrentNode() --> ClassNode
-	 */
-	public void visitOutboundClassNode(ClassNode node) {
-		if (getStrategy().isInFilter(node)) {
-			nbOutbound++;
-			nbInboundClasses++;
-		}
-	}
+    /**
+     *  CurrentNode() --> ClassNode
+     */
+    public void visitOutboundClassNode(ClassNode node) {
+        if (getStrategy().isInFilter(node)) {
+            nbOutbound++;
+            nbInboundClasses++;
+        }
+    }
 
-	public void preprocessFeatureNode(FeatureNode node) {
-		super.preprocessFeatureNode(node);
+    public void preprocessFeatureNode(FeatureNode node) {
+        super.preprocessFeatureNode(node);
 
-		features.add(node);
-		
-		getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;
-		getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;
-	}
+        features.add(node);
+        
+        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;
+        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;
+    }
 
-	/**
-	 *  FeatureNode --> CurrentNode()
-	 */
-	public void visitInboundFeatureNode(FeatureNode node) {
-		if (getStrategy().isInFilter(node)) {
-			nbInbound++;
-			nbOutboundFeatures++;
-		}
-	}
+    /**
+     *  FeatureNode --> CurrentNode()
+     */
+    public void visitInboundFeatureNode(FeatureNode node) {
+        if (getStrategy().isInFilter(node)) {
+            nbInbound++;
+            nbOutboundFeatures++;
+        }
+    }
 
-	/**
-	 *  CurrentNode() --> FeatureNode
-	 */
-	public void visitOutboundFeatureNode(FeatureNode node) {
-		if (getStrategy().isInFilter(node)) {
-			nbOutbound++;
-			nbInboundFeatures++;
-		}
-	}
+    /**
+     *  CurrentNode() --> FeatureNode
+     */
+    public void visitOutboundFeatureNode(FeatureNode node) {
+        if (getStrategy().isInFilter(node)) {
+            nbOutbound++;
+            nbInboundFeatures++;
+        }
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -41,184 +41,184 @@ import org.apache.tools.ant.types.*;
 import com.jeantessier.diff.*;
 
 public class ListDiff extends Task {
-	private String  name       = "";
-	private File    oldFile;
-	private String  oldLabel;
-	private File    newFile;
-	private String  newLabel;
-	private boolean compress   = false;
-	private String  encoding   = ListDiffPrinter.DEFAULT_ENCODING;
-	private String  dtdPrefix  = ListDiffPrinter.DEFAULT_DTD_PREFIX;
-	private String  indentText;
-	private File    destfile;
+    private String  name       = "";
+    private File    oldFile;
+    private String  oldLabel;
+    private File    newFile;
+    private String  newLabel;
+    private boolean compress   = false;
+    private String  encoding   = ListDiffPrinter.DEFAULT_ENCODING;
+    private String  dtdPrefix  = ListDiffPrinter.DEFAULT_DTD_PREFIX;
+    private String  indentText;
+    private File    destfile;
 
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public File getOld() {
-		return oldFile;
-	}
-	
-	public void setOld(File oldFile) {
-		this.oldFile = oldFile;
-	}
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public File getOld() {
+        return oldFile;
+    }
+    
+    public void setOld(File oldFile) {
+        this.oldFile = oldFile;
+    }
 
-	public String getOldlabel() {
-		return oldLabel;
-	}
-	
-	public void setOldlabel(String oldLabel) {
-		this.oldLabel = oldLabel;
-	}
-	
-	public File getNew() {
-		return newFile;
-	}
-	
-	public void setNew(File newFile) {
-		this.newFile = newFile;
-	}
+    public String getOldlabel() {
+        return oldLabel;
+    }
+    
+    public void setOldlabel(String oldLabel) {
+        this.oldLabel = oldLabel;
+    }
+    
+    public File getNew() {
+        return newFile;
+    }
+    
+    public void setNew(File newFile) {
+        this.newFile = newFile;
+    }
 
-	public String getNewlabel() {
-		return newLabel;
-	}
-	
-	public void setNewlabel(String newLabel) {
-		this.newLabel = newLabel;
-	}
+    public String getNewlabel() {
+        return newLabel;
+    }
+    
+    public void setNewlabel(String newLabel) {
+        this.newLabel = newLabel;
+    }
 
-	public boolean getCompress() {
-		return compress;
-	}
+    public boolean getCompress() {
+        return compress;
+    }
 
-	public void setCompress(boolean compress) {
-		this.compress = compress;
-	}
-	
-	public String getEncoding() {
-		return dtdPrefix;
-	}
-	
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
-	
-	public String getDtdprefix() {
-		return dtdPrefix;
-	}
-	
-	public void setDtdprefix(String dtdPrefix) {
-		this.dtdPrefix = dtdPrefix;
-	}
+    public void setCompress(boolean compress) {
+        this.compress = compress;
+    }
+    
+    public String getEncoding() {
+        return dtdPrefix;
+    }
+    
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+    
+    public String getDtdprefix() {
+        return dtdPrefix;
+    }
+    
+    public void setDtdprefix(String dtdPrefix) {
+        this.dtdPrefix = dtdPrefix;
+    }
 
-	public String getIndenttext() {
-		return indentText;
-	}
-	
-	public void setIntenttext(String indentText) {
-		this.indentText = indentText;
-	}
+    public String getIndenttext() {
+        return indentText;
+    }
+    
+    public void setIntenttext(String indentText) {
+        this.indentText = indentText;
+    }
 
-	public File getDestfile() {
-		return destfile;
-	}
-	
-	public void setDestfile(File destfile) {
-		this.destfile = destfile;
-	}
-	
-	public void execute() throws BuildException {
-		// first off, make sure that we've got what we need
+    public File getDestfile() {
+        return destfile;
+    }
+    
+    public void setDestfile(File destfile) {
+        this.destfile = destfile;
+    }
+    
+    public void execute() throws BuildException {
+        // first off, make sure that we've got what we need
 
-		if (getOld() == null) {
-			throw new BuildException("old must be set!");
-		}
-		
-		if (!getOld().exists()) {
-			throw new BuildException("old does not exist!");
-		}
-		
-		if (!getOld().isFile()) {
-			throw new BuildException("old is not a file!");
-		}
+        if (getOld() == null) {
+            throw new BuildException("old must be set!");
+        }
+        
+        if (!getOld().exists()) {
+            throw new BuildException("old does not exist!");
+        }
+        
+        if (!getOld().isFile()) {
+            throw new BuildException("old is not a file!");
+        }
 
-		if (getNew() == null) {
-			throw new BuildException("new must be set!");
-		}
-		
-		if (!getNew().exists()) {
-			throw new BuildException("new does not exist!");
-		}
-		
-		if (!getNew().isFile()) {
-			throw new BuildException("new is not a file!");
-		}
+        if (getNew() == null) {
+            throw new BuildException("new must be set!");
+        }
+        
+        if (!getNew().exists()) {
+            throw new BuildException("new does not exist!");
+        }
+        
+        if (!getNew().isFile()) {
+            throw new BuildException("new is not a file!");
+        }
 
-		if (getDestfile() == null) {
-			throw new BuildException("destfile must be set!");
-		}
+        if (getDestfile() == null) {
+            throw new BuildException("destfile must be set!");
+        }
 
-		VerboseListener verboseListener = new VerboseListener(this);
+        VerboseListener verboseListener = new VerboseListener(this);
 
-		try {
-			String line;
-			
-			log("Loading old list from " + getOld().getAbsolutePath());
-			Collection oldAPI = new TreeSet();
-			BufferedReader oldIn = new BufferedReader(new FileReader(getOld()));
-			while((line = oldIn.readLine()) != null) {
-				oldAPI.add(line);
-			}
-			oldIn.close();
-			
-			log("Loading new list from " + getNew().getAbsolutePath());
-			Collection newAPI = new TreeSet();
-			BufferedReader newIn = new BufferedReader(new FileReader(getNew()));
-			while((line = newIn.readLine()) != null) {
-				newAPI.add(line);
-			}
-			newIn.close();
-			
-			log("Comparing old and new lists ...");
+        try {
+            String line;
+            
+            log("Loading old list from " + getOld().getAbsolutePath());
+            Collection oldAPI = new TreeSet();
+            BufferedReader oldIn = new BufferedReader(new FileReader(getOld()));
+            while((line = oldIn.readLine()) != null) {
+                oldAPI.add(line);
+            }
+            oldIn.close();
+            
+            log("Loading new list from " + getNew().getAbsolutePath());
+            Collection newAPI = new TreeSet();
+            BufferedReader newIn = new BufferedReader(new FileReader(getNew()));
+            while((line = newIn.readLine()) != null) {
+                newAPI.add(line);
+            }
+            newIn.close();
+            
+            log("Comparing old and new lists ...");
 
-			ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getEncoding(), getDtdprefix());
-			printer.setName(getName());
-			printer.setOldVersion(getOldlabel());
-			printer.setNewVersion(getNewlabel());
-			if (getIndenttext() != null) {
-				printer.setIndentText(getIndenttext());
-			}
-			
-			Iterator i;
-			
-			i = oldAPI.iterator();
-			while (i.hasNext()) {
-				line = (String) i.next();
-				if (!newAPI.contains(line)) {
-					printer.remove(line);
-				}
-			}
-			
-			i = newAPI.iterator();
-			while (i.hasNext()) {
-				line = (String) i.next();
-				if (!oldAPI.contains(line)) {
-					printer.add(line);
-				}
-			}
+            ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getEncoding(), getDtdprefix());
+            printer.setName(getName());
+            printer.setOldVersion(getOldlabel());
+            printer.setNewVersion(getNewlabel());
+            if (getIndenttext() != null) {
+                printer.setIndentText(getIndenttext());
+            }
+            
+            Iterator i;
+            
+            i = oldAPI.iterator();
+            while (i.hasNext()) {
+                line = (String) i.next();
+                if (!newAPI.contains(line)) {
+                    printer.remove(line);
+                }
+            }
+            
+            i = newAPI.iterator();
+            while (i.hasNext()) {
+                line = (String) i.next();
+                if (!oldAPI.contains(line)) {
+                    printer.add(line);
+                }
+            }
 
-			log("Saving difference report to " + getDestfile().getAbsolutePath());
+            log("Saving difference report to " + getDestfile().getAbsolutePath());
 
-			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-			out.print(printer);
-			out.close();
-		} catch (IOException ex) {
-			throw new BuildException(ex);
-		}
-	}
+            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
+            out.print(printer);
+            out.close();
+        } catch (IOException ex) {
+            throw new BuildException(ex);
+        }
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,41 +35,41 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class LoadEvent extends EventObject {
-	private String    groupName;
-	private String    filename;
-	private Classfile classfile;
-	private int       size;
+    private String    groupName;
+    private String    filename;
+    private Classfile classfile;
+    private int       size;
 
-	public LoadEvent(Object source, String groupName, int size) {
-		this(source, groupName, null, null, size);
-	}
-	
-	public LoadEvent(Object source, String groupName, String filename, Classfile classfile) {
-		this(source, groupName, filename, classfile, -1);
-	}
-	
-	public LoadEvent(Object source, String groupName, String filename, Classfile classfile, int size) {
-		super(source);
+    public LoadEvent(Object source, String groupName, int size) {
+        this(source, groupName, null, null, size);
+    }
+    
+    public LoadEvent(Object source, String groupName, String filename, Classfile classfile) {
+        this(source, groupName, filename, classfile, -1);
+    }
+    
+    public LoadEvent(Object source, String groupName, String filename, Classfile classfile, int size) {
+        super(source);
 
-		this.groupName = groupName;
-		this.filename  = filename;
-		this.classfile = classfile;
-		this.size      = size;
-	}
+        this.groupName = groupName;
+        this.filename  = filename;
+        this.classfile = classfile;
+        this.size      = size;
+    }
 
-	public String getGroupName() {
-		return groupName;
-	}
+    public String getGroupName() {
+        return groupName;
+    }
 
-	public String getFilename() {
-		return filename;
-	}
+    public String getFilename() {
+        return filename;
+    }
 
-	public Classfile getClassfile() {
-		return classfile;
-	}
+    public Classfile getClassfile() {
+        return classfile;
+    }
 
-	public int getSize() {
-		return size;
-	}
+    public int getSize() {
+        return size;
+    }
 }

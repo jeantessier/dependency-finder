@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,77 +37,77 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class LocalVariable implements Visitable {
-	private LocalVariableTable_attribute localVariableTable;
-	private int                          startPC;
-	private int                          length;
-	private int                          nameIndex;
-	private int                          descriptorIndex;
-	private int                          index;
+    private LocalVariableTable_attribute localVariableTable;
+    private int                          startPC;
+    private int                          length;
+    private int                          nameIndex;
+    private int                          descriptorIndex;
+    private int                          index;
 
-	public LocalVariable(LocalVariableTable_attribute localVariableTable, DataInputStream in) throws IOException {
-		this.localVariableTable = localVariableTable;
+    public LocalVariable(LocalVariableTable_attribute localVariableTable, DataInputStream in) throws IOException {
+        this.localVariableTable = localVariableTable;
 
-		startPC = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("start PC: " + startPC);
+        startPC = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("start PC: " + startPC);
 
-		length = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("length: " + length);
+        length = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("length: " + length);
 
-		nameIndex = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("name: " + nameIndex + " (" + getName() + ")");
+        nameIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("name: " + nameIndex + " (" + getName() + ")");
 
-		descriptorIndex = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
+        descriptorIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
 
-		index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("index: " + index);
-	}
+        index = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("index: " + index);
+    }
 
-	public LocalVariableTable_attribute getLocalVariableTable() {
-		return localVariableTable;
-	}
+    public LocalVariableTable_attribute getLocalVariableTable() {
+        return localVariableTable;
+    }
 
-	public int getStartPC() {
-		return startPC;
-	}
+    public int getStartPC() {
+        return startPC;
+    }
 
-	public int getLength() {
-		return length;
-	}
+    public int getLength() {
+        return length;
+    }
 
-	public int getNameIndex() {
-		return nameIndex;
-	}
+    public int getNameIndex() {
+        return nameIndex;
+    }
 
-	public UTF8_info getRawName() {
-		return (UTF8_info) getLocalVariableTable().getClassfile().getConstantPool().get(getNameIndex());
-	}
+    public UTF8_info getRawName() {
+        return (UTF8_info) getLocalVariableTable().getClassfile().getConstantPool().get(getNameIndex());
+    }
 
-	public String getName() {
-		return getRawName().toString();
-	}
+    public String getName() {
+        return getRawName().toString();
+    }
 
-	public int getDescriptorIndex() {
-		return descriptorIndex;
-	}
+    public int getDescriptorIndex() {
+        return descriptorIndex;
+    }
 
-	public UTF8_info getRawDescriptor() {
-		return (UTF8_info) getLocalVariableTable().getClassfile().getConstantPool().get(getDescriptorIndex());
-	}
+    public UTF8_info getRawDescriptor() {
+        return (UTF8_info) getLocalVariableTable().getClassfile().getConstantPool().get(getDescriptorIndex());
+    }
 
-	public String getDescriptor() {
-		return getRawDescriptor().toString();
-	}
+    public String getDescriptor() {
+        return getRawDescriptor().toString();
+    }
 
-	public int getIndex() {
-		return index;
-	}
+    public int getIndex() {
+        return index;
+    }
 
-	public String toString() {
-		return "Local variable " + getDescriptor() + " " + getName();
-	}
+    public String toString() {
+        return "Local variable " + getDescriptor() + " " + getName();
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitLocalVariable(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitLocalVariable(this);
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -55,18 +55,18 @@ import java.util.*;
  *  </pre>
  */
 public class SubMetricsAccumulatorMeasurement extends AccumulatorMeasurement {
-	public SubMetricsAccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
-		super(descriptor, context, initText);
-	}
-	
-	public void accept(MeasurementVisitor visitor) {
-		visitor.visitSubMetricsAccumulatorMeasurement(this);
-	}
+    public SubMetricsAccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+        super(descriptor, context, initText);
+    }
+    
+    public void accept(MeasurementVisitor visitor) {
+        visitor.visitSubMetricsAccumulatorMeasurement(this);
+    }
 
-	protected void populateValues() {
-		Iterator i = getContext().getSubMetrics().iterator();
-		while (i.hasNext()) {
-			filterMetrics((Metrics) i.next());
-		}
-	}
+    protected void populateValues() {
+        Iterator i = getContext().getSubMetrics().iterator();
+        while (i.hasNext()) {
+            filterMetrics((Metrics) i.next());
+        }
+    }
 }

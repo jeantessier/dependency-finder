@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,67 +37,67 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class ExceptionHandler implements Visitable {
-	private Code_attribute code;
-	private int            startPC;
-	private int            endPC;
-	private int            handlerPC;
-	private int            catchTypeIndex;
+    private Code_attribute code;
+    private int            startPC;
+    private int            endPC;
+    private int            handlerPC;
+    private int            catchTypeIndex;
 
-	public ExceptionHandler(Code_attribute code, DataInputStream in) throws IOException {
-		this.code = code;
+    public ExceptionHandler(Code_attribute code, DataInputStream in) throws IOException {
+        this.code = code;
 
-		startPC = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("start PC: " + startPC);
+        startPC = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("start PC: " + startPC);
 
-		endPC = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("end PC: " + endPC);
+        endPC = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("end PC: " + endPC);
 
-		handlerPC = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("handler PC: " + handlerPC);
+        handlerPC = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("handler PC: " + handlerPC);
 
-		catchTypeIndex = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("catch type index: " + catchTypeIndex + " (" + getCatchType() + ")");
-	}
+        catchTypeIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("catch type index: " + catchTypeIndex + " (" + getCatchType() + ")");
+    }
 
-	public Code_attribute getCode() {
-		return code;
-	}
+    public Code_attribute getCode() {
+        return code;
+    }
 
-	public int getStartPC() {
-		return startPC;
-	}
+    public int getStartPC() {
+        return startPC;
+    }
 
-	public int getEndPC() {
-		return endPC;
-	}
+    public int getEndPC() {
+        return endPC;
+    }
 
-	public int getHandlerPC() {
-		return handlerPC;
-	}
+    public int getHandlerPC() {
+        return handlerPC;
+    }
 
-	public int getCatchTypeIndex() {
-		return catchTypeIndex;
-	}
+    public int getCatchTypeIndex() {
+        return catchTypeIndex;
+    }
 
-	public Class_info getRawCatchType() {
-		return (Class_info) code.getClassfile().getConstantPool().get(getCatchTypeIndex());
-	}
+    public Class_info getRawCatchType() {
+        return (Class_info) code.getClassfile().getConstantPool().get(getCatchTypeIndex());
+    }
 
-	public String getCatchType() {
-		String result = "<none>";
+    public String getCatchType() {
+        String result = "<none>";
 
-		if (getCatchTypeIndex() != 0) {
-			result = getRawCatchType().toString();
-		}
+        if (getCatchTypeIndex() != 0) {
+            result = getRawCatchType().toString();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public String toString() {
-		return "ExceptionHandler for " + getCatchType();
-	}
+    public String toString() {
+        return "ExceptionHandler for " + getCatchType();
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitExceptionHandler(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitExceptionHandler(this);
+    }
 }

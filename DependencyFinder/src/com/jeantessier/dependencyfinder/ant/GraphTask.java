@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -41,61 +41,61 @@ import org.apache.tools.ant.types.*;
 import com.jeantessier.dependency.*;
 
 public abstract class GraphTask extends Task {
-	private boolean validate = false;
-	private Path    src;
-	private File    destfile;
+    private boolean validate = false;
+    private Path    src;
+    private File    destfile;
 
-	public boolean getValidate() {
-		return validate;
-	}
+    public boolean getValidate() {
+        return validate;
+    }
 
-	public void setValidate(boolean validate) {
-		this.validate = validate;
-	}
-	
-	public Path createSrc() {
-		if (src == null) {
-			src = new Path(getProject());
-		}
+    public void setValidate(boolean validate) {
+        this.validate = validate;
+    }
+    
+    public Path createSrc() {
+        if (src == null) {
+            src = new Path(getProject());
+        }
 
-		return src;
-	}
-	
-	public Path getSrc() {
-		return src;
-	}
+        return src;
+    }
+    
+    public Path getSrc() {
+        return src;
+    }
 
-	public Path getSrcfile() {
-		return src;
-	}
-	
-	public void setSrcfile(Path srcfile) {
-		if (src == null) {
-			src = srcfile;
-		} else {
-			src.append(srcfile);
-		}
-	}
+    public Path getSrcfile() {
+        return src;
+    }
+    
+    public void setSrcfile(Path srcfile) {
+        if (src == null) {
+            src = srcfile;
+        } else {
+            src.append(srcfile);
+        }
+    }
 
-	public File getDestfile() {
-		return destfile;
-	}
-	
-	public void setDestfile(File destfile) {
-		this.destfile = destfile;
-	}
+    public File getDestfile() {
+        return destfile;
+    }
+    
+    public void setDestfile(File destfile) {
+        this.destfile = destfile;
+    }
 
-	protected void validateParameters() throws BuildException {
-		if (getSrcfile() == null) {
-			throw new BuildException("src or srcfile must be set!");
-		}
-		
-		if (getSrc().size() == 0) {
-			throw new BuildException("src and srcfile are both empty!");
-		}
+    protected void validateParameters() throws BuildException {
+        if (getSrcfile() == null) {
+            throw new BuildException("src or srcfile must be set!");
+        }
+        
+        if (getSrc().size() == 0) {
+            throw new BuildException("src and srcfile are both empty!");
+        }
 
-		if (getDestfile() == null) {
-			throw new BuildException("destfile must be set!");
-		}
-	}
+        if (getDestfile() == null) {
+            throw new BuildException("destfile must be set!");
+        }
+    }
 }

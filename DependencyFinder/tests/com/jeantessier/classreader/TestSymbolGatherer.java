@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -40,74 +40,74 @@ import junit.framework.*;
 import org.apache.log4j.*;
 
 public class TestSymbolGatherer extends TestCase {
-	public static final String TEST_CLASS    = "test";
-	public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
-	
-	private SymbolGatherer gatherer;
-	private ClassfileLoader loader;
+    public static final String TEST_CLASS    = "test";
+    public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
+    
+    private SymbolGatherer gatherer;
+    private ClassfileLoader loader;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		gatherer = new SymbolGatherer();
-		loader   = new AggregatingClassfileLoader();
-		loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
-	}
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        gatherer = new SymbolGatherer();
+        loader   = new AggregatingClassfileLoader();
+        loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
+    }
 
-	public void testEmpty() {
-		assertEquals("Different number of symbols", 0, gatherer.getCollection().size());
-	}
-	
-	public void testOnOneClass() throws IOException {
-		loader.load(Collections.singleton(TEST_FILENAME));
+    public void testEmpty() {
+        assertEquals("Different number of symbols", 0, gatherer.getCollection().size());
+    }
+    
+    public void testOnOneClass() throws IOException {
+        loader.load(Collections.singleton(TEST_FILENAME));
 
-		assertTrue("Missing test class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test"));
-		assertTrue("Missing test.main() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[])"));
-		assertTrue("Missing args parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): args"));
-		assertTrue("Missing c local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): c"));
-		assertTrue("Missing ex local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): ex"));
-		assertTrue("Missing test.test() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test()"));
-		assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
-		assertEquals("Different number of symbols in " + gatherer.getCollection(), 7, gatherer.getCollection().size());
-	}
-	
-	public void testClassNamesOnly() throws IOException {
-		gatherer.setCollectingClassNames(true);
-		gatherer.setCollectingFieldNames(false);
-		gatherer.setCollectingMethodNames(false);
-		gatherer.setCollectingLocalNames(false);
-		
-		loader.load(Collections.singleton(TEST_FILENAME));
+        assertTrue("Missing test class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test"));
+        assertTrue("Missing test.main() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[])"));
+        assertTrue("Missing args parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): args"));
+        assertTrue("Missing c local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): c"));
+        assertTrue("Missing ex local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): ex"));
+        assertTrue("Missing test.test() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test()"));
+        assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 7, gatherer.getCollection().size());
+    }
+    
+    public void testClassNamesOnly() throws IOException {
+        gatherer.setCollectingClassNames(true);
+        gatherer.setCollectingFieldNames(false);
+        gatherer.setCollectingMethodNames(false);
+        gatherer.setCollectingLocalNames(false);
+        
+        loader.load(Collections.singleton(TEST_FILENAME));
 
-		assertTrue("Missing test class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test"));
-		assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
-	}
-	
-	public void testMethodNamesOnly() throws IOException {
-		gatherer.setCollectingClassNames(false);
-		gatherer.setCollectingFieldNames(false);
-		gatherer.setCollectingMethodNames(true);
-		gatherer.setCollectingLocalNames(false);
-		
-		loader.load(Collections.singleton(TEST_FILENAME));
+        assertTrue("Missing test class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test"));
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
+    }
+    
+    public void testMethodNamesOnly() throws IOException {
+        gatherer.setCollectingClassNames(false);
+        gatherer.setCollectingFieldNames(false);
+        gatherer.setCollectingMethodNames(true);
+        gatherer.setCollectingLocalNames(false);
+        
+        loader.load(Collections.singleton(TEST_FILENAME));
 
-		assertTrue("Missing test.main() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[])"));
-		assertTrue("Missing test.test() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test()"));
-		assertEquals("Different number of symbols in " + gatherer.getCollection(), 2, gatherer.getCollection().size());
-	}
-	
-	public void testLocalNamesOnly() throws IOException {
-		gatherer.setCollectingClassNames(false);
-		gatherer.setCollectingFieldNames(false);
-		gatherer.setCollectingMethodNames(false);
-		gatherer.setCollectingLocalNames(true);
-		
-		loader.load(Collections.singleton(TEST_FILENAME));
+        assertTrue("Missing test.main() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[])"));
+        assertTrue("Missing test.test() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test()"));
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 2, gatherer.getCollection().size());
+    }
+    
+    public void testLocalNamesOnly() throws IOException {
+        gatherer.setCollectingClassNames(false);
+        gatherer.setCollectingFieldNames(false);
+        gatherer.setCollectingMethodNames(false);
+        gatherer.setCollectingLocalNames(true);
+        
+        loader.load(Collections.singleton(TEST_FILENAME));
 
-		assertTrue("Missing args parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): args"));
-		assertTrue("Missing c local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): c"));
-		assertTrue("Missing ex local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): ex"));
-		assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
-		assertEquals("Different number of symbols in " + gatherer.getCollection(), 4, gatherer.getCollection().size());
-	}
+        assertTrue("Missing args parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): args"));
+        assertTrue("Missing c local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): c"));
+        assertTrue("Missing ex local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): ex"));
+        assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 4, gatherer.getCollection().size());
+    }
 }

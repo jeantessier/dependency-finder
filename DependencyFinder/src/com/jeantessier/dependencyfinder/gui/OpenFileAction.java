@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -44,90 +44,90 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
 public class OpenFileAction extends AbstractAction implements Runnable, DependencyListener {
-	private DependencyFinder model;
-	private File             file;
-	
-	public OpenFileAction(DependencyFinder model) {
-		this.model = model;
+    private DependencyFinder model;
+    private File             file;
+    
+    public OpenFileAction(DependencyFinder model) {
+        this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Load dependency graph from XML file");
-		putValue(Action.NAME, "Open");
-		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/openfile.gif")));
-	}
+        putValue(Action.LONG_DESCRIPTION, "Load dependency graph from XML file");
+        putValue(Action.NAME, "Open");
+        putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/openfile.gif")));
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser();
-		chooser.addChoosableFileFilter(new XMLFileFilter());
-		int returnValue = chooser.showOpenDialog(model);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			file = chooser.getSelectedFile();
-			new Thread(this).start();
-		}
-	}
+    public void actionPerformed(ActionEvent e) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.addChoosableFileFilter(new XMLFileFilter());
+        int returnValue = chooser.showOpenDialog(model);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            file = chooser.getSelectedFile();
+            new Thread(this).start();
+        }
+    }
 
-	public void run() {
-		model.setNewDependencyGraph();
-		model.addInputFiles(Collections.singleton(file));
-		
-		try {
-			Date start = new Date();
+    public void run() {
+        model.setNewDependencyGraph();
+        model.addInputFiles(Collections.singleton(file));
+        
+        try {
+            Date start = new Date();
 
-			String filename = file.getCanonicalPath();
+            String filename = file.getCanonicalPath();
 
-			NodeLoader loader = new NodeLoader(model.getNodeFactory());
-			loader.addDependencyListener(this);
+            NodeLoader loader = new NodeLoader(model.getNodeFactory());
+            loader.addDependencyListener(this);
 
-			// JDK 1.4 feature
-			// model.ProgressBar().setIndeterminate(true);
-			
-			model.getStatusLine().showInfo("Loading " + filename + " ...");
-			ProgressMonitorInputStream in = new ProgressMonitorInputStream(model, "Reading " + filename, new FileInputStream(filename));
-			in.getProgressMonitor().setMillisToDecideToPopup(0);
-			loader.load(in);
-			model.setTitle("Dependency Finder - " + filename);
+            // JDK 1.4 feature
+            // model.ProgressBar().setIndeterminate(true);
+            
+            model.getStatusLine().showInfo("Loading " + filename + " ...");
+            ProgressMonitorInputStream in = new ProgressMonitorInputStream(model, "Reading " + filename, new FileInputStream(filename));
+            in.getProgressMonitor().setMillisToDecideToPopup(0);
+            loader.load(in);
+            model.setTitle("Dependency Finder - " + filename);
 
-			if (model.getMaximize()) {
-				model.getStatusLine().showInfo("Maximizing ...");
-				new LinkMaximizer().traverseNodes(model.getPackages());
-			} else if (model.getMinimize()) {
-				model.getStatusLine().showInfo("Minimizing ...");
-				new LinkMinimizer().traverseNodes(model.getPackages());
-			}
+            if (model.getMaximize()) {
+                model.getStatusLine().showInfo("Maximizing ...");
+                new LinkMaximizer().traverseNodes(model.getPackages());
+            } else if (model.getMinimize()) {
+                model.getStatusLine().showInfo("Minimizing ...");
+                new LinkMinimizer().traverseNodes(model.getPackages());
+            }
 
-			Date stop = new Date();
+            Date stop = new Date();
 
-			model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-		} catch (SAXException ex) {
-			model.getStatusLine().showError("Cannot parse: " + ex.getClass().getName() + ": " + ex.getMessage());
-		} catch (IOException ex) {
-			model.getStatusLine().showError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());
-		} finally {
-			// JDK 1.4 feature
-			// model.ProgressBar().setIndeterminate(false);
-			
-			if (model.getPackages() == null) {
-				model.setTitle("Dependency Finder");
-			}
-		}
-	}
-	
-	public void beginSession(DependencyEvent event) {
-		// Do nothing
-	}
+            model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+        } catch (SAXException ex) {
+            model.getStatusLine().showError("Cannot parse: " + ex.getClass().getName() + ": " + ex.getMessage());
+        } catch (IOException ex) {
+            model.getStatusLine().showError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());
+        } finally {
+            // JDK 1.4 feature
+            // model.ProgressBar().setIndeterminate(false);
+            
+            if (model.getPackages() == null) {
+                model.setTitle("Dependency Finder");
+            }
+        }
+    }
+    
+    public void beginSession(DependencyEvent event) {
+        // Do nothing
+    }
 
-	public void beginClass(DependencyEvent event) {
-		model.getStatusLine().showInfo("Loading dependencies for " + event.getClassName() + " ...");
-	}
-	
-	public void dependency(DependencyEvent event) {
-		// Do nothing
-	}
-	
-	public void endClass(DependencyEvent event) {
-		// Do nothing
-	}
-	
-	public void endSession(DependencyEvent event) {
-		// Do nothing
-	}
+    public void beginClass(DependencyEvent event) {
+        model.getStatusLine().showInfo("Loading dependencies for " + event.getClassName() + " ...");
+    }
+    
+    public void dependency(DependencyEvent event) {
+        // Do nothing
+    }
+    
+    public void endClass(DependencyEvent event) {
+        // Do nothing
+    }
+    
+    public void endSession(DependencyEvent event) {
+        // Do nothing
+    }
 }

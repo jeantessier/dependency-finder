@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,146 +37,146 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestCollectionSelectionCriteria extends TestCase {
-	private Collection                  include;
-	private Collection                  exclude;
-	private CollectionSelectionCriteria criteria;
+    private Collection                  include;
+    private Collection                  exclude;
+    private CollectionSelectionCriteria criteria;
 
-	private PackageNode a;
-	private ClassNode   a_A;
-	private FeatureNode a_A_a;
-	
-	private PackageNode b;
-	private ClassNode   b_B;
-	private FeatureNode b_B_b;
+    private PackageNode a;
+    private ClassNode   a_A;
+    private FeatureNode a_A_a;
+    
+    private PackageNode b;
+    private ClassNode   b_B;
+    private FeatureNode b_B_b;
 
-	protected void setUp() throws Exception {
-		include  = new HashSet();
-		exclude  = new HashSet();
-		criteria = new CollectionSelectionCriteria(include, exclude);
+    protected void setUp() throws Exception {
+        include  = new HashSet();
+        exclude  = new HashSet();
+        criteria = new CollectionSelectionCriteria(include, exclude);
 
-		NodeFactory factory = new NodeFactory();
+        NodeFactory factory = new NodeFactory();
 
-		a     = factory.createPackage("a");
-		a_A   = factory.createClass("a.A");
-		a_A_a = factory.createFeature("a.A.a");
-		
-		b     = factory.createPackage("b");
-		b_B   = factory.createClass("b.B");
-		b_B_b = factory.createFeature("b.B.b");
-	}
+        a     = factory.createPackage("a");
+        a_A   = factory.createClass("a.A");
+        a_A_a = factory.createFeature("a.A.a");
+        
+        b     = factory.createPackage("b");
+        b_B   = factory.createClass("b.B");
+        b_B_b = factory.createFeature("b.B.b");
+    }
 
-	public void testEmptyInclude() {
-		assertFalse("a",     criteria.matches(a));
-		assertFalse("a.A",   criteria.matches(a_A));
-		assertFalse("a.A.a", criteria.matches(a_A_a));
+    public void testEmptyInclude() {
+        assertFalse("a",     criteria.matches(a));
+        assertFalse("a.A",   criteria.matches(a_A));
+        assertFalse("a.A.a", criteria.matches(a_A_a));
 
-		assertFalse("b",     criteria.matches(b));
-		assertFalse("b.B",   criteria.matches(b_B));
-		assertFalse("b.B.b", criteria.matches(b_B_b));
-	}
+        assertFalse("b",     criteria.matches(b));
+        assertFalse("b.B",   criteria.matches(b_B));
+        assertFalse("b.B.b", criteria.matches(b_B_b));
+    }
 
-	public void testNullInclude() {
-		criteria = new CollectionSelectionCriteria(null, exclude);
+    public void testNullInclude() {
+        criteria = new CollectionSelectionCriteria(null, exclude);
 
-		assertTrue("a",     criteria.matches(a));
-		assertTrue("a.A",   criteria.matches(a_A));
-		assertTrue("a.A.a", criteria.matches(a_A_a));
+        assertTrue("a",     criteria.matches(a));
+        assertTrue("a.A",   criteria.matches(a_A));
+        assertTrue("a.A.a", criteria.matches(a_A_a));
 
-		assertTrue("b",     criteria.matches(b));
-		assertTrue("b.B",   criteria.matches(b_B));
-		assertTrue("b.B.b", criteria.matches(b_B_b));
-	}
+        assertTrue("b",     criteria.matches(b));
+        assertTrue("b.B",   criteria.matches(b_B));
+        assertTrue("b.B.b", criteria.matches(b_B_b));
+    }
 
-	public void testMatchPackageNode() {
-		include.add("a");
+    public void testMatchPackageNode() {
+        include.add("a");
 
-		assertTrue("a",      criteria.matches(a));
-		assertFalse("a.A",   criteria.matches(a_A));
-		assertFalse("a.A.a", criteria.matches(a_A_a));
+        assertTrue("a",      criteria.matches(a));
+        assertFalse("a.A",   criteria.matches(a_A));
+        assertFalse("a.A.a", criteria.matches(a_A_a));
 
-		assertFalse("b",     criteria.matches(b));
-		assertFalse("b.B",   criteria.matches(b_B));
-		assertFalse("b.B.b", criteria.matches(b_B_b));
-	}
+        assertFalse("b",     criteria.matches(b));
+        assertFalse("b.B",   criteria.matches(b_B));
+        assertFalse("b.B.b", criteria.matches(b_B_b));
+    }
 
-	public void testMatchClassNode() {
-		include.add("a.A");
+    public void testMatchClassNode() {
+        include.add("a.A");
 
-		assertFalse("a",     criteria.matches(a));
-		assertTrue("a.A",    criteria.matches(a_A));
-		assertFalse("a.A.a", criteria.matches(a_A_a));
+        assertFalse("a",     criteria.matches(a));
+        assertTrue("a.A",    criteria.matches(a_A));
+        assertFalse("a.A.a", criteria.matches(a_A_a));
 
-		assertFalse("b",     criteria.matches(b));
-		assertFalse("b.B",   criteria.matches(b_B));
-		assertFalse("b.B.b", criteria.matches(b_B_b));
-	}
+        assertFalse("b",     criteria.matches(b));
+        assertFalse("b.B",   criteria.matches(b_B));
+        assertFalse("b.B.b", criteria.matches(b_B_b));
+    }
 
-	public void testMatchFeatureNode() {
-		include.add("a.A.a");
+    public void testMatchFeatureNode() {
+        include.add("a.A.a");
 
-		assertFalse("a",     criteria.matches(a));
-		assertFalse("a.A",   criteria.matches(a_A));
-		assertTrue("a.A.a",  criteria.matches(a_A_a));
+        assertFalse("a",     criteria.matches(a));
+        assertFalse("a.A",   criteria.matches(a_A));
+        assertTrue("a.A.a",  criteria.matches(a_A_a));
 
-		assertFalse("b",     criteria.matches(b));
-		assertFalse("b.B",   criteria.matches(b_B));
-		assertFalse("b.B.b", criteria.matches(b_B_b));
-	}
+        assertFalse("b",     criteria.matches(b));
+        assertFalse("b.B",   criteria.matches(b_B));
+        assertFalse("b.B.b", criteria.matches(b_B_b));
+    }
 
-	public void testMatchPackageName() {
-		include.add("a");
+    public void testMatchPackageName() {
+        include.add("a");
 
-		assertTrue("a",      criteria.matchesPackageName("a"));
-		assertFalse("a.A",   criteria.matchesClassName("a.A"));
-		assertFalse("a.A.a", criteria.matchesFeatureName("a.A.a"));
+        assertTrue("a",      criteria.matchesPackageName("a"));
+        assertFalse("a.A",   criteria.matchesClassName("a.A"));
+        assertFalse("a.A.a", criteria.matchesFeatureName("a.A.a"));
 
-		assertFalse("b",     criteria.matchesPackageName("b"));
-		assertFalse("b.B",   criteria.matchesClassName("b.B"));
-		assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
-	}
+        assertFalse("b",     criteria.matchesPackageName("b"));
+        assertFalse("b.B",   criteria.matchesClassName("b.B"));
+        assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
+    }
 
-	public void testMatchClassName() {
-		include.add("a.A");
+    public void testMatchClassName() {
+        include.add("a.A");
 
-		assertFalse("a",     criteria.matchesPackageName("a"));
-		assertTrue("a.A",    criteria.matchesClassName("a.A"));
-		assertFalse("a.A.a", criteria.matchesFeatureName("a.A.a"));
+        assertFalse("a",     criteria.matchesPackageName("a"));
+        assertTrue("a.A",    criteria.matchesClassName("a.A"));
+        assertFalse("a.A.a", criteria.matchesFeatureName("a.A.a"));
 
-		assertFalse("b",     criteria.matchesPackageName("b"));
-		assertFalse("b.B",   criteria.matchesClassName("b.B"));
-		assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
-	}
+        assertFalse("b",     criteria.matchesPackageName("b"));
+        assertFalse("b.B",   criteria.matchesClassName("b.B"));
+        assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
+    }
 
-	public void testMatchFeatureName() {
-		include.add("a.A.a");
+    public void testMatchFeatureName() {
+        include.add("a.A.a");
 
-		assertFalse("a",     criteria.matchesPackageName("a"));
-		assertFalse("a.A",   criteria.matchesClassName("a.A"));
-		assertTrue("a.A.a",  criteria.matchesFeatureName("a.A.a"));
+        assertFalse("a",     criteria.matchesPackageName("a"));
+        assertFalse("a.A",   criteria.matchesClassName("a.A"));
+        assertTrue("a.A.a",  criteria.matchesFeatureName("a.A.a"));
 
-		assertFalse("b",     criteria.matchesPackageName("b"));
-		assertFalse("b.B",   criteria.matchesClassName("b.B"));
-		assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
-	}
+        assertFalse("b",     criteria.matchesPackageName("b"));
+        assertFalse("b.B",   criteria.matchesClassName("b.B"));
+        assertFalse("b.B.b", criteria.matchesFeatureName("b.B.b"));
+    }
 
-	public void testExclude() {
-		include.add("a");
-		include.add("a.A");
-		include.add("a.A.a");
-		exclude.add("a.A.a");
+    public void testExclude() {
+        include.add("a");
+        include.add("a.A");
+        include.add("a.A.a");
+        exclude.add("a.A.a");
 
-		assertTrue("a",      criteria.matches(a));
-		assertTrue("a.A",    criteria.matches(a_A));
-		assertFalse("a.A.a", criteria.matches(a_A_a));
-	}
+        assertTrue("a",      criteria.matches(a));
+        assertTrue("a.A",    criteria.matches(a_A));
+        assertFalse("a.A.a", criteria.matches(a_A_a));
+    }
 
-	public void testExcludeOnly() {
-		exclude.add("a.A.a");
+    public void testExcludeOnly() {
+        exclude.add("a.A.a");
 
-		criteria = new CollectionSelectionCriteria(null, exclude);
+        criteria = new CollectionSelectionCriteria(null, exclude);
 
-		assertTrue("a",      criteria.matches(a));
-		assertTrue("a.A",    criteria.matches(a_A));
-		assertFalse("a.A.a", criteria.matches(a_A_a));
-	}
+        assertTrue("a",      criteria.matches(a));
+        assertTrue("a.A",    criteria.matches(a_A));
+        assertFalse("a.A.a", criteria.matches(a_A_a));
+    }
 }

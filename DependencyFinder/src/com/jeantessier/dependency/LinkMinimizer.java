@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,75 +35,75 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class LinkMinimizer extends VisitorBase {
-	public LinkMinimizer() {
-		super();
+    public LinkMinimizer() {
+        super();
 
-		getStrategy().setPreOutboundTraversal(false);
-		getStrategy().setPreInboundTraversal(false);
-		getStrategy().setPostOutboundTraversal(false);
-		getStrategy().setPostInboundTraversal(false);
-	}
+        getStrategy().setPreOutboundTraversal(false);
+        getStrategy().setPreInboundTraversal(false);
+        getStrategy().setPostOutboundTraversal(false);
+        getStrategy().setPostInboundTraversal(false);
+    }
 
-	public LinkMinimizer(TraversalStrategy strategy) {
-		super(strategy);
+    public LinkMinimizer(TraversalStrategy strategy) {
+        super(strategy);
 
-		getStrategy().setPreOutboundTraversal(false);
-		getStrategy().setPreInboundTraversal(false);
-		getStrategy().setPostOutboundTraversal(false);
-		getStrategy().setPostInboundTraversal(false);
-	}
+        getStrategy().setPreOutboundTraversal(false);
+        getStrategy().setPreInboundTraversal(false);
+        getStrategy().setPostOutboundTraversal(false);
+        getStrategy().setPostInboundTraversal(false);
+    }
 
-	protected void postprocessPackageNode(PackageNode node) {
-		traverseOutbound(node.getOutboundDependencies());
+    protected void postprocessPackageNode(PackageNode node) {
+        traverseOutbound(node.getOutboundDependencies());
 
-		super.postprocessPackageNode(node);
-	}
-	
-	protected void postprocessClassNode(ClassNode node) {
-		Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
-		while (i.hasNext()) {
-			Node outbound = (Node) i.next();
+        super.postprocessPackageNode(node);
+    }
+    
+    protected void postprocessClassNode(ClassNode node) {
+        Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
+        while (i.hasNext()) {
+            Node outbound = (Node) i.next();
 
-			node.getPackageNode().removeDependency(outbound);
+            node.getPackageNode().removeDependency(outbound);
 
-			outbound.acceptOutbound(this);
-			
-			pushNode(node.getPackageNode());
-			outbound.acceptOutbound(this);
-			popNode();
-		}
+            outbound.acceptOutbound(this);
+            
+            pushNode(node.getPackageNode());
+            outbound.acceptOutbound(this);
+            popNode();
+        }
 
-		super.postprocessClassNode(node);
-	}
+        super.postprocessClassNode(node);
+    }
 
-	public void visitOutboundClassNode(ClassNode node) {
-		getCurrentNode().removeDependency(node.getPackageNode());
-	}
-	
-	protected void postprocessFeatureNode(FeatureNode node) {
-		Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
-		while (i.hasNext()) {
-			Node outbound = (Node) i.next();
+    public void visitOutboundClassNode(ClassNode node) {
+        getCurrentNode().removeDependency(node.getPackageNode());
+    }
+    
+    protected void postprocessFeatureNode(FeatureNode node) {
+        Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
+        while (i.hasNext()) {
+            Node outbound = (Node) i.next();
 
-			node.getClassNode().removeDependency(outbound);
-			node.getClassNode().getPackageNode().removeDependency(outbound);
+            node.getClassNode().removeDependency(outbound);
+            node.getClassNode().getPackageNode().removeDependency(outbound);
 
-			outbound.acceptOutbound(this);
-	
-			pushNode(node.getClassNode());
-			outbound.acceptOutbound(this);
-			popNode();
-	
-			pushNode(node.getClassNode().getPackageNode());
-			outbound.acceptOutbound(this);
-			popNode();
-		}
+            outbound.acceptOutbound(this);
+    
+            pushNode(node.getClassNode());
+            outbound.acceptOutbound(this);
+            popNode();
+    
+            pushNode(node.getClassNode().getPackageNode());
+            outbound.acceptOutbound(this);
+            popNode();
+        }
 
-		super.postprocessFeatureNode(node);
-	}
+        super.postprocessFeatureNode(node);
+    }
 
-	public void visitOutboundFeatureNode(FeatureNode node) {
-		getCurrentNode().removeDependency(node.getClassNode());
-		getCurrentNode().removeDependency(node.getClassNode().getPackageNode());
-	}
+    public void visitOutboundFeatureNode(FeatureNode node) {
+        getCurrentNode().removeDependency(node.getClassNode());
+        getCurrentNode().removeDependency(node.getClassNode().getPackageNode());
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -42,74 +42,74 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
 
 public class MetricsExtractAction extends AbstractAction implements Runnable {
-	private OOMetrics model;
-	private File[]    files;
+    private OOMetrics model;
+    private File[]    files;
 
-	private ClassfileLoader loader;
+    private ClassfileLoader loader;
 
-	public MetricsExtractAction(OOMetrics model) {
-		this.model = model;
+    public MetricsExtractAction(OOMetrics model) {
+        this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Extract metrics from compiled classes");
-		putValue(Action.NAME, "Extract");
-		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/extract.gif")));
-	}
+        putValue(Action.LONG_DESCRIPTION, "Extract metrics from compiled classes");
+        putValue(Action.NAME, "Extract");
+        putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/extract.gif")));
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.getInputFile());
-		chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
-		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		chooser.setMultiSelectionEnabled(true);
-		int returnValue = chooser.showDialog(model, "Extract");
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			files = chooser.getSelectedFiles();
-			model.setInputFile(files[0]);
-			new Thread(this).start();
-		}
-	}
+    public void actionPerformed(ActionEvent e) {
+        JFileChooser chooser = new JFileChooser(model.getInputFile());
+        chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        chooser.setMultiSelectionEnabled(true);
+        int returnValue = chooser.showDialog(model, "Extract");
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            files = chooser.getSelectedFiles();
+            model.setInputFile(files[0]);
+            new Thread(this).start();
+        }
+    }
 
-	public void run() {
-		Date start = new Date();
+    public void run() {
+        Date start = new Date();
 
-		model.getStatusLine().showInfo("Scanning ...");
-		ClassfileScanner scanner = new ClassfileScanner();
-		scanner.load(Arrays.asList(files));
+        model.getStatusLine().showInfo("Scanning ...");
+        ClassfileScanner scanner = new ClassfileScanner();
+        scanner.load(Arrays.asList(files));
 
-		model.getProgressBar().setMaximum(scanner.getNbFiles() + scanner.getNbClasses());
+        model.getProgressBar().setMaximum(scanner.getNbFiles() + scanner.getNbClasses());
 
-		MetricsVerboseListener verboseListener = new MetricsVerboseListener(model.getStatusLine(), model.getProgressBar());
-		
-		loader = new AggregatingClassfileLoader();
-		loader.addLoadListener(verboseListener);
-		loader.load(Arrays.asList(files));
-		
-		com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.getMetricsFactory());
-		gatherer.addMetricsListener(verboseListener);
-		gatherer.visitClassfiles(loader.getAllClassfiles());
+        MetricsVerboseListener verboseListener = new MetricsVerboseListener(model.getStatusLine(), model.getProgressBar());
+        
+        loader = new AggregatingClassfileLoader();
+        loader.addLoadListener(verboseListener);
+        loader.load(Arrays.asList(files));
+        
+        com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.getMetricsFactory());
+        gatherer.addMetricsListener(verboseListener);
+        gatherer.visitClassfiles(loader.getAllClassfiles());
 
-		// JDK 1.4 feature
-		// model.ProgressBar().setIndeterminate(true);
-		
-		model.getStatusLine().showInfo("Generating method results ...");
-		model.getMethodsModel().setMetrics(model.getMetricsFactory().getMethodMetrics());
-		
-		model.getStatusLine().showInfo("Generating class results ...");
-		model.getClassesModel().setMetrics(model.getMetricsFactory().getClassMetrics());
-		
-		model.getStatusLine().showInfo("Generating group results ...");
-		model.getGroupsModel().setMetrics(model.getMetricsFactory().getGroupMetrics());
-		
-		model.getStatusLine().showInfo("Generating project results ...");
-		StringWriter out = new StringWriter();
-		com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.TextPrinter(new PrintWriter(out), model.getMetricsFactory().getConfiguration().getProjectMeasurements());
-		printer.visitMetrics(model.getMetricsFactory().getProjectMetrics());
-		model.getProjectArea().setText(out.toString());
-		
-		Date stop = new Date();
-		
-		model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-		// JDK 1.4 feature
-		// model.ProgressBar().setIndeterminate(false);
-		model.setTitle("OO Metrics - Extractor");
-	}
+        // JDK 1.4 feature
+        // model.ProgressBar().setIndeterminate(true);
+        
+        model.getStatusLine().showInfo("Generating method results ...");
+        model.getMethodsModel().setMetrics(model.getMetricsFactory().getMethodMetrics());
+        
+        model.getStatusLine().showInfo("Generating class results ...");
+        model.getClassesModel().setMetrics(model.getMetricsFactory().getClassMetrics());
+        
+        model.getStatusLine().showInfo("Generating group results ...");
+        model.getGroupsModel().setMetrics(model.getMetricsFactory().getGroupMetrics());
+        
+        model.getStatusLine().showInfo("Generating project results ...");
+        StringWriter out = new StringWriter();
+        com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.TextPrinter(new PrintWriter(out), model.getMetricsFactory().getConfiguration().getProjectMeasurements());
+        printer.visitMetrics(model.getMetricsFactory().getProjectMetrics());
+        model.getProjectArea().setText(out.toString());
+        
+        Date stop = new Date();
+        
+        model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+        // JDK 1.4 feature
+        // model.ProgressBar().setIndeterminate(false);
+        model.setTitle("OO Metrics - Extractor");
+    }
 }

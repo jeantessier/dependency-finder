@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,70 +33,70 @@
 package com.jeantessier.dependency;
 
 public class GraphCopier extends VisitorBase {
-	private NodeFactory scopeFactory  = new NodeFactory();
-	private NodeFactory filterFactory = new NodeFactory();
+    private NodeFactory scopeFactory  = new NodeFactory();
+    private NodeFactory filterFactory = new NodeFactory();
 
-	public GraphCopier() {
-		super();
-	}
+    public GraphCopier() {
+        super();
+    }
 
-	public GraphCopier(TraversalStrategy strategy) {
-		super(strategy);
-	}
-	
-	public NodeFactory getScopeFactory() {
-		return scopeFactory;
-	}
-	
-	public NodeFactory getFilterFactory() {
-		return filterFactory;
-	}
+    public GraphCopier(TraversalStrategy strategy) {
+        super(strategy);
+    }
+    
+    public NodeFactory getScopeFactory() {
+        return scopeFactory;
+    }
+    
+    public NodeFactory getFilterFactory() {
+        return filterFactory;
+    }
 
-	protected void preprocessPackageNode(PackageNode node) {
-		super.preprocessPackageNode(getScopeFactory().createPackage(node.getName()));
-	}
+    protected void preprocessPackageNode(PackageNode node) {
+        super.preprocessPackageNode(getScopeFactory().createPackage(node.getName()));
+    }
 
-	public void visitInboundPackageNode(PackageNode node) {
-		if (getStrategy().isInFilter(node)) {
-			getFilterFactory().createPackage(node.getName()).addDependency(getCurrentNode());
-		}
-	}
+    public void visitInboundPackageNode(PackageNode node) {
+        if (getStrategy().isInFilter(node)) {
+            getFilterFactory().createPackage(node.getName()).addDependency(getCurrentNode());
+        }
+    }
 
-	public void visitOutboundPackageNode(PackageNode node) {
-		if (getStrategy().isInFilter(node)) {
-			getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName()));
-		}
-	}
+    public void visitOutboundPackageNode(PackageNode node) {
+        if (getStrategy().isInFilter(node)) {
+            getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName()));
+        }
+    }
 
-	protected void preprocessClassNode(ClassNode node) {
-		super.preprocessClassNode(getScopeFactory().createClass(node.getName()));
-	}
+    protected void preprocessClassNode(ClassNode node) {
+        super.preprocessClassNode(getScopeFactory().createClass(node.getName()));
+    }
 
-	public void visitInboundClassNode(ClassNode node) {
-		if (getStrategy().isInFilter(node)) {
-			getFilterFactory().createClass(node.getName()).addDependency(getCurrentNode());
-		}
-	}
+    public void visitInboundClassNode(ClassNode node) {
+        if (getStrategy().isInFilter(node)) {
+            getFilterFactory().createClass(node.getName()).addDependency(getCurrentNode());
+        }
+    }
 
-	public void visitOutboundClassNode(ClassNode node) {
-		if (getStrategy().isInFilter(node)) {
-			getCurrentNode().addDependency(getFilterFactory().createClass(node.getName()));
-		}
-	}
+    public void visitOutboundClassNode(ClassNode node) {
+        if (getStrategy().isInFilter(node)) {
+            getCurrentNode().addDependency(getFilterFactory().createClass(node.getName()));
+        }
+    }
 
-	protected void preprocessFeatureNode(FeatureNode node) {
-		super.preprocessFeatureNode(getScopeFactory().createFeature(node.getName()));
-	}
+    protected void preprocessFeatureNode(FeatureNode node) {
+        super.preprocessFeatureNode(getScopeFactory().createFeature(node.getName()));
+    }
 
-	public void visitInboundFeatureNode(FeatureNode node) {
-		if (getStrategy().isInFilter(node)) {
-			getFilterFactory().createFeature(node.getName()).addDependency(getCurrentNode());
-		}
-	}
+    public void visitInboundFeatureNode(FeatureNode node) {
+        if (getStrategy().isInFilter(node)) {
+            getFilterFactory().createFeature(node.getName()).addDependency(getCurrentNode());
+        }
+    }
 
-	public void visitOutboundFeatureNode(FeatureNode node) {
-		if (getStrategy().isInFilter(node)) {
-			getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName()));
-		}
-	}
+    public void visitOutboundFeatureNode(FeatureNode node) {
+        if (getStrategy().isInFilter(node)) {
+            getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName()));
+        }
+    }
 }

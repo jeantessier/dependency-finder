@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,79 +33,79 @@
 package com.jeantessier.classreader;
 
 public class SymbolGatherer extends CollectorBase {
-	private boolean collectingClassNames  = true;
-	private boolean collectingFieldNames  = true;
-	private boolean collectingMethodNames = true;
-	private boolean collectingLocalNames  = true;
-	
-	private Method_info currentMethod = null;
+    private boolean collectingClassNames  = true;
+    private boolean collectingFieldNames  = true;
+    private boolean collectingMethodNames = true;
+    private boolean collectingLocalNames  = true;
+    
+    private Method_info currentMethod = null;
 
-	public boolean isCollectingClassNames() {
-		return collectingClassNames;
-	}
+    public boolean isCollectingClassNames() {
+        return collectingClassNames;
+    }
 
-	public void setCollectingClassNames(boolean collectingClassNames) {
-		this.collectingClassNames = collectingClassNames;
-	}
+    public void setCollectingClassNames(boolean collectingClassNames) {
+        this.collectingClassNames = collectingClassNames;
+    }
 
-	public boolean isCollectingFieldNames() {
-		return collectingFieldNames;
-	}
+    public boolean isCollectingFieldNames() {
+        return collectingFieldNames;
+    }
 
-	public void setCollectingFieldNames(boolean collectingFieldNames) {
-		this.collectingFieldNames = collectingFieldNames;
-	}
+    public void setCollectingFieldNames(boolean collectingFieldNames) {
+        this.collectingFieldNames = collectingFieldNames;
+    }
 
-	public boolean isCollectingMethodNames() {
-		return collectingMethodNames;
-	}
+    public boolean isCollectingMethodNames() {
+        return collectingMethodNames;
+    }
 
-	public void setCollectingMethodNames(boolean collectingMethodNames) {
-		this.collectingMethodNames = collectingMethodNames;
-	}
+    public void setCollectingMethodNames(boolean collectingMethodNames) {
+        this.collectingMethodNames = collectingMethodNames;
+    }
 
-	public boolean isCollectingLocalNames() {
-		return collectingLocalNames;
-	}
+    public boolean isCollectingLocalNames() {
+        return collectingLocalNames;
+    }
 
-	public void setCollectingLocalNames(boolean collectingLocalNames) {
-		this.collectingLocalNames = collectingLocalNames;
-	}
-	
-	// Classfile
-	public void visitClassfile(Classfile classfile) {
-		if (isCollectingClassNames()) {
-			add(classfile.getClassName());
-		}
+    public void setCollectingLocalNames(boolean collectingLocalNames) {
+        this.collectingLocalNames = collectingLocalNames;
+    }
+    
+    // Classfile
+    public void visitClassfile(Classfile classfile) {
+        if (isCollectingClassNames()) {
+            add(classfile.getClassName());
+        }
 
-		super.visitClassfile(classfile);
-	}
+        super.visitClassfile(classfile);
+    }
 
-	// Features
-	public void visitField_info(Field_info entry) {
-		if (isCollectingFieldNames()) {
-			add(entry.getFullSignature());
-		}
-		
-		super.visitField_info(entry);
-	}
+    // Features
+    public void visitField_info(Field_info entry) {
+        if (isCollectingFieldNames()) {
+            add(entry.getFullSignature());
+        }
+        
+        super.visitField_info(entry);
+    }
 
-	public void visitMethod_info(Method_info entry) {
-		if (isCollectingMethodNames()) {
-			add(entry.getFullSignature());
-		}
+    public void visitMethod_info(Method_info entry) {
+        if (isCollectingMethodNames()) {
+            add(entry.getFullSignature());
+        }
 
-		Method_info previousMethod = currentMethod;
-		currentMethod = entry;
-		super.visitMethod_info(entry);
-		currentMethod = previousMethod;
-	}
+        Method_info previousMethod = currentMethod;
+        currentMethod = entry;
+        super.visitMethod_info(entry);
+        currentMethod = previousMethod;
+    }
 
-	public void visitLocalVariable(LocalVariable helper) {
-		if (isCollectingLocalNames()) {
-			add(currentMethod.getFullSignature() + ": " + helper.getName());
-		}
+    public void visitLocalVariable(LocalVariable helper) {
+        if (isCollectingLocalNames()) {
+            add(currentMethod.getFullSignature() + ": " + helper.getName());
+        }
 
-		super.visitLocalVariable(helper);
-	}
+        super.visitLocalVariable(helper);
+    }
 }

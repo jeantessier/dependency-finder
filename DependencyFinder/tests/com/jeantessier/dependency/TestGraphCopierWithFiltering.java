@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,82 +38,82 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestGraphCopierWithFiltering extends TestCase {
-	private RegularExpressionSelectionCriteria scopeCriteria;
-	private RegularExpressionSelectionCriteria filterCriteria;
-	private NodeFactory                        factory;
-	
-	private Node a;
-	private Node a_A;
-	private Node a_A_a;
-	
-	private Node b;
-	private Node b_B;
-	private Node b_B_b;
-	
-	private Node c;
-	private Node c_C;
-	private Node c_C_c;
+    private RegularExpressionSelectionCriteria scopeCriteria;
+    private RegularExpressionSelectionCriteria filterCriteria;
+    private NodeFactory                        factory;
+    
+    private Node a;
+    private Node a_A;
+    private Node a_A_a;
+    
+    private Node b;
+    private Node b_B;
+    private Node b_B_b;
+    
+    private Node c;
+    private Node c_C;
+    private Node c_C_c;
 
-	private List includeFilter;
-	private List excludeFilter;
+    private List includeFilter;
+    private List excludeFilter;
 
-	private GraphCopier copier;
+    private GraphCopier copier;
 
-	protected void setUp() throws Exception {
-		scopeCriteria  = new RegularExpressionSelectionCriteria();
-		filterCriteria = new RegularExpressionSelectionCriteria();
-		factory        = new NodeFactory();
+    protected void setUp() throws Exception {
+        scopeCriteria  = new RegularExpressionSelectionCriteria();
+        filterCriteria = new RegularExpressionSelectionCriteria();
+        factory        = new NodeFactory();
 
-		a     = factory.createPackage("a");
-		a_A   = factory.createClass("a.A");
-		a_A_a = factory.createFeature("a.A.a");
-		
-		b     = factory.createPackage("b");
-		b_B   = factory.createClass("b.B");
-		b_B_b = factory.createFeature("b.B.b");
-		
-		c     = factory.createPackage("c");
-		c_C   = factory.createClass("c.C");
-		c_C_c = factory.createFeature("c.C.c");
-		
-		includeFilter = new LinkedList();
-		includeFilter.add("/^b/");
-		
-		excludeFilter = new LinkedList();
-		excludeFilter.add("/^c/");
+        a     = factory.createPackage("a");
+        a_A   = factory.createClass("a.A");
+        a_A_a = factory.createFeature("a.A.a");
+        
+        b     = factory.createPackage("b");
+        b_B   = factory.createClass("b.B");
+        b_B_b = factory.createFeature("b.B.b");
+        
+        c     = factory.createPackage("c");
+        c_C   = factory.createClass("c.C");
+        c_C_c = factory.createFeature("c.C.c");
+        
+        includeFilter = new LinkedList();
+        includeFilter.add("/^b/");
+        
+        excludeFilter = new LinkedList();
+        excludeFilter.add("/^c/");
 
-		copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
-	}
+        copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
+    }
 
-	public void testIncludeFilterF2FtoP2P() {
-		a_A_a.addDependency(b_B_b);
-		a_A_a.addDependency(c_C_c);
-		
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
-		filterCriteria.setGlobalIncludes(includeFilter);
-		
-		copier.traverseNodes(factory.getPackages().values());
+    public void testIncludeFilterF2FtoP2P() {
+        a_A_a.addDependency(b_B_b);
+        a_A_a.addDependency(c_C_c);
+        
+        scopeCriteria.setMatchingClasses(false);
+        scopeCriteria.setMatchingFeatures(false);
+        filterCriteria.setMatchingClasses(false);
+        filterCriteria.setMatchingFeatures(false);
+        filterCriteria.setGlobalIncludes(includeFilter);
+        
+        copier.traverseNodes(factory.getPackages().values());
 
-		assertTrue(copier.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
-		assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().isEmpty());
-	}
+        assertTrue(copier.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
+        assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().isEmpty());
+    }
 
-	public void testExcludeFilterF2FtoP2P() {
-		a_A_a.addDependency(b_B_b);
-		a_A_a.addDependency(c_C_c);
-		
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
-		filterCriteria.setGlobalExcludes(excludeFilter);
-		
-		copier.traverseNodes(factory.getPackages().values());
+    public void testExcludeFilterF2FtoP2P() {
+        a_A_a.addDependency(b_B_b);
+        a_A_a.addDependency(c_C_c);
+        
+        scopeCriteria.setMatchingClasses(false);
+        scopeCriteria.setMatchingFeatures(false);
+        filterCriteria.setMatchingClasses(false);
+        filterCriteria.setMatchingFeatures(false);
+        filterCriteria.setGlobalExcludes(excludeFilter);
+        
+        copier.traverseNodes(factory.getPackages().values());
 
-		assertTrue(copier.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
-		assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().isEmpty());
-	}
+        assertTrue(copier.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
+        assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().isEmpty());
+    }
 }

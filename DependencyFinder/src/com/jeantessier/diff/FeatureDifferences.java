@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -44,56 +44,56 @@ import com.jeantessier.classreader.*;
  *  @see Visitor
  */
 public abstract class FeatureDifferences extends RemovableDifferences {
-	private Feature_info oldFeature;
-	private Feature_info newFeature;
-	
-	private boolean inherited = false;
+    private Feature_info oldFeature;
+    private Feature_info newFeature;
+    
+    private boolean inherited = false;
 
-	/**
-	 *  Only the DifferencesFactory can create instances of this class.
-	 */
-	protected FeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
-		super(name);
+    /**
+     *  Only the DifferencesFactory can create instances of this class.
+     */
+    protected FeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
+        super(name);
 
-		setOldFeature(oldFeature);
-		setNewFeature(newFeature);
-					
-		if (oldFeature != null) {
-			setOldDeclaration(oldFeature.getDeclaration());
-		}
-		
-		if (newFeature != null) {
-			setNewDeclaration(newFeature.getDeclaration());
-		}
-	
-		if (isModified()) {
-			Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
-		} else {
-			Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
-		}
-	}
+        setOldFeature(oldFeature);
+        setNewFeature(newFeature);
+                    
+        if (oldFeature != null) {
+            setOldDeclaration(oldFeature.getDeclaration());
+        }
+        
+        if (newFeature != null) {
+            setNewDeclaration(newFeature.getDeclaration());
+        }
+    
+        if (isModified()) {
+            Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
+        } else {
+            Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
+        }
+    }
 
-	public Feature_info getOldFeature() {
-		return oldFeature;
-	}
+    public Feature_info getOldFeature() {
+        return oldFeature;
+    }
 
-	protected void setOldFeature(Feature_info oldFeature) {
-		this.oldFeature = oldFeature;
-	}
+    protected void setOldFeature(Feature_info oldFeature) {
+        this.oldFeature = oldFeature;
+    }
 
-	public Feature_info getNewFeature() {
-		return newFeature;
-	}
+    public Feature_info getNewFeature() {
+        return newFeature;
+    }
 
-	protected void setNewFeature(Feature_info newFeature) {
-		this.newFeature = newFeature;
-	}
+    protected void setNewFeature(Feature_info newFeature) {
+        this.newFeature = newFeature;
+    }
 
-	public boolean isInherited() {
-		return inherited;
-	}
+    public boolean isInherited() {
+        return inherited;
+    }
 
-	public void setInherited(boolean inherited) {
-		this.inherited = inherited;
-	}
+    public void setInherited(boolean inherited) {
+        this.inherited = inherited;
+    }
 }

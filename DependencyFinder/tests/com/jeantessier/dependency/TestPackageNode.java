@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,59 +35,59 @@ package com.jeantessier.dependency;
 import junit.framework.*;
 
 public class TestPackageNode extends TestCase {
-	private NodeFactory factory;
-	private PackageNode node;
-	
-	protected void setUp() throws Exception {
-		factory = new NodeFactory();
-	}
+    private NodeFactory factory;
+    private PackageNode node;
+    
+    protected void setUp() throws Exception {
+        factory = new NodeFactory();
+    }
 
-	public void testSwitchPackageNodeFromReferencedToConcrete() {
-		node = factory.createPackage("a", false);
-		
-		assertFalse("Not referenced", node.isConcrete());
-		node.setConcrete(true);
-		assertTrue("Not concrete", node.isConcrete());
-	}
+    public void testSwitchPackageNodeFromReferencedToConcrete() {
+        node = factory.createPackage("a", false);
+        
+        assertFalse("Not referenced", node.isConcrete());
+        node.setConcrete(true);
+        assertTrue("Not concrete", node.isConcrete());
+    }
 
-	public void testMakingPackageNodeConcreteDoesNotChangeItsClasses() {
-		node = factory.createPackage("a", false);
-		factory.createClass("a.A", false);
+    public void testMakingPackageNodeConcreteDoesNotChangeItsClasses() {
+        node = factory.createPackage("a", false);
+        factory.createClass("a.A", false);
 
-		assertFalse("Not referenced", node.isConcrete());
-		assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
-		node.setConcrete(true);
-		assertTrue("Not concrete", node.isConcrete());
-		assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
-	}
+        assertFalse("Not referenced", node.isConcrete());
+        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
+        node.setConcrete(true);
+        assertTrue("Not concrete", node.isConcrete());
+        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
+    }
 
-	public void testSwitchEmptyPackageNodeFromConcreteToReferenced() {
-		node = factory.createPackage("a", true);
+    public void testSwitchEmptyPackageNodeFromConcreteToReferenced() {
+        node = factory.createPackage("a", true);
 
-		assertTrue("Not concrete", node.isConcrete());
-		node.setConcrete(false);
-		assertFalse("Concrete", node.isConcrete());
-	}
+        assertTrue("Not concrete", node.isConcrete());
+        node.setConcrete(false);
+        assertFalse("Concrete", node.isConcrete());
+    }
 
-	public void testSwitchPackageNodeWithConcreteClassFromConcreteToReferenced() {
-		node = factory.createPackage("a", true);
-		factory.createClass("a.A", true);
+    public void testSwitchPackageNodeWithConcreteClassFromConcreteToReferenced() {
+        node = factory.createPackage("a", true);
+        factory.createClass("a.A", true);
 
-		assertTrue("Not concrete", node.isConcrete());
-		assertTrue("Not concrete", ((Node) node.getClasses().iterator().next()).isConcrete());
-		node.setConcrete(false);
-		assertTrue("Not concrete", node.isConcrete());
-		assertTrue("Not concrete", ((Node) node.getClasses().iterator().next()).isConcrete());
-	}
+        assertTrue("Not concrete", node.isConcrete());
+        assertTrue("Not concrete", ((Node) node.getClasses().iterator().next()).isConcrete());
+        node.setConcrete(false);
+        assertTrue("Not concrete", node.isConcrete());
+        assertTrue("Not concrete", ((Node) node.getClasses().iterator().next()).isConcrete());
+    }
 
-	public void testSwitchPackageNodeWithReferencedClassFromConcreteToReferenced() {
-		node = factory.createPackage("a", true);
-		factory.createClass("a.A", false);
+    public void testSwitchPackageNodeWithReferencedClassFromConcreteToReferenced() {
+        node = factory.createPackage("a", true);
+        factory.createClass("a.A", false);
 
-		assertTrue("Not concrete", node.isConcrete());
-		assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
-		node.setConcrete(false);
-		assertFalse("Not referenced", node.isConcrete());
-		assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
-	}
+        assertTrue("Not concrete", node.isConcrete());
+        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
+        node.setConcrete(false);
+        assertFalse("Not referenced", node.isConcrete());
+        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConcrete());
+    }
 }

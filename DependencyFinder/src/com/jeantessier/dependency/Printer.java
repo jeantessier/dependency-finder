@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -36,155 +36,155 @@ import java.io.*;
 import java.util.*;
 
 public abstract class Printer extends VisitorBase {
-	private PrintWriter out;
+    private PrintWriter out;
 
-	private String  indentText      = "    ";
-	private int     indentLevel     = 0;
-	private boolean showInbounds    = true;
-	private boolean showOutbounds   = true;
-	private boolean showEmptyNodes = true;
+    private String  indentText      = "    ";
+    private int     indentLevel     = 0;
+    private boolean showInbounds    = true;
+    private boolean showOutbounds   = true;
+    private boolean showEmptyNodes = true;
 
-	public Printer(PrintWriter out) {
-		this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()), out);
-	}
+    public Printer(PrintWriter out) {
+        this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()), out);
+    }
 
-	public Printer(TraversalStrategy strategy, PrintWriter out) {
-		super(strategy);
+    public Printer(TraversalStrategy strategy, PrintWriter out) {
+        super(strategy);
 
-		this.out = out;
-	}
+        this.out = out;
+    }
 
-	public String getIndentText() {
-		return indentText;
-	}
+    public String getIndentText() {
+        return indentText;
+    }
 
-	public void setIndentText(String indentText) {
-		this.indentText = indentText;
-	}
+    public void setIndentText(String indentText) {
+        this.indentText = indentText;
+    }
 
-	public boolean isShowInbounds() {
-		return showInbounds;
-	}
+    public boolean isShowInbounds() {
+        return showInbounds;
+    }
 
-	public void setShowInbounds(boolean showInbounds) {
-		this.showInbounds = showInbounds;
-	}
-	
-	public boolean isShowOutbounds() {
-		return showOutbounds;
-	}
+    public void setShowInbounds(boolean showInbounds) {
+        this.showInbounds = showInbounds;
+    }
+    
+    public boolean isShowOutbounds() {
+        return showOutbounds;
+    }
 
-	public void setShowOutbounds(boolean showOutbounds) {
-		this.showOutbounds = showOutbounds;
-	}
-	
-	public boolean isShowEmptyNodes() {
-		return showEmptyNodes;
-	}
+    public void setShowOutbounds(boolean showOutbounds) {
+        this.showOutbounds = showOutbounds;
+    }
+    
+    public boolean isShowEmptyNodes() {
+        return showEmptyNodes;
+    }
 
-	public void setShowEmptyNodes(boolean showEmptyNodes) {
-		this.showEmptyNodes = showEmptyNodes;
-	}
-	
-	protected Printer append(boolean b) {
-		out.print(b);
-		return this;
-	}
+    public void setShowEmptyNodes(boolean showEmptyNodes) {
+        this.showEmptyNodes = showEmptyNodes;
+    }
+    
+    protected Printer append(boolean b) {
+        out.print(b);
+        return this;
+    }
 
-	protected Printer append(char c) {
-		out.print(c);
-		return this;
-	}
+    protected Printer append(char c) {
+        out.print(c);
+        return this;
+    }
 
-	protected Printer append(char[] s) {
-		out.print(s);
-		return this;
-	}
+    protected Printer append(char[] s) {
+        out.print(s);
+        return this;
+    }
 
-	protected Printer append(double d) {
-		out.print(d);
-		return this;
-	}
+    protected Printer append(double d) {
+        out.print(d);
+        return this;
+    }
 
-	protected Printer append(float f) {
-		out.print(f);
-		return this;
-	}
+    protected Printer append(float f) {
+        out.print(f);
+        return this;
+    }
 
-	protected Printer append(int i) {
-		out.print(i);
-		return this;
-	}
+    protected Printer append(int i) {
+        out.print(i);
+        return this;
+    }
 
-	protected Printer append(long l) {
-		out.print(l);
-		return this;
-	}
+    protected Printer append(long l) {
+        out.print(l);
+        return this;
+    }
 
-	protected Printer append(Object obj) {
-		out.print(obj);
-		return this;
-	}
+    protected Printer append(Object obj) {
+        out.print(obj);
+        return this;
+    }
 
-	protected Printer append(String s) {
-		out.print(s);
-		return this;
-	}
+    protected Printer append(String s) {
+        out.print(s);
+        return this;
+    }
 
-	protected Printer indent() {
-		for (int i=0; i<indentLevel; i++) {
-			append(getIndentText());
-		}
+    protected Printer indent() {
+        for (int i=0; i<indentLevel; i++) {
+            append(getIndentText());
+        }
 
-		return this;
-	}
+        return this;
+    }
 
-	protected Printer eol() {
-		out.println();
-		return this;
-	}
+    protected Printer eol() {
+        out.println();
+        return this;
+    }
 
-	protected void raiseIndent() {
-		indentLevel++;
-	}
+    protected void raiseIndent() {
+        indentLevel++;
+    }
 
-	protected void lowerIndent() {
-		indentLevel--;
-	}
+    protected void lowerIndent() {
+        indentLevel--;
+    }
 
-	protected boolean shouldShowPackageNode(PackageNode node) {
-		boolean result = shouldShowNode(node);
+    protected boolean shouldShowPackageNode(PackageNode node) {
+        boolean result = shouldShowNode(node);
 
-		Iterator i = node.getClasses().iterator();
-		while (!result && i.hasNext()) {
-			result = shouldShowClassNode((ClassNode) i.next());
-		}
-		
-		return result;
-	}
+        Iterator i = node.getClasses().iterator();
+        while (!result && i.hasNext()) {
+            result = shouldShowClassNode((ClassNode) i.next());
+        }
+        
+        return result;
+    }
 
-	protected boolean shouldShowClassNode(ClassNode node) {
-		boolean result = shouldShowNode(node);
+    protected boolean shouldShowClassNode(ClassNode node) {
+        boolean result = shouldShowNode(node);
 
-		Iterator i = node.getFeatures().iterator();
-		while (!result && i.hasNext()) {
-			result = shouldShowFeatureNode((FeatureNode) i.next());
-		}
-		
-		return result;
-	}
-	
-	protected boolean shouldShowFeatureNode(FeatureNode node) {
-		return shouldShowNode(node);
-	}
-	
-	protected boolean shouldShowNode(Node node) {
-		boolean result = isShowEmptyNodes();
+        Iterator i = node.getFeatures().iterator();
+        while (!result && i.hasNext()) {
+            result = shouldShowFeatureNode((FeatureNode) i.next());
+        }
+        
+        return result;
+    }
+    
+    protected boolean shouldShowFeatureNode(FeatureNode node) {
+        return shouldShowNode(node);
+    }
+    
+    protected boolean shouldShowNode(Node node) {
+        boolean result = isShowEmptyNodes();
 
-		if (!result) {
-			result = (isShowOutbounds() && !node.getOutboundDependencies().isEmpty()) || (isShowInbounds() && !node.getInboundDependencies().isEmpty());
-		}
+        if (!result) {
+            result = (isShowOutbounds() && !node.getOutboundDependencies().isEmpty()) || (isShowInbounds() && !node.getInboundDependencies().isEmpty());
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

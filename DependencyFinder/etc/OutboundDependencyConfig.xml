@@ -8,16 +8,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,218 +35,218 @@
 <!DOCTYPE metrics-configuration SYSTEM "http://depfind.sourceforge.net/dtd/metrics-configuration.dtd">
 
 <!--
-	<measurement>
-	    <short-name></short-name>
-	    <long-name></long-name>
-	    <class>com.jeantessier.metrics.</class>
-	    <init>
-	    </init>
-	    <lower-threshold></lower-threshold>
-	    <upper-threshold></upper-threshold>
-	</measurement>
+        <measurement>
+            <short-name></short-name>
+            <long-name></long-name>
+            <class>com.jeantessier.metrics.</class>
+            <init>
+            </init>
+            <lower-threshold></lower-threshold>
+            <upper-threshold></upper-threshold>
+        </measurement>
 -->
 
 <metrics-configuration>
     <project-measurements>
-	<measurement>
-	    <short-name>Out</short-name>
-	    <long-name>Uses APIs</long-name>
-	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
-	    <init>
-		Out DISPOSE_SUM
-	        DISPOSE_SUM
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>DistOut</short-name>
-	    <long-name>Uses distinct APIs</long-name>
-	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
-	    <init>
-		DistOut DISPOSE_SUM
-	        DISPOSE_SUM
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>DistOutR</short-name>
-	    <long-name>Uses distinct APIs ratio</long-name>
-	    <class>com.jeantessier.metrics.RatioMeasurement</class>
-	    <init>
-		DistOut
-		Out
-	    </init>
-	</measurement>
+        <measurement>
+            <short-name>Out</short-name>
+            <long-name>Uses APIs</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                Out DISPOSE_SUM
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DistOut</short-name>
+            <long-name>Uses distinct APIs</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                DistOut DISPOSE_SUM
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DistOutR</short-name>
+            <long-name>Uses distinct APIs ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                DistOut
+                Out
+            </init>
+        </measurement>
     </project-measurements>
     <group-measurements>
-	<measurement>
-	    <short-name>Out</short-name>
-	    <long-name>Uses APIs</long-name>
-	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
-	    <init>
-		Out
-	        DISPOSE_SUM
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>DistOut</short-name>
-	    <long-name>Uses distinct APIs</long-name>
-	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
-	    <init>
-		DistOutA
-		DISPOSE_SUM
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>DistOutR</short-name>
-	    <long-name>Uses distinct APIs ratio</long-name>
-	    <class>com.jeantessier.metrics.RatioMeasurement</class>
-	    <init>
-		DistOut
-		Out
-	    </init>
-	</measurement>
+        <measurement>
+            <short-name>Out</short-name>
+            <long-name>Uses APIs</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                Out
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DistOut</short-name>
+            <long-name>Uses distinct APIs</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                DistOutA
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DistOutR</short-name>
+            <long-name>Uses distinct APIs ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                DistOut
+                Out
+            </init>
+        </measurement>
     </group-measurements>
     <class-measurements>
-	<measurement>
-	    <short-name>Out</short-name>
-	    <long-name>Uses APIs</long-name>
-	    <class>com.jeantessier.metrics.SumMeasurement</class>
-	    <init>
-		OIP
-		OEP
-		FOut
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>DistOut</short-name>
-	    <long-name>Uses distinct APIs</long-name>
-	    <class>com.jeantessier.metrics.SumMeasurement</class>
-	    <init>
-		DistOutA
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>DistOutR</short-name>
-	    <long-name>Uses distinct APIs ratio</long-name>
-	    <class>com.jeantessier.metrics.RatioMeasurement</class>
-	    <init>
-		DistOut
-		Out
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>Outside</short-name>
-	    <long-name>Uses additional APIs in fields and class structure (outside of methods)</long-name>
-	    <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
-	    <init>
-		OIP
-		OEP
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>OutsideR</short-name>
-	    <long-name>Uses additional APIs in fields and class structure (outside of methods) ratio</long-name>
-	    <class>com.jeantessier.metrics.RatioMeasurement</class>
-	    <init>
-		Outside
-		Out
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>DistOutA</short-name>
-	    <long-name>Uses distinct APIs accumulator</long-name>
-	    <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
-	    <init>
-		OIP
-		OEP
-		FDistOut
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>FOut</short-name>
-	    <long-name>Features' distinct outbound dependencies</long-name>
-	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
-	    <init>
-		Out
-	        DISPOSE_SUM
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>FDistOut</short-name>
-	    <long-name>Features' distinct outbound dependencies</long-name>
-	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
-	    <init>
-		DistOut
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>OIP</short-name>
-	    <long-name>Outbound Intra-Package Dependencies</long-name>
-	    <class>com.jeantessier.metrics.NameListMeasurement</class>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>OEP</short-name>
-	    <long-name>Outbound Extra-Package Dependencies</long-name>
-	    <class>com.jeantessier.metrics.NameListMeasurement</class>
-	</measurement>
+        <measurement>
+            <short-name>Out</short-name>
+            <long-name>Uses APIs</long-name>
+            <class>com.jeantessier.metrics.SumMeasurement</class>
+            <init>
+                OIP
+                OEP
+                FOut
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DistOut</short-name>
+            <long-name>Uses distinct APIs</long-name>
+            <class>com.jeantessier.metrics.SumMeasurement</class>
+            <init>
+                DistOutA
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DistOutR</short-name>
+            <long-name>Uses distinct APIs ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                DistOut
+                Out
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>Outside</short-name>
+            <long-name>Uses additional APIs in fields and class structure (outside of methods)</long-name>
+            <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
+            <init>
+                OIP
+                OEP
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>OutsideR</short-name>
+            <long-name>Uses additional APIs in fields and class structure (outside of methods) ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                Outside
+                Out
+            </init>
+        </measurement>
+        <measurement visible="no">
+            <short-name>DistOutA</short-name>
+            <long-name>Uses distinct APIs accumulator</long-name>
+            <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
+            <init>
+                OIP
+                OEP
+                FDistOut
+            </init>
+        </measurement>
+        <measurement visible="no">
+            <short-name>FOut</short-name>
+            <long-name>Features' distinct outbound dependencies</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                Out
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement visible="no">
+            <short-name>FDistOut</short-name>
+            <long-name>Features' distinct outbound dependencies</long-name>
+            <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
+            <init>
+                DistOut
+            </init>
+        </measurement>
+        <measurement visible="no">
+            <short-name>OIP</short-name>
+            <long-name>Outbound Intra-Package Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
+        <measurement visible="no">
+            <short-name>OEP</short-name>
+            <long-name>Outbound Extra-Package Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
     </class-measurements>
     <method-measurements>
-	<measurement>
-	    <short-name>Out</short-name>
-	    <long-name>Uses APIs</long-name>
-	    <class>com.jeantessier.metrics.SumMeasurement</class>
-	    <init>
-		OICF
-		OIPF
-		OIPC
-		OEPF
-		OEPC
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>DistOut</short-name>
-	    <long-name>Uses distinct APIs</long-name>
-	    <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
-	    <init>
-		OICF
-		OIPF
-		OIPC
-		OEPF
-		OEPC
-	    </init>
-	</measurement>
-	<measurement>
-	    <short-name>DistOutR</short-name>
-	    <long-name>Uses distinct APIs ratio</long-name>
-	    <class>com.jeantessier.metrics.RatioMeasurement</class>
-	    <init>
-		DistOut
-		Out
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>OICF</short-name>
-	    <long-name>Outbound Intra-Class Feature Dependencies</long-name>
-	    <class>com.jeantessier.metrics.NameListMeasurement</class>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>OIPF</short-name>
-	    <long-name>Outbound Intra-Package Feature Dependencies</long-name>
-	    <class>com.jeantessier.metrics.NameListMeasurement</class>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>OIPC</short-name>
-	    <long-name>Outbound Intra-Package Class Dependencies</long-name>
-	    <class>com.jeantessier.metrics.NameListMeasurement</class>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>OEPF</short-name>
-	    <long-name>Outbound Extra-Package Feature Dependencies</long-name>
-	    <class>com.jeantessier.metrics.NameListMeasurement</class>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>OEPC</short-name>
-	    <long-name>Outbound Extra-Package Class Dependencies</long-name>
-	    <class>com.jeantessier.metrics.NameListMeasurement</class>
-	</measurement>
+        <measurement>
+            <short-name>Out</short-name>
+            <long-name>Uses APIs</long-name>
+            <class>com.jeantessier.metrics.SumMeasurement</class>
+            <init>
+                OICF
+                OIPF
+                OIPC
+                OEPF
+                OEPC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DistOut</short-name>
+            <long-name>Uses distinct APIs</long-name>
+            <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
+            <init>
+                OICF
+                OIPF
+                OIPC
+                OEPF
+                OEPC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DistOutR</short-name>
+            <long-name>Uses distinct APIs ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                DistOut
+                Out
+            </init>
+        </measurement>
+        <measurement visible="no">
+            <short-name>OICF</short-name>
+            <long-name>Outbound Intra-Class Feature Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
+        <measurement visible="no">
+            <short-name>OIPF</short-name>
+            <long-name>Outbound Intra-Package Feature Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
+        <measurement visible="no">
+            <short-name>OIPC</short-name>
+            <long-name>Outbound Intra-Package Class Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
+        <measurement visible="no">
+            <short-name>OEPF</short-name>
+            <long-name>Outbound Extra-Package Feature Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
+        <measurement visible="no">
+            <short-name>OEPC</short-name>
+            <long-name>Outbound Extra-Package Class Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
     </method-measurements>
 </metrics-configuration>

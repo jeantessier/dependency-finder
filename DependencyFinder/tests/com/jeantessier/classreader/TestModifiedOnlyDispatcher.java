@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,79 +38,79 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestModifiedOnlyDispatcher extends TestCase {
-	private MockDispatcher            mockDispatcher;
-	private ClassfileLoaderDispatcher dispatcher;
+    private MockDispatcher            mockDispatcher;
+    private ClassfileLoaderDispatcher dispatcher;
 
-	private String testDirname;
-	private String testFilename;
-	
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		mockDispatcher = new MockDispatcher();
-		dispatcher = new ModifiedOnlyDispatcher(mockDispatcher);
+    private String testDirname;
+    private String testFilename;
+    
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        mockDispatcher = new MockDispatcher();
+        dispatcher = new ModifiedOnlyDispatcher(mockDispatcher);
 
-		testDirname  = "classes";
-		testFilename = testDirname + File.separator + getClass().getName() + "." + getName() + ".txt";
-	}
+        testDirname  = "classes";
+        testFilename = testDirname + File.separator + getClass().getName() + "." + getName() + ".txt";
+    }
 
-	protected void tearDown() throws Exception {
-		File file = new File(testFilename);
-		file.delete();
+    protected void tearDown() throws Exception {
+        File file = new File(testFilename);
+        file.delete();
 
-		super.tearDown();
-	}
-	
-	public void testDispatchNonExistingFile() {
-		assertEquals("dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
-		assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
-	}
+        super.tearDown();
+    }
+    
+    public void testDispatchNonExistingFile() {
+        assertEquals("dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+    }
 
-	public void testDispatchNewFile() throws IOException {
-		writeFile();
-		
-		assertEquals("dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
-		assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
-	}
-	
-	public void testDispatchIdenticalFile() throws IOException {
-		writeFile();
-		
-		assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
-		assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+    public void testDispatchNewFile() throws IOException {
+        writeFile();
+        
+        assertEquals("dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+    }
+    
+    public void testDispatchIdenticalFile() throws IOException {
+        writeFile();
+        
+        assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
 
-		assertEquals("repeat dispatch action", ClassfileLoaderDispatcher.ACTION_IGNORE, dispatcher.dispatch(testFilename));
-		assertEquals("repeat delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
-	}
-	
-	public void testDispatchDirectory() throws IOException {
-		assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
-		assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
+        assertEquals("repeat dispatch action", ClassfileLoaderDispatcher.ACTION_IGNORE, dispatcher.dispatch(testFilename));
+        assertEquals("repeat delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+    }
+    
+    public void testDispatchDirectory() throws IOException {
+        assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
+        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
 
-		assertEquals("repeat dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
-		assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testDirname));
-	}
-	
-	public void testDispatchModifiedFile() throws IOException {
-		writeFile();
-		
-		assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
-		assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+        assertEquals("repeat dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
+        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testDirname));
+    }
+    
+    public void testDispatchModifiedFile() throws IOException {
+        writeFile();
+        
+        assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
 
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException ex) {
-			// Ignore
-		}
-		writeFile();
-		
-		assertEquals("repeat dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
-		assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
-	}
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException ex) {
+            // Ignore
+        }
+        writeFile();
+        
+        assertEquals("repeat dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
+    }
 
-	private void writeFile() throws IOException {
-		PrintWriter out = new PrintWriter(new FileWriter(testFilename));
-		out.println("foobar");
-		out.close();
-	}
+    private void writeFile() throws IOException {
+        PrintWriter out = new PrintWriter(new FileWriter(testFilename));
+        out.println("foobar");
+        out.close();
+    }
 }

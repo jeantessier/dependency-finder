@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -40,66 +40,66 @@ import java.util.*;
  *  the command-line and you retrieve them as a single <code>java.util.List</code>.
  */
 public class MultipleValuesSwitch extends CommandLineSwitchBase {
-	public MultipleValuesSwitch() {
-		this(new LinkedList(), false);
-	}
+    public MultipleValuesSwitch() {
+        this(new LinkedList(), false);
+    }
 
-	public MultipleValuesSwitch(String defaultValue) {
-		this(Collections.singletonList(defaultValue), false);
-	}
+    public MultipleValuesSwitch(String defaultValue) {
+        this(Collections.singletonList(defaultValue), false);
+    }
 
-	public MultipleValuesSwitch(String[] defaultValue) {
-		this(Arrays.asList(defaultValue), false);
-	}
+    public MultipleValuesSwitch(String[] defaultValue) {
+        this(Arrays.asList(defaultValue), false);
+    }
 
-	public MultipleValuesSwitch(List defaultValue) {
-		this(defaultValue, false);
-	}
+    public MultipleValuesSwitch(List defaultValue) {
+        this(defaultValue, false);
+    }
 
-	public MultipleValuesSwitch(boolean mandatory) {
-		this(new LinkedList(), mandatory);
-	}
+    public MultipleValuesSwitch(boolean mandatory) {
+        this(new LinkedList(), mandatory);
+    }
 
-	public MultipleValuesSwitch(String defaultValue, boolean mandatory) {
-		this(Collections.singletonList(defaultValue), mandatory);
-	}
+    public MultipleValuesSwitch(String defaultValue, boolean mandatory) {
+        this(Collections.singletonList(defaultValue), mandatory);
+    }
 
-	public MultipleValuesSwitch(String[] defaultValue, boolean mandatory) {
-		this(Arrays.asList(defaultValue), mandatory);
-	}
+    public MultipleValuesSwitch(String[] defaultValue, boolean mandatory) {
+        this(Arrays.asList(defaultValue), mandatory);
+    }
 
-	public MultipleValuesSwitch(List defaultValue, boolean mandatory) {
-		super(new LinkedList(defaultValue), mandatory);
+    public MultipleValuesSwitch(List defaultValue, boolean mandatory) {
+        super(new LinkedList(defaultValue), mandatory);
 
-		this.value = new LinkedList();
-	}
+        this.value = new LinkedList();
+    }
 
-	public Object getValue() {
-		Object result = getDefaultValue();
+    public Object getValue() {
+        Object result = getDefaultValue();
 
-		if (!((List) value).isEmpty()) {
-			result = value;
-		}
+        if (!((List) value).isEmpty()) {
+            result = value;
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public void setValue(Object value) {
-		((List) this.value).add(value);
-		super.setValue(this.value);
-	}
+    public void setValue(Object value) {
+        ((List) this.value).add(value);
+        super.setValue(this.value);
+    }
 
-	public int parse(String name, String value) throws CommandLineException {
-		if (value == null) {
-			throw new CommandLineException("Missing mandatory value for switch \"" + name + "\"");
-		}
+    public int parse(String name, String value) throws CommandLineException {
+        if (value == null) {
+            throw new CommandLineException("Missing mandatory value for switch \"" + name + "\"");
+        }
 
-		setValue(value);
-	
-		return 2;
-	}
+        setValue(value);
+    
+        return 2;
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitMultipleValuesSwitch(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitMultipleValuesSwitch(this);
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,36 +38,36 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
 
 public class MetricsVerboseListener extends VerboseListener implements MetricsListener {
-	public MetricsVerboseListener(StatusLine statusLine, JProgressBar progressBar) {
-		super(statusLine, progressBar);
-	}
+    public MetricsVerboseListener(StatusLine statusLine, JProgressBar progressBar) {
+        super(statusLine, progressBar);
+    }
 
-	public void endSession(LoadEvent event) {
-		// Do nothing
-	}
+    public void endSession(LoadEvent event) {
+        // Do nothing
+    }
 
-	public void beginSession(MetricsEvent event) {
-		// Do nothing
-	}
-	
-	public void beginClass(MetricsEvent event) {
-		getStatusLine().showInfo("Computing metrics for " + event.getClassfile() + " ...");
-	}
+    public void beginSession(MetricsEvent event) {
+        // Do nothing
+    }
+    
+    public void beginClass(MetricsEvent event) {
+        getStatusLine().showInfo("Computing metrics for " + event.getClassfile() + " ...");
+    }
 
-	public void beginMethod(MetricsEvent event) {
-		// Do nothing
-	}
+    public void beginMethod(MetricsEvent event) {
+        // Do nothing
+    }
 
-	public void endMethod(MetricsEvent event) {
-		// Do nothing
-	}
+    public void endMethod(MetricsEvent event) {
+        // Do nothing
+    }
 
-	public void endClass(MetricsEvent event) {
-		getProgressBar().setValue(getProgressBar().getValue() + 1);
-	}
+    public void endClass(MetricsEvent event) {
+        getProgressBar().setValue(getProgressBar().getValue() + 1);
+    }
 
-	public void endSession(MetricsEvent event) {
-		getProgressBar().setValue(0);
-		getProgressBar().setStringPainted(false);
-	}
+    public void endSession(MetricsEvent event) {
+        getProgressBar().setValue(0);
+        getProgressBar().setStringPainted(false);
+    }
 }

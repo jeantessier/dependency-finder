@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -53,47 +53,47 @@ import org.apache.log4j.*;
  *  <p>Defaults to SET (i.e., does not count duplicates).</p>
  */
 public class NameListMeasurement extends MeasurementBase implements CollectionMeasurement {
-	private Collection values;
+    private Collection values;
 
-	public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
-		super(descriptor, context, initText);
+    public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+        super(descriptor, context, initText);
 
-		if (initText != null) {
-			if (initText.trim().equalsIgnoreCase("list")) {
-				values = new LinkedList();
-			} else if (initText.trim().equalsIgnoreCase("set")) {
-				values = new HashSet();
-			} else {
-				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\", using default value of SET instead");
-				values = new HashSet();
-			}
-		} else {
-			Logger.getLogger(getClass()).debug("Cannot initialize with null text, using default value of SET instead");
-			values = new HashSet();
-		}
-	}
+        if (initText != null) {
+            if (initText.trim().equalsIgnoreCase("list")) {
+                values = new LinkedList();
+            } else if (initText.trim().equalsIgnoreCase("set")) {
+                values = new HashSet();
+            } else {
+                Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\", using default value of SET instead");
+                values = new HashSet();
+            }
+        } else {
+            Logger.getLogger(getClass()).debug("Cannot initialize with null text, using default value of SET instead");
+            values = new HashSet();
+        }
+    }
 
-	public void add(Object object) {
-		values.add(object);
-	}
+    public void add(Object object) {
+        values.add(object);
+    }
 
-	public void accept(MeasurementVisitor visitor) {
-		visitor.visitNameListMeasurement(this);
-	}
+    public void accept(MeasurementVisitor visitor) {
+        visitor.visitNameListMeasurement(this);
+    }
 
-	public Number getValue() {
-		return new Integer(values.size());
-	}
+    public Number getValue() {
+        return new Integer(values.size());
+    }
 
-	public boolean isEmpty() {
-		return values.isEmpty();
-	}
+    public boolean isEmpty() {
+        return values.isEmpty();
+    }
 
-	protected double compute() {
-		return values.size();
-	}
+    protected double compute() {
+        return values.size();
+    }
 
-	public Collection getValues() {
-		return Collections.unmodifiableCollection(values);
-	}
+    public Collection getValues() {
+        return Collections.unmodifiableCollection(values);
+    }
 }

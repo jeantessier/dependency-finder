@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,75 +38,75 @@ import org.apache.oro.text.*;
 import org.apache.oro.text.regex.*;
 
 public class MaximumCapacityPatternCache implements PatternCache {
-	PatternCompiler compiler;
+    PatternCompiler compiler;
 
-	Map map = new HashMap();
-	
-	public MaximumCapacityPatternCache() {
-		this(new Perl5Compiler());
-	}
+    Map map = new HashMap();
+    
+    public MaximumCapacityPatternCache() {
+        this(new Perl5Compiler());
+    }
 
-	public MaximumCapacityPatternCache(PatternCompiler compiler) {
-		this.compiler = compiler;
-	}
-	
-	public Pattern addPattern(String expression) throws MalformedPatternException {
-		Pattern result = (Pattern) map.get(expression);
+    public MaximumCapacityPatternCache(PatternCompiler compiler) {
+        this.compiler = compiler;
+    }
+    
+    public Pattern addPattern(String expression) throws MalformedPatternException {
+        Pattern result = (Pattern) map.get(expression);
 
-		if (result == null) {
-			result = compiler.compile(expression);
-			map.put(expression, result);
-		}
-		
-		return result;
-	}
+        if (result == null) {
+            result = compiler.compile(expression);
+            map.put(expression, result);
+        }
+        
+        return result;
+    }
 
-	public Pattern addPattern(String expression, int options) throws MalformedPatternException {
-		Pattern result = (Pattern) map.get(expression);
+    public Pattern addPattern(String expression, int options) throws MalformedPatternException {
+        Pattern result = (Pattern) map.get(expression);
 
-		if (result == null) {
-			result = compiler.compile(expression, options);
-			map.put(expression, result);
-		}
-		
-		return result;
-	}
+        if (result == null) {
+            result = compiler.compile(expression, options);
+            map.put(expression, result);
+        }
+        
+        return result;
+    }
 
-	public Pattern getPattern(String expression) throws MalformedCachePatternException {
-		Pattern result = (Pattern) map.get(expression);
+    public Pattern getPattern(String expression) throws MalformedCachePatternException {
+        Pattern result = (Pattern) map.get(expression);
 
-		if (result == null) {
-			try {
-				result = compiler.compile(expression);
-			} catch (MalformedPatternException ex) {
-				throw new MalformedCachePatternException(ex.getMessage());
-			}
-			map.put(expression, result);
-		}
-		
-		return result;
-	}
+        if (result == null) {
+            try {
+                result = compiler.compile(expression);
+            } catch (MalformedPatternException ex) {
+                throw new MalformedCachePatternException(ex.getMessage());
+            }
+            map.put(expression, result);
+        }
+        
+        return result;
+    }
 
-	public Pattern getPattern(String expression, int options) throws MalformedCachePatternException {
-		Pattern result = (Pattern) map.get(expression);
+    public Pattern getPattern(String expression, int options) throws MalformedCachePatternException {
+        Pattern result = (Pattern) map.get(expression);
 
-		if (result == null) {
-			try {
-				result = compiler.compile(expression, options);
-			} catch (MalformedPatternException ex) {
-				throw new MalformedCachePatternException(ex.getMessage());
-			}
-			map.put(expression, result);
-		}
-		
-		return result;
-	}
+        if (result == null) {
+            try {
+                result = compiler.compile(expression, options);
+            } catch (MalformedPatternException ex) {
+                throw new MalformedCachePatternException(ex.getMessage());
+            }
+            map.put(expression, result);
+        }
+        
+        return result;
+    }
 
-	public int size() {
-		return map.size();
-	}
+    public int size() {
+        return map.size();
+    }
 
-	public int capacity() {
-		return 20;
-	}
+    public int capacity() {
+        return 20;
+    }
 }

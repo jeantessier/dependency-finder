@@ -9,16 +9,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -48,42 +48,42 @@
 <%
     String startIncludes = request.getParameter("start-includes");
     if (startIncludes == null) {
-	startIncludes = "//";
+        startIncludes = "//";
     }
 
     String startExcludes = request.getParameter("start-excludes");
     if (startExcludes == null) {
-	startExcludes = "";
+        startExcludes = "";
     }
 
     String stopIncludes = request.getParameter("stop-includes");
     if (stopIncludes == null) {
-	stopIncludes = "";
+        stopIncludes = "";
     }
 
     String stopExcludes = request.getParameter("stop-excludes");
     if (stopExcludes == null) {
-	stopExcludes = "";
+        stopExcludes = "";
     }
 
     String maximumInboundDepth = request.getParameter("maximum-inbound-depth");
     if (maximumInboundDepth == null) {
-	maximumInboundDepth = "0";
+        maximumInboundDepth = "0";
     }
 
     String maximumOutboundDepth = request.getParameter("maximum-outbound-depth");
     if (maximumOutboundDepth == null) {
-	maximumOutboundDepth = "";
+        maximumOutboundDepth = "";
     }
 
     String scope = request.getParameter("scope");
     if (scope == null) {
-	scope = "feature";
+        scope = "feature";
     }
 
     String filter = request.getParameter("filter");
     if (filter == null) {
-	filter = "feature";
+        filter = "feature";
     }
 %>
 
@@ -109,7 +109,7 @@
 
 <table border="0" class="controls">
     <tr>
-	<td width="50%">
+        <td width="50%">
 
 <fieldset>
     <legend>Start with programming elements</legend>
@@ -133,8 +133,8 @@
     </table>
 </fieldset>
 
-	</td>
-	<td>
+        </td>
+        <td>
 
 <fieldset>
     <legend>Stop with programming elements</legend>
@@ -158,7 +158,7 @@
     </table>
 </fieldset>
 
-	</td>
+        </td>
     </tr>
     <tr>
         <td colspan="2" align="center">
@@ -169,7 +169,7 @@ follow
 <label title="Maximum hops in the direction of dependencies.  Empty field means no limit." for="maximumOutboundDepth"><tt>--&gt;</tt> <input type="text" name="maximum-outbound-depth" value="<%= maximumOutboundDepth %>" size="2" id="maximumOutboundDepth"></label>
 </fieldset>
 
-	</td>
+        </td>
     </tr>
 </table>
 
@@ -177,7 +177,7 @@ follow
 
 <table border="0" class="controls" width="100%">
     <tr>
-	<td align="center" width="50%">
+        <td align="center" width="50%">
 
 <fieldset>
     <legend>Summarize programming elements</legend>
@@ -192,8 +192,8 @@ follow
     </table>
 </fieldset>
 
-	</td>
-	<td align="center">
+        </td>
+        <td align="center">
 
 <fieldset>
     <legend>Summarize dependencies</legend>
@@ -208,7 +208,7 @@ follow
     </table>
 </fieldset>
 
-	</td>
+        </td>
     </tr>
 </table>
 
@@ -229,56 +229,56 @@ follow
 
 <%
     if (request.getParameter("submit") != null) {
-	if (application.getAttribute("factory") != null) {
+        if (application.getAttribute("factory") != null) {
 %>
 
 <pre class="result">
 
 <%
-	    Date start = new Date();
+            Date start = new Date();
 
-	    RegularExpressionSelectionCriteria startCriteria  = new RegularExpressionSelectionCriteria();
-	    startCriteria.setGlobalIncludes(startIncludes);
-	    startCriteria.setGlobalExcludes(startExcludes);
-	
-	    RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
-	    stopCriteria.setGlobalIncludes(stopIncludes);
-	    stopCriteria.setGlobalExcludes(stopExcludes);
+            RegularExpressionSelectionCriteria startCriteria  = new RegularExpressionSelectionCriteria();
+            startCriteria.setGlobalIncludes(startIncludes);
+            startCriteria.setGlobalExcludes(startExcludes);
+        
+            RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
+            stopCriteria.setGlobalIncludes(stopIncludes);
+            stopCriteria.setGlobalExcludes(stopExcludes);
 
-	    TransitiveClosure closure = new TransitiveClosure(startCriteria, stopCriteria);
+            TransitiveClosure closure = new TransitiveClosure(startCriteria, stopCriteria);
 
-	    try {
-		closure.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth));
-	    } catch (NumberFormatException ex) {
-		closure.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
-	    }
+            try {
+                closure.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth));
+            } catch (NumberFormatException ex) {
+                closure.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+            }
 
-	    try {
-		closure.setMaximumOutboundDepth(Long.parseLong(maximumOutboundDepth));
-	    } catch (NumberFormatException ex) {
-		closure.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
-	    }
+            try {
+                closure.setMaximumOutboundDepth(Long.parseLong(maximumOutboundDepth));
+            } catch (NumberFormatException ex) {
+                closure.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
+            }
 
-	    closure.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
+            closure.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
-	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
-	    scopeCriteria.setMatchingPackages("package".equals(scope));
-	    scopeCriteria.setMatchingClasses("class".equals(scope));
-	    scopeCriteria.setMatchingFeatures("feature".equals(scope));
+            RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
+            scopeCriteria.setMatchingPackages("package".equals(scope));
+            scopeCriteria.setMatchingClasses("class".equals(scope));
+            scopeCriteria.setMatchingFeatures("feature".equals(scope));
 
-	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
-	    filterCriteria.setMatchingPackages("package".equals(filter));
-	    filterCriteria.setMatchingClasses("class".equals(filter));
-	    filterCriteria.setMatchingFeatures("feature".equals(filter));
+            RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+            filterCriteria.setMatchingPackages("package".equals(filter));
+            filterCriteria.setMatchingClasses("class".equals(filter));
+            filterCriteria.setMatchingFeatures("feature".equals(filter));
 
-	    GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
-	    summarizer.traverseNodes(closure.getFactory().getPackages().values());
+            GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
+            summarizer.traverseNodes(closure.getFactory().getPackages().values());
 
-	    TextPrinter printer = new TextPrinter(new PrintWriter(out));
+            TextPrinter printer = new TextPrinter(new PrintWriter(out));
 
-	    printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
+            printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
 
-	    Date stop = new Date();
+            Date stop = new Date();
 %>
 
 </pre>
@@ -286,7 +286,7 @@ follow
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 
 <%
-	} else {
+        } else {
 %>
 
 <h3>No dependency graph available</h3>
@@ -294,7 +294,7 @@ follow
 <p>Please ask the webmaster to extract a dependency graph before you start placing queries.</p>
 
 <%
-	}
+        }
     }
 %>
 

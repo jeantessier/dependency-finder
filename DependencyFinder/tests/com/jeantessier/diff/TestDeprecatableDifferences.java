@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -40,98 +40,98 @@ import junit.framework.*;
 import com.jeantessier.classreader.*;
 
 public class TestDeprecatableDifferences extends TestCase {
-	private DifferencesFactory factory;
-	private ClassfileLoader    oldLoader;
-	private ClassfileLoader    newLoader;
+    private DifferencesFactory factory;
+    private ClassfileLoader    oldLoader;
+    private ClassfileLoader    newLoader;
 
-	protected void setUp() throws Exception {
-		Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("")));
-		factory = new DifferencesFactory(validator, validator);
-		
-		oldLoader = new AggregatingClassfileLoader();
-		oldLoader.load(Collections.singleton("tests" + File.separator + "JarJarDiff" + File.separator + "old"));
+    protected void setUp() throws Exception {
+        Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("")));
+        factory = new DifferencesFactory(validator, validator);
+        
+        oldLoader = new AggregatingClassfileLoader();
+        oldLoader.load(Collections.singleton("tests" + File.separator + "JarJarDiff" + File.separator + "old"));
 
-		newLoader = new AggregatingClassfileLoader();
-		newLoader.load(Collections.singleton("tests" + File.separator + "JarJarDiff" + File.separator + "new"));
-	}
+        newLoader = new AggregatingClassfileLoader();
+        newLoader.load(Collections.singleton("tests" + File.separator + "JarJarDiff" + File.separator + "new"));
+    }
 
-	public void testNotDeprecatedNotDeprecatedDifferent() {
-		String name = "ModifiedPackage.ModifiedClass";
-		Classfile oldClassfile = oldLoader.getClassfile(name);
-		assertNotNull(oldClassfile);
-		Classfile newClassfile = newLoader.getClassfile(name);
-		assertNotNull(newClassfile);
-		Differences componentDifferences = factory.createClassDifferences(name, oldClassfile, newClassfile);
-		assertTrue("component IsEmpty()", !componentDifferences.isEmpty());
+    public void testNotDeprecatedNotDeprecatedDifferent() {
+        String name = "ModifiedPackage.ModifiedClass";
+        Classfile oldClassfile = oldLoader.getClassfile(name);
+        assertNotNull(oldClassfile);
+        Classfile newClassfile = newLoader.getClassfile(name);
+        assertNotNull(newClassfile);
+        Differences componentDifferences = factory.createClassDifferences(name, oldClassfile, newClassfile);
+        assertTrue("component IsEmpty()", !componentDifferences.isEmpty());
 
-		DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
-		
-		assertTrue("deprecated NewDeprecation()",     !deprecatedDifferences.isNewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()", !deprecatedDifferences.isRemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",            !deprecatedDifferences.isEmpty());
-	}
+        DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
+        
+        assertTrue("deprecated NewDeprecation()",     !deprecatedDifferences.isNewDeprecation());
+        assertTrue("deprecated RemovedDeprecation()", !deprecatedDifferences.isRemovedDeprecation());
+        assertTrue("deprecated IsEmpty()",            !deprecatedDifferences.isEmpty());
+    }
 
-	public void testNotDeprecatedNotDeprecatedSame() {
-		String name = "ModifiedPackage.ModifiedClass";
-		Classfile oldClassfile = newLoader.getClassfile(name);
-		assertNotNull(oldClassfile);
-		Classfile newClassfile = newLoader.getClassfile(name);
-		assertNotNull(newClassfile);
-		Differences componentDifferences = new ClassDifferences(name, oldClassfile, newClassfile);
-		assertTrue("component IsEmpty()", componentDifferences.isEmpty());
+    public void testNotDeprecatedNotDeprecatedSame() {
+        String name = "ModifiedPackage.ModifiedClass";
+        Classfile oldClassfile = newLoader.getClassfile(name);
+        assertNotNull(oldClassfile);
+        Classfile newClassfile = newLoader.getClassfile(name);
+        assertNotNull(newClassfile);
+        Differences componentDifferences = new ClassDifferences(name, oldClassfile, newClassfile);
+        assertTrue("component IsEmpty()", componentDifferences.isEmpty());
 
-		DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
-		
-		assertTrue("deprecated NewDeprecation()",     !deprecatedDifferences.isNewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()", !deprecatedDifferences.isRemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",             deprecatedDifferences.isEmpty());
-	}
+        DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
+        
+        assertTrue("deprecated NewDeprecation()",     !deprecatedDifferences.isNewDeprecation());
+        assertTrue("deprecated RemovedDeprecation()", !deprecatedDifferences.isRemovedDeprecation());
+        assertTrue("deprecated IsEmpty()",             deprecatedDifferences.isEmpty());
+    }
 
-	public void testDeprecatedNotDeprecated() {
-		String name = "ModifiedPackage.UndeprecatedClass";
-		Classfile oldClassfile = oldLoader.getClassfile(name);
-		assertNotNull(oldClassfile);
-		Classfile newClassfile = newLoader.getClassfile(name);
-		assertNotNull(newClassfile);
-		Differences componentDifferences = new ClassDifferences(name, oldClassfile, newClassfile);
-		assertTrue("component not empty", componentDifferences.isEmpty());
+    public void testDeprecatedNotDeprecated() {
+        String name = "ModifiedPackage.UndeprecatedClass";
+        Classfile oldClassfile = oldLoader.getClassfile(name);
+        assertNotNull(oldClassfile);
+        Classfile newClassfile = newLoader.getClassfile(name);
+        assertNotNull(newClassfile);
+        Differences componentDifferences = new ClassDifferences(name, oldClassfile, newClassfile);
+        assertTrue("component not empty", componentDifferences.isEmpty());
 
-		DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
-		
-		assertTrue("deprecated NewDeprecation()",     !deprecatedDifferences.isNewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()",  deprecatedDifferences.isRemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",            !deprecatedDifferences.isEmpty());
-	}
+        DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
+        
+        assertTrue("deprecated NewDeprecation()",     !deprecatedDifferences.isNewDeprecation());
+        assertTrue("deprecated RemovedDeprecation()",  deprecatedDifferences.isRemovedDeprecation());
+        assertTrue("deprecated IsEmpty()",            !deprecatedDifferences.isEmpty());
+    }
 
-	public void testNotDeprecatedDeprecated() {
-		String name = "ModifiedPackage.DeprecatedClass";
-		Classfile oldClassfile = oldLoader.getClassfile(name);
-		assertNotNull(oldClassfile);
-		Classfile newClassfile = newLoader.getClassfile(name);
-		assertNotNull(newClassfile);
-		Differences componentDifferences = new ClassDifferences(name, oldClassfile, newClassfile);
-		assertTrue("component not empty", componentDifferences.isEmpty());
+    public void testNotDeprecatedDeprecated() {
+        String name = "ModifiedPackage.DeprecatedClass";
+        Classfile oldClassfile = oldLoader.getClassfile(name);
+        assertNotNull(oldClassfile);
+        Classfile newClassfile = newLoader.getClassfile(name);
+        assertNotNull(newClassfile);
+        Differences componentDifferences = new ClassDifferences(name, oldClassfile, newClassfile);
+        assertTrue("component not empty", componentDifferences.isEmpty());
 
-		DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
-		
-		assertTrue("deprecated NewDeprecation()",      deprecatedDifferences.isNewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()", !deprecatedDifferences.isRemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",            !deprecatedDifferences.isEmpty());
-	}
+        DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
+        
+        assertTrue("deprecated NewDeprecation()",      deprecatedDifferences.isNewDeprecation());
+        assertTrue("deprecated RemovedDeprecation()", !deprecatedDifferences.isRemovedDeprecation());
+        assertTrue("deprecated IsEmpty()",            !deprecatedDifferences.isEmpty());
+    }
 
-	public void testDeprecatedDeprecated() {
-		String name = "ModifiedPackage.DeprecatedClass";
-		Classfile oldClassfile = newLoader.getClassfile(name);
-		assertNotNull(oldClassfile);
-		Classfile newClassfile = newLoader.getClassfile(name);
-		assertNotNull(newClassfile);
-		Differences componentDifferences = new ClassDifferences(name, oldClassfile, newClassfile);
-		assertTrue("component not empty", componentDifferences.isEmpty());
+    public void testDeprecatedDeprecated() {
+        String name = "ModifiedPackage.DeprecatedClass";
+        Classfile oldClassfile = newLoader.getClassfile(name);
+        assertNotNull(oldClassfile);
+        Classfile newClassfile = newLoader.getClassfile(name);
+        assertNotNull(newClassfile);
+        Differences componentDifferences = new ClassDifferences(name, oldClassfile, newClassfile);
+        assertTrue("component not empty", componentDifferences.isEmpty());
 
-		DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
-		
-		assertTrue("deprecated NewDeprecation()",     !deprecatedDifferences.isNewDeprecation());
-		assertTrue("deprecated RemovedDeprecation()", !deprecatedDifferences.isRemovedDeprecation());
-		assertTrue("deprecated IsEmpty()",             deprecatedDifferences.isEmpty());
-	}
+        DeprecatableDifferences deprecatedDifferences = new DeprecatableDifferences(componentDifferences, oldClassfile, newClassfile);
+        
+        assertTrue("deprecated NewDeprecation()",     !deprecatedDifferences.isNewDeprecation());
+        assertTrue("deprecated RemovedDeprecation()", !deprecatedDifferences.isRemovedDeprecation());
+        assertTrue("deprecated IsEmpty()",             deprecatedDifferences.isEmpty());
+    }
 }

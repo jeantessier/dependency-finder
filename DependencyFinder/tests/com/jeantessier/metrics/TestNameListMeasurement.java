@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,290 +35,290 @@ package com.jeantessier.metrics;
 import junit.framework.*;
 
 public class TestNameListMeasurement extends TestCase implements MeasurementVisitor {
-	private NameListMeasurement measurement;
-	private Measurement visited;
-	
-	protected void setUp() {
-		measurement = new NameListMeasurement(null, null, null);
-	}
+    private NameListMeasurement measurement;
+    private Measurement visited;
+    
+    protected void setUp() {
+        measurement = new NameListMeasurement(null, null, null);
+    }
 
-	public void testMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.setShortName("foo");
-		descriptor.setLongName("bar");
-		descriptor.setClassFor(NameListMeasurement.class);
+    public void testMeasurementDescriptor() throws Exception {
+        MeasurementDescriptor descriptor = new MeasurementDescriptor();
+        descriptor.setShortName("foo");
+        descriptor.setLongName("bar");
+        descriptor.setClassFor(NameListMeasurement.class);
 
-		measurement = (NameListMeasurement) descriptor.createMeasurement();
-		
-		assertNotNull(measurement.getDescriptor());
-		assertEquals(NameListMeasurement.class, measurement.getDescriptor().getClassFor());
-		assertEquals("foo", measurement.getShortName());
-		assertEquals("bar", measurement.getLongName());
-	}
+        measurement = (NameListMeasurement) descriptor.createMeasurement();
+        
+        assertNotNull(measurement.getDescriptor());
+        assertEquals(NameListMeasurement.class, measurement.getDescriptor().getClassFor());
+        assertEquals("foo", measurement.getShortName());
+        assertEquals("bar", measurement.getLongName());
+    }
 
-	public void testCreateFromMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.setShortName("foo");
-		descriptor.setLongName("bar");
-		descriptor.setClassFor(NameListMeasurement.class);
+    public void testCreateFromMeasurementDescriptor() throws Exception {
+        MeasurementDescriptor descriptor = new MeasurementDescriptor();
+        descriptor.setShortName("foo");
+        descriptor.setLongName("bar");
+        descriptor.setClassFor(NameListMeasurement.class);
 
-		measurement = (NameListMeasurement) descriptor.createMeasurement();
-		
-		assertNotNull(measurement);
-		assertEquals(descriptor, measurement.getDescriptor());
-		assertSame(descriptor, measurement.getDescriptor());
-		assertEquals(NameListMeasurement.class, measurement.getClass());
-		assertEquals("foo", measurement.getShortName());
-		assertEquals("bar", measurement.getLongName());
-	}
+        measurement = (NameListMeasurement) descriptor.createMeasurement();
+        
+        assertNotNull(measurement);
+        assertEquals(descriptor, measurement.getDescriptor());
+        assertSame(descriptor, measurement.getDescriptor());
+        assertEquals(NameListMeasurement.class, measurement.getClass());
+        assertEquals("foo", measurement.getShortName());
+        assertEquals("bar", measurement.getLongName());
+    }
 
-	public void testCreateSet() {
-		measurement = new NameListMeasurement(null, null, "SET");
+    public void testCreateSet() {
+        measurement = new NameListMeasurement(null, null, "SET");
 
-		measurement.add("abc");
-		measurement.add("abc");
+        measurement.add("abc");
+        measurement.add("abc");
 
-		assertEquals(1, measurement.intValue());
-	}
-	
-	public void testCreateList() {
-		measurement = new NameListMeasurement(null, null, "LIST");
+        assertEquals(1, measurement.intValue());
+    }
+    
+    public void testCreateList() {
+        measurement = new NameListMeasurement(null, null, "LIST");
 
-		measurement.add("abc");
-		measurement.add("abc");
+        measurement.add("abc");
+        measurement.add("abc");
 
-		assertEquals(2, measurement.intValue());
-	}
+        assertEquals(2, measurement.intValue());
+    }
 
-	public void testCreateDefault() {
-		measurement.add("abc");
-		measurement.add("abc");
+    public void testCreateDefault() {
+        measurement.add("abc");
+        measurement.add("abc");
 
-		assertEquals(1, measurement.intValue());
-	}
+        assertEquals(1, measurement.intValue());
+    }
 
-	public void testAddObject() {
-		Object o1 = new Object();
-		Object o2 = new Object();
+    public void testAddObject() {
+        Object o1 = new Object();
+        Object o2 = new Object();
 
-		assertEquals("zero", 0, measurement.intValue());
-		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
-		assertEquals("zero", 0, measurement.getValue().intValue());
+        assertEquals("zero", 0, measurement.intValue());
+        assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("zero", 0, measurement.getValue().intValue());
 
-		measurement.add(o1);
-		assertEquals("one", 1, measurement.intValue());
-		assertEquals("one", 1.0, measurement.doubleValue(), 0.01);
-		assertEquals("one", 1, measurement.getValue().intValue());
+        measurement.add(o1);
+        assertEquals("one", 1, measurement.intValue());
+        assertEquals("one", 1.0, measurement.doubleValue(), 0.01);
+        assertEquals("one", 1, measurement.getValue().intValue());
 
-		measurement.add(o2);
-		assertEquals("two", 2, measurement.intValue());
-		assertEquals("two", 2.0, measurement.doubleValue(), 0.01);
-		assertEquals("two", 2, measurement.getValue().intValue());
+        measurement.add(o2);
+        assertEquals("two", 2, measurement.intValue());
+        assertEquals("two", 2.0, measurement.doubleValue(), 0.01);
+        assertEquals("two", 2, measurement.getValue().intValue());
 
-		measurement.add(o1);
-		assertEquals("three", 2, measurement.intValue());
-		assertEquals("three", 2.0, measurement.doubleValue(), 0.01);
-		assertEquals("three", 2, measurement.getValue().intValue());
-	}
+        measurement.add(o1);
+        assertEquals("three", 2, measurement.intValue());
+        assertEquals("three", 2.0, measurement.doubleValue(), 0.01);
+        assertEquals("three", 2, measurement.getValue().intValue());
+    }
 
-	public void testValues() {
-		Object o1 = new Object();
-		Object o2 = new Object();
+    public void testValues() {
+        Object o1 = new Object();
+        Object o2 = new Object();
 
-		measurement.add(o1);
-		measurement.add(o2);
+        measurement.add(o1);
+        measurement.add(o2);
 
-		assertEquals("size", 2, measurement.getValues().size());
-		assertTrue("Missing o1", measurement.getValues().contains(o1));
-		assertTrue("Missing o2", measurement.getValues().contains(o2));
+        assertEquals("size", 2, measurement.getValues().size());
+        assertTrue("Missing o1", measurement.getValues().contains(o1));
+        assertTrue("Missing o2", measurement.getValues().contains(o2));
 
-		try {
-			measurement.getValues().add(o2);
-			fail("Was allowed to modify the Values() collection");
-		} catch (UnsupportedOperationException ex) {
-			// Ignore
-		}
-	}
+        try {
+            measurement.getValues().add(o2);
+            fail("Was allowed to modify the Values() collection");
+        } catch (UnsupportedOperationException ex) {
+            // Ignore
+        }
+    }
 
-	public void testAddInt() {
-		assertEquals("zero", 0, measurement.intValue());
-		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
-		assertEquals("zero", 0, measurement.getValue().intValue());
+    public void testAddInt() {
+        assertEquals("zero", 0, measurement.intValue());
+        assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("zero", 0, measurement.getValue().intValue());
 
-		measurement.add(1);
-		assertEquals("one", 0, measurement.intValue());
-		assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
-		assertEquals("one", 0, measurement.getValue().intValue());
+        measurement.add(1);
+        assertEquals("one", 0, measurement.intValue());
+        assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("one", 0, measurement.getValue().intValue());
 
-		measurement.add(1);
-		assertEquals("two", 0, measurement.intValue());
-		assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
-		assertEquals("two", 0, measurement.getValue().intValue());
-	}
+        measurement.add(1);
+        assertEquals("two", 0, measurement.intValue());
+        assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("two", 0, measurement.getValue().intValue());
+    }
 
-	public void testAddFloat() {
-		assertEquals("zero", 0, measurement.intValue());
-		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
-		assertEquals("zero", 0, measurement.getValue().intValue());
+    public void testAddFloat() {
+        assertEquals("zero", 0, measurement.intValue());
+        assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("zero", 0, measurement.getValue().intValue());
 
-		measurement.add(1.0);
-		assertEquals("one", 0, measurement.intValue());
-		assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
-		assertEquals("one", 0, measurement.getValue().intValue());
+        measurement.add(1.0);
+        assertEquals("one", 0, measurement.intValue());
+        assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("one", 0, measurement.getValue().intValue());
 
-		measurement.add(1.0);
-		assertEquals("two", 0, measurement.intValue());
-		assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
-		assertEquals("two", 0, measurement.getValue().intValue());
-	}
+        measurement.add(1.0);
+        assertEquals("two", 0, measurement.intValue());
+        assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("two", 0, measurement.getValue().intValue());
+    }
 
-	public void testInUndefinedRange() {
-		assertTrue(measurement.isInRange());
+    public void testInUndefinedRange() {
+        assertTrue(measurement.isInRange());
 
-		measurement.add(new Object());
-		
-		assertTrue(measurement.isInRange());
+        measurement.add(new Object());
+        
+        assertTrue(measurement.isInRange());
 
-		measurement.add(new Object());
-		measurement.add(new Object());
+        measurement.add(new Object());
+        measurement.add(new Object());
 
-		assertTrue(measurement.isInRange());
-	}
+        assertTrue(measurement.isInRange());
+    }
 
-	public void testInOpenRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.setShortName("foo");
-		descriptor.setLongName("bar");
-		descriptor.setClassFor(NameListMeasurement.class);
+    public void testInOpenRange() throws Exception {
+        MeasurementDescriptor descriptor = new MeasurementDescriptor();
+        descriptor.setShortName("foo");
+        descriptor.setLongName("bar");
+        descriptor.setClassFor(NameListMeasurement.class);
 
-		measurement = (NameListMeasurement) descriptor.createMeasurement();
-		
-		assertTrue(measurement.isInRange());
+        measurement = (NameListMeasurement) descriptor.createMeasurement();
+        
+        assertTrue(measurement.isInRange());
 
-		measurement.add(new Object());
-		
-		assertTrue(measurement.isInRange());
+        measurement.add(new Object());
+        
+        assertTrue(measurement.isInRange());
 
-		measurement.add(new Object());
-		measurement.add(new Object());
+        measurement.add(new Object());
+        measurement.add(new Object());
 
-		assertTrue(measurement.isInRange());
-	}
+        assertTrue(measurement.isInRange());
+    }
 
-	public void testInLowerBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.setShortName("foo");
-		descriptor.setLongName("bar");
-		descriptor.setClassFor(NameListMeasurement.class);
-		descriptor.setLowerThreshold(new Integer(1));
+    public void testInLowerBoundRange() throws Exception {
+        MeasurementDescriptor descriptor = new MeasurementDescriptor();
+        descriptor.setShortName("foo");
+        descriptor.setLongName("bar");
+        descriptor.setClassFor(NameListMeasurement.class);
+        descriptor.setLowerThreshold(new Integer(1));
 
-		measurement = (NameListMeasurement) descriptor.createMeasurement();
-		
-		assertTrue(!measurement.isInRange());
+        measurement = (NameListMeasurement) descriptor.createMeasurement();
+        
+        assertTrue(!measurement.isInRange());
 
-		measurement.add(new Object());
-		
-		assertTrue(measurement.isInRange());
+        measurement.add(new Object());
+        
+        assertTrue(measurement.isInRange());
 
-		measurement.add(new Object());
-		measurement.add(new Object());
-		
-		assertTrue(measurement.isInRange());
-	}
+        measurement.add(new Object());
+        measurement.add(new Object());
+        
+        assertTrue(measurement.isInRange());
+    }
 
-	public void testInUpperBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.setShortName("foo");
-		descriptor.setLongName("bar");
-		descriptor.setClassFor(NameListMeasurement.class);
-		descriptor.setUpperThreshold(new Float(1.5));
+    public void testInUpperBoundRange() throws Exception {
+        MeasurementDescriptor descriptor = new MeasurementDescriptor();
+        descriptor.setShortName("foo");
+        descriptor.setLongName("bar");
+        descriptor.setClassFor(NameListMeasurement.class);
+        descriptor.setUpperThreshold(new Float(1.5));
 
-		measurement = (NameListMeasurement) descriptor.createMeasurement();
-		
-		assertTrue(measurement.isInRange());
+        measurement = (NameListMeasurement) descriptor.createMeasurement();
+        
+        assertTrue(measurement.isInRange());
 
-		measurement.add(new Object());
-		
-		assertTrue(measurement.isInRange());
+        measurement.add(new Object());
+        
+        assertTrue(measurement.isInRange());
 
-		measurement.add(new Object());
-		measurement.add(new Object());
-		
-		assertTrue(!measurement.isInRange());
-	}
+        measurement.add(new Object());
+        measurement.add(new Object());
+        
+        assertTrue(!measurement.isInRange());
+    }
 
-	public void testInBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.setShortName("foo");
-		descriptor.setLongName("bar");
-		descriptor.setClassFor(NameListMeasurement.class);
-		descriptor.setLowerThreshold(new Integer(1));
-		descriptor.setUpperThreshold(new Float(1.5));
+    public void testInBoundRange() throws Exception {
+        MeasurementDescriptor descriptor = new MeasurementDescriptor();
+        descriptor.setShortName("foo");
+        descriptor.setLongName("bar");
+        descriptor.setClassFor(NameListMeasurement.class);
+        descriptor.setLowerThreshold(new Integer(1));
+        descriptor.setUpperThreshold(new Float(1.5));
 
-		measurement = (NameListMeasurement) descriptor.createMeasurement();
-		
-		assertTrue(!measurement.isInRange());
+        measurement = (NameListMeasurement) descriptor.createMeasurement();
+        
+        assertTrue(!measurement.isInRange());
 
-		measurement.add(new Object());
-		
-		assertTrue(measurement.isInRange());
+        measurement.add(new Object());
+        
+        assertTrue(measurement.isInRange());
 
-		measurement.add(new Object());
-		measurement.add(new Object());
-		
-		assertTrue(!measurement.isInRange());
-	}
+        measurement.add(new Object());
+        measurement.add(new Object());
+        
+        assertTrue(!measurement.isInRange());
+    }
 
-	public void testAccept() {
-		visited = null;
-		measurement.accept(this);
-		assertSame(measurement, visited);
-	}
+    public void testAccept() {
+        visited = null;
+        measurement.accept(this);
+        assertSame(measurement, visited);
+    }
 
-	public void testEmpty() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.setShortName("foo");
-		descriptor.setLongName("bar");
-		descriptor.setClassFor(NameListMeasurement.class);
+    public void testEmpty() throws Exception {
+        MeasurementDescriptor descriptor = new MeasurementDescriptor();
+        descriptor.setShortName("foo");
+        descriptor.setLongName("bar");
+        descriptor.setClassFor(NameListMeasurement.class);
 
-		measurement = (NameListMeasurement) descriptor.createMeasurement();
-		
-		assertTrue("Before Add()", measurement.isEmpty());
+        measurement = (NameListMeasurement) descriptor.createMeasurement();
+        
+        assertTrue("Before Add()", measurement.isEmpty());
 
-		measurement.add("foo");
+        measurement.add("foo");
 
-		assertFalse("After Add()", measurement.isEmpty());
-	}
-	
-	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-		// Do nothing
-	}
-	
-	public void visitRatioMeasurement(RatioMeasurement measurement) {
-		// Do nothing
-	}
-	
-	public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
-		// Do nothing
-	}
-	
-	public void visitCounterMeasurement(CounterMeasurement measurement) {
-		// Do nothing
-	}
-	
-	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-		// Do nothing
-	}
-		
-	public void visitNameListMeasurement(NameListMeasurement measurement) {
-		visited = measurement;
-	}
-	
-	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-		// Do nothing
-	}
+        assertFalse("After Add()", measurement.isEmpty());
+    }
+    
+    public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
+        // Do nothing
+    }
+    
+    public void visitRatioMeasurement(RatioMeasurement measurement) {
+        // Do nothing
+    }
+    
+    public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+        // Do nothing
+    }
+    
+    public void visitCounterMeasurement(CounterMeasurement measurement) {
+        // Do nothing
+    }
+    
+    public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+        // Do nothing
+    }
+        
+    public void visitNameListMeasurement(NameListMeasurement measurement) {
+        visited = measurement;
+    }
+    
+    public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+        // Do nothing
+    }
 
-	public void visitSumMeasurement(SumMeasurement measurement) {
-		// Do nothing
-	}
+    public void visitSumMeasurement(SumMeasurement measurement) {
+        // Do nothing
+    }
 }

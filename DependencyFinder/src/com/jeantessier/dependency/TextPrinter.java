@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -39,213 +39,213 @@ import org.apache.log4j.*;
 import org.apache.oro.text.perl.*;
 
 public class TextPrinter extends Printer {
-	private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util perl = new Perl5Util();
 
-	protected static Perl5Util perl() {
-		return perl;
-	}
+    protected static Perl5Util perl() {
+        return perl;
+    }
 
-	private Map dependencies = new TreeMap();
+    private Map dependencies = new TreeMap();
 
-	public TextPrinter(PrintWriter out) {
-		super(out);
-	}
+    public TextPrinter(PrintWriter out) {
+        super(out);
+    }
 
-	public TextPrinter(TraversalStrategy strategy, PrintWriter out) {
-		super(strategy, out);
-	}
-	
-	protected void preprocessPackageNode(PackageNode node) {
-		Logger.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
-		
-		super.preprocessPackageNode(node);
+    public TextPrinter(TraversalStrategy strategy, PrintWriter out) {
+        super(strategy, out);
+    }
+    
+    protected void preprocessPackageNode(PackageNode node) {
+        Logger.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
+        
+        super.preprocessPackageNode(node);
 
-		raiseIndent();
+        raiseIndent();
 
-		dependencies.clear();
-	}
+        dependencies.clear();
+    }
 
-	protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
-		Logger.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
-		
-		if (shouldShowPackageNode(node) || !dependencies.isEmpty()) {
-			lowerIndent();
-			indent().append(node.getName()).eol();
-			raiseIndent();
-		}
-		
-		printDependencies(dependencies);
-	}
-	
-	protected void postprocessPackageNode(PackageNode node) {
-		lowerIndent();
+    protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
+        Logger.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
+        
+        if (shouldShowPackageNode(node) || !dependencies.isEmpty()) {
+            lowerIndent();
+            indent().append(node.getName()).eol();
+            raiseIndent();
+        }
+        
+        printDependencies(dependencies);
+    }
+    
+    protected void postprocessPackageNode(PackageNode node) {
+        lowerIndent();
 
-		super.postprocessPackageNode(node);
-	}
+        super.postprocessPackageNode(node);
+    }
 
-	public void visitInboundPackageNode(PackageNode node) {
-		if (isShowInbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-		
-			Integer i = (Integer) dependencies.get(node);
-			if (i != null) {
-				dependencies.put(node, new Integer(i.intValue() - 1));
-			} else {
-				dependencies.put(node, new Integer(-1));
-			}
-		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-		}
-	}
+    public void visitInboundPackageNode(PackageNode node) {
+        if (isShowInbounds()) {
+            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+        
+            Integer i = (Integer) dependencies.get(node);
+            if (i != null) {
+                dependencies.put(node, new Integer(i.intValue() - 1));
+            } else {
+                dependencies.put(node, new Integer(-1));
+            }
+        } else {
+            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+        }
+    }
 
-	public void visitOutboundPackageNode(PackageNode node) {
-		if (isShowOutbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-		
-			Integer i = (Integer) dependencies.get(node);
-			if (i != null) {
-				dependencies.put(node, new Integer(i.intValue() + 1));
-			} else {
-				dependencies.put(node, new Integer(1));
-			}
-		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-		}
-	}
+    public void visitOutboundPackageNode(PackageNode node) {
+        if (isShowOutbounds()) {
+            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+        
+            Integer i = (Integer) dependencies.get(node);
+            if (i != null) {
+                dependencies.put(node, new Integer(i.intValue() + 1));
+            } else {
+                dependencies.put(node, new Integer(1));
+            }
+        } else {
+            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+        }
+    }
 
-	protected void preprocessClassNode(ClassNode node) {
-		Logger.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
-		
-		super.preprocessClassNode(node);
+    protected void preprocessClassNode(ClassNode node) {
+        Logger.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
+        
+        super.preprocessClassNode(node);
 
-		raiseIndent();
+        raiseIndent();
 
-		dependencies.clear();
-	}
+        dependencies.clear();
+    }
 
-	protected void preprocessAfterDependenciesClassNode(ClassNode node) {
-		Logger.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
-		
-		if (shouldShowClassNode(node) || !dependencies.isEmpty()) {
-			lowerIndent();
-			indent().append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
-			raiseIndent();
-		}
+    protected void preprocessAfterDependenciesClassNode(ClassNode node) {
+        Logger.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
+        
+        if (shouldShowClassNode(node) || !dependencies.isEmpty()) {
+            lowerIndent();
+            indent().append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
+            raiseIndent();
+        }
 
-		printDependencies(dependencies);
-	}
+        printDependencies(dependencies);
+    }
 
-	protected void postprocessClassNode(ClassNode node) {
-		lowerIndent();
+    protected void postprocessClassNode(ClassNode node) {
+        lowerIndent();
 
-		super.postprocessClassNode(node);
-	}
-	
-	public void visitInboundClassNode(ClassNode node) {
-		if (isShowInbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-		
-			Integer i = (Integer) dependencies.get(node);
-			
-			if (i != null) {
-				dependencies.put(node, new Integer(i.intValue() - 1));
-			} else {
-				dependencies.put(node, new Integer(-1));
-			}
-		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-		}
-	}
+        super.postprocessClassNode(node);
+    }
+    
+    public void visitInboundClassNode(ClassNode node) {
+        if (isShowInbounds()) {
+            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+        
+            Integer i = (Integer) dependencies.get(node);
+            
+            if (i != null) {
+                dependencies.put(node, new Integer(i.intValue() - 1));
+            } else {
+                dependencies.put(node, new Integer(-1));
+            }
+        } else {
+            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+        }
+    }
 
-	public void visitOutboundClassNode(ClassNode node) {
-		if (isShowOutbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-		
-			Integer i = (Integer) dependencies.get(node);
-			
-			if (i != null) {
-				dependencies.put(node, new Integer(i.intValue() + 1));
-			} else {
-				dependencies.put(node, new Integer(1));
-			}
-		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-		}
-	}
+    public void visitOutboundClassNode(ClassNode node) {
+        if (isShowOutbounds()) {
+            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+        
+            Integer i = (Integer) dependencies.get(node);
+            
+            if (i != null) {
+                dependencies.put(node, new Integer(i.intValue() + 1));
+            } else {
+                dependencies.put(node, new Integer(1));
+            }
+        } else {
+            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+        }
+    }
 
-	protected void preprocessFeatureNode(FeatureNode node) {
-		Logger.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
-		
-		super.preprocessFeatureNode(node);
+    protected void preprocessFeatureNode(FeatureNode node) {
+        Logger.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
+        
+        super.preprocessFeatureNode(node);
 
-		raiseIndent();
+        raiseIndent();
 
-		dependencies.clear();
-	}
+        dependencies.clear();
+    }
 
-	protected void postprocessFeatureNode(FeatureNode node) {
-		Logger.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
-		
-		if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {
-			lowerIndent();
-			if (perl().match("/([^\\.]*\\(.*\\))$/", node.getName())) {
-				indent().append(perl().group(1)).eol();
-			} else if (perl().match("/([^\\.]*)$/", node.getName())) {
-				indent().append(perl().group(1)).eol();
-			} else {
-				indent().append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
-			}
-			raiseIndent();
-		}
-		
-		printDependencies(dependencies);
+    protected void postprocessFeatureNode(FeatureNode node) {
+        Logger.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
+        
+        if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {
+            lowerIndent();
+            if (perl().match("/([^\\.]*\\(.*\\))$/", node.getName())) {
+                indent().append(perl().group(1)).eol();
+            } else if (perl().match("/([^\\.]*)$/", node.getName())) {
+                indent().append(perl().group(1)).eol();
+            } else {
+                indent().append(node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
+            }
+            raiseIndent();
+        }
+        
+        printDependencies(dependencies);
 
-		lowerIndent();
+        lowerIndent();
 
-		super.postprocessFeatureNode(node);
-	}
+        super.postprocessFeatureNode(node);
+    }
 
-	public void visitInboundFeatureNode(FeatureNode node) {
-		if (isShowInbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-		
-			Integer i = (Integer) dependencies.get(node);
-			if (i != null) {
-				dependencies.put(node, new Integer(i.intValue() - 1));
-			} else {
-				dependencies.put(node, new Integer(-1));
-			}
-		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-		}
-	}
+    public void visitInboundFeatureNode(FeatureNode node) {
+        if (isShowInbounds()) {
+            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+        
+            Integer i = (Integer) dependencies.get(node);
+            if (i != null) {
+                dependencies.put(node, new Integer(i.intValue() - 1));
+            } else {
+                dependencies.put(node, new Integer(-1));
+            }
+        } else {
+            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+        }
+    }
 
-	public void visitOutboundFeatureNode(FeatureNode node) {
-		if (isShowOutbounds()) {
-			Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-		
-			Integer i = (Integer) dependencies.get(node);
-			if (i != null) {
-				dependencies.put(node, new Integer(i.intValue() + 1));
-			} else {
-				dependencies.put(node, new Integer(1));
-			}
-		} else {
-			Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-		}
-	}
-	
-	private void printDependencies(Map dependencies) {
-		Iterator i = dependencies.entrySet().iterator();
-		while (i.hasNext()) {
-			Map.Entry entry = (Map.Entry) i.next();
-			if (((Integer) entry.getValue()).intValue() < 0) {
-				indent().append("<-- ").append(entry.getKey()).eol();
-			} else if (((Integer) entry.getValue()).intValue() > 0) {
-				indent().append("--> ").append(entry.getKey()).eol();
-			} else {
-				indent().append("<-> ").append(entry.getKey()).eol();
-			}
-		}
-	}
+    public void visitOutboundFeatureNode(FeatureNode node) {
+        if (isShowOutbounds()) {
+            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+        
+            Integer i = (Integer) dependencies.get(node);
+            if (i != null) {
+                dependencies.put(node, new Integer(i.intValue() + 1));
+            } else {
+                dependencies.put(node, new Integer(1));
+            }
+        } else {
+            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+        }
+    }
+    
+    private void printDependencies(Map dependencies) {
+        Iterator i = dependencies.entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry entry = (Map.Entry) i.next();
+            if (((Integer) entry.getValue()).intValue() < 0) {
+                indent().append("<-- ").append(entry.getKey()).eol();
+            } else if (((Integer) entry.getValue()).intValue() > 0) {
+                indent().append("--> ").append(entry.getKey()).eol();
+            } else {
+                indent().append("<-> ").append(entry.getKey()).eol();
+            }
+        }
+    }
 }

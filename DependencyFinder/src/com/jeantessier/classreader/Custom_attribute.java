@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,39 +38,39 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Custom_attribute extends Attribute_info {
-	private String name;
-	private byte[] info;
+    private String name;
+    private byte[] info;
 
-	public Custom_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-		this("", classfile, owner, in);
-	}
+    public Custom_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        this("", classfile, owner, in);
+    }
 
-	public Custom_attribute(String name, Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-		super(classfile, owner);
+    public Custom_attribute(String name, Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        super(classfile, owner);
 
-		this.name = name;
+        this.name = name;
 
-		int byteCount = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		this.info = new byte[byteCount];
-		int bytesRead = in.read(info);
-		Logger.getLogger(getClass()).debug("Bytes read: " + bytesRead);
-	}
+        this.info = new byte[byteCount];
+        int bytesRead = in.read(info);
+        Logger.getLogger(getClass()).debug("Bytes read: " + bytesRead);
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public byte[] getInfo() {
-		return info;
-	}
+    public byte[] getInfo() {
+        return info;
+    }
 
-	public String toString() {
-		return "Custom \"" + name + "\" " + getInfo().length + " byte(s)";
-	}
+    public String toString() {
+        return "Custom \"" + name + "\" " + getInfo().length + " byte(s)";
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitCustom_attribute(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitCustom_attribute(this);
+    }
 }

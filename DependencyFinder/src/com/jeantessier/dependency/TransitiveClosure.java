@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -42,51 +42,51 @@ import java.util.*;
  *  of the explicit dependencies.
  */
 public class TransitiveClosure {
-	public static long DO_NOT_FOLLOW   = -1;
-	public static long UNBOUNDED_DEPTH = Long.MAX_VALUE;
-	
-	private long maximumInboundDepth  = DO_NOT_FOLLOW;
-	private long maximumOutboundDepth = UNBOUNDED_DEPTH;
+    public static long DO_NOT_FOLLOW   = -1;
+    public static long UNBOUNDED_DEPTH = Long.MAX_VALUE;
+    
+    private long maximumInboundDepth  = DO_NOT_FOLLOW;
+    private long maximumOutboundDepth = UNBOUNDED_DEPTH;
 
-	private SelectionCriteria startCriteria;
-	private SelectionCriteria stopCriteria;
+    private SelectionCriteria startCriteria;
+    private SelectionCriteria stopCriteria;
 
-	private NodeFactory factory = new NodeFactory();
-	
-	public TransitiveClosure(SelectionCriteria startCriteria, SelectionCriteria stopCriteria) {
-		this.startCriteria = startCriteria;
-		this.stopCriteria  = stopCriteria;
-	}
+    private NodeFactory factory = new NodeFactory();
+    
+    public TransitiveClosure(SelectionCriteria startCriteria, SelectionCriteria stopCriteria) {
+        this.startCriteria = startCriteria;
+        this.stopCriteria  = stopCriteria;
+    }
 
-	public NodeFactory getFactory() {
-		return factory;
-	}
+    public NodeFactory getFactory() {
+        return factory;
+    }
 
-	public void setMaximumInboundDepth(long maximumInboundDepth) {
-		this.maximumInboundDepth  = maximumInboundDepth;
-	}
+    public void setMaximumInboundDepth(long maximumInboundDepth) {
+        this.maximumInboundDepth  = maximumInboundDepth;
+    }
 
-	public void setMaximumOutboundDepth(long maximumOutboundDepth) {
-		this.maximumOutboundDepth = maximumOutboundDepth;
-	}
+    public void setMaximumOutboundDepth(long maximumOutboundDepth) {
+        this.maximumOutboundDepth = maximumOutboundDepth;
+    }
 
-	public void traverseNodes(Collection nodes) {
-		if (maximumInboundDepth != DO_NOT_FOLLOW) {
-			compute(nodes, maximumInboundDepth, new ClosureInboundSelector());
-		}
-		
-		if (maximumOutboundDepth != DO_NOT_FOLLOW) {
-			compute(nodes, maximumOutboundDepth, new ClosureOutboundSelector());
-		}
-	}
+    public void traverseNodes(Collection nodes) {
+        if (maximumInboundDepth != DO_NOT_FOLLOW) {
+            compute(nodes, maximumInboundDepth, new ClosureInboundSelector());
+        }
+        
+        if (maximumOutboundDepth != DO_NOT_FOLLOW) {
+            compute(nodes, maximumOutboundDepth, new ClosureOutboundSelector());
+        }
+    }
 
-	private void compute(Collection nodes, long depth, ClosureLayerSelector layerSelector) {
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory, nodes, startCriteria, stopCriteria, layerSelector);
+    private void compute(Collection nodes, long depth, ClosureLayerSelector layerSelector) {
+        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory, nodes, startCriteria, stopCriteria, layerSelector);
 
-		if (depth == UNBOUNDED_DEPTH) {
-			engine.computeAllLayers();
-		} else {
-			engine.computeLayers(depth);
-		}
-	}
+        if (depth == UNBOUNDED_DEPTH) {
+            engine.computeAllLayers();
+        } else {
+            engine.computeLayers(depth);
+        }
+    }
 }

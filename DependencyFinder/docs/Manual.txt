@@ -304,49 +304,49 @@ There are four context parameters that you can adjust:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
-	    *=name=*
-	</td>
-	<td>
-	    Used in the JSPs to tell the users what that are looking at.
-	    Put the name of the application that you are extracting from
-	    here, it will be shown in titles by the JSPs.
-	</td>
+        <td valign="top">
+            *=name=*
+        </td>
+        <td>
+            Used in the JSPs to tell the users what that are looking at.
+            Put the name of the application that you are extracting from
+            here, it will be shown in titles by the JSPs.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=source=*
-	</td>
-	<td>
-	    Use this variable to tell Dependency Finder where to locate
-	    classes from which to extract a dependency graph.  You can
-	    separate multiple locations by using commas.  Each location
-	    can either be a JAR file, a ZIP file, a =.class= file, or a
-	    directory that will be recursively searched for =.class= files.
-	</td>
+        <td valign="top">
+            *=source=*
+        </td>
+        <td>
+            Use this variable to tell Dependency Finder where to locate
+            classes from which to extract a dependency graph.  You can
+            separate multiple locations by using commas.  Each location
+            can either be a JAR file, a ZIP file, a =.class= file, or a
+            directory that will be recursively searched for =.class= files.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=file=*
-	</td>
-	<td>
-	    Use this variable to tell Dependency Finder where to locate
-	    files which contain extracted dependency graphs.  You can
-	    separate multiple locations by using commas.  Each location
-	    should contain an XML document, such as the ones produced by
-	    =DependencyExtractor= directory that will be recursively.
-	</td>
+        <td valign="top">
+            *=file=*
+        </td>
+        <td>
+            Use this variable to tell Dependency Finder where to locate
+            files which contain extracted dependency graphs.  You can
+            separate multiple locations by using commas.  Each location
+            should contain an XML document, such as the ones produced by
+            =DependencyExtractor= directory that will be recursively.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=mode=*
-	</td>
-	<td>
-	    Optional.  Tells Dependency Finder whether to _minimize_ or
-	    _maximize_ the resulting graph, or just leave it alone (_raw_,
-	    the default value).  See below for the implications of
-	    minimizing or maximizing a graph.
-	</td>
+        <td valign="top">
+            *=mode=*
+        </td>
+        <td>
+            Optional.  Tells Dependency Finder whether to _minimize_ or
+            _maximize_ the resulting graph, or just leave it alone (_raw_,
+            the default value).  See below for the implications of
+            minimizing or maximizing a graph.
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -392,529 +392,529 @@ tools and end with the Ant tasks.
 <table border="3"
        cellpadding="5">
     <tr>
-	<th>
-	    CLI
-	</th>
-	<th>
-	    Ant
-	</th>
-	<th>
-	    GUI
-	</th>
-	<th>
-	    Web 
-	</th>
+        <th>
+            CLI
+        </th>
+        <th>
+            Ant
+        </th>
+        <th>
+            GUI
+        </th>
+        <th>
+            Web 
+        </th>
     </tr>
     <tr>
-	<td>
-	    =ClassDump=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ClassDump=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ClassList=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ClassList=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ClassMetrics=
-	</td>
-	<td>
-	    =&lt;classmetrics&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ClassMetrics=
+        </td>
+        <td>
+            =&lt;classmetrics&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ClassReader=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ClassReader=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ClosureToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ClosureToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ClosureToText=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/ClosureToText.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependablesToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependablesToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DependablesToHTML=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependablesToHTML.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependablesToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependablesToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DependablesToText=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependablesToText.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependencyClosure=
-	</td>
-	<td>
-	    =&lt;dependencyclosure&gt;=
-	</td>
-	<td>
-	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Closure
-	</td>
-	<td>
-	    =closure.jsp= &amp; =advancedclosure.jsp=
-	</td>
+        <td>
+            =DependencyClosure=
+        </td>
+        <td>
+            =&lt;dependencyclosure&gt;=
+        </td>
+        <td>
+            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Closure
+        </td>
+        <td>
+            =closure.jsp= &amp; =advancedclosure.jsp=
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependencyExtractor=
-	</td>
-	<td>
-	    =&lt;dependencyextractor&gt;=
-	</td>
-	<td>
-	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Extract
-	</td>
-	<td>
-	    =extract.jsp=
-	</td>
+        <td>
+            =DependencyExtractor=
+        </td>
+        <td>
+            =&lt;dependencyextractor&gt;=
+        </td>
+        <td>
+            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Extract
+        </td>
+        <td>
+            =extract.jsp=
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependencyFinder=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DependencyFinder=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependencyGraphToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DependencyGraphToHTML=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependencyGraphToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DependencyGraphToText=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToText.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependencyMetrics=
-	</td>
-	<td>
-	    =&lt;dependencymetrics&gt;=
-	</td>
-	<td>
-	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Metrics
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DependencyMetrics=
+        </td>
+        <td>
+            =&lt;dependencymetrics&gt;=
+        </td>
+        <td>
+            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Metrics
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependencyReporter=
-	</td>
-	<td>
-	    =&lt;dependencyreporter&gt;=
-	</td>
-	<td>
-	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    =query.jsp= &amp; =advancedquery.jsp=
-	</td>
+        <td>
+            =DependencyReporter=
+        </td>
+        <td>
+            =&lt;dependencyreporter&gt;=
+        </td>
+        <td>
+            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            =query.jsp= &amp; =advancedquery.jsp=
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependentsToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependentsToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DependentsToHTML=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependentsToHTML.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependentsToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependentsToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DependentsToText=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependentsToText.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DiffToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DiffToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =DiffToHTML=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/DiffToHTML.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =HideOutboundDependencyGraphToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideOutboundDependencyGraphToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =HideOutboundDependencyGraphToHTML=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideOutboundDependencyGraphToHTML.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =HideOutboundDependencyGraphToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideOutboundDependencyGraphToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =HideOutboundDependencyGraphToText=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideOutboundDependencyGraphToText.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =HideInboundDependencyGraphToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideInboundDependencyGraphToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =HideInboundDependencyGraphToHTML=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideInboundDependencyGraphToHTML.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =HideInboundDependencyGraphToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideInboundDependencyGraphToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =HideInboundDependencyGraphToText=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideInboundDependencyGraphToText.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =JarJarDiff=
-	</td>
-	<td>
-	    =&lt;jarjardiff&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =JarJarDiff=
+        </td>
+        <td>
+            =&lt;jarjardiff&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ListDiff=
-	</td>
-	<td>
-	    =&lt;listdiff&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ListDiff=
+        </td>
+        <td>
+            =&lt;listdiff&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ListDiffToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDiffToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ListDiffToHTML=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDiffToHTML.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ListDiffToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDiffToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ListDiffToText=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDiffToText.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ListDocumentedElements=
-	</td>
-	<td>
-	    <pre>&lt;javadoc&gt;
+        <td>
+            =ListDocumentedElements=
+        </td>
+        <td>
+            <pre>&lt;javadoc&gt;
     &lt;doclet name%3D"com.jeantessier.diff.ListDocumentedElements"
-	    path%3D"${classesDir}"&gt;
-	&lt;param name%3D"-tag" value%3D"level"/&gt;
-	&lt;param name%3D"-valid" value%3D"published"/&gt;
-	&lt;param name%3D"-out" value%3D"documented_elements.txt"/&gt;
+            path%3D"${classesDir}"&gt;
+        &lt;param name%3D"-tag" value%3D"level"/&gt;
+        &lt;param name%3D"-valid" value%3D"published"/&gt;
+        &lt;param name%3D"-out" value%3D"documented_elements.txt"/&gt;
     &lt;/doclet&gt;
 &lt;/javadoc&gt;</pre>
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ListInheritanceDiffToText=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListInheritanceDiffToText.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ListInheritanceDiffToText=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListInheritanceDiffToText.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ListSymbols=
-	</td>
-	<td>
-	    =&lt;listsymbols&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ListSymbols=
+        </td>
+        <td>
+            =&lt;listsymbols&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =ListUnused=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListUnused.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =ListUnused=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListUnused.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =OOMetrics=
-	</td>
-	<td>
-	    =&lt;oometrics&gt;=
-	</td>
-	<td>
-	    =OOMetricsGUI=
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =OOMetrics=
+        </td>
+        <td>
+            =&lt;oometrics&gt;=
+        </td>
+        <td>
+            =OOMetricsGUI=
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =PublishedDiffToHTML=
-	</td>
-	<td>
-	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =PublishedDiffToHTML=
+        </td>
+        <td>
+            =&lt;xslt style%3D"${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =XSLTProcess=
-	</td>
-	<td>
-	    =&lt;xslt&gt;=
-	</td>
-	<td>
-	    _n/a_
-	</td>
-	<td>
-	    _n/a_
-	</td>
+        <td>
+            =XSLTProcess=
+        </td>
+        <td>
+            =&lt;xslt&gt;=
+        </td>
+        <td>
+            _n/a_
+        </td>
+        <td>
+            _n/a_
+        </td>
     </tr>
     <tr>
-	<td>
-	    =c2c=
-	</td>
-	<td>
-	    =&lt;dependencyreporter c2c%3D"yes"&gt;=
-	</td>
-	<td>
-	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    =query.jsp= &amp; =advancedquery.jsp=
-	</td>
+        <td>
+            =c2c=
+        </td>
+        <td>
+            =&lt;dependencyreporter c2c%3D"yes"&gt;=
+        </td>
+        <td>
+            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            =query.jsp= &amp; =advancedquery.jsp=
+        </td>
     </tr>
     <tr>
-	<td>
-	    =c2p=
-	</td>
-	<td>
-	    =&lt;dependencyreporter c2p%3D"yes"&gt;=
-	</td>
-	<td>
-	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    =query.jsp= &amp; =advancedquery.jsp=
-	</td>
+        <td>
+            =c2p=
+        </td>
+        <td>
+            =&lt;dependencyreporter c2p%3D"yes"&gt;=
+        </td>
+        <td>
+            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            =query.jsp= &amp; =advancedquery.jsp=
+        </td>
     </tr>
     <tr>
-	<td>
-	    =f2f=
-	</td>
-	<td>
-	    =&lt;dependencyreporter f2f%3D"yes"&gt;=
-	</td>
-	<td>
-	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    =query.jsp= &amp; =advancedquery.jsp=
-	</td>
+        <td>
+            =f2f=
+        </td>
+        <td>
+            =&lt;dependencyreporter f2f%3D"yes"&gt;=
+        </td>
+        <td>
+            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            =query.jsp= &amp; =advancedquery.jsp=
+        </td>
     </tr>
     <tr>
-	<td>
-	    =p2p=
-	</td>
-	<td>
-	    =&lt;dependencyreporter p2p%3D"yes"&gt;=
-	</td>
-	<td>
-	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    =query.jsp= &amp; =advancedquery.jsp=
-	</td>
+        <td>
+            =p2p=
+        </td>
+        <td>
+            =&lt;dependencyreporter p2p%3D"yes"&gt;=
+        </td>
+        <td>
+            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            =query.jsp= &amp; =advancedquery.jsp=
+        </td>
     </tr>
 </table>
 
@@ -953,48 +953,48 @@ support some or all of the following four command-line switches:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    =-in=
-	</td>
-	<td>
-	    Many of the CLI tools are automated translations of XML data
-	    into either HTML or plain text.  The scripts have hard-coded
-	    XSL stylesheets.  You specify the XML input with this switch.
-	</td>
+        <td valign="top"
+            nowrap="true">
+            =-in=
+        </td>
+        <td>
+            Many of the CLI tools are automated translations of XML data
+            into either HTML or plain text.  The scripts have hard-coded
+            XSL stylesheets.  You specify the XML input with this switch.
+        </td>
     </tr>
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    =-out filename=
-	</td>
-	<td>
-	    Writes the output of the command to _filename_.  Most commands
-	    default to the standard output if you do not use =-out=.
-	</td>
+        <td valign="top"
+            nowrap="true">
+            =-out filename=
+        </td>
+        <td>
+            Writes the output of the command to _filename_.  Most commands
+            default to the standard output if you do not use =-out=.
+        </td>
     </tr>
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    =-time=
-	</td>
-	<td>
-	    Prints the time it took to run the command.  If you run commands
-	    against a large codebase or dependency graph, it can take a
-	    substantial amount of time before it returns.  This information
-	    can help you plan lenghty operations in the future.
-	</td>
+        <td valign="top"
+            nowrap="true">
+            =-time=
+        </td>
+        <td>
+            Prints the time it took to run the command.  If you run commands
+            against a large codebase or dependency graph, it can take a
+            substantial amount of time before it returns.  This information
+            can help you plan lenghty operations in the future.
+        </td>
     </tr>
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    =-verbose [filename]=
-	</td>
-	<td>
-	    Writes summary processing information to _filename_.  If you do
-	    not specify a file, the tool will write the information to the
-	    standard output stream.
-	</td>
+        <td valign="top"
+            nowrap="true">
+            =-verbose [filename]=
+        </td>
+        <td>
+            Writes summary processing information to _filename_.  If you do
+            not specify a file, the tool will write the information to the
+            standard output stream.
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -1756,118 +1756,118 @@ Here are the dimentions of various graphs.
     <colgroup span="2" />
     <thead>
     <tr>
-	<td valign="top"
-	    rowspan="2">*Software*</td>
-	<td align="center"
-	    colspan="3">*Artifacts*</td>
-	<td align="center"
-	    colspan="5">*Dependencies*</td>
+        <td valign="top"
+            rowspan="2">*Software*</td>
+        <td align="center"
+            colspan="3">*Artifacts*</td>
+        <td align="center"
+            colspan="5">*Dependencies*</td>
     </tr>
     <tr>
-	<td align="center">*Packages*</td>
-	<td align="center">*Classes*</td>
-	<td align="center">*Features*</td>
-	<td align="center"
-	    colspan="2">*Minimized*</td>
-	<td align="center">*Raw*</td>
-	<td align="center"
-	    colspan="2">*Maximized*</td>
+        <td align="center">*Packages*</td>
+        <td align="center">*Classes*</td>
+        <td align="center">*Features*</td>
+        <td align="center"
+            colspan="2">*Minimized*</td>
+        <td align="center">*Raw*</td>
+        <td align="center"
+            colspan="2">*Maximized*</td>
     </tr>
     </thead>
     <tbody>
     <tr>
-	<td>=test.java=</td>
-	<td align="right">3</td>
-	<td align="right">5</td>
-	<td align="right">4</td>
-	<td align="right">5</td>
-	<td align="right">(-29%)</td>
-	<td align="right">7</td>
-	<td align="right">27</td>
-	<td align="right">(+286%)</td>
+        <td>=test.java=</td>
+        <td align="right">3</td>
+        <td align="right">5</td>
+        <td align="right">4</td>
+        <td align="right">5</td>
+        <td align="right">(-29%)</td>
+        <td align="right">7</td>
+        <td align="right">27</td>
+        <td align="right">(+286%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td>Jakarta-ORO</td>
-	<td align="right">9</td>
-	<td align="right">101</td>
-	<td align="right">835</td>
-	<td align="right">2,301</td>
-	<td align="right">(-13%)</td>
-	<td align="right">2,652</td>
-	<td align="right">4,641</td>
-	<td align="right">(+75%)</td>
+        <td>Jakarta-ORO</td>
+        <td align="right">9</td>
+        <td align="right">101</td>
+        <td align="right">835</td>
+        <td align="right">2,301</td>
+        <td align="right">(-13%)</td>
+        <td align="right">2,652</td>
+        <td align="right">4,641</td>
+        <td align="right">(+75%)</td>
     </tr>
     <tr>
-	<td>Log4J</td>
-	<td align="right">44</td>
-	<td align="right">542</td>
-	<td align="right">3,331</td>
-	<td align="right">10,880</td>
-	<td align="right">(-16%)</td>
-	<td align="right">12,961</td>
-	<td align="right">27,215</td>
-	<td align="right">(+110%)</td>
+        <td>Log4J</td>
+        <td align="right">44</td>
+        <td align="right">542</td>
+        <td align="right">3,331</td>
+        <td align="right">10,880</td>
+        <td align="right">(-16%)</td>
+        <td align="right">12,961</td>
+        <td align="right">27,215</td>
+        <td align="right">(+110%)</td>
     </tr>
     <tr>
-	<td>Xerces</td>
-	<td align="right">51</td>
-	<td align="right">880</td>
-	<td align="right">11,218</td>
-	<td align="right">38,194</td>
-	<td align="right">(-13%)</td>
-	<td align="right">43,893</td>
-	<td align="right">80,472</td>
-	<td align="right">(+83%)</td>
+        <td>Xerces</td>
+        <td align="right">51</td>
+        <td align="right">880</td>
+        <td align="right">11,218</td>
+        <td align="right">38,194</td>
+        <td align="right">(-13%)</td>
+        <td align="right">43,893</td>
+        <td align="right">80,472</td>
+        <td align="right">(+83%)</td>
     </tr>
     <tr>
-	<td>Xalan</td>
-	<td align="right">58</td>
-	<td align="right">855</td>
-	<td align="right">10,763</td>
-	<td align="right">35,317</td>
-	<td align="right">(-15%)</td>
-	<td align="right">41,594</td>
-	<td align="right">81,745</td>
-	<td align="right">(+97%)</td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr>
-	<td>Ant</td>
-	<td align="right">38</td>
-	<td align="right">568</td>
-	<td align="right">5,635</td>
-	<td align="right">22,057</td>
-	<td align="right">(-16%)</td>
-	<td align="right">26,184</td>
-	<td align="right">50,585</td>
-	<td align="right">(+93%)</td>
-    </tr>
-    <tr>
-	<td>Ant w/ optional</td>
-	<td align="right">113</td>
-	<td align="right">1,117</td>
-	<td align="right">10,854</td>
-	<td align="right">42,140</td>
-	<td align="right">(-16%)</td>
-	<td align="right">50,165</td>
-	<td align="right">99,178</td>
-	<td align="right">(+98%)</td>
+        <td>Xalan</td>
+        <td align="right">58</td>
+        <td align="right">855</td>
+        <td align="right">10,763</td>
+        <td align="right">35,317</td>
+        <td align="right">(-15%)</td>
+        <td align="right">41,594</td>
+        <td align="right">81,745</td>
+        <td align="right">(+97%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td>Dependency Finder</td>
-	<td align="right">27</td>
-	<td align="right">364</td>
-	<td align="right">3,587</td>
-	<td align="right">13,098</td>
-	<td align="right">(-18%)</td>
-	<td align="right">15,897</td>
-	<td align="right">28,923</td>
-	<td align="right">(+82%)</td>
+        <td>Ant</td>
+        <td align="right">38</td>
+        <td align="right">568</td>
+        <td align="right">5,635</td>
+        <td align="right">22,057</td>
+        <td align="right">(-16%)</td>
+        <td align="right">26,184</td>
+        <td align="right">50,585</td>
+        <td align="right">(+93%)</td>
+    </tr>
+    <tr>
+        <td>Ant w/ optional</td>
+        <td align="right">113</td>
+        <td align="right">1,117</td>
+        <td align="right">10,854</td>
+        <td align="right">42,140</td>
+        <td align="right">(-16%)</td>
+        <td align="right">50,165</td>
+        <td align="right">99,178</td>
+        <td align="right">(+98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td>Dependency Finder</td>
+        <td align="right">27</td>
+        <td align="right">364</td>
+        <td align="right">3,587</td>
+        <td align="right">13,098</td>
+        <td align="right">(-18%)</td>
+        <td align="right">15,897</td>
+        <td align="right">28,923</td>
+        <td align="right">(+82%)</td>
     </tr>
     </tbody>
 </table>
@@ -1976,60 +1976,60 @@ Special characters in regular expressions:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
-	    *=[A-Z]=*
-	</td>
-	<td>
-	    Capitals
-	</td>
+        <td valign="top">
+            *=[A-Z]=*
+        </td>
+        <td>
+            Capitals
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=\w=*
-	</td>
-	<td>
-	    Alphanumerics [A-Za-z0-9_]
-	</td>
+        <td valign="top">
+            *=\w=*
+        </td>
+        <td>
+            Alphanumerics [A-Za-z0-9_]
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=\W=*
-	</td>
-	<td>
-	    Non-alphanumerics [^A-Za-z0-9_]
-	</td>
+        <td valign="top">
+            *=\W=*
+        </td>
+        <td>
+            Non-alphanumerics [^A-Za-z0-9_]
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=\w+=*
-	</td>
-	<td>
-	    At least one alphanumeric
-	</td>
+        <td valign="top">
+            *=\w+=*
+        </td>
+        <td>
+            At least one alphanumeric
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=\s=*
-	</td>
-	<td>
-	    Space, including tab, carriage return, and line feed
-	</td>
+        <td valign="top">
+            *=\s=*
+        </td>
+        <td>
+            Space, including tab, carriage return, and line feed
+        </td>
     </tr>
      <tr>
-	<td valign="top">
-	    *=\s%2A=*
-	</td>
-	<td>
-	    Zero or more white space
-	</td>
+        <td valign="top">
+            *=\s%2A=*
+        </td>
+        <td>
+            Zero or more white space
+        </td>
     </tr>
    <tr>
-	<td valign="top">
-	    *=\.=*
-	</td>
-	<td>
-	    Matches '.', as opposed to any character
-	</td>
+        <td valign="top">
+            *=\.=*
+        </td>
+        <td>
+            Matches '.', as opposed to any character
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -2040,46 +2040,46 @@ Sample rules:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
-	    *=//=*
-	</td>
-	<td>
-	    Matches everything.
-	</td>
+        <td valign="top">
+            *=//=*
+        </td>
+        <td>
+            Matches everything.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=/abc/=*
-	</td>
-	<td>
-	    Matches anything with "=abc=" in it.  Case-sensitive.
-	</td>
+        <td valign="top">
+            *=/abc/=*
+        </td>
+        <td>
+            Matches anything with "=abc=" in it.  Case-sensitive.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=/abc/i=*
-	</td>
-	<td>
-	    Matches anything with "=abc=" in it.  Case-insensitive.
-	</td>
+        <td valign="top">
+            *=/abc/i=*
+        </td>
+        <td>
+            Matches anything with "=abc=" in it.  Case-insensitive.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=/^abc/=*
-	</td>
-	<td>
-	    Matches anything starting with "=abc=" in it.
-	</td>
+        <td valign="top">
+            *=/^abc/=*
+        </td>
+        <td>
+            Matches anything starting with "=abc=" in it.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=/abc\(/=*
-	</td>
-	<td>
-	    Matches anything with "=abc(=" in it.  Parentheses are
-	    special characters in Perl regular expressions and must be
-	    escaped with a backslash "\" character.
-	</td>
+        <td valign="top">
+            *=/abc\(/=*
+        </td>
+        <td>
+            Matches anything with "=abc(=" in it.  Parentheses are
+            special characters in Perl regular expressions and must be
+            escaped with a backslash "\" character.
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -2090,62 +2090,62 @@ Examples:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
-	    *=/java/=*
-	</td>
-	<td>
-	    Matches anything with "=java=" in it.
-	</td>
+        <td valign="top">
+            *=/java/=*
+        </td>
+        <td>
+            Matches anything with "=java=" in it.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=/^java/=*
-	</td>
-	<td>
-	    Matches anything that starts with "=java=".
-	</td>
+        <td valign="top">
+            *=/^java/=*
+        </td>
+        <td>
+            Matches anything that starts with "=java=".
+        </td>
     </tr>
      <tr>
-	<td valign="top">
-	    *=/^com.jeantessier/=*
-	</td>
-	<td>
-	    Matches anything that starts with "=com.jeantessier=".  Here,
-	    the '.' really matches any single character, which obviously
-	    includes the '.' character itself.
-	</td>
+        <td valign="top">
+            *=/^com.jeantessier/=*
+        </td>
+        <td>
+            Matches anything that starts with "=com.jeantessier=".  Here,
+            the '.' really matches any single character, which obviously
+            includes the '.' character itself.
+        </td>
     </tr>
    <tr>
-	<td valign="top">
-	    *=/Node.Accept\(/=*
-	</td>
-	<td>
-	    Matches any =Accept()= method of any class ending in "=Node=".
-	</td>
+        <td valign="top">
+            *=/Node.Accept\(/=*
+        </td>
+        <td>
+            Matches any =Accept()= method of any class ending in "=Node=".
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=/Test/=*
-	</td>
-	<td>
-	    Matches anything with "=Test=" in it.
-	</td>
+        <td valign="top">
+            *=/Test/=*
+        </td>
+        <td>
+            Matches anything with "=Test=" in it.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    *=/(Node)\.\1\(/=*
-	</td>
-	<td>
-	    Matches any constructor for =Node=.
-	</td>
+        <td valign="top">
+            *=/(Node)\.\1\(/=*
+        </td>
+        <td>
+            Matches any constructor for =Node=.
+        </td>
     </tr>
     <tr>
-	<td valign="top" nowrap>
-	    *=/(\w%2AMeasurement)\.\1\(/=*
-	</td>
-	<td>
-	    Matches any constructor for classes ending in =Measurement=.
-	</td>
+        <td valign="top" nowrap>
+            *=/(\w%2AMeasurement)\.\1\(/=*
+        </td>
+        <td>
+            Matches any constructor for classes ending in =Measurement=.
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -2469,108 +2469,108 @@ This table summarizes which CLI tool shows which information.
 <blockquote>
 <table cellpadding="5">
     <tr>
-	<th align="left">
-	    Tool
-	</th>
-	<th>
-	    outbounds
-	</th>
-	<th>
-	    inbounds
-	</th>
-	<th>
-	    empty
-	</th>
+        <th align="left">
+            Tool
+        </th>
+        <th>
+            outbounds
+        </th>
+        <th>
+            inbounds
+        </th>
+        <th>
+            empty
+        </th>
     </tr>
     <tr>
-	<td>
-	    =DependencyGraphToHTML=<br />
-	    =DependencyGraphToText=
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
+        <td>
+            =DependencyGraphToHTML=<br />
+            =DependencyGraphToText=
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependablesToHTML=<br />
-	    =DependablesToText=
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
+        <td>
+            =DependablesToHTML=<br />
+            =DependablesToText=
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
     </tr>
     <tr>
-	<td>
-	    =DependentsToHTML=<br />
-	    =DependentsToText=
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
+        <td>
+            =DependentsToHTML=<br />
+            =DependentsToText=
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
     </tr>
     <tr>
-	<td>
-	    =HideOutboundDependenciesToHTML=<br />
-	    =HideOutboundDependenciesToText=
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
+        <td>
+            =HideOutboundDependenciesToHTML=<br />
+            =HideOutboundDependenciesToText=
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
     </tr>
     <tr>
-	<td>
-	    =HideInboundDependenciesToHTML=<br />
-	    =HideInboundDependenciesToText=
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
+        <td>
+            =HideInboundDependenciesToHTML=<br />
+            =HideInboundDependenciesToText=
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -2701,233 +2701,233 @@ complexity.  This should help with both memory footprint and processing time.
     <colgroup span="2" />
     <thead>
     <tr>
-	<td valign="top"
+        <td valign="top"
             rowspan="2">*Graph*</td>
-	<td align="center"
+        <td align="center"
             colspan="5">*Nodes*</td>
-	<td valign="top"
+        <td valign="top"
             align="center"
             rowspan="2"
             colspan="2">*Dependencies*</td>
-	<td valign="top"
+        <td valign="top"
             align="center"
             rowspan="2"
             colspan="2">*Nodes* x *Dependencies*</td>
     </tr>
     <tr>
-	<td align="center">*Packages*</td>
-	<td align="center">*Classes*</td>
-	<td align="center">*Features*</td>
-	<td align="center"
+        <td align="center">*Packages*</td>
+        <td align="center">*Classes*</td>
+        <td align="center">*Features*</td>
+        <td align="center"
             colspan="2">*Total*</td>
     </tr>
     </thead>
     <tbody>
     <tr>
-	<td>=classreader.xml=</td>
-	<td align="right">8</td>
-	<td align="right">112</td>
-	<td align="right">1,078</td>
-	<td align="right">1,198</td>
-	<td align="right"></td>
-	<td align="right">4,042</td>
-	<td align="right"></td>
-	<td align="right">4,842,316</td>
-	<td align="right"></td>
+        <td>=classreader.xml=</td>
+        <td align="right">8</td>
+        <td align="right">112</td>
+        <td align="right">1,078</td>
+        <td align="right">1,198</td>
+        <td align="right"></td>
+        <td align="right">4,042</td>
+        <td align="right"></td>
+        <td align="right">4,842,316</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td>=classreader.c2c.xml=</td>
-	<td align="right">8</td>
-	<td align="right">112</td>
-	<td align="right">0</td>
-	<td align="right">120</td>
-	<td align="right">(-90%)</td>
-	<td align="right">809</td>
-	<td align="right">(-80%)</td>
-	<td align="right">97,080</td>
-	<td align="right">(-98%)</td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr>
-	<td>=commandline.xml=</td>
-	<td align="right">3</td>
-	<td align="right">34</td>
-	<td align="right">204</td>
-	<td align="right">241</td>
-	<td align="right"></td>
-	<td align="right">545</td>
-	<td align="right"></td>
-	<td align="right">131,345</td>
-	<td align="right"></td>
-    </tr>
-    <tr>
-	<td>=commandline.c2c.xml=</td>
-	<td align="right">3</td>
-	<td align="right">34</td>
-	<td align="right">0</td>
-	<td align="right">37</td>
-	<td align="right">(-85%)</td>
-	<td align="right">115</td>
-	<td align="right">(-79%)</td>
-	<td align="right">4,255</td>
-	<td align="right">(-97%)</td>
+        <td>=classreader.c2c.xml=</td>
+        <td align="right">8</td>
+        <td align="right">112</td>
+        <td align="right">0</td>
+        <td align="right">120</td>
+        <td align="right">(-90%)</td>
+        <td align="right">809</td>
+        <td align="right">(-80%)</td>
+        <td align="right">97,080</td>
+        <td align="right">(-98%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td>=dependency.xml=</td>
-	<td align="right">11</td>
-	<td align="right">102</td>
-	<td align="right">903</td>
-	<td align="right">1,016</td>
-	<td align="right"></td>
-	<td align="right">3,429</td>
-	<td align="right"></td>
-	<td align="right">3,483,864</td>
-	<td align="right"></td>
+        <td>=commandline.xml=</td>
+        <td align="right">3</td>
+        <td align="right">34</td>
+        <td align="right">204</td>
+        <td align="right">241</td>
+        <td align="right"></td>
+        <td align="right">545</td>
+        <td align="right"></td>
+        <td align="right">131,345</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td>=dependency.c2c.xml=</td>
-	<td align="right">11</td>
-	<td align="right">102</td>
-	<td align="right">0</td>
-	<td align="right">113</td>
-	<td align="right">(-89%)</td>
-	<td align="right">395</td>
-	<td align="right">(-88%)</td>
-	<td align="right">44,635</td>
-	<td align="right">(-99%)</td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr>
-	<td>=dependencyfinder.xml=</td>
-	<td align="right">27</td>
-	<td align="right">252</td>
-	<td align="right">1,744</td>
-	<td align="right">2,023</td>
-	<td align="right"></td>
-	<td align="right">6,947</td>
-	<td align="right"></td>
-	<td align="right">14,053,781</td>
-	<td align="right"></td>
-    </tr>
-    <tr>
-	<td>=dependencyfinder.c2c.xml=</td>
-	<td align="right">27</td>
-	<td align="right">252</td>
-	<td align="right">0</td>
-	<td align="right">279</td>
-	<td align="right">(-86%)</td>
-	<td align="right">1,429</td>
-	<td align="right">(-79%)</td>
-	<td align="right">398,691</td>
-	<td align="right">(-97%)</td>
+        <td>=commandline.c2c.xml=</td>
+        <td align="right">3</td>
+        <td align="right">34</td>
+        <td align="right">0</td>
+        <td align="right">37</td>
+        <td align="right">(-85%)</td>
+        <td align="right">115</td>
+        <td align="right">(-79%)</td>
+        <td align="right">4,255</td>
+        <td align="right">(-97%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td>=diff.xml=</td>
-	<td align="right">9</td>
-	<td align="right">75</td>
-	<td align="right">504</td>
-	<td align="right">588</td>
-	<td align="right"></td>
-	<td align="right">1,580</td>
-	<td align="right"></td>
-	<td align="right">929,040</td>
-	<td align="right"></td>
+        <td>=dependency.xml=</td>
+        <td align="right">11</td>
+        <td align="right">102</td>
+        <td align="right">903</td>
+        <td align="right">1,016</td>
+        <td align="right"></td>
+        <td align="right">3,429</td>
+        <td align="right"></td>
+        <td align="right">3,483,864</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td>=diff.c2c.xml=</td>
-	<td align="right">9</td>
-	<td align="right">75</td>
-	<td align="right">0</td>
-	<td align="right">84</td>
-	<td align="right">(-86%)</td>
-	<td align="right">235</td>
-	<td align="right">(-85%)</td>
-	<td align="right">19,740</td>
-	<td align="right">(-98%)</td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr>
-	<td>=metrics.xml=</td>
-	<td align="right">13</td>
-	<td align="right">112</td>
-	<td align="right">820</td>
-	<td align="right">945</td>
-	<td align="right"></td>
-	<td align="right">2,873</td>
-	<td align="right"></td>
-	<td align="right">2,714,985</td>
-	<td align="right"></td>
-    </tr>
-    <tr>
-	<td>=metrics.c2c.xml=</td>
-	<td align="right">13</td>
-	<td align="right">112</td>
-	<td align="right">0</td>
-	<td align="right">125</td>
-	<td align="right">(-87%)</td>
-	<td align="right">418</td>
-	<td align="right">(-85%)</td>
-	<td align="right">52,250</td>
-	<td align="right">(-98%)</td>
+        <td>=dependency.c2c.xml=</td>
+        <td align="right">11</td>
+        <td align="right">102</td>
+        <td align="right">0</td>
+        <td align="right">113</td>
+        <td align="right">(-89%)</td>
+        <td align="right">395</td>
+        <td align="right">(-88%)</td>
+        <td align="right">44,635</td>
+        <td align="right">(-99%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td>=text.xml=</td>
-	<td align="right">5</td>
-	<td align="right">11</td>
-	<td align="right">20</td>
-	<td align="right">36</td>
-	<td align="right"></td>
-	<td align="right">66</td>
-	<td align="right"></td>
-	<td align="right">2,376</td>
-	<td align="right"></td>
+        <td>=dependencyfinder.xml=</td>
+        <td align="right">27</td>
+        <td align="right">252</td>
+        <td align="right">1,744</td>
+        <td align="right">2,023</td>
+        <td align="right"></td>
+        <td align="right">6,947</td>
+        <td align="right"></td>
+        <td align="right">14,053,781</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td>=text.c2c.xml=</td>
-	<td align="right">5</td>
-	<td align="right">11</td>
-	<td align="right">0</td>
-	<td align="right">16</td>
-	<td align="right">(-56%)</td>
-	<td align="right">10</td>
-	<td align="right">(-85%)</td>
-	<td align="right">160</td>
-	<td align="right">(-93%)</td>
+        <td>=dependencyfinder.c2c.xml=</td>
+        <td align="right">27</td>
+        <td align="right">252</td>
+        <td align="right">0</td>
+        <td align="right">279</td>
+        <td align="right">(-86%)</td>
+        <td align="right">1,429</td>
+        <td align="right">(-79%)</td>
+        <td align="right">398,691</td>
+        <td align="right">(-97%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td>=all.xml=</td>
-	<td align="right">35</td>
-	<td align="right">420</td>
-	<td align="right">4,571</td>
-	<td align="right">5,026</td>
-	<td align="right"></td>
-	<td align="right">17,846</td>
-	<td align="right"></td>
-	<td align="right">89,693,996</td>
-	<td align="right"></td>
+        <td>=diff.xml=</td>
+        <td align="right">9</td>
+        <td align="right">75</td>
+        <td align="right">504</td>
+        <td align="right">588</td>
+        <td align="right"></td>
+        <td align="right">1,580</td>
+        <td align="right"></td>
+        <td align="right">929,040</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td>=all.c2c.xml=</td>
-	<td align="right">35</td>
-	<td align="right">420</td>
-	<td align="right">0</td>
-	<td align="right">455</td>
-	<td align="right">(-91%)</td>
-	<td align="right">3,411</td>
-	<td align="right">(-81%)</td>
-	<td align="right">1,552,005</td>
-	<td align="right">(-98%)</td>
+        <td>=diff.c2c.xml=</td>
+        <td align="right">9</td>
+        <td align="right">75</td>
+        <td align="right">0</td>
+        <td align="right">84</td>
+        <td align="right">(-86%)</td>
+        <td align="right">235</td>
+        <td align="right">(-85%)</td>
+        <td align="right">19,740</td>
+        <td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td>=metrics.xml=</td>
+        <td align="right">13</td>
+        <td align="right">112</td>
+        <td align="right">820</td>
+        <td align="right">945</td>
+        <td align="right"></td>
+        <td align="right">2,873</td>
+        <td align="right"></td>
+        <td align="right">2,714,985</td>
+        <td align="right"></td>
+    </tr>
+    <tr>
+        <td>=metrics.c2c.xml=</td>
+        <td align="right">13</td>
+        <td align="right">112</td>
+        <td align="right">0</td>
+        <td align="right">125</td>
+        <td align="right">(-87%)</td>
+        <td align="right">418</td>
+        <td align="right">(-85%)</td>
+        <td align="right">52,250</td>
+        <td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td>=text.xml=</td>
+        <td align="right">5</td>
+        <td align="right">11</td>
+        <td align="right">20</td>
+        <td align="right">36</td>
+        <td align="right"></td>
+        <td align="right">66</td>
+        <td align="right"></td>
+        <td align="right">2,376</td>
+        <td align="right"></td>
+    </tr>
+    <tr>
+        <td>=text.c2c.xml=</td>
+        <td align="right">5</td>
+        <td align="right">11</td>
+        <td align="right">0</td>
+        <td align="right">16</td>
+        <td align="right">(-56%)</td>
+        <td align="right">10</td>
+        <td align="right">(-85%)</td>
+        <td align="right">160</td>
+        <td align="right">(-93%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td>=all.xml=</td>
+        <td align="right">35</td>
+        <td align="right">420</td>
+        <td align="right">4,571</td>
+        <td align="right">5,026</td>
+        <td align="right"></td>
+        <td align="right">17,846</td>
+        <td align="right"></td>
+        <td align="right">89,693,996</td>
+        <td align="right"></td>
+    </tr>
+    <tr>
+        <td>=all.c2c.xml=</td>
+        <td align="right">35</td>
+        <td align="right">420</td>
+        <td align="right">0</td>
+        <td align="right">455</td>
+        <td align="right">(-91%)</td>
+        <td align="right">3,411</td>
+        <td align="right">(-81%)</td>
+        <td align="right">1,552,005</td>
+        <td align="right">(-98%)</td>
     </tr>
     </tbody>
 </table>
@@ -2967,34 +2967,34 @@ distance to the source is 2 is =[A, E]=.
 <blockquote>
 <table cellpadding="3">
     <tr>
-	<td>*distance*</td>
-	<td></td>
-	<td>*closure*</td>
+        <td>*distance*</td>
+        <td></td>
+        <td>*closure*</td>
     </tr>
     <tr>
-	<td>0</td>
-	<td></td>
-	<td>=[C]=</td>
+        <td>0</td>
+        <td></td>
+        <td>=[C]=</td>
     </tr>
     <tr>
-	<td>1</td>
-	<td></td>
-	<td>=[B, C, D]=</td>
+        <td>1</td>
+        <td></td>
+        <td>=[B, C, D]=</td>
     </tr>
     <tr>
-	<td>_no constraint_</td>
-	<td></td>
-	<td>=[A, B, C, D, E]=</td>
+        <td>_no constraint_</td>
+        <td></td>
+        <td>=[A, B, C, D, E]=</td>
     </tr>
     <tr>
-	<td>_upstream_</td>
-	<td></td>
-	<td>=[A, B, C]=</td>
+        <td>_upstream_</td>
+        <td></td>
+        <td>=[A, B, C]=</td>
     </tr>
     <tr>
-	<td>_downstream_</td>
-	<td></td>
-	<td>=[C, D, E]=</td>
+        <td>_downstream_</td>
+        <td></td>
+        <td>=[C, D, E]=</td>
     </tr>
 </table>
 </blockquote>
@@ -3681,30 +3681,30 @@ of the valid range you specified.
 <blockquote>
 <table cellpadding="5">
     <tr>
-	<td>*specify*</td>
-	<td></td>
-	<td>*valid range is*</td>
+        <td>*specify*</td>
+        <td></td>
+        <td>*valid range is*</td>
     </tr>
     <tr>
-	<td>none</td>
-	<td></td>
-	<td>all values are valid</td>
+        <td>none</td>
+        <td></td>
+        <td>all values are valid</td>
     </tr>
     <tr>
-	<td>lower threshold only</td>
-	<td></td>
-	<td>all values greater than or equal to the threshold are valid</td>
+        <td>lower threshold only</td>
+        <td></td>
+        <td>all values greater than or equal to the threshold are valid</td>
     </tr>
     <tr>
-	<td>upper threshold only</td>
-	<td></td>
-	<td>all values lesser than or equal to the threshold are valid</td>
+        <td>upper threshold only</td>
+        <td></td>
+        <td>all values lesser than or equal to the threshold are valid</td>
     </tr>
     <tr>
-	<td>both lower and upper threshold only</td>
-	<td></td>
-	<td>all values in the range between the lower and upper threshold,
-	including them, are valid</td>
+        <td>both lower and upper threshold only</td>
+        <td></td>
+        <td>all values in the range between the lower and upper threshold,
+        including them, are valid</td>
     </tr>
 </table>
 </blockquote>
@@ -3877,29 +3877,29 @@ files.
 <table>
     <caption align="left">*Key*</caption>
     <tr>
-	<td align="right">
-	    [[images/SourceFiles.gif]]
-	</td>
-	<td>
-	    Source files that *you* write.
-	</td>
+        <td align="right">
+            [[images/SourceFiles.gif]]
+        </td>
+        <td>
+            Source files that *you* write.
+        </td>
     </tr>
     <tr>
-	<td align="right">
-	    [[images/JDKWorkflow.gif]]
-	</td>
-	<td>
-	    JDK tools and files they generate.
-	</td>
+        <td align="right">
+            [[images/JDKWorkflow.gif]]
+        </td>
+        <td>
+            JDK tools and files they generate.
+        </td>
     </tr>
     <tr>
-	<td align="right">
-	    [[images/DependencyFinderWorkflow.gif]]
-	</td>
-	<td>
-	    Dependency Finder tools and files they generate,
-	    based on *your* code.
-	</td>
+        <td align="right">
+            [[images/DependencyFinderWorkflow.gif]]
+        </td>
+        <td>
+            Dependency Finder tools and files they generate,
+            based on *your* code.
+        </td>
     </tr>
 </table>
 
@@ -3919,7 +3919,7 @@ _My Project_.  The differences are saved as an XML document in the file
                    -old-label Old
                    -old old.jar
                    -new-label New
-	           -new new.jar
+                   -new new.jar
 
 </div>
 
@@ -3959,8 +3959,8 @@ the Dependency Finder classes.    There is a special
 
     &lt;jarjardiff destfile%3D"xerces.xml"
                 name%3D"My Project"
-	        oldlabel%3D"Old"
-	        newlabel%3D"New"&gt;
+                oldlabel%3D"Old"
+                newlabel%3D"New"&gt;
         &lt;old&gt;
             &lt;pathelement location="old.jar"/&gt;
         &lt;/old&gt;
@@ -4084,15 +4084,15 @@ Or, as an Ant task:
 
     &lt;target name%3D"listdocumentedelements" depends%3D"init"&gt;
         &lt;javadoc packagenames%3D"${packageNames}"&gt;
-	    &lt;sourcepath path%3D"src"/&gt;
-	    &lt;classpath refid%3D"libs"/&gt;
-	    &lt;doclet name%3D"com.jeantessier.diff.ListDocumentedElements"
-		    path%3D"${classesDir}"&gt;
-		&lt;param name%3D"-tag" value%3D"level"/&gt;
-		&lt;param name%3D"-invalid" value%3D"developer"/&gt;
-		&lt;param name%3D"-out" value%3D"df.txt"/&gt;
-	    &lt;/doclet&gt;
-	&lt;/javadoc&gt;
+            &lt;sourcepath path%3D"src"/&gt;
+            &lt;classpath refid%3D"libs"/&gt;
+            &lt;doclet name%3D"com.jeantessier.diff.ListDocumentedElements"
+                    path%3D"${classesDir}"&gt;
+                &lt;param name%3D"-tag" value%3D"level"/&gt;
+                &lt;param name%3D"-invalid" value%3D"developer"/&gt;
+                &lt;param name%3D"-out" value%3D"df.txt"/&gt;
+            &lt;/doclet&gt;
+        &lt;/javadoc&gt;
     &lt;/target&gt;
 
 </div>
@@ -4130,10 +4130,10 @@ just as well as =.class= files.
                    -name "My Project"
                    -old-label Old
                    -old old.jar
-	           -old-documentation old-list.txt
+                   -old-documentation old-list.txt
                    -new-label New
-	           -new new.jar
-	           -new-documentation new-list.txt
+                   -new new.jar
+                   -new-documentation new-list.txt
 
 </div>
 

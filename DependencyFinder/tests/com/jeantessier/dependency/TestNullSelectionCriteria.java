@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,47 +35,47 @@ package com.jeantessier.dependency;
 import junit.framework.*;
 
 public class TestNullSelectionCriteria extends TestCase {
-	private NullSelectionCriteria criteria;
-	private NodeFactory           factory;
+    private NullSelectionCriteria criteria;
+    private NodeFactory           factory;
 
-	private PackageNode a;
-	private ClassNode a_A;
-	private FeatureNode a_A_a;
-	
-	private PackageNode b;
-	private ClassNode b_B;
-	private FeatureNode b_B_b;
-	
-	private PackageNode c;
-	private ClassNode c_C;
-	private FeatureNode c_C_c;
+    private PackageNode a;
+    private ClassNode a_A;
+    private FeatureNode a_A_a;
+    
+    private PackageNode b;
+    private ClassNode b_B;
+    private FeatureNode b_B_b;
+    
+    private PackageNode c;
+    private ClassNode c_C;
+    private FeatureNode c_C_c;
 
-	protected void setUp() throws Exception {
-		criteria = new NullSelectionCriteria();
-		factory  = new NodeFactory();
+    protected void setUp() throws Exception {
+        criteria = new NullSelectionCriteria();
+        factory  = new NodeFactory();
 
-		a     = factory.createPackage("a");
-		a_A   = factory.createClass("a.A");
-		a_A_a = factory.createFeature("a.A.a");
-		
-		b     = factory.createPackage("b");
-		b_B   = factory.createClass("b.B");
-		b_B_b = factory.createFeature("b.B.b");
-		
-		c     = factory.createPackage("c");
-		c_C   = factory.createClass("c.C");
-		c_C_c = factory.createFeature("c.C.c");
-	}
-	
-	public void testMatch() {
-		assertFalse("a in package scope",     criteria.matches(a));
-		assertFalse("a.A in package scope",   criteria.matches(a_A));
-		assertFalse("a.A.a in package scope", criteria.matches(a_A_a));
-		assertFalse("b in package scope",     criteria.matches(b));
-		assertFalse("b.B in package scope",   criteria.matches(b_B));
-		assertFalse("b.B.b in package scope", criteria.matches(b_B_b));
-		assertFalse("c in package scope",     criteria.matches(c));
-		assertFalse("c.C in package scope",   criteria.matches(c_C));
-		assertFalse("c.C.c in package scope", criteria.matches(c_C_c));
-	}
+        a     = factory.createPackage("a");
+        a_A   = factory.createClass("a.A");
+        a_A_a = factory.createFeature("a.A.a");
+        
+        b     = factory.createPackage("b");
+        b_B   = factory.createClass("b.B");
+        b_B_b = factory.createFeature("b.B.b");
+        
+        c     = factory.createPackage("c");
+        c_C   = factory.createClass("c.C");
+        c_C_c = factory.createFeature("c.C.c");
+    }
+    
+    public void testMatch() {
+        assertFalse("a in package scope",     criteria.matches(a));
+        assertFalse("a.A in package scope",   criteria.matches(a_A));
+        assertFalse("a.A.a in package scope", criteria.matches(a_A_a));
+        assertFalse("b in package scope",     criteria.matches(b));
+        assertFalse("b.B in package scope",   criteria.matches(b_B));
+        assertFalse("b.B.b in package scope", criteria.matches(b_B_b));
+        assertFalse("c in package scope",     criteria.matches(c));
+        assertFalse("c.C in package scope",   criteria.matches(c_C));
+        assertFalse("c.C.c in package scope", criteria.matches(c_C_c));
+    }
 }

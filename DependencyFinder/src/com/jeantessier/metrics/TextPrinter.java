@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,111 +37,111 @@ import java.text.*;
 import java.util.*;
 
 public class TextPrinter extends Printer {
-	private static final NumberFormat valueFormat = new DecimalFormat("#.##");
-	private static final NumberFormat ratioFormat = new DecimalFormat("#%");
+    private static final NumberFormat valueFormat = new DecimalFormat("#.##");
+    private static final NumberFormat ratioFormat = new DecimalFormat("#%");
 
-	private List descriptors;
+    private List descriptors;
 
-	private boolean expandCollectionMeasurements;
-	
-	private Metrics currentMetrics = null;
-	
-	public TextPrinter(PrintWriter out, List descriptors) {
-		super(out);
-		
-		this.descriptors = descriptors;
-	}
+    private boolean expandCollectionMeasurements;
+    
+    private Metrics currentMetrics = null;
+    
+    public TextPrinter(PrintWriter out, List descriptors) {
+        super(out);
+        
+        this.descriptors = descriptors;
+    }
 
-	public boolean isExpandCollectionMeasurements() {
-		return expandCollectionMeasurements;
-	}
+    public boolean isExpandCollectionMeasurements() {
+        return expandCollectionMeasurements;
+    }
 
-	public void setExpandCollectionMeasurements(boolean expandCollectionMeasurements) {
-		this.expandCollectionMeasurements = expandCollectionMeasurements;
-	}
-	
-	public void visitMetrics(Metrics metrics) {
-		if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
-			currentMetrics = metrics;
-			
-			indent().append(metrics.getName()).eol();
-			raiseIndent();
-			
-			Iterator i = descriptors.iterator();
-			while (i.hasNext()) {
-				MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
-				
-				if (isShowHiddenMeasurements() || descriptor.isVisible()) {
-					metrics.getMeasurement(descriptor.getShortName()).accept(this);
-				}
-			}
-			
-			lowerIndent();
-			
-			eol();
-		}
-	}
+    public void setExpandCollectionMeasurements(boolean expandCollectionMeasurements) {
+        this.expandCollectionMeasurements = expandCollectionMeasurements;
+    }
+    
+    public void visitMetrics(Metrics metrics) {
+        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+            currentMetrics = metrics;
+            
+            indent().append(metrics.getName()).eol();
+            raiseIndent();
+            
+            Iterator i = descriptors.iterator();
+            while (i.hasNext()) {
+                MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+                
+                if (isShowHiddenMeasurements() || descriptor.isVisible()) {
+                    metrics.getMeasurement(descriptor.getShortName()).accept(this);
+                }
+            }
+            
+            lowerIndent();
+            
+            eol();
+        }
+    }
 
-	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-		indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.doubleValue()));
+    public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
+        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.doubleValue()));
 
-		try {
-			RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
-			append(" (").append(ratioFormat.format(ratio.getValue())).append(")");
-		} catch (ClassCastException ex) {
-			// Do nothing, no ratio for this measurement
-		}
+        try {
+            RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
+            append(" (").append(ratioFormat.format(ratio.getValue())).append(")");
+        } catch (ClassCastException ex) {
+            // Do nothing, no ratio for this measurement
+        }
 
-		append(" ").append(measurement);
-		
-		eol();
-	}
-	
-	public void visitRatioMeasurement(RatioMeasurement measurement) {
-		if (!measurement.getShortName().endsWith("R")) {
-			super.visitRatioMeasurement(measurement);
-		}
-	}
-	
-	public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-		super.visitContextAccumulatorMeasurement(measurement);
+        append(" ").append(measurement);
+        
+        eol();
+    }
+    
+    public void visitRatioMeasurement(RatioMeasurement measurement) {
+        if (!measurement.getShortName().endsWith("R")) {
+            super.visitRatioMeasurement(measurement);
+        }
+    }
+    
+    public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+        super.visitContextAccumulatorMeasurement(measurement);
 
-		visitCollectionMeasurement(measurement);
-	}
-	
-	public void visitNameListMeasurement(NameListMeasurement measurement) {
-		super.visitNameListMeasurement(measurement);
+        visitCollectionMeasurement(measurement);
+    }
+    
+    public void visitNameListMeasurement(NameListMeasurement measurement) {
+        super.visitNameListMeasurement(measurement);
 
-		visitCollectionMeasurement(measurement);
-	}
-	
-	public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-		super.visitSubMetricsAccumulatorMeasurement(measurement);
+        visitCollectionMeasurement(measurement);
+    }
+    
+    public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+        super.visitSubMetricsAccumulatorMeasurement(measurement);
 
-		visitCollectionMeasurement(measurement);
-	}
-	
-	protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
-		if (isExpandCollectionMeasurements()) {
-			raiseIndent();
-			Iterator i = measurement.getValues().iterator();
-			while (i.hasNext()) {
-				indent().append(i.next()).eol();
-			}
-			lowerIndent();
-		}
-	}
-	
-	protected void visitMeasurement(Measurement measurement) {
-		indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.getValue()));
+        visitCollectionMeasurement(measurement);
+    }
+    
+    protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
+        if (isExpandCollectionMeasurements()) {
+            raiseIndent();
+            Iterator i = measurement.getValues().iterator();
+            while (i.hasNext()) {
+                indent().append(i.next()).eol();
+            }
+            lowerIndent();
+        }
+    }
+    
+    protected void visitMeasurement(Measurement measurement) {
+        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.getValue()));
 
-		try {
-			RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
-			append(" (").append(ratioFormat.format(ratio.getValue())).append(")");
-		} catch (ClassCastException ex) {
-			// Do nothing, no ratio for this measurement
-		}
-		
-		eol();
-	}
+        try {
+            RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
+            append(" (").append(ratioFormat.format(ratio.getValue())).append(")");
+        } catch (ClassCastException ex) {
+            // Do nothing, no ratio for this measurement
+        }
+        
+        eol();
+    }
 }

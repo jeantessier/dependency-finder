@@ -9,16 +9,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,38 +37,38 @@
 
 <%!
     private class VerboseListener implements DependencyListener {
-	private JspWriter out;
+        private JspWriter out;
 
-	public VerboseListener(JspWriter out) {
-	    this.out = out;
-	}
+        public VerboseListener(JspWriter out) {
+            this.out = out;
+        }
 
-	public void beginSession(DependencyEvent event) {
-	    // Do nothing
-	}
+        public void beginSession(DependencyEvent event) {
+            // Do nothing
+        }
 
-	public void beginClass(DependencyEvent event) {
-	    try {
-		out.print("Loading dependencies for ");
-		out.print(event.getClassName());
-		out.print(" ...");
-		out.println();
-	    } catch (IOException ex) {
-		// Ignore
-	    }
-	}
+        public void beginClass(DependencyEvent event) {
+            try {
+                out.print("Loading dependencies for ");
+                out.print(event.getClassName());
+                out.print(" ...");
+                out.println();
+            } catch (IOException ex) {
+                // Ignore
+            }
+        }
 
-	public void dependency(DependencyEvent event) {
-	    // Do nothing
-	}
+        public void dependency(DependencyEvent event) {
+            // Do nothing
+        }
 
-	public void endClass(DependencyEvent event) {
-	    // Do nothing
-	}
+        public void endClass(DependencyEvent event) {
+            // Do nothing
+        }
 
-	public void endSession(DependencyEvent event) {
-	    // Do nothing
-	}
+        public void endSession(DependencyEvent event) {
+            // Do nothing
+        }
     }
 %>
 
@@ -84,20 +84,20 @@
 
 <table cellpadding="5">
     <tr>
-	<td class="title">
-	    <code><%= application.getInitParameter("name") %></code>
-	</td>
+        <td class="title">
+            <code><%= application.getInitParameter("name") %></code>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <table border="0" class="controls" width="100%"><tr>
+        <td>
+            <table border="0" class="controls" width="100%"><tr>
 
-	    <th><fieldset class="navigation"><a href="query.jsp">Dependency graph</a></fieldset></th>
-	    <th><fieldset class="navigation"><a href="closure.jsp">Transitive closure</a></fieldset></th>
-	    <th><fieldset class="navigation"><a href="metrics.jsp">Dependency metrics</a></fieldset></th>
+            <th><fieldset class="navigation"><a href="query.jsp">Dependency graph</a></fieldset></th>
+            <th><fieldset class="navigation"><a href="closure.jsp">Transitive closure</a></fieldset></th>
+            <th><fieldset class="navigation"><a href="metrics.jsp">Dependency metrics</a></fieldset></th>
 
-	    </tr></table>
-	</td>
+            </tr></table>
+        </td>
     </tr>
 
 <%
@@ -105,79 +105,79 @@
 %>
 
 <%
-	if (Boolean.valueOf(application.getInitParameter("showFile")).booleanValue()) {
-	    Perl5Util perl = new Perl5Util();
-	    Collection sources = new LinkedList();
-	    perl.split(sources, "/,\\s*/", application.getInitParameter("file"));
+        if (Boolean.valueOf(application.getInitParameter("showFile")).booleanValue()) {
+            Perl5Util perl = new Perl5Util();
+            Collection sources = new LinkedList();
+            perl.split(sources, "/,\\s*/", application.getInitParameter("file"));
 %>
 
     <tr>
-	<td>
-	    <br />
-	    This operation will extract dependencies from the following
-	    locations:
-	    <ul>
+        <td>
+            <br />
+            This operation will extract dependencies from the following
+            locations:
+            <ul>
 
 <%
-	    Iterator i = sources.iterator();
-	    while (i.hasNext()) {
+            Iterator i = sources.iterator();
+            while (i.hasNext()) {
 %>
-		<li><tt><%= i.next() %></tt></li>
+                <li><tt><%= i.next() %></tt></li>
 <%
-	    }
+            }
 %>
 
-	    </ul>
-	</td>
+            </ul>
+        </td>
     </tr>
 
 <%
-	}
+        }
 %>
 
     <tr>
-	<td>
-	    <br />
-	    This operation may take a few minutes, depending on the
-	    size and complexity of the graph to load.<br/>
-	    If you really want to do this at this time, please click
-	    on the <i>Launch</i> button.
-	</td>
+        <td>
+            <br />
+            This operation may take a few minutes, depending on the
+            size and complexity of the graph to load.<br/>
+            If you really want to do this at this time, please click
+            on the <i>Launch</i> button.
+        </td>
     </tr>
     <tr>
-	<td align="center">
-	    <br />
-	    <form method="post" action="<%= request.getRequestURI() %>">
-		<input type="submit" name="launch" value="Launch"/>
-	    </form>
-	</td>
+        <td align="center">
+            <br />
+            <form method="post" action="<%= request.getRequestURI() %>">
+                <input type="submit" name="launch" value="Launch"/>
+            </form>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <table>
+        <td>
+            <table>
 
 <%
-	if (application.getAttribute("factory") != null) {
+        if (application.getAttribute("factory") != null) {
 %>
 
-		<tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getPackages().size() %></td><td>packages</td></tr>
-		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getClasses().size() %></td><td>classes</td></tr>
-		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getFeatures().size() %></td><td>features</td></tr>
-		<tr><td>&nbsp;</td></tr>
-		<tr><td colspan="3">Loading it took <%= application.getAttribute("delta") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
+                <tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getPackages().size() %></td><td>packages</td></tr>
+                <tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getClasses().size() %></td><td>classes</td></tr>
+                <tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getFeatures().size() %></td><td>features</td></tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr><td colspan="3">Loading it took <%= application.getAttribute("delta") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
 
 <%
-	} else {
+        } else {
 %>
 
-		There is no dependency graph at this time.
+                There is no dependency graph at this time.
 
 <%
-	}
+        }
 %>
 
-	    </table>
-	</td>
+            </table>
+        </td>
     </tr>
 </table>
 
@@ -191,63 +191,63 @@
 <pre class="result">
 
 <%
-	Date start = new Date();
-	VerboseListener listener = new VerboseListener(out);
+        Date start = new Date();
+        VerboseListener listener = new VerboseListener(out);
 
-	Perl5Util perl = new Perl5Util();
+        Perl5Util perl = new Perl5Util();
 
-	Collection files = new LinkedList();
-	perl.split(files, "/,\\s*/", application.getInitParameter("file"));
+        Collection files = new LinkedList();
+        perl.split(files, "/,\\s*/", application.getInitParameter("file"));
 
-	NodeFactory factory = new NodeFactory();
+        NodeFactory factory = new NodeFactory();
 
-	NodeLoader loader = new NodeLoader(factory);
-	loader.addDependencyListener(listener);
+        NodeLoader loader = new NodeLoader(factory);
+        loader.addDependencyListener(listener);
 
-	Iterator i = files.iterator();
-	while (i.hasNext()) {
-	    String filename = (String) i.next();
-	    try {
-		loader.load(filename);
-	    } catch (SAXException ex) {
-		out.println("<i>Could not load graph from file \"" + filename + "\": " + ex.getMessage() + "</i>");
-	    }
-	}
+        Iterator i = files.iterator();
+        while (i.hasNext()) {
+            String filename = (String) i.next();
+            try {
+                loader.load(filename);
+            } catch (SAXException ex) {
+                out.println("<i>Could not load graph from file \"" + filename + "\": " + ex.getMessage() + "</i>");
+            }
+        }
 
-	if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
-	    out.println("Maximizing ...");
-	    new LinkMaximizer().traverseNodes(factory.getPackages().values());
-	} else if ("minimize".equalsIgnoreCase(application.getInitParameter("mode"))) {
-	    out.println("Minimizing ...");
-	    new LinkMinimizer().traverseNodes(factory.getPackages().values());
-	}
+        if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
+            out.println("Maximizing ...");
+            new LinkMaximizer().traverseNodes(factory.getPackages().values());
+        } else if ("minimize".equalsIgnoreCase(application.getInitParameter("mode"))) {
+            out.println("Minimizing ...");
+            new LinkMinimizer().traverseNodes(factory.getPackages().values());
+        }
 
-	Date   stop  = new Date();
-	double delta = (stop.getTime() - start.getTime()) / (double) 1000;
+        Date   stop  = new Date();
+        double delta = (stop.getTime() - start.getTime()) / (double) 1000;
 
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	application.removeAttribute("dispatcher");
-	application.removeAttribute("monitor");
-	application.setAttribute("factory", factory);
-	application.setAttribute("start",   formatter.format(start));
-	application.setAttribute("delta",   new Double(delta));
+        application.removeAttribute("dispatcher");
+        application.removeAttribute("monitor");
+        application.setAttribute("factory", factory);
+        application.setAttribute("start",   formatter.format(start));
+        application.setAttribute("delta",   new Double(delta));
 %>
 
 </pre>
 
 <%
-	switch (files.size()) {
-	    case 0:
-		out.println("<p>Loaded nothing in " + delta + " secs.</p>");
-		break;
-	    case 1:
-		out.println("<p>Loaded 1 file in " + delta + " secs.</p>");
-		break;
-	    default:
-		out.println("<p>Loaded " + files.size() + " files in " + delta + " secs.</p>");
-		break;
-	}
+        switch (files.size()) {
+            case 0:
+                out.println("<p>Loaded nothing in " + delta + " secs.</p>");
+                break;
+            case 1:
+                out.println("<p>Loaded 1 file in " + delta + " secs.</p>");
+                break;
+            default:
+                out.println("<p>Loaded " + files.size() + " files in " + delta + " secs.</p>");
+                break;
+        }
     }
 %>
 

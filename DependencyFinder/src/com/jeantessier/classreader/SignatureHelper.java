@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,134 +38,134 @@ import org.apache.log4j.*;
 import org.apache.oro.text.perl.*;
 
 public final class SignatureHelper {
-	private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util perl = new Perl5Util();
 
-	private static Map conversion = new HashMap();
+    private static Map conversion = new HashMap();
 
-	static {
-		conversion.put("B", "byte");
-		conversion.put("C", "char");
-		conversion.put("D", "double");
-		conversion.put("F", "float");
-		conversion.put("I", "int");
-		conversion.put("J", "long");
-		conversion.put("S", "short");
-		conversion.put("V", "void");
-		conversion.put("Z", "boolean");
-	}
+    static {
+        conversion.put("B", "byte");
+        conversion.put("C", "char");
+        conversion.put("D", "double");
+        conversion.put("F", "float");
+        conversion.put("I", "int");
+        conversion.put("J", "long");
+        conversion.put("S", "short");
+        conversion.put("V", "void");
+        conversion.put("Z", "boolean");
+    }
 
-	static String convert(String type) {
-		String result = null;
+    static String convert(String type) {
+        String result = null;
 
-		Logger.getLogger(SignatureHelper.class).debug("Begin Convert(\"" + type + "\")");
+        Logger.getLogger(SignatureHelper.class).debug("Begin Convert(\"" + type + "\")");
 
-		if (type.length() == 1) {
-			result = (String) conversion.get(type);
-		} else if (type.charAt(0) == 'L') {
-			result = path2ClassName(type.substring(1, type.indexOf(';')));
-		} else if (type.charAt(0) == '[') {
-			result = convert(type.substring(1)) + "[]";
-		}
+        if (type.length() == 1) {
+            result = (String) conversion.get(type);
+        } else if (type.charAt(0) == 'L') {
+            result = path2ClassName(type.substring(1, type.indexOf(';')));
+        } else if (type.charAt(0) == '[') {
+            result = convert(type.substring(1)) + "[]";
+        }
 
-		Logger.getLogger(SignatureHelper.class).debug("End   Convert(\"" + type + "\"): \"" + result + "\"");
+        Logger.getLogger(SignatureHelper.class).debug("End   Convert(\"" + type + "\"): \"" + result + "\"");
 
-		return result;
-	}
+        return result;
+    }
 
-	public static String path2ClassName(String path) {
-		return perl.substitute("s/\\//./g", path);
-	}
-	
-	public static String getSignature(String descriptor) {
-		StringBuffer result = new StringBuffer();
+    public static String path2ClassName(String path) {
+        return perl.substitute("s/\\//./g", path);
+    }
+    
+    public static String getSignature(String descriptor) {
+        StringBuffer result = new StringBuffer();
 
-		Logger.getLogger(SignatureHelper.class).debug("Begin Signature(\"" + descriptor + "\")");
+        Logger.getLogger(SignatureHelper.class).debug("Begin Signature(\"" + descriptor + "\")");
 
-		result.append("(");
+        result.append("(");
 
-		int start = descriptor.indexOf("(") + 1;
-		int end   = descriptor.indexOf(")");
+        int start = descriptor.indexOf("(") + 1;
+        int end   = descriptor.indexOf(")");
 
-		SignatureIterator i = new SignatureIterator(descriptor.substring(start, end));
-		while (i.hasNext()) {
-			result.append(i.next());
-			if (i.hasNext()) {
-				result.append(", ");
-			}
-		}
+        SignatureIterator i = new SignatureIterator(descriptor.substring(start, end));
+        while (i.hasNext()) {
+            result.append(i.next());
+            if (i.hasNext()) {
+                result.append(", ");
+            }
+        }
 
-		result.append(")");
+        result.append(")");
 
-		Logger.getLogger(SignatureHelper.class).debug("End   Signature(\"" + descriptor + "\"): \"" + result + "\"");
+        Logger.getLogger(SignatureHelper.class).debug("End   Signature(\"" + descriptor + "\"): \"" + result + "\"");
 
-		return result.toString();
-	}
+        return result.toString();
+    }
 
-	public static int getParameterCount(String descriptor) {
-		int result = 0;
+    public static int getParameterCount(String descriptor) {
+        int result = 0;
 
-		Logger.getLogger(SignatureHelper.class).debug("Begin ParameterCount(\"" + descriptor + "\")");
+        Logger.getLogger(SignatureHelper.class).debug("Begin ParameterCount(\"" + descriptor + "\")");
 
-		int start = descriptor.indexOf("(") + 1;
-		int end   = descriptor.indexOf(")");
+        int start = descriptor.indexOf("(") + 1;
+        int end   = descriptor.indexOf(")");
 
-		SignatureIterator i = new SignatureIterator(descriptor.substring(start, end));
-		while (i.hasNext()) {
-			i.next();
-			result++;
-		}
+        SignatureIterator i = new SignatureIterator(descriptor.substring(start, end));
+        while (i.hasNext()) {
+            i.next();
+            result++;
+        }
 
-		Logger.getLogger(SignatureHelper.class).debug("End   ParameterCount(\"" + descriptor + "\"): \"" + result + "\"");
+        Logger.getLogger(SignatureHelper.class).debug("End   ParameterCount(\"" + descriptor + "\"): \"" + result + "\"");
 
-		return result;
-	}
+        return result;
+    }
 
-	public static String getReturnType(String descriptor) {
-		return convert(descriptor.substring(descriptor.lastIndexOf(")") + 1));
-	}
+    public static String getReturnType(String descriptor) {
+        return convert(descriptor.substring(descriptor.lastIndexOf(")") + 1));
+    }
 
-	public static String getType(String descriptor) {
-		return convert(descriptor);
-	}
+    public static String getType(String descriptor) {
+        return convert(descriptor);
+    }
 }
 
 class SignatureIterator implements Iterator {
-	private String descriptor;
-	private int    currentPos = 0;
+    private String descriptor;
+    private int    currentPos = 0;
 
-	public SignatureIterator(String descriptor) {
-		this.descriptor = descriptor;
-	}
+    public SignatureIterator(String descriptor) {
+        this.descriptor = descriptor;
+    }
 
-	public boolean hasNext() {
-		return currentPos < descriptor.length();
-	}
+    public boolean hasNext() {
+        return currentPos < descriptor.length();
+    }
 
-	public Object next() {
-		String result;
+    public Object next() {
+        String result;
 
-		if (hasNext()) {
-			int nextPos = currentPos;
+        if (hasNext()) {
+            int nextPos = currentPos;
 
-			while (descriptor.charAt(nextPos) == '[') {
-				nextPos++;
-			}
+            while (descriptor.charAt(nextPos) == '[') {
+                nextPos++;
+            }
 
-			if (descriptor.charAt(nextPos) == 'L') {
-				nextPos = descriptor.indexOf(";", nextPos);
-			}
+            if (descriptor.charAt(nextPos) == 'L') {
+                nextPos = descriptor.indexOf(";", nextPos);
+            }
 
-			result = SignatureHelper.convert(descriptor.substring(currentPos, nextPos + 1));
+            result = SignatureHelper.convert(descriptor.substring(currentPos, nextPos + 1));
 
-			currentPos = nextPos + 1;
-		} else {
-			throw new NoSuchElementException();
-		}
+            currentPos = nextPos + 1;
+        } else {
+            throw new NoSuchElementException();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public void remove() {
-		throw new UnsupportedOperationException();
-	}
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
 }

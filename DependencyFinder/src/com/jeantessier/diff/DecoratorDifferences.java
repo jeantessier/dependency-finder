@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,36 +37,36 @@ package com.jeantessier.diff;
  *  Differences hierarchy.
  */
 public abstract class DecoratorDifferences implements Differences {
-	private Differences component;
+    private Differences component;
 
-	/**
-	 *  Only the DifferencesFactory can create instances of this class.
-	 */
-	DecoratorDifferences(Differences component) {
-		this.component = component;
-	}
+    /**
+     *  Only the DifferencesFactory can create instances of this class.
+     */
+    DecoratorDifferences(Differences component) {
+        this.component = component;
+    }
 
-	public Differences getComponent() {
-		return component;
-	}
+    public Differences getComponent() {
+        return component;
+    }
 
-	public Differences getLeafComponent() {
-		Differences result = null;
-		
-		if (getComponent() instanceof DecoratorDifferences) {
-			result = ((DecoratorDifferences) getComponent()).getLeafComponent();
-		} else {
-			result = getComponent();
-		}
-		
-		return result;
-	}
+    public Differences getLeafComponent() {
+        Differences result = null;
+        
+        if (getComponent() instanceof DecoratorDifferences) {
+            result = ((DecoratorDifferences) getComponent()).getLeafComponent();
+        } else {
+            result = getComponent();
+        }
+        
+        return result;
+    }
 
-	public String getName() {
-		return getComponent().getName();
-	}
-	
-	public String toString() {
-		return getComponent().toString();
-	}
+    public String getName() {
+        return getComponent().getName();
+    }
+    
+    public String toString() {
+        return getComponent().toString();
+    }
 }

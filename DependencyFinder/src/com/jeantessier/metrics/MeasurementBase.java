@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,147 +37,147 @@ import org.apache.oro.text.perl.*;
 import com.jeantessier.text.*;
 
 public abstract class MeasurementBase implements Measurement {
-	private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-	protected static Perl5Util perl() {
-		return perl;
-	}
-	
-	private MeasurementDescriptor descriptor = null;
-	private Metrics               context    = null;
+    protected static Perl5Util perl() {
+        return perl;
+    }
+    
+    private MeasurementDescriptor descriptor = null;
+    private Metrics               context    = null;
 
-	private boolean               cached     = false;
-	private boolean               empty      = true;
+    private boolean               cached     = false;
+    private boolean               empty      = true;
 
-	public MeasurementBase(MeasurementDescriptor descriptor, Metrics context, String initText) {
-		this.descriptor = descriptor;
-		this.context    = context;
-	}
-	
-	public MeasurementDescriptor getDescriptor() {
-		return descriptor;
-	}
-	
-	public Metrics getContext() {
-		return context;
-	}
+    public MeasurementBase(MeasurementDescriptor descriptor, Metrics context, String initText) {
+        this.descriptor = descriptor;
+        this.context    = context;
+    }
+    
+    public MeasurementDescriptor getDescriptor() {
+        return descriptor;
+    }
+    
+    public Metrics getContext() {
+        return context;
+    }
 
-	/**
-	 *  Tells this instance if it should reuse a previously
-	 *  computed value or if it should regenerate it.
-	 */
-	protected boolean isCached() {
-		return cached;
-	}
+    /**
+     *  Tells this instance if it should reuse a previously
+     *  computed value or if it should regenerate it.
+     */
+    protected boolean isCached() {
+        return cached;
+    }
 
-	/**
-	 *  Sets the caching flag, telling this instance if
-	 *  its value has been computed.  This flag is
-	 *  conditional to caching being enabled in the
-	 *  corresponding descriptor.
-	 */
-	protected void setCached(boolean cached) {
-		this.cached = cached && getDescriptor().isCached();
-	}
+    /**
+     *  Sets the caching flag, telling this instance if
+     *  its value has been computed.  This flag is
+     *  conditional to caching being enabled in the
+     *  corresponding descriptor.
+     */
+    protected void setCached(boolean cached) {
+        this.cached = cached && getDescriptor().isCached();
+    }
 
-	public boolean isEmpty() {
-		return empty;
-	}
+    public boolean isEmpty() {
+        return empty;
+    }
 
-	protected void setEmpty(boolean empty) {
-		this.empty = empty;
-	}
-	
-	public String getShortName() {
-		return getDescriptor().getShortName();
-	}
-	
-	public String getLongName() {
-		return getDescriptor().getLongName();
-	}
-	
-	public Number getValue() {
-		return new Double(compute());
-	}
+    protected void setEmpty(boolean empty) {
+        this.empty = empty;
+    }
+    
+    public String getShortName() {
+        return getDescriptor().getShortName();
+    }
+    
+    public String getLongName() {
+        return getDescriptor().getLongName();
+    }
+    
+    public Number getValue() {
+        return new Double(compute());
+    }
 
-	public int intValue() {
-		return (int) compute();
-	}
+    public int intValue() {
+        return (int) compute();
+    }
 
-	public long longValue() {
-		return (long) compute();
-	}
+    public long longValue() {
+        return (long) compute();
+    }
 
-	public float floatValue() {
-		return (float) compute();
-	}
+    public float floatValue() {
+        return (float) compute();
+    }
 
-	public double doubleValue() {
-		return compute();
-	}
-	
-	public boolean isInRange() {
-		boolean result = true;
+    public double doubleValue() {
+        return compute();
+    }
+    
+    public boolean isInRange() {
+        boolean result = true;
 
-		if (getDescriptor() != null) {
-			Comparable lowerThreshold = getDescriptor().getLowerThreshold();
-			Comparable upperThreshold = getDescriptor().getUpperThreshold();
+        if (getDescriptor() != null) {
+            Comparable lowerThreshold = getDescriptor().getLowerThreshold();
+            Comparable upperThreshold = getDescriptor().getUpperThreshold();
 
-			if (result && lowerThreshold != null) {
-				if (lowerThreshold instanceof String) {
-					try {
-						result = Double.parseDouble((String) lowerThreshold) <= compute();
-					} catch (NumberFormatException ex) {
-						// Ignore
-					}
-				} else if (lowerThreshold instanceof Number) {
-					result = ((Number) lowerThreshold).doubleValue() <= compute();
-				} else {
-					result = lowerThreshold.compareTo(getValue()) <= 0;
-				}
-			}
-			
-			if (result && upperThreshold != null) {
-				if (upperThreshold instanceof String) {
-					try {
-						result = Double.parseDouble((String) upperThreshold) >= compute();
-					} catch (NumberFormatException ex) {
-						// Ignore
-					}
-				} else if (upperThreshold instanceof Number) {
-					result = ((Number) upperThreshold).doubleValue() >= compute();
-				} else {
-					result = upperThreshold.compareTo(getValue()) >= 0;
-				}
-			}
-		}
-		
-		return result;
-	}
-	
-	public void add(Object object) {
-		// Do nothing
-	}
+            if (result && lowerThreshold != null) {
+                if (lowerThreshold instanceof String) {
+                    try {
+                        result = Double.parseDouble((String) lowerThreshold) <= compute();
+                    } catch (NumberFormatException ex) {
+                        // Ignore
+                    }
+                } else if (lowerThreshold instanceof Number) {
+                    result = ((Number) lowerThreshold).doubleValue() <= compute();
+                } else {
+                    result = lowerThreshold.compareTo(getValue()) <= 0;
+                }
+            }
+            
+            if (result && upperThreshold != null) {
+                if (upperThreshold instanceof String) {
+                    try {
+                        result = Double.parseDouble((String) upperThreshold) >= compute();
+                    } catch (NumberFormatException ex) {
+                        // Ignore
+                    }
+                } else if (upperThreshold instanceof Number) {
+                    result = ((Number) upperThreshold).doubleValue() >= compute();
+                } else {
+                    result = upperThreshold.compareTo(getValue()) >= 0;
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    public void add(Object object) {
+        // Do nothing
+    }
 
-	public void add(int i) {
-		// Do nothing
-	}
-	
-	public void add(long l) {
-		// Do nothing
-	}
-	
-	public void add(float f) {
-		// Do nothing
-	}
-	
-	public void add(double d) {
-		// Do nothing
-	}
-	
-	protected abstract double compute();
+    public void add(int i) {
+        // Do nothing
+    }
+    
+    public void add(long l) {
+        // Do nothing
+    }
+    
+    public void add(float f) {
+        // Do nothing
+    }
+    
+    public void add(double d) {
+        // Do nothing
+    }
+    
+    protected abstract double compute();
 
-	public String toString() {
-		return getValue().toString();
-	}
+    public String toString() {
+        return getValue().toString();
+    }
 }

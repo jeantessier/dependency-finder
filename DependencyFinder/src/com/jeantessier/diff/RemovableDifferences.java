@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -41,79 +41,79 @@ import org.apache.log4j.*;
  *  constructors, and methods.
  */
 public abstract class RemovableDifferences implements Differences, Comparable {
-	private String name;
+    private String name;
 
-	private String oldDeclaration = null;
-	private String newDeclaration = null;
+    private String oldDeclaration = null;
+    private String newDeclaration = null;
 
-	protected RemovableDifferences(String name) {
-		this.name = name;
-	}
+    protected RemovableDifferences(String name) {
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getOldDeclaration() {
-		return oldDeclaration;
-	}
+    public String getOldDeclaration() {
+        return oldDeclaration;
+    }
 
-	public void setOldDeclaration(String oldDeclaration) {
-		this.oldDeclaration = oldDeclaration;
-	}
+    public void setOldDeclaration(String oldDeclaration) {
+        this.oldDeclaration = oldDeclaration;
+    }
 
-	public String getNewDeclaration() {
-		return newDeclaration;
-	}
+    public String getNewDeclaration() {
+        return newDeclaration;
+    }
 
-	public void setNewDeclaration(String newDeclaration) {
-		this.newDeclaration = newDeclaration;
-	}
+    public void setNewDeclaration(String newDeclaration) {
+        this.newDeclaration = newDeclaration;
+    }
 
-	public boolean isRemoved() {
-		boolean result = (oldDeclaration != null) && (newDeclaration == null);
+    public boolean isRemoved() {
+        boolean result = (oldDeclaration != null) && (newDeclaration == null);
 
-		Logger.getLogger(getClass()).debug(getName() + " IsRemoved(): " + result);
-		
-		return result;
-	}
+        Logger.getLogger(getClass()).debug(getName() + " IsRemoved(): " + result);
+        
+        return result;
+    }
 
-	public boolean isModified() {
-		boolean result = (oldDeclaration != null) && (newDeclaration != null) && !oldDeclaration.equals(newDeclaration);
+    public boolean isModified() {
+        boolean result = (oldDeclaration != null) && (newDeclaration != null) && !oldDeclaration.equals(newDeclaration);
 
-		Logger.getLogger(getClass()).debug(getName() + " IsModified(): " + result);
-		
-		return result;
-	}
+        Logger.getLogger(getClass()).debug(getName() + " IsModified(): " + result);
+        
+        return result;
+    }
 
-	public boolean isNew() {
-		boolean result = (oldDeclaration == null) && (newDeclaration != null);
+    public boolean isNew() {
+        boolean result = (oldDeclaration == null) && (newDeclaration != null);
 
-		Logger.getLogger(getClass()).debug(getName() + " IsNew(): " + result);
-		
-		return result;
-	}
+        Logger.getLogger(getClass()).debug(getName() + " IsNew(): " + result);
+        
+        return result;
+    }
 
-	public boolean isEmpty() {
-		return
-			!isNew() &&
-			!isModified() &&
-			!isRemoved();
-	}
+    public boolean isEmpty() {
+        return
+            !isNew() &&
+            !isModified() &&
+            !isRemoved();
+    }
 
-	public String toString() {
-		return getName();
-	}
+    public String toString() {
+        return getName();
+    }
 
-	public int compareTo(Object other) {
-		int result = 0;
+    public int compareTo(Object other) {
+        int result = 0;
 
-		if (other instanceof RemovableDifferences) {
-			result = getName().compareTo(((RemovableDifferences) other).getName());
-		} else {
-			throw new ClassCastException("Unable to compare RemovableDifferences to " + other.getClass().getName());
-		}
+        if (other instanceof RemovableDifferences) {
+            result = getName().compareTo(((RemovableDifferences) other).getName());
+        } else {
+            throw new ClassCastException("Unable to compare RemovableDifferences to " + other.getClass().getName());
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

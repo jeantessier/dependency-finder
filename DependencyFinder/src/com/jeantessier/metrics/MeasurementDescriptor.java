@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,115 +35,115 @@ package com.jeantessier.metrics;
 import java.lang.reflect.*;
 
 public class MeasurementDescriptor {
-	private static final Class constructorSignature[] = {MeasurementDescriptor.class, Metrics.class, String.class};
+    private static final Class constructorSignature[] = {MeasurementDescriptor.class, Metrics.class, String.class};
 
-	private String     shortName;
-	private String     longName;
-	private Class      classFor;
-	private String     initText;
-	private Comparable lowerThreshold;
-	private Comparable upperThreshold;
-	private boolean    visible        = true;	
-	private boolean    cached         = true;	
+    private String     shortName;
+    private String     longName;
+    private Class      classFor;
+    private String     initText;
+    private Comparable lowerThreshold;
+    private Comparable upperThreshold;
+    private boolean    visible        = true;	
+    private boolean    cached         = true;	
 
-	public String getShortName() {
-		return shortName;
-	}
+    public String getShortName() {
+        return shortName;
+    }
 
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
-	
-	public String getLongName() {
-		return longName;
-	}
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+    
+    public String getLongName() {
+        return longName;
+    }
 
-	public void setLongName(String longName) {
-		this.longName = longName;
-	}
-	
-	public Class getClassFor() {
-		return classFor;
-	}
+    public void setLongName(String longName) {
+        this.longName = longName;
+    }
+    
+    public Class getClassFor() {
+        return classFor;
+    }
 
-	public void setClassFor(Class classFor) {
-		if (classFor != null) {
-			this.classFor = classFor;
-		} else {
-			throw new IllegalArgumentException("class cannot be null");
-		}
-	}
+    public void setClassFor(Class classFor) {
+        if (classFor != null) {
+            this.classFor = classFor;
+        } else {
+            throw new IllegalArgumentException("class cannot be null");
+        }
+    }
 
-	public void getClassForByName(String className) throws ClassNotFoundException {
-		this.classFor = Class.forName(className);
-	}
+    public void getClassForByName(String className) throws ClassNotFoundException {
+        this.classFor = Class.forName(className);
+    }
 
-	public String getInitText() {
-		return initText;
-	}
+    public String getInitText() {
+        return initText;
+    }
 
-	public void setInitText(String initText) {
-		this.initText = initText;
-	}
+    public void setInitText(String initText) {
+        this.initText = initText;
+    }
 
-	public Comparable getLowerThreshold() {
-		return lowerThreshold;
-	}
+    public Comparable getLowerThreshold() {
+        return lowerThreshold;
+    }
 
-	public void setLowerThreshold(Comparable lowerThreshold) {
-		this.lowerThreshold = lowerThreshold;
-	}
+    public void setLowerThreshold(Comparable lowerThreshold) {
+        this.lowerThreshold = lowerThreshold;
+    }
 
-	public Comparable getUpperThreshold() {
-		return upperThreshold;
-	}
+    public Comparable getUpperThreshold() {
+        return upperThreshold;
+    }
 
-	public void setUpperThreshold(Comparable upperThreshold) {
-		this.upperThreshold = upperThreshold;
-	}
+    public void setUpperThreshold(Comparable upperThreshold) {
+        this.upperThreshold = upperThreshold;
+    }
 
-	public boolean isVisible() {
-		return visible;
-	}
+    public boolean isVisible() {
+        return visible;
+    }
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-	
-	public boolean isCached() {
-		return cached;
-	}
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+    
+    public boolean isCached() {
+        return cached;
+    }
 
-	public void setCached(boolean cached) {
-		this.cached = cached;
-	}
+    public void setCached(boolean cached) {
+        this.cached = cached;
+    }
 
-	public Measurement createMeasurement() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-		return createMeasurement(null);
-	}
-	
-	public Measurement createMeasurement(Metrics context) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-		Measurement result = null;
+    public Measurement createMeasurement() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        return createMeasurement(null);
+    }
+    
+    public Measurement createMeasurement(Metrics context) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Measurement result = null;
 
-		Constructor constructor = getClassFor().getConstructor(constructorSignature);
-		Object params[] = new Object[3];
-		params[0] = this;
-		params[1] = context;
-		params[2] = getInitText();
-		result = (Measurement) constructor.newInstance(params);
+        Constructor constructor = getClassFor().getConstructor(constructorSignature);
+        Object params[] = new Object[3];
+        params[0] = this;
+        params[1] = context;
+        params[2] = getInitText();
+        result = (Measurement) constructor.newInstance(params);
 
-		return result;
-	}
+        return result;
+    }
 
-	public String getRangeAsString() {
-		StringBuffer result = new StringBuffer();
+    public String getRangeAsString() {
+        StringBuffer result = new StringBuffer();
 
-		result.append("[");
-		result.append((getLowerThreshold() != null) ? getLowerThreshold().toString() : "*");
-		result.append(", ");
-		result.append((getUpperThreshold() != null) ? getUpperThreshold().toString() : "*");
-		result.append("]");
+        result.append("[");
+        result.append((getLowerThreshold() != null) ? getLowerThreshold().toString() : "*");
+        result.append(", ");
+        result.append((getUpperThreshold() != null) ? getUpperThreshold().toString() : "*");
+        result.append("]");
 
-		return result.toString();
-	}
+        return result.toString();
+    }
 }

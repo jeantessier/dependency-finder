@@ -8,16 +8,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -39,25 +39,25 @@
     <xsl:output method="text"/>
 
     <xsl:template match="dependencies">
-	<xsl:apply-templates/>
+        <xsl:apply-templates/>
     </xsl:template>
  
     <xsl:template match="package[not(inbound) and not(class/inbound) and not(class/feature/inbound)]">
-	package <xsl:value-of select="name"/>
-	<xsl:apply-templates/>
+        package <xsl:value-of select="name"/>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="class[not(inbound) and not(feature/inbound)]">
-	class   <xsl:value-of select="name"/>
-	<xsl:apply-templates/>
+        class   <xsl:value-of select="name"/>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="feature[not(inbound)]">
-	feature <xsl:value-of select="name"/>
+        feature <xsl:value-of select="name"/>
     </xsl:template>
 
     <xsl:template match="package|class|feature">
-	<xsl:apply-templates/>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="name|inbound|outbound|text()"></xsl:template>

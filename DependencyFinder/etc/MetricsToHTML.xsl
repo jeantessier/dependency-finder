@@ -8,16 +8,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,63 +38,63 @@
     <xsl:strip-space elements="*"/> 
 
     <xsl:template match="metrics">
-	<html>
+        <html>
 
-	<head>
-	    <link rel="stylesheet" type="text/css" href="metrics.style.css" />
-	    <title>Metrics for <xsl:apply-templates select="project/name"/></title>
-	</head>
+        <head>
+            <link rel="stylesheet" type="text/css" href="metrics.style.css" />
+            <title>Metrics for <xsl:apply-templates select="project/name"/></title>
+        </head>
 
-	<body>
-	    <xsl:apply-templates/>
-	</body>
+        <body>
+            <xsl:apply-templates/>
+        </body>
 
-	</html>
+        </html>
     </xsl:template>
 
     <xsl:template match="project">
-	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<div class="projectname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
-	<div class="measurements"><xsl:apply-templates select="measurement"/></div>
-	<div class="groups"><xsl:apply-templates select="group"/></div>
+        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
+        <div class="projectname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+        <div class="measurements"><xsl:apply-templates select="measurement"/></div>
+        <div class="groups"><xsl:apply-templates select="group"/></div>
     </xsl:template>
 
     <xsl:template match="group">
-	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<div class="groupname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
-	<div class="measurements"><xsl:apply-templates select="measurement"/></div>
-	<div class="classes"><xsl:apply-templates select="class"/></div>
+        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
+        <div class="groupname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+        <div class="measurements"><xsl:apply-templates select="measurement"/></div>
+        <div class="classes"><xsl:apply-templates select="class"/></div>
     </xsl:template>
 
     <xsl:template match="class">
-	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<div class="classname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
-	<div class="measurements"><xsl:apply-templates select="measurement"/></div>
-	<div class="methods"><xsl:apply-templates select="method"/></div>
+        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
+        <div class="classname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+        <div class="measurements"><xsl:apply-templates select="measurement"/></div>
+        <div class="methods"><xsl:apply-templates select="method"/></div>
     </xsl:template>
 
     <xsl:template match="method">
-	<xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-	<div class="methodname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
-	<div class="measurements"><xsl:apply-templates select="measurement"/></div>
+        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
+        <div class="methodname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+        <div class="measurements"><xsl:apply-templates select="measurement"/></div>
     </xsl:template>
 
     <xsl:template match="measurement">
-	<span class="measurementname"><xsl:value-of select="long-name"/></span>: <span class="measurementvalue"><xsl:value-of select="value"/></span><br />
-	<xsl:apply-templates select="members"/>
+        <span class="measurementname"><xsl:value-of select="long-name"/></span>: <span class="measurementvalue"><xsl:value-of select="value"/></span><br />
+        <xsl:apply-templates select="members"/>
     </xsl:template>
 
     <xsl:template match="measurement[minimum]">
-	<span class="measurementname"><xsl:value-of select="long-name"/></span>: <span class="measurementvalue"><xsl:value-of select="value"/> [<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]</span><br />
+        <span class="measurementname"><xsl:value-of select="long-name"/></span>: <span class="measurementvalue"><xsl:value-of select="value"/> [<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]</span><br />
     </xsl:template>
 
     <xsl:template match="members">
-	<div class="members"><xsl:apply-templates/></div>
+        <div class="members"><xsl:apply-templates/></div>
     </xsl:template>
 
     <xsl:template match="member">
-	<xsl:variable name="name"><xsl:apply-templates select="text()"/></xsl:variable>
-	<span class="member"><a href="#{$name}"><xsl:value-of select="$name"/></a></span><br />
+        <xsl:variable name="name"><xsl:apply-templates select="text()"/></xsl:variable>
+        <span class="member"><a href="#{$name}"><xsl:value-of select="$name"/></a></span><br />
     </xsl:template>
 
 </xsl:stylesheet>

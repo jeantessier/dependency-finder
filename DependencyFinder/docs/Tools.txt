@@ -89,7 +89,7 @@ as hexadecimal characters to standard output.
 ---+++ Synopsis
 
     ClassDump
-	[classname ...]
+        [classname ...]
 
 ---+++ Description
 
@@ -187,12 +187,12 @@ Lists all classes it could find, based on parameters.
 ---+++ Synopsis
 
     ClassList
-    	[-help]
-    	[-out filename]
-    	[-time]
-    	[-verbose [filename]]
-	[-version]
-	[filename ...]
+        [-help]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+        [filename ...]
 
 ---+++ Description
 
@@ -386,14 +386,14 @@ synchronized, or abstract methods, etc.
 ---+++ Synopsis
 
     ClassMetrics
-    	[-help]
-	[-instruction-counts]
-    	[-list]
-    	[-out filename]
-    	[-time]
-    	[-verbose [filename]]
-    	[-version]
-	[filename ...]
+        [-help]
+        [-instruction-counts]
+        [-list]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+        [filename ...]
 
 ---+++ Description
 
@@ -616,16 +616,16 @@ Takes a compiled Java _.class_ file and writes out its structure.
 ---+++ Synopsis
 
     ClassReader
-    	[-dtd-prefix uri]
-    	[-encoding name]
-    	[-help]
-    	[-indent-text text]
-    	[-out filename]
-    	[-time]
-    	[-verbose [filename]]
-    	[-version]
-    	[-xml]
-	param ...
+        [-dtd-prefix uri]
+        [-encoding name]
+        [-help]
+        [-indent-text text]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+        [-xml]
+        param ...
 
 ---+++ Description
 
@@ -1010,8 +1010,8 @@ Lists the programming elements in a closure.
 ---+++ Synopsis
 
     ClosureToText
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -1123,8 +1123,8 @@ have no inbound dependencies.
 ---+++ Synopsis
 
     DependablesToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -1236,8 +1236,8 @@ have no inbound dependencies.
 ---+++ Synopsis
 
     DependablesToText
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -1378,36 +1378,36 @@ point to either a specified end point or depth.
 ---+++ Synopsis
 
     DependencyClosure
-    	[-class-start-excludes value]*
-    	[-class-start-includes value]*
-    	[-class-stop-excludes value]*
-    	[-class-stop-includes value]*
-    	[-dtd-prefix uri]
-	[-encoding name]
-    	[-feature-start-excludes value]*
-    	[-feature-start-includes value]*
-    	[-feature-stop-excludes value]*
-    	[-feature-stop-includes value]*
-    	[-help]
-    	[-indent-text text]
-    	[-maximum-inbound-depth [value]]
-    	[-maximum-outbound-depth [value]]
-    	[-out filename]
-    	[-package-start-excludes value]*
-    	[-package-start-includes value]*
-    	[-package-stop-excludes value]*
-    	[-package-stop-includes value]*
-    	[-start-excludes value]*
-    	[-start-includes value]*
-    	[-stop-excludes value]*
-    	[-stop-includes value]*
-    	[-time]
-    	[-validate]
-    	[-verbose [filename]]
-    	[-version]
-    	[-xml]
-	graph.xml
-	...
+        [-class-start-excludes value]*
+        [-class-start-includes value]*
+        [-class-stop-excludes value]*
+        [-class-stop-includes value]*
+        [-dtd-prefix uri]
+        [-encoding name]
+        [-feature-start-excludes value]*
+        [-feature-start-includes value]*
+        [-feature-stop-excludes value]*
+        [-feature-stop-includes value]*
+        [-help]
+        [-indent-text text]
+        [-maximum-inbound-depth [value]]
+        [-maximum-outbound-depth [value]]
+        [-out filename]
+        [-package-start-excludes value]*
+        [-package-start-includes value]*
+        [-package-stop-excludes value]*
+        [-package-stop-includes value]*
+        [-start-excludes value]*
+        [-start-includes value]*
+        [-stop-excludes value]*
+        [-stop-includes value]*
+        [-time]
+        [-validate]
+        [-verbose [filename]]
+        [-version]
+        [-xml]
+        graph.xml
+        ...
 
 ---+++ Description
 
@@ -2011,18 +2011,18 @@ Extracts dependencies from compiled classes.
 ---+++ Synopsis
 
     DependencyExtractor
-	[-encoding name]
-    	[-dtd-prefix uri]
-    	[-help]
-    	[-indent-text text]
-    	[-maximize]
-    	[-minimize]
-    	[-out filename]
-    	[-time]
-    	[-verbose [filename]]
-    	[-version]
-    	[-xml]
-	[filename ...]
+        [-encoding name]
+        [-dtd-prefix uri]
+        [-help]
+        [-indent-text text]
+        [-maximize]
+        [-minimize]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+        [-xml]
+        [filename ...]
 
 ---+++ Description
 
@@ -2283,12 +2283,12 @@ Swing application for dependency analysis.
 ---+++ Synopsis
 
     DependencyFinder
-	[-encoding name]
-    	[-dtd-prefix uri]
-    	[-help]
-    	[-indent-text text]
-    	[-maximize]
-    	[-minimize]
+        [-encoding name]
+        [-dtd-prefix uri]
+        [-help]
+        [-indent-text text]
+        [-maximize]
+        [-minimize]
 
 ---+++ Description
 
@@ -2442,8 +2442,8 @@ Translates the whole graph to HTML.
 ---+++ Synopsis
 
     DependencyGraphToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -2553,8 +2553,8 @@ Translates the whole graph to text.
 ---+++ Synopsis
 
     DependencyGraphToText
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -2699,58 +2699,58 @@ number of entering vertices, and number of exiting vertices.
 ---+++ Synopsis
 
     DependencyMetrics
-    	[-all]
-    	[-c2c]
-    	[-c2p]
-    	[-chart-all]
-    	[-chart-classes]
-    	[-chart-classes-per-package]
-    	[-chart-features]
-    	[-chart-features-per-class]
-    	[-chart-inbounds]
-    	[-chart-inbounds-per-class]
-    	[-chart-inbounds-per-feature]
-    	[-chart-inbounds-per-package]
-    	[-chart-outbounds]
-    	[-chart-outbounds-per-class]
-    	[-chart-outbounds-per-feature]
-    	[-chart-outbounds-per-package]
-    	[-chart-packages]
-    	[-class-filter]
-    	[-class-filter-excludes value]*
-    	[-class-filter-includes value]*
-    	[-class-scope]
-    	[-class-scope-excludes value]*
-    	[-class-scope-includes value]*
-    	[-excludes value]*
-    	[-f2f]
-    	[-feature-filter]
-    	[-feature-filter-excludes value]*
-    	[-feature-filter-includes value]*
-    	[-feature-scope]
-    	[-feature-scope-excludes value]*
-    	[-feature-scope-includes value]*
-    	[-filter-excludes value]*
-    	[-filter-includes value]*
-    	[-help]
-    	[-includes value]*
-    	[-list]
-    	[-out filename]
-    	[-p2p]
-    	[-package-filter]
-    	[-package-filter-excludes value]*
-    	[-package-filter-includes value]*
-    	[-package-scope]
-    	[-package-scope-excludes value]*
-    	[-package-scope-includes value]*
-    	[-scope-excludes value]*
-    	[-scope-includes value]*
-    	[-time]
-    	[-validate]
-    	[-verbose [filename]]
-    	[-version]
-	graph.xml
-	...
+        [-all]
+        [-c2c]
+        [-c2p]
+        [-chart-all]
+        [-chart-classes]
+        [-chart-classes-per-package]
+        [-chart-features]
+        [-chart-features-per-class]
+        [-chart-inbounds]
+        [-chart-inbounds-per-class]
+        [-chart-inbounds-per-feature]
+        [-chart-inbounds-per-package]
+        [-chart-outbounds]
+        [-chart-outbounds-per-class]
+        [-chart-outbounds-per-feature]
+        [-chart-outbounds-per-package]
+        [-chart-packages]
+        [-class-filter]
+        [-class-filter-excludes value]*
+        [-class-filter-includes value]*
+        [-class-scope]
+        [-class-scope-excludes value]*
+        [-class-scope-includes value]*
+        [-excludes value]*
+        [-f2f]
+        [-feature-filter]
+        [-feature-filter-excludes value]*
+        [-feature-filter-includes value]*
+        [-feature-scope]
+        [-feature-scope-excludes value]*
+        [-feature-scope-includes value]*
+        [-filter-excludes value]*
+        [-filter-includes value]*
+        [-help]
+        [-includes value]*
+        [-list]
+        [-out filename]
+        [-p2p]
+        [-package-filter]
+        [-package-filter-excludes value]*
+        [-package-filter-includes value]*
+        [-package-scope]
+        [-package-scope-excludes value]*
+        [-package-scope-includes value]*
+        [-scope-excludes value]*
+        [-scope-includes value]*
+        [-time]
+        [-validate]
+        [-verbose [filename]]
+        [-version]
+        graph.xml
+        ...
 
 ---+++ Description
 
@@ -3685,58 +3685,58 @@ Summarizes a dependency graph according to user-specified criteria.
 ---+++ Synopsis
 
     DependencyReporter
-    	[-all]
-    	[-c2c]
-    	[-c2p]
-    	[-class-filter
-    	[-class-filter-excludes value]*
-    	[-class-filter-includes value]*
-    	[-class-scope]
-    	[-class-scope-excludes value]*
-    	[-class-scope-includes value]*
-	[-copy-only]
-    	[-dtd-prefix uri]
-	[-encoding name]
-    	[-excludes value]*
-    	[-f2f]
-    	[-feature-filter]
-    	[-feature-filter-excludes value]*
-    	[-feature-filter-includes value]*
-    	[-feature-scope]
-    	[-feature-scope-excludes value]*
-    	[-feature-scope-includes value]*
-    	[-filter-excludes value]*
-    	[-filter-excludes-list filename]*
-    	[-filter-includes value]*
-    	[-filter-includes-list filename]*
-    	[-help]
-    	[-includes value]*
-    	[-indent-text text]
-    	[-maximize]
-    	[-minimize]
-    	[-out filename]
-    	[-p2p]
-    	[-package-filter]
-    	[-package-filter-excludes value]*
-    	[-package-filter-includes value]*
-    	[-package-scope]
-    	[-package-scope-excludes value]*
-    	[-package-scope-includes value]*
-    	[-scope-excludes value]*
-    	[-scope-excludes-list filename]*
-    	[-scope-includes value]*
-    	[-scope-includes-list filename]*
-	[-show-all]
-	[-show-empty-nodes]
-	[-show-inbounds]
-	[-show-outbounds]
-    	[-time]
-    	[-validate]
-    	[-verbose [filename]]
-    	[-version]
-    	[-xml]
-	graph.xml
-	...
+        [-all]
+        [-c2c]
+        [-c2p]
+        [-class-filter
+        [-class-filter-excludes value]*
+        [-class-filter-includes value]*
+        [-class-scope]
+        [-class-scope-excludes value]*
+        [-class-scope-includes value]*
+        [-copy-only]
+        [-dtd-prefix uri]
+        [-encoding name]
+        [-excludes value]*
+        [-f2f]
+        [-feature-filter]
+        [-feature-filter-excludes value]*
+        [-feature-filter-includes value]*
+        [-feature-scope]
+        [-feature-scope-excludes value]*
+        [-feature-scope-includes value]*
+        [-filter-excludes value]*
+        [-filter-excludes-list filename]*
+        [-filter-includes value]*
+        [-filter-includes-list filename]*
+        [-help]
+        [-includes value]*
+        [-indent-text text]
+        [-maximize]
+        [-minimize]
+        [-out filename]
+        [-p2p]
+        [-package-filter]
+        [-package-filter-excludes value]*
+        [-package-filter-includes value]*
+        [-package-scope]
+        [-package-scope-excludes value]*
+        [-package-scope-includes value]*
+        [-scope-excludes value]*
+        [-scope-excludes-list filename]*
+        [-scope-includes value]*
+        [-scope-includes-list filename]*
+        [-show-all]
+        [-show-empty-nodes]
+        [-show-inbounds]
+        [-show-outbounds]
+        [-time]
+        [-validate]
+        [-verbose [filename]]
+        [-version]
+        [-xml]
+        graph.xml
+        ...
 
 ---+++ Description
 
@@ -4690,8 +4690,8 @@ have no outbound dependencies.
 ---+++ Synopsis
 
     DependentsToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -4803,8 +4803,8 @@ have no outbound dependencies.
 ---+++ Synopsis
 
     DependentsToText
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -4944,8 +4944,8 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
 ---+++ Synopsis
 
     DiffToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -5049,8 +5049,8 @@ have no inbound dependencies.
 ---+++ Synopsis
 
     HideOutboundDependenciesToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -5162,8 +5162,8 @@ have no inbound dependencies.
 ---+++ Synopsis
 
     HideOutboundDependenciesToText
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -5305,8 +5305,8 @@ have no outbound dependencies.
 ---+++ Synopsis
 
     HideInboundDependenciesToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -5418,8 +5418,8 @@ have no outbound dependencies.
 ---+++ Synopsis
 
     HideInboundDependenciesToText
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -5560,21 +5560,21 @@ Computes API differences between two versions of a codebase.
 ---+++ Synopsis
 
     JarJarDiff
-	[-encoding name]
-    	[-dtd-prefix uri]
-    	[-help]
-    	[-indent-text text]
-    	[-name value]
-    	[-new filename]+
-    	[-new-documentation filename]
-    	[-new-label value]
-    	[-old filename]+
-    	[-old-documentation filename]
-    	[-old-label value]
-    	[-out filename]
-    	[-time]
-    	[-verbose [filename]]
-    	[-version]
+        [-encoding name]
+        [-dtd-prefix uri]
+        [-help]
+        [-indent-text text]
+        [-name value]
+        [-new filename]+
+        [-new-documentation filename]
+        [-new-label value]
+        [-old filename]+
+        [-old-documentation filename]
+        [-old-label value]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
 
 ---+++ Description
 
@@ -5885,7 +5885,7 @@ Lists programming elements that are deprecated.
         [-time]
         [-verbose [filename]]
         [-version]
-	[filename ...]
+        [filename ...]
 
 ---+++ Description
 
@@ -6032,19 +6032,19 @@ Compares two lists of programming elements and computes differences.
 ---+++ Synopsis
 
     ListDiff
-    	[-compress]
-	[-encoding name]
-    	[-dtd-prefix uri]
-    	[-help]
-    	[-indent-text text]
-    	[-name value]
-    	-new filename
-    	[-new-label value]
-    	-old filename
-    	[-old-label value]
-    	[-out filename]
-    	[-time]
-    	[-version]
+        [-compress]
+        [-encoding name]
+        [-dtd-prefix uri]
+        [-help]
+        [-indent-text text]
+        [-name value]
+        -new filename
+        [-new-label value]
+        -old filename
+        [-old-label value]
+        [-out filename]
+        [-time]
+        [-version]
 
 ---+++ Description
 
@@ -6321,8 +6321,8 @@ Converts the output of [[#ListDiff][ListDiff]] to HTML.
 ---+++ Synopsis
 
     ListDiffToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -6424,8 +6424,8 @@ Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 ---+++ Synopsis
 
     ListDiffToText
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -6542,7 +6542,7 @@ Lists programming elements that are part of the published documentation.
         [-out filename]
         -tag name
         [-valid value]*
-	[param ...]
+        [param ...]
 
 ---+++ Description
 
@@ -6691,8 +6691,8 @@ Lists inheritance changes in =JarJarDiff= reports.
 ---+++ Synopsis
 
     ListInheritanceDiffToText
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -6796,16 +6796,16 @@ Lists all symbols it could find, based on parameters.
 ---+++ Synopsis
 
     ListSymbols
-    	[-class-names]
-    	[-field-names]
-    	[-method-names]
-    	[-local-names]
-    	[-help]
-    	[-out filename]
-    	[-time]
-    	[-verbose [filename]]
-	[-version]
-	[filename ...]
+        [-class-names]
+        [-field-names]
+        [-method-names]
+        [-local-names]
+        [-help]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+        [filename ...]
 
 ---+++ Description
 
@@ -7017,8 +7017,8 @@ Lists programming elements that have no inbound dependencies.
 ---+++ Synopsis
 
     ListUnused
-    	-in input_file.xml
-    	[-out output_file.txt]
+        -in input_file.xml
+        [-out output_file.txt]
 
 ---+++ Description
 
@@ -7148,8 +7148,8 @@ Translates the whole report to HTML.
 ---+++ Synopsis
 
     MetricsToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -7254,8 +7254,8 @@ Translates the whole report to text.
 ---+++ Synopsis
 
     MetricsToText
-    	-in input_file.xml
-    	[-out output_file.html]
+        -in input_file.xml
+        [-out output_file.html]
 
 ---+++ Description
 
@@ -7362,37 +7362,37 @@ Computes object-oriented metrics on a codebase.
 ---+++ Synopsis
 
     OOMetrics
-    	[-all]
-    	[-classes]
-    	[-configuration filename]
-    	[-csv]
-    	-default-configuration filename
-    	[-dtd-prefix uri]
-	[-encoding name]
-    	[-expand]
-	[-filter-excludes-list filename]*
-	[-filter-includes-list filename]*
-    	[-groups]
-    	[-help]
-    	[-indent-text text]
-    	[-methods]
-    	[-out filename]
-    	[-project]
-    	[-project-name value]
-    	[-reverse]
-	[-scope-excludes-list filename]*
-	[-scope-includes-list filename]*
-    	[-show-all-metrics]
-    	[-show-empty-metrics]
-    	[-show-hidden-measurements]
-    	[-sort name]
-    	[-time]
-    	[-txt]
-    	[-validate]
-    	[-verbose [filename]]
-    	[-version]
-    	[-xml]
-	[filename ...]
+        [-all]
+        [-classes]
+        [-configuration filename]
+        [-csv]
+        -default-configuration filename
+        [-dtd-prefix uri]
+        [-encoding name]
+        [-expand]
+        [-filter-excludes-list filename]*
+        [-filter-includes-list filename]*
+        [-groups]
+        [-help]
+        [-indent-text text]
+        [-methods]
+        [-out filename]
+        [-project]
+        [-project-name value]
+        [-reverse]
+        [-scope-excludes-list filename]*
+        [-scope-includes-list filename]*
+        [-show-all-metrics]
+        [-show-empty-metrics]
+        [-show-hidden-measurements]
+        [-sort name]
+        [-time]
+        [-txt]
+        [-validate]
+        [-verbose [filename]]
+        [-version]
+        [-xml]
+        [filename ...]
 
 ---+++ Description
 
@@ -7946,10 +7946,10 @@ A Swing-based version of [[#OOMetrics][OOMetrics]].
 ---+++ Synopsis
 
     OOMetricsGUI
-    	[-configuration filename]
-    	-default-configuration filename
-    	[-help]
-    	[-validate]
+        [-configuration filename]
+        -default-configuration filename
+        [-help]
+        [-validate]
 
 ---+++ Description
 
@@ -8077,9 +8077,9 @@ the _published_ interface, the one that you expose to your customers.
 ---+++ Synopsis
 
     PublishedDiffToHTML
-    	-in input_file.xml
-    	[-out output_file.html]
-    	[-param validation-list list.txt]
+        -in input_file.xml
+        [-out output_file.html]
+        [-param validation-list list.txt]
 
 ---+++ Description
 
@@ -8212,9 +8212,9 @@ Applies an XSL stylesheet to an XML document.
 ---+++ Synopsis
 
     XSLTProcess
-    	-in input_file.xml
-    	[-out filename]
-	-xsl stylesheet.xsl
+        -in input_file.xml
+        [-out filename]
+        -xsl stylesheet.xsl
 
 ---+++ Description
 

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -42,60 +42,60 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyExtractAction extends AbstractAction implements Runnable {
-	private DependencyFinder model;
+    private DependencyFinder model;
 
-	public DependencyExtractAction(DependencyFinder model) {
-		this.model = model;
+    public DependencyExtractAction(DependencyFinder model) {
+        this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Extract dependencies from compiled classes");
-		putValue(Action.NAME, "Extract");
-		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/extract.gif")));
-	}
+        putValue(Action.LONG_DESCRIPTION, "Extract dependencies from compiled classes");
+        putValue(Action.NAME, "Extract");
+        putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/extract.gif")));
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser;
-		if (model.getInputFiles().isEmpty()) {
-			chooser = new JFileChooser(new File("."));
-		} else {
-			chooser = new JFileChooser((File) model.getInputFiles().iterator().next());
-		}
-		chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
-		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		chooser.setMultiSelectionEnabled(true);
-		int returnValue = chooser.showDialog(model, "Extract");
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			model.addInputFiles(Arrays.asList(chooser.getSelectedFiles()));
-			new Thread(this).start();
-		}
-	}
+    public void actionPerformed(ActionEvent e) {
+        JFileChooser chooser;
+        if (model.getInputFiles().isEmpty()) {
+            chooser = new JFileChooser(new File("."));
+        } else {
+            chooser = new JFileChooser((File) model.getInputFiles().iterator().next());
+        }
+        chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        chooser.setMultiSelectionEnabled(true);
+        int returnValue = chooser.showDialog(model, "Extract");
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            model.addInputFiles(Arrays.asList(chooser.getSelectedFiles()));
+            new Thread(this).start();
+        }
+    }
 
-	public void run() {
-		Date start = new Date();
+    public void run() {
+        Date start = new Date();
 
-		model.getStatusLine().showInfo("Scanning ...");
-		ClassfileScanner scanner = new ClassfileScanner();
-		scanner.load(model.getInputFiles());
+        model.getStatusLine().showInfo("Scanning ...");
+        ClassfileScanner scanner = new ClassfileScanner();
+        scanner.load(model.getInputFiles());
 
-		model.getProgressBar().setMaximum(scanner.getNbFiles());
+        model.getProgressBar().setMaximum(scanner.getNbFiles());
 
-		model.getMonitor().setClosedSession(false);
-		
-		ClassfileLoader loader = new TransientClassfileLoader(model.getClassfileLoaderDispatcher());
-		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
-		loader.addLoadListener(model.getMonitor());
-		loader.load(model.getInputFiles());
+        model.getMonitor().setClosedSession(false);
+        
+        ClassfileLoader loader = new TransientClassfileLoader(model.getClassfileLoaderDispatcher());
+        loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
+        loader.addLoadListener(model.getMonitor());
+        loader.load(model.getInputFiles());
 
-		if (model.getMaximize()) {
-			model.getStatusLine().showInfo("Maximizing ...");
-			new LinkMaximizer().traverseNodes(model.getPackages());
-		} else if (model.getMinimize()) {
-			model.getStatusLine().showInfo("Minimizing ...");
-			new LinkMinimizer().traverseNodes(model.getPackages());
-		}
-		
-		Date stop = new Date();
-		
-		model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-		model.setTitle("Dependency Finder - Extractor");
-	}
+        if (model.getMaximize()) {
+            model.getStatusLine().showInfo("Maximizing ...");
+            new LinkMaximizer().traverseNodes(model.getPackages());
+        } else if (model.getMinimize()) {
+            model.getStatusLine().showInfo("Minimizing ...");
+            new LinkMinimizer().traverseNodes(model.getPackages());
+        }
+        
+        Date stop = new Date();
+        
+        model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+        model.setTitle("Dependency Finder - Extractor");
+    }
 }

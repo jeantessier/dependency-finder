@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,49 +38,49 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
-	public DirectoryClassfileLoader(ClassfileLoader loader) {
-		super(loader);
-	}
+    public DirectoryClassfileLoader(ClassfileLoader loader) {
+        super(loader);
+    }
 
-	protected void load(String filename) {
-		Logger.getLogger(getClass()).debug("Starting group from path " + filename);
-		
-		try {
-			DirectoryExplorer explorer = new DirectoryExplorer(filename);
+    protected void load(String filename) {
+        Logger.getLogger(getClass()).debug("Starting group from path " + filename);
+        
+        try {
+            DirectoryExplorer explorer = new DirectoryExplorer(filename);
 
-			fireBeginGroup(filename, explorer.getCollection().size());
+            fireBeginGroup(filename, explorer.getCollection().size());
 
-			Iterator i = explorer.getCollection().iterator();
-			while (i.hasNext()) {
-				File file = (File) i.next();
-				
-				fireBeginFile(file.getPath());
+            Iterator i = explorer.getCollection().iterator();
+            while (i.hasNext()) {
+                File file = (File) i.next();
+                
+                fireBeginFile(file.getPath());
 
-				Logger.getLogger(getClass()).debug("Starting file " + file.getPath() + " (" + file.length() + " bytes)");
+                Logger.getLogger(getClass()).debug("Starting file " + file.getPath() + " (" + file.length() + " bytes)");
 
-				if (!file.isDirectory()) {
-					// No need to close "in" in finally block.  Only problems can
-					// be with opening "file".
-					// Errors with contents format will be handled and logged by Load().
-					try {
-						InputStream in = new FileInputStream(file);
-						getLoader().load(file.getPath(), in);
-						in.close();
-					} catch (IOException ex) {
-						Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
-					}
-				}
+                if (!file.isDirectory()) {
+                    // No need to close "in" in finally block.  Only problems can
+                    // be with opening "file".
+                    // Errors with contents format will be handled and logged by Load().
+                    try {
+                        InputStream in = new FileInputStream(file);
+                        getLoader().load(file.getPath(), in);
+                        in.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
+                    }
+                }
 
-				fireEndFile(file.getPath());
-			}
-		} catch (IOException ex) {
-			Logger.getLogger(getClass()).error("Cannot load group \"" + filename + "\"", ex);
-		} finally {
-			fireEndGroup(filename);
-		}
-	}
-	
-	protected void load(String filename, InputStream in) {
-		// Do nothing
-	}
+                fireEndFile(file.getPath());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(getClass()).error("Cannot load group \"" + filename + "\"", ex);
+        } finally {
+            fireEndGroup(filename);
+        }
+    }
+    
+    protected void load(String filename, InputStream in) {
+        // Do nothing
+    }
 }

@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,36 +37,36 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class SourceFile_attribute extends Attribute_info {
-	private int sourceFileIndex;
+    private int sourceFileIndex;
 
-	public SourceFile_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-		super(classfile, owner);
+    public SourceFile_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        super(classfile, owner);
 
-		int byteCount = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		sourceFileIndex = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Source file: " + sourceFileIndex + " (" + getSourceFile() + ")");
-	}
+        sourceFileIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Source file: " + sourceFileIndex + " (" + getSourceFile() + ")");
+    }
 
-	public int getSourceFileIndex() {
-		return sourceFileIndex;
-	}
+    public int getSourceFileIndex() {
+        return sourceFileIndex;
+    }
 
-	public UTF8_info getRawSourceFile() {
-		return (UTF8_info) getClassfile().getConstantPool().get(getSourceFileIndex());
-	}
+    public UTF8_info getRawSourceFile() {
+        return (UTF8_info) getClassfile().getConstantPool().get(getSourceFileIndex());
+    }
 
-	public String getSourceFile() {
-		return getRawSourceFile().toString();
-	}
+    public String getSourceFile() {
+        return getRawSourceFile().toString();
+    }
 
-	public String toString() {
-		return "Source file \"" + getSourceFile() + "\"";
-	}
+    public String toString() {
+        return "Source file \"" + getSourceFile() + "\"";
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitSourceFile_attribute(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitSourceFile_attribute(this);
+    }
 }
 

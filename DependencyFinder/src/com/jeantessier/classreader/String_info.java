@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,31 +35,31 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class String_info extends ConstantPoolEntry {
-	private int valueIndex;
+    private int valueIndex;
 
-	public String_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-		super(constantPool);
+    public String_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+        super(constantPool);
 
-		valueIndex = in.readUnsignedShort();
-	}
+        valueIndex = in.readUnsignedShort();
+    }
 
-	public int getValueIndex() {
-		return valueIndex;
-	}
+    public int getValueIndex() {
+        return valueIndex;
+    }
 
-	public UTF8_info getRawValue() {
-		return (UTF8_info) getConstantPool().get(getValueIndex());
-	}
+    public UTF8_info getRawValue() {
+        return (UTF8_info) getConstantPool().get(getValueIndex());
+    }
 
-	public String getValue() {
-		return getRawValue().toString();
-	}
+    public String getValue() {
+        return getRawValue().toString();
+    }
 
-	public String toString() {
-		return getValue();
-	}
+    public String toString() {
+        return getValue();
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitString_info(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitString_info(this);
+    }
 }

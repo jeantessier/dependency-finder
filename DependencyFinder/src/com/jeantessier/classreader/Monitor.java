@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,79 +37,79 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Monitor extends LoadListenerVisitorAdapter {
-	private RemoveVisitor removeVisitor;
-	
-	private Map fileToClass = new HashMap();
-	private boolean closedSession = true;
+    private RemoveVisitor removeVisitor;
+    
+    private Map fileToClass = new HashMap();
+    private boolean closedSession = true;
 
-	// Package-level access for tests only
-	Collection previousFiles = new TreeSet();
-	Collection currentFiles  = new TreeSet();
-	
-	public Monitor(Visitor addVisitor, RemoveVisitor removeVisitor) {
-		super(addVisitor);
+    // Package-level access for tests only
+    Collection previousFiles = new TreeSet();
+    Collection currentFiles  = new TreeSet();
+    
+    public Monitor(Visitor addVisitor, RemoveVisitor removeVisitor) {
+        super(addVisitor);
 
-		this.removeVisitor = removeVisitor;
-	}
+        this.removeVisitor = removeVisitor;
+    }
 
-	public boolean isClosedSession() {
-		return closedSession;
-	}
-	
-	public void setClosedSession(boolean closedSession) {
-		if (!this.closedSession && closedSession) {
-			closeSession();
-		}
-		
-		this.closedSession = closedSession;
-	}
-	
-	public void beginFile(LoadEvent event) {
-		Logger.getLogger(getClass()).debug("beginFile(..., " + event.getFilename() + ", ...)");
-		
-		currentFiles.add(event.getFilename());
-	}
+    public boolean isClosedSession() {
+        return closedSession;
+    }
+    
+    public void setClosedSession(boolean closedSession) {
+        if (!this.closedSession && closedSession) {
+            closeSession();
+        }
+        
+        this.closedSession = closedSession;
+    }
+    
+    public void beginFile(LoadEvent event) {
+        Logger.getLogger(getClass()).debug("beginFile(..., " + event.getFilename() + ", ...)");
+        
+        currentFiles.add(event.getFilename());
+    }
 
-	public void endClassfile(LoadEvent event) {
-		Logger.getLogger(getClass()).debug("endClassfile(..., " + event.getFilename() + ", " + event.getClassfile() + ")");
-		
-		if (previousFiles.contains(event.getFilename())) {
-			Logger.getLogger(getClass()).debug("Removing " + event.getClassfile() + " ...");
-			removeVisitor.removeClass(event.getClassfile().getClassName());
-		}
-		
-		super.endClassfile(event);
+    public void endClassfile(LoadEvent event) {
+        Logger.getLogger(getClass()).debug("endClassfile(..., " + event.getFilename() + ", " + event.getClassfile() + ")");
+        
+        if (previousFiles.contains(event.getFilename())) {
+            Logger.getLogger(getClass()).debug("Removing " + event.getClassfile() + " ...");
+            removeVisitor.removeClass(event.getClassfile().getClassName());
+        }
+        
+        super.endClassfile(event);
 
-		fileToClass.put(event.getFilename(), event.getClassfile().getClassName());
-	}
-	
-	public void endFile(LoadEvent event) {
-		Logger.getLogger(getClass()).debug("endFile(..., " + event.getFilename() + ", ...)");
-		
-		previousFiles.remove(event.getFilename());
-	}
-	
-	public void endSession(LoadEvent event) {
-		Logger.getLogger(getClass()).debug("endSession(...)");
+        fileToClass.put(event.getFilename(), event.getClassfile().getClassName());
+    }
+    
+    public void endFile(LoadEvent event) {
+        Logger.getLogger(getClass()).debug("endFile(..., " + event.getFilename() + ", ...)");
+        
+        previousFiles.remove(event.getFilename());
+    }
+    
+    public void endSession(LoadEvent event) {
+        Logger.getLogger(getClass()).debug("endSession(...)");
 
-		if (isClosedSession()) {
-			removeUnreadFiles();
-			closeSession();
-		}
-	}
+        if (isClosedSession()) {
+            removeUnreadFiles();
+            closeSession();
+        }
+    }
 
 
-	private void removeUnreadFiles() {
-		Iterator i = previousFiles.iterator();
-		while (i.hasNext()) {
-			String classname = (String) fileToClass.get(i.next());
-			Logger.getLogger(getClass()).debug("Removing " + classname + " ...");
-			removeVisitor.removeClass(classname);
-		}
-	}
+    private void removeUnreadFiles() {
+        Iterator i = previousFiles.iterator();
+        while (i.hasNext()) {
+            String classname = (String) fileToClass.get(i.next());
+            Logger.getLogger(getClass()).debug("Removing " + classname + " ...");
+            removeVisitor.removeClass(classname);
+        }
+    }
 
-	private void closeSession() {
-		previousFiles = currentFiles;
-		currentFiles  = new TreeSet();
-	}
+    private void closeSession() {
+        previousFiles = currentFiles;
+        currentFiles  = new TreeSet();
+    }
 }

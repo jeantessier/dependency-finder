@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,58 +38,58 @@ import java.io.*;
 import javax.swing.*;
 
 public class SaveFileAction extends AbstractAction implements Runnable {
-	private DependencyFinder model;
-	private String           encoding;
-	private String           dtdPrefix;
+    private DependencyFinder model;
+    private String           encoding;
+    private String           dtdPrefix;
 
-	private String indentText;
-	private File   file;
+    private String indentText;
+    private File   file;
 
-	public SaveFileAction(DependencyFinder model, String encoding, String dtdPrefix) {
-		this.model     = model;
-		this.encoding  = encoding;
-		this.dtdPrefix = dtdPrefix;
+    public SaveFileAction(DependencyFinder model, String encoding, String dtdPrefix) {
+        this.model     = model;
+        this.encoding  = encoding;
+        this.dtdPrefix = dtdPrefix;
 
-		putValue(Action.LONG_DESCRIPTION, "Save current graph to XML file");
-		putValue(Action.NAME, "Save");
-		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.gif")));
-	}
+        putValue(Action.LONG_DESCRIPTION, "Save current graph to XML file");
+        putValue(Action.NAME, "Save");
+        putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.gif")));
+    }
 
-	public String getIndentText() {
-		return indentText;
-	}
+    public String getIndentText() {
+        return indentText;
+    }
 
-	public void setIndentText(String indentText) {
-		this.indentText = indentText;
-	}
+    public void setIndentText(String indentText) {
+        this.indentText = indentText;
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser();
-		chooser.addChoosableFileFilter(new XMLFileFilter());
-		int returnValue = chooser.showSaveDialog(model);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			file = chooser.getSelectedFile();
-			new Thread(this).start();
-		}
-	}
-	
-	public void run() {
-		try {
-			model.getStatusLine().showInfo("Saving " + file.getName() + " ...");
+    public void actionPerformed(ActionEvent e) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.addChoosableFileFilter(new XMLFileFilter());
+        int returnValue = chooser.showSaveDialog(model);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            file = chooser.getSelectedFile();
+            new Thread(this).start();
+        }
+    }
+    
+    public void run() {
+        try {
+            model.getStatusLine().showInfo("Saving " + file.getName() + " ...");
 
-			PrintWriter out = new PrintWriter(new FileWriter(file));
-			com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, encoding, dtdPrefix);
-			if (indentText != null) {
-				printer.setIndentText(indentText);
-			}
-		
-			printer.traverseNodes(model.getPackages());
+            PrintWriter out = new PrintWriter(new FileWriter(file));
+            com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.XMLPrinter(out, encoding, dtdPrefix);
+            if (indentText != null) {
+                printer.setIndentText(indentText);
+            }
+        
+            printer.traverseNodes(model.getPackages());
 
-			out.close();
+            out.close();
 
-			model.getStatusLine().showInfo("Saved " + file.getName());
-		} catch (IOException ex) {
-			model.getStatusLine().showError("Cannot save: " + ex.getClass().getName() + ": " + ex.getMessage());
-		}
-	}
+            model.getStatusLine().showInfo("Saved " + file.getName());
+        } catch (IOException ex) {
+            model.getStatusLine().showError("Cannot save: " + ex.getClass().getName() + ": " + ex.getMessage());
+        }
+    }
 }

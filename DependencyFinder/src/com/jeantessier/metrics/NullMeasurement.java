@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,71 +33,71 @@
 package com.jeantessier.metrics;
 
 public class NullMeasurement implements Measurement {
-	public MeasurementDescriptor getDescriptor() {
-		return null;
-	}
+    public MeasurementDescriptor getDescriptor() {
+        return null;
+    }
 
-	public Metrics getContext() {
-		return null;
-	}
-	
-	public String getShortName() {
-		return null;
-	}
-	
-	public String getLongName() {
-		return null;
-	}
+    public Metrics getContext() {
+        return null;
+    }
+    
+    public String getShortName() {
+        return null;
+    }
+    
+    public String getLongName() {
+        return null;
+    }
 
-	public Number getValue(){
-		return null;
-	}
-	
-	public int intValue() {
-		return 0;
-	}
-	
-	public long longValue() {
-		return 0;
-	}
-	
-	public float floatValue() {
-		return 0;
-	}
-	
-	public double doubleValue() {
-		return 0;
-	}
+    public Number getValue(){
+        return null;
+    }
+    
+    public int intValue() {
+        return 0;
+    }
+    
+    public long longValue() {
+        return 0;
+    }
+    
+    public float floatValue() {
+        return 0;
+    }
+    
+    public double doubleValue() {
+        return 0;
+    }
 
-	public boolean isEmpty() {
-		return true;
-	}
+    public boolean isEmpty() {
+        return true;
+    }
 
-	public boolean isInRange() {
-		return false;
-	}
-	
-	public void add(Object object) {
-		// Do nothing
-	}
-	
-	public void add(int i) {
-		// Do nothing
-	}
-	
-	public void add(long l) {
-		// Do nothing
-	}
-	
-	public void add(float f) {
-		// Do nothing
-	}
-	
-	public void add(double d) {
-		// Do nothing
-	}
+    public boolean isInRange() {
+        return false;
+    }
+    
+    public void add(Object object) {
+        // Do nothing
+    }
+    
+    public void add(int i) {
+        // Do nothing
+    }
+    
+    public void add(long l) {
+        // Do nothing
+    }
+    
+    public void add(float f) {
+        // Do nothing
+    }
+    
+    public void add(double d) {
+        // Do nothing
+    }
 
-	public void accept(MeasurementVisitor visitor) {
-		// Do nothing
-	}
+    public void accept(MeasurementVisitor visitor) {
+        // Do nothing
+    }
 }

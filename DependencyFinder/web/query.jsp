@@ -9,16 +9,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -48,67 +48,67 @@
 <%
     String scopeIncludes = request.getParameter("scope-includes");
     if (scopeIncludes == null) {
-	scopeIncludes = "//";
+        scopeIncludes = "//";
     }
 
     String scopeExcludes = request.getParameter("scope-excludes");
     if (scopeExcludes == null) {
-	scopeExcludes = "";
+        scopeExcludes = "";
     }
 
     boolean packageScope = "on".equals(request.getParameter("package-scope"));
     if (request.getParameter("submit") == null) {
-	packageScope = true;
+        packageScope = true;
     }
 
     boolean classScope = "on".equals(request.getParameter("class-scope"));
     if (request.getParameter("submit") == null) {
-	classScope = false;
+        classScope = false;
     }
 
     boolean featureScope = "on".equals(request.getParameter("feature-scope"));
     if (request.getParameter("submit") == null) {
-	featureScope = false;
+        featureScope = false;
     }
 
     String filterIncludes = request.getParameter("filter-includes");
     if (filterIncludes == null) {
-	filterIncludes = "//";
+        filterIncludes = "//";
     }
 
     String filterExcludes = request.getParameter("filter-excludes");
     if (filterExcludes == null) {
-	filterExcludes = "";
+        filterExcludes = "";
     }
 
     boolean packageFilter = "on".equals(request.getParameter("package-filter"));
     if (request.getParameter("submit") == null) {
-	packageFilter = true;
+        packageFilter = true;
     }
 
     boolean classFilter = "on".equals(request.getParameter("class-filter"));
     if (request.getParameter("submit") == null) {
-	classFilter = false;
+        classFilter = false;
     }
 
     boolean featureFilter = "on".equals(request.getParameter("feature-filter"));
     if (request.getParameter("submit") == null) {
-	featureFilter = false;
+        featureFilter = false;
     }
 
     boolean showInbounds = "on".equals(request.getParameter("show-inbounds"));
     if (request.getParameter("submit") == null) {
-	showInbounds = true;
+        showInbounds = true;
     }
 
     boolean showOutbounds = "on".equals(request.getParameter("show-outbounds"));
     if (request.getParameter("submit") == null) {
-	showOutbounds = true;
+        showOutbounds = true;
     }
 
     boolean showEmptyNodes = "on".equals(request.getParameter("show-empty-nodes"));
     if (request.getParameter("submit") == null) {
-	showEmptyNodes = true;
+        showEmptyNodes = true;
     }
 %>
 
@@ -134,7 +134,7 @@
 
 <table border="0" class="controls">
     <tr>
-	<td width="50%">
+        <td width="50%">
 
 <fieldset>
     <legend>Select programming elements</legend>
@@ -165,8 +165,8 @@
     </table>
 </fieldset>
 
-	</td>
-	<td>
+        </td>
+        <td>
 
 <fieldset>
     <legend>Show dependencies</legend>
@@ -197,7 +197,7 @@
     </table>
 </fieldset>
 
-	</td>
+        </td>
     </tr>
     <tr>
         <td colspan="2" align="center">
@@ -209,7 +209,7 @@ Show&nbsp;&nbsp;
 <label title="Show selected packages, classes, methods, and fields even if they do not have dependencies" for="showEmptyNodes"><input type="checkbox" name="show-empty-nodes" <%= showEmptyNodes ? "checked" : "" %> id="showEmptyNodes"> empty elements</label>
 </fieldset>
 
-	</td>
+        </td>
     </tr>
 </table>
 
@@ -230,46 +230,46 @@ Show&nbsp;&nbsp;
 
 <%
     if (request.getParameter("submit") != null) {
-	if (application.getAttribute("factory") != null) {
+        if (application.getAttribute("factory") != null) {
 %>
 
 <pre class="result">
 
 <%
-	    Date start = new Date();
+            Date start = new Date();
 
-	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
-	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
-	    
-	    scopeCriteria.setMatchingPackages(packageScope);
-	    scopeCriteria.setMatchingClasses(classScope);
-	    scopeCriteria.setMatchingFeatures(featureScope);
-	    scopeCriteria.setGlobalIncludes(scopeIncludes);
-	    scopeCriteria.setGlobalExcludes(scopeExcludes);
-	
-	    filterCriteria.setMatchingPackages(packageFilter);
-	    filterCriteria.setMatchingClasses(classFilter);
-	    filterCriteria.setMatchingFeatures(featureFilter);
-	    filterCriteria.setGlobalIncludes(filterIncludes);
-	    filterCriteria.setGlobalExcludes(filterExcludes);
+            RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
+            RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+            
+            scopeCriteria.setMatchingPackages(packageScope);
+            scopeCriteria.setMatchingClasses(classScope);
+            scopeCriteria.setMatchingFeatures(featureScope);
+            scopeCriteria.setGlobalIncludes(scopeIncludes);
+            scopeCriteria.setGlobalExcludes(scopeExcludes);
+        
+            filterCriteria.setMatchingPackages(packageFilter);
+            filterCriteria.setMatchingClasses(classFilter);
+            filterCriteria.setMatchingFeatures(featureFilter);
+            filterCriteria.setGlobalIncludes(filterIncludes);
+            filterCriteria.setGlobalExcludes(filterExcludes);
 
-	    GraphCopier dependenciesQuery = new GraphSummarizer(scopeCriteria, filterCriteria);
-	    if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-		dependenciesQuery = new GraphCopier(strategy);
-	    }
-	
-	    dependenciesQuery.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
+            GraphCopier dependenciesQuery = new GraphSummarizer(scopeCriteria, filterCriteria);
+            if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
+                SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+                dependenciesQuery = new GraphCopier(strategy);
+            }
+        
+            dependenciesQuery.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
-	    TextPrinter printer = new TextPrinter(new PrintWriter(out));
+            TextPrinter printer = new TextPrinter(new PrintWriter(out));
 
-	    printer.setShowInbounds(showInbounds);
-	    printer.setShowOutbounds(showOutbounds);
-	    printer.setShowEmptyNodes(showEmptyNodes);
-		
-	    printer.traverseNodes(dependenciesQuery.getScopeFactory().getPackages().values());
+            printer.setShowInbounds(showInbounds);
+            printer.setShowOutbounds(showOutbounds);
+            printer.setShowEmptyNodes(showEmptyNodes);
+            
+            printer.traverseNodes(dependenciesQuery.getScopeFactory().getPackages().values());
 
-	    Date stop = new Date();
+            Date stop = new Date();
 %>
 
 </pre>
@@ -277,7 +277,7 @@ Show&nbsp;&nbsp;
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 
 <%
-	} else {
+        } else {
 %>
 
 <h3>No dependency graph available</h3>
@@ -285,7 +285,7 @@ Show&nbsp;&nbsp;
 <p>Please ask the webmaster to extract a dependency graph before you start placing queries.</p>
 
 <%
-	}
+        }
     }
 %>
 

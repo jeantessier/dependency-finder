@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,28 +38,28 @@ import java.util.*;
 import javax.swing.*;
 
 public class NewMetricsAction extends AbstractAction implements Runnable {
-	private OOMetrics model;
-	
-	public NewMetricsAction(OOMetrics model) {
-		this.model = model;
+    private OOMetrics model;
+    
+    public NewMetricsAction(OOMetrics model) {
+        this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Clear metrics");
-		putValue(Action.NAME, "New");
-		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/new.gif")));
-	}
+        putValue(Action.LONG_DESCRIPTION, "Clear metrics");
+        putValue(Action.NAME, "New");
+        putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/new.gif")));
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		new Thread(this).start();
-	}
+    public void actionPerformed(ActionEvent e) {
+        new Thread(this).start();
+    }
 
-	public void run() {
-		model.getStatusLine().showInfo("");
+    public void run() {
+        model.getStatusLine().showInfo("");
 
-		model.getMetricsFactory().clear();
-		
-		model.getProjectArea().setText("");
-		model.getGroupsModel().setMetrics(Collections.EMPTY_LIST);
-		model.getClassesModel().setMetrics(Collections.EMPTY_LIST);
-		model.getMethodsModel().setMetrics(Collections.EMPTY_LIST);
-	}
+        model.getMetricsFactory().clear();
+        
+        model.getProjectArea().setText("");
+        model.getGroupsModel().setMetrics(Collections.EMPTY_LIST);
+        model.getClassesModel().setMetrics(Collections.EMPTY_LIST);
+        model.getMethodsModel().setMetrics(Collections.EMPTY_LIST);
+    }
 }

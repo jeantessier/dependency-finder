@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,37 +35,37 @@ package com.jeantessier.metrics;
 import junit.framework.*;
 
 public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+    public static Test suite() {
+        TestSuite result = new TestSuite();
 
-		result.addTestSuite(TestMetrics.class);
-		result.addTestSuite(TestMetricsFactory.class);
-		result.addTestSuite(TestMeasurementDescriptor.class);
-		result.addTestSuite(TestMetricsConfiguration.class);
-		result.addTestSuite(TestMetricsConfigurationHandler.class);
-		result.addTestSuite(TestMetricsConfigurationLoader.class);
-		result.addTestSuite(TestNullMeasurement.class);
-		result.addTestSuite(TestCounterMeasurement.class);
-		result.addTestSuite(TestNameListMeasurement.class);
-		result.addTestSuite(TestSubMetricsAccumulatorMeasurement.class);
-		result.addTestSuite(TestContextAccumulatorMeasurement.class);
-		result.addTestSuite(TestRatioMeasurement.class);
-		result.addTestSuite(TestSumMeasurement.class);
-		result.addTestSuite(TestNbSubMetricsMeasurement.class);
-		result.addTestSuite(TestNbSubMetricsMeasurementSelectionCriteria.class);
-		result.addTestSuite(TestStatisticalMeasurement.class);
-		result.addTestSuite(TestStatisticalMeasurementEmpty.class);
-		result.addTestSuite(TestStatisticalMeasurementWithMetrics.class);
-		result.addTestSuite(TestStatisticalMeasurementWithDispose.class);
-		result.addTestSuite(TestMetricsComparator.class);
-		result.addTestSuite(TestMetricsGatherer.class);
-		result.addTestSuite(TestMetricsGathererEvents.class);
-		result.addTestSuite(TestMetricsGathererDependencies.class);
-		result.addTestSuite(TestMetricsGathererDependenciesScope.class);
-		result.addTestSuite(TestMetricsGathererDependenciesFilter.class);
-		result.addTestSuite(TestMetricsGathererSLOC.class);
-		result.addTestSuite(TestXMLPrinter.class);
+        result.addTestSuite(TestMetrics.class);
+        result.addTestSuite(TestMetricsFactory.class);
+        result.addTestSuite(TestMeasurementDescriptor.class);
+        result.addTestSuite(TestMetricsConfiguration.class);
+        result.addTestSuite(TestMetricsConfigurationHandler.class);
+        result.addTestSuite(TestMetricsConfigurationLoader.class);
+        result.addTestSuite(TestNullMeasurement.class);
+        result.addTestSuite(TestCounterMeasurement.class);
+        result.addTestSuite(TestNameListMeasurement.class);
+        result.addTestSuite(TestSubMetricsAccumulatorMeasurement.class);
+        result.addTestSuite(TestContextAccumulatorMeasurement.class);
+        result.addTestSuite(TestRatioMeasurement.class);
+        result.addTestSuite(TestSumMeasurement.class);
+        result.addTestSuite(TestNbSubMetricsMeasurement.class);
+        result.addTestSuite(TestNbSubMetricsMeasurementSelectionCriteria.class);
+        result.addTestSuite(TestStatisticalMeasurement.class);
+        result.addTestSuite(TestStatisticalMeasurementEmpty.class);
+        result.addTestSuite(TestStatisticalMeasurementWithMetrics.class);
+        result.addTestSuite(TestStatisticalMeasurementWithDispose.class);
+        result.addTestSuite(TestMetricsComparator.class);
+        result.addTestSuite(TestMetricsGatherer.class);
+        result.addTestSuite(TestMetricsGathererEvents.class);
+        result.addTestSuite(TestMetricsGathererDependencies.class);
+        result.addTestSuite(TestMetricsGathererDependenciesScope.class);
+        result.addTestSuite(TestMetricsGathererDependenciesFilter.class);
+        result.addTestSuite(TestMetricsGathererSLOC.class);
+        result.addTestSuite(TestXMLPrinter.class);
 
-		return result;
-	}
+        return result;
+    }
 }

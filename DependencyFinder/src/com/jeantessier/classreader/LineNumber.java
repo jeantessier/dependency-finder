@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,41 +37,41 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class LineNumber implements Visitable {
-	private LineNumberTable_attribute lineNumberTable;
-	private int                       startPC;
-	private int                       lineNumber;
+    private LineNumberTable_attribute lineNumberTable;
+    private int                       startPC;
+    private int                       lineNumber;
 
-	public LineNumber(LineNumberTable_attribute lineNumberTable, DataInputStream in) throws IOException {
-		setLineNumberTable(lineNumberTable);
+    public LineNumber(LineNumberTable_attribute lineNumberTable, DataInputStream in) throws IOException {
+        setLineNumberTable(lineNumberTable);
 
-		startPC = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Line number table start PC: " + startPC);
+        startPC = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Line number table start PC: " + startPC);
 
-		lineNumber = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Line number: " + lineNumber);
-	}
+        lineNumber = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Line number: " + lineNumber);
+    }
 
-	public LineNumberTable_attribute getLineNumberTable() {
-		return lineNumberTable;
-	}
+    public LineNumberTable_attribute getLineNumberTable() {
+        return lineNumberTable;
+    }
 
-	private void setLineNumberTable(LineNumberTable_attribute lineNumberTable) {
-		this.lineNumberTable = lineNumberTable;
-	}
+    private void setLineNumberTable(LineNumberTable_attribute lineNumberTable) {
+        this.lineNumberTable = lineNumberTable;
+    }
 
-	public int getStartPC() {
-		return startPC;
-	}
+    public int getStartPC() {
+        return startPC;
+    }
 
-	public int getLineNumber() {
-		return lineNumber;
-	}
+    public int getLineNumber() {
+        return lineNumber;
+    }
 
-	public String toString() {
-		return "Line number";
-	}
+    public String toString() {
+        return "Line number";
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitLineNumber(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitLineNumber(this);
+    }
 }

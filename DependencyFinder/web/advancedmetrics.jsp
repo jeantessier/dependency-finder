@@ -9,16 +9,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -48,117 +48,117 @@
 <%
     String scopeIncludes = request.getParameter("scope-includes");
     if (scopeIncludes == null) {
-	scopeIncludes = "//";
+        scopeIncludes = "//";
     }
 
     String scopeExcludes = request.getParameter("scope-excludes");
     if (scopeExcludes == null) {
-	scopeExcludes = "";
+        scopeExcludes = "";
     }
 
     boolean packageScope = "on".equals(request.getParameter("package-scope"));
     if (request.getParameter("submit") == null) {
-	packageScope = true;
+        packageScope = true;
     }
 
     String packageScopeIncludes = request.getParameter("package-scope-includes");
     if (packageScopeIncludes == null) {
-	packageScopeIncludes = "";
+        packageScopeIncludes = "";
     }
 
     String packageScopeExcludes = request.getParameter("package-scope-excludes");
     if (packageScopeExcludes == null) {
-	packageScopeExcludes = "";
+        packageScopeExcludes = "";
     }
 
     boolean classScope = "on".equals(request.getParameter("class-scope"));
     if (request.getParameter("submit") == null) {
-	classScope = true;
+        classScope = true;
     }
 
     String classScopeIncludes = request.getParameter("class-scope-includes");
     if (classScopeIncludes == null) {
-	classScopeIncludes = "";
+        classScopeIncludes = "";
     }
 
     String classScopeExcludes = request.getParameter("class-scope-excludes");
     if (classScopeExcludes == null) {
-	classScopeExcludes = "";
+        classScopeExcludes = "";
     }
 
     boolean featureScope = "on".equals(request.getParameter("feature-scope"));
     if (request.getParameter("submit") == null) {
-	featureScope = true;
+        featureScope = true;
     }
 
     String featureScopeIncludes = request.getParameter("feature-scope-includes");
     if (featureScopeIncludes == null) {
-	featureScopeIncludes = "";
+        featureScopeIncludes = "";
     }
 
     String featureScopeExcludes = request.getParameter("feature-scope-excludes");
     if (featureScopeExcludes == null) {
-	featureScopeExcludes = "";
+        featureScopeExcludes = "";
     }
 
     String filterIncludes = request.getParameter("filter-includes");
     if (filterIncludes == null) {
-	filterIncludes = "//";
+        filterIncludes = "//";
     }
 
     String filterExcludes = request.getParameter("filter-excludes");
     if (filterExcludes == null) {
-	filterExcludes = "";
+        filterExcludes = "";
     }
 
     boolean packageFilter = "on".equals(request.getParameter("package-filter"));
     if (request.getParameter("submit") == null) {
-	packageFilter = true;
+        packageFilter = true;
     }
 
     String packageFilterIncludes = request.getParameter("package-filter-includes");
     if (packageFilterIncludes == null) {
-	packageFilterIncludes = "";
+        packageFilterIncludes = "";
     }
 
     String packageFilterExcludes = request.getParameter("package-filter-excludes");
     if (packageFilterExcludes == null) {
-	packageFilterExcludes = "";
+        packageFilterExcludes = "";
     }
 
     boolean classFilter = "on".equals(request.getParameter("class-filter"));
     if (request.getParameter("submit") == null) {
-	classFilter = true;
+        classFilter = true;
     }
 
     String classFilterIncludes = request.getParameter("class-filter-includes");
     if (classFilterIncludes == null) {
-	classFilterIncludes = "";
+        classFilterIncludes = "";
     }
 
     String classFilterExcludes = request.getParameter("class-filter-excludes");
     if (classFilterExcludes == null) {
-	classFilterExcludes = "";
+        classFilterExcludes = "";
     }
 
     boolean featureFilter = "on".equals(request.getParameter("feature-filter"));
     if (request.getParameter("submit") == null) {
-	featureFilter = true;
+        featureFilter = true;
     }
 
     String featureFilterIncludes = request.getParameter("feature-filter-includes");
     if (featureFilterIncludes == null) {
-	featureFilterIncludes = "";
+        featureFilterIncludes = "";
     }
 
     String featureFilterExcludes = request.getParameter("feature-filter-excludes");
     if (featureFilterExcludes == null) {
-	featureFilterExcludes = "";
+        featureFilterExcludes = "";
     }
 
     boolean listElements = "on".equals(request.getParameter("list-elements"));
     if (request.getParameter("submit") == null) {
-	listElements = false;
+        listElements = false;
     }
 %>
 
@@ -184,7 +184,7 @@
 
 <table border="0" class="controls">
     <tr>
-	<td width="50%">
+        <td width="50%">
 
 <fieldset>
     <legend>Select programming elements</legend>
@@ -258,8 +258,8 @@
     </table>
 </fieldset>
 
-	</td>
-	<td>
+        </td>
+        <td>
 
 <fieldset>
     <legend>Show dependencies</legend>
@@ -333,7 +333,7 @@
     </table>
 </fieldset>
 
-	</td>
+        </td>
     </tr>
     <tr>
         <td colspan="2" align="center">
@@ -342,7 +342,7 @@
 <label title="List packages, classes, methods, and fields" for="listElements"><input type="checkbox" name="list-elements" <%= listElements ? "checked" : "" %> id="listElements">&nbsp;List programming elements</label>
 </fieldset>
 
-	</td>
+        </td>
     </tr>
 </table>
 
@@ -363,50 +363,50 @@
 
 <%
     if (request.getParameter("submit") != null) {
-	if (application.getAttribute("factory") != null) {
+        if (application.getAttribute("factory") != null) {
 %>
 
 <pre class="result">
 
 <%
-	    Date start = new Date();
+            Date start = new Date();
 
-	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
-	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
-	    
-	    scopeCriteria.setMatchingPackages(packageScope);
-	    scopeCriteria.setMatchingClasses(classScope);
-	    scopeCriteria.setMatchingFeatures(featureScope);
-	    scopeCriteria.setGlobalIncludes(scopeIncludes);
-	    scopeCriteria.setPackageIncludes(packageScopeIncludes);
-	    scopeCriteria.setClassIncludes(classScopeIncludes);
-	    scopeCriteria.setFeatureIncludes(featureScopeIncludes);
-	    scopeCriteria.setGlobalExcludes(scopeExcludes);
-	    scopeCriteria.setPackageExcludes(packageScopeExcludes);
-	    scopeCriteria.setClassExcludes(classScopeExcludes);
-	    scopeCriteria.setFeatureExcludes(featureScopeExcludes);
-	
-	    filterCriteria.setMatchingPackages(packageFilter);
-	    filterCriteria.setMatchingClasses(classFilter);
-	    filterCriteria.setMatchingFeatures(featureFilter);
-	    filterCriteria.setGlobalIncludes(filterIncludes);
-	    filterCriteria.setPackageIncludes(packageFilterIncludes);
-	    filterCriteria.setClassIncludes(classFilterIncludes);
-	    filterCriteria.setFeatureIncludes(featureFilterIncludes);
-	    filterCriteria.setGlobalExcludes(filterExcludes);
-	    filterCriteria.setPackageExcludes(packageFilterExcludes);
-	    filterCriteria.setClassExcludes(classFilterExcludes);
-	    filterCriteria.setFeatureExcludes(featureFilterExcludes);
+            RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
+            RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+            
+            scopeCriteria.setMatchingPackages(packageScope);
+            scopeCriteria.setMatchingClasses(classScope);
+            scopeCriteria.setMatchingFeatures(featureScope);
+            scopeCriteria.setGlobalIncludes(scopeIncludes);
+            scopeCriteria.setPackageIncludes(packageScopeIncludes);
+            scopeCriteria.setClassIncludes(classScopeIncludes);
+            scopeCriteria.setFeatureIncludes(featureScopeIncludes);
+            scopeCriteria.setGlobalExcludes(scopeExcludes);
+            scopeCriteria.setPackageExcludes(packageScopeExcludes);
+            scopeCriteria.setClassExcludes(classScopeExcludes);
+            scopeCriteria.setFeatureExcludes(featureScopeExcludes);
+        
+            filterCriteria.setMatchingPackages(packageFilter);
+            filterCriteria.setMatchingClasses(classFilter);
+            filterCriteria.setMatchingFeatures(featureFilter);
+            filterCriteria.setGlobalIncludes(filterIncludes);
+            filterCriteria.setPackageIncludes(packageFilterIncludes);
+            filterCriteria.setClassIncludes(classFilterIncludes);
+            filterCriteria.setFeatureIncludes(featureFilterIncludes);
+            filterCriteria.setGlobalExcludes(filterExcludes);
+            filterCriteria.setPackageExcludes(packageFilterExcludes);
+            filterCriteria.setClassExcludes(classFilterExcludes);
+            filterCriteria.setFeatureExcludes(featureFilterExcludes);
 
-	    SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-	    MetricsGatherer metrics = new MetricsGatherer(strategy);
-	    metrics.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
-	
-	    MetricsReport reporter = new MetricsReport(new PrintWriter(out));
-	    reporter.setListingElements(listElements);
-	    reporter.process(metrics);
+            SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+            MetricsGatherer metrics = new MetricsGatherer(strategy);
+            metrics.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
+        
+            MetricsReport reporter = new MetricsReport(new PrintWriter(out));
+            reporter.setListingElements(listElements);
+            reporter.process(metrics);
 
-	    Date stop = new Date();
+            Date stop = new Date();
 %>
 
 </pre>
@@ -414,7 +414,7 @@
 <p><%= (stop.getTime() - start.getTime()) / (double) 1000 %> secs.</p>
 
 <%
-	} else {
+        } else {
 %>
 
 <h3>No dependency graph available</h3>
@@ -422,7 +422,7 @@
 <p>Please ask the webmaster to extract a dependency graph before you start placing queries.</p>
 
 <%
-	}
+        }
     }
 %>
 

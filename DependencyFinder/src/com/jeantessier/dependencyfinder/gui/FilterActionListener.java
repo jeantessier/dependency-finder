@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -43,54 +43,54 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
 
 public class FilterActionListener implements Runnable, ActionListener {
-	private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util perl = new Perl5Util();
 
-	private OOMetrics model;
+    private OOMetrics model;
 
-	public FilterActionListener(OOMetrics model) {
-		this.model = model;
-	}
+    public FilterActionListener(OOMetrics model) {
+        this.model = model;
+    }
 
-	public void actionPerformed(ActionEvent event) {
-		new Thread(this).start();
-	}
+    public void actionPerformed(ActionEvent event) {
+        new Thread(this).start();
+    }
 
-	public void run() {
-		try {
-			Date start = new Date();
-			
-			model.getStatusLine().showInfo("Filtering ...");
-			model.getGroupsModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getGroupMetrics()));
-			model.getClassesModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getClassMetrics()));
-			model.getMethodsModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getMethodMetrics()));
-			
-			Date stop = new Date();
-			
-			model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-			model.setTitle("OO Metrics - Extractor");
-		} catch (MalformedPerl5PatternException ex) {
-			JOptionPane dialog = new JOptionPane();
-			dialog.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
-			model.getStatusLine().showInfo("Ready.");
-		} catch (Exception ex) {
-			JOptionPane dialog = new JOptionPane();
-			dialog.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			model.getStatusLine().showInfo("Ready.");
-		}
-	}
+    public void run() {
+        try {
+            Date start = new Date();
+            
+            model.getStatusLine().showInfo("Filtering ...");
+            model.getGroupsModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getGroupMetrics()));
+            model.getClassesModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getClassMetrics()));
+            model.getMethodsModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getMethodMetrics()));
+            
+            Date stop = new Date();
+            
+            model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
+            model.setTitle("OO Metrics - Extractor");
+        } catch (MalformedPerl5PatternException ex) {
+            JOptionPane dialog = new JOptionPane();
+            dialog.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
+            model.getStatusLine().showInfo("Ready.");
+        } catch (Exception ex) {
+            JOptionPane dialog = new JOptionPane();
+            dialog.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            model.getStatusLine().showInfo("Ready.");
+        }
+    }
 
-	private Collection getFilterMetrics(Collection metricsList) {
-		Collection result = new ArrayList(metricsList.size());
+    private Collection getFilterMetrics(Collection metricsList) {
+        Collection result = new ArrayList(metricsList.size());
 
-		Iterator i = metricsList.iterator();
-		while (i.hasNext()) {
-			Metrics metrics = (Metrics) i.next();
+        Iterator i = metricsList.iterator();
+        while (i.hasNext()) {
+            Metrics metrics = (Metrics) i.next();
 
-			if (perl.match(model.getFilterField().getText(), metrics.getName())) {
-				result.add(metrics);
-			}
-		}
+            if (perl.match(model.getFilterField().getText(), metrics.getName())) {
+                result.add(metrics);
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

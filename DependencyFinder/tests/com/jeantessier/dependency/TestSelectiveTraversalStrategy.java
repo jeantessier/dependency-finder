@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -40,320 +40,320 @@ import junit.framework.*;
 import org.apache.oro.text.perl.*;
 
 public class TestSelectiveTraversalStrategy extends TestCase {
-	private RegularExpressionSelectionCriteria scopeCriteria;
-	private RegularExpressionSelectionCriteria filterCriteria;
-	private SelectiveTraversalStrategy         strategy;
-	private NodeFactory                        factory;
+    private RegularExpressionSelectionCriteria scopeCriteria;
+    private RegularExpressionSelectionCriteria filterCriteria;
+    private SelectiveTraversalStrategy         strategy;
+    private NodeFactory                        factory;
 
-	private PackageNode a;
-	private ClassNode a_A;
-	private FeatureNode a_A_a;
-	
-	private PackageNode b;
-	private ClassNode b_B;
-	private FeatureNode b_B_b;
-	
-	private PackageNode c;
-	private ClassNode c_C;
-	private FeatureNode c_C_c;
+    private PackageNode a;
+    private ClassNode a_A;
+    private FeatureNode a_A_a;
+    
+    private PackageNode b;
+    private ClassNode b_B;
+    private FeatureNode b_B_b;
+    
+    private PackageNode c;
+    private ClassNode c_C;
+    private FeatureNode c_C_c;
 
-	private List include;
-	private List exclude;
+    private List include;
+    private List exclude;
 
-	protected void setUp() throws Exception {
-		scopeCriteria  = new RegularExpressionSelectionCriteria();
-		filterCriteria = new RegularExpressionSelectionCriteria();
-		strategy       = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-		factory        = new NodeFactory();
+    protected void setUp() throws Exception {
+        scopeCriteria  = new RegularExpressionSelectionCriteria();
+        filterCriteria = new RegularExpressionSelectionCriteria();
+        strategy       = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+        factory        = new NodeFactory();
 
-		a     = factory.createPackage("a");
-		a_A   = factory.createClass("a.A");
-		a_A_a = factory.createFeature("a.A.a");
-		
-		b     = factory.createPackage("b");
-		b_B   = factory.createClass("b.B");
-		b_B_b = factory.createFeature("b.B.b");
-		
-		c     = factory.createPackage("c");
-		c_C   = factory.createClass("c.C");
-		c_C_c = factory.createFeature("c.C.c");
-		
-		include = new LinkedList();
-		include.add("/^b/");
-		
-		exclude = new LinkedList();
-		exclude.add("/^c/");
-	}
-	
-	public void testScope() {
-		scopeCriteria.setMatchingPackages(true);
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(false);
+        a     = factory.createPackage("a");
+        a_A   = factory.createClass("a.A");
+        a_A_a = factory.createFeature("a.A.a");
+        
+        b     = factory.createPackage("b");
+        b_B   = factory.createClass("b.B");
+        b_B_b = factory.createFeature("b.B.b");
+        
+        c     = factory.createPackage("c");
+        c_C   = factory.createClass("c.C");
+        c_C_c = factory.createFeature("c.C.c");
+        
+        include = new LinkedList();
+        include.add("/^b/");
+        
+        exclude = new LinkedList();
+        exclude.add("/^c/");
+    }
+    
+    public void testScope() {
+        scopeCriteria.setMatchingPackages(true);
+        scopeCriteria.setMatchingClasses(false);
+        scopeCriteria.setMatchingFeatures(false);
 
-		assertTrue("a not in package scope",  strategy.isInScope(a));
-		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
-		assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
-		assertTrue("b not in package scope",  strategy.isInScope(b));
-		assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
-		assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
-		assertTrue("c not in package scope",  strategy.isInScope(c));
-		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
+        assertTrue("a not in package scope",  strategy.isInScope(a));
+        assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
+        assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
+        assertTrue("b not in package scope",  strategy.isInScope(b));
+        assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
+        assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
+        assertTrue("c not in package scope",  strategy.isInScope(c));
+        assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingClasses(true);
-		scopeCriteria.setMatchingFeatures(false);
+        scopeCriteria.setMatchingPackages(false);
+        scopeCriteria.setMatchingClasses(true);
+        scopeCriteria.setMatchingFeatures(false);
 
-		assertTrue("a in package scope",       !strategy.isInScope(a));
-		assertTrue("a.A not in package scope",  strategy.isInScope(a_A));
-		assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
-		assertTrue("b not in package scope",   !strategy.isInScope(b));
-		assertTrue("b.B in package scope",      strategy.isInScope(b_B));
-		assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
-		assertTrue("c not in package scope",   !strategy.isInScope(c));
-		assertTrue("c.C in package scope",      strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
+        assertTrue("a in package scope",       !strategy.isInScope(a));
+        assertTrue("a.A not in package scope",  strategy.isInScope(a_A));
+        assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
+        assertTrue("b not in package scope",   !strategy.isInScope(b));
+        assertTrue("b.B in package scope",      strategy.isInScope(b_B));
+        assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
+        assertTrue("c not in package scope",   !strategy.isInScope(c));
+        assertTrue("c.C in package scope",      strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(true);
+        scopeCriteria.setMatchingPackages(false);
+        scopeCriteria.setMatchingClasses(false);
+        scopeCriteria.setMatchingFeatures(true);
 
-		assertTrue("a in package scope",         !strategy.isInScope(a));
-		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
-		assertTrue("a.A.a not in package scope",  strategy.isInScope(a_A_a));
-		assertTrue("b not in package scope",     !strategy.isInScope(b));
-		assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
-		assertTrue("b.B.b in package scope",      strategy.isInScope(b_B_b));
-		assertTrue("c not in package scope",     !strategy.isInScope(c));
-		assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope",      strategy.isInScope(c_C_c));
-	}
+        assertTrue("a in package scope",         !strategy.isInScope(a));
+        assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
+        assertTrue("a.A.a not in package scope",  strategy.isInScope(a_A_a));
+        assertTrue("b not in package scope",     !strategy.isInScope(b));
+        assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
+        assertTrue("b.B.b in package scope",      strategy.isInScope(b_B_b));
+        assertTrue("c not in package scope",     !strategy.isInScope(c));
+        assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope",      strategy.isInScope(c_C_c));
+    }
 
-	public void testScopeIncludes() {
-		scopeCriteria.setGlobalIncludes(include);
+    public void testScopeIncludes() {
+        scopeCriteria.setGlobalIncludes(include);
 
-		scopeCriteria.setMatchingPackages(true);
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(false);
+        scopeCriteria.setMatchingPackages(true);
+        scopeCriteria.setMatchingClasses(false);
+        scopeCriteria.setMatchingFeatures(false);
 
-		assertTrue("a in package scope",     !strategy.isInScope(a));
-		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
-		assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
-		assertTrue("b not in package scope",  strategy.isInScope(b));
-		assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
-		assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
-		assertTrue("c in package scope",     !strategy.isInScope(c));
-		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
+        assertTrue("a in package scope",     !strategy.isInScope(a));
+        assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
+        assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
+        assertTrue("b not in package scope",  strategy.isInScope(b));
+        assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
+        assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
+        assertTrue("c in package scope",     !strategy.isInScope(c));
+        assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingClasses(true);
-		scopeCriteria.setMatchingFeatures(false);
+        scopeCriteria.setMatchingPackages(false);
+        scopeCriteria.setMatchingClasses(true);
+        scopeCriteria.setMatchingFeatures(false);
 
-		assertTrue("a in package scope",       !strategy.isInScope(a));
-		assertTrue("a.A in package scope",     !strategy.isInScope(a_A));
-		assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
-		assertTrue("b in package scope",       !strategy.isInScope(b));
-		assertTrue("b.B not in package scope",  strategy.isInScope(b_B));
-		assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
-		assertTrue("c in package scope",       !strategy.isInScope(c));
-		assertTrue("c.C in package scope",     !strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
+        assertTrue("a in package scope",       !strategy.isInScope(a));
+        assertTrue("a.A in package scope",     !strategy.isInScope(a_A));
+        assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
+        assertTrue("b in package scope",       !strategy.isInScope(b));
+        assertTrue("b.B not in package scope",  strategy.isInScope(b_B));
+        assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
+        assertTrue("c in package scope",       !strategy.isInScope(c));
+        assertTrue("c.C in package scope",     !strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(true);
+        scopeCriteria.setMatchingPackages(false);
+        scopeCriteria.setMatchingClasses(false);
+        scopeCriteria.setMatchingFeatures(true);
 
-		assertTrue("a in package scope",         !strategy.isInScope(a));
-		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
-		assertTrue("a.A.a in package scope",     !strategy.isInScope(a_A_a));
-		assertTrue("b in package scope",         !strategy.isInScope(b));
-		assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
-		assertTrue("b.B.b not in package scope",  strategy.isInScope(b_B_b));
-		assertTrue("c in package scope",         !strategy.isInScope(c));
-		assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope",     !strategy.isInScope(c_C_c));
-	}
+        assertTrue("a in package scope",         !strategy.isInScope(a));
+        assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
+        assertTrue("a.A.a in package scope",     !strategy.isInScope(a_A_a));
+        assertTrue("b in package scope",         !strategy.isInScope(b));
+        assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
+        assertTrue("b.B.b not in package scope",  strategy.isInScope(b_B_b));
+        assertTrue("c in package scope",         !strategy.isInScope(c));
+        assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope",     !strategy.isInScope(c_C_c));
+    }
 
-	public void testScopeExcludes() {
-		scopeCriteria.setGlobalExcludes(exclude);
+    public void testScopeExcludes() {
+        scopeCriteria.setGlobalExcludes(exclude);
 
-		scopeCriteria.setMatchingPackages(true);
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(false);
+        scopeCriteria.setMatchingPackages(true);
+        scopeCriteria.setMatchingClasses(false);
+        scopeCriteria.setMatchingFeatures(false);
 
-		assertTrue("a not in package scope",  strategy.isInScope(a));
-		assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
-		assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
-		assertTrue("b not in package scope",  strategy.isInScope(b));
-		assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
-		assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
-		assertTrue("c in package scope",     !strategy.isInScope(c));
-		assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
+        assertTrue("a not in package scope",  strategy.isInScope(a));
+        assertTrue("a.A in package scope",   !strategy.isInScope(a_A));
+        assertTrue("a.A.a in package scope", !strategy.isInScope(a_A_a));
+        assertTrue("b not in package scope",  strategy.isInScope(b));
+        assertTrue("b.B in package scope",   !strategy.isInScope(b_B));
+        assertTrue("b.B.b in package scope", !strategy.isInScope(b_B_b));
+        assertTrue("c in package scope",     !strategy.isInScope(c));
+        assertTrue("c.C in package scope",   !strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope", !strategy.isInScope(c_C_c));
 
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingClasses(true);
-		scopeCriteria.setMatchingFeatures(false);
+        scopeCriteria.setMatchingPackages(false);
+        scopeCriteria.setMatchingClasses(true);
+        scopeCriteria.setMatchingFeatures(false);
 
-		assertTrue("a in package scope",       !strategy.isInScope(a));
-		assertTrue("a.A not in package scope",  strategy.isInScope(a_A));
-		assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
-		assertTrue("b in package scope",       !strategy.isInScope(b));
-		assertTrue("b.B not in package scope",  strategy.isInScope(b_B));
-		assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
-		assertTrue("c not in package scope",   !strategy.isInScope(c));
-		assertTrue("c.C in package scope",     !strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
+        assertTrue("a in package scope",       !strategy.isInScope(a));
+        assertTrue("a.A not in package scope",  strategy.isInScope(a_A));
+        assertTrue("a.A.a in package scope",   !strategy.isInScope(a_A_a));
+        assertTrue("b in package scope",       !strategy.isInScope(b));
+        assertTrue("b.B not in package scope",  strategy.isInScope(b_B));
+        assertTrue("b.B.b in package scope",   !strategy.isInScope(b_B_b));
+        assertTrue("c not in package scope",   !strategy.isInScope(c));
+        assertTrue("c.C in package scope",     !strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope",   !strategy.isInScope(c_C_c));
 
-		scopeCriteria.setMatchingPackages(false);
-		scopeCriteria.setMatchingClasses(false);
-		scopeCriteria.setMatchingFeatures(true);
+        scopeCriteria.setMatchingPackages(false);
+        scopeCriteria.setMatchingClasses(false);
+        scopeCriteria.setMatchingFeatures(true);
 
-		assertTrue("a in package scope",         !strategy.isInScope(a));
-		assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
-		assertTrue("a.A.a not in package scope",  strategy.isInScope(a_A_a));
-		assertTrue("b in package scope",         !strategy.isInScope(b));
-		assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
-		assertTrue("b.B.b not in package scope",  strategy.isInScope(b_B_b));
-		assertTrue("c not in package scope",     !strategy.isInScope(c));
-		assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
-		assertTrue("c.C.c in package scope",     !strategy.isInScope(c_C_c));
-	}
+        assertTrue("a in package scope",         !strategy.isInScope(a));
+        assertTrue("a.A in package scope",       !strategy.isInScope(a_A));
+        assertTrue("a.A.a not in package scope",  strategy.isInScope(a_A_a));
+        assertTrue("b in package scope",         !strategy.isInScope(b));
+        assertTrue("b.B in package scope",       !strategy.isInScope(b_B));
+        assertTrue("b.B.b not in package scope",  strategy.isInScope(b_B_b));
+        assertTrue("c not in package scope",     !strategy.isInScope(c));
+        assertTrue("c.C in package scope",       !strategy.isInScope(c_C));
+        assertTrue("c.C.c in package scope",     !strategy.isInScope(c_C_c));
+    }
 
-	public void testFilter() {
-		filterCriteria.setMatchingPackages(true);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
+    public void testFilter() {
+        filterCriteria.setMatchingPackages(true);
+        filterCriteria.setMatchingClasses(false);
+        filterCriteria.setMatchingFeatures(false);
 
-		assertTrue("a not in package filter",  strategy.isInFilter(a));
-		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
-		assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
-		assertTrue("b not in package filter",  strategy.isInFilter(b));
-		assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
-		assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
-		assertTrue("c not in package filter",  strategy.isInFilter(c));
-		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
+        assertTrue("a not in package filter",  strategy.isInFilter(a));
+        assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
+        assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
+        assertTrue("b not in package filter",  strategy.isInFilter(b));
+        assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
+        assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
+        assertTrue("c not in package filter",  strategy.isInFilter(c));
+        assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(true);
-		filterCriteria.setMatchingFeatures(false);
+        filterCriteria.setMatchingPackages(false);
+        filterCriteria.setMatchingClasses(true);
+        filterCriteria.setMatchingFeatures(false);
 
-		assertTrue("a in package filter",       !strategy.isInFilter(a));
-		assertTrue("a.A not in package filter",  strategy.isInFilter(a_A));
-		assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
-		assertTrue("b not in package filter",   !strategy.isInFilter(b));
-		assertTrue("b.B in package filter",      strategy.isInFilter(b_B));
-		assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
-		assertTrue("c not in package filter",   !strategy.isInFilter(c));
-		assertTrue("c.C in package filter",      strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
+        assertTrue("a in package filter",       !strategy.isInFilter(a));
+        assertTrue("a.A not in package filter",  strategy.isInFilter(a_A));
+        assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
+        assertTrue("b not in package filter",   !strategy.isInFilter(b));
+        assertTrue("b.B in package filter",      strategy.isInFilter(b_B));
+        assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
+        assertTrue("c not in package filter",   !strategy.isInFilter(c));
+        assertTrue("c.C in package filter",      strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(true);
+        filterCriteria.setMatchingPackages(false);
+        filterCriteria.setMatchingClasses(false);
+        filterCriteria.setMatchingFeatures(true);
 
-		assertTrue("a in package filter",         !strategy.isInFilter(a));
-		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
-		assertTrue("a.A.a not in package filter",  strategy.isInFilter(a_A_a));
-		assertTrue("b not in package filter",     !strategy.isInFilter(b));
-		assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
-		assertTrue("b.B.b in package filter",      strategy.isInFilter(b_B_b));
-		assertTrue("c not in package filter",     !strategy.isInFilter(c));
-		assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter",      strategy.isInFilter(c_C_c));
-	}
+        assertTrue("a in package filter",         !strategy.isInFilter(a));
+        assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
+        assertTrue("a.A.a not in package filter",  strategy.isInFilter(a_A_a));
+        assertTrue("b not in package filter",     !strategy.isInFilter(b));
+        assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
+        assertTrue("b.B.b in package filter",      strategy.isInFilter(b_B_b));
+        assertTrue("c not in package filter",     !strategy.isInFilter(c));
+        assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter",      strategy.isInFilter(c_C_c));
+    }
 
-	public void testFilterIncludes() {
-		filterCriteria.setGlobalIncludes(include);
+    public void testFilterIncludes() {
+        filterCriteria.setGlobalIncludes(include);
 
-		filterCriteria.setMatchingPackages(true);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
+        filterCriteria.setMatchingPackages(true);
+        filterCriteria.setMatchingClasses(false);
+        filterCriteria.setMatchingFeatures(false);
 
-		assertTrue("a in package filter",     !strategy.isInFilter(a));
-		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
-		assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
-		assertTrue("b not in package filter",  strategy.isInFilter(b));
-		assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
-		assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
-		assertTrue("c in package filter",     !strategy.isInFilter(c));
-		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
+        assertTrue("a in package filter",     !strategy.isInFilter(a));
+        assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
+        assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
+        assertTrue("b not in package filter",  strategy.isInFilter(b));
+        assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
+        assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
+        assertTrue("c in package filter",     !strategy.isInFilter(c));
+        assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(true);
-		filterCriteria.setMatchingFeatures(false);
+        filterCriteria.setMatchingPackages(false);
+        filterCriteria.setMatchingClasses(true);
+        filterCriteria.setMatchingFeatures(false);
 
-		assertTrue("a in package filter",       !strategy.isInFilter(a));
-		assertTrue("a.A in package filter",     !strategy.isInFilter(a_A));
-		assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
-		assertTrue("b in package filter",       !strategy.isInFilter(b));
-		assertTrue("b.B not in package filter",  strategy.isInFilter(b_B));
-		assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
-		assertTrue("c in package filter",       !strategy.isInFilter(c));
-		assertTrue("c.C in package filter",     !strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
+        assertTrue("a in package filter",       !strategy.isInFilter(a));
+        assertTrue("a.A in package filter",     !strategy.isInFilter(a_A));
+        assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
+        assertTrue("b in package filter",       !strategy.isInFilter(b));
+        assertTrue("b.B not in package filter",  strategy.isInFilter(b_B));
+        assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
+        assertTrue("c in package filter",       !strategy.isInFilter(c));
+        assertTrue("c.C in package filter",     !strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(true);
+        filterCriteria.setMatchingPackages(false);
+        filterCriteria.setMatchingClasses(false);
+        filterCriteria.setMatchingFeatures(true);
 
-		assertTrue("a in package filter",         !strategy.isInFilter(a));
-		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
-		assertTrue("a.A.a in package filter",     !strategy.isInFilter(a_A_a));
-		assertTrue("b in package filter",         !strategy.isInFilter(b));
-		assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
-		assertTrue("b.B.b not in package filter",  strategy.isInFilter(b_B_b));
-		assertTrue("c in package filter",         !strategy.isInFilter(c));
-		assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter",     !strategy.isInFilter(c_C_c));
-	}
+        assertTrue("a in package filter",         !strategy.isInFilter(a));
+        assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
+        assertTrue("a.A.a in package filter",     !strategy.isInFilter(a_A_a));
+        assertTrue("b in package filter",         !strategy.isInFilter(b));
+        assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
+        assertTrue("b.B.b not in package filter",  strategy.isInFilter(b_B_b));
+        assertTrue("c in package filter",         !strategy.isInFilter(c));
+        assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter",     !strategy.isInFilter(c_C_c));
+    }
 
-	public void testFilterExcludes() {
-		filterCriteria.setGlobalExcludes(exclude);
+    public void testFilterExcludes() {
+        filterCriteria.setGlobalExcludes(exclude);
 
-		filterCriteria.setMatchingPackages(true);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(false);
+        filterCriteria.setMatchingPackages(true);
+        filterCriteria.setMatchingClasses(false);
+        filterCriteria.setMatchingFeatures(false);
 
-		assertTrue("a not in package filter",  strategy.isInFilter(a));
-		assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
-		assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
-		assertTrue("b not in package filter",  strategy.isInFilter(b));
-		assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
-		assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
-		assertTrue("c in package filter",     !strategy.isInFilter(c));
-		assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
+        assertTrue("a not in package filter",  strategy.isInFilter(a));
+        assertTrue("a.A in package filter",   !strategy.isInFilter(a_A));
+        assertTrue("a.A.a in package filter", !strategy.isInFilter(a_A_a));
+        assertTrue("b not in package filter",  strategy.isInFilter(b));
+        assertTrue("b.B in package filter",   !strategy.isInFilter(b_B));
+        assertTrue("b.B.b in package filter", !strategy.isInFilter(b_B_b));
+        assertTrue("c in package filter",     !strategy.isInFilter(c));
+        assertTrue("c.C in package filter",   !strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter", !strategy.isInFilter(c_C_c));
 
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(true);
-		filterCriteria.setMatchingFeatures(false);
+        filterCriteria.setMatchingPackages(false);
+        filterCriteria.setMatchingClasses(true);
+        filterCriteria.setMatchingFeatures(false);
 
-		assertTrue("a in package filter",       !strategy.isInFilter(a));
-		assertTrue("a.A not in package filter",  strategy.isInFilter(a_A));
-		assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
-		assertTrue("b in package filter",       !strategy.isInFilter(b));
-		assertTrue("b.B not in package filter",  strategy.isInFilter(b_B));
-		assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
-		assertTrue("c in package filter",       !strategy.isInFilter(c));
-		assertTrue("c.C in package filter",     !strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
+        assertTrue("a in package filter",       !strategy.isInFilter(a));
+        assertTrue("a.A not in package filter",  strategy.isInFilter(a_A));
+        assertTrue("a.A.a in package filter",   !strategy.isInFilter(a_A_a));
+        assertTrue("b in package filter",       !strategy.isInFilter(b));
+        assertTrue("b.B not in package filter",  strategy.isInFilter(b_B));
+        assertTrue("b.B.b in package filter",   !strategy.isInFilter(b_B_b));
+        assertTrue("c in package filter",       !strategy.isInFilter(c));
+        assertTrue("c.C in package filter",     !strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter",   !strategy.isInFilter(c_C_c));
 
-		filterCriteria.setMatchingPackages(false);
-		filterCriteria.setMatchingClasses(false);
-		filterCriteria.setMatchingFeatures(true);
+        filterCriteria.setMatchingPackages(false);
+        filterCriteria.setMatchingClasses(false);
+        filterCriteria.setMatchingFeatures(true);
 
-		assertTrue("a in package filter",         !strategy.isInFilter(a));
-		assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
-		assertTrue("a.A.a not in package filter",  strategy.isInFilter(a_A_a));
-		assertTrue("b in package filter",         !strategy.isInFilter(b));
-		assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
-		assertTrue("b.B.b not in package filter",  strategy.isInFilter(b_B_b));
-		assertTrue("c in package filter",         !strategy.isInFilter(c));
-		assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
-		assertTrue("c.C.c in package filter",     !strategy.isInFilter(c_C_c));
-	}
+        assertTrue("a in package filter",         !strategy.isInFilter(a));
+        assertTrue("a.A in package filter",       !strategy.isInFilter(a_A));
+        assertTrue("a.A.a not in package filter",  strategy.isInFilter(a_A_a));
+        assertTrue("b in package filter",         !strategy.isInFilter(b));
+        assertTrue("b.B in package filter",       !strategy.isInFilter(b_B));
+        assertTrue("b.B.b not in package filter",  strategy.isInFilter(b_B_b));
+        assertTrue("c in package filter",         !strategy.isInFilter(c));
+        assertTrue("c.C in package filter",       !strategy.isInFilter(c_C));
+        assertTrue("c.C.c in package filter",     !strategy.isInFilter(c_C_c));
+    }
 }

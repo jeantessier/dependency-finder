@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -36,141 +36,141 @@ import java.io.*;
 import java.util.*;
 
 public class CSVPrinter extends Printer {
-	private List descriptors;
-	
-	public CSVPrinter(PrintWriter out, List descriptors) {
-		super(out);
-		
-		this.descriptors = descriptors;
+    private List descriptors;
+    
+    public CSVPrinter(PrintWriter out, List descriptors) {
+        super(out);
+        
+        this.descriptors = descriptors;
 
-		appendHeader();
-	}
+        appendHeader();
+    }
 
-	private void appendHeader() {
-		appendLongNames();
-		appendShortNames();
-		appendStatSubNames();
-	}
-	
-	private void appendLongNames() {
-		append("\"name\", ");
-		
-		Iterator i = descriptors.iterator();
-		while (i.hasNext()) {
-			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+    private void appendHeader() {
+        appendLongNames();
+        appendShortNames();
+        appendStatSubNames();
+    }
+    
+    private void appendLongNames() {
+        append("\"name\", ");
+        
+        Iterator i = descriptors.iterator();
+        while (i.hasNext()) {
+            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (descriptor.isVisible()) {
-				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-					append("\"").append(descriptor.getLongName()).append("\", ");
-					append("\"").append(descriptor.getLongName()).append("\", ");
-					append("\"").append(descriptor.getLongName()).append("\", ");
-					append("\"").append(descriptor.getLongName()).append("\", ");
-					append("\"").append(descriptor.getLongName()).append("\", ");
-					append("\"").append(descriptor.getLongName()).append("\", ");
-					append("\"").append(descriptor.getLongName()).append("\"");
-				} else {
-					append("\"").append(descriptor.getLongName()).append("\"");
-				}
-				
-				if (i.hasNext()) {
-					append(", ");
-				}
-			}
-		}
-		
-		eol();
-	}
+            if (descriptor.isVisible()) {
+                if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                    append("\"").append(descriptor.getLongName()).append("\", ");
+                    append("\"").append(descriptor.getLongName()).append("\", ");
+                    append("\"").append(descriptor.getLongName()).append("\", ");
+                    append("\"").append(descriptor.getLongName()).append("\", ");
+                    append("\"").append(descriptor.getLongName()).append("\", ");
+                    append("\"").append(descriptor.getLongName()).append("\", ");
+                    append("\"").append(descriptor.getLongName()).append("\"");
+                } else {
+                    append("\"").append(descriptor.getLongName()).append("\"");
+                }
+                
+                if (i.hasNext()) {
+                    append(", ");
+                }
+            }
+        }
+        
+        eol();
+    }
 
-	private void appendShortNames() {
-		append(", ");
-		
-		Iterator i = descriptors.iterator();
-		while (i.hasNext()) {
-			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+    private void appendShortNames() {
+        append(", ");
+        
+        Iterator i = descriptors.iterator();
+        while (i.hasNext()) {
+            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (descriptor.isVisible()) {
-				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-					append("\"").append(descriptor.getShortName()).append("\", ");
-					append("\"").append(descriptor.getShortName()).append("\", ");
-					append("\"").append(descriptor.getShortName()).append("\", ");
-					append("\"").append(descriptor.getShortName()).append("\", ");
-					append("\"").append(descriptor.getShortName()).append("\", ");
-					append("\"").append(descriptor.getShortName()).append("\", ");
-					append("\"").append(descriptor.getShortName()).append("\"");
-				} else {
-					append("\"").append(descriptor.getShortName()).append("\"");
-				}
-				
-				if (i.hasNext()) {
-					append(", ");
-				}
-			}
-		}
-		
-		eol();
-	}
+            if (descriptor.isVisible()) {
+                if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                    append("\"").append(descriptor.getShortName()).append("\", ");
+                    append("\"").append(descriptor.getShortName()).append("\", ");
+                    append("\"").append(descriptor.getShortName()).append("\", ");
+                    append("\"").append(descriptor.getShortName()).append("\", ");
+                    append("\"").append(descriptor.getShortName()).append("\", ");
+                    append("\"").append(descriptor.getShortName()).append("\", ");
+                    append("\"").append(descriptor.getShortName()).append("\"");
+                } else {
+                    append("\"").append(descriptor.getShortName()).append("\"");
+                }
+                
+                if (i.hasNext()) {
+                    append(", ");
+                }
+            }
+        }
+        
+        eol();
+    }
 
-	private void appendStatSubNames() {
-		append(", ");
-		
-		Iterator i = descriptors.iterator();
-		while (i.hasNext()) {
-			MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+    private void appendStatSubNames() {
+        append(", ");
+        
+        Iterator i = descriptors.iterator();
+        while (i.hasNext()) {
+            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
 
-			if (descriptor.isVisible()) {
-				if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-					append("minimum, ");
-					append("median, ");
-					append("average, ");
-					append("std dev, ");
-					append("maxium, ");
-					append("sum, ");
-					append("nb");
-				}
-				
-				if (i.hasNext()) {
-					append(", ");
-				}
-			}
-		}
-		
-		eol();
-	}
-			
-	public void visitMetrics(Metrics metrics) {
-		if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
-			append("\"").append(metrics.getName()).append("\", ");
-			
-			Iterator i = descriptors.iterator();
-			while (i.hasNext()) {
-				MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
-				
-				if (isShowHiddenMeasurements() || descriptor.isVisible()) {
-					Measurement measurement = metrics.getMeasurement(descriptor.getShortName());
-					
-					measurement.accept(this);
-					
-					if (i.hasNext()) {
-						append(", ");
-					}
-				}
-			}
-			
-			eol();
-		}
-	}
+            if (descriptor.isVisible()) {
+                if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                    append("minimum, ");
+                    append("median, ");
+                    append("average, ");
+                    append("std dev, ");
+                    append("maxium, ");
+                    append("sum, ");
+                    append("nb");
+                }
+                
+                if (i.hasNext()) {
+                    append(", ");
+                }
+            }
+        }
+        
+        eol();
+    }
+            
+    public void visitMetrics(Metrics metrics) {
+        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+            append("\"").append(metrics.getName()).append("\", ");
+            
+            Iterator i = descriptors.iterator();
+            while (i.hasNext()) {
+                MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+                
+                if (isShowHiddenMeasurements() || descriptor.isVisible()) {
+                    Measurement measurement = metrics.getMeasurement(descriptor.getShortName());
+                    
+                    measurement.accept(this);
+                    
+                    if (i.hasNext()) {
+                        append(", ");
+                    }
+                }
+            }
+            
+            eol();
+        }
+    }
 
-	public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-		append(measurement.getMinimum()).append(", ");
-		append(measurement.getMedian()).append(", ");
-		append(measurement.getAverage()).append(", ");
-		append(measurement.getStandardDeviation()).append(", ");
-		append(measurement.getMaximum()).append(", ");
-		append(measurement.getSum()).append(", ");
-		append(measurement.getNbDataPoints());
-	}
-	
-	protected void visitMeasurement(Measurement measurement) {
-		append(measurement.getValue());
-	}
+    public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
+        append(measurement.getMinimum()).append(", ");
+        append(measurement.getMedian()).append(", ");
+        append(measurement.getAverage()).append(", ");
+        append(measurement.getStandardDeviation()).append(", ");
+        append(measurement.getMaximum()).append(", ");
+        append(measurement.getSum()).append(", ");
+        append(measurement.getNbDataPoints());
+    }
+    
+    protected void visitMeasurement(Measurement measurement) {
+        append(measurement.getValue());
+    }
 }

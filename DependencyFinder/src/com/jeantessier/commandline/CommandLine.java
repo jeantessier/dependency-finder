@@ -6,16 +6,16 @@
  *  modification, are permitted provided that the following conditions
  *  are met:
  *  
- *  	* Redistributions of source code must retain the above copyright
- *  	  notice, this list of conditions and the following disclaimer.
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
  *  
- *  	* Redistributions in binary form must reproduce the above copyright
- *  	  notice, this list of conditions and the following disclaimer in the
- *  	  documentation and/or other materials provided with the distribution.
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of Jean Tessier nor the names of his contributors
- *  	  may be used to endorse or promote products derived from this software
- *  	  without specific prior written permission.
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
  *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -38,243 +38,243 @@ import java.util.*;
  *  Command-line parser.
  */
 public class CommandLine implements Visitable {
-	private static final boolean           DEFAULT_STRICT             = true;
-	private static final ParameterStrategy DEFAULT_PARAMETER_STRATEGY = new AnyParameterStrategy();
+    private static final boolean           DEFAULT_STRICT             = true;
+    private static final ParameterStrategy DEFAULT_PARAMETER_STRATEGY = new AnyParameterStrategy();
 
-	private boolean           strict;
-	private ParameterStrategy parameterStrategy;
+    private boolean           strict;
+    private ParameterStrategy parameterStrategy;
 
-	private List              parameters = new LinkedList();
-	private Map               map        = new TreeMap();
+    private List              parameters = new LinkedList();
+    private Map               map        = new TreeMap();
 
-	public CommandLine() {
-		this(DEFAULT_STRICT, DEFAULT_PARAMETER_STRATEGY);
-	}
+    public CommandLine() {
+        this(DEFAULT_STRICT, DEFAULT_PARAMETER_STRATEGY);
+    }
 
-	public CommandLine(boolean strict) {
-		this(strict, DEFAULT_PARAMETER_STRATEGY);
-	}
+    public CommandLine(boolean strict) {
+        this(strict, DEFAULT_PARAMETER_STRATEGY);
+    }
 
-	public CommandLine(ParameterStrategy parameterStrategy) {
-		this(DEFAULT_STRICT, parameterStrategy);
-	}
+    public CommandLine(ParameterStrategy parameterStrategy) {
+        this(DEFAULT_STRICT, parameterStrategy);
+    }
 
-	public CommandLine(boolean strict, ParameterStrategy parameterStrategy) {
-		setStrict(strict);
-		setParameterStrategy(parameterStrategy);
-	}
+    public CommandLine(boolean strict, ParameterStrategy parameterStrategy) {
+        setStrict(strict);
+        setParameterStrategy(parameterStrategy);
+    }
 
-	public boolean isStrict() {
-		return strict;
-	}
+    public boolean isStrict() {
+        return strict;
+    }
 
-	public void setStrict(boolean strict) {
-		this.strict = strict;
-	}
+    public void setStrict(boolean strict) {
+        this.strict = strict;
+    }
 
-	public ParameterStrategy getParameterStrategy() {
-		return parameterStrategy;
-	}
+    public ParameterStrategy getParameterStrategy() {
+        return parameterStrategy;
+    }
 
-	public void setParameterStrategy(ParameterStrategy parameterStrategy) {
-		this.parameterStrategy = parameterStrategy;
-	}
+    public void setParameterStrategy(ParameterStrategy parameterStrategy) {
+        this.parameterStrategy = parameterStrategy;
+    }
 
-	public void addSwitch(String name, CommandLineSwitch cls) {
-		map.put(name, cls);
-	}
+    public void addSwitch(String name, CommandLineSwitch cls) {
+        map.put(name, cls);
+    }
 
-	public void addToggleSwitch(String name) {
-		addSwitch(name, new ToggleSwitch());
-	}
+    public void addToggleSwitch(String name) {
+        addSwitch(name, new ToggleSwitch());
+    }
 
-	public void addToggleSwitch(String name, boolean defaultValue) {
-		addSwitch(name, new ToggleSwitch(defaultValue));
-	}
+    public void addToggleSwitch(String name, boolean defaultValue) {
+        addSwitch(name, new ToggleSwitch(defaultValue));
+    }
 
-	public void addSingleValueSwitch(String name) {
-		addSwitch(name, new SingleValueSwitch());
-	}
+    public void addSingleValueSwitch(String name) {
+        addSwitch(name, new SingleValueSwitch());
+    }
 
-	public void addSingleValueSwitch(String name, boolean mandatory) {
-		addSwitch(name, new SingleValueSwitch(mandatory));
-	}
+    public void addSingleValueSwitch(String name, boolean mandatory) {
+        addSwitch(name, new SingleValueSwitch(mandatory));
+    }
 
-	public void addSingleValueSwitch(String name, String defaultValue) {
-		addSwitch(name, new SingleValueSwitch(defaultValue));
-	}
+    public void addSingleValueSwitch(String name, String defaultValue) {
+        addSwitch(name, new SingleValueSwitch(defaultValue));
+    }
 
-	public void addSingleValueSwitch(String name, String defaultValue, boolean mandatory) {
-		addSwitch(name, new SingleValueSwitch(defaultValue, mandatory));
-	}
+    public void addSingleValueSwitch(String name, String defaultValue, boolean mandatory) {
+        addSwitch(name, new SingleValueSwitch(defaultValue, mandatory));
+    }
 
-	public void addOptionalValueSwitch(String name) {
-		addSwitch(name, new OptionalValueSwitch());
-	}
+    public void addOptionalValueSwitch(String name) {
+        addSwitch(name, new OptionalValueSwitch());
+    }
 
-	public void addOptionalValueSwitch(String name, boolean mandatory) {
-		addSwitch(name, new OptionalValueSwitch(mandatory));
-	}
+    public void addOptionalValueSwitch(String name, boolean mandatory) {
+        addSwitch(name, new OptionalValueSwitch(mandatory));
+    }
 
-	public void addOptionalValueSwitch(String name, String defaultValue) {
-		addSwitch(name, new OptionalValueSwitch(defaultValue));
-	}
+    public void addOptionalValueSwitch(String name, String defaultValue) {
+        addSwitch(name, new OptionalValueSwitch(defaultValue));
+    }
 
-	public void addOptionalValueSwitch(String name, String defaultValue, boolean mandatory) {
-		addSwitch(name, new OptionalValueSwitch(defaultValue, mandatory));
-	}
+    public void addOptionalValueSwitch(String name, String defaultValue, boolean mandatory) {
+        addSwitch(name, new OptionalValueSwitch(defaultValue, mandatory));
+    }
 
-	public void addMultipleValuesSwitch(String name) {
-		map.put(name, new MultipleValuesSwitch());
-	}
+    public void addMultipleValuesSwitch(String name) {
+        map.put(name, new MultipleValuesSwitch());
+    }
 
-	public void addMultipleValuesSwitch(String name, boolean mandatory) {
-		map.put(name, new MultipleValuesSwitch(mandatory));
-	}
+    public void addMultipleValuesSwitch(String name, boolean mandatory) {
+        map.put(name, new MultipleValuesSwitch(mandatory));
+    }
 
-	public void addMultipleValuesSwitch(String name, String defaultValue) {
-		map.put(name, new MultipleValuesSwitch(defaultValue));
-	}
+    public void addMultipleValuesSwitch(String name, String defaultValue) {
+        map.put(name, new MultipleValuesSwitch(defaultValue));
+    }
 
-	public void addMultipleValuesSwitch(String name, String defaultValue, boolean mandatory) {
-		map.put(name, new MultipleValuesSwitch(defaultValue, mandatory));
-	}
+    public void addMultipleValuesSwitch(String name, String defaultValue, boolean mandatory) {
+        map.put(name, new MultipleValuesSwitch(defaultValue, mandatory));
+    }
 
-	public CommandLineSwitch getSwitch(String name) {
-		return (CommandLineSwitch) map.get(name);
-	}
+    public CommandLineSwitch getSwitch(String name) {
+        return (CommandLineSwitch) map.get(name);
+    }
 
-	public boolean getToggleSwitch(String name) {
-		boolean result = false;
+    public boolean getToggleSwitch(String name) {
+        boolean result = false;
 
-		CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
-		if (cls != null) {
-			result = ((Boolean) cls.getValue()).booleanValue();
-		}
+        CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+        if (cls != null) {
+            result = ((Boolean) cls.getValue()).booleanValue();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public String getSingleSwitch(String name) {
-		return getStringSwitch(name);
-	}
+    public String getSingleSwitch(String name) {
+        return getStringSwitch(name);
+    }
 
-	public String getOptionalSwitch(String name) {
-		return getStringSwitch(name);
-	}
+    public String getOptionalSwitch(String name) {
+        return getStringSwitch(name);
+    }
 
-	public List getMultipleSwitch(String name) {
-		return getListSwitch(name);
-	}
+    public List getMultipleSwitch(String name) {
+        return getListSwitch(name);
+    }
 
-	private String getStringSwitch(String name) {
-		String result = null;
+    private String getStringSwitch(String name) {
+        String result = null;
 
-		CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
-		if (cls != null) {
-			result =  cls.getValue().toString();
-		}
+        CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+        if (cls != null) {
+            result =  cls.getValue().toString();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private List getListSwitch(String name) {
-		List result = null;
+    private List getListSwitch(String name) {
+        List result = null;
 
-		CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
-		if (cls != null && cls.getValue() instanceof List) {
-			result =  (List) cls.getValue();
-		}
+        CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+        if (cls != null && cls.getValue() instanceof List) {
+            result =  (List) cls.getValue();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public boolean isPresent(String name) {
-		boolean result = false;
+    public boolean isPresent(String name) {
+        boolean result = false;
 
-		CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
-		if (cls != null) {
-			result = cls.isPresent();
-		}
+        CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+        if (cls != null) {
+            result = cls.isPresent();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public Set getKnownSwitches() {
-		return map.keySet();
-	}
+    public Set getKnownSwitches() {
+        return map.keySet();
+    }
 
-	public Set getPresentSwitches() {
-		Set result = new TreeSet();
+    public Set getPresentSwitches() {
+        Set result = new TreeSet();
 
-		Iterator i = getKnownSwitches().iterator();
-		while (i.hasNext()) {
-			String            name = (String) i.next();
-			CommandLineSwitch cls  = (CommandLineSwitch) map.get(name);
+        Iterator i = getKnownSwitches().iterator();
+        while (i.hasNext()) {
+            String            name = (String) i.next();
+            CommandLineSwitch cls  = (CommandLineSwitch) map.get(name);
 
-			if (cls.isPresent()) {
-				result.add(name);
-			}
-		}
+            if (cls.isPresent()) {
+                result.add(name);
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public List getParameters() {
-		return parameters;
-	}
+    public List getParameters() {
+        return parameters;
+    }
 
-	public void parse(String args[]) throws CommandLineException {
-		parameters = new LinkedList();
+    public void parse(String args[]) throws CommandLineException {
+        parameters = new LinkedList();
 
-		int i=0;
-		while (i < args.length) {
-			if (args[i].startsWith("-")) {
-				String name  = args[i].substring(1);
-				String value = null;
+        int i=0;
+        while (i < args.length) {
+            if (args[i].startsWith("-")) {
+                String name  = args[i].substring(1);
+                String value = null;
 
-				if (i+1 < args.length && !map.containsKey(args[i+1].substring(1))) {
-					value = args[i+1];
-				}
+                if (i+1 < args.length && !map.containsKey(args[i+1].substring(1))) {
+                    value = args[i+1];
+                }
 
-				CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+                CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
 
-				if (cls == null) {
-					if (isStrict()) {
-						throw new CommandLineException("Unknown switch \"" + args[i] + "\"");
-					} else {
-						cls = new OptionalValueSwitch();
-						map.put(name, cls);
-					}
-				}
+                if (cls == null) {
+                    if (isStrict()) {
+                        throw new CommandLineException("Unknown switch \"" + args[i] + "\"");
+                    } else {
+                        cls = new OptionalValueSwitch();
+                        map.put(name, cls);
+                    }
+                }
 
-				i += cls.parse(name, value);
-			} else if (parameterStrategy.accept(args[i])) {
-				parameters.add(args[i]);
-				i++;
-			} else {
-				throw new CommandLineException("Invalid parameter \"" + args[i] + "\"");
-			}
-		}
+                i += cls.parse(name, value);
+            } else if (parameterStrategy.accept(args[i])) {
+                parameters.add(args[i]);
+                i++;
+            } else {
+                throw new CommandLineException("Invalid parameter \"" + args[i] + "\"");
+            }
+        }
 
-		// Checking that all manadatory switches are present
-		Iterator j = map.keySet().iterator();
-		while (j.hasNext()) {
-			String            name = (String) j.next();
-			CommandLineSwitch cls  = (CommandLineSwitch) map.get(name);
+        // Checking that all manadatory switches are present
+        Iterator j = map.keySet().iterator();
+        while (j.hasNext()) {
+            String            name = (String) j.next();
+            CommandLineSwitch cls  = (CommandLineSwitch) map.get(name);
 
-			if (cls.isMandatory() && !cls.isPresent()) {
-				throw new CommandLineException("Missing mandatory switch \"" + name + "\"");
-			}
-		}
+            if (cls.isMandatory() && !cls.isPresent()) {
+                throw new CommandLineException("Missing mandatory switch \"" + name + "\"");
+            }
+        }
 
-		// Checking that all mandatory parameters are present
-		if (!parameterStrategy.isSatisfied()) {
-			throw new CommandLineException("Missing mandatory parameters");
-		}
-	}
+        // Checking that all mandatory parameters are present
+        if (!parameterStrategy.isSatisfied()) {
+            throw new CommandLineException("Missing mandatory parameters");
+        }
+    }
 
-	public void accept(Visitor visitor) {
-		visitor.visitCommandLine(this);
-	}
+    public void accept(Visitor visitor) {
+        visitor.visitCommandLine(this);
+    }
 }
