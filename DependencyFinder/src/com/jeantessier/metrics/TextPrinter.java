@@ -79,7 +79,7 @@ public class TextPrinter extends Printer {
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		Indent();
-		Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("): ").Append(measurement);
+		Append(measurement.LongName()).Append(" (").Append(measurement.ShortName()).Append("): ").Append(value_format.format(measurement.doubleValue())).Append(" ").Append(measurement);
 		EOL();
 	}
 	

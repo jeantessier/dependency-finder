@@ -51,7 +51,7 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.metrics.*;
 
 public class OOMetrics extends JFrame {
-	private static final TableCellRenderer RENDERER           = new MeasurementTableCellRenderer();
+	private static final TableCellRenderer RENDERER = new MeasurementTableCellRenderer();
 
 	private MetricsFactory factory;
 	

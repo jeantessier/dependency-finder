@@ -64,39 +64,42 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 			} else {
 				HighlightedCell(isSelected, row, result);
 			}
+
+			String text    = "";
+			int    dispose = ((OOMetricsTableModel) table.getModel()).RawColumnDispose(column);
 			
 			if (measurement instanceof StatisticalMeasurement) {
-				StatisticalMeasurement stat = (StatisticalMeasurement) measurement;
-				switch (((OOMetricsTableModel) table.getModel()).RawColumnDispose(column)) {
+				StatisticalMeasurement stat    = (StatisticalMeasurement) measurement;
+				switch (dispose) {
 					case StatisticalMeasurement.DISPOSE_MINIMUM:
-						result.setText(String.valueOf(stat.Minimum()));
+						text = String.valueOf(stat.Minimum());
 						break;
 					case StatisticalMeasurement.DISPOSE_MEDIAN:
-						result.setText(String.valueOf(stat.Median()));
+						text = String.valueOf(stat.Median());
 						break;
 					case StatisticalMeasurement.DISPOSE_AVERAGE:
-						result.setText(String.valueOf(stat.Average()));
+						text = String.valueOf(stat.Average());
 						break;
 					case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-						result.setText(String.valueOf(stat.StandardDeviation()));
+						text = String.valueOf(stat.StandardDeviation());
 						break;
 					case StatisticalMeasurement.DISPOSE_MAXIMUM:
-						result.setText(String.valueOf(stat.Maximum()));
+						text = String.valueOf(stat.Maximum());
 						break;
 					case StatisticalMeasurement.DISPOSE_SUM:
-						result.setText(String.valueOf(stat.Sum()));
+						text = String.valueOf(stat.Sum());
 						break;
 					case StatisticalMeasurement.DISPOSE_IGNORE:
 					case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
 					default:
-						result.setText("n/a");
+						text = "n/a";
 						break;
 				}
 			} else {
-				result.setText(measurement.Value().toString());
+				text = measurement.Value().toString();
 			}
 
-			ToolTip(measurement, result);
+			CellContent(result, measurement, dispose, text);
 		} else if (value instanceof Metrics) {
 			Metrics metrics = (Metrics) value;
 			
@@ -139,23 +142,26 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 		}
 	}
 
-	private void ToolTip(Measurement measurement, JLabel result) {
+	private void CellContent(JLabel result, Measurement measurement, int dispose, String text) {
 		StringBuffer tooltip = new StringBuffer();
 		tooltip.append("<html><body><p>");
 		tooltip.append("<b>").append(measurement.Context().Name()).append("</b><br>");
-		tooltip.append(measurement.LongName()).append(" (").append(measurement.ShortName()).append(")<br>");
-		tooltip.append("valid range: [");
-
-		Comparable lower_threshold = measurement.Descriptor().LowerThreshold();
-		Comparable upper_threshold = measurement.Descriptor().UpperThreshold();
-			
-		tooltip.append((lower_threshold != null) ? lower_threshold.toString() : "*");
-		tooltip.append(", ");
-		tooltip.append((upper_threshold != null) ? upper_threshold.toString() : "*");
-		tooltip.append("]<br>");
-		tooltip.append("value: ").append(measurement);
+		tooltip.append(measurement.LongName()).append(" (").append(measurement.ShortName()).append(")");
+		if (measurement instanceof StatisticalMeasurement) {
+			tooltip.append(", ").append(StatisticalMeasurement.DisposeLabel(dispose));
+		}
+		tooltip.append("<br>");
+		tooltip.append("valid range: ").append(measurement.Descriptor().Range()).append("<br>");
+		tooltip.append("value: ").append(text);
+		if (!measurement.InRange()) {
+			tooltip.append(" <b>*** out of range ***</b>");
+		}
+		if (measurement instanceof StatisticalMeasurement) {
+			tooltip.append("<br>").append(measurement);
+		}
 		tooltip.append("</p></body></html>");
 
+		result.setText(text);
 		result.setToolTipText(tooltip.toString());
 	}
 }

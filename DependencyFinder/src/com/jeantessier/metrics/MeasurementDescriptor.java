@@ -134,4 +134,16 @@ public class MeasurementDescriptor {
 
 		return result;
 	}
+
+	public String Range() {
+		StringBuffer result = new StringBuffer();
+
+		result.append("[");
+		result.append((LowerThreshold() != null) ? LowerThreshold().toString() : "*");
+		result.append(", ");
+		result.append((UpperThreshold() != null) ? UpperThreshold().toString() : "*");
+		result.append("]");
+
+		return result.toString();
+	}
 }

@@ -73,6 +73,86 @@ public class StatisticalMeasurement extends MeasurementBase {
 	/** Use NbDataPoints() value on StatisticalMeasurements */
 	public static final int DISPOSE_NB_DATA_POINTS = 7;
 
+	public static String DisposeLabel(int dispose) {
+		String result = "";
+
+		switch (dispose) {
+			case DISPOSE_MINIMUM:
+				result = "minimum";
+				break;
+		
+			case DISPOSE_MEDIAN:
+				result = "median";
+				break;
+		
+			case DISPOSE_AVERAGE:
+				result = "average";
+				break;
+		
+			case DISPOSE_STANDARD_DEVIATION:
+				result = "standard deviation";
+				break;
+		
+			case DISPOSE_MAXIMUM:
+				result = "maximum";
+				break;
+		
+			case DISPOSE_SUM:
+				result = "sum";
+				break;
+		
+			case DISPOSE_NB_DATA_POINTS:
+				result = "number of data points";
+				break;
+		
+			case DISPOSE_IGNORE:
+			default:
+				break;
+		}
+		
+		return result;
+	}
+
+	public static String DisposeAbbreviation(int dispose) {
+		String result = "";
+
+		switch (dispose) {
+			case DISPOSE_MINIMUM:
+				result = "min";
+				break;
+		
+			case DISPOSE_MEDIAN:
+				result = "med";
+				break;
+		
+			case DISPOSE_AVERAGE:
+				result = "avg";
+				break;
+		
+			case DISPOSE_STANDARD_DEVIATION:
+				result = "sdv";
+				break;
+		
+			case DISPOSE_MAXIMUM:
+				result = "max";
+				break;
+		
+			case DISPOSE_SUM:
+				result = "sum";
+				break;
+		
+			case DISPOSE_NB_DATA_POINTS:
+				result = "nb";
+				break;
+		
+			case DISPOSE_IGNORE:
+			default:
+				break;
+		}
+		
+		return result;
+	}
+
 	private String monitored_measurement;
 	private int    dispose;
 	private int    self_dispose;
@@ -373,8 +453,7 @@ public class StatisticalMeasurement extends MeasurementBase {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		result.append(value_format.format(doubleValue()));
-		result.append(" [").append(value_format.format(Minimum()));
+		result.append("[").append(value_format.format(Minimum()));
 		result.append(" ").append(value_format.format(Median()));
 		result.append("/").append(value_format.format(Average()));
 		result.append(" ").append(value_format.format(StandardDeviation()));

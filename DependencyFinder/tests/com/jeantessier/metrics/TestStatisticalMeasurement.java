@@ -281,9 +281,31 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 
 		metrics.AddSubMetrics(m);
 
-		assertEquals("toString()", "1 [1 1/1 0 1 1 (1)]", measurement.toString());
+		assertEquals("toString()", "[1 1/1 0 1 1 (1)]", measurement.toString());
+	}
+
+	public void testDisposeLabel() {
+		assertEquals("StatisticalMeasurement.DISPOSE_IGNORE",             "",                      StatisticalMeasurement.DisposeLabel(StatisticalMeasurement.DISPOSE_IGNORE));
+		assertEquals("StatisticalMeasurement.DISPOSE_MINIMUM",            "minimum",               StatisticalMeasurement.DisposeLabel(StatisticalMeasurement.DISPOSE_MINIMUM));
+		assertEquals("StatisticalMeasurement.DISPOSE_MEDIAN",             "median",                StatisticalMeasurement.DisposeLabel(StatisticalMeasurement.DISPOSE_MEDIAN));
+		assertEquals("StatisticalMeasurement.DISPOSE_AVERAGE",            "average",               StatisticalMeasurement.DisposeLabel(StatisticalMeasurement.DISPOSE_AVERAGE));
+		assertEquals("StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION", "standard deviation",    StatisticalMeasurement.DisposeLabel(StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION));
+		assertEquals("StatisticalMeasurement.DISPOSE_MAXIMUM",            "maximum",               StatisticalMeasurement.DisposeLabel(StatisticalMeasurement.DISPOSE_MAXIMUM));
+		assertEquals("StatisticalMeasurement.DISPOSE_SUM",                "sum",                   StatisticalMeasurement.DisposeLabel(StatisticalMeasurement.DISPOSE_SUM));
+		assertEquals("StatisticalMeasurement.DISPOSE_NB_DATA_POINTS",     "number of data points", StatisticalMeasurement.DisposeLabel(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS));
 	}
 	
+	public void testDisposeAbbreviation() {
+		assertEquals("StatisticalMeasurement.DISPOSE_IGNORE",             "",    StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_IGNORE));
+		assertEquals("StatisticalMeasurement.DISPOSE_MINIMUM",            "min", StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_MINIMUM));
+		assertEquals("StatisticalMeasurement.DISPOSE_MEDIAN",             "med", StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_MEDIAN));
+		assertEquals("StatisticalMeasurement.DISPOSE_AVERAGE",            "avg", StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_AVERAGE));
+		assertEquals("StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION", "sdv", StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION));
+		assertEquals("StatisticalMeasurement.DISPOSE_MAXIMUM",            "max", StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_MAXIMUM));
+		assertEquals("StatisticalMeasurement.DISPOSE_SUM",                "sum", StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_SUM));
+		assertEquals("StatisticalMeasurement.DISPOSE_NB_DATA_POINTS",     "nb",  StatisticalMeasurement.DisposeAbbreviation(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS));
+	}
+
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
 		visited = measurement;
 	}
