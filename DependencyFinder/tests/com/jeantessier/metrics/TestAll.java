@@ -50,6 +50,7 @@ public class TestAll extends TestCase {
 		result.addTestSuite(TestRatioMeasurement.class);
 		result.addTestSuite(TestSumMeasurement.class);
 		result.addTestSuite(TestNbSubMetricsMeasurement.class);
+		result.addTestSuite(TestNbSubMetricsMeasurementSelectionCriteria.class);
 		result.addTestSuite(TestStatisticalMeasurement.class);
 		result.addTestSuite(TestStatisticalMeasurementWithMetrics.class);
 		result.addTestSuite(TestStatisticalMeasurementWithDispose.class);

@@ -195,6 +195,23 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		assertTrue(!measurement.InRange());
 	}
 
+	public void testSelectionCriteria() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(NbSubMetricsMeasurement.class);
+
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement();
+
+		assertEquals("empty metrics", 0, measurement.intValue());
+		
+		metrics.AddSubMetrics(new Metrics("foo"));
+		metrics.AddSubMetrics(new Metrics("bar"));
+		metrics.AddSubMetrics(new Metrics("baz"));
+
+		assertEquals("empty metrics", 3, measurement.intValue());
+	}
+
 	public void testAccept() {
 		visited = null;
 		measurement.Accept(this);
