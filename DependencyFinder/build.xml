@@ -22,7 +22,9 @@
 	<property name="classesDir"     value="classes"/>
 	<property name="libDir"         value="lib"/>
 	<property name="etcDir"         value="etc"/>
+	<property name="webDir"         value="web"/>
 	<property name="docsDir"        value="docs"/>
+	<property name="apiDir"         value="${docsDir}/api"/>
 	<property name="logsDir"        value="logs"/>
 
 	<property name="srcFiles"       value="${srcDir}/**"/>
@@ -33,11 +35,12 @@
 	<property name="docsFiles"      value="${docsDir}/**"/>
 
 	<property name="jarFile"        value="${libDir}/${ant.project.name}.jar"/>
+	<property name="warFile"        value="${ant.project.name}.war"/>
 	<property name="zipFile"        value="${ant.project.name}.${DSTAMP}.src.zip"/>
 	<property name="distFile"       value="${ant.project.name}.${DSTAMP}.zip"/>
 
 	<mkdir dir="${classesDir}"/>
-	<mkdir dir="${docsDir}"/>
+	<mkdir dir="${apiDir}"/>
 	<mkdir dir="${logsDir}"/>
     </target>
 
@@ -88,6 +91,13 @@
 	</jar>
     </target>
 
+    <target name="war" depends="jar">
+        <jar jarfile="${warFile}">
+	    <zipfileset dir="${webDir}" prefix="" includes="**/*.jsp"/>
+	    <zipfileset dir="${libDir}" prefix="WEB-INF/lib" includes="**/*.jar"/>
+	</jar>
+    </target>
+
     <target name="alltests" depends="init">
 	<junit>
 	    <formatter type="plain" usefile="no"/>
@@ -111,6 +121,8 @@
 		    <include name="${testsFiles}"/>
 		    <include name="${binFiles}"/>
 		    <include name="${etcFiles}"/>
+		    <include name="${webFiles}"/>
+		    <include name="${docsFiles}"/>
 		    <exclude name="${srcFiles}/**/*.class"/>
 		</patternset>
 	    </zipfileset>
@@ -150,7 +162,7 @@
 
     <target name="docs" depends="init">
         <javadoc packagenames="${packageNames}"
-		 destdir="${docsDir}"
+		 destdir="${apiDir}"
 		 author="no"
 	         version="no"
 		 doctitle="${ant.project.name}">
@@ -181,12 +193,12 @@
     -->
     <target name="umldoclet">
         <javadoc sourcepath="${srcDir}"
-	         destdir="${docsDir}"
+	         destdir="${apiDir}"
 	         packagenames="${packageNames}"
 		 version="no"
 		 author="no"
 		 doclet="JP.co.esm.caddies.doclets.UMLDoclet"
-		 docletPath="D:\language\Java\UMLDoclet"/>
+		 docletPath="C:\language\Java\UMLDoclet"/>
     </target>
 
     <!--
@@ -232,7 +244,7 @@
     </target>
 
     <target name="cleandocs" depends="init">
-        <delete dir="${docsDir}"
+        <delete dir="${apiDir}"
 		includeEmptyDirs="true"
 	        verbose="true"/>
         <delete verbose="true">
@@ -246,6 +258,7 @@
 
     <target name="realclean" depends="clearlogs, cleandocs, clean">
 	<delete file="${jarFile}"/>
+	<delete file="${warFile}"/>
     </target>
 
 </project>

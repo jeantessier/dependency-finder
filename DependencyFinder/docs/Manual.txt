@@ -1,0 +1,460 @@
+---+ The Dependency Finder Manual
+
+by Jean Tessier
+
+----
+
+---++ Introduction
+
+This application extracts information from compiled Java code and makes
+it available to users in a numbers of ways.
+
+---+++ Class Files
+
+Java compilers take source code and produce bytecode that they put in
+=.class= files.  The format of these files is described in
+[[http://java.sun.com/docs/books/vmspec/2nd-edition/html/ClassFile.doc.html][The =class= File Format]].
+
+---+++ Dependencies
+
+Dependencies occur when one class uses the services of another class.
+For instance, when a class inherits from another, has an attribute of
+some other class, or when one of its methods calls a method on another
+class.
+
+Knowing about dependencies is useful for programmers when deciding the
+impact of a change.  When you're about to rename a feature or class,
+it is useful to know all the places in the codebase where it is being
+used.
+
+This is also useful for code reviewers and architects when assessing the
+coupling within an application or library.
+
+---+++ Metrics
+
+Object-oriented metrics help assess the quality of a piece of software.
+
+---+++ API Differences
+
+----
+
+---++ Installation
+
+---+++ Step 1: Java Virtual Machine
+
+You need to have a Java Virtual Machine installed.  You can get one for
+free from [[http://www.javasoft.com/][JavaSoft]].  Make sure you define
+the =JAVA_HOME= environment variable.
+
+For example, if you installed JDK 1.3 in =C:\jdk1.3=:
+
+    SET JAVA_HOME=C:\jdk1.3
+
+You can either add this line to your =AUTOEXEC.BAT= file, or on WinNT
+use Start | Settings | Control Panel | System and select the Environment
+tab to create and edit variables.
+
+---+++ Step 2: Environment Variables
+
+Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
+point to the directory where you installed Dependency Finder.
+
+For example, if you extracted the ZIP file in =C:\=
+
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder
+
+You can either enter this line in your =AUTOEXEC.BAT= file, or on WinNT
+use Start | Settings | Control Panel | System and select the Environment
+tab to create and edit variables.
+
+---+++ Step 3: =PATH=
+
+Add the "bin" subdirectory to your =PATH= variable.
+
+For example, if you extracted the ZIP file in =C:\=
+
+    SET PATH=C:\DependencyFinder\bin;%PATH%
+
+---+++ Step 4: Reboot
+
+Under Win95/98, you will need to reboot your computer.
+
+---+++ Miscellaneous
+
+If you get the message "Out of environment space" while running the
+scripts on a Windows machine, you will need to add the following line
+to your =C:\CONFIG.SYS= file and then reboot.
+
+    shell=command.com /e:8192 /p
+
+If the VM runs out of memory, try setting the =DEPENDENCYFINDER_OPTS=
+environment variable.
+
+    SET DEPENDENCYFINDER_OPTS=-Xmx128m
+
+----
+
+---++ Class Files
+---+++ Parsing
+---+++ Metrics
+
+----
+
+---++ Dependencies
+
+Dependency Finder builds dependency graphs based on the information
+in class files.
+
+As we mentioned earlier, a dependency is when the functioning of one
+element =A= requires the presence of another element =B=.  We say that
+=A= _depends_ on =B= and we write it:
+
+    A --> B
+
+We say that =A= has an _outbound_ dependency while =B= has an
+_inbound_ dependency.  It is the same dependency, but whether it
+is inbound or outbound is relative to how you look at it.  We also
+say that =A= is a _dependent_ and =B= is _dependable_.
+
+A dependency graph comprises nodes for software artifacts linked
+together by two types of relationships.  Artifacts are packages,
+classes, and features.  We use the term _feature_ to designate
+class attributes, constructors, and methods; we will be treating
+them the same from here on.  For the purpose of analyzing dependencies,
+we do not distinguish between different types of features, whether they
+are constructors or regular methods, and regardless of the feature's
+characteristics, such as being marked as =final= or =static=.
+
+Packages have classes, which themselves have features; this is called
+_composition_.  Classes refer to each other and so do features; this is
+called a _dependency_.
+
+So a feature node is linked to its class node through composition.
+The class node is also linked to its package node through
+composition.  Each is linked to various other nodes of various type
+using dependency links.
+
+---+++ Extracting
+
+Going through class files and collecting dependencies is called
+_extracting_.  The application keeps dependencies in a graph.  It
+begins with one node per Java package.  The application also creates
+one node per Java class (including inner classes).  Lastly, the
+application creates one node per feature.  Feature nodes
+are linked to their respective class nodes.
+
+Dependency Finder can read all types of compiled Java: JAR files,
+ZIP files, or class files.  You must point out which JAR or ZIP file,
+but for class files, you can simply point to a directory and
+Dependency Finder will find all files ending in =.class= in it or
+in one of its subdirectories.  You can always select more than one
+target, Dependency Finder will aggregate all their content together.
+You can also mix and match JARs and ZIPs and class files and
+directories.  Dependency Finder will sort it all out.
+
+---++++ Extracting with the GUI
+
+<div align="center">
+    [[images/HighlightedExtractDialog.jpg][images/s_HighlightedExtractDialog.jpg]]
+*Extract Dialog*
+</div>
+
+Select =File&nbsp;|&nbsp;Extract=; this will popup a file dialog.
+Select the files and/or directories to extract from and click =Extract=.
+You can repeat this as needed; each time, the extracted dependencies
+will be added to the current dependency graph.
+
+---++++ Extracting with the CLI
+
+You use =DependencyExtractor= to extract dependencies.  Simply string
+out the files or directory on the command line.
+
+    C:\>DependencyExtractor classes %JAVA_HOME%\JRE\lib\rt.jar
+
+All the dependencies will be merged into a single output.
+
+---++++ =com.jeantessier.dependency.CodeDependencyCollector=
+
+The dependencies are gathered by the class
+=com.jeantessier.dependency.CodeDependencyCollector=.  It traverses the
+structure of a =.class= file and collects explicit dependencies in
+the description of classes and features.
+
+<div align="center">
+    [[images/ExplicitImplicit.gif]]
+*Explicit and Implicit Dependencies*
+</div>
+
+There are _explicit_ dependencies, as present in the code itself.  There
+are also _implicit_ dependencies derived from these explicit ones.  A
+dependency between two classes in two separate packages _implies_ a
+dependency between the packages.
+
+---++++ Minimizing and Maximizing
+
+We _minimize_ the dependency graph when we remove redundant dependencies.
+If method =a()= in class =A= calls method =b()= in class =B=, the
+dependency =A.a()&nbsp;-->&nbsp;B.b()= implies the dependency
+=A&nbsp;-->&nbsp;B=.  If the latter is also present in the code, let's
+say because =A extends B=, then it becomes explicit and redundant, since
+is was already introduced by the former dependency.  We can safely remove
+the explicit reference to =A&nbsp;-->&nbsp;B= without any loss of
+information.
+
+We _maximize_ the dependency graph when we expose all implicit
+dependencies by making them explicit.  To take back our previous
+example, =A.a()&nbsp;-->&nbsp;B.b()=, maximizing it will introduce
+the following dependencies:
+
+    * =A.a()&nbsp;-->&nbsp;B=
+    * =A&nbsp;-->&nbsp;B.b()=
+    * =A&nbsp;-->&nbsp;B=
+
+Maximizing and minimizing the dependency graph deals with the trade off
+between space and time.  Minimizing the graph saves on space, but it
+takes longer to traverse the graph to find if there is a dependency
+between two given nodes.  Maximizing the graph saves on time, since all
+the dependencies are there for the picking, but the size of the graph
+goes up dramatically.
+
+The dependency collector can detect three kinds of explicit dependencies:
+
+    1 feature to feature
+    1 feature to class
+    1 class to class
+
+The illustrations below show how combinations of these are minimized or
+maximized.  Note that once the raw data has been minimized or maximized,
+it can never be recovered.  It is gone for good.  You can go back and
+forth between minimized and maximized forms, but you can never come back
+to the raw state.
+
+<div align="center">
+    [[images/MinMaxTitle.gif]]
+    [[images/MinMaxI.gif]]
+    [[images/MinMaxII.gif]]
+    [[images/MinMaxIII.gif]]
+    [[images/MinMaxIV.gif]]
+    [[images/MinMaxV.gif]]
+    [[images/MinMaxVI.gif]]
+    [[images/MinMaxVII.gif]]
+    [[images/MinMaxVIII.gif]]
+</div>
+
+---+++ Reporting
+
+Reporting deals with selecting a subset of the dependency graph.  The
+scope defines the nodes in the graph that will be copied.  The filter
+defines the dependencies in scoped nodes that will be copied.
+
+_Reporting_ is the act of displaying a dependency graph, or more often
+a subset of it.  The graph is composed of nodes and links.  We apply
+scoping to the nodes and filtering to the links.  In each case, we will
+use Perl regular expressions to indicate which nodes and links we are
+interested in.
+
+We use the term _scoping_ when talking about the selection process for
+nodes.  We use the term _filtering_ when talking about the selection
+process for links.  Each selection process has inclusion and exclusion
+criteria.  A given node or link is selected if it meets any of the
+inclusion criteria but meets none of the exclusion criteria.
+
+<div align="center">
+    [[images/Scope.gif]]
+*Scoping*
+</div>
+
+<div align="center">
+    [[images/Filter.gif]]
+*Filtering*
+</div>
+
+Each process has separate inclusion and exclusion criteria for packages,
+classes, and features.  It also has special inclusion and exclusion
+criteria that apply across packages, classes, and features.  For a node
+or link to be selected, it must meet AT LEAST ONE of the relevant
+inclusion criteria and NONE of the relevant exclusion criteria.  Refer
+to the following table to know which criteria are relevant.
+
+<div align="center">
+<table border="3"
+       cellpadding="5">
+    <caption align="bottom">*Relevant Selection Criteria*</caption>
+    <tr>
+	<th>
+	    node or link type
+	</th>
+	<th align="center">
+	    global
+	</th>
+	<th align="center">
+	    package
+	</th>
+	<th align="center">
+	    class
+	</th>
+	<th align="center">
+	    feature
+	</th>
+    </tr>
+    <tr>
+	<td>
+	    package
+	</td>
+	<td align="center">
+	    X
+	</td>
+	<td align="center">
+	    X
+	</td>
+	<td align="center">
+	    &nbsp;
+	</td>
+	<td align="center">
+	    &nbsp;
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    class
+	</td>
+	<td align="center">
+	    X
+	</td>
+	<td align="center">
+	    &nbsp;
+	</td>
+	<td align="center">
+	    X
+	</td>
+	<td align="center">
+	    &nbsp;
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    feature
+	</td>
+	<td align="center">
+	    X
+	</td>
+	<td align="center">
+	    &nbsp;
+	</td>
+	<td align="center">
+	    &nbsp;
+	</td>
+	<td align="center">
+	    X
+	</td>
+    </tr>
+</table>
+</div>
+
+Each criterion is a set of Perl regular expressions.  For scoping, the
+name of the node must match at least one of the regular expressions for
+it to meet the criterion.  Filtering is always done relative to a node
+that is in scope.  A link will be selected if the name of the node at
+the other end of the link passes the filtering selection process.
+
+<div align="center">
+    [[images/HighlightedScopeCriteria.jpg][images/s_HighlightedScopeCriteria.jpg]]
+*Scope Criteria*
+</div>
+
+E.g.,
+
+    C:\>DependencyReporter -scope-includes //
+
+You can limit each selection process to only packages, classes, or
+features, or combinations thereof.  In =DependencyFinder=, this is
+done through checkboxes.  In =DependencyReporter=, it is done through
+specific command line switches.  =DependencyReporterr= also has shortcuts
+that can replace multiple switches.
+
+<div align="center">
+    [[images/HighlightedScopeControls.jpg][images/s_HighlightedScopeControls.jpg]]
+*Scope Controls*
+</div>
+
+E.g.,
+
+    C:\>DependencyReporter -pacakge-scope  \
+                           -class-scope    \
+                           -feature-scope
+
+---++++ Perl Regular Expressions
+
+The selective graph copier uses Perl regular expressions to select scope
+nodes and filtered dependencies.
+
+---++++ Textual Output
+
+Dependency Finder includes XSL stylesheets for representing a dependency
+graph using simple text.  The stylesheets can either render the whole
+graph or only show inbound or outbound dependencies.
+
+The stylesheets include:
+
+    * DependablesToText.xsl
+    * DependenciesToText.xsl
+    * DependentsToText.xsl
+    * ListDependablesToText.xsl
+    * ListDependentsToText.xsl
+
+---++++ HTML Output
+
+Dependency Finder includes XSL stylesheets for representing a dependency
+graph using HTML.  The stylesheets can either render the whole graph or
+only show inbound or outbound dependencies.  Dependency Finder renders
+dependencies as hyperlinks to the appropriate node.
+
+The stylesheets include:
+
+    * DependablesToHTML.xsl
+    * DependenciesToHTML.xsl
+    * DependentsToHTML.xsl
+    * ListDependablesToHTML.xsl
+    * ListDependentsToHTML.xsl
+
+---+++ Transitive Closure
+---+++ Dependency Metrics
+
+----
+
+---++ OO Metrics
+---+++ Explanation
+---+++ Extracting
+---+++ Reporting
+---++++ Textual Output
+---++++ HTML Output
+
+----
+
+---++ API Differences
+---+++ Explanation
+---+++ Extracting
+---+++ Reporting
+---++++ Textual Output
+---++++ HTML Output
+
+Dependency Finder includes XSL stylesheets for representing differences
+using HTML.  The stylesheets include:
+
+    * DiffToExternalHTML.xsl
+    * DiffToHTML.xsl
+    * DiffToInternalHTML.xsl
+
+---++++ Filtering
+
+----
+
+---++ Building Dependency Finder
+---+++ Compiling a Build
+---+++ Testing the Build
+
+----
+
+---++ Support
+
+----

@@ -32,4 +32,4 @@ rem  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 rem  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 rem
 
-java -Dlog4j.configuration=file:///%DEPENDENCYFINDER_HOME%/etc/log4j.properties -classpath classes;lib\log4j-core.jar;lib\jakarta-oro-2.0.4.jar;lib\xerces.jar;c:\lib\junit.jar junit.textui.TestRunner %1 %2 %3 %4 %5 %6 %7 %8 %9
+java -Dlog4j.configuration=file:///%DEPENDENCYFINDER_HOME%/etc/log4j.properties -classpath classes;lib\log4j-1.2alpha6.jar;lib\jakarta-oro-2.0.4.jar;lib\xerces.jar;c:\lib\junit.jar junit.textui.TestRunner %1 %2 %3 %4 %5 %6 %7 %8 %9
