@@ -137,10 +137,10 @@ public class StatisticalMeasurement extends MeasurementBase {
 				} else if (self_dispose_text.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
 					self_dispose = DISPOSE_NB_DATA_POINTS;
 				} else {
-					self_dispose = DISPOSE_IGNORE;
+					self_dispose = DISPOSE_AVERAGE;
 				}
 			} else {
-				self_dispose = DISPOSE_IGNORE;
+				self_dispose = DISPOSE_AVERAGE;
 			}
 			
 			in.close();
