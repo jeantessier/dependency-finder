@@ -18,6 +18,100 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	May 16, 2003
+    </dt>
+    <dd>
+	<p>I have been looking at the
+	<a target="_blank" href="clover/">output</a> from
+	<a target="_blank" href="http://www.thecortex.net/clover">Clover</a>.
+	It includes a few metrics, such as:</p>
+
+	<ul>
+	    <li>Number of classes</li>
+	    <li>Number of methods</li>
+	    <li>Lines of code (LOC)</li>
+	    <li>Non-comment lines of code (NCLOC)</li>
+	</ul>
+
+	<p>It is interesting to compare them to the metrics from
+	<code>OOMetrics</code>.  First, the number of classes are the same.
+	But this is where the similarities end.</p>
+
+	<p>Second, Clover counts the numer of methods explicitly defined in
+	the source code.  Dependency Finder counts all methods in the compiled
+	<code>.class</code> file, which includes default constructors added
+	by the compiler and <i>synthetic</i> methods.  So the Dependency
+	Finder count ends up being slightly higher than Clover's count.</p>
+
+	<p>Third, Clover's LOC counts all lines in a file, indiscriminate of
+	whether the line is code, a comment, or even empty.  Its NCLOC count
+	limits itself to lines that actually contain code, but it includes
+	lines with non-executable code, such as a single closing curly brace
+	(i.e., '<code>}</code>').  Dependency Finder's SLOC uses information
+	from the compiler, when it is run with the <code>-g</code> switch, to
+	count the number of lines with really executable code.  It then adds a
+	few more lines to account for class, field, and method declarations.
+	It overshoots a little because it even counts implicit constructors and
+	<code>synthetic</code> elements, but it stays in the ballpark.</p>
+
+	<table>
+	    <tr>
+		<th width="200">Metrics</th>
+		<th width="150" colspan="2">Clover</th>
+		<th width="150" colspan="2">OOMetrics</th>
+		<th width="100" colspan="2">delta</th>
+	    </tr>
+	    <tr>
+		<td>Number of packages</td>
+		<td align="right">12</td>
+		<td></td>
+		<td align="right">12</td>
+		<td></td>
+		<td align="right"></td>
+		<td align="right"></td>
+	    </tr>
+	    <tr>
+		<td>Number of classes</td>
+		<td align="right">275</td>
+		<td></td>
+		<td align="right">275</td>
+		<td></td>
+		<td align="right"></td>
+		<td align="right"></td>
+	    </tr>
+	    <tr>
+		<td>Number of methods</td>
+		<td align="right">2,642</td>
+		<td></td>
+		<td align="right">3,609</td>
+		<td></td>
+		<td align="right">+967</td>
+		<td align="right">+37%</td>
+	    </tr>
+	    <tr>
+		<td>Lines of code</td>
+		<td align="right">26,544</td>
+		<td><font size="-1">(NCLOC)</font></td>
+		<td align="right">24,694</td>
+		<td><font size="-1">(SLOC)</font></td>
+		<td align="right">-1,850</td>
+		<td align="right">-7%</td>
+	    </tr>
+	    <tr>
+		<td></td>
+		<td align="right">42,939</td>
+		<td><font size="-1">(LOC)</font></td>
+		<td align="right"></td>
+		<td></td>
+		<td align="right"></td>
+		<td align="right"></td>
+	    </tr>
+	</table>
+
+	<p>Overall, it is just curious that Dependency Finder comes up with
+	more methods, but less overall lines of code.</p>
+    </dd>
+    <dt>
 	May 15, 2003
     </dt>
     <dd>
@@ -32,6 +126,18 @@
 	<code>main()</code> methods to proper JUnit tests.  That should raise
 	coverage somewhat.  I'll look further into Clover for what else I can
 	get from it.</p>
+
+	<p>I came across someone who was actually trying to extend Dependency
+	Finder.  This person had downloaded the source code, modified the
+	classes directly, and recompiled Dependency Finder with the
+	modifications.  While this might have seemed like a good idea, it
+	will create problems later on when I release an upgrade to Dependency
+	Finder and this person will have to merge their custom changes with the
+	new version of the files.  It would be much better if they had put
+	their custom code in separate classes, in their own custom packages,
+	and compiled them against <code>DependencyFinder.jar</code>.  When a
+	new version of Dependency Finder comes along, they can just drop it
+	in.</p>
     </dd>
     <dt>
 	May 06, 2003
