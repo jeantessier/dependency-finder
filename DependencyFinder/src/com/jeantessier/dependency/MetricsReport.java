@@ -232,8 +232,5 @@ public class MetricsReport {
 				out.println();
 			}
 		}
-
-		out.flush();
-		out.close();
 	}
 }
