@@ -292,6 +292,55 @@ tool could find.
 
 <blockquote>
 
+    ClassList classes\com\jeantessier\metrics classes\jeantessier\commandline
+    classes\com\jeantessier\metrics:
+    com.jeantessier.metrics.AccumulatorMeasurement
+    com.jeantessier.metrics.CSVPrinter
+    com.jeantessier.metrics.CollectionMeasurement
+    com.jeantessier.metrics.CounterMeasurement
+    com.jeantessier.metrics.Measurement
+    com.jeantessier.metrics.MeasurementBase
+    com.jeantessier.metrics.MeasurementDescriptor
+    com.jeantessier.metrics.MeasurementVisitor
+    com.jeantessier.metrics.Metrics
+    com.jeantessier.metrics.MetricsComparator
+    com.jeantessier.metrics.MetricsConfiguration
+    com.jeantessier.metrics.MetricsConfigurationHandler
+    com.jeantessier.metrics.MetricsConfigurationLoader
+    com.jeantessier.metrics.MetricsEvent
+    com.jeantessier.metrics.MetricsFactory
+    com.jeantessier.metrics.MetricsGatherer
+    com.jeantessier.metrics.MetricsListener
+    com.jeantessier.metrics.NameListMeasurement
+    com.jeantessier.metrics.NbSubMetricsMeasurement
+    com.jeantessier.metrics.NullMeasurement
+    com.jeantessier.metrics.Printer
+    com.jeantessier.metrics.RatioMeasurement
+    com.jeantessier.metrics.StatisticalMeasurement
+    com.jeantessier.metrics.SumMeasurement
+    com.jeantessier.metrics.TextPrinter
+    com.jeantessier.metrics.XMLPrinter
+    &nbsp;
+    classes\com\jeantessier\commandline:
+    com.jeantessier.commandline.AnyParameterStrategy
+    com.jeantessier.commandline.AtLeastParameterStrategy
+    com.jeantessier.commandline.AtMostParameterStrategy
+    com.jeantessier.commandline.CommandLine
+    com.jeantessier.commandline.CommandLineException
+    com.jeantessier.commandline.CommandLineSwitch
+    com.jeantessier.commandline.CommandLineSwitchBase
+    com.jeantessier.commandline.CommandLineUsage
+    com.jeantessier.commandline.CountingParameterStrategy
+    com.jeantessier.commandline.ExactlyParameterStrategy
+    com.jeantessier.commandline.MultipleValuesSwitch
+    com.jeantessier.commandline.NullParameterStrategy
+    com.jeantessier.commandline.OptionalValueSwitch
+    com.jeantessier.commandline.ParameterStrategy
+    com.jeantessier.commandline.SingleValueSwitch
+    com.jeantessier.commandline.ToggleSwitch
+    com.jeantessier.commandline.Visitable
+    com.jeantessier.commandline.Visitor
+
 </blockquote>
 
 ---+++ Class
@@ -355,6 +404,8 @@ Prints synopsis.
 ---++++ =-list=
 
 <blockquote>
+
+Lists the programming elements under each measurement.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -672,6 +723,187 @@ document that follows the
 ---+++ Examples
 
 <blockquote>
+
+Here is a sample textual output:
+
+    ClassReader classes\test.class
+    1: Method java/lang/Object.<init>()V
+    2: Class java/lang/Object
+    3: Method java/util/Collections.singleton(Ljava/lang/Object;)Ljava/util/Set;
+    4: Class java/lang/NullPointerException
+    5: Field Ljava/io/PrintStream; java/lang/System.out
+    6: Method java/io/PrintStream.println(Ljava/lang/Object;)V
+    7: Class test
+    8: "<init>"
+    9: "()V"
+    10: "Code"
+    11: "LineNumberTable"
+    12: "LocalVariableTable"
+    13: "this"
+    14: "Ltest;"
+    15: "main"
+    16: "([Ljava/lang/String;)V"
+    17: "args"
+    18: "[Ljava/lang/String;"
+    19: "c"
+    20: "Ljava/util/Collection;"
+    21: "ex"
+    22: "Ljava/lang/NullPointerException;"
+    23: "SourceFile"
+    24: "test.java"
+    25: Name and Type <init> ()V
+    26: "java/lang/Object"
+    27: Class java/util/Collections
+    28: Name and Type singleton (Ljava/lang/Object;)Ljava/util/Set;
+    29: "java/lang/NullPointerException"
+    30: Class java/lang/System
+    31: Name and Type out Ljava/io/PrintStream;
+    32: Class java/io/PrintStream
+    33: Name and Type println (Ljava/lang/Object;)V
+    34: "test"
+    35: "java/util/Collections"
+    36: "singleton"
+    37: "(Ljava/lang/Object;)Ljava/util/Set;"
+    38: "java/lang/System"
+    39: "out"
+    40: "Ljava/io/PrintStream;"
+    41: "java/io/PrintStream"
+    42: "println"
+    43: "(Ljava/lang/Object;)V"
+    public class test extends java.lang.Object {
+        public static void main(java.lang.String[]);
+        public test();
+    }
+
+And here is the XML document, built from a =.class= file.
+
+    ClassReader -xml classes\test.class
+    &lt;?xml version%3D"1.0" encoding%3D"UTF-8" standalone%3D"yes" ?&gt;
+    &nbsp;
+    &lt;!DOCTYPE classfile SYSTEM "http://depfind.sourceforge.net/dtd/classfile.dtd"&gt;
+    &nbsp;
+    &lt;classfile magic-number%3D"-889275714" minor-version%3D"0" major-version%3D"46" access-number%3D"00000000 00100001"&gt;
+        &lt;constant-pool&gt;
+            &lt;method-ref-info id%3D"1"&gt;&lt;class&gt;java.lang.Object&lt;/class&gt;&lt;name&gt;&lt;init&gt;&lt;/name&gt;&lt;type&gt;()V&lt;/type&gt;&lt;/method-ref-info&gt;
+            &lt;class id%3D"2"&gt;java.lang.Object&lt;/class&gt;
+            &lt;method-ref-info id%3D"3"&gt;&lt;class&gt;java.util.Collections&lt;/class&gt;&lt;name&gt;singleton&lt;/name&gt;&lt;type&gt;(Ljava/lang/Object;)Ljava/util/Set;&lt;/type&gt;&lt;/method-ref-info&gt;
+            &lt;class id%3D"4"&gt;java.lang.NullPointerException&lt;/class&gt;
+            &lt;field-ref-info id%3D"5"&gt;&lt;class&gt;java.lang.System&lt;/class&gt;&lt;type&gt;Ljava/io/PrintStream;&lt;/type&gt;&lt;name&gt;out&lt;/name&gt;&lt;/field-ref-info&gt;
+            &lt;method-ref-info id%3D"6"&gt;&lt;class&gt;java.io.PrintStream&lt;/class&gt;&lt;name&gt;println&lt;/name&gt;&lt;type&gt;(Ljava/lang/Object;)V&lt;/type&gt;&lt;/method-ref-info&gt;
+            &lt;class id%3D"7"&gt;test&lt;/class&gt;
+            &lt;utf8-info id%3D"8"&gt;&lt;init&gt;&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"9"&gt;()V&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"10"&gt;Code&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"11"&gt;LineNumberTable&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"12"&gt;LocalVariableTable&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"13"&gt;this&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"14"&gt;Ltest;&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"15"&gt;main&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"16"&gt;([Ljava/lang/String;)V&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"17"&gt;args&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"18"&gt;[Ljava/lang/String;&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"19"&gt;c&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"20"&gt;Ljava/util/Collection;&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"21"&gt;ex&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"22"&gt;Ljava/lang/NullPointerException;&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"23"&gt;SourceFile&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"24"&gt;test.java&lt;/utf8-info&gt;
+            &lt;name-and-type-info id%3D"25"&gt;&lt;name&gt;&lt;init&gt;&lt;/name&gt;&lt;type&gt;()V&lt;/type&gt;&lt;/name-and-type-info&gt;
+            &lt;utf8-info id%3D"26"&gt;java/lang/Object&lt;/utf8-info&gt;
+            &lt;class id%3D"27"&gt;java.util.Collections&lt;/class&gt;
+            &lt;name-and-type-info id%3D"28"&gt;&lt;name&gt;singleton&lt;/name&gt;&lt;type&gt;(Ljava/lang/Object;)Ljava/util/Set;&lt;/type&gt;&lt;/name-and-type-info&gt;
+            &lt;utf8-info id%3D"29"&gt;java/lang/NullPointerException&lt;/utf8-info&gt;
+            &lt;class id%3D"30"&gt;java.lang.System&lt;/class&gt;
+            &lt;name-and-type-info id%3D"31"&gt;&lt;name&gt;out&lt;/name&gt;&lt;type&gt;Ljava/io/PrintStream;&lt;/type&gt;&lt;/name-and-type-info&gt;
+            &lt;class id%3D"32"&gt;java.io.PrintStream&lt;/class&gt;
+            &lt;name-and-type-info id%3D"33"&gt;&lt;name&gt;println&lt;/name&gt;&lt;type&gt;(Ljava/lang/Object;)V&lt;/type&gt;&lt;/name-and-type-info&gt;
+            &lt;utf8-info id%3D"34"&gt;test&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"35"&gt;java/util/Collections&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"36"&gt;singleton&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"37"&gt;(Ljava/lang/Object;)Ljava/util/Set;&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"38"&gt;java/lang/System&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"39"&gt;out&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"40"&gt;Ljava/io/PrintStream;&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"41"&gt;java/io/PrintStream&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"42"&gt;println&lt;/utf8-info&gt;
+            &lt;utf8-info id%3D"43"&gt;(Ljava/lang/Object;)V&lt;/utf8-info&gt;
+        &lt;/constant-pool&gt;
+        &lt;public/&gt;
+        &lt;super/&gt;
+        &lt;this-class&gt;test&lt;/this-class&gt;
+        &lt;superclass&gt;java.lang.Object&lt;/superclass&gt;
+        &lt;methods&gt;
+            &lt;method-info access-flag%3D"00000000 00001001"&gt;
+                &lt;public/&gt;
+                &lt;static/&gt;
+                &lt;name&gt;main&lt;/name&gt;
+                &lt;return-type&gt;void&lt;/return-type&gt;
+                &lt;signature&gt;main(java.lang.String[])&lt;/signature&gt;
+                &lt;attributes&gt;
+                    &lt;code-attribute&gt;
+                        &lt;length&gt;26&lt;/length&gt;
+                        &lt;instructions&gt;
+                            &lt;instruction pc%3D"0" length%3D"3"&gt;new java.lang.Object&lt;/instruction&gt;
+                            &lt;instruction pc%3D"3" length%3D"1"&gt;dup&lt;/instruction&gt;
+                            &lt;instruction pc%3D"4" length%3D"3"&gt;invokespecial java.lang.Object.Object()&lt;/instruction&gt;
+                            &lt;instruction pc%3D"7" length%3D"3"&gt;invokestatic java.util.Set java.util.Collections.singleton(java.lang.Object)&lt;/instruction&gt;
+                            &lt;instruction pc%3D"10" length%3D"1"&gt;astore%5F1&lt;/instruction&gt;
+                            &lt;instruction pc%3D"11" length%3D"3"&gt;goto&lt;/instruction&gt;
+                            &lt;instruction pc%3D"14" length%3D"1"&gt;astore%5F1&lt;/instruction&gt;
+                            &lt;instruction pc%3D"15" length%3D"3"&gt;getstatic java.io.PrintStream java.lang.System.out&lt;/instruction&gt;
+                            &lt;instruction pc%3D"18" length%3D"1"&gt;aload%5F1&lt;/instruction&gt;
+                            &lt;instruction pc%3D"19" length%3D"3"&gt;invokevirtual void java.io.PrintStream.println(java.lang.Object)&lt;/instruction&gt;
+                            &lt;instruction pc%3D"22" length%3D"3"&gt;goto&lt;/instruction&gt;
+                            &lt;instruction pc%3D"25" length%3D"1"&gt;return&lt;/instruction&gt;
+                        &lt;/instructions&gt;
+                        &lt;exception-handlers&gt;
+                            &lt;exception-handler&gt;&lt;start-pc&gt;0&lt;/start-pc&gt;&lt;end-pc&gt;11&lt;/end-pc&gt;&lt;handler-pc&gt;14&lt;/handler-pc&gt;&lt;catch-type&gt;java.lang.NullPointerException&lt;/catch-type&gt;&lt;/exception-handler&gt;
+                        &lt;/exception-handlers&gt;
+                        &lt;attributes&gt;
+                            &lt;line-number-table-attribute&gt;
+                                &lt;line-number&gt;&lt;start-pc&gt;0&lt;/start-pc&gt;&lt;line&gt;38&lt;/line&gt;&lt;/line-number&gt;
+                                &lt;line-number&gt;&lt;start-pc&gt;11&lt;/start-pc&gt;&lt;line&gt;39&lt;/line&gt;&lt;/line-number&gt;
+                                &lt;line-number&gt;&lt;start-pc&gt;14&lt;/start-pc&gt;&lt;line&gt;40&lt;/line&gt;&lt;/line-number&gt;
+                                &lt;line-number&gt;&lt;start-pc&gt;22&lt;/start-pc&gt;&lt;line&gt;41&lt;/line&gt;&lt;/line-number&gt;
+                                &lt;line-number&gt;&lt;start-pc&gt;25&lt;/start-pc&gt;&lt;line&gt;42&lt;/line&gt;&lt;/line-number&gt;
+                            &lt;/line-number-table-attribute&gt;
+                            &lt;local-variable-table-attribute&gt;
+                                &lt;local-variable pc%3D"0" length%3D"26"&gt;&lt;name&gt;args&lt;/name&gt;&lt;type&gt;java.lang.String[]&lt;/type&gt;&lt;/local-variable&gt;
+                                &lt;local-variable pc%3D"11" length%3D"0"&gt;&lt;name&gt;c&lt;/name&gt;&lt;type&gt;java.util.Collection&lt;/type&gt;&lt;/local-variable&gt;
+                                &lt;local-variable pc%3D"15" length%3D"10"&gt;&lt;name&gt;ex&lt;/name&gt;&lt;type&gt;java.lang.NullPointerException&lt;/type&gt;&lt;/local-variable&gt;
+                            &lt;/local-variable-table-attribute&gt;
+                        &lt;/attributes&gt;
+                    &lt;/code-attribute&gt;
+                &lt;/attributes&gt;
+            &lt;/method-info&gt;
+            &lt;method-info access-flag%3D"00000000 00000001"&gt;
+                &lt;public/&gt;
+                &lt;name&gt;&lt;init&gt;&lt;/name&gt;
+                &lt;signature&gt;test()&lt;/signature&gt;
+                &lt;attributes&gt;
+                    &lt;code-attribute&gt;
+                        &lt;length&gt;5&lt;/length&gt;
+                        &lt;instructions&gt;
+                            &lt;instruction pc%3D"0" length%3D"1"&gt;aload%5F0&lt;/instruction&gt;
+                            &lt;instruction pc%3D"1" length%3D"3"&gt;invokespecial java.lang.Object.Object()&lt;/instruction&gt;
+                            &lt;instruction pc%3D"4" length%3D"1"&gt;return&lt;/instruction&gt;
+                        &lt;/instructions&gt;
+                        &lt;attributes&gt;
+                            &lt;line-number-table-attribute&gt;
+                                &lt;line-number&gt;&lt;start-pc&gt;0&lt;/start-pc&gt;&lt;line&gt;35&lt;/line&gt;&lt;/line-number&gt;
+                            &lt;/line-number-table-attribute&gt;
+                            &lt;local-variable-table-attribute&gt;
+                                &lt;local-variable pc%3D"0" length%3D"5"&gt;&lt;name&gt;this&lt;/name&gt;&lt;type&gt;test&lt;/type&gt;&lt;/local-variable&gt;
+                            &lt;/local-variable-table-attribute&gt;
+                        &lt;/attributes&gt;
+                    &lt;/code-attribute&gt;
+                &lt;/attributes&gt;
+            &lt;/method-info&gt;
+        &lt;/methods&gt;
+        &lt;attributes&gt;
+            &lt;source-file-attribute&gt;test.java&lt;/source-file-attribute&gt;
+        &lt;/attributes&gt;
+    &lt;/classfile&gt;
 
 </blockquote>
 
@@ -3099,6 +3331,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Lists the packages, classes, and features analyzed.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3335,11 +3569,65 @@ merges the graphs together into a single dependency graph.
 
 <blockquote>
 
+The output format is self-explanatory.
+
 </blockquote>
 
 ---+++ Examples
 
 <blockquote>
+
+Here is a sample output:
+
+    DependencyExtractor -xml -out test.xml classes\test.class
+    DependencyMetrics -all test.xml
+    4 package(s)
+    8 class(es)
+    6 feature(s)
+    &nbsp;
+    11 outbound link(s)
+        0 from package(s) (average 0.0 per package)
+        6 from class(es) (average 0.75 per class)
+        5 from feature(s) (average 0.8333333333333334 per feature)
+    11 inbound link(s)
+        0 to package(s) (average 0.0 per package)
+        1 to class(es) (average 0.125 per class)
+        10 to feature(s) (average 1.6666666666666667 per feature)
+
+And here it is with =-list=:
+
+    DependencyExtractor -xml -out test.xml classes\test.class
+    DependencyMetrics -all -list test.xml
+    4 package(s)
+        java.lang
+        java.util
+        java.io
+        &nbsp;
+    8 class(es)
+        java.lang.String
+        java.lang.Object
+        java.lang.NullPointerException
+        java.lang.System
+        java.util.Collections
+        java.util.Set
+        java.io.PrintStream
+        test
+    6 feature(s)
+        java.lang.Object.Object()
+        java.lang.System.out
+        java.util.Collections.singleton(java.lang.Object)
+        java.io.PrintStream.println(java.lang.Object)
+        test.test()
+        test.main(java.lang.String[])
+    &nbsp;
+    11 outbound link(s)
+        0 from package(s) (average 0.0 per package)
+        6 from class(es) (average 0.75 per class)
+        5 from feature(s) (average 0.8333333333333334 per feature)
+    11 inbound link(s)
+        0 to package(s) (average 0.0 per package)
+        1 to class(es) (average 0.125 per class)
+        10 to feature(s) (average 1.6666666666666667 per feature)
 
 </blockquote>
 
@@ -4397,6 +4685,8 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
 
 <blockquote>
 
+Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
+
 </blockquote>
 
 ---+++ Switches
@@ -4744,7 +5034,7 @@ new.jar".  You can adjust the title by supplying =-old-label= and
 
     C:\>JarJarDiff -old old.jar -new new.jar -out result.xml
     C:\>DiffToHTML -in result.xml -out internal_report.html
-    C:\>DiffToExternalHTML -in result.xml -out external_report.html
+    C:\>PublishedDiffToHTML -in result.xml -out external_report.html
 
 Because DOS only allows 9 parameters to =.bat= files, we
 cannot use =-out= in the following and we must use output
@@ -4753,7 +5043,7 @@ identical.
 
     C:\>JarJarDiff -old old.jar -old-label 3.0.2 -new new.jar -new-label 3.5 > result.xml
     C:\>DiffToHTML -in result.xml -out internal_report.html
-    C:\>DiffToExternalHTML -in result.xml -out external_report.html
+    C:\>PublishedDiffToHTML -in result.xml -out external_report.html
 
 </blockquote>
 
@@ -6378,6 +6668,9 @@ See the [[Manual.html][user manual]].
 
 <blockquote>
 
+Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML, but limits it to
+the _published_ interface, the one that you expose to your customers.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -6441,6 +6734,10 @@ If not specified, the translation goes to the standard output.
 ---++++ =-param validation-list list.txt=
 
 <blockquote>
+
+Uses the list of element names in _list.txt_ to limit the scope of the report
+to only the listed elements.  If the file does not exist, the tool uses all
+public and all protected elements.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>

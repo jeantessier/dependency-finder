@@ -2224,7 +2224,7 @@ was newly added to the documentation.
 *Full List Of Documented Elements*
 </div>
 
-The list can also be fed to =DiffToExternalHTML= to further
+The list can also be fed to =PublishedDiffToHTML= to further
 limit the changes to the published public API.
 
     C:\>PublishedDiffToHTML -in diff.xml                         \
