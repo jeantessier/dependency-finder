@@ -50,10 +50,14 @@ public class NodeHandler extends DefaultHandler {
 
     private int          currentNodeType;
     private int          currentDependencyType;
+    private Attributes   currentDependencyAttributes;
     private Node         currentNode;
     private PackageNode  currentPackage;
+    private Attributes   currentPackageAttributes;
     private ClassNode    currentClass;
+    private Attributes   currentClassAttributes;
     private FeatureNode  currentFeature;
+    private Attributes   currentFeatureAttributes;
     private StringBuffer currentName = new StringBuffer();
 
     private HashSet      dependencyListeners = new HashSet();
@@ -83,10 +87,13 @@ public class NodeHandler extends DefaultHandler {
             fireBeginSession();
         } else if ("package".equals(qName)) {
             currentNodeType = PACKAGE;
+            currentPackageAttributes = new AttributesImpl(atts);
         } else if ("class".equals(qName)) {
             currentNodeType = CLASS;
+            currentClassAttributes = new AttributesImpl(atts);
         } else if ("feature".equals(qName)) {
             currentNodeType = FEATURE;
+            currentFeatureAttributes = new AttributesImpl(atts);
         } else if ("inbound".equals(qName) || "outbound".equals(qName)) {
             if ("package".equals(atts.getValue("type"))) {
                 currentDependencyType = PACKAGE;
@@ -95,6 +102,7 @@ public class NodeHandler extends DefaultHandler {
             } else if ("feature".equals(atts.getValue("type"))) {
                 currentDependencyType = FEATURE;
             }
+            currentDependencyAttributes = new AttributesImpl(atts);
         }
 
         Logger.getLogger(getClass()).debug("    current node type: " + currentNodeType);
@@ -113,16 +121,16 @@ public class NodeHandler extends DefaultHandler {
 
             switch (currentNodeType) {
                 case PACKAGE:
-                    currentPackage = getFactory().createPackage(currentName.toString());
+                    currentPackage = getFactory().createPackage(currentName.toString(), isConfirmed(currentPackageAttributes));
                     currentNode    = currentPackage;
                     break;
                 case CLASS:
-                    currentClass = getFactory().createClass(currentName.toString());
+                    currentClass = getFactory().createClass(currentName.toString(), isConfirmed(currentClassAttributes));
                     currentNode  = currentClass;
                     fireBeginClass(currentClass.toString());
                     break;
                 case FEATURE:
-                    currentFeature = getFactory().createFeature(currentName.toString());
+                    currentFeature = getFactory().createFeature(currentName.toString(), isConfirmed(currentFeatureAttributes));
                     currentNode    = currentFeature;
                     break;
             }
@@ -134,13 +142,13 @@ public class NodeHandler extends DefaultHandler {
             Node other = null;
             switch (currentDependencyType) {
                 case PACKAGE:
-                    other = getFactory().createPackage(currentName.toString());
+                    other = getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));
                     break;
                 case CLASS:
-                    other = getFactory().createClass(currentName.toString());
+                    other = getFactory().createClass(currentName.toString(), isConfirmed(currentDependencyAttributes));
                     break;
                 case FEATURE:
-                    other = getFactory().createFeature(currentName.toString());
+                    other = getFactory().createFeature(currentName.toString(), isConfirmed(currentDependencyAttributes));
                     break;
             }
             currentNode.addDependency(other);
@@ -153,13 +161,13 @@ public class NodeHandler extends DefaultHandler {
             Node other = null;
             switch (currentDependencyType) {
                 case PACKAGE:
-                    other = getFactory().createPackage(currentName.toString());
+                    other = getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));
                     break;
                 case CLASS:
-                    other = getFactory().createClass(currentName.toString());
+                    other = getFactory().createClass(currentName.toString(), isConfirmed(currentDependencyAttributes));
                     break;
                 case FEATURE:
-                    other = getFactory().createFeature(currentName.toString());
+                    other = getFactory().createFeature(currentName.toString(), isConfirmed(currentDependencyAttributes));
                     break;
             }
             other.addDependency(currentNode);
@@ -252,5 +260,9 @@ public class NodeHandler extends DefaultHandler {
         while(i.hasNext()) {
             ((DependencyListener) i.next()).endSession(event);
         }
+    }
+
+    private boolean isConfirmed(Attributes atts) {
+        return atts.getValue("confirmed") == null || "yes".equalsIgnoreCase(atts.getValue("confirmed"));
     }
 }
