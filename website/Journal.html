@@ -21,6 +21,19 @@
 	moved the cursor between columns within the header.  I had to put
 	the tooltip login in <code>mouseMoved()</code> instead.  My current
 	use of this treats the whole header as one large component.</p>
+
+	<p>Then further tweaked the text of the tooltips, adding the range
+	information even to column headers and enhancing the tooltips'
+	descriptive quality.</p>
+
+	<p>Refactored the text rendering of <code>StatisticalMeasurement</code>
+	and centralized it.  This may change some more since I am not too
+	fond of mixing application logic and presentation logic, but I don't
+	have a better place at this time.</p>
+
+	<p>Fixed the named scope of two measurements in the default metrics
+	configuration.  There were mistakenly labeled _per group_ when they
+	are in fact _per class_.</p>
     </dd>
     <dt>
 	March 04, 2003
