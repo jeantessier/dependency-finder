@@ -49,6 +49,22 @@
 <metrics-configuration>
     <project-measurements>
 	<measurement>
+	    <short-name>I</short-name>
+	    <long-name>Instability</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		I
+	    </init>
+	</measurement>
+	<measurement>
+	    <short-name>A</short-name>
+	    <long-name>Abstractness</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		A
+	    </init>
+	</measurement>
+	<measurement>
 	    <short-name>D'</short-name>
 	    <long-name>Normalized Distance</long-name>
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
