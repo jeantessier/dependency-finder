@@ -1,0 +1,19 @@
+<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
+
+<!DOCTYPE list-diff [
+
+<!ELEMENT list-diff (name,old,new,removed,added) >
+
+<!ELEMENT name (#PCDATA)* >
+
+<!ELEMENT old (#PCDATA)* >
+
+<!ELEMENT new (#PCDATA)* >
+
+<!ELEMENT removed (line)* >
+
+<!ELEMENT added (line)* >
+
+<!ELEMENT line (#PCDATA)* >
+
+]>

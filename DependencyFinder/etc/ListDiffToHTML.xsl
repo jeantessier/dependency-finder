@@ -34,37 +34,61 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:output method="text"/>
+    <xsl:output method="html" indent="yes"/>
     <xsl:strip-space elements="*"/> 
 
-    <xsl:template match="differences">
-	<xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>Documentation Changes
+    <xsl:template match="list-diff">
+	<html>
 
-	<xsl:value-of select="old"/> to <xsl:value-of select="new"/>
+	<head>
+	    <title><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>Documentation Changes</title>
+	</head>
 
-	No Longer Documented:
-	<xsl:apply-templates select="descendant::undocumented-packages/name |
-				     descendant::undocumented-interfaces/name |
-				     descendant::undocumented-classes/name |
-				     descendant::undocumented-fields/declaration |
-				     descendant::undocumented-constructors/declaration |
-				     descendant::undocumented-methods/declaration"/>
+	<body bgcolor="#ffffff">
 
-	Now Documented:
-	<xsl:apply-templates select="descendant::documented-packages/name |
-				     descendant::documented-interfaces/name |
-				     descendant::documented-classes/name |
-				     descendant::documented-fields/declaration |
-				     descendant::documented-constructors/declaration |
-				     descendant::documented-methods/declaration"/>
+	<h1><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>Documentation Changes</h1>
+
+	<h2><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h2>
+
+	<xsl:apply-templates select="removed"/>
+
+	<xsl:apply-templates select="added"/>
+
+	</body>
+
+	</html>
     </xsl:template>
 
-    <xsl:template match="name">
-	- <xsl:value-of select="."/>
+    <xsl:template match="removed">
+	<h3>No Longer in Published API:</h3>
+	<xsl:choose>
+	    <xsl:when test="line">
+		<ul>
+		   <xsl:apply-templates/>
+		</ul>
+	    </xsl:when>
+	    <xsl:otherwise>
+	        <blockquote><i>none</i></blockquote>
+	    </xsl:otherwise>
+	</xsl:choose>
     </xsl:template>
 
-    <xsl:template match="declaration">
-	- <xsl:value-of select="@full-signature"/>
+    <xsl:template match="added">
+	<h3>Newly Published:</h3>
+	<xsl:choose>
+	    <xsl:when test="line">
+		<ul>
+		   <xsl:apply-templates/>
+		</ul>
+	    </xsl:when>
+	    <xsl:otherwise>
+	        <blockquote><i>none</i></blockquote>
+	    </xsl:otherwise>
+	</xsl:choose>
+    </xsl:template>
+
+    <xsl:template match="line">
+	<li><nobr><code><xsl:value-of select="."/></code></nobr></li>
     </xsl:template>
 
     <xsl:template match="*"></xsl:template>
