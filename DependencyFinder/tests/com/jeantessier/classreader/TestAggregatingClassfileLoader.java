@@ -32,20 +32,55 @@
 
 package com.jeantessier.classreader;
 
+import java.io.*;
+
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-	public TestAll(String name) {
+import org.apache.log4j.*;
+
+public class TestAggregatingClassfileLoader extends TestCase {
+	public static final String TEST_CLASS    = "test";
+	public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
+	
+	private AggregatingClassfileLoader loader;
+
+	public TestAggregatingClassfileLoader(String name) {
 		super(name);
 	}
+
+	protected void setUp() throws Exception {
+		Logger.getLogger(getClass()).info("Starting test: " + getName());
+
+		loader = new AggregatingClassfileLoader();
+	}
+
+	protected void tearDown() throws Exception {
+		Logger.getLogger(getClass()).info("End of " + getName());
+	}
 	
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+	public void testCreate() {
+		assertEquals("Different number of class names",
+					 0,
+					 loader.Classnames().size());
+		assertNull(TEST_CLASS + " should have been null",
+				   loader.Classfile(TEST_CLASS));
+	}
+	
+	public void testStart() throws IOException {
+		assertEquals("Different number of class names",
+					 0,
+					 loader.Classnames().size());
+		assertNull(TEST_CLASS + " should have been null",
+				   loader.Classfile(TEST_CLASS));
 
-		result.addTestSuite(TestAggregatingClassfileLoader.class);
-		result.addTestSuite(TestTransientClassfileLoader.class);
-		result.addTestSuite(TestDirectoryClassfileLoader.class);
-
-		return result;
+		loader.Load(new DataInputStream(new FileInputStream(TEST_FILENAME)));
+		
+		assertEquals("Different number of class names",
+					 1,
+					 loader.Classnames().size());
+		assertTrue("Missing class name \"" + TEST_CLASS + "\"",
+				   loader.Classnames().contains(TEST_CLASS));
+		assertNotNull(TEST_CLASS + " should not have been null",
+					  loader.Classfile(TEST_CLASS));
 	}
 }

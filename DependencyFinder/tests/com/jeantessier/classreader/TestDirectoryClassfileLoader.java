@@ -38,12 +38,15 @@ import junit.framework.*;
 
 import org.apache.log4j.*;
 
-public class TestDirectoryClassfileLoader extends TestCase {
+public class TestDirectoryClassfileLoader extends TestCase implements LoadListener {
 	public static final String TEST_CLASS    = "test";
 	public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
-	
-	private DirectoryClassfileLoader loader;
 
+	private LoadEvent start;
+	private LoadEvent load;
+	private LoadEvent loaded;
+	private LoadEvent stop;
+	
 	public TestDirectoryClassfileLoader(String name) {
 		super(name);
 	}
@@ -51,14 +54,19 @@ public class TestDirectoryClassfileLoader extends TestCase {
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
-		loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+		start  = null;
+		load   = null;
+		loaded = null;
+		stop   = null;
 	}
 
 	protected void tearDown() throws Exception {
 		Logger.getLogger(getClass()).info("End of " + getName());
 	}
 	
-	public void testCreate() {
+	public void testCreateWithAggregatingClassfileLoader() {
+		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+
 		assertEquals("Different number of class names",
 					 0,
 					 loader.Classnames().size());
@@ -66,7 +74,9 @@ public class TestDirectoryClassfileLoader extends TestCase {
 				   loader.Classfile(TEST_CLASS));
 	}
 	
-	public void testStart() throws IOException {
+	public void testLoadWithAggregatingClassfileLoader() throws IOException {
+		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+
 		assertEquals("Different number of class names",
 					 0,
 					 loader.Classnames().size());
@@ -82,5 +92,79 @@ public class TestDirectoryClassfileLoader extends TestCase {
 				   loader.Classnames().contains(TEST_CLASS));
 		assertNotNull(TEST_CLASS + " should not have been null",
 					  loader.Classfile(TEST_CLASS));
+	}
+	
+	public void testEventsWithAggregatingClassfileLoader() throws IOException {
+		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+		loader.addLoadListener(this);
+
+		loader.Load(new DirectoryExplorer(TEST_FILENAME));
+
+		assertNotNull("Start",           start);
+		assertNull("LoadElement",     load);
+		assertNotNull("LoadedClassfile", loaded);
+		assertNotNull("Stop",            stop);
+
+		assertEquals(TEST_FILENAME, loaded.Filename());
+		assertNotNull("Classfile", loaded.Classfile());
+	}	
+
+	public void testCreateWithTransientClassfileLoader() {
+		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
+
+		assertEquals("Different number of class names",
+					 0,
+					 loader.Classnames().size());
+		assertNull(TEST_CLASS + " should have been null",
+				   loader.Classfile(TEST_CLASS));
+	}
+	
+	public void testLoadWithTransientClassfileLoader() throws IOException {
+		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
+
+		assertEquals("Different number of class names",
+					 0,
+					 loader.Classnames().size());
+		assertNull(TEST_CLASS + " should have been null",
+				   loader.Classfile(TEST_CLASS));
+
+		loader.Load(new DirectoryExplorer(TEST_FILENAME));
+		
+		assertEquals("Different number of class names",
+					 0,
+					 loader.Classnames().size());
+		assertNull(TEST_CLASS + " should not have remained null",
+				   loader.Classfile(TEST_CLASS));
+	}
+	
+	public void testEventsWithTransientClassfileLoader() throws IOException {
+		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
+		loader.addLoadListener(this);
+
+		loader.Load(new DirectoryExplorer(TEST_FILENAME));
+
+		assertNotNull("Start",           start);
+		assertNull("LoadElement",     load);
+		assertNotNull("LoadedClassfile", loaded);
+		assertNotNull("Stop",            stop);
+
+		assertEquals(TEST_FILENAME, loaded.Filename());
+		assertNotNull("Classfile", loaded.Classfile());
+	}	
+
+	public void LoadStart(LoadEvent event) {
+		start = event;
+	}
+	
+	public void LoadElement(LoadEvent event) {
+		load = event;
+	}
+	
+	public void LoadedClassfile(LoadEvent event) {
+		loaded = event;
+	}
+	
+	public void LoadStop(LoadEvent event) {
+		stop = event;
 	}
 }

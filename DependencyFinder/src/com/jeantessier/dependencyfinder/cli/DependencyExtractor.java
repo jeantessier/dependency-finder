@@ -129,7 +129,11 @@ public class DependencyExtractor {
 			parameters.add(".");
 		}
 
-		ClassfileLoader loader = new AggregatingClassfileLoader();
+		NodeFactory factory = new NodeFactory();
+		CodeDependencyCollector collector = new CodeDependencyCollector(factory);
+		
+		ClassfileLoader loader = new TransientClassfileLoader();
+		loader.addLoadListener(collector);
 		
 		Iterator i = parameters.iterator();
 		while (i.hasNext()) {
@@ -147,16 +151,6 @@ public class DependencyExtractor {
 			}
 		}
 
-		NodeFactory factory = new NodeFactory();
-
-		Iterator j = loader.Classfiles().iterator();
-		while (j.hasNext()) {
-			Classfile classfile = (Classfile) j.next();
-			
-			Logger.getLogger(DependencyExtractor.class).info("Getting dependencies ...");
-			classfile.Accept(new CodeDependencyCollector(factory));
-		}
-	    
 		if (command_line.IsPresent("minimize")) {
 			LinkMinimizer minimizer = new LinkMinimizer();
 			minimizer.TraverseNodes(factory.Packages().values());

@@ -38,7 +38,7 @@ import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
-public class CodeDependencyCollector extends com.jeantessier.classreader.VisitorBase implements Collector {
+public class CodeDependencyCollector extends com.jeantessier.classreader.VisitorBase implements Collector, LoadListener {
 	private NodeFactory factory;
 	private Node        current;
 	private HashSet     dependency_listeners = new HashSet();
@@ -291,4 +291,21 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 			((DependencyListener) i.next()).Dependency(event);
 		}
 	}
+
+	public void LoadStart(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void LoadElement(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void LoadedClassfile(LoadEvent event) {
+		event.Classfile().Accept(this);
+	}
+	
+	public void LoadStop(LoadEvent event) {
+		// Do nothing
+	}
+	
 }

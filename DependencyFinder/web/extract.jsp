@@ -22,7 +22,8 @@
     NodeFactory factory = new NodeFactory();
     CodeDependencyCollector collector = new CodeDependencyCollector(factory);
 
-    ClassfileLoader loader = new AggregatingClassfileLoader();
+    ClassfileLoader loader = new TransientClassfileLoader();
+    loader.addLoadListener(collector);
 		
     Iterator i = sources.iterator();
     while (i.hasNext()) {
@@ -44,13 +45,6 @@
 	} catch (IOException ex) {
 	    out.println("Cannot extract from " + filename + ": " + ex.getClass().getName() + ": " + ex.getMessage());
 	}
-    }
-
-    Iterator j = loader.Classfiles().iterator();
-    while (j.hasNext()) {
-	Classfile classfile = (Classfile) j.next();
-	out.println("    Getting dependencies from " + classfile + " ...");
-	classfile.Accept(collector);
     }
 
     if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
