@@ -38,8 +38,8 @@ import com.jeantessier.classreader.*;
 
 /**
  *  Documents the difference, if any, for a given programming
- *  element that can be deprecated through the use of javadoc
- *  tags.
+ *  element that can be added or removed from the published
+ *  documentation for the API.
  */
 public class DocumentableDifferences extends DecoratorDifferences {
 	private boolean new_documentation;
