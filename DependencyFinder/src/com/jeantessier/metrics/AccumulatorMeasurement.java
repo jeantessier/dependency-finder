@@ -162,7 +162,6 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 			}
 		}
 	}
-		
 	
 	private void FilterElement(String element, Collection res) {
 		boolean found = false;
