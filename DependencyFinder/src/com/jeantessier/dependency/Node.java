@@ -48,7 +48,9 @@ public abstract class Node implements Comparable, Serializable {
 		return name;
 	}
 
-	public abstract boolean CanAddDependency(Node node);
+	public boolean CanAddDependency(Node node) {
+		return !equals(node);
+	}
 	
 	public void AddDependency(Node node) {
 		if (CanAddDependency(node) && node.CanAddDependency(this)) {

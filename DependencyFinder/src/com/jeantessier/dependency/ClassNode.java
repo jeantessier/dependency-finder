@@ -56,7 +56,7 @@ public class ClassNode extends Node {
 	}
  	
 	public boolean CanAddDependency(Node node) {
-		return !equals(node) && !Package().equals(node);
+		return super.CanAddDependency(node) && Package().CanAddDependency(node);
 	}
 
 	public void Accept(Visitor visitor) {

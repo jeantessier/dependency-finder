@@ -47,7 +47,7 @@ public class FeatureNode extends Node {
 	}
  	
 	public boolean CanAddDependency(Node node) {
-		return !equals(node) && !Class().equals(node) && !Class().Package().equals(node);
+		return super.CanAddDependency(node) && Class().CanAddDependency(node);
 	}
 
 	public void Accept(Visitor visitor) {

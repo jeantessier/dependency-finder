@@ -48,10 +48,6 @@ public class PackageNode extends Node {
 	public Collection Classes() {
 		return Collections.unmodifiableCollection(classes);
 	}
-	
-	public boolean CanAddDependency(Node node) {
-		return !equals(node);
-	}
 
 	public void Accept(Visitor visitor) {
 		visitor.VisitPackageNode(this);
