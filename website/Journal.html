@@ -17,6 +17,23 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	November 03, 2004
+    </dt>
+    <dd>
+	<p>Fixed the parameters for <code>DependencyClosure</code> in both the
+	CLI and Ant task. But at least the CLI version seems to still have
+	problems: the switch
+	<code>-start-includes /^com.jeantessier.dependency.NodeFactory/</code>
+	still matches anything with <code>NodeFactory</code> in it, as opposed
+	to only names beginning with it.</p>
+
+	<p>Someone filed bug
+	<a target="_blank" href="http://sourceforge.net/tracker/index.php?func=detail&aid=1058905&group_id=43305&atid=435884">#1058905</a>
+	where <code>PublishedDiffToHTML.xsl</code> still uses the old method
+	names from before the naming change.  I fixed the bug and issued patch
+	<a target="_blank" href="http://sourceforge.net/tracker/index.php?func=detail&aid=1060021&group_id=43305&atid=435886">#1060021</a>.</p>
+    </dd>
+    <dt>
 	October 28, 2004
     </dt>
     <dd>
