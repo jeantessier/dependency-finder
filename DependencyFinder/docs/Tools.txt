@@ -76,17 +76,26 @@
 
 ---++ ClassDump
 
----+++ Synopsis
-
 <blockquote>
-
+Takes a class name and dumps the associated files content
+as hexadecimal characters to standard output.
 </blockquote>
 
+---+++ Synopsis
+
     ClassDump
+	[param ...]
 
 ---+++ Description
 
 <blockquote>
+
+For each class named as a parameter, the tool obtains a
+=java.lang.Class= instance.  From it, the tool can get
+the =.class= file used by the =ClassLoader=.  The tool
+reads bytes from the =.class= file one at a time and
+writes the corresponding hexadecimal character pair to
+standard output.
 
 </blockquote>
 
@@ -94,18 +103,27 @@
 
 <blockquote>
 
+_none_
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiple:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=com.jeantessier.dependencyfinder.cli.ClassDump=</td></tr>
+</table>
 
 </blockquote>
 
 ---+++ Output
 
 <blockquote>
+
+Hexadecimal text of the classfile whose name is passed in.
 
 </blockquote>
 
@@ -137,8 +155,8 @@
     	-help
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 
 ---+++ Description
 
@@ -186,7 +204,7 @@
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -198,7 +216,7 @@
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -213,9 +231,15 @@
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -253,8 +277,8 @@
     	-help
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 
 ---+++ Description
 
@@ -302,7 +326,7 @@
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -314,7 +338,7 @@
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -329,9 +353,15 @@
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -370,8 +400,8 @@
     	-list
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 
 ---+++ Description
 
@@ -431,7 +461,7 @@
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -443,7 +473,7 @@
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -458,9 +488,15 @@
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -488,26 +524,33 @@
 
 ---++ ClassReader
 
----+++ Synopsis
-
 <blockquote>
-
+Takes a compiled Java _.class_ file and writes out its structure.
 </blockquote>
 
+---+++ Synopsis
+
     ClassReader
-    	-dtd-prefix value
-    	-help
-    	-indent-text value
-    	-out value
-    	-raw
-    	-time
-    	-trace [value]
-    	-verbose [value]
-    	-xml
+    	[-dtd-prefix uri]
+    	[-help]
+    	[-indent-text value]
+    	[-out filename]
+    	[-raw]
+    	[-time]
+    	[-trace [filename]]
+    	[-verbose [filename]]
+    	[-xml]
+	param1
+	...
 
 ---+++ Description
 
 <blockquote>
+
+Takes a compiled Java _.class_ file and writes out its structure.
+In textual output mode, its output resembles the output of _javap_.
+In XML output mode, its output maps the structure, as defined in
+the Java Virtual Machine Specification.
 
 </blockquote>
 
@@ -515,14 +558,16 @@
 
 <blockquote>
 
----++++ =-dtd-prefix value=
+---++++ =-dtd-prefix uri=
 
 <blockquote>
+
+The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=XMLPrinter.DEFAULT_DTD_PREFIX=</td></tr>
+<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -551,9 +596,12 @@
 
 </blockquote>
 
----++++ =-out value=
+---++++ =-out filename=
 
 <blockquote>
+
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -587,7 +635,7 @@
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -599,7 +647,7 @@
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -615,6 +663,8 @@
 
 <blockquote>
 
+Produce XML output instead of the default textual.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -626,15 +676,23 @@
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
 ---+++ Output
 
 <blockquote>
+
+Textual or XML rendition of the class in the =.class= file.
 
 </blockquote>
 
@@ -708,7 +766,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -794,7 +852,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -880,7 +938,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -966,7 +1024,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -1052,7 +1110,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -1138,7 +1196,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -1216,9 +1274,9 @@ See =-out= above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 
 ---+++ Description
@@ -1675,7 +1733,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -1699,7 +1757,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -1726,9 +1784,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -1772,8 +1836,8 @@ See =-out= above.
     	-plain
     	-serialize
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
     	-xml
 
 ---+++ Description
@@ -1894,7 +1958,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -1906,7 +1970,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -1933,9 +1997,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -1975,8 +2045,8 @@ See =-out= above.
     	-indent-text value
     	-maximize
     	-minimize
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 
 ---+++ Description
 
@@ -2048,7 +2118,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -2060,7 +2130,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -2075,9 +2145,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -2159,9 +2235,9 @@ See =-out= above.
     	[-scope-excludes value]*
     	[-scope-includes value]*
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
 
 ---+++ Description
 
@@ -2737,7 +2813,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -2761,7 +2837,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -2776,9 +2852,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -2851,9 +2933,9 @@ See =-out= above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 
 ---+++ Description
@@ -3322,7 +3404,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -3346,7 +3428,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -3373,9 +3455,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -3455,7 +3543,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -3541,7 +3629,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -3627,7 +3715,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -3680,8 +3768,8 @@ See =-out= above.
     	-old-label value
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 
 ---+++ Description
 
@@ -3837,7 +3925,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -3849,7 +3937,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -3864,9 +3952,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -3946,7 +4040,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -4032,7 +4126,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -4118,7 +4212,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -4204,7 +4298,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -4256,8 +4350,8 @@ See =-out= above.
     	-old-label value
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 
 ---+++ Description
 
@@ -4401,7 +4495,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -4413,7 +4507,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -4428,9 +4522,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -4510,7 +4610,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -4596,7 +4696,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -4651,9 +4751,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -4733,7 +4839,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -4819,7 +4925,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -4886,10 +4992,10 @@ See =-out= above.
     	-reverse
     	-sort value
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-txt
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 
 ---+++ Description
@@ -5118,7 +5224,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -5154,7 +5260,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -5181,9 +5287,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -5221,9 +5333,9 @@ See =-out= above.
     	-configuration value
     	-default-configuration value
     	-help
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
 
 ---+++ Description
 
@@ -5271,7 +5383,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -5295,7 +5407,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -5310,9 +5422,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -5392,7 +5510,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -5478,7 +5596,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
 
@@ -5557,9 +5675,9 @@ See =-out= above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 
 ---+++ Description
@@ -6028,7 +6146,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -6052,7 +6170,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -6079,9 +6197,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -6154,9 +6278,9 @@ See =-out= above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 
 ---+++ Description
@@ -6625,7 +6749,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -6649,7 +6773,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -6676,9 +6800,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -6751,9 +6881,9 @@ See =-out= above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 
 ---+++ Description
@@ -7222,7 +7352,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -7246,7 +7376,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -7273,9 +7403,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -7348,9 +7484,9 @@ See =-out= above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 
 ---+++ Description
@@ -7819,7 +7955,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-trace [value]=
+---++++ =-trace [filename]=
 
 <blockquote>
 
@@ -7843,7 +7979,7 @@ See =-out= above.
 
 </blockquote>
 
----++++ =-verbose [value]=
+---++++ =-verbose [filename]=
 
 <blockquote>
 
@@ -7870,9 +8006,15 @@ See =-out= above.
 
 </blockquote>
 
----+++ Input
+---+++ Parameters
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 

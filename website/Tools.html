@@ -127,21 +127,32 @@
 <a name="ClassDump" />
 <h2>ClassDump</h2>
 
+<blockquote>
+Takes a class name and dumps the associated files content
+as hexadecimal characters to standard output.
+</blockquote>
+
 <a name="Synopsis" />
 <h3>Synopsis</h3>
 
-<blockquote>
-
-</blockquote>
-
 <pre>
     ClassDump
+	[param ...]
 </pre>
 
 <a name="Description" />
 <h3>Description</h3>
 
 <blockquote>
+
+<p>
+For each class named as a parameter, the tool obtains a
+<code>java.lang.Class</code> instance.  From it, the tool can get
+the <code>.class</code> file used by the <code>ClassLoader</code>.  The tool
+reads bytes from the <code>.class</code> file one at a time and
+writes the corresponding hexadecimal character pair to
+standard output.
+</p>
 
 </blockquote>
 
@@ -150,13 +161,22 @@
 
 <blockquote>
 
+<p>
+<i>none</i>
+</p>
 
 </blockquote>
 
-<a name="Input" />
-<h3>Input</h3>
+<a name="Parameters" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiple:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td><code>com.jeantessier.dependencyfinder.cli.ClassDump</code></td></tr>
+</table>
 
 </blockquote>
 
@@ -164,6 +184,10 @@
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+Hexadecimal text of the classfile whose name is passed in.
+</p>
 
 </blockquote>
 
@@ -202,8 +226,8 @@
     	-help
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 </pre>
 
 <a name="DescriptionX" />
@@ -257,8 +281,8 @@
 
 </blockquote>
 
-<a name="-trace[value]" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -270,8 +294,8 @@
 
 </blockquote>
 
-<a name="-verbose[value]" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -286,10 +310,16 @@
 
 </blockquote>
 
-<a name="InputX" />
-<h3>Input</h3>
+<a name="ParametersX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -335,8 +365,8 @@
     	-help
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXX" />
@@ -390,8 +420,8 @@
 
 </blockquote>
 
-<a name="-trace[value]X" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]X" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -403,8 +433,8 @@
 
 </blockquote>
 
-<a name="-verbose[value]X" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]X" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -419,10 +449,16 @@
 
 </blockquote>
 
-<a name="InputXX" />
-<h3>Input</h3>
+<a name="ParametersXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -469,8 +505,8 @@
     	-list
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXX" />
@@ -537,8 +573,8 @@
 
 </blockquote>
 
-<a name="-trace[value]XX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -550,8 +586,8 @@
 
 </blockquote>
 
-<a name="-verbose[value]XX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -566,10 +602,16 @@
 
 </blockquote>
 
-<a name="InputXXX" />
-<h3>Input</h3>
+<a name="ParametersXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -603,30 +645,39 @@
 <a name="ClassReader" />
 <h2>ClassReader</h2>
 
+<blockquote>
+Takes a compiled Java <i>.class</i> file and writes out its structure.
+</blockquote>
+
 <a name="SynopsisXXXX" />
 <h3>Synopsis</h3>
 
-<blockquote>
-
-</blockquote>
-
 <pre>
     ClassReader
-    	-dtd-prefix value
-    	-help
-    	-indent-text value
-    	-out value
-    	-raw
-    	-time
-    	-trace [value]
-    	-verbose [value]
-    	-xml
+    	[-dtd-prefix uri]
+    	[-help]
+    	[-indent-text value]
+    	[-out filename]
+    	[-raw]
+    	[-time]
+    	[-trace [filename]]
+    	[-verbose [filename]]
+    	[-xml]
+	param1
+	...
 </pre>
 
 <a name="DescriptionXXXX" />
 <h3>Description</h3>
 
 <blockquote>
+
+<p>
+Takes a compiled Java <i>.class</i> file and writes out its structure.
+In textual output mode, its output resembles the output of <i>javap</i>.
+In XML output mode, its output maps the structure, as defined in
+the Java Virtual Machine Specification.
+</p>
 
 </blockquote>
 
@@ -635,15 +686,19 @@
 
 <blockquote>
 
-<a name="-dtd-prefixvalue" />
-<h4><code>-dtd-prefix value</code></h4>
+<a name="-dtd-prefixuri" />
+<h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
+
+<p>
+The prefix of the DTD URL for the XML output document.  Only useful with <code>-xml</code>.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>XMLPrinter.DEFAULT<i>DTD</i>PREFIX</code></td></tr>
+<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
 </table>
 
 </blockquote>
@@ -674,10 +729,15 @@
 
 </blockquote>
 
-<a name="-outvalueXXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilename" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -713,8 +773,8 @@
 
 </blockquote>
 
-<a name="-trace[value]XXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -726,8 +786,8 @@
 
 </blockquote>
 
-<a name="-verbose[value]XXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -744,6 +804,10 @@
 
 <blockquote>
 
+<p>
+Produce XML output instead of the default textual.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -755,10 +819,16 @@
 
 </blockquote>
 
-<a name="InputXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -766,6 +836,10 @@
 <h3>Output</h3>
 
 <blockquote>
+
+<p>
+Textual or XML rendition of the class in the <code>.class</code> file.
+</p>
 
 </blockquote>
 
@@ -857,8 +931,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -967,8 +1041,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -1077,8 +1151,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -1187,8 +1261,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -1297,8 +1371,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -1407,8 +1481,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -1498,9 +1572,9 @@ See <code>-out</code> above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 </pre>
 
@@ -1633,7 +1707,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueX" />
+<a name="-dtd-prefixvalue" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -1841,7 +1915,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXX" />
+<a name="-outvalueXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -1997,8 +2071,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -2023,8 +2097,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -2052,10 +2126,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -2107,8 +2187,8 @@ See <code>-out</code> above.
     	-plain
     	-serialize
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
     	-xml
 </pre>
 
@@ -2124,7 +2204,7 @@ See <code>-out</code> above.
 
 <blockquote>
 
-<a name="-dtd-prefixvalueXX" />
+<a name="-dtd-prefixvalueX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -2189,7 +2269,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXX" />
+<a name="-outvalueXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -2241,8 +2321,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -2254,8 +2334,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -2283,10 +2363,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -2334,8 +2420,8 @@ See <code>-out</code> above.
     	-indent-text value
     	-maximize
     	-minimize
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXX" />
@@ -2350,7 +2436,7 @@ See <code>-out</code> above.
 
 <blockquote>
 
-<a name="-dtd-prefixvalueXXX" />
+<a name="-dtd-prefixvalueXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -2415,8 +2501,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -2428,8 +2514,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -2444,10 +2530,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -2537,9 +2629,9 @@ See <code>-out</code> above.
     	[-scope-excludes value]*
     	[-scope-includes value]*
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXX" />
@@ -3022,7 +3114,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXX" />
+<a name="-outvalueXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -3165,8 +3257,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -3191,8 +3283,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -3207,10 +3299,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -3291,9 +3389,9 @@ See <code>-out</code> above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 </pre>
 
@@ -3426,7 +3524,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXX" />
+<a name="-dtd-prefixvalueXXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -3634,7 +3732,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXX" />
+<a name="-outvalueXXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -3803,8 +3901,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -3829,8 +3927,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -3858,10 +3956,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -3960,8 +4064,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -4070,8 +4174,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -4180,8 +4284,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -4246,8 +4350,8 @@ See <code>-out</code> above.
     	-old-label value
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXX" />
@@ -4262,7 +4366,7 @@ See <code>-out</code> above.
 
 <blockquote>
 
-<a name="-dtd-prefixvalueXXXXX" />
+<a name="-dtd-prefixvalueXXXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -4392,7 +4496,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXX" />
+<a name="-outvalueXXXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -4418,8 +4522,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -4431,8 +4535,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -4447,10 +4551,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -4549,8 +4659,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -4659,8 +4769,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -4769,8 +4879,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -4879,8 +4989,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -4944,8 +5054,8 @@ See <code>-out</code> above.
     	-old-label value
     	-out value
     	-time
-    	-trace [value]
-    	-verbose [value]
+    	-trace [filename]
+    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -4973,7 +5083,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXX" />
+<a name="-dtd-prefixvalueXXXXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -5077,7 +5187,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXXX" />
+<a name="-outvalueXXXXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -5103,8 +5213,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -5116,8 +5226,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -5132,10 +5242,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -5234,8 +5350,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -5344,8 +5460,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -5415,10 +5531,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -5517,8 +5639,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -5627,8 +5749,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -5710,10 +5832,10 @@ See <code>-out</code> above.
     	-reverse
     	-sort value
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-txt
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 </pre>
 
@@ -5807,7 +5929,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXX" />
+<a name="-dtd-prefixvalueXXXXXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -5885,7 +6007,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXXXX" />
+<a name="-outvalueXXXXXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -5963,8 +6085,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -6002,8 +6124,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -6031,10 +6153,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -6080,9 +6208,9 @@ See <code>-out</code> above.
     	-configuration value
     	-default-configuration value
     	-help
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -6136,8 +6264,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -6162,8 +6290,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -6178,10 +6306,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -6280,8 +6414,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -6390,8 +6524,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
 
@@ -6482,9 +6616,9 @@ See <code>-out</code> above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 </pre>
 
@@ -6617,7 +6751,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXXX" />
+<a name="-dtd-prefixvalueXXXXXXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -6825,7 +6959,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXXXXX" />
+<a name="-outvalueXXXXXXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -6994,8 +7128,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -7020,8 +7154,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -7049,10 +7183,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -7133,9 +7273,9 @@ See <code>-out</code> above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 </pre>
 
@@ -7268,7 +7408,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXXXX" />
+<a name="-dtd-prefixvalueXXXXXXXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -7476,7 +7616,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXXXXXX" />
+<a name="-outvalueXXXXXXXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -7645,8 +7785,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -7671,8 +7811,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -7700,10 +7840,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -7784,9 +7930,9 @@ See <code>-out</code> above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 </pre>
 
@@ -7919,7 +8065,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXXXXX" />
+<a name="-dtd-prefixvalueXXXXXXXXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -8127,7 +8273,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXXXXXXX" />
+<a name="-outvalueXXXXXXXXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -8296,8 +8442,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXXXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXXXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -8322,8 +8468,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXXXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXXXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -8351,10 +8497,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
@@ -8435,9 +8587,9 @@ See <code>-out</code> above.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [value]
+    	-trace [filename]
     	-validate
-    	-verbose [value]
+    	-verbose [filename]
     	-xml
 </pre>
 
@@ -8570,7 +8722,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-dtd-prefixvalueXXXXXXXXXXX" />
+<a name="-dtd-prefixvalueXXXXXXXXXX" />
 <h4><code>-dtd-prefix value</code></h4>
 
 <blockquote>
@@ -8778,7 +8930,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXXXXXXXX" />
+<a name="-outvalueXXXXXXXXXXXXX" />
 <h4><code>-out value</code></h4>
 
 <blockquote>
@@ -8947,8 +9099,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[value]XXXXXXXXXXXXXXXX" />
-<h4><code>-trace [value]</code></h4>
+<a name="-trace[filename]XXXXXXXXXXXXXXXX" />
+<h4><code>-trace [filename]</code></h4>
 
 <blockquote>
 
@@ -8973,8 +9125,8 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-verbose[value]XXXXXXXXXXXXXXXX" />
-<h4><code>-verbose [value]</code></h4>
+<a name="-verbose[filename]XXXXXXXXXXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
 
@@ -9002,10 +9154,16 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="InputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Input</h3>
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
 
 <blockquote>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
 
 </blockquote>
 
