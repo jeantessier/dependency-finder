@@ -103,10 +103,23 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 	}
 	
 	public void testAddObject() {
+		measurement.Add(new Object());
+
+		assertEquals(1, measurement.intValue());
+		assertEquals(1, measurement.doubleValue(), 0.01);
+		assertEquals(1, measurement.Value().intValue());
+
+		measurement.Add(new Object());
+
+		assertEquals(2, measurement.Value().intValue());
+		assertEquals(2, measurement.Value().doubleValue(), 0.01);
+	}
+	
+	public void testAddNumber() {
 		measurement.Add(new Integer(1));
 
 		assertEquals(1, measurement.intValue());
-		assertEquals(1.0, measurement.doubleValue(), 0.01);
+		assertEquals(1, measurement.doubleValue(), 0.01);
 		assertEquals(1, measurement.Value().intValue());
 
 		measurement.Add(new Float(0.5));
@@ -119,13 +132,13 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		measurement.Add(1);
 
 		assertEquals(1, measurement.intValue());
-		assertEquals(1.0, measurement.doubleValue(), 0.01);
+		assertEquals(1, measurement.doubleValue(), 0.01);
 		assertEquals(1, measurement.Value().intValue());
 
 		measurement.Add(2);
 
 		assertEquals(3, measurement.intValue());
-		assertEquals(3.0, measurement.doubleValue(), 0.01);
+		assertEquals(3, measurement.doubleValue(), 0.01);
 		assertEquals(3, measurement.Value().intValue());
 	}
 	
@@ -133,7 +146,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		measurement.Add(1.0);
 
 		assertEquals(1, measurement.intValue());
-		assertEquals(1.0, measurement.doubleValue(), 0.01);
+		assertEquals(1, measurement.doubleValue(), 0.01);
 		assertEquals(1, measurement.Value().intValue());
 
 		measurement.Add(0.5);
@@ -147,7 +160,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		measurement.Add(new Integer(-1));
 
 		assertEquals(-1, measurement.Value().intValue());
-		assertEquals(-1.0, measurement.Value().doubleValue(), 0.01);
+		assertEquals(-1, measurement.Value().doubleValue(), 0.01);
 
 		measurement.Add(new Float(0.4));
 

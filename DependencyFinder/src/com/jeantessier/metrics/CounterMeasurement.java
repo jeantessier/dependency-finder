@@ -57,6 +57,8 @@ public class CounterMeasurement extends MeasurementBase {
 	public void Add(Object object) {
 		if (object instanceof Number) {
 			value += ((Number) object).doubleValue();
+		} else {
+			value++;
 		}
 	}
 
