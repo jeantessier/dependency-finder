@@ -128,8 +128,12 @@
 <h2>ClassDump</h2>
 
 <blockquote>
+
+<p>
 Takes a class name and dumps the associated files content
 as hexadecimal characters to standard output.
+</p>
+
 </blockquote>
 
 <a name="Synopsis" />
@@ -146,12 +150,10 @@ as hexadecimal characters to standard output.
 <blockquote>
 
 <p>
-For each class named as a parameter, the tool obtains a
-<code>java.lang.Class</code> instance.  From it, the tool can get
-the <code>.class</code> file used by the <code>ClassLoader</code>.  The tool
-reads bytes from the <code>.class</code> file one at a time and
-writes the corresponding hexadecimal character pair to
-standard output.
+For each class named as a parameter, the tool obtains a <code>java.lang.Class</code>
+instance.  From it, the tool can get the <code>.class</code> file used by the
+<code>ClassLoader</code>.  The tool reads bytes from the <code>.class</code> file one at a time and
+writes the corresponding hexadecimal character pair to standard output.
 </p>
 
 </blockquote>
@@ -171,6 +173,10 @@ standard output.
 <h3>Parameters</h3>
 
 <blockquote>
+
+<p>
+Fully qualified class names.  The classes must be available on the <code>CLASSPATH</code>.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -196,6 +202,36 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <blockquote>
 
+<pre>
+    ClassDump test
+    test:
+    test.class -> file:/C:/language/Java/myprojects/DependencyFinder/classes/test.class
+    CAFEBABE 0000002E 002C0A00 02001907 001A0A00 1B001C07 001D0900 1E001F0A 
+    00200021 07002201 00063C69 6E69743E 01000328 29560100 04436F64 6501000F 
+    4C696E65 4E756D62 65725461 626C6501 00124C6F 63616C56 61726961 626C6554 
+    61626C65 01000474 68697301 00064C74 6573743B 0100046D 61696E01 0016285B 
+    4C6A6176 612F6C61 6E672F53 7472696E 673B2956 01000461 72677301 00135B4C 
+    6A617661 2F6C616E 672F5374 72696E67 3B010001 63010016 4C6A6176 612F7574 
+    696C2F43 6F6C6C65 6374696F 6E3B0100 02657801 00204C6A 6176612F 6C616E67 
+    2F4E756C 6C506F69 6E746572 45786365 7074696F 6E3B0100 0A536F75 72636546 
+    696C6501 00097465 73742E6A 6176610C 00080009 0100106A 6176612F 6C616E67 
+    2F4F626A 65637407 00230C00 24002501 001E6A61 76612F6C 616E672F 4E756C6C 
+    506F696E 74657245 78636570 74696F6E 0700260C 00270028 0700290C 002A002B 
+    01000474 65737401 00156A61 76612F75 74696C2F 436F6C6C 65637469 6F6E7301 
+    00097369 6E676C65 746F6E01 0023284C 6A617661 2F6C616E 672F4F62 6A656374 
+    3B294C6A 6176612F 7574696C 2F536574 3B010010 6A617661 2F6C616E 672F5379 
+    7374656D 0100036F 75740100 154C6A61 76612F69 6F2F5072 696E7453 74726561 
+    6D3B0100 136A6176 612F696F 2F507269 6E745374 7265616D 01000770 72696E74 
+    6C6E0100 15284C6A 6176612F 6C616E67 2F4F626A 6563743B 29560021 00070002 
+    00000000 00020001 00080009 0001000A 0000002F 00010001 00000005 2AB70001 
+    B1000000 02000B00 00000600 01000000 23000C00 00000C00 01000000 05000D00 
+    0E000000 09000F00 10000100 0A000000 70000200 02000000 1ABB0002 59B70001 
+    B800034C A7000E4C B200052B B60006A7 0003B100 01000000 0B000E00 04000200 
+    0B000000 16000500 00002600 0B002700 0E002800 16002900 19002A00 0C000000 
+    20000300 00001A00 11001200 00000B00 00001300 14000100 0F000A00 15001600 
+    01000100 17000000 020018
+</pre>
+
 </blockquote>
 
 <a name="Class" />
@@ -214,20 +250,24 @@ Hexadecimal text of the classfile whose name is passed in.
 <a name="ClassInheritance" />
 <h2>ClassInheritance</h2>
 
-<a name="SynopsisX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
+<p>
+List inheritance information for classes and interfaces.
+</p>
+
 </blockquote>
+
+<a name="SynopsisX" />
+<h3>Synopsis</h3>
 
 <pre>
     ClassInheritance
     	-help
-    	-out value
+    	-out filename
     	-time
-    	-trace [filename]
     	-verbose [filename]
+	[param ...]
 </pre>
 
 <a name="DescriptionX" />
@@ -247,6 +287,10 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -255,10 +299,15 @@ Hexadecimal text of the classfile whose name is passed in.
 
 </blockquote>
 
-<a name="-outvalue" />
-<h4><code>-out value</code></h4>
+<a name="-outfilename" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -273,23 +322,14 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -307,7 +347,6 @@ Hexadecimal text of the classfile whose name is passed in.
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersX" />
@@ -315,10 +354,16 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <blockquote>
 
+<p>
+File names for JAR files, Zip files, and <code>.class</code> files for the tool to read.
+You can also give directory names, the tool will search it for <code>.class</code> files
+and read them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Current directory, "<code>.</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -353,19 +398,18 @@ Hexadecimal text of the classfile whose name is passed in.
 <a name="ClassList" />
 <h2>ClassList</h2>
 
-<a name="SynopsisXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
 
+<a name="SynopsisXX" />
+<h3>Synopsis</h3>
+
 <pre>
     ClassList
     	-help
-    	-out value
+    	-out filename
     	-time
-    	-trace [filename]
     	-verbose [filename]
 </pre>
 
@@ -386,6 +430,10 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -394,10 +442,15 @@ Hexadecimal text of the classfile whose name is passed in.
 
 </blockquote>
 
-<a name="-outvalueX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -412,23 +465,14 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]X" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -446,7 +490,6 @@ Hexadecimal text of the classfile whose name is passed in.
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXX" />
@@ -454,10 +497,16 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <blockquote>
 
+<p>
+File names for JAR files, Zip files, and <code>.class</code> files for the tool to read.
+You can also give directory names, the tool will search it for <code>.class</code> files
+and read them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Current directory, "<code>.</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -492,20 +541,19 @@ Hexadecimal text of the classfile whose name is passed in.
 <a name="ClassMetrics" />
 <h2>ClassMetrics</h2>
 
-<a name="SynopsisXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ClassMetrics
     	-help
     	-list
-    	-out value
+    	-out filename
     	-time
-    	-trace [filename]
     	-verbose [filename]
 </pre>
 
@@ -532,6 +580,10 @@ number of static, synchronized, or abstract methods, etc.
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -553,10 +605,15 @@ number of static, synchronized, or abstract methods, etc.
 
 </blockquote>
 
-<a name="-outvalueXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -571,23 +628,14 @@ number of static, synchronized, or abstract methods, etc.
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -605,7 +653,6 @@ number of static, synchronized, or abstract methods, etc.
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXXX" />
@@ -613,10 +660,16 @@ number of static, synchronized, or abstract methods, etc.
 
 <blockquote>
 
+<p>
+File names for JAR files, Zip files, and <code>.class</code> files for the tool to read.
+You can also give directory names, the tool will search it for <code>.class</code> files
+and read them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Current directory, "<code>.</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -652,7 +705,11 @@ number of static, synchronized, or abstract methods, etc.
 <h2>ClassReader</h2>
 
 <blockquote>
+
+<p>
 Takes a compiled Java <i>.class</i> file and writes out its structure.
+</p>
+
 </blockquote>
 
 <a name="SynopsisXXXX" />
@@ -666,7 +723,6 @@ Takes a compiled Java <i>.class</i> file and writes out its structure.
     	[-out filename]
     	[-raw]
     	[-time]
-    	[-trace [filename]]
     	[-verbose [filename]]
     	[-xml]
 	param1
@@ -714,6 +770,10 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -727,6 +787,10 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 
 <blockquote>
 
+<p>
+Uses <i>text</i> for each indentation level in XML output.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -735,7 +799,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 
 </blockquote>
 
-<a name="-outfilename" />
+<a name="-outfilenameXXX" />
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -771,23 +835,14 @@ it is created.  If it already exists, its content is overwritten.
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -822,7 +877,6 @@ Produce XML output instead of the default textual.
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXXXX" />
@@ -830,10 +884,16 @@ Produce XML output instead of the default textual.
 
 <blockquote>
 
+<p>
+File names for JAR files, Zip files, and <code>.class</code> files for the tool to read.
+You can also give directory names, the tool will search it for <code>.class</code> files
+and read them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Current directory, "<code>.</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -872,12 +932,12 @@ Textual or XML rendition of the class in the <code>.class</code> file.
 <a name="ClosureToText" />
 <h2>ClosureToText</h2>
 
-<a name="SynopsisXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ClosureToText
@@ -943,7 +1003,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -977,17 +1037,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheet" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ClosureToText.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="ClosureToTreeView" />
 <h2>ClosureToTreeView</h2>
 
-<a name="SynopsisXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ClosureToTreeView
@@ -1053,7 +1124,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -1087,13 +1158,21 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ClosureToTreeView.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="DependablesToHTML" />
 <h2>DependablesToHTML</h2>
-
-<a name="SynopsisXXXXXXX" />
-<h3>Synopsis</h3>
 
 <blockquote>
 
@@ -1102,6 +1181,9 @@ Translates only inbound dependencies to HTML.
 </p>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependablesToHTML
@@ -1167,7 +1249,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -1215,13 +1297,21 @@ meaning that many other elements rely on it being stable.
 
 </blockquote>
 
+<a name="XSLStylesheetXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependablesToHTML.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="DependablesToText" />
 <h2>DependablesToText</h2>
-
-<a name="SynopsisXXXXXXXX" />
-<h3>Synopsis</h3>
 
 <blockquote>
 
@@ -1230,6 +1320,9 @@ Translates only inbound dependencies to text.
 </p>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependablesToText
@@ -1295,7 +1388,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -1352,13 +1445,21 @@ meaning that many other elements rely on it being stable.
 
 </blockquote>
 
+<a name="XSLStylesheetXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependablesToText.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="DependenciesToHTML" />
 <h2>DependenciesToHTML</h2>
-
-<a name="SynopsisXXXXXXXXX" />
-<h3>Synopsis</h3>
 
 <blockquote>
 
@@ -1367,6 +1468,9 @@ Translates both outbound and inbound dependencies to HTML.
 </p>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependenciesToHTML
@@ -1432,7 +1536,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -1479,13 +1583,21 @@ This HTML file shows both outbound and inbound dependencies.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependenciesToHTML.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="DependenciesToText" />
 <h2>DependenciesToText</h2>
-
-<a name="SynopsisXXXXXXXXXX" />
-<h3>Synopsis</h3>
 
 <blockquote>
 
@@ -1494,6 +1606,9 @@ Translates both outbound and inbound dependencies to text.
 </p>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependenciesToText
@@ -1559,7 +1674,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -1614,17 +1729,28 @@ This text file shows both outbound and inbound dependencies.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependenciesToText.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="DependencyClosure" />
 <h2>DependencyClosure</h2>
 
-<a name="SynopsisXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependencyClosure
@@ -1653,7 +1779,7 @@ This text file shows both outbound and inbound dependencies.
     	-indent-text text
     	-maximum-inbound-depth [value]
     	-maximum-outbound-depth [value]
-    	-out value
+    	-out filename
     	-p2p
     	-package-filter
     	[-package-filter-excludes value]*
@@ -1665,7 +1791,6 @@ This text file shows both outbound and inbound dependencies.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [filename]
     	-validate
     	-verbose [filename]
     	-xml
@@ -1971,6 +2096,10 @@ See also:
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -1996,6 +2125,10 @@ See also:
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
+
+<p>
+Uses <i>text</i> for each indentation level in XML output.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2031,10 +2164,15 @@ See also:
 
 </blockquote>
 
-<a name="-outvalueXXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameXXXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2179,6 +2317,10 @@ See also:
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2187,23 +2329,14 @@ See also:
 
 </blockquote>
 
-<a name="-trace[filename]XXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
 <a name="-validate" />
 <h4><code>-validate</code></h4>
 
 <blockquote>
+
+<p>
+Validate the input XML against its DTD.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2239,13 +2372,16 @@ See also:
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
+
+<p>
+Filename of the XML document containing the dependency graph.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2285,9 +2421,6 @@ See also:
 <a name="DependencyExtractor" />
 <h2>DependencyExtractor</h2>
 
-<a name="SynopsisXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 <p>
@@ -2296,6 +2429,9 @@ Extracts dependencies from compiled classes.
 
 </blockquote>
 
+<a name="SynopsisXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
 <pre>
     DependencyExtractor
     	-dtd-prefix uri
@@ -2303,11 +2439,10 @@ Extracts dependencies from compiled classes.
     	-indent-text text
     	-maximize
     	-minimize
-    	-out value
+    	-out filename
     	-plain
     	-serialize
     	-time
-    	-trace [filename]
     	-verbose [filename]
     	-xml
 </pre>
@@ -2361,6 +2496,10 @@ See also:
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2373,6 +2512,10 @@ See also:
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
+
+<p>
+Uses <i>text</i> for each indentation level in XML output.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2387,6 +2530,10 @@ See also:
 
 <blockquote>
 
+<p>
+Maximize the dependency graph before outputing it.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2400,6 +2547,10 @@ See also:
 
 <blockquote>
 
+<p>
+Minimize the dependency graph before outputing it.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2408,10 +2559,15 @@ See also:
 
 </blockquote>
 
-<a name="-outvalueXXXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameXXXXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2452,23 +2608,14 @@ See also:
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -2499,7 +2646,6 @@ See also:
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXXXXXXXXXXXX" />
@@ -2507,10 +2653,16 @@ See also:
 
 <blockquote>
 
+<p>
+File names for JAR files, Zip files, and <code>.class</code> files for the tool to read.
+You can also give directory names, the tool will search it for <code>.class</code> files
+and read them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Current directory, "<code>.</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -2575,12 +2727,12 @@ to <code>dg.xml</code>, after having minimized it:
 <a name="DependencyFinder" />
 <h2>DependencyFinder</h2>
 
-<a name="SynopsisXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependencyFinder
@@ -2589,8 +2741,6 @@ to <code>dg.xml</code>, after having minimized it:
     	-indent-text text
     	-maximize
     	-minimize
-    	-trace [filename]
-    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXX" />
@@ -2598,13 +2748,18 @@ to <code>dg.xml</code>, after having minimized it:
 
 <blockquote>
 
+<ol>
+<li>8</li>
+<li>0</li>
+</ol>
+
 <p>
-A Swing-based application that combines the functionalities
-dealing with dependencies.
+A Swing-based application that combines the functionalities dealing with
+dependencies.
 </p>
 
 <p>
-See also:
+It combines the functionalities of the following tools:
 </p>
 
 <ul>
@@ -2639,6 +2794,10 @@ See also:
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2651,6 +2810,10 @@ See also:
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
+
+<p>
+Uses <i>text</i> for each indentation level in XML output.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2665,6 +2828,10 @@ See also:
 
 <blockquote>
 
+<p>
+Maximize the dependency graph after extraction.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2678,6 +2845,10 @@ See also:
 
 <blockquote>
 
+<p>
+Minimize the dependency graph after extraction.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2685,33 +2856,6 @@ See also:
 </table>
 
 </blockquote>
-
-<a name="-trace[filename]XXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-verbose[filename]XXXXXX" />
-<h4><code>-verbose [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
 
 </blockquote>
 
@@ -2720,11 +2864,9 @@ See also:
 
 <blockquote>
 
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
+<p>
+<i>none</i>
+</p>
 
 </blockquote>
 
@@ -2758,12 +2900,12 @@ See also:
 <a name="DependencyMetrics" />
 <h2>DependencyMetrics</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependencyMetrics
@@ -2803,7 +2945,7 @@ See also:
     	-help
     	[-includes value]*
     	-list
-    	-out value
+    	-out filename
     	-p2p
     	-package-filter
     	[-package-filter-excludes value]*
@@ -2814,7 +2956,6 @@ See also:
     	[-scope-excludes value]*
     	[-scope-includes value]*
     	-time
-    	-trace [filename]
     	-validate
     	-verbose [filename]
 </pre>
@@ -3271,6 +3412,10 @@ of exiting vertices.
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3305,10 +3450,15 @@ of exiting vertices.
 
 </blockquote>
 
-<a name="-outvalueXXXXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameXXXXXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3440,23 +3590,14 @@ of exiting vertices.
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -3466,6 +3607,10 @@ of exiting vertices.
 
 <blockquote>
 
+<p>
+Validate the input XML against its DTD.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3474,7 +3619,7 @@ of exiting vertices.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXX" />
+<a name="-verbose[filename]XXXXXX" />
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -3487,7 +3632,6 @@ of exiting vertices.
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXXXXXXXXXXXXXX" />
@@ -3495,9 +3639,13 @@ of exiting vertices.
 
 <blockquote>
 
+<p>
+Filename of the XML document containing the dependency graph.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 
@@ -3533,12 +3681,12 @@ of exiting vertices.
 <a name="DependencyReporter" />
 <h2>DependencyReporter</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependencyReporter
@@ -3567,7 +3715,7 @@ of exiting vertices.
     	-indent-text text
     	-maximize
     	-minimize
-    	-out value
+    	-out filename
     	-p2p
     	-package-filter
     	[-package-filter-excludes value]*
@@ -3580,7 +3728,6 @@ of exiting vertices.
     	[-scope-includes value]*
     	-serialize
     	-time
-    	-trace [filename]
     	-validate
     	-verbose [filename]
     	-xml
@@ -3612,6 +3759,10 @@ See also:
 <li><a href="#DependablesToText">DependablesToText</a></li>
 <li><a href="#DependentsToHTML">DependentsToHTML</a></li>
 <li><a href="#DependentsToText">DependentsToText</a></li>
+<li><a href="#c2c">c2c</a></li>
+<li><a href="#c2p">c2p</a></li>
+<li><a href="#f2f">f2f</a></li>
+<li><a href="#p2p">p2p</a></li>
 </ul>
 
 </blockquote>
@@ -3886,6 +4037,10 @@ See also:
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3912,6 +4067,10 @@ See also:
 
 <blockquote>
 
+<p>
+Uses <i>text</i> for each indentation level in XML output.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3924,6 +4083,10 @@ See also:
 <h4><code>-maximize</code></h4>
 
 <blockquote>
+
+<p>
+Maximize the dependency graph before outputing it.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3938,6 +4101,10 @@ See also:
 
 <blockquote>
 
+<p>
+Minimize the dependency graph before outputing it.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -3946,10 +4113,15 @@ See also:
 
 </blockquote>
 
-<a name="-outvalueXXXXXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameXXXXXXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4107,23 +4279,14 @@ See also:
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -4133,6 +4296,10 @@ See also:
 
 <blockquote>
 
+<p>
+Validate the input XML against its DTD.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4141,7 +4308,7 @@ See also:
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXXX" />
+<a name="-verbose[filename]XXXXXXX" />
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -4167,7 +4334,6 @@ See also:
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXXXXXXXXXXXXXXX" />
@@ -4175,9 +4341,13 @@ See also:
 
 <blockquote>
 
+<p>
+Filename of the XML document containing the dependency graph.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 
@@ -4213,9 +4383,6 @@ See also:
 <a name="DependentsToHTML" />
 <h2>DependentsToHTML</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 <p>
@@ -4223,6 +4390,9 @@ Translates only outbound dependencies to HTML.
 </p>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependentsToHTML
@@ -4288,7 +4458,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -4336,13 +4506,21 @@ meaning that it relies on many other elements being stable.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependentsToHTML.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="DependentsToText" />
 <h2>DependentsToText</h2>
-
-<a name="SynopsisXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
 
 <blockquote>
 
@@ -4351,6 +4529,9 @@ Translates only outbound dependencies to text.
 </p>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DependentsToText
@@ -4416,7 +4597,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -4473,17 +4654,28 @@ meaning that it relies on many other elements being stable.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependentsToText.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="DiffToHTML" />
 <h2>DiffToHTML</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     DiffToHTML
@@ -4549,7 +4741,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -4583,17 +4775,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DiffToHTML.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="JarJarDiff" />
 <h2>JarJarDiff</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     JarJarDiff
@@ -4607,9 +4810,8 @@ See <code>-out</code> above.
     	[-old value]*
     	-old-documentation value
     	-old-label value
-    	-out value
+    	-out filename
     	-time
-    	-trace [filename]
     	-verbose [filename]
 </pre>
 
@@ -4655,6 +4857,10 @@ report to "public" changes.
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4667,6 +4873,10 @@ report to "public" changes.
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
+
+<p>
+Uses <i>text</i> for each indentation level in XML output.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4767,10 +4977,15 @@ report to "public" changes.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameXXXXXXXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4785,6 +5000,10 @@ report to "public" changes.
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4793,20 +5012,7 @@ report to "public" changes.
 
 </blockquote>
 
-<a name="-trace[filename]XXXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-verbose[filename]XXXXXXXXX" />
+<a name="-verbose[filename]XXXXXXXX" />
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -4819,7 +5025,6 @@ report to "public" changes.
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXXXXXXXXXXXXXXXXXXX" />
@@ -4827,11 +5032,9 @@ report to "public" changes.
 
 <blockquote>
 
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
+<p>
+<i>none</i>
+</p>
 
 </blockquote>
 
@@ -4891,12 +5094,12 @@ identical.
 <a name="ListDependablesToHTML" />
 <h2>ListDependablesToHTML</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListDependablesToHTML
@@ -4962,7 +5165,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -4996,17 +5199,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDependablesToHTML.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="ListDependablesToText" />
 <h2>ListDependablesToText</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListDependablesToText
@@ -5072,7 +5286,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -5106,17 +5320,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDependablesToText.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="ListDependentsToHTML" />
 <h2>ListDependentsToHTML</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListDependentsToHTML
@@ -5182,7 +5407,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -5216,17 +5441,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDependentsToHTML.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="ListDependentsToText" />
 <h2>ListDependentsToText</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListDependentsToText
@@ -5292,7 +5528,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -5326,17 +5562,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDependentsToText.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="ListDiff" />
 <h2>ListDiff</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListDiff
@@ -5349,9 +5596,8 @@ See <code>-out</code> above.
     	-new-label value
     	-old value
     	-old-label value
-    	-out value
+    	-out filename
     	-time
-    	-trace [filename]
     	-verbose [filename]
 </pre>
 
@@ -5398,6 +5644,10 @@ See <code>-out</code> above.
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -5410,6 +5660,10 @@ See <code>-out</code> above.
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
+
+<p>
+Uses <i>text</i> for each indentation level in XML output.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5484,10 +5738,15 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameXXXXXXXXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5502,6 +5761,10 @@ See <code>-out</code> above.
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -5510,20 +5773,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="-trace[filename]XXXXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-verbose[filename]XXXXXXXXXX" />
+<a name="-verbose[filename]XXXXXXXXX" />
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -5535,7 +5785,6 @@ See <code>-out</code> above.
 </table>
 
 </blockquote>
-
 
 </blockquote>
 
@@ -5582,12 +5831,12 @@ See <code>-out</code> above.
 <a name="ListDiffToHTML" />
 <h2>ListDiffToHTML</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListDiffToHTML
@@ -5653,7 +5902,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -5687,17 +5936,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDiffToHTML.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="ListDiffToText" />
 <h2>ListDiffToText</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListDiffToText
@@ -5763,7 +6023,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -5797,17 +6057,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDiffToText.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="ListDocumentedElements" />
 <h2>ListDocumentedElements</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListDocumentedElements
@@ -5830,7 +6101,6 @@ javadoc tags.  This is a doclet that you run with <code>javadoc</code>.
 <h3>Switches</h3>
 
 <blockquote>
-
 
 </blockquote>
 
@@ -5881,12 +6151,12 @@ javadoc tags.  This is a doclet that you run with <code>javadoc</code>.
 <a name="ListInheritanceDiffToText" />
 <h2>ListInheritanceDiffToText</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListInheritanceDiffToText
@@ -5952,7 +6222,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -5986,17 +6256,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListInheritanceDiffToText.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="ListUnused" />
 <h2>ListUnused</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     ListUnused
@@ -6062,7 +6343,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -6096,7 +6377,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="XSLStylesheet" />
+<a name="XSLStylesheetXXXXXXXXXXXXXXXX" />
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -6112,12 +6393,12 @@ See <code>-out</code> above.
 <a name="OOMetrics" />
 <h2>OOMetrics</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     OOMetrics
@@ -6133,13 +6414,12 @@ See <code>-out</code> above.
     	-help
     	-indent-text text
     	-methods
-    	-out value
+    	-out filename
     	-project
     	-project-name value
     	-reverse
     	-sort value
     	-time
-    	-trace [filename]
     	-txt
     	-validate
     	-verbose [filename]
@@ -6287,6 +6567,10 @@ project level.
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -6299,6 +6583,10 @@ project level.
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
+
+<p>
+Uses <i>text</i> for each indentation level in XML output.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6321,10 +6609,15 @@ project level.
 
 </blockquote>
 
-<a name="-outvalueXXXXXXXXX" />
-<h4><code>-out value</code></h4>
+<a name="-outfilenameXXXXXXXXXX" />
+<h4><code>-out filename</code></h4>
 
 <blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6391,23 +6684,14 @@ project level.
 
 <blockquote>
 
+<p>
+Prints how long it took to run the command.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -6430,6 +6714,10 @@ project level.
 
 <blockquote>
 
+<p>
+Validate the input XML against its DTD.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -6438,7 +6726,7 @@ project level.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXXXXXX" />
+<a name="-verbose[filename]XXXXXXXXXX" />
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -6464,7 +6752,6 @@ project level.
 
 </blockquote>
 
-
 </blockquote>
 
 <a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -6472,10 +6759,16 @@ project level.
 
 <blockquote>
 
+<p>
+File names for JAR files, Zip files, and <code>.class</code> files for the tool to read.
+You can also give directory names, the tool will search it for <code>.class</code> files
+and read them.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>Current directory, "<code>.</code>"</td></tr>
 </table>
 
 </blockquote>
@@ -6510,9 +6803,6 @@ project level.
 <a name="OOMetricsGUI" />
 <h2>OOMetricsGUI</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 <p>
@@ -6521,14 +6811,15 @@ A Swing-based version of <a href="#OOMetrics">OOMetrics</a>.
 
 </blockquote>
 
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
 <pre>
     OOMetricsGUI
     	-configuration value
     	-default-configuration value
     	-help
-    	-trace [filename]
     	-validate
-    	-verbose [filename]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
@@ -6587,23 +6878,14 @@ See also:
 
 <blockquote>
 
+<p>
+Prints synopsis.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXXXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
 </table>
 
 </blockquote>
@@ -6613,6 +6895,10 @@ See also:
 
 <blockquote>
 
+<p>
+Validate the input XML against its DTD.
+</p>
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -6620,20 +6906,6 @@ See also:
 </table>
 
 </blockquote>
-
-<a name="-verbose[filename]XXXXXXXXXXXX" />
-<h4><code>-verbose [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
 
 </blockquote>
 
@@ -6642,11 +6914,9 @@ See also:
 
 <blockquote>
 
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
+<p>
+<i>none</i>
+</p>
 
 </blockquote>
 
@@ -6680,12 +6950,12 @@ See also:
 <a name="PublishedDiffToHTML" />
 <h2>PublishedDiffToHTML</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     PublishedDiffToHTML
@@ -6701,7 +6971,7 @@ See also:
 
 <p>
 PublishedDiffToHTML uses the file
-<code>%%DEPENDENCYFINDER<i>HOME%\etc\public</i>packages.txt</code> by default to
+<code>%%DEPENDENCYFINDER_HOME%\etc\public_packages.txt</code> by default to
 limit the report to the specified packages.  If it cannot
 find this file, it looks for a file named <code>public_packages.txt</code>
 in the current directory.  You can specify a custom file
@@ -6709,7 +6979,7 @@ by setting the validation-list parameter to XSLT:
 </p>
 
 <pre>
-    C:\>PublishedDiffToHTML -in result.xml -out external<i>report.html -param validation-list my</i>list.txt
+    C:\>PublishedDiffToHTML -in result.xml -out external_report.html -param validation-list my_list.txt
 </pre>
 
 </blockquote>
@@ -6765,7 +7035,7 @@ If not specified, the translation goes to the standard output.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>%DEPENDENCYFINDER<i>HOME%\etc\public</i>packages.txt</code></td></tr>
+<tr><td>Default value:</td><td><code>%DEPENDENCYFINDER_HOME%\etc\public_packages.txt</code></td></tr>
 </table>
 
 </blockquote>
@@ -6778,7 +7048,7 @@ If not specified, the translation goes to the standard output.
 <blockquote>
 
 <p>
-None.
+<i>none</i>
 </p>
 
 </blockquote>
@@ -6812,17 +7082,28 @@ See <code>-out</code> above.
 
 </blockquote>
 
+<a name="XSLStylesheetXXXXXXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/PublishedDiffToHTML.xsl</code>
+</p>
+
+</blockquote>
+
 <hr />
 
 <a name="XSLTProcess" />
 <h2>XSLTProcess</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
 <blockquote>
 
 </blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
 
 <pre>
     XSLTProcess
@@ -6927,654 +7208,10 @@ See <code>-out</code> above.
 <a name="c2c" />
 <h2>c2c</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<blockquote>
-
-</blockquote>
-
-<pre>
-    c2c
-    	-all
-    	-c2c
-    	-c2p
-    	-class-filter
-    	[-class-filter-excludes value]*
-    	[-class-filter-includes value]*
-    	-class-scope
-    	[-class-scope-excludes value]*
-    	[-class-scope-includes value]*
-    	-dtd-prefix uri
-    	[-excludes value]*
-    	-f2f
-    	-feature-filter
-    	[-feature-filter-excludes value]*
-    	[-feature-filter-includes value]*
-    	-feature-scope
-    	[-feature-scope-excludes value]*
-    	[-feature-scope-includes value]*
-    	[-filter-excludes value]*
-    	[-filter-includes value]*
-    	-help
-    	[-includes value]*
-    	-indent-text text
-    	-maximize
-    	-minimize
-    	-out value
-    	-p2p
-    	-package-filter
-    	[-package-filter-excludes value]*
-    	[-package-filter-includes value]*
-    	-package-scope
-    	[-package-scope-excludes value]*
-    	[-package-scope-includes value]*
-    	-plain
-    	[-scope-excludes value]*
-    	[-scope-includes value]*
-    	-serialize
-    	-time
-    	-trace [filename]
-    	-validate
-    	-verbose [filename]
-    	-xml
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-allXXXX" />
-<h4><code>-all</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2cXXX" />
-<h4><code>-c2c</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2pXXX" />
-<h4><code>-c2p</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filterXXX" />
-<h4><code>-class-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-excludesvalueXXX" />
-<h4><code>-class-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-includesvalueXXX" />
-<h4><code>-class-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scopeXXX" />
-<h4><code>-class-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-excludesvalueXXX" />
-<h4><code>-class-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-includesvalueXXX" />
-<h4><code>-class-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-dtd-prefixuriXXXXXXXX" />
-<h4><code>-dtd-prefix uri</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-excludesvalueXXX" />
-<h4><code>-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-f2fXXX" />
-<h4><code>-f2f</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filterXXX" />
-<h4><code>-feature-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-excludesvalueXXX" />
-<h4><code>-feature-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-includesvalueXXX" />
-<h4><code>-feature-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scopeXXX" />
-<h4><code>-feature-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-excludesvalueXXX" />
-<h4><code>-feature-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-includesvalueXXX" />
-<h4><code>-feature-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-excludesvalueXXX" />
-<h4><code>-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-includesvalueXXX" />
-<h4><code>-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-helpXXXXXXXXXXXXX" />
-<h4><code>-help</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-includesvalueXXX" />
-<h4><code>-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-indent-texttextXXXXXXXX" />
-<h4><code>-indent-text text</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-maximizeXXX" />
-<h4><code>-maximize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-minimizeXXX" />
-<h4><code>-minimize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outvalueXXXXXXXXXX" />
-<h4><code>-out value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-p2pXXX" />
-<h4><code>-p2p</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filterXXX" />
-<h4><code>-package-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-excludesvalueXXX" />
-<h4><code>-package-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-includesvalueXXX" />
-<h4><code>-package-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scopeXXX" />
-<h4><code>-package-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-excludesvalueXXX" />
-<h4><code>-package-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-includesvalueXXX" />
-<h4><code>-package-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-plainXX" />
-<h4><code>-plain</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-scope-excludesvalueXXX" />
-<h4><code>-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-scope-includesvalueXXX" />
-<h4><code>-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-serializeXXX" />
-<h4><code>-serialize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-timeXXXXXXXXXXX" />
-<h4><code>-time</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXXXXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-validateXXXXX" />
-<h4><code>-validate</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-verbose[filename]XXXXXXXXXXXXX" />
-<h4><code>-verbose [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-xmlXXXXX" />
-<h4><code>-xml</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
 <blockquote>
 
 <p>
-<code>com.jeantessier.dependencyfinder.cli.DependencyReporter</code>
+Same as "<code>DependencyReporter -c2c</code>".
 </p>
 
 </blockquote>
@@ -7584,654 +7221,10 @@ See <code>-out</code> above.
 <a name="c2p" />
 <h2>c2p</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<blockquote>
-
-</blockquote>
-
-<pre>
-    c2p
-    	-all
-    	-c2c
-    	-c2p
-    	-class-filter
-    	[-class-filter-excludes value]*
-    	[-class-filter-includes value]*
-    	-class-scope
-    	[-class-scope-excludes value]*
-    	[-class-scope-includes value]*
-    	-dtd-prefix uri
-    	[-excludes value]*
-    	-f2f
-    	-feature-filter
-    	[-feature-filter-excludes value]*
-    	[-feature-filter-includes value]*
-    	-feature-scope
-    	[-feature-scope-excludes value]*
-    	[-feature-scope-includes value]*
-    	[-filter-excludes value]*
-    	[-filter-includes value]*
-    	-help
-    	[-includes value]*
-    	-indent-text text
-    	-maximize
-    	-minimize
-    	-out value
-    	-p2p
-    	-package-filter
-    	[-package-filter-excludes value]*
-    	[-package-filter-includes value]*
-    	-package-scope
-    	[-package-scope-excludes value]*
-    	[-package-scope-includes value]*
-    	-plain
-    	[-scope-excludes value]*
-    	[-scope-includes value]*
-    	-serialize
-    	-time
-    	-trace [filename]
-    	-validate
-    	-verbose [filename]
-    	-xml
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-allXXXXX" />
-<h4><code>-all</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2cXXXX" />
-<h4><code>-c2c</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2pXXXX" />
-<h4><code>-c2p</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filterXXXX" />
-<h4><code>-class-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-excludesvalueXXXX" />
-<h4><code>-class-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-includesvalueXXXX" />
-<h4><code>-class-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scopeXXXX" />
-<h4><code>-class-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-excludesvalueXXXX" />
-<h4><code>-class-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-includesvalueXXXX" />
-<h4><code>-class-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-dtd-prefixuriXXXXXXXXX" />
-<h4><code>-dtd-prefix uri</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-excludesvalueXXXX" />
-<h4><code>-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-f2fXXXX" />
-<h4><code>-f2f</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filterXXXX" />
-<h4><code>-feature-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-excludesvalueXXXX" />
-<h4><code>-feature-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-includesvalueXXXX" />
-<h4><code>-feature-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scopeXXXX" />
-<h4><code>-feature-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-excludesvalueXXXX" />
-<h4><code>-feature-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-includesvalueXXXX" />
-<h4><code>-feature-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-excludesvalueXXXX" />
-<h4><code>-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-includesvalueXXXX" />
-<h4><code>-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-helpXXXXXXXXXXXXXX" />
-<h4><code>-help</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-includesvalueXXXX" />
-<h4><code>-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-indent-texttextXXXXXXXXX" />
-<h4><code>-indent-text text</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-maximizeXXXX" />
-<h4><code>-maximize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-minimizeXXXX" />
-<h4><code>-minimize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outvalueXXXXXXXXXXX" />
-<h4><code>-out value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-p2pXXXX" />
-<h4><code>-p2p</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filterXXXX" />
-<h4><code>-package-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-excludesvalueXXXX" />
-<h4><code>-package-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-includesvalueXXXX" />
-<h4><code>-package-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scopeXXXX" />
-<h4><code>-package-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-excludesvalueXXXX" />
-<h4><code>-package-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-includesvalueXXXX" />
-<h4><code>-package-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-plainXXX" />
-<h4><code>-plain</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-scope-excludesvalueXXXX" />
-<h4><code>-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-scope-includesvalueXXXX" />
-<h4><code>-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-serializeXXXX" />
-<h4><code>-serialize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-timeXXXXXXXXXXXX" />
-<h4><code>-time</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXXXXXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-validateXXXXXX" />
-<h4><code>-validate</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-verbose[filename]XXXXXXXXXXXXXX" />
-<h4><code>-verbose [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-xmlXXXXXX" />
-<h4><code>-xml</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
 <blockquote>
 
 <p>
-<code>com.jeantessier.dependencyfinder.cli.DependencyReporter</code>
+Same as "<code>DependencyReporter -c2p</code>".
 </p>
 
 </blockquote>
@@ -8241,654 +7234,10 @@ See <code>-out</code> above.
 <a name="f2f" />
 <h2>f2f</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<blockquote>
-
-</blockquote>
-
-<pre>
-    f2f
-    	-all
-    	-c2c
-    	-c2p
-    	-class-filter
-    	[-class-filter-excludes value]*
-    	[-class-filter-includes value]*
-    	-class-scope
-    	[-class-scope-excludes value]*
-    	[-class-scope-includes value]*
-    	-dtd-prefix uri
-    	[-excludes value]*
-    	-f2f
-    	-feature-filter
-    	[-feature-filter-excludes value]*
-    	[-feature-filter-includes value]*
-    	-feature-scope
-    	[-feature-scope-excludes value]*
-    	[-feature-scope-includes value]*
-    	[-filter-excludes value]*
-    	[-filter-includes value]*
-    	-help
-    	[-includes value]*
-    	-indent-text text
-    	-maximize
-    	-minimize
-    	-out value
-    	-p2p
-    	-package-filter
-    	[-package-filter-excludes value]*
-    	[-package-filter-includes value]*
-    	-package-scope
-    	[-package-scope-excludes value]*
-    	[-package-scope-includes value]*
-    	-plain
-    	[-scope-excludes value]*
-    	[-scope-includes value]*
-    	-serialize
-    	-time
-    	-trace [filename]
-    	-validate
-    	-verbose [filename]
-    	-xml
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-allXXXXXX" />
-<h4><code>-all</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2cXXXXX" />
-<h4><code>-c2c</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2pXXXXX" />
-<h4><code>-c2p</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filterXXXXX" />
-<h4><code>-class-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-excludesvalueXXXXX" />
-<h4><code>-class-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-includesvalueXXXXX" />
-<h4><code>-class-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scopeXXXXX" />
-<h4><code>-class-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-excludesvalueXXXXX" />
-<h4><code>-class-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-includesvalueXXXXX" />
-<h4><code>-class-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-dtd-prefixuriXXXXXXXXXX" />
-<h4><code>-dtd-prefix uri</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-excludesvalueXXXXX" />
-<h4><code>-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-f2fXXXXX" />
-<h4><code>-f2f</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filterXXXXX" />
-<h4><code>-feature-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-excludesvalueXXXXX" />
-<h4><code>-feature-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-includesvalueXXXXX" />
-<h4><code>-feature-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scopeXXXXX" />
-<h4><code>-feature-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-excludesvalueXXXXX" />
-<h4><code>-feature-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-includesvalueXXXXX" />
-<h4><code>-feature-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-excludesvalueXXXXX" />
-<h4><code>-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-includesvalueXXXXX" />
-<h4><code>-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-helpXXXXXXXXXXXXXXX" />
-<h4><code>-help</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-includesvalueXXXXX" />
-<h4><code>-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-indent-texttextXXXXXXXXXX" />
-<h4><code>-indent-text text</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-maximizeXXXXX" />
-<h4><code>-maximize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-minimizeXXXXX" />
-<h4><code>-minimize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outvalueXXXXXXXXXXXX" />
-<h4><code>-out value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-p2pXXXXX" />
-<h4><code>-p2p</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filterXXXXX" />
-<h4><code>-package-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-excludesvalueXXXXX" />
-<h4><code>-package-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-includesvalueXXXXX" />
-<h4><code>-package-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scopeXXXXX" />
-<h4><code>-package-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-excludesvalueXXXXX" />
-<h4><code>-package-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-includesvalueXXXXX" />
-<h4><code>-package-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-plainXXXX" />
-<h4><code>-plain</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-scope-excludesvalueXXXXX" />
-<h4><code>-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-scope-includesvalueXXXXX" />
-<h4><code>-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-serializeXXXXX" />
-<h4><code>-serialize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-timeXXXXXXXXXXXXX" />
-<h4><code>-time</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXXXXXXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-validateXXXXXXX" />
-<h4><code>-validate</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-verbose[filename]XXXXXXXXXXXXXXX" />
-<h4><code>-verbose [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-xmlXXXXXXX" />
-<h4><code>-xml</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
 <blockquote>
 
 <p>
-<code>com.jeantessier.dependencyfinder.cli.DependencyReporter</code>
+Same as "<code>DependencyReporter -f2f</code>".
 </p>
 
 </blockquote>
@@ -8898,654 +7247,10 @@ See <code>-out</code> above.
 <a name="p2p" />
 <h2>p2p</h2>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<blockquote>
-
-</blockquote>
-
-<pre>
-    p2p
-    	-all
-    	-c2c
-    	-c2p
-    	-class-filter
-    	[-class-filter-excludes value]*
-    	[-class-filter-includes value]*
-    	-class-scope
-    	[-class-scope-excludes value]*
-    	[-class-scope-includes value]*
-    	-dtd-prefix uri
-    	[-excludes value]*
-    	-f2f
-    	-feature-filter
-    	[-feature-filter-excludes value]*
-    	[-feature-filter-includes value]*
-    	-feature-scope
-    	[-feature-scope-excludes value]*
-    	[-feature-scope-includes value]*
-    	[-filter-excludes value]*
-    	[-filter-includes value]*
-    	-help
-    	[-includes value]*
-    	-indent-text text
-    	-maximize
-    	-minimize
-    	-out value
-    	-p2p
-    	-package-filter
-    	[-package-filter-excludes value]*
-    	[-package-filter-includes value]*
-    	-package-scope
-    	[-package-scope-excludes value]*
-    	[-package-scope-includes value]*
-    	-plain
-    	[-scope-excludes value]*
-    	[-scope-includes value]*
-    	-serialize
-    	-time
-    	-trace [filename]
-    	-validate
-    	-verbose [filename]
-    	-xml
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-allXXXXXXX" />
-<h4><code>-all</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2cXXXXXX" />
-<h4><code>-c2c</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2pXXXXXX" />
-<h4><code>-c2p</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filterXXXXXX" />
-<h4><code>-class-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-excludesvalueXXXXXX" />
-<h4><code>-class-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-includesvalueXXXXXX" />
-<h4><code>-class-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scopeXXXXXX" />
-<h4><code>-class-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-excludesvalueXXXXXX" />
-<h4><code>-class-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-includesvalueXXXXXX" />
-<h4><code>-class-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-dtd-prefixuriXXXXXXXXXXX" />
-<h4><code>-dtd-prefix uri</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-excludesvalueXXXXXX" />
-<h4><code>-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-f2fXXXXXX" />
-<h4><code>-f2f</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filterXXXXXX" />
-<h4><code>-feature-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-excludesvalueXXXXXX" />
-<h4><code>-feature-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-includesvalueXXXXXX" />
-<h4><code>-feature-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scopeXXXXXX" />
-<h4><code>-feature-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-excludesvalueXXXXXX" />
-<h4><code>-feature-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-includesvalueXXXXXX" />
-<h4><code>-feature-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-excludesvalueXXXXXX" />
-<h4><code>-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-includesvalueXXXXXX" />
-<h4><code>-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-helpXXXXXXXXXXXXXXXX" />
-<h4><code>-help</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-includesvalueXXXXXX" />
-<h4><code>-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-indent-texttextXXXXXXXXXXX" />
-<h4><code>-indent-text text</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-maximizeXXXXXX" />
-<h4><code>-maximize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-minimizeXXXXXX" />
-<h4><code>-minimize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outvalueXXXXXXXXXXXXX" />
-<h4><code>-out value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-p2pXXXXXX" />
-<h4><code>-p2p</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filterXXXXXX" />
-<h4><code>-package-filter</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-excludesvalueXXXXXX" />
-<h4><code>-package-filter-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-includesvalueXXXXXX" />
-<h4><code>-package-filter-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scopeXXXXXX" />
-<h4><code>-package-scope</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-excludesvalueXXXXXX" />
-<h4><code>-package-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-includesvalueXXXXXX" />
-<h4><code>-package-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-plainXXXXX" />
-<h4><code>-plain</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-scope-excludesvalueXXXXXX" />
-<h4><code>-scope-excludes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-scope-includesvalueXXXXXX" />
-<h4><code>-scope-includes value</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-serializeXXXXXX" />
-<h4><code>-serialize</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-timeXXXXXXXXXXXXXX" />
-<h4><code>-time</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-trace[filename]XXXXXXXXXXXXXXXX" />
-<h4><code>-trace [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-validateXXXXXXXX" />
-<h4><code>-validate</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-verbose[filename]XXXXXXXXXXXXXXXX" />
-<h4><code>-verbose [filename]</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td><code>System.out</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-xmlXXXXXXXX" />
-<h4><code>-xml</code></h4>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
 <blockquote>
 
 <p>
-<code>com.jeantessier.dependencyfinder.cli.DependencyReporter</code>
+Same as "<code>DependencyReporter -p2p</code>".
 </p>
 
 </blockquote>

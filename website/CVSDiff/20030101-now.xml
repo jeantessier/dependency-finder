@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="2003-02-06" >
+<tagdiff startTag="release-20030101" endDate="2003-02-13" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.17</revision>
+			<revision>1.18</revision>
 			<prevrevision>1.16</prevrevision>
 		</file>
 	</entry>
@@ -30,6 +30,26 @@
 	</entry>
 	<entry>
 		<file>
+			<name>bin/DependencyFinder.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/OOMetricsGUI.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/txt2html.pl</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>docs/Developer.txt</name>
 			<revision>1.2</revision>
 		</file>
@@ -37,7 +57,7 @@
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.21</revision>
+			<revision>1.23</revision>
 			<prevrevision>1.15</prevrevision>
 		</file>
 	</entry>
@@ -303,6 +323,13 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependency/CodeDependencyCollector.java</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependencyfinder/cli/OOMetrics.java</name>
 			<revision>1.17</revision>
 			<prevrevision>1.16</prevrevision>
@@ -480,6 +507,27 @@
 			<name>tests/com/jeantessier/metrics/TestStatisticalMeasurementWithDispose.java</name>
 			<revision>1.8</revision>
 			<prevrevision>1.7</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>web/advancedclosure.jsp</name>
+			<revision>1.10</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>web/advancedquery.jsp</name>
+			<revision>1.11</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>web/closure.jsp</name>
+			<revision>1.11</revision>
+			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
 </tagdiff>

@@ -241,8 +241,7 @@
 	</ftp>
     </target>
 
-    <target name="docs" depends="init"
-	    description="Builds the API documentation">
+    <target name="textdocs" depends="init">
 	<echo message="Processing Manual.txt ..."/>
 	<exec executable="perl"
 	      output="${docsDir}/Manual.html">
@@ -268,6 +267,9 @@
 	    <arg value="${docsDir}/Metrics.txt"/>
 	</exec>
 	<echo message="Javadoc ..."/>
+    </target>
+
+    <target name="javadocs" depends="init">
         <javadoc packagenames="${packageNames}"
 		 destdir="${apiDir}"
 		 author="no"
@@ -277,6 +279,9 @@
 	    <classpath refid="libs"/>
 	</javadoc>
     </target>
+
+    <target name="docs" depends="textdocs, javadocs"
+	    description="Builds the API documentation"/>
 
     <!--
 	"docletPath" does not work in this version of Ant.
