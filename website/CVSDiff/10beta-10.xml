@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-10beta" endDate="'2003-06-05 01:19:10'" >
+<tagdiff startTag="release-10beta" endTag="release-10" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -66,11 +66,15 @@
 	<entry>
 		<file>
 			<name>bin/DependenciesToHTML.bat</name>
+			<revision>1.9</revision>
+			<prevrevision>1.7</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>bin/DependenciesToText.bat</name>
+			<revision>1.9</revision>
+			<prevrevision>1.7</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -175,21 +179,29 @@
 	<entry>
 		<file>
 			<name>bin/ListDependablesToHTML.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.6</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>bin/ListDependablesToText.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.6</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>bin/ListDependentsToHTML.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.6</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>bin/ListDependentsToText.bat</name>
+			<revision>1.8</revision>
+			<prevrevision>1.6</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -313,16 +325,6 @@
 	</entry>
 	<entry>
 		<file>
-			<name>etc/DependenciesToHTML.xsl</name>
-		</file>
-	</entry>
-	<entry>
-		<file>
-			<name>etc/DependenciesToText.xsl</name>
-		</file>
-	</entry>
-	<entry>
-		<file>
 			<name>etc/DependencyGraphToHTML.xsl</name>
 			<revision>1.1</revision>
 		</file>
@@ -355,26 +357,6 @@
 		<file>
 			<name>etc/HideOutboundDependenciesToText.xsl</name>
 			<revision>1.1</revision>
-		</file>
-	</entry>
-	<entry>
-		<file>
-			<name>etc/ListDependablesToHTML.xsl</name>
-		</file>
-	</entry>
-	<entry>
-		<file>
-			<name>etc/ListDependablesToText.xsl</name>
-		</file>
-	</entry>
-	<entry>
-		<file>
-			<name>etc/ListDependentsToHTML.xsl</name>
-		</file>
-	</entry>
-	<entry>
-		<file>
-			<name>etc/ListDependentsToText.xsl</name>
 		</file>
 	</entry>
 	<entry>

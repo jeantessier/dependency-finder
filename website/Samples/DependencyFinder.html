@@ -7,6 +7,7 @@
 <h1>Dependency Finder - API Change History</h1>
 
 <ul>
+<li><a href="#1.0">1.0beta to 1.0</a></li>
 <li><a href="#1.0beta">20030101 to 1.0 beta</a></li>
 <li><a href="#20030101">20020711 to 20030101</a></li>
 <li><a href="#20020711">20020127 to 20020711</a></li>
@@ -14,6 +15,385 @@
 <li><a href="#20020115">20020111 to 20020115</a></li>
 <li><a href="#20020111">20011216 to 20020111</a></li>
 </ul>
+
+<hr/>
+
+<a name="1.0"></a>
+<h2>1.0beta to 1.0</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.StringBuffer buffer</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer()</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.classreader.Printer Append(char[], int, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.io.PrintWriter out</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer(java.io.PrintWriter)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.TextPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TextPrinter()</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TextPrinter(java.io.PrintWriter)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLPrinter()</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLPrinter(java.io.PrintWriter)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(java.io.PrintWriter, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.CommandLine</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Error(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Error(com.jeantessier.commandline.CommandLineUsage, java.lang.Exception)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Error(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void main(java.lang.String[]) throws java.lang.Exception</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.CommandLineUsage</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String EOL</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.MetricsReport</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.io.StringWriter buffer</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MetricsReport()</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MetricsReport(java.io.PrintWriter)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.LinkedList buffers</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer()</code></nobr>
+</li>
+<li>
+<nobr><code>public Printer(com.jeantessier.dependency.TraversalStrategy)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer Append(char[], int, int)</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.StringBuffer CurrentBuffer()</code></nobr>
+</li>
+<li>
+<nobr><code>protected int CurrentBufferLength()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void KillBuffer()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void PopBuffer(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void PushBuffer()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.io.PrintWriter out</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer(com.jeantessier.dependency.TraversalStrategy, java.io.PrintWriter)</code></nobr>
+</li>
+<li>
+<nobr><code>public Printer(java.io.PrintWriter)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.TextPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TextPrinter()</code></nobr>
+</li>
+<li>
+<nobr><code>public TextPrinter(com.jeantessier.dependency.TraversalStrategy)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TextPrinter(com.jeantessier.dependency.TraversalStrategy, java.io.PrintWriter)</code></nobr>
+</li>
+<li>
+<nobr><code>public TextPrinter(java.io.PrintWriter)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private boolean ShowClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean ShowFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean ShowNode(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean ShowPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLPrinter()</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(com.jeantessier.dependency.TraversalStrategy)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(com.jeantessier.dependency.TraversalStrategy, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLPrinter(com.jeantessier.dependency.TraversalStrategy, java.io.PrintWriter)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(com.jeantessier.dependency.TraversalStrategy, java.io.PrintWriter, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(java.io.PrintWriter)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(java.io.PrintWriter, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.CSVPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CSVPrinter(java.util.List)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CSVPrinter(java.io.PrintWriter, java.util.List)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.StringBuffer buffer</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer()</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.metrics.Printer Append(char[], int, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.io.PrintWriter out</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer(java.io.PrintWriter)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.TextPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TextPrinter(java.util.List)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TextPrinter(java.io.PrintWriter, java.util.List)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLPrinter(com.jeantessier.metrics.MetricsConfiguration)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(com.jeantessier.metrics.MetricsConfiguration, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLPrinter(java.io.PrintWriter, com.jeantessier.metrics.MetricsConfiguration)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(java.io.PrintWriter, com.jeantessier.metrics.MetricsConfiguration, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
 
 <hr />
 
