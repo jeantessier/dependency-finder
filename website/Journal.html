@@ -17,6 +17,24 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	January 11, 2005
+    </dt>
+    <dd>
+	<p>Found a bug in the Unix script for <code>OOMetricsGUI</code>.  It
+	tried to be clever and use a local variable based on the named under
+	which the script was invoked to determine the class name to start.  It
+	works for all other scripts, but in this case, the class name is
+	different from the script name.  The script <code>OOMetrics</code>
+	starts <code>com.jeantessier.dependencyfinder.<b>cli</b>.OOMetrics</code>
+	and the script <code>OOMetricsGUI</code> starts
+	<code>com.jeantessier.dependencyfinder.<b>gui</b>.OOMetrics</code>.</p>
+
+	<p>I fixed the bug and issued patch
+	<a target="_blank" href="http://sourceforge.net/tracker/index.php?func=detail&aid=1100722&group_id=43305&atid=435886">#1100722</a>.</p>
+
+	<p>Fixed the bug using a CVS branch: <code>bug-1100131</code>.</p>
+    </dd>
+    <dt>
 	January 06, 2005
     </dt>
     <dd>
