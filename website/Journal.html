@@ -17,12 +17,55 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	May 05, 2004
+    </dt>
+    <dd>
+	<p>CVS on SourceForge is finally back.</p>
+    </dd>
+    <dt>
+	May 04, 2004
+    </dt>
+    <dd>
+	<p>Cleaned up <code>MartinConfig.xml</code> to compute Robert C.
+	Martin's <code>D'</code> metric.  I also drew a diagram of the various
+	measurements and how they feed into each other.  This might be useful
+	documentation.</p>
+
+	<p>CVS on SourceForge is still down.  This is annoying.  I don't want
+	to have too much code not checked in; it's not safe.</p>
+    </dd>
+    <dt>
+	May 02, 2004
+    </dt>
+    <dd>
+	<p>Added scope lists for <code>OOMetrics</code> similar to its current
+	filter lists.  I don't know what good they could serve yet, since any
+	such filtering could already be achieved by extracting only the desired
+	classes.</p>
+
+	<p>Added <code>-show-all-metrics</code> switch to
+	<code>OOMetrics</code> to show metrics for classes that were not
+	extracted.  This is so I can list metrics regarding inbound
+	dependencies on classes outside the examined codebase, so I can group
+	dependencies on deprecated symbols by those same deprecated symbols.
+	It still uses <code>-filter-includes-list</code> to limit the tracking
+	to dependencies on deprecated symbols, but all non-deprecated classes
+	and methods will now be empty.  With the new switch, it will list all
+	non-empty metrics, including those metrics attached to symbols outside
+	the codebase.</p>
+
+	<p>CVS on SourceForge is down again.</p>
+    </dd>
+    <dt>
 	April 30, 2004
     </dt>
     <dd>
 	<p>Document dependency-related metrics in Developer Guide.</p>
 
 	<p>UC Irvine team to do Eclipse plugin using Dependency Finder.</p>
+
+	<p>Managed to get Poseidon license on laptop.  Latest version supports
+	UML 2.0 with new notation for interfaces.  Might be interesting.</p>
 
 	<p>CVS on SourceForge is back.</p>
     </dd>
@@ -31,6 +74,9 @@
     </dt>
     <dd>
 	<p>Stylesheet for HTML of dependency graphs</p>
+
+	<p>Removed Poseidon from my desktop.  Had trouble installing license
+	on my laptop.</p>
     </dd>
     <dt>
 	April 28, 2004
