@@ -46,7 +46,8 @@ import org.apache.log4j.*;
  *  
  *  <pre>
  *  &lt;init&gt;
- *      (number | measurement name [DISPOSE_x])*
+ *      number | measurement name [DISPOSE_x]
+ *      ...
  *  &lt;/init&gt;
  *  </pre>
  */

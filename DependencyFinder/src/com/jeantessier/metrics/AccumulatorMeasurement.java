@@ -38,13 +38,13 @@ import java.util.*;
 import org.apache.log4j.*;
 
 /**
- *  <p>Accumulates entries, filtering with regular
+ *  <p>Base class that accumulates entries, filtering with regular
  *  expressions.  If no regular expressions are given, matches
  *  everything for the given measurement, which must implement
  *  the <code>CollectionMeasurement</code> interface.  Regular
  *  expressions matching using <code>Perl5Util</code> from
  *  Jakarta-ORO.  This measurement will use
- *  <code>Perl5Util.group(1)</code> if not null, or else the
+ *  <code>Perl5Util.group(1)</code> if not null, otherwise the
  *  full string.</p>
  *
  *  <p>This is the syntax for initializing this type of

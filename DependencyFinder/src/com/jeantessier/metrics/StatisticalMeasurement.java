@@ -39,11 +39,11 @@ import java.util.*;
 import org.apache.log4j.*;
 
 /**
- *  <p>Computes the statistical properties of a given measurement
- *  across the submetrics of the measurement's context.  Given a
- *  measurement name, it explores the tree of metrics rooted at the
- *  context and finds the numerical value of these named measurements
- *  in the tree.  For these measurements, it computes:</p>
+ *  <p>Computes the statistical properties of a given measurement across the
+ *  submetrics of the measurement's context.  Given a measurement name, it
+ *  explores the tree of metrics rooted at the context and finds the numerical
+ *  value of these named measurements in the tree.  For these measurements, it
+ *  computes:</p>
  *  
  *  <ul>
  *      <li>minimum value</li>
@@ -55,8 +55,7 @@ import org.apache.log4j.*;
  *      <li>number of data points</li>
  *  </ul>
  *
- *  <p>This is the syntax for initializing this type of
- *  measurement:</p>
+ *  <p>This is the syntax for initializing this type of measurement:</p>
  *  
  *  <pre>
  *  &lt;init&gt;
@@ -64,6 +63,17 @@ import org.apache.log4j.*;
  *      [DISPOSE_x]
  *  &lt;/init&gt;
  *  </pre>
+ *
+ *  <p>If the monitored measurement is itself a statistical measurement, the
+ *  disposition indicates how to deal with it, which of its values to use in
+ *  this measurement's calculation.  The default is {@link #DISPOSE_IGNORE},
+ *  meaning it should skip statistical measurements look in further submetrics
+ *  for raw values.</p>
+ *
+ *  <p>The second disposition tells which internal value to return in calls to
+ *  its {@link #compute} method, which will be used by clients that do not
+ *  distinguish between StatisticalMeasurent and other Measurements.  The
+ *  default is {@link #DISPOSE_AVERAGE}.</p>
  */
 public class StatisticalMeasurement extends MeasurementBase {
 	private static final NumberFormat valueFormat = new DecimalFormat("#.##");

@@ -41,7 +41,7 @@ import java.util.*;
  *  the <code>CollectionMeasurement</code> interface.  Regular
  *  expressions matching using <code>Perl5Util</code> from
  *  Jakarta-ORO.  This measurement will use
- *  <code>Perl5Util.group(1)</code> if not null, or else the
+ *  <code>Perl5Util.group(1)</code> if not null, otherwise the
  *  full string.</p>
  *
  *  <p>This is the syntax for initializing this type of
