@@ -19,16 +19,32 @@
 -->
 
     <dt>
-	March 22, 2003
+	March 24, 2003
     </dt>
     <dd>
-	<p>Getting more familiar with writting Ant tasks.  Yesterday, I was
-	playing with subclasses of <code>MatchingTask</code>, but an approach
-	that would be closer to how the other tools are working is to use
-	nested path-like structures instead.  I can use this for all tools
-	that read in <code>.class</code> files, like
-	<code>DependencyExtractor</code>, <code>OOMetrics</code>, and
-	<code>JarJarDiff</code>.</p>
+	<p>Finished the Ant task for <code>DependencyExtractor</code> and
+	also wrote those for <code>ClassMetrics</code>,
+	<code>DependencyReporter</code>, and <code>JarJarDiff</code>.
+	I decided to stick with the Ant naming convention and use
+	<code>destfile</code> for the output attribute.</p>
+
+	<p>Introduced a new tool, <code>ClassClassDiff</code>, that compares
+	two classes, even if they don't have the same name.  I found a need
+	for it when a renamed one class to work on temporarily and wanted
+	to see later on what differences I had introduced.  The class was
+	too large for me to do this with regular diffs.</p>
+    </dd>
+    <dt>
+	March 23, 2003
+    </dt>
+    <dd>
+	<p>Wrote Ant task for <code>DependencyExtractor</code>.  It turns out
+	that using a path-like structure is actually easier than extending
+	<code>MatchingTask</code>.  I hesitate about the name of the
+	attribute for the output file.  The other tools use <code>out</code>
+	but Ant recommends <code>destfile</code> instead.  So do I make it
+	consistent with other Dependency Finder tools or with other Ant
+	tasks?</p>
     </dd>
     <dt>
 	March 21, 2003
