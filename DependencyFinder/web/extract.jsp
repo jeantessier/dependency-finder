@@ -113,7 +113,7 @@
 
 <body>
 
-<table cellpadding="5" width="660">
+<table cellpadding="5">
     <tr>
 	<td class="title">
 	    <code><%= application.getInitParameter("name") %></code>
@@ -139,9 +139,9 @@
 	<td>
 	    <br />
 	    This operation may take a few minutes, depending on the
-	    size and complexity of the codebase to analyze. If you
-	    really want to do this at this time, please click on the
-	    <i>Launch</i> button.
+	    size and complexity of the codebase to analyze.<br/>
+	    If you really want to do this at this time, please click
+	    on the <i>Launch</i> button.
 	</td>
     </tr>
     <tr>
@@ -242,9 +242,9 @@
 
 <p class="footer">
 Powered by
-<a href="<%= version.ImplementationURL() %>"><%= version.ImplementationTitle() %></a> <%= version.ImplementationVersion() %>
-(&copy; <%= version.ImplementationVendor() %>)<br />
-Compiled on <%= version.ImplementationDate() %>.
+<a href="<jsp:getProperty name="version" property="ImplementationURL"/>"><jsp:getProperty name="version" property="ImplementationTitle"/></a>
+<jsp:getProperty name="version" property="ImplementationVersion"/> (&copy; <jsp:getProperty name="version" property="ImplementationVendor"/>)<br />
+Compiled on <jsp:getProperty name="version" property="ImplementationDate"/>.
 </p>
 
 </body>

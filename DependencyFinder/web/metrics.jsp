@@ -190,7 +190,7 @@
 
 </td></tr><tr>
 
-<td align="left"><font size="-1">Use Perl regular expressions, <a target="_blank" href="<%= version.ImplementationURL() %>Manual.html#Perl+Regular+Expressions">see the manual</a></font></td>
+<td align="left"><font size="-1">Use Perl regular expressions, <a target="_blank" href="<jsp:getProperty name="version" property="ImplementationURL"/>Manual.html#Perl+Regular+Expressions">see the manual</a></font></td>
 <td align="right"><a href="advancedmetrics.jsp">advanced &gt;&gt;&gt;</a></td>
 
 </tr><tr><td align="center" colspan="2">
@@ -256,9 +256,9 @@
 
 <p class="footer">
 Powered by
-<a href="<%= version.ImplementationURL() %>"><%= version.ImplementationTitle() %></a> <%= version.ImplementationVersion() %>
-(&copy; <%= version.ImplementationVendor() %>)<br />
-Compiled on <%= version.ImplementationDate() %>.
+<a href="<jsp:getProperty name="version" property="ImplementationURL"/>"><jsp:getProperty name="version" property="ImplementationTitle"/></a>
+<jsp:getProperty name="version" property="ImplementationVersion"/> (&copy; <jsp:getProperty name="version" property="ImplementationVendor"/>)<br />
+Compiled on <jsp:getProperty name="version" property="ImplementationDate"/>.
 </p>
 
 </body>
