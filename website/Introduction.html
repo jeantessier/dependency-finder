@@ -1,0 +1,115 @@
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
+
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>Dependency Finder - Goal</title>
+</head>
+
+<body>
+
+<p><img src="images/s_logo.jpg" alt="Dependency Finder logo" width="177" height="125" align="right" />
+Code analysis, API diffs, OO metrics ...</p>
+
+<h2>Dependency Finder</h2>
+
+<p>Dependency Finder is a suite of tools for analyzing
+compiled Java code.  At the center of it is a powerful
+dependency analysis application to extract dependency
+graphs and mine them for useful information.  This
+application in multiple forms for maximum usability,
+including command-line tools, a Swing-based application,
+a web application ready to be deployed in an application
+server, and soon as a set of Ant tasks.</p>
+
+<p>JarJarDiff is another important tool in the suite.
+It compares two versions of the same code and reports
+on differences in their API.  It lists new, changed, and
+removed elements such as packages, classes, methods, and
+more.  You can tailor the reports to focus on the public,
+published API versus the private, internal one.</p>
+
+<p>Finally, Dependency Finder has a tool for computing
+object-oriented software metrics that give you an empirical
+quality assessment of your code.  Once again, you can
+tailor the report to focus on the metrics that you care
+about and adjust validity threshold to the specifics of
+your project.</p>
+
+<h3>Why Dependency Finder over the alternatives</h3>
+
+<p>Dependency Finder is not the only game in town.  Tools
+like IntelliJ and Xrefactory have great features that let
+you track down usage of selected classes or methods.  So
+why should you bother with yet another tool?</p>
+
+<blockquote>
+<p><i>By the way, I keep an informal list of the competition
+on the <a href="Resources.html">resources</a> page.</i></p>
+</blockquote>
+
+<p>For starters, Dependency Finder is <b>free</b>.  Free as
+in "free beer" since it costs no money; and free as in "free
+speech" since you can get the sources and do whatever you
+want with them (except take my name off).</p>
+
+<p>Dependency Finder has a <b>powerful</b> querying mechanism
+based on Perl regular expressions.  Other tools show you usage
+for one method, Dependency Finder can show you usage for a
+possibly large number of methods at a glance.  One example
+that comes to mind is "Show me all calls to any constructor
+of this class."  With these other tools, you have to select
+each constructor in turn, have the tool generate usage
+information for that one, save the results, and aggregate
+them somehow later.  I don't know about you, but I have more
+important things to do, like fix this bug or write that new
+feature.</p>
+
+<p>The web application lets you <b>share</b> a dependency
+graph with the whole team.  Everyone can query the graph with
+nothing more than their browser and not have to install
+anything, or wait after the tools to extract a graph from
+code.  The graph is there, all the time, at everyone's
+disposal.  You can even have your nightly build regenerate
+the graph after each successful compilation run.<p>
+
+<p>Dependency Finder can compute <b>closures</b>, that is,
+follow dependencies and find everything reachable from a
+given start point.  This helps you package related components
+together, and verify that the code respects encapsulation.</p>
+
+<p>And Dependency Finder includes many <b>more</b> tools.
+See the <a href="Manual.html">user manual</a> and
+<a href="Tools.html">tool list</a> for all it has to offer.</p>
+
+<h3>Goal</h3>
+
+<p>The goal of this project is to have a tool, or suite of
+tools, that can extract class dependencies from compiled Java
+code.  The tools can get all the necessary information out
+of the <code>.class</code> files.</p>
+
+<p>Many authors have stressed the importance of managing
+depencencies (
+<a target="_blank" href="http://www.objectmentor.com/resources/listArticles?key=author&author=Robert%20C.%20Martin">Robert C. Martin</a>,
+<a target="_blank" href="http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid=980962318/sr=8-1/ref=aps_sr_b_1_1/105-0176284-9920776">John Lakos</a>,
+<a target="_blank" href="http://martinfowler.com/articles/coupling.pdf">Martin Fowler</a>).
+Managing
+dependencies means securing encapsulation and making sure
+that the code follows the architecture.  It is also
+essential for the modularization of code and favors reuse.
+By extracting the information from the code itself, we can
+detect where we were sloppy, where we took shortcuts that
+we shouldn't have.  Managing the dependencies can
+shorten the compilation time of the code.</p>
+
+<p>At first, I thought of using the Reflection API, but
+it shows only the class's attributes and method signatures.
+If a method uses some other class for a local variable or
+to call a static method, that dependency that will not
+show under the Reflection API.</p>
+
+</body>
+
+</html>
