@@ -636,7 +636,35 @@ with either our stylesheets or your own.
 ----
 
 ---++ API Differences
+
+If you are developing libraries or frameworks, your clients depend on
+your published set of APIs for their own development efforts.  It
+becomes important, as you release new revisions of your software, to
+keep track of which parts of the published API changed, so that you
+can tell your clients how to upgrade their code.
+
+Even if this is not your case, it is still a good practive to have a
+look at what changed across your software since the latest baseline.
+This allows you to keep track of changes to the classes and methods
+and verify that they are evolving in the right direction, whichever
+way you decide that is.
+
 ---+++ Explanation
+
+You can use =com.jeantessier.classreader= classes to examine the baseline
+of your codebase.  This that be in JAR files, loose class files, or
+a combination of both.  You can apply the same treatment to your latest
+codebase.  You now have two sets =Classfile= instances.
+
+You can use =com.jeantessier.dependency.NodeFactory= to create a tree
+of packages, classes, and features from each codebase.  You can then
+start to compare them to each other.  If a package is in the old
+codebase but not in the new one, you can mark it as having been removed.
+If it is not in the old codebase but it is in new one, then you can
+mark it as having been recently added.  For packages that are present
+in both codebase, you can repeat this analysis at the class level, and
+then at the feature level.
+
 ---+++ Extracting
 
 You use =JarJarDiff= to extract API differences.
