@@ -224,4 +224,8 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		// Do nothing
 	}
+	
+	public void VisitSumMeasurement(SumMeasurement measurement) {
+		// Do nothing
+	}
 }

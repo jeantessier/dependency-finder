@@ -83,4 +83,8 @@ public class TestNullMeasurement extends TestCase implements MeasurementVisitor 
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		visited = measurement;
 	}
+	
+	public void VisitSumMeasurement(SumMeasurement measurement) {
+		visited = measurement;
+	}
 }

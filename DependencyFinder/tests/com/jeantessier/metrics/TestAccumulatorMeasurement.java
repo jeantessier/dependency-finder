@@ -279,4 +279,8 @@ public class TestAccumulatorMeasurement extends TestCase implements MeasurementV
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		visited = measurement;
 	}
+	
+	public void VisitSumMeasurement(SumMeasurement measurement) {
+		// Do nothing
+	}
 }

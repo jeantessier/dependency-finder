@@ -370,4 +370,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		// Do nothing
 	}
+	
+	public void VisitSumMeasurement(SumMeasurement measurement) {
+		// Do nothing
+	}
 }

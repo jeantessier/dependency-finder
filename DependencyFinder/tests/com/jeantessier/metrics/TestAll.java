@@ -52,6 +52,7 @@ public class TestAll extends TestCase {
 		result.addTestSuite(TestCounterMeasurement.class);
 		result.addTestSuite(TestAccumulatorMeasurement.class);
 		result.addTestSuite(TestRatioMeasurement.class);
+		result.addTestSuite(TestSumMeasurement.class);
 		result.addTestSuite(TestNbSubMetricsMeasurement.class);
 		result.addTestSuite(TestStatisticalMeasurement.class);
 		result.addTestSuite(TestStatisticalMeasurementWithMetrics.class);

@@ -277,4 +277,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		// Do nothing
 	}
+	
+	public void VisitSumMeasurement(SumMeasurement measurement) {
+		// Do nothing
+	}
 }
