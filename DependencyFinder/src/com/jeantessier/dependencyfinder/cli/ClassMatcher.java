@@ -32,15 +32,59 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import junit.framework.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+import org.apache.oro.text.perl.*;
 
-		result.addTestSuite(TestVerboseListener.class);
-		result.addTestSuite(TestClassMatcher.class);
+import com.jeantessier.classreader.*;
+import com.jeantessier.text.*;
 
-		return result;
+public class ClassMatcher extends LoadListenerBase {
+	private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+
+	private List includes;
+	private List excludes;
+
+	private Map results = new TreeMap();
+	
+	public ClassMatcher(List includes, List excludes) {
+		this.includes = includes;
+		this.excludes = excludes;
+	}
+
+	public Map getResults() {
+		return results;
+	}
+	
+	public void endClassfile(LoadEvent event) {
+		super.endClassfile(event);
+
+		String className = event.getClassfile().getClassName();
+		String groupName = getCurrentGroup().getName();
+		
+		if (matches(className)) {
+			List groups = (List) results.get(className);
+			if (groups == null) {
+				groups = new LinkedList();
+				results.put(className, groups);
+			}
+			groups.add(groupName);
+		}
+	}
+
+	private boolean matches(String name) {
+		return matches(includes, name) && !matches(excludes, name);
+	}
+
+	private boolean matches(List regularExpressions, String name) {
+		boolean found = false;
+
+		Iterator i = regularExpressions.iterator();
+		while (!found && i.hasNext()) {
+			String condition = (String) i.next();
+			found = perl.match(condition, name);
+		}
+
+		return found;
 	}
 }

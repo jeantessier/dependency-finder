@@ -40,6 +40,7 @@ require "getopts.pl";
 
 %TEMPLATES = ("ClassClassDiff" => ".cli.template.txt",
 	      "ClassDump" => ".cli.template.txt",
+	      "ClassFinder" => ".cli.template.txt",
 	      "ClassList" => ".cli.template.txt",
 	      "ClassMetrics" => ".cli.template.txt",
 	      "ClassReader" => ".cli.template.txt",
