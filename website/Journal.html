@@ -17,6 +17,40 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	June 27, 2004
+    </dt>
+    <dd>
+	<p>Checked in the new composite selection criteria.  Now, I need to put
+	them to good use in the CLI and the appropriate Ant tasks.</p>
+    </dd>
+    <dt>
+	June 24, 2004
+    </dt>
+    <dd>
+	<p>Extracted common behavior from
+	<code>AndCompositeSelectionCriteria</code> and
+	<code>OrCompositeSelectionCriteria</code> into a common abstract base
+	class <code>CompositeSelectionCriteria</code></p>
+    </dd>
+    <dt>
+	June 23, 2004
+    </dt>
+    <dd>
+	<p>Created <code>OrCompositeSelectionCriteria</code> with <em>either /
+	or</em> logic.  I think that's the one I want to use.  I'll keep
+	<code>AndCompositeSelectionCriteria</code> around as a curiosity.  It
+	might come in handy eventually.</p>
+    </dd>
+    <dt>
+	June 22, 2004
+    </dt>
+    <dd>
+	<p>Created <code>AndCompositeSelectionCriteria</code> so I can combine
+	regular expression-based and list-based selection criteria.  This will
+	only be useful for CLI and Ant tasks, since the GUI and the web app do
+	not support list-based selection.</p>
+    </dd>
+    <dt>
 	June 16, 2004
     </dt>
     <dd>
