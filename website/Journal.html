@@ -17,6 +17,30 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	February 02, 2003
+    </dt>
+    <dd>
+	<p>Looking at the release plan, I think I'm a little dispersed right
+	now.  I need to focus and get things rolling again.  The holiday break
+	really threw me off and left me with a couple of unfinished tasks.  I'm
+	gonna complete the documentation and fix these dependency closure and
+	ship the net release ASAP.</p>
+    </dd>
+    <dt>
+	January 30, 2004
+    </dt>
+    <dd>
+	<p>Turns out the dicussion on
+	<a href="http://groups.yahoo.com/group/pragprog/">praprog</a> was aimed
+	at code analyzers that are part of the language compilers and how they
+	traverse parse trees to determine the type of expressions in loosely
+	typed languages.  It was not directly related to the work done by
+	Dependency Finder, but there were still some interesting ideas.  Like
+	Tarjan's algorithm for finding minimum spanning trees using depth-first
+	search.  It was a good excercise, even if the knowledge will not be
+	immediately useful.</p>
+    </dd>
+    <dt>
 	January 29, 2004
     </dt>
     <dd>
@@ -58,6 +82,27 @@
 	and Tomcat 5.0.16, so I had to spend a fair amount of time getting my
 	custom Ant build script up to stuff.  After that, upgrading the JSPs
 	was pretty easy.</p>
+
+	<p>There was a thread on the
+	<a href="http://groups.yahoo.com/group/pragprog/">praprog</a> mailing
+	list about code inspection tools.  At first, I didn't want to mention
+	Dependency Finder because the original message asked for tools to
+	evaluate code style and unused variables/methods.  Dependency Finder
+	can't do much about style, and while it can find elements that are not
+	referenced directly, that does not necessariy mean they are not used.
+	They could be interface methods or things called via reflection.  But
+	then, someone else brought up JDepend, so I had to say something.
+	Some of the other tools mentioned:</p>
+
+	<ul>
+	<li><a href="http://pmd.sourceforge.net/">PMD</a></li>
+	<li><a href="http://checkstyle.sourceforge.net/">Checkstyle</a></li>
+	<li><a href="http://jalopy.sourceforge.net/">Jalopy</a></li>
+	<li><a href="http://www.clarkware.com/software/JDepend.html">JDepend</a></li>
+	</ul>
+
+	<p>I haven't tried any of them myself, but some of the brochures
+	looked nice.</p>
     </dd>
     <dt>
 	January 25, 2004
@@ -345,7 +390,7 @@
 
 	<p>As I was working out their problem, I realized how great it is to
 	have <code>DependencyReporter</code> to merge graphs together.  I can
-	give it as many graphs as I want and it can coombine them all
+	give it as many graphs as I want and it can combine them all
 	together.  I noticed the Ant task version doesn't do that; it can
 	only take a single graph at a time.  I'll need to fix that.</p>
 
@@ -366,7 +411,7 @@
 	<p>One approach is to use the dependency counts from
 	<code>OOMetrics</code>.  The downside  is that it uses an
 	<code>AggregatingClassfileLoader</code> to load all the class
-	structures before starting any measurements.  Some measurements attempt
+	structures before making any measurements.  Some measurements attempt
 	to traverse multiple classes and the tool must make sure they are
 	present in memory at that time.</p>
 
@@ -386,7 +431,7 @@
 	the codebase, run <code>c2c</code> on the resulting graph subsets, and
 	finally recombine the now much smaller class-to-class graphs.  After
 	trying this with <code>DependencyFinder.jar</code>, it turned out that
-	the class-to-class graph was only 2% the complexity of the
+	the class-to-class graph reduced complexity by 98% compared to the
 	equivalent extracted graph.  I'm anxious to see if this worked for
 	them.</p>
     </dd>
@@ -452,8 +497,8 @@
 
 	<p>With the Windows XP based on Windows NT, I can actually use the
 	startup scripts that ship with Dependency Finder.  On Windows 98, I had
-	to use variations that worked around limited memory and a impossibility
-	to create temporary environment variables.</p>
+	to use variations that worked around limited memory and an
+	impossibility to create temporary environment variables.</p>
     </dd>
     <dt>
 	December 09, 2003
