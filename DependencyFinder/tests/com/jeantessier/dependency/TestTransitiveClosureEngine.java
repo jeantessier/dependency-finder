@@ -54,6 +54,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	private ClassNode   c_C;
 	private FeatureNode c_C_c;
 
+	private RegularExpressionSelectionCriteria start_criteria;
+	private RegularExpressionSelectionCriteria stop_criteria;
+
 	protected void setUp() throws Exception {
 		factory = new NodeFactory();
 
@@ -71,13 +74,16 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		a_A_a.AddDependency(b_B_b);
 		b_B_b.AddDependency(c_C_c);
+
+		start_criteria = new RegularExpressionSelectionCriteria();
+		stop_criteria  = new RegularExpressionSelectionCriteria();
+		stop_criteria.GlobalIncludes("");
 	}
 
 	public void testSelectScope() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.GlobalIncludes("/a.A.a/");
 
-		GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(criteria, new RegularExpressionSelectionCriteria()));
+		GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(start_criteria, new RegularExpressionSelectionCriteria()));
 
 		copier.TraverseNodes(factory.Packages().values());
 		
@@ -91,10 +97,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testOutboundStartingPoint() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.GlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureOutboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
 
 		assertEquals("Nb layers", 1, engine.NbLayers());
 
@@ -114,10 +119,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testOneOutboundLayer() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.GlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureOutboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
 		engine.ComputeNextLayer();
 
 		assertEquals("Nb layers", 2, engine.NbLayers());
@@ -142,10 +146,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testTwoOutboundLayers() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.GlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureOutboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
 
@@ -175,10 +178,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testThreeOutboundLayers() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.GlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureOutboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
@@ -205,10 +207,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testFourOutboundLayers() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/a.A.a/");
+		start_criteria.GlobalIncludes("/a.A.a/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureOutboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureOutboundSelector());
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
@@ -236,10 +237,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testInboundStartingPoint() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.GlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureInboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
 
 		assertEquals("Nb layers", 1, engine.NbLayers());
 
@@ -259,10 +259,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testOneInboundLayer() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.GlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureInboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
 		engine.ComputeNextLayer();
 
 		assertEquals("Nb layers", 2, engine.NbLayers());
@@ -272,7 +271,7 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertNotSame("b.B.b in layer 1", b_B_b, engine.Layer(1).iterator().next());
 
 		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from b.B.b", 0,                       ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
 		
 		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
@@ -287,10 +286,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testTwoInboundLayers() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.GlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureInboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
 
@@ -302,7 +300,7 @@ public class TestTransitiveClosureEngine extends TestCase {
 
 		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
 		assertEquals("Nb inbounds from b.B.b", b_B_b.Inbound().size(), ((Node) engine.Layer(1).iterator().next()).Inbound().size());
-		assertEquals("Nb inbounds from a.A.a", 0,                       ((Node) engine.Layer(2).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from a.A.a", 0,                      ((Node) engine.Layer(2).iterator().next()).Inbound().size());
 		
 		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
 		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
@@ -320,10 +318,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testThreeInboundLayers() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.GlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureInboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
@@ -350,10 +347,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 	}
 
 	public void testFourInboundLayers() {
-		RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
-		criteria.GlobalIncludes("/c.C.c/");
+		start_criteria.GlobalIncludes("/c.C.c/");
 
-		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), criteria, new RegularExpressionSelectionCriteria(), new ClosureInboundSelector());
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
 		engine.ComputeNextLayer();
@@ -372,6 +368,152 @@ public class TestTransitiveClosureEngine extends TestCase {
 		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
 		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
 		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+	}
+
+	public void testStopCriteria() {
+		start_criteria.GlobalIncludes("/c.C.c/");
+		stop_criteria.GlobalIncludes("/b.B.b/");
+
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.ComputeNextLayer();
+		engine.ComputeNextLayer();
+		engine.ComputeNextLayer();
+		engine.ComputeNextLayer();
+
+		assertEquals("Nb layers", 2, engine.NbLayers());
+
+		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		
+		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
+		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
+		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+
+		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+	}
+
+	public void testComputeAllLayers() {
+		start_criteria.GlobalIncludes("/c.C.c/");
+
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.ComputeAllLayers();
+
+		assertEquals("Nb layers", 3, engine.NbLayers());
+
+		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from b.B.b", b_B_b.Inbound().size(), ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from a.A.a", a_A_a.Inbound().size(), ((Node) engine.Layer(2).iterator().next()).Inbound().size());
+		
+		assertEquals("packages in scope: ", 3, engine.Factory().Packages().values().size());
+		assertEquals("classes in scope" ,   3, engine.Factory().Classes().values().size());
+		assertEquals("features in scope",   3, engine.Factory().Features().values().size());
+
+		assertEquals("package a in scope",     a,     engine.Factory().Packages().get("a"));
+		assertEquals("class a.A in scope",     a_A,   engine.Factory().Classes().get("a.A"));
+		assertEquals("feature a.A.a in scope", a_A_a, engine.Factory().Features().get("a.A.a"));
+		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+	}
+
+	public void testComputeAllLayersWithStopCriteria() {
+		start_criteria.GlobalIncludes("/c.C.c/");
+		stop_criteria.GlobalIncludes("/b.B.b/");
+
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.ComputeAllLayers();
+
+		assertEquals("Nb layers", 2, engine.NbLayers());
+
+		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		
+		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
+		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
+		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+
+		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+	}
+
+	public void testComputeAllLayersUntilStartCriteria() {
+		start_criteria.GlobalIncludes("/c.C.c/");
+		stop_criteria.GlobalIncludes("//");
+
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.ComputeAllLayers();
+
+		assertEquals("Nb layers", 1, engine.NbLayers());
+
+		assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.Layer(0).iterator().next()).Inbound().size());
+		
+		assertEquals("packages in scope: ", 1, engine.Factory().Packages().values().size());
+		assertEquals("classes in scope" ,   1, engine.Factory().Classes().values().size());
+		assertEquals("features in scope",   1, engine.Factory().Features().values().size());
+
+		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+	}
+
+	public void testCompute1LayerOnly() {
+		start_criteria.GlobalIncludes("/c.C.c/");
+		stop_criteria.GlobalIncludes("");
+
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.ComputeLayers(1);
+
+		assertEquals("Nb layers", 2, engine.NbLayers());
+
+		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		
+		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
+		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
+		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+
+		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
+		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
+		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));
+		assertEquals("package c in scope",     c,     engine.Factory().Packages().get("c"));
+		assertEquals("class c.C in scope",     c_C,   engine.Factory().Classes().get("c.C"));
+		assertEquals("feature c.C.c in scope", c_C_c, engine.Factory().Features().get("c.C.c"));
+	}
+
+	public void testCompute4LayersWithStopCriteria() {
+		start_criteria.GlobalIncludes("/c.C.c/");
+		stop_criteria.GlobalIncludes("/b.B.b/");
+
+		TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.Packages().values(), start_criteria, stop_criteria, new ClosureInboundSelector());
+		engine.ComputeLayers(4);
+
+		assertEquals("Nb layers", 2, engine.NbLayers());
+
+		assertEquals("Nb inbounds from c.C.c", c_C_c.Inbound().size(), ((Node) engine.Layer(0).iterator().next()).Inbound().size());
+		assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.Layer(1).iterator().next()).Inbound().size());
+		
+		assertEquals("packages in scope: ", 2, engine.Factory().Packages().values().size());
+		assertEquals("classes in scope" ,   2, engine.Factory().Classes().values().size());
+		assertEquals("features in scope",   2, engine.Factory().Features().values().size());
+
 		assertEquals("package b in scope",     b,     engine.Factory().Packages().get("b"));
 		assertEquals("class b.B in scope",     b_B,   engine.Factory().Classes().get("b.B"));
 		assertEquals("feature b.B.b in scope", b_B_b, engine.Factory().Features().get("b.B.b"));

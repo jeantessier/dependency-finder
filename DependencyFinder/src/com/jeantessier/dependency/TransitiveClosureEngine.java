@@ -36,6 +36,7 @@ import java.util.*;
 
 public class TransitiveClosureEngine {
 	private ClosureLayerSelector layer_selector;
+	private ClosureStopSelector  stop_selector;
 	
 	private NodeFactory factory    = new NodeFactory();
 	private Collection  coverage   = new HashSet();
@@ -47,12 +48,15 @@ public class TransitiveClosureEngine {
 		this.layer_selector.Factory(factory);
 		this.layer_selector.Coverage(coverage);
 
+		this.stop_selector = new ClosureStopSelector(stop_criteria);
+		
 		Init(packages, start_criteria);
 	}
 
 	private void Init(Collection packages, SelectionCriteria start_criteria) {
 		ClosureStartSelector start_selector = new ClosureStartSelector(factory, start_criteria);
 		start_selector.TraverseNodes(packages);
+		stop_selector.TraverseNodes(start_selector.CopiedNodes());
 		GatherResults(start_selector);
 	}
 
@@ -69,10 +73,26 @@ public class TransitiveClosureEngine {
 	}
 
 	public void ComputeNextLayer() {
-		layer_selector.Reset();
-		layer_selector.TraverseNodes((Collection) selections.getLast());
-		if (!layer_selector.CopiedNodes().isEmpty()) {
-			GatherResults(layer_selector);
+		if (!stop_selector.Done()) {
+			layer_selector.Reset();
+			layer_selector.TraverseNodes((Collection) selections.getLast());
+
+			stop_selector.TraverseNodes(layer_selector.CopiedNodes());
+			if (!layer_selector.CopiedNodes().isEmpty()) {
+				GatherResults(layer_selector);
+			}
+		}
+	}
+
+	public void ComputeAllLayers() {
+		while (!stop_selector.Done()) {
+			ComputeNextLayer();
+		}
+	}
+
+	public void ComputeLayers(int nb_layers) {
+		for (int i=0; !stop_selector.Done() && i<nb_layers; i++) {
+			ComputeNextLayer();
 		}
 	}
 
