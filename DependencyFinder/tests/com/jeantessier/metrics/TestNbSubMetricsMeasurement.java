@@ -35,36 +35,23 @@ package com.jeantessier.metrics;
 import junit.framework.*;
 
 public class TestNbSubMetricsMeasurement extends TestCase implements MeasurementVisitor {
+	private MeasurementDescriptor descriptor;
 	private NbSubMetricsMeasurement measurement;
 	private Metrics metrics;
 	private Measurement visited;
 	
 	protected void setUp() {
 		metrics = new Metrics("foo");
-		measurement = new NbSubMetricsMeasurement(null, metrics, null);
-	}
 
-	public void testMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
 		descriptor.Class(NbSubMetricsMeasurement.class);
-
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement();
-		
-		assertNotNull(measurement.Descriptor());
-		assertEquals(NbSubMetricsMeasurement.class, measurement.Descriptor().Class());
-		assertEquals("foo", measurement.ShortName());
-		assertEquals("bar", measurement.LongName());
+		descriptor.Cached(false);
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
-
-		Measurement measurement = descriptor.CreateMeasurement();
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
 		assertEquals(descriptor, measurement.Descriptor());
@@ -74,7 +61,9 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		assertEquals("bar", measurement.LongName());
 	}
 
-	public void testAddSubMetrics() {
+	public void testAddSubMetrics() throws Exception {
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		
 		assertEquals(0, measurement.intValue());
 		assertEquals(0.0, measurement.doubleValue(), 0.01);
 		assertEquals(0, measurement.Value().intValue());
@@ -98,7 +87,9 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		assertEquals(2, measurement.Value().intValue());
 	}
 
-	public void testInUndefinedRange() {
+	public void testInUndefinedRange() throws Exception {
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		
 		assertTrue(measurement.InRange());
 
 		metrics.AddSubMetrics(new Metrics("foo"));
@@ -112,11 +103,6 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	}
 
 	public void testInOpenRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
-
 		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		assertTrue(measurement.InRange());
@@ -132,10 +118,6 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	}
 
 	public void testInLowerBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
 		descriptor.LowerThreshold(new Integer(1));
 
 		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
@@ -153,10 +135,6 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	}
 
 	public void testInUpperBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
 		descriptor.UpperThreshold(new Float(1.5));
 
 		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
@@ -174,10 +152,6 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	}
 
 	public void testInBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
 		descriptor.LowerThreshold(new Integer(1));
 		descriptor.UpperThreshold(new Float(1.5));
 
@@ -196,11 +170,6 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	}
 
 	public void testSelectionCriteria() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
-
 		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
 
 		assertEquals("empty metrics", 0, measurement.intValue());
@@ -212,7 +181,23 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		assertEquals("empty metrics", 3, measurement.intValue());
 	}
 
-	public void testAccept() {
+	public void testCachedValue() throws Exception {
+		descriptor.Cached(true);
+
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+
+		assertEquals("empty metrics", 0, measurement.intValue());
+		
+		metrics.AddSubMetrics(new Metrics("foo"));
+		metrics.AddSubMetrics(new Metrics("bar"));
+		metrics.AddSubMetrics(new Metrics("baz"));
+
+		assertEquals("empty metrics", 0, measurement.intValue());
+	}
+
+	public void testAccept() throws Exception {
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		
 		visited = null;
 		measurement.Accept(this);
 		assertSame(measurement, visited);

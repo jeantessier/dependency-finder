@@ -55,7 +55,8 @@ import org.apache.log4j.*;
  *  </pre>
  */
 public class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {
-	private Map terms = new HashMap();
+	private Map        terms  = new HashMap();
+	private Collection values = new TreeSet();
 
 	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
@@ -114,22 +115,30 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 		visitor.VisitAccumulatorMeasurement(this);
 	}
 
+	public Number Value() {
+		return new Integer(Values().size());
+	}
+	
 	protected double Compute() {
 		return Values().size();
 	}
 
 	public Collection Values() {
-		Collection results = new TreeSet();
-		
-		Iterator i = Context().SubMetrics().iterator();
-		while (i.hasNext()) {
-			FilterMetrics((Metrics) i.next(), results);
+		if (!Cached()) {
+			values.clear();
+			
+			Iterator i = Context().SubMetrics().iterator();
+			while (i.hasNext()) {
+				FilterMetrics((Metrics) i.next());
+			}
+
+			Cached(true);
 		}
 		
-		return results;
+		return Collections.unmodifiableCollection(values);
 	}
 
-	private void FilterMetrics(Metrics metrics, Collection results) {
+	private void FilterMetrics(Metrics metrics) {
 		Iterator i = terms.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry  entry = (Map.Entry)  i.next();
@@ -138,40 +147,40 @@ public class AccumulatorMeasurement extends MeasurementBase implements Collectio
 		
 			Measurement measurement = metrics.Measurement(name);
 			if (measurement instanceof CollectionMeasurement) {
-				FilterMeasurement((CollectionMeasurement) measurement, res, results);
+				FilterMeasurement((CollectionMeasurement) measurement, res);
 			}
 		}
 	}
 
-	private void FilterMeasurement(CollectionMeasurement measurement, Collection res, Collection results) {
-		Iterator i = measurement.Values().iterator();
-		while (i.hasNext()) {
-			FilterElement((String) i.next(), res, results);
+	private void FilterMeasurement(CollectionMeasurement measurement, Collection res) {
+		if (res.isEmpty()) {
+			values.addAll(measurement.Values());
+		} else {
+			Iterator i = measurement.Values().iterator();
+			while (i.hasNext()) {
+				FilterElement((String) i.next(), res);
+			}
 		}
 	}
 		
 	
-	private void FilterElement(String element, Collection res, Collection results) {
-		if (res.isEmpty()) {
-			results.add(element);
-		} else {
-			boolean found = false;
-			Iterator i = res.iterator();
-			while (!found && i.hasNext()) {
-				found = EvaluateRE((String) i.next(), element, results);
-			}
+	private void FilterElement(String element, Collection res) {
+		boolean found = false;
+		Iterator i = res.iterator();
+		while (!found && i.hasNext()) {
+			found = EvaluateRE((String) i.next(), element);
 		}
 	}
 	
-	private synchronized boolean EvaluateRE(String re, String element, Collection results) {
+	private synchronized boolean EvaluateRE(String re, String element) {
 		boolean result = false;
 		
 		if (Perl().match(re, element)) {
 			result = true;
 			if (Perl().group(1) != null) {
-				results.add(Perl().group(1));
+				values.add(Perl().group(1));
 			} else {
-				results.add(element);
+				values.add(element);
 			}
 		}
 

@@ -44,6 +44,8 @@ public abstract class MeasurementBase implements Measurement {
 	private MeasurementDescriptor descriptor = null;
 	private Metrics               context    = null;
 
+	private boolean               cached     = false;
+
 	public MeasurementBase(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		this.descriptor = descriptor;
 		this.context    = context;
@@ -55,6 +57,24 @@ public abstract class MeasurementBase implements Measurement {
 	
 	public Metrics Context() {
 		return context;
+	}
+
+	/**
+	 *  Tells this instance if it should reuse a previously
+	 *  computed value or if it should regenerate it.
+	 */
+	protected boolean Cached() {
+		return cached;
+	}
+
+	/**
+	 *  Sets the caching flag, telling this instance if
+	 *  its value has been computed.  This flag is
+	 *  conditional to caching being enabled in the
+	 *  corresponding descriptor.
+	 */
+	protected void Cached(boolean cached) {
+		this.cached = cached && Descriptor().Cached();
 	}
 	
 	public String ShortName() {

@@ -52,6 +52,8 @@ public class RatioMeasurement extends MeasurementBase {
 	private String divider_name;
 	private int    divider_dispose;
 
+	private double value = 0.0;
+	
 	public RatioMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
 
@@ -143,80 +145,84 @@ public class RatioMeasurement extends MeasurementBase {
 	}
 
 	protected double Compute() {
-		double result = Double.NaN;
+		if (!Cached()) {
+			value = Double.NaN;
 
-		if (Context() != null && BaseName() != null && DividerName() != null) {
-			Measurement base    = Context().Measurement(BaseName());
-			Measurement divider = Context().Measurement(DividerName());
-			
-			double base_value    = Double.NaN;
-			double divider_value = Double.NaN;
-
-			if (base instanceof StatisticalMeasurement) {
-				StatisticalMeasurement stats = (StatisticalMeasurement) base;
-
-				switch (BaseDispose()) {
-					case StatisticalMeasurement.DISPOSE_MINIMUM:
-						base_value = stats.Minimum();
-						break;
-					case StatisticalMeasurement.DISPOSE_MEDIAN:
-						base_value = stats.Median();
-						break;
-					case StatisticalMeasurement.DISPOSE_AVERAGE:
-						base_value = stats.Average();
-						break;
-					case StatisticalMeasurement.DISPOSE_MAXIMUM:
-						base_value = stats.Maximum();
-						break;
-					case StatisticalMeasurement.DISPOSE_SUM:
-						base_value = stats.Sum();
-						break;
-					case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-						base_value = stats.NbDataPoints();
-						break;
-					case StatisticalMeasurement.DISPOSE_IGNORE:
-					default:
-						base_value = stats.doubleValue();
-						break;
-				}
-			} else if (base != null) {
-				base_value = base.doubleValue();
-			}
-			
-			if (divider instanceof StatisticalMeasurement) {
-				StatisticalMeasurement stats = (StatisticalMeasurement) divider;
-
-				switch (DividerDispose()) {
-					case StatisticalMeasurement.DISPOSE_MINIMUM:
-						divider_value = stats.Minimum();
-						break;
-					case StatisticalMeasurement.DISPOSE_MEDIAN:
-						divider_value = stats.Median();
-						break;
-					case StatisticalMeasurement.DISPOSE_AVERAGE:
-						divider_value = stats.Average();
-						break;
-					case StatisticalMeasurement.DISPOSE_MAXIMUM:
-						divider_value = stats.Maximum();
-						break;
-					case StatisticalMeasurement.DISPOSE_SUM:
-						divider_value = stats.Sum();
-						break;
-					case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-						divider_value = stats.NbDataPoints();
-						break;
-					case StatisticalMeasurement.DISPOSE_IGNORE:
-					default:
-						divider_value = stats.doubleValue();
-						break;
-				}
-			} else if (divider != null) {
-				divider_value = divider.doubleValue();
-			}
+			if (Context() != null && BaseName() != null && DividerName() != null) {
+				Measurement base    = Context().Measurement(BaseName());
+				Measurement divider = Context().Measurement(DividerName());
 				
-			result = base_value / divider_value;
+				double base_value    = Double.NaN;
+				double divider_value = Double.NaN;
+				
+				if (base instanceof StatisticalMeasurement) {
+					StatisticalMeasurement stats = (StatisticalMeasurement) base;
+					
+					switch (BaseDispose()) {
+						case StatisticalMeasurement.DISPOSE_MINIMUM:
+							base_value = stats.Minimum();
+							break;
+						case StatisticalMeasurement.DISPOSE_MEDIAN:
+							base_value = stats.Median();
+							break;
+						case StatisticalMeasurement.DISPOSE_AVERAGE:
+							base_value = stats.Average();
+							break;
+						case StatisticalMeasurement.DISPOSE_MAXIMUM:
+							base_value = stats.Maximum();
+							break;
+						case StatisticalMeasurement.DISPOSE_SUM:
+							base_value = stats.Sum();
+							break;
+						case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
+							base_value = stats.NbDataPoints();
+							break;
+						case StatisticalMeasurement.DISPOSE_IGNORE:
+						default:
+							base_value = stats.doubleValue();
+							break;
+					}
+				} else if (base != null) {
+					base_value = base.doubleValue();
+				}
+				
+				if (divider instanceof StatisticalMeasurement) {
+					StatisticalMeasurement stats = (StatisticalMeasurement) divider;
+					
+					switch (DividerDispose()) {
+						case StatisticalMeasurement.DISPOSE_MINIMUM:
+							divider_value = stats.Minimum();
+							break;
+						case StatisticalMeasurement.DISPOSE_MEDIAN:
+							divider_value = stats.Median();
+							break;
+						case StatisticalMeasurement.DISPOSE_AVERAGE:
+							divider_value = stats.Average();
+							break;
+						case StatisticalMeasurement.DISPOSE_MAXIMUM:
+							divider_value = stats.Maximum();
+							break;
+						case StatisticalMeasurement.DISPOSE_SUM:
+							divider_value = stats.Sum();
+							break;
+						case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
+							divider_value = stats.NbDataPoints();
+							break;
+						case StatisticalMeasurement.DISPOSE_IGNORE:
+						default:
+							divider_value = stats.doubleValue();
+							break;
+					}
+				} else if (divider != null) {
+					divider_value = divider.doubleValue();
+				}
+				
+				value = base_value / divider_value;
+			}
+
+			Cached(true);
 		}
 		
-		return result;
+		return value;
 	}
 }

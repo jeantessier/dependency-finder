@@ -45,7 +45,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		descriptor.ShortName("foo");
 		descriptor.LongName("FOO");
 		descriptor.Class(SumMeasurement.class);
-		
+		descriptor.Cached(false);
+
 		metrics = new Metrics("foobar");
 	}
 
@@ -70,7 +71,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 	}
 
 	public void testCreateDefault() {
-		measurement = new SumMeasurement(null, null,  null);
+		measurement = new SumMeasurement(descriptor, null,  null);
 		
 		assertEquals(0, measurement.doubleValue(), 0.01);
 	}
@@ -286,6 +287,21 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		metrics.AddToMeasurement("bar", 1);
 		
 		assertTrue(!measurement.InRange());
+	}
+
+	public void testCachedValue() throws Exception {
+		descriptor.InitText("bar");
+		descriptor.Cached(true);
+
+		metrics.Track("bar", new CounterMeasurement(null, null, null));
+
+		measurement = (SumMeasurement) descriptor.CreateMeasurement(metrics);
+		
+		assertEquals(0, measurement.doubleValue(), 0.01);
+
+		metrics.AddToMeasurement("bar", 1);
+		
+		assertEquals(0, measurement.doubleValue(), 0.01);
 	}
 	
 	public void testAccept() {

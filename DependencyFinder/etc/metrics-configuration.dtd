@@ -47,6 +47,7 @@
 <!ELEMENT measurement (short-name, long-name, class, init?, lower-threshold?, upper-threshold?)* >
 <!ATTLIST measurement
           visible CDATA #IMPLIED
+          cached  CDATA #IMPLIED
 >
 
 <!ELEMENT short-name (#PCDATA) >

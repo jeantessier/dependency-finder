@@ -47,6 +47,8 @@ import org.apache.log4j.*;
 public class SumMeasurement extends MeasurementBase {
 	private List terms = new LinkedList();
 
+	private double value = 0.0;
+
 	public SumMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
 
@@ -74,28 +76,32 @@ public class SumMeasurement extends MeasurementBase {
 	}
 
 	protected double Compute() {
-		double result = 0;
-
-		Iterator i = Terms().iterator();
-		while (i.hasNext()) {
-			String term = (String) i.next();
-
-			double term_value = Double.NaN;
-
-			try {
-				term_value = Double.parseDouble(term);
-			} catch (NumberFormatException ex) {
-				if (term.startsWith("-")) {
-					term_value = -1 * EvaluateMeasurement(term.substring(1));
-				} else {
-					term_value = EvaluateMeasurement(term);
+		if (!Cached()) {
+			value = 0.0;
+			
+			Iterator i = Terms().iterator();
+			while (i.hasNext()) {
+				String term = (String) i.next();
+				
+				double term_value = Double.NaN;
+				
+				try {
+					term_value = Double.parseDouble(term);
+				} catch (NumberFormatException ex) {
+					if (term.startsWith("-")) {
+						term_value = -1 * EvaluateMeasurement(term.substring(1));
+					} else {
+						term_value = EvaluateMeasurement(term);
+					}
 				}
+				
+			    value += term_value;
 			}
 
-			result += term_value;
+			Cached(true);
 		}
 
-		return result;
+		return value;
 	}
 
 	private double EvaluateMeasurement(String name) {

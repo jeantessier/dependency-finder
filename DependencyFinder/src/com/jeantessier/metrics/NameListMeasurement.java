@@ -46,28 +46,28 @@ import org.apache.log4j.*;
  *  <p>Defaults to SET (i.e., does not count duplicates).</p>
  */
 public class NameListMeasurement extends MeasurementBase implements CollectionMeasurement {
-	private Collection collection;
+	private Collection values;
 
 	public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
 
 		if (init_text != null) {
 			if (init_text.trim().equalsIgnoreCase("list")) {
-				collection = new LinkedList();
+				values = new LinkedList();
 			} else if (init_text.trim().equalsIgnoreCase("set")) {
-				collection = new HashSet();
+				values = new HashSet();
 			} else {
 				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\", using SET");
-				collection = new HashSet();
+				values = new HashSet();
 			}
 		} else {
 			Logger.getLogger(getClass()).debug("Cannot initialize with null text, using SET");
-			collection = new HashSet();
+			values = new HashSet();
 		}
 	}
 
 	public void Add(Object object) {
-		collection.add(object);
+		values.add(object);
 	}
 
 	public void Accept(MeasurementVisitor visitor) {
@@ -75,14 +75,14 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
 	}
 
 	public Number Value() {
-		return new Integer(collection.size());
+		return new Integer(values.size());
 	}
 
 	protected double Compute() {
-		return collection.size();
+		return values.size();
 	}
 
 	public Collection Values() {
-		return Collections.unmodifiableCollection(collection);
+		return Collections.unmodifiableCollection(values);
 	}
 }

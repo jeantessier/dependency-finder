@@ -44,7 +44,8 @@ public class MeasurementDescriptor {
 	private Comparable lower_threshold;
 	private Comparable upper_threshold;
 	private boolean    visible         = true;	
-	
+	private boolean    cached          = true;	
+
 	public String ShortName() {
 		return short_name;
 	}
@@ -109,6 +110,14 @@ public class MeasurementDescriptor {
 		this.visible = visible;
 	}
 	
+	public boolean Cached() {
+		return cached;
+	}
+
+	public void Cached(boolean cached) {
+		this.cached = cached;
+	}
+
 	public Measurement CreateMeasurement() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		return CreateMeasurement(null);
 	}

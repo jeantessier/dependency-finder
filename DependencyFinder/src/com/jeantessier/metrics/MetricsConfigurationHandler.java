@@ -92,6 +92,12 @@ public class MetricsConfigurationHandler extends DefaultHandler {
 								   "yes".equalsIgnoreCase(atts.getValue("visible")) ||
 								   "on".equalsIgnoreCase(atts.getValue("visible")));
 			}
+
+			if (atts.getValue("cached") != null) {
+				descriptor.Cached("true".equalsIgnoreCase(atts.getValue("cached")) ||
+								   "yes".equalsIgnoreCase(atts.getValue("cached")) ||
+								   "on".equalsIgnoreCase(atts.getValue("cached")));
+			}
 			
 			switch (section) {
 				case PROJECT:

@@ -35,6 +35,7 @@ package com.jeantessier.metrics;
 import junit.framework.*;
 
 public class TestRatioMeasurement extends TestCase implements MeasurementVisitor {
+	private MeasurementDescriptor descriptor;
 	private RatioMeasurement measurement;
 	private Metrics metrics;
 	private Measurement visited;
@@ -45,22 +46,22 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	protected void setUp() throws Exception {
 		metrics = new Metrics("foobar");
 
-		measurement = new RatioMeasurement(null, metrics, "base\ndivider");
-
 		m1 = new CounterMeasurement(null, metrics, null);
 		m2 = new CounterMeasurement(null, metrics, null);
 
 		metrics.Track("base", m1);
 		metrics.Track("divider", m2);
-	}
 
-	public void testMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
 		descriptor.Class(RatioMeasurement.class);
+		descriptor.InitText("base\ndivider");
+		descriptor.Cached(false);
+	}
 
-		measurement = (RatioMeasurement) descriptor.CreateMeasurement();
+	public void testMeasurementDescriptor() throws Exception {
+		measurement = new RatioMeasurement(descriptor, metrics, "base\ndivider");
 		
 		assertNotNull(measurement.Descriptor());
 		assertEquals(RatioMeasurement.class, measurement.Descriptor().Class());
@@ -69,10 +70,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	}
 
 	public void testCreateFromMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(RatioMeasurement.class);
+		descriptor.InitText(null);
 
 		measurement = (RatioMeasurement) descriptor.CreateMeasurement();
 		
@@ -83,18 +81,12 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		assertEquals("foo", measurement.ShortName());
 		assertEquals("bar", measurement.LongName());
 
-		assertNull(((RatioMeasurement) measurement).BaseName());
-		assertNull(((RatioMeasurement) measurement).DividerName());
-		assertTrue(Double.isNaN(((RatioMeasurement) measurement).doubleValue()));
+		assertNull(measurement.BaseName());
+		assertNull(measurement.DividerName());
+		assertTrue(Double.isNaN(measurement.doubleValue()));
 	}
 	
 	public void testCreateAndInitFromMeasurementDescriptor() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(RatioMeasurement.class);
-		descriptor.InitText("base\ndivider");
-
 		measurement = (RatioMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
@@ -103,10 +95,10 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		assertEquals(RatioMeasurement.class, measurement.getClass());
 		assertEquals("foo", measurement.ShortName());
 		assertEquals("bar", measurement.LongName());
-		assertEquals("base", ((RatioMeasurement) measurement).BaseName());
-		assertEquals("divider", ((RatioMeasurement) measurement).DividerName());
+		assertEquals("base", measurement.BaseName());
+		assertEquals("divider", measurement.DividerName());
 
-		assertTrue(Double.isNaN(((RatioMeasurement) measurement).doubleValue()));
+		assertTrue(Double.isNaN(measurement.doubleValue()));
 	}
 
 	public void testCreate() {
@@ -181,17 +173,19 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		c.Track("base",    new StatisticalMeasurement(null, c, "base"));
 		c.Track("divider", new StatisticalMeasurement(null, c, "divider"));
 		
-		measurement = new RatioMeasurement(null, c, "base DISPOSE_MINIMUM\ndivider DISPOSE_MINIMUM");
+		measurement = new RatioMeasurement(descriptor, c, "base DISPOSE_MINIMUM\ndivider DISPOSE_MINIMUM");
 		assertEquals(0.5, measurement.doubleValue(), 0.01);
 		
-		measurement = new RatioMeasurement(null, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_AVERAGE");
+		measurement = new RatioMeasurement(descriptor, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_AVERAGE");
 		assertEquals(2.0 / 3.0, measurement.doubleValue(), 0.01);
 		
-		measurement = new RatioMeasurement(null, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_NB_DATA_POINTS");
+		measurement = new RatioMeasurement(descriptor, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_NB_DATA_POINTS");
 		assertEquals(1.0, measurement.doubleValue(), 0.01);
 	}
 	
-	public void testNormal() {
+	public void testNormal() throws Exception {
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		
 		m1.Add(10);
 		m2.Add(1);
 
@@ -212,7 +206,9 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		assertEquals(20 / 2, measurement.Value().intValue());
 	}
 	
-	public void testDevideByZero() {
+	public void testDevideByZero() throws Exception {
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		
 		assertTrue("0/0 not NaN", Double.isNaN(measurement.Value().doubleValue()));
 
 		m1.Add(1);
@@ -224,7 +220,9 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		assertTrue("-1/0 not infitity", Double.isInfinite(measurement.Value().doubleValue()));
 	}
 	
-	public void testZeroDevidedBy() {
+	public void testZeroDevidedBy() throws Exception {
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		
 		assertTrue("0/0 not NaN", Double.isNaN(measurement.Value().doubleValue()));
 
 		m2.Add(1);
@@ -236,7 +234,9 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		assertEquals("0/-1 not zero", 0.0, measurement.Value().doubleValue(), 0.01);
 	}
 
-	public void testInUndefinedRange() {
+	public void testInUndefinedRange() throws Exception {
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		
 		m2.Add(1);
 		
 		assertTrue(measurement.InRange());
@@ -251,11 +251,6 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	}
 
 	public void testInOpenRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(RatioMeasurement.class);
-
 		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
 		
 		m2.Add(1);
@@ -272,11 +267,6 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	}
 
 	public void testInLowerBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(RatioMeasurement.class);
-		descriptor.InitText("base\ndivider");
 		descriptor.LowerThreshold(new Integer(1));
 
 		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
@@ -295,11 +285,6 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	}
 
 	public void testInUpperBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(RatioMeasurement.class);
-		descriptor.InitText("base\ndivider");
 		descriptor.UpperThreshold(new Float(1.5));
 
 		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
@@ -318,11 +303,6 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 	}
 
 	public void testInBoundRange() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(RatioMeasurement.class);
-		descriptor.InitText("base\ndivider");
 		descriptor.LowerThreshold(new Integer(1));
 		descriptor.UpperThreshold(new Float(1.5));
 
@@ -341,7 +321,21 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 		assertTrue(!measurement.InRange());
 	}
 
-	public void testAccept() {
+	public void testCachedValue() throws Exception {
+		descriptor.Cached(true);
+
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		
+		assertTrue("0/0 not NaN", Double.isNaN(measurement.Value().doubleValue()));
+
+		m2.Add(1);
+		
+		assertTrue("cached 0/0 not NaN", Double.isNaN(measurement.Value().doubleValue()));
+	}
+
+	public void testAccept() throws Exception {
+		measurement = (RatioMeasurement) descriptor.CreateMeasurement(metrics);
+		
 		visited = null;
 		measurement.Accept(this);
 		assertSame(measurement, visited);

@@ -64,8 +64,9 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 	private static final String NOT_EQUALS            = "!=";
 
 	private static final double DELTA = 0.1;
-	
+
 	private List terms = new LinkedList();
+	private int  value = 0;
 
 	public NbSubMetricsMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
@@ -93,27 +94,27 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 		visitor.VisitNbSubMetricsMeasurement(this);
 	}
 
-	public Number Value() {
-		return new Integer(Context().SubMetrics().size());
-	}
-
 	protected double Compute() {
-		int result = 0;
+		if (!Cached()) {
+			value = 0;
 
-		if (Terms().isEmpty()) {
-			result = Context().SubMetrics().size();
-		} else {
-			Iterator i = Context().SubMetrics().iterator();
-			while (i.hasNext()) {
-				Metrics metrics = (Metrics) i.next();
-				
-				if (SelectMetrics(metrics)) {
-					result++;
+			if (Terms().isEmpty()) {
+				value = Context().SubMetrics().size();
+			} else {
+				Iterator i = Context().SubMetrics().iterator();
+				while (i.hasNext()) {
+					Metrics metrics = (Metrics) i.next();
+					
+					if (SelectMetrics(metrics)) {
+						value++;
+					}
 				}
 			}
-		}
 
-		return result;
+			Cached(true);
+		}
+		
+		return value;
 	}
 
 	private boolean SelectMetrics(Metrics metrics) {
