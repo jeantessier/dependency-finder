@@ -58,6 +58,7 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
 				   filename.endsWith(".dtd")        ||
 				   filename.endsWith(".java")       ||
 				   filename.endsWith(".jsp")        ||
+				   filename.endsWith("MANIFEST.MF") ||
 				   filename.endsWith(".properties") ||
 				   filename.endsWith(".txt")        ||
 				   filename.endsWith(".xml")        ||
