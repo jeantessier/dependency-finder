@@ -24,12 +24,178 @@ itself, we can detect where we were sloppy, where we took shortcuts that
 we shouldn't have.  Managing the dependencies can shorten the compilation
 time of the code.
 
+This application also includes tools for computing metrics based on
+information extracted from compiled Java code.  These measurements are
+also helpful guides during development and can point out areas in the
+code that need improvement.
+
+Finally, this application includes a tool that computes the changes in
+the API of a system between successive versions.  You can use it as a
+consumer of libraries to verify that the parts you are dependending
+upon have not changed.  You can use it as a producer of libraries to
+assertain the impact your changes might have on your customers.  You
+can even use it to monitor the evolution of your software.
+
+----
+
+---++ Installation
+
+---+++ Java Application
+
+Dependency Finder comes as a ZIP file that includes everything you need
+to run it.
+
+---++++ Step 1: Java Virtual Machine
+
+You need to have a Java Virtual Machine installed.  You can get one for
+free from [[http://www.javasoft.com/][JavaSoft]].  Make sure you define
+the =JAVA_HOME= environment variable.
+
+For example, if you installed JDK 1.3 in =C:\jdk1.3=:
+
+    SET JAVA_HOME=C:\jdk1.3
+
+You can either add this line to your =AUTOEXEC.BAT= file, or on WinNT
+use Start | Settings | Control Panel | System and select the Environment
+tab to create and edit variables.
+
+---++++ Step 2: Extract Dependency Finder
+
+Extract the ZIP file to some directory you like.  The extraction will
+create a subdirectory named "DependnecyFinder" that is the root of the
+package.
+
+For example, if you extract it to =C:\=, you will endup with a
+directory called =C:\DependencyFinder\=.
+
+---++++ Step 3: Environment Variables
+
+Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
+point to the directory where you installed Dependency Finder.
+
+For example, if you extracted the ZIP file in =C:\=
+
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder
+
+You can either enter this line in your =AUTOEXEC.BAT= file, or on WinNT
+use Start | Settings | Control Panel | System and select the Environment
+tab to create and edit variables.
+
+<i>This is only required with Win95/98.  Under WinNT, the scripts are
+smart enough to find out where you installed Dependency Finder on their
+own.</i>
+
+---++++ Step 4: =PATH=
+
+Add the "bin" subdirectory to your =PATH= variable.
+
+For example, if you extracted the ZIP file in =C:\=
+
+    SET PATH=C:\DependencyFinder\bin;%PATH%
+
+---++++ Step 5: Reboot
+
+Under Win95/98, you will need to reboot your computer for the changes to
+the environment to take effect.
+
+---++++ Miscellaneous
+
+If the VM runs out of memory, try setting the =DEPENDENCYFINDER_OPTS=
+environment variable.
+
+    SET DEPENDENCYFINDER_OPTS=-Xmx128m
+
+If you get the message "Out of environment space" while running the
+scripts on a Windows machine, you will need to add the following line
+to your =C:\CONFIG.SYS= file and then reboot.
+
+    shell=command.com /e:8192 /p
+
+---+++ Web Application
+
+Dependency Finder also comes as a web application that you can easily
+deploy in just about any J2EE servlet container.
+
+---++++ Step 1: Deploy WAR File
+
+Use your favorite servlet container to deploy the WAR file.  For
+instance, under Tomcat:
+
+    C:\>%CATALINA_HOME%\bin\shutdown
+    C:\>COPY DependencyFinder.war %CATALINA_HOME%\webapps
+    C:\>%CATALINA_HOME%\bin\startup
+
+---++++ Step 2: Configure =web.xml= file
+
+Next, you need to tell the wep application where to find the Java
+classes to extract dependencies from.  This is done via the =web.xml=
+file in the =WEB-INF\= directory.  Some application servers expose
+the content of this file through some form of user interface.  Under
+Tomcat, you have to edit the file yourself using a text editor.
+
+There are three application variable to adjust.
+
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    *=name=*
+	</td>
+	<td>
+	    Used in the JSPs to tell the users what that are looking
+	    at.  Put the name of the application that you are
+	    extracting from here.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=source=*
+	</td>
+	<td>
+	    Use this variable to tell Dependency Finder where to locate
+	    classes to extract.  You can separate multiple locations
+	    by using commas.  Each location can either be a JAR file,
+	    a ZIP file, a =.class= file, or a directory that will be
+	    recursively searched for =.class= files.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=mode=*
+	</td>
+	<td>
+	    Tells Dependency Finder whether to _minimize_ or _maximize_
+	    the resulting graph, or just leave it alone (_raw_, the
+	    default value).
+	</td>
+    </tr>
+</table>
+</blockquote>
+
+Under some servlet containers, for example Tomcat, you will need to
+restart the servlet container for the changes to take effect.
+
+    C:\>%CATALINA_HOME%\bin\shutdown
+    C:\>%CATALINA_HOME%\bin\startup
+
+----
+
+---++ History Behind Dependency Finder
+
+This project started because another project of mine became so complex
+that I couldn't track dependencies in my head anymore.  I looked for
+a tool to help me and the only ones I could find were very expensive.
+So I resolved to build my own tool.
+
+I haven't touched that other project since.
+
 ---+++ Class Files
 
 At first, I thought of using the Reflection API, but it shows only the
-class's attributes and method signatures.  If a method uses some other
-class for a local variable or to call a static method, that dependency
-will not show under the Reflection API.
+class's attributes and method signatures.  If a method uses other classes
+as part of its processing, that dependency will not show under the
+Reflection API.
 
 Java compilers take source code and produce bytecode that they put in
 =.class= files.  The format of these files is described in
@@ -40,9 +206,9 @@ directly from the compiled code.
 ---+++ Dependencies
 
 Dependencies occur when one class uses the services of another class.
-For instance, when a class inherits from another, has an attribute of
-some other class, or when one of its methods calls a method on another
-class.
+This can happen when a class inherits from another, has an attribute
+whose type is of another class, or when one of its methods calls a
+method on an object of another class.
 
 Knowing about dependencies is useful for programmers when deciding the
 impact of a change.  When you're about to rename a feature or class,
@@ -70,67 +236,18 @@ might have broken in your customer's code.
 
 ----
 
----++ Installation
-
----+++ Step 1: Java Virtual Machine
-
-You need to have a Java Virtual Machine installed.  You can get one for
-free from [[http://www.javasoft.com/][JavaSoft]].  Make sure you define
-the =JAVA_HOME= environment variable.
-
-For example, if you installed JDK 1.3 in =C:\jdk1.3=:
-
-    SET JAVA_HOME=C:\jdk1.3
-
-You can either add this line to your =AUTOEXEC.BAT= file, or on WinNT
-use Start | Settings | Control Panel | System and select the Environment
-tab to create and edit variables.
-
----+++ Step 2: Environment Variables
-
-Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
-point to the directory where you installed Dependency Finder.
-
-For example, if you extracted the ZIP file in =C:\=
-
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder
-
-You can either enter this line in your =AUTOEXEC.BAT= file, or on WinNT
-use Start | Settings | Control Panel | System and select the Environment
-tab to create and edit variables.
-
----+++ Step 3: =PATH=
-
-Add the "bin" subdirectory to your =PATH= variable.
-
-For example, if you extracted the ZIP file in =C:\=
-
-    SET PATH=C:\DependencyFinder\bin;%PATH%
-
----+++ Step 4: Reboot
-
-Under Win95/98, you will need to reboot your computer.
-
----+++ Miscellaneous
-
-If you get the message "Out of environment space" while running the
-scripts on a Windows machine, you will need to add the following line
-to your =C:\CONFIG.SYS= file and then reboot.
-
-    shell=command.com /e:8192 /p
-
-If the VM runs out of memory, try setting the =DEPENDENCYFINDER_OPTS=
-environment variable.
-
-    SET DEPENDENCYFINDER_OPTS=-Xmx128m
-
-----
-
 ---++ Running Dependency Finder
 
 Once you have installed Dependency Finder, you are ready to use all the
 tools now at your disposal.  All of them are Java applications that you
 launch using a batch file or shell script.
+
+At the beginning, the toolset was just a group of batch files that
+offered a basic command-line interface (CLI).  Later, I added a Swing
+graphical interface (GUI) that simply replicated the controls available
+through the CLI.  Finally, I build a web application that mirrored the
+GUI.  This might help explain why the the interface looks the way it
+does and why it may not always be optimally intuitive.
 
 We will start with the GUI-based tools, and then talk about the CLI-based
 tools.
@@ -292,14 +409,13 @@ using dependency links.
 
 Going through class files and collecting dependencies is called
 _extracting_.  The application keeps dependencies in a graph.  It
-begins with one node per Java package.  The application also creates
-one node per Java class (including inner classes).  Lastly, the
-application creates one node per feature.  Feature nodes
-are linked to their respective class nodes.
+begins with one node per Java package.  To this it adds one node
+per Java class (including inner classes), and to those it adds
+one node per feature.
 
 Dependency Finder can read all types of compiled Java: JAR files,
 ZIP files, or class files.  You must point out which JAR or ZIP file,
-but for class files, you can simply point to a directory and
+and for class files, you can simply point to a directory and
 Dependency Finder will find all files ending in =.class= in it or
 in one of its subdirectories.  You can always select more than one
 target, Dependency Finder will aggregate all their content together.
@@ -332,7 +448,13 @@ All the dependencies will be merged into a single output.
 The dependencies are gathered by the class
 =com.jeantessier.dependency.CodeDependencyCollector=.  It traverses the
 structure of a =.class= file and collects explicit dependencies in
-the description of classes and features.
+the bytecode.
+
+The dependency collector can detect three kinds of explicit dependencies:
+
+    1 feature to feature
+    1 feature to class
+    1 class to class
 
 <div align="center">
     [[images/ExplicitImplicit.gif]]
@@ -370,12 +492,6 @@ takes longer to traverse the graph to find if there is a dependency
 between two given nodes.  Maximizing the graph saves on time, since all
 the dependencies are there for the picking, but the size of the graph
 goes up dramatically.
-
-The dependency collector can detect three kinds of explicit dependencies:
-
-    1 feature to feature
-    1 feature to class
-    1 class to class
 
 The illustrations below show how combinations of these are minimized or
 maximized.  You can minimize a graph that has been maximized and obtain
@@ -588,6 +704,13 @@ E.g.,
 The selective graph copier uses Perl regular expressions to select scope
 nodes and filtered dependencies.
 
+Here are links to pages explaining Perl regular expressions:
+
+   * [[http://jakarta.apache.org/oro/api/org/apache/oro/text/regex/package-summary.html#package_description][Jakarta ORO]]
+     (_what Dependency Finder is using_)
+   * [[http://java.sun.com/j2se/1.4/docs/api/java/util/regex/Pattern.html#sum][JDK 1.4]]
+   * [[http://www.perldoc.com/perl5.6/pod/perlre.html][Perldoc.com]]
+
 E.g.,
 
 <blockquote>
@@ -707,10 +830,10 @@ way you decide that is.
 
 ---+++ Explanation
 
-You can use =com.jeantessier.classreader= classes to examine the baseline
-of your codebase.  This that be in JAR files, loose class files, or
-a combination of both.  You can apply the same treatment to your latest
-codebase.  You now have two sets =Classfile= instances.
+You can use =com.jeantessier.classreader.ClassfileLoader= classes to
+examine the baseline of your codebase; be they in JAR files, loose
+class files, or a combination of both.  You can apply the same treatment
+to your latest codebase.  You now have two sets =Classfile= instances.
 
 You can use =com.jeantessier.dependency.NodeFactory= to create a tree
 of packages, classes, and features from each codebase.  You can then

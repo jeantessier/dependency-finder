@@ -18,19 +18,29 @@ by Jean Tessier
 <h2>Table of Contents</h2>
 <ul>
 <li><a href="#Introduction">Introduction</li>
+<li><a href="#Installation">Installation</li>
+<ul>
+<li><a href="#Java+Application">Java Application</li>
+<ul>
+<li><a href="#Step+1:+Java+Virtual+Machine">Step 1: Java Virtual Machine</li>
+<li><a href="#Step+2:+Extract+Dependency+Finder">Step 2: Extract Dependency Finder</li>
+<li><a href="#Step+3:+Environment+Variables">Step 3: Environment Variables</li>
+<li><a href="#Step+4:+PATH">Step 4: <code>PATH</code></li>
+<li><a href="#Step+5:+Reboot">Step 5: Reboot</li>
+<li><a href="#Miscellaneous">Miscellaneous</li>
+</ul>
+<li><a href="#Web+Application">Web Application</li>
+<ul>
+<li><a href="#Step+1:+Deploy+WAR+File">Step 1: Deploy WAR File</li>
+<li><a href="#Step+2:+Configure+web.xml+file">Step 2: Configure <code>web.xml</code> file</li>
+</ul>
+</ul>
+<li><a href="#History+Behind+Dependency+Finder">History Behind Dependency Finder</li>
 <ul>
 <li><a href="#Class+Files">Class Files</li>
 <li><a href="#Dependencies">Dependencies</li>
 <li><a href="#Metrics">Metrics</li>
 <li><a href="#API+Differences">API Differences</li>
-</ul>
-<li><a href="#Installation">Installation</li>
-<ul>
-<li><a href="#Step+1:+Java+Virtual+Machine">Step 1: Java Virtual Machine</li>
-<li><a href="#Step+2:+Environment+Variables">Step 2: Environment Variables</li>
-<li><a href="#Step+3:+PATH">Step 3: <code>PATH</code></li>
-<li><a href="#Step+4:+Reboot">Step 4: Reboot</li>
-<li><a href="#Miscellaneous">Miscellaneous</li>
 </ul>
 <li><a href="#Running+Dependency+Finder">Running Dependency Finder</li>
 <ul>
@@ -114,14 +124,252 @@ we shouldn't have.  Managing the dependencies can shorten the compilation
 time of the code.
 </p>
 
+<p>
+This application also includes tools for computing metrics based on
+information extracted from compiled Java code.  These measurements are
+also helpful guides during development and can point out areas in the
+code that need improvement.
+</p>
+
+<p>
+Finally, this application includes a tool that computes the changes in
+the API of a system between successive versions.  You can use it as a
+consumer of libraries to verify that the parts you are dependending
+upon have not changed.  You can use it as a producer of libraries to
+assertain the impact your changes might have on your customers.  You
+can even use it to monitor the evolution of your software.
+</p>
+
+<hr />
+
+<a name="Installation" />
+<h2>Installation</h2>
+
+<a name="Java+Application" />
+<h3>Java Application</h3>
+
+<p>
+Dependency Finder comes as a ZIP file that includes everything you need
+to run it.
+</p>
+
+<a name="Step+1:+Java+Virtual+Machine" />
+<h4>Step 1: Java Virtual Machine</h4>
+
+<p>
+You need to have a Java Virtual Machine installed.  You can get one for
+free from <a href="http://www.javasoft.com/">JavaSoft</a>.  Make sure you define
+the <code>JAVA_HOME</code> environment variable.
+</p>
+
+<p>
+For example, if you installed JDK 1.3 in <code>C:\jdk1.3</code>:
+</p>
+
+<pre>
+    SET JAVA_HOME=C:\jdk1.3
+</pre>
+
+<p>
+You can either add this line to your <code>AUTOEXEC.BAT</code> file, or on WinNT
+use Start | Settings | Control Panel | System and select the Environment
+tab to create and edit variables.
+</p>
+
+<a name="Step+2:+Extract+Dependency+Finder" />
+<h4>Step 2: Extract Dependency Finder</h4>
+
+<p>
+Extract the ZIP file to some directory you like.  The extraction will
+create a subdirectory named "DependnecyFinder" that is the root of the
+package.
+</p>
+
+<p>
+For example, if you extract it to <code>C:\</code>, you will endup with a
+directory called <code>C:\DependencyFinder\</code>.
+</p>
+
+<a name="Step+3:+Environment+Variables" />
+<h4>Step 3: Environment Variables</h4>
+
+<p>
+Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it
+point to the directory where you installed Dependency Finder.
+</p>
+
+<p>
+For example, if you extracted the ZIP file in <code>C:\</code>
+</p>
+
+<pre>
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder
+</pre>
+
+<p>
+You can either enter this line in your <code>AUTOEXEC.BAT</code> file, or on WinNT
+use Start | Settings | Control Panel | System and select the Environment
+tab to create and edit variables.
+</p>
+
+<i>This is only required with Win95/98.  Under WinNT, the scripts are
+smart enough to find out where you installed Dependency Finder on their
+own.</i>
+
+<a name="Step+4:+PATH" />
+<h4>Step 4: <code>PATH</code></h4>
+
+<p>
+Add the "bin" subdirectory to your <code>PATH</code> variable.
+</p>
+
+<p>
+For example, if you extracted the ZIP file in <code>C:\</code>
+</p>
+
+<pre>
+    SET PATH=C:\DependencyFinder\bin;%PATH%
+</pre>
+
+<a name="Step+5:+Reboot" />
+<h4>Step 5: Reboot</h4>
+
+<p>
+Under Win95/98, you will need to reboot your computer for the changes to
+the environment to take effect.
+</p>
+
+<a name="Miscellaneous" />
+<h4>Miscellaneous</h4>
+
+<p>
+If the VM runs out of memory, try setting the <code>DEPENDENCYFINDER_OPTS</code>
+environment variable.
+</p>
+
+<pre>
+    SET DEPENDENCYFINDER_OPTS=-Xmx128m
+</pre>
+
+<p>
+If you get the message "Out of environment space" while running the
+scripts on a Windows machine, you will need to add the following line
+to your <code>C:\CONFIG.SYS</code> file and then reboot.
+</p>
+
+<pre>
+    shell=command.com /e:8192 /p
+</pre>
+
+<a name="Web+Application" />
+<h3>Web Application</h3>
+
+<p>
+Dependency Finder also comes as a web application that you can easily
+deploy in just about any J2EE servlet container.
+</p>
+
+<a name="Step+1:+Deploy+WAR+File" />
+<h4>Step 1: Deploy WAR File</h4>
+
+<p>
+Use your favorite servlet container to deploy the WAR file.  For
+instance, under Tomcat:
+</p>
+
+<pre>
+    C:\>%CATALINA_HOME%\bin\shutdown
+    C:\>COPY DependencyFinder.war %CATALINA_HOME%\webapps
+    C:\>%CATALINA_HOME%\bin\startup
+</pre>
+
+<a name="Step+2:+Configure+web.xml+file" />
+<h4>Step 2: Configure <code>web.xml</code> file</h4>
+
+<p>
+Next, you need to tell the wep application where to find the Java
+classes to extract dependencies from.  This is done via the <code>web.xml</code>
+file in the <code>WEB-INF\</code> directory.  Some application servers expose
+the content of this file through some form of user interface.  Under
+Tomcat, you have to edit the file yourself using a text editor.
+</p>
+
+<p>
+There are three application variable to adjust.
+</p>
+
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    <b><code>name</code></b>
+	</td>
+	<td>
+	    Used in the JSPs to tell the users what that are looking
+	    at.  Put the name of the application that you are
+	    extracting from here.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>source</code></b>
+	</td>
+	<td>
+	    Use this variable to tell Dependency Finder where to locate
+	    classes to extract.  You can separate multiple locations
+	    by using commas.  Each location can either be a JAR file,
+	    a ZIP file, a <code>.class</code> file, or a directory that will be
+	    recursively searched for <code>.class</code> files.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>mode</code></b>
+	</td>
+	<td>
+	    Tells Dependency Finder whether to <i>minimize</i> or <i>maximize</i>
+	    the resulting graph, or just leave it alone (<i>raw</i>, the
+	    default value).
+	</td>
+    </tr>
+</table>
+</blockquote>
+
+<p>
+Under some servlet containers, for example Tomcat, you will need to
+restart the servlet container for the changes to take effect.
+</p>
+
+<pre>
+    C:\>%CATALINA_HOME%\bin\shutdown
+    C:\>%CATALINA_HOME%\bin\startup
+</pre>
+
+<hr />
+
+<a name="History+Behind+Dependency+Finder" />
+<h2>History Behind Dependency Finder</h2>
+
+<p>
+This project started because another project of mine became so complex
+that I couldn't track dependencies in my head anymore.  I looked for
+a tool to help me and the only ones I could find were very expensive.
+So I resolved to build my own tool.
+</p>
+
+<p>
+I haven't touched that other project since.
+</p>
+
 <a name="Class+Files" />
 <h3>Class Files</h3>
 
 <p>
 At first, I thought of using the Reflection API, but it shows only the
-class's attributes and method signatures.  If a method uses some other
-class for a local variable or to call a static method, that dependency
-will not show under the Reflection API.
+class's attributes and method signatures.  If a method uses other classes
+as part of its processing, that dependency will not show under the
+Reflection API.
 </p>
 
 <p>
@@ -137,9 +385,9 @@ directly from the compiled code.
 
 <p>
 Dependencies occur when one class uses the services of another class.
-For instance, when a class inherits from another, has an attribute of
-some other class, or when one of its methods calls a method on another
-class.
+This can happen when a class inherits from another, has an attribute
+whose type is of another class, or when one of its methods calls a
+method on an object of another class.
 </p>
 
 <p>
@@ -178,100 +426,6 @@ might have broken in your customer's code.
 
 <hr />
 
-<a name="Installation" />
-<h2>Installation</h2>
-
-<a name="Step+1:+Java+Virtual+Machine" />
-<h3>Step 1: Java Virtual Machine</h3>
-
-<p>
-You need to have a Java Virtual Machine installed.  You can get one for
-free from <a href="http://www.javasoft.com/">JavaSoft</a>.  Make sure you define
-the <code>JAVA_HOME</code> environment variable.
-</p>
-
-<p>
-For example, if you installed JDK 1.3 in <code>C:\jdk1.3</code>:
-</p>
-
-<pre>
-    SET JAVA_HOME=C:\jdk1.3
-</pre>
-
-<p>
-You can either add this line to your <code>AUTOEXEC.BAT</code> file, or on WinNT
-use Start | Settings | Control Panel | System and select the Environment
-tab to create and edit variables.
-</p>
-
-<a name="Step+2:+Environment+Variables" />
-<h3>Step 2: Environment Variables</h3>
-
-<p>
-Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it
-point to the directory where you installed Dependency Finder.
-</p>
-
-<p>
-For example, if you extracted the ZIP file in <code>C:\</code>
-</p>
-
-<pre>
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder
-</pre>
-
-<p>
-You can either enter this line in your <code>AUTOEXEC.BAT</code> file, or on WinNT
-use Start | Settings | Control Panel | System and select the Environment
-tab to create and edit variables.
-</p>
-
-<a name="Step+3:+PATH" />
-<h3>Step 3: <code>PATH</code></h3>
-
-<p>
-Add the "bin" subdirectory to your <code>PATH</code> variable.
-</p>
-
-<p>
-For example, if you extracted the ZIP file in <code>C:\</code>
-</p>
-
-<pre>
-    SET PATH=C:\DependencyFinder\bin;%PATH%
-</pre>
-
-<a name="Step+4:+Reboot" />
-<h3>Step 4: Reboot</h3>
-
-<p>
-Under Win95/98, you will need to reboot your computer.
-</p>
-
-<a name="Miscellaneous" />
-<h3>Miscellaneous</h3>
-
-<p>
-If you get the message "Out of environment space" while running the
-scripts on a Windows machine, you will need to add the following line
-to your <code>C:\CONFIG.SYS</code> file and then reboot.
-</p>
-
-<pre>
-    shell=command.com /e:8192 /p
-</pre>
-
-<p>
-If the VM runs out of memory, try setting the <code>DEPENDENCYFINDER_OPTS</code>
-environment variable.
-</p>
-
-<pre>
-    SET DEPENDENCYFINDER_OPTS=-Xmx128m
-</pre>
-
-<hr />
-
 <a name="Running+Dependency+Finder" />
 <h2>Running Dependency Finder</h2>
 
@@ -279,6 +433,15 @@ environment variable.
 Once you have installed Dependency Finder, you are ready to use all the
 tools now at your disposal.  All of them are Java applications that you
 launch using a batch file or shell script.
+</p>
+
+<p>
+At the beginning, the toolset was just a group of batch files that
+offered a basic command-line interface (CLI).  Later, I added a Swing
+graphical interface (GUI) that simply replicated the controls available
+through the CLI.  Finally, I build a web application that mirrored the
+GUI.  This might help explain why the the interface looks the way it
+does and why it may not always be optimally intuitive.
 </p>
 
 <p>
@@ -473,16 +636,15 @@ using dependency links.
 <p>
 Going through class files and collecting dependencies is called
 <i>extracting</i>.  The application keeps dependencies in a graph.  It
-begins with one node per Java package.  The application also creates
-one node per Java class (including inner classes).  Lastly, the
-application creates one node per feature.  Feature nodes
-are linked to their respective class nodes.
+begins with one node per Java package.  To this it adds one node
+per Java class (including inner classes), and to those it adds
+one node per feature.
 </p>
 
 <p>
 Dependency Finder can read all types of compiled Java: JAR files,
 ZIP files, or class files.  You must point out which JAR or ZIP file,
-but for class files, you can simply point to a directory and
+and for class files, you can simply point to a directory and
 Dependency Finder will find all files ending in <code>.class</code> in it or
 in one of its subdirectories.  You can always select more than one
 target, Dependency Finder will aggregate all their content together.
@@ -528,8 +690,18 @@ All the dependencies will be merged into a single output.
 The dependencies are gathered by the class
 <code>com.jeantessier.dependency.CodeDependencyCollector</code>.  It traverses the
 structure of a <code>.class</code> file and collects explicit dependencies in
-the description of classes and features.
+the bytecode.
 </p>
+
+<p>
+The dependency collector can detect three kinds of explicit dependencies:
+</p>
+
+<ol>
+<li>feature to feature</li>
+<li>feature to class</li>
+<li>class to class</li>
+</ol>
 
 <div align="center">
     <img src="images/ExplicitImplicit.gif" /><br />
@@ -578,16 +750,6 @@ between two given nodes.  Maximizing the graph saves on time, since all
 the dependencies are there for the picking, but the size of the graph
 goes up dramatically.
 </p>
-
-<p>
-The dependency collector can detect three kinds of explicit dependencies:
-</p>
-
-<ol>
-<li>feature to feature</li>
-<li>feature to class</li>
-<li>class to class</li>
-</ol>
 
 <p>
 The illustrations below show how combinations of these are minimized or
@@ -845,6 +1007,17 @@ nodes and filtered dependencies.
 </p>
 
 <p>
+Here are links to pages explaining Perl regular expressions:
+</p>
+
+<ul>
+<li><a href="http://jakarta.apache.org/oro/api/org/apache/oro/text/regex/package-summary.html#package_description">Jakarta ORO</a></li>
+     (<i>what Dependency Finder is using</i>)
+<li><a href="http://java.sun.com/j2se/1.4/docs/api/java/util/regex/Pattern.html#sum">JDK 1.4</a></li>
+<li><a href="http://www.perldoc.com/perl5.6/pod/perlre.html">Perldoc.com</a></li>
+</ul>
+
+<p>
 E.g.,
 </p>
 
@@ -998,10 +1171,10 @@ way you decide that is.
 <h3>Explanation</h3>
 
 <p>
-You can use <code>com.jeantessier.classreader</code> classes to examine the baseline
-of your codebase.  This that be in JAR files, loose class files, or
-a combination of both.  You can apply the same treatment to your latest
-codebase.  You now have two sets <code>Classfile</code> instances.
+You can use <code>com.jeantessier.classreader.ClassfileLoader</code> classes to
+examine the baseline of your codebase; be they in JAR files, loose
+class files, or a combination of both.  You can apply the same treatment
+to your latest codebase.  You now have two sets <code>Classfile</code> instances.
 </p>
 
 <p>
