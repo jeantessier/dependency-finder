@@ -17,6 +17,57 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	July 01, 2004
+    </dt>
+    <dd>
+	<p>I realized that my approach to combining regular-expression-based
+	and collection-based selection criteria is flawed.  Each one verifies
+	that a given node matches its <em>include</em> terms and does not match
+	its <em>exclude</em> terms.  That is, it satisfies the boolean
+	expression:</p>
+
+	<blockquote><code>(include && !exclude)</code></blockquote>
+
+	<p>But if I combine two criteria with an <code>AND</code>, I get:</p>
+
+	<blockquote><code>(include1 && !exclude1) && (include2 && !exclude2)</code></blockquote>
+
+	<p>That is, the node must match both <em>includes</em> and neither
+	<em>excludes</em>.  What I want, is for the node to match either
+	<em>includes</em>, so I might try combining criteria with an
+	<code>OR</code>:</p>
+
+	<blockquote><code>(include1 && !exclude1) || (include2 && !exclude2)</code></blockquote>
+
+	<p>But this fails to ensure that the node matches neither
+	<em>excludes</em>.  What I really need is:</p>
+
+	<blockquote><code>(include1 || include2) && (!exclude1 && !exclude2)</code></blockquote>
+
+	<p>That is, I want it to match either <em>includes</em> but none of the
+	<em>excludes</em>.  To do this, I will need to split the current criteria
+	classes between <em>include</em> and <em>exclude</em> classes.  I will
+	also need a <code>NotCompositeSelectionCriteria</code>.</p>
+    </dd>
+    <dt>
+	June 30, 2004
+    </dt>
+    <dd>
+	<p>Attended a session at JavaOne on the new annotation mechanism in the
+	upcoming JDK 5.0.  This is going to be interesting, from the point of
+	view of parsing <code>.class</code> files and defining language
+	constructs.</p>
+    </dd>
+    <dt>
+	June 28, 2004
+    </dt>
+    <dd>
+	<p>Attended a session at JavaOne on sorting and filtering in Swing
+	JTables.  They had a nice approach to combine multiple levels of
+	sorting and filter on multiple columns.  I'll try to incorporate it
+	into <code>OOMetrics</code> when I get a chance.</p>
+    </dd>
+    <dt>
 	June 27, 2004
     </dt>
     <dd>
@@ -89,7 +140,7 @@
     </dt>
     <dd>
 	<p>Discussed possible new icons with my friend who worked on Shrek 2.
-	We brainstormed some ideas around a possible team and made some
+	We brainstormed some ideas around a possible theme and made some
 	promising sketches.  I'm eager to see what he'll come up with.</p>
     </dd>
     <dt>
@@ -111,8 +162,9 @@
 	and <code>LinkMinimizer</code> actually modify the graph in-place.
 	This means that if you run either one of them on the nodes in a given
 	factory, you can access the maximized or minimized graph through that
-	same factory.  But if you use a GraphCopier to get a subgraph, you
-	need to go to the copier's internal factory to get at the subgraph.</p>
+	same factory.  But if you use a <code>GraphCopier</code< to get a
+	subgraph, you need to go to the copier's internal factory to get at the
+	subgraph.</p>
     </dd>
     <dt>
 	May 31, 2004
