@@ -202,7 +202,7 @@
 
 	ClassfileLoader loader = new TransientClassfileLoader();
 	loader.addLoadListener(listener);
-	loader.addLoadListener(collector);
+	loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
 	loader.load(sources);
 
 	if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
