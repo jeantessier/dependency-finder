@@ -30,48 +30,58 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.dependencyfinder;
+package com.jeantessier.classreader;
 
-import com.jeantessier.classreader.*;
+import java.util.*;
 
-public class VerboseListenerBase extends LoadListenerBase {
-	private String     ratioIndicator = "";
+public class LoadListenerBase implements LoadListener {
+	private LinkedList groups         = new LinkedList();
+	private Collection visitedFiles   = new HashSet();
 	
-	protected String getRatioIndicator() {
-		return ratioIndicator;
-	}
-	
-	private void setRatioIndicator(String ratioIndicator) {
-		this.ratioIndicator = ratioIndicator;
-	}
-	
-	private int computeCurrentRatio() {
-		return getCurrentGroup().getCount() * 100 / getCurrentGroup().getSize();
-	}
-	
-	public void beginFile(LoadEvent event) {
-		int previousRatio = computeCurrentRatio();
+	protected GroupData getCurrentGroup() {
+		GroupData result = null;
 
-		super.beginFile(event);
-		
-		if (getCurrentGroup().getSize() > 0) {
-			int newRatio = computeCurrentRatio();
-			
-			if (previousRatio != newRatio) {
-				StringBuffer buffer = new StringBuffer(4);
-
-				if (newRatio < 10) {
-					buffer.append(" ");
-				}
-				if (newRatio < 100) {
-					buffer.append(" ");
-				}
-				buffer.append(newRatio).append("%");
-
-				setRatioIndicator(buffer.toString());
-			} else {
-				setRatioIndicator("");
-			}
+		if (!groups.isEmpty()) {
+			result = (GroupData) groups.getLast();
 		}
+		
+		return result;
+	}
+
+	protected Collection getVisitedFiles() {
+		return visitedFiles;
+	}
+	
+	public void beginSession(LoadEvent event) {
+		// Do nothing
+	}
+	
+	public void beginGroup(LoadEvent event) {
+		groups.add(new GroupData(event.getGroupName(), event.getSize()));
+	}
+
+	public void beginFile(LoadEvent event) {
+		getCurrentGroup().incrementCount();
+	}
+
+	public void beginClassfile(LoadEvent event) {
+		// Do nothing
+	}
+
+	public void endClassfile(LoadEvent event) {
+		visitedFiles.add(event.getFilename());
+	}
+
+	public void endFile(LoadEvent event) {
+		// Do nothing
+	}
+
+	public void endGroup(LoadEvent event) {
+		visitedFiles.add(event.getGroupName());
+		groups.removeLast();
+	}
+
+	public void endSession(LoadEvent event) {
+		// Do nothing
 	}
 }

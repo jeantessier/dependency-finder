@@ -30,7 +30,7 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.dependencyfinder;
+package com.jeantessier.classreader;
 
 public class GroupData {
 	private String name;
@@ -58,10 +58,6 @@ public class GroupData {
 
 	public void incrementCount() {
 		count++;
-	}
-
-	public int getRatio() {
-		return getCount() * 100 / getSize();
 	}
 
 	public String toString() {
