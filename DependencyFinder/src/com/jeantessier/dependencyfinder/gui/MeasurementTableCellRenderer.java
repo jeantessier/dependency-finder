@@ -58,14 +58,15 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 		}
 		
 		if (value instanceof Measurement) {
-			if (((Measurement) value).InRange()) {
+			Measurement measurement = (Measurement) value;
+			if (measurement.InRange()) {
 				NormalCell(isSelected, row, result);
 			} else {
 				HighlightedCell(isSelected, row, result);
 			}
 			
-			if (value instanceof StatisticalMeasurement) {
-				StatisticalMeasurement stat = (StatisticalMeasurement) value;
+			if (measurement instanceof StatisticalMeasurement) {
+				StatisticalMeasurement stat = (StatisticalMeasurement) measurement;
 				switch (((OOMetricsTableModel) table.getModel()).RawColumnDispose(column)) {
 					case StatisticalMeasurement.DISPOSE_MINIMUM:
 						result.setText(String.valueOf(stat.Minimum()));
@@ -92,16 +93,21 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 						break;
 				}
 			} else {
-				result.setText(((Measurement) value).Value().toString());
+				result.setText(measurement.Value().toString());
 			}
+
+			ToolTip(measurement, result);
 		} else if (value instanceof Metrics) {
-			if (((Metrics) value).InRange()) {
+			Metrics metrics = (Metrics) value;
+			
+			if (metrics.InRange()) {
 				NormalCell(isSelected, row, result);
 			} else {
 				HighlightedCell(isSelected, row, result);
 			}
 
-			result.setText(((Metrics) value).Name());
+			result.setText(metrics.Name());
+			result.setToolTipText(metrics.Name());
 		} else {
 			NormalCell(isSelected, row, result);
 		}
@@ -131,5 +137,25 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 				result.setBackground(SECONDARY_HIGHLIGHTED_BACKGROUND);
 			}
 		}
+	}
+
+	private void ToolTip(Measurement measurement, JLabel result) {
+		StringBuffer tooltip = new StringBuffer();
+		tooltip.append("<html><body><p>");
+		tooltip.append("<b>").append(measurement.Context().Name()).append("</b><br>");
+		tooltip.append(measurement.LongName()).append(" (").append(measurement.ShortName()).append(")<br>");
+		tooltip.append("valid range: [");
+
+		Comparable lower_threshold = measurement.Descriptor().LowerThreshold();
+		Comparable upper_threshold = measurement.Descriptor().UpperThreshold();
+			
+		tooltip.append((lower_threshold != null) ? lower_threshold.toString() : "*");
+		tooltip.append(", ");
+		tooltip.append((upper_threshold != null) ? upper_threshold.toString() : "*");
+		tooltip.append("]<br>");
+		tooltip.append("value: ").append(measurement);
+		tooltip.append("</p></body></html>");
+
+		result.setToolTipText(tooltip.toString());
 	}
 }

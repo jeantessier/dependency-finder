@@ -52,13 +52,15 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	private static final Integer LOCAL_DISPOSE_SUM                = new Integer(StatisticalMeasurement.DISPOSE_SUM);
 	private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS     = new Integer(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS);
 
-	private List              descriptors;
-	private List              metrics_list;
+	private List   descriptors;
+	private List   metrics_list;
 	
-	private String            measurement_names[];
-	private int               measurement_dispose[];
-	private Object            measurement_values[][];
-	private MetricsComparator comparator             = new MetricsComparator("name");
+	private String measurement_short_names[];
+	private String measurement_long_names[];
+	private int    measurement_dispose[];
+	private Object measurement_values[][];
+
+	private MetricsComparator comparator = new MetricsComparator("name");
 
 	public OOMetricsTableModel(List descriptors) {
 		this.descriptors = descriptors;
@@ -80,6 +82,10 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		fireTableStructureChanged();
 	}
 
+	public String MeasurementLongName(int column) {
+		return measurement_long_names[column];
+	}
+	
 	public void UpdateMetrics(Collection metrics_list) {
 		this.metrics_list = new ArrayList(metrics_list);
 		
@@ -103,8 +109,11 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	}
 
 	private void BuildMetricNames() {
-		List names  = new LinkedList();
-		names.add("name");
+		List short_names  = new LinkedList();
+		short_names.add("name");
+
+		List long_names  = new LinkedList();
+		long_names.add("name");
 
 		List dispose = new LinkedList();
 		dispose.add(LOCAL_DISPOSE_IGNORE);
@@ -115,26 +124,34 @@ public class OOMetricsTableModel extends AbstractTableModel {
 
 			if (descriptor.Visible()) {
 				if (descriptor.Class().equals(StatisticalMeasurement.class)) {
-					names.add(descriptor.ShortName());
+					short_names.add(descriptor.ShortName());
+					long_names.add(descriptor.LongName());
 					dispose.add(LOCAL_DISPOSE_MINIMUM);
-					names.add(descriptor.ShortName());
+					short_names.add(descriptor.ShortName());
+					long_names.add(descriptor.LongName());
 					dispose.add(LOCAL_DISPOSE_MEDIAN);
-					names.add(descriptor.ShortName());
+					short_names.add(descriptor.ShortName());
+					long_names.add(descriptor.LongName());
 					dispose.add(LOCAL_DISPOSE_AVERAGE);
-					names.add(descriptor.ShortName());
+					short_names.add(descriptor.ShortName());
+					long_names.add(descriptor.LongName());
 					dispose.add(LOCAL_DISPOSE_STANDARD_DEVIATION);
-					names.add(descriptor.ShortName());
+					short_names.add(descriptor.ShortName());
+					long_names.add(descriptor.LongName());
 					dispose.add(LOCAL_DISPOSE_MAXIMUM);
-					names.add(descriptor.ShortName());
+					short_names.add(descriptor.ShortName());
+					long_names.add(descriptor.LongName());
 					dispose.add(LOCAL_DISPOSE_SUM);
 				} else {
-					names.add(descriptor.ShortName());
+					short_names.add(descriptor.ShortName());
+					long_names.add(descriptor.LongName());
 					dispose.add(LOCAL_DISPOSE_IGNORE);
 				}
 			}
 		}
 		
-		measurement_names = (String[]) names.toArray(new String[0]);
+		measurement_short_names = (String[]) short_names.toArray(new String[0]);
+		measurement_long_names  = (String[]) long_names.toArray(new String[0]);
 		measurement_dispose = new int[dispose.size()];
 		for (int j=0; j<dispose.size(); j++) {
 			measurement_dispose[j] = ((Integer) dispose.get(j)).intValue();
@@ -152,7 +169,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 		while (i.hasNext()) {
 			Metrics current_metrics = (Metrics) i.next();
 			
-			Collection current_values = new ArrayList(measurement_names.length);
+			Collection current_values = new ArrayList(measurement_short_names.length);
 			values.add(current_values);
 			
 			current_values.add(current_metrics);
@@ -185,7 +202,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	}
 	
 	public int getColumnCount() {
-		return measurement_names.length;
+		return measurement_short_names.length;
 	}
 
 	public int getRowCount() {
@@ -197,7 +214,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 	}
 
 	public String RawColumnName(int column) {
-		return measurement_names[column];
+		return measurement_short_names[column];
 	}
 
 	public int RawColumnDispose(int column) {
@@ -206,9 +223,8 @@ public class OOMetricsTableModel extends AbstractTableModel {
 
 	public String getColumnName(int column) {
 		String result  = RawColumnName(column);
-		int    dispose = RawColumnDispose(column);
 
-		switch (dispose) {
+		switch (RawColumnDispose(column)) {
 			case StatisticalMeasurement.DISPOSE_MINIMUM:
 				result += " (min)";
 				break;

@@ -38,6 +38,8 @@ import javax.swing.*;
 
 import org.apache.log4j.*;
 
+import com.jeantessier.metrics.*;
+
 class TableHeaderListener extends MouseAdapter {
 	private JTable            table; 
 	private OOMetricsTableModel model; 
@@ -58,8 +60,50 @@ class TableHeaderListener extends MouseAdapter {
 		Logger.getLogger(getClass()).debug("column             = " + column);
 		Logger.getLogger(getClass()).debug("raw column_name    = " + column_name);
 		Logger.getLogger(getClass()).debug("raw column_dispose = " + column_dispose);
-		Logger.getLogger(getClass()).debug("column_name        = " + model.getColumnName(column));
-		
+
 		model.SortOn(column_name, column_dispose);
+	}
+	
+	public void mouseEntered(MouseEvent event) {
+		int    view_column      = table.getColumnModel().getColumnIndexAtX(event.getX()); 
+		int    column           = table.convertColumnIndexToModel(view_column); 
+		String column_long_name = model.MeasurementLongName(column);
+		int    column_dispose   = model.RawColumnDispose(column);
+
+		Logger.getLogger(getClass()).debug("event.getX()       = " + event.getX());
+		Logger.getLogger(getClass()).debug("view_column        = " + view_column);
+		Logger.getLogger(getClass()).debug("column             = " + column);
+		Logger.getLogger(getClass()).debug("column_long_name   = " + column_long_name);
+		Logger.getLogger(getClass()).debug("raw column_dispose = " + column_dispose);
+
+		switch (column_dispose) {
+			case StatisticalMeasurement.DISPOSE_MINIMUM:
+				column_long_name += " (minimum)";
+				break;
+			case StatisticalMeasurement.DISPOSE_MEDIAN:
+				column_long_name += " (median)";
+				break;
+			case StatisticalMeasurement.DISPOSE_AVERAGE:
+				column_long_name += " (average)";
+				break;
+			case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+				column_long_name += " (standard deviation)";
+				break;
+			case StatisticalMeasurement.DISPOSE_MAXIMUM:
+				column_long_name += " (maximum)";
+				break;
+			case StatisticalMeasurement.DISPOSE_SUM:
+				column_long_name += " (sum)";
+				break;
+			case StatisticalMeasurement.DISPOSE_IGNORE:
+			case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
+			default:
+				// Ignore
+				break;
+		}
+		
+		if (event.getComponent() instanceof JComponent) {
+			((JComponent) event.getComponent()).setToolTipText(column_long_name);
+		}
 	}
 }
