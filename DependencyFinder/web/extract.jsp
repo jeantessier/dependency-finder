@@ -36,22 +36,57 @@
 <jsp:useBean id="version" class="com.jeantessier.dependencyfinder.Version" scope="application"/>
 
 <%!
+    private class GroupData {
+	private String name;
+	private int    size;
+	private int    count;
+
+	public GroupData(String name, int size) {
+	    this.name = name;
+	    this.size = size;
+
+	    this.count = 0;
+	}
+
+	public String Name() {
+	    return name;
+	}
+
+	public int Size() {
+	    return size;
+	}
+
+	public int Count() {
+	    return count;
+	}
+
+	public void IncrementCount() {
+	    count++;
+	}
+
+	public int Ratio() {
+	    return Count() * 100 / Size();
+	}
+    }
+
     private class MyListener implements LoadListener {
 	private JspWriter out;
 
-	private int count = 0;
+	private int class_count = 0;
 
-	private int group_size;
-	private int group_count;
-
-	private String last_extracted_filename;
+	private LinkedList groups        = new LinkedList();
+	private Collection visited_files = new HashSet();
 	
 	public MyListener(JspWriter out) {
 	    this.out = out;
 	}
 	
-	public int Count() {
-	    return count;
+	public int ClassCount() {
+	    return class_count;
+	}
+	
+	public GroupData CurrentGroup() {
+	    return (GroupData) groups.getLast();
 	}
 
 	public void BeginSession(LoadEvent event) {
@@ -59,12 +94,19 @@
 	}
 	
 	public void BeginGroup(LoadEvent event) {
-	    group_size = event.Size();
-	    group_count = 0;
-		
+	    groups.add(new GroupData(event.GroupName(), event.Size()));
+
 	    try {
 		out.println();
-		out.println("Searching " + event.GroupName() + " (" + group_size + " files) ...");
+		out.print("\tSearching ");
+		out.print(CurrentGroup().Name());
+		if (CurrentGroup().Size() >= 0) {
+		    out.print(" (");
+		    out.print(CurrentGroup().Size());
+		    out.print(" files)");
+		}
+		out.print(" ...");
+		out.println();
 	    } catch (IOException ex) {
 		// Do nothing
 	    }
@@ -72,18 +114,20 @@
 
 	public void BeginFile(LoadEvent event) {
 	    try {
-		int previous_ratio = group_count * 100 / group_size;
-		group_count++;
-		int new_ratio = group_count * 100 / group_size;
+		if (CurrentGroup().Size() > 0) {
+		    int previous_ratio = CurrentGroup().Ratio();
+		    CurrentGroup().IncrementCount();
+		    int new_ratio = CurrentGroup().Ratio();
 
-		if (previous_ratio != new_ratio) {
-		    if (new_ratio < 10) {
-			out.print(" ");
+		    if (previous_ratio != new_ratio) {
+			if (new_ratio < 10) {
+			    out.print(" ");
+			}
+			if (new_ratio < 100) {
+			    out.print(" ");
+			}
+			out.print(new_ratio + "%");
 		    }
-		    if (new_ratio < 100) {
-			out.print(" ");
-		    }
-		    out.print(new_ratio + "%");
 		}
 	    } catch (IOException ex) {
 		// Ignore
@@ -95,10 +139,10 @@
 	}
 
 	public void EndClassfile(LoadEvent event) {
-	    last_extracted_filename = event.Filename();
+	    visited_files.add(event.Filename());
 
 	    try {
-		out.print("\tGetting dependencies from ");
+		out.print("\t\tGetting dependencies from ");
 		out.print(event.Classfile());
 		out.print(" ...");
 		out.println();
@@ -106,13 +150,13 @@
 		// Ignore
 	    }
 
-	    count++;
+	    class_count++;
 	}
 
 	public void EndFile(LoadEvent event) {
 	    try {
-		if (!event.Filename().equals(last_extracted_filename)) {
-		    out.print("\t<i>Skipping ");
+		if (!visited_files.contains(event.Filename())) {
+		    out.print("\t\t<i>Skipping ");
 		    out.print(event.Filename());
 		    out.print(" ...</i>");
 		    out.println();
@@ -123,7 +167,8 @@
 	}
 
 	public void EndGroup(LoadEvent event) {
-	    // Do nothing
+	    visited_files.add(event.GroupName());
+	    groups.removeLast();
 	}
 
 	public void EndSession(LoadEvent event) {
@@ -254,7 +299,7 @@
 </pre>
 
 <%
-	switch (listener.Count()) {
+	switch (listener.ClassCount()) {
 	    case 0:
 		out.println("<p>Processed nothing in " + delta + " secs.</p>");
 		break;
@@ -262,7 +307,7 @@
 		out.println("<p>Processed 1 class in " + delta + " secs.</p>");
 		break;
 	    default:
-		out.println("<p>Processed " + listener.Count() + " classes in " + delta + " secs.</p>");
+		out.println("<p>Processed " + listener.ClassCount() + " classes in " + delta + " secs.</p>");
 		break;
 	}
     }
