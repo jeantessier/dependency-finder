@@ -107,5 +107,7 @@ public class TestMetricsFactory extends TestCase {
 		assertTrue("Not in foo",        factory.CreateGroupMetrics("foo").SubMetrics().contains(metrics));
 		assertTrue("Not in bar",        factory.CreateGroupMetrics("bar").SubMetrics().contains(metrics));
 		assertTrue("Not in com.foobar", factory.CreateGroupMetrics("com.foobar").SubMetrics().contains(metrics));
+
+		assertEquals("Wrong parent", factory.CreateGroupMetrics("com.foobar"), metrics.Parent());
 	}
 }
