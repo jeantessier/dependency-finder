@@ -17,6 +17,34 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	December 03, 2003
+    </dt>
+    <dd>
+	<p>Someone brought <a href="http://nounit.sourceforge.net/">NoUnit</a>
+	to my attention.  From what little I read, they seem to be using a
+	<code>.class</code> file parsing library from
+	<a href="http://www.netbeans.org/">NetBeans</a> to get a method call
+	graph.  I guess they then use logic similar to dependency closures to
+	figure out if methods are called directly from unit tests or if
+	indirectly, how many degrees are they removed from the tests.  Since
+	they only analyse <code>.class</code> files and then use XSL transforms
+	for rendering the information, they cannot take into account
+	conditional logic.  As far as I can see, the information can only be an
+	educated guess at best.  I think you'd be better off using a code
+	coverage tool like Clover or jcoverage to run the tests.  Maybe	NoUnit
+	can give a quick estimate since you don't need to run the tests, and
+	that is worth something.</p>
+    </dd>
+    <dt>
+	November 30, 2003
+    </dt>
+    <dd>
+	<p>Nominated Dependency Finder for the 2003 Jolt Award at
+	<a href="http://www.sdmagazine.com/jolts/">Software Development Magazine</a>.
+	When I have a URL for people to use to vote for Dependency Finder, I'll
+	post it here.</p>
+    </dd>
+    <dt>
 	November 29, 2003
     </dt>
     <dd>
