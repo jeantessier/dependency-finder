@@ -226,6 +226,8 @@
 
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	application.removeAttribute("dispatcher");
+	application.removeAttribute("monitor");
 	application.setAttribute("factory", factory);
 	application.setAttribute("start",   formatter.format(start));
 	application.setAttribute("delta",   new Double(delta));
