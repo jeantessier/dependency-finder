@@ -24,6 +24,12 @@
 	    <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
 	</tstamp>
 
+	<property name="previous.release"     value="1.0"/>
+	<property name="previous.release.tag" value="10"/>
+	<property name="last.release"         value="1.0.1"/>
+	<property name="last.release.tag"     value="101"/>
+	<property name="this.release"         value="1.1.0-beta1"/>
+
 	<property name="packageNames"         value="com.jeantessier.*"/>
 
 	<property name="srcDir"               value="src"/>
@@ -46,17 +52,11 @@
 	<property name="docsFiles"            value="${docsDir}/**"/>
 
 	<property name="jarFile"              value="${libDir}/${ant.project.name}.jar"/>
-	<property name="warFile"              value="${ant.project.name}.war"/>
-	<property name="zipFile"              value="${ant.project.name}.src.zip"/>
-	<property name="distFile"             value="${ant.project.name}.zip"/>
+	<property name="warFile"              value="${ant.project.name}-${this.release}.war"/>
+	<property name="zipFile"              value="${ant.project.name}-${this.release}.src.zip"/>
+	<property name="distFile"             value="${ant.project.name}-${this.release}.zip"/>
 
-	<property name="previous.release"     value="1.0"/>
-	<property name="previous.release.tag" value="10"/>
-	<property name="last.release"         value="1.0.1"/>
-	<property name="last.release.tag"     value="101"/>
-	<property name="this.release"         value="1.0.2 beta"/>
-
-	<property name="cvsroot"              value=":pserver:anonymous@cvs.depfind.sourceforge.net:/cvsroot/depfind"/>
+	<property name="cvsroot"              value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind"/>
 	<property name="cvsweb"               value="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/"/>
 	<property name="cvsmodule"            value="DependencyFinder"/>
 
@@ -67,30 +67,21 @@
 
     <target name="compile" depends="init"
 	    description="Compiles all classes">
-        <javac destdir="${classesDir}">
-	    <src path="${srcDir}"/>
-	    <classpath refid="libs"/>
-	    <patternset refid="all.sources"/>
-        </javac>
-    </target>
-
-    <target name="compiledebug" depends="init"
-	    description="Compiles all classes with debug flags">
         <javac destdir="${classesDir}" debug="on">
 	    <src path="${srcDir}"/>
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
-        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
     </target>
 
-    <target name="compiletests" depends="compiledebug"
+    <target name="compiletests" depends="compile"
 	    description="Compiles all classes and JUnit tests with debug flags (default)">
         <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on">
 	    <src path="${testsDir}"/>
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
+        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
     </target>
 
     <target name="tests" depends="compiletests">
