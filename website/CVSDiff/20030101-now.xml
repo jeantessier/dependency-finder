@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-20030101" endDate="2003-02-03" >
+<tagdiff startTag="release-20030101" endDate="2003-02-04" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -37,7 +37,7 @@
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.18</revision>
+			<revision>1.19</revision>
 			<prevrevision>1.15</prevrevision>
 		</file>
 	</entry>
@@ -281,6 +281,13 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
+			<revision>1.19</revision>
+			<prevrevision>1.18</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/MeasurementTableCellRenderer.java</name>
 			<revision>1.5</revision>
 			<prevrevision>1.3</prevrevision>
@@ -295,9 +302,22 @@
 	</entry>
 	<entry>
 		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/OOMetrics.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/OOMetricsTableModel.java</name>
 			<revision>1.10</revision>
 			<prevrevision>1.9</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/icons/logoicon.gif</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
