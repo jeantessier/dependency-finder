@@ -195,9 +195,7 @@ public class XMLPrinter extends Printer {
 		} else {
 			Append(SignatureHelper.Type(nat.Type()));
 			Append(" ");
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
+			Append(entry.FullSignature());
 		}
 	}
 
@@ -221,13 +219,10 @@ public class XMLPrinter extends Printer {
 			Append("</method-ref-info>").EOL();
 			top = true;
 		} else {
-			
-			Append(SignatureHelper.ReturnType(nat.Type()));
-			Append(" ");
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
-			Append(SignatureHelper.Signature(nat.Type()));
+			if (!entry.IsConstructor() && !entry.IsStaticInitializer()) {
+				Append(SignatureHelper.ReturnType(nat.Type())).Append(" ");
+			}
+			Append(entry.FullSignature());
 		}
 	}
 
@@ -253,10 +248,7 @@ public class XMLPrinter extends Printer {
 		} else {
 			Append(SignatureHelper.ReturnType(nat.Type()));
 			Append(" ");
-			c.Accept(this);
-			Append(".");
-			nat.RawName().Accept(this);
-			Append(SignatureHelper.Signature(nat.Type()));
+			Append(entry.FullSignature());
 		}
 	}
 
