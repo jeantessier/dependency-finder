@@ -64,6 +64,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		C
+		DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
@@ -72,6 +73,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		PUBC
+		DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
@@ -80,6 +82,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		FINC
+		DISPOSE_AVERAGE
 	    </init>
 	</measurement>
 	<measurement>
@@ -88,6 +91,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		ABSC
+		DISPOSE_AVERAGE
 	    </init>
 	</measurement>
 	<measurement>
@@ -96,6 +100,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		I
+		DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
@@ -104,6 +109,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		IC
+		DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
@@ -112,6 +118,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		STAC
+		DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
@@ -129,6 +136,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		SUBC
+		DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
@@ -137,6 +145,7 @@
 	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
 		DOI
+		DISPOSE_AVERAGE
 	    </init>
 	</measurement>
     </project-measurements>
