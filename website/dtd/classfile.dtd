@@ -39,7 +39,7 @@
           magic-number  CDATA #REQUIRED
           minor-version CDATA #REQUIRED
           major-version CDATA #REQUIRED
-          access-number CDATA #REQUIRED
+          access-flag CDATA #REQUIRED
 >
 
 <!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info)* >
@@ -191,7 +191,7 @@
 
 <!ELEMENT inner-class (public?, protected?, private?, static?, final?, is-interface?, abstract?, inner-class-info, outer-class-info, inner-name)>
 <!ATTLIST inner-class
-          access-number CDATA #REQUIRED
+          access-flag CDATA #REQUIRED
 >
 
 <!ELEMENT inner-class-info (#PCDATA) >

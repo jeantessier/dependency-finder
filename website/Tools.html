@@ -12,6 +12,10 @@
 
 <h1>Tools in Dependency Finder</h1>
 
+<p>
+For Dependency Finder version 1.1.0.
+</p>
+
 <hr />
 
 <h2>Table of Contents</h2>
@@ -48,6 +52,7 @@
 <li><a href="#ListDiffToText">ListDiffToText</a></li>
 <li><a href="#ListDocumentedElements">ListDocumentedElements</a></li>
 <li><a href="#ListInheritanceDiffToText">ListInheritanceDiffToText</a></li>
+<li><a href="#ListSymbols">ListSymbols</a></li>
 <li><a href="#ListUnused">ListUnused</a></li>
 <li><a href="#MetricsToHTML">MetricsToHTML</a></li>
 <li><a href="#MetricsToText">MetricsToText</a></li>
@@ -121,13 +126,14 @@
 <li><a href="#ClassDump">ClassDump</a></li>
 <p />
 <li><a href="#ClassList">ClassList</a></li>
+<li><a href="#ListSymbols">ListSymbols</a></li>
 </ul>
 </td>
 </tr></table>
 
 <hr />
 
-<a name="ClassDump" />
+<a name="ClassDump"></a>
 <h2>ClassDump</h2>
 
 <blockquote>
@@ -139,7 +145,7 @@ as hexadecimal characters to standard output.
 
 </blockquote>
 
-<a name="Synopsis" />
+<a name="Synopsis"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -147,7 +153,7 @@ as hexadecimal characters to standard output.
 	[classname ...]
 </pre>
 
-<a name="Description" />
+<a name="Description"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -161,7 +167,7 @@ writes the corresponding hexadecimal character pair to standard output.
 
 </blockquote>
 
-<a name="Switches" />
+<a name="Switches"></a>
 <h3>Switches</h3>
 
 <blockquote>
@@ -172,7 +178,7 @@ writes the corresponding hexadecimal character pair to standard output.
 
 </blockquote>
 
-<a name="Parameters" />
+<a name="Parameters"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -189,7 +195,7 @@ Fully qualified class names.  The classes must be available on the <code>CLASSPA
 
 </blockquote>
 
-<a name="Output" />
+<a name="Output"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -200,7 +206,7 @@ Hexadecimal text of the classfile whose name is passed in.
 
 </blockquote>
 
-<a name="Examples" />
+<a name="Examples"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -237,7 +243,7 @@ Hexadecimal text of the classfile whose name is passed in.
 
 </blockquote>
 
-<a name="Class" />
+<a name="Class"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -250,7 +256,7 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <hr />
 
-<a name="ClassList" />
+<a name="ClassList"></a>
 <h2>ClassList</h2>
 
 <blockquote>
@@ -261,7 +267,7 @@ Lists all classes it could find, based on parameters.
 
 </blockquote>
 
-<a name="SynopsisX" />
+<a name="SynopsisX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -274,7 +280,7 @@ Lists all classes it could find, based on parameters.
 	[filename ...]
 </pre>
 
-<a name="DescriptionX" />
+<a name="DescriptionX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -290,12 +296,12 @@ print the fully qualified name of the class in it.
 
 </blockquote>
 
-<a name="SwitchesX" />
+<a name="SwitchesX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-help" />
+<a name="-help"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -312,7 +318,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-outfilename" />
+<a name="-outfilename"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -330,7 +336,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-time" />
+<a name="-time"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -347,7 +353,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-verbose[filename]" />
+<a name="-verbose[filename]"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -365,7 +371,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-version" />
+<a name="-version"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -384,7 +390,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="ParametersX" />
+<a name="ParametersX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -403,7 +409,7 @@ and read them.
 
 </blockquote>
 
-<a name="OutputX" />
+<a name="OutputX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -415,7 +421,7 @@ tool could find.
 
 </blockquote>
 
-<a name="ExamplesX" />
+<a name="ExamplesX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -473,7 +479,7 @@ tool could find.
 
 </blockquote>
 
-<a name="ClassX" />
+<a name="ClassX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -486,7 +492,7 @@ tool could find.
 
 <hr />
 
-<a name="ClassMetrics" />
+<a name="ClassMetrics"></a>
 <h2>ClassMetrics</h2>
 
 <blockquote>
@@ -499,7 +505,7 @@ synchronized, or abstract methods, etc.
 
 </blockquote>
 
-<a name="SynopsisXX" />
+<a name="SynopsisXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -514,7 +520,7 @@ synchronized, or abstract methods, etc.
 	[filename ...]
 </pre>
 
-<a name="DescriptionXX" />
+<a name="DescriptionXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -528,12 +534,12 @@ give you a rough idea of the size and complexity of a piece of software.
 
 </blockquote>
 
-<a name="SwitchesXX" />
+<a name="SwitchesXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-helpX" />
+<a name="-helpX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -550,7 +556,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-list" />
+<a name="-list"></a>
 <h4><code>-list</code></h4>
 
 <blockquote>
@@ -567,7 +573,7 @@ Lists the programming elements under each measurement.
 
 </blockquote>
 
-<a name="-instruction-count" />
+<a name="-instruction-count"></a>
 <h4><code>-instruction-count</code></h4>
 
 <blockquote>
@@ -585,7 +591,7 @@ instruction set is used in the codebase.
 
 </blockquote>
 
-<a name="-outfilenameX" />
+<a name="-outfilenameX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -603,7 +609,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-timeX" />
+<a name="-timeX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -620,7 +626,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-verbose[filename]X" />
+<a name="-verbose[filename]X"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -638,7 +644,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionX" />
+<a name="-versionX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -657,7 +663,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="ParametersXX" />
+<a name="ParametersXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -676,7 +682,7 @@ and read them.
 
 </blockquote>
 
-<a name="OutputXX" />
+<a name="OutputXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -687,7 +693,7 @@ The output format is self-explanatory.
 
 </blockquote>
 
-<a name="ExamplesXX" />
+<a name="ExamplesXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -748,7 +754,7 @@ The output format is self-explanatory.
 
 </blockquote>
 
-<a name="ClassXX" />
+<a name="ClassXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -761,7 +767,7 @@ The output format is self-explanatory.
 
 <hr />
 
-<a name="ClassReader" />
+<a name="ClassReader"></a>
 <h2>ClassReader</h2>
 
 <blockquote>
@@ -772,7 +778,7 @@ Takes a compiled Java <i>.class</i> file and writes out its structure.
 
 </blockquote>
 
-<a name="SynopsisXXX" />
+<a name="SynopsisXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -789,7 +795,7 @@ Takes a compiled Java <i>.class</i> file and writes out its structure.
 	param ...
 </pre>
 
-<a name="DescriptionXXX" />
+<a name="DescriptionXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -803,12 +809,12 @@ the Java Virtual Machine Specification.
 
 </blockquote>
 
-<a name="SwitchesXXX" />
+<a name="SwitchesXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-dtd-prefixuri" />
+<a name="-dtd-prefixuri"></a>
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
@@ -825,7 +831,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 
 </blockquote>
 
-<a name="-encodingname" />
+<a name="-encodingname"></a>
 <h4><code>-encoding name</code></h4>
 
 <blockquote>
@@ -842,7 +848,7 @@ The encoding used for the XML output document.  Only useful with <code>-xml</cod
 
 </blockquote>
 
-<a name="-helpXX" />
+<a name="-helpXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -859,7 +865,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-indent-texttext" />
+<a name="-indent-texttext"></a>
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
@@ -876,7 +882,7 @@ Uses <i>text</i> for each indentation level in XML output.
 
 </blockquote>
 
-<a name="-outfilenameXX" />
+<a name="-outfilenameXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -894,7 +900,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-timeXX" />
+<a name="-timeXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -911,7 +917,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-verbose[filename]XX" />
+<a name="-verbose[filename]XX"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -929,7 +935,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXX" />
+<a name="-versionXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -946,7 +952,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="-xml" />
+<a name="-xml"></a>
 <h4><code>-xml</code></h4>
 
 <blockquote>
@@ -966,7 +972,7 @@ Writes the <code>.class</code> file information as an XML document with the
 
 </blockquote>
 
-<a name="ParametersXXX" />
+<a name="ParametersXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -985,7 +991,7 @@ and read them.
 
 </blockquote>
 
-<a name="OutputXXX" />
+<a name="OutputXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -1003,7 +1009,7 @@ document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXX" />
+<a name="ExamplesXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -1199,7 +1205,7 @@ And here is the XML document, built from a <code>.class</code> file.
 
 </blockquote>
 
-<a name="ClassXXX" />
+<a name="ClassXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -1212,7 +1218,7 @@ And here is the XML document, built from a <code>.class</code> file.
 
 <hr />
 
-<a name="ClosureToText" />
+<a name="ClosureToText"></a>
 <h2>ClosureToText</h2>
 
 <blockquote>
@@ -1223,7 +1229,7 @@ Lists the programming elements in a closure.
 
 </blockquote>
 
-<a name="SynopsisXXXX" />
+<a name="SynopsisXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -1232,7 +1238,7 @@ Lists the programming elements in a closure.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXX" />
+<a name="DescriptionXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -1245,12 +1251,12 @@ representing a closure.  You generate these graphs with
 
 </blockquote>
 
-<a name="SwitchesXXXX" />
+<a name="SwitchesXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xml" />
+<a name="-ininput_file.xml"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -1271,7 +1277,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txt" />
+<a name="-outoutput_file.txt"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -1294,7 +1300,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXX" />
+<a name="ParametersXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -1305,7 +1311,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXX" />
+<a name="OutputXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -1316,7 +1322,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXX" />
+<a name="ExamplesXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -1339,7 +1345,7 @@ To save the output to a text file:
 
 </blockquote>
 
-<a name="ClassXXXX" />
+<a name="ClassXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -1350,7 +1356,7 @@ To save the output to a text file:
 
 </blockquote>
 
-<a name="XSLStylesheet" />
+<a name="XSLStylesheet"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -1363,7 +1369,7 @@ To save the output to a text file:
 
 <hr />
 
-<a name="DependablesToHTML" />
+<a name="DependablesToHTML"></a>
 <h2>DependablesToHTML</h2>
 
 <blockquote>
@@ -1375,7 +1381,7 @@ have no inbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXX" />
+<a name="SynopsisXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -1384,7 +1390,7 @@ have no inbound dependencies.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXX" />
+<a name="DescriptionXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -1397,12 +1403,12 @@ elements for easy navigation.
 
 </blockquote>
 
-<a name="SwitchesXXXXX" />
+<a name="SwitchesXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlX" />
+<a name="-ininput_file.xmlX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -1423,7 +1429,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.html" />
+<a name="-outoutput_file.html"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -1446,7 +1452,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXX" />
+<a name="ParametersXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -1457,7 +1463,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXX" />
+<a name="OutputXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -1468,7 +1474,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXX" />
+<a name="ExamplesXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -1489,7 +1495,7 @@ meaning that many other elements rely on it being stable.
 
 </blockquote>
 
-<a name="ClassXXXXX" />
+<a name="ClassXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -1500,7 +1506,7 @@ meaning that many other elements rely on it being stable.
 
 </blockquote>
 
-<a name="XSLStylesheetX" />
+<a name="XSLStylesheetX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -1513,7 +1519,7 @@ meaning that many other elements rely on it being stable.
 
 <hr />
 
-<a name="DependablesToText" />
+<a name="DependablesToText"></a>
 <h2>DependablesToText</h2>
 
 <blockquote>
@@ -1525,7 +1531,7 @@ have no inbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXXX" />
+<a name="SynopsisXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -1534,7 +1540,7 @@ have no inbound dependencies.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXX" />
+<a name="DescriptionXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -1546,12 +1552,12 @@ Lists only non-empty nodes.
 
 </blockquote>
 
-<a name="SwitchesXXXXXX" />
+<a name="SwitchesXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXX" />
+<a name="-ininput_file.xmlXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -1572,7 +1578,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtX" />
+<a name="-outoutput_file.txtX"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -1595,7 +1601,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXX" />
+<a name="ParametersXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -1606,7 +1612,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXX" />
+<a name="OutputXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -1617,7 +1623,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXX" />
+<a name="ExamplesXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -1680,7 +1686,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="ClassXXXXXX" />
+<a name="ClassXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -1691,7 +1697,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="XSLStylesheetXX" />
+<a name="XSLStylesheetXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -1704,59 +1710,46 @@ Running this tool on that graph yields this output:
 
 <hr />
 
-<a name="DependencyClosure" />
+<a name="DependencyClosure"></a>
 <h2>DependencyClosure</h2>
 
 <blockquote>
 
 <p>
 Computes transitive closure in a dependency graph from a given starting
-point.
+point to either a specified end point or depth.
 </p>
 
 </blockquote>
 
-<a name="SynopsisXXXXXXX" />
+<a name="SynopsisXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
     DependencyClosure
-    	[-all]
-    	[-c2c]
-    	[-c2p]
-    	[-class-filter]
-    	[-class-filter-excludes value]*
-    	[-class-filter-includes value]*
-    	[-class-scope]
-    	[-class-scope-excludes value]*
-    	[-class-scope-includes value]*
+    	[-class-start-excludes value]*
+    	[-class-start-includes value]*
+    	[-class-stop-excludes value]*
+    	[-class-stop-includes value]*
     	[-dtd-prefix uri]
 	[-encoding name]
-    	[-excludes value]*
-    	[-f2f]
-    	[-feature-filter]
-    	[-feature-filter-excludes value]*
-    	[-feature-filter-includes value]*
-    	[-feature-scope]
-    	[-feature-scope-excludes value]*
-    	[-feature-scope-includes value]*
-    	[-filter-excludes value]*
-    	[-filter-includes value]*
+    	[-feature-start-excludes value]*
+    	[-feature-start-includes value]*
+    	[-feature-stop-excludes value]*
+    	[-feature-stop-includes value]*
     	[-help]
-    	[-includes value]*
     	[-indent-text text]
     	[-maximum-inbound-depth [value]]
     	[-maximum-outbound-depth [value]]
     	[-out filename]
-    	[-p2p]
-    	[-package-filter]
-    	[-package-filter-excludes value]*
-    	[-package-filter-includes value]*
-    	[-package-scope]
-    	[-package-scope-excludes value]*
-    	[-package-scope-includes value]*
-    	[-scope-excludes value]*
-    	[-scope-includes value]*
+    	[-package-start-excludes value]*
+    	[-package-start-includes value]*
+    	[-package-stop-excludes value]*
+    	[-package-stop-includes value]*
+    	[-start-excludes value]*
+    	[-start-includes value]*
+    	[-stop-excludes value]*
+    	[-stop-includes value]*
     	[-time]
     	[-validate]
     	[-verbose [filename]]
@@ -1766,34 +1759,26 @@ point.
 	...
 </pre>
 
-<a name="DescriptionXXXXXXX" />
+<a name="DescriptionXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
 
 <p>
 This tool takes a dependency graph generated by
-<a href="#DependencyExtractor">DependencyExtractor</a>
-and follows a trail of dependencies to construct a subgraph
-of all dependencies related to a starting point.  The result
-is a new dependency graph which is a subgraph of the original
-one.  You can use the various XXXToText and XXXToHTML scripts
-to render the graph as text or HTML for human reading.
+<a href="#DependencyExtractor">DependencyExtractor</a> and follows a trail of
+dependencies to construct a subgraph of all dependencies related to a starting
+point.  The result is a new dependency graph which is a subgraph of the
+original one.  You can use the various <code>XXXToText</code> and <code>XXXToHTML</code> scripts to
+render the graph as text or HTML for human reading.
 </p>
 
 <p>
 You can limit the number of hops downstream, along outbound dependencies, with
 <code>-maximum-outbound-depth</code>.  You can limit the number of hops upstream, along
 inbound dependencies, with <code>-maximum-inbound-depth</code>.  By default, the tool will
-go as far as possible along outbound dependencies without visiting any element
-twice.
-</p>
-
-<p>
-One limitation: the graph must be maximized for anything other than
-feature-to-feature queries.  Because of a limitation in the closure
-computation, it does not detect implicit dependencies and only follows
-dependencies that have been made explicit.
+go as far as possible along both inbound and outbound dependencies without
+visiting any element twice.
 </p>
 
 <p>
@@ -1801,6 +1786,8 @@ See also:
 </p>
 
 <ul>
+<li><a href="#DependencyExtractor">DependencyExtractor</a></li>
+<li><a href="#DependencyReporter">DependencyReporter</a></li>
 <li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
 <li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
 <li><a href="#DependablesToHTML">DependablesToHTML</a></li>
@@ -1815,107 +1802,20 @@ See also:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXX" />
+<a name="SwitchesXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-all" />
-<h4><code>-all</code></h4>
+<a name="-class-start-excludesvalue"></a>
+<h4><code>-class-start-excludes value</code></h4>
 
 <blockquote>
 
 <p>
-Shorthand for the combination of:
-</p>
-
-<ul>
-<li><code>-package-scope</code></li>
-<li><code>-class-scope</code></li>
-<li><code>-feature-scope</code></li>
-<li><code>-package-filter</code></li>
-<li><code>-class-filter</code></li>
-<li><code>-feature-filter</code></li>
-</ul>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2c" />
-<h4><code>-c2c</code></h4>
-
-<blockquote>
-
-<p>
-Shorthand for the combination of:
-</p>
-
-<ul>
-<li><code>-class-scope</code></li>
-<li><code>-class-filter</code></li>
-</ul>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-c2p" />
-<h4><code>-c2p</code></h4>
-
-<blockquote>
-
-<p>
-Shorthand for the combination of:
-</p>
-
-<ul>
-<li><code>-class-scope</code></li>
-<li><code>-package-filter</code></li>
-</ul>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter" />
-<h4><code>-class-filter</code></h4>
-
-<blockquote>
-
-<p>
-Show dependencies to and/or from classes.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-filter-excludesvalue" />
-<h4><code>-class-filter-excludes value</code></h4>
-
-<blockquote>
-
-<p>
-If a class is at the other end of the dependency, its name must NOT match
-the regular expression in <i>value</i> for the dependency to be included in the
-results.
+After a class matches one of the <code>-start-includes</code> switches, its name must
+also NOT match the regular expression in <i>value</i> for it to be included in the
+query's starting point.
 </p>
 
 <p>
@@ -1930,19 +1830,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-class-filter-includesvalue" />
-<h4><code>-class-filter-includes value</code></h4>
+<a name="-class-start-includesvalue"></a>
+<h4><code>-class-start-includes value</code></h4>
 
 <blockquote>
 
 <p>
-If a class is at the other end of the dependency, its name must match
-the regular expression in <i>value</i> for the dependency to be included in the
-results.
+The name of a class must match the regular expression in <i>value</i> for it to be
+included in the query's starting point.
 </p>
 
 <p>
 If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<p>
+The class can still be excluded if it matches one of the <code>-start-excludes</code>
+switches.
 </p>
 
 <table border="0">
@@ -1953,31 +1857,15 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-class-scope" />
-<h4><code>-class-scope</code></h4>
+<a name="-class-stop-excludesvalue"></a>
+<h4><code>-class-stop-excludes value</code></h4>
 
 <blockquote>
 
 <p>
-Select classes (with their package) as part of the query's focus.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-class-scope-excludesvalue" />
-<h4><code>-class-scope-excludes value</code></h4>
-
-<blockquote>
-
-<p>
-The name of a class must NOT match the regular expression in <i>value</i> for it
-to be included in the query's focus.
+After a class matches one of the <code>-stop-includes</code> switches, its name must also
+NOT match the regular expression in <i>value</i> for it to be included in the
+query's end point.
 </p>
 
 <p>
@@ -1992,18 +1880,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-class-scope-includesvalue" />
-<h4><code>-class-scope-includes value</code></h4>
+<a name="-class-stop-includesvalue"></a>
+<h4><code>-class-stop-includes value</code></h4>
 
 <blockquote>
 
 <p>
-The name of a class must match the regular expression in <i>value</i> for it
-to be included in the query's focus.
+The name of a class must match the regular expression in <i>value</i> for it to be
+included in the query's end point.
 </p>
 
 <p>
 If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<p>
+The class can still be excluded if it matches one of the <code>-stop-excludes</code>
+switches.
 </p>
 
 <table border="0">
@@ -2014,7 +1907,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-dtd-prefixuriX" />
+<a name="-dtd-prefixuriX"></a>
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
@@ -2031,7 +1924,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 
 </blockquote>
 
-<a name="-encodingnameX" />
+<a name="-encodingnameX"></a>
 <h4><code>-encoding name</code></h4>
 
 <blockquote>
@@ -2048,76 +1941,15 @@ The encoding used for the XML output document.  Only useful with <code>-xml</cod
 
 </blockquote>
 
-<a name="-excludesvalue" />
-<h4><code>-excludes value</code></h4>
+<a name="-feature-start-excludesvalue"></a>
+<h4><code>-feature-start-excludes value</code></h4>
 
 <blockquote>
 
 <p>
-Shorthand for the combination of:
-</p>
-
-<ul>
-<li><code>-scope-excludes <i>value</i></code></li>
-<li><code>-filter-excludes <i>value</i></code></li>
-</ul>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-f2f" />
-<h4><code>-f2f</code></h4>
-
-<blockquote>
-
-<p>
-Shorthand for the combination of:
-</p>
-
-<ul>
-<li><code>-feature-scope</code></li>
-<li><code>-feature-filter</code></li>
-</ul>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter" />
-<h4><code>-feature-filter</code></h4>
-
-<blockquote>
-
-<p>
-Show dependencies to and/or from features.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-filter-excludesvalue" />
-<h4><code>-feature-filter-excludes value</code></h4>
-
-<blockquote>
-
-<p>
-If a feature is at the other end of the dependency, its name must NOT match
-the regular expression in <i>value</i> for the dependency to be included in the
-results.
+After a feature matches one of the <code>-start-includes</code> switches, its name must
+also NOT match the regular expression in <i>value</i> for it to be included in the
+query's starting point.
 </p>
 
 <p>
@@ -2132,19 +1964,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-feature-filter-includesvalue" />
-<h4><code>-feature-filter-includes value</code></h4>
+<a name="-feature-start-includesvalue"></a>
+<h4><code>-feature-start-includes value</code></h4>
 
 <blockquote>
 
 <p>
-If a feature is at the other end of the dependency, its name must match
-the regular expression in <i>value</i> for the dependency to be included in the
-results.
+The name of a feature must match the regular expression in <i>value</i> for it to
+be included in the query's starting point.
 </p>
 
 <p>
 If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<p>
+The feature can still be excluded if it matches one of the <code>-start-excludes</code>
+switches.
 </p>
 
 <table border="0">
@@ -2155,31 +1991,15 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-feature-scope" />
-<h4><code>-feature-scope</code></h4>
+<a name="-feature-stop-excludesvalue"></a>
+<h4><code>-feature-stop-excludes value</code></h4>
 
 <blockquote>
 
 <p>
-Select features (with their class and package) as part of the query's focus.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-feature-scope-excludesvalue" />
-<h4><code>-feature-scope-excludes value</code></h4>
-
-<blockquote>
-
-<p>
-The name of a feature must NOT match the regular expression in <i>value</i> for it
-to be included in the query's focus.
+After a feature matches one of the <code>-stop-includes</code> switches, its name must
+also NOT match the regular expression in <i>value</i> for it to be included in the
+query's end point.
 </p>
 
 <p>
@@ -2194,18 +2014,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-feature-scope-includesvalue" />
-<h4><code>-feature-scope-includes value</code></h4>
+<a name="-feature-stop-includesvalue"></a>
+<h4><code>-feature-stop-includes value</code></h4>
 
 <blockquote>
 
 <p>
-The name of a feature must match the regular expression in <i>value</i> for it
-to be included in the query's focus.
+The name of a feature must match the regular expression in <i>value</i> for it to
+be included in the query's end point.
 </p>
 
 <p>
 If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<p>
+The feature can still be excluded if it matches one of the <code>-stop-excludes</code>
+switches.
 </p>
 
 <table border="0">
@@ -2216,53 +2041,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-filter-excludesvalue" />
-<h4><code>-filter-excludes value</code></h4>
-
-<blockquote>
-
-<p>
-The name of a package, class, or feature at the other end of the dependency
-must NOT match the regular expression in <i>value</i> for the dependency to be
-included in the results.
-</p>
-
-<p>
-If there are multiples of this switch, the name must not match any of them.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-filter-includesvalue" />
-<h4><code>-filter-includes value</code></h4>
-
-<blockquote>
-
-<p>
-The name of a package, class, or feature at the other end of the dependency
-must match the regular expression in <i>value</i> for the dependency to be
-included in the results.
-</p>
-
-<p>
-If there are multiples of this switch, the name must at least one of them.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-helpXXX" />
+<a name="-helpXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -2279,29 +2058,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-includesvalue" />
-<h4><code>-includes value</code></h4>
-
-<blockquote>
-
-<p>
-Shorthand for the combination of:
-</p>
-
-<ul>
-<li><code>-scope-includes <i>value</i></code></li>
-<li><code>-filter-includes <i>value</i></code></li>
-</ul>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td><code>//</code></td></tr>
-</table>
-
-</blockquote>
-
-<a name="-indent-texttextX" />
+<a name="-indent-texttextX"></a>
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
@@ -2318,7 +2075,7 @@ Uses <i>text</i> for each indentation level in textual and XML output.
 
 </blockquote>
 
-<a name="-maximum-inbound-depth[value]" />
+<a name="-maximum-inbound-depth[value]"></a>
 <h4><code>-maximum-inbound-depth [value]</code></h4>
 
 <blockquote>
@@ -2327,7 +2084,7 @@ Uses <i>text</i> for each indentation level in textual and XML output.
 Maximum distance to travel upstream by following inbound dependencies.  If
 <i>value</i> is zero (0), don't follow any inbound dependencies.  If <i>value</i> is
 omitted, or if it is not a number, than the traversal is unbounded.  If the
-switch is omitted, the closure will not follow any inbound dependencies.
+switch is omitted, the traversal will be unbounded.
 </p>
 
 <table border="0">
@@ -2338,7 +2095,7 @@ switch is omitted, the closure will not follow any inbound dependencies.
 
 </blockquote>
 
-<a name="-maximum-outbound-depth[value]" />
+<a name="-maximum-outbound-depth[value]"></a>
 <h4><code>-maximum-outbound-depth [value]</code></h4>
 
 <blockquote>
@@ -2358,7 +2115,7 @@ switch is omitted, the traversal will be unbounded.
 
 </blockquote>
 
-<a name="-outfilenameXXX" />
+<a name="-outfilenameXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -2376,54 +2133,15 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-p2p" />
-<h4><code>-p2p</code></h4>
+<a name="-package-start-excludesvalue"></a>
+<h4><code>-package-start-excludes value</code></h4>
 
 <blockquote>
 
 <p>
-Shorthand for the combination of:
-</p>
-
-<ul>
-<li><code>-package-scope</code></li>
-<li><code>-package-filter</code></li>
-</ul>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter" />
-<h4><code>-package-filter</code></h4>
-
-<blockquote>
-
-<p>
-Show dependencies to and/or from packages.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-filter-excludesvalue" />
-<h4><code>-package-filter-excludes value</code></h4>
-
-<blockquote>
-
-<p>
-If a package is at the other end of the dependency, its name must NOT match
-the regular expression in <i>value</i> for the dependency to be included in the
-results.
+After a package matches one of the <code>-start-includes</code> switches, its name must
+also NOT match the regular expression in <i>value</i> for it to be included in the
+query's starting point.
 </p>
 
 <p>
@@ -2438,19 +2156,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-package-filter-includesvalue" />
-<h4><code>-package-filter-includes value</code></h4>
+<a name="-package-start-includesvalue"></a>
+<h4><code>-package-start-includes value</code></h4>
 
 <blockquote>
 
 <p>
-If a package is at the other end of the dependency, its name must match
-the regular expression in <i>value</i> for the dependency to be included in the
-results.
+The name of a package must match the regular expression in <i>value</i> for it to
+be included in the query's starting point.
 </p>
 
 <p>
 If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<p>
+The package can still be excluded if it matches one of the <code>-start-excludes</code>
+switches.
 </p>
 
 <table border="0">
@@ -2461,31 +2183,15 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-package-scope" />
-<h4><code>-package-scope</code></h4>
+<a name="-package-stop-excludesvalue"></a>
+<h4><code>-package-stop-excludes value</code></h4>
 
 <blockquote>
 
 <p>
-Select packages as part of the query's focus.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-package-scope-excludesvalue" />
-<h4><code>-package-scope-excludes value</code></h4>
-
-<blockquote>
-
-<p>
-The name of a package must NOT match the regular expression in <i>value</i> for it
-to be included in the query's focus.
+After a package matches one of the <code>-stop-includes</code> switches, its name must
+also NOT match the regular expression in <i>value</i> for it to be included in the
+query's end point.
 </p>
 
 <p>
@@ -2500,18 +2206,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-package-scope-includesvalue" />
-<h4><code>-package-scope-includes value</code></h4>
+<a name="-package-stop-includesvalue"></a>
+<h4><code>-package-stop-includes value</code></h4>
 
 <blockquote>
 
 <p>
-The name of a package must match the regular expression in <i>value</i> for it
-to be included in the query's focus.
+The name of a package must match the regular expression in <i>value</i> for it to
+be included in the query's end point.
 </p>
 
 <p>
 If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<p>
+The package can still be excluded if it matches one of the <code>-stop-excludes</code>
+switches.
 </p>
 
 <table border="0">
@@ -2522,14 +2233,15 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-scope-excludesvalue" />
-<h4><code>-scope-excludes value</code></h4>
+<a name="-start-excludesvalue"></a>
+<h4><code>-start-excludes value</code></h4>
 
 <blockquote>
 
 <p>
-The name of a package, class, or feature must NOT match the regular expression
-in <i>value</i> for it to be included in the query's focus.
+After a package, class, or feature matches one of the <code>-start-includes</code>
+switches, its name must also NOT match the regular expression in <i>value</i> for it
+to be included in the query's starting point.
 </p>
 
 <p>
@@ -2544,18 +2256,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-scope-includesvalue" />
-<h4><code>-scope-includes value</code></h4>
+<a name="-start-includesvalue"></a>
+<h4><code>-start-includes value</code></h4>
 
 <blockquote>
 
 <p>
-The name of a package, class, or feature must match the regular expression
-in <i>value</i> for it to be included in the query's focus.
+The name of a package, class, or feature must match the regular expression in
+<i>value</i> for it to be included in the query's starting point.
 </p>
 
 <p>
 If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<p>
+The package, class, or feature can still be excluded if it matches one of the
+<code>-start-excludes</code> switches.
 </p>
 
 <table border="0">
@@ -2566,7 +2283,57 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-timeXXX" />
+<a name="-stop-excludesvalue"></a>
+<h4><code>-stop-excludes value</code></h4>
+
+<blockquote>
+
+<p>
+After a package, class, or feature matches one of the <code>-stop-includes</code>
+switches, its name must also NOT match the regular expression in <i>value</i> for it
+to be included in the query's end point.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-stop-includesvalue"></a>
+<h4><code>-stop-includes value</code></h4>
+
+<blockquote>
+
+<p>
+The name of a package, class, or feature must match the regular expression in
+<i>value</i> for it to be included in the query's end point.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<p>
+The package, class, or feature can still be excluded if it matches one of the
+<code>-stop-excludes</code> switches.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-timeXXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -2583,7 +2350,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-validate" />
+<a name="-validate"></a>
 <h4><code>-validate</code></h4>
 
 <blockquote>
@@ -2600,7 +2367,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="-verbose[filename]XXX" />
+<a name="-verbose[filename]XXX"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -2618,7 +2385,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXXX" />
+<a name="-versionXXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -2635,7 +2402,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="-xmlX" />
+<a name="-xmlX"></a>
 <h4><code>-xml</code></h4>
 
 <blockquote>
@@ -2655,7 +2422,7 @@ Writes the dependency graph as an XML document with the
 
 </blockquote>
 
-<a name="ParametersXXXXXXX" />
+<a name="ParametersXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -2673,7 +2440,7 @@ merges the graphs together into a single dependency graph.
 
 </blockquote>
 
-<a name="OutputXXXXXXX" />
+<a name="OutputXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -2690,7 +2457,7 @@ document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXX" />
+<a name="ExamplesXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -2715,7 +2482,7 @@ Running this tool on that graph yields this output:
 </p>
 
 <pre>
-    DependencyClosure -c2c -scope-includes /Outbound/ sample.xml
+    DependencyClosure -start-includes /Outbound/ sample.xml
     &nbsp;
         Inbound
             <-- Middle
@@ -2734,7 +2501,7 @@ It followed all dependencies leading out of <code>Outbound</code>.
 
 </blockquote>
 
-<a name="ClassXXXXXXX" />
+<a name="ClassXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -2747,7 +2514,7 @@ It followed all dependencies leading out of <code>Outbound</code>.
 
 <hr />
 
-<a name="DependencyExtractor" />
+<a name="DependencyExtractor"></a>
 <h2>DependencyExtractor</h2>
 
 <blockquote>
@@ -2758,7 +2525,7 @@ Extracts dependencies from compiled classes.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXX" />
+<a name="SynopsisXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -2777,7 +2544,7 @@ Extracts dependencies from compiled classes.
 	[filename ...]
 </pre>
 
-<a name="DescriptionXXXXXXXX" />
+<a name="DescriptionXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -2807,12 +2574,12 @@ See also:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXX" />
+<a name="SwitchesXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-encodingnameXX" />
+<a name="-encodingnameXX"></a>
 <h4><code>-encoding name</code></h4>
 
 <blockquote>
@@ -2829,7 +2596,7 @@ The encoding used for the XML output document.  Only useful with <code>-xml</cod
 
 </blockquote>
 
-<a name="-dtd-prefixuriXX" />
+<a name="-dtd-prefixuriXX"></a>
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
@@ -2846,7 +2613,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 
 </blockquote>
 
-<a name="-helpXXXX" />
+<a name="-helpXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -2863,7 +2630,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-indent-texttextXX" />
+<a name="-indent-texttextXX"></a>
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
@@ -2880,7 +2647,7 @@ Uses <i>text</i> for each indentation level in textual and XML output.
 
 </blockquote>
 
-<a name="-maximize" />
+<a name="-maximize"></a>
 <h4><code>-maximize</code></h4>
 
 <blockquote>
@@ -2897,7 +2664,7 @@ Maximizes the dependency graph before outputing it.
 
 </blockquote>
 
-<a name="-minimize" />
+<a name="-minimize"></a>
 <h4><code>-minimize</code></h4>
 
 <blockquote>
@@ -2914,7 +2681,7 @@ Minimizes the dependency graph before outputing it.
 
 </blockquote>
 
-<a name="-outfilenameXXXX" />
+<a name="-outfilenameXXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -2932,7 +2699,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-timeXXXX" />
+<a name="-timeXXXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -2949,7 +2716,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXX" />
+<a name="-verbose[filename]XXXX"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -2967,7 +2734,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXXXX" />
+<a name="-versionXXXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -2984,7 +2751,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="-xmlXX" />
+<a name="-xmlXX"></a>
 <h4><code>-xml</code></h4>
 
 <blockquote>
@@ -3004,7 +2771,7 @@ Writes the dependency graph as an XML document with the
 
 </blockquote>
 
-<a name="ParametersXXXXXXXX" />
+<a name="ParametersXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -3023,7 +2790,7 @@ and read them.
 
 </blockquote>
 
-<a name="OutputXXXXXXXX" />
+<a name="OutputXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -3040,7 +2807,7 @@ document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXX" />
+<a name="ExamplesXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -3077,7 +2844,7 @@ to <code>dg.xml</code>, after having minimized it:
 
 </blockquote>
 
-<a name="ClassXXXXXXXX" />
+<a name="ClassXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -3090,7 +2857,7 @@ to <code>dg.xml</code>, after having minimized it:
 
 <hr />
 
-<a name="DependencyFinder" />
+<a name="DependencyFinder"></a>
 <h2>DependencyFinder</h2>
 
 <blockquote>
@@ -3101,7 +2868,7 @@ Swing application for dependency analysis.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -3114,7 +2881,7 @@ Swing application for dependency analysis.
     	[-minimize]
 </pre>
 
-<a name="DescriptionXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -3138,12 +2905,12 @@ It combines the functionalities of the following tools:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-encodingnameXXX" />
+<a name="-encodingnameXXX"></a>
 <h4><code>-encoding name</code></h4>
 
 <blockquote>
@@ -3160,7 +2927,7 @@ The encoding used for the XML output document.  Only useful with <code>-xml</cod
 
 </blockquote>
 
-<a name="-dtd-prefixuriXXX" />
+<a name="-dtd-prefixuriXXX"></a>
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
@@ -3177,7 +2944,7 @@ The prefix of the DTD URL for the saving dependency graphs to XML documents.
 
 </blockquote>
 
-<a name="-helpXXXXX" />
+<a name="-helpXXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -3194,7 +2961,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-indent-texttextXXX" />
+<a name="-indent-texttextXXX"></a>
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
@@ -3211,7 +2978,7 @@ Uses <i>text</i> for each indentation level when saving graphs in XML documents.
 
 </blockquote>
 
-<a name="-maximizeX" />
+<a name="-maximizeX"></a>
 <h4><code>-maximize</code></h4>
 
 <blockquote>
@@ -3228,7 +2995,7 @@ Maximize the dependency graph after extraction.
 
 </blockquote>
 
-<a name="-minimizeX" />
+<a name="-minimizeX"></a>
 <h4><code>-minimize</code></h4>
 
 <blockquote>
@@ -3247,7 +3014,7 @@ Minimize the dependency graph after extraction.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXX" />
+<a name="ParametersXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -3258,7 +3025,7 @@ Minimize the dependency graph after extraction.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXX" />
+<a name="OutputXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -3269,7 +3036,7 @@ Minimize the dependency graph after extraction.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -3280,7 +3047,7 @@ See the <a href="Manual.html">user manual</a>.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXX" />
+<a name="ClassXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -3293,7 +3060,7 @@ See the <a href="Manual.html">user manual</a>.
 
 <hr />
 
-<a name="DependencyGraphToHTML" />
+<a name="DependencyGraphToHTML"></a>
 <h2>DependencyGraphToHTML</h2>
 
 <blockquote>
@@ -3304,7 +3071,7 @@ Translates the whole graph to HTML.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -3313,7 +3080,7 @@ Translates the whole graph to HTML.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -3326,12 +3093,12 @@ elements for easy navigation.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXX" />
+<a name="-ininput_file.xmlXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -3352,7 +3119,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlX" />
+<a name="-outoutput_file.htmlX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -3375,7 +3142,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -3386,7 +3153,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -3397,7 +3164,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -3417,7 +3184,7 @@ This HTML file shows both outbound and inbound dependencies.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -3428,7 +3195,7 @@ This HTML file shows both outbound and inbound dependencies.
 
 </blockquote>
 
-<a name="XSLStylesheetXXX" />
+<a name="XSLStylesheetXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -3441,7 +3208,7 @@ This HTML file shows both outbound and inbound dependencies.
 
 <hr />
 
-<a name="DependencyGraphToText" />
+<a name="DependencyGraphToText"></a>
 <h2>DependencyGraphToText</h2>
 
 <blockquote>
@@ -3452,7 +3219,7 @@ Translates the whole graph to text.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -3461,7 +3228,7 @@ Translates the whole graph to text.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -3472,12 +3239,12 @@ Translates both outbound and inbound dependencies to text.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXX" />
+<a name="-ininput_file.xmlXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -3498,7 +3265,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXX" />
+<a name="-outoutput_file.txtXX"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -3521,7 +3288,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -3532,7 +3299,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -3543,7 +3310,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -3611,7 +3378,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -3622,7 +3389,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXX" />
+<a name="XSLStylesheetXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -3635,7 +3402,7 @@ Running this tool on that graph yields this output:
 
 <hr />
 
-<a name="DependencyMetrics" />
+<a name="DependencyMetrics"></a>
 <h2>DependencyMetrics</h2>
 
 <blockquote>
@@ -3647,7 +3414,7 @@ number of entering vertices, and number of exiting vertices.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -3706,7 +3473,7 @@ number of entering vertices, and number of exiting vertices.
 	...
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -3719,12 +3486,12 @@ not as powerful as the metrics computed by <code><a href="#OOMetrics">OOMetrics<
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-allX" />
+<a name="-all"></a>
 <h4><code>-all</code></h4>
 
 <blockquote>
@@ -3750,7 +3517,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-c2cX" />
+<a name="-c2c"></a>
 <h4><code>-c2c</code></h4>
 
 <blockquote>
@@ -3772,7 +3539,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-c2pX" />
+<a name="-c2p"></a>
 <h4><code>-c2p</code></h4>
 
 <blockquote>
@@ -3794,7 +3561,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-chart-all" />
+<a name="-chart-all"></a>
 <h4><code>-chart-all</code></h4>
 
 <blockquote>
@@ -3822,7 +3589,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-chart-classes" />
+<a name="-chart-classes"></a>
 <h4><code>-chart-classes</code></h4>
 
 <blockquote>
@@ -3845,7 +3612,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-chart-classes-per-package" />
+<a name="-chart-classes-per-package"></a>
 <h4><code>-chart-classes-per-package</code></h4>
 
 <blockquote>
@@ -3862,7 +3629,7 @@ Shows distribution of classes per package.
 
 </blockquote>
 
-<a name="-chart-features" />
+<a name="-chart-features"></a>
 <h4><code>-chart-features</code></h4>
 
 <blockquote>
@@ -3884,7 +3651,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-chart-features-per-class" />
+<a name="-chart-features-per-class"></a>
 <h4><code>-chart-features-per-class</code></h4>
 
 <blockquote>
@@ -3901,7 +3668,7 @@ Shows distribution of features per class.
 
 </blockquote>
 
-<a name="-chart-inbounds" />
+<a name="-chart-inbounds"></a>
 <h4><code>-chart-inbounds</code></h4>
 
 <blockquote>
@@ -3924,7 +3691,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-chart-inbounds-per-class" />
+<a name="-chart-inbounds-per-class"></a>
 <h4><code>-chart-inbounds-per-class</code></h4>
 
 <blockquote>
@@ -3941,7 +3708,7 @@ Shows distribution of explicit inbound dependencies to classes.
 
 </blockquote>
 
-<a name="-chart-inbounds-per-feature" />
+<a name="-chart-inbounds-per-feature"></a>
 <h4><code>-chart-inbounds-per-feature</code></h4>
 
 <blockquote>
@@ -3958,7 +3725,7 @@ Shows distribution of explicit inbound dependencies to features.
 
 </blockquote>
 
-<a name="-chart-inbounds-per-package" />
+<a name="-chart-inbounds-per-package"></a>
 <h4><code>-chart-inbounds-per-package</code></h4>
 
 <blockquote>
@@ -3979,7 +3746,7 @@ In a raw or minimized graph, this will show zero.
 
 </blockquote>
 
-<a name="-chart-outbounds" />
+<a name="-chart-outbounds"></a>
 <h4><code>-chart-outbounds</code></h4>
 
 <blockquote>
@@ -4002,7 +3769,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-chart-outbounds-per-class" />
+<a name="-chart-outbounds-per-class"></a>
 <h4><code>-chart-outbounds-per-class</code></h4>
 
 <blockquote>
@@ -4019,7 +3786,7 @@ Shows distribution of explicit outbound dependencies from classes.
 
 </blockquote>
 
-<a name="-chart-outbounds-per-feature" />
+<a name="-chart-outbounds-per-feature"></a>
 <h4><code>-chart-outbounds-per-feature</code></h4>
 
 <blockquote>
@@ -4036,7 +3803,7 @@ Shows distribution of explicit outbound dependencies from features.
 
 </blockquote>
 
-<a name="-chart-outbounds-per-package" />
+<a name="-chart-outbounds-per-package"></a>
 <h4><code>-chart-outbounds-per-package</code></h4>
 
 <blockquote>
@@ -4057,7 +3824,7 @@ In a raw or minimized graph, this will show zero.
 
 </blockquote>
 
-<a name="-chart-packages" />
+<a name="-chart-packages"></a>
 <h4><code>-chart-packages</code></h4>
 
 <blockquote>
@@ -4080,7 +3847,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-class-filterX" />
+<a name="-class-filter"></a>
 <h4><code>-class-filter</code></h4>
 
 <blockquote>
@@ -4097,7 +3864,7 @@ Show dependencies to and/or from classes.
 
 </blockquote>
 
-<a name="-class-filter-excludesvalueX" />
+<a name="-class-filter-excludesvalue"></a>
 <h4><code>-class-filter-excludes value</code></h4>
 
 <blockquote>
@@ -4120,7 +3887,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-class-filter-includesvalueX" />
+<a name="-class-filter-includesvalue"></a>
 <h4><code>-class-filter-includes value</code></h4>
 
 <blockquote>
@@ -4143,7 +3910,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-class-scopeX" />
+<a name="-class-scope"></a>
 <h4><code>-class-scope</code></h4>
 
 <blockquote>
@@ -4160,7 +3927,7 @@ Select classes (with their package) as part of the query's focus.
 
 </blockquote>
 
-<a name="-class-scope-excludesvalueX" />
+<a name="-class-scope-excludesvalue"></a>
 <h4><code>-class-scope-excludes value</code></h4>
 
 <blockquote>
@@ -4182,7 +3949,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-class-scope-includesvalueX" />
+<a name="-class-scope-includesvalue"></a>
 <h4><code>-class-scope-includes value</code></h4>
 
 <blockquote>
@@ -4204,7 +3971,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-excludesvalueX" />
+<a name="-excludesvalue"></a>
 <h4><code>-excludes value</code></h4>
 
 <blockquote>
@@ -4226,7 +3993,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-f2fX" />
+<a name="-f2f"></a>
 <h4><code>-f2f</code></h4>
 
 <blockquote>
@@ -4248,7 +4015,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-feature-filterX" />
+<a name="-feature-filter"></a>
 <h4><code>-feature-filter</code></h4>
 
 <blockquote>
@@ -4265,7 +4032,7 @@ Show dependencies to and/or from features.
 
 </blockquote>
 
-<a name="-feature-filter-excludesvalueX" />
+<a name="-feature-filter-excludesvalue"></a>
 <h4><code>-feature-filter-excludes value</code></h4>
 
 <blockquote>
@@ -4288,7 +4055,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-feature-filter-includesvalueX" />
+<a name="-feature-filter-includesvalue"></a>
 <h4><code>-feature-filter-includes value</code></h4>
 
 <blockquote>
@@ -4311,7 +4078,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-feature-scopeX" />
+<a name="-feature-scope"></a>
 <h4><code>-feature-scope</code></h4>
 
 <blockquote>
@@ -4328,7 +4095,7 @@ Select features (with their class and package) as part of the query's focus.
 
 </blockquote>
 
-<a name="-feature-scope-excludesvalueX" />
+<a name="-feature-scope-excludesvalue"></a>
 <h4><code>-feature-scope-excludes value</code></h4>
 
 <blockquote>
@@ -4350,7 +4117,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-feature-scope-includesvalueX" />
+<a name="-feature-scope-includesvalue"></a>
 <h4><code>-feature-scope-includes value</code></h4>
 
 <blockquote>
@@ -4372,7 +4139,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-filter-excludesvalueX" />
+<a name="-filter-excludesvalue"></a>
 <h4><code>-filter-excludes value</code></h4>
 
 <blockquote>
@@ -4395,7 +4162,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-filter-includesvalueX" />
+<a name="-filter-includesvalue"></a>
 <h4><code>-filter-includes value</code></h4>
 
 <blockquote>
@@ -4418,7 +4185,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-helpXXXXXX" />
+<a name="-helpXXXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -4435,7 +4202,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-includesvalueX" />
+<a name="-includesvalue"></a>
 <h4><code>-includes value</code></h4>
 
 <blockquote>
@@ -4457,7 +4224,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-listX" />
+<a name="-listX"></a>
 <h4><code>-list</code></h4>
 
 <blockquote>
@@ -4474,7 +4241,7 @@ Lists the packages, classes, and features analyzed.
 
 </blockquote>
 
-<a name="-outfilenameXXXXX" />
+<a name="-outfilenameXXXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -4492,7 +4259,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-p2pX" />
+<a name="-p2p"></a>
 <h4><code>-p2p</code></h4>
 
 <blockquote>
@@ -4514,7 +4281,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-package-filterX" />
+<a name="-package-filter"></a>
 <h4><code>-package-filter</code></h4>
 
 <blockquote>
@@ -4531,7 +4298,7 @@ Show dependencies to and/or from packages.
 
 </blockquote>
 
-<a name="-package-filter-excludesvalueX" />
+<a name="-package-filter-excludesvalue"></a>
 <h4><code>-package-filter-excludes value</code></h4>
 
 <blockquote>
@@ -4554,7 +4321,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-package-filter-includesvalueX" />
+<a name="-package-filter-includesvalue"></a>
 <h4><code>-package-filter-includes value</code></h4>
 
 <blockquote>
@@ -4577,7 +4344,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-package-scopeX" />
+<a name="-package-scope"></a>
 <h4><code>-package-scope</code></h4>
 
 <blockquote>
@@ -4594,7 +4361,7 @@ Select packages as part of the query's focus.
 
 </blockquote>
 
-<a name="-package-scope-excludesvalueX" />
+<a name="-package-scope-excludesvalue"></a>
 <h4><code>-package-scope-excludes value</code></h4>
 
 <blockquote>
@@ -4616,7 +4383,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-package-scope-includesvalueX" />
+<a name="-package-scope-includesvalue"></a>
 <h4><code>-package-scope-includes value</code></h4>
 
 <blockquote>
@@ -4638,7 +4405,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-scope-excludesvalueX" />
+<a name="-scope-excludesvalue"></a>
 <h4><code>-scope-excludes value</code></h4>
 
 <blockquote>
@@ -4660,7 +4427,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-scope-includesvalueX" />
+<a name="-scope-includesvalue"></a>
 <h4><code>-scope-includes value</code></h4>
 
 <blockquote>
@@ -4682,7 +4449,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-timeXXXXX" />
+<a name="-timeXXXXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -4699,7 +4466,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-validateX" />
+<a name="-validateX"></a>
 <h4><code>-validate</code></h4>
 
 <blockquote>
@@ -4716,7 +4483,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXX" />
+<a name="-verbose[filename]XXXXX"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -4734,7 +4501,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXXXXX" />
+<a name="-versionXXXXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -4753,7 +4520,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -4771,7 +4538,7 @@ merges the graphs together into a single dependency graph.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -4782,7 +4549,7 @@ The output format is self-explanatory.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -4849,7 +4616,7 @@ And here it is with <code>-list</code>:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -4862,7 +4629,7 @@ And here it is with <code>-list</code>:
 
 <hr />
 
-<a name="DependencyReporter" />
+<a name="DependencyReporter"></a>
 <h2>DependencyReporter</h2>
 
 <blockquote>
@@ -4873,7 +4640,7 @@ Summarizes a dependency graph according to user-specified criteria.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -4932,7 +4699,7 @@ Summarizes a dependency graph according to user-specified criteria.
 	...
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -4977,12 +4744,12 @@ See also:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-allXX" />
+<a name="-allX"></a>
 <h4><code>-all</code></h4>
 
 <blockquote>
@@ -5008,7 +4775,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-c2cXX" />
+<a name="-c2cX"></a>
 <h4><code>-c2c</code></h4>
 
 <blockquote>
@@ -5038,7 +4805,7 @@ See also:
 
 </blockquote>
 
-<a name="-c2pXX" />
+<a name="-c2pX"></a>
 <h4><code>-c2p</code></h4>
 
 <blockquote>
@@ -5068,7 +4835,7 @@ See also:
 
 </blockquote>
 
-<a name="-class-filterXX" />
+<a name="-class-filterX"></a>
 <h4><code>-class-filter</code></h4>
 
 <blockquote>
@@ -5085,7 +4852,7 @@ Show dependencies to and/or from classes.
 
 </blockquote>
 
-<a name="-class-filter-excludesvalueXX" />
+<a name="-class-filter-excludesvalueX"></a>
 <h4><code>-class-filter-excludes value</code></h4>
 
 <blockquote>
@@ -5108,7 +4875,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-class-filter-includesvalueXX" />
+<a name="-class-filter-includesvalueX"></a>
 <h4><code>-class-filter-includes value</code></h4>
 
 <blockquote>
@@ -5131,7 +4898,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-class-scopeXX" />
+<a name="-class-scopeX"></a>
 <h4><code>-class-scope</code></h4>
 
 <blockquote>
@@ -5148,7 +4915,7 @@ Select classes (with their package) as part of the query's focus.
 
 </blockquote>
 
-<a name="-class-scope-excludesvalueXX" />
+<a name="-class-scope-excludesvalueX"></a>
 <h4><code>-class-scope-excludes value</code></h4>
 
 <blockquote>
@@ -5170,7 +4937,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-class-scope-includesvalueXX" />
+<a name="-class-scope-includesvalueX"></a>
 <h4><code>-class-scope-includes value</code></h4>
 
 <blockquote>
@@ -5192,7 +4959,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-copy-only" />
+<a name="-copy-only"></a>
 <h4><code>-copy-only</code></h4>
 
 <blockquote>
@@ -5210,7 +4977,7 @@ will prevent the reporter from inferring implicit dependencies when possible.
 
 </blockquote>
 
-<a name="-dtd-prefixuriXXXX" />
+<a name="-dtd-prefixuriXXXX"></a>
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
@@ -5227,7 +4994,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 
 </blockquote>
 
-<a name="-encodingnameXXXX" />
+<a name="-encodingnameXXXX"></a>
 <h4><code>-encoding name</code></h4>
 
 <blockquote>
@@ -5244,7 +5011,7 @@ The encoding used for the XML output document.  Only useful with <code>-xml</cod
 
 </blockquote>
 
-<a name="-excludesvalueXX" />
+<a name="-excludesvalueX"></a>
 <h4><code>-excludes value</code></h4>
 
 <blockquote>
@@ -5266,7 +5033,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-f2fXX" />
+<a name="-f2fX"></a>
 <h4><code>-f2f</code></h4>
 
 <blockquote>
@@ -5296,7 +5063,7 @@ See also:
 
 </blockquote>
 
-<a name="-feature-filterXX" />
+<a name="-feature-filterX"></a>
 <h4><code>-feature-filter</code></h4>
 
 <blockquote>
@@ -5313,7 +5080,7 @@ Show dependencies to and/or from features.
 
 </blockquote>
 
-<a name="-feature-filter-excludesvalueXX" />
+<a name="-feature-filter-excludesvalueX"></a>
 <h4><code>-feature-filter-excludes value</code></h4>
 
 <blockquote>
@@ -5336,7 +5103,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-feature-filter-includesvalueXX" />
+<a name="-feature-filter-includesvalueX"></a>
 <h4><code>-feature-filter-includes value</code></h4>
 
 <blockquote>
@@ -5359,7 +5126,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-feature-scopeXX" />
+<a name="-feature-scopeX"></a>
 <h4><code>-feature-scope</code></h4>
 
 <blockquote>
@@ -5376,7 +5143,7 @@ Select features (with their class and package) as part of the query's focus.
 
 </blockquote>
 
-<a name="-feature-scope-excludesvalueXX" />
+<a name="-feature-scope-excludesvalueX"></a>
 <h4><code>-feature-scope-excludes value</code></h4>
 
 <blockquote>
@@ -5398,7 +5165,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-feature-scope-includesvalueXX" />
+<a name="-feature-scope-includesvalueX"></a>
 <h4><code>-feature-scope-includes value</code></h4>
 
 <blockquote>
@@ -5420,7 +5187,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-filter-excludesvalueXX" />
+<a name="-filter-excludesvalueX"></a>
 <h4><code>-filter-excludes value</code></h4>
 
 <blockquote>
@@ -5443,7 +5210,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-filter-excludes-listfilename" />
+<a name="-filter-excludes-listfilename"></a>
 <h4><code>-filter-excludes-list filename</code></h4>
 
 <blockquote>
@@ -5466,7 +5233,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-filter-includesvalueXX" />
+<a name="-filter-includesvalueX"></a>
 <h4><code>-filter-includes value</code></h4>
 
 <blockquote>
@@ -5489,7 +5256,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-filter-includes-listfilename" />
+<a name="-filter-includes-listfilename"></a>
 <h4><code>-filter-includes-list filename</code></h4>
 
 <blockquote>
@@ -5512,7 +5279,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-helpXXXXXXX" />
+<a name="-helpXXXXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -5529,7 +5296,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-includesvalueXX" />
+<a name="-includesvalueX"></a>
 <h4><code>-includes value</code></h4>
 
 <blockquote>
@@ -5551,7 +5318,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-indent-texttextXXXX" />
+<a name="-indent-texttextXXXX"></a>
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
@@ -5568,7 +5335,7 @@ Uses <i>text</i> for each indentation level in textual and XML output.
 
 </blockquote>
 
-<a name="-maximizeXX" />
+<a name="-maximizeXX"></a>
 <h4><code>-maximize</code></h4>
 
 <blockquote>
@@ -5585,7 +5352,7 @@ Maximize the dependency graph before outputing it.
 
 </blockquote>
 
-<a name="-minimizeXX" />
+<a name="-minimizeXX"></a>
 <h4><code>-minimize</code></h4>
 
 <blockquote>
@@ -5602,7 +5369,7 @@ Minimize the dependency graph before outputing it.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXX" />
+<a name="-outfilenameXXXXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -5620,7 +5387,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-p2pXX" />
+<a name="-p2pX"></a>
 <h4><code>-p2p</code></h4>
 
 <blockquote>
@@ -5650,7 +5417,7 @@ See also:
 
 </blockquote>
 
-<a name="-package-filterXX" />
+<a name="-package-filterX"></a>
 <h4><code>-package-filter</code></h4>
 
 <blockquote>
@@ -5667,7 +5434,7 @@ Show dependencies to and/or from packages.
 
 </blockquote>
 
-<a name="-package-filter-excludesvalueXX" />
+<a name="-package-filter-excludesvalueX"></a>
 <h4><code>-package-filter-excludes value</code></h4>
 
 <blockquote>
@@ -5690,7 +5457,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-package-filter-includesvalueXX" />
+<a name="-package-filter-includesvalueX"></a>
 <h4><code>-package-filter-includes value</code></h4>
 
 <blockquote>
@@ -5713,7 +5480,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-package-scopeXX" />
+<a name="-package-scopeX"></a>
 <h4><code>-package-scope</code></h4>
 
 <blockquote>
@@ -5730,7 +5497,7 @@ Select packages as part of the query's focus.
 
 </blockquote>
 
-<a name="-package-scope-excludesvalueXX" />
+<a name="-package-scope-excludesvalueX"></a>
 <h4><code>-package-scope-excludes value</code></h4>
 
 <blockquote>
@@ -5752,7 +5519,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-package-scope-includesvalueXX" />
+<a name="-package-scope-includesvalueX"></a>
 <h4><code>-package-scope-includes value</code></h4>
 
 <blockquote>
@@ -5774,7 +5541,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-scope-excludesvalueXX" />
+<a name="-scope-excludesvalueX"></a>
 <h4><code>-scope-excludes value</code></h4>
 
 <blockquote>
@@ -5796,7 +5563,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-scope-excludes-listfilename" />
+<a name="-scope-excludes-listfilename"></a>
 <h4><code>-scope-excludes-list filename</code></h4>
 
 <blockquote>
@@ -5818,7 +5585,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-scope-includesvalueXX" />
+<a name="-scope-includesvalueX"></a>
 <h4><code>-scope-includes value</code></h4>
 
 <blockquote>
@@ -5840,7 +5607,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-scope-includes-listfilename" />
+<a name="-scope-includes-listfilename"></a>
 <h4><code>-scope-includes-list filename</code></h4>
 
 <blockquote>
@@ -5862,7 +5629,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-show-all" />
+<a name="-show-all"></a>
 <h4><code>-show-all</code></h4>
 
 <blockquote>
@@ -5885,7 +5652,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-show-empty-nodes" />
+<a name="-show-empty-nodes"></a>
 <h4><code>-show-empty-nodes</code></h4>
 
 <blockquote>
@@ -5903,7 +5670,7 @@ inbound or outbound dependencies.
 
 </blockquote>
 
-<a name="-show-inbounds" />
+<a name="-show-inbounds"></a>
 <h4><code>-show-inbounds</code></h4>
 
 <blockquote>
@@ -5920,7 +5687,7 @@ Lists filtered inbound dependencies for scoped nodes.
 
 </blockquote>
 
-<a name="-show-outbounds" />
+<a name="-show-outbounds"></a>
 <h4><code>-show-outbounds</code></h4>
 
 <blockquote>
@@ -5937,7 +5704,7 @@ Lists filtered outbound dependencies for scoped nodes.
 
 </blockquote>
 
-<a name="-timeXXXXXX" />
+<a name="-timeXXXXXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -5954,7 +5721,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-validateXX" />
+<a name="-validateXX"></a>
 <h4><code>-validate</code></h4>
 
 <blockquote>
@@ -5971,7 +5738,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXX" />
+<a name="-verbose[filename]XXXXXX"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -5989,7 +5756,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXXXXXX" />
+<a name="-versionXXXXXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -6006,7 +5773,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="-xmlXXX" />
+<a name="-xmlXXX"></a>
 <h4><code>-xml</code></h4>
 
 <blockquote>
@@ -6026,7 +5793,7 @@ Writes the dependency graph as an XML document with the
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -6044,7 +5811,7 @@ merges the graphs together into a single dependency graph.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -6061,7 +5828,7 @@ document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -6105,7 +5872,7 @@ document that follows the
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -6118,7 +5885,7 @@ document that follows the
 
 <hr />
 
-<a name="DependentsToHTML" />
+<a name="DependentsToHTML"></a>
 <h2>DependentsToHTML</h2>
 
 <blockquote>
@@ -6130,7 +5897,7 @@ have no outbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -6139,7 +5906,7 @@ have no outbound dependencies.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -6152,12 +5919,12 @@ elements for easy navigation.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXX" />
+<a name="-ininput_file.xmlXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -6178,7 +5945,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXX" />
+<a name="-outoutput_file.htmlXX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -6201,7 +5968,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -6212,7 +5979,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -6223,7 +5990,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -6244,7 +6011,7 @@ meaning that it relies on many other elements being stable.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -6255,7 +6022,7 @@ meaning that it relies on many other elements being stable.
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXX" />
+<a name="XSLStylesheetXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -6268,7 +6035,7 @@ meaning that it relies on many other elements being stable.
 
 <hr />
 
-<a name="DependentsToText" />
+<a name="DependentsToText"></a>
 <h2>DependentsToText</h2>
 
 <blockquote>
@@ -6280,7 +6047,7 @@ have no outbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -6289,7 +6056,7 @@ have no outbound dependencies.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -6301,12 +6068,12 @@ Lists only non-empty nodes.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXX" />
+<a name="-ininput_file.xmlXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -6327,7 +6094,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXX" />
+<a name="-outoutput_file.txtXXX"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -6350,7 +6117,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -6361,7 +6128,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -6372,7 +6139,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -6435,7 +6202,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -6446,7 +6213,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXX" />
+<a name="XSLStylesheetXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -6459,7 +6226,7 @@ Running this tool on that graph yields this output:
 
 <hr />
 
-<a name="DiffToHTML" />
+<a name="DiffToHTML"></a>
 <h2>DiffToHTML</h2>
 
 <blockquote>
@@ -6470,7 +6237,7 @@ Converts the output of <a href="#JarJarDiff">JarJarDiff</a> to HTML.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -6479,7 +6246,7 @@ Converts the output of <a href="#JarJarDiff">JarJarDiff</a> to HTML.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -6490,12 +6257,12 @@ Converts the output of <a href="#JarJarDiff">JarJarDiff</a> to HTML.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -6514,7 +6281,7 @@ such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXX" />
+<a name="-outoutput_file.htmlXXX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -6537,7 +6304,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -6548,7 +6315,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -6559,7 +6326,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -6574,7 +6341,7 @@ To convert the difference report in <code>report.xml</code> to HTML:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -6585,7 +6352,7 @@ To convert the difference report in <code>report.xml</code> to HTML:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXX" />
+<a name="XSLStylesheetXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -6598,7 +6365,7 @@ To convert the difference report in <code>report.xml</code> to HTML:
 
 <hr />
 
-<a name="HideOutboundDependenciesToHTML" />
+<a name="HideOutboundDependenciesToHTML"></a>
 <h2>HideOutboundDependenciesToHTML</h2>
 
 <blockquote>
@@ -6610,7 +6377,7 @@ have no inbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -6619,7 +6386,7 @@ have no inbound dependencies.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -6632,12 +6399,12 @@ elements for easy navigation.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -6658,7 +6425,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXX" />
+<a name="-outoutput_file.htmlXXXX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -6681,7 +6448,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -6692,7 +6459,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -6703,7 +6470,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -6724,7 +6491,7 @@ meaning that many other elements rely on it being stable.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -6735,7 +6502,7 @@ meaning that many other elements rely on it being stable.
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -6748,7 +6515,7 @@ meaning that many other elements rely on it being stable.
 
 <hr />
 
-<a name="HideOutboundDependenciesToText" />
+<a name="HideOutboundDependenciesToText"></a>
 <h2>HideOutboundDependenciesToText</h2>
 
 <blockquote>
@@ -6760,7 +6527,7 @@ have no inbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -6769,7 +6536,7 @@ have no inbound dependencies.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -6780,12 +6547,12 @@ Translates only inbound dependencies to text.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -6806,7 +6573,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXX" />
+<a name="-outoutput_file.txtXXXX"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -6829,7 +6596,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -6840,7 +6607,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -6851,7 +6618,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -6916,7 +6683,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -6927,7 +6694,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -6940,7 +6707,7 @@ Running this tool on that graph yields this output:
 
 <hr />
 
-<a name="HideInboundDependenciesToHTML" />
+<a name="HideInboundDependenciesToHTML"></a>
 <h2>HideInboundDependenciesToHTML</h2>
 
 <blockquote>
@@ -6952,7 +6719,7 @@ have no outbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -6961,7 +6728,7 @@ have no outbound dependencies.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -6974,12 +6741,12 @@ elements for easy navigation.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -7000,7 +6767,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXX" />
+<a name="-outoutput_file.htmlXXXXX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -7023,7 +6790,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -7034,7 +6801,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -7045,7 +6812,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -7066,7 +6833,7 @@ meaning that it relies on many other elements being stable.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -7077,7 +6844,7 @@ meaning that it relies on many other elements being stable.
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -7090,7 +6857,7 @@ meaning that it relies on many other elements being stable.
 
 <hr />
 
-<a name="HideInboundDependenciesToText" />
+<a name="HideInboundDependenciesToText"></a>
 <h2>HideInboundDependenciesToText</h2>
 
 <blockquote>
@@ -7102,7 +6869,7 @@ have no outbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -7111,7 +6878,7 @@ have no outbound dependencies.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -7122,12 +6889,12 @@ Translates only outbound dependencies to text.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -7148,7 +6915,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXX" />
+<a name="-outoutput_file.txtXXXXX"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -7171,7 +6938,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -7182,7 +6949,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -7193,7 +6960,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -7258,7 +7025,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -7269,7 +7036,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -7282,7 +7049,7 @@ Running this tool on that graph yields this output:
 
 <hr />
 
-<a name="JarJarDiff" />
+<a name="JarJarDiff"></a>
 <h2>JarJarDiff</h2>
 
 <blockquote>
@@ -7293,7 +7060,7 @@ Computes API differences between two versions of a codebase.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -7315,7 +7082,7 @@ Computes API differences between two versions of a codebase.
     	[-version]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -7334,12 +7101,12 @@ report to "public" changes.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-encodingnameXXXXX" />
+<a name="-encodingnameXXXXX"></a>
 <h4><code>-encoding name</code></h4>
 
 <blockquote>
@@ -7356,7 +7123,7 @@ The encoding used for the XML output document.  Only useful with <code>-xml</cod
 
 </blockquote>
 
-<a name="-dtd-prefixuriXXXXX" />
+<a name="-dtd-prefixuriXXXXX"></a>
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
@@ -7373,7 +7140,7 @@ The prefix of the DTD URL for the XML output document.
 
 </blockquote>
 
-<a name="-helpXXXXXXXX" />
+<a name="-helpXXXXXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -7390,7 +7157,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-indent-texttextXXXXX" />
+<a name="-indent-texttextXXXXX"></a>
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
@@ -7407,7 +7174,7 @@ Uses <i>text</i> for each indentation level in XML output.
 
 </blockquote>
 
-<a name="-namevalue" />
+<a name="-namevalue"></a>
 <h4><code>-name value</code></h4>
 
 <blockquote>
@@ -7424,7 +7191,7 @@ Project name for the report.
 
 </blockquote>
 
-<a name="-newfilename" />
+<a name="-newfilename"></a>
 <h4><code>-new filename</code></h4>
 
 <blockquote>
@@ -7443,7 +7210,7 @@ and read them.  These make up the <i>new</i> version of the codebase.
 
 </blockquote>
 
-<a name="-new-documentationfilename" />
+<a name="-new-documentationfilename"></a>
 <h4><code>-new-documentation filename</code></h4>
 
 <blockquote>
@@ -7462,7 +7229,7 @@ elements.
 
 </blockquote>
 
-<a name="-new-labelvalue" />
+<a name="-new-labelvalue"></a>
 <h4><code>-new-label value</code></h4>
 
 <blockquote>
@@ -7479,7 +7246,7 @@ Version name for the report.
 
 </blockquote>
 
-<a name="-oldfilename" />
+<a name="-oldfilename"></a>
 <h4><code>-old filename</code></h4>
 
 <blockquote>
@@ -7498,7 +7265,7 @@ and read them.  These make up the <i>old</i> version of the codebase.
 
 </blockquote>
 
-<a name="-old-documentationfilename" />
+<a name="-old-documentationfilename"></a>
 <h4><code>-old-documentation filename</code></h4>
 
 <blockquote>
@@ -7517,7 +7284,7 @@ elements.
 
 </blockquote>
 
-<a name="-old-labelvalue" />
+<a name="-old-labelvalue"></a>
 <h4><code>-old-label value</code></h4>
 
 <blockquote>
@@ -7534,7 +7301,7 @@ Version name for the report.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXX" />
+<a name="-outfilenameXXXXXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -7552,7 +7319,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-timeXXXXXXX" />
+<a name="-timeXXXXXXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -7569,7 +7336,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXX" />
+<a name="-verbose[filename]XXXXXXX"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -7587,7 +7354,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXXXXXXX" />
+<a name="-versionXXXXXXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -7606,7 +7373,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -7617,7 +7384,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -7629,7 +7396,7 @@ It writes all differences into an XML document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -7662,7 +7429,7 @@ identical.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -7675,7 +7442,7 @@ identical.
 
 <hr />
 
-<a name="ListDeprecatedElements" />
+<a name="ListDeprecatedElements"></a>
 <h2>ListDeprecatedElements</h2>
 
 <blockquote>
@@ -7686,7 +7453,7 @@ Lists programming elements that are deprecated.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -7699,7 +7466,7 @@ Lists programming elements that are deprecated.
 	[filename ...]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -7712,12 +7479,12 @@ will list all its constructors, fields, and methods too.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-helpXXXXXXXXX" />
+<a name="-helpXXXXXXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -7734,7 +7501,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXXX" />
+<a name="-outfilenameXXXXXXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -7752,7 +7519,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-timeXXXXXXXX" />
+<a name="-timeXXXXXXXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -7769,7 +7536,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXXX" />
+<a name="-verbose[filename]XXXXXXXX"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -7787,7 +7554,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXXXXXXXX" />
+<a name="-versionXXXXXXXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -7806,7 +7573,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -7825,7 +7592,7 @@ and read them.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -7842,7 +7609,7 @@ list of areas in your code that depend on deprecated APIs.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -7853,7 +7620,7 @@ list of areas in your code that depend on deprecated APIs.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -7866,7 +7633,7 @@ list of areas in your code that depend on deprecated APIs.
 
 <hr />
 
-<a name="ListDiff" />
+<a name="ListDiff"></a>
 <h2>ListDiff</h2>
 
 <blockquote>
@@ -7877,7 +7644,7 @@ Compares two lists of programming elements and computes differences.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -7897,7 +7664,7 @@ Compares two lists of programming elements and computes differences.
     	[-version]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -7910,12 +7677,12 @@ source or bytecode required.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-compress" />
+<a name="-compress"></a>
 <h4><code>-compress</code></h4>
 
 <blockquote>
@@ -7935,7 +7702,7 @@ be removed.
 
 </blockquote>
 
-<a name="-dtd-prefixuriXXXXXX" />
+<a name="-dtd-prefixuriXXXXXX"></a>
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
@@ -7952,7 +7719,7 @@ The prefix of the DTD URL for the XML output document.
 
 </blockquote>
 
-<a name="-encodingnameXXXXXX" />
+<a name="-encodingnameXXXXXX"></a>
 <h4><code>-encoding name</code></h4>
 
 <blockquote>
@@ -7969,7 +7736,7 @@ The encoding used for the XML output document.  Only useful with <code>-xml</cod
 
 </blockquote>
 
-<a name="-helpXXXXXXXXXX" />
+<a name="-helpXXXXXXXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -7986,7 +7753,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-indent-texttextXXXXXX" />
+<a name="-indent-texttextXXXXXX"></a>
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
@@ -8003,7 +7770,7 @@ Uses <i>text</i> for each indentation level in XML output.
 
 </blockquote>
 
-<a name="-namevalueX" />
+<a name="-namevalueX"></a>
 <h4><code>-name value</code></h4>
 
 <blockquote>
@@ -8020,7 +7787,7 @@ Project name for the report.
 
 </blockquote>
 
-<a name="-newfilenameX" />
+<a name="-newfilenameX"></a>
 <h4><code>-new filename</code></h4>
 
 <blockquote>
@@ -8037,7 +7804,7 @@ Input text file for the <i>new</i> version of the list.
 
 </blockquote>
 
-<a name="-new-labelvalueX" />
+<a name="-new-labelvalueX"></a>
 <h4><code>-new-label value</code></h4>
 
 <blockquote>
@@ -8054,7 +7821,7 @@ Version name for the report.
 
 </blockquote>
 
-<a name="-oldfilenameX" />
+<a name="-oldfilenameX"></a>
 <h4><code>-old filename</code></h4>
 
 <blockquote>
@@ -8071,7 +7838,7 @@ Input text file for the <i>old</i> version of the list.
 
 </blockquote>
 
-<a name="-old-labelvalueX" />
+<a name="-old-labelvalueX"></a>
 <h4><code>-old-label value</code></h4>
 
 <blockquote>
@@ -8088,7 +7855,7 @@ Version name for the report.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXXXX" />
+<a name="-outfilenameXXXXXXXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -8106,7 +7873,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-timeXXXXXXXXX" />
+<a name="-timeXXXXXXXXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -8123,7 +7890,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-versionXXXXXXXXX" />
+<a name="-versionXXXXXXXXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -8142,7 +7909,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -8153,7 +7920,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -8165,7 +7932,7 @@ It writes the list of differences into an XML document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -8213,7 +7980,7 @@ Then <code>ListDiff</code> will show:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -8226,7 +7993,7 @@ Then <code>ListDiff</code> will show:
 
 <hr />
 
-<a name="ListDiffToHTML" />
+<a name="ListDiffToHTML"></a>
 <h2>ListDiffToHTML</h2>
 
 <blockquote>
@@ -8237,7 +8004,7 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to HTML.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -8246,7 +8013,7 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to HTML.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -8257,12 +8024,12 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to HTML.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -8281,7 +8048,7 @@ such as the output of <a href="#ListDiff">ListDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -8304,7 +8071,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -8315,7 +8082,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -8326,7 +8093,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -8338,7 +8105,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -8349,7 +8116,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -8362,7 +8129,7 @@ See <code>-out</code> above.
 
 <hr />
 
-<a name="ListDiffToText" />
+<a name="ListDiffToText"></a>
 <h2>ListDiffToText</h2>
 
 <blockquote>
@@ -8373,7 +8140,7 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -8382,7 +8149,7 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -8393,12 +8160,12 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -8417,7 +8184,7 @@ such as the output of <a href="#ListDiff">ListDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXX" />
+<a name="-outoutput_file.txtXXXXXX"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -8440,7 +8207,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -8451,7 +8218,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -8462,7 +8229,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -8485,7 +8252,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -8496,7 +8263,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -8509,7 +8276,7 @@ See <code>-out</code> above.
 
 <hr />
 
-<a name="ListDocumentedElements" />
+<a name="ListDocumentedElements"></a>
 <h2>ListDocumentedElements</h2>
 
 <blockquote>
@@ -8520,7 +8287,7 @@ Lists programming elements that are part of the published documentation.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -8532,7 +8299,7 @@ Lists programming elements that are part of the published documentation.
 	[param ...]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -8548,12 +8315,12 @@ This is a doclet that runs with <code>javadoc</code>.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-invalidvalue" />
+<a name="-invalidvalue"></a>
 <h4><code>-invalid value</code></h4>
 
 <blockquote>
@@ -8571,7 +8338,7 @@ considered part of the published documentation.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXXXXX" />
+<a name="-outfilenameXXXXXXXXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -8589,7 +8356,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-tagname" />
+<a name="-tagname"></a>
 <h4><code>-tag name</code></h4>
 
 <blockquote>
@@ -8607,7 +8374,7 @@ invalid.
 
 </blockquote>
 
-<a name="-validvalue" />
+<a name="-validvalue"></a>
 <h4><code>-valid value</code></h4>
 
 <blockquote>
@@ -8627,7 +8394,7 @@ part of the published documentation.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -8644,7 +8411,7 @@ All other switches and parameters are passed to <code>javadoc</code>.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -8667,7 +8434,7 @@ further restrain the report and limit it to the published API.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -8693,7 +8460,7 @@ or, with Ant:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -8706,7 +8473,7 @@ or, with Ant:
 
 <hr />
 
-<a name="ListInheritanceDiffToText" />
+<a name="ListInheritanceDiffToText"></a>
 <h2>ListInheritanceDiffToText</h2>
 
 <blockquote>
@@ -8717,7 +8484,7 @@ Lists inheritance changes in <code>JarJarDiff</code> reports.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -8726,7 +8493,7 @@ Lists inheritance changes in <code>JarJarDiff</code> reports.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -8739,12 +8506,12 @@ clauses.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -8763,7 +8530,7 @@ such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXX" />
+<a name="-outoutput_file.txtXXXXXXX"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -8786,7 +8553,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -8797,7 +8564,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -8808,7 +8575,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -8820,7 +8587,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -8831,7 +8598,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -8844,7 +8611,279 @@ See <code>-out</code> above.
 
 <hr />
 
-<a name="ListUnused" />
+<a name="ListSymbols"></a>
+<h2>ListSymbols</h2>
+
+<blockquote>
+
+<p>
+Lists all symbols it could find, based on parameters.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h3>Synopsis</h3>
+
+<pre>
+    ListSymbols
+    	[-class-names]
+    	[-field-names]
+    	[-method-names]
+    	[-local-names]
+    	[-help]
+    	[-out filename]
+    	[-time]
+    	[-verbose [filename]]
+	[-version]
+	[filename ...]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Lists all the symbols in classes in a JAR file, Zip file, or directory.
+</p>
+
+<p>
+Shows all class names and method names and field names.  In addition, if the
+class files contain local variable tables (from <code>-g</code> passed to <code>javac</code>), it
+will list, for each method, its parameters and local variables.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-class-names"></a>
+<h4><code>-class-names</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of classes.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-field-names"></a>
+<h4><code>-field-names</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of fields.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-helpXXXXXXXXXXX"></a>
+<h4><code>-help</code></h4>
+
+<blockquote>
+
+<p>
+Prints synopsis.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-local-names"></a>
+<h4><code>-local-names</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of local variables.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-method-names"></a>
+<h4><code>-method-names</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of methods.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outfilenameXXXXXXXXXXX"></a>
+<h4><code>-out filename</code></h4>
+
+<blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-timeXXXXXXXXXX"></a>
+<h4><code>-time</code></h4>
+
+<blockquote>
+
+<p>
+Prints how long it took to run the command.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-verbose[filename]XXXXXXXXX"></a>
+<h4><code>-verbose [filename]</code></h4>
+
+<blockquote>
+
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>System.out</code></td></tr>
+</table>
+
+</blockquote>
+
+<a name="-versionXXXXXXXXXX"></a>
+<h4><code>-version</code></h4>
+
+<blockquote>
+
+<p>
+Prints version information.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+File names for JAR files, Zip files, and <code>.class</code> files for the tool to read.
+You can also give directory names, the tool will search it for <code>.class</code> files
+and read them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>Current directory, "<code>.</code>"</td></tr>
+</table>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+List of fully qualified class name and method and field signatures, one per
+line, for all the classes the tool could find.  For parameter names and local
+variable names, the fully qualified name of the owning method is given first,
+followed by a colon, then a space, then the parameter or varialble's name, in
+alphabetical order.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h3>Examples</h3>
+
+<blockquote>
+
+<pre>
+    ListSymbols classes\test.class
+    test
+    test.main(java.lang.String[])
+    test.main(java.lang.String[]): args
+    test.main(java.lang.String[]): c
+    test.main(java.lang.String[]): ex
+    test.test()
+    test.test(): this
+</pre>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>com.jeantessier.dependencyfinder.cli.ListSymbols</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="ListUnused"></a>
 <h2>ListUnused</h2>
 
 <blockquote>
@@ -8855,7 +8894,7 @@ Lists programming elements that have no inbound dependencies.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -8864,7 +8903,7 @@ Lists programming elements that have no inbound dependencies.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -8888,12 +8927,12 @@ are not in reality.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -8914,7 +8953,7 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXXX" />
+<a name="-outoutput_file.txtXXXXXXXX"></a>
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -8937,7 +8976,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -8948,7 +8987,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -8959,7 +8998,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -8992,7 +9031,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -9003,7 +9042,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -9016,7 +9055,7 @@ Running this tool on that graph yields this output:
 
 <hr />
 
-<a name="MetricsToHTML" />
+<a name="MetricsToHTML"></a>
 <h2>MetricsToHTML</h2>
 
 <blockquote>
@@ -9027,7 +9066,7 @@ Translates the whole report to HTML.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -9036,7 +9075,7 @@ Translates the whole report to HTML.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -9049,12 +9088,12 @@ anchors inside the HTML.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -9073,7 +9112,7 @@ such as the output of <a href="#OOMetrics">OOMetrics</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXXX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -9096,7 +9135,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -9107,7 +9146,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -9118,7 +9157,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -9133,7 +9172,7 @@ To convert the metrics report in <code>metrics.xml</code> to a hyperlinked HTML 
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -9144,7 +9183,7 @@ To convert the metrics report in <code>metrics.xml</code> to a hyperlinked HTML 
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -9157,7 +9196,7 @@ To convert the metrics report in <code>metrics.xml</code> to a hyperlinked HTML 
 
 <hr />
 
-<a name="MetricsToText" />
+<a name="MetricsToText"></a>
 <h2>MetricsToText</h2>
 
 <blockquote>
@@ -9168,7 +9207,7 @@ Translates the whole report to text.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -9177,7 +9216,7 @@ Translates the whole report to text.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -9194,12 +9233,12 @@ and finally by all methods.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -9218,7 +9257,7 @@ such as the output of <a href="#OOMetrics">OOMetrics</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXXXX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -9241,7 +9280,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -9252,7 +9291,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -9263,7 +9302,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -9278,7 +9317,7 @@ To convert the dependency graph in <code>metrics.xml</code> to a text file:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -9289,7 +9328,7 @@ To convert the dependency graph in <code>metrics.xml</code> to a text file:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -9302,7 +9341,7 @@ To convert the dependency graph in <code>metrics.xml</code> to a text file:
 
 <hr />
 
-<a name="OOMetrics" />
+<a name="OOMetrics"></a>
 <h2>OOMetrics</h2>
 
 <blockquote>
@@ -9313,7 +9352,7 @@ Computes object-oriented metrics on a codebase.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -9351,7 +9390,7 @@ Computes object-oriented metrics on a codebase.
 	[filename ...]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -9365,12 +9404,12 @@ project level.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-allXXX" />
+<a name="-allXX"></a>
 <h4><code>-all</code></h4>
 
 <blockquote>
@@ -9394,7 +9433,7 @@ Shorthand for the combination of:
 
 </blockquote>
 
-<a name="-classes" />
+<a name="-classes"></a>
 <h4><code>-classes</code></h4>
 
 <blockquote>
@@ -9411,7 +9450,7 @@ Include class-related metrics.
 
 </blockquote>
 
-<a name="-configurationfilename" />
+<a name="-configurationfilename"></a>
 <h4><code>-configuration filename</code></h4>
 
 <blockquote>
@@ -9430,7 +9469,7 @@ It also includes instruction on how to customize it.
 
 </blockquote>
 
-<a name="-csv" />
+<a name="-csv"></a>
 <h4><code>-csv</code></h4>
 
 <blockquote>
@@ -9448,7 +9487,7 @@ Excel and charting.
 
 </blockquote>
 
-<a name="-default-configurationfilename" />
+<a name="-default-configurationfilename"></a>
 <h4><code>-default-configuration filename</code></h4>
 
 <blockquote>
@@ -9468,7 +9507,7 @@ default configuration in
 
 </blockquote>
 
-<a name="-dtd-prefixuriXXXXXXX" />
+<a name="-dtd-prefixuriXXXXXXX"></a>
 <h4><code>-dtd-prefix uri</code></h4>
 
 <blockquote>
@@ -9486,7 +9525,7 @@ Only useful with <code>-xml</code>.
 
 </blockquote>
 
-<a name="-encodingnameXXXXXXX" />
+<a name="-encodingnameXXXXXXX"></a>
 <h4><code>-encoding name</code></h4>
 
 <blockquote>
@@ -9503,7 +9542,7 @@ The encoding used for the XML output document.  Only useful with <code>-xml</cod
 
 </blockquote>
 
-<a name="-expand" />
+<a name="-expand"></a>
 <h4><code>-expand</code></h4>
 
 <blockquote>
@@ -9521,7 +9560,7 @@ measurements.
 
 </blockquote>
 
-<a name="-filter-excludes-listfilenameX" />
+<a name="-filter-excludes-listfilenameX"></a>
 <h4><code>-filter-excludes-list filename</code></h4>
 
 <blockquote>
@@ -9545,7 +9584,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-filter-includes-listfilenameX" />
+<a name="-filter-includes-listfilenameX"></a>
 <h4><code>-filter-includes-list filename</code></h4>
 
 <blockquote>
@@ -9568,7 +9607,7 @@ If there are multiples of this switch, the name must match at least one of them.
 
 </blockquote>
 
-<a name="-groups" />
+<a name="-groups"></a>
 <h4><code>-groups</code></h4>
 
 <blockquote>
@@ -9585,7 +9624,7 @@ Include group- and package-related metrics.
 
 </blockquote>
 
-<a name="-helpXXXXXXXXXXX" />
+<a name="-helpXXXXXXXXXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -9602,7 +9641,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-indent-texttextXXXXXXX" />
+<a name="-indent-texttextXXXXXXX"></a>
 <h4><code>-indent-text text</code></h4>
 
 <blockquote>
@@ -9619,7 +9658,7 @@ Uses <i>text</i> for each indentation level in textual and XML output.
 
 </blockquote>
 
-<a name="-methods" />
+<a name="-methods"></a>
 <h4><code>-methods</code></h4>
 
 <blockquote>
@@ -9636,7 +9675,7 @@ Include method-related metrics.
 
 </blockquote>
 
-<a name="-outprefix" />
+<a name="-outprefix"></a>
 <h4><code>-out prefix</code></h4>
 
 <blockquote>
@@ -9655,7 +9694,7 @@ If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-project" />
+<a name="-project"></a>
 <h4><code>-project</code></h4>
 
 <blockquote>
@@ -9672,7 +9711,7 @@ Include project-related metrics.
 
 </blockquote>
 
-<a name="-project-namevalue" />
+<a name="-project-namevalue"></a>
 <h4><code>-project-name value</code></h4>
 
 <blockquote>
@@ -9689,7 +9728,7 @@ Project name for the report.
 
 </blockquote>
 
-<a name="-reverse" />
+<a name="-reverse"></a>
 <h4><code>-reverse</code></h4>
 
 <blockquote>
@@ -9706,7 +9745,7 @@ When used with <code>-sort</code>, sorts in descending order.
 
 </blockquote>
 
-<a name="-scope-excludes-listfilenameX" />
+<a name="-scope-excludes-listfilenameX"></a>
 <h4><code>-scope-excludes-list filename</code></h4>
 
 <blockquote>
@@ -9728,7 +9767,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
-<a name="-scope-includes-listfilenameX" />
+<a name="-scope-includes-listfilenameX"></a>
 <h4><code>-scope-includes-list filename</code></h4>
 
 <blockquote>
@@ -9750,7 +9789,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-show-all-metrics" />
+<a name="-show-all-metrics"></a>
 <h4><code>-show-all-metrics</code></h4>
 
 <blockquote>
@@ -9769,7 +9808,7 @@ such as inbound dependencies.
 
 </blockquote>
 
-<a name="-show-empty-metrics" />
+<a name="-show-empty-metrics"></a>
 <h4><code>-show-empty-metrics</code></h4>
 
 <blockquote>
@@ -9786,7 +9825,7 @@ Includes entries where analysis didn't gather any information.
 
 </blockquote>
 
-<a name="-show-hidden-measurements" />
+<a name="-show-hidden-measurements"></a>
 <h4><code>-show-hidden-measurements</code></h4>
 
 <blockquote>
@@ -9805,7 +9844,7 @@ configuration and tracking the flow of information.
 
 </blockquote>
 
-<a name="-sortname" />
+<a name="-sortname"></a>
 <h4><code>-sort name</code></h4>
 
 <blockquote>
@@ -9824,7 +9863,7 @@ ascending order of package, class, or method name (fully qualified).
 
 </blockquote>
 
-<a name="-timeXXXXXXXXXX" />
+<a name="-timeXXXXXXXXXXX"></a>
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -9841,7 +9880,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-txt" />
+<a name="-txt"></a>
 <h4><code>-txt</code></h4>
 
 <blockquote>
@@ -9858,7 +9897,7 @@ Writes a single text report with all requested sections.
 
 </blockquote>
 
-<a name="-validateXXX" />
+<a name="-validateXXX"></a>
 <h4><code>-validate</code></h4>
 
 <blockquote>
@@ -9875,7 +9914,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXXXX" />
+<a name="-verbose[filename]XXXXXXXXXX"></a>
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -9893,7 +9932,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXXXXXXXXXX" />
+<a name="-versionXXXXXXXXXXX"></a>
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -9910,7 +9949,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="-xmlXXXX" />
+<a name="-xmlXXXX"></a>
 <h4><code>-xml</code></h4>
 
 <blockquote>
@@ -9930,7 +9969,7 @@ Writes the metrics report as an XML document with the
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -9949,7 +9988,7 @@ and read them.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -9984,7 +10023,7 @@ extension.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -10007,7 +10046,7 @@ To list only package-level metrics from <code>MartinConfig.xml</code> as CSV in 
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -10020,7 +10059,7 @@ To list only package-level metrics from <code>MartinConfig.xml</code> as CSV in 
 
 <hr />
 
-<a name="OOMetricsGUI" />
+<a name="OOMetricsGUI"></a>
 <h2>OOMetricsGUI</h2>
 
 <blockquote>
@@ -10031,7 +10070,7 @@ A Swing-based version of <a href="#OOMetrics">OOMetrics</a>.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -10042,7 +10081,7 @@ A Swing-based version of <a href="#OOMetrics">OOMetrics</a>.
     	[-validate]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -10062,12 +10101,12 @@ See also:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-configurationfilenameX" />
+<a name="-configurationfilenameX"></a>
 <h4><code>-configuration filename</code></h4>
 
 <blockquote>
@@ -10086,7 +10125,7 @@ It also includes instruction on how to customize it.
 
 </blockquote>
 
-<a name="-default-configurationfilenameX" />
+<a name="-default-configurationfilenameX"></a>
 <h4><code>-default-configuration filename</code></h4>
 
 <blockquote>
@@ -10106,7 +10145,7 @@ default configuration in
 
 </blockquote>
 
-<a name="-helpXXXXXXXXXXXX" />
+<a name="-helpXXXXXXXXXXXXX"></a>
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -10123,7 +10162,7 @@ Prints synopsis.
 
 </blockquote>
 
-<a name="-validateXXXX" />
+<a name="-validateXXXX"></a>
 <h4><code>-validate</code></h4>
 
 <blockquote>
@@ -10142,7 +10181,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -10153,7 +10192,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -10164,7 +10203,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -10175,7 +10214,7 @@ See the <a href="Manual.html">user manual</a>.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -10188,7 +10227,7 @@ See the <a href="Manual.html">user manual</a>.
 
 <hr />
 
-<a name="PublishedDiffToHTML" />
+<a name="PublishedDiffToHTML"></a>
 <h2>PublishedDiffToHTML</h2>
 
 <blockquote>
@@ -10200,7 +10239,7 @@ the <i>published</i> interface, the one that you expose to your customers.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -10210,7 +10249,7 @@ the <i>published</i> interface, the one that you expose to your customers.
     	[-param validation-list list.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -10230,12 +10269,12 @@ by setting the validation-list parameter to XSLT:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -10254,7 +10293,7 @@ such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXXXXX"></a>
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -10275,7 +10314,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="-paramvalidation-listlist.txt" />
+<a name="-paramvalidation-listlist.txt"></a>
 <h4><code>-param validation-list list.txt</code></h4>
 
 <blockquote>
@@ -10296,7 +10335,7 @@ public and all protected elements.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -10307,7 +10346,7 @@ public and all protected elements.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -10318,7 +10357,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -10344,7 +10383,7 @@ Here is a larger example with a defined published documentation:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -10355,7 +10394,7 @@ Here is a larger example with a defined published documentation:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXXXXXXXXX"></a>
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -10368,7 +10407,7 @@ Here is a larger example with a defined published documentation:
 
 <hr />
 
-<a name="XSLTProcess" />
+<a name="XSLTProcess"></a>
 <h2>XSLTProcess</h2>
 
 <blockquote>
@@ -10379,7 +10418,7 @@ Applies an XSL stylesheet to an XML document.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Synopsis</h3>
 
 <pre>
@@ -10389,7 +10428,7 @@ Applies an XSL stylesheet to an XML document.
 	-xsl stylesheet.xsl
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Description</h3>
 
 <blockquote>
@@ -10402,12 +10441,12 @@ appropriate <code>-xsl</code> value.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXX"></a>
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -10425,7 +10464,7 @@ compatible with the stylesheet specified with <code>-xsl</code>.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXXXXXX" />
+<a name="-outfilenameXXXXXXXXXXXX"></a>
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -10447,7 +10486,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="-xslstylesheet.xsl" />
+<a name="-xslstylesheet.xsl"></a>
 <h4><code>-xsl stylesheet.xsl</code></h4>
 
 <blockquote>
@@ -10466,7 +10505,7 @@ The XSL transformation to apply to the XML document specified with <code>-in</co
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Parameters</h3>
 
 <blockquote>
@@ -10477,7 +10516,7 @@ None.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Output</h3>
 
 <blockquote>
@@ -10488,7 +10527,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Examples</h3>
 
 <blockquote>
@@ -10503,7 +10542,7 @@ Instead of using <a href="#DependablesToHTML">DependablesToHTML</a>, you can use
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
 <h3>Class</h3>
 
 <blockquote>
@@ -10516,7 +10555,7 @@ Instead of using <a href="#DependablesToHTML">DependablesToHTML</a>, you can use
 
 <hr />
 
-<a name="c2c" />
+<a name="c2c"></a>
 <h2>c2c</h2>
 
 <blockquote>
@@ -10529,7 +10568,7 @@ Same as "<code>DependencyReporter -c2c</code>".
 
 <hr />
 
-<a name="c2p" />
+<a name="c2p"></a>
 <h2>c2p</h2>
 
 <blockquote>
@@ -10542,7 +10581,7 @@ Same as "<code>DependencyReporter -c2p</code>".
 
 <hr />
 
-<a name="f2f" />
+<a name="f2f"></a>
 <h2>f2f</h2>
 
 <blockquote>
@@ -10555,7 +10594,7 @@ Same as "<code>DependencyReporter -f2f</code>".
 
 <hr />
 
-<a name="p2p" />
+<a name="p2p"></a>
 <h2>p2p</h2>
 
 <blockquote>

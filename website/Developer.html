@@ -13,6 +13,10 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
+For Dependency Finder version 1.1.0.
+</p>
+
+<p>
 by Jean Tessier
 </p>
 
@@ -63,16 +67,6 @@ by Jean Tessier
 <li><a href="#OOMetrics">OO Metrics</a></li>
 <ul>
 <li><a href="#DataStructure">Data Structure</a></li>
-<li><a href="#Dependency-RelatedMetrics">Dependency-Related Metrics</a></li>
-<ul>
-<li><a href="#Intra-PackageMethod-to-Class">Intra-Package Method-to-Class</a></li>
-<li><a href="#Extra-PackageMethod-to-Class">Extra-Package Method-to-Class</a></li>
-<li><a href="#Intra-PackageClass-to-Class">Intra-Package Class-to-Class</a></li>
-<li><a href="#Extra-PackageClass-to-Class">Extra-Package Class-to-Class</a></li>
-<li><a href="#Intra-ClassMethod-to-Method">Intra-Class Method-to-Method</a></li>
-<li><a href="#Intra-PackageMethod-to-Method">Intra-Package Method-to-Method</a></li>
-<li><a href="#Extra-PackageMethod-to-Method">Extra-Package Method-to-Method</a></li>
-</ul>
 </ul>
 <li><a href="#APIDifferencesX">API Differences</a></li>
 <li><a href="#Command-LineParsing">Command-Line Parsing</a></li>
@@ -87,44 +81,44 @@ by Jean Tessier
 
 <hr />
 
-<a name="Introduction" />
+<a name="Introduction"></a>
 <h2>Introduction</h2>
 
 <hr />
 
-<a name="Installation" />
+<a name="Installation"></a>
 <h2>Installation</h2>
-<a name="JavaApplication" />
+<a name="JavaApplication"></a>
 <h3>Java Application</h3>
-<a name="JAVA_HOME" />
+<a name="JAVA_HOME"></a>
 <h4><code>JAVA_HOME</code></h4>
-<a name="DEPENDENCYFINDER_HOME" />
+<a name="DEPENDENCYFINDER_HOME"></a>
 <h4><code>DEPENDENCYFINDER_HOME</code></h4>
-<a name="DEPENDENCYFINDER_OPTS" />
+<a name="DEPENDENCYFINDER_OPTS"></a>
 <h4><code>DEPENDENCYFINDER_OPTS</code></h4>
-<a name="DEPENDENCYFINDER_CONSOLE" />
+<a name="DEPENDENCYFINDER_CONSOLE"></a>
 <h4><code>DEPENDENCYFINDER_CONSOLE</code></h4>
-<a name="WebApplication" />
+<a name="WebApplication"></a>
 <h3>Web Application</h3>
-<a name="web.xml" />
+<a name="web.xml"></a>
 <h4><code>web.xml</code></h4>
 
 <hr />
 
-<a name="HistoryBehindDependencyFinder" />
+<a name="HistoryBehindDependencyFinder"></a>
 <h2>History Behind Dependency Finder</h2>
-<a name="ClassFiles" />
+<a name="ClassFiles"></a>
 <h3>Class Files</h3>
-<a name="Dependencies" />
+<a name="Dependencies"></a>
 <h3>Dependencies</h3>
-<a name="Metrics" />
+<a name="Metrics"></a>
 <h3>Metrics</h3>
-<a name="APIDifferences" />
+<a name="APIDifferences"></a>
 <h3>API Differences</h3>
 
 <hr />
 
-<a name="ContributingtoDependencyFinder" />
+<a name="ContributingtoDependencyFinder"></a>
 <h2>Contributing to Dependency Finder</h2>
 
 <p>
@@ -141,7 +135,7 @@ there are two ways you can share it with the world and help Dependency Finder
 (and yourself too).
 </p>
 
-<a name="SeparateProject" />
+<a name="SeparateProject"></a>
 <h3>Separate Project</h3>
 
 <p>
@@ -165,7 +159,7 @@ you project on the Dependency Finder website.  This way, we both help each
 other.
 </p>
 
-<a name="Assimilation" />
+<a name="Assimilation"></a>
 <h3>Assimilation</h3>
 
 <p>
@@ -180,7 +174,7 @@ Dependency Finder website and in some of the documentation, but most likely
 nowhere in the code itself.
 </p>
 
-<a name="Money" />
+<a name="Money"></a>
 <h3>Money</h3>
 
 <p>
@@ -194,7 +188,7 @@ or three ...
 
 <hr />
 
-<a name="ClassFilesX" />
+<a name="ClassFilesX"></a>
 <h2>Class Files</h2>
 
 <p>
@@ -203,7 +197,7 @@ Java code.  You feed <code>.class</code> files to a <code>ClassfileLoader</code>
 instances of <code>Classfile</code> back.
 </p>
 
-<a name="ClassfileLoader" />
+<a name="ClassfileLoader"></a>
 <h3><code>ClassfileLoader</code></h3>
 
 <p>
@@ -268,7 +262,7 @@ the <code>Classfile</code> instances remain in memory, while the second kind han
 various input file types.
 </p>
 
-<a name="Visitor" />
+<a name="Visitor"></a>
 <h3><code>Visitor</code></h3>
 
 <p>
@@ -283,7 +277,7 @@ pattern to traverse <code>Classfile</code> instances.
 
 <hr />
 
-<a name="DependenciesX" />
+<a name="DependenciesX"></a>
 <h2>Dependencies</h2>
 
 <p>
@@ -343,7 +337,7 @@ The third one comes from analyzing the signature of <code>print()</code>, <b>not
 <code>"abcd"</code>.  The last one comes from looking at exception handlers. 
 </p>
 
-<a name="VisitorX" />
+<a name="VisitorX"></a>
 <h3><code>Visitor</code></h3>
 
 <p>
@@ -388,7 +382,7 @@ In some cases, you can easily limit your processing to calls to
 <code>VisitOutbound[Package|Class|Feature]Node()</code> and cover everything. 
 </p>
 
-<a name="VisitorandTraversalStrategy" />
+<a name="VisitorandTraversalStrategy"></a>
 <h4><code>Visitor</code> and <code>TraversalStrategy</code></h4>
 
 <p>
@@ -602,7 +596,7 @@ order.
 
 <hr />
 
-<a name="OOMetrics" />
+<a name="OOMetrics"></a>
 <h2>OO Metrics</h2>
 
 <p>
@@ -626,7 +620,7 @@ caches through the API and you can turn off caching of individual
 measurements through their descriptor and in the configuration file.
 </p>
 
-<a name="DataStructure" />
+<a name="DataStructure"></a>
 <h3>Data Structure</h3>
 
 <div align="center">
@@ -634,402 +628,9 @@ measurements through their descriptor and in the configuration file.
     <img src="images/MetricsStructure.gif" /><br />
 </div>
 
-<a name="Dependency-RelatedMetrics" />
-<h3>Dependency-Related Metrics</h3>
-
-<table><tr><td colspan="3">
-
-<a name="Intra-PackageMethod-to-Class" />
-<h4>Intra-Package Method-to-Class</h4>
-
-<p>
-Dependency from a method to another class in the same package.
-</p>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    package p;
-</pre>
-    
-<pre>
-    public class A {
-        public void a(B b) {
-        }
-    }
-</pre>
-
-</td><td valign="top"
-         align="center"
-         rowspan="2">
-<img src="images/OIPC-IIPM.gif" /><br />
-</td><td valign="top">
-
-<pre>
-    package p;
-</pre>
-    
-<pre>
-    public class B {
-    }
-</pre>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    p.A.a(B)
-        OIPC: 1
-            p.B
-</pre>
-
-</td><td valign="top">
-
-<pre>
-    p.B
-        IIPM: 1
-            p.A.a(B)
-</pre>
-
-</td></tr><tr><td colspan="3">
-
-<a name="Extra-PackageMethod-to-Class" />
-<h4>Extra-Package Method-to-Class</h4>
-
-<p>
-Dependency from a method to another class in another package.
-</p>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    package a;
-</pre>
-    
-<pre>
-    import b.*;
-</pre>
-    
-<pre>
-    public class A {
-        public void a(B b) {
-        }
-    }
-</pre>
-
-</td><td valign="top"
-         align="center"
-         rowspan="2">
-<img src="images/OEPC-IEPM.gif" /><br />
-</td><td valign="top">
-
-<pre>
-    package b;
-</pre>
-    
-<pre>
-    public class B {
-    }
-</pre>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    a.A.a(B)
-        OEPC: 1
-            p.B
-</pre>
-
-</td><td valign="top">
-
-<pre>
-    b.B
-        IEPM: 1
-            a.A.a(B)
-</pre>
-
-</td></tr><tr><td colspan="3">
-
-<a name="Intra-PackageClass-to-Class" />
-<h4>Intra-Package Class-to-Class</h4>
-
-<p>
-Dependency from a class to another class in the same package.
-</p>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    package p;
-</pre>
-    
-<pre>
-    public class A extends B {
-    }
-</pre>
-
-</td><td valign="top"
-         align="center"
-         rowspan="2">
-<img src="images/OIP-IIP.gif" /><br />
-</td><td valign="top">
-
-<pre>
-    package p;
-</pre>
-    
-<pre>
-    public class B {
-    }
-</pre>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    p.A
-        OIP: 1
-            p.B
-</pre>
-
-</td><td valign="top">
-
-<pre>
-    p.B
-        IIP: 1
-            p.A
-</pre>
-
-</td></tr><tr><td colspan="3">
-
-<a name="Extra-PackageClass-to-Class" />
-<h4>Extra-Package Class-to-Class</h4>
-
-<p>
-Dependency from a class to another class in another package.
-</p>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    package a;
-</pre>
-    
-<pre>
-    import b.*;
-</pre>
-    
-<pre>
-    public class A extends B {
-    }
-</pre>
-
-</td><td valign="top"
-         align="center"
-         rowspan="2">
-<img src="images/OEP-IEP.gif" /><br />
-</td><td valign="top">
-
-<pre>
-    package b;
-</pre>
-    
-<pre>
-    public class B {
-    }
-</pre>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    a.A
-        OEP: 1
-            b.B
-</pre>
-
-</td><td valign="top">
-
-<pre>
-    b.B
-        IEP: 1
-            a.A
-</pre>
-
-</td></tr><tr><td colspan="3">
-
-<a name="Intra-ClassMethod-to-Method" />
-<h4>Intra-Class Method-to-Method</h4>
-
-<p>
-Dependency from a method to another method in the same class.
-</p>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    package p;
-</pre>
-    
-<pre>
-    public class C {
-        public void a() {
-            b();
-        }
-    }
-</pre>
-
-</td><td valign="top"
-         align="center"
-         rowspan="2">
-<img src="images/OICF-IICM.gif" /><br />
-</td><td valign="top">
-
-<pre>
-    package p;
-</pre>
-    
-<pre>
-    public class C {
-        public void b() {
-        }
-    }
-</pre>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    p.C.a()
-        OICF: 1
-            p.C.b()
-</pre>
-
-</td><td valign="top">
-
-<pre>
-    p.C.b()
-        IICM: 1
-            p.C.a()
-</pre>
-
-</td></tr><tr><td colspan="3">
-
-<a name="Intra-PackageMethod-to-Method" />
-<h4>Intra-Package Method-to-Method</h4>
-
-<p>
-Dependency from a method to another method in another class in the same package.
-</p>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    package p;
-</pre>
-    
-<pre>
-    public class A {
-        public void a() {
-            b.b();
-        }
-    }
-</pre>
-
-</td><td valign="top"
-         align="center"
-         rowspan="2">
-<img src="images/OIPF-IIPM.gif" /><br />
-</td><td valign="top">
-
-<pre>
-    package p;
-</pre>
-    
-<pre>
-    public class B {
-        public void b() {
-        }
-    }
-</pre>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    p.A.a()
-        OIPF: 1
-            p.B.b()
-</pre>
-
-</td><td valign="top">
-
-<pre>
-    p.B.b()
-        IIPM: 1
-            p.A.a()
-</pre>
-
-</td></tr><tr><td colspan="3">
-
-<a name="Extra-PackageMethod-to-Method" />
-<h4>Extra-Package Method-to-Method</h4>
-
-<p>
-Dependency from a method to another method in another class in another package.
-</p>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    package a;
-</pre>
-    
-<pre>
-    import b.*;
-</pre>
-    
-<pre>
-    public class A {
-        public void a() {
-            b.b();
-        }
-    }
-</pre>
-
-</td><td valign="top"
-         align="center"
-         rowspan="2">
-<img src="images/OEPF-IEPM.gif" /><br />
-</td><td valign="top">
-
-<pre>
-    package b;
-</pre>
-    
-<pre>
-    public class B {
-        public void b() {
-        }
-    }
-</pre>
-
-</td></tr><tr><td valign="top">
-
-<pre>
-    a.A.a()
-        OEPF: 1
-            b.B.b()
-</pre>
-
-</td><td valign="top">
-
-<pre>
-    b.B.b()
-        IEPM: 1
-            a.A.a()
-</pre>
-
-</td></tr></table>
-
 <hr />
 
-<a name="APIDifferencesX" />
+<a name="APIDifferencesX"></a>
 <h2>API Differences</h2>
 
 <p>
@@ -1052,7 +653,7 @@ then at the feature level.
 
 <hr />
 
-<a name="Command-LineParsing" />
+<a name="Command-LineParsing"></a>
 <h2>Command-Line Parsing</h2>
 
 <p>
@@ -1145,14 +746,14 @@ retrieve parameters, if any, with the <code>Parameters()</code> method.
 
 <hr />
 
-<a name="BuildingDependencyFinder" />
+<a name="BuildingDependencyFinder"></a>
 <h2>Building Dependency Finder</h2>
 
 <pre>
     C:\>ant
 </pre>
 
-<a name="CompilingaBuild" />
+<a name="CompilingaBuild"></a>
 <h3>Compiling a Build</h3>
 
 <pre>
@@ -1171,7 +772,7 @@ or
     C:\>ant realclean src docs dist war
 </pre>
 
-<a name="TestingtheBuild" />
+<a name="TestingtheBuild"></a>
 <h3>Testing the Build</h3>
 
 <pre>
@@ -1179,7 +780,7 @@ or
     C:\>textjunit TestAll
 </pre>
 
-<a name="MakingaRelease" />
+<a name="MakingaRelease"></a>
 <h3>Making a Release</h3>
 
 <ol>
@@ -1192,7 +793,8 @@ or
 <li>Close bugs</li>
 <li>Close feature requests</li>
 <li>New news item</li>
-<li>Post to news groups (<code>comp.lang.java</code>, <code>comp.lang.java.announce</code>, <code>comp.lang.java.softwaretools</code>, <code>comp.software.measurement</code>, <code>comp.software-eng</code>)</li>
+<li>Post to depfind-announce</li>
+<li>Post to news groups (<code>comp.lang.java.announce</code>, <code>comp.lang.java.softwaretools</code>, <code>comp.software.measurement</code>, <code>comp.software-eng</code>)</li>
 <li>Generate sample files</li>
 </ol>
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-101" endDate="2004-12-22 09:33:25" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-101" endTag="release-110" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -10,7 +10,7 @@
 	<entry>
 		<file>
 			<name>cvs.properties</name>
-			<revision>1.3</revision>
+			<revision>1.4</revision>
 		</file>
 	</entry>
 	<entry>

@@ -44,13 +44,15 @@
 
 <!ELEMENT name (#PCDATA) >
 
-<!ELEMENT measurement (short-name, long-name, (value | (minimum, median, average, standard-deviation?, maximum, sum, nb-data-points))) >
+<!ELEMENT measurement (short-name, long-name, value, (members? | (minimum, median, average, standard-deviation, maximum, sum, nb-data-points))) >
 
 <!ELEMENT short-name (#PCDATA) >
 
 <!ELEMENT long-name (#PCDATA) >
 
 <!ELEMENT value (#PCDATA) >
+
+<!ELEMENT members (members*) >
 
 <!ELEMENT minimum (#PCDATA) >
 
@@ -65,3 +67,5 @@
 <!ELEMENT sum (#PCDATA) >
 
 <!ELEMENT nb-data-points (#PCDATA) >
+
+<!ELEMENT member (#PCDATA) >

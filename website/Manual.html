@@ -13,6 +13,10 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
+For Dependency Finder version 1.1.0.
+</p>
+
+<p>
 by Jean Tessier
 </p>
 
@@ -92,12 +96,36 @@ by Jean Tessier
 <li><a href="#ShowingBothInboundsAndOutboundDependencies">Showing Both Inbounds And Outbound Dependencies</a></li>
 <li><a href="#Summary">Summary</a></li>
 </ul>
+<li><a href="#DealingwithaVeryLargeCodebase">Dealing with a Very Large Codebase</a></li>
+<ul>
+<li><a href="#BreaktheCodebase">Break the Codebase</a></li>
+<li><a href="#AnalyzeEachPart">Analyze Each Part</a></li>
+<li><a href="#ReduceEachGraph">Reduce Each Graph</a></li>
+<li><a href="#CombineThemBackTogether">Combine Them Back Together</a></li>
+</ul>
 <li><a href="#TransitiveClosure">Transitive Closure</a></li>
 <li><a href="#DependencyMetrics">Dependency Metrics</a></li>
 </ul>
 <li><a href="#OOMetrics">OO Metrics</a></li>
 <ul>
 <li><a href="#Explanation">Explanation</a></li>
+<ul>
+<li><a href="#BasicMethodMeasurements">Basic Method Measurements</a></li>
+<li><a href="#BasicClassMeasurements">Basic Class Measurements</a></li>
+<li><a href="#BasicGroupMeasurements">Basic Group Measurements</a></li>
+<li><a href="#BasicProjectMeasurements">Basic Project Measurements</a></li>
+</ul>
+<li><a href="#Dependency-RelatedMetrics">Dependency-Related Metrics</a></li>
+<ul>
+<li><a href="#Intra-PackageMethod-to-Class">Intra-Package Method-to-Class</a></li>
+<li><a href="#Extra-PackageMethod-to-Class">Extra-Package Method-to-Class</a></li>
+<li><a href="#Intra-PackageClass-to-Class">Intra-Package Class-to-Class</a></li>
+<li><a href="#Extra-PackageClass-to-Class">Extra-Package Class-to-Class</a></li>
+<li><a href="#Intra-ClassMethod-to-Method">Intra-Class Method-to-Method</a></li>
+<li><a href="#Intra-PackageMethod-to-Method">Intra-Package Method-to-Method</a></li>
+<li><a href="#Extra-PackageMethod-to-Method">Extra-Package Method-to-Method</a></li>
+</ul>
+<li><a href="#TypesofMeasurements">Types of Measurements</a></li>
 <li><a href="#ExtractingX">Extracting</a></li>
 <ul>
 <li><a href="#ExtractingWiththeGUIX">Extracting With the GUI</a></li>
@@ -123,6 +151,10 @@ by Jean Tessier
 <li><a href="#BringingItAllTogether">Bringing It All Together</a></li>
 <ul>
 <li><a href="#TrackingDependenciesOnDeprecatedSymbols">Tracking Dependencies On Deprecated Symbols</a></li>
+<ul>
+<li><a href="#UsingaDependencyGraph">Using a Dependency Graph</a></li>
+<li><a href="#UsingDependency-RelatedMetrics">Using Dependency-Related Metrics</a></li>
+</ul>
 <li><a href="#NarrowingAPIDifferencestoActuallyUsedAPI">Narrowing API Differences to Actually Used API</a></li>
 <li><a href="#ComputingtheD'Metric">Computing the D' Metric</a></li>
 </ul>
@@ -132,7 +164,7 @@ by Jean Tessier
 
 <hr />
 
-<a name="Introduction" />
+<a name="Introduction"></a>
 <h2>Introduction</h2>
 
 <p>
@@ -169,7 +201,7 @@ to assertain the impact changes might have on your customers.  You can even
 use it to monitor the evolution of your own software.
 </p>
 
-<a name="HistoryBehindDependencyFinder" />
+<a name="HistoryBehindDependencyFinder"></a>
 <h3>History Behind Dependency Finder</h3>
 
 <p>
@@ -209,18 +241,18 @@ application to keep the data in memory and play with it a while.
 
 <hr />
 
-<a name="Installation" />
+<a name="Installation"></a>
 <h2>Installation</h2>
 
-<a name="JavaApplicationonWindows" />
+<a name="JavaApplicationonWindows"></a>
 <h3>Java Application on Windows</h3>
 
 <p>
 Dependency Finder comes as a ZIP file that includes everything you need
-to run it.
+to run it.  The file is named <code>DependencyFinder-<i>&lt;version&gt;</i>.bin.zip</code>.
 </p>
 
-<a name="Step1:JavaVirtualMachine" />
+<a name="Step1:JavaVirtualMachine"></a>
 <h4>Step 1: Java Virtual Machine</h4>
 
 <p>
@@ -230,20 +262,20 @@ the <code>JAVA_HOME</code> environment variable.
 </p>
 
 <p>
-For example, if you installed JDK 1.3 in <code>C:\jdk1.3</code>:
+For example, if you installed JDK 1.4.2 in <code>C:\jdk1.4.2</code>:
 </p>
 
 <pre>
-    SET JAVA_HOME=C:\jdk1.3
+    SET JAVA_HOME=C:\jdk1.4.2
 </pre>
 
 <p>
-You can either add this line to your <code>AUTOEXEC.BAT</code> file, or on WinNT
-use Start | Settings | Control Panel | System and select the Environment
-tab to create and edit variables.
+You can either add this line to your <code>AUTOEXEC.BAT</code> file, or on Windows
+NT/XP, use Start | Settings | Control Panel | System and select the
+Environment tab to create and edit variables.
 </p>
 
-<a name="Step2:DeployDependencyFinder" />
+<a name="Step2:DeployDependencyFinder"></a>
 <h4>Step 2: Deploy Dependency Finder</h4>
 
 <p>
@@ -257,11 +289,11 @@ For example, if you extract it to <code>C:\</code>, you will endup with a
 directory called <code>C:\DependencyFinder\</code>.
 </p>
 
-<a name="Step3:EnvironmentVariables" />
+<a name="Step3:EnvironmentVariables"></a>
 <h4>Step 3: Environment Variables</h4>
 
-<i>This is only required on Win95/98.  Under WinNT, the scripts are smart
-enough to find out where you installed Dependency Finder on their own.</i>
+<i>This is only required on Win95/98.  Under Windows NT/XP, the scripts are
+smart enough to find out on their own where you installed Dependency Finder.</i>
 
 <p>
 Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it
@@ -277,12 +309,12 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </pre>
 
 <p>
-You can either enter this line in your <code>AUTOEXEC.BAT</code> file, or on WinNT
+You can either enter this line in your <code>AUTOEXEC.BAT</code> file, or on Windows NT/XP
 use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 </p>
 
-<a name="Step4:PATH" />
+<a name="Step4:PATH"></a>
 <h4>Step 4: <code>PATH</code></h4>
 
 <p>
@@ -297,7 +329,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
     SET PATH=C:\DependencyFinder\bin;%PATH%
 </pre>
 
-<a name="Step5:Reboot" />
+<a name="Step5:Reboot"></a>
 <h4>Step 5: Reboot</h4>
 
 <p>
@@ -309,12 +341,12 @@ Under Win95/98, you will need to reboot your computer for the changes to the
 environment to take effect.
 </p>
 
-<a name="Miscellaneous" />
+<a name="Miscellaneous"></a>
 <h4>Miscellaneous</h4>
 
 <p>
-If the VM runs out of memory, try setting the <code>DEPENDENCYFINDER_OPTS</code>
-environment variable.
+If the any of the tools run out of memory, try setting the
+<code>DEPENDENCYFINDER_OPTS</code> environment variable.
 </p>
 
 <pre>
@@ -344,21 +376,30 @@ type:
 for more details.
 </p>
 
-<a name="JavaApplicationonUnix" />
+<a name="JavaApplicationonUnix"></a>
 <h3>Java Application on Unix</h3>
 
 <p>
-At this time, Dependency Finder does not have shell scripts to launch any
-of the tools the way it does under DOS.
+Dependency Finder comes as one of two compressed TAR file that includes
+everything you need to run it.  The files are named
+<code>DependencyFinder-<i>&lt;version&gt;</i>.bin.tar.gz</code> and
+<code>DependencyFinder-<i>&lt;version&gt;</i>.bin.tar.bz2</code>.  Their contents are identical
+except of the compression algorithm used.
 </p>
 
-<a name="Step1:JavaVirtualMachineX" />
+<p>
+Tar files in the distribution contain long file names, and may require gnu tar
+to do the extraction.
+</p>
+
+<a name="Step1:JavaVirtualMachineX"></a>
 <h4>Step 1: Java Virtual Machine</h4>
 
 <p>
 You need to have a Java Virtual Machine installed.  You can get one for
 free from Linux or Solaris from <a href="http://java.sun.com/">Sun Microsytems</a>.
-Make sure you define the <code>JAVA_HOME</code> environment variable.
+Make sure you define the <code>JAVA_HOME</code> environment variable.  There are
+distributions of Java for most operating systems, including MacOS X.
 </p>
 
 <p>
@@ -366,13 +407,25 @@ Suppose you installed JDK 1.3 in <code>/usr/java</code>.
 </p>
 
 <p>
-For sh or bash:
+For sh:
 </p>
 
 <pre>
     JAVA_HOME=/usr/java
     export JAVA_HOME
 </pre>
+
+<p>
+For bash:
+</p>
+
+<pre>
+    export JAVA_HOME=/usr/java
+</pre>
+
+<p>
+You can put these lines in your <code>.profile</code> file.
+</p>
 
 <p>
 For csh or tcsh:
@@ -386,17 +439,25 @@ For csh or tcsh:
 You can put this line in your <code>.cshrc</code> file.
 </p>
 
-<a name="Step2:DeployDependencyFinderX" />
+<a name="Step2:DeployDependencyFinderX"></a>
 <h4>Step 2: Deploy Dependency Finder</h4>
 
 <p>
-Extract the ZIP file to some directory you like.  The extraction will
+Extract the TAR file to some directory you like.  The extraction will
 create a subdirectory named "DependencyFinder" that is the root of the
 package.
 </p>
 
 <pre>
-    $ unzip DependencyFinder.zip
+    $ tar xvzf DependencyFinder-<i>&lt;version&t;</i>.tar.gz
+</pre>
+
+<p>
+or
+</p>
+
+<pre>
+    $ bunzip2 DependencyFinder-<i>&lt;version&t;</i>.tar.bz2 | tar xvf -
 </pre>
 
 <p>
@@ -404,8 +465,11 @@ For example, if you extract it to <code>$HOME</code>, you will endup with a
 directory called <code>$HOME/DependencyFinder/</code>.
 </p>
 
-<a name="Step3:EnvironmentVariablesX" />
+<a name="Step3:EnvironmentVariablesX"></a>
 <h4>Step 3: Environment Variables</h4>
+
+<i>This is seldom required.  The scripts are smart enough to find out on their
+own where you installed Dependency Finder.</i>
 
 <p>
 Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it
@@ -413,16 +477,16 @@ point to the directory where you installed Dependency Finder.
 </p>
 
 <p>
-If the VM runs out of memory, try modifying the <code>DEPENDENCYFINDER_OPTS</code>
-environment variable to allocate more memory to the JVM.
+If the any of the tools run out of memory, try modifying the
+<code>DEPENDENCYFINDER_OPTS</code> environment variable to allocate more memory to the JVM.
 </p>
 
 <p>
-Suppose you extracted the ZIP file in <code>$HOME</code>.
+Suppose you extracted the TAR file in <code>$HOME</code>.
 </p>
 
 <p>
-For sh or bash:
+For sh:
 </p>
 
 <pre>
@@ -431,6 +495,19 @@ For sh or bash:
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
 </pre>
+
+<p>
+For bash:
+</p>
+
+<pre>
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
+    export DEPENDENCYFINDER_OPTS=-Xmx128m
+</pre>
+
+<p>
+You can put these lines in your <code>.profile</code> file.
+</p>
 
 <p>
 For csh or tcsh:
@@ -445,7 +522,7 @@ For csh or tcsh:
 You can put these lines in your <code>.cshrc</code> file.
 </p>
 
-<a name="Step4:PATHX" />
+<a name="Step4:PATHX"></a>
 <h4>Step 4: <code>PATH</code></h4>
 
 <p>
@@ -453,17 +530,29 @@ Add the directory where you put the Unix scripts to your <code>PATH</code> varia
 </p>
 
 <p>
-Suppose you extracted the ZIP file in <code>$HOME</code>.
+Suppose you extracted the TAR file in <code>$HOME</code>.
 </p>
 
 <p>
-For sh or bash:
+For sh:
 </p>
 
 <pre>
     PATH=$DEPENDENCYFINDER_HOME\bin;$PATH
     export PATH
 </pre>
+
+<p>
+For bash:
+</p>
+
+<pre>
+    export PATH=$DEPENDENCYFINDER_HOME\bin;$PATH
+</pre>
+
+<p>
+You can put these lines in your <code>.profile</code> file.
+</p>
 
 <p>
 For csh or tcsh:
@@ -477,46 +566,68 @@ For csh or tcsh:
 You can put this line in your <code>.cshrc</code> file.
 </p>
 
-<a name="WebApplication" />
+<a name="WebApplication"></a>
 <h3>Web Application</h3>
 
 <p>
 Dependency Finder also comes as a web application that you can easily deploy
-in just about any J2EE servlet container.
+in just about any J2EE servlet container.  Most containers have their own way
+to deploy and manage web applications, so you will need to adjust these
+instructions to your particular circumstances.
 </p>
 
-<a name="Step1:DeployWARFile" />
+<a name="Step1:DeployWARFile"></a>
 <h4>Step 1: Deploy WAR File</h4>
 
 <p>
 Use your favorite servlet container to deploy the WAR file.  Most of them
 have tools for deploying WAR files.  For some of them, it can be as simple
-as deploying the WAR file to a specific directory.
+as copying the WAR file to a specific directory.
 </p>
 
 <p>
-For instance, under Tomcat on Windows:
+For instance, using Tomcat on Windows, you can do the following:
 </p>
+
+<div class="highlight">
 
 <pre>
     C:\>%CATALINA_HOME%\bin\shutdown
+</pre>
+
+<pre>
     C:\>copy DependencyFinder.war %CATALINA_HOME%\webapps
+</pre>
+
+<pre>
     C:\>%CATALINA_HOME%\bin\startup
 </pre>
 
-<a name="Step2:Configureweb.xmlfile" />
+</div>
+
+<a name="Step2:Configureweb.xmlfile"></a>
 <h4>Step 2: Configure <code>web.xml</code> file</h4>
 
 <p>
-Next, you need to tell the wep application where to find the Java classes to
-extract dependencies from.  This is done via the <code>web.xml</code> file in the
-<code>WEB-INF\</code> directory.  Some application servers expose the content of this
-file through some form of user interface.  Under Tomcat, you have to edit
-the file yourself using a text editor.
+Next, you need to tell the wep application where to find the dependency graph
+on which it will operate.  This is done via the application's context
+parameters.  Some application servers let you set them using some form of
+application management tool.  But for others, such as Tomcat, you need to edit
+them manually using a text editor.  You can find them in the<code>WEB-INF\web.xml</code>
+file from the WAR file.
 </p>
 
 <p>
-There are three application variable to adjust.
+You will need to decide how you feed information into the web application.  You
+can either extract the dependency graph from compiled Java code or read in a
+previously extracted graph.  Extraction is faster, but requires that you place
+a copy of the compiled Java code on the server running the web application.
+This is often impractical, so you can generate the graph on your build machine
+instead and transfer only the resulting XML document.
+</p>
+
+<p>
+There are four context parameters that you can adjust:
 </p>
 
 <blockquote>
@@ -538,10 +649,22 @@ There are three application variable to adjust.
 	</td>
 	<td>
 	    Use this variable to tell Dependency Finder where to locate
-	    classes find which to extract a dependency graph.  You can
+	    classes from which to extract a dependency graph.  You can
 	    separate multiple locations by using commas.  Each location
 	    can either be a JAR file, a ZIP file, a <code>.class</code> file, or a
 	    directory that will be recursively searched for <code>.class</code> files.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    <b><code>file</code></b>
+	</td>
+	<td>
+	    Use this variable to tell Dependency Finder where to locate
+	    files which contain extracted dependency graphs.  You can
+	    separate multiple locations by using commas.  Each location
+	    should contain an XML document, such as the ones produced by
+	    <code>DependencyExtractor</code> directory that will be recursively.
 	</td>
     </tr>
     <tr>
@@ -560,22 +683,34 @@ There are three application variable to adjust.
 
 <p>
 Under some servlet containers, for example Tomcat, you will need to restart
-the servlet container for the changes to take effect.
+the servlet container for the changes to take effect.  Other application
+servers may allow you to simply restart the web application itself.
 </p>
+
+<div class="highlight">
 
 <pre>
     C:\>%CATALINA_HOME%\bin\shutdown
+</pre>
+
+<pre>
+    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder\WEB-INF\web.xml
+</pre>
+
+<pre>
     C:\>%CATALINA_HOME%\bin\startup
 </pre>
 
+</div>
+
 <p>
-Or you can you the deployment tool in Tomcat Manager to install the web
-application.
+Or you can edit the WAR file directly and then use the deployment tool in
+Tomcat Manager to redeploy the web application.
 </p>
 
 <hr />
 
-<a name="RunningDependencyFinder" />
+<a name="RunningDependencyFinder"></a>
 <h2>Running Dependency Finder</h2>
 
 <p>
@@ -599,7 +734,7 @@ We will start with the GUI-based tools, and then talk about the CLI-based
 tools and end with the Ant tasks.
 </p>
 
-<a name="EquivalenceTable" />
+<a name="EquivalenceTable"></a>
 <h3>Equivalence Table</h3>
 
 <table border="3"
@@ -1005,6 +1140,20 @@ tools and end with the Ant tasks.
     </tr>
     <tr>
 	<td>
+	    <code>ListSymbols</code>
+	</td>
+	<td>
+	    <code>&lt;listsymbols&gt;</code>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+	<td>
+	    <i>n/a</i>
+	</td>
+    </tr>
+    <tr>
+	<td>
 	    <code>ListUnused</code>
 	</td>
 	<td>
@@ -1117,7 +1266,7 @@ tools and end with the Ant tasks.
     </tr>
 </table>
 
-<a name="GUI" />
+<a name="GUI"></a>
 <h3>GUI</h3>
 
 <p>
@@ -1142,7 +1291,7 @@ level of detail: package, class, or method.
 <b>OOMetricsGUI</b>
 </div>
 
-<a name="CLI" />
+<a name="CLI"></a>
 <h3>CLI</h3>
 
 <div align="center">
@@ -1206,7 +1355,7 @@ support some or all of the following four command-line switches:
 </table>
 </blockquote>
 
-<a name="Ant" />
+<a name="Ant"></a>
 <h3>Ant</h3>
 
 <p>
@@ -1218,7 +1367,7 @@ using the <a href="http://ant.apache.org/">Ant</a> build tool from the
 
 <hr />
 
-<a name="ClassFiles" />
+<a name="ClassFiles"></a>
 <h2>Class Files</h2>
 
 <p>
@@ -1226,7 +1375,7 @@ Dependency Finder uses specialized classes to parse <code>.class</code> files.  
 includes some tools for looking at the contents of these files.
 </p>
 
-<a name="ClassReader" />
+<a name="ClassReader"></a>
 <h3>ClassReader</h3>
 
 <p>
@@ -1235,7 +1384,7 @@ With the <code>-xml</code> switch, it dumps the complete structure to an XML fil
 that you can manipulate with your favorite XML editor.
 </p>
 
-<a name="ClassMetrics" />
+<a name="ClassMetrics"></a>
 <h3>ClassMetrics</h3>
 
 <p>
@@ -1247,7 +1396,7 @@ rough idea of the size and complexity of a piece of software.
 
 <hr />
 
-<a name="Dependencies" />
+<a name="Dependencies"></a>
 <h2>Dependencies</h2>
 
 <p>
@@ -1314,7 +1463,7 @@ composition.  Each is linked to various other nodes of various type
 using dependency links.
 </p>
 
-<a name="Extracting" />
+<a name="Extracting"></a>
 <h3>Extracting</h3>
 
 <p>
@@ -1368,7 +1517,7 @@ dependency between two classes in two separate packages <i>implies</i> a
 dependency between the packages.
 </p>
 
-<a name="Limitations" />
+<a name="Limitations"></a>
 <h4>Limitations</h4>
 
 <p>
@@ -1378,7 +1527,7 @@ limitations are the result of using Sun's compiler that comes with the JDK.
 But I will start with one limitation that applies regardless of the compiler.
 </p>
 
-<a name="DependenciesonSelf" />
+<a name="DependenciesonSelf"></a>
 <h5>Dependencies on Self</h5>
 
 <p>
@@ -1430,7 +1579,7 @@ includes implicit dependencies from a class or feature to its package, or
 from a package to itself.
 </p>
 
-<a name="Constants" />
+<a name="Constants"></a>
 <h5>Constants</h5>
 
 <p>
@@ -1456,7 +1605,7 @@ are of some object type other than <code>String</code>, the compiler cannot perf
 optimization and Dependency Finder will be able to track dependencis on them.
 </p>
 
-<a name="LocalVariables" />
+<a name="LocalVariables"></a>
 <h5>Local Variables</h5>
 
 <p>
@@ -1489,7 +1638,7 @@ And since the virtual machine does not use that information, it does not
 impact runtime dependencies anyway.
 </p>
 
-<a name="LineNumbers" />
+<a name="LineNumbers"></a>
 <h5>Line Numbers</h5>
 
 <p>
@@ -1509,6 +1658,8 @@ the <code>-g:none</code> option.  And even when it does, it is not always very h
 You can run a quick test with:
 </p>
 
+<div class="highlight">
+
 <pre>
     public class A {
         public void f1() {
@@ -1516,6 +1667,8 @@ You can run a quick test with:
         }
     }
 </pre>
+
+</div>
 
 <p>
 And get an entry for line 1 for an implicit constructor (this happens to be the
@@ -1550,7 +1703,7 @@ graph cannot record dependency-specific details, such as how many times it
 occured or on which line it occured.
 </p>
 
-<a name="ExtractingWiththeGUI" />
+<a name="ExtractingWiththeGUI"></a>
 <h4>Extracting With the GUI</h4>
 
 <div align="center">
@@ -1572,7 +1725,7 @@ You can save the current dependency graph to an XML file by using
 information again from class files than to load it from an XML file.
 </p>
 
-<a name="ExtractingWiththeCLI" />
+<a name="ExtractingWiththeCLI"></a>
 <h4>Extracting With the CLI</h4>
 
 <p>
@@ -1581,37 +1734,50 @@ out the files and directories on the command-line.  All the dependencies
 are merged into a single output.
 </p>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor classes %JAVA_HOME%\JRE\lib\rt.jar
+    C:\>DependencyExtractor classes
+                            %JAVA_HOME%\JRE\lib\rt.jar
 </pre>
+
+</div>
 
 <p>
 You can specify an output file with the <code>-out</code> switch:
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df.txt
+    C:\>DependencyExtractor <b>-out df.txt</b>
+                            %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
 </pre>
+
+</div>
 
 <p>
 You can save the graph to XML with the <code>-xml</code> switch:
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -xml -out df.xml
+    C:\>DependencyExtractor <b>-xml</b> -out df.xml
+                            %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
 </pre>
 
-<a name="Example" />
+</div>
+
+<a name="Example"></a>
 <h5>Example</h5>
 
 <p>
 Here is a simple, concrete example.  We start with a trivial Java class in
 the file <code>test.java</code> and compiled into <code>test.class</code>.
 </p>
+
+<div class="highlight">
 
 <pre>
     import java.util.*;
@@ -1625,15 +1791,24 @@ the file <code>test.java</code> and compiled into <code>test.class</code>.
     }
 </pre>
 
+</div>
+
 <p>
 Here is the raw output dependency graph.
 </p>
 
+<div class="highlight">
+
 <pre>
     C:\>DependencyExtractor test.class
 </pre>
-    
+
+</div>
+
+<div class="lowlight">
+
 <pre>
+    &nbsp;
         test
             --> java.lang.Object
             main(java.lang.String[])
@@ -1661,23 +1836,37 @@ Here is the raw output dependency graph.
             <-- test.main(java.lang.String[])
 </pre>
 
+</div>
+
 <p>
 We can save it to an XML document for use with the other tools.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>DependencyFinder -xml -out test.xml test.class
+    C:\>DependencyFinder <b>-xml -out test.xml</b>
+                         test.class
 </pre>
+
+</div>
 
 <p>
 And narrow down the graph to class-to-class dependencies.
 </p>
 
+<div class="highlight">
+
 <pre>
     C:\>c2c -scope-includes /test/ test.xml
 </pre>
-    
+
+</div>
+
+<div class="lowlight">
+
 <pre>
+    &nbsp;
         test
             --> java.lang.Object
             --> java.lang.String
@@ -1685,17 +1874,43 @@ And narrow down the graph to class-to-class dependencies.
             --> java.util.Set
 </pre>
 
+</div>
+
 <p>
 <code>c2c</code> is a shortcut for a set of switches to <code>DependencyReporter</code>.  All the
 following commands are equivalent.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>c2c -show-all -scope-includes /test/ test.xml
-    C:\>c2c -show-all -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -c2c -show-all -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -show-all -class-scope -class-scope-includes /test/ -class-filter test.xml
+    C:\>c2c -show-all
+            -scope-includes /test/
+            test.xml
 </pre>
+
+<pre>
+    C:\>c2c -show-all
+            -class-scope-includes /test/
+            test.xml
+</pre>
+
+<pre>
+    C:\>DependencyReporter -c2c
+                           -show-all
+                           -class-scope-includes /test/
+                           test.xml
+</pre>
+
+<pre>
+    C:\>DependencyReporter -show-all
+                           -class-scope
+                           -class-scope-includes /test/
+                           -class-filter
+                           test.xml
+</pre>
+
+</div>
 
 <p>
 For fun, I entered manually this graph description into
@@ -1712,18 +1927,47 @@ We can narrow the graph further to class-to-package dependencies.  Again, all
 these commands are equivalent.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>c2p -show-all -scope-includes /test/ test.xml
-    C:\>c2p -show-all -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -c2p -show-all -scope-includes /test/ test.xml
-    C:\>DependencyReporter -show-all -class-scope -class-scope-includes /test/ -package-filter test.xml
+    C:\>c2p -show-all
+            -scope-includes /test/
+            test.xml
 </pre>
-    
+
 <pre>
+    C:\>c2p -show-all
+            -class-scope-includes /test/
+            test.xml
+</pre>
+
+<pre>
+    C:\>DependencyReporter -c2p
+                           -show-all
+                           -scope-includes /test/
+                           test.xml
+</pre>
+
+<pre>
+    C:\>DependencyReporter -show-all
+                           -class-scope
+                           -class-scope-includes /test/
+                           -package-filter
+                           test.xml
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
         test
             --> java.lang
             --> java.util
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/ClassPackageDependencies.test.jpg" /><br />
@@ -1735,13 +1979,29 @@ Finally, a package-to-package dependency graph.  All these commands are
 equivalent.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>p2p -show-all test.xml
-    C:\>DependencyReporter -p2p -show-all test.xml
-    C:\>DependencyReporter -show-all -package-scope -package-filter test.xml
+    C:\>p2p -show-all
+            test.xml
 </pre>
-    
+
 <pre>
+    C:\>DependencyReporter -p2p
+                           -show-all
+                           test.xml
+    C:\>DependencyReporter -show-all
+                           -package-scope
+                           -package-filter
+                           test.xml
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
         --> java.lang
         --> java.util
     java.lang
@@ -1750,41 +2010,45 @@ equivalent.
         <-- 
 </pre>
 
+</div>
+
 <div align="center">
     <img src="images/PackagePackageDependencies.test.jpg" /><br />
 <b>Package-to-Package Dependencies</b>
 </div>
 
-<a name="ExtractingWiththeWebApplication" />
+<a name="ExtractingWiththeWebApplication"></a>
 <h4>Extracting With the Web Application</h4>
 
 <p>
-You use <code>extract.jsp</code> to generate a dependency graph for the web application.
+The web application can either extract a dependency graph from compiled Java
+code, or read one that was previously extracted from one or more XML document.
 The graph will stay in memory for the lifetime of the process serving the
-application, or until you extract it again with the JSP.  This graph can
-get pretty big, so make sure you allocate enough memory to the application
-server.
+application, or until you load it anew.  This graph can get pretty big, so make
+sure you allocate enough memory to the application server.
 </p>
 
 <p>
-If you just call <code>extract.jsp</code>, it will print statistics on the current
-graph, if any.  These include the number of nodes in the graph, how long
-it took to extract it, and a timestamp of when it was extracted.
+You use <code>extract.jsp</code> to generate a dependency graph from compiled Java code.
+If you just call <code>extract.jsp</code>, it will print statistics on the current graph,
+if any.  These include the number of nodes in the graph, how long it took to
+extract it, and a timestamp of when it was extracted.
 </p>
 
 <p>
-If you click on the <i>Launch</i> button, or call <code>extract.jsp?launch=Launch</code>,
-it will start to extract a new dependency graph.  The previous one will
-remain in use for other callers until the extraction terminates successfully.
-The JSP prints the name of classes as it extracts them.  And at the end, it
-prints how many classes it read and how it it took to analyze them.
+If you click on the <i>Launch</i> button, or call <code>extract.jsp?launch=Launch</code>, it
+will start to extract a new dependency graph.  The previous one will remain in
+use for other callers until the extraction terminates successfully.  The JSP
+prints the name of classes as it extracts them.  And at the end, it prints how
+many classes it read and how long it took to analyze them.
 </p>
 
 <p>
-You can use the URL "<code>extract.jsp?launch=Launch</code>" to automatically
-update the graph after automated compilation runs, such as during nightly
-builds.
+You can use the URL "<code>extract.jsp?launch=Launch</code>" to automatically update the
+graph after automated compilation runs, such as during nightly builds.
 </p>
+
+<div class="highlight">
 
 <pre>
     &lt;target name="extract" depends="init"&gt;
@@ -1793,7 +2057,41 @@ builds.
     &lt;/target&gt;
 </pre>
 
-<a name="ExtractingWithAnt" />
+</div>
+
+<p>
+You use <code>load.jsp</code> to read a dependency graph from an XML document such as the
+ones generated by <code>DependencyExtractor</code>.  If you just call <code>load.jsp</code>, it will
+print statistics on the current graph, if any.  These include the number of
+nodes in the graph, how long it took to read it, and a timestamp of when it was
+extracted.
+</p>
+
+<p>
+If you click on the <i>Launch</i> button, or call <code>load.jsp?launch=Launch</code>, it
+will start to read a new dependency graph.  The previous one will remain in use
+for other callers until the loading terminates successfully.  The JSP prints
+the name of classes as it reads them.  And at the end, it prints how many files
+it read and how it took to read them.
+</p>
+
+<p>
+You can use the URL "<code>load.jsp?launch=Launch</code>" to automatically update the
+graph after automated compilation runs, such as during nightly builds.
+</p>
+
+<div class="highlight">
+
+<pre>
+    &lt;target name="load" depends="init"&gt;
+        &lt;get src="${WEB_APP_URL}/load.jsp?launch=Launch"
+             dest="log.html"/&gt;
+    &lt;/target&gt;
+</pre>
+
+</div>
+
+<a name="ExtractingWithAnt"></a>
 <h4>Extracting With Ant</h4>
 
 <p>
@@ -1803,6 +2101,8 @@ tag using Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant wh
 find the Dependency Finder classes.    There is a special
 <a href="tasks/index.html">help page</a> on how to do this.
 </p>
+
+<div class="highlight">
 
 <pre>
     &lt;target name="extract" depends="init"&gt;
@@ -1817,7 +2117,9 @@ find the Dependency Finder classes.    There is a special
     &lt;/target&gt;
 </pre>
 
-<a name="MinimizingAndMaximizing" />
+</div>
+
+<a name="MinimizingAndMaximizing"></a>
 <h4>Minimizing And Maximizing</h4>
 
 <p>
@@ -1825,6 +2127,8 @@ It is often the case that an explicit dependency in the code can be implied
 from another explicit dependency in that code.  For example, take the
 following code snippet:
 </p>
+
+<div class="highlight">
 
 <pre>
     class A extends B {
@@ -1839,6 +2143,8 @@ following code snippet:
         public void b() {}
     }
 </pre>
+
+</div>
 
 <p>
 We can analyze the dependencies.  <code>A</code> is a subclass of <code>B</code>, so there is a
@@ -1859,10 +2165,14 @@ add anything to the overall connectivity of the graph.  Another, very
 frequent, example of this situation occurs with constructors.
 </p>
 
+<div class="highlight">
+
 <pre>
     class A extends B {}
     class B {}
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/RedundantII.gif" /><br />
@@ -1874,6 +2184,8 @@ Another variation occurs when a method either calls a method on an object
 it received as a parameter or throws a new <code>Exception</code> that is part of
 its <code>throws</code> clause.
 </p>
+
+<div class="highlight">
 
 <pre>
     class A {
@@ -1888,6 +2200,8 @@ its <code>throws</code> clause.
         public void b() {}
     }
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/RedundantIII.gif" /><br />
@@ -1952,13 +2266,15 @@ with the same graph as if you had minimized the original graph.
     <img src="images/MinMaxVIII.gif" /><br />
 </div>
 
-<a name="ExampleX" />
+<a name="ExampleX"></a>
 <h5>Example</h5>
 
 <p>
 Here is a simple, concrete example.  We start with a our trivial Java class
 from before.
 </p>
+
+<div class="highlight">
 
 <pre>
     import java.util.*;
@@ -1971,6 +2287,8 @@ from before.
         }
     }
 </pre>
+
+</div>
 
 <p>
 Let's start with the obvious dependencies.  <code>test.main()</code> has a parameter
@@ -2152,7 +2470,7 @@ Here are the dimentions of various graphs.
     </tbody>
 </table>
 
-<a name="Reporting" />
+<a name="Reporting"></a>
 <h3>Reporting</h3>
 
 <p>
@@ -2207,26 +2525,33 @@ features, or combinations thereof.  In the CLI, you achieve the same
 effect through command-line switches.
 </p>
 
-<div align="center">
-    <img src="images/ScopeControls.simple.highcontrols.jpg" /><br />
-</div>
+<div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -show-all       \
-                           -package-scope  \
-                           -class-scope    \
+    C:\>DependencyReporter -show-all
+                           -package-scope
+                           -class-scope
                            -feature-scope
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all -all
+    C:\>DependencyReporter -show-all
+                           -all
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all -f2f
+    C:\>DependencyReporter -show-all
+                           -f2f
 </pre>
 
+</div>
+
+<p>
+&nbsp;
+</p>
+
 <div align="center">
+<img src="images/ScopeControls.simple.highcontrols.jpg" /><br />
 <b>Scope Controls</b>
 </div>
 
@@ -2239,21 +2564,26 @@ and they will be or'ed together.  On the command-line, just repeat the
 switches.
 </p>
 
-<div align="center">
-    <img src="images/ScopeControls.simple.highcriteria.jpg" /><br />
-</div>
+<div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -show-all                    \
-                           -scope-includes //           \
+    C:\>DependencyReporter -show-all
+                           -scope-includes //
                            -scope-excludes /Test/
 </pre>
 
+</div>
+
+<p>
+&nbsp;
+</p>
+
 <div align="center">
+<img src="images/ScopeControls.simple.highcriteria.jpg" /><br />
 <b>Scope Criteria</b>
 </div>
 
-<a name="PerlRegularExpressions" />
+<a name="PerlRegularExpressions"></a>
 <h4>Perl Regular Expressions</h4>
 
 <p>
@@ -2458,7 +2788,7 @@ Examples:
 </table>
 </blockquote>
 
-<a name="AdvancedView" />
+<a name="AdvancedView"></a>
 <h4>Advanced View</h4>
 
 <p>
@@ -2488,14 +2818,12 @@ instance, <code>-feature-scope-includes</code> is for the "including" field in t
 used in scoping feature nodes, if you use it along with <code>-feature-scope</code>.
 </p>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -show-all       \
-                           -package-scope  \
-                           -class-scope    \
+    C:\>DependencyReporter -show-all
+                           -package-scope
+                           -class-scope
                            -feature-scope
 </pre>
 
@@ -2512,14 +2840,16 @@ E.g.,
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all                                \
-                           -scope-includes //                       \
-                           -scope-excludes /Test/                   \
-                           -feature-scope-includes /someMethod/     \
+    C:\>DependencyReporter -show-all
+                           -scope-includes //
+                           -scope-excludes /Test/
+                           -feature-scope-includes /someMethod/
                            -feature-scope-includes /anotherMethod/
 </pre>
 
-<a name="ShowingOnlyInboundDependencies" />
+</div>
+
+<a name="ShowingOnlyInboundDependencies"></a>
 <h4>Showing Only Inbound Dependencies</h4>
 
 <p>
@@ -2571,12 +2901,17 @@ with the following tools:
 <li><code>DependablesToHTML</code></li>
 </ul>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
     C:\>DependablesToText -in test.xml
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
     java.lang
         java.lang.Object
             <-- test
@@ -2594,6 +2929,8 @@ E.g.,
             <-- test.main(java.lang.String[])
 </pre>
 
+</div>
+
 <p>
 The HTML version weaves cross-references between all the elements for easy
 navigation.
@@ -2608,15 +2945,18 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
 <li><code>HideOutboundDependenciesToHTML</code></li>
 </ul>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
     C:\>HideOutboundDependenciesToText -in test.xml
 </pre>
-    
+
+</div>
+
+<div class="lowlight">
+
 <pre>
+    &nbsp;
         test
             test.main(java.lang.String[])
             test.test()
@@ -2637,7 +2977,9 @@ E.g.,
             <-- test.main(java.lang.String[])
 </pre>
 
-<a name="ShowingOnlyOutboundDependencies" />
+</div>
+
+<a name="ShowingOnlyOutboundDependencies"></a>
 <h4>Showing Only Outbound Dependencies</h4>
 
 <p>
@@ -2690,15 +3032,18 @@ following tools:
 <li><code>DependentsToHTML</code></li>
 </ul>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
     C:\>DependentsToText -in test.xml
 </pre>
-    
+
+</div>
+
+<div class="lowlight">
+
 <pre>
+    &nbsp;
         test
             --> java.lang.Object
             test.main(java.lang.String[])
@@ -2710,6 +3055,8 @@ E.g.,
             test.test()
                 --> java.lang.Object.Object()
 </pre>
+
+</div>
 
 <p>
 The HTML version weaves cross-references between all the elements for easy
@@ -2725,15 +3072,18 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
 <li><code>HideInboundDependenciesToHTML</code></li>
 </ul>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
     C:\>HideInboundDependenciesToText -in test.xml
 </pre>
-    
+
+</div>
+
+<div class="lowlight">
+
 <pre>
+    &nbsp;
         test
             --> java.lang.Object
             test.main(java.lang.String[])
@@ -2754,7 +3104,9 @@ E.g.,
         java.util.Set
 </pre>
 
-<a name="ShowingBothInboundsAndOutboundDependencies" />
+</div>
+
+<a name="ShowingBothInboundsAndOutboundDependencies"></a>
 <h4>Showing Both Inbounds And Outbound Dependencies</h4>
 
 <p>
@@ -2797,15 +3149,18 @@ The HTML version weaves cross-references between all the elements for easy
 navigation.
 </p>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
     C:\>DependencyGraphToText -in test.xml
 </pre>
-    
+
+</div>
+
+<div class="lowlight">
+
 <pre>
+    &nbsp;
         test
             --> java.lang.Object
             test.main(java.lang.String[])
@@ -2833,7 +3188,9 @@ E.g.,
             <-- test.main(java.lang.String[])
 </pre>
 
-<a name="Summary" />
+</div>
+
+<a name="Summary"></a>
 <h4>Summary</h4>
 
 <p>
@@ -2949,7 +3306,419 @@ This table summarizes which CLI tool shows which information.
 </table>
 </blockquote>
 
-<a name="TransitiveClosure" />
+<a name="DealingwithaVeryLargeCodebase"></a>
+<h3>Dealing with a Very Large Codebase</h3>
+
+<p>
+Sometimes the codebase can be too large for Dependency Finder to deal with it
+in one pass.  The dependency graph can become so large that it uses up all
+available memory.  This can be the case eiher on a large project or when you
+try to build a graph across many applications.  You can ease this situation by:
+</p>
+
+<ol>
+<li>breaking down the codebase into manageable chunks</li>
+<li>analyzing each part separately</li>
+<li>reducing the size of each individual graph</li>
+<li>combining the reduced parts back together</li>
+</ol>
+
+<a name="BreaktheCodebase"></a>
+<h4>Break the Codebase</h4>
+
+<p>
+If you have multiple JAR files, you can simply process them individualy.
+</p>
+
+<p>
+If you have one large JAR file, you can extract it to a temporary location and
+put the files in smaller groups, such as related packages rooted at some
+directory.
+</p>
+
+<p>
+A quick and dirty way of splitting the JAR: extract it to a folder somewhere and
+run DependencyReporter on the subfolders.
+</p>
+
+<p>
+For example, using <code>DependencyFinder.jar</code>:
+</p>
+
+<div class="highlight">
+
+<pre>
+    % jar xf DependencyFinder.jar com
+</pre>
+
+</div>
+
+<a name="AnalyzeEachPart"></a>
+<h4>Analyze Each Part</h4>
+
+<p>
+You can analyze the major package groups as follow:
+</p>
+
+<div class="highlight">
+
+<pre>
+    % DependencyExtractor -xml -out classreader.xml
+                          com/jeantessier/classreader
+</pre>
+
+<pre>
+    % DependencyExtractor -xml -out dependency.xml
+                          com/jeantessier/dependency
+</pre>
+
+<pre>
+    % DependencyExtractor -xml -out dependencyfinder.xml
+                          com/jeantessier/dependencyfinder
+</pre>
+
+<pre>
+    % DependencyExtractor -xml -out diff.xml
+                          com/jeantessier/diff
+</pre>
+
+<pre>
+    % DependencyExtractor -xml -out metrics.xml
+                          com/jeantessier/metrics
+</pre>
+
+</div>
+
+<p>
+To save on memory, <code>DependencyExtractor</code> uses a <code>TransientClassfileLoader</code>: it
+reads classes in one at a time and discards them before moving on to the next.
+So the real problem is the size of the resulting graph.  If you do only steps
+1, 2, and 4 above, without the reduction stop, <code>DependencyReporter</code> will
+aggregate multiple graphs when you give it all the XML files but the resulting
+graph will still be as big as if you had just run <code>DependencyExtractor</code> once on
+the original codebase.
+</p>
+
+<a name="ReduceEachGraph"></a>
+<h4>Reduce Each Graph</h4>
+
+<p>
+Here's a variation on this idea.  Run <code>DependencyReporter</code> with <code>-c2c</code> on the
+intermediary graphs to generate small class-to-class graphs.
+</p>
+
+<div class="highlight">
+
+<pre>
+    % DependencyReporter -xml -out classreader.c2c.xml
+                         -show-all
+                         <b>-c2c</b>
+                         classreader.xml
+</pre>
+
+<pre>
+    % DependencyReporter -xml -out dependency.c2c.xml
+                         -show-all
+                         <b>-c2c</b>
+                         dependency.xml
+</pre>
+
+<pre>
+    % DependencyReporter -xml -out dependencyfinder.c2c.xml
+                         -show-all
+                         <b>-c2c</b>
+                         dependencyfinder.xml
+</pre>
+
+<pre>
+    % DependencyReporter -xml -out diff.c2c.xml
+                         -show-all
+                         <b>-c2c</b>
+                         diff.xml
+</pre>
+
+<pre>
+    % DependencyReporter -xml -out metrics.c2c.xml
+                         -show-all
+                         <b>-c2c</b>
+                         metrics.xml
+</pre>
+
+</div>
+
+<a name="CombineThemBackTogether"></a>
+<h4>Combine Them Back Together</h4>
+
+<p>
+Then combine all these small graphs with a last pass of <code>DependencyReporter</code> to
+aggregate all the little ones into an all-encompassing class-to-class graph.
+</p>
+
+<div class="highlight">
+
+<pre>
+    % DependencyReporter -xml -out c2c.xml
+                         <b>-c2c</b>
+                         classreader.c2c.xml
+                         dependency.c2c.xml
+                         dependencyfinder.c2c.xml
+                         diff.c2c.xml
+                         metrics.c2c.xml
+</pre>
+
+</div>
+
+<p>
+This approach shows an 80%-90% reduction in number of nodes and about 80% in
+the number of edges (dependencies).  Taken together, that's a 98% reduction in
+complexity.  This should help with both memory footprint and processing time.
+</p>
+
+<table border="3"
+       rules="groups"
+       cellpadding="3">
+    <colgroup />
+    <colgroup span="5" />
+    <colgroup span="2" />
+    <colgroup span="2" />
+    <thead>
+    <tr>
+	<td valign="top"
+            rowspan="2"><b>Graph</b></td>
+	<td align="center"
+            colspan="5"><b>Nodes</b></td>
+	<td valign="top"
+            align="center"
+            rowspan="2"
+            colspan="2"><b>Dependencies</b></td>
+	<td valign="top"
+            align="center"
+            rowspan="2"
+            colspan="2"><b>Nodes</b> x <b>Dependencies</b></td>
+    </tr>
+    <tr>
+	<td align="center"><b>Packages</b></td>
+	<td align="center"><b>Classes</b></td>
+	<td align="center"><b>Features</b></td>
+	<td align="center"
+            colspan="2"><b>Total</b></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+	<td><code>classreader.xml</code></td>
+	<td align="right">8</td>
+	<td align="right">112</td>
+	<td align="right">1,078</td>
+	<td align="right">1,198</td>
+	<td align="right"></td>
+	<td align="right">4,042</td>
+	<td align="right"></td>
+	<td align="right">4,842,316</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td><code>classreader.c2c.xml</code></td>
+	<td align="right">8</td>
+	<td align="right">112</td>
+	<td align="right">0</td>
+	<td align="right">120</td>
+	<td align="right">(-90%)</td>
+	<td align="right">809</td>
+	<td align="right">(-80%)</td>
+	<td align="right">97,080</td>
+	<td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td><code>commandline.xml</code></td>
+	<td align="right">3</td>
+	<td align="right">34</td>
+	<td align="right">204</td>
+	<td align="right">241</td>
+	<td align="right"></td>
+	<td align="right">545</td>
+	<td align="right"></td>
+	<td align="right">131,345</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td><code>commandline.c2c.xml</code></td>
+	<td align="right">3</td>
+	<td align="right">34</td>
+	<td align="right">0</td>
+	<td align="right">37</td>
+	<td align="right">(-85%)</td>
+	<td align="right">115</td>
+	<td align="right">(-79%)</td>
+	<td align="right">4,255</td>
+	<td align="right">(-97%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td><code>dependency.xml</code></td>
+	<td align="right">11</td>
+	<td align="right">102</td>
+	<td align="right">903</td>
+	<td align="right">1,016</td>
+	<td align="right"></td>
+	<td align="right">3,429</td>
+	<td align="right"></td>
+	<td align="right">3,483,864</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td><code>dependency.c2c.xml</code></td>
+	<td align="right">11</td>
+	<td align="right">102</td>
+	<td align="right">0</td>
+	<td align="right">113</td>
+	<td align="right">(-89%)</td>
+	<td align="right">395</td>
+	<td align="right">(-88%)</td>
+	<td align="right">44,635</td>
+	<td align="right">(-99%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td><code>dependencyfinder.xml</code></td>
+	<td align="right">27</td>
+	<td align="right">252</td>
+	<td align="right">1,744</td>
+	<td align="right">2,023</td>
+	<td align="right"></td>
+	<td align="right">6,947</td>
+	<td align="right"></td>
+	<td align="right">14,053,781</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td><code>dependencyfinder.c2c.xml</code></td>
+	<td align="right">27</td>
+	<td align="right">252</td>
+	<td align="right">0</td>
+	<td align="right">279</td>
+	<td align="right">(-86%)</td>
+	<td align="right">1,429</td>
+	<td align="right">(-79%)</td>
+	<td align="right">398,691</td>
+	<td align="right">(-97%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td><code>diff.xml</code></td>
+	<td align="right">9</td>
+	<td align="right">75</td>
+	<td align="right">504</td>
+	<td align="right">588</td>
+	<td align="right"></td>
+	<td align="right">1,580</td>
+	<td align="right"></td>
+	<td align="right">929,040</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td><code>diff.c2c.xml</code></td>
+	<td align="right">9</td>
+	<td align="right">75</td>
+	<td align="right">0</td>
+	<td align="right">84</td>
+	<td align="right">(-86%)</td>
+	<td align="right">235</td>
+	<td align="right">(-85%)</td>
+	<td align="right">19,740</td>
+	<td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td><code>metrics.xml</code></td>
+	<td align="right">13</td>
+	<td align="right">112</td>
+	<td align="right">820</td>
+	<td align="right">945</td>
+	<td align="right"></td>
+	<td align="right">2,873</td>
+	<td align="right"></td>
+	<td align="right">2,714,985</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td><code>metrics.c2c.xml</code></td>
+	<td align="right">13</td>
+	<td align="right">112</td>
+	<td align="right">0</td>
+	<td align="right">125</td>
+	<td align="right">(-87%)</td>
+	<td align="right">418</td>
+	<td align="right">(-85%)</td>
+	<td align="right">52,250</td>
+	<td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td><code>text.xml</code></td>
+	<td align="right">5</td>
+	<td align="right">11</td>
+	<td align="right">20</td>
+	<td align="right">36</td>
+	<td align="right"></td>
+	<td align="right">66</td>
+	<td align="right"></td>
+	<td align="right">2,376</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td><code>text.c2c.xml</code></td>
+	<td align="right">5</td>
+	<td align="right">11</td>
+	<td align="right">0</td>
+	<td align="right">16</td>
+	<td align="right">(-56%)</td>
+	<td align="right">10</td>
+	<td align="right">(-85%)</td>
+	<td align="right">160</td>
+	<td align="right">(-93%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td><code>all.xml</code></td>
+	<td align="right">35</td>
+	<td align="right">420</td>
+	<td align="right">4,571</td>
+	<td align="right">5,026</td>
+	<td align="right"></td>
+	<td align="right">17,846</td>
+	<td align="right"></td>
+	<td align="right">89,693,996</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td><code>all.c2c.xml</code></td>
+	<td align="right">35</td>
+	<td align="right">420</td>
+	<td align="right">0</td>
+	<td align="right">455</td>
+	<td align="right">(-91%)</td>
+	<td align="right">3,411</td>
+	<td align="right">(-81%)</td>
+	<td align="right">1,552,005</td>
+	<td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+<i>These numbers were taken from version 1.1.0.</i>
+</p>
+
+<a name="TransitiveClosure"></a>
 <h3>Transitive Closure</h3>
 
 <p>
@@ -3043,7 +3812,7 @@ Here is the general algorithm:
 A transitive closure only keeps the shortest path between two nodes.
 </p>
 
-<a name="DependencyMetrics" />
+<a name="DependencyMetrics"></a>
 <h3>Dependency Metrics</h3>
 
 <p>
@@ -3054,7 +3823,7 @@ not as powerful as the metrics computed by <code>OOMetrics</code>.
 
 <hr />
 
-<a name="OOMetrics" />
+<a name="OOMetrics"></a>
 <h2>OO Metrics</h2>
 
 <p>
@@ -3083,12 +3852,13 @@ Dependency Finder recognizes four levels of metrics:
 </ul>
 
 <p>
-Each metrics is composed of a number of measurements.  What measurements
-make up a given metrics level is defined in a configuration file written
-in XML.
+Each metrics is composed of a number of measurements.  What measurements make
+up a given metrics level is defined in a configuration file written in XML.
+You can specify a custom configuration file or let the tool use the default
+one in <code>%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml</code>.
 </p>
 
-<a name="Explanation" />
+<a name="Explanation"></a>
 <h3>Explanation</h3>
 
 <p>
@@ -3113,25 +3883,603 @@ of software.  Dependency Finder recognizes four sizes of <i>chunks</i>:
 </blockquote>
 
 <p>
-It does not track metrics about class attributes because these are not
-really all that interesting.  The only measurements worth something deal
-with dependencies, and I rolled those into class metrics.
+It does not track metrics about class attributes because these are not really
+all that interesting.  The only measurements worth something deal with
+dependencies, and I rolled those into class metrics.
 </p>
 
 <p>
-The configuration file defines what measurements apply to which level of
-scope (package, group, class, or method).  It also defines the rules for
-creating arbitrary groups.  You can customize the content of your metrics
-report by using different configuration files.
+The configuration file defines what measurements apply to which level of scope
+(package, group, class, or method).  It also defines the rules for creating
+arbitrary groups.  You can customize the content of your metrics report by
+using different configuration files.
 </p>
 
 <p>
-Each measurement has a name and a class that has the semantics of the
-measurement.  There are classes for counters, lists, simple
-mathematical expressions, etc.  Each measurement can be expressed as a
-numeric value and the configuration file can defines the recommanded range
-for that measurement.
+Each measurement has a name and a class that indicates behavior associated with
+the measurement.  The semantics of each measurement are currently hardcoded in
+the <code>MetricsGatherer</code>.  It decides which basic values are computed.  You can
+make minor adjustments by specifying the class used for the measurement.  There
+are classes for counters, lists, simple mathematical expressions, etc.  Each
+measurement can be expressed as a numeric value and the configuration file can
+defines the recommanded range for that measurement.
 </p>
+
+<p>
+Here is a brief overview of some of the measurements, grouped by <i>chunk</i>.  The
+definitive list is in <code>%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml</code>.
+</p>
+
+<a name="BasicMethodMeasurements"></a>
+<h4>Basic Method Measurements</h4>
+
+<p>
+The following basic measurements are computed for each method.
+</p>
+
+<p>
+The following are simple numerical measurements taken against the method.
+</p>
+
+<blockquote>
+<dl>
+    <dt>Parameters (PARAM)</dt>
+    <dd>Number of parameters for the method.  Very long signatures are often
+    seen as a sign of poor design.</dd>
+    <dt>Single Line of Code (SLOC)</dt>
+    <dd>Number of code lines in the method.  Comments and empty lines are not
+    counted.  Large methods are usually a sign of poor design.</dd>
+    <dt>Local Variables (LVAR)</dt>
+    <dd>Number of local variables use by the method.</dd>
+</dl>
+</blockquote>
+
+<p>
+The following measurements list classes, methods, and fields that have a
+dependency to or from this method.
+</p>
+
+<blockquote>
+<dl>
+    <dt>Inbound Intra-Class Method Dependencies (IICM)</dt>
+    <dd>Other methods within the same class, that depend on this method.</dd>
+    <dt>Outbound Intra-Class Feature Dependencies (OICF)</dt>
+    <dd>Methods and fields within the same class that this method depends
+    on.</dd>
+    <dt>Inbound Intra-Package Method Dependencies (IIPM)</dt>
+    <dd>Methods in other classes of the same package that depend on this
+    method.</dd>
+    <dt>Outbound Intra-Package Feature Dependencies (OIPF)</dt>
+    <dd>Methods and fields within the classes of the same package that this
+    method depends on.</dd>
+    <dt>Inbound Extra-Package Method Dependencies (IEPM)</dt>
+    <dd>Methods in other packages that depend on this method.</dd>
+    <dt>Outbound Extra-Package Feature Dependencies(OEPF)</dt>
+    <dd>Methods and fields in other packages that this method depends on.</dd>
+    <dt>Outbound Intra-Package Class Dependencies (OIPC)</dt>
+    <dd>Classes within the same package that this method depends on.</dd>
+    <dt>Outbound Extra-Package Class Dependencies (OEPC)</dt>
+    <dd>Classes in other packages that this method depends on.</dd>
+</dl>
+</blockquote>
+
+<a name="BasicClassMeasurements"></a>
+<h4>Basic Class Measurements</h4>
+
+<p>
+The following basic measurements are computed for each class.
+</p>
+
+<p>
+The following are simple numerical measurements taken against the class.
+</p>
+
+<blockquote>
+<dl>
+    <dt>Single Line of Code (SLOC)</dt>
+    <dd>Number of code lines in the class.  Comments and empty lines are not
+    counted.  Large classes are usually a sign of poor design.</dd>
+    <dt>Subclasses (SUB)</dt>
+    <dd>Number of direct subclasses of this class.</dd>
+    <dt>Depth of Inheritance (DOI)</dt>
+    <dd>How many hops there are between the top of the inheritance
+    hierarchy and this class.</dd>
+    <dt>Attributes (A)</dt>
+    <dd>Number of attributes in this class.</dd>
+    <dt>Methods (M)</dt>
+    <dd>Number of methods in this class</dd>
+    <dt>Inner Classes (IC)</dt>
+    <dd>Number of inner classes in this class.</dd>
+</dl>
+</blockquote>
+
+<p>
+The following measurements list classes, methods, and fields that have a
+dependency to or from this method.
+</p>
+
+<blockquote>
+<dl>
+    <dt>Inbound Intra-Package Dependencies (IIP)</dt>
+    <dd>Classes of the same package that depend on this class.</dd>
+    <dt>Inbound Extra-Package Dependencies (IEP)</dt>
+    <dd>Classes in other packages that depend on this class.</dd>
+    <dt>Outbound Intra-Package Dependencies (OIP)</dt>
+    <dd>Classes of the same package that this class depends on.</dd>
+    <dt>Outbound Extra-Package Dependencies (OEP)</dt>
+    <dd>Classes of other packages that this class depends on.</dd>
+    <dt>Inbound Intra-Package Method Dependencies(IIPM)</dt>
+    <dd>Methods and fields in other classes of the same package that depend on
+    this class.</dd>
+    <dt>Inbound Extra-Package Method Dependencies (IEPM)</dt>
+    <dd>Methods in other packages that depend on this class.</dd>
+</dl>
+</blockquote>
+
+<a name="BasicGroupMeasurements"></a>
+<h4>Basic Group Measurements</h4>
+
+<p>
+The following basic measurements are computed for each group.  They are simple
+numerical measurements taken against the group.
+</p>
+
+<p>
+Each package is automatically a group.  The configuration file can also define
+additional arbitrary groups that will be collected in addition to
+package-related groups.
+</p>
+
+<blockquote>
+<dl>
+    <dt>Classes (C)</dt>
+    <dd>Number of classes in this group.</dd>
+    <dt>Interfaces (I)</dt>
+    <dd>Number of interfaces in this group</dd>
+</dl>
+</blockquote>
+
+<a name="BasicProjectMeasurements"></a>
+<h4>Basic Project Measurements</h4>
+
+<p>
+The following basic measurements are computed for the whole project.  They are
+simple numerical measurements taken against the project.
+</p>
+
+<blockquote>
+<dl>
+    <dt>Groups (G)</dt>
+    <dd>Number of groups in the project.</dd>
+    <dt>Packages (P)</dt>
+    <dd>Number of packages in the project</dd>
+</dl>
+</blockquote>
+
+<a name="Dependency-RelatedMetrics"></a>
+<h3>Dependency-Related Metrics</h3>
+
+<p>
+All the dependency-related measurements can accumulate the explicit
+dependencies that make them.  All you need to do is make their class
+<code>com.jeantessier.metrics.NameListMeasurement</code> in the configuration file.  You
+can list those dependencies as part of your report by giving the <code>-expand</code>
+switch to <code>OOMetrics</code>.
+</p>
+
+<table><tr><td colspan="3">
+
+<a name="Intra-PackageMethod-to-Class"></a>
+<h4>Intra-Package Method-to-Class</h4>
+
+<p>
+Dependency from a method to another class in the same package.
+For example, the type of a parameter or of a local variable.
+</p>
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class A {
+        public void a(B b) {
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OIPC-IIPM.gif" /><br />
+</td><td valign="top"
+class="highlight">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class B {
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    p.A.a(B)
+        OIPC: 1
+            p.B
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    p.B
+        IIPM: 1
+            p.A.a(B)
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Extra-PackageMethod-to-Class"></a>
+<h4>Extra-Package Method-to-Class</h4>
+
+<p>
+Dependency from a method to another class in another package.
+For example, the type of a parameter or of a local variable.
+</p>
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+<pre>
+    package a;
+</pre>
+    
+<pre>
+    import b.*;
+</pre>
+    
+<pre>
+    public class A {
+        public void a(B b) {
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OEPC-IEPM.gif" /><br />
+</td><td valign="top"
+class="highlight">
+
+<pre>
+    package b;
+</pre>
+    
+<pre>
+    public class B {
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    a.A.a(B)
+        OEPC: 1
+            p.B
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    b.B
+        IEPM: 1
+            a.A.a(B)
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Intra-PackageClass-to-Class"></a>
+<h4>Intra-Package Class-to-Class</h4>
+
+<p>
+Dependency from a class to another class in the same package.
+For example, in <code>extends</code> or <code>implements</code> clauses.
+</p>
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class A extends B {
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OIP-IIP.gif" /><br />
+</td><td valign="top"
+class="highlight">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class B {
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    p.A
+        OIP: 1
+            p.B
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    p.B
+        IIP: 1
+            p.A
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Extra-PackageClass-to-Class"></a>
+<h4>Extra-Package Class-to-Class</h4>
+
+<p>
+Dependency from a class to another class in another package.
+For example, in <code>extends</code> or <code>implements</code> clauses.
+</p>
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+<pre>
+    package a;
+</pre>
+    
+<pre>
+    import b.*;
+</pre>
+    
+<pre>
+    public class A extends B {
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OEP-IEP.gif" /><br />
+</td><td valign="top"
+class="highlight">
+
+<pre>
+    package b;
+</pre>
+    
+<pre>
+    public class B {
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    a.A
+        OEP: 1
+            b.B
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    b.B
+        IEP: 1
+            a.A
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Intra-ClassMethod-to-Method"></a>
+<h4>Intra-Class Method-to-Method</h4>
+
+<p>
+Dependency from a method to another method in the same class.
+For example, a method call, including constructors via object creation.
+</p>
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class C {
+        public void a() {
+            b();
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OICF-IICM.gif" /><br />
+</td><td valign="top"
+class="highlight">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class C {
+        public void b() {
+        }
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    p.C.a()
+        OICF: 1
+            p.C.b()
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    p.C.b()
+        IICM: 1
+            p.C.a()
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Intra-PackageMethod-to-Method"></a>
+<h4>Intra-Package Method-to-Method</h4>
+
+<p>
+Dependency from a method to another method in another class in the same package.
+For example, a method call, including constructors via object creation.
+</p>
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class A {
+        public void a() {
+            b.b();
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OIPF-IIPM.gif" /><br />
+</td><td valign="top"
+class="highlight">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class B {
+        public void b() {
+        }
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    p.A.a()
+        OIPF: 1
+            p.B.b()
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    p.B.b()
+        IIPM: 1
+            p.A.a()
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Extra-PackageMethod-to-Method"></a>
+<h4>Extra-Package Method-to-Method</h4>
+
+<p>
+Dependency from a method to another method in another class in another package.
+For example, a method call, including constructors via object creation.
+</p>
+
+</td></tr><tr><td valign="top"
+class="highlight">
+
+<pre>
+    package a;
+</pre>
+    
+<pre>
+    import b.*;
+</pre>
+    
+<pre>
+    public class A {
+        public void a() {
+            b.b();
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OEPF-IEPM.gif" /><br />
+</td><td valign="top"
+class="highlight">
+
+<pre>
+    package b;
+</pre>
+    
+<pre>
+    public class B {
+        public void b() {
+        }
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    a.A.a()
+        OEPF: 1
+            b.B.b()
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    b.B.b()
+        IEPM: 1
+            a.A.a()
+</pre>
+
+</td></tr></table>
+
+<a name="TypesofMeasurements"></a>
+<h3>Types of Measurements</h3>
 
 <p>
 The current types of measurement are as follow:
@@ -3139,9 +4487,9 @@ The current types of measurement are as follow:
 
 <blockquote>
 <dl>
-    <dt><code>AccumulatorMeasurement</code></dt>
-    <dd>Aggregates lists in submetrics on the measurement's context.
-    It uses Perl regular expressions to filter list elements.</dd>
+    <dt><code>ContextAccumulatorMeasurement</code></dt>
+    <dd>Aggregates lists from other measurements in the same context.  It uses
+    Perl regular expressions to filter list elements.</dd>
     <dt><code>CounterMeasurement</code></dt>
     <dd>A simple counter, it tallies the values that are put in it.
     If you try to add a non-number, it simply adds 1.</dd>
@@ -3171,6 +4519,9 @@ The current types of measurement are as follow:
         <li>sum</li>
         <li>number of data points</li>
     </ul></dd>
+    <dt><code>SubMetricsAccumulatorMeasurement</code></dt>
+    <dd>Aggregates lists from measurements in submetrics of the current
+    context.  It uses Perl regular expressions to filter list elements.</dd>
     <dt><code>SumMeasurement</code></dt>
     <dd>Adds up numerical values.  Use it with just one term to alias
     other measurements.</dd>
@@ -3180,24 +4531,26 @@ The current types of measurement are as follow:
 <p>
 Whenever a measurement references another measurement, there is a chance
 that that measurement is in fact a <code>StatisticalMeasurement</code> standing in
-for a collection of others at the levels below.  The measurment making
+for a collection of others at the levels below.  The measurement making
 the reference can specify explicitly which subvalue (i.e., minimum, median,
 etc.) of the <code>StatisticalMeasurement</code> it wants to use for its own
 computation.  Or, it can rely on the <code>StatisticalMeasurement</code>'s self
 disposition setting.  A <code>StatisticalMeasurement</code> can specify explicitly
 which of its subvalues it wants to use for its numerical value.  By
-default, this is the average value.
+default, it uses the average value.
 </p>
 
 <p>
-These measurements can potentially refer to other measurements and fall
-under this disposition feature:
+These measurements can potentially refer to other measurements and make use of
+the disposition feature when dealing with <code>StatisticalMeasurement</code>:
 </p>
 
 <ul>
+<li><code>ContextAccumulatorMeasurement</code></li>
 <li><code>NbSubMetricsMeasurement</code></li>
 <li><code>RatioMeasurement</code></li>
 <li><code>StatisticalMeasurement</code></li>
+<li><code>SubMetricsAccumulatorMeasurement</code></li>
 <li><code>SumMeasurement</code></li>
 </ul>
 
@@ -3214,7 +4567,7 @@ that class, and one method-level metrics for each of its methods.
 </p>
 
 <p>
-The tools add Class-level metrics to relevant group-level metrics.  One such
+The tools add class-level metrics to relevant group-level metrics.  One such
 group, which the tools create automatically for each class, is named after
 the package that this class belongs to.  You can define additional groups
 in the configuration file by providing a name for the group and one or more
@@ -3224,9 +4577,7 @@ group together classes for a component or module that might span multiple
 Java packages.
 </p>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
     &lt;group-definitions&gt;
@@ -3241,7 +4592,9 @@ E.g.,
     &lt;/group-definitions&gt;
 </pre>
 
-<a name="ExtractingX" />
+</div>
+
+<a name="ExtractingX"></a>
 <h3>Extracting</h3>
 
 <p>
@@ -3251,7 +4604,7 @@ written in XML.  You set the file with the <code>-configuration</code> switch to
 either command.  There is also a <code>-default-configuration</code> switch that
 kicks if you do not provide a <code>-configuration</code> switch.  This is how the
 launching scripts can point to the standard configuration in
-<code>%DEPENDENCYFINDER_HOME%/etc/MetricsConfig.xml</code> even if you don't
+<code>%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml</code> even if you don't
 specify a configuration on the command-line.
 </p>
 
@@ -3261,13 +4614,13 @@ There are two configurations that come bundled with Dependency Finder.
 
 <blockquote>
 <dl>
-    <dt><code>%DEPENDENCYFINDER_HOME%/etc/MetricsConfig.xml</code></dt>
+    <dt><code>%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml</code></dt>
     <dd>It has a series of measurements and statistical compilations at
     various levels.  It can assist you in evaluating the size and
     complexity of your software.  You can use it to find large classes
     or methods, or to find pieces with a disproportionate number of
     dependencies.</dd>
-    <dt><code>%DEPENDENCYFINDER_HOME%/etc/MartinConfig.xml</code></dt>
+    <dt><code>%DEPENDENCYFINDER_HOME%\etc\MartinConfig.xml</code></dt>
     <dd>Computes <code>I</code>, <code>A</code>, and <code>D'</code>, as per Robert C. Martin's
     article.</dd>
 </dl>
@@ -3305,7 +4658,7 @@ exist.
 </blockquote>
 
 <p>
-Look at <code>%DEPENDENCYFINDER_HOME%/etc/MartinConfig.xml</code> for an exemple
+Look at <code>%DEPENDENCYFINDER_HOME%\etc\MartinConfig.xml</code> for an exemple
 of how you can combine these types of measurements to compute complex
 values.
 </p>
@@ -3385,7 +4738,7 @@ values this is depends on the self disposition used in the measurement's
 <code>&lt;init&gt;</code> tag.  By default, it is the average of the data set.
 </p>
 
-<a name="ExtractingWiththeGUIX" />
+<a name="ExtractingWiththeGUIX"></a>
 <h4>Extracting With the GUI</h4>
 
 <div align="center">
@@ -3417,7 +4770,7 @@ header of each column.  Each mouse click alternates between ascending
 and descending sorting order.  This also works for the <code>name</code> column.
 </p>
 
-<a name="ExtractingWiththeCLIX" />
+<a name="ExtractingWiththeCLIX"></a>
 <h4>Extracting With the CLI</h4>
 
 <p>
@@ -3426,13 +4779,16 @@ out the files and directories on the command-line.  The content of the report
 depends on the switches on the command-line.
 </p>
 
-<p>
-E.g.,
-</p>
+<div class="highlight">
 
 <pre>
-    C:\>OOMetrics -all -txt classes %JAVA_HOME%\JRE\lib\rt.jar
+    C:\>OOMetrics -all
+                  -txt
+                  classes
+                  %JAVA_HOME%\JRE\lib\rt.jar
 </pre>
+
+</div>
 
 <p>
 You must use at least one of the following switches that determine which
@@ -3482,11 +4838,18 @@ with the prefix you specify, followed by either "<code>_project</code>",
 and ends with the "<code>.csv</code>" suffix.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>OOMetrics -all -txt %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df
+    C:\>OOMetrics -out df
+                  -all
+                  -txt
+                  %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
 </pre>
 
-<a name="ExtractingWithAntX" />
+</div>
+
+<a name="ExtractingWithAntX"></a>
 <h4>Extracting With Ant</h4>
 
 <p>
@@ -3496,6 +4859,8 @@ Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant where to fin
 Dependency Finder classes.    There is a special
 <a href="tasks/index.html">help page</a> on how to do this.
 </p>
+
+<div class="highlight">
 
 <pre>
     &lt;oometrics allmetrics="yes"
@@ -3508,9 +4873,11 @@ Dependency Finder classes.    There is a special
     &lt;/oometrics&gt;
 </pre>
 
+</div>
+
 <hr />
 
-<a name="APIDifferences" />
+<a name="APIDifferences"></a>
 <h2>API Differences</h2>
 
 <p>
@@ -3532,10 +4899,10 @@ and verify that they are evolving in the right direction, whichever
 way you decide that is.
 </p>
 
-<a name="ExtractingXX" />
+<a name="ExtractingXX"></a>
 <h3>Extracting</h3>
 
-<a name="ExtractingWiththeCLIXX" />
+<a name="ExtractingWiththeCLIXX"></a>
 <h4>Extracting With the CLI</h4>
 
 <p>
@@ -3593,14 +4960,18 @@ computes the API differences between versions <i>Old</i> and <i>New</i> of
 <code>diff.xml</code>.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>JarJarDiff -name "My Project"    \
-                   -old-label Old        \
-                   -old old.jar          \
-                   -new-label New        \
-	           -new new.jar          \
-	           -out diff.xml
+    C:\>JarJarDiff -out diff.xml
+                   -name "My Project"
+                   -old-label Old
+                   -old old.jar
+                   -new-label New
+	           -new new.jar
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/ExtractingDifferences.gif" /><br />
@@ -3631,7 +5002,7 @@ stream (i.e., <code>System.out</code>).  You can write it to a file by using the
 <code>-out</code> switch.
 </p>
 
-<a name="ExtractingWithAntXX" />
+<a name="ExtractingWithAntXX"></a>
 <h4>Extracting With Ant</h4>
 
 <p>
@@ -3642,6 +5013,8 @@ using Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant where 
 the Dependency Finder classes.    There is a special
 <a href="tasks/index.html">help page</a> on how to do this.
 </p>
+
+<div class="highlight">
 
 <pre>
     &lt;jarjardiff destfile="xerces.xml"
@@ -3660,7 +5033,9 @@ the Dependency Finder classes.    There is a special
           out="xerces.html"/&gt;
 </pre>
 
-<a name="ReportingX" />
+</div>
+
+<a name="ReportingX"></a>
 <h3>Reporting</h3>
 
 <p>
@@ -3683,7 +5058,7 @@ stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
 with either our stylesheets or your own.
 </p>
 
-<a name="FullList" />
+<a name="FullList"></a>
 <h4>Full List</h4>
 
 <p>
@@ -3692,17 +5067,21 @@ following command produces a full report from the output of the previous
 <code>JarJarDiff</code> command.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>DiffToHTML -in diff.xml          \
+    C:\>DiffToHTML -in diff.xml
                    -out fullreport.html
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/CompleteList.gif" /><br />
 <b>Full List</b>
 </div>
 
-<a name="PublicList" />
+<a name="PublicList"></a>
 <h4>Public List</h4>
 
 <p>
@@ -3711,17 +5090,21 @@ to HTML.  The following command produces a full report from the output
 of the previous <code>JarJarDiff</code> command.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>PublishedDiffToHTML -in diff.xml                  \
+    C:\>PublishedDiffToHTML -in diff.xml
                             -out publishedAPIreport.html
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/PublicList.gif" /><br />
 <b>Public List</b>
 </div>
 
-<a name="Filtering" />
+<a name="Filtering"></a>
 <h4>Filtering</h4>
 
 <p>
@@ -3747,44 +5130,54 @@ In this first case, the command will only list elements that you marked as
 <code>@level published</code>.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>ListDocumentedElements -tag level         \
-                               -valid published   \
-                               -out old-list.txt  \
+    C:\>ListDocumentedElements -tag level
+                               -valid published
+                               -out old-list.txt
                                old.java
 </pre>
 
 <pre>
-    C:\>ListDocumentedElements -tag level         \
-                               -valid published   \
-                               -out new-list.txt  \
+    C:\>ListDocumentedElements -tag level
+                               -valid published
+                               -out new-list.txt
                                new.java
 </pre>
+
+</div>
 
 <p>
 If you add Dependency Finder's JAR file to your <code>CLASSPATH</code>, you can call
 <code>javadoc</code> directly instead:
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements  \
-               -tag level                                           \
-               -valid published                                     \
-               -out old-list.txt                                    \
+    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements
+               -tag level
+               -valid published
+               -out old-list.txt
                old.java
 </pre>
 
 <pre>
-    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements  \
-               -tag level                                           \
-               -valid published                                     \
-               -out new-list.txt                                    \
+    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements
+               -tag level
+               -valid published
+               -out new-list.txt
                new.java
 </pre>
+
+</div>
 
 <p>
 Or, as an Ant task:
 </p>
+
+<div class="highlight">
 
 <pre>
     &lt;target name="listdocumentedelements" depends="init"&gt;
@@ -3801,24 +5194,30 @@ Or, as an Ant task:
     &lt;/target&gt;
 </pre>
 
+</div>
+
 <p>
 In this second case, the command will only list elements that you did marked
 not mark as <code>@level developer</code>.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>ListDocumentedElements -tag level          \
-                               -invalid published  \
-                               -out old-list.txt   \
+    C:\>ListDocumentedElements -tag level
+                               -invalid published
+                               -out old-list.txt
                                old.java
 </pre>
 
 <pre>
-    C:\>ListDocumentedElements -tag level          \
-                               -invalid developer  \
-                               -out new-list.txt   \
+    C:\>ListDocumentedElements -tag level
+                               -invalid developer
+                               -out new-list.txt
                                new.java
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/ListDocumentedElements.gif" /><br />
@@ -3832,16 +5231,20 @@ only need to do either, not both.  Dependency Finder tools can read JAR files
 just as well as <code>.class</code> files.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>JarJarDiff -name "My Project"               \
-                   -old-label Old                   \
-                   -old old.jar                     \
-	           -old-documentation old-list.txt  \
-                   -new-label New                   \
-	           -new new.jar                     \
-	           -new-documentation new-list.txt  \
-	           -out diff.xml
+    C:\>JarJarDiff -out diff.xml
+                   -name "My Project"
+                   -old-label Old
+                   -old old.jar
+	           -old-documentation old-list.txt
+                   -new-label New
+	           -new new.jar
+	           -new-documentation new-list.txt
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/ExtractingDifferencesAndDocumentationChanges.gif" /><br />
@@ -3854,10 +5257,14 @@ changes in what is no more part of the documentation and what
 was newly added to the documentation.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>DiffToHTML -in diff.xml          \
+    C:\>DiffToHTML -in diff.xml
                    -out fullreport.html
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/CompleteListOfDocumentedElements.gif" /><br />
@@ -3869,18 +5276,22 @@ The list can also be fed to <code>PublishedDiffToHTML</code> to further
 limit the changes to the published public API.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>PublishedDiffToHTML -in diff.xml                         \
-                            -param validation-list new-list.txt  \
+    C:\>PublishedDiffToHTML -in diff.xml
                             -out publishedAPIreport.html
+                            -param validation-list new-list.txt
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/PublicListOfDocumentedElements.gif" /><br />
 <b>Public List Of Documented Elements</b>
 </div>
 
-<a name="ListingPublishedDocumentationChanges" />
+<a name="ListingPublishedDocumentationChanges"></a>
 <h4>Listing Published Documentation Changes</h4>
 
 <p>
@@ -3889,15 +5300,19 @@ published API.  It only needs the lists generated by the doclet.  No
 source or bytecode required.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>ListDiff -name "My Project"  \
-                 -old-label Old      \
-                 -old old-list.txt   \
-                 -new-label New      \
-                 -new new-list.txt   \
-                 -compress           \
-                 -out listdiff.xml
+    C:\>ListDiff -out listdiff.xml
+                 -name "My Project"
+                 -old-label Old
+                 -old old-list.txt
+                 -new-label New
+                 -new new-list.txt
+                 -compress
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/ListDiff.gif" /><br />
@@ -3910,10 +5325,14 @@ into HTML with <code>ListDiffToHTML</code>, or to text with
 <code>ListDiffToText</code>.
 </p>
 
+<div class="highlight">
+
 <pre>
-    C:\>ListDiffToHTML -in listdiff.xml     \
+    C:\>ListDiffToHTML -in listdiff.xml
                        -out docreport.html
 </pre>
+
+</div>
 
 <div align="center">
     <img src="images/ListDiff2HTML.gif" /><br />
@@ -3922,40 +5341,825 @@ into HTML with <code>ListDiffToHTML</code>, or to text with
 
 <dl>
     <dt>NOTE:</dt>
-    <dd><i>You can also use <code>ListDocumentationDiffToText</code>
-    and <code>ListDocumentationDiffToHTML</code> to extract similar
-    information from the output of JarJarDiff.  The list
-    is written in HTML.  But we recommend that you use
-    <code>ListDiff</code> instead; it is faster and simpler.</i></dd>
+    <dd><i>You can also use <code>ListDocumentationDiffToText</code> and
+    <code>ListDocumentationDiffToHTML</code> to extract similar information from the
+    output of <code>JarJarDiff</code>.  The list is written in HTML.  But we recommend
+    that you use <code>ListDiff</code> instead; it is faster and simpler.</i></dd>
 </dl>
 
 <hr />
 
-<a name="BringingItAllTogether" />
+<a name="BringingItAllTogether"></a>
 <h2>Bringing It All Together</h2>
 
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
-
 <p>
-Here are some more elaborate use cases that combine functionality from multiple
-tools.
+Here are some use cases that are more elaborate.  They combine functionality
+from multiple tools.
 </p>
 
-<a name="TrackingDependenciesOnDeprecatedSymbols" />
+<a name="TrackingDependenciesOnDeprecatedSymbols"></a>
 <h3>Tracking Dependencies On Deprecated Symbols</h3>
 
 <p>
-This use case deals with having a large codebase and tracking 
+This use case deals with having a large codebase and tracking usage of
+deprecated classes and methods.  As your codebase grows and your third-party
+libraries get updated, it is inevitable that it will end up using deprecated
+APIs.  <code>javac</code> can list violations, but only up to the first 100 and the output
+is a simple flat list of violations.
 </p>
 
-<a name="NarrowingAPIDifferencestoActuallyUsedAPI" />
+<p>
+Dependency Finder can track all uses of deprecated APIs and group them by
+various criteria.  You can use either <code>DependencyReporter</code> or <code>OOMetrics</code>,
+depending on how you want to structure the results.
+</p>
+
+<p>
+But regardless of which way you go about it, you must first list the deprecated
+symbols you are looking for.  Run <code>ListDeprecatedElements</code> on all the JARs that
+might contain deprecated symbos.  Don't forget to include <code>rt.jar</code>.  Save the
+output to a file that will list each deprecated element, one per line.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>ListDeprecatedElements -out deprecated.txt
+                               %JAVA_HOME%\jre\lib\rt.jar
+                               lib
+                               classes
+</pre>
+
+</div>
+
+<p>
+<i>Note: This may take a while.</i>
+</p>
+
+<p>
+You only need to run this command when a JAR changes.  In the example above,
+we look at third-party libraries in <code>lib</code> and the project's own codebase in
+<code>classes</code>.  The codebase is likely to change very often, but you don't have to
+wait for the tool to analyze large libraries, such as <code>rt.jar</code>, every time.
+You can split the call and generate two lists: one list for all third-party
+libraries (fairly stable, doesn't change often) and one list for our own
+codebase (generate new list with every build to take into account the latest
+changes).
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>ListDeprecatedElements -out <b>deprecated.libs.txt</b>
+                               %JAVA_HOME%\jre\lib\rt.jar
+                               lib
+</pre>
+
+<pre>
+    C:\>ListDeprecatedElements -out <b>deprecated.code.txt</b>
+                               classes
+</pre>
+
+</div>
+
+<p>
+The examples in this section use the CLI, but there are equivalent Ant tasks so
+you can put this in your nightly build very easily.
+</p>
+
+<p>
+Let's use the following simple class as an example to illustrate the various
+reports.  It has one deprecated method and another method calling it, therefore
+creating a dependency on a deprecated symbol.
+</p>
+
+<div class="highlight">
+
+<pre>
+    public class DeprecatedExample {
+        /** @deprecated */
+        public void deprecatedMethod() {}
+</pre>
+        
+<pre>
+        public void callingMethod() {
+            deprecatedMethod();
+        }
+    }
+</pre>
+
+</div>
+
+<p>
+You can extract a list of deprecated symbols from it.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>ListDeprecatedElements -out deprecated.txt DeprecatedExample.class
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    DeprecatedExample.deprecatedMethod()
+</pre>
+
+</div>
+
+<p>
+Now that you have a list of deprecated symbols, you can analyze the codebase to
+determine where they are being used.  You can use either with a dependency
+graph or with dependency-related metrics.
+</p>
+
+<a name="UsingaDependencyGraph"></a>
+<h4>Using a Dependency Graph</h4>
+
+<p>
+Generate a dependency graph to work from:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyExtractor -xml -out graph.xml DeprecatedExample.class
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
+        DeprecatedExample
+            --> java.lang.Object
+            DeprecatedExample()
+                --> java.lang.Object.Object()
+            callingMethod()
+                --> DeprecatedExample.deprecatedMethod()
+            deprecatedMethod()
+                <-- DeprecatedExample.callingMethod()
+    java.lang
+        Object
+            <-- DeprecatedExample
+            Object()
+                <-- DeprecatedExample.DeprecatedExample()
+</pre>
+
+</div>
+
+<p>
+Then, run the <code>DependencyReporter</code> to show dependencies related to the
+deprecated API.  The tool can either group them by deprecated element, showing
+where they are called, or by caller, showing which deprecated element they
+call.
+</p>
+
+<p>
+It is useful to organize the report by deprecated element to find all the
+places where a given deprecated symbol is referenced.  In the example, it will
+show where <code>deprecatedMethod()</code> is called from.
+</p>
+
+<p>
+For a text report organized by deprecated element:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyReporter -out report.txt
+                           -show-<b>inbounds</b>
+                           -<b>scope</b>-includes-list deprecated.txt
+                           graph.xml
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
+        DeprecatedExample
+            deprecatedMethod()
+                <-- DeprecatedExample.callingMethod()
+</pre>
+
+</div>
+
+<p>
+For an HTML report organized by deprecated element:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyReporter -xml -out report.xml
+                           -show-<b>inbounds</b>
+                           -<b>scope</b>-includes-list deprecated.txt
+                           graph.xml
+</pre>
+
+<pre>
+    C:\>DependencyGraphToHTML -in report.xml -out report.html
+</pre>
+
+</div>
+
+<p>
+It is useful to organize the report by caller to find all usage of deprecated
+symbols in a given section of your codebase.  In the example, it will show what
+deprecated methods are used by <code>callingMethod()</code>.
+</p>
+
+<p>
+For a text report organized by caller:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyReporter -out report.txt
+                           -show-<b>outbounds</b>
+                           -<b>filter</b>-includes-list deprecated.txt
+                           graph.xml
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
+        DeprecatedExample
+            callingMethod()
+                --> DeprecatedExample.deprecatedMethod()
+</pre>
+
+</div>
+
+<p>
+For an HTML report organized by caller:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyReporter -xml -out report.xml
+                           -show-<b>outbounds</b>
+                           -<b>filter</b>-includes-list deprecated.txt
+                           graph.xml
+</pre>
+
+<pre>
+    C:\>DependencyGraphToHTML -in report.xml -out report.html
+</pre>
+
+</div>
+
+<p>
+You can use multiple <code>-scope-includes-list</code> and <code>-filter-includes-list</code>
+switches if your deprecated API list consists of more than one file.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyReporter -out report.txt
+                           -show-inbounds
+                           <b>-scope-includes-list deprecated.libs.txt</b>
+                           <b>-scope-includes-list deprecated.code.txt</b>
+                           graph.xml
+</pre>
+
+<pre>
+    C:\>DependencyReporter -out report.txt
+                           -show-outbounds
+                           <b>-filter-includes-list deprecated.libs.txt</b>
+                           <b>-filter-includes-list deprecated.code.txt</b>
+                           graph.xml
+</pre>
+
+</div>
+
+<p>
+<code>DependencyReporter</code> can also take <code>-scope-excludes-list</code> and
+<code>-filter-excludes-list</code> switches for deprecated items that you may want to skip
+over.  There are times when reliance on a deprecated API is inevitable or too
+expensive to correct.  Yet, you don't want it to appear again and again in
+reports and distract from other use of deprecated material that needs to be
+fixed.  You can keep track manually of the cases to ignore.  When you pass them
+to <code>DependencyReporter</code>, it will be remove them from the <i>includes</i> list.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyReporter -out report.txt
+                           -show-inbounds
+                           -scope-includes-list deprecated.libs.txt
+                           -scope-includes-list deprecated.code.txt
+                           <b>-scope-excludes-list deprecated.skip.txt</b>
+                           graph.xml
+</pre>
+
+</div>
+
+<p>
+<code>DependencyReporter</code> provides a simple format where a lot of data is presented
+succinctly side-by-side.  But you may want to group this data in larger chunks.
+For this, you can use <code>OOMetrics</code> instead.
+</p>
+
+<a name="UsingDependency-RelatedMetrics"></a>
+<h4>Using Dependency-Related Metrics</h4>
+
+<p>
+You can use <code>OOMetrics</code> to write either an HTML report or one of two text
+report formats.
+</p>
+
+<p>
+To generate reports organized by deprecated elements, use the configuration
+file in <code>etc\InboundDependencyConfig.xml</code>.
+</p>
+
+<div align="center">
+<img src="images/InboundDependencyConfig.gif" /><br />
+<b>Inbound Dependency Config</b>
+</div>
+
+<p>
+<code>In</code> counts all calls, including duplicates.  <code>DistIn</code> removes duplicates and
+can list its entries when <code>OOMetrics</code> is used with <code>-expand</code>.  At project
+level, they account for the whole project.  At group level, they account for an
+entire group or package.  At the class level, they account for a single class.
+At the method, they account for an individual method.  <code>Inside</code> is used to show
+dependencies on the class itself that do not come from its methods.
+</p>
+
+<p>
+For a text report organized by deprecated elements, with all methods listed
+together:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>InboundDependencyConfig</b>.xml
+                  -filter-includes-list deprecated.txt
+                  -all
+                  <b>-txt</b>
+                  -expand
+                  DeprecatedExample.class
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    Project metrics
+    ---------------
+    Project
+        Used by APIs (In): 1 [1 1/1 0 1 1 (1)]
+        Used by distinct APIs (DistIn): 1 (100%) [1 1/1 0 1 1 (1)]
+</pre>
+
+
+<pre>
+    Group metrics
+    -------------
+</pre>
+
+<pre>
+        Used by APIs (In): 1 [1 1/1 0 1 1 (1)]
+        Used by distinct APIs (DistIn): 1 (100%) [1 1/1 0 1 1 (1)]
+</pre>
+
+
+<pre>
+    Class metrics
+    -------------
+    DeprecatedExample
+        Used by APIs (In): 1
+        Used by distinct APIs (DistIn): 1 (100%)
+        Used by additional APIs directly (Inside): 0 (0%)
+</pre>
+
+
+<pre>
+    Method metrics
+    --------------
+    DeprecatedExample.deprecatedMethod()
+        Used by APIs (In): 1
+        Used by distinct APIs (DistIn): 1 (100%)
+            DeprecatedExample.callingMethod()
+</pre>
+
+</div>
+
+<p>
+For a text report organized by deprecated element, with methods grouped by
+class:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>InboundDependencyConfig</b>.xml
+                  -filter-includes-list deprecated.txt
+                  -all
+                  <b>-xml</b>
+                  -expand
+                  DeprecatedExample.class
+</pre>
+
+<pre>
+    C:\>MetricsToText -in report.xml -out report.txt
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    Project
+        Used by APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+        Used by distinct APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+        Used by distinct APIs ratio: 1.0
+</pre>
+
+
+<pre>
+            Used by APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+            Used by distinct APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+            Used by distinct APIs ratio: 1.0
+</pre>
+
+<pre>
+            DeprecatedExample
+                Used by APIs: 1.0
+                Used by distinct APIs: 1.0
+                Used by distinct APIs ratio: 1.0
+                Used by additional APIs directly: 0
+                Used by additional APIs directly ratio: 0.0
+</pre>
+
+<pre>
+                DeprecatedExample.deprecatedMethod()
+                    Used by APIs: 1.0
+                    Used by distinct APIs: 1
+                        DeprecatedExample.callingMethod()
+                    Used by distinct APIs ratio: 1.0
+</pre>
+
+</div>
+
+<p>
+For an HTML version of this report, use <code>MetricsToHTML</code> instead in the final
+step.
+</p>
+
+<p>
+To generate reports organized by caller, use the configuration file in
+<code>etc\OutboundDependencyConfig.xml</code>.
+</p>
+
+<div align="center">
+<img src="images/OutboundDependencyConfig.gif" /><br />
+<b>Outbound Dependency Config</b>
+</div>
+
+<p>
+<code>Out</code> counts all calls, including duplicates.  <code>DistOut</code> removes duplicates and
+can list its entries when <code>OOMetrics</code> is used with <code>-expand</code>.  At project
+level, they account for the whole project.  At group level, they account for an
+entire group or package.  At the class level, they account for a single class.
+At the method, they account for an individual method.  <code>Outside</code> is used to
+show dependencies from the class itself that do not go through its methods.
+</p>
+
+<p>
+For a text report organized by caller, with all methods listed together:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>OutboundDependencyConfig</b>.xml
+                  -filter-includes-list deprecated.txt
+                  -all
+                  <b>-txt</b>
+                  -expand
+                  DeprecatedExample.class
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    Project metrics
+    ---------------
+    Project
+        Uses APIs (Out): 1 [1 1/1 0 1 1 (1)]
+        Uses distinct APIs (DistOut): 1 (100%) [1 1/1 0 1 1 (1)]
+</pre>
+
+
+<pre>
+    Group metrics
+    -------------
+</pre>
+
+<pre>
+        Uses APIs (Out): 1 [1 1/1 0 1 1 (1)]
+        Uses distinct APIs (DistOut): 1 (100%) [1 1/1 0 1 1 (1)]
+</pre>
+
+
+<pre>
+    Class metrics
+    -------------
+    DeprecatedExample
+        Uses APIs (Out): 1
+        Uses distinct APIs (DistOut): 1 (100%)
+        Uses additional APIs in fields and class structure (outside of methods) (Outside): 0 (0%)
+</pre>
+
+
+<pre>
+    Method metrics
+    --------------
+    DeprecatedExample.callingMethod()
+        Uses APIs (Out): 1
+        Uses distinct APIs (DistOut): 1 (100%)
+            DeprecatedExample.deprecatedMethod()
+</pre>
+
+</div>
+
+<p>
+For a text report organized by caller, with methods grouped by class:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>OutboundDependencyConfig</b>.xml
+                  -filter-includes-list deprecated.txt
+                  -all
+                  <b>-xml</b>
+                  -expand
+                  DeprecatedExample.class
+</pre>
+
+<pre>
+    C:\>MetricsToText -in report.xml -out report.txt
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    Project
+        Uses APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+        Uses distinct APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+        Uses distinct APIs ratio: 1.0
+</pre>
+
+
+<pre>
+            Uses APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+            Uses distinct APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+            Uses distinct APIs ratio: 1.0
+</pre>
+
+<pre>
+            DeprecatedExample
+                Uses APIs: 1.0
+                Uses distinct APIs: 1.0
+                Uses distinct APIs ratio: 1.0
+                Uses additional APIs in fields and class structure (outside of methods): 0
+                Uses additional APIs in fields and class structure (outside of methods) ratio: 0.0
+</pre>
+
+<pre>
+                DeprecatedExample.callingMethod()
+                    Uses APIs: 1.0
+                    Uses distinct APIs: 1
+                        DeprecatedExample.deprecatedMethod()
+                    Uses distinct APIs ratio: 1.0
+</pre>
+
+</div>
+
+<p>
+For an HTML version of this report, use <code>MetricsToHTML</code> instead in the final
+step.
+</p>
+
+<a name="NarrowingAPIDifferencestoActuallyUsedAPI"></a>
 <h3>Narrowing API Differences to Actually Used API</h3>
 
-<a name="ComputingtheD'Metric" />
+<p>
+You often rely on third-party libraries for speciic functions in your own
+software.  For example, Dependency Finder uses Log4J for logging and
+Jakarta-ORO for matching regular expressions.  When these third-party libraries
+release new versions, you need to figure out the impact that upgrading to the
+newer version will have on your code.
+</p>
+
+<p>
+This is where <code>JarJarDiff</code> can help.  But it reports <i>all</i> changes, many of
+which may be internal only or in areas that you are not using.  You can run the
+output through <code>PublishedDiffToHTML</code> to limit it to externally visible elements
+(public and protected), but that may not be enough.  The third-party library
+provider may not give you a list of their published API to further restrict
+<code>PublishedDiffToHTML</code>, but you can build your own using Dependency Finder,
+customized to your own usage of the library.
+</p>
+
+<p>
+For example, to find Dependency Finder's usage of Log4J, you first extract
+Dependency Finder's dependency graph and reduce it to the part that involves
+Log4J elements only.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyExtractor -xml -out df.xml
+                            DependencyFinder.jar
+</pre>
+
+<pre>
+    C:\>DependencyReporter -xml -out df-log4j.xml
+                           -show-all
+                           -scope-includes /log4j/
+                           df.xml
+</pre>
+
+<pre>
+    C:\>DependencyGraphToText -in df-log4j.xml
+                              -out df-log4j.txt
+</pre>
+
+</div>
+
+<p>
+If you use multiple third-party libraries, you don't have to to repeat all the
+steps for each one.  You can supply multiple <code>-scope-includes</code> switches to
+<code>DependencyReporter</code> to get a single text file that has all the symbols across
+all third-party libraries.
+</p>
+
+<p>
+Now, <code>df-log4j.txt</code> has the list of all Log4J elements used in Dependency
+Finder.  You can pass it to <code>JarJarDiff</code> and <code>PublishedDiffToHTML</code> to limit the
+report to these elements only.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>JarJarDiff -out log4j-1.2.8-1.2.9.xml
+                   -name Log4J
+                   -old-label 1.2.8
+                   -old jakarta-log4j-1.2.8\dist\lib\log4j-1.2.8.jar
+                   -new-label 1.2.9
+                   -new jakarta-log4j-1.2.0\dist\lib\log4j-1.2.9.jar
+</pre>
+
+<pre>
+    C:\>PublishedDiffToHTML -in log4j-1.2.8-1.2.9.xml
+                            -out log4j-1.2.8-1.2.9.html
+                            -param validation-list df-log4j.txt
+</pre>
+
+</div>
+
+<p>
+If you run <code>DiffToHTML</code>, you will get a full report on what changed in the
+library.  If you run <code>PublishedDiffToHTML</code> without a validation list, you will
+get a smaller report that focuses on the public view of the library.  The
+example shown above, with the validation list, focuses exclusively on those
+parts of the library that you are actually using.
+</p>
+
+<a name="ComputingtheD'Metric"></a>
 <h3>Computing the D' Metric</h3>
+
+<p>
+You can use <code>OOMetrics</code> to computer Robert C. Martin's D metric.  Dependency
+Finder comes with a special configuration that computes a normalized variation,
+called D', in the configuration file <code>etc\MartinConfig.xml</code>.
+</p>
+
+<div align="center">
+<img src="images/MartinConfig.gif" /><br />
+<b>Martin Config</b>
+</div>
+
+<p>
+<code>D</code>, <code>A</code>, and <code>I</code> work at the group or package level.
+</p>
+
+<p>
+The formula for <code>I</code> is:
+</p>
+
+<pre>
+    I = Ce / (Ca + Ce)
+</pre>
+
+<p>
+<code>Ca</code> is the number of classes outside this package that depend on classes
+inside this package (i.e., inbound dependencies).  <code>Ce</code> is the number of
+classes outside this package that classes in the package depend on (i.e.,
+outbound dependencies).  Feature names are converted to class names with Perl
+regular expressions.  All class names are collected with
+<code>SubMetricsAccumulatorMeasurement</code> to remove duplicates.  With <code>Ca</code> and <code>Ce</code>,
+the tool can calculate the value of <code>I</code> for the package.
+</p>
+
+<p>
+The formula for <code>A</code> is:
+</p>
+
+<pre>
+    A = Na / Nc
+</pre>
+
+<p>
+<code>OOMetrics</code> already computes <code>C</code> and <code>AC</code> that correspond to <code>Nc</code> and <code>Na</code>
+respectively.  The configuration uses <code>SumMeasurement</code> to give them aliases to
+relate them to the computation of <code>A</code>.
+</p>
+
+<p>
+The formula for <code>D'</code> is:
+</p>
+
+<pre>
+    D' = A + I - 1
+</pre>
+
+<p>
+It is computed for each group.  At the project level, the configuration gives a
+statistical analysis of <code>D'</code>, <code>A</code>, and <code>I</code> across the project's codebase.
+</p>
+
+<p>
+For a text report straight from the tool:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>MartinConfig</b>.xml
+                  -all
+                  <b>-txt</b>
+                  classes
+</pre>
+
+</div>
+
+<p>
+For a text report from the XML output:
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>MartinConfig</b>.xml
+                  -all
+                  <b>-xml</b>
+                  classes
+</pre>
+
+<pre>
+    C:\>MetricsToText -in report.xml -out report.txt
+</pre>
+
+</div>
+
+<p>
+For an HTML version of this report, use <code>MetricsToHTML</code> instead in the last
+step.
+</p>
 
 <!--
          11111111112222222222333333333344444444445555555555666666666677777777778
@@ -3964,13 +6168,13 @@ This use case deals with having a large codebase and tracking
 
 <hr />
 
-<a name="Support" />
+<a name="Support"></a>
 <h2>Support</h2>
 
 <p>
 Look at the current bug list on
-<a href="http://sourceforge.net/projects/depfind">SourceForge</a>.  There is also
-a help-oriented discussion forum.
+<a href="http://sourceforge.net/projects/depfind">SourceForge</a>.  There is also a
+help-oriented discussion forum.
 </p>
 
 <p>
