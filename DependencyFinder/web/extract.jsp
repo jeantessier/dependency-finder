@@ -176,7 +176,7 @@
 	<td>
 	    <br />
 	    This operation may take a few minutes, depending on the
-	    size and complexity of the codebase to analyze.<br/>
+	    size and complexity of the codebase to analyze.<br />
 	    If you really want to do this at this time, please click
 	    on the <i>Launch</i> button.
 	</td>
@@ -185,7 +185,18 @@
 	<td align="center">
 	    <br />
 	    <form method="post" action="<%= request.getRequestURI() %>">
-		<input type="submit" name="launch" value="Launch"/>
+		<input type="submit" name="launch" value="Launch">
+<%
+	if (application.getAttribute("factory") != null) {
+%>
+		<br />
+		<label title="Uncheck to discard the current graph and extract a new one from scratch" for="update">
+		    <input type="checkbox" name="update" checked id="update">
+		    Update the current graph
+		</label>
+<%
+	}
+%>
 	    </form>
 	</td>
     </tr>
@@ -232,17 +243,17 @@
 	VerboseListener listener = new VerboseListener(out);
 
 	ClassfileLoaderDispatcher dispatcher = (ClassfileLoaderDispatcher) application.getAttribute("dispatcher");
-	if (dispatcher == null) {
+	if (dispatcher == null || request.getParameter("update") == null) {
 	    dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
 	}
 
 	NodeFactory factory = (NodeFactory) application.getAttribute("factory");
-	if (factory == null) {
+	if (factory == null || request.getParameter("update") == null) {
 	    factory = new NodeFactory();
 	}
 
 	Monitor monitor = (Monitor) application.getAttribute("monitor");
-	if (monitor == null) {
+	if (monitor == null || request.getParameter("update") == null) {
 	    CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
 	    DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
 
