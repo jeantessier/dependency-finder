@@ -70,7 +70,7 @@ application to keep the data in memory and play with it a while.
 ---+++ Java Application on Windows
 
 Dependency Finder comes as a ZIP file that includes everything you need
-to run it.
+to run it.  The file is named =DependencyFinder-_&lt;version&gt;_.bin.zip=.
 
 ---++++ Step 1: Java Virtual Machine
 
@@ -78,13 +78,13 @@ You need to have a Java Virtual Machine installed.  You can get one for
 free from [[http://java.sun.com/][Sun Microsytems]].  Make sure you define
 the =JAVA_HOME= environment variable.
 
-For example, if you installed JDK 1.3 in =C:\jdk1.3=:
+For example, if you installed JDK 1.4.2 in =C:\jdk1.4.2=:
 
-    SET JAVA_HOME=C:\jdk1.3
+    SET JAVA_HOME=C:\jdk1.4.2
 
-You can either add this line to your =AUTOEXEC.BAT= file, or on WinNT
-use Start | Settings | Control Panel | System and select the Environment
-tab to create and edit variables.
+You can either add this line to your =AUTOEXEC.BAT= file, or on Windows
+NT/XP, use Start | Settings | Control Panel | System and select the
+Environment tab to create and edit variables.
 
 ---++++ Step 2: Deploy Dependency Finder
 
@@ -97,8 +97,8 @@ directory called =C:\DependencyFinder\=.
 
 ---++++ Step 3: Environment Variables
 
-<i>This is only required on Win95/98.  Under WinNT, the scripts are smart
-enough to find out on their own where you installed Dependency Finder.</i>
+<i>This is only required on Win95/98.  Under Windows NT/XP, the scripts are
+smart enough to find out on their own where you installed Dependency Finder.</i>
 
 Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
 point to the directory where you installed Dependency Finder.
@@ -107,7 +107,7 @@ For example, if you extracted the ZIP file in =C:\=
 
     SET DEPENDENCYFINDER_HOME=C:\DependencyFinder
 
-You can either enter this line in your =AUTOEXEC.BAT= file, or on WinNT
+You can either enter this line in your =AUTOEXEC.BAT= file, or on Windows NT/XP
 use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 
@@ -128,8 +128,8 @@ environment to take effect.
 
 ---++++ Miscellaneous
 
-If the VM runs out of memory, try setting the =DEPENDENCYFINDER_OPTS=
-environment variable.
+If the any of the tools run out of memory, try setting the
+=DEPENDENCYFINDER_OPTS= environment variable.
 
     SET DEPENDENCYFINDER_OPTS=-Xmx128m
 
@@ -148,21 +148,34 @@ for more details.
 
 ---+++ Java Application on Unix
 
-At this time, Dependency Finder does not have shell scripts to launch any
-of the tools the way it does under DOS.
+Dependency Finder comes as one of two compressed TAR file that includes
+everything you need to run it.  The files are named
+=DependencyFinder-_&lt;version&gt;_.bin.tar.gz= and
+=DependencyFinder-_&lt;version&gt;_.bin.tar.bz2=.  Their contents are identical
+except of the compression algorithm used.
+
+Tar files in the distribution contain long file names, and may require gnu tar
+to do the extraction.
 
 ---++++ Step 1: Java Virtual Machine
 
 You need to have a Java Virtual Machine installed.  You can get one for
 free from Linux or Solaris from [[http://java.sun.com/][Sun Microsytems]].
-Make sure you define the =JAVA_HOME= environment variable.
+Make sure you define the =JAVA_HOME= environment variable.  There are
+distributions of Java for most operating systems, including MacOS X.
 
 Suppose you installed JDK 1.3 in =/usr/java=.
 
-For sh or bash:
+For sh:
 
     JAVA_HOME=/usr/java
     export JAVA_HOME
+
+For bash:
+
+    export JAVA_HOME=/usr/java
+
+You can put these lines in your =.profile= file.
 
 For csh or tcsh:
 
@@ -172,11 +185,15 @@ You can put this line in your =.cshrc= file.
 
 ---++++ Step 2: Deploy Dependency Finder
 
-Extract the ZIP file to some directory you like.  The extraction will
+Extract the TAR file to some directory you like.  The extraction will
 create a subdirectory named "DependencyFinder" that is the root of the
 package.
 
-    $ unzip DependencyFinder.zip
+    $ tar xvzf DependencyFinder-_&lt;version&t;_.tar.gz
+
+or
+
+    $ bunzip2 DependencyFinder-_&lt;version&t;_.tar.bz2 | tar xvf -
 
 For example, if you extract it to =$HOME=, you will endup with a
 directory called =$HOME/DependencyFinder/=.
@@ -189,17 +206,24 @@ own where you installed Dependency Finder.</i>
 Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
 point to the directory where you installed Dependency Finder.
 
-If the VM runs out of memory, try modifying the =DEPENDENCYFINDER_OPTS=
-environment variable to allocate more memory to the JVM.
+If the any of the tools run out of memory, try modifying the
+=DEPENDENCYFINDER_OPTS= environment variable to allocate more memory to the JVM.
 
-Suppose you extracted the ZIP file in =$HOME=.
+Suppose you extracted the TAR file in =$HOME=.
 
-For sh or bash:
+For sh:
 
     DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
     export DEPENDENCYFINDER_HOME
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
+
+For bash:
+
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
+    export DEPENDENCYFINDER_OPTS=-Xmx128m
+
+You can put these lines in your =.profile= file.
 
 For csh or tcsh:
 
@@ -212,12 +236,18 @@ You can put these lines in your =.cshrc= file.
 
 Add the directory where you put the Unix scripts to your =PATH= variable.
 
-Suppose you extracted the ZIP file in =$HOME=.
+Suppose you extracted the TAR file in =$HOME=.
 
-For sh or bash:
+For sh:
 
     PATH=$DEPENDENCYFINDER_HOME\bin;$PATH
     export PATH
+
+For bash:
+
+    export PATH=$DEPENDENCYFINDER_HOME\bin;$PATH
+
+You can put these lines in your =.profile= file.
 
 For csh or tcsh:
 
@@ -236,7 +266,7 @@ Use your favorite servlet container to deploy the WAR file.  Most of them
 have tools for deploying WAR files.  For some of them, it can be as simple
 as deploying the WAR file to a specific directory.
 
-For instance, under Tomcat on Windows:
+For instance, using Tomcat on Windows:
 
     C:\>%CATALINA_HOME%\bin\shutdown
     C:\>copy DependencyFinder.war %CATALINA_HOME%\webapps
@@ -271,10 +301,22 @@ There are three application variable to adjust.
 	</td>
 	<td>
 	    Use this variable to tell Dependency Finder where to locate
-	    classes find which to extract a dependency graph.  You can
+	    classes from which to extract a dependency graph.  You can
 	    separate multiple locations by using commas.  Each location
 	    can either be a JAR file, a ZIP file, a =.class= file, or a
 	    directory that will be recursively searched for =.class= files.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=file=*
+	</td>
+	<td>
+	    Use this variable to tell Dependency Finder where to locate
+	    files which contain extracted dependency graphs.  You can
+	    separate multiple locations by using commas.  Each location
+	    should contain an XML document, such as the ones produced by
+	    =DependencyExtractor= directory that will be recursively.
 	</td>
     </tr>
     <tr>
@@ -297,7 +339,7 @@ the servlet container for the changes to take effect.
     C:\>%CATALINA_HOME%\bin\shutdown
     C:\>%CATALINA_HOME%\bin\startup
 
-Or you can you the deployment tool in Tomcat Manager to install the web
+Or you can use the deployment tool in Tomcat Manager to install the web
 application.
 
 ----
