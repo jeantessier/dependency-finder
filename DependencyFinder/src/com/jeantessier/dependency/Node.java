@@ -32,10 +32,9 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
-public abstract class Node implements Comparable, Serializable {
+public abstract class Node implements Comparable {
 	private String     name     = "";
 	private Collection inbound  = new HashSet();
 	private Collection outbound = new HashSet();

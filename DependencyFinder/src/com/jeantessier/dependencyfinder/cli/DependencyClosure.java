@@ -299,17 +299,12 @@ public class DependencyClosure {
 			Logger.getLogger(DependencyClosure.class).info("Reading " + filename);
 			verbose_listener.Print("Reading " + filename);
 
-			Collection packages;
+			Collection packages = Collections.EMPTY_LIST;
 
 			if (filename.endsWith(".xml")) {
 				NodeLoader loader = new NodeLoader(command_line.ToggleSwitch("validate"));
 				loader.addDependencyListener(verbose_listener);
 				packages = loader.Load(filename).Packages().values();
-			} else if (filename.endsWith(".ser")) {
-				ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
-				packages = (Collection) in.readObject();
-			} else {
-				packages = Collections.EMPTY_LIST;
 			}
 
 			Logger.getLogger(DependencyClosure.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");

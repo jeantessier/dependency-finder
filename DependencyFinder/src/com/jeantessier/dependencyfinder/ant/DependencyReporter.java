@@ -126,16 +126,12 @@ public class DependencyReporter extends GraphTask {
 			for (int i=0; i<filenames.length; i++) {
 				log("Reading graph from " + filenames[i]);
 				
-				Collection packages;
+				Collection packages = Collections.EMPTY_LIST;
+				
 				if (filenames[i].endsWith(".xml")) {
 					NodeLoader loader = new NodeLoader(getValidate());
 					loader.addDependencyListener(verbose_listener);
 					packages = loader.Load(filenames[i]).Packages().values();
-				} else if (filenames[i].endsWith(".ser")) {
-					ObjectInputStream in = new ObjectInputStream(new FileInputStream(filenames[i]));
-					packages = (Collection) in.readObject();
-				} else {
-					packages = Collections.EMPTY_LIST;
 				}
 				
 				if (getMaximize()) {
@@ -168,8 +164,6 @@ public class DependencyReporter extends GraphTask {
 				
 			out.close();
 		} catch (SAXException ex) {
-			throw new BuildException(ex);
-		} catch (ClassNotFoundException ex) {
 			throw new BuildException(ex);
 		} catch (IOException ex) {
 			throw new BuildException(ex);

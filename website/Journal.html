@@ -17,11 +17,17 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
-	March 31, 2004
+	April 01, 2004
     </dt>
     <dd>
 	<p>Built a stop condition for the new closure engine and came up with
 	the public interface so I can control how many layers it computes.</p>
+
+	<p>Remove all remaining signs of support for object serialization.
+	This consisted namely of removing code that used
+	<code>java.io.ObjectInputStream</code> to read files and having
+	<code>com.jeantessier.dependency.Node</code> not implement
+	<code>java.io.Serializable</code> anymore.</p>
     </dd>
     <dt>
 	March 30, 2004
