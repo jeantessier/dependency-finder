@@ -137,7 +137,8 @@ All the tools support the following three command-line switches:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
+	<td valign="top"
+	    nowrap="true">
 	    =-help=
 	</td>
 	<td>
@@ -146,7 +147,8 @@ All the tools support the following three command-line switches:
 	</td>
     </tr>
     <tr>
-	<td valign="top">
+	<td valign="top"
+	    nowrap="true">
 	    =-trace [filename]=
 	</td>
 	<td>
@@ -156,7 +158,8 @@ All the tools support the following three command-line switches:
 	</td>
     </tr>
     <tr>
-	<td valign="top">
+	<td valign="top"
+	    nowrap="true">
 	    =-verbose [filename]=
 	</td>
 	<td>
@@ -175,7 +178,8 @@ command-line switches:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
+	<td valign="top"
+	    nowrap="true">
 	    =-in=
 	</td>
 	<td>
@@ -185,7 +189,8 @@ command-line switches:
 	</td>
     </tr>
     <tr>
-	<td valign="top">
+	<td valign="top"
+	    nowrap="true">
 	    =-out filename=
 	</td>
 	<td>
@@ -195,7 +200,8 @@ command-line switches:
 	</td>
     </tr>
     <tr>
-	<td valign="top">
+	<td valign="top"
+	    nowrap="true">
 	    =-time=
 	</td>
 	<td>
@@ -368,10 +374,10 @@ The dependency collector can detect three kinds of explicit dependencies:
     1 class to class
 
 The illustrations below show how combinations of these are minimized or
-maximized.  Note that once the raw data has been minimized or maximized,
-it can never be recovered.  It is gone for good.  You can go back and
-forth between minimized and maximized forms, but you can never come back
-to the raw state.
+maximized.  You can minimize a graph that has been maximized and obtain
+the same minimized graph as if you had minimized the original graph.
+Similarily, if you maximize a graph that has been minimized, you end up
+with the same graph as if you had minimized the original graph.
 
 <div align="center">
     [[images/MinMaxTitle.gif]]
@@ -386,7 +392,6 @@ to the raw state.
 </div>
 
 ---+++ Reporting
-
 
 _Reporting_ is the act of displaying a dependency graph, or more often
 a subset of it.  The graph is composed of nodes and links.  We apply
@@ -714,7 +719,17 @@ then at the feature level.
 
 ---+++ Extracting
 
-You use =JarJarDiff= to extract API differences.
+You use =JarJarDiff= to extract API differences.  The following command
+computes the API differences between versions _Old_ and _New_ of
+_My Project_.  The differences are saved as an XML document in the file
+=diff.xml=.
+
+    C:\>JarJarDiff -name "My Project"    \
+                   -old-label Old        \
+                   -old old.jar          \
+                   -new-label New        \
+	           -new new.jar          \
+	           -out diff.xml
 
 <div align="center">
     [[images/ExtractingDifferences.gif]]
@@ -757,7 +772,12 @@ with either our stylesheets or your own.
 
 ---++++ Full List
 
-You use =DiffToHTML= to convert all API differences to HTML.
+You use =DiffToHTML= to convert all API differences to HTML.  The
+following command produces a full report from the output of the previous
+=JarJarDiff= command.
+
+    C:\>DiffToHTML -in diff.xml          \
+                   -out fullreport.html
 
 <div align="center">
     [[images/CompleteList.gif]]
@@ -767,7 +787,11 @@ You use =DiffToHTML= to convert all API differences to HTML.
 ---++++ Public List
 
 You use =PublishedDiffToHTML= to convert only public API differences
-to HTML.
+to HTML.  The following command produces a full report from the output
+of the previous =JarJarDiff= command.
+
+    C:\>PublishedDiffToHTML -in diff.xml                  \
+                            -out publishedAPIreport.html
 
 <div align="center">
     [[images/PublicList.gif]]
@@ -782,12 +806,34 @@ that have been earmarked using special javadoc tags.
 You get the list of earmarked elements by running a specialized
 doclet.
 
+The following commands run this doclet on the old as well as the
+new codebases, saving the results in individual text files.
+
+    C:\>ListDocumentedElements -tag level         \
+                               -valid published   \
+                               -out old-list.txt  \
+                               old.java
+
+    C:\>ListDocumentedElements -tag level         \
+                               -valid published   \
+                               -out new-list.txt  \
+                               new.java
+
 <div align="center">
     [[images/ListDocumentedElements.gif]]
 *Extracting Documented Elements*
 </div>
 
 You then feed the output from the doclet to =JarJarDiff=.
+
+    C:\>JarJarDiff -name "My Project"               \
+                   -old-label Old                   \
+                   -old old.jar                     \
+	           -old-documentation old-list.txt  \
+                   -new-label New                   \
+	           -new new.jar                     \
+	           -new-documentation new-list.txt  \
+	           -out diff.xml
 
 <div align="center">
     [[images/ExtractingDifferencesAndDocumentationChanges.gif]]
@@ -798,6 +844,9 @@ The full list will include special sections that highlight
 changes in what is no more part of the documentation and what
 was newly added to the documentation.
 
+    C:\>DiffToHTML -in diff.xml          \
+                   -out fullreport.html
+
 <div align="center">
     [[images/CompleteListOfDocumentedElements.gif]]
 *Full List Of Documented Elements*
@@ -806,6 +855,10 @@ was newly added to the documentation.
 The list can also be fed to =DiffToExternalHTML= to further
 limit the changes to the published public API.
 
+    C:\>PublishedDiffToHTML -in diff.xml                         \
+                            -param validation-list new-list.txt  \
+                            -out publishedAPIreport.html
+
 <div align="center">
     [[images/PublicListOfDocumentedElements.gif]]
 *Public List Of Documented Elements*
@@ -813,8 +866,17 @@ limit the changes to the published public API.
 
 ---++++ Listing Published Documentation Changes
 
-You use =ListDiff= to list changes in what is
-considered part of the published API.
+You use =ListDiff= to list changes in what is considered part of the
+published API.  It only needs the lists generated by the doclet.  No
+source or bytecode required.
+
+    C:\>ListDiff -name "My Project"  \
+                 -old-label Old      \
+                 -old old-list.txt   \
+                 -new-label New      \
+                 -new new-list.txt   \
+                 -compress           \
+                 -out listdiff.xml
 
 <div align="center">
     [[images/ListDiff.gif]]
@@ -825,25 +887,56 @@ considered part of the published API.
 into HTML with =ListDiffToHTML=, or to text with
 =ListDiffToText=.
 
+    C:\>ListDiffToHTML -in listdiff.xml     \
+                       -out docreport.html
+
 <div align="center">
     [[images/ListDiff2HTML.gif]]
 *Report on Differences in Documented Elements*
 </div>
 
-Note: you can also use =ListDocumentationDiffToText=
-and =ListDocumentationDiffToHTML= to extract similar
-information from the output of JarJarDiff.  The list
-is written in HTML.  But we recommend that you use
-=ListDiff= instead; it is faster and simpler.
+<dl>
+    <dt>NOTE:</dt>
+    <dd><i>You can also use =ListDocumentationDiffToText=
+    and =ListDocumentationDiffToHTML= to extract similar
+    information from the output of JarJarDiff.  The list
+    is written in HTML.  But we recommend that you use
+    =ListDiff= instead; it is faster and simpler.</i></dd>
+</dl>
 
 ----
 
 ---++ Building Dependency Finder
+
+    C:\>ant
+
 ---+++ Compiling a Build
+
+    C:\>ant jar
+    C:\>ant clean
+    C:\>ant docs
+    C:\>ant dist
+    C:\>ant src
+    C:\>ant war
+
+or
+
+    C:\>ant jar clean docs dist src war
+
 ---+++ Testing the Build
+
+    C:\>ant tests
+    C:\>textjunit TestAll
 
 ----
 
 ---++ Support
+
+Look at the current bug list on
+[[http://sourceforge.net/projects/depfind][SourceForge]].  There is also
+a help-oriented discussion forum.
+
+You can also email me at
+[[mailto://jeantessier@users.sourceforge.net][jeantessier at users.sourceforge.net]].
 
 ----
