@@ -81,4 +81,8 @@ public class AccumulatorMeasurement extends MeasurementBase {
 	protected double Compute() {
 		return collection.size();
 	}
+
+	public Collection Values() {
+		return Collections.unmodifiableCollection(collection);
+	}
 }

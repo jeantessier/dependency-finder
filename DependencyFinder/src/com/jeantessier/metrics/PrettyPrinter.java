@@ -40,6 +40,8 @@ public class PrettyPrinter extends Printer {
 	private static final NumberFormat ratio_format = new DecimalFormat("#%");
 
 	private List descriptors;
+
+	private boolean expand_accumulator_measurements;
 	
 	private Metrics current_metrics = null;
 	
@@ -55,6 +57,14 @@ public class PrettyPrinter extends Printer {
 		this.descriptors = descriptors;
 	}
 
+	public boolean ExpandAccumulatorMeasurements() {
+		return expand_accumulator_measurements;
+	}
+
+	public void ExpandAccumulatorMeasurements(boolean expand_accumulator_measurements) {
+		this.expand_accumulator_measurements = expand_accumulator_measurements;
+	}
+	
 	public void VisitMetrics(Metrics metrics) {
 		current_metrics = metrics;
 		
@@ -90,6 +100,19 @@ public class PrettyPrinter extends Printer {
 	
 	public void VisitRatioMeasurement(RatioMeasurement measurement) {
 		// Do nothing
+	}
+	
+	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
+		super.VisitAccumulatorMeasurement(measurement);
+
+		if (ExpandAccumulatorMeasurements()) {
+			RaiseIndent();
+			Iterator i = measurement.Values().iterator();
+			while (i.hasNext()) {
+				Indent().Append(i.next()).EOL();
+			}
+			LowerIndent();
+		}
 	}
 	
 	protected void VisitMeasurement(Measurement measurement) {
