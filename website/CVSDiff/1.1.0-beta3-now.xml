@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-110b3" endDate="2004-12-12 10:53:28" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-110b3" endDate="2004-12-12 11:31:54" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -12,6 +12,27 @@
 			<name>cvs.properties</name>
 			<revision>1.3</revision>
 			<prevrevision>1.2</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/bat.cli.template.txt</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/sh.cli.template.txt</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>bin/sh.reporter.template.txt</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
 		</file>
 	</entry>
 	<entry>
@@ -31,7 +52,7 @@
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.43</revision>
+			<revision>1.44</revision>
 			<prevrevision>1.41</prevrevision>
 		</file>
 	</entry>
@@ -40,6 +61,13 @@
 			<name>docs/Tools.txt</name>
 			<revision>1.38</revision>
 			<prevrevision>1.37</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>src/com/jeantessier/classreader/ClassfileLoaderEventSource.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
 		</file>
 	</entry>
 </tagdiff>

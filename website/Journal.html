@@ -30,6 +30,12 @@
 	parser.  Since no one has complained yet, I guess they all use the GUI
 	or the Ant tasks.  I won't write a patch for this since the official
 	1.1.0 release is very close and will have the correct scripts.</p>
+
+	<p>Had a similar problem with the XSL scripts, but in reverse.  Most of
+	them are straightforward XSL transformations and only require Xalan
+	JARs.  But <code>PublishedDiffToHTML.xsl</code> uses some custom code
+	and needs Dependency Finder's JARs.  I changed the template to include
+	them all the time, just like the Unix template was doing.</p>
     </dd>
     <dt>
 	December 11, 2004
