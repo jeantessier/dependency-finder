@@ -17,6 +17,7 @@
 
     <target name="init">
 	<tstamp>
+	    <format property="NOW"     pattern="yyyy-MM-dd HH:mm:ss"/>
 	    <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
 	</tstamp>
 
@@ -49,7 +50,7 @@
 
 	<property name="previous.release" value="20020711"/>
 	<property name="last.release"     value="20030101"/>
-	<property name="this.release"     value="${DSTAMP}"/>
+	<property name="this.release"     value="1.0beta"/>
 
 	<property name="cvsroot"          value=":pserver:anonymous@cvs.depfind.sourceforge.net:/cvsroot/depfind"/>
 	<property name="cvsweb"           value="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/"/>
@@ -120,9 +121,11 @@
 		<attribute name="Specification-Vendor"   value="Jean Tessier"/>
 		<attribute name="Specification-Title"    value="Dependency Finder"/>
 		<attribute name="Specification-Version"  value="${this.release}"/>
+		<attribute name="Specification-Date"     value="${NOW}"/>
 		<attribute name="Implementation-Vendor"  value="Jean Tessier"/>
 		<attribute name="Implementation-Title"   value="Dependency Finder"/>
 		<attribute name="Implementation-Version" value="${this.release}"/> 
+		<attribute name="Implementation-Date"    value="${NOW}"/> 
 		<attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
 		<attribute name="Compiler-Vendor"        value="${java.vendor}"/>
 		<attribute name="Compiler-Title"         value="${java.runtime.name}"/>

@@ -466,9 +466,7 @@ or
 ---+++ Making a Release
 
     1 =cvs tag release-20030101=
-    1 =ant realclean=
-    1 Generate the documentation using perl script (Manual, Developer, Tools)
-    1 =ant jar clean docs dist war src=
+    1 =ant realclean docs dist war realclean src=
     1 =ant ftp=
     1 =cvs log -rrelease-20020711:release-20030101=
     1 Create new release on SourceForge.net
