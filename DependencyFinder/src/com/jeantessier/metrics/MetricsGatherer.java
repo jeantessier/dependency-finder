@@ -47,6 +47,9 @@ public class MetricsGatherer extends VisitorBase {
 	private Metrics current_class;
 	private Metrics current_method;
 
+	private int     sloc;
+	private boolean is_synthetic;
+	
 	public MetricsGatherer(String project_name, MetricsFactory factory) {
 		this.project_name = project_name;
 		this.factory      = factory;
@@ -123,6 +126,8 @@ public class MetricsGatherer extends VisitorBase {
 		}
 
 		if (classfile.SuperclassIndex() != 0) {
+			classfile.RawSuperclass().Accept(this);
+
 			Classfile superclass = classfile.Loader().Classfile(classfile.Superclass());
 
 			if (superclass != null) {
@@ -161,7 +166,10 @@ public class MetricsGatherer extends VisitorBase {
 	}
 	
 	// ConstantPool entries
-	public void VisitClass_info(Class_info entry) {}
+	public void VisitClass_info(Class_info entry) {
+		AddClassClassDependency(entry.Name());
+	}
+	
 	public void VisitFieldRef_info(FieldRef_info entry) {}
 	public void VisitMethodRef_info(MethodRef_info entry) {}
 	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {}
@@ -176,6 +184,9 @@ public class MetricsGatherer extends VisitorBase {
 	// Features
 	public void VisitField_info(Field_info entry) {
 		CurrentClass().AddToMeasurement(Metrics.ATTRIBUTES);
+
+		sloc = 1;
+		is_synthetic = false;
 
 		Logger.getLogger(getClass()).debug("VisitField_info(" + entry.FullSignature() + ")");
 		Logger.getLogger(getClass()).debug("Current class: " + CurrentClass().Name());
@@ -210,16 +221,23 @@ public class MetricsGatherer extends VisitorBase {
 		if ((entry.AccessFlag() & Field_info.ACC_TRANSIENT) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.TRANSIENT_ATTRIBUTES);
 		}
-
+		
 		Iterator i = entry.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
+		}
+
+		if (!is_synthetic) {
+			CurrentClass().AddToMeasurement(Metrics.SLOC, sloc);
 		}
 	}
 
 	public void VisitMethod_info(Method_info entry) {
 		CurrentMethod(MetricsFactory().CreateMethodMetrics(entry.FullSignature()));
 
+		sloc = 0;
+		is_synthetic = false;
+		
 		Logger.getLogger(getClass()).debug("VisitMethod_info(" + entry.FullSignature() + ")");
 		Logger.getLogger(getClass()).debug("Current class: " + CurrentClass().Name());
 		Logger.getLogger(getClass()).debug("Access flag: " + entry.AccessFlag());
@@ -256,6 +274,7 @@ public class MetricsGatherer extends VisitorBase {
 
 		if ((entry.AccessFlag() & Method_info.ACC_ABSTRACT) != 0) {
 			CurrentClass().AddToMeasurement(Metrics.ABSTRACT_METHODS);
+			sloc = 1;
 		}
 
 		CurrentMethod().AddToMeasurement(Metrics.PARAMETERS, SignatureHelper.ParameterCount(entry.Descriptor()));
@@ -263,6 +282,10 @@ public class MetricsGatherer extends VisitorBase {
 		Iterator i = entry.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
+		}
+
+		if (!is_synthetic) {
+			CurrentClass().AddToMeasurement(Metrics.SLOC, sloc);
 		}
 	}
 
@@ -273,13 +296,6 @@ public class MetricsGatherer extends VisitorBase {
 	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
 		// Do nothing
 	}
-
-// 	public void VisitCode_attribute(Code_attribute attribute) {
-// 		Iterator i = attribute.Attributes().iterator();
-// 		while (i.hasNext()) {
-// 			((Visitable) i.next()).Accept(this);
-// 		}
-// 	}
 
 	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
 		// Do nothing
@@ -294,7 +310,9 @@ public class MetricsGatherer extends VisitorBase {
 
 	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {
 		Object owner = attribute.Owner();
-	
+
+		is_synthetic = true;
+		
 		if (owner instanceof Classfile) {
 			CurrentProject().AddToMeasurement(Metrics.SYNTHETIC_CLASSES);
 			CurrentGroup().AddToMeasurement(Metrics.SYNTHETIC_CLASSES);
@@ -309,10 +327,6 @@ public class MetricsGatherer extends VisitorBase {
 
 	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {
 		// Do nothing
-	}
-
-	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-		CurrentMethod().AddToMeasurement(Metrics.SLOC, attribute.LineNumbers().size());
 	}
 
 	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
@@ -347,7 +361,7 @@ public class MetricsGatherer extends VisitorBase {
 		// the line number table.  This adds one for the
 		// catch{} line itself.  Adding one for the try{
 		// line will be difficult.
-		CurrentMethod().AddToMeasurement(Metrics.SLOC);
+		sloc++;
 	}
 
 	public void VisitInnerClass(InnerClass helper) {
@@ -390,6 +404,24 @@ public class MetricsGatherer extends VisitorBase {
 				CurrentProject().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
 				CurrentGroup().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
 				CurrentClass().AddToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
+			}
+		}
+	}
+
+	public void VisitLineNumber(LineNumber helper) {
+		sloc++;
+	}
+
+	private void AddClassClassDependency(String classname) {
+		if (!CurrentClass().Name().equals(classname)) {
+			Metrics other = MetricsFactory().CreateMethodMetrics(classname);
+			
+			if (CurrentClass().Parent().equals(other.Parent())) {
+				CurrentClass().AddToMeasurement(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES);
+				other.AddToMeasurement(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES);
+			} else {
+				CurrentClass().AddToMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES);
+				other.AddToMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES);
 			}
 		}
 	}

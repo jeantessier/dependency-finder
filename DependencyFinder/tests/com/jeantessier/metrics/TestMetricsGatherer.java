@@ -72,19 +72,40 @@ public class TestMetricsGatherer extends TestCase {
 	}
 	
 	public void test_test_test() {
-		assertEquals(Metrics.SLOC, 1, factory.CreateMethodMetrics("test.test()").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 0, factory.CreateMethodMetrics("test.test()").Measurement(Metrics.SLOC).intValue());
 		assertEquals(Metrics.PARAMETERS, 0, factory.CreateMethodMetrics("test.test()").Measurement(Metrics.PARAMETERS).intValue());
 		assertEquals(Metrics.LOCAL_VARIABLES, 1, factory.CreateMethodMetrics("test.test()").Measurement(Metrics.LOCAL_VARIABLES).intValue());
+
+		assertEquals(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES).intValue());
+		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES).intValue());
+		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES).intValue());
+		// Object.Object()
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, 1, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES).intValue());
 	}
 	
 	public void test_test_main() {
 		assertEquals(Metrics.SLOC, 4, factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.SLOC).intValue());
 		assertEquals(Metrics.PARAMETERS, 1, factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.PARAMETERS).intValue());
 		assertEquals(Metrics.LOCAL_VARIABLES, 3, factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.LOCAL_VARIABLES).intValue());
+
+		assertEquals(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES).intValue());
+		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES).intValue());
+		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES).intValue());
+		// Collections.singleton(), Object.Object(), System.out, PrintStream.println()
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, 4, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES).intValue());
+		// String, Collection, NullPointerException
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, 3, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES).intValue());
 	}
 	
 	public void test_test() {
-		assertEquals(Metrics.SLOC, 6, factory.CreateClassMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 5, factory.CreateClassMetrics("test").Measurement(Metrics.SLOC).intValue());
 		assertEquals("M", 2, factory.CreateClassMetrics("test").Measurement("M").intValue());
 		assertEquals(Metrics.PUBLIC_METHODS, 2, factory.CreateClassMetrics("test").Measurement(Metrics.PUBLIC_METHODS).intValue());
 		assertEquals(Metrics.PROTECTED_METHODS, 0, factory.CreateClassMetrics("test").Measurement(Metrics.PROTECTED_METHODS).intValue());
@@ -133,13 +154,18 @@ public class TestMetricsGatherer extends TestCase {
 		assertTrue("VOLAR", Double.isNaN(factory.CreateClassMetrics("test").Measurement("VOLAR").doubleValue()));
 		assertEquals(Metrics.SUBCLASSES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.SUBCLASSES).intValue());
 		assertEquals(Metrics.DEPTH_OF_INHERITANCE, 1, factory.CreateClassMetrics("test").Measurement(Metrics.DEPTH_OF_INHERITANCE).intValue());
+
+		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES).intValue());
+		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES, 0, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES).intValue());
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES, 1, factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES).intValue());
 	}
 
 	public void test_() {
-		assertEquals(Metrics.SLOC, 6, factory.CreateGroupMetrics("").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 5, factory.CreateGroupMetrics("").Measurement(Metrics.SLOC).intValue());
 	}
 
 	public void testProject() {
-		assertEquals(Metrics.SLOC, 6, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 5, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
 	}
 }
