@@ -1,0 +1,310 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Log4J - API Change History</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Log4J - API Change History</h1>
+
+<ul>
+<li><a href="#1.2.6">1.2.5 to 1.2.6</a></li>
+<li><a href="#1.2.5">1.2.3 to 1.2.5</a></li>
+</ul>
+
+<hr />
+
+<a name="1.2.6" />
+<h2>1.2.5 to 1.2.6</h2>
+<h3>Removed Packages:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.log4j.or.jms</code></nobr>
+</li>
+</ul>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>org.apache.log4j.helpers.Loader</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static boolean ignoreTCL</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.net.JMSAppender</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>java.lang.String initialContextFactoryName</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String password</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String providerURL</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String securityCredentials</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String securityPrincipalName</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String urlPkgPrefixes</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String userName</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getInitialContextFactoryName()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getPassword()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getProviderURL()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getSecurityCredentials()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getSecurityPrincipalName()</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String getURLPkgPrefixes()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getUserName()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setInitialContextFactoryName(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPassword(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setProviderURL(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setSecurityCredentials(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setSecurityPrincipalName(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setURLPkgPrefixes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setUserName(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.net.JMSSink</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.log4j.net.JMSSink extends java.lang.Object<br>
+<b>new:</b>public class org.apache.log4j.net.JMSSink extends java.lang.Object implements javax.jms.MessageListener</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$javax$jms$Message</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public JMSSink()</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static void main(java.lang.String[])<br>
+<b>new:</b>public static void main(java.lang.String[]) throws java.lang.Exception</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static org.apache.log4j.Logger logger</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public JMSSink(java.lang.String, java.lang.String, java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void onMessage(javax.jms.Message)</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.spi.LoggingEvent</code>
+</h4>
+<blockquote>
+<h5>Newly Deprecated Fields:</h5>
+<ul>
+<li>
+<nobr><code>public final java.lang.String categoryName</code></nobr>
+</li>
+<li>
+<nobr><code>public transient org.apache.log4j.Priority level</code></nobr>
+</li>
+<li>
+<nobr><code>public transient org.apache.log4j.Category logger</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public transient org.apache.log4j.Category logger<br>
+<b>new:</b>private transient org.apache.log4j.Category logger<b>[deprecated]</b></code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.log4j.Level getLevel()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getLoggerName()</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+
+<hr />
+
+<a name="1.2.5" />
+<h2>1.2.3 to 1.2.5</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>org.apache.log4j.Category</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static int nooptimize</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.LoggingReceiver</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Logger logger</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Logger LOG</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.XMLFileHandler</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String mCurrentElement</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final java.lang.StringBuffer mBuf</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.helpers.Transform</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String CDATA_EMBEDED_END</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String CDATA_END</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int CDATA_END_LEN</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String CDATA_PSEUDO_END</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String CDATA_START</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void appendEscapingCDATA(java.lang.StringBuffer, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Packages:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.log4j.lf5</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.log4j.lf5.util</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.log4j.lf5.viewer</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.log4j.lf5.viewer.categoryexplorer</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.log4j.lf5.viewer.configure</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.log4j.varia.LevelRangeFilter</code></nobr>
+</li>
+</ul>
+
+<hr />
+
+</body>
+</html>

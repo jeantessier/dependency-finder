@@ -1,0 +1,300 @@
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
+
+<html>
+
+<head>
+<style type="text/css">
+    .done       {background-color: green;  color: white; font-weight: bold; text-align:center}
+    .inprogress {background-color: gold;   color: white; font-weight: bold; text-align:center}
+    .notstarted {background-color: red;    color: white; font-weight: bold; text-align:center}
+    .canceled   {                                                           text-align:center}
+    .lowlight   {background-color: #ccccff}
+    th          {background-color: gray;   color: white}
+</style>
+<title>Dependency Finder - Release Plan</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<h2>Release Plan</h2>
+
+<table border="0" cellpadding="1" cellspacing="0">
+    <caption><b>0.1 Beta</b></caption>
+    <tr>
+	<th align="left" colspan="2">Feature</th>
+	<th>Status</th>
+	<th>Duration</th>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Dependency Graph</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Simpler GUI for scope and filter</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/08/22 - 2002/09/10</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Documentation</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>User Manual</td>
+	<td class="inprogress">in progress</td>
+	<td class="lowlight"><code>2002/08/26 - </code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Description of every command, including options</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Description of every measurement, including thresholds</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Metrics</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Full measurement names as column hint in GUI</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>A, I, and D' metrics, as per Robert C. Martin</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/08/28 - 2002/08/31</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Web application</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Simpler GUI for scope and filter</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/07/23 - 2002/08/23</code></td>
+    </tr>
+</table>
+
+<p></p>
+
+<table border="0" cellpadding="1" cellspacing="0">
+    <caption><b>20020711</b></caption>
+    <tr>
+	<th align="left" colspan="2">Feature</th>
+	<th>Status</th>
+	<th>Duration</th>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>New icons</td>
+	<td class="canceled">canceled</td>
+	<td class="lowlight"><code>2002/02/27 - 2002/03/01</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Classfile</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Transient loading</td>
+	<td class="done">done</td>
+	<td class="lowlight" align="right"><code>2002/02/12 - 2002/02/13</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Dependency Graph</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Inbound and outbound transitive closure</td>
+	<td class="done">done</td>
+	<td class="lowlight" align="right"><code>2002/02/04 - 2002/02/05</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Variable depth transitive closure</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/03/03 - 2002/03/04</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>CLI control over transitive closure specifics</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/03/04 - 2002/03/04</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>GUI control over transitive closure specifics</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/03/03 - 2002/03/04</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Simpler GUI for scope and filter</td>
+	<td class="canceled">deferred</td>
+	<td class="lowlight"><code></code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Documentation</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>User Manual</td>
+	<td class="canceled">deferred</td>
+	<td class="lowlight"><code>2002/01/23 - 2002/06/10</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>JarJarDiff</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Validate individual classes and features</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/03/07 - 2002/04/11</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Track changes in published API</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/03/21 - 2002/04/19</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Normalize XSL stylesheets</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/02/25 - 2002/02/26</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Metrics</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Custom metrics reports</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/04/22 - 2002/06/06</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Dependency metrics</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/06/04 - 2002/06/11</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>More accurate SLOC estimates</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/06/04 - 2002/06/17</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Web application</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Confirm extract.jsp</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/03/19 - 2002/03/19</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Transitive closure</td>
+	<td class="done">done</td>
+	<td class="lowlight"><code>2002/03/04 - 2002/03/04</code></td>
+    </tr>
+</table>
+
+<p></p>
+
+<table border="0" cellpadding="1" cellspacing="0">
+    <caption><b>Unscheduled</b></caption>
+    <tr>
+	<th align="left" colspan="2">Feature</th>
+	<th>Status</th>
+	<th>Duration</th>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Documentation</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Developer's Guide</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Dependency Graph</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Graph diff</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>JarJarDiff</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>GUI with cumulative and incremental report generation</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>External filter to XML</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Web application</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>HTML output</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Metrics</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Move measurements off Visitor pattern</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Break up MetricsGatherer into 60+ measurements</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td colspan="4"><b>Java Web Start</b></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>Dependency Finder</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>OO Metrics</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+    <tr>
+	<td>&nbsp;</td>
+	<td>JarJarDiff</td>
+	<td class="notstarted">not started</td>
+	<td class="lowlight"><code>&nbsp;</code></td>
+    </tr>
+</table>
+
+</body>
+
+</html>

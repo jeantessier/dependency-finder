@@ -1,0 +1,2612 @@
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
+
+<html>
+
+<head>
+<style type="text/css">
+    dl dt {font-weight: bold}
+    dl dd {margin-bottom: 10}
+</style>
+<title>Dependency Finder - Journal</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<h2>Jean's Journal</h2>
+
+<dl>
+    <dt>
+	September 18, 2002
+    </dt>
+    <dd>
+	<p>Worked on documentation.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Ant</td>
+	        <td>:</td>
+		<td>1.5Beta1</td>
+	        <td>-></td>
+		<td>1.5</td>
+	    </tr>
+	    <tr>
+	        <td>Log4J</td>
+	        <td>:</td>
+		<td>1.2.3</td>
+	        <td>-></td>
+		<td>1.2.6</td>
+	    </tr>
+	    <tr>
+	        <td>Jakarta ORO</td>
+	        <td>:</td>
+		<td>2.0.6</td>
+	        <td>-></td>
+		<td>2.0.7-dev-1</td>
+	    </tr>
+	    <tr>
+	        <td>JUnit</td>
+	        <td>:</td>
+		<td>3.8</td>
+	        <td>-></td>
+		<td>3.8.1</td>
+	    </tr>
+	    <tr>
+	        <td>Xerces</td>
+	        <td>:</td>
+		<td>2.0.1</td>
+	        <td>-></td>
+		<td>2.1.0</td>
+	    </tr>
+	    <tr>
+	        <td>Xalan</td>
+	        <td>:</td>
+		<td>2.3.1</td>
+	        <td>-></td>
+		<td>2.4.0</td>
+	    </tr>
+	</table>
+	</blockquote>
+
+	<p>It turns out that a semantics change in Jakarta ORO is
+	breaking one of the unit tests.  I will look into it
+	later.</p>
+
+	<p>And I'm also playing with Tomcat 4.1.10.</p>
+    </dd>
+    <dt>
+	September 17, 2002
+    </dt>
+    <dd>
+	<p>Compressing by looking at consecutive lines does not
+	work.  I changed the algorithm in <code>ListDiffPrinter</code>
+	to be a little more thorough.  It can still have some
+	problems with inner classes, but that only result in a
+	little too much output; nothing is lost.  I'll live with
+	it for now.</p>
+
+	<p>Also fixed <code>ListDiff.bat</code> which was missing
+	a JAR, now that <code>ListDiffPrinter</code> uses Jakarta
+	ORO.</p>
+    </dd>
+    <dt>
+	September 16, 2002
+    </dt>
+    <dd>
+	<p>Fixed the problem with <code>ListDiff</code>.  I'll
+	double check with the person who first complained about
+	the problem before definitely hanging my hat on this one,
+	though.</p>
+    </dd>
+    <dt>
+	September 15, 2002
+    </dt>
+    <dd>
+	<p>Turns out <code>ListDiff</code> is not as easy to fix
+	as I first expected.  I know I have to be smarter than
+	just doing a prefix check in <code>ListDiffPrinter</code>,
+	but how do I distinguish betweeen a package name, a class
+	name, and a field name?  The answer will drive how far the
+	prefix match has to go.</p>
+
+	<p>I have an idea.  I will have <code>ListDocumentedElements</code>
+	mark each entry with a suffix in "<code> [P]</code>",
+	"<code> [M]</code>", or "<code> [F]</code>".  Then, in
+	<code>ListBasedValidator</code>, I will trim it off.  That
+	will take care of <code>JarJarDiff</code> and the XSL
+	transformations.  Then, in <code>ListDiffPrinter</code>,
+	I can use this information to do better compression of the
+	lists.</p>
+
+	<p>I've opened a bug on the matter on the SourceForge
+	project page.</p>
+    </dd>
+    <dt>
+	September 13, 2002
+    </dt>
+    <dd>
+	<p>Someone found a problem with <code>ListDiff</code> and
+	how it compresses lists.  It turns out that my simple use
+	of prefixes when performing compression was a little too
+	simplistic after all.  Packages mask subpackages.  Classes
+	and fields with names that are prefix of others mask those
+	others.  This should be easy enough to fix.</p>
+    </dd>
+    <dt>
+	September 10, 2002
+    </dt>
+    <dd>
+	<p>Finished simplifying the UI in the Swing application of
+	<code>DependencyFinder</code>.</p>
+    </dd>
+    <dt>
+	September 06, 2002
+    </dt>
+    <dd>
+	<p>Added separators and table of contents to the output of
+	<code>DiffToHTML.xsl</code>.  This helps me combine reports
+	into one long history file, with individual diffs separated
+	by &lt;hr&gt; tags.  I also added new sample outputs of
+	<code>JarJarDiff</code>.</p>
+    </dd>
+     <dt>
+	September 05, 2002
+    </dt>
+    <dd>
+	<p>Looked into making each implementation of
+	<code>Measurement</code> compute its own metrics,
+	instead of having everything crammed in
+	<code>MetricsGatherer</code>.  This is a major
+	undertaking and will have to wait until after I have
+	launched the first beta test.  I would have to create
+	over 60 custom <code>Measurement</code> implementations,
+	one for each current measurement collected by the
+	gatherer.</p>
+    </dd>
+   <dt>
+	September 04, 2002
+    </dt>
+    <dd>
+	<p>Added caching of values to <code>MeasurementBase</code>
+	subclasses.  This is to speed up rendering in
+	<code>OOMetricsGUI</code> and other reports.</p>
+    </dd>
+    <dt>
+	August 31, 2002
+    </dt>
+    <dd>
+	<p>Finished <code>MartinMetrics.xml</code> for the metrics
+	in Robert C. Martin's
+	<a target="_blank" href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.PDF">Design Principles and Design Patterns</a> article.</p>
+    </dd>
+    <dt>
+	August 30, 2002
+    </dt>
+    <dd>
+	<p>Refactored <code>AccumulatorMeasurement</code> some more.
+	Yesterday's implementation was to limiting.  Still has a
+	few kinks to work out.  I'm also working on
+	<code>etc/MartinMetrics.xml</code> which has the metrics
+	configuration to support instability and abstractness
+	metrics and his A vs. I graph.</p>
+    </dd>
+    <dt>
+	August 29, 2002
+    </dt>
+    <dd>
+	<p>Refactored <code>AccumulatorMeasurement</code> so I can
+	aggregate extra-package dependencies and compute coupling
+	metrics.</p>
+    </dd>
+     <dt>
+	August 28, 2002
+    </dt>
+    <dd>
+	<p>Added filtering to <code>NbSubMetricsMeasurement</code>.  I
+	was misled into thinking I could simply count classes that have
+	outbound dependencies and classes that have inbound ones, and
+	that would be enough to compute coupling metrics.  But I was
+	wrong.  This modification is pretty useless, I can't think of
+	a valid use case.  But what the heck, it's in there already.</p>
+    </dd>
+   <dt>
+	August 27, 2002
+    </dt>
+    <dd>
+	<p>Fixed yesterday's problem with <code>CodeDependencyCollector</code>.
+	It now treats the static initializer like any other feature.
+	I also set the static initializer's signature to
+	<code>static {}</code>.  I decided to fix it since the
+	<code>com.jeantessier.metrics</code> package was already treating
+	it that way.</p>
+    </dd>
+    <dt>
+	August 26, 2002
+    </dt>
+    <dd>
+	<p>Worked on the documentation a bit.  I tried to clarify how
+	scoping and filtering work.</p>
+
+	<p>I found out that <code>CodeDependencyCollector</code> treats
+	dependencies coming from a class' static analyzer as if the
+	dependencies emanated from the class itself.  This means that
+	dependencies from the static initilizer to features show up as
+	class-to-feature dependencies, something I said in the manual
+	did not exist.  Now I must decide if I'm gonna amend the
+	documentation or treat the static initializer like a feature.
+	And if the latter, how am I going to name it?  I'm thinking
+	maybe <code>package.Class.{}</code> or something similar.</p>
+    </dd>
+    <dt>
+	August 25, 2002
+    </dt>
+    <dd>
+	<p>Removed obsolete constructors in tests, now that I've upgraded
+	JUnit and that <code>junit.framework.TestCase</code> now has a
+	no argument constructor.</p>
+    </dd>
+     <dt>
+	August 23, 2002
+    </dt>
+    <dd>
+	<p>Found some articles
+	(one by <a target="_blank" href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.PDF">Robert C. Martin</a>)
+	and a tool for the Resource section.  The article by Mr. Martin
+	gave me the idea of providing a custom metrics configuration
+	with the metrics he describes in the article, using the same
+	abbreviations.  I might need more powerful computational measurements
+	to handle the equations.</p>
+
+	<p>I've put up some <a target="_blank" href="Samples/">sample outputs</a>
+	so you can see what they looks like.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>JUnit</td>
+	        <td>:</td>
+		<td>3.7</td>
+	        <td>-></td>
+		<td>3.8</td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+   <dt>
+	August 22, 2002
+    </dt>
+    <dd>
+	<p>Worked on simplifying the UI in the Swing application.  So
+	far, it eludes me.  But I'm done with the web application
+	version.</p>
+
+	<p>In the meantime, I'm producing dependency reports and API
+	difference reports for past versions of Dependency Finder.</p>
+    </dd>
+    <dt>
+	August 21, 2002
+    </dt>
+    <dd>
+	<p>67, 18, 4, 1, 1, 1, ...</p>
+
+	<p>The flow of downloads has tarried.  But that's OK.  I'll get
+	another chance when the beta comes out (if I can get to it).</p>
+
+	<p>Worked on simplifying the UI in the web application.  Both
+	<code>query.jsp</code> and <code>closure.jsp</code> now have
+	a simple and an advanced form.  The advanced form has all the
+	options whereas the simple form only takes regular expressions
+	that apply to all packages, classes, and features.  I'm thinking
+	of relying on external cascading stylesheets, but I have to
+	check about browser support.  I suppose this is not really an
+	issue anymore, but I'll check anyway.</p>
+    </dd>
+    <dt>
+	August 14, 2002
+    </dt>
+    <dd>
+	<p>67 downloads!!!</p>
+
+	<p>I posted a message at 10am PDT and by midnight EDT there
+	had been 67 downloads!</p>
+    </dd>
+    <dt>
+	August 12, 2002
+    </dt>
+    <dd>
+	<p>I found two other tools that do similar things as
+	Dependency Finder: <a target="_blank" href="http://remotejava.com/classdep/">classdep</a>
+	and <a target="_blank" href="http://www.headwaysoftware.com/">reView</a>.</p>
+
+	<p>Faced with the declining number of downloads of Dependency
+	Finder recently, I'm gonna have to start advertising.  I'm gonna
+	start by spamming newsgroups...  See you in comp.lang.java.*  :-)</p>
+    </dd>
+    <dt>
+	August 07, 2002
+    </dt>
+    <dd>
+	<p>I've had an idea for a logo.  Here's the initial draft.</p>
+
+	<img src="images/s_logo.jpg" alt="Dependency Finder logo" width="177" height="125" />
+    </dd>
+    <dt>
+	July 29, 2002
+    </dt>
+    <dd>
+	<p>Added date of last extraction to <code>extract.jsp</code>.</p>
+    </dd>
+    <dt>
+	July 23, 2002
+    </dt>
+    <dd>
+	<p>Trying simpler UI with web application JSPs because
+	they are easier to manipulate than the Swing code.</p>
+    </dd>
+    <dt>
+	July 11, 2002
+    </dt>
+    <dd>
+	<p>New release!  I was hoping to launch a beta, but I'm
+	behind with the documentation.  With this release, people
+	can benefit from the bug fixes while I finalize the docs.</p>
+
+	<p>I'm still going through the change logs from CVS to
+	publish the list of changes since the last release.</p>
+    </dd>
+    <dt>
+	July 09, 2002
+    </dt>
+    <dd>
+	<p>Back from vacation.</p>
+
+	<p>Adjusted release plan to close current release and spec
+	out the first beta.</p>
+
+	<p>Wrote a Perl script to parse log information from CVS
+	to prepare the change file listing differences since the
+	last release.  New release is imminent.</p>
+    </dd>
+    <dt>
+	June 17, 2002
+    </dt>
+    <dd>
+	<p>Done with SLOC.</p>
+
+	<p>Added <code>indent-text</code> switch to commands that
+	generate textual output, including XML documents.  This
+	allows users to adjust file size by replacing four spaces
+	with a single TAB or whatever else they want.</p>
+    </dd>
+    <dt>
+	June 14, 2002
+    </dt>
+    <dd>
+	<p>Finished initial SLOC testing.  I need to check a few more
+	things dealing with synthetic elements and inner classes.</p>
+    </dd>
+    <dt>
+	June 13, 2002
+    </dt>
+    <dd>
+	<p>Fixed the <code>ListDocumentedElements</code> doclet so it
+	skips static initializers.</p>
+
+	<p>Added <code>dtd-prefix</code> switch to commands that
+	generate XML documents.  This allows users to point to local
+	DTDs when they are disconnected from the Internet.  The
+	user can simply use
+	"<code>-dtd-prefix %DEPENDENCYFINDER_HOME%\etc</code>".  The
+	default value points back to the Dependency Finder website.</p>
+    </dd>
+    <dt>
+	June 12, 2002
+    </dt>
+    <dd>
+	<p><code>ListDiff</code> can now compress the resulting list.
+	This means that if, for instance, a class is in a list, it
+	will remove entries for methods of that class from the list.
+	The same goes for packages and their classes.  Just call it
+	with the <code>compress</code> switch.</p>
+
+	<p>I changed the published list to use with
+	<code>PublishedDiffToHTML</code>.  It makes more sense to use
+	the old list, since the goal is to notify customers of the
+	changes that possibly break backwards compatibility.</p>
+    </dd>
+    <dt>
+	June 11, 2002
+    </dt>
+    <dd>
+	<p>I'm done with dependency-related metrics.  Now, I need to
+	finalize SLOC.</p>
+    </dd>
+    <dt>
+	June 10, 2002
+    </dt>
+    <dd>
+	<p>I'm not gonna make it.  I wanted to finish the first
+	beta release before going on vacation next week, but I'm
+	not done with the coding and there is a lot of documentation
+	to write still.  I'll do a date-tagged release with all the
+	code fixes so I can close the bugs and do the beta later,
+	when I've had some time to write good docs and package the
+	whole thing properly.  I've updated the release plan
+	accordingly.</p>
+
+	<p>Worked on dependency-related metrics.  I think I've got
+	it nailed down, but I need to write more tests.</p>
+
+	<p>Made progress with SLOC.  Methods are pretty good.
+	Fields are accounted for.  I've added one for the class
+	declaration.  I still need to work out <code>try {</code>
+	lines.</p>
+
+	<p>I got feedback regarding <code>ListDiff</code> and
+	<code>PublisedDiffToHTML.xsl</code>.  I need to do more
+	testing to make sure that they compute differences
+	correctly.</p>
+    </dd>
+    <dt>
+	June 09, 2002
+    </dt>
+    <dd>
+	<p>Worked on dependency-related metrics.</p>
+    </dd>
+    <dt>
+	June 08, 2002
+    </dt>
+    <dd>
+	<p>Wrote test cases for dependency-related metrics.
+	I'm thinking of using it to test
+	<code>CodeDependencyCollector</code> too, some day.</p>
+    </dd>
+    <dt>
+	June 06, 2002
+    </dt>
+    <dd>
+	<p>Changed the default self-disposition of
+	<code>StatisticalMeasurement</code> to average values.  It
+	turns out that in my attempt yesterday, I had changed the
+	wrong default value in the measurement's initialization.</p>
+
+	<p>You can now expand <code>AccumulatorMeasurement</code>
+	values when using the <code>-expand</code> switch with the
+	<code>-txt</code> switch to <code>OOMetrics</code>.</p>
+
+	<p>Fixed <code>-verbose</code> and <code>-trace</code>
+	switches on all executables.</p>
+
+	<p>Fixed a bug in <code>SumMeasurement</code> when dealing
+	with <code>StatisticalMeasurement</code> and empty lines.</p>
+
+	<p>Allow group definitions to be defined by multiple
+	regular expressions.</p>
+
+	<p>Used <code>SumMeasurement</code> to compute SLOC on classes
+	as the sum of SLOC on submetrics + 1.  I still need to figure
+	out how to ignore counts for synthetic elements and add
+	abstract methods and <code>try {</code> lines.</p>
+    </dd>
+    <dt>
+	June 05, 2002
+    </dt>
+    <dd>
+	<p>Created <code>classfile.dtd</code> and put it at:</p>
+
+	<pre>
+	    <a href="dtd">http://depfind.sourceforge.net/dtd/</a>
+	</pre>
+
+	<p>Added a <code>TableCellRenderer</code> to the
+	<code>JTable</code> instances in <code>OOMetricsGUI</code>
+	to draw out-of-bound measurements in red.  I also tried
+	to set the background to create bands of three rows of
+	alternating colors, but is is not working perfectly yet.</p>
+
+	<p>Added a <i>new metrics</i> tool to <code>OOMetricsGUI</code>
+	to reset the list of measurements.</p>
+
+	<p>Measurements in the configuration file can now be made
+	invisible via an XML attribute on <code>&lt;measurement&gt;</code>
+	tags.</p>
+
+	<p>I tried to change the default self-disposition of
+	<code>StatisticalMeasurement</code> to average values, but it
+	behaved strangely by ignoring itself instead.  Strange!  I
+	also tried to have separate renderer classes for
+	<code>StatisticalMeasurement</code> and the other subclasses
+	of <code>MeasurementBase</code>, but that also didn't quite
+	work out.  More on that later ... maybe.</p>
+    </dd>
+    <dt>
+	June 04, 2002
+    </dt>
+    <dd>
+	<p>Added <code>SumMeasurement</code> in preparation for SLOC
+	and dependency measurements.</p>
+
+	<p>Created <code>metrics.dtd</code> and put it at:</p>
+
+	<pre>
+	    <a href="dtd">http://depfind.sourceforge.net/dtd/</a>
+	</pre>
+
+	<p>Fixed a mistyped measurement in <code>MetricsConfig.xml</code>.</p>
+
+	<p>Fixed <code>MeasurementBase.InRange()</code> to handle
+	textual thresholds.  It assumed the thresholds were instances
+	of <code>Number</code>, but the XML descriptor provides them
+	as text which has to be parsed.</p>
+    </dd>
+    <dt>
+	June 03, 2002
+    </dt>
+    <dd>
+	<p>Addressed a possible performance issue which
+	<code>com.jeantessier.metrics.XMLPrinter</code> where using
+	four spaces for indent was yielding <i>huge</i> XML reports.
+	I changed <code>OOMetrics</code> to use a tab character
+	instead.  We'll see how it goes.  At the same time, I adjusted
+	<code>XMLPrinter</code> to generate &lt;measurement&gt;
+	nodes instead of &lt;metric&gt;.  It will also ignore
+	<code>NullMeasurement</code> instances from here on.</p>
+
+	<p>Use the system property <code>line.separator</code>
+	instead of "\n" in metrics reports.  This should help with
+	cross-platform portability.</p>
+
+	<p>Rigged <code>MetricsFactory</code> to handle group
+	definitions properly.</p>
+
+	<p>I've been looking at using tool tips in the header of the
+	result tables in <code>OOMetricsGUI</code> to expand the
+	measurement names.  Each header has an associated
+	<code>JComponent</code>, but getting to is is proving
+	rather difficult.  I'd almost have to provide a custom
+	implementation of <code>TableColumnModel</code>, but I
+	only need to override a tiny piece of the behavior.  More
+	on this later.</p>
+    </dd>
+    <dt>
+	June 01, 2002
+    </dt>
+    <dd>
+	<p>Finished <code>MetricsConfig.xml</code> and the constants
+	<code>com.jeantessier.metrics.Metrics</code>.  I adjusted
+	some of the reporting functions in printers and in concrete
+	implementations of <code>Measurement</code>.</p>
+    </dd>
+    <dt>
+	May 31, 2002
+    </dt>
+    <dd>
+	<p>Worked on unit tests for <code>MetricsGatherer</code>.</p>
+    </dd>
+    <dt>
+	May 30, 2002
+    </dt>
+    <dd>
+	<p>I'm working out <code>MetricsGatherer</code> to bring it
+	closer to the old, hard-coded <code>MetricsFactory</code>.
+	This is gonna take a while ...</p>
+
+	<p>The optional validation was not enough when working in a
+	disconnected environment.  It still tried to load the DTD,
+	even though it was not using it to validate the document.
+	I've used an Apache feature to turn off loading of external
+	DTDs when validation is turned off.  It now works fine.</p>
+    </dd>
+    <dt>
+	May 29, 2002
+    </dt>
+    <dd>
+	<p>Finished with the whole <code>MetricsConfiguration</code>
+	mess.  All I have left to do is adjust the measurement names
+	in <code>MetricsGatherer</code> and complete the descriptions
+	in <code>MetricsConfig.xml</code></p>
+
+	<p>Next, it is time to fix SLOC and dependency metrics.  Then
+	I'll simplify the UI, write tons of docs, and the first beta
+	will finally be available by the middle of June.</p>
+
+	<p>Famous last words ...</p>
+    </dd>
+    <dt>
+	May 28, 2002
+    </dt>
+    <dd>
+	<p>I was looking into Ant and found some interesting
+	features.  I added descriptions to the build script to help
+	people understand the various targets.  I also managed to
+	use the &lt;ant&gt; task to compile the <code>JarJarDiff</code>
+	test samples.</p>
+
+	<p>I realized that the combination of a validating parser
+	with remove DTDs might not work when disconnected from
+	the Web.  So I made the validating behavior optional in
+	<code>com.jeantessier.dependency.NodeLoader</code> and in
+	the <code>DependencyReporter</code> CLI application.</p>
+
+	<p>I upgraded all the scripts to use the new Xerces JAR
+	files configuration.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Ant</td>
+	        <td>:</td>
+		<td>1.4.1</td>
+	        <td>-></td>
+		<td>1.5Beta1</td>
+	    </tr>
+	    <tr>
+	        <td>Log4J</td>
+	        <td>:</td>
+		<td>1.2rc1</td>
+	        <td>-></td>
+		<td>1.2.3</td>
+	    </tr>
+	    <tr>
+	        <td>Jakarta ORO</td>
+	        <td>:</td>
+		<td>2.0.5</td>
+	        <td>-></td>
+		<td>2.0.6</td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	May 26, 2002
+    </dt>
+    <dd>
+	<p>Redesigned the <code>Measurement</code> hierarchy and
+	got rid of <code>NumericalMeasurement</code> and
+	<code>NumericalMeasurementBase</code>.  Now, all
+	measurements have a "value" and <code>StatisticalMeasurement</code>
+	uses a self dispose parameter to determine how to
+	evaluate itself.  The class diagram is now almost trivial.</p>
+
+	<p>The implementations of <code>Measurement</code> can
+	be configured using the <code>init-text</code> tags in
+	the descriptor.</p>
+
+	<blockquote>
+	<table border="3">
+	    <tr>
+		<th>Class</th>
+		<th>Init-Text</th>
+	    </tr>
+	    <tr>
+		<td><code>AccumulatorMeasurement</code></td>
+		<td><code>[SET | LIST]</code></td>
+	    </tr>
+	    <tr>
+		<td><code>CounterMeasurement</code></td>
+		<td><code>[initial value]</code></td>
+	    </tr>
+	    <tr>
+		<td><code>NbSubMetricsMeasurement</code></td>
+		<td><i>none</i></td>
+	    </tr>
+	    <tr>
+		<td><code>RatioMeasurement</code></td>
+		<td><code>base measurement name [DISPOSE_x]<br />divider measurement name [DISPOSE_x]</code></td>
+	    </tr>
+	    <tr>
+		<td><code>StatisticalMeasurement</code></td>
+		<td><code>monitored measurement name [DISPOSE_x]<br />[self DISPOSE_x]</code></td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	May 23, 2002
+    </dt>
+    <dd>
+	<p>I have fixed all the unit tests!</p>
+
+	<p>I was not happy with the way that most measurements
+	inherited from <code>MeasurementBase</code> and implemented
+	<code>NumericalMeasurement</code>.  This led to a lot of
+	duplicate code and the resulting class diagram was hard
+	to read.  So I created <code>NumericalMeasurementBase</code>
+	to store the common code and provided some sensible default
+	method implementations in both abstract classes.  Now, there
+	is no longer any duplicated code and the class diagram is
+	simple and obvious.</p>
+    </dd>
+    <dt>
+	May 21, 2002
+    </dt>
+    <dd>
+	<p>I have fixed all the unit tests except the one for
+	<code>StatisticalMeasurement</code>.  I've got it pretty much
+	figured out, but there is just a lot of code to change to fix
+	these.</p>
+
+	<p>I stumbled by pure chance on articles by Martin Fowler on
+	coupling and public vs. published interfaces.  I am now
+	thinking of writing follow up articles that show how
+	Dependency Finder helps with addressing these issues.</p>
+    </dd>
+    <dt>
+	May 20, 2002
+    </dt>
+    <dd>
+	<p>I have a new design for <code>Measurement</code>
+	implementations.  Now I get over 100 compile time errors when
+	compiling the unit tests.  This is going to take forever...</p>
+    </dd>
+    <dt>
+	May 17, 2002
+    </dt>
+    <dd>
+	<p>I finally figured out my problem with Xerces and unit tests.
+	The Xerces and JUnit's class loading behavior do not play well
+	together.  I had to craft an <code>excluded.properties</code>
+	file so that Xerces files are not reloaded with every test run.</p>
+
+	<p>I finished <code>MetricsConfigurationHandler</code>.  In the
+	unit tests, I tried to test Xerces's XML validation feature.
+	It load the external DTD, alright, but fails to flag documents
+	that do not follow the DTD.  So much for that.</p>
+
+	<p>To use the validating parser, I had to put the DTDs on:</p>
+
+	<pre>
+	    <a href="dtd">http://depfind.sourceforge.net/dtd/</a>
+	</pre>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Xerces</td>
+	        <td>:</td>
+		<td>2.0.0</td>
+	        <td>-></td>
+		<td>2.0.1</td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	May 13, 2002
+    </dt>
+    <dd>
+	<p>I still haven't solved my problems with Xerces.</p>
+    </dd>
+    <dt>
+	May 10, 2002
+    </dt>
+    <dd>
+	<p>I am having problem with unit testing Xerces.
+	<code>XMLReaderFactory</code> complains that the default
+	<code>XMLReader</code> is not a <code>XMLReader</code>.</p>
+    </dd>
+    <dt>
+	May 06, 2002
+    </dt>
+    <dd>
+	<p>More work on <code>MetricsConfiguration</code>.</p>
+    </dd>
+    <dt>
+	May 03, 2002
+    </dt>
+    <dd>
+	<p>I switched the XML formats to use an external DTD instead
+	of an internal one, like I've been doing so far.  Not that I
+	have an "official" web site, I can store the DTDs there for
+	all to share.  When the release is ready, I'll put the DTDs
+	at:</p>
+
+	<pre>
+	    <a href="dtd">http://depfind.sourceforge.net/dtd/</a>
+	</pre>
+
+	<p>I have got a design for the configuration of metrics system.
+	I have started writing some unit tests.</p>
+    </dd>
+    <dt>
+	May 01, 2002
+    </dt>
+    <dd>
+	<p>Fixed bugs in:</p>
+
+	<ul>
+	    <li><code>com.jeantessier.classreader.DirectoryClassfileReader</code></li>
+	    <li><code>com.jeantessier.classreader.JarClassfileReader</code></li>
+	    <li><code>com.jeantessier.classreader.ZipClassfileReader</code></li>
+	</ul>
+
+	<p>where they were not closing the files they were opening.
+	This resulted in locked resources under Windows NT that
+	prevented me from recompiling classes after finding out stuff
+	about them.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Log4J</td>
+	        <td>:</td>
+		<td>1.2beta3</td>
+	        <td>-></td>
+		<td>1.2rc1</td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	April 30, 2002
+    </dt>
+    <dd>
+	<p>I have found a silly bug in <code>com.jeantessier.dependency.TextPrinter</code>
+	where it was not following the Inherited Behavior pattern in
+	some of its methods.  This was slowing down the printing of
+	dependency graphs tremendously (by a factor of 60 for analyzing
+	Dependency Finder itself).  It is all fixed now.</p>
+    </dd>
+    <dt>
+	April 28, 2002
+    </dt>
+    <dd>
+	<p>I have started defining the DTD and initial document for the
+	metrics configuration.  I have yet to read it in or do anything
+	useful with it.</p>
+    </dd>
+    <dt>
+	April 24, 2002
+    </dt>
+    <dd>
+	<p>I have changed how <code>Metrics</code> manages
+	<code>Measurement</code> instances.  If the <code>Metrics</code>
+	instance is not tracking a given measurement, it returns a
+	<code>NullMeasurement</code> object instead of <code>null</code>.</p>
+    </dd>
+    <dt>
+	April 22, 2002
+    </dt>
+    <dd>
+	<p>I just started on the metrics features.  After these are
+	done, and I've completed the user's manual, I'll be done
+	with this release!</p>
+
+	<p>I need to adjust the <code>MetricsFactory</code> to create
+	the elementary measurements at each level and then setup the
+	composite measurements from some configuration.  This will set
+	the stage for using custom configuration files for custom
+	metrics reports in the next release.</p>
+    </dd>
+    <dt>
+	April 19, 2002
+    </dt>
+    <dd>
+	<p>I have added a utility for diff'ing published API lists.
+	The utility is called <code>ListDiff</code> and has two XSL
+	stylesheets for writing to HTML and regular text.</p>
+    </dd>
+    <dt>
+	April 16, 2002
+    </dt>
+    <dd>
+	<p>I fixed some images in the user manual.</p>
+    </dd>
+    <dt>
+	April 15, 2002
+    </dt>
+    <dd>
+	<p>I'm looking at having a Java Web Start version too.</p>
+    </dd>
+    <dt>
+	April 14, 2002
+    </dt>
+    <dd>
+	<p>I am done with <code>JarJarDiff</code> (for this release)!</p>
+
+	<p>I have fixed <code>DifferencesFactory</code>.  I have renamed
+	some of the stylesheets.  I have added even more unit tests.</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td><code>DiffToExternalHTML</code></td>
+	        <td>-></td>
+		<td><code>PublishedDiffToHTML</code></td>
+	    </tr>
+	    <tr>
+	        <td><code>DiffToDocumentationHTML</code></td>
+	        <td>-></td>
+		<td><code>ListDocumentationDiffToHTML</code></td>
+	    </tr>
+	    <tr>
+	        <td><code>DiffToInheritanceChange</code></td>
+	        <td>-></td>
+		<td><code>ListInheritanceDiffToText</code></td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	April 13, 2002
+    </dt>
+    <dd>
+	<p>I have moved all the difference computation code from the
+	constructors to the various <code>Differences</code> classes to a
+	single <code>DifferencesFactory</code> class.</p>  I have added
+	additional unit tests that cover most cases.
+    </dd>
+    <dt>
+	April 11, 2002
+    </dt>
+    <dd>
+	<p>I have figured out how to work around the expression size
+	limitation in <code>DiffToExternalHTML.xsl</code>.  I have added
+	a <code>full-signature</code> attribute to <code>declaration</code>
+	nodes in the DTD for differences.  This keeps the size of the
+	expression somewhat lower, but is is still a behemoth.</p>
+
+	<p>I am now done with the higher-resolution validation feature.</p>
+
+	<p>The XSL stylesheets for <code>JarJarDiff</code> seem to work
+	fine.  I have added one more to only list documentation level
+	changes.  I also need to test <code>DiffToExternal</code> on a
+	real-life sample.  I am still not clear as to which validation
+	list to use: the one generated from the old code, the one generated
+	from the new code, or a merge of the two.</p>
+    </dd>
+    <dt>
+	April 10, 2002
+    </dt>
+    <dd>
+	<p>I have been looking at the <code>DiffToExternalHTML.xsl</code>
+	stylesheet, looking for a way to get the additional validation
+	now that the resolution has gone down to the feature level.
+	I have noticed that the <code>match</code> expression for
+	<code>class</code> nodes has exceeded some internal buffer in
+	Xalan.  If a add a few characters, I get an
+	<code>ArrayIndexOutOfBoundsException</code> from the transformation
+	engine.</p>
+    </dd>
+     <dt>
+	April 09, 2002
+    </dt>
+    <dd>
+	<p>I am almost done with new features to <code>JarJarDiff</code>!</p>
+
+	<p>I fixed all the unit tests and the XSL stylesheets.  In the
+	process, I fixed a bug in <code>PackageDifferences</code> and
+	<code>ClassDifferences</code> when adding decorators.</p>
+
+	<p><code>DiffToExternal</code> may need additional tweaking.  I
+	also need an new XSL stylesheet to extract the documentation
+	level information from all the other differences.</p>
+    </dd>
+   <dt>
+	April 08, 2002
+    </dt>
+    <dd>
+	<p><code>JarJarDiff</code> is a mess.  I have started writing
+	unit tests in an effort to regain control.</p>
+    </dd>
+    <dt>
+	April 05, 2002
+    </dt>
+    <dd>
+	<p>The code is in place, but it does not seem to be working.</p>
+    </dd>
+    <dt>
+	April 03, 2002
+    </dt>
+    <dd>
+	<p>First shot at tracking documentation levels using
+	<code>JarJarDiff</code>.</p>
+
+	<p>After looking at the format used by Argo/UML to save UML project
+	files, I'm having renewed interest in XMI to import dependency
+	graph into UML modeling tools.  This would allow people to draw
+	the graph visually using their favorite UML tool.  Argo/UML also
+	uses PGML to store graphics.  This has led to W3C to standardize
+	SVG, which I might be looking into in the future.</p>
+    </dd>
+    <dt>
+	March 31, 2002
+    </dt>
+    <dd>
+	<p>I finished the reorganization of the <code>Differences</code>
+	hierarchy for the Decorator pattern.  I have made this change to
+	ease listing of documentation status changes.  Come to think of
+	it, I might not have needed this change to do the new feature.</p>
+
+	<p>I have added some documentation for <code>JarJarDiff</code>
+	in preparation for the new feature..</p>
+    </dd>
+    <dt>
+	March 30, 2002
+    </dt>
+    <dd>
+	<p>I started some unit tests for the <code>Differences</code>
+	hierarchy.</p>
+    </dd>
+    <dt>
+	March 27, 2002
+    </dt>
+    <dd>
+	<p>I reorganized the <code>Differences</code> hierarchy to
+	make room for a Decorator pattern.  I'm reimplementing tracking
+	of deprecated features to arrange the code.  After that, I'll
+	be better able to take care of documented vs. undocumented
+	programming elements.</p>
+
+	<p>Right now, I've broken something.  I don't have the adequate
+	unit tests to tell me what it is that I broke.  I guess I've
+	been a bad boy.  This will take a little while to fix.</p>
+    </dd>
+    <dt>
+	March 21, 2002
+    </dt>
+    <dd>
+	<p>I am rediscovering the <code>com.jeantessier.diff</code>
+	package in an attempt to incorporate a <i>documented</i>
+	attribute to programming entities.  I have added javadocs
+	to explain some of the classes and interfaces.</p>
+    </dd>
+    <dt>
+	March 19, 2002
+    </dt>
+    <dd>
+	<p>That validation list is still giving me headaches.  How can I
+	make that feature fit without breaking the <i>purity</i> of my
+	code so far?  :-)</p>
+
+	<p>In the meantime, I've added a confirmation screen to
+	<code>extract.jsp</code>, hoping this will prevent lengthy
+	extractions from happening by accident.</p>
+    </dd>
+    <dt>
+	March 13, 2002
+    </dt>
+    <dd>
+	<p>I have regained control over <code>DiffToExternalHTML</code>.</p>
+
+	<p>With finer control over validation, how the validation list
+	is generated and used becomes more and more important.  If we use
+	javadoc comments, and we want to track when things transition
+	from valid to invalid or vice versa, we now need a list for the
+	old version and a list for the new version.  How these two lists
+	are combined and used remains to be determined.  Should they be
+	fed to <code>JarJarDiff</code> and merged into the XML output?
+	Should they be fed to the XSL stylesheet, making it even more
+	convoluted?  And what about <code>DiffToHTML.xsl</code>?  Should
+	it start to use Java code too?</p>
+
+	<p>I streamlined <code>Diff.dtd</code> to remove duplicated
+	information in the output of <code>JarJarDiff</code>.</p>
+    </dd>
+     <dt>
+	March 10, 2002
+    </dt>
+    <dd>
+	<p>I wrote <code>ListBasedValidator</code> and I have
+	<code>ListVisibleElements</code>, a doclet for listing programming
+	elements that have been flagged through their javadoc comments.
+	This way, one can use javadoc tags to flag classes and features
+	as part of the published API and guide <code>DiffToExternalHTML</code>
+	to limit the report to those classes and features.</p>
+
+	<p>I've started to adjust <code>DiffToExternalHTML</code>, but
+	that XSL non-trivial.</p>
+    </dd>
+   <dt>
+	March 07, 2002
+    </dt>
+    <dd>
+	<p>I refactored <code>PackageValidator</code> to create the
+	<code>Validator</code> interface.  This is in preparation to a
+	more granular validation that would have a feature-level
+	resolution.</p>
+    </dd>
+     <dt>
+	March 04, 2002
+    </dt>
+    <dd>
+	<p>I've simplified how <code>TransitiveClosure</code> determines
+	whether or not to follow inbound and outbound dependencies.  But
+	I still have problems with weird interactions when following both
+	inbound and outbound dependencies at the same time.</p>
+
+	<p>I've created <code>closure.jsp</code>, a web application
+	interface to <code>TransitiveClosure</code>.</p>
+
+	<p>I've added the appropriate switches to
+	<code>DependencyClosure</code>.</p>
+
+	<p>I fixed a typo in <code>DiffToExternalHTML.xsl</code>.</p>
+    </dd>
+   <dt>
+	March 03, 2002
+    </dt>
+    <dd>
+	<p>I've bounded <code>TransitiveClosure</code>.</p>
+    </dd>
+    <dt>
+	February 27, 2002
+    </dt>
+    <dd>
+	<p>I finally have a release plan.</p>
+
+	<p>I may have found some more/better icons in another open source
+	software.  More on this later.</p>
+    </dd>
+    <dt>
+	February 26, 2002
+    </dt>
+    <dd>
+	<p>I got rid of the previous <code>DiffToHTML.xsl</code> and
+	renamed <code>DiffToInternalHTML.xsl</code> to it.  I also added
+	the product's name to the template and redesigned the title line.
+	I added it to <code>DiffToExternalHTML.xsl</code> too.  I'm
+	thinking of making that one simply an XML filter and use the new
+	<code>DiffToHTML.xsl</code> for all rendering.  But I will need
+	to figure out how to efficiently copy XML trees in XSLT.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Log4J</td>
+	        <td>:</td>
+		<td>1.2alpha6</td>
+	        <td>-></td>
+		<td>1.2beta3</td>
+	    </tr>
+	    <tr>
+	        <td>Jakarta ORO</td>
+	        <td>:</td>
+		<td>2.0.4</td>
+	        <td>-></td>
+		<td>2.0.5</td>
+	    </tr>
+	    <tr>
+	        <td>Xerces</td>
+	        <td>:</td>
+		<td>1.4.3</td>
+	        <td>-></td>
+		<td>2.0.0</td>
+	    </tr>
+	    <tr>
+	        <td>Xalan</td>
+	        <td>:</td>
+		<td>2.2 D11</td>
+	        <td>-></td>
+		<td>2.3.1</td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	February 21, 2002
+    </dt>
+    <dd>
+	<p>I rewrote the Documentation page to the new
+	<a href="Resources.html">Resources</a> center.  I hope to keep
+	track of articles and competing software there.</p>
+
+	<p>I'm going to upgrade Xerces, Xalan, Jakarta ORO.</p>
+    </dd>
+    <dt>
+	February 19, 2002
+    </dt>
+    <dd>
+	<p>Fixed bugs with <code>com.jeantessier.classreader.XMLPrinter</code>.
+	The XML now uses lower-case tag names.  I'm still missing a DTD.</p>
+
+	<p>I upgraded <code>extract.jsp</code> and <code>query.jsp</code>,
+	so they are a little more friendly now.</p>
+
+	<p>I moved <code>log4j.properties</code> under <code>src/</code>.
+    </dd>
+     <dt>
+	February 13, 2002
+    </dt>
+    <dd>
+	<p>I modified the <code>com.jeantessier.classreader</code> package
+	so that <code>ClassfileLoader</code> can notify listeners as soon
+	as a <code>.class</code> file is loaded.  This way, tools like
+	<code>DependencyExtractor</code> can use a
+	<code>TransientClassfileLoader</code> since it does not need the
+	<code>Classfile</code> instance once the dependencies have been
+	extracted.</p>
+    </dd>
+   <dt>
+	February 05, 2002
+    </dt>
+    <dd>
+	<p>I need a release plan.  I've had a number of ideas lately for
+	new features and I need to scope what's doable and what's not,
+	and have some idea of when I can expect the release.</p>
+
+	<p>I fixed <code>TransitiveClosure</code>.  I also added to it a
+	feature where it can now follow inbound dependencies in addition
+	to outbound ones.  Maybe this will become handy somehow.  I'm
+	thinking of limiting the depth of the closure exploration, though.
+	And finally, it now has two modes of operation: one where it only
+	records the first dependency that led to a <code>Node</code>, and
+	another where it records all such paths.</p>
+
+	<p>I adjusted the code so that Log4J is initialized from
+	<code>log4.properties</code> located on the <code>CLASSPATH</code>.
+	I thought about putting the file in <code>DependencyFinder.jar</code>,
+	but decided against.  If someone is familiar with Log4J, they can
+	edit the configuration file and adjust logging to their liking.
+	It took a lot of hard work to figure it out.  I had to follow all
+	the steps below, pretty much in that order:</p>
+
+	<ol>
+	    <li>RTFM</li>
+	    <li>RTFM</li>
+	    <li>RTFM :-)</li>
+	</ol>
+
+	<p>I temporarily removed <code>xerces.jar</code> and <code>xalan.jar</code>
+	from the web application WAR file.  This dramatically reduced its size.
+	I also added <code>deploy</code> and <code>undeploy</code> targets to
+	the <code>build.xml</code> file for Tomcat.</p>
+    </dd>
+    <dt>
+	February 03, 2002
+    </dt>
+    <dd>
+	<p>I adjusted <code>GraphCopier</code> and <code>GraphSummarizer</code>
+	to reduce the noise in their scope output.  They used to output the
+	whole package of any node that was in scope.  This often produced extra
+	output that would obscure the answer to the query.</p>
+
+	<p>The new <code>GraphCopier</code> maintains a separate <code>NodeFactory</code>
+	for scoped nodes and filtered nodes.  Only nodes in the scope are
+	created using the scoping <code>NodeFactory</code>.  This cuts away
+	a lot of extraneous information.</p>
+
+	<p>This has unfortunately broken <code>TransitiveClosure</code>.</p>
+    </dd>
+    <dt>
+	February 02, 2002
+    </dt>
+    <dd>
+	<p>I fixed <code>JarJarDiff</code>.  I forgot to adjust it when
+	I changed <code>ClassfileLoader</code> to add support for
+	"progress report"-type of information.  <code>JarJarDiff</code>
+	did not call <code>Start()</code> on its <code>ClassfileLoader</code>
+	instances.</p>
+    </dd>
+    <dt>
+	January 29, 2002
+    </dt>
+    <dd>
+	<p>Dependency Finder is one year old!</p>
+    </dd>
+    <dt>
+	January 28, 2002
+    </dt>
+    <dd>
+	<p>I put the functionality for exploring dependency graphs
+	into a web application.  It is governed by three application
+	context parameters:</p>
+
+	<dl>
+	    <dt>
+		<b><code>name</code></b>
+	    </dt>
+	    <dd>
+		A user-friendly name for the codebase.  This allows
+		users to know the subject of the dependency graph
+		without revealing where it is on the server's file
+		system.
+	    </dd>
+	    <dt>
+		<b><code>source</code></b>
+	    </dt>
+	    <dd>
+		The compiled Java code to to be extracted.  You can
+		specify multiple locations by separating them with
+		commas.
+	    </dd>
+	    <dt>
+		<b><code>mode</code></b>
+	    </dt>
+	    <dd>
+		Wether to maximize or minimize the graph, or leave
+		it in raw form.
+	    </dd>
+	</dl>
+
+	<p>The application consists of only two JSPs:</p>
+
+	<dl>
+	    <dt>
+		<b><code>extract.jsp</code></b>
+	    </dt>
+	    <dd>
+		Extracts the dependency graph from the source specified
+		by <code>application.getInitParameter("source")</code>.
+		The graph will further be processed based on
+		<code>application.getInitParameter("mode")</code>.
+	    </dd>
+	    <dt>
+		<b><code>query.jsp</code></b>
+	    </dt>
+	    <dd>
+		Displays a subset of the dependency graph, according
+		to the user-specified scope and filter.
+	    </dd>
+	</dl>
+
+	<p>I may look into better rendering and status out of the JSPs.</p>
+    </dd>
+    <dt>
+	January 25, 2002
+    </dt>
+    <dd>
+	<p>I finally found a practical way to parse the input from the
+	GUI to allow users to specify multiple regular expressions.</p>
+
+	<p>I have a plan for making a web application version.  The
+	<code>application</code> implicit object can hold on to the
+	dependency factory and a query JSP can run queries and format
+	the results.  This is gonna be cool!</p>
+    </dd>
+    <dt>
+	January 23, 2002
+    </dt>
+    <dd>
+	<p>I'm working on the manual.  I started to use MS Word for some
+	of the figures.  I'll use Poseidon for the UML.</p>
+    </dd>
+    <dt>
+	January 22, 2002
+    </dt>
+    <dd>
+	<p>I fixed the <a target="_blank" href="MinMax.html">minimize and
+	maximize discussion</a>.  It had broken links and I had to regenerate
+	the HTML from the source MS Word document.</p>
+
+	<p>While I was at it, I fixed the <a href="Documentation.html">Documentation</a>
+	section too.  It had a few obsolete links.</p>
+
+	<p>Someone brought <a target="_blank" href="http://sourceforge.net/projects/jdiff/">JDiff</a>
+	to my attention.  I've given it a cursory look and I still believe
+	that my work is so much better.  ;-)  More on this later.  I'll have
+	to create a section on the <i>competition</i>.</p>
+    </dd>
+    <dt>
+	January 21, 2002
+    </dt>
+    <dd>
+	<p>It turns out the problem with XSL was my fault.  Appearently,
+	I was not supposed to use the string "--" in comments the way
+	I did to format the copyright notice.  I'll put the fix in the
+	next release.  In the mean time, people can either edit the files
+	themselves or stick to the GUI.</p>
+
+	<p>I'm working on fixing <code>-verbose</code> and <code>-trace</code>
+	switches.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Log4J</td>
+	        <td>:</td>
+		<td>1.1.3</td>
+	        <td>-></td>
+		<td>1.2alpha6</td>
+	    </tr>
+	</table>
+	</blockquote>
+
+	<p>I thought about upgrading Jakarta ORO, who just came out with
+	version 2.0.5.  But the changes are just bug fixes that don't
+	impact me, so I decided against.</p>
+
+	<p>I'll also try to fix the dependency metrics for the next release.</p>
+    </dd>
+    <dt>
+	January 18, 2002
+    </dt>
+    <dd>
+	<p>I'm making progress with the user manual.  I've expanded the
+	TWiki-like notation to include HTML and inlined images.  I put
+	the working draft on the project's web site.  It'll be part of
+	the distribution for the next release.</p>
+
+	<p>I got my first support call today.  Someone is having difficulties
+	with one of the XSL converters.  This is all <code>Xalan</code>
+	stuff, so I'm thinking it might be JVM memory.  I instructed
+	them to set <code>DEPENDENCYFINDER_OPTS</code> and call me
+	back.</p>
+    </dd>
+    <dt>
+	January 17, 2002
+    </dt>
+    <dd>
+	<p>I got started on a user manual.  I want to enter the core text
+	quickly, so I wrote a Perl script to replicate the TWiki shorthand.
+	I'll use it to generate the initial version of the text and we'll
+	see later if it's worth while to keep the original shorthand.</p>
+    </dd>
+    <dt>
+	January 15, 2002
+    </dt>
+    <dd>
+	<p>Added feature <code>502554 "Sorting doens't work on NaN"</code>.
+	I changed <code>com.jeantessier.metrics.MetricsComparator</code>
+	so that <code>NaN</code> always appears at the bottom of the
+	list.</p>
+    </dd>
+    <dt>
+	January 11, 2002
+    </dt>
+    <dd>
+	<p>I am going to switch to SourceForge's project management
+	tools for keeping track of status and downloads.  It provides
+	more information and is easier to maintain than my
+	<a href="Status.html">little manual HTML page</a>.  I'm gonna
+	merge it with this journal and then merge it.</p>
+    </dd>
+    <dt>
+	January 10, 2002
+    </dt>
+    <dd>
+	<p>I moved the code to the BSD-style license.</p>
+
+	<p>Emacs behaves strangely when under CVS.  I'll need to
+	adjust the code formatting.  It is back to indenting with
+	tabs and spaces.</p>
+    </dd>
+    <dt>
+	January 09, 2002
+    </dt>
+    <dd>
+	<p>I finally managed to create the CVS repository on
+	SourceForge.  I've uploaded a first version of the code,
+	but it still has the LGPL license instead of the BSD-style
+	one.</p>
+
+	<p>I also uploaded the release file in SourceForge's FRS.
+	One more thing to learn (and is not trivial).</p>
+
+	<p>I looked at <a target="_blank" href="http://jakarta.apache.org/bcel/">BCEL</a>.
+	It looks too complex for me to bother with right now.
+	I already have something that works.  I'm gonna stick with
+	it for now.  I like how my code uses the <code>Visitor</code>
+	pattern to provide hooks for traversing the structure.</p>
+    </dd>
+    <dt>
+	January 07, 2002
+    </dt>
+    <dd>
+	<p>The <a target="_blank" href="http://jakarta.apache.org/">Jakarta Project</a>
+	at <a target="_blank" href="http://www.apache.org/">Apache</a> has
+	<a target="_blank" href="http://jakarta.apache.org/bcel/">BCEL</a>,
+	a subproject that does the same thing as
+	<code>com.jeantessier.classreader</code> and more.</p>
+    </dd>
+    <dt>
+	January 03, 2002
+    </dt>
+    <dd>
+	<p>I requested a SourceForge project and had it approved the
+	same day.  I got SSH to work, but CVS still eludes me.</p>
+
+	<p>I'm going to change the licensing.  I'm gonna move away
+	from <a target="_blank" href="http://www.gnu.org/licenses/lgpl.html">LGPL</a>
+	to a <a target="_blank" href="http://www.opensource.org/licenses/bsd-license.html">BSD-style</a>
+	license.</p>
+    </dd>
+    <dt>
+	December 20, 2001
+    </dt>
+    <dd>
+	<p>I've been considering switching from Log4J to the
+	JDK 1.4 Logging API. I decided against it after reading
+	<a target="_black" href="http://jakarta.apache.org/log4j/docs/critique.html">
+	Ceki G&uuml;lc&uuml;'s comparison of the two</a>.  I've
+	played a little bit with the Logging API and it was very
+	difficult to introduce a new format for the logged messages.
+	I believe Log4J is more flexible and easier to use.</p>
+
+	<p>This being said, I still need to work out the
+	<code>-verbose</code> and <code>-trace</code> switches so
+	that they properly adjust the logging configuration.</p>
+
+	<p>I also need to compare the speed of the tools when
+	they use Log4J as opposed to <code>com.jeantessier.log</code>.</p>
+
+	<p>I got rid of the <code>JAVA_BIN</code> and
+	<code>JAVA_EXE</code> environment variables.  I should be
+	able to use only <code>JAVA_HOME</code> like everybody else.</p>
+    </dd>
+    <dt>
+	December 15, 2001
+    </dt>
+    <dd>
+	<p>I switched from <code>com.jeantessier.log</code> to
+	Log4J.  I must now figure out how to send the
+	information to a log file instead of the console.</p>
+    </dd>
+    <dt>
+	December 13, 2001
+    </dt>
+    <dd>
+	<p>I merged back together <code>JT</code> and <code>JarJarDiff</code>
+	into <code>DependencyFinder</code>.</p>
+
+	<p>I renamed <code>com.jeantessier.util.commandline</code> to
+	<code>com.jeantessier.commandline</code> and
+	<code>com.jeantessier.util.log</code> to
+	<code>com.jeantessier.log</code>.  The next step is to replace
+	<code>com.jeantessier.log</code> with Log4J from the Jakarta
+	project.</p>
+    </dd>
+    <dt>
+	December 03, 2001
+    </dt>
+    <dd>
+	<p>I added a filtering function to <code>OOMetricsGUI</code>.
+	With this feature, I can filter a set of metrics to only show
+	the rows that interest me, out of a large body of code.</p>
+
+	<p>There is a bug with the sorting function.  If a column contains
+	NaN values, only the segments between NaN values get sorted.  The
+	NaN values don't move and I then have islands of data, each one
+	sorted by itself.</p>
+    </dd>
+    <dt>
+	November 27, 2001
+    </dt>
+    <dd>
+	<p>I change the root of the packages from <code>jt</code> to
+	<code>com.jeantessier</code>.  This comes as part of the preparations
+	to make this software open source.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Jean Tessier API</td>
+	        <td>:</td>
+		<td>20011114</td>
+	        <td>-></td>
+		<td>20011125</td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	November 21, 2001
+    </dt>
+    <dd>
+	<p>I added the ability to sort the columns in tables from <code>OOMetrics</code>.</p>
+
+	<p>I also fixed a minor bug in <code>jt.dependency.GraphSummarizer</code>
+	where it was not using the right level for scope and filters (class when
+	it should have been package).</p>
+    </dd>
+    <dt>
+	November 13, 2001
+    </dt>
+    <dd>
+	<p>I've put everything under the
+	<a target="_blank" href="http://www.gnu.org/licenses/lgpl.html">LGPL</a>.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Jean Tessier API</td>
+	        <td>:</td>
+		<td><i>unknown</i></td>
+	        <td>-></td>
+		<td>20011114</td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	November 07, 2001
+    </dt>
+    <dd>
+	<p>I got some performance numbers.  I don't recall which column
+	is which implementation, but it seems to point to a decrease in
+	performance.  :-(</p>
+
+	<table border="1">
+	    <tr>
+		<th>
+		    Corpus
+		</th>
+		<th>
+		    Before (secs)
+		</th>
+		<th>
+		    After (secs)
+		</th>
+	    </tr>
+	    <tr>
+		<td>
+		    JDK 1.3.1_01
+		</td>
+		<td align="right">
+		    148.363
+		</td>
+		<td align="right">
+		    154.507
+		</td>
+	    </tr>
+	    <tr>
+		<td>
+		    EFS 4.0 b29
+		</td>
+		<td align="right">
+		    206.717
+		</td>
+		<td align="right">
+		    210.042
+		</td>
+	    </tr>
+	</table>
+
+	<p>I'll have to redo these tests to make sure.</p>
+    </dd>
+    <dt>
+	November 06, 2001
+    </dt>
+    <dd>
+	<p>I removed trace statements from
+	<code>jt.dependency.VisitorBase</code> to boost performance.
+	In tests with <code>JT.jar</code> and <code>DependencyFinder.jar</code>,
+	I couldn't detect any difference.  Can you see the difference?</p>
+
+	<p>I also got the latest <code>JT</code> library.</p>
+
+	<p>I revamped the web page.</p>
+    </dd>
+    <dt>
+	November 04, 2001
+    </dt>
+    <dd>
+	<p><code>OOMetricsGUI</code> is a Swing GUI put on top of
+	<code>OOMetrics</code>.  It resulted in the creation of the
+	<code>jt.swing</code> package to hold generic classes for
+	Swing applications.</p>
+
+	<p>The next step is to be able to sort on arbitrary columns.
+	I must also integrate it with <code>DependencyFinder</code>.</p>
+    </dd>
+    <dt>
+	October 30, 2001
+    </dt>
+    <dd>
+	<p>I fixed a problem with inner classes.  <code>OOMetrics</code> was
+	counting all inner class entries in the InnerClasses class attribute.
+	This included references to inner classes in other classes, resulting
+	in a count that was higher than reality.  It now restricts itself to
+	actual inner classes of the current class, resulting in the correct
+	count.</p>
+
+	<p>I also adjusted how the <code>jt.classreader.Classfile</code>
+	constructor writes trace entries about its constant pool.  This way,
+	the text of the pool gets generated only if there is a log object to
+	print it.  I'm expecting a 25% improvement in performance as this
+	involves quite a bit of conversions when printing the entries in the
+	constant pool.</p>
+
+	<p>I also fixed a bug in <code>OOMetrics</code> so that it now uses the
+	<code>-project-name</code> command line switch instead of
+	<code>-project</code> to determine the project's name in reports.</p>
+    </dd>
+    <dt>
+	October 28, 2001
+    </dt>
+    <dd>
+	<p>For a while now, I have been less than pleased at having to
+	operate on maximized graphs.  I revised	<code>jt.dependency.GraphCopier</code>
+	to make <code>jt.dependency.GraphSummarizer</code>.  The latter
+	explores the graph more fully to compensate for the sparseness of the
+	graph.  This modification will shorten the time it takes to read the graph,
+	but queries will take longer to process.  Usage in the field will tell which
+	mode works best on real projects, whether it is <i>normal</i>, <i>minimized</i>,
+	or <i>maximized</i>.  I had to retrofit <code>DependencyReporter</code>,
+	<code>DependencyMetrics</code>, and <code>DependencyFinder</code> and give
+	them the appropriate switches.</p>
+    </dd>
+    <dt>
+	October 24, 2001
+    </dt>
+    <dd>
+	<p>I found a bug in <code>jt.dependency.CodeDependencyCollector</code>
+	where it does not process <code>catch</code> clauses to include
+	dependencies on caught exceptions.</p>
+
+	<p>In order to fix this bug, I revisited
+	<code>jt.classreader.VisitorBase</code> to build in default
+	behavior that explores all parts of the classfile structure.</p>
+
+	<p>I also modified <code>DependencyFinder</code> to include
+	command-line switches <code>-trace</code> and <code>-verbose</code>.</p>
+    </dd>
+    <dt>
+	October 19, 2001
+    </dt>
+    <dd>
+	<p>I added switches to <code>OOMetrics</code> to make the parts
+	of the report conditional.  This way, the users can request only
+	specific parts of the report if they want.</p>
+
+	<p>I need modified <code>jt.metrics.ui.OOMetrics</code> so that
+	it parses all classes before starting the analysis.</p>
+    </dd>
+    <dt>
+	October 18, 2001
+    </dt>
+    <dd>
+	<p>I fixed a bug in <code>jt.metrics.MetricsGatherer</code>
+	that caused a <code>NullPointerException</code> when analyzing
+	<code>java.lang.Object</code>.  It also skewed Depth of Inheritance
+	metrics.</p>
+
+	<p>I also fixed a bug when processing static class initializers.
+	They were getting attached to a noname class in the default
+	package.  Parsing the name correctly fixed the problem.</p>
+
+	<p>I might have to have two sets of parsed classes, one for
+	analysis and the other for support classes.  This is in order
+	to correctly compute the Depth of Inheritance metric.</p>
+
+	<p>I need to modify <code>jt.metrics.ui.OOMetrics</code> so that
+	it parses all classes before starting the analysis.  Right now,
+	it parses and analyzes each parameter on the command-line
+	separately.</p>
+    </dd>
+    <dt>
+	October 17, 2001
+    </dt>
+    <dd>
+	<p>I adjusted the display of ratio metrics in
+	<code>jt.metrics.PrettyPrinter</code> and reorganized the code
+	in the subclasses of <code>jt.metrics.Printer</code>, making it
+	implement <code>jt.metrics.MeasurementVisitor</code>.  I used
+	the occasion to normalize the behavior of the <code>-time</code>
+	switch to <code>OOMetrics</code>.</p>
+    </dd>
+    <dt>
+	October 16, 2001
+    </dt>
+    <dd>
+	<p>I added ratio metrics in <code>jt.metrics.MetricsFactory</code>.</p>
+
+	<p>I now use instances of <code>java.text.NumberFormat</code> in
+	<code>jt.metrics.PrettyPrinter</code> to adjust the display of
+	numbers.</p>
+
+	<p>I played with using <code>Jikes</code> to compile the code
+	instead of <code>javac</code>, but the difference in compile
+	time was not worth the extra warnings (4 secs vs. 10 secs).</p>
+
+	<p>I now use the default compiler mode in <code>javac</code>,
+	<code>modern</code>, instead of <code>classic</code>.  I hope
+	this won't break the compatibility with JDK 1.2 VMs.</p>
+    </dd>
+    <dt>
+	October 15, 2001
+    </dt>
+    <dd>
+	<p>It's been a while, but I've been preparing an OO metrics module.
+	Right now, it is only available as a command-line utility named
+	<code>OOMetrics</code>.  It is very unstable and not all metrics
+	are computed yet.  Output is either text, <code>.csv</code> file,
+	or XML.  I will eventually have XSL stylesheets to format the XML
+	output.  I will also eventually incorporate it in
+	<code>DependencyFinder</code>.</p>
+
+	<p>I added PC counter information to the trace information from
+	<code>jt.classreader.Code_attribute</code>.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>JDK</td>
+	        <td>:</td>
+		<td>1.3</td>
+	        <td>-></td>
+		<td>1.3.1_01</td>
+	    </tr>
+	    <tr>
+	        <td>Ant</td>
+	        <td>:</td>
+		<td>1.3</td>
+	        <td>-></td>
+		<td>1.4.1</td>
+	    </tr>
+	    <tr>
+	        <td>Jakarta ORO</td>
+	        <td>:</td>
+		<td>2.0.1</td>
+	        <td>-></td>
+		<td>2.0.4</td>
+	    </tr>
+	    <tr>
+	        <td>Xerces</td>
+	        <td>:</td>
+		<td>1.4.1</td>
+	        <td>-></td>
+		<td>1.4.3</td>
+	    </tr>
+	    <tr>
+	        <td>Xalan</td>
+	        <td>:</td>
+		<td>2.2_D3</td>
+	        <td>-></td>
+		<td>2.2_D11</td>
+	    </tr>
+	</table>
+	</blockquote>
+    </dd>
+    <dt>
+	August 30, 2001
+    </dt>
+    <dd>
+	<p>I fixed a bug in <code>jt.dependency.CodeDependencyCollector</code>.
+	It was not looking at the signature of called methods when looking
+	for dependencies.  I also stopped processing instruction <code>0xBB (new)</code>,
+	since the call to the constructor always follows shortly after.</p>
+
+	<p>I fixed a bug in <code>jt.dependency.PrettyPrinter</code>.  It was
+	not collecting dependencies correctly when they were between
+	different kinds of nodes (e.g., feature to class).</p>
+
+	<p>There was a bug with <code>jt.dependency.LinkMinimizer</code>.
+	It misses some redundancies.  The whole class had to be redone.
+	I now have a strong test suite for it and for
+	<code>jt.dependency.LinkMaximizer</code> too.</p>
+    </dd>
+    <dt>
+	August 28, 2001
+    </dt>
+    <dd>
+	<p>I added controls for the printer of dependency reports in
+	<code>DependencyFinder</code>.  This way, we can now limit the
+	results to inbound or outbound dependencies only, and remove
+	empty nodes from the result.</p>
+    </dd>
+    <dt>
+	August 24, 2001
+    </dt>
+    <dd>
+	<p>I adjusted the text output for a nicer printout.  I reorganized
+	the <code>jt.dependency.Printer</code> hierarchy to preserve the old
+	format and maximize code reuse.</p>
+    </dd>
+    <dt>
+	August 21, 2001
+    </dt>
+    <dd>
+	<p>I fixed a scoping problem in <code>jt.dependency.GraphCopier</code>.
+	It did not follow inbound dependencies and was therefore missing many
+	dependencies.  I suspect that the same goes for
+	<code>jt.dependency.TransitiveClosure</code>, but I have not had the
+	time to investigate.</p>
+    </dd>
+    <dt>
+	August 17, 2001
+    </dt>
+    <dd>
+	<p>I fixed a scoping problem in the <code>jt.dependency.Visitor</code>
+	hierarchy.  I also added some new unit tests in the process.</p>
+    </dd>
+    <dt>
+	August 16, 2001
+    </dt>
+    <dd>
+	<p>I made major changes in the <code>jt.dependency.Visitor</code>
+	and <code>jt.dependency.TraversalStrategy</code> hierarchies.  I
+	have consolidated the visitors under a single base class and
+	moved the complex traversal logic into a traversal strategy
+	implementation.</p>
+
+	<p>There is a bug with the new traversal strategy which does not
+	traverse the graph at all unless
+	<code>jt.dependency.TraversalStrategy.PackageScope()</code>
+	is true.  Likewise, feature nodes don't get visited unless
+	<code>jt.dependency.TraversalStrategy.ClassScope()</code>
+	is also true.</p>
+    </dd>
+    <dt>
+	August 12, 2001
+    </dt>
+    <dd>
+	<p>Made <code>jt.dependency.MetricsGatherer</code> inherit from
+	<code>SubGraphSelector</code> instead of <code>VisitorBase</code>
+	so that I could apply scoping to metrics queries.  I had to
+	retrofit <code>DependencyFinder</code> and <code>DependencyMetrics</code>
+	to pass in the scoping parameters.</p>
+
+	<p>I wrote <code>GraphCopier</code>.  I can now easily make copies
+	of graphs before maximizing them.</p>
+
+	<p>I have unit tests, using JUnit, for <code>GraphCopier</code>.</p>
+    </dd>
+    <dt>
+	August 03, 2001
+    </dt>
+    <dd>
+	<p>The status line of <code>DependencyFinder</code> (previously
+	known as <code>SwingDependencyReporter</code>) was using up too
+	much CPU time, so I trimmed down the number of messages that get
+	displayed.  I also had <code>OpenFileAction</code> display class
+	names on the status line as they are being loaded.</p>
+    </dd>
+    <dt>
+	May 29, 2001
+    </dt>
+    <dd>
+	<p>I fixed bugs in <code>SwingDependencyReporter</code>.</p>
+
+	<ul>
+	    <li>The class <code>XMLFileFilter</code> no longer ignores directories.</li>
+	    <li>I now use the Metal look and feel.</li>
+	    <li>I made the result area non-editable.  You can still cut and paste from it (at least on Windows).</li>
+	</ul>
+    </dd>
+    <dt>
+	May 27, 2001
+    </dt>
+    <dd>
+	<p>I added <code>SwingDependencyReporter</code>, a Swing-based
+	GUI for <code>DependencyReporter</code>.  It is still a
+	little buggy, but it works.</p>
+
+	<p>I also reorganiazed the <code>jt.dependency</code>
+	package to isolate the UI-related stuff in subpackages.
+	The package hierarchy may still need some tweaking.</p>
+    </dd>
+    <dt>
+	May 22, 2001
+    </dt>
+    <dd>
+	<p>I revised all the <code>.bat</code> files to support an
+	arbitrary number of arguments.  On Windows machines, this
+	can require messing with the <code>CONFIG.SYS</code> file
+	to increment the amount of memory dedicated to environment
+	variables.</p>
+    </dd>
+    <dt>
+	May 17, 2001
+    </dt>
+    <dd>
+	<p>I added a <code>-f2f</code> switch and matching <code>.bat</code>
+	files for <code>DependencyReporter</code> to analyze
+	software at the feature level.</p>
+
+	<p>I am rewriting the <code>.bat</code> files to support an
+	arbitrary number of arguments.</p>
+
+	<p>I also added a <code>-time</code> switch to all commands
+	so we can time their execution.</p>
+    </dd>
+    <dt>
+	April 26, 2001
+    </dt>
+    <dd>
+	<p>I udgraded the package <code>jt.classreader</code> so I could
+	get signatures from all methods references.  I also upgraded the
+	package <code>jt.dependency</code> to track methods by signature,
+	instead of only by name.</p>
+    </dd>
+    <dt>
+	April 16, 2001
+    </dt>
+    <dd>
+	<p>Upgraded Ant (1.0.8 -> 1.3) and Jakarta ORO (1.2 -> 1.2.1).</p>
+
+	<p>I need to get JUnit involved!</p>
+
+	<p>I thought of adding support in the <code>jt.classreader</code>
+	package for generating the <code>.class</code> file.  This way,
+	I can easily test the whole package by parsing and then rewriting
+	a <code>.class</code> file.  If the bytes are the same, then no
+	information was lost during parsing.</p>
+    </dd>
+    <dt>
+	April 09, 2001
+    </dt>
+    <dd>
+	<p>Spun off <code>JarJarDiff</code>.</p>
+
+	<p>Reorganized the package structure.</p>
+    </dd>
+    <dt>
+	April 05, 2001
+    </dt>
+    <dd>
+	<p>When attempting to locate a feature, the code now looks at
+	implemented interfaces too.  <code>ClassDifferences</code> will
+	use this for all fields and only for methods between classes or
+	between interfaces.</p>
+
+	<ul>
+	<li>A field removed from an interface or from a class will only
+	be showed as removed if it cannot be obtained from a superclass
+	or supported interface.</li>
+	<li>A method removed from an interface will only be showed as
+	removed if it cannot be obtrained from a supported interface
+	(superinterface).</li>
+	<li>A constructor or method removed from a class will only be
+	showed as removed if it cannot be obtrained from a superclass.
+	It will not consider a matching method that would be obtained
+	from an interfaces, since this interface would not provide an
+	implementation for that method.</li>
+	</ul>
+
+	<p>I renamed the packages.  I'm still not happy with all the names,
+	specially the <code>jt.tools</code> package.</p>
+    </dd>
+    <dt>
+	April 04, 2001
+    </dt>
+    <dd>
+	<p>I adjsuted <code>JarJarDiff</code> so that when it detects a
+	feature that has been removed, it looks in the superclasses of
+	the class for a matching signature or proper visibility.  This
+	can happen when refactoring pushes a method up the inheritance
+	tree.  The method is no longer in the class, but it can still
+	be visible if it was declared <code>public</code> or
+	<code>protected</code>.  The XML node gets a new attribute to
+	indicate that a removed feature is now inherited.  The XSL
+	stylesheet can then choose to ignore the removed feature, if it
+	wants to.</p>
+
+	<p>I've added a tool called <code>DiffToInheritanceChange</code>
+	that lists interfaces and classes whose <code>extends</code>
+	or <code>implements</code> clause have changed.</p>
+
+	<p>I need to redo the packaging and add documentation.</p>
+   </dd>
+    <dt>
+	April 02, 2001
+    </dt>
+    <dd>
+	<p>I fixed a bug in the package <code>jt.dependencyfinder.classreader</code>
+	to process unknown or custom attributes in the <code>.class</code>
+	file, such as those generated by the Microsoft compiler.</p>
+
+	<p>I also fixed bugs in <code>DiffToExternalHTML.xsl</code> dealing
+	with restricting the processing to public or protected features,
+	as well as correctly detecting changes in visiility from protected
+	to package or private.</p>
+   </dd>
+    <dt>
+	March 28, 2001
+    </dt>
+    <dd>
+	<p>I gave a copy to Mickey Reilly so she can start using
+	<code>JarJarDiff</code>.  I had to add quick installation instructions
+	in <code>readme.txt</code>.</p>
+   </dd>
+    <dt>
+	March 20, 2001
+    </dt>
+    <dd>
+	<p><code>JarJarDiff</code> is done, along with its stylesheets.  If I
+	have the time, I'll build test cases so we can verify that it really
+	does trap everything it's supposed to.</p>
+
+	<p>The script <code>JarJarDiff.bat</code> takes two codebases (JAR files,
+	Zip files, or directories) and saves the differences in an XML document.</p>
+
+	<p>The script <code>DiffToInternalHTML.bat</code> takes the XML document
+	generated by <code>JarJarDiff</code> and transforms it completely to HTML.</p>
+
+	<p>The script <code>DiffToExternalHTML.bat</code> takes the XML document
+	generated by <code>JarJarDiff</code> and transforms the public subset of
+	it to HTML.</p>
+
+	<p>I may need to split this website according to the various tools:</p>
+
+	<ul>
+	    <li><code>DependencyExtractor</code></li>
+	    <li><code>DependencyReporter</code></li>
+	    <li><code>DependencyClosure</code></li>
+	    <li><code>DependencyMetrics</code></li>
+	    <li><code>ClassMetrics</code></li>
+	    <li><code>JarJarDiff</code></li>
+	    <li>utilities</li>
+	</ul>
+ 
+	<p>I may also need to revise the package names and organization.</p>
+   </dd>
+    <dt>
+	March 19, 2001
+    </dt>
+    <dd>
+	<p>Pretty much done.</p>
+
+	<p>In <code>DiffToExternalHTML.xsl</code>, I now use an XSLT Extension
+	in Xalan-Java to limit the report to a subset of packages defined in a
+	separate file.  The XSL stylesheet has a default value for the filename,
+	and I should be able to pass in a value from the command-line.  I can
+	now trap changes in <code>extends</code>, <code>implements</code>, and
+	<code>throws</code> clauses, as well as in the return type of methods.</p>
+    </dd>
+    <dt>
+	March 16, 2001
+    </dt>
+    <dd>
+	<p>In <code>DiffToExternalHTML.xsl</code>, I can use an XSLT Extension
+	in Xalan-Java to limit the report to a subset of packages defined in a
+	separate file.</p>
+
+	<p>In <code>DiffToExternalHTML.xsl</code>, I need to filter out
+	declarations that only remove <code>abstract</code>, <code>final</code>,
+	and <code>static</code>, instead of filtering in declarations that
+	add it.  This way, I might be able to trap changes in <code>extends</code>,
+	<code>implements</code>, and <code>throws</code>, as well as return type.</p>
+    </dd>
+    <dt>
+	March 15, 2001
+    </dt>
+    <dd>
+	<p>Refactored <code>JarJarDiff</code> and the XSL stylesheets
+	to generate both reports from the same XML file.  <code>JarJarDiff</code>
+	still supports the <code>-external</code> switch, but not for
+	long.  I am also more strict regarding what goes in the external
+	(i.e., public) report.  Now, all I need to do is be still more
+	strict on what features are reported, and restrict the report to
+	a subset of packages.</p>
+
+	<p>It turns out we want feature signatures after all.</p>
+    </dd>
+    <dt>
+	March 14, 2001
+    </dt>
+    <dd>
+	<p>Refactored <code>JarJarDiff</code> and the
+	<code>jt.dependencyfinder.diff</code> package.  I adjusted the
+	XSL stylesheet accordingly.  Now, all I need to do is be more
+	strict on what features are reported, and restrict the report
+	to a subset of packages.</p>
+
+	<p>Also, do we want feature signatures or full declarations in
+	lists?</p>
+    </dd>
+    <dt>
+	March 12, 2001
+    </dt>
+    <dd>
+	<p>Renamed the <code>JarDiff</code> tool to <code>JarJarDiff</code>,
+	at a friend's recommendation.  I adjusted the output so that it
+	lists methods by signature instead of name.  It actually outputs
+	XML and has a XSL stylesheet for converting to HTML.  I don't have
+	one for text, yet.</p>
+
+	<p>I've added a tool to compute the transitive closure of elements.
+	It is named <code>DependencyClosure</code>.  If creates a sub-graph
+	of the dependency graph by following outbound dependencies.  By
+	starting on one class, you can find out all the classes that are
+	used directly or indirectly by that class.  It uses the same scoping
+	and filtering engine as <code>DependencyReporter</code>.
+
+	<p>I've added another tool to compute dependency statistics, such
+	as the number of inbound vs. outbound links.  It is named
+	<code>DependencyMetrics</code>.  I also renamed <code>Metrics</code>
+	to <code>ClassMetrics</code> in the process.
+    </dd>
+    <dt>
+	March 08, 2001
+    </dt>
+    <dd>
+	<p>Added the <code>JarDiff</code> tool to compare different
+	versions of the same codebase, using the
+	<code>jt.dependencyfinder.classreader</code>
+	package.  This first version is pretty stupid and writes
+	only text output from <code>main()</code>.  It needs to
+	be refactored to produce XML, and then use XSL stylesheets
+	to generate text and HTML reports.</p>
+
+	<p>I've added many utility methods in the
+	<code>jt.dependencyfinder.classreader</code>
+	package to help in interrogating classes.</p>
+    </dd>
+    <dt>
+	March 07, 2001
+    </dt>
+    <dd>
+	<p>More bug fixes with parsing <code>.class</code> files.</p>
+    </dd>
+    <dt>
+	March 06, 2001
+    </dt>
+    <dd>
+	<p>Fixed the <code>.bat</code> files.  Also created the
+	<code>readme.txt</code> file that explains how to install
+	the tool.  The <code>.bat</code> files still depend on the
+	<code>JAVA_EXE</code> environment variable.  I need to fix
+	that so that the <code>.bat</code> files try <code>JAVA_HOME</code>
+	and/or give a nice error message when they cannot find the JVM.</p>
+
+	<p>Added <code>Metrics</code> to handle class metrics gathering,
+	as described on March 5.  I have yet to gather metrics about
+	dependencies.</p>
+
+	<p>Fixed some bugs with parsing <code>.class</code> files.</p>
+    </dd>
+    <dt>
+	March 05, 2001
+    </dt>
+    <dd>
+        <p>I tweaked <code>CodeDependencyCollector</code> to process
+	<code>new</code>, <code>anewarray</code>, <code>checkcast</code>,
+	<code>instanceof</code>, and <code>multianewarray</code> opcodes.
+	It doesn't seem to add any dependencies that were not already
+	found by just looking at field access and method call instructions,
+	but maybe this is just a quirk of my code.</p>
+
+	<p>I need to adjust the <code>.bat</code> files so that they
+	are no longer tied to my environment.  I'll create a
+	<code>DEPENDENCYFINDER_HOME</code> environment variable,
+	this way people only need to set that variable to start
+	using the tools.  Eventually, I could look at some kind of
+	InstallShield or InstallAnywhere solution.</p>
+
+	<p>I also want to create some additional implementations of the
+	<code>jt.dependencyfinder.classreader.Visitor</code>
+	interface to compute software metrics, such as:</p>
+
+	<ul>
+	    <li>number of packages, classes, methods</li>
+	    <li>number of classes per package or methods per class</li>
+	    <li>number of public, static, or synthetic classes or features (i.e., fields and methods)</li>
+	    <li>...</li>
+	</ul>
+
+	<p>I could do the same with additional implementations of the
+	<code>jt.dependencyfinder.model.Visitor</code>
+	interface to compute software metrics, such as:</p>
+
+	<ul>
+	    <li>number of outbound dependencies per package, class, or feature</li>
+	    <li>number of inbound dependencies per package, class, or feature</li>
+	    <li>...</li>
+	</ul>
+
+	<p>For these last dependency metrics, the tools should be applicable to
+	the output of both <code>DependencyExtractor</code> and
+	<code>DependencyReporter</code>, so that scoping can be used without
+	duplicating the functionality in <code>DependencyReporter</code>.</p>
+    </dd>
+    <dt>
+	March 02, 2001
+    </dt>
+    <dd>
+        <p>After running the tools on themselves, I reorganized
+	the package hierarchy and simplified it greatly.</p>
+
+        <p>I added XSL stylesheets for converting dependency graphs
+	to text and HTML.  Each stylesheet has three version:</p>
+
+	<ol>
+	    <li>Whole graph</li>
+	    <li>List only outbound dependencies (show nodes that are dependent on others)</li>
+	    <li>List only inbound dependencies (show dependable nodes, i.e., depended upon)</li>
+	</ol>
+
+	<p>I added shorthand options to <code>DependencyReporter</code>.
+	I also added shorthand <code>.bat</code> files.</p>
+
+	<p>I adjusted <code>DependencyExtractor</code> to scan the
+	bytecode using <code>CodeDependencyCollector</code> instead
+	of limiting itself to traversing the constant pool and looking
+	at signatures.</p>
+
+	<p>I refactored <code>Collector</code>, making it an interface
+	with a base implementation (<code>CollectorBase</code>) and
+	creating an inheritance ladder with <code>Visitor</code>.</p>
+
+	<p>I found yet another bug with <code>byte</code> as a signed type.
+	There may be others still waiting to manifest themselves.</p>
+    </dd>
+     <dt>
+	March 01, 2001
+    </dt>
+    <dd>
+        <p>Added a script for doing XSL Transformations.  It uses
+	Apache's Xalan.  Now all I need are some XSL stylesheets.</p>
+
+	<p><code>DependencyReporter</code> is working fine, except
+	that the command-line is starting to exceed DOS limits.
+	I will need to create an XML configuration document if
+	I want to process complex queries.</p>
+
+	<p>I fixed <code>DependencyExtractor</code> so that it can
+	read from JAR and Zip files.</p>
+
+	<p>I found yet another bug caused by things use index 0 in
+	the constant pool to represent special cases.  There may be
+	others still waiting to manifest themselves.</p>
+    </dd>
+    <dt>
+	February 28, 2001
+    </dt>
+    <dd>
+        <p>Simplified the command-line interfaces to the major
+	tools (<code>DependencyExtractor</code> and
+	<code>DependencyReporter</code>).</p>
+
+	<p>Fixed <code>Reporter</code> to assume it is operating
+	on a maximized graph.  This simplifies the processing and
+	minimizes traversals.  This might have also solved the
+	printing problems I was experiencing.</p>
+
+	<p>Fixed a bug where a feature could get a dependency
+	on its class or package, and vice versa.  The same
+	thing was happening between classes and packages.</p>
+    </dd>
+    <dt>
+	February 27, 2001
+    </dt>
+    <dd>
+        <p>Added the <code>CodeIterator</code> class in the
+	<code>jt.dependencyfinder.classreader</code>
+	package.  This allows me to traverse bytecode and capture
+	dependencies originating from methods.  I have yet to figure
+	out exactly how to use it.  I'm thinking of writing a
+	new <code>DependencyCollector</code> to do all the
+	collecting, instead of the current two step class then
+	feature collection.</p>
+
+	<p>Added the <code>Reporter</code> class in the
+	<code>jt.dependencyfinder.model.Visitor</code>
+	hierarchy.  This allows me to build a <code>Node</code>
+	graph from the dependency graph which answers queries
+	such as package-to-package dependencies and the like.
+	I've adjusted <code>DependencyReporter</code> to make
+	use of this new class.  There are still problems with
+	displaying scopes of other things than packages, but it
+	should be easy to solve.</p>
+
+	<p>The interfaces to <code>DependencyExtractor</code> and
+	<code>DependencyReporter</code> need work to make them
+	easier to use.</p>
+
+	<p>I must fix the deserialization bug in the
+	<code>jt.dependencyfinder.classreader.Classfile</code>
+	package.</p>
+
+	<p>I must also make the whole
+	<code>jt.dependencyfinder.classreader.Classfile</code>
+	easier to use for general purposes (i.e., Jeff).</p>
+    </dd>
+    <dt>
+	February 21, 2001
+    </dt>
+    <dd>
+        <p>Added the <code>ClassfileLoader</code> hierarchy in the
+	<code>jt.dependencyfinder.classreader</code>
+	package.  This allows me to read from <code>.class</code>
+	files from a directory tree, from a JAR file, or from a
+	Zip files.</p>
+
+	<p>Right now, the loaders load and parse everything in
+	the constructors.  I need to enhance these classes to
+	do lazy loading and provide a list of the entries they
+	contain.  Whether these entries will be file names or
+	class names is not decided yet.</p>
+
+	<p>I also need to enhance the classes in the
+	<code>jt.dependencyfinder.classreader</code>
+	package to provide better navigation and query mechanisms
+	in the <code>Classfile</code>-rooted structure.  I need to
+	be able to pull methods and fields by name rather than
+	iterate through the collections.  I need to simple query
+	methods when looking for tagging attributes such as
+	<code>Synthetic_attribute</code> or <code>Deprecated_attribute</code>.</p>
+    </dd>
+    <dt>
+	February 20, 2001
+    </dt>
+    <dd>
+        <p>Added a SAX parser for reading the dependency
+	<a href="Components.html#xml">XML format</a>, using Xerces
+	from Apache.</p>
+
+	<p>Added an embryonic <code>DependencyReporter</code> tool.
+	I'm thinking of having this tools output some form of XML
+	and then use XSLT to convert it to whatever I need.  I
+	would most likely use Apache's Xalan for that.</p>
+
+	<p>I'm also thinking of another tool that would create
+	a file hierarchy that mirrors the one from <code>javadoc</code>.
+	This way, I could embed dependency information in the
+	automatically generated documentation.  Each class comments
+	could include a hyperlink to a local file with the dependencies
+	for that class.  The same would go for packages.</p>
+
+	<p>I also need to figure a way to read <code>.class</code>
+	from JAR files, in addition to directories.</p>
+    </dd>
+    <dt>
+	February 16, 2001
+    </dt>
+    <dd>
+        <p>Renamed the extraction tool from
+	<code>DependencyFinder</code> to
+	<code>DependencyExtractor</code>.</p>
+
+	<p>Added <code>LinkMinimizer</code> and
+	<code>LinkMaximizer</code> visitors to control the
+	size of the dependency graph.  <code>LinkMinimizer</code>
+	removes redundant edges while <code>LinkMaximizer</code>
+	replicates edges.  The minimal graphs gives a more compact
+	representation, but traversal can be slowed down.  The
+	full graph takes up more space, but its traversal will
+	be more efficient when computing metrics such as
+	aggregated package dependencies.</p>
+    </dd>
+    <dt>
+	February 14, 2001
+    </dt>
+    <dd>
+        <p>Refactored the
+	<code>jt.dependencyfinder.model</code>
+	pacakge to have a <code>Node</code> hierarchy and
+	<code>Visitor</code> classes.  This way, I will be
+	able to use visitors to implement reporting functions
+	in Java.</p>
+    </dd>
+    <dt>
+	February 13, 2001
+    </dt>
+    <dd>
+        <p>Added <code>DirectoryExplorer</code> and the
+	<code>jt.dependencyfinder.model</code>
+	package.  The new <code>DependencyFinder</code>
+	tool either prints the <i>forest of packages</i>
+	or the burgeoning <a href="Components.html#xml">XML output</a>.</p>
+
+        <p>We may have a problem with inlined code.  Features
+	marked as <code>public static final</code> do not
+	show up.</p>
+    </dd>
+    <dt>
+	February 12, 2001
+    </dt>
+    <dd>
+        <p>Regarding the need for compiling in debug mode
+	(<code>-g</code> switch).  This is required in order to
+	capture dependencies created by the type of local variables
+	in methods.  The compiler verifies the legality of type
+	assignements and then discards the type information.
+	When the compiler is called with <code>-g</code>, it
+	keeps the type information to create the <code>LocalVariableTable</code>
+	attribute of <code>Code</code> attributes.  If the
+	assignement is legal, then it meets all the dependency
+	requirements.  It either uses the same dependency, or creates
+	a new one which is more restrictive than the initial
+	dependency (i.e., it transitively includes the former).
+	Dependencies are not automatically considered transitive,
+	but in this case they are.  It is therefore acceptable
+	to ignore the dropped dependency.  If someone really
+	wants to see it, he or she simply has to compile the
+	code using <code>-g</code> and run the dependency
+	finder again.</p>
+    </dd>
+    <dt>
+	February 08, 2001
+    </dt>
+    <dd>
+        <p>I should consider turning this into an Ant task.</p>
+
+        <p>What if I used a <code>ClassLoader</code> instead to
+	trap class requests as the target class is being
+	resolved?  The good thing about looking at the
+	<code>.class</code> file only is that I don't need to
+	have all the dependencies on the <code>CLASSPATH</code>
+	at the time.</p>
+
+	<p>I looked at the classes used by <code>javac</code>
+	and it appears to be a mess.  I'll stick with my things
+	for now.</p>
+    </dd>
+    <dt>
+	February 05, 2001
+    </dt>
+    <dd>
+        <p>I reinstated the Visitor pattern in the
+	<code>jt.dependencygenerator.classreader</code>
+	package with a vengeance.  It turned out to
+	be useful in other areas of the <code>.class</code>
+	file as well.  Visitors can now explore the
+	whole <code>.class</code> file, including fields,
+	methods, and attributes.</p>
+
+	<p>I moved the <code>ClassReader</code> tool from the
+	<code>jt.dependencygenerator.classreader</code>
+	package to the <code>jt.dependencygenerator.tools</code>
+	package.</p>
+
+	<p>The extractor now reads the entire <code>.class</code>
+	file.</p>
+
+	<p>It has problems reading from compressed JAR files.
+	It seems to be OK with uncompressed ones.  Maybe I can
+	use the <code>java.util.jar</code> package to read the
+	whole byte stream in memory before starting the processing.</p>
+
+	<p>Handed a copy of the code to Jeff Chan.</p>
+    </dd>
+    <dt>
+	February 01, 2001
+    </dt>
+    <dd>
+        <p>I broke out the package and got rid of the Visitor
+	pattern in the
+	<code>jt.dependencygenerator.classreader</code>
+	package because I had only one simple visitable
+	object.</p>
+
+	<p>The extractor only reads from the constant pool,
+	which only holds references to methods that are
+	called and fields that are accessed.  Each field
+	and method entry later in the <code>.class</code>
+	file maintains its own index to the name and
+	descriptor (i.e., signature) in the constant pool.</p>
+
+	<p>I must parse deeper in the <code>.class</code>
+	file to extract field and method entries and
+	get the references I need from there.</p>
+
+	<p>I must also make sure that I capture dependences
+	from local variables in methods!</p>
+
+	<p>Fran&ccedil;ois is looking for a JAR
+	comparison tool to analyze differences between two
+	versions of a given JAR file.  Once I've tuned the
+	<code>.class</code> file parser, we could use it to
+	extract API information from JAR files.</p>
+    </dd>
+    <dt>
+	January 30, 2001
+    </dt>
+    <dd>
+	<p>The extractor is half-way done.  The current version
+	is not very good at keeping track of which signatures
+	are really useful, and I'm not very happy with the
+	large <code>switch()</code> statements.</p>
+    </dd>
+    <dt>
+	January 29, 2001
+    </dt>
+    <dd>
+	<p>Project start.</p>
+    </dd>
+</dl>
+
+</body>
+
+</html>

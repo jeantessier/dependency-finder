@@ -1,0 +1,185 @@
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
+
+<html>
+
+<head>
+<style type="text/css">
+    dl dt {font-weight: bold}
+    dl dd {margin-bottom: 10}
+</style>
+<title>Dependency Finder - Example</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<h2>Example</h2>
+
+<p>Here is a simple Java class:</p>
+
+<blockquote><table border="3" cellpadding="15"><tr><td><pre>
+import java.util.*;
+
+public class test {
+    public static void main(String[] args) {
+	Collection c = Collections.singleton(new Object());
+    }
+}
+</pre></td></tr></table></blockquote>
+
+<p>Here are its dependencies as an <a href="Components.html#xml">XML document</a>:</p>
+
+<blockquote><table border="3" cellpadding="15"><tr><td><pre>
+&lt;dependencies>
+    &lt;package>
+        &lt;name>&lt;/name>
+        &lt;class>
+            &lt;name>test&lt;/name>
+            &lt;outbound type="class">java.lang.Object&lt;/outbound>
+            &lt;feature>
+                &lt;name>test.main(java.lang.String[])&lt;/name>
+                &lt;outbound type="class">java.lang.Object&lt;/outbound>
+                &lt;outbound type="feature">java.lang.Object.Object()&lt;/outbound>
+                &lt;outbound type="class">java.lang.String&lt;/outbound>
+                &lt;outbound type="feature">java.util.Collections.singleton(java.lang.Object)&lt;/outbound>
+            &lt;/feature>
+            &lt;feature>
+                &lt;name>test.test()&lt;/name>
+                &lt;outbound type="feature">java.lang.Object.Object()&lt;/outbound>
+            &lt;/feature>
+        &lt;/class>
+    &lt;/package>
+    &lt;package>
+        &lt;name>java.lang&lt;/name>
+        &lt;class>
+            &lt;name>java.lang.Object&lt;/name>
+            &lt;inbound type="class">test&lt;/inbound>
+            &lt;inbound type="feature">test.main(java.lang.String[])&lt;/inbound>
+            &lt;feature>
+                &lt;name>java.lang.Object.Object()&lt;/name>
+                &lt;inbound type="feature">test.main(java.lang.String[])&lt;/inbound>
+                &lt;inbound type="feature">test.test()&lt;/inbound>
+            &lt;/feature>
+        &lt;/class>
+        &lt;class>
+            &lt;name>java.lang.String&lt;/name>
+            &lt;inbound type="feature">test.main(java.lang.String[])&lt;/inbound>
+        &lt;/class>
+    &lt;/package>
+    &lt;package>
+        &lt;name>java.util&lt;/name>
+        &lt;class>
+            &lt;name>java.util.Collections&lt;/name>
+            &lt;feature>
+                &lt;name>java.util.Collections.singleton(java.lang.Object)&lt;/name>
+                &lt;inbound type="feature">test.main(java.lang.String[])&lt;/inbound>
+            &lt;/feature>
+        &lt;/class>
+    &lt;/package>
+&lt;/dependencies>
+</pre></td></tr></table></blockquote>
+
+<p>Here are the dependency graphs, after manually entering
+the dependency information in Rational Rose:</p>
+
+<div align="center">
+
+<h3>Class-to-Class Dependencies</h3>
+
+<table border="3" cellpadding="15"><tr><td><pre>
+% c2c -scope-includes /test/ test.xml
+ or
+% c2c -class-scope-includes /test/ test.xml
+ or
+% DependencyReporter -c2c -class-scope-includes /test/ test.xml
+ or
+% DependencyReporter -class-scope -class-scope-includes /test/ -class-filter test.xml
+&lt;dependencies>
+    &lt;package>
+        &lt;name>&lt;/name>
+        &lt;class>
+            &lt;name>test&lt;/name>
+            &lt;outbound type="class">java.lang.Object&lt;/outbound>
+            &lt;outbound type="class">java.lang.String&lt;/outbound>
+            &lt;outbound type="class">java.util.Collections&lt;/outbound>
+        &lt;/class>
+    &lt;/package>
+&lt;/dependencies>
+</pre></td></tr></table>
+
+<p></p>
+
+<table border=3>
+<!-- <caption align="bottom"><b>Class-to-Class Dependencies</b></caption> -->
+<tr><td>
+<img src="images/ClassClassDependencies.test.jpg">
+</td></tr>
+</table>
+
+<h3>Class-to-Package Dependencies</h3>
+
+<table border="3" cellpadding="15"><tr><td><pre>
+% c2p -scope-includes /test/ test.xml
+ or
+% c2p -class-scope-includes /test/ test.xml
+ or
+% DependencyReporter -c2p -class-scope-includes /test/ test.xml
+ or
+% DependencyReporter -class-scope -class-scope-includes /test/ -package-filter test.xml
+&lt;dependencies>
+    &lt;package>
+        &lt;name>&lt;/name>
+        &lt;class>
+            &lt;name>test&lt;/name>
+            &lt;outbound type="package">java.lang&lt;/outbound>
+            &lt;outbound type="package">java.util&lt;/outbound>
+        &lt;/class>
+    &lt;/package>
+&lt;/dependencies>
+</pre></td></tr></table>
+
+<p></p>
+
+<table border=3>
+<!-- <caption align="bottom"><b>Class-to-Package Dependencies</b></caption> -->
+<tr><td>
+<img src="images/ClassPackageDependencies.test.jpg">
+</td></tr>
+</table>
+
+<h3>Package-to-Package Dependencies</h3>
+
+<table border="3" cellpadding="15"><tr><td><pre>
+% p2p -scope-includes /^$/ test.xml
+ or
+% p2p -package-scope-includes /^$/ test.xml
+ or
+% DependencyReporter -p2p -package-scope-includes /^$/ test.xml
+ or
+% DependencyReporter -package-scope -package-scope-includes /^$/ -package-filter test.xml
+&lt;dependencies>
+    &lt;package>
+        &lt;name>&lt;/name>
+        &lt;outbound type="package">java.lang&lt;/outbound>
+        &lt;outbound type="package">java.util&lt;/outbound>
+    &lt;/package>
+&lt;/dependencies>
+</pre></td></tr></table>
+
+<p></p>
+
+<table border=3>
+<!-- <caption align="bottom"><b>Package-to-Package Dependencies</b></caption> -->
+<tr><td>
+<img src="images/PackagePackageDependencies.test.jpg">
+</td></tr>
+</table>
+
+</div>
+
+<p>You can also look at the XML files for this
+<a target="_blank" href="test.xml">example</a> and the
+<a target="_blank" href="DependencyFinder.xml">Dependency Finder</a> project.</p>
+
+</body>
+
+</html>

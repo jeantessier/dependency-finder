@@ -1,0 +1,3775 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Xalan - API Change History</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Xalan - API Change History</h1>
+<ul>
+<li><a href="#2.4.0">2.4 D1 to 2.4.0</a></li>
+<li><a href="#2.4 D1">2.3.1 to 2.4 D1</a></li>
+</ul>
+<hr>
+<a name="2.4.0"></a>
+<h2>2.4 D1 to 2.4.0</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>org.apache.xalan.lib.ExsltCommon</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static org.apache.xpath.NodeSet difference(org.w3c.dom.traversal.NodeIterator, org.w3c.dom.traversal.NodeIterator) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public static org.apache.xpath.NodeSet distinct(org.apache.xalan.extensions.ExpressionContext, org.w3c.dom.traversal.NodeIterator) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean hasSameNodes(org.w3c.dom.traversal.NodeIterator, org.w3c.dom.traversal.NodeIterator)</code></nobr>
+</li>
+<li>
+<nobr><code>public static org.apache.xpath.NodeSet intersection(org.w3c.dom.traversal.NodeIterator, org.w3c.dom.traversal.NodeIterator) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.lib.Extensions</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$String</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$java$util$Hashtable</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private static org.w3c.dom.Node checkEnvironmentUsingWhich(org.apache.xalan.extensions.ExpressionContext, org.w3c.dom.Document)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.XSLTAttributeDef</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final int T_PRIORITY</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, boolean, java.lang.String, int, java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, boolean, java.lang.String, int, java.lang.String, int, java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, boolean, java.lang.String, int, java.lang.String, int, java.lang.String, int, java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, int, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, int, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>java.lang.Object processCDATA(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processCHAR(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processENUM(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processNMTOKEN(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processPRIORITY(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processQNAME(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.String processURL(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>void setAttrValue(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException<br>
+<b>new:</b>boolean setAttrValue(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final int ERROR</code></nobr>
+</li>
+<li>
+<nobr><code>static final int FATAL</code></nobr>
+</li>
+<li>
+<nobr><code>static final int T_AVT_QNAME</code></nobr>
+</li>
+<li>
+<nobr><code>static final int T_ENUM_OR_PQNAME</code></nobr>
+</li>
+<li>
+<nobr><code>static final int T_NCNAME</code></nobr>
+</li>
+<li>
+<nobr><code>static final int T_NUMBER</code></nobr>
+</li>
+<li>
+<nobr><code>static final int T_QNAMES_RESOLVE_NULL</code></nobr>
+</li>
+<li>
+<nobr><code>static final int WARNING</code></nobr>
+</li>
+<li>
+<nobr><code>int m_errorType</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean m_supportsAVT</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, boolean, boolean, boolean, int, java.lang.String, int, java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, boolean, boolean, boolean, int, java.lang.String, int, java.lang.String, int, java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, boolean, boolean, boolean, int, java.lang.String, int, java.lang.String, int, java.lang.String, int, java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, int, boolean, boolean, int)</code></nobr>
+</li>
+<li>
+<nobr><code>XSLTAttributeDef(java.lang.String, java.lang.String, int, boolean, int, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String[] getEnumNames()</code></nobr>
+</li>
+<li>
+<nobr><code>int getErrorType()</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.StringBuffer getListOfEnums()</code></nobr>
+</li>
+<li>
+<nobr><code>boolean getSupportsAVT()</code></nobr>
+</li>
+<li>
+<nobr><code>private void handleError(org.apache.xalan.processor.StylesheetHandler, int, java.lang.Object[], java.lang.Exception) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processAVT_QNAME(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processCDATA(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processCHAR(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processENUM(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processENUM_OR_PQNAME(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processNCNAME(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processNMTOKEN(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processNUMBER(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processQNAME(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>final java.util.Vector processQNAMESRNU(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processURL(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.res.XSLTErrorResources</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int ER_PRIORITY_NOT_PARSABLE</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int ER_LOCATION_UNKNOWN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NONWHITESPACE_NOT_ALLOWED_IN_POSITION</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NOT_ALLOWED_IN_POSITION</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_SYSTEMID_UNKNOWN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_VALUE_SHOULD_BE_NUMBER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int INVALID_BOOLEAN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int INVALID_ENUM</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int INVALID_NCNAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int INVALID_NMTOKEN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int INVALID_NUMBER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int INVALID_QNAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int INVALID_TCHAR</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_BOOLEAN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_ENUM</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_NCNAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_NMTOKEN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_NUMBER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_QNAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_INVALID_TCHAR</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_PROCESSINGINSTRUCTION_NAME_CANT_BE_XML</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int WG_PROCESSINGINSTRUCTION_NOTVALID_NCNAME</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.AVT</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isSimple()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.Constants</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int NUMBERLETTER_ALPHABETIC</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int NUMBERLETTER_TRADITIONAL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int SORTCASEORDER_LOWERFIRST</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int SORTCASEORDER_UPPERFIRST</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int SORTDATATYPE_NUMBER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int SORTDATATYPE_TEXT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int SORTORDER_ASCENDING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int SORTORDER_DESCENDING</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemAttribute</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setName(org.apache.xalan.templates.AVT)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.RedundentExprEliminator</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected static void assert(boolean, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected static void assertion(boolean, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.QName</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public QName(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public QName(java.lang.String, java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public QName(java.lang.String, java.lang.String, java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public QName(java.lang.String, java.util.Stack, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public QName(java.lang.String, org.apache.xml.utils.PrefixResolver, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public QName(java.lang.String, org.w3c.dom.Element, org.apache.xml.utils.PrefixResolver, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.StringToIntTable</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int INVALID_KEY</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public final java.lang.String[] keys()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.compiler.XPathParser</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void AbbreviatedNodeTestStep() throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>protected void StepPattern() throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected void FilterExpr() throws javax.xml.transform.TransformerException<br>
+<b>new:</b>protected int FilterExpr() throws javax.xml.transform.TransformerException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected void FunctionCall() throws javax.xml.transform.TransformerException<br>
+<b>new:</b>protected boolean FunctionCall() throws javax.xml.transform.TransformerException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected void PrimaryExpr() throws javax.xml.transform.TransformerException<br>
+<b>new:</b>protected boolean PrimaryExpr() throws javax.xml.transform.TransformerException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected void RelativeLocationPath() throws javax.xml.transform.TransformerException<br>
+<b>new:</b>protected boolean RelativeLocationPath() throws javax.xml.transform.TransformerException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected void Step() throws javax.xml.transform.TransformerException<br>
+<b>new:</b>protected boolean Step() throws javax.xml.transform.TransformerException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final int FILTER_MATCH_FAILED</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final int FILTER_MATCH_PREDICATES</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final int FILTER_MATCH_PRIMARY</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean AbbreviatedNodeTestStep(boolean) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean StepPattern(boolean) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.res.XPATHErrorResources</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int ER_ARG_LOCALNAME_INVALID</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ARG_PREFIX_INVALID</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_CANNOT_CALL_SETSHOULDCACHENODE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_EXPECTED_LOC_PATH</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_EXPECTED_LOC_STEP</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_EXPECTED_NODE_TEST</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_EXPECTED_REL_LOC_PATH</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_EXPECTED_REL_PATH_PATTERN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_EXPECTED_STEP_PATTERN</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_FSB_CANNOT_TAKE_STRING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NODESETDTM_CANNOT_INDEX</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NODESETDTM_CANNOT_ITERATE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NODESET_CANNOT_INDEX</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NODESET_CANNOT_ITERATE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ONLY_ALLOWS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_SETTING_WALKER_ROOT_TO_NULL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_UNKNOWN_STEP</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.xml.sax.SAXException</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public SAXException()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.xml.sax.SAXNotRecognizedException</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public SAXNotRecognizedException()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.xml.sax.SAXNotSupportedException</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public SAXNotSupportedException()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.xml.sax.helpers.DefaultHandler</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.xml.sax.InputSource resolveEntity(java.lang.String, java.lang.String) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public org.xml.sax.InputSource resolveEntity(java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.xml.sax.helpers.NamespaceSupport</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.util.Enumeration access$0()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.util.Enumeration access$000()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.xml.sax.helpers.ParserAdapter</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static org.xml.sax.helpers.AttributesImpl access$0(org.xml.sax.helpers.ParserAdapter)</code></nobr>
+</li>
+<li>
+<nobr><code>private org.xml.sax.SAXParseException makeException(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String[] processName(java.lang.String, boolean, boolean) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static org.xml.sax.helpers.AttributesImpl access$000(org.xml.sax.helpers.ParserAdapter)</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String[] processName(java.lang.String, boolean) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.xml.sax.helpers.XMLReaderFactory</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static synchronized org.xml.sax.XMLReader createXMLReader() throws org.xml.sax.SAXException<br>
+<b>new:</b>public static org.xml.sax.XMLReader createXMLReader() throws org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static synchronized org.xml.sax.XMLReader createXMLReader(java.lang.String) throws org.xml.sax.SAXException<br>
+<b>new:</b>public static org.xml.sax.XMLReader createXMLReader(java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String property</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private static org.xml.sax.XMLReader loadClass(java.lang.ClassLoader, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xml.utils.Hashtree2Node</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.XMLChar</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.RTFIterator</code></nobr>
+</li>
+<li>
+<nobr><code>org.xml.sax.helpers.NewInstance</code></nobr>
+</li>
+</ul>
+<hr>
+<a name="2.4 D1"></a>
+<h2>2.3.1 to 2.4 D1</h2>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xalan.transformer.KeyWalker</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.ref.TestDTM</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.ref.TestDTMNodes</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.res.XResourceBundleBase</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResourceBundle</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.res.XPATHErrorResources_en</code></nobr>
+</li>
+</ul>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+<h4>
+<code>org.apache.xalan.extensions.ExpressionContext</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract org.apache.xpath.XPathContext getXPathContext() throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.DTM</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final short NTYPES</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.PrefixResolver</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean handlesNullPrefixes()</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>org.apache.xalan.extensions.ExtensionsTable</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ExtensionsTable()</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xalan.extensions.ExtensionHandler makeJavaNamespace(java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xalan.templates.StylesheetRoot m_sroot</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ExtensionsTable(org.apache.xalan.templates.StylesheetRoot) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.extensions.MethodResolver</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private static java.lang.String replaceDash(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.lib.sql.DTMDocument</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int getDocumentRoot(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.ProcessorKey</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void setPropertiesFromAttributes(org.apache.xalan.processor.StylesheetHandler, java.lang.String, org.xml.sax.Attributes, java.lang.Object) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>void setPropertiesFromAttributes(org.apache.xalan.processor.StylesheetHandler, java.lang.String, org.xml.sax.Attributes, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.ProcessorPreserveSpace</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Vector m_elements</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>java.util.Vector getElements()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setElements(java.util.Vector)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.StylesheetHandler</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xpath.XPath createMatchPatternXPath(java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.XPath createXPath(java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xpath.XPath createMatchPatternXPath(java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.XPath createXPath(java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean handlesNullPrefixes()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.XSLTAttributeDef</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xalan.templates.AVT processAVT(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processEXPR(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processPATTERN(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.util.Vector processSIMPLEPATTERNLIST(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processValue(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>void setAttrValue(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Object) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>void setDefAttrValue(org.apache.xalan.processor.StylesheetHandler, java.lang.Object) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xalan.templates.AVT processAVT(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processEXPR(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processPATTERN(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.util.Vector processSIMPLEPATTERNLIST(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>java.lang.Object processValue(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>void setAttrValue(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>void setDefAttrValue(org.apache.xalan.processor.StylesheetHandler, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.XSLTElementProcessor</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.processor.XSLTElementProcessor extends java.lang.Object<br>
+<b>new:</b>public class org.apache.xalan.processor.XSLTElementProcessor extends org.apache.xalan.templates.ElemTemplateElement</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void setPropertiesFromAttributes(org.apache.xalan.processor.StylesheetHandler, java.lang.String, org.xml.sax.Attributes, java.lang.Object) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>org.xml.sax.Attributes setPropertiesFromAttributes(org.apache.xalan.processor.StylesheetHandler, java.lang.String, org.xml.sax.Attributes, java.lang.Object, boolean) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>void setPropertiesFromAttributes(org.apache.xalan.processor.StylesheetHandler, java.lang.String, org.xml.sax.Attributes, org.apache.xalan.templates.ElemTemplateElement) throws org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>org.xml.sax.Attributes setPropertiesFromAttributes(org.apache.xalan.processor.StylesheetHandler, java.lang.String, org.xml.sax.Attributes, org.apache.xalan.templates.ElemTemplateElement, boolean) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.processor.XSLTSchema</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$org$apache$xalan$templates$ElemExsltFuncResult</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$org$apache$xalan$templates$ElemExsltFunction</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.res.XSLMessages</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String createMsg(org.apache.xml.utils.res.XResourceBundleBase, java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createXPATHMsg(org.apache.xml.utils.res.XResourceBundleBase, java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static org.apache.xml.utils.res.XResourceBundleBase XPATHBundle<br>
+<b>new:</b>private static java.util.ResourceBundle XPATHBundle</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static org.apache.xml.utils.res.XResourceBundleBase XSLTBundle<br>
+<b>new:</b>private static java.util.ResourceBundle XSLTBundle</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final java.util.ListResourceBundle loadResourceBundle(java.lang.String) throws java.util.MissingResourceException<br>
+<b>new:</b>public static final java.util.ResourceBundle loadResourceBundle(java.lang.String) throws java.util.MissingResourceException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String createMessage(java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createMsg(java.util.ResourceBundle, java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createXPATHMessage(java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String createXPATHMsg(java.util.ResourceBundle, java.lang.String, java.lang.Object[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.res.XSLTErrorResources</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.res.XSLTErrorResources extends org.apache.xml.utils.res.XResourceBundleBase<br>
+<b>new:</b>public class org.apache.xalan.res.XSLTErrorResources extends java.util.PropertyResourceBundle</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int MAX_CODE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_MESSAGES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_OTHERS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_WARNING</code></nobr>
+</li>
+<li>
+<nobr><code>static final java.lang.Object[][] contents</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object[][] getContents()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public XSLTErrorResources()<br>
+<b>new:</b>public XSLTErrorResources() throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.lang.String getMessageKey(int)<br>
+<b>new:</b>public static java.lang.String getMessageKey(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.lang.String getWarningKey(int)<br>
+<b>new:</b>public static java.lang.String getWarningKey(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final org.apache.xalan.res.XSLTErrorResources loadResourceBundle(java.lang.String) throws java.util.MissingResourceException<br>
+<b>new:</b>public static final java.util.ResourceBundle loadResourceBundle(java.lang.String) throws java.util.MissingResourceException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int ER_ASSERT_NO_TEMPLATE_PARENT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ASSERT_REDUNDENT_EXPR_ELIMINATOR</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_AXIS_TRAVERSER_NOT_SUPPORTED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ERRORHANDLER_CREATED_WITH_NULL_PRINTWRITER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_ERRORLISTENER</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_INVALID_DRIVER_NAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_DRIVER_NAME_SPECIFIED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_NO_URL_SPECIFIED</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ER_POOLSIZE_LESS_THAN_ONE</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XSLTErrorResources(java.io.InputStream) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.serialize.Encodings</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final java.lang.String ENCODINGS_FILE</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.Class[] NO_CLASSES</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.Object[] NO_OBJS</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$Thread</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private static org.apache.xalan.serialize.EncodingInfo[] loadEncodingInfo()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.serialize.SerializerToText</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void comment(char[], int, int) throws org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.serialize.SerializerToXML</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean m_inExternalDTD</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.AVT</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.templates.AVT extends java.lang.Object implements java.io.Serializable<br>
+<b>new:</b>public class org.apache.xalan.templates.AVT extends java.lang.Object implements java.io.Serializable, org.apache.xalan.templates.XSLTVisitable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public AVT(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public AVT(org.apache.xalan.processor.StylesheetHandler, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.apache.xalan.templates.ElemTemplateElement) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.AVTPart</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class org.apache.xalan.templates.AVTPart extends java.lang.Object implements java.io.Serializable<br>
+<b>new:</b>public abstract class org.apache.xalan.templates.AVTPart extends java.lang.Object implements java.io.Serializable, org.apache.xalan.templates.XSLTVisitable</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void callVisitors(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.AVTPartSimple</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.AVTPartXPath</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.Constants</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int EXSLT_ELEMNAME_FUNCRESULT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String EXSLT_ELEMNAME_FUNCRESULT_STRING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int EXSLT_ELEMNAME_FUNCTION</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String EXSLT_ELEMNAME_FUNCTION_STRING</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_COMMON_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_DATETIME_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_FUNCTIONS_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_MATH_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXSLT_SETS_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_JAVA_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_LOTUSXSL_JAVA_URL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String S_EXTENSIONS_XALANLIB_URL</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemCallTemplate</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemChoose</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean canAcceptVariables()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemCopyOf</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemElement</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemExtensionCall</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean accept(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemExtensionDecl</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void compose(org.apache.xalan.templates.StylesheetRoot) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemForEach</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.templates.ElemForEach extends org.apache.xalan.templates.ElemTemplateElement<br>
+<b>new:</b>public class org.apache.xalan.templates.ElemForEach extends org.apache.xalan.templates.ElemTemplateElement implements org.apache.xpath.ExpressionOwner</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.Expression getExpression()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpression(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemIf</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemLiteralResult</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean accept(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemNumber</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemTemplateElement</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.templates.ElemTemplateElement extends org.apache.xml.utils.UnImplNode implements java.io.Serializable, javax.xml.transform.SourceLocator, org.apache.xml.utils.PrefixResolver, org.apache.xpath.WhitespaceStrippingElementMatcher<br>
+<b>new:</b>public class org.apache.xalan.templates.ElemTemplateElement extends org.apache.xml.utils.UnImplNode implements java.io.Serializable, org.apache.xalan.templates.XSLTVisitable, org.apache.xml.utils.PrefixResolver, org.apache.xpath.ExpressionNode, org.apache.xpath.WhitespaceStrippingElementMatcher</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean accept(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void callVisitors(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean canAcceptVariables()</code></nobr>
+</li>
+<li>
+<nobr><code>public void exprAddChild(org.apache.xpath.ExpressionNode, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.ExpressionNode exprGetChild(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public int exprGetNumChildren()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.ExpressionNode exprGetParent()</code></nobr>
+</li>
+<li>
+<nobr><code>public void exprSetParent(org.apache.xpath.ExpressionNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getLocalName()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xalan.templates.ElemTemplate getOwnerXSLTemplate()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean handlesNullPrefixes()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.w3c.dom.Node insertBefore(org.w3c.dom.Node, org.w3c.dom.Node) throws org.w3c.dom.DOMException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemValueOf</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemVariable</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>int m_frameSize</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean accept(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endCompose(org.apache.xalan.templates.StylesheetRoot) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isPsuedoVar()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemWhen</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.ElemWithParam</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.FuncDocument</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.FuncFormatNumb</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.Stylesheet</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean accept(org.apache.xalan.templates.XSLTVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void callChildVisitors(org.apache.xalan.templates.XSLTVisitor, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.StylesheetRoot</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xalan.extensions.ExtensionNamespacesManager m_extNsMgr</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xalan.extensions.ExtensionNamespacesManager getExtensionNamespacesManager()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Vector getExtensions()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.templates.WhiteSpaceInfo</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public WhiteSpaceInfo(org.apache.xalan.templates.Stylesheet)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.trace.PrintTraceListener</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.trace.PrintTraceListener extends java.lang.Object implements org.apache.xalan.trace.TraceListener<br>
+<b>new:</b>public class org.apache.xalan.trace.PrintTraceListener extends java.lang.Object implements org.apache.xalan.trace.TraceListenerEx2</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>int m_indent</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _trace(org.apache.xalan.trace.TracerEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void selectEnd(org.apache.xalan.trace.EndSelectionEvent) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void traceEnd(org.apache.xalan.trace.TracerEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.trace.TraceManager</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void fireTraceEndEvent(org.apache.xalan.templates.ElemTemplateElement)</code></nobr>
+</li>
+<li>
+<nobr><code>public void fireTraceEndEvent(org.apache.xalan.trace.TracerEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.transformer.KeyIterator</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.transformer.KeyIterator extends org.apache.xpath.axes.WalkingIterator<br>
+<b>new:</b>public class org.apache.xalan.transformer.KeyIterator extends org.apache.xpath.axes.OneStepIteratorForward</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xalan.transformer.KeyTable m_keyTable</code></nobr>
+</li>
+<li>
+<nobr><code>private transient boolean m_lookForMoreNodes</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public KeyIterator(int, org.apache.xml.utils.PrefixResolver, org.apache.xml.utils.QName, java.util.Vector, org.apache.xpath.XPathContext)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void addRefNode(org.apache.xml.utils.XMLString, int)</code></nobr>
+</li>
+<li>
+<nobr><code>boolean getLookForMoreNodes()</code></nobr>
+</li>
+<li>
+<nobr><code>public int nextNode()</code></nobr>
+</li>
+<li>
+<nobr><code>void setKeyTable(org.apache.xalan.transformer.KeyTable)</code></nobr>
+</li>
+<li>
+<nobr><code>void setLookForMoreNodes(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLookupKey(org.apache.xml.utils.XMLString)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>KeyIterator(org.apache.xml.utils.QName, java.util.Vector)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public short acceptNode(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.transformer.KeyManager</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xpath.axes.LocPathIterator getNodeSetDTMByKey(org.apache.xpath.XPathContext, int, org.apache.xml.utils.QName, org.apache.xml.utils.XMLString, org.apache.xml.utils.PrefixResolver) throws javax.xml.transform.TransformerException<br>
+<b>new:</b>public org.apache.xpath.objects.XNodeSet getNodeSetDTMByKey(org.apache.xpath.XPathContext, int, org.apache.xml.utils.QName, org.apache.xml.utils.XMLString, org.apache.xml.utils.PrefixResolver) throws javax.xml.transform.TransformerException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xalan.transformer.KeyRefIterator</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.transformer.KeyRefIterator extends org.apache.xpath.axes.LocPathIterator<br>
+<b>new:</b>public class org.apache.xalan.transformer.KeyRefIterator extends org.apache.xpath.axes.ChildTestIterator</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final org.apache.xalan.transformer.KeyIterator m_ki</code></nobr>
+</li>
+<li>
+<nobr><code>private final org.apache.xml.utils.XMLString m_lookupKey</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public KeyRefIterator(org.apache.xml.utils.XMLString, org.apache.xalan.transformer.KeyIterator)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addNode(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.Object clone() throws java.lang.CloneNotSupportedException</code></nobr>
+</li>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xml.utils.QName getName()</code></nobr>
+</li>
+<li>
+<nobr><code>public int nextNode()</code></nobr>
+</li>
+<li>
+<nobr><code>public void reset()</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private final org.apache.xml.utils.QName m_name<br>
+<b>new:</b>protected org.apache.xml.utils.QName m_name</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected java.util.Vector m_keyDeclarations</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.DTMIterator m_keysNodes</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.xml.utils.XMLString m_ref</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public KeyRefIterator(org.apache.xml.utils.QName, org.apache.xml.utils.XMLString, java.util.Vector, org.apache.xml.dtm.DTMIterator)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public short filterNode(int)</code></nobr>
+</li>
+<li>
+<nobr><code>protected int getNextNode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.transformer.KeyTable</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Hashtable m_defsTable</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.xalan.transformer.KeyIterator m_keyIter</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void addRefNode(org.apache.xml.utils.XMLString, int)</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xpath.axes.LocPathIterator getNodeSetDTMByKey(org.apache.xml.utils.QName, org.apache.xml.utils.XMLString)<br>
+<b>new:</b>public org.apache.xpath.objects.XNodeSet getNodeSetDTMByKey(org.apache.xml.utils.QName, org.apache.xml.utils.XMLString)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xpath.objects.XNodeSet m_keyNodes</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xalan.transformer.KeyIterator getKeyIterator()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.transformer.StackGuard</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>int m_sourceXML</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.ElemTemplateElement m_xslRule</code></nobr>
+</li>
+<li>
+<nobr><code>java.util.Stack stack</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public StackGuard()</code></nobr>
+</li>
+<li>
+<nobr><code>public StackGuard(org.apache.xalan.templates.ElemTemplateElement, int)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void checkForInfinateLoop(org.apache.xalan.transformer.StackGuard) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public void pop()</code></nobr>
+</li>
+<li>
+<nobr><code>public void print(java.io.PrintWriter)</code></nobr>
+</li>
+<li>
+<nobr><code>public void push(org.apache.xalan.templates.ElemTemplateElement, int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xalan.transformer.TransformerImpl m_transformer</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public StackGuard(org.apache.xalan.transformer.TransformerImpl)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void checkForInfinateLoop() throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public int countLikeTemplates(org.apache.xalan.templates.ElemTemplate, int)</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.xalan.templates.ElemTemplate getNextMatchOrNamedTemplate(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.transformer.TransformerImpl</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xalan.transformer.TransformerImpl extends javax.xml.transform.Transformer implements java.lang.Runnable, org.apache.xml.dtm.DTMWSFilter<br>
+<b>new:</b>public class org.apache.xalan.transformer.TransformerImpl extends javax.xml.transform.Transformer implements java.lang.Runnable, org.apache.xml.dtm.DTMWSFilter, org.apache.xpath.ExtensionsProvider</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xalan.extensions.ExtensionsTable m_extensionsTable</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean elementAvailable(java.lang.String, java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.Object extFunction(java.lang.String, java.lang.String, java.util.Vector, java.lang.Object) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean functionAvailable(java.lang.String, java.lang.String) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xalan.templates.ElemTemplateElement[] getCurrentTemplateElements()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getCurrentTemplateElementsCount()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Vector getElementCallstack()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xalan.extensions.ExtensionsTable getExtensionsTable()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Vector getTemplateCallstack()</code></nobr>
+</li>
+<li>
+<nobr><code>void setExtensionsTable(org.apache.xalan.templates.StylesheetRoot) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public int transformToGlobalRTF(org.apache.xalan.templates.ElemTemplateElement) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>private int transformToRTF(org.apache.xalan.templates.ElemTemplateElement, org.apache.xml.dtm.DTM) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xalan.xslt.Process</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected static void printArgOptions(org.apache.xalan.res.XSLTErrorResources)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected static void printArgOptions(java.util.ResourceBundle)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.ref.DTMDefaultBase</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int ROOTNODE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void dumpDTM()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void dumpDTM(java.io.OutputStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.ref.DTMDefaultBaseTraversers$DescendantFromRootTraverser</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int first(int, int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.ref.DTMDefaultBaseTraversers$DescendantOrSelfFromRootTraverser</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int first(int, int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.ref.DTMManagerDefault</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addDTM(org.apache.xml.dtm.DTM, int)<br>
+<b>new:</b>public synchronized void addDTM(org.apache.xml.dtm.DTM, int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addDTM(org.apache.xml.dtm.DTM, int, int)<br>
+<b>new:</b>public synchronized void addDTM(org.apache.xml.dtm.DTM, int, int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xml.dtm.DTMIterator createDTMIterator(int)<br>
+<b>new:</b>public synchronized org.apache.xml.dtm.DTMIterator createDTMIterator(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xml.dtm.DTMIterator createDTMIterator(int, org.apache.xml.dtm.DTMFilter, boolean)<br>
+<b>new:</b>public synchronized org.apache.xml.dtm.DTMIterator createDTMIterator(int, org.apache.xml.dtm.DTMFilter, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xml.dtm.DTMIterator createDTMIterator(java.lang.Object, int)<br>
+<b>new:</b>public synchronized org.apache.xml.dtm.DTMIterator createDTMIterator(java.lang.Object, int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xml.dtm.DTMIterator createDTMIterator(java.lang.String, org.apache.xml.utils.PrefixResolver)<br>
+<b>new:</b>public synchronized org.apache.xml.dtm.DTMIterator createDTMIterator(java.lang.String, org.apache.xml.utils.PrefixResolver)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xml.dtm.DTM createDocumentFragment()<br>
+<b>new:</b>public synchronized org.apache.xml.dtm.DTM createDocumentFragment()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xml.dtm.DTM getDTM(int)<br>
+<b>new:</b>public synchronized org.apache.xml.dtm.DTM getDTM(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.apache.xml.dtm.DTM getDTM(javax.xml.transform.Source, boolean, org.apache.xml.dtm.DTMWSFilter, boolean, boolean)<br>
+<b>new:</b>public synchronized org.apache.xml.dtm.DTM getDTM(javax.xml.transform.Source, boolean, org.apache.xml.dtm.DTMWSFilter, boolean, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int getDTMHandleFromNode(org.w3c.dom.Node)<br>
+<b>new:</b>public synchronized int getDTMHandleFromNode(org.w3c.dom.Node)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int getDTMIdentity(org.apache.xml.dtm.DTM)<br>
+<b>new:</b>public synchronized int getDTMIdentity(org.apache.xml.dtm.DTM)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int getFirstFreeDTMID()<br>
+<b>new:</b>public synchronized int getFirstFreeDTMID()</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public org.xml.sax.XMLReader getXMLReader(javax.xml.transform.Source)<br>
+<b>new:</b>public synchronized org.xml.sax.XMLReader getXMLReader(javax.xml.transform.Source)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public boolean release(org.apache.xml.dtm.DTM, boolean)<br>
+<b>new:</b>public synchronized boolean release(org.apache.xml.dtm.DTM, boolean)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.ref.ExpandedNameTable</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static int BITS_PER_LOCALNAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static int BITS_PER_NAMESPACE</code></nobr>
+</li>
+<li>
+<nobr><code>public static int MASK_LOCALNAME</code></nobr>
+</li>
+<li>
+<nobr><code>public static int MASK_NAMESPACE</code></nobr>
+</li>
+<li>
+<nobr><code>public static int MASK_NODEHANDLE</code></nobr>
+</li>
+<li>
+<nobr><code>public static int MASK_NODETYPE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ROTAMOUNT_TYPE</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int getLocalNameID(int)<br>
+<b>new:</b>public final int getLocalNameID(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final int getNamespaceID(int)<br>
+<b>new:</b>public final int getNamespaceID(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final short getType(int)<br>
+<b>new:</b>public final short getType(int)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>org.apache.xml.dtm.ref.ExpandedNameTable$ExtendedType hashET</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Vector m_extendedTypes</code></nobr>
+</li>
+<li>
+<nobr><code>java.util.Hashtable m_hashtable</code></nobr>
+</li>
+<li>
+<nobr><code>private int m_nextType</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void initExtendedTypes()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.dtm.ref.sax2dtm.SAX2RTFDTM</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected int _documentRoot(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.PrefixResolverDefault</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean handlesNullPrefixes()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xml.utils.SAXSourceLocator</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public SAXSourceLocator(javax.xml.transform.SourceLocator)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.DOMHelper</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static boolean isNodeTheSame(org.w3c.dom.Node, org.w3c.dom.Node)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.Expression</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class org.apache.xpath.Expression extends java.lang.Object implements java.io.Serializable<br>
+<b>new:</b>public abstract class org.apache.xpath.Expression extends java.lang.Object implements java.io.Serializable, org.apache.xpath.ExpressionNode, org.apache.xpath.XPathVisitable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected javax.xml.transform.SourceLocator m_slocator</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setSourceLocator(javax.xml.transform.SourceLocator)</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void assertion(boolean, java.lang.String) throws javax.xml.transform.TransformerException<br>
+<b>new:</b>public void assertion(boolean, java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xpath.ExpressionNode m_parent</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTMIterator asIteratorRaw(org.apache.xpath.XPathContext, int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.objects.XObject execute(org.apache.xpath.XPathContext, boolean) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public void exprAddChild(org.apache.xpath.ExpressionNode, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.ExpressionNode exprGetChild(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public int exprGetNumChildren()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.ExpressionNode exprGetParent()</code></nobr>
+</li>
+<li>
+<nobr><code>public void exprSetParent(org.apache.xpath.ExpressionNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public int getColumnNumber()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.ExpressionNode getExpressionOwner()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getLineNumber()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getPublicId()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getSystemId()</code></nobr>
+</li>
+<li>
+<nobr><code>protected final boolean isSameClass(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.VariableStack</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int _cfb</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.objects.XObject[] _sf</code></nobr>
+</li>
+<li>
+<nobr><code>int _top</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int _currentFrameBottom</code></nobr>
+</li>
+<li>
+<nobr><code>int _frameTop</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.objects.XObject[] _stackFrames</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xpath.objects.XObject getGlobalVariable(org.apache.xpath.XPathContext, int, boolean) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.objects.XObject getLocalVariable(org.apache.xpath.XPathContext, int, boolean) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.XPath</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.XPath extends java.lang.Object implements java.io.Serializable<br>
+<b>new:</b>public class org.apache.xpath.XPath extends java.lang.Object implements java.io.Serializable, org.apache.xpath.ExpressionOwner</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setLocator(javax.xml.transform.SourceLocator)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.XPathContext</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xalan.extensions.ExtensionsTable m_extensionsTable</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xalan.extensions.ExtensionsTable getExtensionsTable()</code></nobr>
+</li>
+<li>
+<nobr><code>void setExtensionsTable(org.apache.xalan.extensions.ExtensionsTable)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.apache.xml.dtm.ref.sax2dtm.SAX2RTFDTM m_global_rtfdtm</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.utils.IntStack m_last_pushed_rtfdtm</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTM getGlobalRTFDTM()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.XPathException</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XPathException(java.lang.String, org.apache.xpath.ExpressionNode)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xpath.ExpressionNode getExpressionOwner(org.apache.xpath.ExpressionNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.w3c.dom.Node getStylesheetNode(org.apache.xpath.ExpressionNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setStylesheetNode(java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.AxesWalker</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.axes.AxesWalker extends org.apache.xpath.axes.PredicatedNodeTest implements java.lang.Cloneable<br>
+<b>new:</b>public class org.apache.xpath.axes.AxesWalker extends org.apache.xpath.axes.PredicatedNodeTest implements java.lang.Cloneable, org.apache.xpath.ExpressionOwner, org.apache.xpath.axes.PathComponent</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getAnalysisBits()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.Expression getExpression()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpression(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.ChildTestIterator</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.axes.ChildTestIterator extends org.apache.xpath.axes.LocPathIterator<br>
+<b>new:</b>public class org.apache.xpath.axes.ChildTestIterator extends org.apache.xpath.axes.BasicTestIterator</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int nextNode()</code></nobr>
+</li>
+</ul>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>ChildTestIterator(org.apache.xml.dtm.DTMAxisTraverser)<br>
+<b>new:</b>public ChildTestIterator(org.apache.xml.dtm.DTMAxisTraverser)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.DescendantIterator</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.FilterExprWalker</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private transient org.apache.xml.dtm.DTMIterator m_nodeSet</code></nobr>
+</li>
+</ul>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>FilterExprWalker(org.apache.xpath.axes.WalkingIterator)<br>
+<b>new:</b>public FilterExprWalker(org.apache.xpath.axes.WalkingIterator)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean m_canDetachNodeset</code></nobr>
+</li>
+<li>
+<nobr><code>private transient org.apache.xpath.objects.XNodeSet m_exprObj</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean m_mustHardReset</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static org.apache.xpath.Expression access$000(org.apache.xpath.axes.FilterExprWalker)</code></nobr>
+</li>
+<li>
+<nobr><code>static org.apache.xpath.Expression access$002(org.apache.xpath.axes.FilterExprWalker, org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public void callPredicateVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getAnalysisBits()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.Expression getInnerExpression()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setInnerExpression(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.IteratorPool</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized org.apache.xml.dtm.DTMIterator getInstanceOrThrow() throws java.lang.CloneNotSupportedException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.LocPathIterator</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class org.apache.xpath.axes.LocPathIterator extends org.apache.xpath.axes.PredicatedNodeTest implements java.io.Serializable, java.lang.Cloneable, org.apache.xml.dtm.DTMIterator<br>
+<b>new:</b>public abstract class org.apache.xpath.axes.LocPathIterator extends org.apache.xpath.axes.PredicatedNodeTest implements java.io.Serializable, java.lang.Cloneable, org.apache.xml.dtm.DTMIterator, org.apache.xpath.axes.PathComponent</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>transient org.apache.xpath.NodeSetDTM m_cachedNodes</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient int m_last</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient int m_next</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int findLastPos(org.apache.xpath.XPathContext)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.NodeSetDTM getCachedNodes()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getLast()</code></nobr>
+</li>
+<li>
+<nobr><code>void incrementNextPosition()</code></nobr>
+</li>
+<li>
+<nobr><code>private void resetToCachedList()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLast(int)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private boolean m_allowDetach<br>
+<b>new:</b>protected boolean m_allowDetach</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected org.apache.xml.utils.PrefixResolver m_prefixResolver<br>
+<b>new:</b>private org.apache.xml.utils.PrefixResolver m_prefixResolver</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected transient int m_length</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient int m_pos</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>protected LocPathIterator()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public void executeCharsToContentHandler(org.apache.xpath.XPathContext, org.xml.sax.ContentHandler) throws javax.xml.transform.TransformerException, org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>public int getAnalysisBits()</code></nobr>
+</li>
+<li>
+<nobr><code>public void incrementCurrentPos()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.OneStepIterator</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int findLastPos(org.apache.xpath.XPathContext)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTMIterator cloneWithReset() throws java.lang.CloneNotSupportedException</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.OneStepIteratorForward</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.PredicatedNodeTest</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>org.apache.xpath.Expression getPredicate(int)<br>
+<b>new:</b>public org.apache.xpath.Expression getPredicate(int)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static org.apache.xpath.Expression[] access$000(org.apache.xpath.axes.PredicatedNodeTest)</code></nobr>
+</li>
+<li>
+<nobr><code>public void callPredicateVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.UnionPathIterator</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.axes.UnionPathIterator extends org.apache.xpath.Expression implements java.io.Serializable, java.lang.Cloneable, org.apache.xml.dtm.DTMIterator<br>
+<b>new:</b>public class org.apache.xpath.axes.UnionPathIterator extends org.apache.xpath.axes.LocPathIterator implements java.io.Serializable, java.lang.Cloneable, org.apache.xml.dtm.DTMIterator, org.apache.xpath.axes.PathComponent</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean m_allowDetach</code></nobr>
+</li>
+<li>
+<nobr><code>transient org.apache.xpath.NodeSetDTM m_cachedNodes</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient org.apache.xpath.axes.IteratorPool m_clones</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient int m_context</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient int m_currentContextNode</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient org.apache.xpath.XPathContext m_execContext</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient boolean m_foundLast</code></nobr>
+</li>
+<li>
+<nobr><code>private transient int m_last</code></nobr>
+</li>
+<li>
+<nobr><code>transient int m_lastFetched</code></nobr>
+</li>
+<li>
+<nobr><code>protected transient int m_next</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addIterator(org.apache.xpath.axes.LocPathIterator)</code></nobr>
+</li>
+<li>
+<nobr><code>public void allowDetachToRelease(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTMIterator asIterator(org.apache.xpath.XPathContext, int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTMIterator cloneWithReset() throws java.lang.CloneNotSupportedException</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.objects.XObject execute(org.apache.xpath.XPathContext) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public int getCurrentContextNode()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getCurrentNode()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getCurrentPos()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTM getDTM(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTMManager getDTMManager()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getExpandEntityReferences()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTMFilter getFilter()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getLast()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getLastPos(org.apache.xpath.XPathContext)</code></nobr>
+</li>
+<li>
+<nobr><code>public int getLength()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getRoot()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getWhatToShow()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isDocOrdered()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isFresh()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isMutable()</code></nobr>
+</li>
+<li>
+<nobr><code>public int item(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public int previousNode()</code></nobr>
+</li>
+<li>
+<nobr><code>public void reset()</code></nobr>
+</li>
+<li>
+<nobr><code>public void runTo(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setCurrentPos(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setEnvironment(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setItem(int, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLast(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public final void setRoot(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setShouldCacheNodes(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public int size()</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected org.apache.xml.dtm.DTMIterator createDTMIterator(org.apache.xpath.compiler.Compiler, int) throws javax.xml.transform.TransformerException<br>
+<b>new:</b>protected org.apache.xpath.axes.LocPathIterator createDTMIterator(org.apache.xpath.compiler.Compiler, int) throws javax.xml.transform.TransformerException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xpath.axes.LocPathIterator[] m_exprs</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addIterator(org.apache.xml.dtm.DTMIterator)</code></nobr>
+</li>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public static org.apache.xpath.axes.LocPathIterator createUnionIterator(org.apache.xpath.compiler.Compiler, int) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public int getAnalysisBits()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.WalkerFactory</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static int getAnalysisBitFromAxes(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean isNaturalDocOrder(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean walksFollowingOnlyMaybeAbsolute(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public static boolean walksSubtreeOnlyMaybeAbsolute(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.WalkingIterator</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.axes.WalkingIterator extends org.apache.xpath.axes.LocPathIterator<br>
+<b>new:</b>public class org.apache.xpath.axes.WalkingIterator extends org.apache.xpath.axes.LocPathIterator implements org.apache.xpath.ExpressionOwner</code></nobr>
+</p>
+</blockquote>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected WalkingIterator(org.apache.xml.utils.PrefixResolver)<br>
+<b>new:</b>public WalkingIterator(org.apache.xml.utils.PrefixResolver)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public int getAnalysisBits()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.Expression getExpression()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpression(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public final void setFirstWalker(org.apache.xpath.axes.AxesWalker)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setRoot(int, java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.axes.WalkingIteratorSorted</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean m_inNaturalOrder</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>boolean canBeWalkedInNaturalDocOrder()</code></nobr>
+</li>
+<li>
+<nobr><code>public void reset()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setRoot(int, java.lang.Object)</code></nobr>
+</li>
+</ul>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public WalkingIteratorSorted(org.apache.xpath.compiler.Compiler, int, int, boolean) throws javax.xml.transform.TransformerException<br>
+<b>new:</b>WalkingIteratorSorted(org.apache.xpath.compiler.Compiler, int, int, boolean) throws javax.xml.transform.TransformerException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean m_inNaturalOrderStatic</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>boolean canBeWalkedInNaturalDocOrderStatic()</code></nobr>
+</li>
+<li>
+<nobr><code>public void fixupVariables(java.util.Vector, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isDocOrdered()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.compiler.XPathParser</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String CONTINUE_AFTER_FATAL_ERROR</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FuncConcat</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FuncExtFunction</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getFunctionName()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getNamespace()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FuncLast</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean m_isTopLevel</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void postCompileStep(org.apache.xpath.compiler.Compiler)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FuncPosition</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean m_isTopLevel</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void postCompileStep(org.apache.xpath.compiler.Compiler)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FuncSubstring</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.Function</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callArgVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public void postCompileStep(org.apache.xpath.compiler.Compiler)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.Function2Args</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callArgVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.Function3Args</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callArgVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FunctionDef1Arg</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FunctionMultiArgs</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callArgVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.functions.FunctionOneArg</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.functions.FunctionOneArg extends org.apache.xpath.functions.Function<br>
+<b>new:</b>public class org.apache.xpath.functions.FunctionOneArg extends org.apache.xpath.functions.Function implements org.apache.xpath.ExpressionOwner</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callArgVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.Expression getExpression()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void reportWrongNumberArgs() throws org.apache.xpath.functions.WrongNumberArgsException</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpression(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XNodeSet</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.objects.XNodeSet extends org.apache.xpath.objects.XObject<br>
+<b>new:</b>public class org.apache.xpath.objects.XNodeSet extends org.apache.xpath.axes.NodeSequence</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected org.apache.xml.dtm.DTMManager m_dtmMgr</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void allowDetachToRelease(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTMManager getDTMMgr()</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XNodeSet(org.apache.xpath.objects.XNodeSet)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xpath.objects.XObject getFresh()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.Object object()</code></nobr>
+</li>
+<li>
+<nobr><code>public void release(org.apache.xml.dtm.DTMIterator)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XNodeSetForDOM</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XNodeSetForDOM(org.apache.xpath.objects.XNodeSet)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XNull</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.objects.XNull extends org.apache.xpath.objects.XObject<br>
+<b>new:</b>public class org.apache.xpath.objects.XNull extends org.apache.xpath.objects.XNodeSet</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public org.apache.xml.dtm.DTMIterator iter()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XNumber</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XObject</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>protected static final short ORDER_BOOLEAN</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short ORDER_NODESET</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short ORDER_NUMBER</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short ORDER_OBJECT</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short ORDER_RTF</code></nobr>
+</li>
+<li>
+<nobr><code>protected static final short ORDER_STRING</code></nobr>
+</li>
+<li>
+<nobr><code>protected short m_precedence</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public short getOrder()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.objects.XObject getFresh()</code></nobr>
+</li>
+<li>
+<nobr><code>public void reset()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XRTreeFrag</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XRTreeFrag(int, org.apache.xpath.XPathContext, org.apache.xpath.ExpressionNode)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XRTreeFragSelectWrapper</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void detach()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XString</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.objects.XStringForFSB</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static long MAX_NO_OVERFLOW_RISK</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.operations.Equals</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean bool(org.apache.xpath.XPathContext) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.operations.Operation</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.operations.Operation extends org.apache.xpath.Expression<br>
+<b>new:</b>public class org.apache.xpath.operations.Operation extends org.apache.xpath.Expression implements org.apache.xpath.ExpressionOwner</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.Expression getExpression()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpression(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.operations.UnaryOperation</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class org.apache.xpath.operations.UnaryOperation extends org.apache.xpath.Expression<br>
+<b>new:</b>public abstract class org.apache.xpath.operations.UnaryOperation extends org.apache.xpath.Expression implements org.apache.xpath.ExpressionOwner</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.Expression getExpression()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpression(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.operations.Variable</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.operations.Variable extends org.apache.xpath.Expression<br>
+<b>new:</b>public class org.apache.xpath.operations.Variable extends org.apache.xpath.Expression implements org.apache.xpath.axes.PathComponent</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final java.lang.String PSUEDOVARNAMESPACE</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.objects.XObject execute(org.apache.xpath.XPathContext, boolean) throws javax.xml.transform.TransformerException</code></nobr>
+</li>
+<li>
+<nobr><code>public int getAnalysisBits()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xalan.templates.ElemVariable getElemVariable()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getGlobal()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getIndex()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xml.utils.QName getQName()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isPsuedoVarRef()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setIndex(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setIsGlobal(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.patterns.FunctionPattern</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void callSubtreeVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.patterns.NodeTest</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.patterns.StepPattern</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.patterns.StepPattern extends org.apache.xpath.patterns.NodeTest implements org.apache.xpath.axes.SubContextList<br>
+<b>new:</b>public class org.apache.xpath.patterns.StepPattern extends org.apache.xpath.patterns.NodeTest implements org.apache.xpath.ExpressionOwner, org.apache.xpath.axes.SubContextList</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void callSubtreeVisitors(org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.xpath.Expression getExpression()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setExpression(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.patterns.UnionPattern</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static org.apache.xpath.patterns.StepPattern[] access$000(org.apache.xpath.patterns.UnionPattern)</code></nobr>
+</li>
+<li>
+<nobr><code>public void callVisitors(org.apache.xpath.ExpressionOwner, org.apache.xpath.XPathVisitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean deepEquals(org.apache.xpath.Expression)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.xpath.res.XPATHErrorResources</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.xpath.res.XPATHErrorResources extends org.apache.xml.utils.res.XResourceBundleBase<br>
+<b>new:</b>public class org.apache.xpath.res.XPATHErrorResources extends java.util.PropertyResourceBundle</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int MAX_CODE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_MESSAGES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_OTHERS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int MAX_WARNING</code></nobr>
+</li>
+<li>
+<nobr><code>static final java.lang.Object[][] contents</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Object[][] getContents()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public XPATHErrorResources()<br>
+<b>new:</b>public XPATHErrorResources() throws java.io.IOException</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.lang.String getMessageKey(int)<br>
+<b>new:</b>public static java.lang.String getMessageKey(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.lang.String getWarningKey(int)<br>
+<b>new:</b>public static java.lang.String getWarningKey(int)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static final org.apache.xpath.res.XPATHErrorResources loadResourceBundle(java.lang.String) throws java.util.MissingResourceException<br>
+<b>new:</b>public static final java.util.ResourceBundle loadResourceBundle(java.lang.String) throws java.util.MissingResourceException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int ER_VARIABLE_ACCESSED_BEFORE_BIND</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XPATHErrorResources(java.io.InputStream) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xalan.templates.XSLTVisitable</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.trace.TraceListenerEx2</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.ExpressionNode</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.ExpressionOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.ExtensionsProvider</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.XPathVisitable</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.PathComponent</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.xalan.extensions.ExpressionVisitor</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.extensions.ExtensionHandlerExsltFunction</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.extensions.ExtensionNamespaceSupport</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.extensions.ExtensionNamespacesManager</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.lib.ExsltCommon</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.lib.ExsltDatetime</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.lib.ExsltMath</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.lib.ExsltSets</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.processor.ProcessorExsltFuncResult</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.processor.ProcessorExsltFunction</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.processor.WhitespaceInfoPaths</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.AbsPathChecker</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.ElemExsltFuncResult</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.ElemExsltFunction</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.ElemNumber$MyPrefixResolver</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.ElemVariablePsuedo</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.RedundentExprEliminator</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.RedundentExprEliminator$MultistepExprHolder</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.VarNameCollector</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.XSLTVisitor</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xalan.templates.XUnresolvedVariableSimple</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xml.dtm.ref.ExpandedNameTable$ExtendedType</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.XPathVisitor</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.BasicTestIterator</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.FilterExprIterator</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.FilterExprIterator$filterExprOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.FilterExprIteratorSimple</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.FilterExprIteratorSimple$filterExprOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.FilterExprWalker$filterExprOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.HasPositionalPredChecker</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.NodeSequence</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.PredicatedNodeTest$PredOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.UnionChildIterator</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.axes.UnionPathIterator$iterOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.functions.Function2Args$Arg1Owner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.functions.Function3Args$Arg2Owner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.functions.FunctionMultiArgs$ArgMultiOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.operations.Operation$LeftExprOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.operations.VariableSafeAbsRef</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.patterns.FunctionPattern$FunctionOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.patterns.StepPattern$PredOwner</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.xpath.patterns.UnionPattern$UnionPathPartOwner</code></nobr>
+</li>
+</ul>
+<hr>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
+
+<html>
+
+<head>
+<style type="text/css">
+    dl dt {font-weight: bold}
+    dl dd {margin-bottom: 10}
+</style>
+<title>Dependency Finder - Samples</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<h2>Samples</h2>
+
+<h3>Dependency Graphs</h3>
+
+<p>This is the output of running <code>DependencyExtractor</code> on Dependency Finder itself.</p>
+
+<p>E.g.,</p>
+
+<pre>
+    C:\> DependencyExtractor -xml -out 20020711.xml DependencyFinder.jar
+    C:\> DependenciesToHTML -in 20020711.xml -out 20020711.html
+</pre>
+
+<p><font color="red"><b>Warning</b>:</font> <i>each one of these files is about 4MB.</i></p>
+
+<table cellspacing="3">
+    <tr>
+	<td>20011216</td>
+	<td><a target="_blank" href="20011216.xml">XML</a></td>
+	<td><a target="_blank" href="20011216.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>20020111</td>
+	<td><a target="_blank" href="20020111.xml">XML</a></td>
+	<td><a target="_blank" href="20020111.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>20020115</td>
+	<td><a target="_blank" href="20020115.xml">XML</a></td>
+	<td><a target="_blank" href="20020115.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>20020127</td>
+	<td><a target="_blank" href="20020127.xml">XML</a></td>
+	<td><a target="_blank" href="20020127.html">HTML</a></td>
+    </tr>
+    <tr>
+	<td>20020711</td>
+	<td><a target="_blank" href="20020711.xml">XML</a></td>
+	<td><a target="_blank" href="20020711.html">HTML</a></td>
+    </tr>
+</table>
+
+<h3>API Change Histories</h3>
+
+<p>This is the output of running <code>JarJarDiff</code> on various open source
+software packages, including Dependency Finder itself.</p>
+
+<p>E.g.,</p>
+
+<pre>
+    C:\> JarJarDiff -name "Dependency Finder"                                   \
+                    -old-label 20020127 -old 20020127\lib\DependencyFinder.jar  \
+                    -new-label 20020711 -new 20020711\lib\DependencyFinder.jar  \
+                    -out 20020127-20020711.xml
+    C:\> DiffToHTML -in 20020127-20020711.xml -out DependencyFinder.html
+</pre>
+
+<ul>
+<li><a target="_blank" href="DependencyFinder.html">Dependency Finder</a> <i>(80 KB)</i></li>
+<li><a target="_blank" href="junit.html">JUnit</a> <i>(38 KB)</i></li>
+<li><a target="_blank" href="log4j.html">Log4J</a> <i>(7 KB)</i></li>
+<li><a target="_blank" href="oro.html">Jakarta-ORO</a> <i>(1 KB)</i></li>
+<li><a target="_blank" href="xalan.html">Xalan</a> <i>(111 KB)</i></li>
+<li><a target="_blank" href="xerces.html">Xerces</a> <i>(320 KB)</i></li>
+</ul>
+
+<p>Here are the raw XML output from running <code>JarJarDiff</code> on
+Dependency Finder.</p>
+
+<ul>
+<li><a target="_blank" href="20011216-20020111.xml">20011216-20020111</a></li>
+<li><a target="_blank" href="20020111-20020115.xml">20020111-20020115</a></li>
+<li><a target="_blank" href="20020115-20020127.xml">20020115-20020127</a></li>
+<li><a target="_blank" href="20020127-20020711.xml">20020127-20020711</a></li>
+</ul>
+
+<h3>Metrics</h3>
+
+<p>This is the output of running <code>OOMetrics</code> on Dependency Finder itself.</p>
+
+<p>E.g.,</p>
+
+<pre>
+    C:\> OOMetrics -all -xml -project-name DependencyFinder -out 20020127.metrics DependencyFinder.jar
+    C:\> OOMetrics -all -txt -project-name DependencyFinder -out 20020127.metrics DependencyFinder.jar
+</pre>
+
+<p><font color="red"><b>Warning</b>:</font> <i>the XML files are over 11MB and the text files are about 2MB.</i></p>
+
+<table cellspacing="3">
+    <tr>
+	<td>20020127</td>
+	<td><a target="_blank" href="20020127.metrics.xml">XML</a></td>
+	<td><a target="_blank" href="20020127.metrics.txt">TXT</a></td>
+    </tr>
+    <tr>
+	<td>20020711</td>
+	<td><a target="_blank" href="20020711.metrics.xml">XML</a></td>
+	<td><a target="_blank" href="20020711.metrics.txt">TXT</a></td>
+    </tr>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,3068 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Dependency Finder - API Change History</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Dependency Finder - API Change History</h1>
+
+<ul>
+<li><a href="#20020711">20020127 to 20020711</a></li>
+<li><a href="#20020127">20020115 to 20020127</a></li>
+<li><a href="#20020115">20020111 to 20020115</a></li>
+<li><a href="#20020111">20011216 to 20020111</a></li>
+</ul>
+
+<hr />
+
+<a name="20020711" />
+<h2>20020127 to 20020711</h2>
+<h3>Removed Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.metrics.NumericalMeasurement</code></nobr>
+</li>
+</ul>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.ClassfileLoaderBase</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.ExternalClassReport</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.ExternalReport</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.SubMetricsBasedMeasurement</code></nobr>
+</li>
+</ul>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public interface com.jeantessier.classreader.ClassfileLoader<br>
+<b>new:</b>public abstract class com.jeantessier.classreader.ClassfileLoader extends java.lang.Object</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void Start() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ClassfileLoader()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected abstract com.jeantessier.classreader.Classfile Load(java.io.DataInputStream) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireLoadElement(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireLoadStart(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireLoadStop(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void fireLoadedClassfile(java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Collector</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public interface com.jeantessier.classreader.Collector extends com.jeantessier.classreader.Visitor<br>
+<b>new:</b>public interface com.jeantessier.classreader.Collector extends com.jeantessier.classreader.LoadListener, com.jeantessier.classreader.Visitor</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.LoadListener</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.Visitor</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.util.SortedSet Scope()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.Differences</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean IsEmpty()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.String Name()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.Visitor</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void VisitDeprecatableDifferences(com.jeantessier.diff.DeprecatableDifferences)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void VisitDocumentableDifferences(com.jeantessier.diff.DocumentableDifferences)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Measurement</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.lang.String Name()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void Add(double)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void Add(float)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void Add(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void Add(long)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract com.jeantessier.metrics.Metrics Context()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract com.jeantessier.metrics.MeasurementDescriptor Descriptor()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean InRange()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.String LongName()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.String ShortName()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract java.lang.Number Value()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract double doubleValue()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract float floatValue()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract int intValue()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract long longValue()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementVisitor</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void VisitSumMeasurement(com.jeantessier.metrics.SumMeasurement)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.AggregatingClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.classreader.AggregatingClassfileLoader extends com.jeantessier.classreader.ClassfileLoaderBase<br>
+<b>new:</b>public class com.jeantessier.classreader.AggregatingClassfileLoader extends com.jeantessier.classreader.ClassfileLoaderEventSource</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void AddClassfile(com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+<li>
+<nobr><code>public void AddClassfiles(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Start()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Map classfiles</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.classreader.Classfile Classfile(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection Classfiles()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection Classnames()</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.classreader.Classfile Load(java.io.DataInputStream) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Classfile</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.classreader.Classfile extends java.lang.Object implements com.jeantessier.classreader.Visitable<br>
+<b>new:</b>public class com.jeantessier.classreader.Classfile extends java.lang.Object implements com.jeantessier.classreader.Deprecatable, com.jeantessier.classreader.Visitable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Classfile(com.jeantessier.classreader.ClassfileLoader, byte[]) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public Classfile(com.jeantessier.classreader.ClassfileLoader, java.io.File) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public Classfile(com.jeantessier.classreader.ClassfileLoader, java.io.InputStream) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public Classfile(com.jeantessier.classreader.ClassfileLoader, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.CollectorBase</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void LoadElement(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStart(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStop(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.DirectoryClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.classreader.DirectoryClassfileLoader extends com.jeantessier.classreader.ClassfileLoaderBase<br>
+<b>new:</b>public class com.jeantessier.classreader.DirectoryClassfileLoader extends com.jeantessier.classreader.ClassfileLoaderDecorator</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public DirectoryClassfileLoader(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>public DirectoryClassfileLoader(java.util.Collection)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Start() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public DirectoryClassfileLoader(com.jeantessier.classreader.ClassfileLoader)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Load(com.jeantessier.classreader.DirectoryExplorer) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Feature_info</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class com.jeantessier.classreader.Feature_info extends java.lang.Object implements com.jeantessier.classreader.Visitable<br>
+<b>new:</b>public abstract class com.jeantessier.classreader.Feature_info extends java.lang.Object implements com.jeantessier.classreader.Deprecatable, com.jeantessier.classreader.Visitable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.InnerClass</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean IsAbstract()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsFinal()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsInterface()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsPackage()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsPrivate()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsProtected()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsPublic()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsStatic()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.JarClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public JarClassfileLoader(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>public JarClassfileLoader(java.util.Collection)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Start() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public JarClassfileLoader(com.jeantessier.classreader.ClassfileLoader)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Load(java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.LoadEvent</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.classreader.Classfile classfile</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public LoadEvent(java.lang.Object, java.lang.String, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.classreader.Classfile Classfile()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.PrettyPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public PrettyPrinter(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public PrettyPrinter(java.lang.StringBuffer)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public Printer(java.lang.StringBuffer)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int indent_level</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String indent_text</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.classreader.Printer EOL()</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.classreader.Printer Indent()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String IndentText()</code></nobr>
+</li>
+<li>
+<nobr><code>public void IndentText(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void LowerIndent()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void RaiseIndent()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.UglyPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public UglyPrinter(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public UglyPrinter(java.lang.StringBuffer)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void VisitFloat_info(com.jeantessier.classreader.Float_info)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String indent</code></nobr>
+</li>
+<li>
+<nobr><code>private int indent_level</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.classreader.Printer Indent()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_DTD_PREFIX</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String dtd_prefix</code></nobr>
+</li>
+<li>
+<nobr><code>private static final org.apache.oro.text.perl.Perl5Util perl</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void AppendHeader(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String EscapeXMLCharacters(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ZipClassfileLoader</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.classreader.ZipClassfileLoader extends com.jeantessier.classreader.ClassfileLoaderBase<br>
+<b>new:</b>public class com.jeantessier.classreader.ZipClassfileLoader extends com.jeantessier.classreader.ClassfileLoaderDecorator</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ZipClassfileLoader(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>public ZipClassfileLoader(java.util.Collection)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Start() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ZipClassfileLoader(com.jeantessier.classreader.ClassfileLoader)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Load(java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public void Load(java.util.Collection) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.CodeDependencyCollector</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void LoadElement(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStart(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadStop(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.GraphCopier</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.dependency.NodeFactory factory</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public GraphCopier(com.jeantessier.dependency.NodeFactory)</code></nobr>
+</li>
+<li>
+<nobr><code>public GraphCopier(com.jeantessier.dependency.TraversalStrategy, com.jeantessier.dependency.NodeFactory)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.dependency.NodeFactory Factory()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.dependency.NodeFactory filter_factory</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.dependency.NodeFactory scope_factory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.dependency.NodeFactory FilterFactory()</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.dependency.NodeFactory ScopeFactory()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.GraphSummarizer</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public GraphSummarizer(com.jeantessier.dependency.SelectiveTraversalStrategy, com.jeantessier.dependency.NodeFactory)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.NodeLoader</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Map Load(java.io.FileReader) throws java.io.IOException, org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final boolean DEFAULT_VALIDATE</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean validate</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public NodeLoader(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public NodeLoader(com.jeantessier.dependency.NodeFactory, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public NodeLoader(com.jeantessier.dependency.NodeFactory, java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public NodeLoader(java.lang.String, boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Map Load(java.io.InputStream) throws java.io.IOException, org.xml.sax.SAXException</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Map Load(java.io.Reader) throws java.io.IOException, org.xml.sax.SAXException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.PrettyPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public PrettyPrinter(com.jeantessier.dependency.TraversalStrategy, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public PrettyPrinter(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer(com.jeantessier.dependency.TraversalStrategy, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public Printer(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer EOL()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String IndentText()</code></nobr>
+</li>
+<li>
+<nobr><code>public void IndentText(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.SelectiveTraversalStrategy</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.TextPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TextPrinter(com.jeantessier.dependency.TraversalStrategy, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public TextPrinter(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.TransitiveClosure</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependency.TransitiveClosure extends com.jeantessier.dependency.GraphCopier<br>
+<b>new:</b>public class com.jeantessier.dependency.TransitiveClosure extends com.jeantessier.dependency.VisitorBase</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TransitiveClosure(com.jeantessier.dependency.NodeFactory)</code></nobr>
+</li>
+<li>
+<nobr><code>public TransitiveClosure(com.jeantessier.dependency.TraversalStrategy, com.jeantessier.dependency.NodeFactory)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.Set visited_nodes<br>
+<b>new:</b>private java.util.Set visited_nodes</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static long DO_NOT_FOLLOW</code></nobr>
+</li>
+<li>
+<nobr><code>public static long UNBOUNDED_DEPTH</code></nobr>
+</li>
+<li>
+<nobr><code>private long current_depth</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.dependency.NodeFactory factory</code></nobr>
+</li>
+<li>
+<nobr><code>private long maximum_inbound_depth</code></nobr>
+</li>
+<li>
+<nobr><code>private long maximum_outbound_depth</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean single_path</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.dependency.NodeFactory Factory()</code></nobr>
+</li>
+<li>
+<nobr><code>public long MaximumInboundDepth()</code></nobr>
+</li>
+<li>
+<nobr><code>public void MaximumInboundDepth(long)</code></nobr>
+</li>
+<li>
+<nobr><code>public long MaximumOutboundDepth()</code></nobr>
+</li>
+<li>
+<nobr><code>public void MaximumOutboundDepth(long)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean SinglePath()</code></nobr>
+</li>
+<li>
+<nobr><code>public void SinglePath(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitInboundClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitInboundFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitInboundPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.VisitorBase</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.SortedSet Scope()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String Preamble()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_DTD_PREFIX</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void AppendHeader(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassInheritance</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassList</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassMetrics</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassReader</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyClosure</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyExtractor</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyMetrics</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyReporter</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.JarJarDiff</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_NEW_DOCUMENTATION</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_OLD_DOCUMENTATION</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyExtractAction</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoader loader</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public DependencyFinder()</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void BuildMenus()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.swing.JTextField maximum_inbound_depth</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JTextField maximum_outbound_depth</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public DependencyFinder(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private javax.swing.JComponent BuildClosureControlPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JComponent BuildClosureResultPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private void BuildMenus(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.MetricsExtractAction</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void Extract(com.jeantessier.classreader.AggregatingClassfileLoader, java.io.File)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoader loader</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void Extract(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public void LoadedClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public OOMetrics()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final javax.swing.table.TableCellRenderer RENDERER</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$Object</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public OOMetrics(com.jeantessier.metrics.MetricsFactory)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void Log(org.apache.log4j.Logger, java.lang.String, org.apache.log4j.Level) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.OOMetricsTableModel</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int[] metric_dispose</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String[] metric_names</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.Object[][] metric_values</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public OOMetricsTableModel()</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void BuildMetricNames(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$metrics$StatisticalMeasurement</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.List descriptors</code></nobr>
+</li>
+<li>
+<nobr><code>private int[] measurement_dispose</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String[] measurement_names</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.Object[][] measurement_values</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public OOMetricsTableModel(java.util.List)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.SaveFileAction</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public SaveFileAction(com.jeantessier.dependencyfinder.gui.DependencyFinder)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String dtd_prefix</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String indent_text</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public SaveFileAction(com.jeantessier.dependencyfinder.gui.DependencyFinder, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String IndentText()</code></nobr>
+</li>
+<li>
+<nobr><code>public void IndentText(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.ClassDifferences</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.diff.ClassDifferences extends com.jeantessier.diff.DeprecatableDifferences<br>
+<b>new:</b>public class com.jeantessier.diff.ClassDifferences extends com.jeantessier.diff.RemovableDifferences</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ClassDifferences(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean Compare(com.jeantessier.classreader.Classfile, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>ClassDifferences(java.lang.String, com.jeantessier.classreader.Classfile, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.ClassReport</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ClassReport(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Collection documented_constructors</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documented_fields</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documented_methods</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumented_constructors</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumented_fields</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumented_methods</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.ConstructorDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ConstructorDifferences(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>ConstructorDifferences(java.lang.String, com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.DeprecatableDifferences</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class com.jeantessier.diff.DeprecatableDifferences extends com.jeantessier.diff.RemovableDifferences<br>
+<b>new:</b>public class com.jeantessier.diff.DeprecatableDifferences extends com.jeantessier.diff.DecoratorDifferences</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public DeprecatableDifferences(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>DeprecatableDifferences(com.jeantessier.diff.Differences, com.jeantessier.classreader.Deprecatable, com.jeantessier.classreader.Deprecatable)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Accept(com.jeantessier.diff.Visitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsEmpty()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.FeatureDifferences</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract class com.jeantessier.diff.FeatureDifferences extends com.jeantessier.diff.DeprecatableDifferences<br>
+<b>new:</b>public abstract class com.jeantessier.diff.FeatureDifferences extends com.jeantessier.diff.RemovableDifferences</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public FeatureDifferences(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean Compare(com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>protected FeatureDifferences(java.lang.String, com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.FieldDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public FieldDifferences(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>FieldDifferences(java.lang.String, com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.InterfaceDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public InterfaceDifferences(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>InterfaceDifferences(java.lang.String, com.jeantessier.classreader.Classfile, com.jeantessier.classreader.Classfile)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.JarDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public JarDifferences(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean Compare(com.jeantessier.classreader.ClassfileLoader, com.jeantessier.classreader.ClassfileLoader)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String name</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>JarDifferences(java.lang.String, java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String Name()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.MethodDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MethodDifferences(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>MethodDifferences(java.lang.String, com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.PackageDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public PackageDifferences(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean Compare(com.jeantessier.classreader.ClassfileLoader, com.jeantessier.dependency.PackageNode, com.jeantessier.classreader.ClassfileLoader, com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>PackageDifferences(java.lang.String, com.jeantessier.dependency.PackageNode, com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.PackageValidator</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.diff.PackageValidator extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.diff.PackageValidator extends java.lang.Object implements com.jeantessier.diff.Validator</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void main(java.lang.String[]) throws java.lang.Exception</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.oro.text.perl.Perl5Util perl</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public PackageValidator(java.io.BufferedReader) throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void Initialize(java.io.BufferedReader) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsAllowed(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean IsFeatureAllowed(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.diff.Printer EOL()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String IndentText()</code></nobr>
+</li>
+<li>
+<nobr><code>public void IndentText(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.RemovableDifferences</code>
+</h4>
+<blockquote>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public RemovableDifferences(java.lang.String)<br>
+<b>new:</b>protected RemovableDifferences(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.Report</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String Preamble()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_DTD_PREFIX</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documented_classes</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documented_interfaces</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documented_packages</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String name</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumented_classes</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumented_interfaces</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumented_packages</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void AppendHeader(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.VisitorBase</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void VisitClassDifferences(com.jeantessier.diff.ClassDifferences)<br>
+<b>new:</b>public abstract void VisitClassDifferences(com.jeantessier.diff.ClassDifferences)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void VisitInterfaceDifferences(com.jeantessier.diff.InterfaceDifferences)<br>
+<b>new:</b>public abstract void VisitInterfaceDifferences(com.jeantessier.diff.InterfaceDifferences)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int deprecatable_level</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean[] deprecated</code></nobr>
+</li>
+<li>
+<nobr><code>private int documentable_level</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean[] documented</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean[] undeprecated</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean[] undocumented</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean Deprecated()</code></nobr>
+</li>
+<li>
+<nobr><code>public void Deprecated(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean Documented()</code></nobr>
+</li>
+<li>
+<nobr><code>public void Documented(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>private void LowerDeprecatableLevel()</code></nobr>
+</li>
+<li>
+<nobr><code>private void LowerDocumentableLevel()</code></nobr>
+</li>
+<li>
+<nobr><code>private void RaiseDeprecatableLevel()</code></nobr>
+</li>
+<li>
+<nobr><code>private void RaiseDocumentableLevel()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean Undeprecated()</code></nobr>
+</li>
+<li>
+<nobr><code>public void Undeprecated(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean Undocumented()</code></nobr>
+</li>
+<li>
+<nobr><code>public void Undocumented(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitDeprecatableDifferences(com.jeantessier.diff.DeprecatableDifferences)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitDocumentableDifferences(com.jeantessier.diff.DocumentableDifferences)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.AccumulatorMeasurement</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.metrics.AccumulatorMeasurement extends com.jeantessier.metrics.MeasurementBase implements com.jeantessier.metrics.NumericalMeasurement<br>
+<b>new:</b>public class com.jeantessier.metrics.AccumulatorMeasurement extends com.jeantessier.metrics.MeasurementBase</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public AccumulatorMeasurement(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public AccumulatorMeasurement(com.jeantessier.metrics.MeasurementDescriptor, com.jeantessier.metrics.Metrics, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected double Compute()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection Values()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.CSVPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean is_first</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CSVPrinter()</code></nobr>
+</li>
+<li>
+<nobr><code>public CSVPrinter(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void VisitFirstMetrics(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void VisitNumericalMeasurement(com.jeantessier.metrics.NumericalMeasurement)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$metrics$StatisticalMeasurement</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.List descriptors</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CSVPrinter(java.util.List)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void AppendHeader()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void VisitMeasurement(com.jeantessier.metrics.Measurement)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.CounterMeasurement</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.metrics.CounterMeasurement extends com.jeantessier.metrics.MeasurementBase implements com.jeantessier.metrics.NumericalMeasurement<br>
+<b>new:</b>public class com.jeantessier.metrics.CounterMeasurement extends com.jeantessier.metrics.MeasurementBase</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CounterMeasurement(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public CounterMeasurement(java.lang.String, double)</code></nobr>
+</li>
+<li>
+<nobr><code>public CounterMeasurement(java.lang.String, java.lang.Number)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.Number Value()</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private java.lang.Number value<br>
+<b>new:</b>private double value</code></nobr>
+</p>
+</blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CounterMeasurement(com.jeantessier.metrics.MeasurementDescriptor, com.jeantessier.metrics.Metrics, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Add(double)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Add(float)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Add(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Add(long)</code></nobr>
+</li>
+<li>
+<nobr><code>protected double Compute()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementBase</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String name</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MeasurementBase(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String Name()</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void Add(java.lang.Object)<br>
+<b>new:</b>public void Add(java.lang.Object)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.metrics.Metrics context</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.metrics.MeasurementDescriptor descriptor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final org.apache.oro.text.perl.Perl5Util perl</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MeasurementBase(com.jeantessier.metrics.MeasurementDescriptor, com.jeantessier.metrics.Metrics, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Add(double)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Add(float)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Add(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void Add(long)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract double Compute()</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.metrics.Metrics Context()</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.metrics.MeasurementDescriptor Descriptor()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean InRange()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String LongName()</code></nobr>
+</li>
+<li>
+<nobr><code>protected static org.apache.oro.text.perl.Perl5Util Perl()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String ShortName()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.Number Value()</code></nobr>
+</li>
+<li>
+<nobr><code>public double doubleValue()</code></nobr>
+</li>
+<li>
+<nobr><code>public float floatValue()</code></nobr>
+</li>
+<li>
+<nobr><code>public int intValue()</code></nobr>
+</li>
+<li>
+<nobr><code>public long longValue()</code></nobr>
+</li>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Metrics</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String ABSTRACT_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ABSTRACT_INNER_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String ABSTRACT_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEPRECATED_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEPRECATED_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEPRECATED_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String FINAL_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String FINAL_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String FINAL_INNER_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String FINAL_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String GROUPS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INBOUND_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INNER_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INTERFACES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String METHODS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String NATIVE_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String NLOC</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String OUTBOUND_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PACKAGE_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PACKAGE_INNER_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PACKAGE_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PRIVATE_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PRIVATE_INNER_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PRIVATE_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PROTECTED_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PROTECTED_INNER_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PROTECTED_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PUBLIC_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PUBLIC_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PUBLIC_INNER_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String PUBLIC_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String STATIC_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String STATIC_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String STATIC_INNER_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String STATIC_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String SYNCHRONIZED_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String SYNTHETIC_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String SYNTHETIC_CLASSES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String SYNTHETIC_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String TRANSIENT_ATTRIBUTES_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String TRIVIAL_METHODS_RATIO</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String VOLATILE_ATTRIBUTES_RATIO</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void AddToMetric(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void AddToMetric(java.lang.String, double)</code></nobr>
+</li>
+<li>
+<nobr><code>public void AddToMetric(java.lang.String, java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.metrics.Measurement Metric(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection MetricNames()</code></nobr>
+</li>
+<li>
+<nobr><code>void TrackMetric(com.jeantessier.metrics.Measurement)</code></nobr>
+</li>
+<li>
+<nobr><code>void TrackMetric(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>void TrackMetric(java.lang.String, double)</code></nobr>
+</li>
+<li>
+<nobr><code>void TrackMetric(java.lang.String, java.lang.Number)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String CLASS_SLOC</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INBOUND_EXTRA_PACKAGE_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INBOUND_INTRA_PACKAGE_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>private static final com.jeantessier.metrics.Measurement NULL_MEASUREMENT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String OUTBOUND_INTRA_PACKAGE_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String SLOC</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void AddToMeasurement(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void AddToMeasurement(java.lang.String, double)</code></nobr>
+</li>
+<li>
+<nobr><code>public void AddToMeasurement(java.lang.String, float)</code></nobr>
+</li>
+<li>
+<nobr><code>public void AddToMeasurement(java.lang.String, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void AddToMeasurement(java.lang.String, java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public void AddToMeasurement(java.lang.String, long)</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.metrics.Measurement Measurement(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection MeasurementNames()</code></nobr>
+</li>
+<li>
+<nobr><code>void Track(com.jeantessier.metrics.Measurement)</code></nobr>
+</li>
+<li>
+<nobr><code>void Track(java.lang.String, com.jeantessier.metrics.Measurement)</code></nobr>
+</li>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MetricsFactory</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String default_project_name</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MetricsFactory(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.metrics.MetricsConfiguration configuration</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String project_name</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MetricsFactory(java.lang.String, com.jeantessier.metrics.MetricsConfiguration)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Clear()</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.metrics.MetricsConfiguration Configuration()</code></nobr>
+</li>
+<li>
+<nobr><code>private void PopulateMetrics(com.jeantessier.metrics.Metrics, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String ProjectName()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String toString()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MetricsGatherer</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MetricsGatherer()</code></nobr>
+</li>
+<li>
+<nobr><code>public MetricsGatherer(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void VisitConstantValue_attribute(com.jeantessier.classreader.ConstantValue_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitCustom_attribute(com.jeantessier.classreader.Custom_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitDouble_info(com.jeantessier.classreader.Double_info)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitExceptions_attribute(com.jeantessier.classreader.Exceptions_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitFloat_info(com.jeantessier.classreader.Float_info)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitInnerClasses_attribute(com.jeantessier.classreader.InnerClasses_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitInteger_info(com.jeantessier.classreader.Integer_info)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitLineNumberTable_attribute(com.jeantessier.classreader.LineNumberTable_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitLocalVariableTable_attribute(com.jeantessier.classreader.LocalVariableTable_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitLong_info(com.jeantessier.classreader.Long_info)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitNameAndType_info(com.jeantessier.classreader.NameAndType_info)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitSourceFile_attribute(com.jeantessier.classreader.SourceFile_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitString_info(com.jeantessier.classreader.String_info)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitUTF8_info(com.jeantessier.classreader.UTF8_info)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean is_synthetic</code></nobr>
+</li>
+<li>
+<nobr><code>private int sloc</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void AddClassDependencies(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private void AddClassDependency(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private void AddMethodDependency(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection ProcessDescriptor(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitLineNumber(com.jeantessier.classreader.LineNumber)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitLocalVariable(com.jeantessier.classreader.LocalVariable)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.NbSubMetricsMeasurement</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.metrics.NbSubMetricsMeasurement extends com.jeantessier.metrics.SubMetricsBasedMeasurement implements com.jeantessier.metrics.NumericalMeasurement<br>
+<b>new:</b>public class com.jeantessier.metrics.NbSubMetricsMeasurement extends com.jeantessier.metrics.MeasurementBase</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public NbSubMetricsMeasurement(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public NbSubMetricsMeasurement(com.jeantessier.metrics.MeasurementDescriptor, com.jeantessier.metrics.Metrics, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected double Compute()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.PrettyPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public PrettyPrinter()</code></nobr>
+</li>
+<li>
+<nobr><code>public PrettyPrinter(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void VisitNumericalMeasurement(com.jeantessier.metrics.NumericalMeasurement)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.List descriptors</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean expand_accumulator_measurements</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public PrettyPrinter(java.util.List)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean ExpandAccumulatorMeasurements()</code></nobr>
+</li>
+<li>
+<nobr><code>public void ExpandAccumulatorMeasurements(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitAccumulatorMeasurement(com.jeantessier.metrics.AccumulatorMeasurement)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void VisitMeasurement(com.jeantessier.metrics.Measurement)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Printer(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected abstract void VisitNumericalMeasurement(com.jeantessier.metrics.NumericalMeasurement)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.metrics.Printer EOL()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String IndentText()</code></nobr>
+</li>
+<li>
+<nobr><code>public void IndentText(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected abstract void VisitMeasurement(com.jeantessier.metrics.Measurement)</code></nobr>
+</li>
+<li>
+<nobr><code>public void VisitSumMeasurement(com.jeantessier.metrics.SumMeasurement)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.RatioMeasurement</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.metrics.RatioMeasurement extends com.jeantessier.metrics.MeasurementBase implements com.jeantessier.metrics.NumericalMeasurement<br>
+<b>new:</b>public class com.jeantessier.metrics.RatioMeasurement extends com.jeantessier.metrics.MeasurementBase</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.metrics.NumericalMeasurement base</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.metrics.NumericalMeasurement divider</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public RatioMeasurement(java.lang.String, com.jeantessier.metrics.NumericalMeasurement, com.jeantessier.metrics.NumericalMeasurement)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void Add(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.Number Value()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int base_dispose</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String base_name</code></nobr>
+</li>
+<li>
+<nobr><code>private int divider_dispose</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String divider_name</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public RatioMeasurement(com.jeantessier.metrics.MeasurementDescriptor, com.jeantessier.metrics.Metrics, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int BaseDispose()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String BaseName()</code></nobr>
+</li>
+<li>
+<nobr><code>protected double Compute()</code></nobr>
+</li>
+<li>
+<nobr><code>public int DividerDispose()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String DividerName()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.StatisticalMeasurement</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.metrics.StatisticalMeasurement extends com.jeantessier.metrics.SubMetricsBasedMeasurement<br>
+<b>new:</b>public class com.jeantessier.metrics.StatisticalMeasurement extends com.jeantessier.metrics.MeasurementBase</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String monitored_metric</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public StatisticalMeasurement(java.lang.String, java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>public StatisticalMeasurement(java.lang.String, java.lang.String, com.jeantessier.metrics.Metrics, int)</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private synchronized void Compute()<br>
+<b>new:</b>protected double Compute()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String monitored_measurement</code></nobr>
+</li>
+<li>
+<nobr><code>private int self_dispose</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public StatisticalMeasurement(com.jeantessier.metrics.MeasurementDescriptor, com.jeantessier.metrics.Metrics, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private synchronized void CollectData()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLPrinter()</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void VisitMeasurements(com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void VisitNumericalMeasurement(com.jeantessier.metrics.NumericalMeasurement)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_DTD_PREFIX</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.metrics.MetricsConfiguration configuration</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public XMLPrinter(com.jeantessier.metrics.MetricsConfiguration)</code></nobr>
+</li>
+<li>
+<nobr><code>public XMLPrinter(com.jeantessier.metrics.MetricsConfiguration, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void AppendHeader(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void VisitMeasurement(com.jeantessier.metrics.Measurement)</code></nobr>
+</li>
+<li>
+<nobr><code>private void VisitMeasurements(com.jeantessier.metrics.Metrics, java.util.List)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.Deprecatable</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.Validator</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.ClassfileLoaderDecorator</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.classreader.ClassfileLoaderEventSource</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.classreader.TransientClassfileLoader</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.ListDiff</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.ListDiffPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.gui.MeasurementTableCellRenderer</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.gui.NewMetricsAction</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.DecoratorDifferences</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.DifferencesFactory</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.DocumentableDifferences</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.ListBasedValidator</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.ListDocumentedElements</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.MeasurementDescriptor</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.MetricsConfiguration</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.MetricsConfigurationHandler</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.MetricsConfigurationLoader</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.NullMeasurement</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.SumMeasurement</code></nobr>
+</li>
+</ul>
+
+<hr />
+
+<a name="20020127" />
+<h2>20020115 to 20020127</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.dependency.SelectiveTraversalStrategy</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependency$SelectiveTraversalStrategy</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void ClassFilterExcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void ClassFilterIncludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void ClassScopeExcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void ClassScopeIncludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void FeatureFilterExcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void FeatureFilterIncludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void FeatureScopeExcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void FeatureScopeIncludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void FilterExcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void FilterIncludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void PackageFilterExcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void PackageFilterIncludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void PackageScopeExcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void PackageScopeIncludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static java.util.List ParseRE(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void ScopeExcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void ScopeIncludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassInheritance</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassList</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassMetrics</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassReader</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyClosure</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyExtractor</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyMetrics</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyReporter</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.JarJarDiff</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.List ParseRE(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final org.apache.log4j.Layout DEFAULT_LOG_LAYOUT</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+
+<hr />
+
+<a name="20020115" />
+<h2>20020111 to 20020115</h2>
+
+<hr />
+
+<a name="20020111" />
+<h2>20011216 to 20020111</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.JarJarDiff</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_MODE</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+
+<hr />
+
+</body>
+</html>

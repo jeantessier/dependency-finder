@@ -1,0 +1,1553 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JUnit - API Change History</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>JUnit - API Change History</h1>
+
+<ul>
+<li><a href="#3.8.1">3.8 to 3.8.1</a></li>
+<li><a href="#3.8">3.7 to 3.8</a></li>
+</ul>
+
+<hr />
+
+<a name="3.8.1" />
+<h2>3.8 to 3.8.1</h2>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>junit.swingui.TestRunner$20</code></nobr>
+</li>
+</ul>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>junit.awtui.TestRunner</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String SUITE_METHODNAME</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected static java.awt.Font PLAIN_FONT<br>
+<b>new:</b>protected static final java.awt.Font PLAIN_FONT</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.framework.Assert</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private static void failSame(java.lang.String, java.lang.Object, java.lang.Object)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private static void failSame(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.String format(java.lang.String, java.lang.Object, java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.CounterPanel</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String asString(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static java.awt.Font BOLD_FONT</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.awt.Font PLAIN_FONT</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static void access$2(junit.swingui.TestRunner, java.lang.String, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>private void appendFailure(java.lang.String, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>protected javax.swing.JFrame createFrame(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private void setLabelValue(javax.swing.JTextField, int)</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static void access$2(junit.swingui.TestRunner, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>private void appendFailure(junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>protected javax.swing.JFrame createFrame()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$18</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final javax.swing.JTextField val$label</code></nobr>
+</li>
+<li>
+<nobr><code>private final int val$value</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$18(javax.swing.JTextField, int)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.swingui.TestRunner this$0</code></nobr>
+</li>
+<li>
+<nobr><code>private final junit.framework.Test val$test</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$18(junit.swingui.TestRunner, junit.framework.Test)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$19</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.swingui.TestRunner this$0</code></nobr>
+</li>
+<li>
+<nobr><code>private final junit.framework.Test val$test</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$19(junit.swingui.TestRunner, junit.framework.Test)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$19()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSelector</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void centerWindow(java.awt.Component)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+
+<hr />
+
+<a name="3.8" />
+<h2>3.7 to 3.8</h2>
+<h3>Removed Packages:</h3>
+<ul>
+<li>
+<nobr><code>junit.ui</code></nobr>
+</li>
+</ul>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>junit.swingui.FailureRunView$2</code></nobr>
+</li>
+<li>
+<nobr><code>junit.swingui.TestRunner$21</code></nobr>
+</li>
+</ul>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>junit.awtui.Logo</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$junit$runner$BaseTestRunner</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$String</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$junit$runner$BaseTestRunner</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addError(junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>public void addFailure(junit.framework.Test, junit.framework.AssertionFailedError)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endTest(junit.framework.Test)</code></nobr>
+</li>
+<li>
+<nobr><code>public void run()</code></nobr>
+</li>
+<li>
+<nobr><code>public void startTest(junit.framework.Test)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void addToCounterPanel(java.awt.Panel, java.awt.Component, int, int, int, int, double, double, int, int, java.awt.Insets)</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.awt.Panel createCounterPanel()</code></nobr>
+</li>
+<li>
+<nobr><code>private void rerunTest(junit.framework.Test)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testEnded(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testFailed(int, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testStarted(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$10</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$10(junit.framework.Test, junit.awtui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$10(junit.awtui.TestRunner, junit.framework.Test)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.extensions.ActiveTestSuite</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ActiveTestSuite(java.lang.Class)</code></nobr>
+</li>
+<li>
+<nobr><code>public ActiveTestSuite(java.lang.Class, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public ActiveTestSuite(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.extensions.ActiveTestSuite$1</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>ActiveTestSuite$1(junit.framework.TestResult, junit.framework.Test, junit.extensions.ActiveTestSuite)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>ActiveTestSuite$1(junit.extensions.ActiveTestSuite, junit.framework.Test, junit.framework.TestResult)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.extensions.TestSetup$1</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestSetup$1(junit.framework.TestResult, junit.extensions.TestSetup)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestSetup$1(junit.extensions.TestSetup, junit.framework.TestResult)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.framework.Assert</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void assert(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void assert(java.lang.String, boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void assertEquals(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void assertEquals(java.lang.String, java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void assertFalse(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void assertFalse(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void assertNotSame(java.lang.Object, java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void assertNotSame(java.lang.String, java.lang.Object, java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>private static void failSame(java.lang.String, java.lang.Object, java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.framework.TestCase</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String name()</code></nobr>
+</li>
+</ul>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>TestCase()<br>
+<b>new:</b>public TestCase()</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.framework.TestFailure</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String exceptionMessage()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isFailure()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String trace()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.framework.TestResult</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized int runTests()</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized int testErrors()</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized int testFailures()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.framework.TestSuite</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$String</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$junit$framework$Test</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void addTestMethod(java.lang.reflect.Method, java.util.Vector, java.lang.reflect.Constructor)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.reflect.Constructor getConstructor(java.lang.Class) throws java.lang.NoSuchMethodException</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private java.lang.String exceptionToString(java.lang.Throwable)<br>
+<b>new:</b>private static java.lang.String exceptionToString(java.lang.Throwable)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private junit.framework.Test warning(java.lang.String)<br>
+<b>new:</b>private static junit.framework.Test warning(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$1</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TestSuite(java.lang.Class, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void addTestMethod(java.lang.reflect.Method, java.util.Vector, java.lang.Class)</code></nobr>
+</li>
+<li>
+<nobr><code>public static junit.framework.Test createTest(java.lang.Class, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.reflect.Constructor getTestConstructor(java.lang.Class) throws java.lang.NoSuchMethodException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.runner.BaseTestRunner</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.String filterStack(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>static java.util.Properties fPreferences<br>
+<b>new:</b>private static java.util.Properties fPreferences</code></nobr>
+</p>
+</blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void addError(junit.framework.Test, java.lang.Throwable)<br>
+<b>new:</b>public synchronized void addError(junit.framework.Test, java.lang.Throwable)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void addFailure(junit.framework.Test, junit.framework.AssertionFailedError)<br>
+<b>new:</b>public synchronized void addFailure(junit.framework.Test, junit.framework.AssertionFailedError)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void endTest(junit.framework.Test)<br>
+<b>new:</b>public synchronized void endTest(junit.framework.Test)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract void startTest(junit.framework.Test)<br>
+<b>new:</b>public synchronized void startTest(junit.framework.Test)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.String getFilteredTrace(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static java.util.Properties getPreferences()</code></nobr>
+</li>
+<li>
+<nobr><code>public static void savePreferences() throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPreference(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static void setPreferences(java.util.Properties)</code></nobr>
+</li>
+<li>
+<nobr><code>protected static boolean showStackRaw()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void testEnded(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void testFailed(int, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void testStarted(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.runner.ClassPathTestCollector</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void collectFilesInRoots(java.util.Vector, java.util.Hashtable)</code></nobr>
+</li>
+<li>
+<nobr><code>java.util.Vector splitClassPath(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Hashtable collectFilesInPath(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>java.util.Hashtable collectFilesInRoots(java.util.Vector)</code></nobr>
+</li>
+<li>
+<nobr><code>java.util.Vector splitClassPath(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.runner.LoadingTestCollector</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$String</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$junit$framework$Test</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.runner.ReloadingTestSuiteLoader</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected junit.runner.TestCaseClassLoader createLoader()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.AboutDialog</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$junit$runner$BaseTestRunner</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.CounterPanel</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class junit.swingui.CounterPanel extends java.awt.Panel<br>
+<b>new:</b>public class junit.swingui.CounterPanel extends javax.swing.JPanel</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private javax.swing.JTextField createOutputField()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.swing.Icon fErrorIcon</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.Icon fFailureIcon</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addToGrid(java.awt.Component, int, int, int, int, double, double, int, int, java.awt.Insets)</code></nobr>
+</li>
+<li>
+<nobr><code>private javax.swing.JTextField createOutputField(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.DefaultFailureDetailView</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class junit.swingui.DefaultFailureDetailView extends java.lang.Object implements junit.runner.FailureDetailView<br>
+<b>new:</b>public class junit.swingui.DefaultFailureDetailView extends java.lang.Object implements junit.runner.FailureDetailView</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>javax.swing.JTextArea fTextArea</code></nobr>
+</li>
+</ul>
+<h5>Constructor Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>DefaultFailureDetailView()<br>
+<b>new:</b>public DefaultFailureDetailView()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>javax.swing.JList fList</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private junit.swingui.DefaultFailureDetailView$StackTraceListModel getModel()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.FailureRunView</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class junit.swingui.FailureRunView extends java.lang.Object implements junit.swingui.TestRunView<br>
+<b>new:</b>public class junit.swingui.FailureRunView extends java.lang.Object implements junit.swingui.TestRunView</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.FailureRunView$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.FailureRunView$1 extends junit.framework.TestCase<br>
+<b>new:</b>final class junit.swingui.FailureRunView$1 extends java.lang.Object implements javax.swing.event.ListSelectionListener</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>FailureRunView$1(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void runTest()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.swingui.FailureRunView this$0</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>FailureRunView$1(junit.swingui.FailureRunView)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void valueChanged(javax.swing.event.ListSelectionEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.ProgressBar</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class junit.swingui.ProgressBar extends javax.swing.JPanel<br>
+<b>new:</b>class junit.swingui.ProgressBar extends javax.swing.JProgressBar</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>int fProgress</code></nobr>
+</li>
+<li>
+<nobr><code>int fProgressX</code></nobr>
+</li>
+<li>
+<nobr><code>int fTotal</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void paintBackground(java.awt.Graphics)</code></nobr>
+</li>
+<li>
+<nobr><code>public void paintComponent(java.awt.Graphics)</code></nobr>
+</li>
+<li>
+<nobr><code>public void paintStatus(java.awt.Graphics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void paintStep(int, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public int scale(int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setBounds(int, int, int, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public void step(boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void step(int, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestHierarchyRunView</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class junit.swingui.TestHierarchyRunView extends java.lang.Object implements junit.swingui.TestRunView<br>
+<b>new:</b>public class junit.swingui.TestHierarchyRunView extends java.lang.Object implements junit.swingui.TestRunView</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$String</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$junit$runner$BaseTestRunner</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Thread access$14(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$15(junit.swingui.TestRunner, java.lang.Thread)</code></nobr>
+</li>
+<li>
+<nobr><code>public void addError(junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>public void addFailure(junit.framework.Test, junit.framework.AssertionFailedError)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endTest(junit.framework.Test)</code></nobr>
+</li>
+<li>
+<nobr><code>private void postEndTest(junit.framework.Test)</code></nobr>
+</li>
+<li>
+<nobr><code>public void run()</code></nobr>
+</li>
+<li>
+<nobr><code>public void startTest(junit.framework.Test)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static void access$14(junit.swingui.TestRunner, java.lang.Thread)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testEnded(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testFailed(int, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testStarted(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$1</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$1(java.lang.Throwable, junit.framework.Test, junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final int val$status</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$1(junit.swingui.TestRunner, int, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$11</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$11 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class junit.swingui.TestRunner$11 extends java.awt.event.KeyAdapter</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void actionPerformed(java.awt.event.ActionEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void keyTyped(java.awt.event.KeyEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$12</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$12 extends java.awt.event.KeyAdapter<br>
+<b>new:</b>final class junit.swingui.TestRunner$12 extends java.lang.Object implements java.awt.event.ItemListener</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void keyTyped(java.awt.event.KeyEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void itemStateChanged(java.awt.event.ItemEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$13</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$13 extends java.lang.Object implements java.awt.event.ItemListener<br>
+<b>new:</b>final class junit.swingui.TestRunner$13 extends java.lang.Object implements javax.swing.event.ChangeListener</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void itemStateChanged(java.awt.event.ItemEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void stateChanged(javax.swing.event.ChangeEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$14</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$14 extends java.lang.Object implements javax.swing.event.ChangeListener<br>
+<b>new:</b>final class junit.swingui.TestRunner$14 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$14(junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void stateChanged(javax.swing.event.ChangeEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final java.lang.String val$message</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$14(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void run()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$15</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final java.lang.String val$message</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$15(java.lang.String, junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final java.lang.String val$status</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$15(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$16</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$16 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>final class junit.swingui.TestRunner$16 extends java.lang.Thread</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final java.lang.String val$status</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$16(java.lang.String, junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.framework.Test val$testSuite</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$16(junit.swingui.TestRunner, junit.framework.Test, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$17</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$17 extends java.lang.Thread<br>
+<b>new:</b>final class junit.swingui.TestRunner$17 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.swingui.TestRunner this$0</code></nobr>
+</li>
+<li>
+<nobr><code>private final junit.framework.Test val$testSuite</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$17(junit.framework.Test, junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final javax.swing.JButton val$button</code></nobr>
+</li>
+<li>
+<nobr><code>private final java.lang.String val$label</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$17(javax.swing.JButton, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$18</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final javax.swing.JButton val$button</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$18(javax.swing.JButton, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private final java.lang.String val$label<br>
+<b>new:</b>private final javax.swing.JTextField val$label</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final int val$value</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$18(javax.swing.JTextField, int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$19</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final javax.swing.JTextField val$label</code></nobr>
+</li>
+<li>
+<nobr><code>private final int val$value</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$19(javax.swing.JTextField, int)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.swingui.TestRunner this$0</code></nobr>
+</li>
+<li>
+<nobr><code>private final junit.framework.Test val$test</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$19(junit.swingui.TestRunner, junit.framework.Test)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$2</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.framework.AssertionFailedError val$t</code></nobr>
+</li>
+<li>
+<nobr><code>private final junit.framework.Test val$test</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$2(junit.framework.AssertionFailedError, junit.framework.Test, junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$2(junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$20</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.swingui.TestRunner this$0</code></nobr>
+</li>
+<li>
+<nobr><code>private final junit.framework.Test val$test</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$20(junit.framework.Test, junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$20()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$3</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$3(junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.framework.Test val$testSuite</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$3(junit.swingui.TestRunner, junit.framework.Test)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$4</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$4 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>final class junit.swingui.TestRunner$4 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.framework.Test val$testSuite</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$4(junit.framework.Test, junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void run()</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$4(junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void actionPerformed(java.awt.event.ActionEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$7</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$7 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class junit.swingui.TestRunner$7 extends java.awt.event.WindowAdapter</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void actionPerformed(java.awt.event.ActionEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void windowClosing(java.awt.event.WindowEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$8</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$8 extends java.awt.event.WindowAdapter<br>
+<b>new:</b>final class junit.swingui.TestRunner$8 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void windowClosing(java.awt.event.WindowEvent)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void actionPerformed(java.awt.event.ActionEvent)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSuitePanel$1</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestSuitePanel$1(boolean, junit.framework.Test, junit.swingui.TestSuitePanel)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestSuitePanel$1(junit.swingui.TestSuitePanel, junit.framework.Test, boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.textui.TestRunner</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>int fColumn</code></nobr>
+</li>
+<li>
+<nobr><code>java.io.PrintStream fWriter</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized void addError(junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized void addFailure(junit.framework.Test, junit.framework.AssertionFailedError)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endTest(junit.framework.Test)</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized void print(junit.framework.TestResult)</code></nobr>
+</li>
+<li>
+<nobr><code>public void printErrors(junit.framework.TestResult)</code></nobr>
+</li>
+<li>
+<nobr><code>public void printFailures(junit.framework.TestResult)</code></nobr>
+</li>
+<li>
+<nobr><code>public void printHeader(junit.framework.TestResult)</code></nobr>
+</li>
+<li>
+<nobr><code>public synchronized void startTest(junit.framework.Test)</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.io.PrintStream writer()</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static void run(junit.framework.Test)<br>
+<b>new:</b>public static junit.framework.TestResult run(junit.framework.Test)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int EXCEPTION_EXIT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int FAILURE_EXIT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int SUCCESS_EXIT</code></nobr>
+</li>
+<li>
+<nobr><code>private junit.textui.ResultPrinter fPrinter</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TestRunner(junit.textui.ResultPrinter)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public junit.framework.TestResult doRun(junit.framework.Test)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPrinter(junit.textui.ResultPrinter)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testEnded(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testFailed(int, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>public void testStarted(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>junit.runner.TestRunListener</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>junit.framework.ComparisonFailure</code></nobr>
+</li>
+<li>
+<nobr><code>junit.swingui.DefaultFailureDetailView$StackEntryRenderer</code></nobr>
+</li>
+<li>
+<nobr><code>junit.swingui.DefaultFailureDetailView$StackTraceListModel</code></nobr>
+</li>
+<li>
+<nobr><code>junit.textui.ResultPrinter</code></nobr>
+</li>
+</ul>
+
+<hr />
+
+</body>
+</html>
