@@ -688,9 +688,7 @@ or
 
 <ol>
 <li><code>cvs tag release-20030101</code></li>
-<li><code>ant realclean</code></li>
-<li>Generate the documentation using perl script (Manual, Developer, Tools)</li>
-<li><code>ant jar clean docs dist war src</code></li>
+<li><code>ant realclean docs dist war realclean src</code></li>
 <li><code>ant ftp</code></li>
 <li><code>cvs log -rrelease-20020711:release-20030101</code></li>
 <li>Create new release on SourceForge.net</li>
