@@ -31,7 +31,6 @@
 <p />
 <li><a href="#DependencyClosure">DependencyClosure</a></li>
 <li><a href="#ClosureToText">ClosureToText</a></li>
-<li><a href="#ClosureToTreeView">ClosureToTreeView</a></li>
 <p />
 <li><a href="#c2c">c2c</a></li>
 <li><a href="#c2p">c2p</a></li>
@@ -66,7 +65,6 @@
 <li><a href="#ClassReader">ClassReader</a></li>
 <li><a href="#ClassDump">ClassDump</a></li>
 <p />
-<li><a href="#ClassInheritance">ClassInheritance</a></li>
 <li><a href="#ClassList">ClassList</a></li>
 </ul>
 </td>
@@ -173,131 +171,6 @@ Hexadecimal text of the classfile whose name is passed in.
 
 ----
 
----++ ClassInheritance
-
-<blockquote>
-
-List inheritance information for classes and interfaces.
-
-</blockquote>
-
----+++ Synopsis
-
-    ClassInheritance
-    	-help
-    	-out filename
-    	-time
-    	-verbose [filename]
-	[param ...]
-
----+++ Description
-
-<blockquote>
-
-</blockquote>
-
----+++ Switches
-
-<blockquote>
-
----++++ =-help=
-
-<blockquote>
-
-Prints synopsis.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-out filename=
-
-<blockquote>
-
-Writes the output to _filename_.  If _filename_ does not exists,
-it is created.  If it already exists, its content is overwritten.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-time=
-
-<blockquote>
-
-Prints how long it took to run the command.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-verbose [filename]=
-
-<blockquote>
-
-Writes summary processing information to _filename_.  If you do not specify
-a file, the tool will write the information to the standard output stream.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=System.out=</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
----+++ Parameters
-
-<blockquote>
-
-File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>Current directory, "=.="</td></tr>
-</table>
-
-</blockquote>
-
----+++ Output
-
-<blockquote>
-
-</blockquote>
-
----+++ Examples
-
-<blockquote>
-
-</blockquote>
-
----+++ Class
-
-<blockquote>
-
-=com.jeantessier.dependencyfinder.cli.ClassInheritance=
-
-</blockquote>
-
-----
-
 ---++ ClassList
 
 <blockquote>
@@ -318,6 +191,11 @@ Lists all classes it could find, based on parameters.
 ---+++ Description
 
 <blockquote>
+
+Lists all the classes in a JAR file, Zip file, or directory.
+
+You can also give it a =.class= file, but that would be trivial.  It will just
+print the fully qualified name of the class in it.
 
 </blockquote>
 
@@ -559,6 +437,58 @@ The output format is self-explanatory.
 ---+++ Examples
 
 <blockquote>
+
+    ClassMetrics DependencyFinder.jar
+    176 class(es)
+    23 interface(s)
+    &nbsp;
+    2099 method(s) (average 10.547738693467336 per class/interface)
+    765 field(s) (average 3.8442211055276383 per class/interface)
+    &nbsp;
+    38 synthetic element(s)
+        0 class(es)
+        20 fields(s)
+        18 method(s)
+    0 deprecated element(s)
+        0 class(es)
+        0 fields(s)
+        0 method(s)
+    2039 public element(s)
+        193 class(es)
+        148 fields(s)
+        1695 method(s)
+        3 inner class(es)
+    192 protected element(s)
+        1 fields(s)
+        191 method(s)
+        0 inner class(es)
+    716 private element(s)
+        586 fields(s)
+        130 method(s)
+        0 inner class(es)
+    116 package element(s)
+        3 class(es)
+        30 fields(s)
+        83 method(s)
+        0 inner class(es)
+    200 abstract element(s)
+        42 class(es)
+        155 method(s)
+        3 inner class(es)
+    390 static element(s)
+        245 fields(s)
+        142 method(s)
+        3 inner class(es)
+    221 final element(s)
+        2 class(es)
+        216 fields(s)
+        3 method(s)
+        0 inner class(es)
+    2 synchronized method(s)
+    0 native method(s)
+    0 volatile field(s)
+    0 transient field(s)
+    0 custom attribute(s)
 
 </blockquote>
 
@@ -853,104 +783,6 @@ See =-out= above.
 
 ----
 
----++ ClosureToTreeView
-
-<blockquote>
-
-</blockquote>
-
----+++ Synopsis
-
-    ClosureToTreeView
-    	-in input_file.xml
-    	[-out output_file.txt]
-
----+++ Description
-
-<blockquote>
-
-</blockquote>
-
----+++ Switches
-
-<blockquote>
-
----++++ =-in input_file.xml=
-
-<blockquote>
-
-The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-out output_file.txt=
-
-<blockquote>
-
-Where to put the outcome of the translation.
-
-If not specified, the translation goes to the standard output.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
----+++ Parameters
-
-<blockquote>
-
-_none_
-
-</blockquote>
-
----+++ Output
-
-<blockquote>
-
-See =-out= above.
-
-</blockquote>
-
----+++ Examples
-
-<blockquote>
-
-</blockquote>
-
----+++ Class
-
-<blockquote>
-
-=org.apache.xalan.xslt.Process=
-
-</blockquote>
-
----+++ XSL Stylesheet
-
-<blockquote>
-
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/ClosureToTreeView.xsl=
-
-</blockquote>
-
-----
-
 ---++ DependablesToHTML
 
 <blockquote>
@@ -968,6 +800,10 @@ Translates only inbound dependencies to HTML.
 ---+++ Description
 
 <blockquote>
+
+Translates only inbound dependencies to HTML.
+Lists only non-empty nodes, weaved with HTML cross-references between all the
+elements for easy navigation.
 
 </blockquote>
 
@@ -1076,6 +912,9 @@ Translates only inbound dependencies to text.
 ---+++ Description
 
 <blockquote>
+
+Translates only inbound dependencies to text.
+Lists only non-empty nodes.
 
 </blockquote>
 
@@ -1190,6 +1029,10 @@ Translates both outbound and inbound dependencies to HTML.
 
 <blockquote>
 
+Translates both outbound and inbound dependencies to HTML.
+List nodes, weaved with HTML cross-references between all the
+elements for easy navigation.
+
 </blockquote>
 
 ---+++ Switches
@@ -1296,6 +1139,8 @@ Translates both outbound and inbound dependencies to text.
 ---+++ Description
 
 <blockquote>
+
+Translates both outbound and inbound dependencies to text.
 
 </blockquote>
 
@@ -1457,6 +1302,11 @@ is a new dependency graph which is a subgraph of the original
 one.  You can use the various XXXToText and XXXToHTML scripts
 to render the graph as text or HTML for human reading.
 
+You can limit the number of hops downstream, along outbound dependencies, with
+=-maximum-outbound-depth=.  You can limit the number of hops upstream, along
+inbound dependencies, with =-maximum-inbound-depth=.  By default, the tool will
+go as far as possible without visiting elements twice.
+
 One limitation: the graph must be maximized for anything other than
 feature-to-feature queries.  Because of a limitation in the closure
 computation, it does not detect implicit dependencies and only follows
@@ -1470,6 +1320,10 @@ See also:
    * [[#DependablesToText][DependablesToText]]
    * [[#DependentsToHTML][DependentsToHTML]]
    * [[#DependentsToText][DependentsToText]]
+   * [[#ListDependablesToHTML][ListDependablesToHTML]]
+   * [[#ListDependablesToText][ListDependablesToText]]
+   * [[#ListDependentsToHTML][ListDependentsToHTML]]
+   * [[#ListDependentsToText][ListDependentsToText]]
 
 </blockquote>
 
@@ -1861,10 +1715,14 @@ Uses _text_ for each indentation level in textual and XML output.
 
 <blockquote>
 
+Maximum distance to travel upstream by following inbound dependencies.  If
+_value_ is omitted, or if it is not a number, than the traversal is unbounded.
+If the switch is omitted, the closure will not follow any inbound dependencies.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>0</td></tr>
 </table>
 
 </blockquote>
@@ -1873,10 +1731,14 @@ Uses _text_ for each indentation level in textual and XML output.
 
 <blockquote>
 
+Maximum distance to travel downstream by following outbound dependencies.  If
+_value_ is omitted, or if it is not a number, than the traversal is unbounded.
+If the switch is omitted, the traversal will be unbounded.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>0</td></tr>
 </table>
 
 </blockquote>
@@ -2207,6 +2069,10 @@ See also:
    * [[#DependablesToText][DependablesToText]]
    * [[#DependentsToHTML][DependentsToHTML]]
    * [[#DependentsToText][DependentsToText]]
+   * [[#ListDependablesToHTML][ListDependablesToHTML]]
+   * [[#ListDependablesToText][ListDependablesToText]]
+   * [[#ListDependentsToHTML][ListDependentsToHTML]]
+   * [[#ListDependentsToText][ListDependentsToText]]
 
 </blockquote>
 
@@ -2749,6 +2615,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Shows distribution of classes per package.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2777,6 +2645,8 @@ Shorthand for the combination of:
 ---++++ =-chart-features-per-class=
 
 <blockquote>
+
+Shows distribution of features per class.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2808,6 +2678,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Shows distribution of explicit inbound dependencies to classes.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2820,6 +2692,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Shows distribution of explicit inbound dependencies to features.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2831,6 +2705,10 @@ Shorthand for the combination of:
 ---++++ =-chart-inbounds-per-package=
 
 <blockquote>
+
+Shows distribution of explicit inbound dependencies to packages.
+
+In a raw or minimized graphm this will show zero.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2862,6 +2740,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Shows distribution of explicit outbound dependencies from classes.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2874,6 +2754,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Shows distribution of explicit outbound dependencies from features.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -2885,6 +2767,10 @@ Shorthand for the combination of:
 ---++++ =-chart-outbounds-per-package=
 
 <blockquote>
+
+Shows distribution of explicit outbound dependencies from packages.
+
+In a raw or minimized graphm this will show zero.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3539,6 +3425,10 @@ See also:
    * [[#DependablesToText][DependablesToText]]
    * [[#DependentsToHTML][DependentsToHTML]]
    * [[#DependentsToText][DependentsToText]]
+   * [[#ListDependablesToHTML][ListDependablesToHTML]]
+   * [[#ListDependablesToText][ListDependablesToText]]
+   * [[#ListDependentsToHTML][ListDependentsToHTML]]
+   * [[#ListDependentsToText][ListDependentsToText]]
    * [[#c2c][c2c]]
    * [[#c2p][c2p]]
    * [[#f2f][f2f]]
@@ -4279,6 +4169,10 @@ Translates only outbound dependencies to HTML.
 
 <blockquote>
 
+Translates only outbound dependencies to HTML.
+Lists only non-empty nodes, weaved with HTML cross-references between all the
+elements for easy navigation.
+
 </blockquote>
 
 ---+++ Switches
@@ -4387,6 +4281,9 @@ Translates only outbound dependencies to text.
 
 <blockquote>
 
+Translates only outbound dependencies to text.
+Lists only non-empty nodes.
+
 </blockquote>
 
 ---+++ Switches
@@ -4486,6 +4383,8 @@ meaning that it relies on many other elements being stable.
 
 <blockquote>
 
+Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -4582,6 +4481,8 @@ See =-out= above.
 
 <blockquote>
 
+Computes API differences between two versions of a codebase.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -4591,11 +4492,11 @@ See =-out= above.
     	-help
     	-indent-text text
     	-name value
-    	[-new value]*
-    	-new-documentation value
+    	[-new filename]*
+    	-new-documentation filename
     	-new-label value
-    	[-old value]*
-    	-old-documentation value
+    	[-old filename]*
+    	-old-documentation filename
     	-old-label value
     	-out filename
     	-time
@@ -4667,6 +4568,8 @@ Uses _text_ for each indentation level in XML output.
 
 <blockquote>
 
+Project name for the report.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4675,21 +4578,29 @@ Uses _text_ for each indentation level in XML output.
 
 </blockquote>
 
----++++ =-new value=
+---++++ =-new filename=
 
 <blockquote>
 
+File names for JAR files, Zip files, and =.class= files for the tool to read.
+You can also give directory names, the tool will search it for =.class= files
+and read them.  These make up the _new_ version of the codebase.
+
 <table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>=true=</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
 
----++++ =-new-documentation value=
+---++++ =-new-documentation filename=
 
 <blockquote>
+
+Location of the file with the list of _published_ programming elements in the
+_new_ version of the codebase.  If omitted, the tool reports on all programming
+elements.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4703,6 +4614,8 @@ Uses _text_ for each indentation level in XML output.
 
 <blockquote>
 
+Version name for the report.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -4711,9 +4624,13 @@ Uses _text_ for each indentation level in XML output.
 
 </blockquote>
 
----++++ =-old value=
+---++++ =-old filename=
 
 <blockquote>
+
+File names for JAR files, Zip files, and =.class= files for the tool to read.
+You can also give directory names, the tool will search it for =.class= files
+and read them.  These make up the _old_ version of the codebase.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4723,9 +4640,13 @@ Uses _text_ for each indentation level in XML output.
 
 </blockquote>
 
----++++ =-old-documentation value=
+---++++ =-old-documentation filename=
 
 <blockquote>
+
+Location of the file with the list of _published_ programming elements in the
+_old_ version of the codebase.  If omitted, the tool reports on all programming
+elements.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4738,6 +4659,8 @@ Uses _text_ for each indentation level in XML output.
 ---++++ =-old-label value=
 
 <blockquote>
+
+Version name for the report.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4848,6 +4771,8 @@ identical.
 
 <blockquote>
 
+Translates only inbound dependencies to HTML.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -4859,6 +4784,10 @@ identical.
 ---+++ Description
 
 <blockquote>
+
+Translates only inbound dependencies to HTML.
+Lists nodes, weaved with HTML cross-references between all the
+elements for easy navigation.
 
 </blockquote>
 
@@ -4946,6 +4875,8 @@ See =-out= above.
 
 <blockquote>
 
+Translates only inbound dependencies to text.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -4957,6 +4888,8 @@ See =-out= above.
 ---+++ Description
 
 <blockquote>
+
+Translates only inbound dependencies to text.
 
 </blockquote>
 
@@ -5044,6 +4977,8 @@ See =-out= above.
 
 <blockquote>
 
+Translates only outbound dependencies to HTML.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -5055,6 +4990,10 @@ See =-out= above.
 ---+++ Description
 
 <blockquote>
+
+Translates only outbound dependencies to HTML.
+Lists nodes, weaved with HTML cross-references between all the
+elements for easy navigation.
 
 </blockquote>
 
@@ -5142,6 +5081,8 @@ See =-out= above.
 
 <blockquote>
 
+Translates only outbound dependencies to text.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -5153,6 +5094,8 @@ See =-out= above.
 ---+++ Description
 
 <blockquote>
+
+Translates only outbound dependencies to text.
 
 </blockquote>
 
@@ -5240,6 +5183,8 @@ See =-out= above.
 
 <blockquote>
 
+Compares two lists of programming elements and computes differences.
+
 </blockquote>
 
 ---+++ Synopsis
@@ -5250,9 +5195,9 @@ See =-out= above.
     	-help
     	-indent-text text
     	-name value
-    	-new value
+    	-new filename
     	-new-label value
-    	-old value
+    	-old filename
     	-old-label value
     	-out filename
     	-time
@@ -5260,6 +5205,10 @@ See =-out= above.
 ---+++ Description
 
 <blockquote>
+
+You use =ListDiff= to list changes in what is considered part of the
+published API.  It only needs the lists generated by the doclet.  No
+source or bytecode required.
 
 </blockquote>
 
@@ -5325,6 +5274,8 @@ Uses _text_ for each indentation level in XML output.
 
 <blockquote>
 
+Project name for the report.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -5333,9 +5284,11 @@ Uses _text_ for each indentation level in XML output.
 
 </blockquote>
 
----++++ =-new value=
+---++++ =-new filename=
 
 <blockquote>
+
+Input text file for the _new_ version of the list.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5349,6 +5302,8 @@ Uses _text_ for each indentation level in XML output.
 
 <blockquote>
 
+Version name for the report.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -5357,9 +5312,11 @@ Uses _text_ for each indentation level in XML output.
 
 </blockquote>
 
----++++ =-old value=
+---++++ =-old filename=
 
 <blockquote>
+
+Input text file for the _new_ version of the list.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5372,6 +5329,8 @@ Uses _text_ for each indentation level in XML output.
 ---++++ =-old-label value=
 
 <blockquote>
+
+Version name for the report.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5448,6 +5407,8 @@ It writes the list of differences into an XML document that follows the
 ---++ ListDiffToHTML
 
 <blockquote>
+
+Converts the output of [[#ListDiff][ListDiff]] to HTML.
 
 </blockquote>
 
@@ -5544,6 +5505,8 @@ See =-out= above.
 ---++ ListDiffToText
 
 <blockquote>
+
+Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 
 </blockquote>
 
@@ -5964,6 +5927,8 @@ Shorthand for the combination of:
 
 <blockquote>
 
+Include class-related metrics.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -5987,6 +5952,9 @@ Shorthand for the combination of:
 ---++++ =-csv=
 
 <blockquote>
+
+Writes each section in its own CSV file, perfect for loading in Microsoft
+Excel and charting.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6050,6 +6018,8 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 
 <blockquote>
 
+Include group- and package-related metrics.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -6090,6 +6060,8 @@ Uses _text_ for each indentation level in textual and XML output.
 
 <blockquote>
 
+Include class-related metrics.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -6117,6 +6089,8 @@ it is created.  If it already exists, its content is overwritten.
 
 <blockquote>
 
+Include project-related metrics.
+
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
@@ -6128,6 +6102,8 @@ it is created.  If it already exists, its content is overwritten.
 ---++++ =-project-name value=
 
 <blockquote>
+
+Project name for the report.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6178,6 +6154,8 @@ Prints how long it took to run the command.
 ---++++ =-txt=
 
 <blockquote>
+
+Writes a single text report with all requested sections.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
