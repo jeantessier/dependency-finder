@@ -34,9 +34,11 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
+import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 
-public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase implements Visitor {
+public class DeletingVisitor implements Visitor, RemoveVisitor {
 	private NodeFactory factory;
 	
 	public DeletingVisitor(NodeFactory factory) {
@@ -45,13 +47,6 @@ public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase imp
 
 	public NodeFactory getFactory() {
 		return factory;
-	}
-	
-	public void visitClassfile(Classfile classfile) {
-		Node node = (Node) factory.getClasses().get(classfile.getClassName());
-		if (node != null) {
-			node.accept(this);
-		}
 	}
 	
 	public void traverseNodes(Collection nodes) {
@@ -66,6 +61,8 @@ public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase imp
 	 */
 	
 	public void visitPackageNode(PackageNode node) {
+		Logger.getLogger(getClass()).debug("visitPackageNode(" + node + ")");
+		
 		Iterator i = new ArrayList(node.getClasses()).iterator();
 		while (i.hasNext()) {
 			((Node) i.next()).accept(this);
@@ -75,6 +72,8 @@ public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase imp
 	}
 
 	public void visitClassNode(ClassNode node) {
+		Logger.getLogger(getClass()).debug("visitClassNode(" + node + ")");
+		
 		Iterator i = new ArrayList(node.getFeatures()).iterator();
 		while (i.hasNext()) {
 			((Node) i.next()).accept(this);
@@ -84,6 +83,8 @@ public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase imp
 	}
 
 	public void visitFeatureNode(FeatureNode node) {
+		Logger.getLogger(getClass()).debug("visitFeatureNode(" + node + ")");
+		
 		visitNode(node);
 	}
 
@@ -105,12 +106,16 @@ public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase imp
 	 */
 	
 	public void visitOutboundPackageNode(PackageNode node) {
+		Logger.getLogger(getClass()).debug("visitOutboundPackageNode(" + node + ")");
+		
 		if (canDeletePackage(node)) {
 			factory.deletePackage(node);
 		}
 	}
 	
 	public void visitOutboundClassNode(ClassNode node) {
+		Logger.getLogger(getClass()).debug("visitOutboundClassNode(" + node + ")");
+		
 		if (canDeleteClass(node)) {
 			factory.deleteClass(node);
 		}
@@ -119,6 +124,8 @@ public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase imp
 	}
 	
 	public void visitOutboundFeatureNode(FeatureNode node) {
+		Logger.getLogger(getClass()).debug("visitOutboundFeatureNode(" + node + ")");
+		
 		if (canDeleteFeature(node)) {
 			factory.deleteFeature(node);
 		}
@@ -156,5 +163,16 @@ public class DeletingVisitor extends com.jeantessier.classreader.VisitorBase imp
 	
 	public void visitInboundFeatureNode(FeatureNode node) {
 		// Do nothing
+	}
+
+	/*
+	 * RemoveVisitor methods
+	 */
+	
+	public void removeClass(String classname) {
+		Node node = (Node) factory.getClasses().get(classname);
+		if (node != null) {
+			node.accept(this);
+		}
 	}
 }

@@ -50,6 +50,7 @@ public class NodeFactory {
 	
 	public PackageNode createPackage(String packageName, boolean concrete) {
 		Logger.getLogger(getClass()).debug("Create package \"" + packageName + "\"");
+
 		PackageNode result = (PackageNode) packages.get(packageName);
 
 		if (result == null) {
@@ -67,6 +68,8 @@ public class NodeFactory {
 	
 	// Only to be used by DeletingVisitor
 	void deletePackage(PackageNode node) {
+		Logger.getLogger(getClass()).debug("Delete package \"" + node + "\"");
+
 		packages.remove(node.getName());
 	}
 
@@ -80,6 +83,7 @@ public class NodeFactory {
 	
 	public ClassNode createClass(String className, boolean concrete) {
 		Logger.getLogger(getClass()).debug("Create class \"" + className + "\"");
+
 		ClassNode result = (ClassNode) classes.get(className);
 
 		if (result == null) {
@@ -104,6 +108,8 @@ public class NodeFactory {
 
 	// Only to be used by DeletingVisitor
 	void deleteClass(ClassNode node) {
+		Logger.getLogger(getClass()).debug("Delete class \"" + node + "\"");
+
 		node.getPackageNode().removeClass(node);
 		classes.remove(node.getName());
 	}
@@ -118,6 +124,7 @@ public class NodeFactory {
 	
 	public FeatureNode createFeature(String featureName, boolean concrete) {
 		Logger.getLogger(getClass()).debug("Create feature \"" + featureName + "\"");
+
 		FeatureNode result = (FeatureNode) features.get(featureName);
 
 		if (result == null) {
@@ -147,6 +154,8 @@ public class NodeFactory {
 	
 	// Only to be used by DeletingVisitor
 	void deleteFeature(FeatureNode node) {
+		Logger.getLogger(getClass()).debug("Delete feature \"" + node + "\"");
+
 		node.getClassNode().removeFeature(node);
 		features.remove(node.getName());
 	}

@@ -35,26 +35,26 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-import junit.framework.*;
-
 import org.apache.log4j.*;
+
+import junit.framework.*;
 
 public class TestMonitor extends TestCase {
 	public static final String TEST_CLASS = "test";
 	public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 	
-	private MockVisitor addVisitor;
-	private MockVisitor removeVisitor;
+	private MockVisitor       addVisitor;
+	private MockRemoveVisitor removeVisitor;
 
-	private LoadListener monitor;
+	private Monitor monitor;
 
 	private Classfile testClassfile;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		addVisitor = new MockVisitor();
-		removeVisitor = new MockVisitor();
+		addVisitor    = new MockVisitor();
+		removeVisitor = new MockRemoveVisitor();
 
 		monitor = new Monitor(addVisitor, removeVisitor);
 
@@ -63,6 +63,143 @@ public class TestMonitor extends TestCase {
 		testClassfile = loader.getClassfile(TEST_CLASS);
 	}
 
+	public void testFileTracking() {
+		monitor.beginSession(new LoadEvent(this, null, null, null));
+		monitor.beginGroup(new LoadEvent(this, null, null, null));
+
+		assertEquals("previous", 0, monitor.previousFiles.size());
+		assertEquals("current", 0, monitor.currentFiles.size());
+		
+		monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		
+		assertEquals("previous", 0, monitor.previousFiles.size());
+		assertEquals("current", 1, monitor.currentFiles.size());
+		assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+		
+		monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		
+		assertEquals("previous", 0, monitor.previousFiles.size());
+		assertEquals("current", 1, monitor.currentFiles.size());
+		assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+		
+		monitor.endGroup(new LoadEvent(this, null, null, null));
+		monitor.endSession(new LoadEvent(this, null, null, null));
+		
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 0, monitor.currentFiles.size());
+	}
+
+	public void testFileTrackingAcrossSessions() {
+		monitor.beginSession(new LoadEvent(this, null, null, null));
+		monitor.beginGroup(new LoadEvent(this, null, null, null));
+		monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
+		monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.endGroup(new LoadEvent(this, null, null, null));
+		monitor.endSession(new LoadEvent(this, null, null, null));
+		
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 0, monitor.currentFiles.size());
+		
+		monitor.beginSession(new LoadEvent(this, null, null, null));
+		monitor.beginGroup(new LoadEvent(this, null, null, null));
+		monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
+
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 1, monitor.currentFiles.size());
+		assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+
+		monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
+
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 1, monitor.currentFiles.size());
+		assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+
+		monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+
+		assertEquals("previous", 0, monitor.previousFiles.size());
+		assertEquals("current", 1, monitor.currentFiles.size());
+		assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+
+		monitor.endGroup(new LoadEvent(this, null, null, null));
+		monitor.endSession(new LoadEvent(this, null, null, null));
+		
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 0, monitor.currentFiles.size());
+	}
+
+	public void testFileTrackingWithSkippedFile() {
+		monitor.beginSession(new LoadEvent(this, null, null, null));
+		monitor.beginGroup(new LoadEvent(this, null, null, null));
+		monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
+		monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.endGroup(new LoadEvent(this, null, null, null));
+		monitor.endSession(new LoadEvent(this, null, null, null));
+		
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 0, monitor.currentFiles.size());
+		
+		monitor.beginSession(new LoadEvent(this, null, null, null));
+		monitor.beginGroup(new LoadEvent(this, null, null, null));
+		monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
+
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 1, monitor.currentFiles.size());
+		assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+
+		monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+
+		assertEquals("previous", 0, monitor.previousFiles.size());
+		assertEquals("current", 1, monitor.currentFiles.size());
+		assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+
+		monitor.endGroup(new LoadEvent(this, null, null, null));
+		monitor.endSession(new LoadEvent(this, null, null, null));
+		
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 0, monitor.currentFiles.size());
+	}
+
+	public void testFileTrackingWithMissingFile() {
+		monitor.beginSession(new LoadEvent(this, null, null, null));
+		monitor.beginGroup(new LoadEvent(this, null, null, null));
+		monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
+		monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+		monitor.endGroup(new LoadEvent(this, null, null, null));
+		monitor.endSession(new LoadEvent(this, null, null, null));
+		
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 0, monitor.currentFiles.size());
+		
+		monitor.beginSession(new LoadEvent(this, null, null, null));
+		monitor.beginGroup(new LoadEvent(this, null, null, null));
+		
+		assertEquals("previous", 1, monitor.previousFiles.size());
+		assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
+		assertEquals("current", 0, monitor.currentFiles.size());
+
+		monitor.endGroup(new LoadEvent(this, null, null, null));
+		monitor.endSession(new LoadEvent(this, null, null, null));
+		
+		assertEquals("previous", 0, monitor.previousFiles.size());
+		assertEquals("current", 0, monitor.currentFiles.size());
+	}
+	
 	public void testNewClassfile() {
 		monitor.beginSession(new LoadEvent(this, null, null, null));
 		monitor.beginGroup(new LoadEvent(this, null, null, null));
@@ -114,7 +251,7 @@ public class TestMonitor extends TestCase {
 		assertEquals("added 1", testClassfile, i.next());
 		assertEquals("added 2", testClassfile, i.next());
 		assertEquals("removed", 1, removeVisitor.getVisitedClasses().size());
-		assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(testClassfile));
+		assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(TEST_CLASS));
 	}
 
 	public void testRemoved() {
@@ -135,7 +272,7 @@ public class TestMonitor extends TestCase {
 		assertEquals("added", 1, addVisitor.getVisitedClasses().size());
 		assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClasses().contains(testClassfile));
 		assertEquals("removed", 1, removeVisitor.getVisitedClasses().size());
-		assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(testClassfile));
+		assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(TEST_CLASS));
 	}
 
 	public void testSkip() {

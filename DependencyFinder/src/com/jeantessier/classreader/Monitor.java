@@ -34,49 +34,59 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public class Monitor extends LoadListenerVisitorAdapter {
-	private Visitor removeVisitor;
+import org.apache.log4j.*;
 
-	private Map previousClasses = new TreeMap();
-	private Map currentClasses  = new TreeMap();
+public class Monitor extends LoadListenerVisitorAdapter {
+	private RemoveVisitor removeVisitor;
 	
-	public Monitor(Visitor addVisitor, Visitor removeVisitor) {
+	private Map fileToClass = new HashMap();
+
+	// Package-level access for tests only
+	Collection previousFiles = new TreeSet();
+	Collection currentFiles  = new TreeSet();
+	
+	public Monitor(Visitor addVisitor, RemoveVisitor removeVisitor) {
 		super(addVisitor);
 
 		this.removeVisitor = removeVisitor;
 	}
 
-	public void beginSession(LoadEvent event) {
-		currentClasses = new TreeMap();
-	}
-
 	public void beginFile(LoadEvent event) {
-		currentClasses.put(event.getFilename(), event.getClassfile());
+		Logger.getLogger(getClass()).debug("beginFile(..., " + event.getFilename() + ", ...)");
+		
+		currentFiles.add(event.getFilename());
 	}
 
 	public void endClassfile(LoadEvent event) {
-		if (previousClasses.containsKey(event.getFilename())) {
-			event.getClassfile().accept(removeVisitor);
+		Logger.getLogger(getClass()).debug("endClassfile(..., " + event.getFilename() + ", " + event.getClassfile() + ")");
+		
+		if (previousFiles.contains(event.getFilename())) {
+			Logger.getLogger(getClass()).debug("Removing " + event.getClassfile() + " ...");
+			removeVisitor.removeClass(event.getClassfile().getClassName());
 		}
 		
 		super.endClassfile(event);
 
-		currentClasses.put(event.getFilename(), event.getClassfile());
+		fileToClass.put(event.getFilename(), event.getClassfile().getClassName());
 	}
 	
 	public void endFile(LoadEvent event) {
-		previousClasses.remove(event.getFilename());
+		Logger.getLogger(getClass()).debug("endFile(..., " + event.getFilename() + ", ...)");
+		
+		previousFiles.remove(event.getFilename());
 	}
 	
 	public void endSession(LoadEvent event) {
-		Iterator i = previousClasses.values().iterator();
+		Logger.getLogger(getClass()).debug("endSession(...)");
+		
+		Iterator i = previousFiles.iterator();
 		while (i.hasNext()) {
-			Classfile classfile = (Classfile) i.next();
-			if (classfile != null) {
-				classfile.accept(removeVisitor);
-			}
+			String classname = (String) fileToClass.get(i.next());
+			Logger.getLogger(getClass()).debug("Removing " + classname + " ...");
+			removeVisitor.removeClass(classname);
 		}
 		
-		previousClasses = currentClasses;
+		previousFiles = currentFiles;
+		currentFiles  = new TreeSet();
 	}
 }
