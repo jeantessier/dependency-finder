@@ -43,7 +43,7 @@ public class NewMetricsAction extends AbstractAction implements Runnable {
 	public NewMetricsAction(OOMetrics model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "New metrics");
+		putValue(Action.LONG_DESCRIPTION, "Clear metrics");
 		putValue(Action.NAME, "New");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/new.gif")));
 	}

@@ -45,7 +45,7 @@ public class DependencyQueryAction extends AbstractAction implements Runnable {
 	public DependencyQueryAction(DependencyFinder model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Perform the dependency query");
+		putValue(Action.LONG_DESCRIPTION, "Show dependency graph");
 		putValue(Action.NAME, "Dependency");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/dependency-query.gif")));
 	}

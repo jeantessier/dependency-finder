@@ -50,7 +50,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 	public OpenFileAction(DependencyFinder model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Open file");
+		putValue(Action.LONG_DESCRIPTION, "Load dependency graph from XML file");
 		putValue(Action.NAME, "Open");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/openfile.gif")));
 	}

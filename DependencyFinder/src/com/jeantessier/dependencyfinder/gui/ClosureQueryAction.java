@@ -45,7 +45,7 @@ public class ClosureQueryAction extends AbstractAction implements Runnable {
 	public ClosureQueryAction(DependencyFinder model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Perform the closure query");
+		putValue(Action.LONG_DESCRIPTION, "Compute transitive closure");
 		putValue(Action.NAME, "Closure");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/closure-query.gif")));
 	}

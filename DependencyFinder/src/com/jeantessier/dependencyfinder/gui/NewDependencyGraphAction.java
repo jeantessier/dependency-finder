@@ -43,7 +43,7 @@ public class NewDependencyGraphAction extends AbstractAction implements Runnable
 	public NewDependencyGraphAction(DependencyFinder model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "New dependency graph");
+		putValue(Action.LONG_DESCRIPTION, "Clear current dependency graph");
 		putValue(Action.NAME, "New");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/new.gif")));
 	}

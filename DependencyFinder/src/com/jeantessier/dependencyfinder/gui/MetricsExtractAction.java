@@ -50,7 +50,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 	public MetricsExtractAction(OOMetrics model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Extract classes");
+		putValue(Action.LONG_DESCRIPTION, "Extract metrics from compiled classes");
 		putValue(Action.NAME, "Extract");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/extract.gif")));
 	}

@@ -47,7 +47,7 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 	public SaveFileAction(DependencyFinder model, String dtd_prefix) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Save file");
+		putValue(Action.LONG_DESCRIPTION, "Save current graph to XML file");
 		putValue(Action.NAME, "Save");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.gif")));
 	}

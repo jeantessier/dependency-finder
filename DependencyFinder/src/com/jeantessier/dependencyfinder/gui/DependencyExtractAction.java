@@ -50,7 +50,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 	public DependencyExtractAction(DependencyFinder model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Extract classes");
+		putValue(Action.LONG_DESCRIPTION, "Extract dependencies from compiled classes");
 		putValue(Action.NAME, "Extract");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/extract.gif")));
 	}

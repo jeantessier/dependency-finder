@@ -45,7 +45,7 @@ public class MetricsQueryAction extends AbstractAction implements Runnable {
 	public MetricsQueryAction(DependencyFinder model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Perform the metrics query");
+		putValue(Action.LONG_DESCRIPTION, "Compute dependency metrics");
 		putValue(Action.NAME, "Metrics");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/metrics-query.gif")));
 	}

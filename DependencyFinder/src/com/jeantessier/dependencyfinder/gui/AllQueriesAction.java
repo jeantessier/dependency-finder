@@ -45,7 +45,7 @@ public class AllQueriesAction extends AbstractAction implements Runnable {
 	public AllQueriesAction(DependencyFinder model) {
 		this.model = model;
 		
-		putValue(Action.LONG_DESCRIPTION, "Perform all queries");
+		putValue(Action.LONG_DESCRIPTION, "Show graph, closure, and metrics");
 		putValue(Action.NAME, "All Queries");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/all-queries.gif")));
 	}

@@ -117,6 +117,37 @@ public class DependencyFinder extends JFrame {
 				}
 			});
 
+		package_scope.setToolTipText("Select packages");
+		class_scope.setToolTipText("Select classes (with their package)");
+		feature_scope.setToolTipText("Select methods and fields (with their class and package)");
+		scope_includes.setToolTipText("Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		package_scope_includes.setToolTipText("Package must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		class_scope_includes.setToolTipText("Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		feature_scope_includes.setToolTipText("Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		scope_excludes.setToolTipText("Package, class, method, or field must NOT match any of these expressions. E.g., /Test/");
+		package_scope_excludes.setToolTipText("Package must NOT match any of these expressions. E.g., /Test/");
+		class_scope_excludes.setToolTipText("Class must NOT match any of these expressions. E.g., /Test/");
+		feature_scope_excludes.setToolTipText("Method or field must NOT match any of these expressions. E.g., /Test/");
+		
+		package_filter.setToolTipText("Show dependencies to/from packages");
+		class_filter.setToolTipText("Show dependencies to/from classes");
+		feature_filter.setToolTipText("Show dependencies to/from methods and fields");
+		filter_includes.setToolTipText("Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		package_filter_includes.setToolTipText("Package at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		class_filter_includes.setToolTipText("Class at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		feature_filter_includes.setToolTipText("Method or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/");
+		filter_excludes.setToolTipText("Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
+		package_filter_excludes.setToolTipText("Package at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
+		class_filter_excludes.setToolTipText("Class at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
+		feature_filter_excludes.setToolTipText("Method or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/");
+		
+		show_inbounds.setToolTipText("Show dependencies that point to the selected packages, classes, methods, or fields");
+		show_outbounds.setToolTipText("Show dependencies that originate from the selected packages, classes, methods, or fields");
+		show_empty_nodes.setToolTipText("Show selected packages, classes, methods, and fields even if they do not have dependencies");
+		
+		maximum_inbound_depth.setToolTipText("Maximum hops against the direction dependencies.  Empty field means no limit.");
+		maximum_outbound_depth.setToolTipText("Maximum hops in the direction of dependencies.  Empty field means no limit.");
+		
 		BuildMenus(command_line);
 		BuildUI();
 
@@ -197,13 +228,6 @@ public class DependencyFinder extends JFrame {
 		Action action;
 		JMenuItem menu_item;
 		JButton button;
-		
-		action = new OpenFileAction(this);
-		menu_item = file_menu.add(action);
-		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
-		menu_item.setMnemonic('o');
-		button = toolbar.add(action);
-		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
 		action = new DependencyExtractAction(this);
 		menu_item = file_menu.add(action);
@@ -214,6 +238,13 @@ public class DependencyFinder extends JFrame {
 
 		toolbar.addSeparator();
 		file_menu.addSeparator();
+		
+		action = new OpenFileAction(this);
+		menu_item = file_menu.add(action);
+		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
+		menu_item.setMnemonic('o');
+		button = toolbar.add(action);
+		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 		
 		action = new SaveFileAction(this, command_line.SingleSwitch("dtd-prefix"));
 		menu_item = file_menu.add(action);
@@ -909,7 +940,6 @@ public class DependencyFinder extends JFrame {
 		result.add(maximum_inbound_depth);
 		result.add(new JLabel("Follow outbounds: "));
 		result.add(maximum_outbound_depth);
-		result.add(new JLabel(" leave empty for unbounded"));
 		
 		return result;
     }
