@@ -134,93 +134,6 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 		}
 	}
 
-// 	public void testEverything() throws IOException {
-// 		printer.TraverseNodes(factory.Packages().values());
-
-// 		String xml_document = out.toString();
-// 		assertTrue(xml_document + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xml_document));
-// 		assertEquals("Encoding", XMLPrinter.DEFAULT_ENCODING, perl.group(1));
-		
-// 		try {
-// 			reader.parse(new InputSource(new StringReader(xml_document)));
-// 		} catch (SAXException ex) {
-// 			fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xml_document);
-// 		} catch (IOException ex) {
-// 			fail("Could not read XML Document: " + ex.getMessage() + "\n" + xml_document);
-// 		}
-
-// 		int            line_number = 0;
-// 		BufferedReader in          = new BufferedReader(new StringReader(xml_document));
-
-// 		assertEquals("line " + ++line_number, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-// 		assertEquals("line " + ++line_number, "", in.readLine());
-// 		assertEquals("line " + ++line_number, "<!DOCTYPE dependencies SYSTEM \"./etc/dependencies.dtd\">", in.readLine());
-// 		assertEquals("line " + ++line_number, "", in.readLine());
-// 		assertEquals("line " + ++line_number, "<dependencies>", in.readLine());
-// 		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <name></name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <name>test</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <outbound type=\"class\">java.lang.Object</outbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <name>test.main(java.lang.String[])</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <outbound type=\"class\">java.lang.Object</outbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">java.lang.Object.Object()</outbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <outbound type=\"class\">java.lang.String</outbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">java.util.Collections.singleton(java.lang.Object)</outbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <outbound type=\"class\">java.util.Set</outbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <name>test.test()</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <outbound type=\"feature\">java.lang.Object.Object()</outbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-// 		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <name>java.io</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <name>java.io.Writer</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <name>java.io.Writer.write(int)</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-// 		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <name>java.lang</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <name>java.lang.Object</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <inbound type=\"class\">test</inbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <inbound type=\"feature\">test.main(java.lang.String[])</inbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <name>java.lang.Object.Object()</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">test.main(java.lang.String[])</inbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">test.test()</inbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <name>java.lang.String</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <inbound type=\"feature\">test.main(java.lang.String[])</inbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-// 		assertEquals("line " + ++line_number, "    <package>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <name>java.util</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <name>java.util.Collections</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <name>java.util.Collections.singleton(java.lang.Object)</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "                <inbound type=\"feature\">test.main(java.lang.String[])</inbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            </feature>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        <class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <name>java.util.Set</name>", in.readLine());
-// 		assertEquals("line " + ++line_number, "            <inbound type=\"feature\">test.main(java.lang.String[])</inbound>", in.readLine());
-// 		assertEquals("line " + ++line_number, "        </class>", in.readLine());
-// 		assertEquals("line " + ++line_number, "    </package>", in.readLine());
-// 		assertEquals("line " + ++line_number, "</dependencies>", in.readLine());
-
-// 		assertEquals("End of file", null, in.readLine());
-// 	}
-
 	public void testShowInboundsPackageTrue() throws IOException {
 		factory.CreatePackage("outbound").AddDependency(factory.CreatePackage("inbound"));
 		factory.CreatePackage("empty");
@@ -823,9 +736,9 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
 		factory.CreateFeature("outbound.Outbound.outbound()").AddDependency(factory.CreateFeature("inbound.Inbound.inbound()"));
 		factory.CreateClass("empty.Empty");
 
+		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 		printer.ShowEmptyNodes(true);
 
-		printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 		printer.TraverseNodes(factory.Packages().values());
 
 		int            line_number = 0;
