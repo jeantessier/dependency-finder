@@ -41,7 +41,7 @@
 	    <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
 	</tstamp>
 
-	<property name="release"      value="1.1.0"/>
+	<property name="release"      value="1.1.1"/>
 
 	<property name="packageNames" value="com.jeantessier.*"/>
 
