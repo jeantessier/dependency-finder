@@ -1215,6 +1215,78 @@ You can list only non-empty nodes with:
     * =DependenciesToHTML=
 
 ---+++ Transitive Closure
+
+Dependencies are not automatically transitive, it depends on the
+implementation details within the code.  Suppose you have:
+
+    A --> B --> C
+
+If you make a change in =C=, you may or may not have to modify =A=
+depending on how =A= and =B= are implemented.
+
+A transitive closure is the set of nodes that can be reached by
+following downstream or upstream dependencies from a starting node.
+The nodes in this set _might_ be impacted by a change, but they
+are not automatically.  You get the _upstream closure_ by
+following inbound dependencies.  You get the _downstream closure_
+by following outbound dependencies.  Each string of dependencies
+forms a _path_ through the graph between two nodes.  The number of
+dependencies that form the path give the path's length.  The degree
+of separation between two nodes is the length of the shortest path
+between them.
+
+Here is a further example:
+
+    A --> B --> C --> D --> E
+
+=C= is the starting point for the closure.  The set of nodes whose
+distance to the source is 0 is =[C]=.  The set of nodes whose
+distance to the source is 1 is =[B, D]=.  The set of nodes whose
+distance to the source is 2 is =[A, E]=.
+
+<blockquote>
+<table cellpadding="3">
+    <tr>
+	<td>*distance*</td>
+	<td></td>
+	<td>*closure*</td>
+    </tr>
+    <tr>
+	<td>0</td>
+	<td></td>
+	<td>=[C]=</td>
+    </tr>
+    <tr>
+	<td>1</td>
+	<td></td>
+	<td>=[B, C, D]=</td>
+    </tr>
+    <tr>
+	<td>_no constraint_</td>
+	<td></td>
+	<td>=[A, B, C, D, E]=</td>
+    </tr>
+    <tr>
+	<td>_upstream_</td>
+	<td></td>
+	<td>=[A, B, C]=</td>
+    </tr>
+    <tr>
+	<td>_downstream_</td>
+	<td></td>
+	<td>=[C, D, E]=</td>
+    </tr>
+</table>
+</blockquote>
+
+Here is the general algorithm:
+
+    1 Initial set is the source itself.
+    1 At each iteration, add nodes that are directly reachable and not not already in the set.
+    1 Do as many iterations as needed, or until you don't add anything anymore.
+
+A transitive closure only keeps the shortest path between two nodes.
+
 ---+++ Dependency Metrics
 
 This is a simple tally of how many dependencies there are in a graph.  It
@@ -1374,13 +1446,186 @@ E.g.,
 
 ---+++ Extracting
 
----+++ Reporting
----++++ Textual Output
----++++ CSV Output
+You use =OOMetrics= and =OOMetricsGUI= to extract =.class= files and
+compute metrics.  The list of metrics is taken from a configuration file
+written in XML.  You set the file with the =-configuration= switch to
+either command.  There is also a =-default-configuration= switch that
+kicks if you do not provide a =-configuration= switch.  This is how the
+launching scripts can point to the standard configuration in
+=%DEPENDENCYFINDER_HOME%/etc/MetricsConfig.xml= even if you don't
+specify a configuration on the command-line.
 
-Perfect for loading in Microsoft Excel and charting.
+There are two configurations that come bundled with Dependency Finder.
 
----++++ XML Output
+<blockquote>
+<dl>
+    <dt>=%DEPENDENCYFINDER_HOME%/etc/MetricsConfig.xml=</dt>
+    <dd>It has a series of measurements and statistical compilations at
+    various levels.  It can assist you in evaluating the size and
+    complexity of your software.  You can use it to find large classes
+    or methods, or to find pieces with a disproportionate number of
+    dependencies.</dd>
+    <dt>=%DEPENDENCYFINDER_HOME%/etc/MartinConfig.xml=</dt>
+    <dd>Computes =I=, =A=, and =D'=, as per Robert C. Martin's
+    article.</dd>
+</dl>
+</blockquote>
+
+You can start from these to define your own configurations where you
+adjust the output to the metrics you care about.
+
+If you don't need a given measurement, put =visible%3D"no"= in its
+=&lt;measurement&gt;= tag.  You could remove the tag altogether, but other
+measurements might depend on it.  They would compute faulty values it
+you were to remove it, whereas marking it invisible will only remove
+it from the final output.
+
+You can add new measurements that are functions of ones that already
+exist.
+
+<blockquote>
+<dl>
+    <dt>=AccumulatorMeasurement=</dt>
+    <dd>For merging and filtering name lists</dd>
+    <dt>=RatioMeasurement=</dt>
+    <dd>For comparing values to one another</dd>
+    <dt>=StatisticalMeasurement=</dt>
+    <dd>Get distribution information for another measurement</dd>
+    <dt>=SumMeasurement=</dt>
+    <dd>Add measurments together or provide aliases to existing ones</dd>
+</dl>
+</blockquote>
+
+Look at =%DEPENDENCYFINDER_HOME%/etc/MartinConfig.xml= for an exemple
+of how you can combine these types of measurements to compute complex
+values.
+
+You can also add your own group definitions to report on related
+classes that might not all be in the same Java package.  For example,
+all classes with "Test" in the name, or all classes under a given
+top-level package, such as =javax.servlet=.
+
+You can customize the valid range of measurements to the particular
+conditions of your project.  Each =&lt;measurement&gt;= tag can
+contain optional =&lt;lower-threshold&gt;= and =&lt;upper-threshold&gt;=
+tags.  Reports can highlight measurement values that fall outside
+of the valid range you specified.
+
+<blockquote>
+<table cellpadding="5">
+    <tr>
+	<td>*specify*</td>
+	<td></td>
+	<td>*valid range is*</td>
+    </tr>
+    <tr>
+	<td>none</td>
+	<td></td>
+	<td>all values are valid</td>
+    </tr>
+    <tr>
+	<td>lower threshold only</td>
+	<td></td>
+	<td>all values greater than or equal to the threshold are valid</td>
+    </tr>
+    <tr>
+	<td>upper threshold only</td>
+	<td></td>
+	<td>all values lesser than or equal to the threshold are valid</td>
+    </tr>
+    <tr>
+	<td>both lower and upper threshold only</td>
+	<td></td>
+	<td>all values in the range between the lower and upper threshold,
+	including them, are valid</td>
+    </tr>
+</table>
+</blockquote>
+
+Note that if all these ranges include the threshold themselves.  If a value
+is equal to either the lower or the upper threshold, it is still considered
+valid.  Also, if the upper threshold is less than the lower threshold, then
+no value will ever be considered valid.  At this time, you cannot specify an
+exlusive range, where a measurement would be valid unless it fell within the
+designated range.
+
+A future version of Dependency Finder will let you write custom measurement
+classes so you can compute your own metrics.  Right now, the basic set is
+hard-coded and the configuration allows you mainly to customize the report.
+
+Statistical measurements can print out as:
+
+    self%5Fdispose [minimum median/average standard%5Fdeviation maximum sum (size%5Fof%5Fdata%5Fset)]
+
+The first value is the numeric value of the measurement.  Which one of the
+values this is depends on the self disposition used in the measurement's
+=&lt;init&gt;= tag.  By default, it is the average of the data set.
+
+---++++ Extracting With the GUI
+
+<div align="center">
+    [[images/OOMetricsGUI.extract.high.jpg][images/s_OOMetricsGUI.extract.high.jpg]]
+*Extract Dialog*
+</div>
+
+Select =File&nbsp;|&nbsp;Extract=; this will popup a file dialog.
+Select the files and/or directories to extract from and click =Extract=.
+You can repeat this command as often as needed; each time, the extracted
+metrics will be added to the current set of metrics in memory.
+
+---++++ Extracting With the CLI
+
+You use =OOMetrics= to compute metrics and produce a report.  Simply string
+out the files and directories on the command line.  The content of the report
+depends on the switches on the command-line.
+
+E.g.,
+
+    C:\>OOMetrics -all -txt classes %JAVA_HOME%\JRE\lib\rt.jar
+
+You must use at least one of the following switches that determine which
+groups of metrics are included in the report.  You can combine them if
+you need to.
+
+<blockquote>
+<dl>
+    <dt>=-project=</dt>
+    <dd>Include project-related metrics</dd>
+    <dt>=-groups=</dt>
+    <dd>Include group- and package-related metrics</dd>
+    <dt>=-classes=</dt>
+    <dd>Include class-related metrics</dd>
+    <dt>=-methods=</dt>
+    <dd>Include method-related metrics</dd>
+    <dt>=-all=</dt>
+    <dd>All of the above</dd>
+</dl>
+</blockquote>
+
+You must also specify an output mode with one of these switches.
+
+<blockquote>
+<dl>
+    <dt>=-csv=</dt>
+    <dd>Writes each section in its own CSV file, perfect for loading in
+    Microsoft Excel and charting</dd>
+    <dt>=-txt=</dt>
+    <dd>Writes a single text report with all requested sections</dd>
+    <dt>=-xml=</dt>
+    <dd>Writes a single XML report with all requested sections</dd>
+</dl>
+</blockquote>
+
+You can specify an output file with the =-out= switch.  But in this case,
+the switch only provides a prefix for the output files.  =OOMetrics= will
+add the appropriate suffix, depending on the output mode.  For text and
+XML output, it writes only one file with the total report.  For CSV output,
+however, it writes one file per selected section; each filename starts
+with the prefix you specify, followed by either "=%5Fproject=",
+"=%5Fgroups=", "=%5Fclasses=", or "=%5Fmethods=" according to the section,
+and ends with the "=.csv=" suffix.
+
+    C:\>OOMetrics -all -txt %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df
 
 ----
 
