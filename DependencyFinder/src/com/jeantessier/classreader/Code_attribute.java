@@ -62,7 +62,6 @@ public class Code_attribute extends Attribute_info {
 		int bytes_read = in.read(code);
 		Logger.getLogger(getClass()).debug("Bytes read: " + bytes_read);
 
-
 		Iterator ci = iterator();
 		while (ci.hasNext()) {
 			Instruction instr = (Instruction) ci.next();

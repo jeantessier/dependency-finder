@@ -39,9 +39,11 @@ import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
 import com.jeantessier.classreader.*;
+import com.jeantessier.dependencyfinder.*;
 
 public class ClassMetrics extends Task {
-	private boolean list = false;
+	private boolean list               = false;
+	private boolean instruction_counts = false;
 	private File    destfile;
 	private Path    path;
 
@@ -51,6 +53,14 @@ public class ClassMetrics extends Task {
 	
 	public void setList(boolean list) {
 		this.list = list;
+	}
+
+	public boolean getInstructioncounts() {
+		return instruction_counts;
+	}
+	
+	public void setInstructioncounts(boolean instruction_counts) {
+		this.instruction_counts = instruction_counts;
 	}
 
 	public File getDestfile() {
@@ -169,6 +179,16 @@ public class ClassMetrics extends Task {
 				Iterator j = metrics.CustomAttributes().iterator();
 				while (j.hasNext()) {
 					out.println("        " + j.next());
+				}
+			}
+
+			if (getInstructioncounts()) {
+				out.println();
+				out.println("Instruction counts:");
+				for (int opcode=0; opcode<256; opcode++) {
+					out.print("        0x");
+					Hex.Print(out, (byte) opcode);
+					out.println(" " + Instruction.Mnemonic(opcode) + ": " + metrics.Instructions()[opcode]);
 				}
 			}
 

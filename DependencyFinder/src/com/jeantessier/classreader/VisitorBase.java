@@ -62,8 +62,32 @@ public abstract class VisitorBase implements Visitor {
 		}
 	}
 
+	public void VisitClassfiles(Collection classfiles) {
+		Iterator i = classfiles.iterator();
+		while (i.hasNext()) {
+			((Classfile) i.next()).Accept(this);
+		}
+	}
+
 	// Classfile
-	public void VisitClassfile(Classfile classfile) {}
+	public void VisitClassfile(Classfile classfile) {
+		Iterator i;
+
+		i = classfile.Attributes().iterator();
+		while (i.hasNext()) {
+			((Visitable) i.next()).Accept(this);
+		}
+
+		i = classfile.Fields().iterator();
+		while (i.hasNext()) {
+			((Visitable) i.next()).Accept(this);
+		}
+
+		i = classfile.Methods().iterator();
+		while (i.hasNext()) {
+			((Visitable) i.next()).Accept(this);
+		}
+	}
 
 	// ConstantPool entries
 	public void VisitClass_info(Class_info entry) {}
@@ -99,17 +123,15 @@ public abstract class VisitorBase implements Visitor {
 	}
 
 	public void VisitCode_attribute(Code_attribute attribute) {
-		Logger.getLogger(getClass()).debug("Visiting " + attribute.ExceptionHandlers().size() + " exception handler(s) ...");
-		
 		Iterator i;
 
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.ExceptionHandlers().size() + " exception handler(s) ...");
 		i = attribute.ExceptionHandlers().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);
 		}
 		
 		Logger.getLogger(getClass()).debug("Visiting " + attribute.Attributes().size() + " code attribute(s) ...");
-		
 		i = attribute.Attributes().iterator();
 		while (i.hasNext()) {
 			((Visitable) i.next()).Accept(this);

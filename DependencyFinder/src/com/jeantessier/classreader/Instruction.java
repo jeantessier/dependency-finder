@@ -455,7 +455,7 @@ public class Instruction {
 		length[0xc8] = 5;
 		opcode[0xc9] = "jsr_w";
 		length[0xc9] = 5;
-		opcode[0xca] = "breakpoint";
+		opcode[0xca] = "wide";
 		length[0xca] = 1;
 		opcode[0xcb] = "xxxundefinedxxx";
 		length[0xcb] = 1;
@@ -588,16 +588,20 @@ public class Instruction {
 		return (code[start] & 0xff);
 	}
 	
+	public static String Mnemonic(int instruction) {
+		return opcode[instruction];
+	}
+		
 	public String Mnemonic() {
-		String result = opcode[Opcode()];
+		String result = Mnemonic(Opcode());
 
 		if (Opcode() == 0xc4 /* wide */) {
-			result = "wide " + opcode[code[start+1] & 0xff];
+			result += " " + Mnemonic(code[start+1] & 0xff);
 		}
 
 		return result;
 	}
-	
+
 	public int Length() {
 		int result = length[Opcode()];
 

@@ -76,7 +76,8 @@ public class MetricsGatherer extends VisitorBase {
 	private Collection volatile_fields         = new LinkedList();
 	private Collection transient_fields        = new LinkedList();
 	private Collection custom_attributes       = new LinkedList();
-
+	private long[]     instructions            = new long[256];
+	
 	public Collection Classes() {
 		return classes;
 	}
@@ -233,13 +234,10 @@ public class MetricsGatherer extends VisitorBase {
 		return custom_attributes;
 	}
 
-	public void VisitClassfiles(Collection classfiles) {
-		Iterator i = classfiles.iterator();
-		while (i.hasNext()) {
-			((Classfile) i.next()).Accept(this);
-		}
+	public long[] Instructions() {
+		return instructions;
 	}
-
+	
 	// Classfile
 	public void VisitClassfile(Classfile classfile) {
 		if ((classfile.AccessFlag() & Classfile.ACC_PUBLIC) != 0) {
@@ -262,36 +260,8 @@ public class MetricsGatherer extends VisitorBase {
 			abstract_classes.add(classfile);
 		}
 
-		Iterator i;
-
-		i = classfile.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
-
-		i = classfile.Fields().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
-
-		i = classfile.Methods().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
+		super.VisitClassfile(classfile);
 	}
-
-	// ConstantPool entries
-	public void VisitClass_info(Class_info entry) {}
-	public void VisitFieldRef_info(FieldRef_info entry) {}
-	public void VisitMethodRef_info(MethodRef_info entry) {}
-	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {}
-	public void VisitString_info(String_info entry) {}
-	public void VisitInteger_info(Integer_info entry) {}
-	public void VisitFloat_info(Float_info entry) {}
-	public void VisitLong_info(Long_info entry) {}
-	public void VisitDouble_info(Double_info entry) {}
-	public void VisitNameAndType_info(NameAndType_info entry) {}
-	public void VisitUTF8_info(UTF8_info entry) {}
 
 	// Features
 	public void VisitField_info(Field_info entry) {
@@ -363,21 +333,14 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	// Attributes
-	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {}
-
 	public void VisitCode_attribute(Code_attribute attribute) {
-		Iterator i = attribute.Attributes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
-		}
-	}
+		super.VisitCode_attribute(attribute);
 
-	public void VisitExceptions_attribute(Exceptions_attribute attribute) {}
-
-	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
-		Iterator i = attribute.Classes().iterator();
-		while (i.hasNext()) {
-			((Visitable) i.next()).Accept(this);
+		Iterator ci = attribute.iterator();
+		while (ci.hasNext()) {
+			Instruction instr = (Instruction) ci.next();
+			
+			Instructions()[instr.Opcode()]++;
 		}
 	}
 
@@ -394,10 +357,6 @@ public class MetricsGatherer extends VisitorBase {
 			Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
 		}
 	}
-
-	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {}
-	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {}
-	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {}
 
 	public void VisitDeprecated_attribute(Deprecated_attribute attribute) {
 		Object owner = attribute.Owner();
@@ -418,8 +377,6 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	// Attribute helpers
-	public void VisitExceptionHandler(ExceptionHandler helper) {}
-
 	public void VisitInnerClass(InnerClass helper) {
 		if ((helper.AccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
 			public_inner_classes.add(helper);
@@ -448,9 +405,5 @@ public class MetricsGatherer extends VisitorBase {
 		if ((helper.AccessFlag() & InnerClass.ACC_ABSTRACT) != 0) {
 			abstract_inner_classes.add(helper);
 		}
-
 	}
-
-	public void VisitLineNumber(LineNumber helper) {}
-	public void VisitLocalVariable(LocalVariable helper) {}
 }

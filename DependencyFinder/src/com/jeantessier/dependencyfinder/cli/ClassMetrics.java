@@ -85,10 +85,11 @@ public class ClassMetrics {
 		// Parsing the command line
 		CommandLine command_line = new CommandLine();
 		command_line.AddToggleSwitch("list");
+		command_line.AddToggleSwitch("instruction-counts");
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
-		command_line.AddOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
+		command_line.AddOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
 		command_line.AddToggleSwitch("version");
 
 		CommandLineUsage usage = new CommandLineUsage("ClassMetrics");
@@ -131,7 +132,8 @@ public class ClassMetrics {
 
 		Date start = new Date();
 
-		boolean list = command_line.ToggleSwitch("list");
+		boolean list               = command_line.ToggleSwitch("list");
+		boolean instruction_counts = command_line.ToggleSwitch("instruction-counts");
 
 		List parameters = command_line.Parameters();
 		if (parameters.size() == 0) {
@@ -226,6 +228,16 @@ public class ClassMetrics {
 			}
 		}
 
+		if (instruction_counts) {
+			out.println();
+			out.println("Instruction counts:");
+			for (int opcode=0; opcode<256; opcode++) {
+				out.print("        0x");
+				Hex.Print(out, (byte) opcode);
+				out.println(" " + Instruction.Mnemonic(opcode) + ": " + metrics.Instructions()[opcode]);
+			}
+		}
+		
 		Date end = new Date();
 
 		if (command_line.ToggleSwitch("time")) {

@@ -382,6 +382,7 @@ synchronized, or abstract methods, etc.
 
     ClassMetrics
     	[-help]
+	[-instruction-counts]
     	[-list]
     	[-out filename]
     	[-time]
@@ -423,6 +424,21 @@ Prints synopsis.
 <blockquote>
 
 Lists the programming elements under each measurement.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-instruction-count=
+
+<blockquote>
+
+Shows the number of times each instruction in the Java virtual machine
+instruction set is used in the codebase.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
