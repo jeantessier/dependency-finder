@@ -195,7 +195,7 @@
 	    <long-name>Uses APIs</long-name>
 	    <class>com.jeantessier.metrics.SumMeasurement</class>
 	    <init>
-		OICP
+		OICF
 		OIPF
 		OIPC
 		OEPF
@@ -207,7 +207,7 @@
 	    <long-name>Uses distinct APIs</long-name>
 	    <class>com.jeantessier.metrics.ContextAccumulatorMeasurement</class>
 	    <init>
-		OICP
+		OICF
 		OIPF
 		OIPC
 		OEPF
