@@ -164,17 +164,23 @@ public class MetricsGatherer extends VisitorBase {
 		ChartData(node.Outbound().size())[OUTBOUNDS_PER_PACKAGE]++;
 	}
 
+	/**
+	 *  PackageNode --> CurrentNode()
+	 */
 	public void VisitInboundPackageNode(PackageNode node) {
 		if (Strategy().InFilter(node)) {
 			nb_inbound++;
-			nb_inbound_packages++;
+			nb_outbound_packages++;
 		}
 	}
 
+	/**
+	 *  CurrentNode() --> PackageNode
+	 */
 	public void VisitOutboundPackageNode(PackageNode node) {
 		if (Strategy().InFilter(node)) {
 			nb_outbound++;
-			nb_outbound_packages++;
+			nb_inbound_packages++;
 		}
 	}
 
@@ -188,17 +194,23 @@ public class MetricsGatherer extends VisitorBase {
 		ChartData(node.Outbound().size())[OUTBOUNDS_PER_CLASS]++;
 	}
 
+	/**
+	 *  ClassNode --> CurrentNode()
+	 */
 	public void VisitInboundClassNode(ClassNode node) {
 		if (Strategy().InFilter(node)) {
 			nb_inbound++;
-			nb_inbound_classes++;
+			nb_outbound_classes++;
 		}
 	}
 
+	/**
+	 *  CurrentNode() --> ClassNode
+	 */
 	public void VisitOutboundClassNode(ClassNode node) {
 		if (Strategy().InFilter(node)) {
 			nb_outbound++;
-			nb_outbound_classes++;
+			nb_inbound_classes++;
 		}
 	}
 
@@ -211,17 +223,23 @@ public class MetricsGatherer extends VisitorBase {
 		ChartData(node.Outbound().size())[OUTBOUNDS_PER_FEATURE]++;
 	}
 
+	/**
+	 *  FeatureNode --> CurrentNode()
+	 */
 	public void VisitInboundFeatureNode(FeatureNode node) {
 		if (Strategy().InFilter(node)) {
 			nb_inbound++;
-			nb_inbound_features++;
+			nb_outbound_features++;
 		}
 	}
 
+	/**
+	 *  CurrentNode() --> FeatureNode
+	 */
 	public void VisitOutboundFeatureNode(FeatureNode node) {
 		if (Strategy().InFilter(node)) {
 			nb_outbound++;
-			nb_outbound_features++;
+			nb_inbound_features++;
 		}
 	}
 }
