@@ -38,10 +38,10 @@ import java.util.*;
 public abstract class Printer extends VisitorBase {
     private PrintWriter out;
 
-    private String  indentText      = "    ";
-    private int     indentLevel     = 0;
-    private boolean showInbounds    = true;
-    private boolean showOutbounds   = true;
+    private String  indentText     = "    ";
+    private int     indentLevel    = 0;
+    private boolean showInbounds   = true;
+    private boolean showOutbounds  = true;
     private boolean showEmptyNodes = true;
 
     public Printer(PrintWriter out) {
