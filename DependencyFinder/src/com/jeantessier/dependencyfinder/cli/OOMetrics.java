@@ -420,7 +420,7 @@ public class OOMetrics {
 
 		metrics = new ArrayList(factory.ProjectMetrics());
 		Collections.sort(metrics, comparator);
-		printer = new com.jeantessier.metrics.XMLPrinter();
+		printer = new com.jeantessier.metrics.XMLPrinter("\t");
 		i = metrics.iterator();
 		while(i.hasNext()) {
 			printer.VisitMetrics((Metrics) i.next());
