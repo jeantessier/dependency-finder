@@ -35,19 +35,30 @@
 <!ELEMENT dependencies (package)* >
 
 <!ELEMENT package (name,outbound*,inbound*,class*) >
+<!ATTLIST package
+          confirmed (yes|no) #IMPLIED
+>
 
 <!ELEMENT class (name,outbound*,inbound*,feature*) >
+<!ATTLIST package
+          confirmed (yes|no) #IMPLIED
+>
 
 <!ELEMENT feature (name,outbound*,inbound*) >
+<!ATTLIST package
+          confirmed (yes|no) #IMPLIED
+>
 
 <!ELEMENT name (#PCDATA) >
 
 <!ELEMENT outbound (#PCDATA) >
 <!ATTLIST outbound
-          type (package|class|feature) #REQUIRED
+          type      (package|class|feature) #REQUIRED
+          confirmed (yes|no)                #IMPLIED
 >
 
 <!ELEMENT inbound (#PCDATA) >
 <!ATTLIST inbound
-          type (package|class|feature) #REQUIRED
+          type      (package|class|feature) #REQUIRED
+          confirmed (yes|no)                #IMPLIED
 >
