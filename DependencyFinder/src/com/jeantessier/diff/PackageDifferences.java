@@ -70,9 +70,9 @@ public class PackageDifferences extends RemovableDifferences {
 				NewDeclaration(new_package.Name());
 
 				if (IsModified()) {
-					Category.getInstance(getClass().getName()).debug(Name() + " declaration has been modified.");
+					Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
 				} else {
-					Category.getInstance(getClass().getName()).debug(Name() + " declaration has not been modified.");
+					Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
 				}
 
 				i = new_package.Classes().iterator();
@@ -98,13 +98,13 @@ public class PackageDifferences extends RemovableDifferences {
 					}
 				}
 
-				Category.getInstance(getClass().getName()).debug(Name() + " has " + ClassDifferences().size() + " class(es) that changed.");
+				Logger.getLogger(getClass()).debug(Name() + " has " + ClassDifferences().size() + " class(es) that changed.");
 			}
 		} else if (new_package != null) {
 			NewDeclaration(new_package.Name());
 		}
 
-		Category.getInstance(getClass().getName()).debug(Name() + " " + !IsEmpty());
+		Logger.getLogger(getClass()).debug(Name() + " " + !IsEmpty());
 
 		return !IsEmpty();
 	}

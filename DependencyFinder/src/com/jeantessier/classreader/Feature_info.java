@@ -54,18 +54,18 @@ public abstract class Feature_info implements Visitable {
 		Classfile(classfile);
 
 		access_flag = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug(FeatureType() + " access flag: " + access_flag);
+		Logger.getLogger(getClass()).debug(FeatureType() + " access flag: " + access_flag);
 
 		name_index       = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug(FeatureType() + " name: " + name_index + " (" + Name() + ")");
+		Logger.getLogger(getClass()).debug(FeatureType() + " name: " + name_index + " (" + Name() + ")");
 
 		descriptor_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug(FeatureType() + " Descriptor: " + descriptor_index + " (" + Descriptor() + ")");
+		Logger.getLogger(getClass()).debug(FeatureType() + " Descriptor: " + descriptor_index + " (" + Descriptor() + ")");
 
 		int attribute_count = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + attribute_count + " " + FeatureType() + " attribute(s)");
+		Logger.getLogger(getClass()).debug("Reading " + attribute_count + " " + FeatureType() + " attribute(s)");
 		for (int i=0; i<attribute_count; i++) {
-			Category.getInstance(getClass().getName()).debug(FeatureType() + " attribute " + i + ":");
+			Logger.getLogger(getClass()).debug(FeatureType() + " attribute " + i + ":");
 			attributes.add(AttributeFactory.Create(Classfile(), this, in));
 		}
 	}

@@ -45,13 +45,13 @@ public class NodeFactory {
 	private Map features = new HashMap();
 
 	public PackageNode CreatePackage(String package_name) {
-		Category.getInstance(getClass().getName()).debug("CreatePackage(" + package_name + ")");
+		Logger.getLogger(getClass()).debug("CreatePackage(" + package_name + ")");
 		PackageNode result = (PackageNode) packages.get(package_name);
 
 		if (result == null) {
 			result = new PackageNode(package_name);
 			packages.put(package_name, result);
-			Category.getInstance(getClass().getName()).debug("Added package \"" + package_name + "\"");
+			Logger.getLogger(getClass()).debug("Added package \"" + package_name + "\"");
 		}
 
 		return result;
@@ -62,7 +62,7 @@ public class NodeFactory {
 	}
 
 	public ClassNode CreateClass(String class_name) {
-		Category.getInstance(getClass().getName()).debug("CreateClass(" + class_name + ")");
+		Logger.getLogger(getClass()).debug("CreateClass(" + class_name + ")");
 		ClassNode result = (ClassNode) classes.get(class_name);
 
 		if (result == null) {
@@ -75,7 +75,7 @@ public class NodeFactory {
 			result = new ClassNode(parent, class_name);
 			parent.AddClass(result);
 			classes.put(class_name, result);
-			Category.getInstance(getClass().getName()).debug("Added class \"" + class_name + "\"");
+			Logger.getLogger(getClass()).debug("Added class \"" + class_name + "\"");
 		}
 
 		return result;
@@ -86,7 +86,7 @@ public class NodeFactory {
 	}
 
 	public FeatureNode CreateFeature(String feature_name) {
-		Category.getInstance(getClass().getName()).debug("CreateFeature(" + feature_name + ")");
+		Logger.getLogger(getClass()).debug("CreateFeature(" + feature_name + ")");
 		FeatureNode result = (FeatureNode) features.get(feature_name);
 
 		if (result == null) {
@@ -104,7 +104,7 @@ public class NodeFactory {
 			result = new FeatureNode(parent, feature_name);
 			parent.AddFeature(result);
 			features.put(feature_name, result);
-			Category.getInstance(getClass().getName()).debug("Added feature \"" + feature_name + "\"");
+			Logger.getLogger(getClass()).debug("Added feature \"" + feature_name + "\"");
 		}
 
 		return result;

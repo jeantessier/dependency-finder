@@ -63,7 +63,7 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 	}
 
 	protected void setUp() throws Exception {
-		Category.getInstance(getClass().getName()).info("Starting test: " + getName());
+		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
 		m1 = new Metrics("a.A.a");
 		m2 = new Metrics("a.A.b");
@@ -162,7 +162,7 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
 	}
 
 	protected void tearDown() throws Exception {
-		Category.getInstance(getClass().getName()).info("End of " + getName());
+		Logger.getLogger(getClass()).info("End of " + getName());
 	}
 
 	public void testProject() {

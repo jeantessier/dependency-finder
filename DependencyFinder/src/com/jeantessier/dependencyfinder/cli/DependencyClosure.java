@@ -47,6 +47,8 @@ public class DependencyClosure {
     public static final String DEFAULT_LOGFILE         = "System.out";
     public static final String DEFAULT_TRACEFILE       = "System.out";
 
+	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
+
     public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
@@ -147,18 +149,24 @@ public class DependencyClosure {
 		}
 
 		if (command_line.IsPresent("verbose")) {
+			Logger logger = Logger.getLogger("com.jeantessier.dependency");
+			logger.setLevel(Level.DEBUG);
+			
 			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
-
+				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
 			} else {
-
+				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("verbose"))));
 			}
 		}
 
 		if (command_line.IsPresent("trace")) {
+			Logger logger = Logger.getLogger("com.jeantessier.classreader");
+			logger.setLevel(Level.DEBUG);
+			
 			if ("System.out".equals(command_line.OptionalSwitch("trace"))) {
-
+				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
 			} else {
-
+				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
 			}
 		}
 
@@ -251,7 +259,7 @@ public class DependencyClosure {
 		Iterator i = command_line.Parameters().iterator();
 		while (i.hasNext()) {
 			String filename = (String) i.next();
-			Category.getInstance(DependencyClosure.class.getName()).info("Reading " + filename);
+			Logger.getLogger(DependencyClosure.class).info("Reading " + filename);
 
 			Collection packages;
 
@@ -264,7 +272,7 @@ public class DependencyClosure {
 				packages = Collections.EMPTY_LIST;
 			}
 
-			Category.getInstance(DependencyClosure.class.getName()).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
+			Logger.getLogger(DependencyClosure.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
 	    
 			LinkMaximizer maximizer = new LinkMaximizer();
 			maximizer.TraverseNodes(packages);
@@ -273,7 +281,7 @@ public class DependencyClosure {
 		}
 
 
-		Category.getInstance(DependencyClosure.class.getName()).info("Reporting " + selector.Scope().size() + " package(s) ...");
+		Logger.getLogger(DependencyClosure.class).info("Reporting " + selector.Scope().size() + " package(s) ...");
 	
 		if (command_line.ToggleSwitch("serialize")) {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(command_line.SingleSwitch("out")));

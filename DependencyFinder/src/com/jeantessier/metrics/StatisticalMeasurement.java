@@ -83,7 +83,7 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 		this.monitored_metric = monitored_metric;
 		this.dispose          = dispose;
 
-		Category.getInstance(getClass().getName()).debug("Created for " + this.monitored_metric + " with dispose of " + this.dispose);
+		Logger.getLogger(getClass()).debug("Created for " + this.monitored_metric + " with dispose of " + this.dispose);
 	}
 
 	public double Minimum() {
@@ -153,16 +153,16 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 	}
 	
 	private void VisitMetrics(Metrics metrics) {
-		Category.getInstance(getClass().getName()).debug("VisitMetrics: " + metrics);
+		Logger.getLogger(getClass()).debug("VisitMetrics: " + metrics);
 		
 		Measurement measure = metrics.Metric(monitored_metric);
 
-		Category.getInstance(getClass().getName()).debug("measure for " + monitored_metric + " is " + measure);
+		Logger.getLogger(getClass()).debug("measure for " + monitored_metric + " is " + measure);
 		
 		if (measure instanceof NumericalMeasurement) {
 			Number value = ((NumericalMeasurement) measure).Value();
 			
-			Category.getInstance(getClass().getName()).debug(monitored_metric + " on " + metrics.Name() + " is " + value);
+			Logger.getLogger(getClass()).debug(monitored_metric + " on " + metrics.Name() + " is " + value);
 
 			if (value != null) {
 				data.add(value);
@@ -170,42 +170,42 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 		} else if (measure instanceof StatisticalMeasurement) {
 			StatisticalMeasurement stats = (StatisticalMeasurement) measure;
 			
-			Category.getInstance(getClass().getName()).debug("dispose of StatisticalMeasurements is " + dispose);
+			Logger.getLogger(getClass()).debug("dispose of StatisticalMeasurements is " + dispose);
 
 			switch (dispose) {
 				case DISPOSE_MINIMUM:
-					Category.getInstance(getClass().getName()).debug("using Minimum(): " + stats.Minimum());
+					Logger.getLogger(getClass()).debug("using Minimum(): " + stats.Minimum());
 					data.add(new Double(stats.Minimum()));
 					break;
 					
 				case DISPOSE_MEDIAN:
-					Category.getInstance(getClass().getName()).debug("using Median(): " + stats.Median());
+					Logger.getLogger(getClass()).debug("using Median(): " + stats.Median());
 					data.add(new Double(stats.Median()));
 					break;
 					
 				case DISPOSE_AVERAGE:
-					Category.getInstance(getClass().getName()).debug("using Average(): " + stats.Average());
+					Logger.getLogger(getClass()).debug("using Average(): " + stats.Average());
 					data.add(new Double(stats.Average()));
 					break;
 					
 				case DISPOSE_MAXIMUM:
-					Category.getInstance(getClass().getName()).debug("using Maximum(): " + stats.Maximum());
+					Logger.getLogger(getClass()).debug("using Maximum(): " + stats.Maximum());
 					data.add(new Double(stats.Maximum()));
 					break;
 					
 				case DISPOSE_SUM:
-					Category.getInstance(getClass().getName()).debug("using Sum(): " + stats.Sum());
+					Logger.getLogger(getClass()).debug("using Sum(): " + stats.Sum());
 					data.add(new Double(stats.Sum()));
 					break;
 					
 				case DISPOSE_NB_DATA_POINTS:
-					Category.getInstance(getClass().getName()).debug("using NbDataPoints(): " + stats.NbDataPoints());
+					Logger.getLogger(getClass()).debug("using NbDataPoints(): " + stats.NbDataPoints());
 					data.add(new Integer(stats.NbDataPoints()));
 					break;
 
 				case DISPOSE_IGNORE:
 				default:
-					Category.getInstance(getClass().getName()).debug("Skipping to next level ...");
+					Logger.getLogger(getClass()).debug("Skipping to next level ...");
 					Iterator i = metrics.SubMetrics().iterator();
 					while (i.hasNext()) {
 						VisitMetrics((Metrics) i.next());
@@ -213,7 +213,7 @@ public class StatisticalMeasurement extends SubMetricsBasedMeasurement {
 					break;
 			}
 		} else if (measure == null) {
-			Category.getInstance(getClass().getName()).debug("Skipping to next level ...");
+			Logger.getLogger(getClass()).debug("Skipping to next level ...");
 			Iterator i = metrics.SubMetrics().iterator();
 			while (i.hasNext()) {
 				VisitMetrics((Metrics) i.next());

@@ -46,6 +46,8 @@ public class JarJarDiff {
 	public static final String DEFAULT_LOGFILE   = "System.out";
 	public static final String DEFAULT_TRACEFILE = "System.out";
 
+	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
+
 	public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
@@ -90,18 +92,24 @@ public class JarJarDiff {
 		}
 
 		if (command_line.IsPresent("verbose")) {
+			Logger logger = Logger.getLogger("com.jeantessier.diff");
+			logger.setLevel(Level.DEBUG);
+			
 			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
-
+				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
 			} else {
-
+				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("verbose"))));
 			}
 		}
 
 		if (command_line.IsPresent("trace")) {
+			Logger logger = Logger.getLogger("com.jeantessier.classreader");
+			logger.setLevel(Level.DEBUG);
+			
 			if ("System.out".equals(command_line.OptionalSwitch("trace"))) {
-
+				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
 			} else {
-
+				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
 			}
 		}
 
@@ -118,7 +126,7 @@ public class JarJarDiff {
 		Iterator old_sources = command_line.MultipleSwitch("old").iterator();
 		while(old_sources.hasNext()) {
 			String name = (String) old_sources.next();
-			Category.getInstance(JarJarDiff.class.getName()).info("Reading old JAR: " + name);
+			Logger.getLogger(JarJarDiff.class).info("Reading old JAR: " + name);
 			if (name.endsWith(".jar")) {
 				old_jar.AddClassfiles(new JarClassfileLoader(new String[] {name}).Classfiles());
 			} else if (name.endsWith(".zip")) {
@@ -132,7 +140,7 @@ public class JarJarDiff {
 		Iterator new_sources = command_line.MultipleSwitch("new").iterator();
 		while(new_sources.hasNext()) {
 			String name = (String) new_sources.next();
-			Category.getInstance(JarJarDiff.class.getName()).info("Reading new JAR: " + name);
+			Logger.getLogger(JarJarDiff.class).info("Reading new JAR: " + name);
 			if (name.endsWith(".jar")) {
 				new_jar.AddClassfiles(new JarClassfileLoader(new String[] {name}).Classfiles());
 			} else if (name.endsWith(".zip")) {
@@ -146,14 +154,14 @@ public class JarJarDiff {
 		// then descending to class level for packages
 		// that are in both the old and the new codebase.
 	
-		Category.getInstance(JarJarDiff.class.getName()).info("Comparing ...");
+		Logger.getLogger(JarJarDiff.class).info("Comparing ...");
 
 		String      old_label   = command_line.IsPresent("old-label") ? command_line.SingleSwitch("old-label") : command_line.Switch("old").toString();
 		String      new_label   = command_line.IsPresent("new-label") ? command_line.SingleSwitch("new-label") : command_line.Switch("new").toString();
 		JarDifferences differences = new JarDifferences(old_label, new_label);
 		differences.Compare(old_jar, new_jar);
 
-		Category.getInstance(JarJarDiff.class.getName()).info("Printing results ...");
+		Logger.getLogger(JarJarDiff.class).info("Printing results ...");
 
 		PrintWriter out;
 		if (command_line.IsPresent("out")) {

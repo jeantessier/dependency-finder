@@ -82,9 +82,9 @@ public class ClassDifferences extends DeprecatableDifferences{
 				NewDeclaration(new_class.Declaration());
 		
 				if (IsModified()) {
-					Category.getInstance(getClass().getName()).debug(Name() + " declaration has been modified.");
+					Logger.getLogger(getClass()).debug(Name() + " declaration has been modified.");
 				} else {
-					Category.getInstance(getClass().getName()).debug(Name() + " declaration has not been modified.");
+					Logger.getLogger(getClass()).debug(Name() + " declaration has not been modified.");
 				}
 
 				RemovedDeprecation(old_class.IsDeprecated() && !new_class.IsDeprecated());
@@ -155,14 +155,14 @@ public class ClassDifferences extends DeprecatableDifferences{
 					}
 				}
 
-				Category.getInstance(getClass().getName()).debug(Name() + " has " + FeatureDifferences().size() + " feature(s) that changed.");
+				Logger.getLogger(getClass()).debug(Name() + " has " + FeatureDifferences().size() + " feature(s) that changed.");
 			}
 		} else if (new_class != null) {
 			NewClass(new_class);
 			NewDeclaration(new_class.Declaration());
 		}
 
-		Category.getInstance(getClass().getName()).debug(Name() + " " + !IsEmpty());
+		Logger.getLogger(getClass()).debug(Name() + " " + !IsEmpty());
 
 		return NewDeprecation() || RemovedDeprecation() || !IsEmpty();
 	}

@@ -52,7 +52,7 @@ public class ZipClassfileLoader extends ClassfileLoaderBase {
 		while (i.hasNext()) {
 			String filename = (String) i.next();
 			if (filename.endsWith(".zip")) {
-				Category.getInstance(getClass().getName()).debug("Reading " + filename);
+				Logger.getLogger(getClass()).debug("Reading " + filename);
 				Load(new ZipFile(filename));
 			}
 		}
@@ -65,7 +65,7 @@ public class ZipClassfileLoader extends ClassfileLoaderBase {
 		while(entries.hasMoreElements()) {
 			ZipEntry entry = (ZipEntry) entries.nextElement();
 			if (entry.getName().endsWith(".class")) {
-				Category.getInstance(getClass().getName()).debug("Reading " + entry.getName());
+				Logger.getLogger(getClass()).debug("Reading " + entry.getName());
 				fireLoadElement(zipfile.getName(), entry.getName());
 			
 				try {
@@ -82,7 +82,7 @@ public class ZipClassfileLoader extends ClassfileLoaderBase {
 
 					AddClass(bytes);
 				} catch (IOException ex) {
-					Category.getInstance(getClass().getName()).debug("Error loading " + entry.getName() + ": " + ex);
+					Logger.getLogger(getClass()).debug("Error loading " + entry.getName() + ": " + ex);
 				}
 			}
 		}

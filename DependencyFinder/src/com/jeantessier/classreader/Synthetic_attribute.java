@@ -41,7 +41,7 @@ public class Synthetic_attribute extends Attribute_info {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Attribute length: " + byte_count);
+		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
     }
 
     public String toString() {

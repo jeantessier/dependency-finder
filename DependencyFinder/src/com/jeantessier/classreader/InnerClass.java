@@ -55,16 +55,16 @@ public class InnerClass implements Visitable {
 		InnerClasses(inner_classes);
 
 		inner_class_info_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Inner class info index: " + inner_class_info_index + " (" + InnerClassInfo() + ")");
+		Logger.getLogger(getClass()).debug("Inner class info index: " + inner_class_info_index + " (" + InnerClassInfo() + ")");
 
 		outer_class_info_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Outer class info index: " + outer_class_info_index + " (" + OuterClassInfo() + ")");
+		Logger.getLogger(getClass()).debug("Outer class info index: " + outer_class_info_index + " (" + OuterClassInfo() + ")");
 
 		inner_name_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Inner name index: " + inner_name_index + " (" + InnerName() + ")");
+		Logger.getLogger(getClass()).debug("Inner name index: " + inner_name_index + " (" + InnerName() + ")");
 
 		access_flag = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Inner class access flag: " + access_flag);
+		Logger.getLogger(getClass()).debug("Inner class access flag: " + access_flag);
     }
 
     public InnerClasses_attribute InnerClasses() {

@@ -48,19 +48,19 @@ public class Code_attribute extends Attribute_info {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Attribute length: " + byte_count);
+		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		max_stack = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Code max stack: " + max_stack);
+		Logger.getLogger(getClass()).debug("Code max stack: " + max_stack);
 
 		max_locals = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Code max locals: " + max_locals);
+		Logger.getLogger(getClass()).debug("Code max locals: " + max_locals);
 
 		int code_length = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Code length: " + code_length);
+		Logger.getLogger(getClass()).debug("Code length: " + code_length);
 		code = new byte[code_length];
 		int bytes_read = in.read(code);
-		Category.getInstance(getClass().getName()).debug("Bytes read: " + bytes_read);
+		Logger.getLogger(getClass()).debug("Bytes read: " + bytes_read);
 
 
 		Iterator ci = iterator();
@@ -83,25 +83,25 @@ public class Code_attribute extends Attribute_info {
 				case 0xc1: // instanceof
 				case 0xc5: // multianewarray
 					int index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-					Category.getInstance(getClass().getName()).debug("    " + start + ": " + instr + " " + index + " (" + Classfile().ConstantPool().get(index) + ")");
+					Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + Classfile().ConstantPool().get(index) + ")");
 					break;
 				default:
-					Category.getInstance(getClass().getName()).debug("    " + start + ": " + instr + " (" + instr.Length() + " byte(s))");
+					Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.Length() + " byte(s))");
 					break;
 			}
 		}
 
 		int exception_table_length = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + exception_table_length + " exception handler(s) ...");
+		Logger.getLogger(getClass()).debug("Reading " + exception_table_length + " exception handler(s) ...");
 		for (int i=0; i<exception_table_length; i++) {
-			Category.getInstance(getClass().getName()).debug("Exception handler " + i + ":");
+			Logger.getLogger(getClass()).debug("Exception handler " + i + ":");
 			exception_handlers.add(new ExceptionHandler(this, in));
 		}
 
 		int attribute_count = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + attribute_count + " code attribute(s)");
+		Logger.getLogger(getClass()).debug("Reading " + attribute_count + " code attribute(s)");
 		for (int i=0; i<attribute_count; i++) {
-			Category.getInstance(getClass().getName()).debug("code attribute " + i + ":");
+			Logger.getLogger(getClass()).debug("code attribute " + i + ":");
 			attributes.add(AttributeFactory.Create(Classfile(), this, in));
 		}
 	}

@@ -44,12 +44,12 @@ public class LocalVariableTable_attribute extends Attribute_info {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Attribute length: " + byte_count);
+		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		int local_variable_table_length = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + local_variable_table_length + " local variable(s) ...");
+		Logger.getLogger(getClass()).debug("Reading " + local_variable_table_length + " local variable(s) ...");
 		for (int i=0; i<local_variable_table_length; i++) {
-			Category.getInstance(getClass().getName()).debug("Local variable " + i + ":");
+			Logger.getLogger(getClass()).debug("Local variable " + i + ":");
 			local_variables.add(new LocalVariable(this, in));
 		}
 	}

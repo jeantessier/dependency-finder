@@ -52,7 +52,7 @@ public class JarClassfileLoader extends ZipClassfileLoader {
 		while (i.hasNext()) {
 			String filename = (String) i.next();
 			if (filename.endsWith(".jar")) {
-				Category.getInstance(getClass().getName()).debug("Reading " + filename);
+				Logger.getLogger(getClass()).debug("Reading " + filename);
 				Load(new JarFile(filename));
 			}
 		}

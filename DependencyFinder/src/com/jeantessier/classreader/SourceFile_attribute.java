@@ -43,10 +43,10 @@ public class SourceFile_attribute extends Attribute_info {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Attribute length: " + byte_count);
+		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		source_file_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Source file: " + source_file_index + " (" + SourceFile() + ")");
+		Logger.getLogger(getClass()).debug("Source file: " + source_file_index + " (" + SourceFile() + ")");
     }
 
     public int SourceFileIndex() {

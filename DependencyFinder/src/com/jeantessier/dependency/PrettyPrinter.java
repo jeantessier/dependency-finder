@@ -84,7 +84,7 @@ public class PrettyPrinter extends TextPrinter {
 	}
 	
 	protected void PreprocessPackageNode(PackageNode node) {
-		Category.getInstance(getClass().getName()).debug("Printing package \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
+		Logger.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
 		Scope().add(node);
 		PushNode(node);
@@ -97,7 +97,7 @@ public class PrettyPrinter extends TextPrinter {
 	}
 
 	protected void PreprocessAfterDependenciesPackageNode(PackageNode node) {
-		Category.getInstance(getClass().getName()).debug("Package \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
+		Logger.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
 		PrintDependencies(dependencies);
 	}
@@ -113,7 +113,7 @@ public class PrettyPrinter extends TextPrinter {
 
 	public void VisitInboundPackageNode(PackageNode node) {
 		if (ShowInbounds()) {
-			Category.getInstance(getClass().getName()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			
@@ -123,13 +123,13 @@ public class PrettyPrinter extends TextPrinter {
 				dependencies.put(node, new Integer(-1));
 			}
 		} else {
-			Category.getInstance(getClass().getName()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
 		}
 	}
 
 	public void VisitOutboundPackageNode(PackageNode node) {
 		if (ShowOutbounds()) {
-			Category.getInstance(getClass().getName()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			
@@ -139,12 +139,12 @@ public class PrettyPrinter extends TextPrinter {
 				dependencies.put(node, new Integer(1));
 			}
 		} else {
-			Category.getInstance(getClass().getName()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
 		}
 	}
 
 	protected void PreprocessClassNode(ClassNode node) {
-		Category.getInstance(getClass().getName()).debug("Printing class \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
+		Logger.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
 		Scope().add(node);
 		PushNode(node);
@@ -157,7 +157,7 @@ public class PrettyPrinter extends TextPrinter {
 	}
 
 	protected void PreprocessAfterDependenciesClassNode(ClassNode node) {
-		Category.getInstance(getClass().getName()).debug("Class \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
+		Logger.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
 		PrintDependencies(dependencies);
 	}
@@ -173,7 +173,7 @@ public class PrettyPrinter extends TextPrinter {
 	
 	public void VisitInboundClassNode(ClassNode node) {
 		if (ShowInbounds()) {
-			Category.getInstance(getClass().getName()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			
@@ -183,13 +183,13 @@ public class PrettyPrinter extends TextPrinter {
 				dependencies.put(node, new Integer(-1));
 			}
 		} else {
-			Category.getInstance(getClass().getName()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
 		}
 	}
 
 	public void VisitOutboundClassNode(ClassNode node) {
 		if (ShowOutbounds()) {
-			Category.getInstance(getClass().getName()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			
@@ -199,12 +199,12 @@ public class PrettyPrinter extends TextPrinter {
 				dependencies.put(node, new Integer(1));
 			}
 		} else {
-			Category.getInstance(getClass().getName()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
 		}
 	}
 
 	protected void PreprocessFeatureNode(FeatureNode node) {
-		Category.getInstance(getClass().getName()).debug("Printing feature \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
+		Logger.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds");
 		
 		Scope().add(node);
 		PushNode(node);
@@ -215,7 +215,7 @@ public class PrettyPrinter extends TextPrinter {
 	}
 
 	protected void PostprocessFeatureNode(FeatureNode node) {
-		Category.getInstance(getClass().getName()).debug("Feature \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
+		Logger.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.Inbound().size() + " inbounds and " + node.Outbound().size() + " outbounds had " + dependencies.size() + " dependencies.");
 		
 		if (ShowEmptyNodes() || !dependencies.isEmpty()) {
 			LowerIndent();
@@ -235,7 +235,7 @@ public class PrettyPrinter extends TextPrinter {
 
 	public void VisitInboundFeatureNode(FeatureNode node) {
 		if (ShowInbounds()) {
-			Category.getInstance(getClass().getName()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" <-- \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			
@@ -245,13 +245,13 @@ public class PrettyPrinter extends TextPrinter {
 				dependencies.put(node, new Integer(-1));
 			}
 		} else {
-			Category.getInstance(getClass().getName()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" <-- \"" + node + "\"");
 		}
 	}
 
 	public void VisitOutboundFeatureNode(FeatureNode node) {
 		if (ShowOutbounds()) {
-			Category.getInstance(getClass().getName()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Printing \"" + CurrentNode() + "\" --> \"" + node + "\"");
 		
 			Integer i = (Integer) dependencies.get(node);
 			
@@ -261,7 +261,7 @@ public class PrettyPrinter extends TextPrinter {
 				dependencies.put(node, new Integer(1));
 			}
 		} else {
-			Category.getInstance(getClass().getName()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
+			Logger.getLogger(getClass()).debug("Ignoring \"" + CurrentNode() + "\" --> \"" + node + "\"");
 		}
 	}
 	

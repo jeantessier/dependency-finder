@@ -44,15 +44,15 @@ public class Exceptions_attribute extends Attribute_info {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Attribute length: " + byte_count);
+		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		int exception_count = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + exception_count + " exception(s) ...");
+		Logger.getLogger(getClass()).debug("Reading " + exception_count + " exception(s) ...");
 		for (int i=0; i<exception_count; i++) {
-			Category.getInstance(getClass().getName()).debug("Exception " + i + ":");
+			Logger.getLogger(getClass()).debug("Exception " + i + ":");
 			Class_info exception = (Class_info) classfile.ConstantPool().get(in.readUnsignedShort());
 			exceptions.add(exception);
-			Category.getInstance(getClass().getName()).debug("Class " + exception);
+			Logger.getLogger(getClass()).debug("Class " + exception);
 		}
 	}
 

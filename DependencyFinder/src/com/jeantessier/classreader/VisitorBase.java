@@ -96,7 +96,7 @@ public abstract class VisitorBase implements Visitor {
 	// Attributes
 	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {}
 	public void VisitCode_attribute(Code_attribute attribute) {
-		Category.getInstance(getClass().getName()).debug("Visiting " + attribute.ExceptionHandlers().size() + " exception handler(s) ...");
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.ExceptionHandlers().size() + " exception handler(s) ...");
 		
 		Iterator i;
 
@@ -105,7 +105,7 @@ public abstract class VisitorBase implements Visitor {
 			((Visitable) i.next()).Accept(this);
 		}
 		
-		Category.getInstance(getClass().getName()).debug("Visiting " + attribute.Attributes().size() + " code attribute(s) ...");
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.Attributes().size() + " code attribute(s) ...");
 		
 		i = attribute.Attributes().iterator();
 		while (i.hasNext()) {
@@ -113,7 +113,7 @@ public abstract class VisitorBase implements Visitor {
 		}
 	}
 	public void VisitExceptions_attribute(Exceptions_attribute attribute) {
-		Category.getInstance(getClass().getName()).debug("Visiting " + attribute.Exceptions().size() + " exception class(es) ...");
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.Exceptions().size() + " exception class(es) ...");
 
 		Iterator i = attribute.Exceptions().iterator();
 		while (i.hasNext()) {
@@ -121,7 +121,7 @@ public abstract class VisitorBase implements Visitor {
 		}
 	}
 	public void VisitInnerClasses_attribute(InnerClasses_attribute attribute) {
-		Category.getInstance(getClass().getName()).debug("Visiting " + attribute.Classes().size() + " inner class(es) ...");
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.Classes().size() + " inner class(es) ...");
 
 		Iterator i = attribute.Classes().iterator();
 		while (i.hasNext()) {
@@ -131,7 +131,7 @@ public abstract class VisitorBase implements Visitor {
 	public void VisitSynthetic_attribute(Synthetic_attribute attribute) {}
 	public void VisitSourceFile_attribute(SourceFile_attribute attribute) {}
 	public void VisitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-		Category.getInstance(getClass().getName()).debug("Visiting " + attribute.LineNumbers().size() + " line number(s) ...");
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.LineNumbers().size() + " line number(s) ...");
 
 		Iterator i = attribute.LineNumbers().iterator();
 		while (i.hasNext()) {
@@ -139,7 +139,7 @@ public abstract class VisitorBase implements Visitor {
 		}
 	}
 	public void VisitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-		Category.getInstance(getClass().getName()).debug("Visiting " + attribute.LocalVariables().size() + " local variable(s) ...");
+		Logger.getLogger(getClass()).debug("Visiting " + attribute.LocalVariables().size() + " local variable(s) ...");
 
 		Iterator i = attribute.LocalVariables().iterator();
 		while (i.hasNext()) {

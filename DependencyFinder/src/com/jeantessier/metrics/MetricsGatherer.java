@@ -288,7 +288,7 @@ public class MetricsGatherer extends VisitorBase {
 		} else if (owner instanceof Method_info) {
 			CurrentClass().AddToMetric(Metrics.SYNTHETIC_METHODS);
 		} else {
-			Category.getInstance(getClass().getName()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
+			Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
 		}
 	}
 
@@ -313,7 +313,7 @@ public class MetricsGatherer extends VisitorBase {
 		} else if (owner instanceof Method_info) {
 			CurrentClass().AddToMetric(Metrics.DEPRECATED_METHODS);
 		} else {
-			Category.getInstance(getClass().getName()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
+			Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
 		}
 	}
 

@@ -89,40 +89,40 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitClass_info(Class_info entry) {
-		Category.getInstance(getClass().getName()).debug("CodeDependencyCollector.VisitClass_info():");
-		Category.getInstance(getClass().getName()).debug("    name = \"" + entry.Name() + "\"");
+		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitClass_info():");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
 		if (entry.Name().startsWith("[")) {
 			ProcessDescriptor(entry.Name());
 		} else {
 			Node other = Factory().CreateClass(entry.Name());
 			current.AddDependency(other);
-			Category.getInstance(getClass().getName()).info("Class_info dependency: " + current + " --> " + other);
+			Logger.getLogger(getClass()).info("Class_info dependency: " + current + " --> " + other);
 			fireDependency(current, other);
 		}
 	}
     
 	public void VisitFieldRef_info(FieldRef_info entry) {
-		Category.getInstance(getClass().getName()).debug("CodeDependencyCollector.VisitFieldRef_info():");
-		Category.getInstance(getClass().getName()).debug("    class = \"" + entry.Class() + "\"");
-		Category.getInstance(getClass().getName()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Category.getInstance(getClass().getName()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
+		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitFieldRef_info():");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
 		Node other = Factory().CreateFeature(entry.FullSignature());
 		current.AddDependency(other);
-		Category.getInstance(getClass().getName()).info("FieldRef_info dependency: " + current + " --> " + other);
+		Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
 		fireDependency(current, other);
 
 		ProcessDescriptor(entry.RawNameAndType().Type());
 	}
 
 	public void VisitMethodRef_info(MethodRef_info entry) {
-		Category.getInstance(getClass().getName()).debug("CodeDependencyCollector.VisitMethodRef_info():");
-		Category.getInstance(getClass().getName()).debug("    class = \"" + entry.Class() + "\"");
-		Category.getInstance(getClass().getName()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Category.getInstance(getClass().getName()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
+		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitMethodRef_info():");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
 		if (!entry.IsStaticInitializer()) {
 			Node other  = Factory().CreateFeature(entry.FullSignature());
 			current.AddDependency(other);
-			Category.getInstance(getClass().getName()).info("MethodRef_info dependency: " + current + " --> " + other);
+			Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
 			fireDependency(current, other);
 
 			ProcessDescriptor(entry.RawNameAndType().Type());
@@ -130,22 +130,22 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-		Category.getInstance(getClass().getName()).debug("CodeDependencyCollector.VisitInterfaceMethodRef_info():");
-		Category.getInstance(getClass().getName()).debug("    class = \"" + entry.Class() + "\"");
-		Category.getInstance(getClass().getName()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
-		Category.getInstance(getClass().getName()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
+		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitInterfaceMethodRef_info():");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
 		Node other  = Factory().CreateFeature(entry.FullSignature());
 		current.AddDependency(other);
-		Category.getInstance(getClass().getName()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
+		Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
 		fireDependency(current, other);
 
 		ProcessDescriptor(entry.RawNameAndType().Type());
 	}
 
 	public void VisitField_info(Field_info entry) {
-		Category.getInstance(getClass().getName()).debug("CodeDependencyCollector.VisitField_info():");
-		Category.getInstance(getClass().getName()).debug("    name = \"" + entry.Name() + "\"");
-		Category.getInstance(getClass().getName()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
+		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitField_info():");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
+		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
 
 		current = Factory().CreateFeature(entry.FullSignature());
 
@@ -155,9 +155,9 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitMethod_info(Method_info entry) {
-		Category.getInstance(getClass().getName()).debug("CodeDependencyCollector.VisitMethod_info():");
-		Category.getInstance(getClass().getName()).debug("    name = \"" + entry.Name() + "\"");
-		Category.getInstance(getClass().getName()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
+		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitMethod_info():");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
+		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
 	
 		if (entry.IsStaticInitializer()) {
 			current = Factory().CreateClass(entry.Classfile().Class());
@@ -171,7 +171,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitCode_attribute(Code_attribute attribute) {
-		Category.getInstance(getClass().getName()).debug("CodeDependencyCollector.VisitCode_attribute() ...");
+		Logger.getLogger(getClass()).debug("CodeDependencyCollector.VisitCode_attribute() ...");
 
 		byte[] code = attribute.Code();
 
@@ -211,7 +211,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 	}
 
 	public void VisitExceptionHandler(ExceptionHandler helper) {
-		Category.getInstance(getClass().getName()).debug(getClass().getName() + "VisitExceptionHandler(): " + helper);
+		Logger.getLogger(getClass()).debug(getClass().getName() + "VisitExceptionHandler(): " + helper);
 		
 		if (helper.CatchTypeIndex() != 0) {
 			helper.RawCatchType().Accept(this);
@@ -226,10 +226,10 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		while ((start_pos = str.indexOf('L', current_pos)) != -1) {
 			if ((end_pos = str.indexOf(';', start_pos)) != -1) {
 				String classname = SignatureHelper.Path2ClassName(str.substring(start_pos + 1, end_pos));
-				Category.getInstance(getClass().getName()).debug("    Adding \"" + classname + "\"");
+				Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
 				Node other = Factory().CreateClass(classname);
 				current.AddDependency(other);
-				Category.getInstance(getClass().getName()).info("descriptor dependency: " + current + " --> " + other);
+				Logger.getLogger(getClass()).info("descriptor dependency: " + current + " --> " + other);
 				fireDependency(current, other);
 				current_pos = end_pos + 1;
 			} else {

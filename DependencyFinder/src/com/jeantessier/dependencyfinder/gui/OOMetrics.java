@@ -40,6 +40,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
+import org.apache.log4j.*;
+
 import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
@@ -49,6 +51,8 @@ import com.jeantessier.metrics.*;
 public class OOMetrics extends JFrame {
 	public static final String DEFAULT_LOGFILE   = "System.out";
 	public static final String DEFAULT_TRACEFILE = "System.out";
+
+	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
 
 	private MetricsFactory    factory       = new MetricsFactory("Project");
 	
@@ -274,18 +278,28 @@ public class OOMetrics extends JFrame {
 		}
 
 		if (command_line.IsPresent("verbose")) {
+			Logger logger = Logger.getLogger("com.jeantessier.metrics");
+			logger.setLevel(Level.DEBUG);
+			
 			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
-
+				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
 			} else {
-
+				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("verbose"))));
 			}
 		}
 
 		if (command_line.IsPresent("trace")) {
+			Logger logger1 = Logger.getLogger("com.jeantessier.classreader");
+			Logger logger2 = Logger.getLogger("com.jeantessier.dependency");
+			logger1.setLevel(Level.DEBUG);
+			logger2.setLevel(Level.DEBUG);
+			
 			if ("System.out".equals(command_line.OptionalSwitch("trace"))) {
-
+				logger1.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
+				logger2.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
 			} else {
-
+				logger1.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
+				logger2.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
 			}
 		}
 

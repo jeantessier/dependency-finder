@@ -53,7 +53,7 @@ public class AttributeFactory {
 		int name_index = in.readUnsignedShort();
 		if (name_index > 0) {
 			String name = ((UTF8_info) classfile.ConstantPool().get(name_index)).Value();
-			Category.getInstance(AttributeFactory.class.getName()).debug("Attribute name index: " + name_index + " (" + name + ")");
+			Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index + " (" + name + ")");
 	    
 			if (CONSTANT_VALUE.equals(name)) {
 				result = new ConstantValue_attribute(classfile, owner, in);
@@ -74,13 +74,13 @@ public class AttributeFactory {
 			} else if (DEPRECATED.equals(name)) {
 				result = new Deprecated_attribute(classfile, owner, in);
 			} else {
-				Category.getInstance(AttributeFactory.class.getName()).warn("Unknown attribute name \"" + name + "\"");
+				Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
 				result = new Custom_attribute(name, classfile, owner, in);
 			}
 		} else {
-			Category.getInstance(AttributeFactory.class.getName()).debug("Attribute name index: " + name_index);
+			Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + name_index);
 
-			Category.getInstance(AttributeFactory.class.getName()).warn("Unknown attribute with no name");
+			Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with no name");
 			result = new Custom_attribute(classfile, owner, in);
 		}
 

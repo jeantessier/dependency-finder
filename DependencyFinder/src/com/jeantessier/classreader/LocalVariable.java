@@ -48,19 +48,19 @@ public class LocalVariable implements Visitable {
 		LocalVariableTable(local_variable_table);
 
 		start_pc = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("start PC: " + start_pc);
+		Logger.getLogger(getClass()).debug("start PC: " + start_pc);
 
 		length = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("length: " + length);
+		Logger.getLogger(getClass()).debug("length: " + length);
 
 		name_index       = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("name: " + name_index + " (" + Name() + ")");
+		Logger.getLogger(getClass()).debug("name: " + name_index + " (" + Name() + ")");
 
 		descriptor_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("descriptor: " + descriptor_index + " (" + Descriptor() + ")");
+		Logger.getLogger(getClass()).debug("descriptor: " + descriptor_index + " (" + Descriptor() + ")");
 
 		index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("index: " + index);
+		Logger.getLogger(getClass()).debug("index: " + index);
     }
 
     public LocalVariableTable_attribute LocalVariableTable() {

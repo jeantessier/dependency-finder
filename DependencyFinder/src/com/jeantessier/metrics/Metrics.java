@@ -154,9 +154,9 @@ public class Metrics {
 		this.name   = name;
 
 		if (parent == null) {
-			Category.getInstance(getClass().getName()).debug("Created top-level metrics \"" + name + "\"");
+			Logger.getLogger(getClass()).debug("Created top-level metrics \"" + name + "\"");
 		} else {
-			Category.getInstance(getClass().getName()).debug("Created metrics \"" + name + "\" under \"" + parent.Name() + "\"");
+			Logger.getLogger(getClass()).debug("Created metrics \"" + name + "\" under \"" + parent.Name() + "\"");
 		}
 	}
 

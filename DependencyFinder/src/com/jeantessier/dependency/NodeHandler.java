@@ -71,10 +71,10 @@ public class NodeHandler extends DefaultHandler {
 	}
     
 	public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-		Category.getInstance(getClass().getName()).debug("qName = " + qName);
+		Logger.getLogger(getClass()).debug("qName = " + qName);
 
 		for (int i=0; i<atts.getLength(); i++) {
-			Category.getInstance(getClass().getName()).debug("    " + atts.getQName(i) + ": " + atts.getValue(i));
+			Logger.getLogger(getClass()).debug("    " + atts.getQName(i) + ": " + atts.getValue(i));
 		}
 
 		current_name.delete(0, current_name.length());
@@ -95,17 +95,17 @@ public class NodeHandler extends DefaultHandler {
 			}
 		}
 
-		Category.getInstance(getClass().getName()).debug("    current_node_type: " + current_node_type);
-		Category.getInstance(getClass().getName()).debug("    current_dependency_type: " + current_dependency_type);
+		Logger.getLogger(getClass()).debug("    current_node_type: " + current_node_type);
+		Logger.getLogger(getClass()).debug("    current_dependency_type: " + current_dependency_type);
 	}
 
 	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-		Category.getInstance(getClass().getName()).debug("qName = " + qName);
+		Logger.getLogger(getClass()).debug("qName = " + qName);
 
 		if ("name".equals(qName)) {
-			Category.getInstance(getClass().getName()).debug("    Processing <name> tag:");
-			Category.getInstance(getClass().getName()).debug("        current_name: " + current_name);
-			Category.getInstance(getClass().getName()).debug("        current_node_type: " + current_node_type);
+			Logger.getLogger(getClass()).debug("    Processing <name> tag:");
+			Logger.getLogger(getClass()).debug("        current_name: " + current_name);
+			Logger.getLogger(getClass()).debug("        current_node_type: " + current_node_type);
 
 			switch (current_node_type) {
 				case PACKAGE:
@@ -123,9 +123,9 @@ public class NodeHandler extends DefaultHandler {
 					break;
 			}
 		} else if ("outbound".equals(qName)) {
-			Category.getInstance(getClass().getName()).debug("    Processing <outbound> tag:");
-			Category.getInstance(getClass().getName()).debug("        current_name: " + current_name);
-			Category.getInstance(getClass().getName()).debug("        current_dependency_type: " + current_dependency_type);
+			Logger.getLogger(getClass()).debug("    Processing <outbound> tag:");
+			Logger.getLogger(getClass()).debug("        current_name: " + current_name);
+			Logger.getLogger(getClass()).debug("        current_dependency_type: " + current_dependency_type);
 
 			Node other = null;
 			switch (current_dependency_type) {
@@ -142,9 +142,9 @@ public class NodeHandler extends DefaultHandler {
 			current_node.AddDependency(other);
 			fireDependency(current_node, other);
 		} else if ("inbound".equals(qName)) {
-			Category.getInstance(getClass().getName()).debug("    Processing <inbound> tag:");
-			Category.getInstance(getClass().getName()).debug("        current_name: " + current_name);
-			Category.getInstance(getClass().getName()).debug("        current_dependency_type: " + current_dependency_type);
+			Logger.getLogger(getClass()).debug("    Processing <inbound> tag:");
+			Logger.getLogger(getClass()).debug("        current_name: " + current_name);
+			Logger.getLogger(getClass()).debug("        current_dependency_type: " + current_dependency_type);
 
 			Node other = null;
 			switch (current_dependency_type) {
@@ -165,7 +165,7 @@ public class NodeHandler extends DefaultHandler {
 
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		current_name.append(ch, start, length);
-		Category.getInstance(getClass().getName()).debug("characters: \"" + new String(ch, start, length) + "\"");
+		Logger.getLogger(getClass()).debug("characters: \"" + new String(ch, start, length) + "\"");
 	}
 
 	public void addDependencyListener(DependencyListener listener) {

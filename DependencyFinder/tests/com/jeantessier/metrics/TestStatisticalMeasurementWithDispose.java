@@ -56,7 +56,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	protected void setUp() throws Exception {
-		Category.getInstance(getClass().getName()).info("Starting test: " + getName());
+		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
 		m1 = new Metrics("m1");
 		m2 = new Metrics("m2");
@@ -92,7 +92,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 	}
 
 	protected void tearDown() throws Exception {
-		Category.getInstance(getClass().getName()).info("End of " + getName());
+		Logger.getLogger(getClass()).info("End of " + getName());
 	}
 
 	public void testDefault() {

@@ -58,7 +58,7 @@ public class TestGraphSummarizer extends TestCase {
 	}
 
 	protected void setUp() throws Exception {
-		Category.getInstance(getClass().getName()).info("Starting test: " + getName());
+		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
 		strategy = new SelectiveTraversalStrategy();
 		factory = new NodeFactory();
@@ -75,7 +75,7 @@ public class TestGraphSummarizer extends TestCase {
 	}
 
 	protected void tearDown() throws Exception {
-		Category.getInstance(getClass().getName()).info("End of " + getName());
+		Logger.getLogger(getClass()).info("End of " + getName());
 	}
 
 	public void testP2PasP2P() {

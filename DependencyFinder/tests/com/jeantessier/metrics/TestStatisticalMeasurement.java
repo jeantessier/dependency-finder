@@ -44,11 +44,11 @@ public class TestStatisticalMeasurement extends TestCase {
 	}
 
 	protected void setUp() throws Exception {
-		Category.getInstance(getClass().getName()).info("Starting test: " + getName());
+		Logger.getLogger(getClass()).info("Starting test: " + getName());
 	}
 	
 	protected void tearDown() throws Exception {
-		Category.getInstance(getClass().getName()).info("End of " + getName());
+		Logger.getLogger(getClass()).info("End of " + getName());
 	}
 
 	public void testAdd() {

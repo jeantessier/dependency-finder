@@ -51,11 +51,11 @@ public class Custom_attribute extends Attribute_info {
 		this.name = name;
 
 		int byte_count = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Attribute length: " + byte_count);
+		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		this.info = new byte[byte_count];
 		int bytes_read = in.read(info);
-		Category.getInstance(getClass().getName()).debug("Bytes read: " + bytes_read);
+		Logger.getLogger(getClass()).debug("Bytes read: " + bytes_read);
     }
 
     public String Name() {

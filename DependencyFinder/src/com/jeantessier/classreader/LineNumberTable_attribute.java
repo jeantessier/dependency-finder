@@ -44,12 +44,12 @@ public class LineNumberTable_attribute extends Attribute_info {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Attribute length: " + byte_count);
+		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		int line_number_table_length = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + line_number_table_length + " line number(s) ...");
+		Logger.getLogger(getClass()).debug("Reading " + line_number_table_length + " line number(s) ...");
 		for (int i=0; i<line_number_table_length; i++) {
-			Category.getInstance(getClass().getName()).debug("Line number entry " + i + ":");
+			Logger.getLogger(getClass()).debug("Line number entry " + i + ":");
 			line_numbers.add(new LineNumber(this, in));
 		}
 	}

@@ -45,10 +45,10 @@ public class LineNumber implements Visitable {
 		LineNumberTable(line_number_table);
 
 		start_pc = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Line number table start PC: " + start_pc);
+		Logger.getLogger(getClass()).debug("Line number table start PC: " + start_pc);
 
 		line_number = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Line number: " + line_number);
+		Logger.getLogger(getClass()).debug("Line number: " + line_number);
 	}
 
 	public LineNumberTable_attribute LineNumberTable() {

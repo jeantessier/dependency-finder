@@ -87,7 +87,7 @@ public class NodeLoader {
 			reader.setFeature("http://xml.org/sax/features/validation", true);
 			// reader.parse(in);
 		} catch (Exception ex) {
-			Category.getInstance(getClass().getName()).warn("Problem setting validation feature on XML reader",ex);
+			Logger.getLogger(getClass()).warn("Problem setting validation feature on XML reader",ex);
 		}
 	
 		reader.parse(in);

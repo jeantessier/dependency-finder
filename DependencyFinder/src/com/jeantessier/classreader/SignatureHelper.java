@@ -56,7 +56,7 @@ public final class SignatureHelper {
 	static String Convert(String type) {
 		String result = null;
 
-		Category.getInstance(SignatureHelper.class.getName()).debug("Begin Convert(\"" + type + "\")");
+		Logger.getLogger(SignatureHelper.class).debug("Begin Convert(\"" + type + "\")");
 
 		if (type.length() == 1) {
 			result = (String) conversion.get(type);
@@ -66,7 +66,7 @@ public final class SignatureHelper {
 			result = Convert(type.substring(1)) + "[]";
 		}
 
-		Category.getInstance(SignatureHelper.class.getName()).debug("End   Convert(\"" + type + "\"): \"" + result + "\"");
+		Logger.getLogger(SignatureHelper.class).debug("End   Convert(\"" + type + "\"): \"" + result + "\"");
 
 		return result;
 	}
@@ -78,7 +78,7 @@ public final class SignatureHelper {
 	public static String Signature(String descriptor) {
 		StringBuffer result = new StringBuffer();
 
-		Category.getInstance(SignatureHelper.class.getName()).debug("Begin Signature(\"" + descriptor + "\")");
+		Logger.getLogger(SignatureHelper.class).debug("Begin Signature(\"" + descriptor + "\")");
 
 		result.append("(");
 
@@ -95,7 +95,7 @@ public final class SignatureHelper {
 
 		result.append(")");
 
-		Category.getInstance(SignatureHelper.class.getName()).debug("End   Signature(\"" + descriptor + "\"): \"" + result + "\"");
+		Logger.getLogger(SignatureHelper.class).debug("End   Signature(\"" + descriptor + "\"): \"" + result + "\"");
 
 		return result.toString();
 	}
@@ -103,7 +103,7 @@ public final class SignatureHelper {
 	public static int ParameterCount(String descriptor) {
 		int result = 0;
 
-		Category.getInstance(SignatureHelper.class.getName()).debug("Begin ParameterCount(\"" + descriptor + "\")");
+		Logger.getLogger(SignatureHelper.class).debug("Begin ParameterCount(\"" + descriptor + "\")");
 
 		int start = descriptor.indexOf("(") + 1;
 		int end   = descriptor.indexOf(")");
@@ -114,7 +114,7 @@ public final class SignatureHelper {
 			result++;
 		}
 
-		Category.getInstance(SignatureHelper.class.getName()).debug("End   ParameterCount(\"" + descriptor + "\"): \"" + result + "\"");
+		Logger.getLogger(SignatureHelper.class).debug("End   ParameterCount(\"" + descriptor + "\"): \"" + result + "\"");
 
 		return result;
 	}

@@ -45,6 +45,8 @@ public class DependencyExtractor {
     public static final String DEFAULT_LOGFILE   = "System.out";
     public static final String DEFAULT_TRACEFILE = "System.out";
 
+	private static final Layout DEFAULT_LOG_LAYOUT = new PatternLayout("[%d{yyyy/MM/dd HH:mm:ss.SSS}] %c %m%n");
+
     public static void Error(CommandLineUsage clu, String msg) {
 		System.err.println(msg);
 		Error(clu);
@@ -95,18 +97,24 @@ public class DependencyExtractor {
 		}
 
 		if (command_line.IsPresent("verbose")) {
+			Logger logger = Logger.getLogger("com.jeantessier.dependency");
+			logger.setLevel(Level.DEBUG);
+			
 			if ("System.out".equals(command_line.OptionalSwitch("verbose"))) {
-
+				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
 			} else {
-
+				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("verbose"))));
 			}
 		}
 
 		if (command_line.IsPresent("trace")) {
+			Logger logger = Logger.getLogger("com.jeantessier.classreader");
+			logger.setLevel(Level.DEBUG);
+			
 			if ("System.out".equals(command_line.OptionalSwitch("trace"))) {
-
+				logger.addAppender(new ConsoleAppender(DEFAULT_LOG_LAYOUT));
 			} else {
-
+				logger.addAppender(new WriterAppender(DEFAULT_LOG_LAYOUT, new FileWriter(command_line.OptionalSwitch("trace"))));
 			}
 		}
 
@@ -144,7 +152,7 @@ public class DependencyExtractor {
 				if (true) {
 					// This version scans the bytecode to capture dependencies
 					// at features scope.
-					Category.getInstance(DependencyExtractor.class.getName()).info("Getting dependencies ...");
+					Logger.getLogger(DependencyExtractor.class).info("Getting dependencies ...");
 					classfile.Accept(new CodeDependencyCollector(factory));
 				} else {
 					// This version scans the constant pool to capture dependencies
@@ -155,23 +163,23 @@ public class DependencyExtractor {
 					Collector collector;
 					Iterator  k;
 
-					Category.getInstance(DependencyExtractor.class.getName()).info("Getting class dependencies ...");
+					Logger.getLogger(DependencyExtractor.class).info("Getting class dependencies ...");
 					collector = new ClassDependencyCollector();
 					classfile.Accept(collector);
 					k = collector.Collection().iterator();
 					while (k.hasNext()) {
 						Node dependency = factory.CreateClass((String) k.next());
-						Category.getInstance(DependencyExtractor.class.getName()).info("\t" + dependency.Name());
+						Logger.getLogger(DependencyExtractor.class).info("\t" + dependency.Name());
 						this_class.AddDependency(dependency);
 					}
 		    
-					Category.getInstance(DependencyExtractor.class.getName()).info("Getting feature dependencies ...");
+					Logger.getLogger(DependencyExtractor.class).info("Getting feature dependencies ...");
 					collector = new FeatureDependencyCollector();
 					classfile.Accept(collector);
 					k = collector.Collection().iterator();
 					while (k.hasNext()) {
 						Node dependency = factory.CreateFeature((String) k.next());
-						Category.getInstance(DependencyExtractor.class.getName()).info("\t" + dependency.Name());
+						Logger.getLogger(DependencyExtractor.class).info("\t" + dependency.Name());
 						this_class.AddDependency(dependency);
 					}
 				}

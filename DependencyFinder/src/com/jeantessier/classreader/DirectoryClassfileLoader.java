@@ -50,7 +50,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderBase {
 		Iterator i = new DirectoryExplorer(Filenames()).Collection().iterator();
 		while (i.hasNext()) {
 			String filename = (String) i.next();
-			Category.getInstance(getClass().getName()).debug("Reading " + filename);
+			Logger.getLogger(getClass()).debug("Reading " + filename);
 			fireLoadStart(filename);
 			// fireLoadElement(filename, null);
 			AddClass(filename);

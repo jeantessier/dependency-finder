@@ -78,63 +78,63 @@ public class Classfile implements Visitable {
 		this.loader = loader;
 
 		magic_number = in.readInt();
-		Category.getInstance(getClass().getName()).debug("magic number = " + magic_number);
+		Logger.getLogger(getClass()).debug("magic number = " + magic_number);
 
 		// Reading the file format's version number
 		minor_version = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("minor version = " + minor_version);
+		Logger.getLogger(getClass()).debug("minor version = " + minor_version);
 		major_version = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("major version = " + major_version);
+		Logger.getLogger(getClass()).debug("major version = " + major_version);
 
 		// Reading the constant pool
-		Category.getInstance(getClass().getName()).debug("Reading the constant pool ...");
+		Logger.getLogger(getClass()).debug("Reading the constant pool ...");
 		constant_pool = new ConstantPool(this, in);
-		Category.getInstance(getClass().getName()).debug(constant_pool);
+		Logger.getLogger(getClass()).debug(constant_pool);
 
 		// Skipping the access flag
 		access_flag = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("access_flag = " + access_flag);
+		Logger.getLogger(getClass()).debug("access_flag = " + access_flag);
 
 		// Retrieving this class's name
 		class_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("this_class = " + class_index + " (" + Class() + ")");
+		Logger.getLogger(getClass()).debug("this_class = " + class_index + " (" + Class() + ")");
 
 		// Retrieving this class's superclass
 		superclass_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("superclass = " + superclass_index + " (" + Superclass() + ")");
+		Logger.getLogger(getClass()).debug("superclass = " + superclass_index + " (" + Superclass() + ")");
 
 		// Retrieving the inferfaces
 		int interface_count = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + interface_count + " interface(s)");
+		Logger.getLogger(getClass()).debug("Reading " + interface_count + " interface(s)");
 		for (int i=0; i<interface_count; i++) {
 			Class_info interface_info = (Class_info) constant_pool.get(in.readUnsignedShort());
-			Category.getInstance(getClass().getName()).debug("    " + interface_info.Name());
+			Logger.getLogger(getClass()).debug("    " + interface_info.Name());
 			interfaces.put(interface_info.Name(), interface_info);
 		}
 
 		// Retrieving the fields
 		int field_count = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + field_count + " field(s)");
+		Logger.getLogger(getClass()).debug("Reading " + field_count + " field(s)");
 		for (int i=0; i<field_count; i++) {
-			Category.getInstance(getClass().getName()).debug("Field " + i + ":");
+			Logger.getLogger(getClass()).debug("Field " + i + ":");
 			Field_info field_info = new Field_info(this, in);
 			fields.put(field_info.Name(), field_info);
 		}
 
 		// Retrieving the methods
 		int method_count = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + method_count + " method(s)");
+		Logger.getLogger(getClass()).debug("Reading " + method_count + " method(s)");
 		for (int i=0; i<method_count; i++) {
-			Category.getInstance(getClass().getName()).debug("Method " + i + ":");
+			Logger.getLogger(getClass()).debug("Method " + i + ":");
 			Method_info method_info = new Method_info(this, in);
 			methods.put(method_info.Signature(), method_info);
 		}
 
 		// Retrieving the attributes
 		int attribute_count = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Reading " + attribute_count + " class attribute(s)");
+		Logger.getLogger(getClass()).debug("Reading " + attribute_count + " class attribute(s)");
 		for (int i=0; i<attribute_count; i++) {
-			Category.getInstance(getClass().getName()).debug("Attribute " + i + ":");
+			Logger.getLogger(getClass()).debug("Attribute " + i + ":");
 			attributes.add(AttributeFactory.Create(this, this, in));
 		}
 	}

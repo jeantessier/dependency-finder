@@ -43,10 +43,10 @@ public class ConstantValue_attribute extends Attribute_info {
 		super(classfile, owner);
 
 		int byte_count = in.readInt();
-		Category.getInstance(getClass().getName()).debug("Attribute length: " + byte_count);
+		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
 
 		value_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("Constant value: " + RawValue());
+		Logger.getLogger(getClass()).debug("Constant value: " + RawValue());
 	}
 
 	public int ValueIndex() {

@@ -47,16 +47,16 @@ public class ExceptionHandler implements Visitable {
 		Code(code);
 
 		start_pc = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("start PC: " + start_pc);
+		Logger.getLogger(getClass()).debug("start PC: " + start_pc);
 
 		end_pc = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("end PC: " + end_pc);
+		Logger.getLogger(getClass()).debug("end PC: " + end_pc);
 
 		handler_pc = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("handler PC: " + handler_pc);
+		Logger.getLogger(getClass()).debug("handler PC: " + handler_pc);
 
 		catch_type_index = in.readUnsignedShort();
-		Category.getInstance(getClass().getName()).debug("catch type index: " + catch_type_index + " (" + CatchType() + ")");
+		Logger.getLogger(getClass()).debug("catch type index: " + catch_type_index + " (" + CatchType() + ")");
 	}
 
 	public Code_attribute Code() {
