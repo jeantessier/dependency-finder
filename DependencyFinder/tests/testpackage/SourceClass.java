@@ -1,4 +1,4 @@
-package test;
+package testpackage;
 
 public class SourceClass extends TestClass {
 	public TestClass source_attribute;
