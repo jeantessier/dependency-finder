@@ -41,40 +41,35 @@ import javax.swing.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
-public class DependencyExtractAction extends AbstractAction implements Runnable, LoadListener {
-	private DependencyFinder model;
-	private File[]           files;
-
-	public DependencyExtractAction(DependencyFinder model) {
+public class ReloadDependencyGraphAction extends AbstractAction implements Runnable, LoadListener {
+	private DependencyFinder model = null;
+	
+	public ReloadDependencyGraphAction(DependencyFinder model) {
 		this.model = model;
 
-		putValue(Action.LONG_DESCRIPTION, "Extract dependencies from compiled classes");
-		putValue(Action.NAME, "Extract");
+		putValue(Action.LONG_DESCRIPTION, "Reloads the current dependency graph");
+		putValue(Action.NAME, "Reload");
 		putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/extract.gif")));
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.InputFile());
-		chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
-		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		chooser.setMultiSelectionEnabled(true);
-		int returnValue = chooser.showDialog(model, "Extract");
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			files = chooser.getSelectedFiles();
-			model.InputFile(files[0]);
-			new Thread(this).start();
-		}
+		new Thread(this).start();
 	}
 
 	public void run() {
 		Date start = new Date();
 		
+		model.ClearDependencyResult();
+		model.ClearClosureResult();
+		model.ClearMetricsResult();
+
+		model.NodeFactory(new NodeFactory());
 		Collector collector = new CodeDependencyCollector(model.NodeFactory());
 
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(this);
 		loader.addLoadListener(collector);
-		loader.Load(Arrays.asList(files));
+		loader.Load(Collections.singleton(model.InputFile()));
 
 		if (model.Maximize()) {
 			model.StatusLine().ShowInfo("Maximizing ...");
@@ -87,7 +82,6 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 		Date stop = new Date();
 		
 		model.StatusLine().ShowInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-		model.setTitle("Dependency Finder - Extractor");
 	}
 
 	public void BeginSession(LoadEvent event) {

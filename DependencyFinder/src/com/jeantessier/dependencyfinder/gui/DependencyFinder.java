@@ -222,6 +222,13 @@ public class DependencyFinder extends JFrame {
 		button = toolbar.add(action);
 		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
+		action = new ReloadDependencyGraphAction(this);
+		menu_item = file_menu.add(action);
+		menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK));
+		menu_item.setMnemonic('r');
+		button = toolbar.add(action);
+		button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
+
 		toolbar.addSeparator();
 		file_menu.addSeparator();
 		
