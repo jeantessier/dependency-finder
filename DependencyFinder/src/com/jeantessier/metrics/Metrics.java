@@ -104,6 +104,8 @@ public class Metrics {
 	public static final String OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES   = "OIPC";
 	public static final String OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES = "OEPF";
 	public static final String OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES   = "OEPC";
+
+	private static final Measurement NULL_MEASUREMENT = new NullMeasurement();
 	
 	private Metrics parent;
 	private String  name;
@@ -178,8 +180,8 @@ public class Metrics {
 		Measurement result = (Measurement) measurements.get(name);
 		
 		if (result == null) {
-			result = new NullMeasurement();
-			Track(name, result);
+			result = NULL_MEASUREMENT;
+			Logger.getLogger(getClass()).info("Null measurement \"" + name + "\" on \"" + Name() + "\"");
 		}
 
 		return result;
