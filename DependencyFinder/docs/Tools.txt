@@ -6344,7 +6344,18 @@ further restrain the report and limit it to the published API.
 
 <blockquote>
 
-    ListDocumentableElements -tag level -valid publicAPI -out list.txt
+    ListDocumentableElements -tag level -valid published -out documented_elements.txt
+
+or, with Ant:
+
+    &lt;javadoc&gt;
+        &lt;doclet name%3D"com.jeantessier.diff.ListDocumentedElements"
+                path%3D"${classesDir}"&gt;
+            &lt;param name%3D"-tag" value%3D"level"/&gt;
+            &lt;param name%3D"-valid" value%3D"published"/&gt;
+            &lt;param name%3D"-out" value%3D"documented_elements.txt"/&gt;
+        &lt;/doclet&gt;
+    &lt;/javadoc&gt;
 
 </blockquote>
 

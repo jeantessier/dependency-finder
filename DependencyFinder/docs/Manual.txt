@@ -316,37 +316,553 @@ Ant tasks that mirror the major functions of the CLI.
 We will start with the GUI-based tools, and then talk about the CLI-based
 tools and end with the Ant tasks.
 
-All the tools support the following two command-line switches:
+---+++ Equivalence Table
 
-<blockquote>
-<table border="0"
+<table border="3"
        cellpadding="5">
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    =-help=
+	<th>
+	    CLI
+	</th>
+	<th>
+	    Ant
+	</th>
+	<th>
+	    GUI
+	</th>
+	<th>
+	    Web 
+	</th>
+    </tr>
+    <tr>
+	<td>
+	    =ClassDump=
 	</td>
 	<td>
-	    Prints the list of valid command-line switches for that
-	    particular tool.
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
 	</td>
     </tr>
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    =-verbose [filename]=
+	<td>
+	    =ClassList=
 	</td>
 	<td>
-	    Writes summary processing information to _filename_.  If you do
-	    not specify a file, the tool will write the information to the
-	    standard output stream.
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ClassMetrics=
+	</td>
+	<td>
+	    =&lt;classmetrics&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ClassReader=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ClosureToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ClosureToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependablesToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependablesToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependablesToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependablesToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependenciesToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependenciesToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependenciesToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependenciesToText.xsl"&gt;=
+	</td>
+	<td>
+	    
+	</td>
+	<td>
+	    
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependencyClosure=
+	</td>
+	<td>
+	    =&lt;dependencyclosure&gt;=
+	</td>
+	<td>
+	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Closure
+	</td>
+	<td>
+	    =closure.jsp= &amp; =advancedclosure.jsp=
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependencyExtractor=
+	</td>
+	<td>
+	    =&lt;dependencyextractor&gt;=
+	</td>
+	<td>
+	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Extract
+	</td>
+	<td>
+	    =extract.jsp=
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependencyFinder=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependencyMetrics=
+	</td>
+	<td>
+	    =&lt;dependencymetrics&gt;=
+	</td>
+	<td>
+	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Metrics
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependencyReporter=
+	</td>
+	<td>
+	    =&lt;dependencyreporter&gt;=
+	</td>
+	<td>
+	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    =query.jsp= &amp; =advancedquery.jsp=
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependentsToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependentsToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DependentsToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependentsToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =DiffToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/DiffToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =JarJarDiff=
+	</td>
+	<td>
+	    =&lt;jarjardiff&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListDependablesToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDependablesToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListDependablesToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDependablesToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListDependentsToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDependentsToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListDependentsToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDependentsToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListDiff=
+	</td>
+	<td>
+	    =&lt;listdiff&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListDiffToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDiffToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListDiffToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDiffToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListDocumentedElements=
+	</td>
+	<td>
+	    <pre>&lt;javadoc&gt;
+    &lt;doclet name%3D"com.jeantessier.diff.ListDocumentedElements"
+	    path%3D"${classesDir}"&gt;
+	&lt;param name%3D"-tag" value%3D"level"/&gt;
+	&lt;param name%3D"-valid" value%3D"published"/&gt;
+	&lt;param name%3D"-out" value%3D"documented_elements.txt"/&gt;
+    &lt;/doclet&gt;
+&lt;/javadoc&gt;</pre>
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListInheritanceDiffToText=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListInheritanceDiffToText.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =ListUnused=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListUnused.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =OOMetrics=
+	</td>
+	<td>
+	    =&lt;oometrics&gt;=
+	</td>
+	<td>
+	    =OOMetricsGUI=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =PublishedDiffToHTML=
+	</td>
+	<td>
+	    =&lt;xslt style%3D"${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =XSLTProcess=
+	</td>
+	<td>
+	    =&lt;xslt&gt;=
+	</td>
+	<td>
+	    _n/a_
+	</td>
+	<td>
+	    _n/a_
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =c2c=
+	</td>
+	<td>
+	    =&lt;dependencyreporter c2c%3D"yes"&gt;=
+	</td>
+	<td>
+	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    =query.jsp= &amp; =advancedquery.jsp=
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =c2p=
+	</td>
+	<td>
+	    =&lt;dependencyreporter c2p%3D"yes"&gt;=
+	</td>
+	<td>
+	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    =query.jsp= &amp; =advancedquery.jsp=
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =f2f=
+	</td>
+	<td>
+	    =&lt;dependencyreporter f2f%3D"yes"&gt;=
+	</td>
+	<td>
+	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    =query.jsp= &amp; =advancedquery.jsp=
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    =p2p=
+	</td>
+	<td>
+	    =&lt;dependencyreporter p2p%3D"yes"&gt;=
+	</td>
+	<td>
+	    =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+	</td>
+	<td>
+	    =query.jsp= &amp; =advancedquery.jsp=
 	</td>
     </tr>
 </table>
-</blockquote>
 
-Many of the tools also support some or all of the following three
-command-line switches:
+---+++ GUI
+
+The main tool is =DependencyFinder=.  It extracts dependencies from
+compiled code, maintains the dependency graph in memory, and provides
+an interface for querying the graph and display the results.
+
+<div align="center">
+    [[images/DependencyFinder.query.jpg][images/s_DependencyFinder.query.jpg]]
+*DependencyFinder*
+</div>
+
+The other tool computes metrics on a given codebase.  It displays
+results in a table with sortable columns.  Different tabs control the
+level of detail: package, class, or method.
+
+<div align="center">
+    [[images/OOMetricsGUI.sample.jpg][images/s_OOMetricsGUI.sample.jpg]]
+*OOMetricsGUI*
+</div>
+
+---+++ CLI
+
+<div align="center">
+    [[images/Flow.gif]]
+*Document Flow*
+</div>
+
+All the tools support =-help= command-line switch, which prints the list of
+valid command-line switches for that particular tool.  Many of the tools also
+support some or all of the following four command-line switches:
 
 <blockquote>
 <table border="0"
@@ -384,35 +900,19 @@ command-line switches:
 	    can help you plan lenghty operations in the future.
 	</td>
     </tr>
+    <tr>
+	<td valign="top"
+	    nowrap="true">
+	    =-verbose [filename]=
+	</td>
+	<td>
+	    Writes summary processing information to _filename_.  If you do
+	    not specify a file, the tool will write the information to the
+	    standard output stream.
+	</td>
+    </tr>
 </table>
 </blockquote>
-
----+++ GUI
-
-The main tool is =DependencyFinder=.  It extracts dependencies from
-compiled code, maintains the dependency graph in memory, and provides
-an interface for querying the graph and display the results.
-
-<div align="center">
-    [[images/DependencyFinder.query.jpg][images/s_DependencyFinder.query.jpg]]
-*DependencyFinder*
-</div>
-
-The other tool computes metrics on a given codebase.  It displays
-results in a table with sortable columns.  Different tabs control the
-level of detail: package, class, or method.
-
-<div align="center">
-    [[images/OOMetricsGUI.sample.jpg][images/s_OOMetricsGUI.sample.jpg]]
-*OOMetricsGUI*
-</div>
-
----+++ CLI
-
-<div align="center">
-    [[images/Flow.gif]]
-*Document Flow*
-</div>
 
 ---+++ Ant
 
