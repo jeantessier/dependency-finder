@@ -63,6 +63,16 @@ by Jean Tessier
 <li><a href="#OOMetrics">OO Metrics</a></li>
 <ul>
 <li><a href="#DataStructure">Data Structure</a></li>
+<li><a href="#Dependency-RelatedMetrics">Dependency-Related Metrics</a></li>
+<ul>
+<li><a href="#Intra-PackageMethod-to-Class">Intra-Package Method-to-Class</a></li>
+<li><a href="#Extra-PackageMethod-to-Class">Extra-Package Method-to-Class</a></li>
+<li><a href="#Intra-PackageClass-to-Class">Intra-Package Class-to-Class</a></li>
+<li><a href="#Extra-PackageClass-to-Class">Extra-Package Class-to-Class</a></li>
+<li><a href="#Intra-ClassMethod-to-Method">Intra-Class Method-to-Method</a></li>
+<li><a href="#Intra-PackageMethod-to-Method">Intra-Package Method-to-Method</a></li>
+<li><a href="#Extra-PackageMethod-to-Method">Extra-Package Method-to-Method</a></li>
+</ul>
 </ul>
 <li><a href="#APIDifferencesX">API Differences</a></li>
 <li><a href="#Command-LineParsing">Command-Line Parsing</a></li>
@@ -624,6 +634,399 @@ measurements through their descriptor and in the configuration file.
     <img src="images/MetricsStructure.gif" /><br />
 </div>
 
+<a name="Dependency-RelatedMetrics" />
+<h3>Dependency-Related Metrics</h3>
+
+<table><tr><td colspan="3">
+
+<a name="Intra-PackageMethod-to-Class" />
+<h4>Intra-Package Method-to-Class</h4>
+
+<p>
+Dependency from a method to another class in the same package.
+</p>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class A {
+        public void a(B b) {
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OIPC-IIPM.gif" /><br />
+</td><td valign="top">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class B {
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    p.A.a(B)
+        OIPC: 1
+            p.B
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    p.B
+        IIPM: 1
+            p.A.a(B)
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Extra-PackageMethod-to-Class" />
+<h4>Extra-Package Method-to-Class</h4>
+
+<p>
+Dependency from a method to another class in another package.
+</p>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    package a;
+</pre>
+    
+<pre>
+    import b.*;
+</pre>
+    
+<pre>
+    public class A {
+        public void a(B b) {
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OEPC-IEPM.gif" /><br />
+</td><td valign="top">
+
+<pre>
+    package b;
+</pre>
+    
+<pre>
+    public class B {
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    a.A.a(B)
+        OEPC: 1
+            p.B
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    b.B
+        IEPM: 1
+            a.A.a(B)
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Intra-PackageClass-to-Class" />
+<h4>Intra-Package Class-to-Class</h4>
+
+<p>
+Dependency from a class to another class in the same package.
+</p>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class A extends B {
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OIP-IIP.gif" /><br />
+</td><td valign="top">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class B {
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    p.A
+        OIP: 1
+            p.B
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    p.B
+        IIP: 1
+            p.A
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Extra-PackageClass-to-Class" />
+<h4>Extra-Package Class-to-Class</h4>
+
+<p>
+Dependency from a class to another class in another package.
+</p>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    package a;
+</pre>
+    
+<pre>
+    import b.*;
+</pre>
+    
+<pre>
+    public class A extends B {
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OEP-IEP.gif" /><br />
+</td><td valign="top">
+
+<pre>
+    package b;
+</pre>
+    
+<pre>
+    public class B {
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    a.A
+        OEP: 1
+            b.B
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    b.B
+        IEP: 1
+            a.A
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Intra-ClassMethod-to-Method" />
+<h4>Intra-Class Method-to-Method</h4>
+
+<p>
+Dependency from a method to another method in the same class.
+</p>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class C {
+        public void a() {
+            b();
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OICF-IICM.gif" /><br />
+</td><td valign="top">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class C {
+        public void b() {
+        }
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    p.C.a()
+        OICF: 1
+            p.C.b()
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    p.C.b()
+        IICM: 1
+            p.C.a()
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Intra-PackageMethod-to-Method" />
+<h4>Intra-Package Method-to-Method</h4>
+
+<p>
+Dependency from a method to another method in another class in the same package.
+</p>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class A {
+        public void a() {
+            b.b();
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OIPF-IIPM.gif" /><br />
+</td><td valign="top">
+
+<pre>
+    package p;
+</pre>
+    
+<pre>
+    public class B {
+        public void b() {
+        }
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    p.A.a()
+        OIPF: 1
+            p.B.b()
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    p.B.b()
+        IIPM: 1
+            p.A.a()
+</pre>
+
+</td></tr><tr><td colspan="3">
+
+<a name="Extra-PackageMethod-to-Method" />
+<h4>Extra-Package Method-to-Method</h4>
+
+<p>
+Dependency from a method to another method in another class in another package.
+</p>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    package a;
+</pre>
+    
+<pre>
+    import b.*;
+</pre>
+    
+<pre>
+    public class A {
+        public void a() {
+            b.b();
+        }
+    }
+</pre>
+
+</td><td valign="top"
+         align="center"
+         rowspan="2">
+<img src="images/OEPF-IEPM.gif" /><br />
+</td><td valign="top">
+
+<pre>
+    package b;
+</pre>
+    
+<pre>
+    public class B {
+        public void b() {
+        }
+    }
+</pre>
+
+</td></tr><tr><td valign="top">
+
+<pre>
+    a.A.a()
+        OEPF: 1
+            b.B.b()
+</pre>
+
+</td><td valign="top">
+
+<pre>
+    b.B.b()
+        IEPM: 1
+            a.A.a()
+</pre>
+
+</td></tr></table>
+
 <hr />
 
 <a name="APIDifferencesX" />
@@ -753,11 +1156,10 @@ retrieve parameters, if any, with the <code>Parameters()</code> method.
 <h3>Compiling a Build</h3>
 
 <pre>
-    C:\>ant jar
-    C:\>ant clean
+    C:\>ant realclean
+    C:\>ant src
     C:\>ant docs
     C:\>ant dist
-    C:\>ant src
     C:\>ant war
 </pre>
 
@@ -766,7 +1168,7 @@ or
 </p>
 
 <pre>
-    C:\>ant jar clean docs dist src war
+    C:\>ant realclean src docs dist src war
 </pre>
 
 <a name="TestingtheBuild" />

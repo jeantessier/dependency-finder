@@ -42,12 +42,15 @@
 <li><a href="#HideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
 <li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 <li><a href="#JarJarDiff">JarJarDiff</a></li>
+<li><a href="#ListDeprecatedElements">ListDeprecatedElements</a></li>
 <li><a href="#ListDiff">ListDiff</a></li>
 <li><a href="#ListDiffToHTML">ListDiffToHTML</a></li>
 <li><a href="#ListDiffToText">ListDiffToText</a></li>
 <li><a href="#ListDocumentedElements">ListDocumentedElements</a></li>
 <li><a href="#ListInheritanceDiffToText">ListInheritanceDiffToText</a></li>
 <li><a href="#ListUnused">ListUnused</a></li>
+<li><a href="#MetricsToHTML">MetricsToHTML</a></li>
+<li><a href="#MetricsToText">MetricsToText</a></li>
 <li><a href="#OOMetrics">OOMetrics</a></li>
 <li><a href="#OOMetricsGUI">OOMetricsGUI</a></li>
 <li><a href="#PublishedDiffToHTML">PublishedDiffToHTML</a></li>
@@ -78,6 +81,7 @@
 <li><a href="#HideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
 <li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 <li><a href="#ListUnused">ListUnused</a></li>
+<li><a href="#ListDeprecatedElements">ListDeprecatedElements</a></li>
 <p />
 <li><a href="#DependencyClosure">DependencyClosure</a></li>
 <li><a href="#ClosureToText">ClosureToText</a></li>
@@ -90,10 +94,11 @@
 <b>Metrics</b>
 <ul>
 <li><a href="#OOMetrics">OOMetrics</a></li>
+<li><a href="#MetricsToHTML">MetricsToHTML</a></li>
+<li><a href="#MetricsToText">MetricsToText</a></li>
 <li><a href="#OOMetricsGUI">OOMetricsGUI</a></li>
 <p />
 <li><a href="#ClassMetrics">ClassMetrics</a></li>
-<p />
 <li><a href="#DependencyMetrics">DependencyMetrics</a></li>
 </ul>
 <b>API Differences</b>
@@ -500,6 +505,7 @@ synchronized, or abstract methods, etc.
 <pre>
     ClassMetrics
     	[-help]
+	[-instruction-counts]
     	[-list]
     	[-out filename]
     	[-time]
@@ -551,6 +557,24 @@ Prints synopsis.
 
 <p>
 Lists the programming elements under each measurement.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-instruction-count" />
+<h4><code>-instruction-count</code></h4>
+
+<blockquote>
+
+<p>
+Shows the number of times each instruction in the Java virtual machine
+instruction set is used in the codebase.
 </p>
 
 <table border="0">
@@ -754,6 +778,7 @@ Takes a compiled Java <i>.class</i> file and writes out its structure.
 <pre>
     ClassReader
     	[-dtd-prefix uri]
+    	[-encoding name]
     	[-help]
     	[-indent-text text]
     	[-out filename]
@@ -796,6 +821,23 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
+</table>
+
+</blockquote>
+
+<a name="-encodingname" />
+<h4><code>-encoding name</code></h4>
+
+<blockquote>
+
+<p>
+The encoding used for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>utf-8</code></td></tr>
 </table>
 
 </blockquote>
@@ -1027,7 +1069,7 @@ And here is the XML document, built from a <code>.class</code> file.
 
 <pre>
     ClassReader -xml classes\test.class
-    &lt;?xml version="1.0" encoding="UTF-8" standalone="yes" ?&gt;
+    &lt;?xml version="1.0" encoding="UTF-8" ?&gt;
     &nbsp;
     &lt;!DOCTYPE classfile SYSTEM "http://depfind.sourceforge.net/dtd/classfile.dtd"&gt;
     &nbsp;
@@ -1689,6 +1731,7 @@ point.
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
     	[-dtd-prefix uri]
+	[-encoding name]
     	[-excludes value]*
     	[-f2f]
     	[-feature-filter]
@@ -1714,7 +1757,6 @@ point.
     	[-package-scope-includes value]*
     	[-scope-excludes value]*
     	[-scope-includes value]*
-    	[-serialize]
     	[-time]
     	[-validate]
     	[-verbose [filename]]
@@ -1985,6 +2027,23 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
+</table>
+
+</blockquote>
+
+<a name="-encodingnameX" />
+<h4><code>-encoding name</code></h4>
+
+<blockquote>
+
+<p>
+The encoding used for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>utf-8</code></td></tr>
 </table>
 
 </blockquote>
@@ -2507,28 +2566,6 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-serialize" />
-<h4><code>-serialize</code></h4>
-
-<blockquote>
-
-<p>
-Writes the dependency graph as serialized Java objects.
-</p>
-
-<p>
-At this time, Dependency Finder cannot deserialize a saved graph, so this
-switch is pretty useless.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
 <a name="-timeXXX" />
 <h4><code>-time</code></h4>
 
@@ -2628,10 +2665,6 @@ Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 </p>
 
-<p>
-At this time, the tool cannot read serialized graphs.
-</p>
-
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -2647,11 +2680,6 @@ At this time, the tool cannot read serialized graphs.
 
 <p>
 The normal output is the resulting dependency graph, rendered as text.
-</p>
-
-<p>
-With <code>-ser</code>, it serializes the resulting dependency graph with Java
-serialization.
 </p>
 
 <p>
@@ -2735,13 +2763,13 @@ Extracts dependencies from compiled classes.
 
 <pre>
     DependencyExtractor
+	[-encoding name]
     	[-dtd-prefix uri]
     	[-help]
     	[-indent-text text]
     	[-maximize]
     	[-minimize]
     	[-out filename]
-    	[-serialize]
     	[-time]
     	[-verbose [filename]]
     	[-version]
@@ -2783,6 +2811,23 @@ See also:
 <h3>Switches</h3>
 
 <blockquote>
+
+<a name="-encodingnameXX" />
+<h4><code>-encoding name</code></h4>
+
+<blockquote>
+
+<p>
+The encoding used for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>utf-8</code></td></tr>
+</table>
+
+</blockquote>
 
 <a name="-dtd-prefixuriXX" />
 <h4><code>-dtd-prefix uri</code></h4>
@@ -2887,28 +2932,6 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-serializeX" />
-<h4><code>-serialize</code></h4>
-
-<blockquote>
-
-<p>
-Writes the dependency graph as serialized Java objects.
-</p>
-
-<p>
-At this time, Dependency Finder cannot deserialize a saved graph, so this
-switch is pretty useless.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
 <a name="-timeXXXX" />
 <h4><code>-time</code></h4>
 
@@ -2992,10 +3015,6 @@ You can also give directory names, the tool will search it for <code>.class</cod
 and read them.
 </p>
 
-<p>
-At this time, the tool cannot read serialized graphs.
-</p>
-
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -3011,11 +3030,6 @@ At this time, the tool cannot read serialized graphs.
 
 <p>
 The normal output is the dependency graph, rendered as text.
-</p>
-
-<p>
-With <code>-ser</code>, it serializes the entire dependency graph with Java
-serialization.
 </p>
 
 <p>
@@ -3092,6 +3106,7 @@ Swing application for dependency analysis.
 
 <pre>
     DependencyFinder
+	[-encoding name]
     	[-dtd-prefix uri]
     	[-help]
     	[-indent-text text]
@@ -3127,6 +3142,23 @@ It combines the functionalities of the following tools:
 <h3>Switches</h3>
 
 <blockquote>
+
+<a name="-encodingnameXXX" />
+<h4><code>-encoding name</code></h4>
+
+<blockquote>
+
+<p>
+The encoding used for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>utf-8</code></td></tr>
+</table>
+
+</blockquote>
 
 <a name="-dtd-prefixuriXXX" />
 <h4><code>-dtd-prefix uri</code></h4>
@@ -3288,7 +3320,7 @@ Translates the whole graph to HTML.
 
 <p>
 Translates both outbound and inbound dependencies to HTML.
-List nodes, weaved with HTML cross-references between all the
+Lists nodes, weaved with HTML cross-references between all the
 elements for easy navigation.
 </p>
 
@@ -4855,7 +4887,9 @@ Summarizes a dependency graph according to user-specified criteria.
     	[-class-scope]
     	[-class-scope-excludes value]*
     	[-class-scope-includes value]*
+	[-copy-only]
     	[-dtd-prefix uri]
+	[-encoding name]
     	[-excludes value]*
     	[-f2f]
     	[-feature-filter]
@@ -4865,7 +4899,9 @@ Summarizes a dependency graph according to user-specified criteria.
     	[-feature-scope-excludes value]*
     	[-feature-scope-includes value]*
     	[-filter-excludes value]*
+    	[-filter-excludes-list filename]*
     	[-filter-includes value]*
+    	[-filter-includes-list filename]*
     	[-help]
     	[-includes value]*
     	[-indent-text text]
@@ -4880,8 +4916,13 @@ Summarizes a dependency graph according to user-specified criteria.
     	[-package-scope-excludes value]*
     	[-package-scope-includes value]*
     	[-scope-excludes value]*
+    	[-scope-excludes-list filename]*
     	[-scope-includes value]*
-    	[-serialize]
+    	[-scope-includes-list filename]*
+	[-show-all]
+	[-show-empty-nodes]
+	[-show-inbounds]
+	[-show-outbounds]
     	[-time]
     	[-validate]
     	[-verbose [filename]]
@@ -5151,6 +5192,24 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
+<a name="-copy-only" />
+<h4><code>-copy-only</code></h4>
+
+<blockquote>
+
+<p>
+Limit the report to dependencies that are actually in the source graph.  This
+will prevent the reporter from inferring implicit dependencies when possible.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 <a name="-dtd-prefixuriXXXX" />
 <h4><code>-dtd-prefix uri</code></h4>
 
@@ -5164,6 +5223,23 @@ The prefix of the DTD URL for the XML output document.  Only useful with <code>-
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td><code>http://depfind.sourceforge.net/dtd</code></td></tr>
+</table>
+
+</blockquote>
+
+<a name="-encodingnameXXXX" />
+<h4><code>-encoding name</code></h4>
+
+<blockquote>
+
+<p>
+The encoding used for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>utf-8</code></td></tr>
 </table>
 
 </blockquote>
@@ -5367,6 +5443,29 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
+<a name="-filter-excludes-listfilename" />
+<h4><code>-filter-excludes-list filename</code></h4>
+
+<blockquote>
+
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must NOT match any of the entries in <i>filename</i> for the dependency to be
+included in the results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 <a name="-filter-includesvalueXX" />
 <h4><code>-filter-includes value</code></h4>
 
@@ -5386,6 +5485,29 @@ If there are multiples of this switch, the name must at least one of them.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td><code>//</code></td></tr>
+</table>
+
+</blockquote>
+
+<a name="-filter-includes-listfilename" />
+<h4><code>-filter-includes-list filename</code></h4>
+
+<blockquote>
+
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must match match an entry in <i>filename</i> for the dependency to be included in the
+results.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -5674,6 +5796,28 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
+<a name="-scope-excludes-listfilename" />
+<h4><code>-scope-excludes-list filename</code></h4>
+
+<blockquote>
+
+<p>
+The name of a package, class, or feature must NOT match any of the entries in
+<i>filename</i> for it to be included in the query's focus.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 <a name="-scope-includesvalueXX" />
 <h4><code>-scope-includes value</code></h4>
 
@@ -5696,18 +5840,93 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
-<a name="-serializeXX" />
-<h4><code>-serialize</code></h4>
+<a name="-scope-includes-listfilename" />
+<h4><code>-scope-includes-list filename</code></h4>
 
 <blockquote>
 
 <p>
-Writes the dependency graph as serialized Java objects.
+The name of a package, class, or feature must match an entry in <i>filename</i> for
+it to be included in the query's focus.
 </p>
 
 <p>
-At this time, Dependency Finder cannot deserialize a saved graph, so this
-switch is pretty useless.
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-show-all" />
+<h4><code>-show-all</code></h4>
+
+<blockquote>
+
+<p>
+Shorthand for the combination of:
+</p>
+
+<ul>
+<li><code>-show-empty-nodes</code></li>
+<li><code>-show-inbounds</code></li>
+<li><code>-show-outbounds</code></li>
+</ul>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-show-empty-nodes" />
+<h4><code>-show-empty-nodes</code></h4>
+
+<blockquote>
+
+<p>
+Lists nodes in the scope, even if they would appear empty because they have no
+inbound or outbound dependencies.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-show-inbounds" />
+<h4><code>-show-inbounds</code></h4>
+
+<blockquote>
+
+<p>
+Lists filtered inbound dependencies for scoped nodes.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-show-outbounds" />
+<h4><code>-show-outbounds</code></h4>
+
+<blockquote>
+
+<p>
+Lists filtered outbound dependencies for scoped nodes.
 </p>
 
 <table border="0">
@@ -5817,10 +6036,6 @@ Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 </p>
 
-<p>
-At this time, the tool cannot read serialized graphs.
-</p>
-
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
@@ -5836,11 +6051,6 @@ At this time, the tool cannot read serialized graphs.
 
 <p>
 The normal output is the resulting dependency graph, rendered as text.
-</p>
-
-<p>
-With <code>-ser</code>, it serializes the resulting dependency graph with Java
-serialization.
 </p>
 
 <p>
@@ -7088,6 +7298,7 @@ Computes API differences between two versions of a codebase.
 
 <pre>
     JarJarDiff
+	[-encoding name]
     	[-dtd-prefix uri]
     	[-help]
     	[-indent-text text]
@@ -7127,6 +7338,23 @@ report to "public" changes.
 <h3>Switches</h3>
 
 <blockquote>
+
+<a name="-encodingnameXXXXX" />
+<h4><code>-encoding name</code></h4>
+
+<blockquote>
+
+<p>
+The encoding used for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>utf-8</code></td></tr>
+</table>
+
+</blockquote>
 
 <a name="-dtd-prefixuriXXXXX" />
 <h4><code>-dtd-prefix uri</code></h4>
@@ -7447,6 +7675,197 @@ identical.
 
 <hr />
 
+<a name="ListDeprecatedElements" />
+<h2>ListDeprecatedElements</h2>
+
+<blockquote>
+
+<p>
+Lists programming elements that are deprecated.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    ListDocumentedElements
+        [-help]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+	[filename ...]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Lists classes, interfaces, fields, constructors, and methods that were tagged
+as deprecated by using javadoc tags.  If a class or interface is deprecated, it
+will list all its constructors, fields, and methods too.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-helpXXXXXXXXX" />
+<h4><code>-help</code></h4>
+
+<blockquote>
+
+<p>
+Prints synopsis.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outfilenameXXXXXXXX" />
+<h4><code>-out filename</code></h4>
+
+<blockquote>
+
+<p>
+Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
+it is created.  If it already exists, its content is overwritten.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-timeXXXXXXXX" />
+<h4><code>-time</code></h4>
+
+<blockquote>
+
+<p>
+Prints how long it took to run the command.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-verbose[filename]XXXXXXXX" />
+<h4><code>-verbose [filename]</code></h4>
+
+<blockquote>
+
+<p>
+Writes summary processing information to <i>filename</i>.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>System.out</code></td></tr>
+</table>
+
+</blockquote>
+
+<a name="-versionXXXXXXXX" />
+<h4><code>-version</code></h4>
+
+<blockquote>
+
+<p>
+Prints version information.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+File names for JAR files, Zip files, and <code>.class</code> files for the tool to read.
+You can also give directory names, the tool will search it for <code>.class</code> files
+and read them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>Current directory, "<code>.</code>"</td></tr>
+</table>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+List of package names, class names, and feature names that are deprecated,
+one per line.
+</p>
+
+<p>
+You can pass this output to <a href="#DeprecationReport">DeprecationReport</a> to get a
+list of areas in your code that depend on deprecated APIs.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<pre>
+    ListDeprecatedElements -out deprecated_elements.txt rt.jar
+</pre>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>com.jeantessier.diff.ListDeprecatedElements</code>
+</p>
+
+</blockquote>
+
+<hr />
+
 <a name="ListDiff" />
 <h2>ListDiff</h2>
 
@@ -7458,12 +7877,13 @@ Compares two lists of programming elements and computes differences.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
     ListDiff
     	[-compress]
+	[-encoding name]
     	[-dtd-prefix uri]
     	[-help]
     	[-indent-text text]
@@ -7477,7 +7897,7 @@ Compares two lists of programming elements and computes differences.
     	[-version]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -7490,7 +7910,7 @@ source or bytecode required.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -7532,7 +7952,24 @@ The prefix of the DTD URL for the XML output document.
 
 </blockquote>
 
-<a name="-helpXXXXXXXXX" />
+<a name="-encodingnameXXXXXX" />
+<h4><code>-encoding name</code></h4>
+
+<blockquote>
+
+<p>
+The encoding used for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>utf-8</code></td></tr>
+</table>
+
+</blockquote>
+
+<a name="-helpXXXXXXXXXX" />
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -7651,7 +8088,7 @@ Version name for the report.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXXX" />
+<a name="-outfilenameXXXXXXXXX" />
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -7669,7 +8106,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
-<a name="-timeXXXXXXXX" />
+<a name="-timeXXXXXXXXX" />
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -7686,7 +8123,7 @@ Prints how long it took to run the command.
 
 </blockquote>
 
-<a name="-versionXXXXXXXX" />
+<a name="-versionXXXXXXXXX" />
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -7705,7 +8142,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -7716,7 +8153,7 @@ Prints version information.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -7728,7 +8165,7 @@ It writes the list of differences into an XML document that follows the
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
@@ -7776,7 +8213,7 @@ Then <code>ListDiff</code> will show:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -7800,7 +8237,7 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to HTML.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -7809,7 +8246,7 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to HTML.
     	[-out output_file.html]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -7820,7 +8257,7 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to HTML.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -7846,142 +8283,6 @@ such as the output of <a href="#ListDiff">ListDiff</a>.
 
 <a name="-outoutput_file.htmlXXXXXX" />
 <h4><code>-out output_file.html</code></h4>
-
-<blockquote>
-
-<p>
-Where to put the outcome of the translation.
-</p>
-
-<p>
-If not specified, the translation goes to the standard output.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<p>
-<i>none</i>
-</p>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-<p>
-See <code>-out</code> above.
-</p>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-<pre>
-    ListDiff -name sample -old old.txt -new new.txt -out listdiff.xml
-    ListDiffToHTML -in listdiff.xml -out listdiff.html
-</pre>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
-<blockquote>
-
-<p>
-<code>org.apache.xalan.xslt.Process</code>
-</p>
-
-</blockquote>
-
-<a name="XSLStylesheetXXXXXXXXXXXX" />
-<h3>XSL Stylesheet</h3>
-
-<blockquote>
-
-<p>
-<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDiffToHTML.xsl</code>
-</p>
-
-</blockquote>
-
-<hr />
-
-<a name="ListDiffToText" />
-<h2>ListDiffToText</h2>
-
-<blockquote>
-
-<p>
-Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
-</p>
-
-</blockquote>
-
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<pre>
-    ListDiffToText
-    	-in input_file.xml
-    	[-out output_file.txt]
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-<p>
-Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
-</p>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-ininput_file.xmlXXXXXXXXXXXXX" />
-<h4><code>-in input_file.xml</code></h4>
-
-<blockquote>
-
-<p>
-The XML file to be translated.  The document has to follow the
-<code><a href="http://depfind.sourceforge.net/dtd/list-diff.dtd">list-diff</a></code> DTD,
-such as the output of <a href="#ListDiff">ListDiff</a>.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outoutput_file.txtXXXXXX" />
-<h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
 
@@ -8031,6 +8332,142 @@ See <code>-out</code> above.
 <blockquote>
 
 <pre>
+    ListDiff -name sample -old old.txt -new new.txt -out listdiff.xml
+    ListDiffToHTML -in listdiff.xml -out listdiff.html
+</pre>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListDiffToHTML.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="ListDiffToText" />
+<h2>ListDiffToText</h2>
+
+<blockquote>
+
+<p>
+Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    ListDiffToText
+    	-in input_file.xml
+    	[-out output_file.txt]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXXXXXXXXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/list-diff.dtd">list-diff</a></code> DTD,
+such as the output of <a href="#ListDiff">ListDiff</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.txtXXXXXX" />
+<h4><code>-out output_file.txt</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<pre>
     ListDiff -name sample -old old.txt -old-label old -new new.txt -new-label new -out listdiff.xml
     ListDiffToHTML -in listdiff.xml
     sample - Documentation Changes
@@ -8048,7 +8485,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -8083,7 +8520,7 @@ Lists programming elements that are part of the published documentation.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -8095,7 +8532,7 @@ Lists programming elements that are part of the published documentation.
 	[param ...]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -8111,7 +8548,7 @@ This is a doclet that runs with <code>javadoc</code>.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -8134,7 +8571,7 @@ considered part of the published documentation.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXXXX" />
+<a name="-outfilenameXXXXXXXXXX" />
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -8190,7 +8627,7 @@ part of the published documentation.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -8207,7 +8644,7 @@ All other switches and parameters are passed to <code>javadoc</code>.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -8230,13 +8667,13 @@ further restrain the report and limit it to the published API.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
 
 <pre>
-    ListDocumentableElements -tag level -valid published -out documented_elements.txt
+    ListDocumentedElements -tag level -valid published -out documented_elements.txt
 </pre>
 
 <p>
@@ -8256,7 +8693,7 @@ or, with Ant:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -8280,7 +8717,7 @@ Lists inheritance changes in <code>JarJarDiff</code> reports.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -8289,7 +8726,7 @@ Lists inheritance changes in <code>JarJarDiff</code> reports.
     	[-out output_file.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -8302,7 +8739,7 @@ clauses.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -8327,157 +8764,6 @@ such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 </blockquote>
 
 <a name="-outoutput_file.txtXXXXXXX" />
-<h4><code>-out output_file.txt</code></h4>
-
-<blockquote>
-
-<p>
-Where to put the outcome of the translation.
-</p>
-
-<p>
-If not specified, the translation goes to the standard output.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Parameters</h3>
-
-<blockquote>
-
-<p>
-<i>none</i>
-</p>
-
-</blockquote>
-
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Output</h3>
-
-<blockquote>
-
-<p>
-See <code>-out</code> above.
-</p>
-
-</blockquote>
-
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Examples</h3>
-
-<blockquote>
-
-<pre>
-    JarJarDiff -old old.jar -new new.jar -out report.xml
-    ListInheritanceDiffToText -in report.xml -out inheritance.txt
-</pre>
-
-</blockquote>
-
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Class</h3>
-
-<blockquote>
-
-<p>
-<code>org.apache.xalan.xslt.Process</code>
-</p>
-
-</blockquote>
-
-<a name="XSLStylesheetXXXXXXXXXXXXXX" />
-<h3>XSL Stylesheet</h3>
-
-<blockquote>
-
-<p>
-<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListInheritanceDiffToText.xsl</code>
-</p>
-
-</blockquote>
-
-<hr />
-
-<a name="ListUnused" />
-<h2>ListUnused</h2>
-
-<blockquote>
-
-<p>
-Lists programming elements that have no inbound dependencies.
-</p>
-
-</blockquote>
-
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Synopsis</h3>
-
-<pre>
-    ListUnused
-    	-in input_file.xml
-    	[-out output_file.txt]
-</pre>
-
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Description</h3>
-
-<blockquote>
-
-<p>
-Lists programming elements that have no inbound dependencies.  This does
-necessarily imply that the programming element is unused.  It could be a method
-that gets called through an interface or a superclass declaration, or it could
-be an implementation class that is activated via reflection.
-</p>
-
-<p>
-One particular case deals with <code>static final</code> constants.  Some compilers,
-including Sun's <code>javac</code>, inline these constants directly in the bytecode if
-their type makes them suitable to inclusion in the constant pool section of the
-<code>.class</code> file.  When this happens, there is no longer any dependency in the
-compiled bytecode and Dependency Finder cannot find any direct references to
-the constants.  Then, <code>ListUnused</code> lists them as dead code, even though they
-are not in reality.
-</p>
-
-</blockquote>
-
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
-<h3>Switches</h3>
-
-<blockquote>
-
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXX" />
-<h4><code>-in input_file.xml</code></h4>
-
-<blockquote>
-
-<p>
-The XML file to be translated.  The document has to follow the
-<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
-such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
-<a href="#DependencyReporter">DependencyReporter</a>, or
-<a href="#DependencyClosure">DependencyClosure</a>.
-</p>
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-<a name="-outoutput_file.txtXXXXXXXX" />
 <h4><code>-out output_file.txt</code></h4>
 
 <blockquote>
@@ -8527,6 +8813,157 @@ See <code>-out</code> above.
 
 <blockquote>
 
+<pre>
+    JarJarDiff -old old.jar -new new.jar -out report.xml
+    ListInheritanceDiffToText -in report.xml -out inheritance.txt
+</pre>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/ListInheritanceDiffToText.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="ListUnused" />
+<h2>ListUnused</h2>
+
+<blockquote>
+
+<p>
+Lists programming elements that have no inbound dependencies.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    ListUnused
+    	-in input_file.xml
+    	[-out output_file.txt]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Lists programming elements that have no inbound dependencies.  This does
+necessarily imply that the programming element is unused.  It could be a method
+that gets called through an interface or a superclass declaration, or it could
+be an implementation class that is activated via reflection.
+</p>
+
+<p>
+One particular case deals with <code>static final</code> constants.  Some compilers,
+including Sun's <code>javac</code>, inline these constants directly in the bytecode if
+their type makes them suitable to inclusion in the constant pool section of the
+<code>.class</code> file.  When this happens, there is no longer any dependency in the
+compiled bytecode and Dependency Finder cannot find any direct references to
+the constants.  Then, <code>ListUnused</code> lists them as dead code, even though they
+are not in reality.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code> DTD,
+such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
+<a href="#DependencyReporter">DependencyReporter</a>, or
+<a href="#DependencyClosure">DependencyClosure</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.txtXXXXXXXX" />
+<h4><code>-out output_file.txt</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
 <p>
 Here is an example that uses the following dependency graph:
 </p>
@@ -8555,7 +8992,7 @@ Running this tool on that graph yields this output:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -8579,6 +9016,292 @@ Running this tool on that graph yields this output:
 
 <hr />
 
+<a name="MetricsToHTML" />
+<h2>MetricsToHTML</h2>
+
+<blockquote>
+
+<p>
+Translates the whole report to HTML.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    MetricsToHTML
+    	-in input_file.xml
+    	[-out output_file.html]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Translates the entire report to HTML.  If the report includes expanded
+collection measurements, it will render them as hyperlinks to possible named
+anchors inside the HTML.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/metrics.dtd">metrics</a></code> DTD,
+such as the output of <a href="#OOMetrics">OOMetrics</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.htmlXXXXXXX" />
+<h4><code>-out output_file.html</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<p>
+To convert the metrics report in <code>metrics.xml</code> to a hyperlinked HTML file:
+</p>
+
+<pre>
+    MetricsToHTML -in metrics.xml -out metrics.html
+</pre>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXXXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/MetricsToHTML.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
+<a name="MetricsToText" />
+<h2>MetricsToText</h2>
+
+<blockquote>
+
+<p>
+Translates the whole report to text.
+</p>
+
+</blockquote>
+
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Synopsis</h3>
+
+<pre>
+    MetricsToText
+    	-in input_file.xml
+    	[-out output_file.html]
+</pre>
+
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Description</h3>
+
+<blockquote>
+
+<p>
+Translates the entire report to text.
+</p>
+
+<p>
+The resulting report is broken down by package, and then by class, and then by
+method.  <code>OOMetrics -txt</code> lists all packages first, followed by all classes,
+and finally by all methods.
+</p>
+
+</blockquote>
+
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Switches</h3>
+
+<blockquote>
+
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXX" />
+<h4><code>-in input_file.xml</code></h4>
+
+<blockquote>
+
+<p>
+The XML file to be translated.  The document has to follow the
+<code><a href="http://depfind.sourceforge.net/dtd/metrics.dtd">metrics</a></code> DTD,
+such as the output of <a href="#OOMetrics">OOMetrics</a>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-outoutput_file.htmlXXXXXXXX" />
+<h4><code>-out output_file.html</code></h4>
+
+<blockquote>
+
+<p>
+Where to put the outcome of the translation.
+</p>
+
+<p>
+If not specified, the translation goes to the standard output.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Parameters</h3>
+
+<blockquote>
+
+<p>
+<i>none</i>
+</p>
+
+</blockquote>
+
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Output</h3>
+
+<blockquote>
+
+<p>
+See <code>-out</code> above.
+</p>
+
+</blockquote>
+
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Examples</h3>
+
+<blockquote>
+
+<p>
+To convert the dependency graph in <code>metrics.xml</code> to a text file:
+</p>
+
+<pre>
+    MetricsToText -in metrics.xml -out metrics.txt
+</pre>
+
+</blockquote>
+
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<h3>Class</h3>
+
+<blockquote>
+
+<p>
+<code>org.apache.xalan.xslt.Process</code>
+</p>
+
+</blockquote>
+
+<a name="XSLStylesheetXXXXXXXXXXXXXXXXX" />
+<h3>XSL Stylesheet</h3>
+
+<blockquote>
+
+<p>
+<code><i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/MetricsToText.xsl</code>
+</p>
+
+</blockquote>
+
+<hr />
+
 <a name="OOMetrics" />
 <h2>OOMetrics</h2>
 
@@ -8590,7 +9313,7 @@ Computes object-oriented metrics on a codebase.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -8601,7 +9324,10 @@ Computes object-oriented metrics on a codebase.
     	[-csv]
     	-default-configuration filename
     	[-dtd-prefix uri]
+	[-encoding name]
     	[-expand]
+	[-filter-excludes-list filename]*
+	[-filter-includes-list filename]*
     	[-groups]
     	[-help]
     	[-indent-text text]
@@ -8610,6 +9336,11 @@ Computes object-oriented metrics on a codebase.
     	[-project]
     	[-project-name value]
     	[-reverse]
+	[-scope-excludes-list filename]*
+	[-scope-includes-list filename]*
+    	[-show-all-metrics]
+    	[-show-empty-metrics]
+    	[-show-hidden-measurements]
     	[-sort name]
     	[-time]
     	[-txt]
@@ -8620,7 +9351,7 @@ Computes object-oriented metrics on a codebase.
 	[filename ...]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -8634,7 +9365,7 @@ project level.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -8755,6 +9486,23 @@ Only useful with <code>-xml</code>.
 
 </blockquote>
 
+<a name="-encodingnameXXXXXXX" />
+<h4><code>-encoding name</code></h4>
+
+<blockquote>
+
+<p>
+The encoding used for the XML output document.  Only useful with <code>-xml</code>.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td><code>utf-8</code></td></tr>
+</table>
+
+</blockquote>
+
 <a name="-expand" />
 <h4><code>-expand</code></h4>
 
@@ -8768,6 +9516,53 @@ measurements.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-filter-excludes-listfilenameX" />
+<h4><code>-filter-excludes-list filename</code></h4>
+
+<blockquote>
+
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must NOT match any of the entries in <i>filename</i> for the dependency to be
+accounted in the report.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-filter-includes-listfilenameX" />
+<h4><code>-filter-includes-list filename</code></h4>
+
+<blockquote>
+
+<p>
+The name of a package, class, or feature at the other end of the dependency
+must match an entry in <i>filename</i> for the dependency to be accounted in the
+report.
+</p>
+
+<p>
+If there are multiples of this switch, the name must match at least one of them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 
@@ -8790,7 +9585,7 @@ Include group- and package-related metrics.
 
 </blockquote>
 
-<a name="-helpXXXXXXXXXX" />
+<a name="-helpXXXXXXXXXXX" />
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -8911,6 +9706,105 @@ When used with <code>-sort</code>, sorts in descending order.
 
 </blockquote>
 
+<a name="-scope-excludes-listfilenameX" />
+<h4><code>-scope-excludes-list filename</code></h4>
+
+<blockquote>
+
+<p>
+The name of a package, class, or feature must NOT match any of the entries in
+<i>filename</i> for it to be accounted in the report.
+</p>
+
+<p>
+If there are multiples of this switch, the name must not match any of them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-scope-includes-listfilenameX" />
+<h4><code>-scope-includes-list filename</code></h4>
+
+<blockquote>
+
+<p>
+The name of a package, class, or feature must match an entry in <i>filename</i> for
+it to be accounted in the report.
+</p>
+
+<p>
+If there are multiples of this switch, the name must at least one of them.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-show-all-metrics" />
+<h4><code>-show-all-metrics</code></h4>
+
+<blockquote>
+
+<p>
+Includes metrics on classes and methods that were not analysed directly,
+but may still have valid information gathered indirectly from other classes,
+such as inbound dependencies.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-show-empty-metrics" />
+<h4><code>-show-empty-metrics</code></h4>
+
+<blockquote>
+
+<p>
+Includes entries where analysis didn't gather any information.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-show-hidden-measurements" />
+<h4><code>-show-hidden-measurements</code></h4>
+
+<blockquote>
+
+<p>
+Shows all measurements, even if they were meant to be hidden through their
+visiblity in the configuration.  This is useful when trying to debug a complex
+configuration and tracking the flow of information.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 <a name="-sortname" />
 <h4><code>-sort name</code></h4>
 
@@ -8930,7 +9824,7 @@ ascending order of package, class, or method name (fully qualified).
 
 </blockquote>
 
-<a name="-timeXXXXXXXXX" />
+<a name="-timeXXXXXXXXXX" />
 <h4><code>-time</code></h4>
 
 <blockquote>
@@ -8981,7 +9875,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="-verbose[filename]XXXXXXXX" />
+<a name="-verbose[filename]XXXXXXXXX" />
 <h4><code>-verbose [filename]</code></h4>
 
 <blockquote>
@@ -8999,7 +9893,7 @@ a file, the tool will write the information to the standard output stream.
 
 </blockquote>
 
-<a name="-versionXXXXXXXXX" />
+<a name="-versionXXXXXXXXXX" />
 <h4><code>-version</code></h4>
 
 <blockquote>
@@ -9036,7 +9930,7 @@ Writes the metrics report as an XML document with the
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -9055,7 +9949,7 @@ and read them.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -9090,7 +9984,7 @@ extension.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
@@ -9113,7 +10007,7 @@ To list only package-level metrics from <code>MartinConfig.xml</code> as CSV in 
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -9137,7 +10031,7 @@ A Swing-based version of <a href="#OOMetrics">OOMetrics</a>.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -9148,7 +10042,7 @@ A Swing-based version of <a href="#OOMetrics">OOMetrics</a>.
     	[-validate]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -9168,7 +10062,7 @@ See also:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
@@ -9212,7 +10106,7 @@ default configuration in
 
 </blockquote>
 
-<a name="-helpXXXXXXXXXXX" />
+<a name="-helpXXXXXXXXXXXX" />
 <h4><code>-help</code></h4>
 
 <blockquote>
@@ -9248,7 +10142,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -9259,7 +10153,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -9270,7 +10164,7 @@ Validate the input XML against its DTD.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
@@ -9281,7 +10175,7 @@ See the <a href="Manual.html">user manual</a>.
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -9306,7 +10200,7 @@ the <i>published</i> interface, the one that you expose to your customers.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -9316,7 +10210,7 @@ the <i>published</i> interface, the one that you expose to your customers.
     	[-param validation-list list.txt]
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -9336,12 +10230,12 @@ by setting the validation-list parameter to XSLT:
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXX" />
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -9360,7 +10254,7 @@ such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXX" />
+<a name="-outoutput_file.htmlXXXXXXXXX" />
 <h4><code>-out output_file.html</code></h4>
 
 <blockquote>
@@ -9402,7 +10296,7 @@ public and all protected elements.
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -9413,7 +10307,7 @@ public and all protected elements.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -9424,7 +10318,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
@@ -9450,7 +10344,7 @@ Here is a larger example with a defined published documentation:
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>
@@ -9461,7 +10355,7 @@ Here is a larger example with a defined published documentation:
 
 </blockquote>
 
-<a name="XSLStylesheetXXXXXXXXXXXXXXXX" />
+<a name="XSLStylesheetXXXXXXXXXXXXXXXXXX" />
 <h3>XSL Stylesheet</h3>
 
 <blockquote>
@@ -9485,7 +10379,7 @@ Applies an XSL stylesheet to an XML document.
 
 </blockquote>
 
-<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SynopsisXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Synopsis</h3>
 
 <pre>
@@ -9495,7 +10389,7 @@ Applies an XSL stylesheet to an XML document.
 	-xsl stylesheet.xsl
 </pre>
 
-<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Description</h3>
 
 <blockquote>
@@ -9508,12 +10402,12 @@ appropriate <code>-xsl</code> value.
 
 </blockquote>
 
-<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="SwitchesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Switches</h3>
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXX" />
+<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXX" />
 <h4><code>-in input_file.xml</code></h4>
 
 <blockquote>
@@ -9531,7 +10425,7 @@ compatible with the stylesheet specified with <code>-xsl</code>.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXXXXX" />
+<a name="-outfilenameXXXXXXXXXXX" />
 <h4><code>-out filename</code></h4>
 
 <blockquote>
@@ -9572,7 +10466,7 @@ The XSL transformation to apply to the XML document specified with <code>-in</co
 
 </blockquote>
 
-<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ParametersXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Parameters</h3>
 
 <blockquote>
@@ -9583,7 +10477,7 @@ None.
 
 </blockquote>
 
-<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="OutputXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Output</h3>
 
 <blockquote>
@@ -9594,7 +10488,7 @@ See <code>-out</code> above.
 
 </blockquote>
 
-<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ExamplesXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Examples</h3>
 
 <blockquote>
@@ -9609,7 +10503,7 @@ Instead of using <a href="#DependablesToHTML">DependablesToHTML</a>, you can use
 
 </blockquote>
 
-<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+<a name="ClassXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 <h3>Class</h3>
 
 <blockquote>

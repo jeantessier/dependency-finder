@@ -120,6 +120,12 @@ by Jean Tessier
 <li><a href="#ListingPublishedDocumentationChanges">Listing Published Documentation Changes</a></li>
 </ul>
 </ul>
+<li><a href="#BringingItAllTogether">Bringing It All Together</a></li>
+<ul>
+<li><a href="#TrackingDependenciesOnDeprecatedSymbols">Tracking Dependencies On Deprecated Symbols</a></li>
+<li><a href="#NarrowingAPIDifferencestoActuallyUsedAPI">Narrowing API Differences to Actually Used API</a></li>
+<li><a href="#ComputingtheD'Metric">Computing the D' Metric</a></li>
+</ul>
 <li><a href="#Support">Support</a></li>
 </ul>
 
@@ -1598,20 +1604,6 @@ You can save the graph to XML with the <code>-xml</code> switch:
 <pre>
     C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -xml -out df.xml
 </pre>
-
-<p>
-Or you can use Java serialization to save the graph:
-</p>
-
-<pre>
-    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -serialize -out df.ser
-</pre>
-
-<dl>
-    <dt>NOTE:</dt>
-    <dd><i>At this time, Dependency Finder cannot deserialize the graph
-    back.</i></dd>
-</dl>
 
 <a name="Example" />
 <h5>Example</h5>
@@ -3915,6 +3907,39 @@ into HTML with <code>ListDiffToHTML</code>, or to text with
     is written in HTML.  But we recommend that you use
     <code>ListDiff</code> instead; it is faster and simpler.</i></dd>
 </dl>
+
+<hr />
+
+<a name="BringingItAllTogether" />
+<h2>Bringing It All Together</h2>
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+<p>
+Here are some more elaborate use cases that combine functionality from multiple
+tools.
+</p>
+
+<a name="TrackingDependenciesOnDeprecatedSymbols" />
+<h3>Tracking Dependencies On Deprecated Symbols</h3>
+
+<p>
+This use case deals with having a large codebase and tracking 
+</p>
+
+<a name="NarrowingAPIDifferencestoActuallyUsedAPI" />
+<h3>Narrowing API Differences to Actually Used API</h3>
+
+<a name="ComputingtheD'Metric" />
+<h3>Computing the D' Metric</h3>
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
 
 <hr />
 
