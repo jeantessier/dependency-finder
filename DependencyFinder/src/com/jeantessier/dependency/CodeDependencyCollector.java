@@ -159,11 +159,7 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.Name() + "\"");
 		Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.Descriptor() + "\"");
 	
-		if (entry.IsStaticInitializer()) {
-			current = Factory().CreateClass(entry.Classfile().Class());
-		} else {
-			current = Factory().CreateFeature(entry.FullSignature());
-		}
+		current = Factory().CreateFeature(entry.FullSignature());
 
 		ProcessDescriptor(entry.Descriptor());
 

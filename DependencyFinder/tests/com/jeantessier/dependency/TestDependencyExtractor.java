@@ -143,7 +143,7 @@ public class TestDependencyExtractor extends TestCase {
 	
 	public void testPackages() {
 		Iterator i = factory.Packages().keySet().iterator();
-		while(i.hasNext()) {
+		while (i.hasNext()) {
 			Object key = i.next();
 			assertEquals(factory.Packages().get(key), test_factory.Packages().get(key));
 			assertTrue(key + " is same", factory.Packages().get(key) != test_factory.Packages().get(key));
@@ -158,7 +158,7 @@ public class TestDependencyExtractor extends TestCase {
 	
 	public void testClasses() {
 		Iterator i = factory.Classes().keySet().iterator();
-		while(i.hasNext()) {
+		while (i.hasNext()) {
 			Object key = i.next();
 			assertEquals(factory.Classes().get(key), test_factory.Classes().get(key));
 			assertTrue(key + " is same", factory.Classes().get(key) != test_factory.Classes().get(key));
@@ -173,7 +173,7 @@ public class TestDependencyExtractor extends TestCase {
 	
 	public void testFeatures() {
 		Iterator i = factory.Features().keySet().iterator();
-		while(i.hasNext()) {
+		while (i.hasNext()) {
 			Object key = i.next();
 			assertEquals(factory.Features().get(key), test_factory.Features().get(key));
 			assertTrue(key + " is same", factory.Features().get(key) != test_factory.Features().get(key));
@@ -183,6 +183,24 @@ public class TestDependencyExtractor extends TestCase {
 			assertEquals(key + " outbounds",
 						 ((Node) factory.Features().get(key)).Outbound().size(),
 						 ((Node) test_factory.Features().get(key)).Outbound().size());
+		}
+	}
+
+	public void testStaticInitializer() throws IOException {
+		DirectoryClassfileLoader loader  = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
+		NodeFactory              factory = new NodeFactory();
+		
+		loader.Load(new DirectoryExplorer("classes" + File.separator + "StaticInitializerTest.class"));
+
+		Classfile classfile = loader.Classfile("StaticInitializerTest");
+		classfile.Accept(new CodeDependencyCollector(factory));
+
+		Collection feature_names = factory.Features().keySet();
+		
+		Iterator i = classfile.Methods().iterator();
+		while (i.hasNext()) {
+			Method_info method = (Method_info) i.next();
+			assertTrue("Missing method " + method.FullSignature(), feature_names.contains(method.FullSignature()));
 		}
 	}
 }
