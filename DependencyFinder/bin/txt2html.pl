@@ -45,7 +45,7 @@ if (/^---(\++)\s*(.*)\s*/) {
 
     $TITLE = "<title>$title</title\n" if $level == 1;
 
-    $TEXT .= "<a name=\"$anchor\" />\n" if $level > 1;
+    $TEXT .= "<a name=\"$anchor\"></a>\n" if $level > 1;
     $_ = "<h$level>$title</h$level>\n";
 } elsif (/^-{4,}\s*$/) {
     $_ = "<hr />\n";
