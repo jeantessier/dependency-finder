@@ -223,7 +223,7 @@
 								      (old-declaration/@visibility='protected' and
 									  (new-declaration/@visibility='package' or
 									   new-declaration/@visibility='private')) or
-								      (not(old-declaration/@static) and new-declaration/@static=) or
+								      (not(old-declaration/@static) and new-declaration/@static) or
 								      (not(old-declaration/@final) and new-declaration/@final) or
 								      (old-declaration/@type!=new-declaration/@type)]]]">
 	<h4>Field Declaration Changes:</h4>
