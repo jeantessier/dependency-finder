@@ -39,7 +39,7 @@ DTD.</p>
   <tr>
     <td valign="top">srcfile</td>
     <td valign="top">filename of the XML document containing the dependency graph.</td>
-    <td valign="top" align="center">Yes</td>
+    <td valign="top" align="center">Yes, unless nested <code>&lt;src&gt;</code> elements are present.</td>
   </tr>
   <tr>
     <td valign="top">validate</td>
@@ -273,7 +273,11 @@ DTD.</p>
 
 <h3>Nested elements</h3>
 
-<p>None</p>
+<h4>src</h4>
+
+<p><code>&lt;dependencyreporter&gt;</code>'s <code>srcfile</code> attribute is a
+<a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>
+and can also be set via a nested <code>&lt;src&gt;</code> element.</p>
 
 <h3>Examples</h3>
 

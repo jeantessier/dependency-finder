@@ -124,25 +124,27 @@ public class DependencyClosure extends GraphTask {
 				selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 			}
 		
-			String filename = getSrcfile().getAbsolutePath();
-			log("Reading graph from " + filename);
+			String[] filenames = getSrc().list();
+			for (int i=0; i<filenames.length; i++) {
+				log("Reading graph from " + filenames[i]);
 				
-			Collection packages;
-			if (filename.endsWith(".xml")) {
-				NodeLoader loader = new NodeLoader(getValidate());
-				loader.addDependencyListener(verbose_listener);
-				packages = loader.Load(filename).Packages().values();
-			} else if (filename.endsWith(".ser")) {
-				ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
-				packages = (Collection) in.readObject();
-			} else {
-				packages = Collections.EMPTY_LIST;
+				Collection packages;
+				if (filenames[i].endsWith(".xml")) {
+					NodeLoader loader = new NodeLoader(getValidate());
+					loader.addDependencyListener(verbose_listener);
+					packages = loader.Load(filenames[i]).Packages().values();
+				} else if (filenames[i].endsWith(".ser")) {
+					ObjectInputStream in = new ObjectInputStream(new FileInputStream(filenames[i]));
+					packages = (Collection) in.readObject();
+				} else {
+					packages = Collections.EMPTY_LIST;
+				}
+				
+				log("Maximizing ...");
+				new LinkMaximizer().TraverseNodes(packages);
+				
+				selector.TraverseNodes(packages);
 			}
-				
-			log("Maximizing ...");
-			new LinkMaximizer().TraverseNodes(packages);
-			
-			selector.TraverseNodes(packages);
 
 			log("Saving dependency graph to " + getDestfile().getAbsolutePath());
 		

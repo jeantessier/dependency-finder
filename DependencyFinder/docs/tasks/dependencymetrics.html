@@ -35,7 +35,7 @@ not as powerful as the metrics computed by
   <tr>
     <td valign="top">srcfile</td>
     <td valign="top">filename of the XML document containing the dependency graph.</td>
-    <td valign="top" align="center">Yes</td>
+    <td valign="top" align="center">Yes, unless nested <code>&lt;src&gt;</code> elements are present.</td>
   </tr>
   <tr>
     <td valign="top">validate</td>
@@ -311,11 +311,6 @@ not as powerful as the metrics computed by
     <code>chartoutboundsperfeature</code>.</td>
     <td align="center" valign="top">No</td>
   </tr>
-
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
   <tr>
     <td valign="top">chartall</td>
     <td valign="top">shortcut for <code>chartclassesperpackage</code>,
@@ -332,7 +327,11 @@ not as powerful as the metrics computed by
 
 <h3>Nested elements</h3>
 
-<p>None</p>
+<h4>src</h4>
+
+<p><code>&lt;dependencymetrics&gt;</code>'s <code>srcfile</code> attribute is a
+<a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>
+and can also be set via a nested <code>&lt;src&gt;</code> element.</p>
 
 <h3>Examples</h3>
 

@@ -36,6 +36,7 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.tools.ant.*;
+import org.apache.tools.ant.types.*;
 
 import com.jeantessier.dependency.*;
 
@@ -64,7 +65,7 @@ public abstract class GraphTask extends Task {
 	private String  feature_filter_excludes = "";
 
 	private boolean validate   = false;
-	private File    srcfile;
+	private Path    src;
 	private File    destfile;
 
 	public String getScopeincludes() {
@@ -289,13 +290,29 @@ public abstract class GraphTask extends Task {
 	public void setValidate(boolean validate) {
 		this.validate = validate;
 	}
+	
+	public Path createSrc() {
+		if (src == null) {
+			src = new Path(getProject());
+		}
 
-	public File getSrcfile() {
-		return srcfile;
+		return src;
 	}
 	
-	public void setSrcfile(File srcfile) {
-		this.srcfile = srcfile;
+	public Path getSrc() {
+		return src;
+	}
+
+	public Path getSrcfile() {
+		return src;
+	}
+	
+	public void setSrcfile(Path srcfile) {
+		if (src == null) {
+			src = srcfile;
+		} else {
+			src.append(srcfile);
+		}
 	}
 
 	public File getDestfile() {
@@ -308,15 +325,11 @@ public abstract class GraphTask extends Task {
 
 	protected void CheckParameters() throws BuildException {
 		if (getSrcfile() == null) {
-			throw new BuildException("srcfile must be set!");
+			throw new BuildException("src or srcfile must be set!");
 		}
 		
-		if (!getSrcfile().exists()) {
-			throw new BuildException("srcfile does not exist!");
-		}
-		
-		if (!getSrcfile().isFile()) {
-			throw new BuildException("srcfile is not a file!");
+		if (getSrc().size() == 0) {
+			throw new BuildException("src and srcfile are both empty!");
 		}
 
 		if (getDestfile() == null) {
