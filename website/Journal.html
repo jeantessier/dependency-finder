@@ -17,6 +17,20 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	October 11, 2004
+    </dt>
+    <dd>
+	<p>Found
+	<a target="_blank" href="http://www.ihep.ac.cn/~chep01/paper/8-024.pdf">
+	an interesting article</a> by a group at CERN who built a dependency
+	analyzer for looking at their software: large C++ systems used in
+	high-energy physics.  This was really interesting since they had
+	roughly the same motivations I had to come up with Dependency Finder.
+	They have a nice introduction as to why you need to manage dependencies
+	very closely and how painful it can be if you don't automate the whole
+	thing.</p>
+    </dd>
+    <dt>
 	October 10, 2004
     </dt>
     <dd>
@@ -26,6 +40,52 @@
 	parameter to mark nodes as concrete.  The default is for them to be
 	marked as referenced only.  Marking a node as concrete makes its
 	ancestors concrete, but not its sibblings nor descendants.</p>
+    </dd>
+    <dt>
+	October 08, 2004
+    </dt>
+    <dd>
+	<p>Came up with a name!  Nodes are <em>referenced</em> by default,
+	until the dependency extractor actually encounters them in analyzed
+	code and then marks them as <em>concrete</em>.</p>
+    </dd>
+    <dt>
+	October 06, 2004
+    </dt>
+    <dd>
+	<p>Thought about categorizing dependency nodes some more.  I was
+	concerned that dependencies on things that are not part of the body of
+	code under analysis might muddy things up and that everything might end
+	up in <code>Object</code> somehow.  If I find a non-visited feature in
+	a visited class node, and I start walking up the inheritance tree to
+	locate where that feature is actually defined (wait a minute, I will
+	need to store inheritance information too), I might not find the
+	definition if it is in some third party library.</p>
+    </dd>
+    <dt>
+	October 05, 2004
+    </dt>
+    <dd>
+	<p>Got an idea to characterize nodes in the dependency graph between
+	nodes that represent elements that are only referenced by analyzed code
+	versus nodes that represent elements that underwent analysis.  I was
+	trying to track dependencies in a piece of software and hit a wall when
+	I tried to see if anybody accessed private methods of an implementation
+	class.  All the other methods it inherited from superclasses kept
+	showing up too.</p>
+
+	<p>Under JDK 1.4, dependencies are resolved to the exact type of the
+	reference.  For example, in the case of the Template Method pattern,
+	if the client calls the template method on the concrete subclass, it
+	creates a dependency to a shadow template method on the subclass, not
+	the actual template method in the abstract superclass.  This is a new
+	form of interface polution where a class can have symbols that it does
+	not necessarily define but that it rather inherits from a superclass.
+	These can create false impressions when running dependency analysis
+	because you can miss actual calls to a method that are attributed an
+	hypothetically overriden version in a subclass.</p>
+
+	<p>I could have Dependency Finder figure it out, somehow.</p>
     </dd>
     <dt>
 	October 04, 2004
