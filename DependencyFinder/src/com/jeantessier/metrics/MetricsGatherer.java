@@ -187,6 +187,7 @@ public class MetricsGatherer extends VisitorBase {
 		Logger.getLogger(getClass()).debug("    name = \"" + entry.RawNameAndType().Name() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.RawNameAndType().Type() + "\"");
 
+		// Dependencies on attributes are accounted as dependencies on their class
 		entry.RawClass().Accept(this);
 		AddClassDependencies(ProcessDescriptor(entry.RawNameAndType().Type()));
 	}
@@ -317,10 +318,6 @@ public class MetricsGatherer extends VisitorBase {
 	// 
 	// Attributes
 	//
-	
-	public void VisitConstantValue_attribute(ConstantValue_attribute attribute) {
-		// Do nothing
-	}
 
 	public void VisitCode_attribute(Code_attribute attribute) {
 		super.VisitCode_attribute(attribute);
@@ -399,6 +396,10 @@ public class MetricsGatherer extends VisitorBase {
 	//
 	
 	public void VisitExceptionHandler(ExceptionHandler helper) {
+		if (helper.CatchTypeIndex() != 0) {
+			helper.RawCatchType().Accept(this);
+		}
+		
 		// The lines in the catch{} block are caught in
 		// the line number table.  This adds one for the
 		// catch{} line itself.  Adding one for the try{
@@ -456,6 +457,8 @@ public class MetricsGatherer extends VisitorBase {
 
 	public void VisitLocalVariable(LocalVariable helper) {
 		CurrentMethod().AddToMeasurement(Metrics.LOCAL_VARIABLES);
+
+		AddClassDependencies(ProcessDescriptor(helper.Descriptor()));
 	}
 
 	private int ComputeDepthOfInheritance(Classfile classfile) {
