@@ -44,7 +44,6 @@ import com.jeantessier.metrics.*;
 public class OOMetrics {
 	public static final String DEFAULT_PROJECT_NAME = "Project";
 	public static final String DEFAULT_SORT         = "name";
-	public static final String DEFAULT_DISPOSE      = "median";
 	public static final String DEFAULT_LOGFILE      = "System.out";
 
 	public static void Error(CommandLineUsage clu, String msg) {
@@ -82,7 +81,6 @@ public class OOMetrics {
 		command_line.AddToggleSwitch("classes");
 		command_line.AddToggleSwitch("methods");
 		command_line.AddSingleValueSwitch("sort",         DEFAULT_SORT);
-		command_line.AddSingleValueSwitch("dispose",      DEFAULT_DISPOSE);
 		command_line.AddToggleSwitch("expand");
 		command_line.AddToggleSwitch("reverse");
 		command_line.AddToggleSwitch("time");
