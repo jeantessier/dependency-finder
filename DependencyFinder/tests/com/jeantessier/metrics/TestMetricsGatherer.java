@@ -63,13 +63,30 @@ public class TestMetricsGatherer extends TestCase {
 	public void testNbElements() {
 		assertEquals("factory.ProjectNames().size()", 1, factory.ProjectNames().size());
 		assertTrue(factory.ProjectNames().toString() + " does not contain project \"test\"", factory.ProjectNames().contains("test"));
-		assertEquals("factory.GroupNames().size()",   2, factory.GroupNames().size());
+
 		assertTrue(factory.GroupNames().toString() + " does not contain package \"\"", factory.GroupNames().contains(""));
-		assertEquals("factory.ClassNames().size()",   2, factory.ClassNames().size());
+		assertTrue(factory.GroupNames().toString() + " does not contain package \"java.lang\"", factory.GroupNames().contains("java.lang"));
+		assertTrue(factory.GroupNames().toString() + " does not contain package \"java.util\"", factory.GroupNames().contains("java.util"));
+		assertTrue(factory.GroupNames().toString() + " does not contain package \"java.io\"", factory.GroupNames().contains("java.util"));
+		assertEquals(factory.GroupNames().toString(), 4, factory.GroupNames().size());
+
+		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.io.PrintStream\"", factory.ClassNames().contains("java.io.PrintStream"));
+		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.lang.NullPointerException\"", factory.ClassNames().contains("java.lang.NullPointerException"));
+		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.lang.Object\"", factory.ClassNames().contains("java.lang.Object"));
+		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.lang.String\"", factory.ClassNames().contains("java.lang.String"));
+		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.lang.System\"", factory.ClassNames().contains("java.lang.System"));
+		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.util.Collections\"", factory.ClassNames().contains("java.util.Collections"));
+		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.util.Collection\"", factory.ClassNames().contains("java.util.Collection"));
+		assertTrue(factory.ClassNames().toString() + " does not contain class \"java.util.Set\"", factory.ClassNames().contains("java.util.Set"));
 		assertTrue(factory.ClassNames().toString() + " does not contain class \"test\"", factory.ClassNames().contains("test"));
-		assertEquals("factory.MethodNames().size()",  2, factory.MethodNames().size());
-		assertTrue(factory.MethodNames().toString() + " does not contain method \"test.test()\"", factory.MethodNames().contains("test.test()"));
+		assertEquals(factory.ClassNames().toString(), 9, factory.ClassNames().size());
+
+		assertTrue(factory.MethodNames().toString() + " does not contain method \"java.io.PrintStream.println(java.lang.Object)\"", factory.MethodNames().contains("java.io.PrintStream.println(java.lang.Object)"));
+		assertTrue(factory.MethodNames().toString() + " does not contain method \"java.lang.Object.Object()\"", factory.MethodNames().contains("java.lang.Object.Object()"));
+		assertTrue(factory.MethodNames().toString() + " does not contain method \"java.util.Collections.singleton(java.lang.Object)\"", factory.MethodNames().contains("java.util.Collections.singleton(java.lang.Object)"));
 		assertTrue(factory.MethodNames().toString() + " does not contain method \"test.main(java.lang.String[])\"", factory.MethodNames().contains("test.main(java.lang.String[])"));
+		assertTrue(factory.MethodNames().toString() + " does not contain method \"test.test()\"", factory.MethodNames().contains("test.test()"));
+		assertEquals(factory.MethodNames().toString(), 5, factory.MethodNames().size());
 	}
 	
 	public void test_test_test() {
@@ -83,30 +100,30 @@ public class TestMetricsGatherer extends TestCase {
 		
 		Collection dependencies;
 
-		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).Values();
-		assertEquals(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES, 0, dependencies.size());
+		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.test()").Measurement(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).Values();
+		assertEquals(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).Values();
-		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, 0, dependencies.size());
+		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.test()").Measurement(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).Values();
+		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).Values();
-		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, 0, dependencies.size());
+		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.test()").Measurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).Values();
+		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES, 0, dependencies.size());
+		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.test()").Measurement(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).Values();
+		assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES, 0, dependencies.size());
+		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.test()").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).Values();
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES, 0, dependencies.size());
+		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.test()").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).Values();
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, 1, dependencies.size());
+		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.test()").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).Values();
 		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 1, dependencies.size());
 
-		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, 0, dependencies.size());
+		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.test()").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).Values();
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 	}
 	
 	public void test_test_main() {
@@ -121,39 +138,42 @@ public class TestMetricsGatherer extends TestCase {
 		Collection dependencies;
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).Values();
-		assertEquals(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).Values();
-		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).Values();
-		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, 4, dependencies.size());
-		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.util.Collections.singleton(java.util.Collection)", dependencies.contains("java.util.Collections.singleton(java.util.Collection)"));
+		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.util.Collections.singleton(java.lang.Object)", dependencies.contains("java.util.Collections.singleton(java.lang.Object)"));
 		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
-		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.System.out", dependencies.contains("java.lang.System.out"));
-		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream.println()", dependencies.contains("java.io.PrintStream.println()"));
+		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream.println(java.lang.Object)", dependencies.contains("java.io.PrintStream.println(java.lang.Object)"));
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 3, dependencies.size());
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, 3, dependencies.size());
-		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.String", dependencies.contains("java.lang.String"));
+		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream", dependencies.contains("java.io.PrintStream"));
 		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.NullPointerException", dependencies.contains("java.lang.NullPointerException"));
+		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.Object", dependencies.contains("java.lang.Object"));
+		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.String", dependencies.contains("java.lang.String"));
+		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.System", dependencies.contains("java.lang.System"));
 		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.util.Collection", dependencies.contains("java.util.Collection"));
+		assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.util.Set", dependencies.contains("java.util.Set"));
+		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 7, dependencies.size());
 	}
 	
 	public void test_test() {
-		assertEquals(Metrics.SLOC, 5, factory.CreateClassMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 6, factory.CreateClassMetrics("test").Measurement(Metrics.SLOC).intValue());
 		assertEquals("M", 2, factory.CreateClassMetrics("test").Measurement("M").intValue());
 		assertEquals(Metrics.PUBLIC_METHODS, 2, factory.CreateClassMetrics("test").Measurement(Metrics.PUBLIC_METHODS).intValue());
 		assertEquals(Metrics.PROTECTED_METHODS, 0, factory.CreateClassMetrics("test").Measurement(Metrics.PROTECTED_METHODS).intValue());
@@ -210,13 +230,13 @@ public class TestMetricsGatherer extends TestCase {
 		Collection dependencies;
 
 		dependencies = ((AccumulatorMeasurement) factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 		
 		dependencies = ((AccumulatorMeasurement) factory.CreateClassMetrics("test").Measurement(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 		
 		dependencies = ((AccumulatorMeasurement) factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES)).Values();
-		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES, 0, dependencies.size());
+		assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 		
 		dependencies = ((AccumulatorMeasurement) factory.CreateClassMetrics("test").Measurement(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES)).Values();
 		assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES, 1, dependencies.size());
@@ -224,10 +244,10 @@ public class TestMetricsGatherer extends TestCase {
 	}
 
 	public void test_() {
-		assertEquals(Metrics.SLOC, 5, factory.CreateGroupMetrics("").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 6, factory.CreateGroupMetrics("").Measurement(Metrics.SLOC).intValue());
 	}
 
 	public void testProject() {
-		assertEquals(Metrics.SLOC, 5, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 6, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
 	}
 }
