@@ -58,7 +58,7 @@
     </tr>
     <tr>
 	<td align="center">
-	    <form method="get" action="<%= request.getRequestURI() %>">
+	    <form method="post" action="<%= request.getRequestURI() %>">
 		<input type="submit" name="launch" value="Launch"/>
 	    </form>
 	</td>
