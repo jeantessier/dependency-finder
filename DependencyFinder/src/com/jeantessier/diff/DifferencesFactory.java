@@ -140,7 +140,9 @@ public class DifferencesFactory {
 			
 			Logger.getLogger(getClass()).debug("      " + name + " has " + package_differences.ClassDifferences().size() + " class(es) that changed.");
 			
-			result = new DocumentableDifferences(result, old_validator, new_validator);
+			if (old_validator.IsAllowed(name) != new_validator.IsAllowed(name)) {
+				result = new DocumentableDifferences(result, old_validator, new_validator);
+			}
 		}
 		
 		Logger.getLogger(getClass()).debug("End   " + name + ": " + (result.IsEmpty() ? "empty" : "not empty"));
@@ -230,8 +232,13 @@ public class DifferencesFactory {
 			
 			Logger.getLogger(getClass()).debug(name + " has " + class_differences.FeatureDifferences().size() + " feature(s) that changed.");
 
-			result = new DeprecatableDifferences(result, old_class, new_class);
-			result = new DocumentableDifferences(result, old_validator, new_validator);
+			if (old_class.IsDeprecated() != new_class.IsDeprecated()) {
+				result = new DeprecatableDifferences(result, old_class, new_class);
+			}
+			
+			if (old_validator.IsAllowed(name) != new_validator.IsAllowed(name)) {
+				result = new DocumentableDifferences(result, old_validator, new_validator);
+			}
 		}
 
 		Logger.getLogger(getClass()).debug("End   " + name + ": " + (result.IsEmpty() ? "empty" : "not empty"));
@@ -243,7 +250,7 @@ public class DifferencesFactory {
 		Logger.getLogger(getClass()).debug("Begin " + name);
 
 		FeatureDifferences feature_differences;
-		if (old_feature instanceof Field_info) {
+		if (old_feature instanceof Field_info || new_feature instanceof Field_info) {
 			feature_differences = new FieldDifferences(name, old_feature, new_feature);
 
 			if (feature_differences.IsRemoved() && new_class.LocateField(name) != null) {
@@ -266,8 +273,13 @@ public class DifferencesFactory {
 		Differences result = feature_differences;
 		
 		if (old_feature != null && new_feature != null) {
-			result = new DeprecatableDifferences(result, old_feature, new_feature);
-			result = new DocumentableDifferences(result, old_validator, new_validator);
+			if (old_feature.IsDeprecated() != new_feature.IsDeprecated()) {
+				result = new DeprecatableDifferences(result, old_feature, new_feature);
+			}
+
+			if (old_validator.IsAllowed(name) != new_validator.IsAllowed(name)) {
+				result = new DocumentableDifferences(result, old_validator, new_validator);
+			}
 		}
 
 		Logger.getLogger(getClass()).debug("End   " + name + ": " + (result.IsEmpty() ? "empty" : "not empty"));

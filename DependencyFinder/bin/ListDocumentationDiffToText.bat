@@ -15,7 +15,7 @@ rem  	* Redistributions in binary form must reproduce the above copyright
 rem  	  notice, this list of conditions and the following disclaimer in the
 rem  	  documentation and/or other materials provided with the distribution.
 rem  
-rem  	* Neither the name of the Jean Tessier nor the names of his contributors
+rem  	* Neither the name of Jean Tessier nor the names of his contributors
 rem  	  may be used to endorse or promote products derived from this software
 rem  	  without specific prior written permission.
 rem  
@@ -65,7 +65,7 @@ goto setupArgs
 rem This label provides a place for the argument list loop to break out 
 rem and for NT handling to skip to.
 
-%JAVA_HOME%\bin\java %DEPENDENCYFINDER_OPTS% -classpath %DEPENDENCYFINDER_HOME%\lib\xerces.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;%DEPENDENCYFINDER_HOME%\lib\xalan.jar org.apache.xalan.xslt.Process -xsl %DEPENDENCYFINDER_HOME%\etc\DiffToDocumentationHTML.xsl %DEPENDENCYFINDER_CMD_LINE_ARGS%
+%JAVA_HOME%\bin\java %DEPENDENCYFINDER_OPTS% -classpath %DEPENDENCYFINDER_HOME%\lib\xerces.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;%DEPENDENCYFINDER_HOME%\lib\xalan.jar org.apache.xalan.xslt.Process -xsl %DEPENDENCYFINDER_HOME%\etc\ListDocumentationDiffToText.xsl %DEPENDENCYFINDER_CMD_LINE_ARGS%
 
 if not "%OS%"=="Windows_NT" goto mainEnd
 :winNTend

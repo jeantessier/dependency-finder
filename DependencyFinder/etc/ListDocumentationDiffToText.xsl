@@ -15,7 +15,7 @@
     	  notice, this list of conditions and the following disclaimer in the
     	  documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of the Jean Tessier nor the names of his contributors
+    	* Neither the name of Jean Tessier nor the names of his contributors
     	  may be used to endorse or promote products derived from this software
     	  without specific prior written permission.
     
@@ -32,22 +32,41 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    version="1.0">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     <xsl:output method="text"/>
+    <xsl:strip-space elements="*"/> 
 
     <xsl:template match="differences">
-	<xsl:apply-templates select="modified-interfaces/class"/>
-	<xsl:apply-templates select="modified-classes/class"/>
+	<xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>Documentation Changes
+
+	<xsl:value-of select="old"/> to <xsl:value-of select="new"/>
+
+	No Longer Documented:
+	<xsl:apply-templates select="descendant::undocumented-packages/name |
+				     descendant::undocumented-interfaces/name |
+				     descendant::undocumented-classes/name |
+				     descendant::undocumented-fields/declaration |
+				     descendant::undocumented-constructors/declaration |
+				     descendant::undocumented-methods/declaration"/>
+
+	Now Documented:
+	<xsl:apply-templates select="descendant::documented-packages/name |
+				     descendant::documented-interfaces/name |
+				     descendant::documented-classes/name |
+				     descendant::documented-fields/declaration |
+				     descendant::documented-constructors/declaration |
+				     descendant::documented-methods/declaration"/>
     </xsl:template>
- 
-    <xsl:template match="class[modified-declaration[(old-declaration/@extends!=new-declaration/@extends) or (old-declaration/@implements!=new-declaration/@implements)]]">
-	- <xsl:value-of select="name"/>
+
+    <xsl:template match="name">
+	- <xsl:value-of select="."/>
     </xsl:template>
- 
+
+    <xsl:template match="declaration">
+	- <xsl:value-of select="@full-signature"/>
+    </xsl:template>
+
     <xsl:template match="*"></xsl:template>
 
 </xsl:stylesheet>
-
