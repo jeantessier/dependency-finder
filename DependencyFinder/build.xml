@@ -465,8 +465,8 @@
     <target name="lastreport" depends="init">
 	<cvstagdiff cvsroot="${cvsroot}"
 		    package="DependencyFinder"
-		    startTag="release-${previous.release}"
-		    endTag="release-${last.release}"
+		    startTag="release-${previous.release.tag}"
+		    endTag="release-${last.release.tag}"
 		    destFile="${previous.release}-${last.release}.xml"/>
 	<style in="${previous.release}-${last.release}.xml"
 	       out="${previous.release}-${last.release}.html"
