@@ -83,8 +83,9 @@ public class DependencyExtractAction extends AbstractAction implements Runnable,
 		}
 
 		loader.addLoadListener(model.Collector());
-			
+
 		for (int i=0; i<files.length; i++) {
+			model.StatusLine().ShowInfo("Looking for classes in " + files[i] + " ...");
 			Extract(files[i]);
 		}
 

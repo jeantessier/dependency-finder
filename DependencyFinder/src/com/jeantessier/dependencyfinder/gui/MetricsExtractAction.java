@@ -74,6 +74,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		loader.addLoadListener(this);
 		
 		for (int i=0; i<files.length; i++) {
+			model.StatusLine().ShowInfo("Looking for classes in " + files[i] + " ...");
 			Extract(files[i]);
 		}
 		
