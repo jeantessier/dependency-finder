@@ -86,9 +86,9 @@ public class XMLPrinter extends Printer {
         super.preprocessPackageNode(node);
 
         if (shouldShowPackageNode(node)) {
-            indent().append("<package>").eol();
+            indent().append("<package confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").eol();
             raiseIndent();
-            indent().append("<name>").printNodeName(node).append("</name>").eol();
+            indent().printNodeName(node).eol();
         }
     }
 
@@ -100,24 +100,20 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitInboundPackageNode(PackageNode node) {
-        if (isShowInbounds()) {
-            indent().append("<inbound type=\"package\">").append(node.getName()).append("</inbound>").eol();
-        }
+        printInboundNode(node, "package");
     }
 
     public void visitOutboundPackageNode(PackageNode node) {
-        if (isShowOutbounds()) {
-            indent().append("<outbound type=\"package\">").append(node.getName()).append("</outbound>").eol();
-        }
+        printOutboundNode(node, "package");
     }
 
     protected void preprocessClassNode(ClassNode node) {
         super.preprocessClassNode(node);
 
         if (shouldShowClassNode(node)) {
-            indent().append("<class>").eol();
+            indent().append("<class confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").eol();
             raiseIndent();
-            indent().append("<name>").printNodeName(node).append("</name>").eol();
+            indent().printNodeName(node).eol();
         }
     }
 
@@ -129,24 +125,20 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitInboundClassNode(ClassNode node) {
-        if (isShowInbounds()) {
-            indent().append("<inbound type=\"class\">").append(node.getName()).append("</inbound>").eol();
-        }
+        printInboundNode(node, "class");
     }
 
     public void visitOutboundClassNode(ClassNode node) {
-        if (isShowOutbounds()) {
-            indent().append("<outbound type=\"class\">").append(node.getName()).append("</outbound>").eol();
-        }
+        printOutboundNode(node, "class");
     }
 
     protected void preprocessFeatureNode(FeatureNode node) {
         super.preprocessFeatureNode(node);
 
         if (shouldShowFeatureNode(node)) {
-            indent().append("<feature>").eol();
+            indent().append("<feature confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").eol();
             raiseIndent();
-            indent().append("<name>").printNodeName(node).append("</name>").eol();
+            indent().printNodeName(node).eol();
         }
     }
 
@@ -158,14 +150,30 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitInboundFeatureNode(FeatureNode node) {
-        if (isShowInbounds()) {
-            indent().append("<inbound type=\"feature\">").append(node.getName()).append("</inbound>").eol();
-        }
+        printInboundNode(node, "feature");
     }
 
     public void visitOutboundFeatureNode(FeatureNode node) {
-        if (isShowOutbounds()) {
-            indent().append("<outbound type=\"feature\">").append(node.getName()).append("</outbound>").eol();
+        printOutboundNode(node, "feature");
+    }
+
+    public void printInboundNode(Node node, String type) {
+        if (isShowInbounds()) {
+            indent().append("<inbound type=\"").append(type).append("\" confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").append(node.getName()).append("</inbound>").eol();
         }
+    }
+
+    public void printOutboundNode(Node node, String type) {
+        if (isShowOutbounds()) {
+            indent().append("<outbound type=\"").append(type).append("\" confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").append(node.getName()).append("</outbound>").eol();
+        }
+    }
+
+    protected Printer printNodeName(Node node, String name) {
+        append("<name>");
+        super.printNodeName(node, name);
+        append("</name>");
+
+        return this;
     }
 }
