@@ -10,6 +10,15 @@
 
     <property environment="env"/>
 
+    <property file="tomcat.properties"/>
+    <taskdef file="tomcattasks.properties">
+	<classpath>
+	    <pathelement location="${tomcat.home}/server/lib/catalina-ant.jar"/>
+	</classpath>
+    </taskdef>
+
+    <property file="cvs.properties"/>
+
     <path id="libs">
 	<fileset dir="lib">
 	    <include name="**/*.jar"/>
@@ -24,41 +33,33 @@
 	    <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
 	</tstamp>
 
-	<property name="previous.release"     value="1.1.0-beta1"/>
-	<property name="previous.release.tag" value="110b1"/>
-	<property name="last.release"         value="1.1.0-beta2"/>
-	<property name="last.release.tag"     value="110b2"/>
-	<property name="this.release"         value="1.1.0-beta3"/>
+	<property name="release"      value="1.1.0-beta3"/>
 
-	<property name="packageNames"         value="com.jeantessier.*"/>
+	<property name="packageNames" value="com.jeantessier.*"/>
 
-	<property name="srcDir"               value="src"/>
-	<property name="testsDir"             value="tests"/>
-	<property name="binDir"               value="bin"/>
-	<property name="classesDir"           value="classes"/>
-	<property name="libDir"               value="lib"/>
-	<property name="etcDir"               value="etc"/>
-	<property name="webDir"               value="web"/>
-	<property name="docsDir"              value="docs"/>
-	<property name="apiDir"               value="${docsDir}/api"/>
-	<property name="logsDir"              value="logs"/>
+	<property name="srcDir"       value="src"/>
+	<property name="testsDir"     value="tests"/>
+	<property name="binDir"       value="bin"/>
+	<property name="classesDir"   value="classes"/>
+	<property name="libDir"       value="lib"/>
+	<property name="etcDir"       value="etc"/>
+	<property name="webDir"       value="web"/>
+	<property name="docsDir"      value="docs"/>
+	<property name="apiDir"       value="${docsDir}/api"/>
+	<property name="logsDir"      value="logs"/>
 
-	<property name="srcFiles"             value="${srcDir}/**"/>
-	<property name="testsFiles"           value="${testsDir}/**"/>
-	<property name="binFiles"             value="${binDir}/**"/>
-	<property name="libFiles"             value="${libDir}/**"/>
-	<property name="etcFiles"             value="${etcDir}/**"/>
-	<property name="webFiles"             value="${webDir}/**"/>
-	<property name="docsFiles"            value="${docsDir}/**"/>
+	<property name="srcFiles"     value="${srcDir}/**"/>
+	<property name="testsFiles"   value="${testsDir}/**"/>
+	<property name="binFiles"     value="${binDir}/**"/>
+	<property name="libFiles"     value="${libDir}/**"/>
+	<property name="etcFiles"     value="${etcDir}/**"/>
+	<property name="webFiles"     value="${webDir}/**"/>
+	<property name="docsFiles"    value="${docsDir}/**"/>
 
-	<property name="jarFile"              value="${libDir}/${ant.project.name}.jar"/>
-	<property name="warFile"              value="${ant.project.name}-${this.release}.war"/>
-	<property name="zipFile"              value="${ant.project.name}-${this.release}.src.zip"/>
-	<property name="distFile"             value="${ant.project.name}-${this.release}.zip"/>
-
-	<property name="cvsroot"              value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind"/>
-	<property name="cvsweb"               value="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/"/>
-	<property name="cvsmodule"            value="DependencyFinder"/>
+	<property name="jarFile"      value="${libDir}/${ant.project.name}.jar"/>
+	<property name="warFile"      value="${ant.project.name}-${release}.war"/>
+	<property name="zipFile"      value="${ant.project.name}-${release}.src.zip"/>
+	<property name="distFile"     value="${ant.project.name}-${release}.zip"/>
 
 	<mkdir dir="${classesDir}"/>
 	<mkdir dir="${apiDir}"/>
@@ -84,7 +85,8 @@
         <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
     </target>
 
-    <target name="tests" depends="compiletests">
+    <target name="tests" depends="compiletests"
+	    description="Compiles everything required to run all the tests">
 	<ant dir="tests/JarJarDiff" inheritAll="false"/>
     </target>
 
@@ -101,16 +103,17 @@
         </javac>
     </target>
 
-    <target name="jar" depends="compile">
+    <target name="jar" depends="compile"
+	    description="Builds the main application JAR file">
         <jar jarfile="${jarFile}">
 	    <manifest>
 		<attribute name="Specification-Vendor"   value="Jean Tessier"/>
 		<attribute name="Specification-Title"    value="Dependency Finder"/>
-		<attribute name="Specification-Version"  value="${this.release}"/>
+		<attribute name="Specification-Version"  value="${release}"/>
 		<attribute name="Specification-Date"     value="${NOW}"/>
 		<attribute name="Implementation-Vendor"  value="Jean Tessier"/>
 		<attribute name="Implementation-Title"   value="Dependency Finder"/>
-		<attribute name="Implementation-Version" value="${this.release}"/> 
+		<attribute name="Implementation-Version" value="${release}"/> 
 		<attribute name="Implementation-Date"    value="${NOW}"/> 
 		<attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
 		<attribute name="Copyright-Holder"       value="Jean Tessier"/>
@@ -151,24 +154,59 @@
 	</war>
     </target>
 
-    <target name="undeploy" depends="init">
-        <delete dir="${env.CATALINA_HOME}/work/Standalone/localhost/${ant.project.name}-${this.release}"
-		includeEmptyDirs="true"
-		failonerror="false"
-	        verbose="true"/>
-        <delete dir="${env.CATALINA_HOME}/webapps/${ant.project.name}-${this.release}"
-		includeEmptyDirs="true"
-		failonerror="false"
-	        verbose="true"/>
-	<delete file="${env.CATALINA_HOME}/webapps/${warFile}"
-		failonerror="false"
-	        verbose="true"/>
+    <!--
+	Tomcat
+    -->
+
+    <target name="webapp.deploy" depends="war"
+	    description="Deploys the web application to a Tomcat container">
+        <deploy url="${tomcat.manager.url}"
+                username="${tomcat.manager.username}"
+                password="${tomcat.manager.password}"
+                path="${tomcat.path}"
+                war="${warFile}"/>
     </target>
 
-    <target name="deploy" depends="war">
-	<copy file="${warFile}" tofile="${env.CATALINA_HOME}/webapps/${warFile}"
-	      overwrite="true"/>
+    <target name="webapp.undeploy" depends="init"
+	    description="Undeploys the web application from a Tomcat container">
+        <undeploy url="${tomcat.manager.url}"
+                  username="${tomcat.manager.username}"
+                  password="${tomcat.manager.password}"
+                  path="${tomcat.path}"/>
     </target>
+
+    <target name="webapp.reload" depends="init"
+	    description="Reloads the web application in a Tomcat container">
+        <reload url="${tomcat.manager.url}"
+                username="${tomcat.manager.username}"
+                password="${tomcat.manager.password}"
+                path="${tomcat.path}"/>
+    </target>
+
+    <target name="webapp.start" depends="init"
+	    description="Starts the web application in a Tomcat container">
+        <start url="${tomcat.manager.url}"
+               username="${tomcat.manager.username}"
+               password="${tomcat.manager.password}"
+               path="${tomcat.path}"/>
+    </target>
+
+    <target name="webapp.stop" depends="init"
+	    description="Stops the web application in a Tomcat container">
+        <stop url="${tomcat.manager.url}"
+              username="${tomcat.manager.username}"
+              password="${tomcat.manager.password}"
+              path="${tomcat.path}"/>
+    </target>
+
+    <target name="webapp.redeploy" depends="undeploy, deploy"
+	    description="Undeploys and then deploys the web application to a Tomcat container"/>
+    <target name="webapp.restart" depends="stop, start"
+	    description="Stops and then starts the web application in a Tomcat container"/>
+
+    <!--
+	Tests
+    -->
 
     <target name="alltests" depends="init">
 	<junit>
@@ -181,6 +219,10 @@
 	</junit>
     </target>
 
+    <!--
+	Packaged files
+    -->
+
     <target name="src" depends="init"
 	    description="Builds the source code archive">
         <zip zipfile="${zipFile}">
@@ -190,6 +232,7 @@
 		    <include name="build.xml"/>
 		    <include name="license.txt"/>
 		    <include name="readme.txt"/>
+		    <include name="*.properties"/>
 		    <include name="${srcFiles}"/>
 		    <include name="${testsFiles}"/>
 		    <include name="${binFiles}"/>
@@ -226,7 +269,8 @@
 	</zip>
     </target>
 
-    <target name="ftp" depends="init">
+    <target name="ftp" depends="init"
+	    description="Uploads the distribution files to SourceForge">
         <ftp server="upload.sourceforge.net"
 	     userid="anonymous"
 	     password="jeantessier@hotmail.com"
@@ -242,6 +286,10 @@
 	    </fileset>
 	</ftp>
     </target>
+
+    <!--
+	Docs
+    -->
 
     <target name="textdocs" depends="init">
 	<echo message="Processing Manual.txt ..."/>
@@ -283,9 +331,7 @@
     <target name="docs" depends="textdocs, javadocs"
 	    description="Builds the API documentation"/>
 
-    <!--
-	"docletPath" does not work in this version of Ant.
-    -->
+    <!-- "docletPath" does not work in this version of Ant. -->
     <target name="doclint">
         <javadoc packagenames="${packageNames}"
 		 version="no"
@@ -330,8 +376,10 @@
     </target>
 
     <!--
-	"docletPath" does not work in this version of Ant.
+	Dependency Finder
     -->
+
+    <!-- "docletPath" does not work in this version of Ant. -->
     <target name="listdocumentedelements" depends="init">
         <javadoc packagenames="${packageNames}"
 		 version="no"
@@ -355,13 +403,17 @@
 		<pathelement location="${srcDir}"/>
 	    </classpath>
 	</taskdef>
-	<extractor xml="yes" destfile="${this.release}.xml">
+	<extractor xml="yes" destfile="${release}.xml">
 	    <path>
 		<pathelement location="${jarFile}"/>
 	    </path>
 	</extractor>
-	<xslt style="etc/DependenciesToHTML.xsl" in="${this.release}.xml" out="${this.release}.html"/>
+	<xslt style="etc/DependenciesToHTML.xsl" in="${release}.xml" out="${release}.html"/>
     </target>
+
+    <!--
+	Cleaning up
+    -->
 
     <target name="clearlogs" depends="init">
         <delete verbose="true">
@@ -419,6 +471,10 @@
 	<delete file="${jarFile}"/>
     </target>
 
+    <!--
+	CVS
+    -->
+
     <target name="lastreport" depends="init">
 	<cvstagdiff cvsroot="${cvsroot}"
 		    package="DependencyFinder"
@@ -450,4 +506,3 @@
     </target>
 
 </project>
-
