@@ -13,10 +13,41 @@
 
 <dl>
     <dt>
+	February 10, 2003
+    </dt>
+    <dd>
+	<p>Used <code>onMouseOver</code> and <code>onMouseOut</code>
+	JavaScript event handlers in the JSPs instead of <code>onFocus</code>
+	and <code>onBlur</code> respectively.  This way, the hints appear
+	in the status area as the mouse goes over each field and the
+	user does not have to click into them, or use <code>TAB</code>
+	to move between them and see the hints.</p>
+
+	<p>Fixed the tables in the JSP so they show up correctly in
+	either Mozilla or IE.  Lucky I recently learned about
+	<code>&lt;tbody&gt;</code> and <code>&lt;colgroup&gt;</code>
+	tags.</p>
+
+	<p>Someone locked the CVS repository for the project.  I tried
+	to contact them through SourceForge, but the email bounced.  I
+	opened a trouble ticket with SourceForge in the hope they can blast
+	the lock themselves.</p>
+
+	<p>Added tasks in <code>build.xml</code> to convert the text files
+	that make up the documentation to HTML.  I also added by conversion
+	perl script, <code>bin/txt2html.pl</code>.  It is finally under
+	source control.  I had to adjust the <code>dist</code> target so it
+	does not include it in the distribution.</p>
+    </dd>
+    <dt>
 	February 06, 2003
     </dt>
     <dd>
 	<p>Tweaked the website.</p>
+
+	<p>The tables for the controls in the JSP do not come out correctly
+	in Mozilla.  The frames are missing.  I will have to rewrite them
+	so that they show up correctly in either Mozilla or IE.</p>
     </dd>
     <dt>
 	February 05, 2003
