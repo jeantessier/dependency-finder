@@ -24,12 +24,30 @@
 	<p>Added <code>windowtitle</code> to <code>&lt;javadoc&gt;</code>
 	target so the Javadocs have a proper window title when viewed with a
 	browser.</p>
+
+	<p>Final clean up for using <code>logoicon.gif</code>.</p>
+
+	<p>Since October, I've been struggling for a good term to distinguish
+	nodes in the dependency graph that match elements that were actually
+	extracted versus those that were merely referenced, but not extracted
+	per se.  Back on October 08, 2004, I came up with <em>referenced</em>
+	versus <em>concrete</em>.  Both are troublesome because they have other
+	accepted meanings in closely related contexts, such as <em>concrete
+	class</em>.  Today, I finally came up with a better replacement:
+	mere references yield <em>inferred</em> nodes until the matching
+	element is extracted, at which point the node gets promoted to
+	<em>confirmed</em>.</p>
+
+	<p>Made sure that <code>GraphCopier</code> and
+	<code>GraphSummarizer</code> maintain a node's confirmed vs. inferred
+	status across graph copies.</p>
     </dd>
     <dt>
 	March 15, 2005
     </dt>
     <dd>
-	<p>Final clean up for using <code>logoicon.gif</code>.</p>
+	<p>Finished setting up a <code>favicon.ico</code> for the documentation
+	and the website.</p>
     </dd>
     <dt>
 	March 14, 2005
