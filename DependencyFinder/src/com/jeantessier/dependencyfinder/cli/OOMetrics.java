@@ -233,11 +233,11 @@ public class OOMetrics {
 		com.jeantessier.metrics.Printer printer;
 		PrintWriter        out = new PrintWriter(new OutputStreamWriter(System.out));
 
-		if (command_line.ToggleSwitch("projects") || command_line.ToggleSwitch("all")) {
+		if (command_line.ToggleSwitch("project") || command_line.ToggleSwitch("all")) {
 			if (command_line.IsPresent("out")) {
-				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_projects.csv"));
+				out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out") + "_project.csv"));
 			} else {
-				out.println("Projects:");
+				out.println("Project:");
 			}
 			
 			metrics = new ArrayList(factory.ProjectMetrics());
@@ -343,7 +343,7 @@ public class OOMetrics {
 		Iterator           i;
 		com.jeantessier.metrics.Printer printer;
 
-		if (command_line.ToggleSwitch("projects") || command_line.ToggleSwitch("all")) {
+		if (command_line.ToggleSwitch("project") || command_line.ToggleSwitch("all")) {
 			out.println("Project metrics");
 			out.println("---------------");
 			metrics = new ArrayList(factory.ProjectMetrics());
