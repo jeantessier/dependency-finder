@@ -45,7 +45,8 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 	private File   file;
 
 	public SaveFileAction(DependencyFinder model, String dtd_prefix) {
-		this.model = model;
+		this.model      = model;
+		this.dtd_prefix = dtd_prefix;
 
 		putValue(Action.LONG_DESCRIPTION, "Save current graph to XML file");
 		putValue(Action.NAME, "Save");
