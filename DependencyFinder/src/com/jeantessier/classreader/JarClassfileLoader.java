@@ -74,7 +74,7 @@ public class JarClassfileLoader extends ZipClassfileLoader {
 			jarfile = new JarInputStream(in);
 
 			fireBeginGroup(filename, -1);
-			Load(jarfile);
+			load(jarfile);
 			fireEndGroup(filename);
 		} catch (IOException ex) {
 			Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);

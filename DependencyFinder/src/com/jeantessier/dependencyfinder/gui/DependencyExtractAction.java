@@ -73,7 +73,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 		ClassfileScanner scanner = new ClassfileScanner();
 		scanner.load(Arrays.asList(files));
 
-		model.ProgressBar().setMaximum(scanner.NbFiles());
+		model.ProgressBar().setMaximum(scanner.getNbFiles());
 		
 		Collector collector = new CodeDependencyCollector(model.NodeFactory());
 

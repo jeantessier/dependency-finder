@@ -59,7 +59,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 	}
 	
 	protected void load(String filename) {
-		switch (dispatcher.Dispatch(filename)) {
+		switch (dispatcher.dispatch(filename)) {
 			case ClassfileLoaderDispatcher.ACTION_IGNORE:
 				break;
 
@@ -82,7 +82,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 	}
 
 	protected void load(String filename, InputStream in) {
-		switch (dispatcher.Dispatch(filename)) {
+		switch (dispatcher.dispatch(filename)) {
 			case ClassfileLoaderDispatcher.ACTION_IGNORE:
 				break;
 

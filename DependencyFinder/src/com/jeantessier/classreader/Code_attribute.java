@@ -38,29 +38,29 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Code_attribute extends Attribute_info {
-	private int        max_stack;
-	private int        max_locals;
+	private int        maxStack;
+	private int        maxLocals;
 	private byte[]     code;
-	private Collection exception_handlers = new LinkedList();
-	private Collection attributes         = new LinkedList();
+	private Collection exceptionHandlers = new LinkedList();
+	private Collection attributes        = new LinkedList();
 
 	public Code_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
-		int byte_count = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
+		int byteCount = in.readInt();
+		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		max_stack = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Code max stack: " + max_stack);
+		maxStack = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Code max stack: " + maxStack);
 
-		max_locals = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Code max locals: " + max_locals);
+		maxLocals = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Code max locals: " + maxLocals);
 
-		int code_length = in.readInt();
-		Logger.getLogger(getClass()).debug("Code length: " + code_length);
-		code = new byte[code_length];
-		int bytes_read = in.read(code);
-		Logger.getLogger(getClass()).debug("Bytes read: " + bytes_read);
+		int codeLength = in.readInt();
+		Logger.getLogger(getClass()).debug("Code length: " + codeLength);
+		code = new byte[codeLength];
+		int bytesRead = in.read(code);
+		Logger.getLogger(getClass()).debug("Bytes read: " + bytesRead);
 
 		Iterator ci = iterator();
 		while (ci.hasNext()) {
@@ -90,27 +90,27 @@ public class Code_attribute extends Attribute_info {
 			}
 		}
 
-		int exception_table_length = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + exception_table_length + " exception handler(s) ...");
-		for (int i=0; i<exception_table_length; i++) {
+		int exceptionTableLength = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + exceptionTableLength + " exception handler(s) ...");
+		for (int i=0; i<exceptionTableLength; i++) {
 			Logger.getLogger(getClass()).debug("Exception handler " + i + ":");
-			exception_handlers.add(new ExceptionHandler(this, in));
+			exceptionHandlers.add(new ExceptionHandler(this, in));
 		}
 
-		int attribute_count = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + attribute_count + " code attribute(s)");
-		for (int i=0; i<attribute_count; i++) {
+		int attributeCount = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + attributeCount + " code attribute(s)");
+		for (int i=0; i<attributeCount; i++) {
 			Logger.getLogger(getClass()).debug("code attribute " + i + ":");
 			attributes.add(AttributeFactory.create(getClassfile(), this, in));
 		}
 	}
 
-	public int MaxStack() {
-		return max_stack;
+	public int getMaxStack() {
+		return maxStack;
 	}
 
-	public int MaxLocals() {
-		return max_locals;
+	public int getMaxLocals() {
+		return maxLocals;
 	}
 
 	public byte[] getCode() {
@@ -122,7 +122,7 @@ public class Code_attribute extends Attribute_info {
 	}
 
 	public Collection getExceptionHandlers() {
-		return exception_handlers;
+		return exceptionHandlers;
 	}
 
 	public Collection getAttributes() {

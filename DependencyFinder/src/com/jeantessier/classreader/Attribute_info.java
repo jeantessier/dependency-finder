@@ -33,27 +33,19 @@
 package com.jeantessier.classreader;
 
 public abstract class Attribute_info implements Visitable {
-	private Classfile  classfile;
-	private Visitable  owner;
+	private Classfile classfile;
+	private Visitable owner;
 
 	public Attribute_info(Classfile classfile, Visitable owner) {
-		Classfile(classfile);
-		Owner(owner);
+		this.classfile = classfile;
+		this.owner     = owner;
 	}
 
 	public Classfile getClassfile() {
 		return classfile;
 	}
 
-	private void Classfile(Classfile classfile) {
-		this.classfile = classfile;
-	}
-
-	public Visitable Owner() {
+	public Visitable getOwner() {
 		return owner;
-	}
-
-	private void Owner(Visitable owner) {
-		this.owner = owner;
 	}
 }

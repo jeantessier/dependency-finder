@@ -588,15 +588,15 @@ public class Instruction {
 		return (code[start] & 0xff);
 	}
 	
-	public static String Mnemonic(int instruction) {
+	public static String getMnemonic(int instruction) {
 		return opcode[instruction];
 	}
 		
-	public String Mnemonic() {
-		String result = Mnemonic(getOpcode());
+	public String getMnemonic() {
+		String result = getMnemonic(getOpcode());
 
 		if (getOpcode() == 0xc4 /* wide */) {
-			result += " " + Mnemonic(code[start+1] & 0xff);
+			result += " " + getMnemonic(code[start+1] & 0xff);
 		}
 
 		return result;
@@ -661,6 +661,6 @@ public class Instruction {
 	}
 
 	public String toString() {
-		return Mnemonic();
+		return getMnemonic();
 	}
 }

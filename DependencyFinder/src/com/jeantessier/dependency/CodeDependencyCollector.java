@@ -108,8 +108,8 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 
 	public void visitFieldRef_info(FieldRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
-		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		Node other = Factory().CreateFeature(entry.getFullSignature());
 		current.AddDependency(other);
@@ -121,8 +121,8 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 
 	public void visitMethodRef_info(MethodRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitMethodRef_info():");
-		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		if (!entry.isStaticInitializer()) {
 			Node other  = Factory().CreateFeature(entry.getFullSignature());
@@ -136,8 +136,8 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 
 	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
-		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		Node other  = Factory().CreateFeature(entry.getFullSignature());
 		current.AddDependency(other);

@@ -35,56 +35,56 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public abstract class FeatureRef_info extends ConstantPoolEntry {
-	private int class_index;
-	private int name_and_type_index;
+	private int classIndex;
+	private int nameAndTypeIndex;
 
-	public FeatureRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool);
+	public FeatureRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool);
 
-		class_index = in.readUnsignedShort();
-		name_and_type_index = in.readUnsignedShort();
+		classIndex = in.readUnsignedShort();
+		nameAndTypeIndex = in.readUnsignedShort();
 	}
 
-	public int ClassIndex() {
-		return class_index;
+	public int getClassIndex() {
+		return classIndex;
 	}
 
 	public Class_info getRawClass() {
-		return (Class_info) ConstantPool().get(ClassIndex());
+		return (Class_info) getConstantPool().get(getClassIndex());
 	}
 
-	public String Class() {
+	public String getClassName() {
 		return getRawClass().toString();
 	}
 
-	public int NameAndTypeIndex() {
-		return name_and_type_index;
+	public int getNameAndTypeIndex() {
+		return nameAndTypeIndex;
 	}
 
 	public NameAndType_info getRawNameAndType() {
-		return (NameAndType_info) ConstantPool().get(NameAndTypeIndex());
+		return (NameAndType_info) getConstantPool().get(getNameAndTypeIndex());
 	}
 
-	public String NameAndType() {
+	public String getNameAndType() {
 		StringBuffer result = new StringBuffer();
 
 		NameAndType_info nat = getRawNameAndType();
 
-		result.append(nat.Name()).append(nat.getType());
+		result.append(nat.getName()).append(nat.getType());
 
 		return result.toString();
 	}
 
-	public abstract String Name();
+	public abstract String getName();
 
-	public String FullName() {
-		return Class() + "." + Name();
+	public String getFullName() {
+		return getClassName() + "." + getName();
 	}
 
-	public abstract String Signature();
+	public abstract String getSignature();
 
 	public String getFullSignature() {
-		return Class() + "." + Signature();
+		return getClassName() + "." + getSignature();
 	}
 
 	public String toString() {
@@ -93,7 +93,7 @@ public abstract class FeatureRef_info extends ConstantPoolEntry {
 		Class_info       c   = getRawClass();
 		NameAndType_info nat = getRawNameAndType();
 
-		result.append(c).append(".").append(nat.Name()).append(nat.getType());
+		result.append(c).append(".").append(nat.getName()).append(nat.getType());
 
 		return result.toString();
 	}

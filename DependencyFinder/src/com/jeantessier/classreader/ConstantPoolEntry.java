@@ -49,17 +49,13 @@ public abstract class ConstantPoolEntry implements Visitable {
 	public static final byte CONSTANT_NameAndType = 12;
 	public static final byte CONSTANT_Utf8 = 1;
 
-	private ConstantPool constant_pool;
+	private ConstantPool constantPool;
 
-	protected ConstantPoolEntry(ConstantPool constant_pool) {
-		ConstantPool(constant_pool);
+	protected ConstantPoolEntry(ConstantPool constantPool) {
+		this.constantPool = constantPool;
 	}
 
-	public ConstantPool ConstantPool() {
-		return constant_pool;
-	}
-
-	private void ConstantPool(ConstantPool constant_pool) {
-		this.constant_pool = constant_pool;
+	public ConstantPool getConstantPool() {
+		return constantPool;
 	}
 }

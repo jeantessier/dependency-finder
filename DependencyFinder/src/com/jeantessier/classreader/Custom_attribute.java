@@ -50,24 +50,24 @@ public class Custom_attribute extends Attribute_info {
 
 		this.name = name;
 
-		int byte_count = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
+		int byteCount = in.readInt();
+		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		this.info = new byte[byte_count];
-		int bytes_read = in.read(info);
-		Logger.getLogger(getClass()).debug("Bytes read: " + bytes_read);
+		this.info = new byte[byteCount];
+		int bytesRead = in.read(info);
+		Logger.getLogger(getClass()).debug("Bytes read: " + bytesRead);
 	}
 
-	public String Name() {
+	public String getName() {
 		return name;
 	}
 
-	public byte[] Info() {
+	public byte[] getInfo() {
 		return info;
 	}
 
 	public String toString() {
-		return "Custom \"" + name + "\" " + Info().length + " byte(s)";
+		return "Custom \"" + name + "\" " + getInfo().length + " byte(s)";
 	}
 
 	public void accept(Visitor visitor) {

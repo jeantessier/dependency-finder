@@ -38,24 +38,24 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class LineNumberTable_attribute extends Attribute_info {
-	private Collection line_numbers = new LinkedList();
+	private Collection lineNumbers = new LinkedList();
 
 	public LineNumberTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
-		int byte_count = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
+		int byteCount = in.readInt();
+		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		int line_number_table_length = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Reading " + line_number_table_length + " line number(s) ...");
-		for (int i=0; i<line_number_table_length; i++) {
+		int lineNumberTableLength = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Reading " + lineNumberTableLength + " line number(s) ...");
+		for (int i=0; i<lineNumberTableLength; i++) {
 			Logger.getLogger(getClass()).debug("Line number entry " + i + ":");
-			line_numbers.add(new LineNumber(this, in));
+			lineNumbers.add(new LineNumber(this, in));
 		}
 	}
 
 	public Collection getLineNumbers() {
-		return line_numbers;
+		return lineNumbers;
 	}
 
 	public String toString() {

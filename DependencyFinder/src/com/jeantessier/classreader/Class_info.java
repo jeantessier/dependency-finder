@@ -35,20 +35,20 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class Class_info extends ConstantPoolEntry {
-	private int name_index;
+	private int nameIndex;
 
-	public Class_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool);
+	public Class_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool);
 
-		name_index = in.readUnsignedShort();
+		nameIndex = in.readUnsignedShort();
 	}
 
-	public int NameIndex() {
-		return name_index;
+	public int getNameIndex() {
+		return nameIndex;
 	}
 
 	public UTF8_info getRawName() {
-		return (UTF8_info) ConstantPool().get(NameIndex());
+		return (UTF8_info) getConstantPool().get(getNameIndex());
 	}
 
 	public String getName() {

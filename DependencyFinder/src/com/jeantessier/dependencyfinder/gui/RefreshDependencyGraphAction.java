@@ -67,7 +67,7 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 		ClassfileScanner scanner = new ClassfileScanner();
 		scanner.load(Collections.singleton(model.InputFile()));
 
-		model.ProgressBar().setMaximum(scanner.NbFiles());
+		model.ProgressBar().setMaximum(scanner.getNbFiles());
 
 		model.NodeFactory(new NodeFactory());
 		Collector collector = new CodeDependencyCollector(model.NodeFactory());

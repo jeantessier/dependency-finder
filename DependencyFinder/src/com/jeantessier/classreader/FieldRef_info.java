@@ -35,26 +35,26 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class FieldRef_info extends FeatureRef_info {
-	public FieldRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool, in);
+	public FieldRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool, in);
 	}
 
-	public String NameAndType() {
+	public String getNameAndType() {
 		StringBuffer result = new StringBuffer();
 
 		NameAndType_info nat = getRawNameAndType();
 
-		result.append(nat.getType()).append(" ").append(nat.Name());
+		result.append(nat.getType()).append(" ").append(nat.getName());
 
 		return result.toString();
 	}
 
-	public String Name() {
-		return getRawNameAndType().Name();
+	public String getName() {
+		return getRawNameAndType().getName();
 	}
 
-	public String Signature() {
-		return getRawNameAndType().Name();
+	public String getSignature() {
+		return getRawNameAndType().getName();
 	}
 
 	public String toString() {
@@ -63,7 +63,7 @@ public class FieldRef_info extends FeatureRef_info {
 		Class_info       c   = getRawClass();
 		NameAndType_info nat = getRawNameAndType();
 
-		result.append(nat.getType()).append(" ").append(c).append(".").append(nat.Name());
+		result.append(nat.getType()).append(" ").append(c).append(".").append(nat.getName());
 
 		return result.toString();
 	}

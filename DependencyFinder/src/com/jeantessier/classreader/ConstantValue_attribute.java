@@ -37,24 +37,24 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class ConstantValue_attribute extends Attribute_info {
-	private int value_index;
+	private int valueIndex;
 
 	public ConstantValue_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
 
-		int byte_count = in.readInt();
-		Logger.getLogger(getClass()).debug("Attribute length: " + byte_count);
+		int byteCount = in.readInt();
+		Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-		value_index = in.readUnsignedShort();
+		valueIndex = in.readUnsignedShort();
 		Logger.getLogger(getClass()).debug("Constant value: " + getRawValue());
 	}
 
-	public int ValueIndex() {
-		return value_index;
+	public int getValueIndex() {
+		return valueIndex;
 	}
 
 	public ConstantPoolEntry getRawValue() {
-		return (ConstantPoolEntry) getClassfile().getConstantPool().get(ValueIndex());
+		return (ConstantPoolEntry) getClassfile().getConstantPool().get(getValueIndex());
 	}
 
 	public String toString() {

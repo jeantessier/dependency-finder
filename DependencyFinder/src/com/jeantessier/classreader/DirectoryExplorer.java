@@ -40,14 +40,14 @@ public class DirectoryExplorer {
 
 	public DirectoryExplorer(String[] filenames) throws IOException {
 		for (int i=0; i<filenames.length; i++) {
-			Explore(new File(filenames[i]));
+			explore(new File(filenames[i]));
 		}
 	}
 
 	public DirectoryExplorer(Collection filenames) throws IOException {
 		Iterator i = filenames.iterator();
 		while (i.hasNext()) {
-			Explore(new File(i.next().toString()));
+			explore(new File(i.next().toString()));
 		}
 	}
 
@@ -56,27 +56,27 @@ public class DirectoryExplorer {
 	}
 
 	public DirectoryExplorer(File file) throws IOException {
-		Explore(file);
+		explore(file);
 	}
 
-	private void Explore(File file) throws IOException {
+	private void explore(File file) throws IOException {
 		if (file.exists()) {
 			collection.add(file);
 			
 			if (file.isDirectory()) {
-				ExploreDirectory(file);
+				exploreDirectory(file);
 			}
 		}
 	}
 
-	private void ExploreDirectory(File dir) throws IOException {
+	private void exploreDirectory(File dir) throws IOException {
 		String[] entries = dir.list();
 		for (int i=0; i<entries.length; i++) {
-			Explore(new File(dir, entries[i]));
+			explore(new File(dir, entries[i]));
 		}
 	}
 
-	public Collection Collection() {
+	public Collection getCollection() {
 		return collection;
 	}
 }

@@ -53,10 +53,10 @@ public class XMLPrinter extends Printer {
 	public XMLPrinter(PrintWriter out, String encoding, String dtdPrefix) {
 		super(out);
 		
-		AppendHeader(encoding, dtdPrefix);
+		appendHeader(encoding, dtdPrefix);
 	}
 
-	private void AppendHeader(String encoding, String dtdPrefix) {
+	private void appendHeader(String encoding, String dtdPrefix) {
 		append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>").eol();
 		eol();
 		append("<!DOCTYPE classfiles SYSTEM \"").append(dtdPrefix).append("/classfile.dtd\">").eol();

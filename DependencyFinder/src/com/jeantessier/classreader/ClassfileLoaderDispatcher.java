@@ -39,5 +39,5 @@ public interface ClassfileLoaderDispatcher {
 	public static final int ACTION_JAR       = 4;
 	public static final int ACTION_CLASS     = 5;
 
-	public int Dispatch(String filename);
+	public int dispatch(String filename);
 }

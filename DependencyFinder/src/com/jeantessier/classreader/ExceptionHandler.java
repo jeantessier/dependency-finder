@@ -38,56 +38,52 @@ import org.apache.log4j.*;
 
 public class ExceptionHandler implements Visitable {
 	private Code_attribute code;
-	private int            start_pc;
-	private int            end_pc;
-	private int            handler_pc;
-	private int            catch_type_index;
+	private int            startPC;
+	private int            endPC;
+	private int            handlerPC;
+	private int            catchTypeIndex;
 
 	public ExceptionHandler(Code_attribute code, DataInputStream in) throws IOException {
-		Code(code);
+		this.code = code;
 
-		start_pc = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("start PC: " + start_pc);
+		startPC = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("start PC: " + startPC);
 
-		end_pc = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("end PC: " + end_pc);
+		endPC = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("end PC: " + endPC);
 
-		handler_pc = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("handler PC: " + handler_pc);
+		handlerPC = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("handler PC: " + handlerPC);
 
-		catch_type_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("catch type index: " + catch_type_index + " (" + CatchType() + ")");
+		catchTypeIndex = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("catch type index: " + catchTypeIndex + " (" + getCatchType() + ")");
 	}
 
-	public Code_attribute Code() {
+	public Code_attribute getCode() {
 		return code;
 	}
 
-	private void Code(Code_attribute code) {
-		this.code = code;
-	}
-
 	public int getStartPC() {
-		return start_pc;
+		return startPC;
 	}
 
 	public int getEndPC() {
-		return end_pc;
+		return endPC;
 	}
 
 	public int getHandlerPC() {
-		return handler_pc;
+		return handlerPC;
 	}
 
 	public int getCatchTypeIndex() {
-		return catch_type_index;
+		return catchTypeIndex;
 	}
 
 	public Class_info getRawCatchType() {
 		return (Class_info) code.getClassfile().getConstantPool().get(getCatchTypeIndex());
 	}
 
-	public String CatchType() {
+	public String getCatchType() {
 		String result = "<none>";
 
 		if (getCatchTypeIndex() != 0) {
@@ -98,7 +94,7 @@ public class ExceptionHandler implements Visitable {
 	}
 
 	public String toString() {
-		return "ExceptionHandler for " + CatchType();
+		return "ExceptionHandler for " + getCatchType();
 	}
 
 	public void accept(Visitor visitor) {

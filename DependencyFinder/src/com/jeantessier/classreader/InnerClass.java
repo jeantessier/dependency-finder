@@ -45,45 +45,41 @@ public class InnerClass implements Visitable {
 	public static final int ACC_INTERFACE = 0x0200;
 	public static final int ACC_ABSTRACT  = 0x0400;
 
-	private InnerClasses_attribute inner_classes;
-	private int                    inner_class_info_index;
-	private int                    outer_class_info_index;
-	private int                    inner_name_index;
-	private int                    access_flag;
+	private InnerClasses_attribute innerClasses;
+	private int                    innerClassInfoIndex;
+	private int                    outerClassInfoIndex;
+	private int                    innerNameIndex;
+	private int                    accessFlag;
 
-	public InnerClass(InnerClasses_attribute inner_classes, DataInputStream in) throws IOException {
-		InnerClasses(inner_classes);
+	public InnerClass(InnerClasses_attribute innerClasses, DataInputStream in) throws IOException {
+		this.innerClasses = innerClasses;
 
-		inner_class_info_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Inner class info index: " + inner_class_info_index + " (" + InnerClassInfo() + ")");
+		innerClassInfoIndex = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Inner class info index: " + innerClassInfoIndex + " (" + getInnerClassInfo() + ")");
 
-		outer_class_info_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Outer class info index: " + outer_class_info_index + " (" + OuterClassInfo() + ")");
+		outerClassInfoIndex = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Outer class info index: " + outerClassInfoIndex + " (" + getOuterClassInfo() + ")");
 
-		inner_name_index = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Inner name index: " + inner_name_index + " (" + InnerName() + ")");
+		innerNameIndex = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Inner name index: " + innerNameIndex + " (" + getInnerName() + ")");
 
-		access_flag = in.readUnsignedShort();
-		Logger.getLogger(getClass()).debug("Inner class access flag: " + access_flag);
+		accessFlag = in.readUnsignedShort();
+		Logger.getLogger(getClass()).debug("Inner class access flag: " + accessFlag);
 	}
 
-	public InnerClasses_attribute InnerClasses() {
-		return inner_classes;
-	}
-
-	private void InnerClasses(InnerClasses_attribute inner_classes) {
-		this.inner_classes = inner_classes;
+	public InnerClasses_attribute getInnerClasses() {
+		return innerClasses;
 	}
 
 	public int getInnerClassInfoIndex() {
-		return inner_class_info_index;
+		return innerClassInfoIndex;
 	}
 
 	public Class_info getRawInnerClassInfo() {
-		return (Class_info) inner_classes.getClassfile().getConstantPool().get(getInnerClassInfoIndex());
+		return (Class_info) innerClasses.getClassfile().getConstantPool().get(getInnerClassInfoIndex());
 	}
 
-	public String InnerClassInfo() {
+	public String getInnerClassInfo() {
 		String result = "";
 
 		if (getInnerClassInfoIndex() != 0) {
@@ -94,14 +90,14 @@ public class InnerClass implements Visitable {
 	}
 
 	public int getOuterClassInfoIndex() {
-		return outer_class_info_index;
+		return outerClassInfoIndex;
 	}
 
 	public Class_info getRawOuterClassInfo() {
-		return (Class_info) inner_classes.getClassfile().getConstantPool().get(getOuterClassInfoIndex());
+		return (Class_info) innerClasses.getClassfile().getConstantPool().get(getOuterClassInfoIndex());
 	}
 
-	public String OuterClassInfo() {
+	public String getOuterClassInfo() {
 		String result = "";
 
 		if (getOuterClassInfoIndex() != 0) {
@@ -112,14 +108,14 @@ public class InnerClass implements Visitable {
 	}
 
 	public int getInnerNameIndex() {
-		return inner_name_index;
+		return innerNameIndex;
 	}
 
 	public UTF8_info getRawInnerName() {
-		return (UTF8_info) inner_classes.getClassfile().getConstantPool().get(getInnerNameIndex());
+		return (UTF8_info) innerClasses.getClassfile().getConstantPool().get(getInnerNameIndex());
 	}
 
-	public String InnerName() {
+	public String getInnerName() {
 		String result = "";
 
 		if (getInnerNameIndex() != 0) {
@@ -130,7 +126,7 @@ public class InnerClass implements Visitable {
 	}
 
 	public int getAccessFlag() {
-		return access_flag;
+		return accessFlag;
 	}
 
 	public boolean isPublic() {
@@ -145,7 +141,7 @@ public class InnerClass implements Visitable {
 		return (getAccessFlag() & ACC_PRIVATE) != 0;
 	}
 
-	public boolean IsPackage() {
+	public boolean isPackage() {
 		return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
 	}
 
@@ -166,7 +162,7 @@ public class InnerClass implements Visitable {
 	}
 
 	public String toString() {
-		return InnerClassInfo();
+		return getInnerClassInfo();
 	}
 
 	public void accept(Visitor visitor) {

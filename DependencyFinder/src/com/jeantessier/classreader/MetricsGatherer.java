@@ -345,7 +345,7 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	public void visitSynthetic_attribute(Synthetic_attribute attribute) {
-		Object owner = attribute.Owner();
+		Object owner = attribute.getOwner();
 	
 		if (owner instanceof Classfile) {
 			syntheticClasses.add(owner);
@@ -359,7 +359,7 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	public void visitDeprecated_attribute(Deprecated_attribute attribute) {
-		Object owner = attribute.Owner();
+		Object owner = attribute.getOwner();
 	
 		if (owner instanceof Classfile) {
 			deprecatedClasses.add(owner);

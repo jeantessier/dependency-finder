@@ -48,9 +48,9 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 		try {
 			DirectoryExplorer explorer = new DirectoryExplorer(filename);
 
-			fireBeginGroup(filename, explorer.Collection().size());
+			fireBeginGroup(filename, explorer.getCollection().size());
 
-			Iterator i = explorer.Collection().iterator();
+			Iterator i = explorer.getCollection().iterator();
 			while (i.hasNext()) {
 				File file = (File) i.next();
 				

@@ -37,7 +37,7 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
-	public int Dispatch(String filename) {
+	public int dispatch(String filename) {
 		int result;
   
 		if (filename.endsWith(".zip")) {

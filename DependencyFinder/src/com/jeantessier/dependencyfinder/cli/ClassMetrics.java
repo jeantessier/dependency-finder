@@ -234,7 +234,7 @@ public class ClassMetrics {
 			for (int opcode=0; opcode<256; opcode++) {
 				out.print("        0x");
 				Hex.Print(out, (byte) opcode);
-				out.println(" " + Instruction.Mnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
+				out.println(" " + Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
 			}
 		}
 

@@ -82,7 +82,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 			fireBeginGroup(filename, -1);
 
 			Logger.getLogger(getClass()).debug("Loading ZipInputStream " + filename);
-			Load(zipfile);
+			load(zipfile);
 			Logger.getLogger(getClass()).debug("Loaded ZipInputStream " + filename);
 
 			fireEndGroup(filename);
@@ -112,7 +112,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 			InputStream in    = null;
 			try {
 				in    = zipfile.getInputStream(entry);
-				bytes = ReadBytes(in);
+				bytes = readBytes(in);
 			} finally {
 				if (in != null) {
 					try {
@@ -130,13 +130,13 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 		}
 	}
 
-	protected void Load(ZipInputStream in) throws IOException {
+	protected void load(ZipInputStream in) throws IOException {
 		ZipEntry entry;
 		while ((entry = in.getNextEntry()) != null) {
 			fireBeginFile(entry.getName());
 				
 			Logger.getLogger(getClass()).debug("Starting file " + entry.getName() + " (" + entry.getSize() + " bytes)");
-			byte[] bytes = ReadBytes(in);
+			byte[] bytes = readBytes(in);
 			
 			Logger.getLogger(getClass()).debug("Passing up file " + entry.getName() + " (" + bytes.length + " bytes)");
 			getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
@@ -145,7 +145,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 		}
 	}
 
-	private byte[] ReadBytes(InputStream in) {
+	private byte[] readBytes(InputStream in) {
 		byte[] result = null;
 		
 		try {

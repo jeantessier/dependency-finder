@@ -49,19 +49,19 @@ public class FeatureDependencyCollector extends CollectorBase {
 
 	public void visitFieldRef_info(FieldRef_info entry) {
 		if (entry.getRawClass() != thisClass) {
-			add(entry.Class() + "." + entry.getRawNameAndType().Name());
+			add(entry.getClassName() + "." + entry.getRawNameAndType().getName());
 		}
 	}
 
 	public void visitMethodRef_info(MethodRef_info entry) {
-		if ((entry.getRawClass() != thisClass) && !perl.match("/<.*init>/", entry.getRawNameAndType().Name())) {
-			add(entry.Class() + "." + entry.getRawNameAndType().Name());
+		if ((entry.getRawClass() != thisClass) && !perl.match("/<.*init>/", entry.getRawNameAndType().getName())) {
+			add(entry.getClassName() + "." + entry.getRawNameAndType().getName());
 		}
 	}
 
 	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		if (entry.getRawClass() != thisClass) {
-			add(entry.Class() + "." + entry.getRawNameAndType().Name());
+			add(entry.getClassName() + "." + entry.getRawNameAndType().getName());
 		}
 	}
 

@@ -35,34 +35,34 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class NameAndType_info extends ConstantPoolEntry {
-	private int name_index;
-	private int type_index;
+	private int nameIndex;
+	private int typeIndex;
 
-	public NameAndType_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool);
+	public NameAndType_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool);
 
-		name_index = in.readUnsignedShort();
-		type_index = in.readUnsignedShort();
+		nameIndex = in.readUnsignedShort();
+		typeIndex = in.readUnsignedShort();
 	}
 
-	public int NameIndex() {
-		return name_index;
+	public int getNameIndex() {
+		return nameIndex;
 	}
 
 	public UTF8_info getRawName() {
-		return (UTF8_info) ConstantPool().get(NameIndex());
+		return (UTF8_info) getConstantPool().get(getNameIndex());
 	}
 
-	public String Name() {
+	public String getName() {
 		return getRawName().toString();
 	}
 
-	public int TypeIndex() {
-		return type_index;
+	public int getTypeIndex() {
+		return typeIndex;
 	}
 
 	public UTF8_info getRawType() {
-		return (UTF8_info) ConstantPool().get(TypeIndex());
+		return (UTF8_info) getConstantPool().get(getTypeIndex());
 	}
 
 	public String getType() {
@@ -72,7 +72,7 @@ public class NameAndType_info extends ConstantPoolEntry {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		result.append(Name()).append(" -> ").append(getType());
+		result.append(getName()).append(" -> ").append(getType());
 
 		return result.toString();
 	}

@@ -47,33 +47,33 @@ public class TestPermissiveDispatcher extends TestCase {
 	}
 	
 	public void testDispatch() {
-		assertEquals("foo.class",      ClassfileLoaderDispatcher.ACTION_CLASS,     dispatcher.Dispatch("foo.class"));
+		assertEquals("foo.class",      ClassfileLoaderDispatcher.ACTION_CLASS,     dispatcher.dispatch("foo.class"));
 		
-		assertEquals("src",            ClassfileLoaderDispatcher.ACTION_DIRECTORY, dispatcher.Dispatch("src"));
+		assertEquals("src",            ClassfileLoaderDispatcher.ACTION_DIRECTORY, dispatcher.dispatch("src"));
 
-		assertEquals("MANIFEST.MF",    ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("MANIFEST.MF"));
-		assertEquals("foo.bat",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.bat"));
-		assertEquals("foo.css",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.css"));
-		assertEquals("foo.dtd",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.dtd"));
-		assertEquals("foo.gif",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.gif"));
-		assertEquals("foo.htm",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.htm"));
-		assertEquals("foo.html",       ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.html"));
-		assertEquals("foo.java",       ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.java"));
-		assertEquals("foo.jpeg",       ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.jpeg"));
-		assertEquals("foo.jpg",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.jpg"));
-		assertEquals("foo.js",         ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.js"));
-		assertEquals("foo.jsp",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.jsp"));
-		assertEquals("foo.properties", ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.properties"));
-		assertEquals("foo.ps",         ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.ps"));
-		assertEquals("foo.txt",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.txt"));
-		assertEquals("foo.xml",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.xml"));
-		assertEquals("foo.xsl",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.xsl"));
-		assertEquals("foo/",           ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo/"));
+		assertEquals("MANIFEST.MF",    ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("MANIFEST.MF"));
+		assertEquals("foo.bat",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.bat"));
+		assertEquals("foo.css",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.css"));
+		assertEquals("foo.dtd",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.dtd"));
+		assertEquals("foo.gif",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.gif"));
+		assertEquals("foo.htm",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.htm"));
+		assertEquals("foo.html",       ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.html"));
+		assertEquals("foo.java",       ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.java"));
+		assertEquals("foo.jpeg",       ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.jpeg"));
+		assertEquals("foo.jpg",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.jpg"));
+		assertEquals("foo.js",         ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.js"));
+		assertEquals("foo.jsp",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.jsp"));
+		assertEquals("foo.properties", ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.properties"));
+		assertEquals("foo.ps",         ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.ps"));
+		assertEquals("foo.txt",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.txt"));
+		assertEquals("foo.xml",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.xml"));
+		assertEquals("foo.xsl",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo.xsl"));
+		assertEquals("foo/",           ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.dispatch("foo/"));
 		
-		assertEquals("foo.jar",        ClassfileLoaderDispatcher.ACTION_JAR,       dispatcher.Dispatch("foo.jar"));
+		assertEquals("foo.jar",        ClassfileLoaderDispatcher.ACTION_JAR,       dispatcher.dispatch("foo.jar"));
 
-		assertEquals("foo.zip",        ClassfileLoaderDispatcher.ACTION_ZIP,       dispatcher.Dispatch("foo.zip"));
+		assertEquals("foo.zip",        ClassfileLoaderDispatcher.ACTION_ZIP,       dispatcher.dispatch("foo.zip"));
 
-		assertEquals("foo.foo",        ClassfileLoaderDispatcher.ACTION_ZIP,       dispatcher.Dispatch("foo.foo"));
+		assertEquals("foo.foo",        ClassfileLoaderDispatcher.ACTION_ZIP,       dispatcher.dispatch("foo.foo"));
 	}
 }

@@ -35,36 +35,36 @@ package com.jeantessier.classreader;
 import java.io.*;
 
 public class MethodRef_info extends FeatureRef_info {
-	public MethodRef_info(ConstantPool constant_pool, DataInputStream in) throws IOException {
-		super(constant_pool, in);
+	public MethodRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+		super(constantPool, in);
 	}
 
 	public boolean isConstructor() {
-		return getRawNameAndType().Name().equals("<init>");
+		return getRawNameAndType().getName().equals("<init>");
 	}
 
 	public boolean isStaticInitializer() {
-		return getRawNameAndType().Name().equals("<clinit>");
+		return getRawNameAndType().getName().equals("<clinit>");
 	}
 
-	public String Name() {
+	public String getName() {
 		String result = null;
 
 		if (isConstructor()) {
-			result = Class().substring(Class().lastIndexOf(".") + 1);
+			result = getClassName().substring(getClassName().lastIndexOf(".") + 1);
 		} else if (isStaticInitializer()) {
 			result = "static {}";
 		} else {
-			result = getRawNameAndType().Name();
+			result = getRawNameAndType().getName();
 		}
 
 		return result;
 	}
 
-	public String Signature() {
+	public String getSignature() {
 		StringBuffer result = new StringBuffer();
 
-		result.append(Name());
+		result.append(getName());
 		if (!isStaticInitializer()) {
 			result.append(SignatureHelper.getSignature(getRawNameAndType().getType()));
 		}

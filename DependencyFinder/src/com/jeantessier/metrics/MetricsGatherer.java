@@ -219,8 +219,8 @@ public class MetricsGatherer extends VisitorBase {
 	
 	public void visitFieldRef_info(FieldRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
-		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 
 		// Dependencies on attributes are accounted as dependencies on their class
@@ -230,8 +230,8 @@ public class MetricsGatherer extends VisitorBase {
 
 	public void visitMethodRef_info(MethodRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitMethodRef_info():");
-		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		AddMethodDependency(entry.getFullSignature());
 		AddClassDependencies(ProcessDescriptor(entry.getRawNameAndType().getType()));
@@ -239,8 +239,8 @@ public class MetricsGatherer extends VisitorBase {
 
 	public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		Logger.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
-		Logger.getLogger(getClass()).debug("    class = \"" + entry.Class() + "\"");
-		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().Name() + "\"");
+		Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+		Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
 		Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
 		AddMethodDependency(entry.getFullSignature());
 		AddClassDependencies(ProcessDescriptor(entry.getRawNameAndType().getType()));
@@ -401,7 +401,7 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	public void visitSynthetic_attribute(Synthetic_attribute attribute) {
-		Object owner = attribute.Owner();
+		Object owner = attribute.getOwner();
 
 		is_synthetic = true;
 		
@@ -418,7 +418,7 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	public void visitDeprecated_attribute(Deprecated_attribute attribute) {
-		Object owner = attribute.Owner();
+		Object owner = attribute.getOwner();
 	
 		if (owner instanceof Classfile) {
 			CurrentProject().AddToMeasurement(Metrics.DEPRECATED_CLASSES);
@@ -443,7 +443,7 @@ public class MetricsGatherer extends VisitorBase {
 	}
 
 	public void visitInnerClass(InnerClass helper) {
-		if ((helper.getInnerClassInfoIndex() != helper.InnerClasses().getClassfile().getClassIndex()) && (helper.InnerClassInfo().startsWith(helper.InnerClasses().getClassfile().getClassName()))) {
+		if ((helper.getInnerClassInfoIndex() != helper.getInnerClasses().getClassfile().getClassIndex()) && (helper.getInnerClassInfo().startsWith(helper.getInnerClasses().getClassfile().getClassName()))) {
 			CurrentProject().AddToMeasurement(Metrics.INNER_CLASSES);
 			CurrentGroup().AddToMeasurement(Metrics.INNER_CLASSES);
 			CurrentClass().AddToMeasurement(Metrics.INNER_CLASSES);

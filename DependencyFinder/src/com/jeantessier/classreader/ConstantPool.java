@@ -42,7 +42,7 @@ public class ConstantPool extends ArrayList implements Visitable {
 	private Classfile classfile;
 
 	public ConstantPool(Classfile classfile, DataInputStream in) throws IOException {
-		Classfile(classfile);
+		this.classfile = classfile;
 
 		int count = in.readUnsignedShort();
 
@@ -99,12 +99,8 @@ public class ConstantPool extends ArrayList implements Visitable {
 		}
 	}
 
-	public Classfile Classfile() {
+	public Classfile getClassfile() {
 		return classfile;
-	}
-
-	private void Classfile(Classfile classfile) {
-		this.classfile = classfile;
 	}
 
 	public void accept(Visitor visitor) {

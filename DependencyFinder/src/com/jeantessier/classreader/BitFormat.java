@@ -37,26 +37,26 @@ public class BitFormat {
 	public static final int  DEFAULT_GROUP_SIZE      =  8;
 	public static final char DEFAULT_GROUP_SEPARATOR = ' ';
 
-	private int  max_length;
-	private int  group_size;
-	private char group_separator;
+	private int  maxLength;
+	private int  groupSize;
+	private char groupSeparator;
 	
 	public BitFormat() {
 		this(DEFAULT_MAX_LENGTH, DEFAULT_GROUP_SIZE, DEFAULT_GROUP_SEPARATOR);
 	}
 
-	public BitFormat(int max_length) {
-		this(max_length, DEFAULT_GROUP_SIZE, DEFAULT_GROUP_SEPARATOR);
+	public BitFormat(int maxLength) {
+		this(maxLength, DEFAULT_GROUP_SIZE, DEFAULT_GROUP_SEPARATOR);
 	}
 
-	public BitFormat(int max_length, int group_size) {
-		this(max_length, group_size, DEFAULT_GROUP_SEPARATOR);
+	public BitFormat(int maxLength, int groupSize) {
+		this(maxLength, groupSize, DEFAULT_GROUP_SEPARATOR);
 	}
 	
-	public BitFormat(int max_length, int group_size, char group_separator) {
-		this.max_length      = max_length;
-		this.group_size      = group_size;
-		this.group_separator = group_separator;
+	public BitFormat(int maxLength, int groupSize, char groupSeparator) {
+		this.maxLength      = maxLength;
+		this.groupSize      = groupSize;
+		this.groupSeparator = groupSeparator;
 	}
 
 	public String format(int n) {
@@ -67,18 +67,18 @@ public class BitFormat {
 		return format(Long.toBinaryString(n).toCharArray());
 	}
 
-	private String format(char[] binary_string) {
+	private String format(char[] binaryString) {
 		StringBuffer result = new StringBuffer();
 
-		for (int i=0; i<max_length; i++) {
-			if (((max_length - i) % group_size == 0) && i > 0) {
-				result.append(group_separator);
+		for (int i=0; i<maxLength; i++) {
+			if (((maxLength - i) % groupSize == 0) && i > 0) {
+				result.append(groupSeparator);
 			}
 
-			if (i < max_length - binary_string.length) {
+			if (i < maxLength - binaryString.length) {
 				result.append('0');
 			} else {
-				result.append(binary_string[binary_string.length - max_length + i]);
+				result.append(binaryString[binaryString.length - maxLength + i]);
 			}
 		}
 		

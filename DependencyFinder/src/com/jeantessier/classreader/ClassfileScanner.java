@@ -47,11 +47,11 @@ public class ClassfileScanner extends ClassfileLoaderEventSource {
 		super(dispatcher);
 	}
 
-	public int NbFiles() {
+	public int getNbFiles() {
 		return nbFiles;
 	}
 
-	public int NbClasses() {
+	public int getNbClasses() {
 		return nbClasses;
 	}
 	

@@ -38,7 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class LocalVariableTable_attribute extends Attribute_info {
-	private Collection local_variables = new LinkedList();
+	private Collection localVariables = new LinkedList();
 
 	public LocalVariableTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
 		super(classfile, owner);
@@ -50,12 +50,12 @@ public class LocalVariableTable_attribute extends Attribute_info {
 		Logger.getLogger(getClass()).debug("Reading " + local_variable_table_length + " local variable(s) ...");
 		for (int i=0; i<local_variable_table_length; i++) {
 			Logger.getLogger(getClass()).debug("Local variable " + i + ":");
-			local_variables.add(new LocalVariable(this, in));
+			localVariables.add(new LocalVariable(this, in));
 		}
 	}
 
 	public Collection getLocalVariables() {
-		return local_variables;
+		return localVariables;
 	}
 
 	public String toString() {

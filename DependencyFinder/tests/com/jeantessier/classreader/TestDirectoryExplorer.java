@@ -47,7 +47,7 @@ public class TestDirectoryExplorer extends TestCase {
 	public void testExploreFilename() throws IOException {
 		DirectoryExplorer explorer = new DirectoryExplorer(TEST_FILENAME);
 
-		List list = new ArrayList(explorer.Collection());
+		List list = new ArrayList(explorer.getCollection());
 		
 		assertEquals("size", 1, list.size());
 		assertEquals(TEST_FILENAME, ((File) list.get(0)).getPath());
@@ -56,7 +56,7 @@ public class TestDirectoryExplorer extends TestCase {
 	public void testExploreOtherFilename() throws IOException {
 		DirectoryExplorer explorer = new DirectoryExplorer(OTHER_FILENAME);
 
-		List list = new ArrayList(explorer.Collection());
+		List list = new ArrayList(explorer.getCollection());
 		
 		assertEquals("size", 1, list.size());
 		assertEquals(OTHER_FILENAME, ((File) list.get(0)).getPath());
@@ -65,13 +65,13 @@ public class TestDirectoryExplorer extends TestCase {
 	public void testExploreMissingFilename() throws IOException {
 		DirectoryExplorer explorer = new DirectoryExplorer(MISSING_FILENAME);
 		
-		assertEquals("size", 0, explorer.Collection().size());
+		assertEquals("size", 0, explorer.getCollection().size());
 	}	
 
 	public void testExploreDirectory() throws IOException {
 		DirectoryExplorer explorer = new DirectoryExplorer(TEST_DIRNAME);
 
-		List list = new ArrayList(explorer.Collection());
+		List list = new ArrayList(explorer.getCollection());
 		
 		assertEquals("size", 59, list.size());
 		assertEquals(TEST_DIRNAME, ((File) list.get(0)).getPath());
@@ -84,7 +84,7 @@ public class TestDirectoryExplorer extends TestCase {
 		
 		DirectoryExplorer explorer = new DirectoryExplorer(directories);
 
-		List list = new ArrayList(explorer.Collection());
+		List list = new ArrayList(explorer.getCollection());
 		
 		assertEquals("size", 118, list.size());
 		assertEquals(TEST_DIRNAME, ((File) list.get(0)).getPath());
@@ -96,7 +96,7 @@ public class TestDirectoryExplorer extends TestCase {
 		
 		DirectoryExplorer explorer = new DirectoryExplorer(files);
 
-		List list = new ArrayList(explorer.Collection());
+		List list = new ArrayList(explorer.getCollection());
 		
 		assertEquals("size", 1, list.size());
 		assertEquals(TEST_FILENAME, ((File) list.get(0)).getPath());

@@ -41,7 +41,7 @@ public class DeprecationPrinter extends Printer implements LoadListener {
 	}
 	
 	public void visitDeprecated_attribute(Deprecated_attribute attribute) {
-		Object owner = attribute.Owner();
+		Object owner = attribute.getOwner();
 
 		if (owner instanceof Feature_info) {
 			if (!((Feature_info) owner).getClassfile().isDeprecated()) {

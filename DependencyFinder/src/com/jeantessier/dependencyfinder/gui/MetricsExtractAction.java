@@ -75,7 +75,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 		ClassfileScanner scanner = new ClassfileScanner();
 		scanner.load(Arrays.asList(files));
 
-		model.ProgressBar().setMaximum(scanner.NbFiles() + scanner.NbClasses());
+		model.ProgressBar().setMaximum(scanner.getNbFiles() + scanner.getNbClasses());
 
 		MetricsVerboseListener verbose_listener = new MetricsVerboseListener(model.StatusLine(), model.ProgressBar());
 		
