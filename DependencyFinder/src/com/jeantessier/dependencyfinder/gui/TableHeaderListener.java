@@ -36,6 +36,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import org.apache.log4j.*;
+
 class TableHeaderListener extends MouseAdapter {
 	private JTable            table; 
 	private OOMetricsTableModel model; 
@@ -46,22 +48,18 @@ class TableHeaderListener extends MouseAdapter {
 	}
 	
 	public void mouseClicked(MouseEvent event) {
-		System.out.println(getClass().getName() + ".mouseClicked()");
-		
 		int    view_column    = table.getColumnModel().getColumnIndexAtX(event.getX()); 
 		int    column         = table.convertColumnIndexToModel(view_column); 
 		String column_name    = model.RawColumnName(column);
 		int    column_dispose = model.RawColumnDispose(column);
 
-		System.out.println("event.getX()       = " + event.getX());
-		System.out.println("view_column        = " + view_column);
-		System.out.println("column             = " + column);
-		System.out.println("raw column_name    = " + column_name);
-		System.out.println("raw column_dispose = " + column_dispose);
-		System.out.println("column_name        = " + model.getColumnName(column));
-		System.out.println();
+		Logger.getLogger(getClass()).debug("event.getX()       = " + event.getX());
+		Logger.getLogger(getClass()).debug("view_column        = " + view_column);
+		Logger.getLogger(getClass()).debug("column             = " + column);
+		Logger.getLogger(getClass()).debug("raw column_name    = " + column_name);
+		Logger.getLogger(getClass()).debug("raw column_dispose = " + column_dispose);
+		Logger.getLogger(getClass()).debug("column_name        = " + model.getColumnName(column));
 		
-		model.SortOn(column_name, column_dispose
-					 );
+		model.SortOn(column_name, column_dispose);
 	}
 }
