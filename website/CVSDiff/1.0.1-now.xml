@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-101" endDate="2004-11-30 10:46:10" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-101" endDate="2004-12-12 10:53:28" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.57</revision>
+			<revision>1.59</revision>
 			<prevrevision>1.40</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>cvs.properties</name>
-			<revision>1.2</revision>
+			<revision>1.3</revision>
 		</file>
 	</entry>
 	<entry>
@@ -354,28 +354,28 @@
 	<entry>
 		<file>
 			<name>bin/txt2html.pl</name>
-			<revision>1.4</revision>
+			<revision>1.5</revision>
 			<prevrevision>1.2</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/Developer.txt</name>
-			<revision>1.9</revision>
+			<revision>1.11</revision>
 			<prevrevision>1.6</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.41</revision>
+			<revision>1.43</revision>
 			<prevrevision>1.32</prevrevision>
 		</file>
 	</entry>
 	<entry>
 		<file>
 			<name>docs/Tools.txt</name>
-			<revision>1.37</revision>
+			<revision>1.38</revision>
 			<prevrevision>1.24</prevrevision>
 		</file>
 	</entry>
