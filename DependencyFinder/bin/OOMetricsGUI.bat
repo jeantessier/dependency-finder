@@ -42,7 +42,7 @@ set DEFAULT_DEPENDENCYFINDER_HOME=%~dp0
 rem : operator works similar to make : operator
 set DEFAULT_DEPENDENCYFINDER_HOME=%DEFAULT_DEPENDENCYFINDER_HOME:\bin\=%
 
-if %DEPENDENCYFINDER_HOME%a==a set DEPENDENCYFINDER_HOME=%DEFAULT_DEPENDENCYFINDER_HOME%
+if "%DEPENDENCYFINDER_HOME%"=="" set DEPENDENCYFINDER_HOME=%DEFAULT_DEPENDENCYFINDER_HOME%
 set DEFAULT_DEPENDENCYFINDER_HOME=
 
 rem On NT/2K grab all arguments at once
@@ -50,8 +50,8 @@ set DEPENDENCYFINDER_CMD_LINE_ARGS=%*
 goto doneStart
 
 :win9xStart
-rem Slurp the command line arguments.  This loop allows for an unlimited number of 
-rem agruments (up to the command line limit, anyway).
+rem Slurp the command line arguments.  This loop allows for an unlimited
+rem number of arguments (up to the command line limit, anyway).
 
 set DEPENDENCYFINDER_CMD_LINE_ARGS=
 
@@ -62,14 +62,14 @@ shift
 goto setupArgs
 
 :doneStart
-rem This label provides a place for the argument list loop to break out 
+rem This label provides a place for the argument list loop to break out
 rem and for NT handling to skip to.
 
-if %DEPENDENCYFINDER_CONSOLE%a==a goto noConsole
-%JAVA_HOME%\bin\java %DEPENDENCYFINDER_OPTS% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar com.jeantessier.dependencyfinder.gui.OOMetrics -default-configuration %DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml %DEPENDENCYFINDER_CMD_LINE_ARGS%
+if "%DEPENDENCYFINDER_CONSOLE%"=="" goto noConsole
+%JAVA_HOME%\bin\java %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar" com.jeantessier.dependencyfinder.gui.OOMetrics -default-configuration "%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml" %DEPENDENCYFINDER_CMD_LINE_ARGS%
 goto doneRun
 :noConsole
-start %JAVA_HOME%\bin\javaw %DEPENDENCYFINDER_OPTS% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar com.jeantessier.dependencyfinder.gui.OOMetrics -default-configuration %DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml %DEPENDENCYFINDER_CMD_LINE_ARGS%
+start %JAVA_HOME%\bin\javaw %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\xml-apis.jar;%DEPENDENCYFINDER_HOME%\lib\xercesImpl.jar" com.jeantessier.dependencyfinder.gui.OOMetrics -default-configuration "%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml" %DEPENDENCYFINDER_CMD_LINE_ARGS%
 :doneRun
 
 if not "%OS%"=="Windows_NT" goto mainEnd
