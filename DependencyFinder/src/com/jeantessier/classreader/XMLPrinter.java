@@ -82,7 +82,10 @@ public class XMLPrinter extends Printer {
 		RaiseIndent();
 		i = classfile.Interfaces().iterator();
 		while (i.hasNext()) {
+			Indent();
+			Append("<interface>");
 			((Visitable) i.next()).Accept(this);
+			Append("</interface>\n");
 		}
 		LowerIndent();
 		Indent().Append("</interfaces>\n");
