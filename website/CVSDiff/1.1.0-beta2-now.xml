@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-110b2" endDate="2004-11-10 10:24:21" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-110b2" endDate="2004-11-11 07:14:04" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
-			<revision>1.51</revision>
+			<revision>1.53</revision>
 			<prevrevision>1.49</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>cvs.properties</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tomcat.properties</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>tomcattasks.properties</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -24,7 +42,7 @@
 	<entry>
 		<file>
 			<name>docs/tasks/dependencyclosure.html</name>
-			<revision>1.9</revision>
+			<revision>1.10</revision>
 			<prevrevision>1.8</prevrevision>
 		</file>
 	</entry>
@@ -404,7 +422,7 @@
 	<entry>
 		<file>
 			<name>web/advancedclosure.jsp</name>
-			<revision>1.27</revision>
+			<revision>1.28</revision>
 			<prevrevision>1.23</prevrevision>
 		</file>
 	</entry>
@@ -425,7 +443,7 @@
 	<entry>
 		<file>
 			<name>web/closure.jsp</name>
-			<revision>1.28</revision>
+			<revision>1.29</revision>
 			<prevrevision>1.24</prevrevision>
 		</file>
 	</entry>
