@@ -234,6 +234,16 @@ public class TextPrinter extends Printer {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         }
     }
+
+    protected Printer printNodeName(Node node, String name) {
+        super.printNodeName(node, name);
+
+        if (!node.isConfirmed()) {
+            append(" *");
+        }
+        
+        return this;
+    }
     
     private void printDependencies(Map dependencies) {
         Iterator i = dependencies.entrySet().iterator();

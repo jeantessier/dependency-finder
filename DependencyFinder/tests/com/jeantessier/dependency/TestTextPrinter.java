@@ -47,9 +47,29 @@ public class TestTextPrinter extends TestCase {
         visitor = new TextPrinter(new PrintWriter(out));
     }
 
-    public void testShowInboundsPackageTrue() throws IOException {
+    public void testShowInboundsPackageTrueWithInferred() throws IOException {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createPackage("empty");
+
+        visitor.setShowInbounds(true);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <-- outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowInboundsPackageTrueWithConfirmed() throws IOException {
+        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
+        factory.createPackage("empty", true);
 
         visitor.setShowInbounds(true);
         visitor.setShowOutbounds(false);
@@ -67,9 +87,28 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowInboundsPackageFalse() throws IOException {
+    public void testShowInboundsPackageFalseWithInferred() throws IOException {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createPackage("empty");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowInboundsPackageFalseWithConfirmed() throws IOException {
+        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
+        factory.createPackage("empty", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(false);
@@ -86,9 +125,32 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowInboundsClassTrue() throws IOException {
+    public void testShowInboundsClassTrueWithInferred() throws IOException {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createClass("empty.Empty");
+
+        visitor.setShowInbounds(true);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowInboundsClassTrueWithConfirmed() throws IOException {
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createClass("empty.Empty", true);
 
         visitor.setShowInbounds(true);
         visitor.setShowOutbounds(false);
@@ -109,9 +171,31 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowInboundsClassFalse() throws IOException {
+    public void testShowInboundsClassFalseWithInferred() throws IOException {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createClass("empty.Empty");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowInboundsClassFalseWithConfirmed() throws IOException {
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createClass("empty.Empty", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(false);
@@ -131,9 +215,35 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowInboundsFeatureTrue() throws IOException {
+    public void testShowInboundsFeatureTrueWithInferred() throws IOException {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
+
+        visitor.setShowInbounds(true);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        empty() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowInboundsFeatureTrueWithConfirmed() throws IOException {
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createFeature("empty.Empty.empty()", true);
 
         visitor.setShowInbounds(true);
         visitor.setShowOutbounds(false);
@@ -157,9 +267,34 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowInboundsFeatureFalse() throws IOException {
+    public void testShowInboundsFeatureFalseWithInferred() throws IOException {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        empty() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowInboundsFeatureFalseWithConfirmed() throws IOException {
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createFeature("empty.Empty.empty()", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(false);
@@ -182,9 +317,29 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowOutboundsPackageTrue() throws IOException {
+    public void testShowOutboundsPackageTrueWithInferred() throws IOException {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createPackage("empty");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --> inbound *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowOutboundsPackageTrueWithConfirmed() throws IOException {
+        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
+        factory.createPackage("empty", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(true);
@@ -202,9 +357,28 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowOutboundsPackageFalse() throws IOException {
+    public void testShowOutboundsPackageFalseWithInferred() throws IOException {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createPackage("empty");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowOutboundsPackageFalseWithConfirmed() throws IOException {
+        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
+        factory.createPackage("empty", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(false);
@@ -221,9 +395,32 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowOutboundsClassTrue() throws IOException {
+    public void testShowOutboundsClassTrueWithInferred() throws IOException {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createClass("empty.Empty");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --> inbound.Inbound *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowOutboundsClassTrueWithConfirmed() throws IOException {
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createClass("empty.Empty", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(true);
@@ -244,9 +441,31 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowOutboundsClassFalse() throws IOException {
+    public void testShowOutboundsClassFalseWithInferred() throws IOException {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createClass("empty.Empty");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowOutboundsClassFalseWithConfirmed() throws IOException {
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createClass("empty.Empty", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(false);
@@ -266,9 +485,35 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowOutboundsFeatureTrue() throws IOException {
+    public void testShowOutboundsFeatureTrueWithInferred() throws IOException {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        empty() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowOutboundsFeatureTrueWithConfirmed() throws IOException {
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createFeature("empty.Empty.empty()", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(true);
@@ -292,9 +537,34 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowOutboundsFeatureFalse() throws IOException {
+    public void testShowOutboundsFeatureFalseWithInferred() throws IOException {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        empty() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowOutboundsFeatureFalseWithConfirmed() throws IOException {
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createFeature("empty.Empty.empty()", true);
 
         visitor.setShowInbounds(false);
         visitor.setShowOutbounds(false);
@@ -317,11 +587,41 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
     
-    public void testShowEmptyPackageTrue() throws IOException {
+    public void testShowEmptyPackageTrueWithInferred() throws IOException {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createPackage("empty");
+
+        visitor.setShowEmptyNodes(true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <-- outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --> inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --> inbound.Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+    
+    public void testShowEmptyPackageTrueWithConfirmed() throws IOException {
+        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createPackage("empty", true);
 
         visitor.setShowEmptyNodes(true);
 
@@ -347,11 +647,40 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowEmptyPackageFalse() throws IOException {
+    public void testShowEmptyPackageFalseWithInferred() throws IOException {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createPackage("empty");
+
+        visitor.setShowEmptyNodes(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <-- outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --> inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --> inbound.Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowEmptyPackageFalseWithConfirmed() throws IOException {
+        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createPackage("empty", true);
 
         visitor.setShowEmptyNodes(false);
 
@@ -376,10 +705,38 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowEmptyClassTrue() throws IOException {
+    public void testShowEmptyClassTrueWithInferred() throws IOException {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createClass("empty.Empty");
+
+        visitor.setShowEmptyNodes(true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --> inbound.Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowEmptyClassTrueWithConfirmed() throws IOException {
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createClass("empty.Empty", true);
 
         visitor.setShowEmptyNodes(true);
 
@@ -404,10 +761,36 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowEmptyClassFalse() throws IOException {
+    public void testShowEmptyClassFalseWithInferred() throws IOException {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createClass("empty.Empty");
+
+        visitor.setShowEmptyNodes(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <-- outbound.Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --> inbound.Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowEmptyClassFalseWithConfirmed() throws IOException {
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createClass("empty.Empty", true);
 
         visitor.setShowEmptyNodes(false);
 
@@ -430,9 +813,35 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowEmptyFeatureTrue() throws IOException {
+    public void testShowEmptyFeatureTrueWithInferred() throws IOException {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
+
+        visitor.setShowEmptyNodes(true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        empty() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowEmptyFeatureTrueWithConfirmed() throws IOException {
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createFeature("empty.Empty.empty()", true);
 
         visitor.setShowEmptyNodes(true);
 
@@ -456,9 +865,32 @@ public class TestTextPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
-    public void testShowEmptyFeatureFalse() throws IOException {
+    public void testShowEmptyFeatureFalseWithInferred() throws IOException {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
+
+        visitor.setShowEmptyNodes(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <-- outbound.Outbound.outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --> inbound.Inbound.inbound() *", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowEmptyFeatureFalseWithConfirmed() throws IOException {
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createFeature("empty.Empty.empty()", true);
 
         visitor.setShowEmptyNodes(false);
 
