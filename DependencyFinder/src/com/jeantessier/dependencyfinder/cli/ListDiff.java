@@ -79,6 +79,7 @@ public class ListDiff {
 		command_line.AddSingleValueSwitch("old", true);
 		command_line.AddSingleValueSwitch("new-label");
 		command_line.AddSingleValueSwitch("new", true);
+		command_line.AddToggleSwitch("compress");
 		command_line.AddToggleSwitch("time");
 		command_line.AddSingleValueSwitch("out");
 		command_line.AddToggleSwitch("help");
@@ -143,10 +144,10 @@ public class ListDiff {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 		
-		ListDiffPrinter printer = new ListDiffPrinter();
+		ListDiffPrinter printer = new ListDiffPrinter(command_line.ToggleSwitch("compress"));
 		printer.Name(command_line.SingleSwitch("name"));
-		printer.OldVersion(command_line.SingleSwitch("old-version"));
-		printer.NewVersion(command_line.SingleSwitch("new-version"));
+		printer.OldVersion(command_line.SingleSwitch("old-label"));
+		printer.NewVersion(command_line.SingleSwitch("new-label"));
 		
 		Iterator i;
 

@@ -35,10 +35,14 @@ package com.jeantessier.dependencyfinder.cli;
 import java.util.*;
 
 public class ListDiffPrinter {
+	private static final String  DEFAULT_INDENT_TEXT = "    ";
+	private static final boolean DEFAULT_COMPRESS    = false;
+	
 	private StringBuffer buffer = new StringBuffer();
 
 	private String  indent_text;
 	private int     indent_level = 0;
+	private boolean compress;
 
 	private String     name        = "";
 	private String     old_version = "";
@@ -47,11 +51,20 @@ public class ListDiffPrinter {
 	private Collection added       = new TreeSet();
 	
 	public ListDiffPrinter() {
-		this("    ");
+		this(DEFAULT_INDENT_TEXT, DEFAULT_COMPRESS);
+	}
+	
+	public ListDiffPrinter(String indent_text) {
+		this(indent_text, DEFAULT_COMPRESS);
+	}
+	
+	public ListDiffPrinter(boolean compress) {
+		this(DEFAULT_INDENT_TEXT, compress);
 	}
 
-	public ListDiffPrinter(String indent_text) {
+	public ListDiffPrinter(String indent_text, boolean compress) {
 		this.indent_text = indent_text;
+		this.compress    = compress;
 
 		AppendHeader();
 	}
@@ -193,10 +206,16 @@ public class ListDiffPrinter {
 		RaiseIndent();
 
 		Iterator i;
+		String   previous;
 
 		i = Removed().iterator();
+		previous = "\n\n\n\n";
 		while (i.hasNext()) {
-			Indent().Append("<line>").Append(i.next()).Append("</line>").EOL();
+			String line = (String) i.next();
+			if (!(compress && line.startsWith(previous))) {
+				Indent().Append("<line>").Append(line).Append("</line>").EOL();
+				previous = line;
+			}
 		}
 
 		LowerIndent();
@@ -206,8 +225,13 @@ public class ListDiffPrinter {
 		RaiseIndent();
 		
 		i = Added().iterator();
+		previous = "\n\n\n\n";
 		while (i.hasNext()) {
-			Indent().Append("<line>").Append(i.next()).Append("</line>").EOL();
+			String line = (String) i.next();
+			if (!(compress && line.startsWith(previous))) {
+				Indent().Append("<line>").Append(line).Append("</line>").EOL();
+				previous = line;
+			}
 		}
 		
 		LowerIndent();
