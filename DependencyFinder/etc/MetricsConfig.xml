@@ -771,7 +771,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>DOI</short-name>
-	    <long-name>Depth of Inheritnace</long-name>
+	    <long-name>Depth of Inheritance</long-name>
 	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	    <upper-threshold>7</upper-threshold>
 	</measurement>
