@@ -43,7 +43,7 @@ import org.xml.sax.helpers.*;
 
 public class NodeLoader {
 	private static final String  DEFAULT_READER_CLASS_NAME = "org.apache.xerces.parsers.SAXParser";
-	private static final boolean DEFAULT_VALIDATE         = false;
+	private static final boolean DEFAULT_VALIDATE          = false;
 
 	private NodeHandler handler;
 	private String      readerClassName;

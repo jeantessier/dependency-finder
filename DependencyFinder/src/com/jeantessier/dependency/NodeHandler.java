@@ -46,7 +46,7 @@ public class NodeHandler extends DefaultHandler {
 	private static final int CLASS   = 2;
 	private static final int FEATURE = 3;
 
-	private NodeFactory factory;
+	private NodeFactory  factory;
 
 	private int          currentNodeType;
 	private int          currentDependencyType;
