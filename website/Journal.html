@@ -17,6 +17,130 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	December 13, 2003
+    </dt>
+    <dd>
+	<p>Well, it didn't work out.  They tried to break down their codebase
+	but all their <code>DependencyReporter</code> output is either of
+	size zero or badly truncated.</p>
+
+	<p>Back in July, I had problems with truncated files, but back then it
+	was because <code>java.io.Writer</code> instances were not being closed.
+	I removed all calls to <code>java.io.Writer.flush()</code> because the
+	stream is supposed to be automatically flushed when it is closed.  It
+	has worked just well for me since then and I am troubled that they
+	should be having these kinds of problems.</p>
+
+	<p>They gave me a copy of their codebase to try and recreate the
+	problem, but it worked fine for me.  I'm down to thinking maybe it's
+	because they're on Linux, for some reason.  But that can't be it.</p>
+
+	<p>As I was working out their problem, I realized how great it is to
+	have <code>DependencyReporter</code> to merge graphs together.  I can
+	give it as many graphs as I want and it can coombine them all
+	together.  I noticed the Ant task version doesn't do that; it can
+	only take a single graph at a time.  I'll need to fix that.</p>
+
+	<p>I fixed measurements IEPM's and OEPF's long name.  Now, I'll need
+	to create a patch for this.</p>
+    </dd>
+    <dt>
+	December 12, 2003
+    </dt>
+    <dd>
+	<p>That one customer with the large codebase and low memory still has
+	problems.  They had tried <code>OOMetrics</code> without much success.
+	The dependency-related measurement proved too hard to figure out
+	right.  I really need to do something about them.</p>
+
+	<p>So, they need to count dependencies between classes.</p>
+
+	<p>One approach is to use the dependency counts from
+	<code>OOMetrics</code>.  The downside  is that it uses an
+	<code>AggregatingClassfileLoader</code> to load all the class
+	structures before starting any measurements.  Some measurements attempt
+	to traverse multiple classes and the tool must make sure they are
+	present in memory at that time.</p>
+
+	<p>Another option is to use <code>DependencyExtractor</code> to extract
+	a dependency graph first, and then get the information from it.
+	<code>DependencyExtractor</code> uses a
+	<code>TransientClassfileLoader</code> and discards each class structure
+	as soon as it's gotten the dependency information it needs.  The memory
+	requirements are much less.</p>
+
+	<p>But for a large codebase, the resulting graph can still be quite
+	large.  If you are really restrained memory-wise, it may still be too
+	much.  My customer was trying to run <code>DependencyExtractor</code>
+	to create one large graph and then reduce it with <code>c2c</code>.
+	Since all they needed were class-to-class dependencies, we figured they
+	could run <code>DependencyExtractor</code> multiple times on subsets of
+	the codebase, run <code>c2c</code> on the resulting graph subsets, and
+	finally recombine the now much smaller class-to-class graphs.  After
+	trying this with <code>DependencyFinder.jar</code>, it turned out that
+	the class-to-class graph was only 2% the complexity of the
+	equivalent extracted graph.  I'm anxious to see if this worked for
+	them.</p>
+    </dd>
+    <dt>
+	December 11, 2003
+    </dt>
+    <dd>
+	<p>Someone has been trying to analyze a large codebase with limited
+	memory.  They're interested in counting class-level dependencies and
+	have been using <code>DependencyReporter</code> to reduce the graph and
+	then count inbound and outbound dependencies.  I suggested they use
+	<code>OOMetrics</code> instead.  It has a whole group of oddly named
+	measurements (OEP, IIPM, etc.) that already track dependencies.  As I
+	was reviewing them especially in the context of
+	<code>MartinConfig.xml</code>, I realized they were kinda cryptic and I
+	need to document what each one does and how you can combine them to
+	arrive at the counts you're interested in.</p>
+
+	<p>I noticed that measurement IEPM and OEPF had the wrong long name.
+	They said "Extra-Class" when they are actually "Extra-Package".</p>
+    </dd>
+    <dt>
+	December 10, 2003
+    </dt>
+    <dd>
+	<p>Got a new laptop.  Now I can have something closer to a real
+	development environment.</p>
+
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>OS</td>
+	        <td>:</td>
+		<td>Windows 98</td>
+	        <td>-></td>
+		<td>Windows XP Home</td>
+	    </tr>
+	    <tr>
+	        <td>JDK 1.3</td>
+	        <td>:</td>
+		<td>1.3.1_05</td>
+	        <td>-></td>
+		<td>1.3.1_09</td>
+	    </tr>
+	    <tr>
+	        <td>JDK 1.4</td>
+	        <td>:</td>
+		<td>1.4.1</td>
+	        <td>-></td>
+		<td>1.4.2_03</td>
+	    </tr>
+	</table>
+	</blockquote>
+
+	<p>With the Windows XP based on Windows NT, I can actually use the
+	startup scripts that ship with Dependency Finder.  On Windows 98, I had
+	to use variations that worked around limited memory and a impossibility
+	to create temporary environment variables.</p>
+    </dd>
+    <dt>
 	December 09, 2003
     </dt>
     <dd>
@@ -1216,10 +1340,6 @@
 	    </tr>
 	</table>
 	</blockquote>
-
-<!--
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
 
 	<p>I have been thinking about an installer that would generate all the
 	<code>.bat</code> files and adjust them for Windows 98 vs. Windows NT
