@@ -3929,15 +3929,206 @@ this data in larger chunks.  For this, you can use =OOMetrics= instead.
 
 ---++++ Using Dependency-Related Metrics
 
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
+You can use =OOMetrics= and write either an HTML report or one of two text
+reports.
 
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
+To generate reports organized by deprecated elements, use the configuration
+file =etc\InboundDependencyConfig.xml=.
+
+<div align="center">
+[[images/InboundDependencyConfig.gif]]
+*Inbound Dependency Config*
+</div>
+
+For a text report organized by deprecated elements, with all methods listed
+together, run:
+
+<div class="highlight">
+
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\*InboundDependencyConfig*.xml
+                  -filter-includes-list deprecated.txt
+                  -all
+                  *-txt*
+                  -expand
+                  DeprecatedExample.class
+
+</div>
+<div class="lowlight">
+
+    Project metrics
+    ---------------
+    Project
+        Used by APIs (In): 1 [1 1/1 0 1 1 (1)]
+        Used by distinct APIs (DistIn): 1 (100%) [1 1/1 0 1 1 (1)]
+
+
+    Group metrics
+    -------------
+
+        Used by APIs (In): 1 [1 1/1 0 1 1 (1)]
+        Used by distinct APIs (DistIn): 1 (100%) [1 1/1 0 1 1 (1)]
+
+
+    Class metrics
+    -------------
+    DeprecatedExample
+        Used by APIs (In): 1
+        Used by distinct APIs (DistIn): 1 (100%)
+        Used by additional APIs directly (Inside): 0 (0%)
+
+
+    Method metrics
+    --------------
+    DeprecatedExample.deprecatedMethod()
+        Used by APIs (In): 1
+        Used by distinct APIs (DistIn): 1 (100%)
+            DeprecatedExample.callingMethod()
+
+</div>
+
+For a text report organized by deprecated element, with methods grouped by
+class, run:
+
+<div class="highlight">
+
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\*InboundDependencyConfig*.xml
+                  -filter-includes-list deprecated.txt
+                  -all
+                  *-xml*
+                  -expand
+                  DeprecatedExample.class
+
+    C:\>MetricsToText -in report.xml -out report.txt
+
+</div>
+<div class="lowlight">
+
+    Project
+        Used by APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+        Used by distinct APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+        Used by distinct APIs ratio: 1.0
+
+
+            Used by APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+            Used by distinct APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+            Used by distinct APIs ratio: 1.0
+
+            DeprecatedExample
+                Used by APIs: 1.0
+                Used by distinct APIs: 1.0
+                Used by distinct APIs ratio: 1.0
+                Used by additional APIs directly: 0
+                Used by additional APIs directly ratio: 0.0
+
+                DeprecatedExample.deprecatedMethod()
+                    Used by APIs: 1.0
+                    Used by distinct APIs: 1
+                        DeprecatedExample.callingMethod()
+                    Used by distinct APIs ratio: 1.0
+
+</div>
+
+For an HTML version of this report, use =MetricsToHTML= instead.
+
+To generate reports organized by caller, use the configuration file
+=etc\OutboundDependencyConfig.xml=.
+
+<div align="center">
+[[images/OutboundDependencyConfig.gif]]
+*Outbound Dependency Config*
+</div>
+
+For a text report organized by caller, with all methods listed together, run:
+
+<div class="highlight">
+
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\*OutboundDependencyConfig*.xml
+                  -filter-includes-list deprecated.txt
+                  -all
+                  *-txt*
+                  -expand
+                  DeprecatedExample.class
+
+</div>
+<div class="lowlight">
+
+    Project metrics
+    ---------------
+    Project
+        Uses APIs (Out): 1 [1 1/1 0 1 1 (1)]
+        Uses distinct APIs (DistOut): 1 (100%) [1 1/1 0 1 1 (1)]
+
+
+    Group metrics
+    -------------
+
+        Uses APIs (Out): 1 [1 1/1 0 1 1 (1)]
+        Uses distinct APIs (DistOut): 1 (100%) [1 1/1 0 1 1 (1)]
+
+
+    Class metrics
+    -------------
+    DeprecatedExample
+        Uses APIs (Out): 1
+        Uses distinct APIs (DistOut): 1 (100%)
+        Uses additional APIs in fields and class structure (outside of methods) (Outside): 0 (0%)
+
+
+    Method metrics
+    --------------
+    DeprecatedExample.callingMethod()
+        Uses APIs (Out): 1
+        Uses distinct APIs (DistOut): 1 (100%)
+            DeprecatedExample.deprecatedMethod()
+
+</div>
+
+For a text report organized by caller, with methods grouped by class, run:
+
+<div class="highlight">
+
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\*OutboundDependencyConfig*.xml
+                  -filter-includes-list deprecated.txt
+                  -all
+                  *-xml*
+                  -expand
+                  DeprecatedExample.class
+
+    C:\>MetricsToText -in report.xml -out report.txt
+
+</div>
+<div class="lowlight">
+
+    Project
+        Uses APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+        Uses distinct APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+        Uses distinct APIs ratio: 1.0
+
+
+            Uses APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+            Uses distinct APIs: 1.0 [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1]
+            Uses distinct APIs ratio: 1.0
+
+            DeprecatedExample
+                Uses APIs: 1.0
+                Uses distinct APIs: 1.0
+                Uses distinct APIs ratio: 1.0
+                Uses additional APIs in fields and class structure (outside of methods): 0
+                Uses additional APIs in fields and class structure (outside of methods) ratio: 0.0
+
+                DeprecatedExample.callingMethod()
+                    Uses APIs: 1.0
+                    Uses distinct APIs: 1
+                        DeprecatedExample.deprecatedMethod()
+                    Uses distinct APIs ratio: 1.0
+
+</div>
+
+For an HTML version of this report, use =MetricsToHTML= instead.
 
 ---+++ Narrowing API Differences to Actually Used API
 
@@ -4004,6 +4195,48 @@ example shown above, with the validation list, focuses exclusively on those
 parts of the library that you are actually using.
 
 ---+++ Computing the D' Metric
+
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+You can use =OOMetrics= to computer Robert C. Martin's D metric.  There is a
+special configuration that computes a normalized variation, called D', in the
+configuration file =etc\MartinConfig.xml=.
+
+<div align="center">
+[[images/MartinConfig.gif]]
+*Martin Config*
+</div>
+
+For a text report with all methods listed together, run:
+
+<div class="highlight">
+
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\*MartinConfig*.xml
+                  -all
+                  *-txt*
+                  classes
+
+</div>
+
+For a text report with methods grouped by class, run:
+
+<div class="highlight">
+
+    C:\>OOMetrics -out report
+                  -configuration %DEPENDENCYFINDER_HOME%\etc\*MartinConfig*.xml
+                  -all
+                  *-xml*
+                  classes
+
+    C:\>MetricsToText -in report.xml -out report.txt
+
+</div>
+
+For an HTML version of this report, use =MetricsToHTML= instead.
 
 <!--
          11111111112222222222333333333344444444445555555555666666666677777777778
