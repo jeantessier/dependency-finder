@@ -438,7 +438,7 @@
 	<cvstagdiff cvsroot="${cvsroot}"
 		    package="DependencyFinder"
 		    startTag="release-${last.release.tag}"
-		    endDate="'${NOW_CVS}'"
+		    endDate="${NOW_CVS}"
 		    destFile="${last.release}-now.xml"/>
 	<style in="${last.release}-now.xml"
 	       out="${last.release}-now.html"
