@@ -726,6 +726,20 @@
 		<msg><![CDATA[Use only spaces for indentation]]></msg>
 	</entry>
 	<entry>
+		<date>2005-03-27</date>
+		<time>02:07</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestNodeHandler.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestNodeLoader.java</name>
+			<revision>1.1</revision>
+		</file>
+		<msg><![CDATA[Read confirmed vs inferred info from XML]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-19</date>
 		<time>10:06</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -1413,6 +1427,27 @@
 		<msg><![CDATA[Delete nodes]]></msg>
 	</entry>
 	<entry>
+		<date>2005-03-25</date>
+		<time>07:20</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestClosureInboundSelector.java</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestClosureOutboundSelector.java</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestClosureStartSelector.java</name>
+			<revision>1.8</revision>
+			<prevrevision>1.7</prevrevision>
+		</file>
+		<msg><![CDATA[Copy confirmed status while computing closure]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-28</date>
 		<time>15:37</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -1595,6 +1630,22 @@
 		<msg><![CDATA[Update copyright notice to 2005]]></msg>
 	</entry>
 	<entry>
+		<date>2005-03-27</date>
+		<time>02:07</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestAll.java</name>
+			<revision>1.26</revision>
+			<prevrevision>1.25</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTextPrinter.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<msg><![CDATA[Read confirmed vs inferred info from XML]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-21</date>
 		<time>08:09</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -1722,6 +1773,17 @@
 			<revision>1.9</revision>
 		</file>
 		<msg><![CDATA[Update copyright notice to 2005]]></msg>
+	</entry>
+	<entry>
+		<date>2005-03-27</date>
+		<time>04:23</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTextPrinter.java</name>
+			<revision>1.14</revision>
+			<prevrevision>1.13</prevrevision>
+		</file>
+		<msg><![CDATA[Conditional highlighting of inferred nodes]]></msg>
 	</entry>
 	<entry>
 		<date>2005-03-09</date>
@@ -3257,6 +3319,17 @@
 		<msg><![CDATA[Update copyright notice to 2005]]></msg>
 	</entry>
 	<entry>
+		<date>2005-03-27</date>
+		<time>04:23</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/TextPrinter.java</name>
+			<revision>1.18</revision>
+			<prevrevision>1.17</prevrevision>
+		</file>
+		<msg><![CDATA[Conditional highlighting of inferred nodes]]></msg>
+	</entry>
+	<entry>
 		<date>2005-03-03</date>
 		<time>08:05</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3416,6 +3489,17 @@
 			<prevrevision>1.8</prevrevision>
 		</file>
 		<msg><![CDATA[Use only spaces for indentation]]></msg>
+	</entry>
+	<entry>
+		<date>2005-03-27</date>
+		<time>02:07</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/NodeHandler.java</name>
+			<revision>1.14</revision>
+			<prevrevision>1.13</prevrevision>
+		</file>
+		<msg><![CDATA[Read confirmed vs inferred info from XML]]></msg>
 	</entry>
 	<entry>
 		<date>2005-01-04</date>
@@ -4047,22 +4131,6 @@
 		<msg><![CDATA[Use favicon.ico in docs]]></msg>
 	</entry>
 	<entry>
-		<date>2005-01-28</date>
-		<time>15:22</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependency/DeletingVisitor.java</name>
-			<revision>1.3</revision>
-			<prevrevision>1.2</prevrevision>
-		</file>
-		<file>
-			<name>tests/com/jeantessier/classreader/TestMonitor.java</name>
-			<revision>1.2</revision>
-			<prevrevision>1.1</prevrevision>
-		</file>
-		<msg><![CDATA[Track files better across sessions]]></msg>
-	</entry>
-	<entry>
 		<date>2005-01-21</date>
 		<time>08:10</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -4089,6 +4157,22 @@
 		<msg><![CDATA[Use ModifiedOnlyDispatcher]]></msg>
 	</entry>
 	<entry>
+		<date>2005-01-28</date>
+		<time>15:22</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/DeletingVisitor.java</name>
+			<revision>1.3</revision>
+			<prevrevision>1.2</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestMonitor.java</name>
+			<revision>1.2</revision>
+			<prevrevision>1.1</prevrevision>
+		</file>
+		<msg><![CDATA[Track files better across sessions]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-27</date>
 		<time>07:45</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -4098,6 +4182,22 @@
 			<prevrevision>1.6</prevrevision>
 		</file>
 		<msg><![CDATA[Inherited Behavior for setUp() and tearDown()]]></msg>
+	</entry>
+	<entry>
+		<date>2005-03-25</date>
+		<time>07:20</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/ClosureLayerSelector.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependency/ClosureStartSelector.java</name>
+			<revision>1.7</revision>
+			<prevrevision>1.6</prevrevision>
+		</file>
+		<msg><![CDATA[Copy confirmed status while computing closure]]></msg>
 	</entry>
 	<entry>
 		<date>2005-01-04</date>
