@@ -266,7 +266,6 @@
 	    <arg value="${binDir}/txt2html.pl"/>
 	    <arg value="${docsDir}/Metrics.txt"/>
 	</exec>
-	<echo message="Javadoc ..."/>
     </target>
 
     <target name="javadocs" depends="init">
@@ -383,6 +382,9 @@
 	    <fileset dir="docs">
 		<patternset>
 		    <include name="**/*.html"/>
+		    <exclude name="index.html"/>
+		    <exclude name="Menu.html"/>
+		    <exclude name="Title.html"/>
 		</patternset>
 	    </fileset>
 	</delete>

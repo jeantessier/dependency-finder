@@ -1,0 +1,45 @@
+.done {
+	background:  rgb(0, 238, 0);
+	color:       white;
+	font-weight: bold;
+	text-align:  center;
+}
+
+.inprogress {
+	background:  gold;
+	color:       white;
+	font-weight: bold;
+	text-align:  center;
+}
+
+.notstarted {
+	background:  red;
+	color:       white;
+	font-weight: bold;
+	text-align:  center;
+}
+
+.canceled {
+	text-align: center;
+}
+
+.lowlight {
+	background: rgb(204, 204, 255);
+}
+
+th {
+	background: gray;
+	color:      white;
+}
+
+dl dt {
+	font-weight: bold;
+}
+
+dl dd {
+	margin-bottom: 10;
+}
+
+body {
+	background: white;
+}
