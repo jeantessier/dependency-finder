@@ -37,11 +37,17 @@ import java.io.*;
 import org.apache.log4j.*;
 
 /**
+ *  <p>Divides one measurement (base) by another (divider).  Both
+ *  must be in the same context.</p>
+ *
+ *  <p>This is the syntax for initializing this type of
+ *  measurement:</p>
+ *  
  *  <pre>
- *  &lt;init-text&gt;
+ *  &lt;init&gt;
  *      base measurement name [DISPOSE_x]
  *      divider measurement name [DISPOSE_x]
- *  &lt;/init-text&gt;
+ *  &lt;/init&gt;
  *  </pre>
  *  
  *  <p>If either is missing, this measurement will be NaN.</p>

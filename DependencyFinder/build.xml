@@ -269,7 +269,11 @@
 	         version="no"
 		 doctitle="${ant.project.name}">
 	    <sourcepath path="${srcDir}"/>
-	    <classpath refid="libs"/>
+	    <classpath>
+		<path refid="libs"/>
+		<pathelement location="${ant.home}/lib/ant.jar"/>
+		<pathelement location="${java.home}/../lib/tools.jar"/>
+	    </classpath>
 	</javadoc>
     </target>
 

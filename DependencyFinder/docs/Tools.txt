@@ -1611,7 +1611,8 @@ to render the graph as text or HTML for human reading.
 You can limit the number of hops downstream, along outbound dependencies, with
 =-maximum-outbound-depth=.  You can limit the number of hops upstream, along
 inbound dependencies, with =-maximum-inbound-depth=.  By default, the tool will
-go as far as possible without visiting elements twice.
+go as far as possible along outbound dependencies without visiting any element
+twice.
 
 One limitation: the graph must be maximized for anything other than
 feature-to-feature queries.  Because of a limitation in the closure
@@ -2022,13 +2023,14 @@ Uses _text_ for each indentation level in textual and XML output.
 <blockquote>
 
 Maximum distance to travel upstream by following inbound dependencies.  If
-_value_ is omitted, or if it is not a number, than the traversal is unbounded.
-If the switch is omitted, the closure will not follow any inbound dependencies.
+_value_ is zero (0), don't follow any inbound dependencies.  If _value_ is
+omitted, or if it is not a number, than the traversal is unbounded.  If the
+switch is omitted, the closure will not follow any inbound dependencies.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>0</td></tr>
+<tr><td>Default value:</td><td><code>""</code> (unbounded)</td></tr>
 </table>
 
 </blockquote>
@@ -2038,13 +2040,14 @@ If the switch is omitted, the closure will not follow any inbound dependencies.
 <blockquote>
 
 Maximum distance to travel downstream by following outbound dependencies.  If
-_value_ is omitted, or if it is not a number, than the traversal is unbounded.
-If the switch is omitted, the traversal will be unbounded.
+_value_ is zero (0), don't follow any outbound dependencies.  If _value_ is
+omitted, or if it is not a number, than the traversal is unbounded.  If the
+switch is omitted, the traversal will be unbounded.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>0</td></tr>
+<tr><td>Default value:</td><td><code>""</code> (unbounded)</td></tr>
 </table>
 
 </blockquote>

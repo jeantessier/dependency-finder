@@ -39,11 +39,30 @@ import java.util.*;
 import org.apache.log4j.*;
 
 /**
+ *  <p>Computes the statistical properties of a given measurement
+ *  across the submetrics of the measurement's context.  Given a
+ *  measurement name, it explores the tree of metrics rooted at the
+ *  context and finds the numerical value of these named measurements
+ *  in the tree.  For these measurements, it computes:</p>
+ *  
+ *  <ul>
+ *      <li>minimum value</li>
+ *      <li>median value</li>
+ *      <li>average value</li>
+ *      <li>standard deviation</li>
+ *      <li>maximum value</li>
+ *      <li>sum</li>
+ *      <li>number of data points</li>
+ *  </ul>
+ *
+ *  <p>This is the syntax for initializing this type of
+ *  measurement:</p>
+ *  
  *  <pre>
- *  &lt;init-text&gt;
+ *  &lt;init&gt;
  *      monitored measurement name [DISPOSE_x]
  *      [DISPOSE_x]
- *  &lt;/init-text&gt;
+ *  &lt;/init&gt;
  *  </pre>
  */
 public class StatisticalMeasurement extends MeasurementBase {

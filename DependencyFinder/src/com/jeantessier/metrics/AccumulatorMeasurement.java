@@ -38,20 +38,23 @@ import java.util.*;
 import org.apache.log4j.*;
 
 /**
- *  Accumulates entries in submetrics, filtering with regular
+ *  <p>Accumulates entries in submetrics, filtering with regular
  *  expressions.  If no regular expressions are given, matches
  *  everything for the given measurement, which must implement
  *  the <code>CollectionMeasurement</code> interface.  Regular
  *  expressions matching using <code>Perl5Util</code> from
  *  Jakarta-ORO.  This measurement will use
  *  <code>Perl5Util.group(1)</code> if not null, or else the
- *  full string.
- * 
+ *  full string.</p>
+ *
+ *  <p>This is the syntax for initializing this type of
+ *  measurement:</p>
+ *  
  *  <pre>
- *  &lt;init-text&gt;
+ *  &lt;init&gt;
  *      measurement name [perl regular expression]
  *      ...
- *  &lt;/init-text&gt;
+ *  &lt;/init&gt;
  *  </pre>
  */
 public class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {

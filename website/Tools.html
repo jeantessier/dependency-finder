@@ -2030,7 +2030,8 @@ to render the graph as text or HTML for human reading.
 You can limit the number of hops downstream, along outbound dependencies, with
 <code>-maximum-outbound-depth</code>.  You can limit the number of hops upstream, along
 inbound dependencies, with <code>-maximum-inbound-depth</code>.  By default, the tool will
-go as far as possible without visiting elements twice.
+go as far as possible along outbound dependencies without visiting any element
+twice.
 </p>
 
 <p>
@@ -2552,14 +2553,15 @@ Uses <i>text</i> for each indentation level in textual and XML output.
 
 <p>
 Maximum distance to travel upstream by following inbound dependencies.  If
-<i>value</i> is omitted, or if it is not a number, than the traversal is unbounded.
-If the switch is omitted, the closure will not follow any inbound dependencies.
+<i>value</i> is zero (0), don't follow any inbound dependencies.  If <i>value</i> is
+omitted, or if it is not a number, than the traversal is unbounded.  If the
+switch is omitted, the closure will not follow any inbound dependencies.
 </p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>0</td></tr>
+<tr><td>Default value:</td><td><code>""</code> (unbounded)</td></tr>
 </table>
 
 </blockquote>
@@ -2571,14 +2573,15 @@ If the switch is omitted, the closure will not follow any inbound dependencies.
 
 <p>
 Maximum distance to travel downstream by following outbound dependencies.  If
-<i>value</i> is omitted, or if it is not a number, than the traversal is unbounded.
-If the switch is omitted, the traversal will be unbounded.
+<i>value</i> is zero (0), don't follow any outbound dependencies.  If <i>value</i> is
+omitted, or if it is not a number, than the traversal is unbounded.  If the
+switch is omitted, the traversal will be unbounded.
 </p>
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>0</td></tr>
+<tr><td>Default value:</td><td><code>""</code> (unbounded)</td></tr>
 </table>
 
 </blockquote>

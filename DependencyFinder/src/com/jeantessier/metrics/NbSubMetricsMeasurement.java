@@ -46,11 +46,14 @@ import org.apache.log4j.*;
  *  any one of the expressions in the criteria, it is
  *  included in the count.
  *  
+ *  <p>This is the syntax for initializing this type of
+ *  measurement:</p>
+ *  
  *  <pre>
- *  &lt;init-text&gt;
+ *  &lt;init&gt;
  *      (number | measurement name [DISPOSE_x]) [operator [(number | measurement name [DISPOSE_x])]]*
  *      ...
- *  &lt;/init-text&gt;
+ *  &lt;/init&gt;
  *  </pre>
  */
 public class NbSubMetricsMeasurement extends MeasurementBase {

@@ -38,10 +38,16 @@ import java.util.*;
 import org.apache.log4j.*;
 
 /**
+ *  <p>Adds up numerical values.  Use it with just one term to alias
+ *  other measurements.</p>
+ *
+ *  <p>This is the syntax for initializing this type of
+ *  measurement:</p>
+ *  
  *  <pre>
- *  &lt;init-text&gt;
+ *  &lt;init&gt;
  *      (number | measurement name [DISPOSE_x])*
- *  &lt;/init-text&gt;
+ *  &lt;/init&gt;
  *  </pre>
  */
 public class SumMeasurement extends MeasurementBase {

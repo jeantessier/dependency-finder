@@ -33,10 +33,16 @@
 package com.jeantessier.metrics;
 
 /**
+ *  <p>A simple counter, it tallies the values that are put in it.
+ *  If you try to add a non-number, it simply adds 1.</p>
+ *
+ *  <p>This is the syntax for initializing this type of
+ *  measurement:</p>
+ *  
  *  <pre>
- *  &lt;init-text&gt;
+ *  &lt;init&gt;
  *      [initial value]
- *  &lt;/init-text&gt;
+ *  &lt;/init&gt;
  *  </pre>
  */
 public class CounterMeasurement extends MeasurementBase {

@@ -37,10 +37,17 @@ import java.util.*;
 import org.apache.log4j.*;
 
 /**
+ *  <p>Accumulates a set of values.  Its numerical value is the
+ *  cardinality (i.e., size) of the set.  <code>OOMetrics</code>
+ *  uses it to keep track of dependencies.</p>
+ *
+ *  <p>This is the syntax for initializing this type of
+ *  measurement:</p>
+ *  
  *  <pre>
- *  &lt;init-text&gt;
+ *  &lt;init&gt;
  *      [SET | LIST]
- *  &lt;/init-text&gt;
+ *  &lt;/init&gt;
  *  </pre>
  *
  *  <p>Defaults to SET (i.e., does not count duplicates).</p>
