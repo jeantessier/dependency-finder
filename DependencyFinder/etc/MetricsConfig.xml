@@ -316,6 +316,11 @@
 	    <class>com.jeantessier.metrics.NbSubMetricsMeasurement</class>
 	</measurement>
 	<measurement>
+	    <short-name>SUBC</short-name>
+	    <long-name>Subclasses</long-name>
+	    <class>com.jeantessier.metrics.CounterMeasurement</class>
+	</measurement>
+	<measurement>
 	    <short-name>PUBM</short-name>
 	    <long-name>Pulic Methods</long-name>
 	    <class>com.jeantessier.metrics.CounterMeasurement</class>
@@ -628,9 +633,6 @@
 		A
 	    </init>
 	</measurement>
-
-
-
 	<measurement>
 	    <short-name>IC</short-name>
 	    <long-name>Inner Classes</long-name>
