@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
-	private static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new StrictDispatcher();
+	private static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();
 
 	private ClassfileLoaderDispatcher dispatcher;
 	
