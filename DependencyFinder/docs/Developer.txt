@@ -92,8 +92,253 @@ pattern to traverse =Classfile= instances.
 
 ---++ Dependencies
 
-Look at the code of =DependencyMetrics= for an example of using the Visitor
-pattern to traverse dependency graphs.
+You create a dependency graph with a =NodeFactory=.  The factory keeps track
+of the package nodes at the top of the graph and all their surbordinate nodes.
+Individual nodes keep track of their outbound and inbound dependencies.
+
+You extract dependencies from =Classfile= instances with a
+=CodeDependencyCollector=.  You can either give it your own =NodeFactory= or
+you can let it create one from scratch for you.  Now the interesting part is
+that =CodeDependencyCollector= is a =LoadListener=, so you only have to
+register it with a =ClassfileLoader= and it will visit each =Classfile= as it
+is loaded.
+
+=CodeDependencyCollector= fires its own set of events during processing.  If
+you are interested in those events, simply implement =DependencyListener= and
+register yourself with it.  You will receive a =DependencyEvent= and the start
+and end of each =Classfile=, and a separate one for each and every dependency.
+It is important to note that the dependency graph does not have duplicates
+of dependencies, but there will be multiple events.  It is also impossible to
+determine the order of calls from the dependency graph, but the events arrive
+in the order the dependencies are discovered.
+
+For example, if you take the following method:
+
+    public void f() {
+        try {
+            out.print("abcd");
+        } catch (java.io.Exception ex) {
+            out.close()
+        }
+    }
+
+will trigger the following events:
+
+   1 =f() --&gt; out=
+   1 =f() --&gt; java.io.Writer.print(java.lang.String)=
+   1 =f() --&gt; java.lang.String=
+   1 =f() --&gt; java.io.Writer.close()=
+   1 =f() --&gt; java.io.IOException=
+
+The third one comes from analyzing the signature of =print()=, *not* from
+="abcd"=.  The last one comes from looking at exception handlers. 
+
+---+++ =Visitor=
+
+You can implement the =Visitor= interface to traverse =Node= structures.  It
+has callback methods that get called by various types of nodes.
+
+Look at the code of =DependencyReporter= and =DependencyMetrics= for an example
+of using the Visitor pattern to traverse =Node= instances.
+
+If you traverse a standard dependency graph, such as the ones produced by
+=CodeDependencyCollector=, you will visit *each* dependency twice.  If we take
+the dependency =A&nbsp;--&gt;&nbsp;B= as an example, a visitor will see it
+once during the call sequence:
+
+    A.Accept(visitor)
+        visitor.Visit[Package|Class|Feature](A)
+            visitor.VisitOutbound(A.Outbound())
+                B.AcceptOutbound(visitor)
+                    visitorVisitOutbound[Package|Class|Feature]Node(B)
+
+AND a second time during:
+
+    B.Accept(visitor)
+        visitor.Visit[Package|Class|Feature](B)
+            visitor.VisitInbound(B.Inbound())
+                A.AcceptInbound(visitor)
+                    visitor.VisitInbound[Package|Class|Feature]Node(A)
+
+In some cases, you can easily limit your processing to calls to
+=VisitOutbound[Package|Class|Feature]Node()= and cover everything. 
+
+---++++ =Visitor= and =TraversalStrategy=
+
+Here is an example showing the sequence of calls betweeen a visitor
+implementation based on =VisitorBase=, its =TraversalStrategy=, and a sample
+dependency graphs.
+
+Here is the sample graph, magnified so you can see what is going on.  The focus
+will be placed on package =P1=, class =C1=, and feature =f1=.  Even-numbered
+elements have dependencies on them and they have dependencies on odd-numbered
+elements.  This example illustrates the traversal order and processing that
+occurs on child nodes, outbound dependencies, and inbound dependencies.
+
+<div align="center">
+    [[images/DependencyVisitorLegend.gif]]
+*Sample Dependency Graph*
+</div>
+
+For the sake of this example, we use a plain =SelectiveTraversalStrategy=.  It
+will dictate the traversal of a node's outbound and inbound dependencies before
+the traversal moves on to the subnodes.  We will decorate it with a
+=SortedTraversalStrategy= that will sort groups of nodes in alphabetical
+order.
+
+    visitor = new SomeVisitor(new SortedTraversalStrategy(new SelectiveTraversalStrategy()))
+    visitor.TraverseNodes({P2, P1, P3})
+    strategy.Order({P2, P1, P3})   %3D%3D>  {P1, P2, P3}
+
+<div align="center">
+    [[images/DependencyVisitorI.gif]]
+</div>
+
+    P1.Accept(visitor)
+    visitor.VisitPackageNode(P1)
+    strategy.InScope(P1)
+        visitor.PreprocessPackageNode(P1)
+        strategy.PreOutboundTraversal()                        %3D%3D>  true
+            visitor.TraverseOutbound(P1.Outbound())            // empty
+        strategy.PreInboundTraversal()                         %3D%3D>  true
+            visitor.TraverseInbound(P1.Inbound())              // empty
+        visitor.PreprocessAfterDependenciesPackageNode(P1)
+
+<div align="center">
+    [[images/DependencyVisitorII.gif]]
+</div>
+
+    visitor.TraverseNodes(P1.Classes())
+    strategy.Order({C2, C1, C3})   %3D%3D>  {C1, C2, C3}
+
+<div align="center">
+    [[images/DependencyVisitorIII.gif]]
+</div>
+
+    C1.Accept(visitor)
+    visitor.VisitClassNode(C1)
+    strategy.InScope(C1)
+        visitor.PreprocessClassNode(C1)
+
+<div align="center">
+    [[images/DependencyVisitorIV.gif]]
+</div>
+
+    strategy.PreOutboundTraversal()   %3D%3D>  true
+        visitor.TraverseOutbound(C1.Outbound())
+        strategy.Order({C3, C5})   %3D%3D>  {C3, C5}
+        C3.AcceptOutbound(visitor)
+        visitor.VisitOutboundClassNode(C3)
+        C5.AcceptOutbound(visitor)
+        visitor.VisitOutboundClassNode(C5)
+
+<div align="center">
+    [[images/DependencyVisitorV.gif]]
+</div>
+
+    strategy.PreInboundTraversal()   %3D%3D>  true
+        visitor.TraverseInbound(C1.Inbound())
+        strategy.Order({C4, C2, f6, f4})   %3D%3D>  {C2, C4, f4, f6}
+        C2.AcceptInbound(visitor)
+        visitor.VisitInboundClassNode(C2)
+        C4.AcceptInbound(visitor)
+        visitor.VisitInboundClassNode(C4)
+        f4.AcceptInbound(visitor)
+        visitor.VisitInboundFeatureNode(f4)
+        f6.AcceptInbound(visitor)
+        visitor.VisitInboundFeatureNode(f6)
+
+<div align="center">
+    [[images/DependencyVisitorVI.gif]]
+</div>
+
+    visitor.PreprocessAfterDependenciesClassNode(C1)
+    visitor.TraverseNodes(C1.Features())
+    strategy.Order({f2, f1, f3})   %3D%3D>  {f1, f2, f3}
+
+<div align="center">
+    [[images/DependencyVisitorVII.gif]]
+</div>
+
+    f1.Accept(visitor)
+    visitor.VisitFeatureNode(f1)
+    strategy.InScope(f1)
+        visitor.PreprocessFeatureNode(f1)
+
+<div align="center">
+    [[images/DependencyVisitorVIII.gif]]
+</div>
+
+    strategy.PreOutboundTraversal()   %3D%3D>  true
+        visitor.TraverseOutbound(f1.Outbound())
+        strategy.Order({C3, C5, f3, f5, f7})   %3D%3D>  {C3, C5, f3, f5, f7}
+        C3.AcceptOutbound(visitor)
+        visitor.VisitOutboundClassNode(C3)
+        C5.AcceptOutbound(visitor)
+        visitor.VisitOutboundClassNode(C5)
+        f3.AcceptOutbound(visitor)
+        visitor.VisitOutboundFeatureNode(f3)
+        f5.AcceptOutbound(visitor)
+        visitor.VisitOutboundFeatureNode(f5)
+        f7.AcceptOutbound(visitor)
+        visitor.VisitOutboundFeatureNode(f7)
+
+<div align="center">
+    [[images/DependencyVisitorIX.gif]]
+</div>
+
+    strategy.PreInboundTraversal()   %3D%3D>  true
+        visitor.TraverseInbound(f1.Inbound())
+        strategy.Order({f6, f4, f2})   %3D%3D>  {f2, f4, f6}
+        f2.AcceptInbound(visitor)
+        visitor.VisitInboundFeatureNode(f2)
+        f4.AcceptInbound(visitor)
+        visitor.VisitInboundFeatureNode(f4)
+        f6.AcceptInbound(visitor)
+        visitor.VisitInboundFeatureNode(f6)
+
+<div align="center">
+    [[images/DependencyVisitorX.gif]]
+</div>
+
+    strategy.PostOutboundTraversal()   %3D%3D>  false
+    strategy.PostInboundTraversal()    %3D%3D>  false
+    visitor.PostProcessFeatureNode(f1)
+
+<div align="center">
+    [[images/DependencyVisitorVIII.gif]]
+</div>
+
+    f2.Accept(visitor)
+        ...
+    f3.Accept(visitor)
+        ...
+    visitor.PostProcessBeforeDependenciesClassNode(C1)
+    strategy.PostOutboundTraversal()   %3D%3D>  false
+    strategy.PostInboundTraversal()    %3D%3D>  false
+    visitor.PostProcessClassNode(C1)
+
+<div align="center">
+    [[images/DependencyVisitorIV.gif]]
+</div>
+
+    C2.Accept(visitor)
+        ...
+    C3.Accept(visitor)
+        ...
+    visitor.PostProcessBeforeDependenciesPackageNode(P1)
+    strategy.PostOutboundTraversal()   %3D%3D>  false
+    strategy.PostInboundTraversal()    %3D%3D>  false
+    visitor.PostProcessPackageNode(P1)
+
+<div align="center">
+    [[images/DependencyVisitorII.gif]]
+</div>
+
+    P2.Accept(visitor)
+        ...
+    P3.Accept(visitor)
+        ...
 
 ----
 

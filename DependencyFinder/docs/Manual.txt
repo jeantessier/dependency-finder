@@ -1963,6 +1963,11 @@ Select the files and/or directories to extract from and click =Extract=.
 You can repeat this command as often as needed; each time, the extracted
 metrics will be added to the current set of metrics in memory.
 
+<div align="center">
+    [[images/OOMetricsGUI.sample.jpg][images/s_OOMetricsGUI.sample.jpg]]
+*Sample Result*
+</div>
+
 You can limit the number of rows on display with the filtering mechanism at
 the bottom of the user interface.  You enter a Perl regular expression in
 the text field and click the button marked =Filter:=.
