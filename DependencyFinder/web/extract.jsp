@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.util.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.classreader.*" %>
+<%@ page import="java.io.*, java.text.*, java.util.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.classreader.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -291,8 +291,10 @@
 	Date   stop  = new Date();
 	double delta = (stop.getTime() - start.getTime()) / (double) 1000;
 
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 	application.setAttribute("factory", factory);
-	application.setAttribute("start",   start);
+	application.setAttribute("start",   formatter.format(start));
 	application.setAttribute("delta",   new Double(delta));
 %>
 

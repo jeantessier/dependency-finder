@@ -32,11 +32,29 @@
 
 <jsp:useBean id="version" class="com.jeantessier.dependencyfinder.Version" scope="application"/>
 
-<table>
+<table class="footer">
     <tr>
-        <td class="footer">
+        <td>
             <hr />
-
+        </td>
+    </tr>
+    <tr>
+        <td>
+<%
+	    if (application.getAttribute("factory") != null) {
+%>
+	    Current graph extracted on <%= application.getAttribute("start") %>.
+<%
+	    } else {
+%>
+	    There is no dependency graph at this time.
+<%
+	    }
+%>
+        </td>
+    </tr>
+    <tr>
+        <td>
             Powered by
             <a href="<jsp:getProperty name="version" property="ImplementationURL"/>"><jsp:getProperty name="version" property="ImplementationTitle"/></a>
             <jsp:getProperty name="version" property="ImplementationVersion"/> (&copy; <jsp:getProperty name="version" property="ImplementationVendor"/>)<br />
