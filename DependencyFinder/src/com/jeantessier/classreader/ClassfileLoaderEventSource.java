@@ -46,7 +46,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 	private ClassfileLoader jarLoader = new JarClassfileLoader(this);
 	private ClassfileLoader zipLoader = new ZipClassfileLoader(this);
 
-	private HashSet    loadListeners = new HashSet();
+	private HashSet loadListeners = new HashSet();
 
 	private LinkedList groupNames = new LinkedList();
 
