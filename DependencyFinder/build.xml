@@ -39,6 +39,8 @@
 	<property name="zipFile"        value="${ant.project.name}.src.zip"/>
 	<property name="distFile"       value="${ant.project.name}.zip"/>
 
+	<property name="tomcat.home"    value="/language/Java/Jakarta/jakarta-tomcat-4.0.1"/>
+
 	<mkdir dir="${classesDir}"/>
 	<mkdir dir="${apiDir}"/>
 	<mkdir dir="${logsDir}"/>
@@ -93,9 +95,30 @@
 
     <target name="war" depends="jar">
         <jar jarfile="${warFile}">
-	    <zipfileset dir="${webDir}" prefix="" excludes="**/CSV"/>
-	    <zipfileset dir="${libDir}" prefix="WEB-INF/lib" includes="**/*.jar"/>
+	    <zipfileset dir="${webDir}"
+	                prefix=""
+			excludes="**/CSV"/>
+	    <zipfileset dir="${classesDir}"
+	                prefix="WEB-INF/classes"
+			includes="**/*.properties"/>
+	    <zipfileset dir="${libDir}"
+	                prefix="WEB-INF/lib"
+			includes="**/*.jar"
+			excludes="**/x*.jar"/>
 	</jar>
+    </target>
+
+    <target name="undeploy" depends="init">
+        <delete dir="${tomcat.home}/webapps/${ant.project.name}"
+		includeEmptyDirs="true"
+	        verbose="true"/>
+	<delete file="${tomcat.home}/webapps/${warFile}"
+	        verbose="true"/>
+    </target>
+
+    <target name="deploy" depends="war">
+	<copy file="${warFile}" tofile="${tomcat.home}/webapps/${warFile}"
+	      overwrite="true"/>
     </target>
 
     <target name="alltests" depends="init">
@@ -232,9 +255,13 @@
     </target>
 
     <target name="clean" depends="init">
-        <delete dir="${classesDir}"
-		includeEmptyDirs="true"
-	        verbose="true"/>
+        <delete includeEmptyDirs="true" verbose="true">
+	    <fileset dir="${classesDir}" defaultexcludes="no">
+		<patternset>
+		    <exclude name="**/*.properties"/>
+		</patternset>
+	    </fileset>
+	</delete>
         <delete verbose="true">
 	    <fileset dir="." defaultexcludes="no">
 		<patternset>
