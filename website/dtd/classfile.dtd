@@ -90,7 +90,7 @@
 >
 
 <!ELEMENT name-and-type-info (name, type) >
-<!ATTLIST name-ant-type-info
+<!ATTLIST name-and-type-info
           id CDATA #REQUIRED
 >
 
@@ -125,7 +125,7 @@
 
 <!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, name, type, attributes?)>
 <!ATTLIST field-info
-          access-number CDATA #REQUIRED
+          access-flag CDATA #REQUIRED
 >
 
 <!ELEMENT protected EMPTY >
@@ -142,7 +142,7 @@
 
 <!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, native?, abstract?, strict?, name, return-type?, signature, attributes?)>
 <!ATTLIST method-info
-          access-number CDATA #REQUIRED
+          access-flag CDATA #REQUIRED
 >
 
 <!ELEMENT synchronized EMPTY >
@@ -166,12 +166,22 @@
 <!ELEMENT instructions (instruction*) >
 
 <!ELEMENT instruction (#PCDATA) >
-<!ATTLIST instructions
+<!ATTLIST instruction
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED
 >
 
 <!ELEMENT exception-handlers (exception-handler*) >
+
+<!ELEMENT exception-handler (start-pc, end-pc, handler-pc, catch-type) >
+
+<!ELEMENT start-pc (#PCDATA) >
+
+<!ELEMENT end-pc (#PCDATA) >
+
+<!ELEMENT handler-pc (#PCDATA) >
+
+<!ELEMENT catch-type (#PCDATA) >
 
 <!ELEMENT exceptions-attribute (exception*) >
 
@@ -194,15 +204,13 @@
 
 <!ELEMENT source-file-attribute (#PCDATA) >
 
-<!ELEMENT line-number-table-atttribute (line-number*) >
+<!ELEMENT line-number-table-attribute (line-number*) >
 
 <!ELEMENT line-number (start-pc, line) >
 
-<!ELEMENT start-pc (#PCDATA) >
-
 <!ELEMENT line (#PCDATA) >
 
-<!ELEMENT local-variable-table-atttribute (local-variable*) >
+<!ELEMENT local-variable-table-attribute (local-variable*) >
 
 <!ELEMENT local-variable (name, type) >
 <!ATTLIST local-variable

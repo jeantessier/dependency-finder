@@ -17,6 +17,53 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	April 18, 2004
+    </dt>
+    <dd>
+	<p>I started writing more tests to check that interactions with Xerces
+	are tested.  In the process, I cleaned up some of the tests for classes
+	that generate XML documents.</p>
+
+	<p>I found some mistakes in <code>classfile.dtd</code>: missing
+	elements, typos in element and attribute names, those sorts of things.
+	I fixed them.  I also changed the generated XML so it does not pretend
+	to be standalone anymore.  The DTDs are on the project's website, how
+	can these documents be standalone!</p>
+
+	<p>Now, I need to write some regression tests for Xalan too.</p>
+    </dd>
+    <dt>
+	April 16, 2004
+    </dt>
+    <dd>
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Xerces</td>
+	        <td>:</td>
+		<td>2.5.0</td>
+	        <td>-></td>
+		<td><i>none</i></td>
+	    </tr>
+	    <tr>
+	        <td>Xalan</td>
+	        <td>:</td>
+		<td>2.5.1</td>
+	        <td>-></td>
+		<td>2.6.0</td>
+	    </tr>
+	</table>
+	</blockquote>
+
+	<p>I am not going to chase after Xerces anymore.  I do not use anything
+	fancy that would require me to be absolutely up-to-date.  I will do
+	just as fine with the version that comes with Xalan.  And thie way, I
+	don't have to worry about my Xerces version working with my Xalan
+	version.</p>
+    </dd>
+    <dt>
 	April 07, 2004
     </dt>
     <dd>
