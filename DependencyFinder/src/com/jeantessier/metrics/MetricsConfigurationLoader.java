@@ -89,7 +89,7 @@ public class MetricsConfigurationLoader {
 		FileReader in = null;
 
 		try {
-			in = (new FileReader(filename));
+			in = new FileReader(filename);
 			result = Load(in);
 		} finally {
 			if (in != null) {
