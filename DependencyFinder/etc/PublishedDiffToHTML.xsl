@@ -46,6 +46,8 @@
     <xsl:variable name="validator" select="listvalidator:new($validation-list)"/>
 
     <xsl:template match="differences">
+	<xsl:variable name="new-label" select="new"/>
+
 	<html>
 
 	<head>
@@ -56,9 +58,18 @@
 
 	<h1><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>Public API Change History</h1>
 
+	<ul>
+	<li><a href="#{$new-label}"><xsl:value-of select="old"/> to <xsl:value-of select="new"/></a></li>
+	</ul>
+
+	<hr />
+
+	<a name="{$new-label}" />
 	<h2><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h2>
 
 	<xsl:apply-templates/>
+
+	<hr />
 
 	</body>
 
