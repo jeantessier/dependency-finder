@@ -18,6 +18,20 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	September 25, 2003
+    </dt>
+    <dd>
+	<p>Moved the GUI's <code>LoadListener</code> implementations to use the
+	new <code>VerboseListenerBase</code>.  Instead of mingling it in the
+	action class, I moved it out into delegate listener classes.  Again,
+	classes should do one thing only, and do it well.  A lesson to
+	remember.</p>
+
+	<p>Now that the GUI, the CLI, and the Ant tasks have access to the full
+	group processing stack, I can work on how use that information in the
+	progress messages.</p>
+    </dd>
+    <dt>
 	September 24, 2003
     </dt>
     <dd>
@@ -33,8 +47,8 @@
 	Dependency Finder too.  :-)</p>
 
 	<p>Moved the CLI's and Ant's <code>VerboseListener</code> classes to
-	the use the new <code>VerboseListenerBase</code>.  I aligned their
-	output to match more closely that of <code>extract.jsp</code>.</p>
+	use the new <code>VerboseListenerBase</code>.  I aligned their output
+	to match more closely that of <code>extract.jsp</code>.</p>
 
 	<p>Interestingly, I had CLI's <code>VerboseListener</code> extend from
 	<code>java.io.PrintWriter</code> for some reason.  Of course, it made
