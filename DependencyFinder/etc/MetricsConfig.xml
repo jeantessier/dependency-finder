@@ -308,7 +308,7 @@
 	    <class>com.jeantessier.metrics.SumMeasurement</class>
 	    <init>
 		SLOC dist DISPOSE_SUM
-		1
+		class SLOC
 	    </init>
 	</measurement>
 	<measurement visible="no">
@@ -319,6 +319,11 @@
 		SLOC DISPOSE_SUM
 		DISPOSE_SUM
 	    </init>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>class SLOC</short-name>
+	    <long-name>Single Lines of Code for the class</long-name>
+	    <class>com.jeantessier.metrics.CounterMeasurement</class>
 	</measurement>
 	<measurement>
 	    <short-name>M</short-name>
