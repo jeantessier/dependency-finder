@@ -155,13 +155,7 @@ public class ClassReport extends Printer implements Comparable {
 		RaiseIndent();
 		RaiseIndent();
 
-		Indent().Append("<class visibility=\"");
-		if (differences.OldClass().IsPublic() || differences.NewClass().IsPublic()) {
-			Append("public");
-		} else {
-			Append("package");
-		}
-		Append("\">\n");
+		Indent().Append("<class>\n");
 		RaiseIndent();
 
 		Indent().Append("<name>").Append(differences.Name()).Append("</name>\n");
@@ -269,17 +263,7 @@ public class ClassReport extends Printer implements Comparable {
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 
-				Indent().Append("<feature visibility=\"");
-				if (fd.OldFeature().IsPublic() || fd.NewFeature().IsPublic()) {
-					Append("public");
-				} else if (fd.OldFeature().IsProtected() || fd.NewFeature().IsProtected()) {
-					Append("protected");
-				} else if (fd.OldFeature().IsPackage() || fd.NewFeature().IsPackage()) {
-					Append("package");
-				} else {
-					Append("private");
-				}
-				Append("\">\n");
+				Indent().Append("<feature>\n");
 				RaiseIndent();
 		
 				Indent().Append("<name>").Append(fd.Name()).Append("</name>\n");
@@ -307,17 +291,7 @@ public class ClassReport extends Printer implements Comparable {
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 
-				Indent().Append("<feature visibility=\"");
-				if (fd.OldFeature().IsPublic() || fd.NewFeature().IsPublic()) {
-					Append("public");
-				} else if (fd.OldFeature().IsProtected() || fd.NewFeature().IsProtected()) {
-					Append("protected");
-				} else if (fd.OldFeature().IsPackage() || fd.NewFeature().IsPackage()) {
-					Append("package");
-				} else {
-					Append("private");
-				}
-				Append("\">\n");
+				Indent().Append("<feature>\n");
 				RaiseIndent();
 
 				Indent().Append("<name>").Append(fd.Name()).Append("</name>\n");
@@ -345,17 +319,7 @@ public class ClassReport extends Printer implements Comparable {
 			while (i.hasNext()) {
 				FeatureDifferences fd = (FeatureDifferences) i.next();
 
-				Indent().Append("<feature visibility=\"");
-				if (fd.OldFeature().IsPublic() || fd.NewFeature().IsPublic()) {
-					Append("public");
-				} else if (fd.OldFeature().IsProtected() || fd.NewFeature().IsProtected()) {
-					Append("protected");
-				} else if (fd.OldFeature().IsPackage() || fd.NewFeature().IsPackage()) {
-					Append("package");
-				} else {
-					Append("private");
-				}
-				Append("\">\n");
+				Indent().Append("<feature>\n");
 				RaiseIndent();
 		
 				Indent().Append("<name>").Append(fd.Name()).Append("</name>\n");

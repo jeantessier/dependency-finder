@@ -32,65 +32,8 @@
 
 package com.jeantessier.diff;
 
-import java.io.*;
-import java.util.*;
-
-import org.apache.oro.text.perl.*;
-
-public class PackageValidator implements Validator {
-	private static final Perl5Util perl = new Perl5Util();
-
-	private Collection allowed_packages = new HashSet();
-
-	public PackageValidator(String filename) throws IOException {
-		this(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
-	}
-
-	public PackageValidator(BufferedReader in) throws IOException {
-		try {
-			String line;
-			while ((line = in.readLine()) != null) {
-				if (line.length() > 0) {
-					allowed_packages.add(line.trim());
-				}
-			}
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-		}
-	}
-
-	public boolean IsPackageAllowed(String package_name) {
-		return allowed_packages.size() == 0 || allowed_packages.contains(package_name);
-	}
-    
-	public boolean IsClassAllowed(String class_name) {
-		String package_name = "";
-		int pos = class_name.lastIndexOf('.');
-		if (pos != -1) {
-			package_name = class_name.substring(0, pos);
-		}
-		
-		return IsPackageAllowed(package_name);
-	}
-    
-	public boolean IsFeatureAllowed(String feature_name) {
-		boolean result = false;
-		
-		String class_name = "";
-		synchronized (perl) {
-			if (perl.match("/^(.+)\\.[^\\.]+\\(.*\\)$/", feature_name)) {
-				class_name = perl.group(1);
-			} else if (perl.match("/^(.+)\\.[^\\.]+$/", feature_name)) {
-				class_name = perl.group(1);
-			}
-		}
-
-		if (!class_name.equals("")) {
-			result = IsClassAllowed(class_name);
-		}
-
-		return result;
-	}
+public interface Validator {
+	public boolean IsPackageAllowed(String package_name);
+	public boolean IsClassAllowed(String class_name);
+	public boolean IsFeatureAllowed(String feature_name);
 }

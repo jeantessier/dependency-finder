@@ -35,23 +35,21 @@ package com.jeantessier.diff;
 import java.io.*;
 import java.util.*;
 
-import org.apache.oro.text.perl.*;
+public class ListBasedValidator implements Validator {
+	private Collection allowed_elements = new HashSet();
 
-public class PackageValidator implements Validator {
-	private static final Perl5Util perl = new Perl5Util();
+	private String current_class;
 
-	private Collection allowed_packages = new HashSet();
-
-	public PackageValidator(String filename) throws IOException {
+	public ListBasedValidator(String filename) throws IOException {
 		this(new BufferedReader(new InputStreamReader(new FileInputStream(filename))));
 	}
 
-	public PackageValidator(BufferedReader in) throws IOException {
+	public ListBasedValidator(BufferedReader in) throws IOException {
 		try {
 			String line;
 			while ((line = in.readLine()) != null) {
 				if (line.length() > 0) {
-					allowed_packages.add(line.trim());
+					allowed_elements.add(line.trim());
 				}
 			}
 		} finally {
@@ -61,36 +59,29 @@ public class PackageValidator implements Validator {
 		}
 	}
 
-	public boolean IsPackageAllowed(String package_name) {
-		return allowed_packages.size() == 0 || allowed_packages.contains(package_name);
+	public void CurrentClass(String name) {
+		current_class = name;
+	}
+	
+	public boolean IsPackageAllowed(String name) {
+		return IsAllowed(name);
 	}
     
-	public boolean IsClassAllowed(String class_name) {
-		String package_name = "";
-		int pos = class_name.lastIndexOf('.');
-		if (pos != -1) {
-			package_name = class_name.substring(0, pos);
-		}
-		
-		return IsPackageAllowed(package_name);
+	public boolean IsClassAllowed(String name) {
+		return IsAllowed(name);
 	}
     
-	public boolean IsFeatureAllowed(String feature_name) {
-		boolean result = false;
+	public boolean IsFeatureAllowed(String name) {
+		// return IsAllowed(current_class + "." + name);
+		return IsAllowed(name);
+	}
+    
+	private boolean IsAllowed(String name) {
+		boolean result = allowed_elements.size() == 0 || allowed_elements.contains(name);
+
+		// System.err.println("Is " + name + " in " + allowed_elements + "? " + result);
+		System.err.println(name + "? " + result);
 		
-		String class_name = "";
-		synchronized (perl) {
-			if (perl.match("/^(.+)\\.[^\\.]+\\(.*\\)$/", feature_name)) {
-				class_name = perl.group(1);
-			} else if (perl.match("/^(.+)\\.[^\\.]+$/", feature_name)) {
-				class_name = perl.group(1);
-			}
-		}
-
-		if (!class_name.equals("")) {
-			result = IsClassAllowed(class_name);
-		}
-
 		return result;
 	}
 }

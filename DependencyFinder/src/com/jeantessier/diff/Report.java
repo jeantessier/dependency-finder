@@ -362,9 +362,6 @@ public class Report extends Printer {
 		result.append("<!ELEMENT new-classes (name)* >\n");
 		result.append("\n");
 		result.append("<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,modified-fields?,modified-constructors?,modified-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >\n");
-		result.append("<!ATTLIST class\n");
-		result.append("          visibility (public|package) #IMPLIED\n");
-		result.append(">\n");
 		result.append("\n");
 		result.append("<!ELEMENT name (#PCDATA)* >\n");
 		result.append("<!ATTLIST name\n");
@@ -450,9 +447,6 @@ public class Report extends Printer {
 		result.append(">\n");
 		result.append("\n");
 		result.append("<!ELEMENT feature (name,modified-declaration?) >\n");
-		result.append("<!ATTLIST feature\n");
-		result.append("          visibility (public|protected|package|private) #IMPLIED\n");
-		result.append(">\n");
 		result.append("\n");
 		result.append("<!ELEMENT declaration (#PCDATA)* >\n");
 		result.append("<!ATTLIST declaration\n");
