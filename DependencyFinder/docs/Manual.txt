@@ -270,11 +270,17 @@ Use your favorite servlet container to deploy the WAR file.  Most of them
 have tools for deploying WAR files.  For some of them, it can be as simple
 as copying the WAR file to a specific directory.
 
-For instance, using Tomcat on Windows, you can:
+For instance, using Tomcat on Windows, you can do the following:
+
+<div class="highlight">
 
     C:\>%CATALINA_HOME%\bin\shutdown
+
     C:\>copy DependencyFinder.war %CATALINA_HOME%\webapps
+
     C:\>%CATALINA_HOME%\bin\startup
+
+</div>
 
 ---++++ Step 2: Configure =web.xml= file
 
@@ -349,9 +355,15 @@ Under some servlet containers, for example Tomcat, you will need to restart
 the servlet container for the changes to take effect.  Other application
 servers may allow you to simply restart the web application itself.
 
+<div class="highlight">
+
     C:\>%CATALINA_HOME%\bin\shutdown
+
     C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder\WEB-INF\web.xml
+
     C:\>%CATALINA_HOME%\bin\startup
+
+</div>
 
 Or you can edit the WAR file directly and then use the deployment tool in
 Tomcat Manager to redeploy the web application.
@@ -1205,11 +1217,15 @@ the =-g:none= option.  And even when it does, it is not always very helpful.
 
 You can run a quick test with:
 
+<div class="highlight">
+
     public class A {
         public void f1() {
             // Do nothing
         }
     }
+
+</div>
 
 And get an entry for line 1 for an implicit constructor (this happens to be the
 location of the class declaration) and another entry for line 4 for =f1()=
@@ -1257,22 +1273,37 @@ You use =DependencyExtractor= to extract dependencies.  Simply string
 out the files and directories on the command-line.  All the dependencies
 are merged into a single output.
 
-E.g.,
+<div class="highlight">
 
-    C:\>DependencyExtractor classes %JAVA_HOME%\JRE\lib\rt.jar
+    C:\>DependencyExtractor classes
+                            %JAVA_HOME%\JRE\lib\rt.jar
+
+</div>
 
 You can specify an output file with the =-out= switch:
 
-    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df.txt
+<div class="highlight">
+
+    C:\>DependencyExtractor *-out df.txt*
+                            %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
+
+</div>
 
 You can save the graph to XML with the =-xml= switch:
 
-    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -xml -out df.xml
+<div class="highlight">
+
+    C:\>DependencyExtractor *-xml* -out df.xml
+                            %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
+
+</div>
 
 ---+++++ Example
 
 Here is a simple, concrete example.  We start with a trivial Java class in
 the file =test.java= and compiled into =test.class=.
+
+<div class="highlight">
 
     import java.util.*;
     
@@ -1282,10 +1313,19 @@ the file =test.java= and compiled into =test.class=.
         }
     }
 
+</div>
+
 Here is the raw output dependency graph.
 
+<div class="highlight">
+
     C:\>DependencyExtractor test.class
-    
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
         test
             --> java.lang.Object
             main(java.lang.String[])
@@ -1312,27 +1352,61 @@ Here is the raw output dependency graph.
         Set
             <-- test.main(java.lang.String[])
 
+</div>
+
 We can save it to an XML document for use with the other tools.
 
-    C:\>DependencyFinder -xml -out test.xml test.class
+<div class="highlight">
+
+    C:\>DependencyFinder *-xml -out test.xml*
+                         test.class
+
+</div>
 
 And narrow down the graph to class-to-class dependencies.
 
+<div class="highlight">
+
     C:\>c2c -scope-includes /test/ test.xml
-    
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
         test
             --> java.lang.Object
             --> java.lang.String
             --> java.util.Collections
             --> java.util.Set
 
+</div>
+
 =c2c= is a shortcut for a set of switches to =DependencyReporter=.  All the
 following commands are equivalent.
 
-    C:\>c2c -show-all -scope-includes /test/ test.xml
-    C:\>c2c -show-all -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -c2c -show-all -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -show-all -class-scope -class-scope-includes /test/ -class-filter test.xml
+<div class="highlight">
+
+    C:\>c2c -show-all
+            -scope-includes /test/
+            test.xml
+
+    C:\>c2c -show-all
+            -class-scope-includes /test/
+            test.xml
+
+    C:\>DependencyReporter -c2c
+                           -show-all
+                           -class-scope-includes /test/
+                           test.xml
+
+    C:\>DependencyReporter -show-all
+                           -class-scope
+                           -class-scope-includes /test/
+                           -class-filter
+                           test.xml
+
+</div>
 
 For fun, I entered manually this graph description into
 [[http://www.gentleware.com?redirect=products][Poseidon for UML]].
@@ -1345,14 +1419,37 @@ For fun, I entered manually this graph description into
 We can narrow the graph further to class-to-package dependencies.  Again, all
 these commands are equivalent.
 
-    C:\>c2p -show-all -scope-includes /test/ test.xml
-    C:\>c2p -show-all -class-scope-includes /test/ test.xml
-    C:\>DependencyReporter -c2p -show-all -scope-includes /test/ test.xml
-    C:\>DependencyReporter -show-all -class-scope -class-scope-includes /test/ -package-filter test.xml
-    
+<div class="highlight">
+
+    C:\>c2p -show-all
+            -scope-includes /test/
+            test.xml
+
+    C:\>c2p -show-all
+            -class-scope-includes /test/
+            test.xml
+
+    C:\>DependencyReporter -c2p
+                           -show-all
+                           -scope-includes /test/
+                           test.xml
+
+    C:\>DependencyReporter -show-all
+                           -class-scope
+                           -class-scope-includes /test/
+                           -package-filter
+                           test.xml
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
         test
             --> java.lang
             --> java.util
+
+</div>
 
 <div align="center">
     [[images/ClassPackageDependencies.test.jpg]]
@@ -1362,16 +1459,32 @@ these commands are equivalent.
 Finally, a package-to-package dependency graph.  All these commands are
 equivalent.
 
-    C:\>p2p -show-all test.xml
-    C:\>DependencyReporter -p2p -show-all test.xml
-    C:\>DependencyReporter -show-all -package-scope -package-filter test.xml
-    
+<div class="highlight">
+
+    C:\>p2p -show-all
+            test.xml
+
+    C:\>DependencyReporter -p2p
+                           -show-all
+                           test.xml
+    C:\>DependencyReporter -show-all
+                           -package-scope
+                           -package-filter
+                           test.xml
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
         --> java.lang
         --> java.util
     java.lang
         <-- 
     java.util
         <-- 
+
+</div>
 
 <div align="center">
     [[images/PackagePackageDependencies.test.jpg]]
@@ -1400,10 +1513,14 @@ many classes it read and how long it took to analyze them.
 You can use the URL "=extract.jsp?launch%3DLaunch=" to automatically update the
 graph after automated compilation runs, such as during nightly builds.
 
+<div class="highlight">
+
     &lt;target name%3D"extract" depends%3D"init"&gt;
         &lt;get src%3D"${WEB%5FAPP%5FURL}/extract.jsp?launch%3DLaunch"
              dest%3D"log.html"/&gt;
     &lt;/target&gt;
+
+</div>
 
 You use =load.jsp= to read a dependency graph from an XML document such as the
 ones generated by =DependencyExtractor=.  If you just call =load.jsp=, it will
@@ -1420,10 +1537,14 @@ it read and how it took to read them.
 You can use the URL "=load.jsp?launch%3DLaunch=" to automatically update the
 graph after automated compilation runs, such as during nightly builds.
 
+<div class="highlight">
+
     &lt;target name%3D"load" depends%3D"init"&gt;
         &lt;get src%3D"${WEB%5FAPP%5FURL}/load.jsp?launch%3DLaunch"
              dest%3D"log.html"/&gt;
     &lt;/target&gt;
+
+</div>
 
 ---++++ Extracting With Ant
 
@@ -1432,6 +1553,8 @@ extract a graph as part of your build.  You need to associate the class to a
 tag using Ant's =&lt;taskdef&gt;= task.  You also need to tell Ant where to
 find the Dependency Finder classes.    There is a special
 [[tasks/index.html][help page]] on how to do this.
+
+<div class="highlight">
 
     &lt;target name%3D"extract" depends%3D"init"&gt;
         &lt;dependencyextractor destfile%3D"df.xml" xml%3D"yes"&gt;
@@ -1444,11 +1567,15 @@ find the Dependency Finder classes.    There is a special
               out%3D"df.html"/&gt;
     &lt;/target&gt;
 
+</div>
+
 ---++++ Minimizing And Maximizing
 
 It is often the case that an explicit dependency in the code can be implied
 from another explicit dependency in that code.  For example, take the
 following code snippet:
+
+<div class="highlight">
 
     class A extends B {
         public void a() {
@@ -1459,6 +1586,8 @@ following code snippet:
     class B {
         public void b() {}
     }
+
+</div>
 
 We can analyze the dependencies.  =A= is a subclass of =B=, so there is a
 dependency =A&nbsp;-->&nbsp;B=.  And =A.a()= calls =b()=, which is defined
@@ -1475,8 +1604,12 @@ Clearly, the dependency =A.a()&nbsp;-->&nbsp;B.b()= implies the dependency
 add anything to the overall connectivity of the graph.  Another, very
 frequent, example of this situation occurs with constructors.
 
+<div class="highlight">
+
     class A extends B {}
     class B {}
+
+</div>
 
 <div align="center">
     [[images/RedundantII.gif]]
@@ -1487,6 +1620,8 @@ Another variation occurs when a method either calls a method on an object
 it received as a parameter or throws a new =Exception= that is part of
 its =throws= clause.
 
+<div class="highlight">
+
     class A {
         public void a(B b) {
             b.b();
@@ -1496,6 +1631,8 @@ its =throws= clause.
     class B {
         public void b() {}
     }
+
+</div>
 
 <div align="center">
     [[images/RedundantIII.gif]]
@@ -1555,6 +1692,8 @@ with the same graph as if you had minimized the original graph.
 Here is a simple, concrete example.  We start with a our trivial Java class
 from before.
 
+<div class="highlight">
+
     import java.util.*;
     
     public class test {
@@ -1562,6 +1701,8 @@ from before.
             Collection c = Collections.singleton(new Object());
         }
     }
+
+</div>
 
 Let's start with the obvious dependencies.  =test.main()= has a parameter
 that's a =String= array, a local variable of type =Collection=, calls the
@@ -1773,20 +1914,25 @@ First, a set of checkboxes narrow the search to only packages, classes,
 features, or combinations thereof.  In the CLI, you achieve the same
 effect through command-line switches.
 
-<div align="center">
-    [[images/ScopeControls.simple.highcontrols.jpg]]
-</div>
+<div class="highlight">
 
-    C:\>DependencyReporter -show-all       \
-                           -package-scope  \
-                           -class-scope    \
+    C:\>DependencyReporter -show-all
+                           -package-scope
+                           -class-scope
                            -feature-scope
 
-    C:\>DependencyReporter -show-all -all
+    C:\>DependencyReporter -show-all
+                           -all
 
-    C:\>DependencyReporter -show-all -f2f
+    C:\>DependencyReporter -show-all
+                           -f2f
+
+</div>
+
+&nbsp;
 
 <div align="center">
+[[images/ScopeControls.simple.highcontrols.jpg]]
 *Scope Controls*
 </div>
 
@@ -1797,15 +1943,18 @@ put multiple regular expressions in each field, separate them with commas
 and they will be or'ed together.  On the command-line, just repeat the
 switches.
 
-<div align="center">
-    [[images/ScopeControls.simple.highcriteria.jpg]]
-</div>
+<div class="highlight">
 
-    C:\>DependencyReporter -show-all                    \
-                           -scope-includes //           \
+    C:\>DependencyReporter -show-all
+                           -scope-includes //
                            -scope-excludes /Test/
 
+</div>
+
+&nbsp;
+
 <div align="center">
+[[images/ScopeControls.simple.highcriteria.jpg]]
 *Scope Criteria*
 </div>
 
@@ -2024,11 +2173,11 @@ instance, =-feature-scope-includes= is for the "including" field in the
 "Select programming elements" group that applies only to features.  It is
 used in scoping feature nodes, if you use it along with =-feature-scope=.
 
-E.g.,
+<div class="highlight">
 
-    C:\>DependencyReporter -show-all       \
-                           -package-scope  \
-                           -class-scope    \
+    C:\>DependencyReporter -show-all
+                           -package-scope
+                           -class-scope
                            -feature-scope
 
     C:\>DependencyReporter -show-all -all
@@ -2037,11 +2186,13 @@ E.g.,
 
     C:\>DependencyReporter -show-all -scope-includes //
 
-    C:\>DependencyReporter -show-all                                \
-                           -scope-includes //                       \
-                           -scope-excludes /Test/                   \
-                           -feature-scope-includes /someMethod/     \
+    C:\>DependencyReporter -show-all
+                           -scope-includes //
+                           -scope-excludes /Test/
+                           -feature-scope-includes /someMethod/
                            -feature-scope-includes /anotherMethod/
+
+</div>
 
 ---++++ Showing Only Inbound Dependencies
 
@@ -2080,9 +2231,14 @@ with the following tools:
     * =DependablesToText=
     * =DependablesToHTML=
 
-E.g.,
+<div class="highlight">
 
     C:\>DependablesToText -in test.xml
+
+</div>
+
+<div class="lowlight">
+
     java.lang
         java.lang.Object
             <-- test
@@ -2099,6 +2255,8 @@ E.g.,
         java.util.Set
             <-- test.main(java.lang.String[])
 
+</div>
+
 The HTML version weaves cross-references between all the elements for easy
 navigation.
 
@@ -2107,10 +2265,15 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
     * =HideOutboundDependenciesToText=
     * =HideOutboundDependenciesToHTML=
 
-E.g.,
+<div class="highlight">
 
     C:\>HideOutboundDependenciesToText -in test.xml
-    
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
         test
             test.main(java.lang.String[])
             test.test()
@@ -2129,6 +2292,8 @@ E.g.,
                 <-- test.main(java.lang.String[])
         java.util.Set
             <-- test.main(java.lang.String[])
+
+</div>
 
 ---++++ Showing Only Outbound Dependencies
 
@@ -2168,10 +2333,15 @@ following tools:
     * =DependentsToText=
     * =DependentsToHTML=
 
-E.g.,
+<div class="highlight">
 
     C:\>DependentsToText -in test.xml
-    
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
         test
             --> java.lang.Object
             test.main(java.lang.String[])
@@ -2183,6 +2353,8 @@ E.g.,
             test.test()
                 --> java.lang.Object.Object()
 
+</div>
+
 The HTML version weaves cross-references between all the elements for easy
 navigation.
 
@@ -2191,10 +2363,15 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
     * =HideInboundDependenciesToText=
     * =HideInboundDependenciesToHTML=
 
-E.g.,
+<div class="highlight">
 
     C:\>HideInboundDependenciesToText -in test.xml
-    
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
         test
             --> java.lang.Object
             test.main(java.lang.String[])
@@ -2213,6 +2390,8 @@ E.g.,
         java.util.Collections
             java.util.Collections.singleton(java.lang.Object)
         java.util.Set
+
+</div>
 
 ---++++ Showing Both Inbounds And Outbound Dependencies
 
@@ -2246,10 +2425,15 @@ following tools:
 The HTML version weaves cross-references between all the elements for easy
 navigation.
 
-E.g.,
+<div class="highlight">
 
     C:\>DependencyGraphToText -in test.xml
-    
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
         test
             --> java.lang.Object
             test.main(java.lang.String[])
@@ -2275,6 +2459,8 @@ E.g.,
                 <-- test.main(java.lang.String[])
         java.util.Set
             <-- test.main(java.lang.String[])
+
+</div>
 
 ---++++ Summary
 
@@ -2392,21 +2578,14 @@ This table summarizes which CLI tool shows which information.
 ---+++ Dealing with a Very Large Codebase
 
 Sometimes the codebase can be too large for Dependency Finder to deal with it
-in one pass.  The dependency graph can become so large that it uses all
+in one pass.  The dependency graph can become so large that it uses up all
 available memory.  This can be the case eiher on a large project or when you
 try to build a graph across many applications.  You can ease this situation by:
 
-   1 break down the codebase into manageable chunks
-   1 analyze each part separately
-   1 reduce the size of each individual graph
-   1 combine the parts back together
-
-=DependencyExtractor= uses a =TransientClassfileLoader=; it reads in classes
-one at a time and discards them before moving on to the next.  So the real
-problem is the size of the resulting graph.  =DependencyReporter= can aggregate
-multiple graphs; just give it all the XML files and it will read them in and
-merge their information.  But the resulting graph will still be as big as if we
-had just run =DependencyExtractor= once on the original codebase.
+   1 breaking down the codebase into manageable chunks
+   1 analyzing each part separately
+   1 reducing the size of each individual graph
+   1 combining the reduced parts back together
 
 ---++++ Break the Codebase
 
@@ -2416,58 +2595,344 @@ If you have one large JAR file, you can extract it to a temporary location and
 put the files in smaller groups, such as related packages rooted at some
 directory.
 
+A quick and dirty way of splitting the JAR: extract it to a folder somewhere and
+run DependencyReporter on the subfolders.
+
 For example, using =DependencyFinder.jar=:
 
+<div class="highlight">
+
     % jar xf DependencyFinder.jar com
+
+</div>
 
 ---++++ Analyze Each Part
 
 You can analyze the major package groups as follow:
 
-    % DependencyExtractor -xml -out classreader.xml \
-        com/jeantessier/classreader
-    % DependencyExtractor -xml -out dependency.xml \
-        com/jeantessier/dependency
-    % DependencyExtractor -xml -out dependencyfinder.xml \
-        com/jeantessier/dependencyfinder
-    % DependencyExtractor -xml -out diff.xml \
-        com/jeantessier/diff
-    % DependencyExtractor -xml -out metrics.xml \
-        com/jeantessier/metrics
+<div class="highlight">
+
+    % DependencyExtractor -xml -out classreader.xml
+                          com/jeantessier/classreader
+
+    % DependencyExtractor -xml -out dependency.xml
+                          com/jeantessier/dependency
+
+    % DependencyExtractor -xml -out dependencyfinder.xml
+                          com/jeantessier/dependencyfinder
+
+    % DependencyExtractor -xml -out diff.xml
+                          com/jeantessier/diff
+
+    % DependencyExtractor -xml -out metrics.xml
+                          com/jeantessier/metrics
+
+</div>
+
+To save on memory, =DependencyExtractor= uses a =TransientClassfileLoader=: it
+reads classes in one at a time and discards them before moving on to the next.
+So the real problem is the size of the resulting graph.  If you do only steps
+1, 2, and 4 above, without the reduction stop, =DependencyReporter= will
+aggregate multiple graphs when you give it all the XML files but the resulting
+graph will still be as big as if you had just run =DependencyExtractor= once on
+the original codebase.
 
 ---++++ Reduce Each Graph
 
 Here's a variation on this idea.  Run =DependencyReporter= with =-c2c= on the
-intermediary graphs to generate small class-to-class graphs.  Then combine all
-these small graphs with a last pass of =DependencyReporter= to aggregate all the
-little ones into an all-encompassing class-to-class graph.
+intermediary graphs to generate small class-to-class graphs.
 
-    % DependencyReporter -xml -out classreader.c2c.xml \
-        -c2c classreader.xml
-    % DependencyReporter -xml -out dependency.c2c.xml \
-        -c2c dependency.xml
-    % DependencyReporter -xml -out dependencyfinder.c2c.xml \
-        -c2c dependencyfinder.xml
-    % DependencyReporter -xml -out diff.c2c.xml \
-        -c2c diff.xml
-    % DependencyReporter -xml -out metrics.c2c.xml \
-        -c2c metrics.xml
+<div class="highlight">
+
+    % DependencyReporter -xml -out classreader.c2c.xml
+                         -show-all
+                         *-c2c*
+                         classreader.xml
+
+    % DependencyReporter -xml -out dependency.c2c.xml
+                         -show-all
+                         *-c2c*
+                         dependency.xml
+
+    % DependencyReporter -xml -out dependencyfinder.c2c.xml
+                         -show-all
+                         *-c2c*
+                         dependencyfinder.xml
+
+    % DependencyReporter -xml -out diff.c2c.xml
+                         -show-all
+                         *-c2c*
+                         diff.xml
+
+    % DependencyReporter -xml -out metrics.c2c.xml
+                         -show-all
+                         *-c2c*
+                         metrics.xml
+
+</div>
 
 ---++++ Combine Them Back Together
 
-A quick and dirty way of splitting the JAR: extract it to a folder somewhere and
-run DependencyReporter on the subfolders.
+Then combine all these small graphs with a last pass of =DependencyReporter= to
+aggregate all the little ones into an all-encompassing class-to-class graph.
 
-    % DependencyReporter -xml -out c2c.xml -c2c \
-        classreader.c2c.xml \
-        dependency.c2c.xml \
-        dependencyfinder.c2c.xml \
-        diff.c2c.xml \
-        metrics.c2c.xml
+<div class="highlight">
+
+    % DependencyReporter -xml -out c2c.xml
+                         *-c2c*
+                         classreader.c2c.xml
+                         dependency.c2c.xml
+                         dependencyfinder.c2c.xml
+                         diff.c2c.xml
+                         metrics.c2c.xml
+
+</div>
 
 This approach shows an 80%-90% reduction in number of nodes and about 80% in
 the number of edges (dependencies).  Taken together, that's a 98% reduction in
 complexity.  This should help with both memory footprint and processing time.
+
+<table border="3"
+       rules="groups"
+       cellpadding="3">
+    <colgroup />
+    <colgroup span="5" />
+    <colgroup span="2" />
+    <colgroup span="2" />
+    <thead>
+    <tr>
+	<td valign="top"
+            rowspan="2">*Graph*</td>
+	<td align="center"
+            colspan="5">*Nodes*</td>
+	<td valign="top"
+            align="center"
+            rowspan="2"
+            colspan="2">*Dependencies*</td>
+	<td valign="top"
+            align="center"
+            rowspan="2"
+            colspan="2">*Nodes* x *Dependencies*</td>
+    </tr>
+    <tr>
+	<td align="center">*Packages*</td>
+	<td align="center">*Classes*</td>
+	<td align="center">*Features*</td>
+	<td align="center"
+            colspan="2">*Total*</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+	<td>=classreader.xml=</td>
+	<td align="right">8</td>
+	<td align="right">112</td>
+	<td align="right">1,078</td>
+	<td align="right">1,198</td>
+	<td align="right"></td>
+	<td align="right">4,042</td>
+	<td align="right"></td>
+	<td align="right">4,842,316</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td>=classreader.c2c.xml=</td>
+	<td align="right">8</td>
+	<td align="right">112</td>
+	<td align="right">0</td>
+	<td align="right">120</td>
+	<td align="right">(-90%)</td>
+	<td align="right">809</td>
+	<td align="right">(-80%)</td>
+	<td align="right">97,080</td>
+	<td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>=commandline.xml=</td>
+	<td align="right">3</td>
+	<td align="right">34</td>
+	<td align="right">204</td>
+	<td align="right">241</td>
+	<td align="right"></td>
+	<td align="right">545</td>
+	<td align="right"></td>
+	<td align="right">131,345</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td>=commandline.c2c.xml=</td>
+	<td align="right">3</td>
+	<td align="right">34</td>
+	<td align="right">0</td>
+	<td align="right">37</td>
+	<td align="right">(-85%)</td>
+	<td align="right">115</td>
+	<td align="right">(-79%)</td>
+	<td align="right">4,255</td>
+	<td align="right">(-97%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>=dependency.xml=</td>
+	<td align="right">11</td>
+	<td align="right">102</td>
+	<td align="right">903</td>
+	<td align="right">1,016</td>
+	<td align="right"></td>
+	<td align="right">3,429</td>
+	<td align="right"></td>
+	<td align="right">3,483,864</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td>=dependency.c2c.xml=</td>
+	<td align="right">11</td>
+	<td align="right">102</td>
+	<td align="right">0</td>
+	<td align="right">113</td>
+	<td align="right">(-89%)</td>
+	<td align="right">395</td>
+	<td align="right">(-88%)</td>
+	<td align="right">44,635</td>
+	<td align="right">(-99%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>=dependencyfinder.xml=</td>
+	<td align="right">27</td>
+	<td align="right">252</td>
+	<td align="right">1,744</td>
+	<td align="right">2,023</td>
+	<td align="right"></td>
+	<td align="right">6,947</td>
+	<td align="right"></td>
+	<td align="right">14,053,781</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td>=dependencyfinder.c2c.xml=</td>
+	<td align="right">27</td>
+	<td align="right">252</td>
+	<td align="right">0</td>
+	<td align="right">279</td>
+	<td align="right">(-86%)</td>
+	<td align="right">1,429</td>
+	<td align="right">(-79%)</td>
+	<td align="right">398,691</td>
+	<td align="right">(-97%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>=diff.xml=</td>
+	<td align="right">9</td>
+	<td align="right">75</td>
+	<td align="right">504</td>
+	<td align="right">588</td>
+	<td align="right"></td>
+	<td align="right">1,580</td>
+	<td align="right"></td>
+	<td align="right">929,040</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td>=diff.c2c.xml=</td>
+	<td align="right">9</td>
+	<td align="right">75</td>
+	<td align="right">0</td>
+	<td align="right">84</td>
+	<td align="right">(-86%)</td>
+	<td align="right">235</td>
+	<td align="right">(-85%)</td>
+	<td align="right">19,740</td>
+	<td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>=metrics.xml=</td>
+	<td align="right">13</td>
+	<td align="right">112</td>
+	<td align="right">820</td>
+	<td align="right">945</td>
+	<td align="right"></td>
+	<td align="right">2,873</td>
+	<td align="right"></td>
+	<td align="right">2,714,985</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td>=metrics.c2c.xml=</td>
+	<td align="right">13</td>
+	<td align="right">112</td>
+	<td align="right">0</td>
+	<td align="right">125</td>
+	<td align="right">(-87%)</td>
+	<td align="right">418</td>
+	<td align="right">(-85%)</td>
+	<td align="right">52,250</td>
+	<td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>=text.xml=</td>
+	<td align="right">5</td>
+	<td align="right">11</td>
+	<td align="right">20</td>
+	<td align="right">36</td>
+	<td align="right"></td>
+	<td align="right">66</td>
+	<td align="right"></td>
+	<td align="right">2,376</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td>=text.c2c.xml=</td>
+	<td align="right">5</td>
+	<td align="right">11</td>
+	<td align="right">0</td>
+	<td align="right">16</td>
+	<td align="right">(-56%)</td>
+	<td align="right">10</td>
+	<td align="right">(-85%)</td>
+	<td align="right">160</td>
+	<td align="right">(-93%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+	<td>=all.xml=</td>
+	<td align="right">35</td>
+	<td align="right">420</td>
+	<td align="right">4,571</td>
+	<td align="right">5,026</td>
+	<td align="right"></td>
+	<td align="right">17,846</td>
+	<td align="right"></td>
+	<td align="right">89,693,996</td>
+	<td align="right"></td>
+    </tr>
+    <tr>
+	<td>=all.c2c.xml=</td>
+	<td align="right">35</td>
+	<td align="right">420</td>
+	<td align="right">0</td>
+	<td align="right">455</td>
+	<td align="right">(-91%)</td>
+	<td align="right">3,411</td>
+	<td align="right">(-81%)</td>
+	<td align="right">1,552,005</td>
+	<td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+</table>
+
+_These numbers were taken from version 1.1.0._
 
 ---+++ Transitive Closure
 
@@ -3131,7 +3596,7 @@ expressions, the class will be added to that group.  This allows you to
 group together classes for a component or module that might span multiple
 Java packages.
 
-E.g.,
+<div class="highlight">
 
     &lt;group-definitions&gt;
         &lt;group-definition&gt;
@@ -3143,6 +3608,8 @@ E.g.,
             &lt;pattern&gt;/test/i&lt;/pattern&gt;
         &lt;/group-definition&gt;
     &lt;/group-definitions&gt;
+
+</div>
 
 ---+++ Extracting
 
@@ -3292,9 +3759,14 @@ You use =OOMetrics= to compute metrics and produce a report.  Simply string
 out the files and directories on the command-line.  The content of the report
 depends on the switches on the command-line.
 
-E.g.,
+<div class="highlight">
 
-    C:\>OOMetrics -all -txt classes %JAVA_HOME%\JRE\lib\rt.jar
+    C:\>OOMetrics -all
+                  -txt
+                  classes
+                  %JAVA_HOME%\JRE\lib\rt.jar
+
+</div>
 
 You must use at least one of the following switches that determine which
 groups of metrics are included in the report.  You can combine them if
@@ -3338,7 +3810,14 @@ with the prefix you specify, followed by either "=%5Fproject=",
 "=%5Fgroups=", "=%5Fclasses=", or "=%5Fmethods=" according to the section,
 and ends with the "=.csv=" suffix.
 
-    C:\>OOMetrics -all -txt %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df
+<div class="highlight">
+
+    C:\>OOMetrics -out df
+                  -all
+                  -txt
+                  %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
+
+</div>
 
 ---++++ Extracting With Ant
 
@@ -3348,6 +3827,8 @@ Ant's =&lt;taskdef&gt;= task.  You also need to tell Ant where to find the
 Dependency Finder classes.    There is a special
 [[tasks/index.html][help page]] on how to do this.
 
+<div class="highlight">
+
     &lt;oometrics allmetrics%3D"yes"
                txt%3D"yes"
                configuration%3D"${dependencyfinder.home}/etc/MetricsConfig.xml"
@@ -3356,6 +3837,8 @@ Dependency Finder classes.    There is a special
             &lt;pathelement location%3D"."/&gt;
         &lt;/path&gt;
     &lt;/oometrics&gt;
+
+</div>
 
 ----
 
@@ -3429,12 +3912,16 @@ computes the API differences between versions _Old_ and _New_ of
 _My Project_.  The differences are saved as an XML document in the file
 =diff.xml=.
 
-    C:\>JarJarDiff -name "My Project"    \
-                   -old-label Old        \
-                   -old old.jar          \
-                   -new-label New        \
-	           -new new.jar          \
-	           -out diff.xml
+<div class="highlight">
+
+    C:\>JarJarDiff -out diff.xml
+                   -name "My Project"
+                   -old-label Old
+                   -old old.jar
+                   -new-label New
+	           -new new.jar
+
+</div>
 
 <div align="center">
     [[images/ExtractingDifferences.gif]]
@@ -3468,6 +3955,8 @@ using Ant's =&lt;taskdef&gt;= task.  You also need to tell Ant where to find
 the Dependency Finder classes.    There is a special
 [[tasks/index.html][help page]] on how to do this.
 
+<div class="highlight">
+
     &lt;jarjardiff destfile%3D"xerces.xml"
                 name%3D"My Project"
 	        oldlabel%3D"Old"
@@ -3482,6 +3971,8 @@ the Dependency Finder classes.    There is a special
     &lt;xslt style%3D"${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"
           in%3D"xerces.xml"
           out%3D"xerces.html"/&gt;
+
+</div>
 
 ---+++ Reporting
 
@@ -3505,8 +3996,12 @@ You use =DiffToHTML= to convert all API differences to HTML.  The
 following command produces a full report from the output of the previous
 =JarJarDiff= command.
 
-    C:\>DiffToHTML -in diff.xml          \
+<div class="highlight">
+
+    C:\>DiffToHTML -in diff.xml
                    -out fullreport.html
+
+</div>
 
 <div align="center">
     [[images/CompleteList.gif]]
@@ -3519,8 +4014,12 @@ You use =PublishedDiffToHTML= to convert only public API differences
 to HTML.  The following command produces a full report from the output
 of the previous =JarJarDiff= command.
 
-    C:\>PublishedDiffToHTML -in diff.xml                  \
+<div class="highlight">
+
+    C:\>PublishedDiffToHTML -in diff.xml
                             -out publishedAPIreport.html
+
+</div>
 
 <div align="center">
     [[images/PublicList.gif]]
@@ -3546,32 +4045,42 @@ files.
 In this first case, the command will only list elements that you marked as
 =@level published=.
 
-    C:\>ListDocumentedElements -tag level         \
-                               -valid published   \
-                               -out old-list.txt  \
+<div class="highlight">
+
+    C:\>ListDocumentedElements -tag level
+                               -valid published
+                               -out old-list.txt
                                old.java
 
-    C:\>ListDocumentedElements -tag level         \
-                               -valid published   \
-                               -out new-list.txt  \
+    C:\>ListDocumentedElements -tag level
+                               -valid published
+                               -out new-list.txt
                                new.java
+
+</div>
 
 If you add Dependency Finder's JAR file to your =CLASSPATH=, you can call
 =javadoc= directly instead:
 
-    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements  \
-               -tag level                                           \
-               -valid published                                     \
-               -out old-list.txt                                    \
+<div class="highlight">
+
+    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements
+               -tag level
+               -valid published
+               -out old-list.txt
                old.java
 
-    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements  \
-               -tag level                                           \
-               -valid published                                     \
-               -out new-list.txt                                    \
+    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements
+               -tag level
+               -valid published
+               -out new-list.txt
                new.java
 
+</div>
+
 Or, as an Ant task:
+
+<div class="highlight">
 
     &lt;target name%3D"listdocumentedelements" depends%3D"init"&gt;
         &lt;javadoc packagenames%3D"${packageNames}"&gt;
@@ -3586,18 +4095,24 @@ Or, as an Ant task:
 	&lt;/javadoc&gt;
     &lt;/target&gt;
 
+</div>
+
 In this second case, the command will only list elements that you did marked
 not mark as =@level developer=.
 
-    C:\>ListDocumentedElements -tag level          \
-                               -invalid published  \
-                               -out old-list.txt   \
+<div class="highlight">
+
+    C:\>ListDocumentedElements -tag level
+                               -invalid published
+                               -out old-list.txt
                                old.java
 
-    C:\>ListDocumentedElements -tag level          \
-                               -invalid developer  \
-                               -out new-list.txt   \
+    C:\>ListDocumentedElements -tag level
+                               -invalid developer
+                               -out new-list.txt
                                new.java
+
+</div>
 
 <div align="center">
     [[images/ListDocumentedElements.gif]]
@@ -3609,14 +4124,18 @@ below, we show both =.class= and JAR files being fed to =JarJarDiff=, but you
 only need to do either, not both.  Dependency Finder tools can read JAR files
 just as well as =.class= files.
 
-    C:\>JarJarDiff -name "My Project"               \
-                   -old-label Old                   \
-                   -old old.jar                     \
-	           -old-documentation old-list.txt  \
-                   -new-label New                   \
-	           -new new.jar                     \
-	           -new-documentation new-list.txt  \
-	           -out diff.xml
+<div class="highlight">
+
+    C:\>JarJarDiff -out diff.xml
+                   -name "My Project"
+                   -old-label Old
+                   -old old.jar
+	           -old-documentation old-list.txt
+                   -new-label New
+	           -new new.jar
+	           -new-documentation new-list.txt
+
+</div>
 
 <div align="center">
     [[images/ExtractingDifferencesAndDocumentationChanges.gif]]
@@ -3627,8 +4146,12 @@ The full list will include special sections that highlight
 changes in what is no more part of the documentation and what
 was newly added to the documentation.
 
-    C:\>DiffToHTML -in diff.xml          \
+<div class="highlight">
+
+    C:\>DiffToHTML -in diff.xml
                    -out fullreport.html
+
+</div>
 
 <div align="center">
     [[images/CompleteListOfDocumentedElements.gif]]
@@ -3638,9 +4161,13 @@ was newly added to the documentation.
 The list can also be fed to =PublishedDiffToHTML= to further
 limit the changes to the published public API.
 
-    C:\>PublishedDiffToHTML -in diff.xml                         \
-                            -param validation-list new-list.txt  \
+<div class="highlight">
+
+    C:\>PublishedDiffToHTML -in diff.xml
                             -out publishedAPIreport.html
+                            -param validation-list new-list.txt
+
+</div>
 
 <div align="center">
     [[images/PublicListOfDocumentedElements.gif]]
@@ -3653,13 +4180,17 @@ You use =ListDiff= to list changes in what is considered part of the
 published API.  It only needs the lists generated by the doclet.  No
 source or bytecode required.
 
-    C:\>ListDiff -name "My Project"  \
-                 -old-label Old      \
-                 -old old-list.txt   \
-                 -new-label New      \
-                 -new new-list.txt   \
-                 -compress           \
-                 -out listdiff.xml
+<div class="highlight">
+
+    C:\>ListDiff -out listdiff.xml
+                 -name "My Project"
+                 -old-label Old
+                 -old old-list.txt
+                 -new-label New
+                 -new new-list.txt
+                 -compress
+
+</div>
 
 <div align="center">
     [[images/ListDiff.gif]]
@@ -3670,8 +4201,12 @@ source or bytecode required.
 into HTML with =ListDiffToHTML=, or to text with
 =ListDiffToText=.
 
-    C:\>ListDiffToHTML -in listdiff.xml     \
+<div class="highlight">
+
+    C:\>ListDiffToHTML -in listdiff.xml
                        -out docreport.html
+
+</div>
 
 <div align="center">
     [[images/ListDiff2HTML.gif]]
@@ -3690,64 +4225,63 @@ into HTML with =ListDiffToHTML=, or to text with
 
 ---++ Bringing It All Together
 
-Here are some more elaborate use cases that combine functionality from multiple
-tools.
+Here are some use cases that are more elaborate.  They combine functionality
+from multiple tools.
 
 ---+++ Tracking Dependencies On Deprecated Symbols
 
 This use case deals with having a large codebase and tracking usage of
 deprecated classes and methods.  As your codebase grows and your third-party
 libraries get updated, it is inevitable that it will end up using deprecated
-APIs.  =javac= can list offenses, but only up to the first 100.  And the output
-is a simple flat list offenses.
+APIs.  =javac= can list violations, but only up to the first 100 and the output
+is a simple flat list of violations.
 
 Dependency Finder can track all uses of deprecated APIs and group them by
 various criteria.  You can use either =DependencyReporter= or =OOMetrics=,
 depending on how you want to structure the results.
 
-But regardless of which way you go about it, you must first generate a list of
-the deprecated symbols to look for.  Run =ListDeprecatedElements= on all the
-JARs that might contain deprecated symbos.  Don't forget to include =rt.jar=.
-Save the output to a file that will list each deprecated construct, one per
-line.
+But regardless of which way you go about it, you must first list the deprecated
+symbols you are looking for.  Run =ListDeprecatedElements= on all the JARs that
+might contain deprecated symbos.  Don't forget to include =rt.jar=.  Save the
+output to a file that will list each deprecated element, one per line.
 
 <div class="highlight">
 
-    C:\>ListDeprecatedElements -out deprecated.txt           \
-                               %JAVA_HOME%\jre\lib\rt.jar    \
-                               lib                           \
+    C:\>ListDeprecatedElements -out deprecated.txt
+                               %JAVA_HOME%\jre\lib\rt.jar
+                               lib
                                classes
 
 </div>
 
-_This may take a while._
+_Note: This may take a while._
 
 You only need to run this command when a JAR changes.  In the example above,
 we look at third-party libraries in =lib= and the project's own codebase in
-=classes=.  The codebase is likely to change very often, but we don't have to
-wait for the tool to analyze large libraries, such as =rt.jar=, every time.  We
-can split the call and generate two lists: one list for all third-party JARs
-(fairly stable, don't have to regenerate it often) and one list for our own
+=classes=.  The codebase is likely to change very often, but you don't have to
+wait for the tool to analyze large libraries, such as =rt.jar=, every time.
+You can split the call and generate two lists: one list for all third-party
+libraries (fairly stable, doesn't change often) and one list for our own
 codebase (generate new list with every build to take into account the latest
 changes).
 
 <div class="highlight">
 
-    C:\>ListDeprecatedElements -out *deprecated.libs.txt*      \
-                               %JAVA_HOME%\jre\lib\rt.jar    \
+    C:\>ListDeprecatedElements -out *deprecated.libs.txt*
+                               %JAVA_HOME%\jre\lib\rt.jar
                                lib
 
-    C:\>ListDeprecatedElements -out *deprecated.code.txt*      \
+    C:\>ListDeprecatedElements -out *deprecated.code.txt*
                                classes
 
 </div>
 
-The examples below show the CLI, but there are equivalent Ant tasks so you can
-put this in your nightly build very easily.
+The examples in this section use the CLI, but there are equivalent Ant tasks so
+you can put this in your nightly build very easily.
 
-Let's use this simple class as an example to illustrate the various reports.
-It has one deprecated method and another method calling it, therefore creating
-a dependency on a deprecated symbol.
+Let's use the following simple class as an example to illustrate the various
+reports.  It has one deprecated method and another method calling it, therefore
+creating a dependency on a deprecated symbol.
 
 <div class="highlight">
 
@@ -3762,7 +4296,7 @@ a dependency on a deprecated symbol.
 
 </div>
 
-We extract a list of deprecated symbols from in.
+You can extract a list of deprecated symbols from it.
 
 <div class="highlight">
 
@@ -3776,19 +4310,20 @@ We extract a list of deprecated symbols from in.
 
 </div>
 
-Now that you have a list of deprecated symbols, you can analyze your codebase
-to determine where they are being used either with a dependency graph or with
-dependency-related metrics.
+Now that you have a list of deprecated symbols, you can analyze the codebase to
+determine where they are being used.  You can use either with a dependency
+graph or with dependency-related metrics.
 
 ---++++ Using a Dependency Graph
 
-You need a dependency graph to work from.
+Generate a dependency graph to work from:
 
 <div class="highlight">
 
     C:\>DependencyExtractor -xml -out graph.xml DeprecatedExample.class
 
 </div>
+
 <div class="lowlight">
 
     &nbsp;
@@ -3808,24 +4343,26 @@ You need a dependency graph to work from.
 
 </div>
 
-Then, run the =DependencyReporter= so that it shows dependencies related to
-deprecated APIs.  It can either group them by deprecated element, showing where
-they are called, or by caller, showing which deprecated element they call.
+Then, run the =DependencyReporter= to show dependencies related to the
+deprecated API.  The tool can either group them by deprecated element, showing
+where they are called, or by caller, showing which deprecated element they
+call.
 
-You can organize the report by deprecated element.  This is useful if you want
-to find all the places where a given deprecated symbol is referenced.  In our
-example, it will show us where =deprecatedMethod()= is called from.
+It is useful to organize the report by deprecated element to find all the
+places where a given deprecated symbol is referenced.  In the example, it will
+show where =deprecatedMethod()= is called from.
 
-For a text report organized by deprecated element, run:
+For a text report organized by deprecated element:
 
 <div class="highlight">
 
-    C:\>DependencyReporter -out report.txt                        \
-                           -show-*inbounds*                         \
-                           -*scope*-includes-list deprecated.txt    \
+    C:\>DependencyReporter -out report.txt
+                           -show-*inbounds*
+                           -*scope*-includes-list deprecated.txt
                            graph.xml
 
 </div>
+
 <div class="lowlight">
 
     &nbsp;
@@ -3835,33 +4372,34 @@ For a text report organized by deprecated element, run:
 
 </div>
 
-For an HTML report organized by deprecated element, run:
+For an HTML report organized by deprecated element:
 
 <div class="highlight">
 
-    C:\>DependencyReporter -xml -out report.xml                   \
-                           -show-*inbounds*                         \
-                           -*scope*-includes-list deprecated.txt    \
+    C:\>DependencyReporter -xml -out report.xml
+                           -show-*inbounds*
+                           -*scope*-includes-list deprecated.txt
                            graph.xml
 
     C:\>DependencyGraphToHTML -in report.xml -out report.html
 
 </div>
 
-You can organize the report by caller.  This is useful if you want to find all
-usage of deprecated symbols in a given section of your codebase.  In our
-example, it will show us what deprecated methods are used by =callingMethod()=.
+It is useful to organize the report by caller to find all usage of deprecated
+symbols in a given section of your codebase.  In the example, it will show what
+deprecated methods are used by =callingMethod()=.
 
-For a text report organized by caller, run:
+For a text report organized by caller:
 
 <div class="highlight">
 
-    C:\>DependencyReporter -out report.txt                        \
-                           -show-*outbounds*                        \
-                           -*filter*-includes-list deprecated.txt   \
+    C:\>DependencyReporter -out report.txt
+                           -show-*outbounds*
+                           -*filter*-includes-list deprecated.txt
                            graph.xml
 
 </div>
+
 <div class="lowlight">
 
     &nbsp;
@@ -3871,13 +4409,13 @@ For a text report organized by caller, run:
 
 </div>
 
-For an HTML report organized by caller, run:
+For an HTML report organized by caller:
 
 <div class="highlight">
 
-    C:\>DependencyReporter -xml -out report.xml                   \
-                           -show-*outbounds*                        \
-                           -*filter*-includes-list deprecated.txt   \
+    C:\>DependencyReporter -xml -out report.xml
+                           -show-*outbounds*
+                           -*filter*-includes-list deprecated.txt
                            graph.xml
 
     C:\>DependencyGraphToHTML -in report.xml -out report.html
@@ -3885,55 +4423,54 @@ For an HTML report organized by caller, run:
 </div>
 
 You can use multiple =-scope-includes-list= and =-filter-includes-list=
-switches if your deprecated API list is in more than one file.
+switches if your deprecated API list consists of more than one file.
 
 <div class="highlight">
 
-    C:\>DependencyReporter -out report.txt                              \
-                           -show-inbounds                               \
-                           *-scope-includes-list deprecated.libs.txt*     \
-                           *-scope-includes-list deprecated.code.txt*     \
+    C:\>DependencyReporter -out report.txt
+                           -show-inbounds
+                           *-scope-includes-list deprecated.libs.txt*
+                           *-scope-includes-list deprecated.code.txt*
                            graph.xml
 
-    C:\>DependencyReporter -out report.txt                              \
-                           -show-outbounds                              \
-                           *-filter-includes-list deprecated.libs.txt*    \
-                           *-filter-includes-list deprecated.code.txt*    \
+    C:\>DependencyReporter -out report.txt
+                           -show-outbounds
+                           *-filter-includes-list deprecated.libs.txt*
+                           *-filter-includes-list deprecated.code.txt*
                            graph.xml
 
 </div>
 
-=DeprecationReporter= can also take =-scope-excludes-list= and
+=DependencyReporter= can also take =-scope-excludes-list= and
 =-filter-excludes-list= switches for deprecated items that you may want to skip
 over.  There are times when reliance on a deprecated API is inevitable or too
 expensive to correct.  Yet, you don't want it to appear again and again in
-reports and distract from other use of deprecated material that can be fixed.
-You can keep track manually of the cases to ignore and pass them to
-=DependencyReporter= and they will be removed from the _includes_ list that was
-likely automatically generated.
+reports and distract from other use of deprecated material that needs to be
+fixed.  You can keep track manually of the cases to ignore.  When you pass them
+to =DependencyReporter=, it will be remove them from the _includes_ list.
 
 <div class="highlight">
 
-    C:\>DependencyReporter -out report.txt                              \
-                           -show-inbounds                               \
-                           -scope-includes-list deprecated.libs.txt     \
-                           -scope-includes-list deprecated.code.txt     \
-                           *-scope-excludes-list deprecated.skip.txt*     \
+    C:\>DependencyReporter -out report.txt
+                           -show-inbounds
+                           -scope-includes-list deprecated.libs.txt
+                           -scope-includes-list deprecated.code.txt
+                           *-scope-excludes-list deprecated.skip.txt*
                            graph.xml
 
 </div>
 
 =DependencyReporter= provides a simple format where a lot of data is presented
-succinctly side-by-side.  But sometimes, you want to be able to aggregate all
-this data in larger chunks.  For this, you can use =OOMetrics= instead.
+succinctly side-by-side.  But you may want to group this data in larger chunks.
+For this, you can use =OOMetrics= instead.
 
 ---++++ Using Dependency-Related Metrics
 
-You can use =OOMetrics= and write either an HTML report or one of two text
-reports.
+You can use =OOMetrics= to write either an HTML report or one of two text
+report formats.
 
 To generate reports organized by deprecated elements, use the configuration
-file =etc\InboundDependencyConfig.xml=.
+file in =etc\InboundDependencyConfig.xml=.
 
 <div align="center">
 [[images/InboundDependencyConfig.gif]]
@@ -3941,7 +4478,7 @@ file =etc\InboundDependencyConfig.xml=.
 </div>
 
 For a text report organized by deprecated elements, with all methods listed
-together, run:
+together:
 
 <div class="highlight">
 
@@ -3954,6 +4491,7 @@ together, run:
                   DeprecatedExample.class
 
 </div>
+
 <div class="lowlight">
 
     Project metrics
@@ -3988,7 +4526,7 @@ together, run:
 </div>
 
 For a text report organized by deprecated element, with methods grouped by
-class, run:
+class:
 
 <div class="highlight">
 
@@ -4003,6 +4541,7 @@ class, run:
     C:\>MetricsToText -in report.xml -out report.txt
 
 </div>
+
 <div class="lowlight">
 
     Project
@@ -4030,9 +4569,10 @@ class, run:
 
 </div>
 
-For an HTML version of this report, use =MetricsToHTML= instead.
+For an HTML version of this report, use =MetricsToHTML= instead in the final
+step.
 
-To generate reports organized by caller, use the configuration file
+To generate reports organized by caller, use the configuration file in
 =etc\OutboundDependencyConfig.xml=.
 
 <div align="center">
@@ -4040,7 +4580,7 @@ To generate reports organized by caller, use the configuration file
 *Outbound Dependency Config*
 </div>
 
-For a text report organized by caller, with all methods listed together, run:
+For a text report organized by caller, with all methods listed together:
 
 <div class="highlight">
 
@@ -4053,6 +4593,7 @@ For a text report organized by caller, with all methods listed together, run:
                   DeprecatedExample.class
 
 </div>
+
 <div class="lowlight">
 
     Project metrics
@@ -4086,7 +4627,7 @@ For a text report organized by caller, with all methods listed together, run:
 
 </div>
 
-For a text report organized by caller, with methods grouped by class, run:
+For a text report organized by caller, with methods grouped by class:
 
 <div class="highlight">
 
@@ -4101,6 +4642,7 @@ For a text report organized by caller, with methods grouped by class, run:
     C:\>MetricsToText -in report.xml -out report.txt
 
 </div>
+
 <div class="lowlight">
 
     Project
@@ -4128,39 +4670,41 @@ For a text report organized by caller, with methods grouped by class, run:
 
 </div>
 
-For an HTML version of this report, use =MetricsToHTML= instead.
+For an HTML version of this report, use =MetricsToHTML= instead in the final
+step.
 
 ---+++ Narrowing API Differences to Actually Used API
 
 You often rely on third-party libraries for speciic functions in your own
 software.  For example, Dependency Finder uses Log4J for logging and
-Jakarta-ORO for regular expression matching.  When these third-party libraries
-release new versions, you need to figure out the impact upgrading to the newer
-version will have on your code.
+Jakarta-ORO for matching regular expressions.  When these third-party libraries
+release new versions, you need to figure out the impact that upgrading to the
+newer version will have on your code.
 
-This is where =JarJarDiff= can help.  But it reports _all_ changes in the
-library, many of which may be internal changes or changes in areas that we are
-not using.  You can run the output through =PublishedDiffToHTML= to limit it to
-externally visible elements (public and protected), but that may not be enough.
-The third-party library provider may not provide a list of their published API
-to further restrict =PublishedDiffToHTML=, but you can build your own using
-Dependency Finder, customized to your own usage of the library.
+This is where =JarJarDiff= can help.  But it reports _all_ changes, many of
+which may be internal only or in areas that you are not using.  You can run the
+output through =PublishedDiffToHTML= to limit it to externally visible elements
+(public and protected), but that may not be enough.  The third-party library
+provider may not give you a list of their published API to further restrict
+=PublishedDiffToHTML=, but you can build your own using Dependency Finder,
+customized to your own usage of the library.
 
 For example, to find Dependency Finder's usage of Log4J, you first extract
-Dependency Finder's dependency graph and restrict it to the part that involves
-Log4J elements.
+Dependency Finder's dependency graph and reduce it to the part that involves
+Log4J elements only.
 
 <div class="highlight">
 
-    C:\>DependencyExtractor -xml -out df.xml DependencyFinder.jar
+    C:\>DependencyExtractor -xml -out df.xml
+                            DependencyFinder.jar
 
-    C:\>DependencyReporter -xml -out df-log4j.xml df.xml   \
-                           -package-scope                  \
-                           -class-scope                    \
-                           -feature-scope                  \
+    C:\>DependencyReporter -xml -out df-log4j.xml
+                           -show-all
                            -scope-includes /log4j/
+                           df.xml
 
-    C:\>DependencyGraphToText -in df-log4j.xml -out df-log4j.txt
+    C:\>DependencyGraphToText -in df-log4j.xml
+                              -out df-log4j.txt
 
 </div>
 
@@ -4175,42 +4719,37 @@ report to these elements only.
 
 <div class="highlight">
 
-    C:\>JarJarDiff -out log4j-1.2.8-1.2.9.xml                          \
-                   -name Log4J                                         \
-                   -old-label 1.2.8                                    \
-                   -old jakarta-log4j-1.2.8\dist\lib\log4j-1.2.8.jar   \
-                   -new-label 1.2.9                                    \
+    C:\>JarJarDiff -out log4j-1.2.8-1.2.9.xml
+                   -name Log4J
+                   -old-label 1.2.8
+                   -old jakarta-log4j-1.2.8\dist\lib\log4j-1.2.8.jar
+                   -new-label 1.2.9
                    -new jakarta-log4j-1.2.0\dist\lib\log4j-1.2.9.jar
 
-    C:\>PublishedDiffToHTML -in log4j-1.2.8-1.2.9.xml             \
-                            -out log4j-1.2.8-1.2.9.html           \
+    C:\>PublishedDiffToHTML -in log4j-1.2.8-1.2.9.xml
+                            -out log4j-1.2.8-1.2.9.html
                             -param validation-list df-log4j.txt
 
 </div>
 
 If you run =DiffToHTML=, you will get a full report on what changed in the
-library.  If you run =PublishedDiffToHTML=, but without a validation list, you
-will get a smaller report that focuses on the public view of the library.  The
+library.  If you run =PublishedDiffToHTML= without a validation list, you will
+get a smaller report that focuses on the public view of the library.  The
 example shown above, with the validation list, focuses exclusively on those
 parts of the library that you are actually using.
 
 ---+++ Computing the D' Metric
 
-<!--
-         11111111112222222222333333333344444444445555555555666666666677777777778
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
--->
-
-You can use =OOMetrics= to computer Robert C. Martin's D metric.  There is a
-special configuration that computes a normalized variation, called D', in the
-configuration file =etc\MartinConfig.xml=.
+You can use =OOMetrics= to computer Robert C. Martin's D metric.  Dependency
+Finder comes with a special configuration that computes a normalized variation,
+called D', in the configuration file =etc\MartinConfig.xml=.
 
 <div align="center">
 [[images/MartinConfig.gif]]
 *Martin Config*
 </div>
 
-For a text report with all methods listed together, run:
+For a text report with all methods listed together:
 
 <div class="highlight">
 
@@ -4222,7 +4761,7 @@ For a text report with all methods listed together, run:
 
 </div>
 
-For a text report with methods grouped by class, run:
+For a text report with methods grouped by class:
 
 <div class="highlight">
 
@@ -4236,7 +4775,8 @@ For a text report with methods grouped by class, run:
 
 </div>
 
-For an HTML version of this report, use =MetricsToHTML= instead.
+For an HTML version of this report, use =MetricsToHTML= instead in the last
+step.
 
 <!--
          11111111112222222222333333333344444444445555555555666666666677777777778
@@ -4248,8 +4788,8 @@ For an HTML version of this report, use =MetricsToHTML= instead.
 ---++ Support
 
 Look at the current bug list on
-[[http://sourceforge.net/projects/depfind][SourceForge]].  There is also
-a help-oriented discussion forum.
+[[http://sourceforge.net/projects/depfind][SourceForge]].  There is also a
+help-oriented discussion forum.
 
 You can also email me at
 [[mailto://jeantessier@users.sourceforge.net][jeantessier at users.sourceforge.net]].
