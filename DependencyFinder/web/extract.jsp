@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.util.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.classreader.*" %>
+<%@ page import="java.io.*, java.util.*, java.util.jar.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.classreader.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -39,6 +39,21 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Extract <%= application.getInitParameter("name") %></title>
 </head>
+
+<%
+    String resource = Node.class.getResource("Node.class").toString();
+    String jar_name = resource.substring(resource.indexOf("/") + 1);
+    jar_name = jar_name.substring(0, jar_name.indexOf(".jar!") + 4);
+
+    JarFile  jar      = new JarFile(jar_name);
+    Manifest manifest = jar.getManifest();
+
+    String url     = manifest.getMainAttributes().getValue("Implementation-URL");
+    String title   = manifest.getMainAttributes().getValue("Implementation-Title");
+    String version = manifest.getMainAttributes().getValue("Implementation-Version");
+    String vendor  = manifest.getMainAttributes().getValue("Implementation-Vendor");
+    String date    = manifest.getMainAttributes().getValue("Implementation-Date");
+%>
 
 <body>
 
@@ -239,10 +254,8 @@
 %>
 
 <p class="footer">
-Powered by
-<%= Node.class.getPackage().getImplementationTitle() %>
-<%= Node.class.getPackage().getImplementationVersion() %>
-(&copy; <%= Node.class.getPackage().getImplementationVendor() %>)
+Powered by <a href="<%= url %>"><%= title %></a> <%= version %> (&copy; <%= vendor %>)<br />
+Compiled <%= date %>.
 </p>
 
 </body>
