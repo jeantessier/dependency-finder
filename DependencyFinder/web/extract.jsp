@@ -1,5 +1,5 @@
 <%@ page import="java.io.*, java.util.*, org.apache.oro.text.perl.*, com.jeantessier.dependency.*, com.jeantessier.classreader.*" %>
-<%@ page errorPage="Error.jsp" %>
+<%@ page errorPage="error.jsp" %>
 
 <html>
 

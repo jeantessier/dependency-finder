@@ -5,7 +5,7 @@
 
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
-<title>Blue Screen of Death</title>
+<title>Error in <%= application.getInitParameter("name") %></title>
 </head>
 
 <body>
