@@ -99,15 +99,20 @@ pattern to traverse dependency graphs.
 
 ---++ OO Metrics
 
-You use =com.jeantessier.metrics.MetricsGatherer= instance to
-read class files and compute the metrics.  It is a
+You use =com.jeantessier.metrics.MetricsGatherer= instance to read class
+files and compute the metrics.  It is a
 =com.jeantessier.classreader.Visitor= and will traverse the complete
 structure rooted at the =Classfile= instance and compute various metrics.
 
-The =MetricsGatherer= uses a =MetricsFactory= to create the various
-=Metrics= instances.  The factory uses a =MetricsConfiguration= instance
-to decide what measurements make up a given set of metrics.  The
-configuration is loaded at runtime from an XML file.
+The =MetricsGatherer= uses a =MetricsFactory= to create the various =Metrics=
+instances.  The factory uses a =MetricsConfiguration= instance to decide what
+measurements make up a given set of metrics.  The configuration is loaded at
+runtime from an XML file.
+
+By default, the value of each measurement is computed only the first time
+it is requested and then cached for further request.  You can refresh the
+caches through the API and you can turn off caching of individual
+measurements through their descriptor and in the configuration file.
 
 ---+++ Data Structure
 

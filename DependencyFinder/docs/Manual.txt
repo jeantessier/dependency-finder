@@ -36,6 +36,33 @@ upon have not changed.  If you provide libraries to others, you can use it
 to assertain the impact changes might have on your customers.  You can even
 use it to monitor the evolution of your own software.
 
+---+++ History Behind Dependency Finder
+
+This project started because another project of mine became so complex that
+I couldn't track dependencies in my head anymore.  I looked for a tool to
+help me and the only ones I could find were very expensive.  So I resolved
+to build my own tool.
+
+I haven't touched that other project since I started working on Dependency
+Finder.
+
+At first, I thought of using the Reflection API, but it shows only the
+class's attributes and method signatures.  If a method uses other classes
+as part of its processing, the Reflection API will not show that dependency.
+
+Java compilers take source code and produce bytecode that they put in
+=.class= files.  The format of these files is described in
+[[http://java.sun.com/docs/books/vmspec/2nd-edition/html/ClassFile.doc.html][The =class= File Format]].
+I undertook to parse these files and extract the information I needed
+directly from the compiled code.
+
+Once I had access to the code structure, I got started on tools to report
+_interesting_ information about it.  I started with dependencies and
+quickly moved up to metrics and API differences.  At the beginning, the
+output was only to standard output or a file.  Quickly, I added XSL
+stylesheets so it would look a little better.  Eventually, I added Swing
+application to keep the data in memory and play with it a while.
+
 ----
 
 ---++ Installation
@@ -272,35 +299,6 @@ application.
 
 ----
 
----++ History Behind Dependency Finder
-
-This project started because another project of mine became so complex that
-I couldn't track dependencies in my head anymore.  I looked for a tool to
-help me and the only ones I could find were very expensive.  So I resolved
-to build my own tool.
-
-I haven't touched that other project since I started working on Dependency
-Finder.
-
-At first, I thought of using the Reflection API, but it shows only the
-class's attributes and method signatures.  If a method uses other classes
-as part of its processing, the Reflection API will not show that dependency.
-
-Java compilers take source code and produce bytecode that they put in
-=.class= files.  The format of these files is described in
-[[http://java.sun.com/docs/books/vmspec/2nd-edition/html/ClassFile.doc.html][The =class= File Format]].
-I undertook to parse these files and extract the information I needed
-directly from the compiled code.
-
-Once I had access to the code structure, I got started on tools to report
-_interesting_ information about it.  I started with dependencies and
-quickly moved up to metrics and API differences.  At the beginning, the
-output was only to standard output or a file.  Quickly, I added XSL
-stylesheets so it would look a little better.  Eventually, I added Swing
-application to keep the data in memory and play with it a while.
-
-----
-
 ---++ Running Dependency Finder
 
 Once you have installed Dependency Finder, you are ready to use all the
@@ -428,16 +426,12 @@ Use this tool to put the class in a =.class= file in human-readable form.
 With the =-xml= switch, it dumps the complete structure to an XML file
 that you can manipulate with your favorite XML editor.
 
----+++ ClassDump
----+++ ClassInheritance
 ---+++ ClassMetrics
 
 This is a simple tally of how many classses, interfaces, methods, publics,
 statics, finals, etc. there are in a given codebase.  These tallies are
 not as powerful as the metrics of =OOMetrics=, but they can give you a
 rough idea of the size and complexity of a piece of software.
-
----+++ ClassList
 
 ----
 
@@ -528,7 +522,14 @@ are also _implicit_ dependencies derived from these explicit ones.  A
 dependency between two classes in two separate packages _implies_ a
 dependency between the packages.
 
----++++ Dependencies on Self
+---++++ Limitations
+
+Dependency Finder analyzes compiled Java code, and as a result it is at the
+mercy of the information produced by the compiler.  Some of the following
+limitations are the result of using Sun's compiler that comes with the JDK.
+But I will start with one limitation that applies regardless of the compiler.
+
+---+++++ Dependencies on Self
 
 If we look closely at this model, we see that recursive method calls and
 certain types of recursive structures can generate dependencies between
@@ -566,6 +567,49 @@ with.  Likewise, if a class needs itself, well it is already there.
 So Dependency Finder does not keep track of dependencies on self.  This
 includes implicit dependencies from a class or feature to its package, or
 from a package to itself.
+
+---+++++ Constants
+
+It is often the case that Dependency Finder cannot track dependencies on
+simple =static final= constants.
+
+In Java, you can define constants in classes and interfaces by marking them
+as =static= and =final=.  Subclasses or implementations cannot override the
+constants because they are static.  No one can change the value because it
+is final.  As a result, the compiler can use local optimizations to speed up
+execution.  When these constants are of primitive types or =String=, the
+compiler can inline the value directly in the client class, so that it makes
+no reference at all to the class that owns the constant.
+
+Under these circumstances, Dependency Finder cannot track dependencies on
+simple constants that are referenced from outside their class.  If the
+constant are of some object type other than =String=, the compiler cannot
+perform the optimization and Dependency Finder will be able to track
+dependencis on them.
+
+---+++++ Local Variables
+
+Dependency Finder does not track the type of local variables in methods.
+
+The compiler does not need to keep track of the type of local variables.  It
+validates the assignment and then discards type information.  The virtual
+machine will validate the bytecode and make sure that it was not tampered
+with.  The compiler makes sure that an assignment to a local variable is
+type-safe.  Any method call on the variable will be made either on an
+interface or a class that is compatible with the type of the local variable.
+
+Most compilers have options to retain information about local variables,
+such as their name and type.  With =javac=, you have to supply the =-g=
+switch.  Doing this helps symbolic debuggers give more useful context
+information to their users.
+
+Given all this, it barely matters if Dependency Finder tracks dependencies
+on the type of local variables very closely.  Assignments will to objects
+whose type eventually reaches the exact type of the variable, and method
+calls will be made on that type's set of methods.  Dependency Finder loses
+no information by ignoring possible local variables, just a little precision.
+And since the virtual machine does not use that information, it does not
+impact runtime dependencies anyway.
 
 ---++++ Extracting With the GUI
 
@@ -611,6 +655,115 @@ Or you can use Java serialization to save the graph:
     <dd><i>At this time, Dependency Finder cannot deserialize the graph
     back.</i></dd>
 </dl>
+
+---+++++ Example
+
+Here is a simple, concrete example.  We start with a trivial Java class in
+the file =test.java= and compiled into =test.class=.
+
+    import java.util.*;
+    
+    public class test {
+        public static void main(String[] args) {
+            Collection c = Collections.singleton(new Object());
+        }
+    }
+
+Here is the raw output dependency graph.
+
+    C:\>DependencyExtractor test.class
+    
+        test
+            --> java.lang.Object
+            main(java.lang.String[])
+                --> java.lang.Object
+                --> java.lang.Object.Object()
+                --> java.lang.String
+                --> java.util.Collections.singleton(java.lang.Object)
+                --> java.util.Set
+            test()
+                --> java.lang.Object.Object()
+    java.lang
+        Object
+            <-- test
+            <-- test.main(java.lang.String[])
+            Object()
+                <-- test.main(java.lang.String[])
+                <-- test.test()
+        String
+            <-- test.main(java.lang.String[])
+    java.util
+        Collections
+            singleton(java.lang.Object)
+                <-- test.main(java.lang.String[])
+        Set
+            <-- test.main(java.lang.String[])
+
+We can save it to an XML document for use with the other tools.
+
+    C:\>DependencyFinder -xml -out test.xml test.class
+
+And narrow down the graph to class-to-class dependencies.
+
+    C:\>c2c -scope-includes /test/ test.xml
+    
+        test
+            --> java.lang.Object
+            --> java.lang.String
+            --> java.util.Collections
+            --> java.util.Set
+
+=c2c= is a shortcut for a set of switches to =DependencyReporter=.  All the
+following commands are equivalent.
+
+    C:\>c2c -scope-includes /test/ test.xml
+    C:\>c2c -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -c2c -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -class-scope -class-scope-includes /test/ -class-filter test.xml
+
+For fun, I entered manually entered this graph description into
+[[http://www.gentleware.de/products/poseidonCE.php3][Poseidon for UML]].
+
+<div align="center">
+    [[images/ClassClassDependencies.test.jpg]]
+*Class-to-Class Dependencies*
+</div>
+
+We can narrow the graph further to class-to-package dependencies.  Again, all
+these commands are equivalent.
+
+    C:\>c2p -scope-includes /test/ test.xml
+    C:\>c2p -class-scope-includes /test/ test.xml
+    C:\>DependencyReporter -c2p -scope-includes /test/ test.xml
+    C:\>DependencyReporter -class-scope -class-scope-includes /test/ -package-filter test.xml
+    
+        test
+            --> java.lang
+            --> java.util
+
+<div align="center">
+    [[images/ClassPackageDependencies.test.jpg]]
+*Class-to-Package Dependencies*
+</div>
+
+Finally, a package-to-package dependency graph.  All these commands are
+equivalent.
+
+    C:\>p2p test.xml
+    C:\>DependencyReporter -p2p test.xml
+    C:\>DependencyReporter -package-scope -package-filter test.xml
+    
+        --> java.lang
+        --> java.util
+    java.lang
+        <-- 
+    java.util
+        <-- 
+
+<div align="center">
+    [[images/PackagePackageDependencies.test.jpg]]
+*Package-to-Package Dependencies*
+</div>
 
 ---++++ Extracting With the Web Application
 
@@ -745,7 +898,10 @@ with the same graph as if you had minimized the original graph.
     [[images/MinMaxVIII.gif]]
 </div>
 
-Here is a simple, concrete example.  We start with a trivial Java class.
+---+++++ Example
+
+Here is a simple, concrete example.  We start with a our trivial Java class
+from before.
 
     import java.util.*;
     
@@ -981,11 +1137,12 @@ effect through command-line switches.
 *Scope Controls*
 </div>
 
-Second, you specify Perl regular expressions in two text fields.  A node must
-match the regular expression in the first field and *not* match the one in
-the second field.  You can put multiple regular expressions in one field,
-separate them with commans and they will be or'ed together.  On the
-command-line, just repeat the switches.
+Secondly, you specify Perl regular expressions in an including and an
+excluding text fields.  A node must match the regular expressions in the
+including field and *not* match the ones in the excluding field.  You can
+put multiple regular expressions in each field, separate them with commas
+and they will be or'ed together.  On the command-line, just repeat the
+switches.
 
 <div align="center">
     [[images/ScopeControls.simple.highcriteria.jpg]]
@@ -1192,24 +1349,26 @@ Examples:
 
 ---++++ Advanced View
 
+So far, we have seen an interface where the Perl regular expressions apply
+to all software artifacts, regardless of whether they are packages, classes,
+or features.  Dependency Finder has a more elaborate interface, called the
+advanced view, which allows you to specify regular expressions that apply
+only to packages, or only to classes, or only to features.
+
 <div align="center">
     [[images/ScopeControls.advanced.jpg]]
 </div>
 
-Both scoping and filtering have their own selection process that
-includes inclusion and exclusion criteria.  A given node is selected
-if it meets any of the inclusion criteria for scoping and meets none
-of the exclusion criteria for scoping.  Once a node is selected, we
-look at the nodes at the other end of links to and from this node;
-the link is selected if the other node meets any of the inclusion
-criteria for filtering and meets none of the exclusion criteria for
-filtering.
+The checkboxes to select packages, classes, and features are arrayed on the
+left of the user interface.  The text fields next to each one are for regular
+expressions that will apply only to that type of programming element or
+software artifact.  The top field in each column is from the simple view and
+applies to all artifacts.
 
-From the start, you decide if each selection process applies to
-packages, classes, and features.  In =DependencyFinder=, you do this
-through checkboxes.  In =DependencyReporter=, you do it through
-specific command line switches.  =DependencyReporter= also has
-shortcuts that can replace multiple switches.
+We achieve the same effect in the CLI by using multiple switches.  For
+instance, =-feature-scope-includes= is for the "including" field in the
+"Select programming elements" group that applies only to features.  It is
+used in scoping feature nodes, if you use it along with =-feature-scope=.
 
 E.g.,
 
@@ -1221,66 +1380,12 @@ E.g.,
 
     C:\>DependencyReporter -f2f
 
-<div align="center">
-    [[images/ScopeControls.advanced.highcontrols.jpg]]
-*Scope Controls GUI*
-</div>
-
-Each process has separate criteria for inclusion and exclusion.  They
-work the same way, as far as matching nodes is concerned.  The
-difference is only in how the process uses the outcome to decide
-whether to keep a node or link or not.  For a node or link to be
-selected, it must meet AT LEAST ONE of the relevant inclusion
-criteria and NONE of the relevant exclusion criteria.
-
-In each case, the criteria are a series of regular expressions applied
-to a node's name.  Each series is composed of the union of two groups
-out of four difference sets.  Which sets are selected depends on the
-type of the node, whether it is a node for a package, class, or
-feature.
-
-The first set of regular expressions applies regardless of the type
-of node.  You specify it with the top text field in the GUI.  This
-is the only set that you can specify when using the simple form.  Of
-the remaining three sets, one applies only to package nodes, one only
-to class nodes, and the last one only to feature nodes.  The GUI
-places each one on a row with the corresponding labels.
-
-The following picture summarizes which sets are relevant.  Regular
-expressions in the red areas apply to packages, those in the white
-areas apply to classes, and those in blue areas apply to features.
-
-<div align="center">
-    [[images/ScopeControls.selection.jpg]]
-*Relevant Selection Criteria*
-</div>
-
-To repeat, each criterion is a set of Perl regular expressions.  For
-scoping, the name of the node must match at least one of the regular
-expressions for it to meet the criterion.  Filtering is always done
-relative to a node that is in scope.  A link will be selected if the
-name of the node at the other end of the link passes the filtering
-selection process.
-
-In =DependencyFinder=, you specify criteria through a number of text
-areas.  In =DependencyReporter=, you do it with specific command line
-switches.  You specify multiple regular expressions for a set by
-using separating them with commas in the GUI or by using the same
-command line switch multiple times.
-
-E.g.,
-
     C:\>DependencyReporter -scope-includes //
 
     C:\>DependencyReporter -scope-includes //                       \
                            -scope-excludes /Test/                   \
                            -feature-scope-includes /someMethod/     \
                            -feature-scope-includes /anotherMethod/
-
-<div align="center">
-    [[images/ScopeControls.advanced.highcriteria.jpg]]
-*Scope Criteria GUI*
-</div>
 
 ---++++ Showing Only Inbound Dependencies
 
@@ -1314,6 +1419,29 @@ the following tools:
     * =ListDependablesToText=
     * =ListDependablesToHTML=
 
+E.g.,
+
+    C:\>ListDependablesToText -in test.xml
+    
+        test
+            test.main(java.lang.String[])
+            test.test()
+    java.lang
+        java.lang.Object
+            <-- test
+            <-- test.main(java.lang.String[])
+            java.lang.Object.Object()
+                <-- test.main(java.lang.String[])
+                <-- test.test()
+        java.lang.String
+            <-- test.main(java.lang.String[])
+    java.util
+        java.util.Collections
+            java.util.Collections.singleton(java.lang.Object)
+                <-- test.main(java.lang.String[])
+        java.util.Set
+            <-- test.main(java.lang.String[])
+
 The HTML is weaved HTML cross-references between all the elements for easy
 navigation.
 
@@ -1321,6 +1449,25 @@ You can list only non-empty nodes with:
 
     * =DependablesToText=
     * =DependablesToHTML=
+
+E.g.,
+
+    C:\>DependablesToText -in test.xml
+    java.lang
+        java.lang.Object
+            <-- test
+            <-- test.main(java.lang.String[])
+            java.lang.Object.Object()
+                <-- test.main(java.lang.String[])
+                <-- test.test()
+        java.lang.String
+            <-- test.main(java.lang.String[])
+    java.util
+        java.util.Collections
+            java.util.Collections.singleton(java.lang.Object)
+                <-- test.main(java.lang.String[])
+        java.util.Set
+            <-- test.main(java.lang.String[])
 
 ---++++ Showing Only Outbound Dependencies
 
@@ -1355,6 +1502,29 @@ the following tools:
     * =ListDependentsToText=
     * =ListDependentsToHTML=
 
+E.g.,
+
+    C:\>ListDependentsToText -in test.xml
+    
+        test
+            --> java.lang.Object
+            test.main(java.lang.String[])
+                --> java.lang.Object
+                --> java.lang.Object.Object()
+                --> java.lang.String
+                --> java.util.Collections.singleton(java.lang.Object)
+                --> java.util.Set
+            test.test()
+                --> java.lang.Object.Object()
+    java.lang
+        java.lang.Object
+            java.lang.Object.Object()
+        java.lang.String
+    java.util
+        java.util.Collections
+            java.util.Collections.singleton(java.lang.Object)
+        java.util.Set
+
 The HTML is weaved HTML cross-references between all the elements for easy
 navigation.
 
@@ -1362,6 +1532,21 @@ You can list only non-empty nodes with:
 
     * =DependentsToText=
     * =DependentsToHTML=
+
+E.g.,
+
+    C:\>DependentsToText -in test.xml
+    
+        test
+            --> java.lang.Object
+            test.main(java.lang.String[])
+                --> java.lang.Object
+                --> java.lang.Object.Object()
+                --> java.lang.String
+                --> java.util.Collections.singleton(java.lang.Object)
+                --> java.util.Set
+            test.test()
+                --> java.lang.Object.Object()
 
 ---++++ Showing Both Inbounds And Outbound Dependencies
 
@@ -1383,16 +1568,41 @@ something more user-friendly.  Dependency Finder provides two sample
 stylesheets to show all dependencies.  You can apply them with the
 following tools:
 
-    * =ListDependenciesToText=
-    * =ListDependenciesToHTML=
+    * =DependenciesToText=
+    * =DependenciesToHTML=
 
 The HTML is weaved HTML cross-references between all the elements for easy
 navigation.
 
-You can list only non-empty nodes with:
+E.g.,
 
-    * =DependenciesToText=
-    * =DependenciesToHTML=
+    C:\>DependenciesToText -in test.xml
+    
+        test
+            --> java.lang.Object
+            test.main(java.lang.String[])
+                --> java.lang.Object
+                --> java.lang.Object.Object()
+                --> java.lang.String
+                --> java.util.Collections.singleton(java.lang.Object)
+                --> java.util.Set
+            test.test()
+                --> java.lang.Object.Object()
+    java.lang
+        java.lang.Object
+            <-- test
+            <-- test.main(java.lang.String[])
+            java.lang.Object.Object()
+                <-- test.main(java.lang.String[])
+                <-- test.test()
+        java.lang.String
+            <-- test.main(java.lang.String[])
+    java.util
+        java.util.Collections
+            java.util.Collections.singleton(java.lang.Object)
+                <-- test.main(java.lang.String[])
+        java.util.Set
+            <-- test.main(java.lang.String[])
 
 ---+++ Transitive Closure
 
@@ -1752,6 +1962,14 @@ Select =File&nbsp;|&nbsp;Extract=; this will popup a file dialog.
 Select the files and/or directories to extract from and click =Extract=.
 You can repeat this command as often as needed; each time, the extracted
 metrics will be added to the current set of metrics in memory.
+
+You can limit the number of rows on display with the filtering mechanism at
+the bottom of the user interface.  You enter a Perl regular expression in
+the text field and click the button marked =Filter:=.
+
+You can sort entries by the value of any measurement by clicking on the
+header of each column.  Each mouse click alternates between ascending
+and descending sorting order.  This also works for the =name= column.
 
 ---++++ Extracting With the CLI
 
