@@ -47,56 +47,51 @@ public class UglyPrinter extends Printer {
 
     public void VisitClass_info(Class_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_Class).Append(":");
-		Append("Class name=").Append(entry.Name()).Append("\n");
+		Append("Class name=").Append(entry.Name()).EOL();
     }
 
     public void VisitFieldRef_info(FieldRef_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_Fieldref).Append(":");
-		Append("Field class=").Append(entry.Class()).Append(" name&type=").Append(entry.NameAndType()).Append("\n");
+		Append("Field class=").Append(entry.Class()).Append(" name&type=").Append(entry.NameAndType()).EOL();
     }
 
     public void VisitMethodRef_info(MethodRef_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_Methodref).Append(":");
-		Append("Method class=").Append(entry.Class()).Append(" name&type=").Append(entry.NameAndType()).Append("\n");
+		Append("Method class=").Append(entry.Class()).Append(" name&type=").Append(entry.NameAndType()).EOL();
     }
 
     public void VisitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_InterfaceMethodref).Append(":");
-		Append("Interface method class=").Append(entry.Class()).Append(" name&type=").Append(entry.NameAndType()).Append("\n");
+		Append("Interface method class=").Append(entry.Class()).Append(" name&type=").Append(entry.NameAndType()).EOL();
     }
 
     public void VisitString_info(String_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_String).Append(":");
-		Append("String value=").Append(entry.Value()).Append("\n");
+		Append("String value=").Append(entry.Value()).EOL();
     }
 
     public void VisitInteger_info(Integer_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_Integer).Append(":");
-		Append("Integer value=").Append(entry.Value()).Append("\n");
-    }
-
-    public void VisitFloat_info(Float_info entry) {
-		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_Float).Append(":");
-	    Append("Float value=").Append(entry.Value()).Append("\n");
+		Append("Integer value=").Append(entry.Value()).EOL();
     }
 
     public void VisitLong_info(Long_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_Long).Append(":");
-		Append("Long value=").Append(entry.Value()).Append("\n");
+		Append("Long value=").Append(entry.Value()).EOL();
     }
 
     public void VisitDouble_info(Double_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_Double).Append(":");
-	    Append("Double value=").Append(entry.Value()).Append("\n");
+	    Append("Double value=").Append(entry.Value()).EOL();
     }
 
     public void VisitNameAndType_info(NameAndType_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_NameAndType).Append(":");
-		Append("NameAndType name=").Append(entry.Name()).Append(" type=").Append(entry.Type()).Append("\n");
+		Append("NameAndType name=").Append(entry.Name()).Append(" type=").Append(entry.Type()).EOL();
     }
 
     public void VisitUTF8_info(UTF8_info entry) {
 		Append(CurrentCount()).Append(": ").Append(ConstantPoolEntry.CONSTANT_Utf8).Append(":");
-		Append("\"").Append(entry.Value()).Append("\"").Append("\n");
+		Append("\"").Append(entry.Value()).Append("\"").EOL();
     }
 }

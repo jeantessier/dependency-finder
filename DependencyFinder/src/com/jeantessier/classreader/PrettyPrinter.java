@@ -48,7 +48,7 @@ public class PrettyPrinter extends Printer {
 	public void VisitClassfile(Classfile classfile) {
 		classfile.ConstantPool().Accept(this);
 
-		Append(classfile.Declaration()).Append(" {\n");
+		Append(classfile.Declaration()).Append(" {").EOL();
 
 		Iterator i;
 
@@ -62,7 +62,7 @@ public class PrettyPrinter extends Printer {
 			((Visitable) i.next()).Accept(this);
 		}
 
-		Append("}\n");
+		Append("}").EOL();
 	}
 
 	public void VisitClass_info(Class_info entry) {
@@ -71,7 +71,7 @@ public class PrettyPrinter extends Printer {
 			Append(CurrentCount()).Append(": ");
 			Append("Class ");
 			entry.RawName().Accept(this);
-			Append("\n");
+			EOL();
 			top = true;
 		} else {
 			entry.RawName().Accept(this);
@@ -91,7 +91,7 @@ public class PrettyPrinter extends Printer {
 			c.Accept(this);
 			Append(".");
 			nat.RawName().Accept(this);
-			Append("\n");
+			EOL();
 			top = true;
 		} else {
 			nat.RawType().Accept(this);
@@ -114,7 +114,7 @@ public class PrettyPrinter extends Printer {
 			Append(".");
 			nat.RawName().Accept(this);
 			nat.RawType().Accept(this);
-			Append("\n");
+			EOL();
 			top = true;
 		} else {
 			c.Accept(this);
@@ -136,7 +136,7 @@ public class PrettyPrinter extends Printer {
 			Append(".");
 			nat.RawName().Accept(this);
 			nat.RawType().Accept(this);
-			Append("\n");
+			EOL();
 			top = true;
 		} else {
 			c.Accept(this);
@@ -149,10 +149,9 @@ public class PrettyPrinter extends Printer {
 	public void VisitString_info(String_info entry) {
 		if (top) {
 			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("String ");
+			Append(CurrentCount()).Append(": String ");
 			entry.RawValue().Accept(this);
-			Append("\n");
+			EOL();
 			top = true;
 		} else {
 			entry.RawValue().Accept(this);
@@ -161,11 +160,7 @@ public class PrettyPrinter extends Printer {
 
 	public void VisitInteger_info(Integer_info entry) {
 		if (top) {
-			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Integer ").Append(entry.Value());
-			Append("\n");
-			top = true;
+			Append(CurrentCount()).Append(": Integer ").Append(entry.Value()).EOL();
 		} else {
 			Append(entry.Value());
 		}
@@ -173,11 +168,7 @@ public class PrettyPrinter extends Printer {
 
 	public void VisitFloat_info(Float_info entry) {
 		if (top) {
-			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Float ").Append(entry.Value());
-			Append("\n");
-			top = true;
+			Append(CurrentCount()).Append(": Float ").Append(entry.Value()).EOL();
 		} else {
 			Append(entry.Value());
 		}
@@ -185,11 +176,7 @@ public class PrettyPrinter extends Printer {
 
 	public void VisitLong_info(Long_info entry) {
 		if (top) {
-			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Long ").Append(entry.Value());
-			Append("\n");
-			top = true;
+			Append(CurrentCount()).Append(": Long ").Append(entry.Value()).EOL();
 		} else {
 			Append(entry.Value());
 		}
@@ -197,11 +184,7 @@ public class PrettyPrinter extends Printer {
 
 	public void VisitDouble_info(Double_info entry) {
 		if (top) {
-			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Double ").Append(entry.Value());
-			Append("\n");
-			top = true;
+			Append(CurrentCount()).Append(": Double ").Append(entry.Value()).EOL();
 		} else {
 			Append(entry.Value());
 		}
@@ -210,12 +193,11 @@ public class PrettyPrinter extends Printer {
 	public void VisitNameAndType_info(NameAndType_info entry) {
 		if (top) {
 			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("Name and Type ");
+			Append(CurrentCount()).Append(": Name and Type ");
 			entry.RawName().Accept(this);
 			Append(" ");
 			entry.RawType().Accept(this);
-			Append("\n");
+			EOL();
 			top = true;
 		} else {
 			entry.RawName().Accept(this);
@@ -226,20 +208,17 @@ public class PrettyPrinter extends Printer {
 
 	public void VisitUTF8_info(UTF8_info entry) {
 		if (top) {
-			top = false;
-			Append(CurrentCount()).Append(": ");
-			Append("\"").Append(entry.Value()).Append("\"").Append("\n");
-			top = true;
+			Append(CurrentCount()).Append(": \"").Append(entry.Value()).Append("\"").EOL();
 		} else {
 			Append(entry.Value());
 		}
 	}
 
 	public void VisitField_info(Field_info entry) {
-		Append("    ").Append(entry.Declaration()).Append(";\n");
+		Append("    ").Append(entry.Declaration()).Append(";").EOL();
 	}
 
 	public void VisitMethod_info(Method_info entry) {
-		Append("    ").Append(entry.Declaration()).Append(";\n");
+		Append("    ").Append(entry.Declaration()).Append(";").EOL();
 	}
 }

@@ -209,36 +209,36 @@ public class MetricsFactory {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		result.append("Factory for project \"").append(project_name).append("\"\n");
+		result.append("Factory for project \"").append(project_name).append("\"").append(System.getProperty("line.separator", "\n"));
 
 		Iterator i;
 		
-		result.append("projects:\n");
+		result.append("projects:").append(System.getProperty("line.separator", "\n"));
 		i = projects.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
-			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("\n");
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("").append(System.getProperty("line.separator", "\n"));
 		}
 		
-		result.append("groups:\n");
+		result.append("groups:").append(System.getProperty("line.separator", "\n"));
 		i = groups.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
-			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("\n");
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("").append(System.getProperty("line.separator", "\n"));
 		}
 		
-		result.append("classes:\n");
+		result.append("classes:").append(System.getProperty("line.separator", "\n"));
 		i = classes.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
-			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("\n");
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("").append(System.getProperty("line.separator", "\n"));
 		}
 		
-		result.append("methods:\n");
+		result.append("methods:").append(System.getProperty("line.separator", "\n"));
 		i = methods.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
-			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("\n");
+			result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).Name()).append("").append(System.getProperty("line.separator", "\n"));
 		}
 		
 		return result.toString();

@@ -52,6 +52,15 @@ public class ListDiffPrinter {
 
 	public ListDiffPrinter(String indent_text) {
 		this.indent_text = indent_text;
+
+		AppendHeader();
+	}
+
+	private void AppendHeader() {
+		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").EOL();
+		EOL();
+		Append("<!DOCTYPE list-diff STSTEM \"http://depfind.sourceforge.net/dtd/list-diff.dtd\">").EOL();
+		EOL();
 	}
 
 	public String Name() {
@@ -160,6 +169,10 @@ public class ListDiffPrinter {
 		return this;
 	}
 
+	protected ListDiffPrinter EOL() {
+		return Append(System.getProperty("line.separator", "\n"));
+	}
+
 	protected void RaiseIndent() {
 		indent_level++;
 	}
@@ -169,54 +182,40 @@ public class ListDiffPrinter {
 	}
 
 	public String toString() {
-		Indent().Append(Preamble());
-		Indent().Append("\n");
-
-		Indent().Append("<list-diff>\n");
+		Indent().Append("<list-diff>").EOL();
 		RaiseIndent();
 
-		Indent().Append("<name>").Append(Name()).Append("</name>\n");
-		Indent().Append("<old>").Append(OldVersion()).Append("</old>\n");
-		Indent().Append("<new>").Append(NewVersion()).Append("</new>\n");
+		Indent().Append("<name>").Append(Name()).Append("</name>").EOL();
+		Indent().Append("<old>").Append(OldVersion()).Append("</old>").EOL();
+		Indent().Append("<new>").Append(NewVersion()).Append("</new>").EOL();
 	
-		Indent().Append("<removed>\n");
+		Indent().Append("<removed>").EOL();
 		RaiseIndent();
 
 		Iterator i;
 
 		i = Removed().iterator();
 		while (i.hasNext()) {
-			Indent().Append("<line>").Append(i.next()).Append("</line>\n");
+			Indent().Append("<line>").Append(i.next()).Append("</line>").EOL();
 		}
 
 		LowerIndent();
-		Indent().Append("</removed>\n");
+		Indent().Append("</removed>").EOL();
 	
-		Indent().Append("<added>\n");
+		Indent().Append("<added>").EOL();
 		RaiseIndent();
 		
 		i = Added().iterator();
 		while (i.hasNext()) {
-			Indent().Append("<line>").Append(i.next()).Append("</line>\n");
+			Indent().Append("<line>").Append(i.next()).Append("</line>").EOL();
 		}
 		
 		LowerIndent();
-		Indent().Append("</added>\n");
+		Indent().Append("</added>").EOL();
 
 		LowerIndent();
-		Indent().Append("</list-diff>\n");
+		Indent().Append("</list-diff>").EOL();
 		
 		return buffer.toString();
-	}
-
-	private String Preamble() {
-		StringBuffer result = new StringBuffer();
-        
-		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
-		result.append("\n");
-		result.append("<!DOCTYPE list-diff STSTEM \"http://depfind.sourceforge.net/dtd/list-diff.dtd\">\n");
-		result.append("\n");
-
-		return result.toString();
 	}
 }

@@ -39,18 +39,33 @@ public class XMLPrinter extends Printer {
 
 	public XMLPrinter() {
 		super();
+
+		AppendHeader();
 	}
 
 	public XMLPrinter(TraversalStrategy strategy) {
 		super(strategy);
+
+		AppendHeader();
 	}
 
 	public XMLPrinter(String indent_text) {
 		super(indent_text);
+
+		AppendHeader();
 	}
 
 	public XMLPrinter(TraversalStrategy strategy, String indent_text) {
 		super(strategy, indent_text);
+
+		AppendHeader();
+	}
+
+	private void AppendHeader() {
+		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>").EOL();
+		EOL();
+		Append("<!DOCTYPE dependencies SYSTEM \"http://depfind.sourceforge.net/dtd/dependencies.dtd\">").EOL();
+		EOL();
 	}
 
 	public void TraverseNodes(Collection nodes) {
@@ -58,87 +73,75 @@ public class XMLPrinter extends Printer {
 			super.TraverseNodes(nodes);
 		} else {
 			at_top_level = true;
-			Append(Preamble());
-			Indent().Append("<dependencies>").Append("\n");
+			Indent().Append("<dependencies>").EOL();
 			RaiseIndent();
 			super.TraverseNodes(nodes);
 			LowerIndent();
-			Indent().Append("</dependencies>").Append("\n");
+			Indent().Append("</dependencies>").EOL();
 			at_top_level = false;
 		}
-	}
-
-	private String Preamble() {
-		StringBuffer result = new StringBuffer();
-
-		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
-		result.append("\n");
-		result.append("<!DOCTYPE dependencies SYSTEM \"http://depfind.sourceforge.net/dtd/dependencies.dtd\">\n");
-		result.append("\n");
-
-		return result.toString();
 	}
 
 	protected void PreprocessPackageNode(PackageNode node) {
 		super.PreprocessPackageNode(node);
 
-		Indent().Append("<package>").Append("\n");
+		Indent().Append("<package>").EOL();
 		RaiseIndent();
-		Indent().Append("<name>").Append(node.Name()).Append("</name>\n");
+		Indent().Append("<name>").Append(node.Name()).Append("</name>").EOL();
 	}
 
 	protected void PostprocessPackageNode(PackageNode node) {
 		LowerIndent();
-		Indent().Append("</package>").Append("\n");
+		Indent().Append("</package>").EOL();
 	}
 
 	public void VisitInboundPackageNode(PackageNode node) {
-		Indent().Append("<inbound type=\"package\">").Append(node.Name()).Append("</inbound>\n");
+		Indent().Append("<inbound type=\"package\">").Append(node.Name()).Append("</inbound>").EOL();
 	}
 
 	public void VisitOutboundPackageNode(PackageNode node) {
-		Indent().Append("<outbound type=\"package\">").Append(node.Name()).Append("</outbound>\n");
+		Indent().Append("<outbound type=\"package\">").Append(node.Name()).Append("</outbound>").EOL();
 	}
 
 	protected void PreprocessClassNode(ClassNode node) {
 		super.PreprocessClassNode(node);
 
-		Indent().Append("<class>").Append("\n");
+		Indent().Append("<class>").EOL();
 		RaiseIndent();
-		Indent().Append("<name>").Append(node.Name()).Append("</name>\n");
+		Indent().Append("<name>").Append(node.Name()).Append("</name>").EOL();
 	}
 
 	protected void PostprocessClassNode(ClassNode node) {
 		LowerIndent();
-		Indent().Append("</class>").Append("\n");
+		Indent().Append("</class>").EOL();
 	}
 
 	public void VisitInboundClassNode(ClassNode node) {
-		Indent().Append("<inbound type=\"class\">").Append(node.Name()).Append("</inbound>\n");
+		Indent().Append("<inbound type=\"class\">").Append(node.Name()).Append("</inbound>").EOL();
 	}
 
 	public void VisitOutboundClassNode(ClassNode node) {
-		Indent().Append("<outbound type=\"class\">").Append(node.Name()).Append("</outbound>\n");
+		Indent().Append("<outbound type=\"class\">").Append(node.Name()).Append("</outbound>").EOL();
 	}
 
 	protected void PreprocessFeatureNode(FeatureNode node) {
 		super.PreprocessFeatureNode(node);
 
-		Indent().Append("<feature>").Append("\n");
+		Indent().Append("<feature>").EOL();
 		RaiseIndent();
-		Indent().Append("<name>").Append(node.Name()).Append("</name>\n");
+		Indent().Append("<name>").Append(node.Name()).Append("</name>").EOL();
 	}
 
 	protected void PostprocessFeatureNode(FeatureNode node) {
 		LowerIndent();
-		Indent().Append("</feature>").Append("\n");
+		Indent().Append("</feature>").EOL();
 	}
 
 	public void VisitInboundFeatureNode(FeatureNode node) {
-		Indent().Append("<inbound type=\"feature\">").Append(node.Name()).Append("</inbound>\n");
+		Indent().Append("<inbound type=\"feature\">").Append(node.Name()).Append("</inbound>").EOL();
 	}
 
 	public void VisitOutboundFeatureNode(FeatureNode node) {
-		Indent().Append("<outbound type=\"feature\">").Append(node.Name()).Append("</outbound>\n");
+		Indent().Append("<outbound type=\"feature\">").Append(node.Name()).Append("</outbound>").EOL();
 	}
 }

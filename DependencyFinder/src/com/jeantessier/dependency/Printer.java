@@ -68,7 +68,7 @@ public abstract class Printer extends VisitorBase {
 	protected void PopBuffer(String message) {
 		StringBuffer buffer = (StringBuffer) buffers.removeLast();
 
-		Indent().Append(message).Append("\n");
+		Indent().Append(message).EOL();
 		CurrentBuffer().append(buffer);
 	}
 
@@ -136,6 +136,10 @@ public abstract class Printer extends VisitorBase {
 		}
 
 		return this;
+	}
+
+	protected Printer EOL() {
+		return Append(System.getProperty("line.separator", "\n"));
 	}
 
 	protected void RaiseIndent() {

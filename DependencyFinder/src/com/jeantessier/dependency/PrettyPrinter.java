@@ -217,11 +217,11 @@ public class PrettyPrinter extends TextPrinter {
 		if (ShowEmptyNodes() || !dependencies.isEmpty()) {
 			LowerIndent();
 			if (Perl().match("/([^\\.]*\\(.*\\))$/", node.Name())) {
-				Indent().Append(Perl().group(1)).Append("\n");
+				Indent().Append(Perl().group(1)).EOL();
 			} else if (Perl().match("/([^\\.]*)$/", node.Name())) {
-				Indent().Append(Perl().group(1)).Append("\n");
+				Indent().Append(Perl().group(1)).EOL();
 			} else {
-				Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).Append("\n");
+				Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).EOL();
 			}
 			RaiseIndent();
 		}
@@ -267,11 +267,11 @@ public class PrettyPrinter extends TextPrinter {
 		while (i.hasNext()) {
 			Map.Entry entry = (Map.Entry) i.next();
 			if (((Integer) entry.getValue()).intValue() < 0) {
-				Indent().Append("<-- ").Append(entry.getKey()).Append("\n");
+				Indent().Append("<-- ").Append(entry.getKey()).EOL();
 			} else if (((Integer) entry.getValue()).intValue() > 0) {
-				Indent().Append("--> ").Append(entry.getKey()).Append("\n");
+				Indent().Append("--> ").Append(entry.getKey()).EOL();
 			} else {
-				Indent().Append("<-> ").Append(entry.getKey()).Append("\n");
+				Indent().Append("<-> ").Append(entry.getKey()).EOL();
 			}
 		}
 	}

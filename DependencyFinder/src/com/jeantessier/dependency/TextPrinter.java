@@ -60,7 +60,7 @@ public class TextPrinter extends Printer {
 	protected void PreprocessPackageNode(PackageNode node) {
 		super.PreprocessPackageNode(node);
 
-		Indent().Append(node.Name()).Append("\n");
+		Indent().Append(node.Name()).EOL();
 		RaiseIndent();
 	}
 
@@ -70,17 +70,17 @@ public class TextPrinter extends Printer {
 	}
 
 	public void VisitInboundPackageNode(PackageNode node) {
-		Indent().Append("<- ").Append(node.Name()).Append("\n");
+		Indent().Append("<- ").Append(node.Name()).EOL();
 	}
 
 	public void VisitOutboundPackageNode(PackageNode node) {
-		Indent().Append("-> ").Append(node.Name()).Append("\n");
+		Indent().Append("-> ").Append(node.Name()).EOL();
 	}
 
 	protected void PreprocessClassNode(ClassNode node) {
 		super.PreprocessClassNode(node);
 
-		Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).Append("\n");
+		Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).EOL();
 		RaiseIndent();
 	}
 
@@ -90,22 +90,22 @@ public class TextPrinter extends Printer {
 	}
 
 	public void VisitInboundClassNode(ClassNode node) {
-		Indent().Append("<- ").Append(node.Name()).Append("\n");
+		Indent().Append("<- ").Append(node.Name()).EOL();
 	}
 
 	public void VisitOutboundClassNode(ClassNode node) {
-		Indent().Append("-> ").Append(node.Name()).Append("\n");
+		Indent().Append("-> ").Append(node.Name()).EOL();
 	}
 
 	protected void PreprocessFeatureNode(FeatureNode node) {
 		super.PreprocessFeatureNode(node);
 
 		if (Perl().match("/([^\\.]*\\(.*\\))$/", node.Name())) {
-			Indent().Append(Perl().group(1)).Append("\n");
+			Indent().Append(Perl().group(1)).EOL();
 		} else if (Perl().match("/([^\\.]*)$/", node.Name())) {
-			Indent().Append(Perl().group(1)).Append("\n");
+			Indent().Append(Perl().group(1)).EOL();
 		} else {
-			Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).Append("\n");
+			Indent().Append(node.Name().substring(node.Name().lastIndexOf('.') + 1)).EOL();
 		}
 
 		RaiseIndent();
@@ -117,10 +117,10 @@ public class TextPrinter extends Printer {
 	}
 
 	public void VisitInboundFeatureNode(FeatureNode node) {
-		Indent().Append("<- ").Append(node.Name()).Append("\n");
+		Indent().Append("<- ").Append(node.Name()).EOL();
 	}
 
 	public void VisitOutboundFeatureNode(FeatureNode node) {
-		Indent().Append("-> ").Append(node.Name()).Append("\n");
+		Indent().Append("-> ").Append(node.Name()).EOL();
 	}
 }

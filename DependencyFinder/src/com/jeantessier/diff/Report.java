@@ -72,10 +72,21 @@ public class Report extends Printer {
 
 	public Report() {
 		super();
+
+		AppendHeader();
 	}
 
 	public Report(String indent) {
 		super(indent);
+
+		AppendHeader();
+	}
+
+	private void AppendHeader() {
+		Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").EOL();
+		EOL();
+		Append("<!DOCTYPE differences SYSTEM \"http://depfind.sourceforge.net/dtd/differences.dtd\">").EOL();
+		EOL();
 	}
 
 	public void VisitJarDifferences(JarDifferences differences) {
@@ -177,126 +188,125 @@ public class Report extends Printer {
 	}
 
 	public String toString() {
-		Indent().Append(Preamble());
-		Indent().Append("<differences>\n");
+		Indent().Append("<differences>").EOL();
 		RaiseIndent();
 
-		Indent().Append("<name>").Append(name).Append("</name>\n");
-		Indent().Append("<old>").Append(old_version).Append("</old>\n");
-		Indent().Append("<new>").Append(new_version).Append("</new>\n");
+		Indent().Append("<name>").Append(name).Append("</name>").EOL();
+		Indent().Append("<old>").Append(old_version).Append("</old>").EOL();
+		Indent().Append("<new>").Append(new_version).Append("</new>").EOL();
 	
 		if (removed_packages.size() !=0) {
-			Indent().Append("<removed-packages>\n");
+			Indent().Append("<removed-packages>").EOL();
 			RaiseIndent();
 
 			Iterator i = removed_packages.iterator();
 			while (i.hasNext()) {
-				Indent().Append("<name>").Append(i.next()).Append("</name>\n");
+				Indent().Append("<name>").Append(i.next()).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</removed-packages>\n");
+			Indent().Append("</removed-packages>").EOL();
 		}
 	
 		if (undocumented_packages.size() !=0) {
-			Indent().Append("<undocumented-packages>\n");
+			Indent().Append("<undocumented-packages>").EOL();
 			RaiseIndent();
 
 			Iterator i = undocumented_packages.iterator();
 			while (i.hasNext()) {
-				Indent().Append("<name>").Append(i.next()).Append("</name>\n");
+				Indent().Append("<name>").Append(i.next()).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</undocumented-packages>\n");
+			Indent().Append("</undocumented-packages>").EOL();
 		}
 
 		if (removed_interfaces.size() !=0) {
-			Indent().Append("<removed-interfaces>\n");
+			Indent().Append("<removed-interfaces>").EOL();
 			RaiseIndent();
 
 			Iterator i = removed_interfaces.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.OldClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.OldClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</removed-interfaces>\n");
+			Indent().Append("</removed-interfaces>").EOL();
 		}
 
 		if (removed_classes.size() !=0) {
-			Indent().Append("<removed-classes>\n");
+			Indent().Append("<removed-classes>").EOL();
 			RaiseIndent();
 
 			Iterator i = removed_classes.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.OldClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.OldClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</removed-classes>\n");
+			Indent().Append("</removed-classes>").EOL();
 		}
 
 		if (deprecated_interfaces.size() !=0) {
-			Indent().Append("<deprecated-interfaces>\n");
+			Indent().Append("<deprecated-interfaces>").EOL();
 			RaiseIndent();
 
 			Iterator i = deprecated_interfaces.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</deprecated-interfaces>\n");
+			Indent().Append("</deprecated-interfaces>").EOL();
 		}
 
 		if (deprecated_classes.size() !=0) {
-			Indent().Append("<deprecated-classes>\n");
+			Indent().Append("<deprecated-classes>").EOL();
 			RaiseIndent();
 
 			Iterator i = deprecated_classes.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</deprecated-classes>\n");
+			Indent().Append("</deprecated-classes>").EOL();
 		}
 
 		if (undocumented_interfaces.size() !=0) {
-			Indent().Append("<undocumented-interfaces>\n");
+			Indent().Append("<undocumented-interfaces>").EOL();
 			RaiseIndent();
 
 			Iterator i = undocumented_interfaces.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</undocumented-interfaces>\n");
+			Indent().Append("</undocumented-interfaces>").EOL();
 		}
 
 		if (undocumented_classes.size() !=0) {
-			Indent().Append("<undocumented-classes>\n");
+			Indent().Append("<undocumented-classes>").EOL();
 			RaiseIndent();
 
 			Iterator i = undocumented_classes.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</undocumented-classes>\n");
+			Indent().Append("</undocumented-classes>").EOL();
 		}
 
 		if (modified_interfaces.size() !=0) {
-			Indent().Append("<modified-interfaces>\n");
+			Indent().Append("<modified-interfaces>").EOL();
 			RaiseIndent();
 
 			Iterator i = modified_interfaces.iterator();
@@ -305,11 +315,11 @@ public class Report extends Printer {
 			}
 
 			LowerIndent();
-			Indent().Append("</modified-interfaces>\n");
+			Indent().Append("</modified-interfaces>").EOL();
 		}
 
 		if (modified_classes.size() !=0) {
-			Indent().Append("<modified-classes>\n");
+			Indent().Append("<modified-classes>").EOL();
 			RaiseIndent();
 
 			Iterator i = modified_classes.iterator();
@@ -318,134 +328,123 @@ public class Report extends Printer {
 			}
 
 			LowerIndent();
-			Indent().Append("</modified-classes>\n");
+			Indent().Append("</modified-classes>").EOL();
 		}
 
 		if (documented_interfaces.size() !=0) {
-			Indent().Append("<documented-interfaces>\n");
+			Indent().Append("<documented-interfaces>").EOL();
 			RaiseIndent();
 
 			Iterator i = documented_interfaces.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</documented-interfaces>\n");
+			Indent().Append("</documented-interfaces>").EOL();
 		}
 
 		if (documented_classes.size() !=0) {
-			Indent().Append("<documented-classes>\n");
+			Indent().Append("<documented-classes>").EOL();
 			RaiseIndent();
 
 			Iterator i = documented_classes.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</documented-classes>\n");
+			Indent().Append("</documented-classes>").EOL();
 		}
 
 		if (undeprecated_interfaces.size() !=0) {
-			Indent().Append("<undeprecated-interfaces>\n");
+			Indent().Append("<undeprecated-interfaces>").EOL();
 			RaiseIndent();
 
 			Iterator i = undeprecated_interfaces.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</undeprecated-interfaces>\n");
+			Indent().Append("</undeprecated-interfaces>").EOL();
 		}
 
 		if (undeprecated_classes.size() !=0) {
-			Indent().Append("<undeprecated-classes>\n");
+			Indent().Append("<undeprecated-classes>").EOL();
 			RaiseIndent();
 
 			Iterator i = undeprecated_classes.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</undeprecated-classes>\n");
+			Indent().Append("</undeprecated-classes>").EOL();
 		}
 
 		if (new_packages.size() !=0) {
-			Indent().Append("<new-packages>\n");
+			Indent().Append("<new-packages>").EOL();
 			RaiseIndent();
 
 			Iterator i = new_packages.iterator();
 			while (i.hasNext()) {
-				Indent().Append("<name>").Append(i.next()).Append("</name>\n");
+				Indent().Append("<name>").Append(i.next()).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</new-packages>\n");
+			Indent().Append("</new-packages>").EOL();
 		}
 	
 		if (documented_packages.size() !=0) {
-			Indent().Append("<documented-packages>\n");
+			Indent().Append("<documented-packages>").EOL();
 			RaiseIndent();
 
 			Iterator i = documented_packages.iterator();
 			while (i.hasNext()) {
-				Indent().Append("<name>").Append(i.next()).Append("</name>\n");
+				Indent().Append("<name>").Append(i.next()).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</documented-packages>\n");
+			Indent().Append("</documented-packages>").EOL();
 		}
 
 		if (new_interfaces.size() !=0) {
-			Indent().Append("<new-interfaces>\n");
+			Indent().Append("<new-interfaces>").EOL();
 			RaiseIndent();
 
 			Iterator i = new_interfaces.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</new-interfaces>\n");
+			Indent().Append("</new-interfaces>").EOL();
 		}
 
 		if (new_classes.size() !=0) {
-			Indent().Append("<new-classes>\n");
+			Indent().Append("<new-classes>").EOL();
 			RaiseIndent();
 
 			Iterator i = new_classes.iterator();
 			while (i.hasNext()) {
 				ClassDifferences cd = (ClassDifferences) i.next();
-				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>\n");
+				Indent().Append("<name").Append(DeclarationBreakdown(cd.NewClass())).Append(">").Append(cd).Append("</name>").EOL();
 			}
 
 			LowerIndent();
-			Indent().Append("</new-classes>\n");
+			Indent().Append("</new-classes>").EOL();
 		}
 
 		LowerIndent();
-		Indent().Append("</differences>\n");
+		Indent().Append("</differences>").EOL();
 
 		return super.toString();
-	}
-
-	private String Preamble() {
-		StringBuffer result = new StringBuffer();
-        
-		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
-		result.append("\n");
-		result.append("<!DOCTYPE differences SYSTEM \"http://depfind.sourceforge.net/dtd/differences.dtd\">\n");
-		result.append("\n");
-
-		return result.toString();
 	}
 
 	private static final String DeclarationBreakdown(Classfile element) {

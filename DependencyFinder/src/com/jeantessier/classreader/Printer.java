@@ -103,6 +103,10 @@ public abstract class Printer extends VisitorBase {
 		return this;
 	}
 
+	protected Printer EOL() {
+		return Append(System.getProperty("line.separator", "\n"));
+	}
+
 	protected void RaiseIndent() {
 		indent_level++;
 	}

@@ -44,7 +44,7 @@ public class CommandLineUsage implements Visitor {
     }
 
     public void Visit(CommandLine command_line) {
-		usage.append("USAGE: ").append(command).append("\n");
+		usage.append("USAGE: ").append(command).append(System.getProperty("line.separator", "\n"));
 
 		Iterator i = command_line.KnownSwitches().iterator();
 		while (i.hasNext()) {
@@ -58,33 +58,33 @@ public class CommandLineUsage implements Visitor {
 
     public void Visit(ToggleSwitch cls) {
 		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" (defaults to ").append(cls.DefaultValue()).append(")\n");
+			usage.append("       -").append(switch_name).append(" (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
 		} else {
-			usage.append("       [-").append(switch_name).append("] (defaults to ").append(cls.DefaultValue()).append(")\n");
+			usage.append("       [-").append(switch_name).append("] (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
 		}
     }
 
     public void Visit(SingleValueSwitch cls) {
 		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" value (defaults to ").append(cls.DefaultValue()).append(")\n");
+			usage.append("       -").append(switch_name).append(" value (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
 		} else {
-			usage.append("       [-").append(switch_name).append(" value] (defaults to ").append(cls.DefaultValue()).append(")\n");
+			usage.append("       [-").append(switch_name).append(" value] (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
 		}
     }
 
     public void Visit(OptionalValueSwitch cls) {
 		if (cls.Mandatory()) {
-			usage.append("       -").append(switch_name).append(" [value] (defaults to ").append(cls.DefaultValue()).append(")\n");
+			usage.append("       -").append(switch_name).append(" [value] (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
 		} else {
-			usage.append("       [-").append(switch_name).append(" [value]] (defaults to ").append(cls.DefaultValue()).append(")\n");
+			usage.append("       [-").append(switch_name).append(" [value]] (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
 		}
     }
 
     public void Visit(MultipleValuesSwitch cls) {
 		if (cls.Mandatory()) {
-			usage.append("       (-").append(switch_name).append(" value)+ (defaults to ").append(cls.DefaultValue()).append(")\n");
+			usage.append("       (-").append(switch_name).append(" value)+ (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
 		} else {
-			usage.append("       (-").append(switch_name).append(" value)* (defaults to ").append(cls.DefaultValue()).append(")\n");
+			usage.append("       (-").append(switch_name).append(" value)* (defaults to ").append(cls.DefaultValue()).append(")").append(System.getProperty("line.separator", "\n"));
 		}
     }
 
@@ -92,20 +92,20 @@ public class CommandLineUsage implements Visitor {
     }
 
     public void Visit(AnyParameterStrategy ps) {
-		usage.append("       [param ...]\n");
+		usage.append("       [param ...]").append(System.getProperty("line.separator", "\n"));
     }
 
     public void Visit(AtLeastParameterStrategy ps) {
 		for (int i=1; i<=ps.NbParameters(); i++) {
-			usage.append("       ").append("param").append(i).append("\n");
+			usage.append("       ").append("param").append(i).append(System.getProperty("line.separator", "\n"));
 		}
 
-		usage.append("       ...\n");
+		usage.append("       ...").append(System.getProperty("line.separator", "\n"));
     }
 
     public void Visit(ExactlyParameterStrategy ps) {
 		for (int i=1; i<=ps.NbParameters(); i++) {
-			usage.append("       ").append("param").append(i).append("\n");
+			usage.append("       ").append("param").append(i).append(System.getProperty("line.separator", "\n"));
 		}
     }
 
@@ -123,7 +123,7 @@ public class CommandLineUsage implements Visitor {
 			usage.append("]");
 		}
 
-		usage.append("\n");
+		usage.append(System.getProperty("line.separator", "\n"));
     }
 
     public String toString() {

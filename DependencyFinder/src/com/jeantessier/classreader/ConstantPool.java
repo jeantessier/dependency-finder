@@ -110,7 +110,9 @@ public class ConstantPool extends ArrayList implements Visitable {
     }
 
 	public String toString() {
-		StringBuffer result = new StringBuffer("Constant Pool:\n");
+		StringBuffer result = new StringBuffer();
+
+		result.append("Constant Pool:").append(System.getProperty("line.separator", "\n"));
 		
 		Printer printer = new UglyPrinter();
 		Accept(printer);
