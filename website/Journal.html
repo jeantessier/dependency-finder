@@ -17,6 +17,32 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	September 14, 2004
+    </dt>
+    <dd>
+	<p>Upgraded the following development components:</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td>Ant</td>
+	        <td>:</td>
+		<td>1.6.1</td>
+	        <td>-></td>
+		<td>1.6.2</td>
+	    </tr>
+	</table>
+	</blockquote>
+
+	<p>Revived the CVS diff reports using Ant's CvsTagDiff task.  I'm also
+	trying to have Ant generate change log reports, but the
+	<code>ssh</code> authentication is getting in the way.  I need to use
+	<code>pserver</code> access but it seems <code>cvs</code> won't let me
+	use it on a directory that was not checked out with
+	<code>pserver</code>.  So now I have to keep two copies of the
+	development tree just so I can generate reports.  This is annoying.</p>
+    </dd>
+    <dt>
 	September 12, 2004
     </dt>
     <dd>

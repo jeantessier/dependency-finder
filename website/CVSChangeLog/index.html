@@ -1,0 +1,47 @@
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
+
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>Dependency Finder - CVS Change Log</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<h2>CVS Change Log</h2>
+
+<p>This is the output of and <code>&lt;CvsChangeLog&gt;</code> on
+the CVS repository that hosts Dependency Finder.</p>
+
+<table cellspacing="3">
+    <tr>
+	<td>1.0.1</td>
+	<td>-</td>
+	<td>&nbsp;</td>
+	<td><a href="1.0.1-now.xml">XML</a></td>
+	<td><a href="1.0.1-now.html">HTML</a></td>
+    </tr>
+</table>
+
+<p>E.g.,</p>
+
+<pre>
+    &lt;target name="currentreport" depends="init"&gt;
+	&lt;cvschangelog cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind"
+		      start="11 Jul 2002"
+		      end="01 Jan 2003"
+		      destFile="20020711-20030101.xml"/&gt;
+	&lt;style in="20020711-20030101.xml"
+	       out="20020711-20030101.html"
+	       style="${ant.home}/etc/changelog.xsl"&gt;
+	    &lt;param name="title"  expression="Dependency Finder"/&gt;
+	    &lt;param name="module" expression="DependencyFinder"/&gt;
+	    &lt;param name="cvsweb" expression=""/&gt;
+	&lt;/style&gt;
+    &lt;/target&gt;
+</pre>
+
+</body>
+
+</html>
