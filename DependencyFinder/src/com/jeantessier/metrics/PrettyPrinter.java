@@ -52,7 +52,7 @@ public class PrettyPrinter extends Printer {
 	public void VisitMetrics(Metrics metrics) {
 		current_metrics = metrics;
 		
-		Indent().Append(metrics.Name()).Append("\n");
+		Indent().Append(metrics.Name()).EOL();
 		RaiseIndent();
 			
 		Iterator names = metrics.MeasurementNames().iterator();
@@ -62,7 +62,7 @@ public class PrettyPrinter extends Printer {
 
 		LowerIndent();
 
-		Append("\n");
+		EOL();
 	}
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
@@ -75,7 +75,7 @@ public class PrettyPrinter extends Printer {
 		Append(" ").Append(value_format.format(measurement.Maximum()));
 		Append(" ").Append(value_format.format(measurement.Sum()));
 		Append(" (").Append(value_format.format(measurement.NbDataPoints())).Append(")]");
-		Append("\n");
+		EOL();
 	}
 	
 	public void VisitRatioMeasurement(RatioMeasurement measurement) {
@@ -92,6 +92,6 @@ public class PrettyPrinter extends Printer {
 			// Do nothing, no ratio for this measurement
 		}
 		
-		Append("\n");
+		EOL();
 	}
 }

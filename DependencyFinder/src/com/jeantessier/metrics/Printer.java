@@ -103,6 +103,10 @@ public abstract class Printer implements MeasurementVisitor {
 		return this;
 	}
 
+	protected Printer EOL() {
+		return Append(System.getProperty("line.separator", "\n"));
+	}
+	
 	protected void RaiseIndent() {
 		indent_level++;
 	}

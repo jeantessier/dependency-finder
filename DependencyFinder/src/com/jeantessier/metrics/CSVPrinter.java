@@ -61,7 +61,7 @@ public class CSVPrinter extends Printer {
 			}
 		}
 
-		Append("\n");
+		EOL();
 	}
 
 	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement) {
@@ -100,7 +100,7 @@ public class CSVPrinter extends Printer {
 			}
 		}
 		
-		Append("\n");
+		EOL();
 		
 		is_first = false;
 	}
