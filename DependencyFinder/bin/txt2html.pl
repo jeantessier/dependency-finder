@@ -7,6 +7,7 @@ BEGIN {
     $TEXT .= "\n";
     $TEXT .= "<head>\n";
     $TEXT .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n";
+    $TEXT .= "<TITLE />\n";
     $TEXT .= "</head>\n";
     $TEXT .= "\n";
     $TEXT .= "<body>\n";
@@ -41,7 +42,9 @@ if (/^---(\++)\s*(.*)\s*/) {
     $TOC .= "<li><a href=\"#$anchor\">$title</a></li>\n" if $TOC_LEVEL > 1;
 
     $SHORT_TOC .= "<li><a href=\"#$anchor\">$title</a></li>\n" if $TOC_LEVEL == 2;
-    
+
+    $TITLE = "<title>$title</title\n" if $level == 1;
+
     $TEXT .= "<a name=\"$anchor\" />\n" if $level > 1;
     $_ = "<h$level>$title</h$level>\n";
 } elsif (/^-{4,}\s*$/) {
@@ -126,6 +129,8 @@ END {
     $SHORT_TOC .= "</ul>\n";
 
     $TEXT =~ s/<SHORT-TOC \/>/$SHORT_TOC/;
+
+    $TEXT =~ s/<TITLE \/>/$TITLE/;
 
     print $TEXT;
 }
