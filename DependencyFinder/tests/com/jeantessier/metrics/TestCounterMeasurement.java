@@ -211,12 +211,52 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		assertTrue(measurement.InRange());
 	}
 
+	public void testInStringLowerBoundRange() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(CounterMeasurement.class);
+		descriptor.LowerThreshold("1");
+
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		
+		assertTrue(!measurement.InRange());
+
+		measurement.Add(1);
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(2);
+		
+		assertTrue(measurement.InRange());
+	}
+
 	public void testInUpperBoundRange() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
 		descriptor.Class(CounterMeasurement.class);
 		descriptor.UpperThreshold(new Float(1.5));
+
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(1);
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(2);
+		
+		assertTrue(!measurement.InRange());
+	}
+
+	public void testInStringUpperBoundRange() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(CounterMeasurement.class);
+		descriptor.UpperThreshold("1.5");
 
 		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
 		
@@ -238,6 +278,27 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		descriptor.Class(CounterMeasurement.class);
 		descriptor.LowerThreshold(new Integer(1));
 		descriptor.UpperThreshold(new Float(1.5));
+
+		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
+		
+		assertTrue(!measurement.InRange());
+
+		measurement.Add(1);
+		
+		assertTrue(measurement.InRange());
+
+		measurement.Add(2);
+		
+		assertTrue(!measurement.InRange());
+	}
+
+	public void testInStringBoundRange() throws Exception {
+		MeasurementDescriptor descriptor = new MeasurementDescriptor();
+		descriptor.ShortName("foo");
+		descriptor.LongName("bar");
+		descriptor.Class(CounterMeasurement.class);
+		descriptor.LowerThreshold("1");
+		descriptor.UpperThreshold("1.5");
 
 		measurement = (CounterMeasurement) descriptor.CreateMeasurement();
 		

@@ -93,15 +93,35 @@ public abstract class MeasurementBase implements Measurement {
 		boolean result = true;
 
 		if (Descriptor() != null) {
-			Object lower_threshold = Descriptor().LowerThreshold();
-			Object upper_threshold = Descriptor().UpperThreshold();
+			Comparable lower_threshold = Descriptor().LowerThreshold();
+			Comparable upper_threshold = Descriptor().UpperThreshold();
 
-			if (result && lower_threshold instanceof Number) {
-				result = ((Number) lower_threshold).doubleValue() <= Compute();
+			if (result && lower_threshold != null) {
+				if (lower_threshold instanceof String) {
+					try {
+						result = Double.parseDouble((String) lower_threshold) <= Compute();
+					} catch (NumberFormatException ex) {
+						// Ignore
+					}
+				} else if (lower_threshold instanceof Number) {
+					result = ((Number) lower_threshold).doubleValue() <= Compute();
+				} else {
+					result = lower_threshold.compareTo(Value()) <= 0;
+				}
 			}
 			
-			if (result && upper_threshold instanceof Number) {
-				result = ((Number) upper_threshold).doubleValue() >= Compute();
+			if (result && upper_threshold != null) {
+				if (upper_threshold instanceof String) {
+					try {
+						result = Double.parseDouble((String) upper_threshold) >= Compute();
+					} catch (NumberFormatException ex) {
+						// Ignore
+					}
+				} else if (upper_threshold instanceof Number) {
+					result = ((Number) upper_threshold).doubleValue() >= Compute();
+				} else {
+					result = upper_threshold.compareTo(Value()) >= 0;
+				}
 			}
 		}
 		
