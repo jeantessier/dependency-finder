@@ -36,8 +36,8 @@
 
 	<property name="jarFile"        value="${libDir}/${ant.project.name}.jar"/>
 	<property name="warFile"        value="${ant.project.name}.war"/>
-	<property name="zipFile"        value="${ant.project.name}.${DSTAMP}.src.zip"/>
-	<property name="distFile"       value="${ant.project.name}.${DSTAMP}.zip"/>
+	<property name="zipFile"        value="${ant.project.name}.src.zip"/>
+	<property name="distFile"       value="${ant.project.name}.zip"/>
 
 	<mkdir dir="${classesDir}"/>
 	<mkdir dir="${apiDir}"/>
@@ -124,6 +124,7 @@
 		    <include name="${webFiles}"/>
 		    <include name="${docsFiles}"/>
 		    <exclude name="${srcFiles}/**/*.class"/>
+		    <exclude name="**/CVS"/>
 		</patternset>
 	    </zipfileset>
 	</zip>
@@ -139,6 +140,7 @@
 		    <include name="${libFiles}"/>
 		    <include name="${etcFiles}"/>
 		    <include name="${docsFiles}"/>
+		    <exclude name="**/CVS"/>
 		</patternset>
 	    </zipfileset>
 	</zip>
@@ -155,6 +157,7 @@
 		<patternset>
 		    <include name="${zipFile}"/>
 		    <include name="${distFile}"/>
+		    <include name="${warFile}"/>
 		</patternset>
 	    </fileset>
 	</ftp>
@@ -258,7 +261,6 @@
 
     <target name="realclean" depends="clearlogs, cleandocs, clean">
 	<delete file="${jarFile}"/>
-	<delete file="${warFile}"/>
     </target>
 
 </project>
