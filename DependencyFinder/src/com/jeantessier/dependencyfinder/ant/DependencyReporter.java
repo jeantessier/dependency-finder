@@ -44,6 +44,28 @@ import org.xml.sax.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyReporter extends GraphTask {
+	private String  scopeIncludes = "//";
+	private String  scopeExcludes = "";
+	private boolean packageScope;
+	private String  packageScopeIncludes = "";
+	private String  packageScopeExcludes = "";
+	private boolean classScope;
+	private String  classScopeIncludes = "";
+	private String  classScopeExcludes = "";
+	private boolean featureScope;
+	private String  featureScopeIncludes = "";
+	private String  featureScopeExcludes = "";
+	private String  filterIncludes = "//";
+	private String  filterExcludes = "";
+	private boolean packageFilter;
+	private String  packageFilterIncludes = "";
+	private String  packageFilterExcludes = "";
+	private boolean classFilter;
+	private String  classFilterIncludes = "";
+	private String  classFilterExcludes = "";
+	private boolean featureFilter;
+	private String  featureFilterIncludes = "";
+	private String  featureFilterExcludes = "";
 
 	private Path    scopeIncludesList;
 	private Path    scopeExcludesList;
@@ -62,6 +84,221 @@ public class DependencyReporter extends GraphTask {
 	private String  encoding   = XMLPrinter.DEFAULT_ENCODING;
 	private String  dtdPrefix  = XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indentText;
+
+	public String getScopeincludes() {
+		return scopeIncludes;
+	}
+
+	public void setScopeincludes(String scopeIncludes) {
+		this.scopeIncludes = scopeIncludes;
+	}
+	
+	public String getScopeexcludes() {
+		return scopeExcludes;
+	}
+
+	public void setScopeexcludes(String scopeExcludes) {
+		this.scopeExcludes = scopeExcludes;
+	}
+
+	public boolean getPackagescope() {
+		return packageScope;
+	}
+
+	public void setPackagescope(boolean packageScope) {
+		this.packageScope = packageScope;
+	}
+	
+	public String getPackagescopeincludes() {
+		return packageScopeIncludes;
+	}
+
+	public void setPackagescopeincludes(String packageScopeIncludes) {
+		this.packageScopeIncludes = packageScopeIncludes;
+	}
+	
+	public String getPackagescopeexcludes() {
+		return packageScopeExcludes;
+	}
+
+	public void setPackagescopeexcludes(String packageScopeExcludes) {
+		this.packageScopeExcludes = packageScopeExcludes;
+	}
+
+	public boolean getClassscope() {
+		return classScope;
+	}
+
+	public void setClassscope(boolean classScope) {
+		this.classScope = classScope;
+	}
+	
+	public String getClassscopeincludes() {
+		return classScopeIncludes;
+	}
+
+	public void setClassscopeincludes(String classScopeIncludes) {
+		this.classScopeIncludes = classScopeIncludes;
+	}
+	
+	public String getClassscopeexcludes() {
+		return classScopeExcludes;
+	}
+
+	public void setClassscopeexcludes(String classScopeExcludes) {
+		this.classScopeExcludes = classScopeExcludes;
+	}
+
+	public boolean getFeaturescope() {
+		return featureScope;
+	}
+
+	public void setFeaturescope(boolean featureScope) {
+		this.featureScope = featureScope;
+	}
+	
+	public String getFeaturescopeincludes() {
+		return featureScopeIncludes;
+	}
+
+	public void setFeaturescopeincludes(String featureScopeIncludes) {
+		this.featureScopeIncludes = featureScopeIncludes;
+	}
+	
+	public String getFeaturescopeexcludes() {
+		return featureScopeExcludes;
+	}
+
+	public void setFeaturescopeexcludes(String featureScopeExcludes) {
+		this.featureScopeExcludes = featureScopeExcludes;
+	}
+
+	public String getFilterincludes() {
+		return filterIncludes;
+	}
+
+	public void setFilterincludes(String filterIncludes) {
+		this.filterIncludes = filterIncludes;
+	}
+	
+	public String getFilterexcludes() {
+		return filterExcludes;
+	}
+
+	public void setFilterexcludes(String filterExcludes) {
+		this.filterExcludes = filterExcludes;
+	}
+
+	public boolean getPackagefilter() {
+		return packageFilter;
+	}
+
+	public void setPackagefilter(boolean packageFilter) {
+		this.packageFilter = packageFilter;
+	}
+	
+	public String getPackagefilterincludes() {
+		return packageFilterIncludes;
+	}
+
+	public void setPackagefilterincludes(String packageFilterIncludes) {
+		this.packageFilterIncludes = packageFilterIncludes;
+	}
+	
+	public String getPackagefilterexcludes() {
+		return packageFilterExcludes;
+	}
+
+	public void setPackagefilterexcludes(String packageFilterExcludes) {
+		this.packageFilterExcludes = packageFilterExcludes;
+	}
+
+	public boolean getClassfilter() {
+		return classFilter;
+	}
+
+	public void setClassfilter(boolean classFilter) {
+		this.classFilter = classFilter;
+	}
+	
+	public String getClassfilterincludes() {
+		return classFilterIncludes;
+	}
+
+	public void setClassfilterincludes(String classFilterIncludes) {
+		this.classFilterIncludes = classFilterIncludes;
+	}
+	
+	public String getClassfilterexcludes() {
+		return classFilterExcludes;
+	}
+
+	public void setClassfilterexcludes(String classFilterExcludes) {
+		this.classFilterExcludes = classFilterExcludes;
+	}
+
+	public boolean getFeaturefilter() {
+		return featureFilter;
+	}
+
+	public void setFeaturefilter(boolean featureFilter) {
+		this.featureFilter = featureFilter;
+	}
+	
+	public String getFeaturefilterincludes() {
+		return featureFilterIncludes;
+	}
+
+	public void setFeaturefilterincludes(String featureFilterIncludes) {
+		this.featureFilterIncludes = featureFilterIncludes;
+	}
+	
+	public String getFeaturefilterexcludes() {
+		return featureFilterExcludes;
+	}
+
+	public void setFeaturefilterexcludes(String featureFilterExcludes) {
+		this.featureFilterExcludes = featureFilterExcludes;
+	}
+
+	public void setAll(boolean value) {
+		setPackagescope(value);
+		setClassscope(value);
+		setFeaturescope(value);
+		setPackagefilter(value);
+		setClassfilter(value);
+		setFeaturefilter(value);
+	}
+		
+	public void setP2p(boolean value) {
+		setPackagescope(value);
+		setPackagefilter(value);
+	}
+	
+	public void setC2p(boolean value) {
+		setClassscope(value);
+		setPackagefilter(value);
+	}
+
+	public void setC2c(boolean value) {
+		setClassscope(value);
+		setClassfilter(value);
+	}
+
+	public void setF2f(boolean value) {
+		setFeaturescope(value);
+		setFeaturefilter(value);
+	}
+
+	public void setIncludes(String value) {
+		setScopeincludes(value);
+		setFilterincludes(value);
+	}
+
+	public void setExcludes(String value) {
+		setScopeexcludes(value);
+		setFilterexcludes(value);
+	}
 	
 	public Path createScopeincludeslist() {
 		if (scopeIncludesList == null) {
@@ -280,7 +517,7 @@ public class DependencyReporter extends GraphTask {
 
 		try {
 			if (hasScopeRegularExpressionSwitches()) {
-				result = super.getScopeCriteria();
+				result = createRegularExpressionScopeCriteria();
 			} else if (hasScopeListSwitches()) {
 				result = createCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());
 			}
@@ -296,13 +533,51 @@ public class DependencyReporter extends GraphTask {
 		
 		try {
 			if (hasFilterRegularExpressionSwitches()) {
-				result = super.getFilterCriteria();
+				result = createRegularExpressionFilterCriteria();
 			} else if (hasFilterListSwitches()) {
 				result = createCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());
 			}
 		} catch (IOException ex) {
 			throw new BuildException(ex);
 		}
+
+		return result;
+	}
+
+	protected RegularExpressionSelectionCriteria createRegularExpressionScopeCriteria() throws BuildException {
+		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
+
+		result.setMatchingPackages(getPackagescope());
+		result.setMatchingClasses(getClassscope());
+		result.setMatchingFeatures(getFeaturescope());
+
+		result.setGlobalIncludes(getScopeincludes());
+		result.setGlobalExcludes(getScopeexcludes());
+		result.setPackageIncludes(getPackagescopeincludes());
+		result.setPackageExcludes(getPackagescopeexcludes());
+		result.setClassIncludes(getClassscopeincludes());
+		result.setClassExcludes(getClassscopeexcludes());
+		result.setFeatureIncludes(getFeaturescopeincludes());
+		result.setFeatureExcludes(getFeaturescopeexcludes());
+
+		return result;
+	}
+
+	protected RegularExpressionSelectionCriteria createRegularExpressionFilterCriteria() throws BuildException {
+		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
+
+		result.setMatchingPackages(getPackagefilter());
+		result.setMatchingClasses(getClassfilter());
+		result.setMatchingFeatures(getFeaturefilter());
+
+		result.setGlobalIncludes(getFilterincludes());
+		result.setGlobalExcludes(getFilterexcludes());
+		result.setPackageIncludes(getPackagefilterincludes());
+		result.setPackageExcludes(getPackagefilterexcludes());
+		result.setClassIncludes(getClassfilterincludes());
+		result.setClassExcludes(getClassfilterexcludes());
+		result.setFeatureIncludes(getFeaturefilterincludes());
+		result.setFeatureExcludes(getFeaturefilterexcludes());
 
 		return result;
 	}
@@ -351,6 +626,10 @@ public class DependencyReporter extends GraphTask {
 
 	private CollectionSelectionCriteria createCollectionSelectionCriteria(Path includes, Path excludes) throws IOException {
 		return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
+	}
+	
+	private TraversalStrategy getStrategy() throws BuildException {
+		return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());
 	}
 
 	private Collection loadCollection(Path path) {

@@ -151,6 +151,23 @@ public class DependencyClosure {
 
 		Date start = new Date();
 
+		NodeFactory factory = new NodeFactory();
+		
+		Iterator i = commandLine.getParameters().iterator();
+		while (i.hasNext()) {
+			String filename = (String) i.next();
+			Logger.getLogger(DependencyClosure.class).info("Reading " + filename);
+			verboseListener.print("Reading " + filename);
+
+			if (filename.endsWith(".xml")) {
+				NodeLoader loader = new NodeLoader(factory, commandLine.getToggleSwitch("validate"));
+				loader.addDependencyListener(verboseListener);
+				loader.load(filename);
+			}
+
+			Logger.getLogger(DependencyClosure.class).info("Read \"" + filename + "\".");
+		}
+
 		RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
 		
 		if (commandLine.isPresent("start-includes") || (!commandLine.isPresent("package-start-includes") && !commandLine.isPresent("class-start-includes") && !commandLine.isPresent("feature-start-includes"))) {
@@ -167,10 +184,7 @@ public class DependencyClosure {
 
 		RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
 
-		if (commandLine.isPresent("stop-includes") || (!commandLine.isPresent("package-stop-includes") && !commandLine.isPresent("class-stop-includes") && !commandLine.isPresent("feature-stop-includes"))) {
-			// Only use the default if nothing else has been specified.
-			stopCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("stop-includes"));
-		}
+		stopCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("stop-includes"));
 		stopCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("stop-excludes"));
 		stopCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-stop-includes"));
 		stopCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-stop-excludes"));
@@ -196,29 +210,10 @@ public class DependencyClosure {
 		} catch (NumberFormatException ex) {
 			selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		}
-		
-		Iterator i = commandLine.getParameters().iterator();
-		while (i.hasNext()) {
-			String filename = (String) i.next();
-			Logger.getLogger(DependencyClosure.class).info("Reading " + filename);
-			verboseListener.print("Reading " + filename);
 
-			Collection packages = Collections.EMPTY_LIST;
+		Logger.getLogger(DependencyClosure.class).info("Operating on " + factory.getPackages().values().size() + " package(s) ...");
 
-			if (filename.endsWith(".xml")) {
-				NodeLoader loader = new NodeLoader(commandLine.getToggleSwitch("validate"));
-				loader.addDependencyListener(verboseListener);
-				packages = loader.load(filename).getPackages().values();
-			}
-
-			Logger.getLogger(DependencyClosure.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
-
-			LinkMaximizer maximizer = new LinkMaximizer();
-			maximizer.traverseNodes(packages);
-
-			selector.traverseNodes(packages);
-		}
-
+		selector.traverseNodes(factory.getPackages().values());
 
 		Logger.getLogger(DependencyClosure.class).info("Reporting " + selector.getFactory().getPackages().values().size() + " package(s) ...");
 	

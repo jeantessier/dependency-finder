@@ -43,6 +43,22 @@ import org.xml.sax.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyClosure extends GraphTask {
+	private String  startIncludes        = "//";
+	private String  startExcludes        = "";
+	private String  packageStartIncludes = "";
+	private String  packageStartExcludes = "";
+	private String  classStartIncludes   = "";
+	private String  classStartExcludes   = "";
+	private String  featureStartIncludes = "";
+	private String  featureStartExcludes = "";
+	private String  stopIncludes         = "";
+	private String  stopExcludes         = "";
+	private String  packageStopIncludes  = "";
+	private String  packageStopExcludes  = "";
+	private String  classStopIncludes    = "";
+	private String  classStopExcludes    = "";
+	private String  featureStopIncludes  = "";
+	private String  featureStopExcludes  = "";
 
 	private String  maximumInboundDepth  = "";
 	private String  maximumOutboundDepth = "";
@@ -50,6 +66,134 @@ public class DependencyClosure extends GraphTask {
 	private String  encoding             = XMLPrinter.DEFAULT_ENCODING;
 	private String  dtdPrefix            = XMLPrinter.DEFAULT_DTD_PREFIX;
 	private String  indentText;
+
+	public String getStartincludes() {
+		return startIncludes;
+	}
+
+	public void setStartincludes(String startIncludes) {
+		this.startIncludes = startIncludes;
+	}
+	
+	public String getStartexcludes() {
+		return startExcludes;
+	}
+
+	public void setStartexcludes(String startExcludes) {
+		this.startExcludes = startExcludes;
+	}
+	
+	public String getPackagestartincludes() {
+		return packageStartIncludes;
+	}
+
+	public void setPackagestartincludes(String packageStartIncludes) {
+		this.packageStartIncludes = packageStartIncludes;
+	}
+	
+	public String getPackagestartexcludes() {
+		return packageStartExcludes;
+	}
+
+	public void setPackagestartexcludes(String packageStartExcludes) {
+		this.packageStartExcludes = packageStartExcludes;
+	}
+	
+	public String getClassstartincludes() {
+		return classStartIncludes;
+	}
+
+	public void setClassstartincludes(String classStartIncludes) {
+		this.classStartIncludes = classStartIncludes;
+	}
+	
+	public String getClassstartexcludes() {
+		return classStartExcludes;
+	}
+
+	public void setClassstartexcludes(String classStartExcludes) {
+		this.classStartExcludes = classStartExcludes;
+	}
+	
+	public String getFeaturestartincludes() {
+		return featureStartIncludes;
+	}
+
+	public void setFeaturestartincludes(String featureStartIncludes) {
+		this.featureStartIncludes = featureStartIncludes;
+	}
+	
+	public String getFeaturestartexcludes() {
+		return featureStartExcludes;
+	}
+
+	public void setFeaturestartexcludes(String featureStartExcludes) {
+		this.featureStartExcludes = featureStartExcludes;
+	}
+
+	public String getStopincludes() {
+		return stopIncludes;
+	}
+
+	public void setStopincludes(String stopIncludes) {
+		this.stopIncludes = stopIncludes;
+	}
+	
+	public String getStopexcludes() {
+		return stopExcludes;
+	}
+
+	public void setStopexcludes(String stopExcludes) {
+		this.stopExcludes = stopExcludes;
+	}
+	
+	public String getPackagestopincludes() {
+		return packageStopIncludes;
+	}
+
+	public void setPackagestopincludes(String packageStopIncludes) {
+		this.packageStopIncludes = packageStopIncludes;
+	}
+	
+	public String getPackagestopexcludes() {
+		return packageStopExcludes;
+	}
+
+	public void setPackagestopexcludes(String packageStopExcludes) {
+		this.packageStopExcludes = packageStopExcludes;
+	}
+	
+	public String getClassstopincludes() {
+		return classStopIncludes;
+	}
+
+	public void setClassstopincludes(String classStopIncludes) {
+		this.classStopIncludes = classStopIncludes;
+	}
+	
+	public String getClassstopexcludes() {
+		return classStopExcludes;
+	}
+
+	public void setClassstopexcludes(String classStopExcludes) {
+		this.classStopExcludes = classStopExcludes;
+	}
+	
+	public String getFeaturestopincludes() {
+		return featureStopIncludes;
+	}
+
+	public void setFeaturestopincludes(String featureStopIncludes) {
+		this.featureStopIncludes = featureStopIncludes;
+	}
+	
+	public String getFeaturestopexcludes() {
+		return featureStopExcludes;
+	}
+
+	public void setFeaturestopexcludes(String featureStopExcludes) {
+		this.featureStopExcludes = featureStopExcludes;
+	}
 
 	public String getMaximuminbounddepth() {
 		return maximumInboundDepth;
@@ -106,7 +250,20 @@ public class DependencyClosure extends GraphTask {
 		VerboseListener verboseListener = new VerboseListener(this);
 
 		try {
-			TransitiveClosure selector = new TransitiveClosure(getScopeCriteria(), getFilterCriteria());
+			NodeFactory factory = new NodeFactory();
+		
+			String[] filenames = getSrc().list();
+			for (int i=0; i<filenames.length; i++) {
+				log("Reading graph from " + filenames[i]);
+				
+				if (filenames[i].endsWith(".xml")) {
+					NodeLoader loader = new NodeLoader(factory, getValidate());
+					loader.addDependencyListener(verboseListener);
+					loader.load(filenames[i]);
+				}
+			}
+
+			TransitiveClosure selector = new TransitiveClosure(getStartCriteria(), getStopCriteria());
 
 			try {
 				if (getMaximuminbounddepth() != null) {
@@ -123,25 +280,9 @@ public class DependencyClosure extends GraphTask {
 			} catch (NumberFormatException ex) {
 				selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 			}
+				
+			selector.traverseNodes(factory.getPackages().values());
 		
-			String[] filenames = getSrc().list();
-			for (int i=0; i<filenames.length; i++) {
-				log("Reading graph from " + filenames[i]);
-				
-				Collection packages = Collections.EMPTY_LIST;
-				
-				if (filenames[i].endsWith(".xml")) {
-					NodeLoader loader = new NodeLoader(getValidate());
-					loader.addDependencyListener(verboseListener);
-					packages = loader.load(filenames[i]).getPackages().values();
-				}
-				
-				log("Maximizing ...");
-				new LinkMaximizer().traverseNodes(packages);
-				
-				selector.traverseNodes(packages);
-			}
-
 			log("Saving dependency graph to " + getDestfile().getAbsolutePath());
 		
 			PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
@@ -165,5 +306,35 @@ public class DependencyClosure extends GraphTask {
 		} catch (IOException ex) {
 			throw new BuildException(ex);
 		}
+	}
+
+	private SelectionCriteria getStartCriteria() throws BuildException {
+		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
+
+		result.setGlobalIncludes(getStartincludes());
+		result.setGlobalExcludes(getStartexcludes());
+		result.setPackageIncludes(getPackagestartincludes());
+		result.setPackageExcludes(getPackagestartexcludes());
+		result.setClassIncludes(getClassstartincludes());
+		result.setClassExcludes(getClassstartexcludes());
+		result.setFeatureIncludes(getFeaturestartincludes());
+		result.setFeatureExcludes(getFeaturestartexcludes());
+
+		return result;
+	}
+
+	private SelectionCriteria getStopCriteria() throws BuildException {
+		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
+
+		result.setGlobalIncludes(getStopincludes());
+		result.setGlobalExcludes(getStopexcludes());
+		result.setPackageIncludes(getPackagestopincludes());
+		result.setPackageExcludes(getPackagestopexcludes());
+		result.setClassIncludes(getClassstopincludes());
+		result.setClassExcludes(getClassstopexcludes());
+		result.setFeatureIncludes(getFeaturestopincludes());
+		result.setFeatureExcludes(getFeaturestopexcludes());
+
+		return result;
 	}
 }
