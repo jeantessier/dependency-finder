@@ -34,6 +34,9 @@ package com.jeantessier.commandline;
 
 import java.util.*;
 
+/**
+ *  Generates summary information about the command-line specification.
+ */
 public class CommandLineUsage implements Visitor {
 	private final static String EOL = System.getProperty("line.separator", "\n");
 	

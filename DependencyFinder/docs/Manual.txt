@@ -1139,7 +1139,7 @@ information again from class files than to load it from an XML file.
 ---++++ Extracting With the CLI
 
 You use =DependencyExtractor= to extract dependencies.  Simply string
-out the files and directories on the command line.  All the dependencies
+out the files and directories on the command-line.  All the dependencies
 are merged into a single output.
 
 E.g.,
@@ -2506,7 +2506,7 @@ and descending sorting order.  This also works for the =name= column.
 ---++++ Extracting With the CLI
 
 You use =OOMetrics= to compute metrics and produce a report.  Simply string
-out the files and directories on the command line.  The content of the report
+out the files and directories on the command-line.  The content of the report
 depends on the switches on the command-line.
 
 E.g.,

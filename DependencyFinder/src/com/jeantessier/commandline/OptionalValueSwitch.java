@@ -32,6 +32,10 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  The switch can appear by itself or followed by a value.  It can only
+ *  appear once on the command-line.
+ */
 public class OptionalValueSwitch extends CommandLineSwitchBase {
     public OptionalValueSwitch() {
 		this("", false);

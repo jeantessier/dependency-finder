@@ -34,6 +34,11 @@ package com.jeantessier.commandline;
 
 import java.util.*;
 
+/**
+ *  The switch must be followed by a value, but it can occur multiple times
+ *  on the command-line.  The values are accumulated in the same order as on
+ *  the command-line and you retrieve them as a single <code>java.util.List</code>.
+ */
 public class MultipleValuesSwitch extends CommandLineSwitchBase {
     public MultipleValuesSwitch() {
 		this(new LinkedList(), false);

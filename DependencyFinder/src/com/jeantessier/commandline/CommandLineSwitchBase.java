@@ -32,6 +32,9 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  Base class for implenting the <code>CommandLineSwitch</code> interface.
+ */
 public abstract class CommandLineSwitchBase implements CommandLineSwitch {
     private   Object  default_value;
     protected Object  value;

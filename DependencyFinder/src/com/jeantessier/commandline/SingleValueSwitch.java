@@ -32,6 +32,10 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  The switch must be followed by a value.  It can only appear once on the
+ *  command-line.
+ */
 public class SingleValueSwitch extends CommandLineSwitchBase {
     public SingleValueSwitch() {
 		this("", false);

@@ -32,6 +32,10 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  How the <code>CommandLine</code> parses and validates the switches
+ *  on the command-line.
+ */
 public interface CommandLineSwitch extends Visitable {
     public Object DefaultValue();
     public Object Value();

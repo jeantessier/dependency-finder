@@ -32,6 +32,10 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  A <code>ParameterStrategy</code> that counts the number of parameters
+ *  on the command-line.
+ */
 public interface CountingParameterStrategy extends ParameterStrategy {
     public int NbParameters();
     public int Count();

@@ -32,6 +32,12 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  No restrictions, the command-line can include any number of parameters,
+ *  including none at all.
+ *
+ *  This is the default strategy for CommandLine when you do not specify one.
+ */
 public class AnyParameterStrategy implements ParameterStrategy {
     public boolean Accept(String param) {
 		return true;

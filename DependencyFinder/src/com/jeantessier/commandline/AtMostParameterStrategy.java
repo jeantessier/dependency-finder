@@ -32,6 +32,10 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  The command-line can include at most a certain number of parameters or
+ *  the framework will find the command-line invalid.
+ */
 public class AtMostParameterStrategy implements CountingParameterStrategy {
     private int nb_parameters;
     private int count;

@@ -34,6 +34,9 @@ package com.jeantessier.commandline;
 
 import java.util.*;
 
+/**
+ *  Command-line parser.
+ */
 public class CommandLine implements Visitable {
     private static final boolean           DEFAULT_STRICT             = true;
     private static final ParameterStrategy DEFAULT_PARAMETER_STRATEGY = new AnyParameterStrategy();
@@ -273,69 +276,5 @@ public class CommandLine implements Visitable {
 
     public void Accept(Visitor visitor) {
 		visitor.Visit(this);
-    }
-
-    public static void Error(CommandLineUsage clu, Exception ex) {
-		Error(clu, ex.toString());
-    }
-
-    public static void Error(CommandLineUsage clu, String msg) {
-		System.err.println(msg);
-		Error(clu);
-    }
-
-    public static void Error(CommandLineUsage clu) {
-		System.err.print(clu);
-    }
-
-    public static void main(String args[]) throws Exception {
-		Iterator i;
-
-		// CommandLine      cl  = new CommandLine(true, new AtMostParameterStrategy(3));
-		// CommandLine      cl  = new CommandLine(false);
-		// CommandLine      cl  = new CommandLine();
-		CommandLine      cl  = new CommandLine(new NullParameterStrategy());
-		CommandLineUsage clu = new CommandLineUsage("CommandLine");
-
-		// cl.Strict(false);
-		cl.AddToggleSwitch("verbose");
-		cl.AddMultipleValuesSwitch("gaga");
-		cl.Accept(clu);
-
-		System.out.println("The program knows about the following switches:");
-		i = cl.KnownSwitches().iterator();
-		while (i.hasNext()) {
-			String name = (String) i.next();
-			System.out.println("\t" + name + " (" + cl.Switch(name) + ")");
-		}
-		System.out.println();
-
-		try {
-			cl.Parse(args);
-		} catch (CommandLineException ex) {
-			Error(clu, ex);
-		}
-
-		System.out.println("The program was called with the following switches:");
-		i = cl.PresentSwitches().iterator();
-		while (i.hasNext()) {
-			String name = (String) i.next();
-			System.out.println("\t" + name + " (" + cl.Switch(name) + ")");
-		}
-		System.out.println();
-
-		System.out.println("The program knows about the following switches:");
-		i = cl.KnownSwitches().iterator();
-		while (i.hasNext()) {
-			String name = (String) i.next();
-			System.out.println("\t" + name + " (" + cl.Switch(name) + ")");
-		}
-		System.out.println();
-
-		System.out.println("The program was called with the following parameters:");
-		i = cl.Parameters().iterator();
-		while (i.hasNext()) {
-			System.out.println("\t" + i.next());
-		}
     }
 }

@@ -32,6 +32,10 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  The command-line cannot include any parameters or the framework will
+ *  find the command-line invalid.
+ */
 public class NullParameterStrategy implements ParameterStrategy {
     private boolean satisfied = true;
 

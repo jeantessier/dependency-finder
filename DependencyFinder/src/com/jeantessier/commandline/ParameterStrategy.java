@@ -32,6 +32,10 @@
 
 package com.jeantessier.commandline;
 
+/**
+ *  How the <code>CommandLine</code> parses and validates the parameters
+ *  on the command-line.
+ */
 public interface ParameterStrategy extends Visitable {
     public boolean Accept(String param);
     public boolean Satisfied();
