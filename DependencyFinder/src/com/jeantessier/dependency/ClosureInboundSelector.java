@@ -32,38 +32,32 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+public class ClosureInboundSelector extends ClosureLayerSelector {
+	public ClosureInboundSelector() {
+		super();
+	}
+	
+	public ClosureInboundSelector(NodeFactory factory, Collection coverage) {
+		super(factory, coverage);
+	}
 
-		result.addTestSuite(TestNode.class);
-		result.addTestSuite(TestComprehensiveSelectionCriteria.class);
-		result.addTestSuite(TestRegularExpressionSelectionCriteria.class);
-		result.addTestSuite(TestSelectiveTraversalStrategy.class);
-		result.addTestSuite(TestLinkMinimizer.class);
-		result.addTestSuite(TestLinkMinimizerSystematic.class);
-		result.addTestSuite(TestLinkMaximizer.class);
-		result.addTestSuite(TestLinkMaximizerSystematic.class);
-		result.addTestSuite(TestTextPrinter.class);
-		result.addTestSuite(TestXMLPrinter.class);
-		result.addTestSuite(TestDependencyExtractor.class);
-		result.addTestSuite(TestGraphCopier.class);
-		result.addTestSuite(TestGraphCopierWithFiltering.class);
-		result.addTestSuite(TestGraphSummarizer.class);
-		result.addTestSuite(TestGraphSummarizerWithScoping.class);
-		result.addTestSuite(TestGraphSummarizerWithFiltering.class);
-		result.addTestSuite(TestTransitiveClosure.class);
-		result.addTestSuite(TestTransitiveClosureWithTestClass.class);
-		result.addTestSuite(TestTransitiveClosureSlice.class);
-		result.addTestSuite(TestTransitiveClosureNonMaximized.class);
-		result.addTestSuite(TestClosureStartSelector.class);
-		result.addTestSuite(TestClosureOutboundSelector.class);
-		result.addTestSuite(TestClosureInboundSelector.class);
-		result.addTestSuite(TestTransitiveClosureEngine.class);
-		result.addTestSuite(TestMetricsGatherer.class);
+	public void VisitPackageNode(PackageNode node) {
+		super.VisitPackageNode(node);
 
-		return result;
+		TraverseInbound(node.Inbound());
+	}
+	
+	public void VisitClassNode(ClassNode node) {
+		super.VisitClassNode(node);
+
+		TraverseInbound(node.Inbound());
+	}
+	
+	public void VisitFeatureNode(FeatureNode node) {
+		super.VisitFeatureNode(node);
+
+		TraverseInbound(node.Inbound());
 	}
 }

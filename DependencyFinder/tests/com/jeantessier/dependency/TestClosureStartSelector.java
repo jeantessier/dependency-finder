@@ -39,7 +39,7 @@ import junit.framework.*;
 
 import org.apache.oro.text.perl.*;
 
-public class TestNodeSelector extends TestCase {
+public class TestClosureStartSelector extends TestCase {
 	private NodeFactory factory;
 
 	private PackageNode a;
@@ -78,7 +78,7 @@ public class TestNodeSelector extends TestCase {
 		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
 		local_criteria.GlobalIncludes("/b.B.b/");
 
-		NodeSelector selector = new NodeSelector(local_factory, local_criteria);
+		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
 		selector.TraverseNodes(factory.Packages().values());
 
 		assertEquals("nodes in selection", 1, selector.SelectedNodes().size());
@@ -91,7 +91,7 @@ public class TestNodeSelector extends TestCase {
 		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
 		local_criteria.GlobalIncludes("/b.B.b/");
 
-		NodeSelector selector = new NodeSelector(local_factory, local_criteria);
+		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
 		selector.TraverseNodes(factory.Packages().values());
 
 		assertEquals("packages in scope", 1, local_factory.Packages().size());
@@ -117,7 +117,7 @@ public class TestNodeSelector extends TestCase {
 		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
 		local_criteria.GlobalIncludes("/a.A.a/, /^b/");
 
-		NodeSelector selector = new NodeSelector(local_factory, local_criteria);
+		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
 		selector.TraverseNodes(factory.Packages().values());
 
 		assertEquals("nodes in selection", 4, selector.SelectedNodes().size());
@@ -132,7 +132,7 @@ public class TestNodeSelector extends TestCase {
 		RegularExpressionSelectionCriteria local_criteria = new RegularExpressionSelectionCriteria();
 		local_criteria.GlobalIncludes("/a.A.a/, /^b/");
 
-		NodeSelector selector = new NodeSelector(local_factory, local_criteria);
+		ClosureStartSelector selector = new ClosureStartSelector(local_factory, local_criteria);
 		selector.TraverseNodes(factory.Packages().values());
 
 		assertEquals("packages in scope", 2, local_factory.Packages().size());

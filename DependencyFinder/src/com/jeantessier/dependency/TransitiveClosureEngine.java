@@ -35,18 +35,25 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class TransitiveClosureEngine {
+	private ClosureLayerSelector layer_selector;
+	
 	private NodeFactory factory    = new NodeFactory();
 	private Collection  coverage   = new HashSet();
 	private LinkedList  selections = new LinkedList();
 	private LinkedList  layers     = new LinkedList();
 	
-	public TransitiveClosureEngine(Collection packages, SelectionCriteria start_criteria, SelectionCriteria stop_criteria) {
-		NodeSelector selector = new NodeSelector(factory, start_criteria);
-		selector.TraverseNodes(packages);
+	public TransitiveClosureEngine(Collection packages, SelectionCriteria start_criteria, SelectionCriteria stop_criteria, ClosureLayerSelector layer_selector) {
+		this.layer_selector = layer_selector;
+		this.layer_selector.Factory(factory);
+		this.layer_selector.Coverage(coverage);
 
-		coverage.addAll(selector.SelectedNodes());
-		selections.add(selector.SelectedNodes());
-		layers.add(selector.CopiedNodes());
+		Init(packages, start_criteria);
+	}
+
+	private void Init(Collection packages, SelectionCriteria start_criteria) {
+		ClosureStartSelector start_selector = new ClosureStartSelector(factory, start_criteria);
+		start_selector.TraverseNodes(packages);
+		GatherResults(start_selector);
 	}
 
 	public NodeFactory Factory() {
@@ -61,14 +68,17 @@ public class TransitiveClosureEngine {
 		return (Collection) layers.get(i);
 	}
 
-	public void grow() {
-		OutboundSelector selector = new OutboundSelector(factory, coverage);
-		selector.TraverseNodes((Collection) selections.getLast());
-
-		if (!selector.CopiedNodes().isEmpty()) {
-			coverage.addAll(selector.SelectedNodes());
-			selections.add(selector.SelectedNodes());
-			layers.add(selector.CopiedNodes());
+	public void ComputeNextLayer() {
+		layer_selector.Reset();
+		layer_selector.TraverseNodes((Collection) selections.getLast());
+		if (!layer_selector.CopiedNodes().isEmpty()) {
+			GatherResults(layer_selector);
 		}
+	}
+
+	private void GatherResults(ClosureSelector selector) {
+		coverage.addAll(selector.SelectedNodes());
+		selections.add(selector.SelectedNodes());
+		layers.add(selector.CopiedNodes());
 	}
 }

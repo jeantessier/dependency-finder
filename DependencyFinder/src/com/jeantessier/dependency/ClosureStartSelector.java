@@ -34,37 +34,19 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-public class NodeSelector implements Visitor {
-	private Collection selected_nodes = new HashSet();
-	private Collection copied_nodes   = new HashSet();
-
-	private NodeFactory       factory;
+public class ClosureStartSelector extends ClosureSelector {
 	private SelectionCriteria criteria;
 	
-	public NodeSelector(NodeFactory factory, SelectionCriteria criteria) {
-		this.factory  = factory;
+	public ClosureStartSelector(NodeFactory factory, SelectionCriteria criteria) {
+		super(factory);
+		
 		this.criteria = criteria;
-	}
-
-	public Collection SelectedNodes() {
-		return selected_nodes;
-	}
-
-	public Collection CopiedNodes() {
-		return copied_nodes;
-	}
-	
-	public void TraverseNodes(Collection nodes) {
-		Iterator i = nodes.iterator();
-		while (i.hasNext()) {
-			((Node) i.next()).Accept(this);
-		}
 	}
 
 	public void VisitPackageNode(PackageNode node) {
 		if (criteria.Match(node)) {
-			selected_nodes.add(node);
-			copied_nodes.add(factory.CreatePackage(node.Name()));
+			SelectedNodes().add(node);
+			CopiedNodes().add(Factory().CreatePackage(node.Name()));
 		}
 
 		TraverseNodes(node.Classes());
@@ -80,8 +62,8 @@ public class NodeSelector implements Visitor {
 
 	public void VisitClassNode(ClassNode node) {
 		if (criteria.Match(node)) {
-			selected_nodes.add(node);
-			copied_nodes.add(factory.CreateClass(node.Name()));
+			SelectedNodes().add(node);
+			CopiedNodes().add(Factory().CreateClass(node.Name()));
 		}
 
 		TraverseNodes(node.Features());
@@ -97,8 +79,8 @@ public class NodeSelector implements Visitor {
 
 	public void VisitFeatureNode(FeatureNode node) {
 		if (criteria.Match(node)) {
-			selected_nodes.add(node);
-			copied_nodes.add(factory.CreateFeature(node.Name()));
+			SelectedNodes().add(node);
+			CopiedNodes().add(Factory().CreateFeature(node.Name()));
 		}
 	}
 	
