@@ -69,6 +69,7 @@ by Jean Tessier
 <li><a href="#DependenciesonSelf">Dependencies on Self</a></li>
 <li><a href="#Constants">Constants</a></li>
 <li><a href="#LocalVariables">Local Variables</a></li>
+<li><a href="#LineNumbers">Line Numbers</a></li>
 </ul>
 <li><a href="#ExtractingWiththeGUI">Extracting With the GUI</a></li>
 <li><a href="#ExtractingWiththeCLI">Extracting With the CLI</a></li>
@@ -1427,26 +1428,26 @@ from a package to itself.
 <h5>Constants</h5>
 
 <p>
-It is often the case that Dependency Finder cannot track dependencies on
-simple <code>static final</code> constants.
+Very often, Dependency Finder cannot track dependencies on <code>final</code> fields whose
+type is either a primitive type or <code>String</code>.
 </p>
 
 <p>
 In Java, you can define constants in classes and interfaces by marking them
-as <code>static</code> and <code>final</code>.  Subclasses or implementations cannot override the
-constants because they are static.  No one can change the value because it
-is final.  As a result, the compiler can use local optimizations to speed up
+as <code>final</code>.  No one can change the value because it is final, not even
+subclasses.  As a result, the compiler can use local optimizations to speed up
 execution.  When these constants are of primitive types or <code>String</code>, the
 compiler can inline the value directly in the client class, so that it makes
-no reference at all to the class that owns the constant.
+no reference at all to the class that owns the constant.  Even when the client
+is the class itself, the compiler can inline the value directly and save the
+field lookup.
 </p>
 
 <p>
 Under these circumstances, Dependency Finder cannot track dependencies on
-simple constants that are referenced from outside their class.  If the
-constant are of some object type other than <code>String</code>, the compiler cannot
-perform the optimization and Dependency Finder will be able to track
-dependencis on them.
+simple constants that are referenced from outside their class.  If the constant
+are of some object type other than <code>String</code>, the compiler cannot perform the
+optimization and Dependency Finder will be able to track dependencis on them.
 </p>
 
 <a name="LocalVariables" />
@@ -1480,6 +1481,67 @@ calls will be made on that type's set of methods.  Dependency Finder loses
 no information by ignoring possible local variables, just a little precision.
 And since the virtual machine does not use that information, it does not
 impact runtime dependencies anyway.
+</p>
+
+<a name="LineNumbers" />
+<h5>Line Numbers</h5>
+
+<p>
+Dependency Finder does not track the line numbers where dependencies occur.
+</p>
+
+<p>
+Dependency Finder works on compiled code and the compiler leaves very little
+data as far as line numbers are concerned.  The only information available is
+the <code>LineNumberTable</code> attribute, part of the <code>Code</code> attribute, which is itself
+part of the <code>Method_info</code> structure inside the <code>.class</code> file.  Now, the
+<code>LineNumberTable</code> attribute is optional.  "<code>javac</code>" won't include it if you use
+the <code>-g:none</code> option.  And even when it does, it is not always very helpful.
+</p>
+
+<p>
+You can run a quick test with:
+</p>
+
+<pre>
+    public class A {
+        public void f1() {
+            // Do nothing
+        }
+    }
+</pre>
+
+<p>
+And get an entry for line 1 for an implicit constructor (this happens to be the
+location of the class declaration) and another entry for line 4 for <code>f1()</code>
+(this is the closing '<code>}</code>' that ends the method).  In both cases, they are not
+obvious locations.
+</p>
+
+<p>
+Also, the <code>.class</code> file has absolutely no line number information whatsoever
+about:
+</p>
+
+<ul>
+<li>class declarations</li>
+<li>abstract methods (they don't have a <code>Code</code> attribute)</li>
+<li>fields</li>
+<li>interfaces (they are just asbtract methods and fields)</li>
+</ul>
+
+<p>
+Given all this, Dependency Finder does not do anything with line numbers, given
+that the information is sketchy and what little is there is hard to work with.
+</p>
+
+<p>
+And there is an additional limitation.  Dependency graphs only record a
+specific dependency once, regardless how many times it is present in the code.
+If a method <code>a()</code> calls another method <code>b()</code> more than once, there is only one
+edge in the graph.  Also, there is no object to represent the dependency so the
+graph cannot record dependency-specific details, such as how many times it
+occured or on which line it occured.
 </p>
 
 <a name="ExtractingWiththeGUI" />
