@@ -40,23 +40,23 @@ import junit.framework.*;
 import org.apache.oro.text.perl.*;
 
 public class TestRegularExpressionSelectionCriteria extends TestCase {
-	RegularExpressionSelectionCriteria criteria;
-	NodeFactory                        factory;
+	private RegularExpressionSelectionCriteria criteria;
+	private NodeFactory                        factory;
 
-	PackageNode a;
-	ClassNode a_A;
-	FeatureNode a_A_a;
+	private PackageNode a;
+	private ClassNode a_A;
+	private FeatureNode a_A_a;
 	
-	PackageNode b;
-	ClassNode b_B;
-	FeatureNode b_B_b;
+	private PackageNode b;
+	private ClassNode b_B;
+	private FeatureNode b_B_b;
 	
-	PackageNode c;
-	ClassNode c_C;
-	FeatureNode c_C_c;
+	private PackageNode c;
+	private ClassNode c_C;
+	private FeatureNode c_C_c;
 
-	List include;
-	List exclude;
+	private List include;
+	private List exclude;
 
 	protected void setUp() throws Exception {
 		criteria = new RegularExpressionSelectionCriteria();
