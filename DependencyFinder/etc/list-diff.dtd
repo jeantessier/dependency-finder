@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
 
 <!--
     Copyright (c) 2001-2002, Jean Tessier
@@ -15,7 +15,7 @@
     	  notice, this list of conditions and the following disclaimer in the
     	  documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of the Jean Tessier nor the names of his contributors
+    	* Neither the name of Jean Tessier nor the names of his contributors
     	  may be used to endorse or promote products derived from this software
     	  without specific prior written permission.
     
@@ -32,26 +32,16 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<!DOCTYPE dependencies [
+<!ELEMENT list-diff (name,old,new,removed,added) >
 
-<!ELEMENT dependencies (package)* >
+<!ELEMENT name (#PCDATA) >
 
-<!ELEMENT package (name,outbound*,inbound*,class*) >
+<!ELEMENT old (#PCDATA) >
 
-<!ELEMENT class (name,outbound*,inbound*,feature*) >
+<!ELEMENT new (#PCDATA) >
 
-<!ELEMENT feature (name,outbound*,inbound*) >
+<!ELEMENT removed (line)* >
 
-<!ELEMENT name (#PCDATA)* >
+<!ELEMENT added (line)* >
 
-<!ELEMENT outbound (#PCDATA)* >
-<!ATTLIST outbound
-          type (package|class|feature) #REQUIRED
->
-
-<!ELEMENT inbound (#PCDATA)* >
-<!ATTLIST inbound
-          type (package|class|feature) #REQUIRED
->
-
-]>
+<!ELEMENT line (#PCDATA) >

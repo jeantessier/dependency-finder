@@ -48,7 +48,7 @@
 
 	<h1><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>API Change History</h1>
 
-	<h1><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h1>
+	<h2><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h2>
 
 	<xsl:apply-templates/>
 
@@ -60,274 +60,274 @@
     <xsl:template match="differences/name | old | new"></xsl:template>
 
     <xsl:template match="removed-packages">
-	<h2>Removed Packages:</h2>
+	<h3>Removed Packages:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="undocumented-packages">
-	<h2>Formerly Documented Packages:</h2>
+	<h3>Packages No Longer in Published API:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
 
     <xsl:template match="removed-interfaces">
-	<h2>Removed Interfaces:</h2>
+	<h3>Removed Interfaces:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="removed-classes">
-	<h2>Removed Classes:</h2>
+	<h3>Removed Classes:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="deprecated-interfaces">
-	<h2>Newly Deprecated Interfaces:</h2>
+	<h3>Newly Deprecated Interfaces:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="deprecated-classes">
-	<h2>Newly Deprecated Classes:</h2>
+	<h3>Newly Deprecated Classes:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="undocumented-interfaces">
-	<h2>Formerly Documented Interfaces:</h2>
+	<h3>Interfaces No Longer in Published API:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="undocumented-classes">
-	<h2>Formerly Documented Classes:</h2>
+	<h3>Classes No Longer in Published API:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="modified-interfaces">
-	<h2>Modified Interfaces:</h2>
+	<h3>Modified Interfaces:</h3>
 	<blockquote>
 	<xsl:apply-templates/>
 	</blockquote>
     </xsl:template>
  
     <xsl:template match="modified-classes">
-	<h2>Modified Classes:</h2>
+	<h3>Modified Classes:</h3>
 	<blockquote>
 	<xsl:apply-templates/>
 	</blockquote>
     </xsl:template>
  
     <xsl:template match="documented-interfaces">
-	<h2>Newly Documented Interfaces:</h2>
+	<h3>Interfaces Newly Published:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="documented-classes">
-	<h2>Newly Documented Classes:</h2>
+	<h3>Classes Newly Published:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="undeprecated-interfaces">
-	<h2>Formerly Deprecated Interfaces:</h2>
+	<h3>Formerly Deprecated Interfaces:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="undeprecated-classes">
-	<h2>Formerly Deprecated Classes:</h2>
+	<h3>Formerly Deprecated Classes:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="new-packages">
-	<h2>New Packages:</h2>
+	<h3>New Packages:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
   
     <xsl:template match="documented-packages">
-	<h2>Newly Documented Packages:</h2>
+	<h3>Packages Newly Published:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
 
     <xsl:template match="new-interfaces">
-	<h2>New Interfaces:</h2>
+	<h3>New Interfaces:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="new-classes">
-	<h2>New Classes:</h2>
+	<h3>New Classes:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="class">
-	<h3><code><xsl:value-of select="name"/></code></h3>
+	<h4><code><xsl:value-of select="name"/></code></h4>
 	<blockquote>
 	    <xsl:apply-templates/>
 	</blockquote>
     </xsl:template>
 
     <xsl:template match="removed-fields">
-	<h4>Removed Fields:</h4>
+	<h5>Removed Fields:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="removed-constructors">
-	<h4>Removed Constructors:</h4>
+	<h5>Removed Constructors:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="removed-methods">
-	<h4>Removed Methods:</h4>
+	<h5>Removed Methods:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="deprecated-fields">
-	<h4>Newly Deprecated Fields:</h4>
+	<h5>Newly Deprecated Fields:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="deprecated-constructors">
-	<h4>Newly Deprecated Constructors:</h4>
+	<h5>Newly Deprecated Constructors:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="deprecated-methods">
-	<h4>Newly Deprecated Methods:</h4>
+	<h5>Newly Deprecated Methods:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
 
     <xsl:template match="undocumented-fields">
-	<h4>Formerly Documented Fields:</h4>
+	<h5>Fields No Longer in Published API:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
 
     <xsl:template match="undocumented-constructors">
-	<h4>Formerly Documented Constructors:</h4>
+	<h5>Constructors No Longer in Published API:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
 
     <xsl:template match="undocumented-methods">
-	<h4>Formerly Documented Methods:</h4>
+	<h5>Methods No Longer in Published API:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
   
     <xsl:template match="modified-fields">
-	<h4>Field Declaration Changes:</h4>
+	<h5>Field Declaration Changes:</h5>
 	<xsl:apply-templates/>
     </xsl:template>
  
     <xsl:template match="modified-constructors">
-	<h4>Constructor Declaration Changes:</h4>
+	<h5>Constructor Declaration Changes:</h5>
 	<xsl:apply-templates/>
     </xsl:template>
  
     <xsl:template match="modified-methods">
-	<h4>Method Declaration Changes:</h4>
+	<h5>Method Declaration Changes:</h5>
 	<xsl:apply-templates/>
     </xsl:template>
  
     <xsl:template match="documented-fields">
-	<h4>Newly Documented Fields:</h4>
+	<h5>Fields Newly Published:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="documented-constructors">
-	<h4>Newly Documented Constructors:</h4>
+	<h5>Constructors Newly Published:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="documented-methods">
-	<h4>Newly Documented Methods:</h4>
+	<h5>Methods Newly Published:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="undeprecated-fields">
-	<h4>Formerly Deprecated Fields:</h4>
+	<h5>Formerly Deprecated Fields:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="undeprecated-constructors">
-	<h4>Formerly Deprecated Constructors:</h4>
+	<h5>Formerly Deprecated Constructors:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="undeprecated-methods">
-	<h4>Formerly Deprecated Methods:</h4>
+	<h5>Formerly Deprecated Methods:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="new-fields">
-	<h4>New Fields:</h4>
+	<h5>New Fields:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="new-constructors">
-	<h4>New Constructors:</h4>
+	<h5>New Constructors:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="new-methods">
-	<h4>New Methods:</h4>
+	<h5>New Methods:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
@@ -336,7 +336,7 @@
     <xsl:template match="class/name | feature/name"></xsl:template>
 
     <xsl:template match="class/modified-declaration">
-	<h4>Declaration Changes:</h4>
+	<h5>Declaration Changes:</h5>
 	<blockquote>
 	<p><nobr><code>
 	<b>old:</b> <xsl:value-of select="old-declaration"/>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?> 
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
     Copyright (c) 2001-2002, Jean Tessier
@@ -32,35 +32,34 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    version="1.0">
+<!ELEMENT metrics-configuration (project-measurements, group-definitions?, group-measurements, class-measurements, method-measurements) >
 
-    <xsl:output method="text"/>
+<!ELEMENT project-measurements (measurement)* >
 
-    <xsl:template match="dependencies">
-	<xsl:apply-templates/>
-    </xsl:template>
- 
-    <xsl:template match="package[not(inbound) and not(class/inbound) and not(class/feature/inbound)]">
-	package <xsl:value-of select="name"/>
-	<xsl:apply-templates/>
-    </xsl:template>
+<!ELEMENT group-definitions (group-definition)* >
 
-    <xsl:template match="class[not(inbound) and not(feature/inbound)]">
-	class   <xsl:value-of select="name"/>
-	<xsl:apply-templates/>
-    </xsl:template>
+<!ELEMENT group-measurements (measurement)* >
 
-    <xsl:template match="feature[not(inbound)]">
-	feature <xsl:value-of select="name"/>
-    </xsl:template>
+<!ELEMENT class-measurements (measurement)* >
 
-    <xsl:template match="package|class|feature">
-	<xsl:apply-templates/>
-    </xsl:template>
+<!ELEMENT method-measurements (measurement)* >
 
-    <xsl:template match="name|inbound|outbound|text()"></xsl:template>
+<!ELEMENT measurement (short-name, long-name, class, init?, lower-threshold?, upper-threshold?)* >
 
-</xsl:stylesheet>
+<!ELEMENT short-name (#PCDATA) >
 
+<!ELEMENT long-name (#PCDATA) >
+
+<!ELEMENT class (#PCDATA) >
+
+<!ELEMENT init (#PCDATA) >
+
+<!ELEMENT lower-threshold (#PCDATA) >
+
+<!ELEMENT upper-threshold (#PCDATA) >
+
+<!ELEMENT group-definition (name, pattern)* >
+
+<!ELEMENT name (#PCDATA) >
+
+<!ELEMENT pattern (#PCDATA) >

@@ -56,7 +56,7 @@
 
 	<h1><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>Public API Change History</h1>
 
-	<h1><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h1>
+	<h2><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h2>
 
 	<xsl:apply-templates/>
 
@@ -68,7 +68,7 @@
     <xsl:template match="differences/name | old | new"></xsl:template>
 
     <xsl:template match="removed-packages[name[validator:IsPackageAllowed($validator,text())]]">
-	<h2>Removed Packages:</h2>
+	<h3>Removed Packages:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
@@ -76,7 +76,7 @@
     <xsl:template match="removed-packages"></xsl:template>
  
     <xsl:template match="removed-interfaces[name[@visibility='public' and validator:IsClassAllowed($validator,text())]]">
-	<h2>Removed Interfaces:</h2>
+	<h3>Removed Interfaces:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
@@ -84,7 +84,7 @@
     <xsl:template match="removed-interfaces"></xsl:template>
  
     <xsl:template match="removed-classes[name[@visibility='public' and validator:IsClassAllowed($validator,text())]]">
-	<h2>Removed Classes:</h2>
+	<h3>Removed Classes:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
@@ -94,7 +94,7 @@
     <xsl:template match="undocumented-packages"></xsl:template>
  
     <xsl:template match="deprecated-interfaces[name[@visibility='public' and validator:IsClassAllowed($validator,text())]]">
-	<h2>Newly Deprecated Interfaces:</h2>
+	<h3>Newly Deprecated Interfaces:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
@@ -102,7 +102,7 @@
     <xsl:template match="deprecated-interfaces"></xsl:template>
  
     <xsl:template match="deprecated-classes[name[@visibility='public' and validator:IsClassAllowed($validator,text())]]">
-	<h2>Newly Deprecated Classes:</h2>
+	<h3>Newly Deprecated Classes:</h3>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
@@ -113,14 +113,14 @@
     <xsl:template match="undocumented-classes"></xsl:template>
 
     <xsl:template match="modified-interfaces">
-	<h2>Modified Interfaces:</h2>
+	<h3>Modified Interfaces:</h3>
 	<blockquote>
 	    <xsl:apply-templates/>
 	</blockquote>
    </xsl:template>
  
     <xsl:template match="modified-classes">
-	<h2>Modified Classes:</h2>
+	<h3>Modified Classes:</h3>
 	<blockquote>
 	    <xsl:apply-templates/>
 	</blockquote>
@@ -173,7 +173,7 @@
 								 (old-declaration/@type!=new-declaration/@type) or
 								 (old-declaration/@return-type!=new-declaration/@return-type) or
 								 (old-declaration/@throws!=new-declaration/@throws))]])]">
-	<h3><code><xsl:value-of select="name"/></code></h3>
+	<h4><code><xsl:value-of select="name"/></code></h4>
 	<blockquote>
 	    <xsl:if test="modified-declaration[(old-declaration/@visibility='public' or new-declaration/@visibility='public') and
 					       ((old-declaration/@visibility='public' and new-declaration/@visibility='package') or
@@ -181,7 +181,7 @@
 					        (not(old-declaration/@final) and new-declaration/@final) or
 					        (old-declaration/@extends!=new-declaration/@extends) or
 					        (old-declaration/@implements!=new-declaration/@implements))]">
-		<h4>Declaration Changes:</h4>
+		<h5>Declaration Changes:</h5>
 	    </xsl:if>
 	    <xsl:apply-templates/>
 	</blockquote>
@@ -190,42 +190,42 @@
     <xsl:template match="class"></xsl:template>
 
     <xsl:template match="removed-fields[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature) and not(@inherited)]]">
-	<h4>Removed Fields:</h4>
+	<h5>Removed Fields:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="removed-constructors[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature) and not(@inherited)]]">
-	<h4>Removed Constructors:</h4>
+	<h5>Removed Constructors:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="removed-methods[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature) and not(@inherited)]]">
-	<h4>Removed Methods:</h4>
+	<h5>Removed Methods:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="deprecated-fields[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature)]]">
-	<h4>Newly Deprecated Fields:</h4>
+	<h5>Newly Deprecated Fields:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="deprecated-constructors[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature)]]">
-	<h4>Newly Deprecated Constructors:</h4>
+	<h5>Newly Deprecated Constructors:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
     </xsl:template>
  
     <xsl:template match="deprecated-methods[declaration[(@visibility='public' or @visibility='protected') and validator:IsFeatureAllowed($validator,@full-signature)]]">
-	<h4>Newly Deprecated Methods:</h4>
+	<h5>Newly Deprecated Methods:</h5>
 	<ul>
 	    <xsl:apply-templates/>
 	</ul>
@@ -250,7 +250,7 @@
 								       (not(old-declaration/@static) and new-declaration/@static) or
 								       (not(old-declaration/@final) and new-declaration/@final) or
 								       (old-declaration/@type!=new-declaration/@type))]]]">
-	<h4>Field Declaration Changes:</h4>
+	<h5>Field Declaration Changes:</h5>
 	<xsl:apply-templates/>
     </xsl:template>
  
@@ -271,7 +271,7 @@
 									     (not(old-declaration/@final) and new-declaration/@final) or
 									     (old-declaration/@return-type!=new-declaration/@return-type) or
 									     (old-declaration/@throws!=new-declaration/@throws))]]]">
-	<h4>Constructor Declaration Changes:</h4>
+	<h5>Constructor Declaration Changes:</h5>
 	<xsl:apply-templates/>
     </xsl:template>
  
@@ -292,7 +292,7 @@
 								        (not(old-declaration/@final) and new-declaration/@final) or
 								        (old-declaration/@return-type!=new-declaration/@return-type) or
 								        (old-declaration/@throws!=new-declaration/@throws))]]]">
-	<h4>Method Declaration Changes:</h4>
+	<h5>Method Declaration Changes:</h5>
 	<xsl:apply-templates/>
     </xsl:template>
 

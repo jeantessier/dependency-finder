@@ -1,4 +1,4 @@
-<?xml version="1.0"?> 
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
     Copyright (c) 2001-2002, Jean Tessier
@@ -15,7 +15,7 @@
     	  notice, this list of conditions and the following disclaimer in the
     	  documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
+    	* Neither the name of the Jean Tessier nor the names of his contributors
     	  may be used to endorse or promote products derived from this software
     	  without specific prior written permission.
     
@@ -32,35 +32,22 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    version="1.0">
+<!ELEMENT dependencies (package)* >
 
-    <xsl:output method="text"/>
+<!ELEMENT package (name,outbound*,inbound*,class*) >
 
-    <xsl:template match="dependencies">
-	<xsl:apply-templates/>
-    </xsl:template>
- 
-    <xsl:template match="package[not(inbound) and not(class/inbound) and not(class/feature/inbound)]">
-	package <xsl:value-of select="name"/>
-	<xsl:apply-templates/>
-    </xsl:template>
+<!ELEMENT class (name,outbound*,inbound*,feature*) >
 
-    <xsl:template match="class[not(inbound) and not(feature/inbound)]">
-	class   <xsl:value-of select="name"/>
-	<xsl:apply-templates/>
-    </xsl:template>
+<!ELEMENT feature (name,outbound*,inbound*) >
 
-    <xsl:template match="feature[not(inbound)]">
-	feature <xsl:value-of select="name"/>
-    </xsl:template>
+<!ELEMENT name (#PCDATA) >
 
-    <xsl:template match="package|class|feature">
-	<xsl:apply-templates/>
-    </xsl:template>
+<!ELEMENT outbound (#PCDATA) >
+<!ATTLIST outbound
+          type (package|class|feature) #REQUIRED
+>
 
-    <xsl:template match="name|inbound|outbound|text()"></xsl:template>
-
-</xsl:stylesheet>
-
+<!ELEMENT inbound (#PCDATA) >
+<!ATTLIST inbound
+          type (package|class|feature) #REQUIRED
+>
