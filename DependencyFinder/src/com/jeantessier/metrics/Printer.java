@@ -136,7 +136,11 @@ public abstract class Printer implements MeasurementVisitor {
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		VisitMeasurement(measurement);
 	}
-	
+		
+	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		VisitMeasurement(measurement);
+	}
+
 	public void VisitSumMeasurement(SumMeasurement measurement) {
 		VisitMeasurement(measurement);
 	}

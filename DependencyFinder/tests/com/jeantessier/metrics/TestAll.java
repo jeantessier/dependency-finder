@@ -46,6 +46,7 @@ public class TestAll extends TestCase {
 		result.addTestSuite(TestMetricsConfigurationLoader.class);
 		result.addTestSuite(TestNullMeasurement.class);
 		result.addTestSuite(TestCounterMeasurement.class);
+		result.addTestSuite(TestNameListMeasurement.class);
 		result.addTestSuite(TestAccumulatorMeasurement.class);
 		result.addTestSuite(TestRatioMeasurement.class);
 		result.addTestSuite(TestSumMeasurement.class);

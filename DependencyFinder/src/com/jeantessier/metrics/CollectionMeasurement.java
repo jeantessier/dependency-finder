@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,12 +32,8 @@
 
 package com.jeantessier.metrics;
 
-public interface MeasurementVisitor {
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement);
-	public void VisitCounterMeasurement(CounterMeasurement measurement);
-	public void VisitNameListMeasurement(NameListMeasurement measurement);
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement);
-	public void VisitRatioMeasurement(RatioMeasurement measurement);
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement);
-	public void VisitSumMeasurement(SumMeasurement measurement);
+import java.util.*;
+
+public interface CollectionMeasurement extends Measurement{
+	public Collection Values();
 }

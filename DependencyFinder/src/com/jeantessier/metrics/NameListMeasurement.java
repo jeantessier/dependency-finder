@@ -13,7 +13,7 @@
  *  	  notice, this list of conditions and the following disclaimer in the
  *  	  documentation and/or other materials provided with the distribution.
  *  
- *  	* Neither the name of the Jean Tessier nor the names of his contributors
+ *  	* Neither the name of Jean Tessier nor the names of his contributors
  *  	  may be used to endorse or promote products derived from this software
  *  	  without specific prior written permission.
  *  
@@ -32,12 +32,57 @@
 
 package com.jeantessier.metrics;
 
-public interface MeasurementVisitor {
-	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement);
-	public void VisitCounterMeasurement(CounterMeasurement measurement);
-	public void VisitNameListMeasurement(NameListMeasurement measurement);
-	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement);
-	public void VisitRatioMeasurement(RatioMeasurement measurement);
-	public void VisitStatisticalMeasurement(StatisticalMeasurement measurement);
-	public void VisitSumMeasurement(SumMeasurement measurement);
+import java.util.*;
+
+import org.apache.log4j.*;
+
+/**
+ *  <pre>
+ *  &lt;init-text&gt;
+ *      [SET | LIST]
+ *  &lt;/init-text&gt;
+ *  </pre>
+ *
+ *  <p>Defaults to SET (i.e., does not count duplicates).</p>
+ */
+public class NameListMeasurement extends MeasurementBase implements CollectionMeasurement {
+	private Collection collection;
+
+	public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
+		super(descriptor, context, init_text);
+
+		if (init_text != null) {
+			if (init_text.trim().equalsIgnoreCase("list")) {
+				collection = new LinkedList();
+			} else if (init_text.trim().equalsIgnoreCase("set")) {
+				collection = new HashSet();
+			} else {
+				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\", using SET");
+				collection = new HashSet();
+			}
+		} else {
+			Logger.getLogger(getClass()).debug("Cannot initialize with null text, using SET");
+			collection = new HashSet();
+		}
+	}
+
+	public void Add(Object object) {
+		collection.add(object);
+	}
+
+	public void Accept(MeasurementVisitor visitor) {
+		visitor.VisitNameListMeasurement(this);
+	}
+
+	public Number Value() {
+		return new Integer(collection.size());
+	}
+
+	protected double Compute() {
+		return collection.size();
+	}
+
+	public Collection Values() {
+		return Collections.unmodifiableCollection(collection);
+	}
 }

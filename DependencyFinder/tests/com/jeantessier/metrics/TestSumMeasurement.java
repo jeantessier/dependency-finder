@@ -316,6 +316,10 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 		// Do nothing
 	}
 	
+	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
 	public void VisitSumMeasurement(SumMeasurement measurement) {
 		visited = measurement;
 	}

@@ -40,20 +40,20 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
 	private Metrics metrics;
 	private MeasurementDescriptor descriptor;
 
-	private Metrics sm1;
-	private Metrics sm2;
-	private Metrics sm3;
-	private Metrics sm4;
-	private Metrics sm5;
-	private Metrics sm6;
+	private Metrics m1;
+	private Metrics m2;
+	private Metrics m3;
+	private Metrics m4;
+	private Metrics m5;
+	private Metrics m6;
 	
 	protected void setUp() throws Exception {
-		sm1 = new Metrics("sm1");
-		sm2 = new Metrics("sm2");
-		sm3 = new Metrics("sm3");
-		sm4 = new Metrics("sm4");
-		sm5 = new Metrics("sm5");
-		sm6 = new Metrics("sm6");
+		m1 = new Metrics("m1");
+		m2 = new Metrics("m2");
+		m3 = new Metrics("m3");
+		m4 = new Metrics("m4");
+		m5 = new Metrics("m5");
+		m6 = new Metrics("m6");
 		
 		MeasurementDescriptor present = new MeasurementDescriptor();
 		present.ShortName("P");
@@ -65,32 +65,32 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
 		counter.LongName("counter");
 		counter.Class(CounterMeasurement.class);
 
-		sm1.Track(present.CreateMeasurement(sm1));
+		m1.Track(present.CreateMeasurement(m1));
 
-		sm2.Track(present.CreateMeasurement(sm2));
-		sm2.Track(counter.CreateMeasurement(sm2));
-		sm2.AddToMeasurement("C", 0);
+		m2.Track(present.CreateMeasurement(m2));
+		m2.Track(counter.CreateMeasurement(m2));
+		m2.AddToMeasurement("C", 0);
 
-		sm3.Track(counter.CreateMeasurement(sm3));
-		sm3.AddToMeasurement("C", 1);
+		m3.Track(counter.CreateMeasurement(m3));
+		m3.AddToMeasurement("C", 1);
 
-		sm4.Track(counter.CreateMeasurement(sm4));
-		sm4.AddToMeasurement("C", 2);
+		m4.Track(counter.CreateMeasurement(m4));
+		m4.AddToMeasurement("C", 2);
 
-		sm5.Track(counter.CreateMeasurement(sm5));
-		sm5.AddToMeasurement("C", 3);
+		m5.Track(counter.CreateMeasurement(m5));
+		m5.AddToMeasurement("C", 3);
 
-		sm6.Track(counter.CreateMeasurement(sm6));
-		sm6.AddToMeasurement("C", 4);
+		m6.Track(counter.CreateMeasurement(m6));
+		m6.AddToMeasurement("C", 4);
 
 		metrics = new Metrics("metrics");
 		
-		metrics.AddSubMetrics(sm1);
-		metrics.AddSubMetrics(sm2);
-		metrics.AddSubMetrics(sm3);
-		metrics.AddSubMetrics(sm4);
-		metrics.AddSubMetrics(sm5);
-		metrics.AddSubMetrics(sm6);
+		metrics.AddSubMetrics(m1);
+		metrics.AddSubMetrics(m2);
+		metrics.AddSubMetrics(m3);
+		metrics.AddSubMetrics(m4);
+		metrics.AddSubMetrics(m5);
+		metrics.AddSubMetrics(m6);
 
 		descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("Nb");

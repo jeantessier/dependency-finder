@@ -80,6 +80,10 @@ public class TestNullMeasurement extends TestCase implements MeasurementVisitor 
 		visited = measurement;
 	}
 	
+	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
 	public void VisitSumMeasurement(SumMeasurement measurement) {
 		visited = measurement;
 	}

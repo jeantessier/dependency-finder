@@ -286,7 +286,11 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		// Do nothing
 	}
-	
+		
+	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+
 	public void VisitSumMeasurement(SumMeasurement measurement) {
 		// Do nothing
 	}

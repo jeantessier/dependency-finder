@@ -32,57 +32,105 @@
 
 package com.jeantessier.metrics;
 
+import java.io.*;
 import java.util.*;
 
 import org.apache.log4j.*;
 
 /**
+ *  Accumulates entries in submetrics, filtering with regular
+ *  expressions.  If no regular expressions are given, matches
+ *  everything.  Otherwise, each entry must match at least one
+ *  of the regular expressions, using Perl5Util.  This measurement
+ *  will use Perl5Util.group(1) if not null, or else the fill
+ *  string.
+ * 
  *  <pre>
  *  &lt;init-text&gt;
- *      [SET | LIST]
+ *      measurement name
+ *      (perl regular expression)*
  *  &lt;/init-text&gt;
  *  </pre>
- *
- *  <p>Defaults to SET (i.e., does not count duplicates).</p>
  */
-public class AccumulatorMeasurement extends MeasurementBase {
-	private Collection collection;
+public class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {
+	private String name  = null;
+	private List   terms = new LinkedList();
 
 	public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String init_text) {
 		super(descriptor, context, init_text);
 
-		if (init_text != null) {
-			if (init_text.trim().equalsIgnoreCase("list")) {
-				collection = new LinkedList();
-			} else if (init_text.trim().equalsIgnoreCase("set")) {
-				collection = new HashSet();
-			} else {
-				Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\", using SET");
-				collection = new HashSet();
-			}
-		} else {
-			Logger.getLogger(getClass()).debug("Cannot initialize with null text, using SET");
-			collection = new HashSet();
-		}
-	}
+		try {
+			BufferedReader in   = new BufferedReader(new StringReader(init_text));
+			String         line = in.readLine();
 
-	public void Add(Object object) {
-		collection.add(object);
+			if (line != null) {
+				name = line.trim();
+			}
+			
+			while ((line = in.readLine()) != null) {
+				terms.add(line.trim());
+			}
+
+			in.close();
+		} catch (Exception ex) {
+			Logger.getLogger(getClass()).debug("Cannot initialize with \"" + init_text + "\"", ex);
+			terms.clear();
+		}
 	}
 
 	public void Accept(MeasurementVisitor visitor) {
 		visitor.VisitAccumulatorMeasurement(this);
 	}
 
-	public Number Value() {
-		return new Integer(collection.size());
-	}
-
 	protected double Compute() {
-		return collection.size();
+		return Values().size();
 	}
 
 	public Collection Values() {
-		return Collections.unmodifiableCollection(collection);
+		Collection results = new TreeSet();
+		
+		Iterator i = Context().SubMetrics().iterator();
+		while (i.hasNext()) {
+			FilterMetrics((Metrics) i.next(), results);
+		}
+		
+		return results;
+	}
+
+	private void FilterMetrics(Metrics metrics, Collection results) {
+		Measurement measurement = metrics.Measurement(name);
+		if (measurement instanceof CollectionMeasurement) {
+			Iterator i = ((CollectionMeasurement) measurement).Values().iterator();
+			while (i.hasNext()) {
+				FilterElement((String) i.next(), results);
+			}
+		}
+	}
+
+	private void FilterElement(String element, Collection results) {
+		if (terms.isEmpty()) {
+			results.add(element);
+		} else {
+			boolean found = false;
+			Iterator i = terms.iterator();
+			while (!found && i.hasNext()) {
+				found = EvaluateRE((String) i.next(), element, results);
+			}
+		}
+	}
+	
+	private synchronized boolean EvaluateRE(String re, String element, Collection results) {
+		boolean result = false;
+		
+		if (Perl().match(re, element)) {
+			result = true;
+			if (Perl().group(1) != null) {
+				results.add(Perl().group(1));
+			} else {
+				results.add(element);
+			}
+		}
+
+		return result;
 	}
 }

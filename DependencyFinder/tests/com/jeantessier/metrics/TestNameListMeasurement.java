@@ -34,26 +34,24 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
-public class TestNbSubMetricsMeasurement extends TestCase implements MeasurementVisitor {
-	private NbSubMetricsMeasurement measurement;
-	private Metrics metrics;
+public class TestNameListMeasurement extends TestCase implements MeasurementVisitor {
+	private NameListMeasurement measurement;
 	private Measurement visited;
 	
 	protected void setUp() {
-		metrics = new Metrics("foo");
-		measurement = new NbSubMetricsMeasurement(null, metrics, null);
+		measurement = new NameListMeasurement(null, null, null);
 	}
 
 	public void testMeasurementDescriptor() throws Exception {
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
+		descriptor.Class(NameListMeasurement.class);
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement();
+		measurement = (NameListMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement.Descriptor());
-		assertEquals(NbSubMetricsMeasurement.class, measurement.Descriptor().Class());
+		assertEquals(NameListMeasurement.class, measurement.Descriptor().Class());
 		assertEquals("foo", measurement.ShortName());
 		assertEquals("bar", measurement.LongName());
 	}
@@ -62,51 +60,127 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
+		descriptor.Class(NameListMeasurement.class);
 
-		Measurement measurement = descriptor.CreateMeasurement();
+		measurement = (NameListMeasurement) descriptor.CreateMeasurement();
 		
 		assertNotNull(measurement);
 		assertEquals(descriptor, measurement.Descriptor());
 		assertSame(descriptor, measurement.Descriptor());
-		assertEquals(NbSubMetricsMeasurement.class, measurement.getClass());
+		assertEquals(NameListMeasurement.class, measurement.getClass());
 		assertEquals("foo", measurement.ShortName());
 		assertEquals("bar", measurement.LongName());
 	}
 
-	public void testAddSubMetrics() {
-		assertEquals(0, measurement.intValue());
-		assertEquals(0.0, measurement.doubleValue(), 0.01);
-		assertEquals(0, measurement.Value().intValue());
+	public void testCreateSet() {
+		measurement = new NameListMeasurement(null, null, "SET");
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-
-		assertEquals(1, measurement.intValue());
-		assertEquals(1.0, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
-
-		metrics.AddSubMetrics(new Metrics("bar"));
+		measurement.Add("abc");
+		measurement.Add("abc");
 
 		assertEquals(1, measurement.intValue());
-		assertEquals(1.0, measurement.doubleValue(), 0.01);
-		assertEquals(1, measurement.Value().intValue());
+	}
+	
+	public void testCreateList() {
+		measurement = new NameListMeasurement(null, null, "LIST");
 
-		metrics.AddSubMetrics(new Metrics("baz"));
+		measurement.Add("abc");
+		measurement.Add("abc");
 
 		assertEquals(2, measurement.intValue());
-		assertEquals(2.0, measurement.doubleValue(), 0.01);
-		assertEquals(2, measurement.Value().intValue());
+	}
+
+	public void testCreateDefault() {
+		measurement.Add("abc");
+		measurement.Add("abc");
+
+		assertEquals(1, measurement.intValue());
+	}
+
+	public void testAddObject() {
+		Object o1 = new Object();
+		Object o2 = new Object();
+
+		assertEquals("zero", 0, measurement.intValue());
+		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("zero", 0, measurement.Value().intValue());
+
+		measurement.Add(o1);
+		assertEquals("one", 1, measurement.intValue());
+		assertEquals("one", 1.0, measurement.doubleValue(), 0.01);
+		assertEquals("one", 1, measurement.Value().intValue());
+
+		measurement.Add(o2);
+		assertEquals("two", 2, measurement.intValue());
+		assertEquals("two", 2.0, measurement.doubleValue(), 0.01);
+		assertEquals("two", 2, measurement.Value().intValue());
+
+		measurement.Add(o1);
+		assertEquals("three", 2, measurement.intValue());
+		assertEquals("three", 2.0, measurement.doubleValue(), 0.01);
+		assertEquals("three", 2, measurement.Value().intValue());
+	}
+
+	public void testValues() {
+		Object o1 = new Object();
+		Object o2 = new Object();
+
+		measurement.Add(o1);
+		measurement.Add(o2);
+
+		assertEquals("size", 2, measurement.Values().size());
+		assertTrue("Missing o1", measurement.Values().contains(o1));
+		assertTrue("Missing o2", measurement.Values().contains(o2));
+
+		try {
+			measurement.Values().add(o2);
+			fail("Was allowed to modify the Values() collection");
+		} catch (UnsupportedOperationException ex) {
+			// Ignore
+		}
+	}
+
+	public void testAddInt() {
+		assertEquals("zero", 0, measurement.intValue());
+		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("zero", 0, measurement.Value().intValue());
+
+		measurement.Add(1);
+		assertEquals("one", 0, measurement.intValue());
+		assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("one", 0, measurement.Value().intValue());
+
+		measurement.Add(1);
+		assertEquals("two", 0, measurement.intValue());
+		assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("two", 0, measurement.Value().intValue());
+	}
+
+	public void testAddFloat() {
+		assertEquals("zero", 0, measurement.intValue());
+		assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("zero", 0, measurement.Value().intValue());
+
+		measurement.Add(1.0);
+		assertEquals("one", 0, measurement.intValue());
+		assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("one", 0, measurement.Value().intValue());
+
+		measurement.Add(1.0);
+		assertEquals("two", 0, measurement.intValue());
+		assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
+		assertEquals("two", 0, measurement.Value().intValue());
 	}
 
 	public void testInUndefinedRange() {
 		assertTrue(measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		measurement.Add(new Object());
 		
 		assertTrue(measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		measurement.Add(new Object());
+		measurement.Add(new Object());
 
 		assertTrue(measurement.InRange());
 	}
@@ -115,18 +189,18 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
+		descriptor.Class(NameListMeasurement.class);
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NameListMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		measurement.Add(new Object());
 		
 		assertTrue(measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		measurement.Add(new Object());
+		measurement.Add(new Object());
 
 		assertTrue(measurement.InRange());
 	}
@@ -135,19 +209,19 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
+		descriptor.Class(NameListMeasurement.class);
 		descriptor.LowerThreshold(new Integer(1));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NameListMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(!measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		measurement.Add(new Object());
 		
 		assertTrue(measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		measurement.Add(new Object());
+		measurement.Add(new Object());
 		
 		assertTrue(measurement.InRange());
 	}
@@ -156,19 +230,19 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
+		descriptor.Class(NameListMeasurement.class);
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NameListMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		measurement.Add(new Object());
 		
 		assertTrue(measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		measurement.Add(new Object());
+		measurement.Add(new Object());
 		
 		assertTrue(!measurement.InRange());
 	}
@@ -177,39 +251,22 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		MeasurementDescriptor descriptor = new MeasurementDescriptor();
 		descriptor.ShortName("foo");
 		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
+		descriptor.Class(NameListMeasurement.class);
 		descriptor.LowerThreshold(new Integer(1));
 		descriptor.UpperThreshold(new Float(1.5));
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
+		measurement = (NameListMeasurement) descriptor.CreateMeasurement();
 		
 		assertTrue(!measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("foo"));
+		measurement.Add(new Object());
 		
 		assertTrue(measurement.InRange());
 
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
+		measurement.Add(new Object());
+		measurement.Add(new Object());
 		
 		assertTrue(!measurement.InRange());
-	}
-
-	public void testSelectionCriteria() throws Exception {
-		MeasurementDescriptor descriptor = new MeasurementDescriptor();
-		descriptor.ShortName("foo");
-		descriptor.LongName("bar");
-		descriptor.Class(NbSubMetricsMeasurement.class);
-
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
-
-		assertEquals("empty metrics", 0, measurement.intValue());
-		
-		metrics.AddSubMetrics(new Metrics("foo"));
-		metrics.AddSubMetrics(new Metrics("bar"));
-		metrics.AddSubMetrics(new Metrics("baz"));
-
-		assertEquals("empty metrics", 3, measurement.intValue());
 	}
 
 	public void testAccept() {
@@ -227,7 +284,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	}
 	
 	public void VisitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
-		visited = measurement;
+		// Do nothing
 	}
 	
 	public void VisitCounterMeasurement(CounterMeasurement measurement) {
@@ -237,11 +294,11 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 	public void VisitAccumulatorMeasurement(AccumulatorMeasurement measurement) {
 		// Do nothing
 	}
-	
+		
 	public void VisitNameListMeasurement(NameListMeasurement measurement) {
-		// Do nothing
+		visited = measurement;
 	}
-	
+
 	public void VisitSumMeasurement(SumMeasurement measurement) {
 		// Do nothing
 	}

@@ -348,6 +348,10 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
 		// Do nothing
 	}
 	
+	public void VisitNameListMeasurement(NameListMeasurement measurement) {
+		// Do nothing
+	}
+	
 	public void VisitSumMeasurement(SumMeasurement measurement) {
 		// Do nothing
 	}
