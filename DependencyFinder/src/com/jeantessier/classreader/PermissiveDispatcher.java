@@ -60,10 +60,10 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
 				   filename.endsWith(".htm")        ||
 				   filename.endsWith(".html")       ||
 				   filename.endsWith(".java")       ||
-				   filename.endsWith(".js")         ||
-				   filename.endsWith(".jsp")        ||
 				   filename.endsWith(".jpeg")       ||
 				   filename.endsWith(".jpg")        ||
+				   filename.endsWith(".js")         ||
+				   filename.endsWith(".jsp")        ||
 				   filename.endsWith("MANIFEST.MF") ||
 				   filename.endsWith(".properties") ||
 				   filename.endsWith(".ps")         ||

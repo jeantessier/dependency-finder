@@ -62,6 +62,7 @@ public class TestPermissiveDispatcher extends TestCase {
 		assertEquals("foo.jpeg",       ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.jpeg"));
 		assertEquals("foo.jpg",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.jpg"));
 		assertEquals("foo.js",         ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.js"));
+		assertEquals("foo.jsp",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.jsp"));
 		assertEquals("foo.properties", ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.properties"));
 		assertEquals("foo.ps",         ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.ps"));
 		assertEquals("foo.txt",        ClassfileLoaderDispatcher.ACTION_IGNORE,    dispatcher.Dispatch("foo.txt"));
