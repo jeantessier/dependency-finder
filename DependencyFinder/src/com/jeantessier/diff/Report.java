@@ -446,7 +446,7 @@ public class Report extends Printer {
 		result.append("\n");
 		result.append("<!DOCTYPE differences [\n");
 		result.append("\n");
-		result.append("<!ELEMENT differences (name,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,undocumented-interfaces?,undocumented-classes?,modified-interfaces?,modified-classes?,documented-interfaces?,documented-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >\n");
+		result.append("<!ELEMENT differences (name,old,new,removed-packages?,undocumented-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,undocumented-interfaces?,undocumented-classes?,modified-interfaces?,modified-classes?,documented-interfaces?,documented-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,documented-packages?,new-interfaces?,new-classes?) >\n");
 		result.append("\n");
 		result.append("<!ELEMENT old (#PCDATA)* >\n");
 		result.append("\n");
