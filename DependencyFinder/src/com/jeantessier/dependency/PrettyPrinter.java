@@ -102,12 +102,12 @@ public class PrettyPrinter extends TextPrinter {
 	}
 	
 	protected void PostprocessPackageNode(PackageNode node) {
+		super.PostprocessPackageNode(node);
 		if (ShowEmptyNodes() || !dependencies.isEmpty() || CurrentBufferLength() > 0) {
 			PopBuffer(node.Name());
 		} else {
 			KillBuffer();
 		}
-		super.PostprocessPackageNode(node);
 	}
 
 	public void VisitInboundPackageNode(PackageNode node) {
@@ -161,12 +161,12 @@ public class PrettyPrinter extends TextPrinter {
 	}
 
 	protected void PostprocessClassNode(ClassNode node) {
+		super.PostprocessClassNode(node);
 		if (ShowEmptyNodes() || !dependencies.isEmpty() || CurrentBufferLength() > 0) {
 			PopBuffer(node.Name().substring(node.Name().lastIndexOf('.') + 1));
 		} else {
 			KillBuffer();
 		}
-		super.PostprocessClassNode(node);
 	}
 	
 	public void VisitInboundClassNode(ClassNode node) {
