@@ -4703,54 +4703,86 @@ provider may not give you a list of their published API to further restrict
 =PublishedDiffToHTML=, but you can build your own using Dependency Finder,
 customized to your own usage of the library.
 
-For example, to find Dependency Finder's usage of Log4J, you first extract
-Dependency Finder's dependency graph and reduce it to the part that involves
-Log4J elements only.
+For example, say software _S_ depends on library _L_ and there is a new version
+_L'_ of the library now available.  What will be the impact on _S_?  _L_ can
+comprise many JAR files and many packages with no obvious root.
+
+Step 1: Get a list of all the symbols in _L_.  You will use a dependency graph
+later to narrow this list down to the symbols that _S_ actually uses.
 
 <div class="highlight">
 
-    C:\>DependencyExtractor -xml -out df.xml
-                            DependencyFinder.jar
-
-    C:\>DependencyReporter -xml -out df-log4j.xml
-                           -show-all
-                           -scope-includes /log4j/
-                           df.xml
-
-    C:\>DependencyGraphToText -in df-log4j.xml
-                              -out df-log4j.txt
+    C:\>ListSymbols -out *_L_.symbols.txt*
+                    -class-names
+                    -method-names
+                    -feature-names
+                    _L_
 
 </div>
 
-If you use multiple third-party libraries, you don't have to to repeat all the
-steps for each one.  You can supply multiple =-scope-includes= switches to
-=DependencyReporter= to get a single text file that has all the symbols across
-all third-party libraries.
-
-Now, =df-log4j.txt= has the list of all Log4J elements used in Dependency
-Finder.  You can pass it to =JarJarDiff= and =PublishedDiffToHTML= to limit the
-report to these elements only.
+Step 2: Build a dependency graph from _S_.
 
 <div class="highlight">
 
-    C:\>JarJarDiff -out log4j-1.2.8-1.2.9.xml
-                   -name Log4J
-                   -old-label 1.2.8
-                   -old jakarta-log4j-1.2.8\dist\lib\log4j-1.2.8.jar
-                   -new-label 1.2.9
-                   -new jakarta-log4j-1.2.0\dist\lib\log4j-1.2.9.jar
-
-    C:\>PublishedDiffToHTML -in log4j-1.2.8-1.2.9.xml
-                            -out log4j-1.2.8-1.2.9.html
-                            -param validation-list df-log4j.txt
+    C:\>DependencyExtractor -xml -out _S_.graph.xml
+                            _S_
 
 </div>
 
-If you run =DiffToHTML=, you will get a full report on what changed in the
-library.  If you run =PublishedDiffToHTML= without a validation list, you will
-get a smaller report that focuses on the public view of the library.  The
-example shown above, with the validation list, focuses exclusively on those
-parts of the library that you are actually using.
+Step 3: Get a subgraph from the symbols from _L_.
+
+<div class="highlight">
+
+    C:\>DependencyReporter -xml -out _S_-_L_.graph.xml
+                           -show-empty-nodes
+                           -scope-includes-list *_L_.symbols.txt*
+                           _S_.graph.xml
+
+    C:\>DependencyGraphToText -in _S_-_L_.graph.xml
+                              -out *_S_-_L_.symbols.txt*
+
+</div>
+
+If you use multiple third-party libraries, you don't have to to repeat all
+these steps for each one of them.  You can either extract symbols from all of
+them in one call or supply multiple =-scope-includes-list= switches to
+=DependencyReporter=.  Either way, in the end, you will get a single text file
+that has all the symbols across all third-party libraries.
+
+Now, =_S_-_L_.symbols.txt= has the list of all elements from _L_ used in _S_.
+You can pass it to =JarJarDiff= and =PublishedDiffToHTML= to limit the report
+to these elements only.
+
+Step 4: Get the differences between _L_ and _L'_.
+
+<div class="highlight">
+
+    C:\>JarJarDiff -out _L_-_L'_.diff.xml
+                   -name L
+                   -old-label L
+                   -old _L_
+                   -new-label L'
+                   -new _L'_
+
+</div>
+
+Step 5: Narrow down the differences to what is used by _S_.
+
+<div class="highlight">
+
+    C:\>PublishedDiffToHTML -in _L_-_L'_.diff.xml
+                            -out _S_-_L_-_L'_.diff.html
+                            -param validation-list *_S_-_L_.symbols.txt*
+
+</div>
+
+The level of detail in the final report depends on which stylesheet you use and
+what parameters you give to it.  If you run =DiffToHTML= instead of
+=PublishedDiffToHTML=, you will get a complete report on what changed in _L_.
+If you run =PublishedDiffToHTML= without a validation list, you will get a
+report that covers the entire public API of _L_.  The example shown above, with
+the validation list, focuses exclusively on those parts of the _L_ that you are
+actually using in _S_.
 
 ---+++ Computing the D' Metric
 
