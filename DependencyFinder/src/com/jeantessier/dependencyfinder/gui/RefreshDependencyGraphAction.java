@@ -65,17 +65,14 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 
 		model.getStatusLine().showInfo("Scanning ...");
 		ClassfileScanner scanner = new ClassfileScanner();
-		scanner.load(Collections.singleton(model.getInputFile()));
+		scanner.load(model.getInputFiles());
 
 		model.getProgressBar().setMaximum(scanner.getNbFiles());
 
-		model.setNodeFactory(new NodeFactory());
-		Collector collector = new CodeDependencyCollector(model.getNodeFactory());
-
 		ClassfileLoader loader = new TransientClassfileLoader(model.getClassfileLoaderDispatcher());
 		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
-		loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
-		loader.load(Collections.singleton(model.getInputFile()));
+		loader.addLoadListener(model.getMonitor());
+		loader.load(model.getInputFiles());
 
 		if (model.getMaximize()) {
 			model.getStatusLine().showInfo("Maximizing ...");

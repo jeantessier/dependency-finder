@@ -67,9 +67,10 @@ public class DependencyFinder extends JFrame {
 	private StatusLine        statusLine             = new StatusLine(420);
 	private JProgressBar      progressBar            = new JProgressBar();
 
+	private Collection                inputFiles  = null;
 	private ClassfileLoaderDispatcher dispatcher  = null;
-	private File                      inputFile   = new File(".");
 	private NodeFactory               nodeFactory = null;
+	private Monitor                   monitor     = null;
 
 	private JCheckBox  packageScope          = new JCheckBox("packages");
 	private JCheckBox  classScope            = new JCheckBox("classes");
@@ -175,7 +176,7 @@ public class DependencyFinder extends JFrame {
 		return maximize;
 	}
 
-	public void setMaximize(boolean maximize) {
+	private void setMaximize(boolean maximize) {
 		this.maximize = maximize;
 	}
 
@@ -183,28 +184,36 @@ public class DependencyFinder extends JFrame {
 		return minimize;
 	}
 
-	public void setMinimize(boolean minimize) {
+	private void setMinimize(boolean minimize) {
 		this.minimize = minimize;
 	}
 	
 	public ClassfileLoaderDispatcher getClassfileLoaderDispatcher() {
-		if (dispatcher == null) {
-			dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
-		}
-		
 		return dispatcher;
 	}
 
-	public void clearClassfileLoaderDispatcher() {
-		dispatcher = null;
-	}
-	
-	public File getInputFile() {
-		return inputFile;
+	private void setClassfileLoaderDispatcher(ClassfileLoaderDispatcher dispatcher) {
+		this.dispatcher = dispatcher;
 	}
 
-	public void setInputFile(File inputFile) {
-		this.inputFile = inputFile;
+	public Monitor getMonitor() {
+		return monitor;
+	}
+
+	private void setMonitor(Monitor monitor) {
+		this.monitor = monitor;
+	}
+	
+	public Collection getInputFiles() {
+		return inputFiles;
+	}
+
+	private void setInputFiles(Collection inputFiles) {
+		this.inputFiles = inputFiles;
+	}
+	
+	public void addInputFiles(Collection files) {
+		inputFiles.addAll(files);
 	}
 
 	public Collection getPackages() {
@@ -215,7 +224,7 @@ public class DependencyFinder extends JFrame {
 		return nodeFactory;
 	}
 
-	public void setNodeFactory(NodeFactory nodeFactory) {
+	private void setNodeFactory(NodeFactory nodeFactory) {
 		this.nodeFactory = nodeFactory;
 	}
 	
@@ -1241,7 +1250,16 @@ public class DependencyFinder extends JFrame {
 	}		
 
 	void setNewDependencyGraph() {
-		setNodeFactory(new NodeFactory());
+		setInputFiles(new LinkedList());
+		setClassfileLoaderDispatcher(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));
+
+		NodeFactory factory = new NodeFactory();
+		setNodeFactory(factory);
+
+		CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
+		DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
+	    setMonitor(new Monitor(collector, deletingVisitor));
+
 		resetQuery();
 	}
 

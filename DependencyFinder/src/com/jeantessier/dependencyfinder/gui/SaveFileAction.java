@@ -64,7 +64,7 @@ public class SaveFileAction extends AbstractAction implements Runnable {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.getInputFile());
+		JFileChooser chooser = new JFileChooser();
 		chooser.addChoosableFileFilter(new XMLFileFilter());
 		int returnValue = chooser.showSaveDialog(model);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {

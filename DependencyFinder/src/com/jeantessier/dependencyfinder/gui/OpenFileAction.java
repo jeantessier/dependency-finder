@@ -56,7 +56,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.getInputFile());
+		JFileChooser chooser = new JFileChooser();
 		chooser.addChoosableFileFilter(new XMLFileFilter());
 		int returnValue = chooser.showOpenDialog(model);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -66,13 +66,13 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 	}
 
 	public void run() {
-		model.setInputFile(file);
 		model.setNewDependencyGraph();
+		model.addInputFiles(Collections.singleton(file));
 		
 		try {
 			Date start = new Date();
 
-			String filename = model.getInputFile().getCanonicalPath();
+			String filename = file.getCanonicalPath();
 
 			NodeLoader loader = new NodeLoader(model.getNodeFactory());
 			loader.addDependencyListener(this);

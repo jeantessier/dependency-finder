@@ -43,7 +43,6 @@ import com.jeantessier.dependency.*;
 
 public class DependencyExtractAction extends AbstractAction implements Runnable {
 	private DependencyFinder model;
-	private File[]           files;
 
 	public DependencyExtractAction(DependencyFinder model) {
 		this.model = model;
@@ -54,14 +53,18 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser chooser = new JFileChooser(model.getInputFile());
+		JFileChooser chooser;
+		if (model.getInputFiles().isEmpty()) {
+			chooser = new JFileChooser(new File("."));
+		} else {
+			chooser = new JFileChooser((File) model.getInputFiles().iterator().next());
+		}
 		chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
 		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		chooser.setMultiSelectionEnabled(true);
 		int returnValue = chooser.showDialog(model, "Extract");
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			files = chooser.getSelectedFiles();
-			model.setInputFile(files[0]);
+			model.addInputFiles(Arrays.asList(chooser.getSelectedFiles()));
 			new Thread(this).start();
 		}
 	}
@@ -71,7 +74,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 
 		model.getStatusLine().showInfo("Scanning ...");
 		ClassfileScanner scanner = new ClassfileScanner();
-		scanner.load(Arrays.asList(files));
+		scanner.load(model.getInputFiles());
 
 		model.getProgressBar().setMaximum(scanner.getNbFiles());
 		
@@ -79,8 +82,8 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
 
 		ClassfileLoader loader = new TransientClassfileLoader(model.getClassfileLoaderDispatcher());
 		loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
-		loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
-		loader.load(Arrays.asList(files));
+		loader.addLoadListener(model.getMonitor());
+		loader.load(model.getInputFiles());
 
 		if (model.getMaximize()) {
 			model.getStatusLine().showInfo("Maximizing ...");
