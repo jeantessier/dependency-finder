@@ -116,16 +116,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable, Lo
 		String filename = model.InputFile().toString();
 		
 		try {
-			if (filename.endsWith(".jar")) {
-				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
-				jar_loader.Load(filename);
-			} else if (filename.endsWith(".zip")) {
-				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
-				zip_loader.Load(filename);
-			} else {
-				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
-				directory_loader.Load(new DirectoryExplorer(filename));
-			}
+			loader.Load(filename);
 		} catch (IOException ex) {
 			model.StatusLine().ShowError("Cannot extract from " + filename + ": " + ex.getClass().getName() + ": " + ex.getMessage());
 		}

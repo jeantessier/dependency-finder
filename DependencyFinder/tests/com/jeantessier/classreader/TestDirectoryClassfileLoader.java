@@ -79,7 +79,7 @@ public class TestDirectoryClassfileLoader extends TestCase implements LoadListen
 		assertNull(TEST_CLASS + " should have been null",
 				   loader.Classfile(TEST_CLASS));
 
-		loader.Load(new DirectoryExplorer(TEST_FILENAME));
+		loader.Load(TEST_FILENAME);
 		
 		assertEquals("Different number of class names",
 					 1,
@@ -94,10 +94,10 @@ public class TestDirectoryClassfileLoader extends TestCase implements LoadListen
 		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
 		loader.addLoadListener(this);
 
-		loader.Load(new DirectoryExplorer(TEST_FILENAME));
+		loader.Load(TEST_FILENAME);
 
 		assertNotNull("Start",           start);
-		assertNull("LoadElement",     load);
+		assertNull("LoadElement",        load);
 		assertNotNull("LoadedClassfile", loaded);
 		assertNotNull("Stop",            stop);
 
@@ -124,7 +124,7 @@ public class TestDirectoryClassfileLoader extends TestCase implements LoadListen
 		assertNull(TEST_CLASS + " should have been null",
 				   loader.Classfile(TEST_CLASS));
 
-		loader.Load(new DirectoryExplorer(TEST_FILENAME));
+		loader.Load(TEST_FILENAME);
 		
 		assertEquals("Different number of class names",
 					 0,
@@ -137,10 +137,10 @@ public class TestDirectoryClassfileLoader extends TestCase implements LoadListen
 		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new TransientClassfileLoader());
 		loader.addLoadListener(this);
 
-		loader.Load(new DirectoryExplorer(TEST_FILENAME));
+		loader.Load(TEST_FILENAME);
 
 		assertNotNull("Start",           start);
-		assertNull("LoadElement",     load);
+		assertNull("LoadElement",        load);
 		assertNotNull("LoadedClassfile", loaded);
 		assertNotNull("Stop",            stop);
 

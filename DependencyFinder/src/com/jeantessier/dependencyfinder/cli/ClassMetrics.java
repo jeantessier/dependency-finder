@@ -129,25 +129,10 @@ public class ClassMetrics {
 		}
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
-		
-		Iterator i = parameters.iterator();
-		while (i.hasNext()) {
-			String filename = (String) i.next();
-
-			if (filename.endsWith(".jar")) {
-				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
-				jar_loader.Load(filename);
-			} else if (filename.endsWith(".zip")) {
-				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
-				zip_loader.Load(filename);
-			} else {
-				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
-				directory_loader.Load(new DirectoryExplorer(filename));
-			}
-		}
+		loader.Load(parameters);
 
 		MetricsGatherer metrics = new MetricsGatherer();
-		i = loader.Classfiles().iterator();
+		Iterator i = loader.Classfiles().iterator();
 		while (i.hasNext()) {
 			((Classfile) i.next()).Accept(metrics);
 		}
@@ -159,11 +144,9 @@ public class ClassMetrics {
 			out = new PrintWriter(new OutputStreamWriter(System.out));
 		}
 
-		Iterator j;
-
 		out.println(metrics.Classes().size() + " class(es)");
 		if (list) {
-			j = metrics.Classes().iterator();
+			Iterator j = metrics.Classes().iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
@@ -171,7 +154,7 @@ public class ClassMetrics {
 
 		out.println(metrics.Interfaces().size() + " interface(s)");
 		if (list) {
-			j = metrics.Interfaces().iterator();
+			Iterator j = metrics.Interfaces().iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
@@ -195,7 +178,7 @@ public class ClassMetrics {
 
 		out.println(metrics.SynchronizedMethods().size() + " synchronized method(s)");
 		if (list) {
-			j = metrics.SynchronizedMethods().iterator();
+			Iterator j = metrics.SynchronizedMethods().iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
@@ -203,7 +186,7 @@ public class ClassMetrics {
 
 		out.println(metrics.NativeMethods().size() + " native method(s)");
 		if (list) {
-			j = metrics.NativeMethods().iterator();
+			Iterator j = metrics.NativeMethods().iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
@@ -211,7 +194,7 @@ public class ClassMetrics {
 
 		out.println(metrics.VolatileFields().size() + " volatile field(s)");
 		if (list) {
-			j = metrics.VolatileFields().iterator();
+			Iterator j = metrics.VolatileFields().iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
@@ -219,7 +202,7 @@ public class ClassMetrics {
 
 		out.println(metrics.TransientFields().size() + " transient field(s)");
 		if (list) {
-			j = metrics.TransientFields().iterator();
+			Iterator j = metrics.TransientFields().iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}
@@ -227,7 +210,7 @@ public class ClassMetrics {
 
 		out.println(metrics.CustomAttributes().size() + " custom attribute(s)");
 		if (list) {
-			j = metrics.CustomAttributes().iterator();
+			Iterator j = metrics.CustomAttributes().iterator();
 			while (j.hasNext()) {
 				out.println("        " + j.next());
 			}

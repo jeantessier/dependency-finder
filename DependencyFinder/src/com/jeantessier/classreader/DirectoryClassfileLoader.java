@@ -42,26 +42,29 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
 		super(loader);
 	}
 
-	public void Load(DirectoryExplorer explorer) throws IOException {
+	public void Load(String filename) throws IOException {
+		DirectoryExplorer explorer = new DirectoryExplorer(filename);
+
+		fireLoadStart(filename);
+		
 		Iterator i = explorer.Collection().iterator();
 		while (i.hasNext()) {
-			String filename = (String) i.next();
-			Logger.getLogger(getClass()).debug("Reading " + filename);
-
-			fireLoadStart(filename);
+			String classfilename = (String) i.next();
+			Logger.getLogger(getClass()).debug("Reading " + classfilename);
+			fireLoadElement(classfilename, null);
 
 			DataInputStream in = null;
 			try {
-				in = new DataInputStream(new FileInputStream(filename));
+				in = new DataInputStream(new FileInputStream(classfilename));
 				Classfile classfile = Load(in);
-				fireLoadedClassfile(filename, classfile);
+				fireLoadedClassfile(null, classfile);
 			} finally {
 				if (in != null) {
 					in.close();
 				}
 			}
-			
-			fireLoadStop(filename);
 		}
+
+		fireLoadStop(filename);
 	}
 }

@@ -167,22 +167,7 @@ public class OOMetrics {
 		}
 
 		ClassfileLoader loader = new AggregatingClassfileLoader();
-		
-		Iterator i = parameters.iterator();
-		while (i.hasNext()) {
-			String filename = (String) i.next();
-
-			if (filename.endsWith(".jar")) {
-				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
-				jar_loader.Load(filename);
-			} else if (filename.endsWith(".zip")) {
-				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
-				zip_loader.Load(filename);
-			} else {
-				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
-				directory_loader.Load(new DirectoryExplorer(filename));
-			}
-		}
+		loader.Load(parameters);
 
 		Logger.getLogger(OOMetrics.class).debug("Reading configuration ...");
 

@@ -41,8 +41,8 @@ public class TestClassfile extends TestCase {
 	private ClassfileLoader loader;
 
 	protected void setUp() throws Exception {
-		loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		((DirectoryClassfileLoader) loader).Load(new DirectoryExplorer("tests\\JarJarDiff\\new"));
+		loader = new AggregatingClassfileLoader();
+		loader.Load("tests\\JarJarDiff\\new");
 	}
 
 	public void testDeprecated() {

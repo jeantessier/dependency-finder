@@ -53,8 +53,8 @@ public class TestMetricsGathererSLOC extends TestCase {
 		
 		factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).Load("etc" + File.separator + "MetricsConfig.xml"));
 
-		DirectoryClassfileLoader loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		loader.Load(new DirectoryExplorer(TEST_DIRNAME));
+		ClassfileLoader loader =new AggregatingClassfileLoader();
+		loader.Load(TEST_DIRNAME);
 
 		MetricsGatherer gatherer = new MetricsGatherer("test", factory);
 		

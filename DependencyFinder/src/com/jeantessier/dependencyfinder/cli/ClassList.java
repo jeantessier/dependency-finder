@@ -132,23 +132,20 @@ public class ClassList {
 			String filename = (String) i.next();
 
 			out.println(filename + ":");
-	    
+			
 			ClassfileLoader loader;
 			if (filename.endsWith(".jar")) {
 				loader = new JarClassfileLoader(new AggregatingClassfileLoader());
-				((JarClassfileLoader) loader).Load(filename);
 			} else if (filename.endsWith(".zip")) {
 				loader = new ZipClassfileLoader(new AggregatingClassfileLoader());
-				((ZipClassfileLoader) loader).Load(filename);
 			} else {
 				loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-				((DirectoryClassfileLoader) loader).Load(new DirectoryExplorer(filename));
 			}
+			loader.Load(filename);
 
 			Iterator j = loader.Classfiles().iterator();
 			while (j.hasNext()) {
-				Classfile classfile = (Classfile) j.next();
-				out.println(classfile.Class());
+				out.println(j.next());
 			}
 
 			out.println();

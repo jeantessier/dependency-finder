@@ -138,22 +138,7 @@ public class DependencyExtractor {
 		
 		ClassfileLoader loader = new TransientClassfileLoader();
 		loader.addLoadListener(collector);
-		
-		Iterator i = parameters.iterator();
-		while (i.hasNext()) {
-			String filename = (String) i.next();
-
-			if (filename.endsWith(".jar")) {
-				JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
-				jar_loader.Load(filename);
-			} else if (filename.endsWith(".zip")) {
-				ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
-				zip_loader.Load(filename);
-			} else {
-				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
-				directory_loader.Load(new DirectoryExplorer(filename));
-			}
-		}
+		loader.Load(parameters);
 
 		if (command_line.IsPresent("minimize")) {
 			LinkMinimizer minimizer = new LinkMinimizer();

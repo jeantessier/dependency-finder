@@ -43,13 +43,6 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 		super(loader);
 	}
 
-	public void Load(Collection filenames) throws IOException {
-		Iterator i = filenames.iterator();
-		while (i.hasNext()) {
-			Load((String) i.next());
-		}
-	}
-
 	public void Load(String filename) throws IOException {
 		if (filename.endsWith(".zip")) {
 			Logger.getLogger(getClass()).debug("Reading " + filename);

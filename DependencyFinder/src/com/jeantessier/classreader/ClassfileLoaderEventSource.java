@@ -38,6 +38,20 @@ import java.util.*;
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 	private HashSet load_listeners = new HashSet();
 
+	public void Load(String filename) throws IOException {
+		ClassfileLoader loader;
+
+		if (filename.endsWith(".jar")) {
+			loader = new JarClassfileLoader(this);
+		} else if (filename.endsWith(".zip")) {
+			loader = new ZipClassfileLoader(this);
+		} else {
+			loader = new DirectoryClassfileLoader(this);
+		}
+		
+		loader.Load(filename);
+	}
+
 	public void addLoadListener(LoadListener listener) {
 		synchronized(load_listeners) {
 			load_listeners.add(listener);

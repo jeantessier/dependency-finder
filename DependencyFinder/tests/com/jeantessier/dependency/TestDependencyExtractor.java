@@ -112,8 +112,8 @@ public class TestDependencyExtractor extends TestCase {
 		test_main_feature.AddDependency(java_util_Set_class);
 		test_test_feature.AddDependency(java_lang_Object_Object_feature);
 
-		loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		((DirectoryClassfileLoader) loader).Load(new DirectoryExplorer(TEST_FILENAME));
+		loader = new AggregatingClassfileLoader();
+		loader.Load(TEST_FILENAME);
 
 		test_factory = new NodeFactory();
 		loader.Classfile(TEST_CLASS).Accept(new CodeDependencyCollector(test_factory));
@@ -187,10 +187,10 @@ public class TestDependencyExtractor extends TestCase {
 	}
 
 	public void testStaticInitializer() throws IOException {
-		DirectoryClassfileLoader loader  = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		NodeFactory              factory = new NodeFactory();
+		ClassfileLoader loader  = new AggregatingClassfileLoader();
+		NodeFactory     factory = new NodeFactory();
 		
-		loader.Load(new DirectoryExplorer("classes" + File.separator + "StaticInitializerTest.class"));
+		loader.Load("classes" + File.separator + "StaticInitializerTest.class");
 
 		Classfile classfile = loader.Classfile("StaticInitializerTest");
 		classfile.Accept(new CodeDependencyCollector(factory));

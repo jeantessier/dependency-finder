@@ -35,8 +35,62 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface LoadListener extends EventListener {
+	/**
+	 *  <p>The loader is starting on a new group of files.
+	 *  For example, this can be a new JAR file or a
+	 *  collection of loose <code>.class</code> files.</p>
+	 *
+	 *  <p>The event's filename attribute points to the source
+	 *  or the group of files, such as the JAR file's name
+	 *  or the root directory of the loose files.</p>
+	 *
+	 *  <p>The element and classfile attributes are null.</p>
+	 */
 	public void LoadStart(LoadEvent event);
+	
+	/**
+	 *  <p>The loader is starting on a new <code>.class</code>
+	 *  file.</p>
+	 *
+	 *  <p>The event's element attribute contains the name of
+	 *  the <code>.class</code> file being processed.</p>
+	 *  
+	 *  <p>The event's filename attribute points to the group
+	 *  of files that contains the current file.  For
+	 *  example, the JAR file's name or the root directory
+	 *  of loose files.</p>
+	 *
+	 *  <p>The classfile attributes is null.</p>
+	 */
 	public void LoadElement(LoadEvent event);
+	
+	/**
+	 *  <p>The loader is finished loading a <code>.class</code>
+	 *  file.</p>
+	 *
+	 *  <p>The event's classfile attribute contains the newly
+	 *  loaded Classfile instance from the <code>.class</code>
+	 *  file.</p>
+	 *  
+	 *  <p>The event's filename attribute points to the group
+	 *  of files that contains the current file.  For
+	 *  example, the JAR file's name or the root directory
+	 *  of loose files.</p>
+	 *
+	 *  <p>The element attributes is null.</p>
+	 */
 	public void LoadedClassfile(LoadEvent event);
+
+	/**
+	 *  <p>The loader finished the group of files. For
+	 *  example, this can be a new JAR file or a
+	 *  collection of loose <code>.class</code> files.</p>
+	 *
+	 *  <p>The event's filename attribute points to the source
+	 *  or the group of files, such as the JAR file's name
+	 *  or the root directory of the loose files.</p>
+	 *
+	 *  <p>The element and classfile attributes are null.</p>
+	 */
 	public void LoadStop(LoadEvent event);
 }

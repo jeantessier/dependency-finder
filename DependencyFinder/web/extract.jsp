@@ -25,11 +25,17 @@
 	}
 	
 	public void LoadStart(LoadEvent event) {
-	    // Do nothing
+	    try {
+		out.println("Extracting from " + event.Filename() + " ...");
+	    } catch (IOException ex) {
+		// Do nothing
+	    }
 	}
+
 	public void LoadElement(LoadEvent event) {
 	    // Do nothing
 	}
+
 	public void LoadedClassfile(LoadEvent event) {
 	    try {
 		out.println("    Getting dependencies from " + event.Classfile() + " ...");
@@ -38,6 +44,7 @@
 	    }
 	    count++;
 	}
+
 	public void LoadStop(LoadEvent event) {
 	    // Do nothing
 	}
@@ -128,19 +135,8 @@
 	while (i.hasNext()) {
 	    String filename = (String) i.next();
 
-	    out.println("Extracting from " + filename + " ...");
-
 	    try {
-		if (filename.endsWith(".jar")) {
-		    JarClassfileLoader jar_loader = new JarClassfileLoader(loader);
-		    jar_loader.Load(filename);
-		} else if (filename.endsWith(".zip")) {
-		    ZipClassfileLoader zip_loader = new ZipClassfileLoader(loader);
-		    zip_loader.Load(filename);
-		} else {
-		    DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(loader);
-		    directory_loader.Load(new DirectoryExplorer(filename));
-		}
+		loader.Load(filename);
 	    } catch (IOException ex) {
 		out.println("Cannot extract from " + filename + ": " + ex.getClass().getName() + ": " + ex.getMessage());
 	    }

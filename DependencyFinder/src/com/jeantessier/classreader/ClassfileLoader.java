@@ -48,6 +48,15 @@ public abstract class ClassfileLoader {
 	public abstract Collection Classfiles();
 	public abstract Collection Classnames();
 
+	public void Load(Collection filenames) throws IOException {
+		Iterator i = filenames.iterator();
+		while (i.hasNext()) {
+			Load((String) i.next());
+		}
+	}
+
+	public abstract void Load(String filename) throws IOException;
+
 	// Event stuff
 	public abstract void addLoadListener(LoadListener listener);
 	public abstract void removeLoadListener(LoadListener listener);

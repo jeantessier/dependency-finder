@@ -46,15 +46,11 @@ public class TestDifferencesFactory extends TestCase {
 	private JarDifferences jar_differences;
 
 	protected void setUp() throws Exception {
-		DirectoryClassfileLoader loader;
-
 		ClassfileLoader old_jar = new AggregatingClassfileLoader();
-		loader = new DirectoryClassfileLoader(old_jar);
-		loader.Load(new DirectoryExplorer(OLD_CLASSPATH));
+		old_jar.Load(OLD_CLASSPATH);
 
 		ClassfileLoader new_jar = new AggregatingClassfileLoader();
-		loader = new DirectoryClassfileLoader(new_jar);
-		loader.Load(new DirectoryExplorer(NEW_CLASSPATH));
+		new_jar.Load(NEW_CLASSPATH);
 
 		Validator old_validator = new ListBasedValidator(new BufferedReader(new FileReader(OLD_CLASSPATH + ".txt")));
 		Validator new_validator = new ListBasedValidator(new BufferedReader(new FileReader(NEW_CLASSPATH + ".txt")));

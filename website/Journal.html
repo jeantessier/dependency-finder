@@ -13,6 +13,38 @@
 
 <dl>
     <dt>
+	December 10, 2002
+    </dt>
+    <dd>
+ 	<p>Refactored <code>ClassfileLoader</code> and its subclasses.
+	The decorators are now hidden inside the
+	<code>ClassfileLoaderEventSource</code> class, so clients of the
+	package don't have to bother with which decorator to instantiate.
+	This paves the way to including progress measurements in the
+	<code>LoadEvent</code> passed in <code>LoadStart()</code> and
+	<code>LoadElement()</code> events.  This way, I can have either
+	a "percent complete" or a progress bar as things are loading.
+	I might even be able to have an elapsed time and a predicted
+	remaining time.</p>
+
+ 	<p>Documented the methods of <code>LoadListener</code>, but I
+	must revise the description of the various attributes and under
+	which cases each one has a value.</p>
+    </dd>
+    <dt>
+	December 06, 2002
+    </dt>
+    <dd>
+ 	<p>Refactored <code>CanAddDependency()</code>.</p>
+
+ 	<p>Fixed references in slides for the tutorial.  I need to think
+	about this before I publish it on the website.  I used the slides
+	from a previous presentation, but this would mean that I would have
+	to come up with some new material if my submission to JavaOne is
+	picked up.  Then again, I would have to come up with some new stuff
+	anyway!</p>
+    </dd>
+    <dt>
 	December 05, 2002
     </dt>
     <dd>

@@ -48,11 +48,11 @@ public class TestDeprecatableDifferences extends TestCase {
 		Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("")));
 		factory = new DifferencesFactory(validator, validator);
 		
-		old_loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		((DirectoryClassfileLoader) old_loader).Load(new DirectoryExplorer("tests\\JarJarDiff\\old"));
+		old_loader = new AggregatingClassfileLoader();
+		old_loader.Load("tests\\JarJarDiff\\old");
 
-		new_loader = new DirectoryClassfileLoader(new AggregatingClassfileLoader());
-		((DirectoryClassfileLoader) new_loader).Load(new DirectoryExplorer("tests\\JarJarDiff\\new"));
+		new_loader = new AggregatingClassfileLoader();
+		new_loader.Load("tests\\JarJarDiff\\new");
 	}
 
 	public void testNotDeprecatedNotDeprecatedDifferent() {

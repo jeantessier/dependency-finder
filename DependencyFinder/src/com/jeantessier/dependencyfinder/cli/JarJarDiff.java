@@ -131,47 +131,13 @@ public class JarJarDiff {
 		// Collecting data, first classfiles from JARs,
 		// then package/class trees using NodeFactory.
 
-		ClassfileLoader old_jar = new AggregatingClassfileLoader();
 		Validator old_validator = new ListBasedValidator(command_line.SingleSwitch("old-documentation"));
-		Iterator old_sources = command_line.MultipleSwitch("old").iterator();
-		while(old_sources.hasNext()) {
-			String filename = (String) old_sources.next();
+		ClassfileLoader old_jar = new AggregatingClassfileLoader();
+		old_jar.Load(command_line.MultipleSwitch("old"));
 
-			if (filename.endsWith(".jar")) {
-				Logger.getLogger(JarJarDiff.class).info("Reading old JAR: " + filename);
-				JarClassfileLoader jar_loader = new JarClassfileLoader(old_jar);
-				jar_loader.Load(filename);
-			} else if (filename.endsWith(".zip")) {
-				Logger.getLogger(JarJarDiff.class).info("Reading old ZIP file: " + filename);
-				ZipClassfileLoader zip_loader = new ZipClassfileLoader(old_jar);
-				zip_loader.Load(filename);
-			} else {
-				Logger.getLogger(JarJarDiff.class).info("Reading old directory: " + filename);
-				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(old_jar);
-				directory_loader.Load(new DirectoryExplorer(filename));
-			}
-		}
-		
-		ClassfileLoader new_jar = new AggregatingClassfileLoader();
 		Validator new_validator = new ListBasedValidator(command_line.SingleSwitch("new-documentation"));
-		Iterator new_sources = command_line.MultipleSwitch("new").iterator();
-		while(new_sources.hasNext()) {
-			String filename = (String) new_sources.next();
-
-			if (filename.endsWith(".jar")) {
-				Logger.getLogger(JarJarDiff.class).info("Reading new JAR: " + filename);
-				JarClassfileLoader jar_loader = new JarClassfileLoader(new_jar);
-				jar_loader.Load(filename);
-			} else if (filename.endsWith(".zip")) {
-				Logger.getLogger(JarJarDiff.class).info("Reading new ZIP file: " + filename);
-				ZipClassfileLoader zip_loader = new ZipClassfileLoader(new_jar);
-				zip_loader.Load(filename);
-			} else {
-				Logger.getLogger(JarJarDiff.class).info("Reading new directory: " + filename);
-				DirectoryClassfileLoader directory_loader = new DirectoryClassfileLoader(new_jar);
-				directory_loader.Load(new DirectoryExplorer(filename));
-			}
-		}
+		ClassfileLoader new_jar = new AggregatingClassfileLoader();
+		new_jar.Load(command_line.MultipleSwitch("new"));
 
 		// Starting to compare, first at package level,
 		// then descending to class level for packages
