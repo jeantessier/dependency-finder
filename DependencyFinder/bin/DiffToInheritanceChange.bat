@@ -1,24 +1,36 @@
 @echo off
 
-rem 
-rem Dependency Finder - Comparing API differences between JAR files
-rem Dependency Finder - Computes quality factors from compiled Java code
-rem Copyright (C) 2001  Jean Tessier
-rem 
-rem This library is free software; you can redistribute it and/or
-rem modify it under the terms of the GNU Lesser General Public
-rem License as published by the Free Software Foundation; either
-rem version 2.1 of the License, or (at your option) any later version.
-rem 
-rem This library is distributed in the hope that it will be useful,
-rem but WITHOUT ANY WARRANTY; without even the implied warranty of
-rem MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-rem Lesser General Public License for more details.
-rem 
-rem You should have received a copy of the GNU Lesser General Public
-rem License along with this library; if not, write to the Free Software
-rem Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-rem 
+rem
+rem  Copyright (c) 2001-2002, Jean Tessier
+rem  All rights reserved.
+rem  
+rem  Redistribution and use in source and binary forms, with or without
+rem  modification, are permitted provided that the following conditions
+rem  are met:
+rem  
+rem  	* Redistributions of source code must retain the above copyright
+rem  	  notice, this list of conditions and the following disclaimer.
+rem  
+rem  	* Redistributions in binary form must reproduce the above copyright
+rem  	  notice, this list of conditions and the following disclaimer in the
+rem  	  documentation and/or other materials provided with the distribution.
+rem  
+rem  	* Neither the name of the Jean Tessier nor the names of his contributors
+rem  	  may be used to endorse or promote products derived from this software
+rem  	  without specific prior written permission.
+rem  
+rem  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+rem  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+rem  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+rem  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+rem  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+rem  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+rem  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+rem  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+rem  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+rem  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+rem  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+rem
 
 if not "%OS%"=="Windows_NT" goto win9xStart
 :winNTStart

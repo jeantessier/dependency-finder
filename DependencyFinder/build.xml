@@ -14,10 +14,6 @@
     <target name="init">
 	<tstamp/>
 
-	<!--
-        <property name="build.compiler" value="classic"/>
-	-->
-
 	<property name="packageNames"   value="com.jeantessier.*"/>
 
 	<property name="srcDir"         value="src"/>

@@ -12,9 +12,14 @@ Sections ahead:
 Licensing
 ---------
 
-This software is licensed under the terms of the GNU Lesser
-General Public License.  A copy is in the file lgpl.txt and
-you can also get it on the web at www.gnu.org.
+This software is licensed under the terms of BSD-like license.
+A copy of the licensing terms is in the file license.txt.  You
+can get the original BSD License template at opensource.org.
+
+This product includes software developed by the Apache Software
+Foundation (http://www.apache.org/).  The terms of the Apache
+Software License are reproduced in the lib/ directory next to
+the relevant binary .jar files.
 
 Installation
 ------------
