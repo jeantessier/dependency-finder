@@ -3711,15 +3711,16 @@ JARs that might contain deprecated symbos.  Don't forget to include =rt.jar=.
 Save the output to a file that will list each deprecated construct, one per
 line.
 
-    % ListDeprecatedElements -out deprecated.txt          \
-                             $JAVA_HOME/jre/lib/rt.jar    \
-                             lib                          \
-                             classes
+<div class="highlight">
+
+    C:\>ListDeprecatedElements -out deprecated.txt           \
+                               %JAVA_HOME%\jre\lib\rt.jar    \
+                               lib                           \
+                               classes
+
+</div>
 
 _This may take a while._
-
-The examples show the CLI, but there are equivalent Ant tasks so you can put
-this in your nightly build very easily.
 
 You only need to run this command when a JAR changes.  In the example above,
 we look at third-party libraries in =lib= and the project's own codebase in
@@ -3730,73 +3731,177 @@ can split the call and generate two lists: one list for all third-party JARs
 codebase (generate new list with every build to take into account the latest
 changes).
 
-    % ListDeprecatedElements -out *deprecated.libs.txt*     \
-                             $JAVA_HOME/jre/lib/rt.jar    \
-                             lib
+<div class="highlight">
 
-    % ListDeprecatedElements -out *deprecated.code.txt*     \
-                             classes
+    C:\>ListDeprecatedElements -out *deprecated.libs.txt*      \
+                               %JAVA_HOME%\jre\lib\rt.jar    \
+                               lib
 
-Now, you have a list of deprecated symbols.  You can analyze your codebase to
-determine where they are being used either with a dependency graph or with
+    C:\>ListDeprecatedElements -out *deprecated.code.txt*      \
+                               classes
+
+</div>
+
+The examples below show the CLI, but there are equivalent Ant tasks so you can
+put this in your nightly build very easily.
+
+Let's use this simple class as an example to illustrate the various reports.
+It has one deprecated method and another method calling it, therefore creating
+a dependency on a deprecated symbol.
+
+<div class="highlight">
+
+    public class DeprecatedExample {
+        /%2A%2A @deprecated */
+        public void deprecatedMethod() {}
+        
+        public void callingMethod() {
+            deprecatedMethod();
+        }
+    }
+
+</div>
+
+We extract a list of deprecated symbols from in.
+
+<div class="highlight">
+
+    C:\>ListDeprecatedElements -out deprecated.txt DeprecatedExample.class
+
+</div>
+
+<div class="lowlight">
+
+    DeprecatedExample.deprecatedMethod()
+
+</div>
+
+Now that you have a list of deprecated symbols, you can analyze your codebase
+to determine where they are being used either with a dependency graph or with
 dependency-related metrics.
 
 ---++++ Using a Dependency Graph
 
 You need a dependency graph to work from.
 
-    % DependencyExtractor -xml -out graph.xml classes
+<div class="highlight">
+
+    C:\>DependencyExtractor -xml -out graph.xml DeprecatedExample.class
+
+</div>
+<div class="lowlight">
+
+    &nbsp;
+        DeprecatedExample
+            --> java.lang.Object
+            DeprecatedExample()
+                --> java.lang.Object.Object()
+            callingMethod()
+                --> DeprecatedExample.deprecatedMethod()
+            deprecatedMethod()
+                <-- DeprecatedExample.callingMethod()
+    java.lang
+        Object
+            <-- DeprecatedExample
+            Object()
+                <-- DeprecatedExample.DeprecatedExample()
+
+</div>
 
 Then, run the =DependencyReporter= so that it shows dependencies related to
 deprecated APIs.  It can either group them by deprecated element, showing where
 they are called, or by caller, showing which deprecated element they call.
 
+You can organize the report by deprecated element.  This is useful if you want
+to find all the places where a given deprecated symbol is referenced.  In our
+example, it will show us where =deprecatedMethod()= is called from.
+
 For a text report organized by deprecated element, run:
 
-    % DependencyReporter -out report.txt                        \
-                         -show-*inbounds*                         \
-                         -*scope*-includes-list deprecated.txt    \
-                         graph.xml
+<div class="highlight">
+
+    C:\>DependencyReporter -out report.txt                        \
+                           -show-*inbounds*                         \
+                           -*scope*-includes-list deprecated.txt    \
+                           graph.xml
+
+</div>
+<div class="lowlight">
+
+    &nbsp;
+        DeprecatedExample
+            deprecatedMethod()
+                <-- DeprecatedExample.callingMethod()
+
+</div>
 
 For an HTML report organized by deprecated element, run:
 
-    % DependencyReporter -xml -out report.xml                   \
-                         -show-*inbounds*                         \
-                         -*scope*-includes-list deprecated.txt    \
-                         graph.xml
+<div class="highlight">
 
-    %DependencyGraphToHTML -in report.xml -out report.html
+    C:\>DependencyReporter -xml -out report.xml                   \
+                           -show-*inbounds*                         \
+                           -*scope*-includes-list deprecated.txt    \
+                           graph.xml
+
+    C:\>DependencyGraphToHTML -in report.xml -out report.html
+
+</div>
+
+You can organize the report by caller.  This is useful if you want to find all
+usage of deprecated symbols in a given section of your codebase.  In our
+example, it will show us what deprecated methods are used by =callingMethod()=.
 
 For a text report organized by caller, run:
 
-    % DependencyReporter -out report.txt                        \
-                         -show-*outbounds*                        \
-                         -*filter*-includes-list deprecated.txt   \
-                         graph.xml
+<div class="highlight">
+
+    C:\>DependencyReporter -out report.txt                        \
+                           -show-*outbounds*                        \
+                           -*filter*-includes-list deprecated.txt   \
+                           graph.xml
+
+</div>
+<div class="lowlight">
+
+    &nbsp;
+        DeprecatedExample
+            callingMethod()
+                --> DeprecatedExample.deprecatedMethod()
+
+</div>
 
 For an HTML report organized by caller, run:
 
-    % DependencyReporter -xml -out report.xml                   \
-                         -show-*outbounds*                        \
-                         -*filter*-includes-list deprecated.txt   \
-                         graph.xml
+<div class="highlight">
 
-    %DependencyGraphToHTML -in report.xml -out report.html
+    C:\>DependencyReporter -xml -out report.xml                   \
+                           -show-*outbounds*                        \
+                           -*filter*-includes-list deprecated.txt   \
+                           graph.xml
+
+    C:\>DependencyGraphToHTML -in report.xml -out report.html
+
+</div>
 
 You can use multiple =-scope-includes-list= and =-filter-includes-list=
 switches if your deprecated API list is in more than one file.
 
-    % DependencyReporter -out report.txt                              \
-                         -show-inbounds                               \
-                         *-scope-includes-list deprecated.libs.txt*     \
-                         *-scope-includes-list deprecated.code.txt*     \
-                         graph.xml
+<div class="highlight">
 
-    % DependencyReporter -out report.txt                              \
-                         -show-outbounds                              \
-                         *-filter-includes-list deprecated.libs.txt*    \
-                         *-filter-includes-list deprecated.code.txt*    \
-                         graph.xml
+    C:\>DependencyReporter -out report.txt                              \
+                           -show-inbounds                               \
+                           *-scope-includes-list deprecated.libs.txt*     \
+                           *-scope-includes-list deprecated.code.txt*     \
+                           graph.xml
+
+    C:\>DependencyReporter -out report.txt                              \
+                           -show-outbounds                              \
+                           *-filter-includes-list deprecated.libs.txt*    \
+                           *-filter-includes-list deprecated.code.txt*    \
+                           graph.xml
+
+</div>
 
 =DeprecationReporter= can also take =-scope-excludes-list= and
 =-filter-excludes-list= switches for deprecated items that you may want to skip
@@ -3807,12 +3912,16 @@ You can keep track manually of the cases to ignore and pass them to
 =DependencyReporter= and they will be removed from the _includes_ list that was
 likely automatically generated.
 
-    % DependencyReporter -out report.txt                              \
-                         -show-inbounds                               \
-                         -scope-includes-list deprecated.libs.txt     \
-                         -scope-includes-list deprecated.code.txt     \
-			 *-scope-excludes-list deprecated.skip.txt*     \
-                         graph.xml
+<div class="highlight">
+
+    C:\>DependencyReporter -out report.txt                              \
+                           -show-inbounds                               \
+                           -scope-includes-list deprecated.libs.txt     \
+                           -scope-includes-list deprecated.code.txt     \
+                           *-scope-excludes-list deprecated.skip.txt*     \
+                           graph.xml
+
+</div>
 
 =DependencyReporter= provides a simple format where a lot of data is presented
 succinctly side-by-side.  But sometimes, you want to be able to aggregate all
@@ -3850,15 +3959,19 @@ For example, to find Dependency Finder's usage of Log4J, you first extract
 Dependency Finder's dependency graph and restrict it to the part that involves
 Log4J elements.
 
-    % DependencyExtractor -xml -out df.xml DependencyFinder.jar
+<div class="highlight">
 
-    % DependencyReporter -xml -out df-log4j.xml df.xml   \
-                         -package-scope                  \
-                         -class-scope                    \
-                         -feature-scope                  \
-                         -scope-includes /log4j/
+    C:\>DependencyExtractor -xml -out df.xml DependencyFinder.jar
 
-    % DependencyGraphToText -in df-log4j.xml -out df-log4j.txt
+    C:\>DependencyReporter -xml -out df-log4j.xml df.xml   \
+                           -package-scope                  \
+                           -class-scope                    \
+                           -feature-scope                  \
+                           -scope-includes /log4j/
+
+    C:\>DependencyGraphToText -in df-log4j.xml -out df-log4j.txt
+
+</div>
 
 If you use multiple third-party libraries, you don't have to to repeat all the
 steps for each one.  You can supply multiple =-scope-includes= switches to
@@ -3869,16 +3982,20 @@ Now, =df-log4j.txt= has the list of all Log4J elements used in Dependency
 Finder.  You can pass it to =JarJarDiff= and =PublishedDiffToHTML= to limit the
 report to these elements only.
 
-    % JarJarDiff -out log4j-1.2.8-1.2.9.xml                          \
-                 -name Log4J                                         \
-                 -old-label 1.2.8                                    \
-		 -old jakarta-log4j-1.2.8\dist\lib\log4j-1.2.8.jar   \
-                 -new-label 1.2.9                                    \
-		 -new jakarta-log4j-1.2.0\dist\lib\log4j-1.2.9.jar
+<div class="highlight">
 
-    % PublishedDiffToHTML -in log4j-1.2.8-1.2.9.xml             \
-                          -out log4j-1.2.8-1.2.9.html           \
-                          -param validation-list df-log4j.txt
+    C:\>JarJarDiff -out log4j-1.2.8-1.2.9.xml                          \
+                   -name Log4J                                         \
+                   -old-label 1.2.8                                    \
+                   -old jakarta-log4j-1.2.8\dist\lib\log4j-1.2.8.jar   \
+                   -new-label 1.2.9                                    \
+                   -new jakarta-log4j-1.2.0\dist\lib\log4j-1.2.9.jar
+
+    C:\>PublishedDiffToHTML -in log4j-1.2.8-1.2.9.xml             \
+                            -out log4j-1.2.8-1.2.9.html           \
+                            -param validation-list df-log4j.txt
+
+</div>
 
 If you run =DiffToHTML=, you will get a full report on what changed in the
 library.  If you run =PublishedDiffToHTML=, but without a validation list, you
