@@ -1,0 +1,177 @@
+---+ The Dependency Finder Developer Guide
+
+by Jean Tessier
+
+----
+
+<TOC />
+
+----
+
+---++ Introduction
+
+----
+
+---++ Installation
+---+++ Java Application
+---++++ =JAVA_HOME=
+---++++ =DEPENDENCYFINDER_HOME=
+---++++ =DEPENDENCYFINDER_OPTS=
+---+++ Web Application
+---++++ =web.xml=
+
+----
+
+---++ History Behind Dependency Finder
+---+++ Class Files
+---+++ Dependencies
+---+++ Metrics
+---+++ API Differences
+
+----
+
+---++ Class Files
+
+You use the =com.jeantessier.classreader= package to parse compiled
+Java code.  You feed =.class= files to a =ClassfileLoader= and you get
+instances of =Classfile= back.
+
+---+++ =ClassfileLoader=
+
+The =ClassfileLoader= classes you will use the most often derive from
+=ClassfileLoaderEventSource=.  These loaders are the ones who actually
+create instances of =Classfile=.  They also keep track of =LoadListener=
+objects and drive the event model associated parsing class files.
+
+=ClassfileLoader= has only one public method for loading classes that
+takes a collection of names.  This defines a session.  Listeners will
+receive a =BeginSession= event at the beginning of the method and an
+=EndSession= event just before the method returns.  Each name in the
+collection defines a group.  This can be a JAR file, a Zip file, a
+directory hierarchy containing =.class= files, or even a single =.class=
+file.  Each group starts with a =BeginGroup= and ends with an =EndGroup=
+event.  Finally, the loader sends a =BeginClassfile= event before
+processing every class file, and an =EndClassfile= event afterwards.
+
+There are two concrete subclasses of =ClassfileLoaderEventSource=:
+
+   * AggregatingClassfileLoader
+   * TransientClassfileLoader
+
+They differ in whether or not they keep track of the classes they parse.
+
+You can get instances of =Classfile= either from =EndClassfile= events
+or by querying the loader.  You can traverse them with objects that
+implement =com.jeantessier.classreader.Visitor=.  They have callback
+methods that get called by the various parts of =Classfile= objects.
+
+Depending on the nature of a given name for a group, the loader uses a
+decorator loader to actually open input streams to individual class files.
+These decorators are subclasses of =ClassfileLoaderDecorator=.  They are:
+
+   * DirectoryClassfileLoader
+   * ZipClassfileLoader
+   * JarClassfileLoader
+
+A decorator opens input streams from the data sources and passes them to an
+underlying =ClassfileLoader=.
+
+The reason for the distinction is because the first kind handles how long
+the =Classfile= instances remain in memory, while the second kind handles
+various input file types.
+
+---+++ =Visitor=
+
+You can implement the =Visitor= interface to traverse =Classfile= structures.
+It has callback methods that get called by various parts of the structure.
+
+Look at the code of =ClassMetrics= for an example of using the Visitor
+pattern to traverse =Classfile= instances.
+
+----
+
+---++ Dependencies
+
+Look at the code of =DependencyMetrics= for an example of using the Visitor
+pattern to traverse dependency graphs.
+
+----
+
+---++ OO Metrics
+
+You use =com.jeantessier.metrics.MetricsGatherer= instance to
+read class files and compute the metrics.  It is a
+=com.jeantessier.classreader.Visitor= and will traverse the complete
+structure rooted at the =Classfile= instance and compute various metrics.
+
+The =MetricsGatherer= uses a =MetricsFactory= to create the various
+=Metrics= instances.  The factory uses a =MetricsConfiguration= instance
+to decide what measurements make up a given set of metrics.  The
+configuration is loaded at runtime from an XML file.
+
+---+++ Data Structure
+
+<div align="center">
+    [[images/MetricsLegend.gif]]
+    [[images/MetricsStructure.gif]]
+</div>
+
+----
+
+---++ API Differences
+
+You can use =com.jeantessier.classreader.ClassfileLoader= classes to
+examine the baseline of your codebase; be they in JAR files, loose
+class files, or a combination of both.  You can apply the same treatment
+to your latest codebase.  You now have two sets =Classfile= instances.
+
+You can use =com.jeantessier.dependency.NodeFactory= to create a tree
+of packages, classes, and features from each codebase.  You can then
+start to compare them to each other.  If a package is in the old
+codebase but not in the new one, you can mark it as having been removed.
+If it is not in the old codebase but it is in new one, then you can
+mark it as having been recently added.  For packages that are present
+in both codebase, you can repeat this analysis at the class level, and
+then at the feature level.
+
+----
+
+---++ Building Dependency Finder
+
+    C:\>ant
+
+---+++ Compiling a Build
+
+    C:\>ant jar
+    C:\>ant clean
+    C:\>ant docs
+    C:\>ant dist
+    C:\>ant src
+    C:\>ant war
+
+or
+
+    C:\>ant jar clean docs dist src war
+
+---+++ Testing the Build
+
+    C:\>ant tests
+    C:\>textjunit TestAll
+
+---+++ Making a Release
+
+    1 =cvs tag release-20030101=
+    1 =ant realclean=
+    1 Generate the documentation using perl script (Manual, Developer, Tools)
+    1 =ant jar clean docs dist war src=
+    1 =ant ftp=
+    1 =cvs log -rrelease-20020711:release-20030101=
+    1 Create new release on SourceForge.net
+    1 Notify monitoring people
+    1 Close bugs
+    1 Close feature requests
+    1 New news item
+    1 Post to news groups (=comp.lang.java=, =comp.lang.java.announce=, =comp.lang.java.softwaretools=, =comp.software.measurement=, =comp.software-eng=)
+    1 Generate sample files
+
+----

@@ -1,4 +1,4 @@
----+ The Dependency Finder Manual
+---+ The Dependency Finder User Manual
 
 by Jean Tessier
 
@@ -18,29 +18,29 @@ Many authors have stressed the importance of managing depencencies
 [[http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid%3D980962318/sr%3D8-1/ref%3Daps%5Fsr%5Fb%5F1%5F1/105-0176284-9920776][John Lakos]]).
 Managing
 dependencies means securing encapsulation and making sure that the code
-follows the architecture.  It is also essential for the modularization
-of code and favors reuse.  By extracting the information from the code
-itself, we can detect where we were sloppy, where we took shortcuts that
-we shouldn't have.  Managing the dependencies can shorten the compilation
-time of the code.
+follows the architecture.  It is also essential for the modularization of
+code and favors reuse.  By extracting the information from the code itself,
+we can detect where we were sloppy, where we took shortcuts that we
+shouldn't have.  Managing the dependencies can shorten the compilation time
+of the code.
 
 This application also includes tools for computing metrics based on
-information extracted from compiled Java code.  These measurements are
-also helpful guides during development and can point out areas in the
-code that need improvement.
+information extracted from compiled Java code.  These measurements can be
+helpful to guide development and can point out areas where the code needs
+improvement.
 
-Finally, this application includes a tool that computes the changes in
-the API of a system between successive versions.  You can use it as a
-consumer of libraries to verify that the parts you are dependending
-upon have not changed.  You can use it as a producer of libraries to
-assertain the impact your changes might have on your customers.  You
-can even use it to monitor the evolution of your software.
+Finally, this application includes a tool that computes the changes in the
+API of a system between successive versions.  If you use third-party
+libraries, you can use it to verity that the parts you are dependending
+upon have not changed.  If you provide libraries to others, you can use it
+to assertain the impact changes might have on your customers.  You can even
+use it to monitor the evolution of your own software.
 
 ----
 
 ---++ Installation
 
----+++ Java Application
+---+++ Java Application on Windows
 
 Dependency Finder comes as a ZIP file that includes everything you need
 to run it.
@@ -48,7 +48,7 @@ to run it.
 ---++++ Step 1: Java Virtual Machine
 
 You need to have a Java Virtual Machine installed.  You can get one for
-free from [[http://www.javasoft.com/][JavaSoft]].  Make sure you define
+free from [[http://java.sun.com/][Sun Microsytems]].  Make sure you define
 the =JAVA_HOME= environment variable.
 
 For example, if you installed JDK 1.3 in =C:\jdk1.3=:
@@ -59,16 +59,19 @@ You can either add this line to your =AUTOEXEC.BAT= file, or on WinNT
 use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 
----++++ Step 2: Extract Dependency Finder
+---++++ Step 2: Deploy Dependency Finder
 
 Extract the ZIP file to some directory you like.  The extraction will
-create a subdirectory named "DependnecyFinder" that is the root of the
+create a subdirectory named "DependencyFinder" that is the root of the
 package.
 
 For example, if you extract it to =C:\=, you will endup with a
 directory called =C:\DependencyFinder\=.
 
 ---++++ Step 3: Environment Variables
+
+<i>This is only required on Win95/98.  Under WinNT, the scripts are smart
+enough to find out where you installed Dependency Finder on their own.</i>
 
 Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
 point to the directory where you installed Dependency Finder.
@@ -81,10 +84,6 @@ You can either enter this line in your =AUTOEXEC.BAT= file, or on WinNT
 use Start | Settings | Control Panel | System and select the Environment
 tab to create and edit variables.
 
-<i>This is only required with Win95/98.  Under WinNT, the scripts are
-smart enough to find out where you installed Dependency Finder on their
-own.</i>
-
 ---++++ Step 4: =PATH=
 
 Add the "bin" subdirectory to your =PATH= variable.
@@ -95,8 +94,10 @@ For example, if you extracted the ZIP file in =C:\=
 
 ---++++ Step 5: Reboot
 
-Under Win95/98, you will need to reboot your computer for the changes to
-the environment to take effect.
+_This is only required on Win95/98._
+
+Under Win95/98, you will need to reboot your computer for the changes to the
+environment to take effect.
 
 ---++++ Miscellaneous
 
@@ -105,33 +106,119 @@ environment variable.
 
     SET DEPENDENCYFINDER_OPTS=-Xmx128m
 
-If you get the message "Out of environment space" while running the
-scripts on a Windows machine, you will need to add the following line
-to your =C:\CONFIG.SYS= file and then reboot.
+If you get the message "Out of environment space" while running the scripts
+on a Windows machine, you will need to add the following line to your
+=C:\CONFIG.SYS= file and then reboot.
 
     shell=command.com /e:8192 /p
 
+This reserves more space for environment variables in the DOS shell. You can
+type:
+
+    C:\>command /?
+
+for more details.
+
+---+++ Java Application on Unix
+
+At this time, Dependency Finder does not have shell scripts to launch any
+of the tools the way it does under DOS.
+
+---++++ Step 1: Java Virtual Machine
+
+You need to have a Java Virtual Machine installed.  You can get one for
+free from Linux or Solaris from [[http://java.sun.com/][Sun Microsytems]].
+Make sure you define the =JAVA_HOME= environment variable.
+
+Suppose you installed JDK 1.3 in =/usr/java=.
+
+For sh or bash:
+
+    JAVA_HOME=/usr/java
+    export JAVA_HOME
+
+For csh or tcsh:
+
+    setenv JAVA_HOME /usr/java
+
+You can put this line in your =.cshrc= file.
+
+---++++ Step 2: Deploy Dependency Finder
+
+Extract the ZIP file to some directory you like.  The extraction will
+create a subdirectory named "DependencyFinder" that is the root of the
+package.
+
+    $ unzip DependencyFinder.zip
+
+For example, if you extract it to =$HOME=, you will endup with a
+directory called =$HOME/DependencyFinder/=.
+
+---++++ Step 3: Environment Variables
+
+Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
+point to the directory where you installed Dependency Finder.
+
+If the VM runs out of memory, try modifying the =DEPENDENCYFINDER_OPTS=
+environment variable to allocate more memory to the JVM.
+
+Suppose you extracted the ZIP file in =$HOME=.
+
+For sh or bash:
+
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
+    export DEPENDENCYFINDER_HOME
+    DEPENDENCYFINDER_OPTS=-Xmx128m
+    export DEPENDENCYFINDER_OPTS
+
+For csh or tcsh:
+
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder
+    setenv DEPENDENCYFINDER_OPTS -Xmx128m
+
+You can put these lines in your =.cshrc= file.
+
+---++++ Step 4: =PATH=
+
+Add the directory where you put the Unix scripts to your =PATH= variable.
+
+Suppose you extracted the ZIP file in =$HOME=.
+
+For sh or bash:
+
+    PATH=$DEPENDENCYFINDER_HOME\bin;$PATH
+    export PATH
+
+For csh or tcsh:
+
+    set path = ($DEPENDENCYFINDER_HOME\bin $path)
+
+You can put this line in your =.cshrc= file.
+
 ---+++ Web Application
 
-Dependency Finder also comes as a web application that you can easily
-deploy in just about any J2EE servlet container.
+Dependency Finder also comes as a web application that you can easily deploy
+in just about any J2EE servlet container.
 
 ---++++ Step 1: Deploy WAR File
 
-Use your favorite servlet container to deploy the WAR file.  For
-instance, under Tomcat:
+Use your favorite servlet container to deploy the WAR file.  Most of them
+have tools for deploying WAR files.  For some of them, it can be as simple
+as deploying the WAR file to a specific directory.
+
+For instance, under Tomcat on Windows:
 
     C:\>%CATALINA_HOME%\bin\shutdown
-    C:\>COPY DependencyFinder.war %CATALINA_HOME%\webapps
+    C:\>copy DependencyFinder.war %CATALINA_HOME%\webapps
     C:\>%CATALINA_HOME%\bin\startup
 
 ---++++ Step 2: Configure =web.xml= file
 
-Next, you need to tell the wep application where to find the Java
-classes to extract dependencies from.  This is done via the =web.xml=
-file in the =WEB-INF\= directory.  Some application servers expose
-the content of this file through some form of user interface.  Under
-Tomcat, you have to edit the file yourself using a text editor.
+Next, you need to tell the wep application where to find the Java classes to
+extract dependencies from.  This is done via the =web.xml= file in the
+=WEB-INF\= directory.  Some application servers expose the content of this
+file through some form of user interface.  Under Tomcat, you have to edit
+the file yourself using a text editor.
 
 There are three application variable to adjust.
 
@@ -143,9 +230,9 @@ There are three application variable to adjust.
 	    *=name=*
 	</td>
 	<td>
-	    Used in the JSPs to tell the users what that are looking
-	    at.  Put the name of the application that you are
-	    extracting from here.
+	    Used in the JSPs to tell the users what that are looking at.
+	    Put the name of the application that you are extracting from
+	    here, it will be shown in titles by the JSPs.
 	</td>
     </tr>
     <tr>
@@ -154,10 +241,10 @@ There are three application variable to adjust.
 	</td>
 	<td>
 	    Use this variable to tell Dependency Finder where to locate
-	    classes to extract.  You can separate multiple locations
-	    by using commas.  Each location can either be a JAR file,
-	    a ZIP file, a =.class= file, or a directory that will be
-	    recursively searched for =.class= files.
+	    classes find which to extract a dependency graph.  You can
+	    separate multiple locations by using commas.  Each location
+	    can either be a JAR file, a ZIP file, a =.class= file, or a
+	    directory that will be recursively searched for =.class= files.
 	</td>
     </tr>
     <tr>
@@ -165,37 +252,39 @@ There are three application variable to adjust.
 	    *=mode=*
 	</td>
 	<td>
-	    Tells Dependency Finder whether to _minimize_ or _maximize_
-	    the resulting graph, or just leave it alone (_raw_, the
-	    default value).
+	    Optional.  Tells Dependency Finder whether to _minimize_ or
+	    _maximize_ the resulting graph, or just leave it alone (_raw_,
+	    the default value).  See below for the implications of
+	    minimizing or maximizing a graph.
 	</td>
     </tr>
 </table>
 </blockquote>
 
-Under some servlet containers, for example Tomcat, you will need to
-restart the servlet container for the changes to take effect.
+Under some servlet containers, for example Tomcat, you will need to restart
+the servlet container for the changes to take effect.
 
     C:\>%CATALINA_HOME%\bin\shutdown
     C:\>%CATALINA_HOME%\bin\startup
+
+Or you can you the deployment tool in Tomcat Manager to install the web
+application.
 
 ----
 
 ---++ History Behind Dependency Finder
 
-This project started because another project of mine became so complex
-that I couldn't track dependencies in my head anymore.  I looked for
-a tool to help me and the only ones I could find were very expensive.
-So I resolved to build my own tool.
+This project started because another project of mine became so complex that
+I couldn't track dependencies in my head anymore.  I looked for a tool to
+help me and the only ones I could find were very expensive.  So I resolved
+to build my own tool.
 
-I haven't touched that other project since.
-
----+++ Class Files
+I haven't touched that other project since I started working on Dependency
+Finder.
 
 At first, I thought of using the Reflection API, but it shows only the
 class's attributes and method signatures.  If a method uses other classes
-as part of its processing, that dependency will not show under the
-Reflection API.
+as part of its processing, the Reflection API will not show that dependency.
 
 Java compilers take source code and produce bytecode that they put in
 =.class= files.  The format of these files is described in
@@ -203,56 +292,32 @@ Java compilers take source code and produce bytecode that they put in
 I undertook to parse these files and extract the information I needed
 directly from the compiled code.
 
----+++ Dependencies
-
-Dependencies occur when one class uses the services of another class.
-This can happen when a class inherits from another, has an attribute
-whose type is of another class, or when one of its methods calls a
-method on an object of another class.
-
-Knowing about dependencies is useful for programmers when deciding the
-impact of a change.  When you're about to rename a feature or class,
-it is useful to know all the places in the codebase where it is being
-used.
-
-This is also useful for code reviewers and architects when assessing the
-coupling within an application or library.
-
----+++ Metrics
-
-Object-oriented metrics help assess the quality of a piece of software.
-You can use them to verify that your architecture evolves in the right
-direction, from version to version.  You can also use them to spot
-deviations from your quality guidelines, such as methods that are too
-long or have too many parameters.
-
----+++ API Differences
-
-If you are developing some kind of library or framework, that is,
-software that will be used and/or extended by others, you need to know
-what changed from version to version.  The =JarJarDiff= tool can
-compute differences automatically, so you can quickly know what you
-might have broken in your customer's code.
+Once I had access to the code structure, I got started on tools to report
+_interesting_ information about it.  I started with dependencies and
+quickly moved up to metrics and API differences.  At the beginning, the
+output was only to standard output or a file.  Quickly, I added XSL
+stylesheets so it would look a little better.  Eventually, I added Swing
+application to keep the data in memory and play with it a while.
 
 ----
 
 ---++ Running Dependency Finder
 
 Once you have installed Dependency Finder, you are ready to use all the
-tools now at your disposal.  All of them are Java applications that you
-launch using a batch file or shell script.
+tools now at your disposal.  Almost all of them are Java applications that
+you launch using a batch file or shell script.
 
 At the beginning, the toolset was just a group of batch files that
 offered a basic command-line interface (CLI).  Later, I added a Swing
 graphical interface (GUI) that simply replicated the controls available
 through the CLI.  Finally, I build a web application that mirrored the
 GUI.  This might help explain why the the interface looks the way it
-does and why it may not always be optimally intuitive.
+does and why it may not always be very intuitive.
 
 We will start with the GUI-based tools, and then talk about the CLI-based
 tools.
 
-All the tools support the following three command-line switches:
+All the tools support the following two command-line switches:
 
 <blockquote>
 <table border="0"
@@ -270,23 +335,12 @@ All the tools support the following three command-line switches:
     <tr>
 	<td valign="top"
 	    nowrap="true">
-	    =-trace [filename]=
-	</td>
-	<td>
-	    Writes _very_ detailed processing information to _filename_.
-	    If you do not specify a file, the tool will write the
-	    information to the standard output stream.
-	</td>
-    </tr>
-    <tr>
-	<td valign="top"
-	    nowrap="true">
 	    =-verbose [filename]=
 	</td>
 	<td>
-	    Writes summary processing information to _filename_.
-	    If you do not specify a file, the tool will write the
-	    information to the standard output stream.
+	    Writes summary processing information to _filename_.  If you do
+	    not specify a file, the tool will write the information to the
+	    standard output stream.
 	</td>
     </tr>
 </table>
@@ -304,7 +358,7 @@ command-line switches:
 	    =-in=
 	</td>
 	<td>
-	    Many of the CLI tools are automated translation of XML data
+	    Many of the CLI tools are automated translations of XML data
 	    into either HTML or plain text.  The scripts have hard-coded
 	    XSL stylesheets.  You specify the XML input with this switch.
 	</td>
@@ -315,9 +369,8 @@ command-line switches:
 	    =-out filename=
 	</td>
 	<td>
-	    Writes the output of the command to _filename_.  Most
-	    commands default to the standard output if you do not
-	    use =-out=.
+	    Writes the output of the command to _filename_.  Most commands
+	    default to the standard output if you do not use =-out=.
 	</td>
     </tr>
     <tr>
@@ -326,11 +379,10 @@ command-line switches:
 	    =-time=
 	</td>
 	<td>
-	    Prints the time it took to run the command.  If you run
-	    commands against a large codebase or dependency graph,
-	    it can take a substantial amount of time before it returns.
-	    This information can help you plan lenghty operations in
-	    the future.
+	    Prints the time it took to run the command.  If you run commands
+	    against a large codebase or dependency graph, it can take a
+	    substantial amount of time before it returns.  This information
+	    can help you plan lenghty operations in the future.
 	</td>
     </tr>
 </table>
@@ -343,7 +395,7 @@ compiled code, maintains the dependency graph in memory, and provides
 an interface for querying the graph and display the results.
 
 <div align="center">
-    [[images/DependencyFinder.jpg][images/s_DependencyFinder.jpg]]
+    [[images/DependencyFinder.query.jpg][images/s_DependencyFinder.query.jpg]]
 *DependencyFinder*
 </div>
 
@@ -352,7 +404,7 @@ results in a table with sortable columns.  Different tabs control the
 level of detail: package, class, or method.
 
 <div align="center">
-    [[images/OOMetricsGUI.jpg][images/s_OOMetricsGUI.jpg]]
+    [[images/OOMetricsGUI.sample.jpg][images/s_OOMetricsGUI.sample.jpg]]
 *OOMetricsGUI*
 </div>
 
@@ -367,65 +419,55 @@ level of detail: package, class, or method.
 
 ---++ Class Files
 
-You use the =com.jeantessier.classreader= package to parse compiled
-Java code.  You feed files to a =ClassfileLoader= and you get instances
-of =Classfile= from it.
+Dependency Finder uses specialized classes to parse =.class= files.  It also
+includes some tools for looking at the contents of these files.
 
-There are two kinds of =ClassfileLoader=.  The first kind opens input
-streams from the data sources and passes these streams to an underlying
-=ClassfileLoader= of the second kind.  The second kind creates the
-=Classfile= instances and fires processing events to registered listeners.
-The reason for the separation is because the first kind handles various
-file types, while the second kind handles how long the =Classfile=
-instances remain in memory.
+---+++ ClassReader
 
-The first kind derives from =ClassfileLoaderDecorator= and follows the
-decorator pattern.  It wraps another =ClassfileLoader=, passing it input
-streams and triggering event firing.  It includes the following concrete
-classes:
+Use this tool to put the class in a =.class= file in human-readable form.
+With the =-xml= switch, it dumps the complete structure to an XML file
+that you can manipulate with your favorite XML editor.
 
-   * DirectoryClassfileLoader
-   * ZipClassfileLoader
-   * JarClassfileLoader
+---+++ ClassDump
+---+++ ClassInheritance
+---+++ ClassMetrics
 
-The second kind derives from =ClassfileLoaderEventSource=.  These classes
-create instances of =Classfile= and keep track of =LoadListener= objects.
-It includes the following concrete classes:
+This is a simple tally of how many classses, interfaces, methods, publics,
+statics, finals, etc. there are in a given codebase.  These tallies are
+not as powerful as the metrics of =OOMetrics=, but they can give you a
+rough idea of the size and complexity of a piece of software.
 
-   * AggregatingClassfileLoader
-   * TransientClassfileLoader
-
-Once you have an instance of =Classfile=, you can traverse it with a
-class that implements =com.jeantessier.classreader.Visitor=.  It has
-callback methods that get called by the various components of the
-=Classfile=.
-
----+++ Metrics
----+++ Tools
-
-   * ClassReader
-   * ClassDump
-   * ClassInheritance
-   * ClassMetrics
-   * ClassList
+---+++ ClassList
 
 ----
 
 ---++ Dependencies
 
-Dependency Finder builds dependency graphs based on the information
-in class files.
+Dependencies occur when one class uses the services of another class.  This
+can happen when a class inherits from another, has an attribute whose type
+is of another class, or when one of its methods calls a method on an object
+of another class.
 
-As we mentioned earlier, a dependency is when the functioning of one
-element =A= requires the presence of another element =B=.  We say that
-=A= _depends_ on =B= and we write it:
+Knowing about dependencies is useful for programmers when deciding the
+impact of a change.  When you're about to rename a feature or class, it is
+useful to know all the places in the codebase where it is being used.
+
+This is also useful for code reviewers and architects when assessing the
+coupling within an application or library.
+
+Dependency Finder builds dependency graphs based on the information in
+class files.
+
+As we mentioned earlier, a dependency is when the functioning of one element
+=A= requires the presence of another element =B=.  We say that =A= _depends_
+on =B= and we write it:
 
     A --> B
 
-We say that =A= has an _outbound_ dependency while =B= has an
-_inbound_ dependency.  It is the same dependency, but whether it
-is inbound or outbound is relative to how you look at it.  We also
-say that =A= is a _dependent_ and =B= is _dependable_.
+We say that =A= has an _outbound_ dependency while =B= has an _inbound_
+dependency.  It is the same dependency, but whether it is inbound or
+outbound is relative to how you look at it.  We also say that =A= is a
+_dependent_ and =B= is _dependable_.
 
 A dependency graph comprises nodes for software artifacts linked
 together by two types of relationships.  Artifacts are packages,
@@ -486,50 +528,197 @@ are also _implicit_ dependencies derived from these explicit ones.  A
 dependency between two classes in two separate packages _implies_ a
 dependency between the packages.
 
----++++ Extracting with the GUI
+---++++ Dependencies on Self
+
+If we look closely at this model, we see that recursive method calls and
+certain types of recursive structures can generate dependencies between
+a programming elemend (i.e., a class or a method) and itself.  Or, if a
+method has a parameter or local variable whose type is the enclosing
+class itself, or if an attribute's type is its enclosing class, this
+introduce a dependency from the feature to the class of which it is a
+part of.
 
 <div align="center">
-    [[images/HighlightedExtractDialog.jpg][images/s_HighlightedExtractDialog.jpg]]
+    [[images/SelfDependency.gif]]
+*Dependencies on Self*
+</div>
+
+Dependency Finder does not keep track of dependencies on self.  Dependency
+analysis is useful for two things:
+
+   1 Compile-time dependencies
+   1 Runtime dependencies
+
+You use compile-time dependency, or change impact analysis, to answer
+questions such as "If I change X, what else might I have to change too?"
+Dependencies on self are not all that useful here.  If I am changing X,
+I don't need to be told that X will be impacted.  Likewise, if I am making
+changes to features of a class, I don't need to be told that the class
+will be impacted; I am already editing it.  I do, however, need to know
+what other features in this class might be impacted.
+
+You use runtime dependency analysis to answer questions such as "For class
+X to run, what other classes do I need?"  The class as a whole is the unit
+of loading.  If a feature needs its class, the class is forcibly already
+loaded otherwise the JVM would never had gotten to the feature to begin
+with.  Likewise, if a class needs itself, well it is already there.
+
+So Dependency Finder does not keep track of dependencies on self.  This
+includes implicit dependencies from a class or feature to its package, or
+from a package to itself.
+
+---++++ Extracting With the GUI
+
+<div align="center">
+    [[images/DependencyFinder.extract.high.jpg][images/s_DependencyFinder.extract.high.jpg]]
 *Extract Dialog*
 </div>
 
 Select =File&nbsp;|&nbsp;Extract=; this will popup a file dialog.
 Select the files and/or directories to extract from and click =Extract=.
 You can repeat this command as often as needed; each time, the extracted
-dependencies will be added to the current dependency graph.
+dependencies will be added to the current dependency graph in memory.
 
----++++ Extracting with the CLI
+You can save the current dependency graph to an XML file by using
+=File&nbsp;|&nbsp;Save=.  You can later reload the graph by using
+=File&nbsp;|&nbsp;Open=.  Note that it is usually faster to extract the
+information again from class files than to load it from an XML file.
+
+---++++ Extracting With the CLI
 
 You use =DependencyExtractor= to extract dependencies.  Simply string
-out the files and directories on the command line.
+out the files and directories on the command line.  All the dependencies
+are merged into a single output.
 
 E.g.,
 
     C:\>DependencyExtractor classes %JAVA_HOME%\JRE\lib\rt.jar
 
-All the dependencies are merged into a single output.
+You can specify an output file with the =-out= switch:
 
----++++ Minimizing and Maximizing
+    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -out df.txt
+
+You can save the graph to XML with the =-xml= switch:
+
+    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -xml -out df.xml
+
+Or you can use Java serialization to save the graph:
+
+    C:\>DependencyExtractor %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar -serialize -out df.ser
+
+<dl>
+    <dt>NOTE:</dt>
+    <dd><i>At this time, Dependency Finder cannot deserialize the graph
+    back.</i></dd>
+</dl>
+
+---++++ Extracting With the Web Application
+
+You use =extract.jsp= to generate a dependency graph for the web application.
+The graph will stay in memory for the lifetime of the process serving the
+application, or until you extract it again with the JSP.  This graph can
+get pretty big, so make sure you allocate enough memory to the application
+server.
+
+If you just call =extract.jsp=, it will print statistics on the current
+graph, if any.  These include the number of nodes in the graph, how long
+it took to extract it, and a timestamp of when it was extracted.
+
+If you click on the _Launch_ button, or call =extract.jsp?launch%3DLaunch=,
+it will start to extract a new dependency graph.  The previous one will
+remain in use for other callers until the extraction terminates successfully.
+The JSP prints the name of classes as it extracts them.  And at the end, it
+prints how many classes it read and how it it took to analyze them.
+
+You can use the URL "=extract.jsp?launch%3DLaunch=" to automatically
+update the graph after automated compilation runs, such as during nightly
+builds.
+
+    &lt;target name%3D"extract" depends%3D"init"&gt;
+        &lt;get src%3D"${WEB%5FAPP%5FURL}/extract.jsp?launch%3DLaunch"
+             dest%3D"log.html"/&gt;
+    &lt;/target&gt;
+
+---++++ Minimizing And Maximizing
+
+It is often the case that an explicit dependency in the code can be implied
+from another explicit dependency in that code.  For example, take the
+following code snippet:
+
+    class A extends B {
+        public void a() {
+            b();
+        }
+    }
+
+    class B {
+        public void b() {}
+    }
+
+We can analyze the dependencies and this is a subset of the resulting
+dependency graph:
+
+<div align="center">
+    [[images/RedundantI.gif]]
+*Raw*
+</div>
+
+Clearly, the dependency =A.a()&nbsp;-->&nbsp;B.b()= implies the dependency
+=A&nbsp;-->&nbsp;B=.  We say that the latter is _redundant_; it does not
+add anything to the overall connectivity of the graph.  Another, very
+frequent, example of this situation occurs with constructors.
+
+    class A extends B {}
+    class B {}
+
+<div align="center">
+    [[images/RedundantII.gif]]
+*Raw*
+</div>
+
+Another variation occurs when a method either calls a method on an object
+it received as a parameter or throws a new =Exception= that is part of
+its =throws= clause.
+
+    class A {
+        public void a(B b) {
+            b.b();
+        }
+    }
+
+    class B {
+        public void b() {}
+    }
+
+<div align="center">
+    [[images/RedundantIII.gif]]
+*Raw*
+</div>
 
 We _minimize_ the dependency graph when we remove redundant dependencies.
-If method =a()= in class =A= calls method =b()= in class =B=, the
-dependency =A.a()&nbsp;-->&nbsp;B.b()= implies the dependency
-=A&nbsp;-->&nbsp;B=.  If the latter is also present in the code, let's
-say because =A extends B=, then it becomes explicit and redundant, since
-is was already introduced by the former dependency.  We can safely remove
-the explicit reference to =A&nbsp;-->&nbsp;B= without any loss of
-information.
+In the first example above, we would remove the dependency
+=A&nbsp;-->&nbsp;B=.  Here is what would be the resulting graph:
 
-We _maximize_ the dependency graph when we expose all implicit
-dependencies by making them explicit.  To take back our previous
-example, =A.a()&nbsp;-->&nbsp;B.b()=, maximizing it will introduce
-the following dependencies:
+<div align="center">
+    [[images/Minimized.gif]]
+*Minimized*
+</div>
+
+We _maximize_ the dependency graph when we expose all implicit dependencies
+by making them explicit.  Staying with our example,
+=A.a()&nbsp;-->&nbsp;B.b()=, maximizing it would introduce these
+dependencies:
 
     * =A.a()&nbsp;-->&nbsp;B=
     * =A&nbsp;-->&nbsp;B.b()=
     * =A&nbsp;-->&nbsp;B=
 
-Maximizing and minimizing the dependency graph deals with the trade off
+<div align="center">
+    [[images/Maximized.gif]]
+*Maximized*
+</div>
+
+Maximizing and minimizing a dependency graph deals with the trade off
 between space and time.  Minimizing the graph saves on space, but it
 takes longer to traverse the graph to find if there is a dependency
 between two given nodes.  Maximizing the graph saves on time, since all
@@ -556,51 +745,49 @@ with the same graph as if you had minimized the original graph.
 
 ---+++ Reporting
 
-_Reporting_ is the act of displaying a dependency graph, or more often
-a subset of it.  The graph is composed of nodes and links.  We apply
-scoping to the nodes and filtering to the links.  In each case, we will
-use Perl regular expressions to indicate which nodes and links we are
-interested in.
+_Reporting_ means displaying a dependency graph.  More often than not, the
+graph on display is a subset of a larger graph.  A graph is composed of nodes
+and links.  When we display a subset of a graph, we must choose which nodes
+and which links to include in the subset.  We use Perl regular expressions to
+indicate what we are interested in.
 
-So, reporting deals with selecting a subset of the dependency graph;
-that is, choosing a subset of the nodes making up the graph and a
-subset of the links to or from these nodes.  The _scope_ selects the
-nodes in the source graph that will be copied into the destination
-graph.  The _filter_ selects the links (i.e., the dependencies) to or
-from scoped nodes that will be copied into the destination graph,
-along with the nodes at the other end of these link if they were not
-already in the destination graph.
+So, reporting deals with selecting a subset of the dependency graph; that is,
+choosing a subset of the nodes making up the graph and a subset of the links
+to or from these nodes.  The _scope_ selects the nodes in the source graph
+that will be copied into the destination graph.  We then _filter_ the links
+(i.e., the dependencies) to or from nodes in the scope that will be copied
+into the destination graph.  We must also copy the nodes at the other end of
+these link if they were not already in the destination graph.
 
-We use the term _scoping_ when talking about the selection process for
-nodes.  We use the term _filtering_ when talking about the selection
-process for links.
+We use the term _scoping_ when talking about the selection process for nodes.
+The GUI and the JSPs have a section labeled "Select programming elements" to
+group the controls that govern scoping.
 
 <div align="center">
     [[images/Scope.gif]]
 *Scoping*
 </div>
 
+We use the term _filtering_ when talking about the selection process for
+links.  The GUI and the JSPs have a section labeled "Show dependencies" to
+group the controls that govern filtering.
+
 <div align="center">
     [[images/Filter.gif]]
 *Filtering*
 </div>
 
-Both scoping and filtering have their own selection process that
-includes inclusion and exclusion criteria.  A given node is selected
-if it meets any of the inclusion criteria for scoping and meets none
-of the exclusion criteria for scoping.  Once a node is selected, we
-look at the nodes at the other end of links into and out of that node;
-the link is selected if the other node meets any of the inclusion
-criteria for filtering and meets none of the exclusion criteria for
-filtering.
+Now both scoping and filtering have similar user interfaces.  I will talk
+about the one for scoping here, but the filtering interface works the same
+way.
 
-From the start, you decide if each selection process applies to
-packages, classes, and features.  In =DependencyFinder=, you do this
-through checkboxes.  In =DependencyReporter=, you do it through
-specific command line switches.  =DependencyReporter= also has
-shortcuts that can replace multiple switches.
+First, a set of checkboxes narrow the search to only packages, classes,
+features, or combinations thereof.  In the CLI, you achieve the same
+effect through command-line switches.
 
-E.g.,
+<div align="center">
+    [[images/ScopeControls.simple.highcontrols.jpg]]
+</div>
 
     C:\>DependencyReporter -package-scope  \
                            -class-scope    \
@@ -611,134 +798,24 @@ E.g.,
     C:\>DependencyReporter -f2f
 
 <div align="center">
-    [[images/HighlightedScopeControls.jpg][images/s_HighlightedScopeControls.jpg]]
-*Scope Controls GUI*
+*Scope Controls*
 </div>
 
-Each process has separate criteria for inclusion and exclusion.  They
-work the same way, as far as matching nodes is concerned.  The
-difference is only in how the process uses the outcome to decide
-whether to keep a node or link or not.  For a node or link to be
-selected, it must meet AT LEAST ONE of the relevant inclusion
-criteria and NONE of the relevant exclusion criteria.
-
-In each case, the criteria are a series of regular expressions applied
-to a node's name.  Each series is composed of the union of two groups
-out of four difference sets.  Which sets are selected depends on the
-type of the node, whether it is a node for a package, class, or
-feature.
-
-The first set of regular expressions applies regardless of the type
-of node.  You specify it with the top text field in the GUI.  This
-is the only set that you can specify when using the simple form.  Of
-the remaining three sets, one applies only to package nodes, one only
-to class nodes, and the last one only to feature nodes.  The GUI
-places each one on a row with the corresponding labels.
-
-The following table summarizes which sets are relevant.  Each column
-in the GUI follows these rules.  The columns of GUI elements match
-scoping inclusion, scoping exclusion, filtering inclusion, and
-filtering exclusion respectively.
+Second, you specify Perl regular expressions in two text fields.  A node must
+match the regular expression in the first field and *not* match the one in
+the second field.  You can put multiple regular expressions in one field,
+separate them with commans and they will be or'ed together.  On the
+command-line, just repeat the switches.
 
 <div align="center">
-<table border="3"
-       cellpadding="5">
-    <caption align="bottom">*Relevant Selection Criteria*</caption>
-    <tr>
-	<td />
-	<td align="center">
-	    <b>package</b><br />node or link
-	</td>
-	<td align="center">
-	    <b>class</b><br />node or link
-	</td>
-	<td align="center">
-	    <b>feature</b><br />node or link
-	</td>
-    </tr>
-    <tr>
-	<td align="center">
-	</td>
-	<td align="center">
-	    X
-	</td>
-	<td align="center">
-	    X
-	</td>
-	<td align="center">
-	    X
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    package
-	</td>
-	<td align="center">
-	    X
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    class
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-	<td align="center">
-	    X
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    feature
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-	<td align="center">
-	    &nbsp;
-	</td>
-	<td align="center">
-	    X
-	</td>
-    </tr>
-</table>
+    [[images/ScopeControls.simple.highcriteria.jpg]]
 </div>
 
-To repeat, each criterion is a set of Perl regular expressions.  For
-scoping, the name of the node must match at least one of the regular
-expressions for it to meet the criterion.  Filtering is always done
-relative to a node that is in scope.  A link will be selected if the
-name of the node at the other end of the link passes the filtering
-selection process.
-
-In =DependencyFinder=, you specify criteria through a number of text
-areas.  In =DependencyReporter=, you do it with specific command line
-switches.  You specify multiple regular expressions for a set by
-using separating them with commas in the GUI or by using the same
-command line switch multiple times.
-
-E.g.,
-
-    C:\>DependencyReporter -scope-includes //
-
-    C:\>DependencyReporter -scope-includes //                       \
-                           -scope-excludes /Test/                   \
-                           -feature-scope-includes /someMethod/     \
-                           -feature-scope-includes /anotherMethod/
+    C:\>DependencyReporter -scope-includes //           \
+                           -scope-excludes /Test/
 
 <div align="center">
-    [[images/HighlightedScopeCriteria.jpg][images/s_HighlightedScopeCriteria.jpg]]
-*Scope Criteria GUI*
+*Scope Criteria*
 </div>
 
 ---++++ Perl Regular Expressions
@@ -753,7 +830,71 @@ Here are links to pages explaining Perl regular expressions:
    * [[http://java.sun.com/j2se/1.4/docs/api/java/util/regex/Pattern.html#sum][JDK 1.4]]
    * [[http://www.perldoc.com/perl5.6/pod/perlre.html][Perldoc.com]]
 
-E.g.,
+Special characters in regular expressions:
+
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    *=[A-Z]=*
+	</td>
+	<td>
+	    Capitals
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=\w=*
+	</td>
+	<td>
+	    Alphanumerics [A-Za-z0-9_]
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=\W=*
+	</td>
+	<td>
+	    Non-alphanumerics [^A-Za-z0-9_]
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=\w+=*
+	</td>
+	<td>
+	    At least one alphanumeric
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=\s=*
+	</td>
+	<td>
+	    Space, including tab, carriage return, and line feed
+	</td>
+    </tr>
+     <tr>
+	<td valign="top">
+	    *=\s%2A=*
+	</td>
+	<td>
+	    Zero or more white space
+	</td>
+    </tr>
+   <tr>
+	<td valign="top">
+	    *=\.=*
+	</td>
+	<td>
+	    Matches '.', as opposed to any character
+	</td>
+    </tr>
+</table>
+</blockquote>
+
+Sample rules:
 
 <blockquote>
 <table border="0"
@@ -803,88 +944,462 @@ E.g.,
 </table>
 </blockquote>
 
----++++ Textual Output
+Examples:
 
-Dependency Finder includes XSL stylesheets for representing a dependency
-graph using simple text.  The stylesheets can either render the whole
-graph or only show inbound or outbound dependencies.
+<blockquote>
+<table border="0"
+       cellpadding="5">
+    <tr>
+	<td valign="top">
+	    *=/java/=*
+	</td>
+	<td>
+	    Matches anything with "=java=" in it.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=/^java/=*
+	</td>
+	<td>
+	    Matches anything that starts with "=java=".
+	</td>
+    </tr>
+     <tr>
+	<td valign="top">
+	    *=/^com.jeantessier/=*
+	</td>
+	<td>
+	    Matches anything that starts with "=com.jeantessier=".  Here,
+	    the '.' really matches any single character, which obviously
+	    includes the '.' character itself.
+	</td>
+    </tr>
+   <tr>
+	<td valign="top">
+	    *=/Node.Accept\(/=*
+	</td>
+	<td>
+	    Matches any =Accept()= method of any class ending in "=Node=".
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=/Test/=*
+	</td>
+	<td>
+	    Matches anything with "=Test=" in it.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top">
+	    *=/(Node)\.\1\(/=*
+	</td>
+	<td>
+	    Matches any constructor for =Node=.
+	</td>
+    </tr>
+    <tr>
+	<td valign="top" nowrap>
+	    *=/(\w%2AMeasurement)\.\1\(/=*
+	</td>
+	<td>
+	    Matches any constructor for classes ending in =Measurement=.
+	</td>
+    </tr>
+</table>
+</blockquote>
 
-The stylesheets include:
+---++++ Advanced View
 
-    * DependablesToText.xsl
-    * DependenciesToText.xsl
-    * DependentsToText.xsl
-    * ListDependablesToText.xsl
-    * ListDependentsToText.xsl
+<div align="center">
+    [[images/ScopeControls.advanced.jpg]]
+</div>
 
-You can run them using the script of the same name and the =-in= and
-=-out= switches.  The scripts call =XSLTProcess= and specify the XSL
-stylesheet with the =-xsl= switch.  You can do the same, if you want,
-with either our stylesheets or your own.
+Both scoping and filtering have their own selection process that
+includes inclusion and exclusion criteria.  A given node is selected
+if it meets any of the inclusion criteria for scoping and meets none
+of the exclusion criteria for scoping.  Once a node is selected, we
+look at the nodes at the other end of links to and from this node;
+the link is selected if the other node meets any of the inclusion
+criteria for filtering and meets none of the exclusion criteria for
+filtering.
 
----++++ HTML Output
+From the start, you decide if each selection process applies to
+packages, classes, and features.  In =DependencyFinder=, you do this
+through checkboxes.  In =DependencyReporter=, you do it through
+specific command line switches.  =DependencyReporter= also has
+shortcuts that can replace multiple switches.
 
-Dependency Finder includes XSL stylesheets for representing a dependency
-graph using HTML.  The stylesheets can either render the whole graph or
-only show inbound or outbound dependencies.  Dependency Finder renders
-dependencies as hyperlinks to the appropriate node.
+E.g.,
 
-The stylesheets include:
+    C:\>DependencyReporter -package-scope  \
+                           -class-scope    \
+                           -feature-scope
 
-    * DependablesToHTML.xsl
-    * DependenciesToHTML.xsl
-    * DependentsToHTML.xsl
-    * ListDependablesToHTML.xsl
-    * ListDependentsToHTML.xsl
+    C:\>DependencyReporter -all
 
-You can run them using the script of the same name and the =-in= and
-=-out= switches.  The scripts call =XSLTProcess= and specify the XSL
-stylesheet with the =-xsl= switch.  You can do the same, if you want,
-with either our stylesheets or your own.
+    C:\>DependencyReporter -f2f
+
+<div align="center">
+    [[images/ScopeControls.advanced.highcontrols.jpg]]
+*Scope Controls GUI*
+</div>
+
+Each process has separate criteria for inclusion and exclusion.  They
+work the same way, as far as matching nodes is concerned.  The
+difference is only in how the process uses the outcome to decide
+whether to keep a node or link or not.  For a node or link to be
+selected, it must meet AT LEAST ONE of the relevant inclusion
+criteria and NONE of the relevant exclusion criteria.
+
+In each case, the criteria are a series of regular expressions applied
+to a node's name.  Each series is composed of the union of two groups
+out of four difference sets.  Which sets are selected depends on the
+type of the node, whether it is a node for a package, class, or
+feature.
+
+The first set of regular expressions applies regardless of the type
+of node.  You specify it with the top text field in the GUI.  This
+is the only set that you can specify when using the simple form.  Of
+the remaining three sets, one applies only to package nodes, one only
+to class nodes, and the last one only to feature nodes.  The GUI
+places each one on a row with the corresponding labels.
+
+The following picture summarizes which sets are relevant.  Regular
+expressions in the red areas apply to packages, those in the white
+areas apply to classes, and those in blue areas apply to features.
+
+<div align="center">
+    [[images/ScopeControls.selection.jpg]]
+*Relevant Selection Criteria*
+</div>
+
+To repeat, each criterion is a set of Perl regular expressions.  For
+scoping, the name of the node must match at least one of the regular
+expressions for it to meet the criterion.  Filtering is always done
+relative to a node that is in scope.  A link will be selected if the
+name of the node at the other end of the link passes the filtering
+selection process.
+
+In =DependencyFinder=, you specify criteria through a number of text
+areas.  In =DependencyReporter=, you do it with specific command line
+switches.  You specify multiple regular expressions for a set by
+using separating them with commas in the GUI or by using the same
+command line switch multiple times.
+
+E.g.,
+
+    C:\>DependencyReporter -scope-includes //
+
+    C:\>DependencyReporter -scope-includes //                       \
+                           -scope-excludes /Test/                   \
+                           -feature-scope-includes /someMethod/     \
+                           -feature-scope-includes /anotherMethod/
+
+<div align="center">
+    [[images/ScopeControls.advanced.highcriteria.jpg]]
+*Scope Criteria GUI*
+</div>
+
+---++++ Showing Only Inbound Dependencies
+
+Inbound dependencies show you who depends on a given programming element.
+Is is very useful when assessing the impact of a change.  Dependency
+Finder uses a textual notation to display them:
+
+    programming element
+        &lt;-- dependent 1
+        &lt;-- dependent 2
+            ...
+
+When there are a lot of dependencies, either because the graph is very big
+or an element is highly connected, it is useful to filter out the other
+dependencies so that inbound ones stand out and are easier to read.
+
+In =DependencyFinder= and the web application, there are three checkboxes
+at the bottom of the control area.  They control how the graph is rendered.
+To see only inbound dependencies, check the one labeled "inbounds" and
+uncheck the one labeled "outbounds".  If a node has no inbound dependencies,
+it will appear empty.  You can further filter them out by unchecking the
+last checkbox, the one labeled "empty nodes", if you want.
+
+If you are using the command-line tools, what you have is most likely a
+graph rendered in XML, either from =DependencyExtractor= or
+=DependencyReporter=.  You can use XML stylesheets to convert the XML to
+something more user-friendly.  Dependency Finder provides two sample
+stylesheets to show only inbound dependencies.  You can apply them with
+the following tools:
+
+    * =ListDependablesToText=
+    * =ListDependablesToHTML=
+
+The HTML is weaved HTML cross-references between all the elements for easy
+navigation.
+
+You can list only non-empty nodes with:
+
+    * =DependablesToText=
+    * =DependablesToHTML=
+
+---++++ Showing Only Outbound Dependencies
+
+Outbound dependencies show you who a given programming element depends upon.
+Is is very useful when partitioning programming elements and figuring out
+what other classes a given class needs in order to run.  Dependency Finder
+uses a textual notation to display them:
+
+    programming element
+        --&gt; dependable 1
+        --&gt; dependable 2
+            ...
+
+When there are a lot of dependencies, either because the graph is very big
+or an element is highly connected, it is useful to filter out the other
+dependencies so that outbound ones stand out and are easier to read.
+
+In =DependencyFinder= and the web application, there are three checkboxes
+at the bottom of the control area.  They control how the graph is rendered.
+To see only outbound dependencies, check the one labeled "outbounds" and
+uncheck the one labeled "inbounds".  If a node has no outbound dependencies,
+it will appear empty.  You can further filter them out by unchecking the
+last checkbox, the one labeled "empty nodes", if you want.
+
+If you are using the command-line tools, what you have is most likely a
+graph rendered in XML, either from =DependencyExtractor= or
+=DependencyReporter=.  You can use XML stylesheets to convert the XML to
+something more user-friendly.  Dependency Finder provides two sample
+stylesheets to show only outbound dependencies.  You can apply them with
+the following tools:
+
+    * =ListDependentsToText=
+    * =ListDependentsToHTML=
+
+The HTML is weaved HTML cross-references between all the elements for easy
+navigation.
+
+You can list only non-empty nodes with:
+
+    * =DependentsToText=
+    * =DependentsToHTML=
+
+---++++ Showing Both Inbounds And Outbound Dependencies
+
+You can combine the two approaches we just looked at and display the full
+graph.  For the sake of brevity, when a node A depends on a node B and
+that node B also depends on node A, Dependency Finder writes it as:
+
+<pre>
+    A
+        &lt;-&gt; B
+    B
+        &lt;-&gt; A
+</pre>
+
+If you are using the command-line tools, what you have is most likely a
+graph rendered in XML, either from =DependencyExtractor= or
+=DependencyReporter=.  You can use XML stylesheets to convert the XML to
+something more user-friendly.  Dependency Finder provides two sample
+stylesheets to show all dependencies.  You can apply them with the
+following tools:
+
+    * =ListDependenciesToText=
+    * =ListDependenciesToHTML=
+
+The HTML is weaved HTML cross-references between all the elements for easy
+navigation.
+
+You can list only non-empty nodes with:
+
+    * =DependenciesToText=
+    * =DependenciesToHTML=
 
 ---+++ Transitive Closure
 ---+++ Dependency Metrics
 
+This is a simple tally of how many dependencies there are in a graph.  It
+can give you a rough idea of the complexity of a given codebase, but it is
+not as powerful as the metrics computed by =OOMetrics=.
+
 ----
 
 ---++ OO Metrics
+
+Object-oriented software metrics help assess the quality of a piece of
+software.  You can use them to verify that your architecture evolves in the
+right direction, from version to version.  You can also use them to spot
+deviations from your quality guidelines, such as methods that have too many
+parameters or are too long.
+
+Dependency Finder can use the information it extracts from class files to
+compute software quality metrics.  Metrics measure certain aspects of
+software and provide a quantitative assessment of its quality.
+
+Dependency Finder recognizes four levels of metrics:
+
+   * Project
+   * Group
+   * Class
+   * Method
+
+Each metrics is composed of a number of measurements.  What measurements
+make up a given metrics level is defined in a configuration file written
+in XML.
+
 ---+++ Explanation
+
+A set of metrics is a group of measurements pertaining to a given _chunk_
+of software.  Dependency Finder recognizes four sizes of _chunks_:
+
+<blockquote>
+<dl>
+    <dt>Project</dt>
+    <dd>These metrics apply to the project as a whole.</dd>
+    <dt>Group</dt>
+    <dd>These metrics apply to groups of classes.  A Java
+    package is a _de facto_ group, but you can specify
+    arbitrary groups using Perl regular expressions.</dd>
+    <dt>Class</dt>
+    <dd>These metrics apply to a single class.</dd>
+    <dt>Method</dt>
+    <dd>These metrics apply to individual methods within
+    a class.</dd>
+</dl>
+</blockquote>
+
+It does not track metrics about class attributes because these are not
+really all that interesting.  The only measurements worth something deal
+with dependencies, and I rolled those into class metrics.
+
+The configuration file defines what measurements apply to which level of
+scope (package, group, class, or method).  It also defines the rules for
+creating arbitrary groups.  You can customize the content of your metrics
+report by using different configuration files.
+
+Each measurement has a name and a class that has the semantics of the
+measurement.  There are classes for counters, lists, simple
+mathematical expressions, etc.  Each measurement can be expressed as a
+numeric value and the configuration file can defines the recommanded range
+for that measurement.
+
+The current types of measurement are as follow:
+
+<blockquote>
+<dl>
+    <dt>=AccumulatorMeasurement=</dt>
+    <dd>Aggregates lists in submetrics on the measurement's context.
+    It uses Perl regular expressions to filter list elements.</dd>
+    <dt>=CounterMeasurement=</dt>
+    <dd>A simple counter, it tallies the values that are put in it.
+    If you try to add a non-number, it simply adds 1.</dd>
+    <dt>=NameListMeasurement=</dt>
+    <dd>Accumulates a set of values.  Its numerical value is the
+    cardinality (i.e., size) of the set.  =OOMetrics= uses it to
+    keep track of dependencies.</dd>
+    <dt>=NbSubMetricsMeasurement=</dt>
+    <dd>Counts how many submetrics there are in the measurement's
+    context.  It can use selection criteria while counting.  These
+    are akin to "WHERE C > 10".</dd>
+    <dt>=RatioMeasurement=</dt>
+    <dd>Divides one measurement (base) by another (divider).  Both
+    must be in the same context.</dd>
+    <dt>=StatisticalMeasurement=</dt>
+    <dd>Computes the statistical properties of a given measurement
+    across the submetrics of the measurement's context.  Given a
+    measurement name, it explores the tree of metrics rooted at the
+    context and finds the numerical value of these named measurements
+    in the tree.  For these measurements, it computes:
+    <ul>
+        <li>minimum value</li>
+        <li>median value</li>
+        <li>average value</li>
+        <li>standard deviation</li>
+        <li>maximum value</li>
+        <li>sum</li>
+        <li>number of data points</li>
+    </ul></dd>
+    <dt>=SumMeasurement=</dt>
+    <dd>Adds up numerical values.  Use it with just one term to alias
+    other measurements.</dd>
+</dl>
+</blockquote>
+
+Whenever a measurement references another measurement, there is a chance
+that that measurement is in fact a =StatisticalMeasurement= standing in
+for a collection of others at the levels below.  The measurment making
+the reference can specify explicitly which subvalue (i.e., minimum, median,
+etc.) of the =StatisticalMeasurement= it wants to use for its own
+computation.  Or, it can rely on the =StatisticalMeasurement='s self
+disposition setting.  A =StatisticalMeasurement= can specify explicitly
+which of its subvalues it wants to use for its numerical value.  By
+default, this is the average value.
+
+These measurements can potentially refer to other measurements and fall
+under this disposition feature:
+
+   * =NbSubMetricsMeasurement=
+   * =RatioMeasurement=
+   * =StatisticalMeasurement=
+   * =SumMeasurement=
+
+Right now, measurement processing is fixed.  In the future, you will be able
+to define your own types of measurements and plug them into the framework.
+
+=OOMetrics= and =OOMetricsGUI= create one project-level metrics for the
+whole project.  This level has measurements that span the entire analyzed
+codebase.  For each =.class= file, they create one class-level metrics for
+that class, and one method-level metrics for each of its methods.
+
+The tools add Class-level metrics to relevant group-level metrics.  One such
+group, which the tools create automatically for each class, is named after
+the package that this class belongs to.  You can define additional groups
+in the configuration file by providing a name for the group and one or more
+Perl regular expressions.  If the class name matches any of the regular
+expressions, the class will be added to that group.  This allows you to
+group together classes for a component or module that might span multiple
+Java packages.
+
+E.g.,
+
+    &lt;group-definitions&gt;
+        &lt;group-definition&gt;
+            &lt;name&gt;Servlet API&lt;/name&gt;
+            &lt;pattern&gt;/^javax.servlet/&lt;/pattern&gt;
+        &lt;/group-definition&gt;
+        &lt;group-definition&gt;
+            &lt;name&gt;Test&lt;/name&gt;
+            &lt;pattern&gt;/test/i&lt;/pattern&gt;
+        &lt;/group-definition&gt;
+    &lt;/group-definitions&gt;
+
 ---+++ Extracting
+
 ---+++ Reporting
 ---++++ Textual Output
----++++ HTML Output
+---++++ CSV Output
+
+Perfect for loading in Microsoft Excel and charting.
+
+---++++ XML Output
 
 ----
 
 ---++ API Differences
 
-If you are developing libraries or frameworks, your clients depend on
-your published set of APIs for their own development efforts.  It
-becomes important, as you release new revisions of your software, to
-keep track of which parts of the published API changed, so that you
-can tell your clients how to upgrade their code.
+If you are developing libraries or frameworks, that is, software that will
+be used and/or extended by others, you need to know what changed from
+version to version.  Your clients depend on your published set of APIs for
+their own development efforts.  It becomes important, as you release new
+revisions of your software, to keep track of which parts of the published
+API changed, so that you can tell your clients how to upgrade their code.
+The =JarJarDiff= tool can compute differences automatically, so you can
+quickly know what you might have broken in your customer's code.
 
 Even if this is not your case, it is still a good practive to have a
 look at what changed across your software since the latest baseline.
 This allows you to keep track of changes to the classes and methods
 and verify that they are evolving in the right direction, whichever
 way you decide that is.
-
----+++ Explanation
-
-You can use =com.jeantessier.classreader.ClassfileLoader= classes to
-examine the baseline of your codebase; be they in JAR files, loose
-class files, or a combination of both.  You can apply the same treatment
-to your latest codebase.  You now have two sets =Classfile= instances.
-
-You can use =com.jeantessier.dependency.NodeFactory= to create a tree
-of packages, classes, and features from each codebase.  You can then
-start to compare them to each other.  If a package is in the old
-codebase but not in the new one, you can mark it as having been removed.
-If it is not in the old codebase but it is in new one, then you can
-mark it as having been recently added.  For packages that are present
-in both codebase, you can repeat this analysis at the class level, and
-then at the feature level.
 
 ---+++ Extracting
 
@@ -969,14 +1484,16 @@ of the previous =JarJarDiff= command.
 
 ---++++ Filtering
 
-You can also limit the reporting to specific programming elements
-that have been earmarked using special javadoc tags.
+You can also limit the reporting to specific programming elements that have
+been earmarked using special javadoc tags.
 
-You get the list of earmarked elements by running a specialized
-doclet.
+You get the list of earmarked elements by running a specialized doclet.
 
-The following commands run this doclet on the old as well as the
-new codebases, saving the results in individual text files.
+The following commands run this doclet on the old as well as the new
+codebases, saving the results in individual text files.
+
+In this first case, the command will only list elements that you marked as
+=@level published=.
 
     C:\>ListDocumentedElements -tag level         \
                                -valid published   \
@@ -986,6 +1503,49 @@ new codebases, saving the results in individual text files.
     C:\>ListDocumentedElements -tag level         \
                                -valid published   \
                                -out new-list.txt  \
+                               new.java
+
+If you add Dependency Finder's JAR file to your =CLASSPATH=, you can call
+=javadoc= directly instead:
+
+    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements  \
+               -tag level                                           \
+               -valid published                                     \
+               -out old-list.txt                                    \
+               old.java
+
+    C:\javadoc -doclet com.jeantessier.diff.ListDocumentedElements  \
+               -tag level                                           \
+               -valid published                                     \
+               -out new-list.txt                                    \
+               new.java
+
+Or, as an Ant task:
+
+    &lt;target name%3D"listdocumentedelements" depends%3D"init"&gt;
+        &lt;javadoc packagenames%3D"${packageNames}"&gt;
+	    &lt;sourcepath path%3D"src"/&gt;
+	    &lt;classpath refid%3D"libs"/&gt;
+	    &lt;doclet name%3D"com.jeantessier.diff.ListDocumentedElements"
+		    path%3D"${classesDir}"&gt;
+		&lt;param name%3D"-tag" value%3D"level"/&gt;
+		&lt;param name%3D"-invalid" value%3D"developer"/&gt;
+		&lt;param name%3D"-out" value%3D"df.txt"/&gt;
+	    &lt;/doclet&gt;
+	&lt;/javadoc&gt;
+    &lt;/target&gt;
+
+In this second case, the command will only list elements that you did marked
+not mark as =@level developer=.
+
+    C:\>ListDocumentedElements -tag level          \
+                               -invalid published  \
+                               -out old-list.txt   \
+                               old.java
+
+    C:\>ListDocumentedElements -tag level          \
+                               -invalid developer  \
+                               -out new-list.txt   \
                                new.java
 
 <div align="center">
@@ -1006,7 +1566,7 @@ You then feed the output from the doclet to =JarJarDiff=.
 
 <div align="center">
     [[images/ExtractingDifferencesAndDocumentationChanges.gif]]
-*Extracting Differences And Documented Elements*
+*Extracting Differences on Documented Elements*
 </div>
 
 The full list will include special sections that highlight
@@ -1072,46 +1632,6 @@ into HTML with =ListDiffToHTML=, or to text with
     is written in HTML.  But we recommend that you use
     =ListDiff= instead; it is faster and simpler.</i></dd>
 </dl>
-
-----
-
----++ Building Dependency Finder
-
-    C:\>ant
-
----+++ Compiling a Build
-
-    C:\>ant jar
-    C:\>ant clean
-    C:\>ant docs
-    C:\>ant dist
-    C:\>ant src
-    C:\>ant war
-
-or
-
-    C:\>ant jar clean docs dist src war
-
----+++ Testing the Build
-
-    C:\>ant tests
-    C:\>textjunit TestAll
-
----+++ Making a Release
-
-    1 =cvs tag release-20030101=
-    1 =ant realclean=
-    1 Generate the documentation using perl script (Manual, Tools)
-    1 =ant jar clean docs dist war src=
-    1 =ant ftp=
-    1 =cvs log -rrelease-20020711:release-20030101=
-    1 Create new release on SourceForge.net
-    1 Notify monitoring people
-    1 Close bugs
-    1 Close feature requests
-    1 New news item
-    1 Post to news groups (=comp.lang.java=, =comp.lang.java.announce=, =comp.lang.java.softwaretools=, =comp.software.measurement=, =comp.software-eng=)
-    1 Generate sample files
 
 ----
 
