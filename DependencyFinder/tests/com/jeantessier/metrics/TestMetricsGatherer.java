@@ -123,7 +123,7 @@ public class TestMetricsGatherer extends TestCase {
 	}
 	
 	public void test_test_main() {
-		assertEquals(Metrics.SLOC, 4, factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 5, factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.SLOC).intValue());
 		assertEquals(Metrics.PARAMETERS, 1, factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.PARAMETERS).intValue());
 		assertEquals(Metrics.LOCAL_VARIABLES, 3, factory.CreateMethodMetrics("test.main(java.lang.String[])").Measurement(Metrics.LOCAL_VARIABLES).intValue());
 
@@ -169,7 +169,7 @@ public class TestMetricsGatherer extends TestCase {
 	}
 	
 	public void test_test() {
-		assertEquals(Metrics.SLOC, 6, factory.CreateClassMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 7, factory.CreateClassMetrics("test").Measurement(Metrics.SLOC).intValue());
 		assertEquals("M", 2, factory.CreateClassMetrics("test").Measurement("M").intValue());
 		assertEquals(Metrics.PUBLIC_METHODS, 2, factory.CreateClassMetrics("test").Measurement(Metrics.PUBLIC_METHODS).intValue());
 		assertEquals(Metrics.PROTECTED_METHODS, 0, factory.CreateClassMetrics("test").Measurement(Metrics.PROTECTED_METHODS).intValue());
@@ -240,10 +240,10 @@ public class TestMetricsGatherer extends TestCase {
 	}
 
 	public void test_() {
-		assertEquals(Metrics.SLOC, 6, factory.CreateGroupMetrics("").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 7, factory.CreateGroupMetrics("").Measurement(Metrics.SLOC).intValue());
 	}
 
 	public void testProject() {
-		assertEquals(Metrics.SLOC, 6, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
+		assertEquals(Metrics.SLOC, 7, factory.CreateProjectMetrics("test").Measurement(Metrics.SLOC).intValue());
 	}
 }
