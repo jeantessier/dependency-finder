@@ -53,7 +53,7 @@ public class MethodRef_info extends FeatureRef_info {
 		if (IsConstructor()) {
 			result = Class().substring(Class().lastIndexOf(".") + 1);
 		} else if (IsStaticInitializer()) {
-			result = "{}";
+			result = "static {}";
 		} else {
 			result = RawNameAndType().Name();
 		}
@@ -64,10 +64,8 @@ public class MethodRef_info extends FeatureRef_info {
     public String Signature() {
 		StringBuffer result = new StringBuffer();
 
-		if (IsStaticInitializer()) {
-			result.append("{}");
-		} else {
-			result.append(Name());
+		result.append(Name());
+		if (!IsStaticInitializer()) {
 			result.append(SignatureHelper.Signature(RawNameAndType().Type()));
 		}
 
