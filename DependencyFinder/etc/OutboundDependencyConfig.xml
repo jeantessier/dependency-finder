@@ -51,43 +51,28 @@
 	<measurement>
 	    <short-name>Out</short-name>
 	    <long-name>Uses APIs</long-name>
-	    <class>com.jeantessier.metrics.SumMeasurement</class>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
-		CoutA
+		Out
+	        DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
 	    <short-name>DistOut</short-name>
 	    <long-name>Uses distinct APIs</long-name>
-	    <class>com.jeantessier.metrics.SumMeasurement</class>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
-		DistOutA
+		DistOut
+	        DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
 	    <short-name>DistOutR</short-name>
-	    <long-name>Distinct outbound dependencies ratio</long-name>
+	    <long-name>Uses distinct APIs ratio</long-name>
 	    <class>com.jeantessier.metrics.RatioMeasurement</class>
 	    <init>
 		DistOut
 		Out
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>CoutA</short-name>
-	    <long-name>Classes' outbound dependencies accumulator</long-name>
-	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
-	    <init>
-		Out
-		DISPOSE_SUM
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>DistOutA</short-name>
-	    <long-name>Distinct outbound dependencies accumulator</long-name>
-	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
-	    <init>
-		DistOutA
 	    </init>
 	</measurement>
     </project-measurements>
@@ -95,9 +80,10 @@
 	<measurement>
 	    <short-name>Out</short-name>
 	    <long-name>Uses APIs</long-name>
-	    <class>com.jeantessier.metrics.SumMeasurement</class>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
 	    <init>
-		CoutA
+		Out
+	        DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement>
@@ -105,12 +91,12 @@
 	    <long-name>Uses distinct APIs</long-name>
 	    <class>com.jeantessier.metrics.SumMeasurement</class>
 	    <init>
-		DistOutA
+		CDistOut
 	    </init>
 	</measurement>
 	<measurement>
 	    <short-name>DistOutR</short-name>
-	    <long-name>Distinct outbound dependencies ratio</long-name>
+	    <long-name>Uses distinct APIs ratio</long-name>
 	    <class>com.jeantessier.metrics.RatioMeasurement</class>
 	    <init>
 		DistOut
@@ -118,16 +104,7 @@
 	    </init>
 	</measurement>
 	<measurement visible="no">
-	    <short-name>CoutA</short-name>
-	    <long-name>Classes' outbound dependencies accumulator</long-name>
-	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
-	    <init>
-		Out
-		DISPOSE_SUM
-	    </init>
-	</measurement>
-	<measurement visible="no">
-	    <short-name>DistOutA</short-name>
+	    <short-name>CDistOut</short-name>
 	    <long-name>Distinct outbound dependencies accumulator</long-name>
 	    <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
 	    <init>
@@ -141,7 +118,9 @@
 	    <long-name>Uses APIs</long-name>
 	    <class>com.jeantessier.metrics.SumMeasurement</class>
 	    <init>
-		DistOutA
+		OIP
+		OEP
+		FOut
 	    </init>
 	</measurement>
 	<measurement>
@@ -154,7 +133,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>DistOutR</short-name>
-	    <long-name>Distinct outbound dependencies ratio</long-name>
+	    <long-name>Uses distinct APIs ratio</long-name>
 	    <class>com.jeantessier.metrics.RatioMeasurement</class>
 	    <init>
 		DistOut
@@ -172,7 +151,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>OutsideR</short-name>
-	    <long-name>Uses additional APIs ratio</long-name>
+	    <long-name>Uses additional APIs in fields and class structure (outside of methods) ratio</long-name>
 	    <class>com.jeantessier.metrics.RatioMeasurement</class>
 	    <init>
 		Outside
@@ -187,6 +166,15 @@
 		OIP
 		OEP
 		FDistOut
+	    </init>
+	</measurement>
+	<measurement visible="no">
+	    <short-name>FOut</short-name>
+	    <long-name>Features' distinct outbound dependencies</long-name>
+	    <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+	    <init>
+		Out
+	        DISPOSE_SUM
 	    </init>
 	</measurement>
 	<measurement visible="no">
@@ -214,7 +202,11 @@
 	    <long-name>Uses APIs</long-name>
 	    <class>com.jeantessier.metrics.SumMeasurement</class>
 	    <init>
-		DistOut
+		OICP
+		OIPF
+		OIPC
+		OEPF
+		OEPC
 	    </init>
 	</measurement>
 	<measurement>
@@ -231,7 +223,7 @@
 	</measurement>
 	<measurement>
 	    <short-name>DistOutR</short-name>
-	    <long-name>Distinct outbound dependencies ratio</long-name>
+	    <long-name>Uses distinct APIs ratio</long-name>
 	    <class>com.jeantessier.metrics.RatioMeasurement</class>
 	    <init>
 		DistOut
