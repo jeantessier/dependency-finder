@@ -155,7 +155,7 @@ public class Instruction {
 		opcode[0x37] = "lstore";
 		length[0x37] = 2;
 		opcode[0x38] = "fstore";
-		length[0x38] = 1;
+		length[0x38] = 2;
 		opcode[0x39] = "dstore";
 		length[0x39] = 2;
 		opcode[0x3a] = "astore";
