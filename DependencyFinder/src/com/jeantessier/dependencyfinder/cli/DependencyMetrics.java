@@ -305,84 +305,82 @@ public class DependencyMetrics {
 			reporter.OutboundsPerFeatureChart(true);
 		}
 
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
-	
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
+		
+		scope_criteria.MatchPackage(command_line.ToggleSwitch("package-scope"));
+		scope_criteria.MatchClass(command_line.ToggleSwitch("class-scope"));
+		scope_criteria.MatchFeature(command_line.ToggleSwitch("feature-scope"));
 
 		if (command_line.IsPresent("scope-includes") || (!command_line.IsPresent("package-scope-includes") && !command_line.IsPresent("class-scope-includes") && !command_line.IsPresent("feature-scope-includes"))) {
 			// Only use the default if nothing else has been specified.
-			strategy.ScopeIncludes(command_line.MultipleSwitch("scope-includes"));
+			scope_criteria.GlobalIncludes(command_line.MultipleSwitch("scope-includes"));
 		}
-		strategy.ScopeExcludes(command_line.MultipleSwitch("scope-excludes"));
-		strategy.PackageScope(command_line.ToggleSwitch("package-scope"));
-		strategy.PackageScopeIncludes(command_line.MultipleSwitch("package-scope-includes"));
-		strategy.PackageScopeExcludes(command_line.MultipleSwitch("package-scope-excludes"));
-		strategy.ClassScope(command_line.ToggleSwitch("class-scope"));
-		strategy.ClassScopeIncludes(command_line.MultipleSwitch("class-scope-includes"));
-		strategy.ClassScopeExcludes(command_line.MultipleSwitch("class-scope-excludes"));
-		strategy.FeatureScope(command_line.ToggleSwitch("feature-scope"));
-		strategy.FeatureScopeIncludes(command_line.MultipleSwitch("feature-scope-includes"));
-		strategy.FeatureScopeExcludes(command_line.MultipleSwitch("feature-scope-excludes"));
-	
+		scope_criteria.GlobalExcludes(command_line.MultipleSwitch("scope-excludes"));
+		scope_criteria.PackageIncludes(command_line.MultipleSwitch("package-scope-includes"));
+		scope_criteria.PackageExcludes(command_line.MultipleSwitch("package-scope-excludes"));
+		scope_criteria.ClassIncludes(command_line.MultipleSwitch("class-scope-includes"));
+		scope_criteria.ClassExcludes(command_line.MultipleSwitch("class-scope-excludes"));
+		scope_criteria.FeatureIncludes(command_line.MultipleSwitch("feature-scope-includes"));
+		scope_criteria.FeatureExcludes(command_line.MultipleSwitch("feature-scope-excludes"));
+
+		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+
+		filter_criteria.MatchPackage(command_line.ToggleSwitch("package-filter"));
+		filter_criteria.MatchClass(command_line.ToggleSwitch("class-filter"));
+		filter_criteria.MatchFeature(command_line.ToggleSwitch("feature-filter"));
+		
 		if (command_line.IsPresent("filter-includes") || (!command_line.IsPresent("package-filter-includes") && !command_line.IsPresent("class-filter-includes") && !command_line.IsPresent("feature-filter-includes"))) {
 			// Only use the default if nothing else has been specified.
-			strategy.FilterIncludes(command_line.MultipleSwitch("filter-includes"));
+			filter_criteria.GlobalIncludes(command_line.MultipleSwitch("filter-includes"));
 		}
-		strategy.FilterExcludes(command_line.MultipleSwitch("filter-excludes"));
-		strategy.PackageFilter(command_line.ToggleSwitch("package-filter"));
-		strategy.PackageFilterIncludes(command_line.MultipleSwitch("package-filter-includes"));
-		strategy.PackageFilterExcludes(command_line.MultipleSwitch("package-filter-excludes"));
-		strategy.ClassFilter(command_line.ToggleSwitch("class-filter"));
-		strategy.ClassFilterIncludes(command_line.MultipleSwitch("class-filter-includes"));
-		strategy.ClassFilterExcludes(command_line.MultipleSwitch("class-filter-excludes"));
-		strategy.FeatureFilter(command_line.ToggleSwitch("feature-filter"));
-		strategy.FeatureFilterIncludes(command_line.MultipleSwitch("feature-filter-includes"));
-		strategy.FeatureFilterExcludes(command_line.MultipleSwitch("feature-filter-excludes"));
+		filter_criteria.GlobalExcludes(command_line.MultipleSwitch("filter-excludes"));
+		filter_criteria.PackageIncludes(command_line.MultipleSwitch("package-filter-includes"));
+		filter_criteria.PackageExcludes(command_line.MultipleSwitch("package-filter-excludes"));
+		filter_criteria.ClassIncludes(command_line.MultipleSwitch("class-filter-includes"));
+		filter_criteria.ClassExcludes(command_line.MultipleSwitch("class-filter-excludes"));
+		filter_criteria.FeatureIncludes(command_line.MultipleSwitch("feature-filter-includes"));
+		filter_criteria.FeatureExcludes(command_line.MultipleSwitch("feature-filter-excludes"));
 	
 		if (command_line.ToggleSwitch("all")) {
-			strategy.PackageScope(true);
-			strategy.ClassScope(true);
-			strategy.FeatureScope(true);
-			strategy.PackageFilter(true);
-			strategy.ClassFilter(true);
-			strategy.FeatureFilter(true);
+			scope_criteria.MatchPackage(true);
+			scope_criteria.MatchClass(true);
+			scope_criteria.MatchFeature(true);
+			filter_criteria.MatchPackage(true);
+			filter_criteria.MatchClass(true);
+			filter_criteria.MatchFeature(true);
 		}
 	
 		if (command_line.ToggleSwitch("p2p")) {
-			strategy.PackageScope(true);
-			strategy.PackageFilter(true);
+			scope_criteria.MatchPackage(true);
+			filter_criteria.MatchPackage(true);
 		}
 	
 		if (command_line.ToggleSwitch("c2p")) {
-			strategy.ClassScope(true);
-			strategy.PackageFilter(true);
+			scope_criteria.MatchClass(true);
+			filter_criteria.MatchPackage(true);
 		}
 	
 		if (command_line.ToggleSwitch("c2c")) {
-			strategy.ClassScope(true);
-			strategy.ClassFilter(true);
+			scope_criteria.MatchClass(true);
+			filter_criteria.MatchClass(true);
 		}
 	
 		if (command_line.ToggleSwitch("f2f")) {
-			strategy.FeatureScope(true);
-			strategy.FeatureFilter(true);
+			scope_criteria.MatchFeature(true);
+			filter_criteria.MatchFeature(true);
 		}
 	
 		if (command_line.IsPresent("includes")) {
-			strategy.ScopeIncludes(command_line.MultipleSwitch("includes"));
-			strategy.FilterIncludes(command_line.MultipleSwitch("includes"));
+			scope_criteria.GlobalIncludes(command_line.MultipleSwitch("includes"));
+			filter_criteria.GlobalIncludes(command_line.MultipleSwitch("includes"));
 		}
 	
 		if (command_line.IsPresent("excludes")) {
-			strategy.ScopeExcludes(command_line.MultipleSwitch("excludes"));
-			strategy.FilterExcludes(command_line.MultipleSwitch("excludes"));
+			scope_criteria.GlobalExcludes(command_line.MultipleSwitch("excludes"));
+			filter_criteria.GlobalExcludes(command_line.MultipleSwitch("excludes"));
 		}
 
+		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 		MetricsGatherer metrics = new MetricsGatherer(strategy);
 
 		Iterator i = command_line.Parameters().iterator();

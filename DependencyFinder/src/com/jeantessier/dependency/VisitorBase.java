@@ -61,6 +61,8 @@ public abstract class VisitorBase implements Visitor {
 	}
 
 	public void TraverseNodes(Collection nodes) {
+		Logger.getLogger(getClass()).debug("nodes = " + nodes);
+		
 		Iterator i = Strategy().Order(nodes).iterator();
 		while (i.hasNext()) {
 			((Node) i.next()).Accept(this);

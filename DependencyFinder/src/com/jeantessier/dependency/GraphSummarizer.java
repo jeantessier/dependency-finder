@@ -32,13 +32,23 @@
 
 package com.jeantessier.dependency;
 
+import org.apache.log4j.*;
+
 public class GraphSummarizer extends GraphCopier {
-	public GraphSummarizer(SelectiveTraversalStrategy strategy) {
-		super(strategy);
+	private SelectionCriteria scope_criteria;
+	private SelectionCriteria filter_criteria;
+
+	public GraphSummarizer(SelectionCriteria scope_criteria, SelectionCriteria filter_criteria) {
+		super(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
+
+		this.scope_criteria  = scope_criteria;
+		this.filter_criteria = filter_criteria;
 	}
 	
 	public void VisitPackageNode(PackageNode node) {
-		boolean in_scope = ((SelectiveTraversalStrategy) Strategy()).PackageScopeMatch(node.Name());
+		Logger.getLogger(getClass()).debug("node = " + node);
+		
+		boolean in_scope = scope_criteria.PackageMatch(node.Name());
 
 		if (in_scope) {
 			PreprocessPackageNode(node);
@@ -72,35 +82,35 @@ public class GraphSummarizer extends GraphCopier {
 	}
 
 	protected void PreprocessPackageNode(PackageNode node) {
-		if (((SelectiveTraversalStrategy) Strategy()).PackageScope()) {
+		if (scope_criteria.MatchPackage()) {
 			super.PreprocessPackageNode(node);
 		}
 	}
 	
 	protected void PostprocessPackageNode(PackageNode node) {
-		if (((SelectiveTraversalStrategy) Strategy()).PackageScope()) {
+		if (scope_criteria.MatchPackage()) {
 			super.PostprocessPackageNode(node);
 		}
 	}
 
 	public void VisitInboundPackageNode(PackageNode node) {
-		if (CurrentNode() != null && ((SelectiveTraversalStrategy) Strategy()).PackageFilterMatch(node.Name())) {
-			if (((SelectiveTraversalStrategy) Strategy()).PackageFilter()) {
+		if (CurrentNode() != null && filter_criteria.PackageMatch(node.Name())) {
+			if (filter_criteria.MatchPackage()) {
 				FilterFactory().CreatePackage(node.Name()).AddDependency(CurrentNode());
 			}
 		}
 	}
 
 	public void VisitOutboundPackageNode(PackageNode node) {
-		if (CurrentNode() != null && ((SelectiveTraversalStrategy) Strategy()).PackageFilterMatch(node.Name())) {
-			if (((SelectiveTraversalStrategy) Strategy()).PackageFilter()) {
+		if (CurrentNode() != null && filter_criteria.PackageMatch(node.Name())) {
+			if (filter_criteria.MatchPackage()) {
 				CurrentNode().AddDependency(FilterFactory().CreatePackage(node.Name()));
 			}
 		}
 	}
 
 	public void VisitClassNode(ClassNode node) {
-		boolean in_scope = ((SelectiveTraversalStrategy) Strategy()).ClassScopeMatch(node.Name());
+		boolean in_scope = scope_criteria.ClassMatch(node.Name());
 		
 		if (in_scope) {
 			PreprocessClassNode(node);
@@ -134,41 +144,41 @@ public class GraphSummarizer extends GraphCopier {
 	}
 
 	protected void PreprocessClassNode(ClassNode node) {
-		if (((SelectiveTraversalStrategy) Strategy()).ClassScope()) {
+		if (scope_criteria.MatchClass()) {
 			super.PreprocessClassNode(node);
 		}
 	}
 	
 	protected void PostprocessClassNode(ClassNode node) {
-		if (((SelectiveTraversalStrategy) Strategy()).ClassScope()) {
+		if (scope_criteria.MatchClass()) {
 			super.PostprocessClassNode(node);
 		}
 	}
 
 	public void VisitInboundClassNode(ClassNode node) {
-		if (CurrentNode() != null && ((SelectiveTraversalStrategy) Strategy()).ClassFilterMatch(node.Name())) {
-			if (((SelectiveTraversalStrategy) Strategy()).PackageFilter()) {
+		if (CurrentNode() != null && filter_criteria.ClassMatch(node.Name())) {
+			if (filter_criteria.MatchPackage()) {
 				FilterFactory().CreatePackage(node.Package().Name()).AddDependency(CurrentNode());
 			}
-			if (((SelectiveTraversalStrategy) Strategy()).ClassFilter()) {
+			if (filter_criteria.MatchClass()) {
 				FilterFactory().CreateClass(node.Name()).AddDependency(CurrentNode());
 			}
 		}
 	}
 
 	public void VisitOutboundClassNode(ClassNode node) {
-		if (CurrentNode() != null && ((SelectiveTraversalStrategy) Strategy()).ClassFilterMatch(node.Name())) {
-			if (((SelectiveTraversalStrategy) Strategy()).PackageFilter()) {
+		if (CurrentNode() != null && filter_criteria.ClassMatch(node.Name())) {
+			if (filter_criteria.MatchPackage()) {
 				CurrentNode().AddDependency(FilterFactory().CreatePackage(node.Package().Name()));
 			}
-			if (((SelectiveTraversalStrategy) Strategy()).ClassFilter()) {
+			if (filter_criteria.MatchClass()) {
 				CurrentNode().AddDependency(FilterFactory().CreateClass(node.Name()));
 			}
 		}
 	}
 
 	public void VisitFeatureNode(FeatureNode node) {
-		if (((SelectiveTraversalStrategy) Strategy()).FeatureScopeMatch(node.Name())) {
+		if (scope_criteria.FeatureMatch(node.Name())) {
 			PreprocessFeatureNode(node);
 			
 			if (Strategy().PreOutboundTraversal()) {
@@ -192,40 +202,40 @@ public class GraphSummarizer extends GraphCopier {
 	}
 
 	protected void PreprocessFeatureNode(FeatureNode node) {
-		if (((SelectiveTraversalStrategy) Strategy()).FeatureScope()) {
+		if (scope_criteria.MatchFeature()) {
 			super.PreprocessFeatureNode(node);
 		}
 	}
 	
 	protected void PostprocessFeatureNode(FeatureNode node) {
-		if (((SelectiveTraversalStrategy) Strategy()).FeatureScope()) {
+		if (scope_criteria.MatchFeature()) {
 			super.PostprocessFeatureNode(node);
 		}
 	}
 	
 	public void VisitInboundFeatureNode(FeatureNode node) {
-		if (CurrentNode() != null && ((SelectiveTraversalStrategy) Strategy()).FeatureFilterMatch(node.Name())) {
-			if (((SelectiveTraversalStrategy) Strategy()).PackageFilter()) {
+		if (CurrentNode() != null && filter_criteria.FeatureMatch(node.Name())) {
+			if (filter_criteria.MatchPackage()) {
 				FilterFactory().CreatePackage(node.Class().Package().Name()).AddDependency(CurrentNode());
 			}
-			if (((SelectiveTraversalStrategy) Strategy()).ClassFilter()) {
+			if (filter_criteria.MatchClass()) {
 				FilterFactory().CreateClass(node.Class().Name()).AddDependency(CurrentNode());
 			}
-			if (((SelectiveTraversalStrategy) Strategy()).FeatureFilter()) {
+			if (filter_criteria.MatchFeature()) {
 				FilterFactory().CreateFeature(node.Name()).AddDependency(CurrentNode());
 			}
 		}
 	}
 
 	public void VisitOutboundFeatureNode(FeatureNode node) {
-		if (CurrentNode() != null && ((SelectiveTraversalStrategy) Strategy()).FeatureFilterMatch(node.Name())) {
-			if (((SelectiveTraversalStrategy) Strategy()).PackageFilter()) {
+		if (CurrentNode() != null && filter_criteria.FeatureMatch(node.Name())) {
+			if (filter_criteria.MatchPackage()) {
 				CurrentNode().AddDependency(FilterFactory().CreatePackage(node.Class().Package().Name()));
 			}
-			if (((SelectiveTraversalStrategy) Strategy()).ClassFilter()) {
+			if (filter_criteria.MatchClass()) {
 				CurrentNode().AddDependency(FilterFactory().CreateClass(node.Class().Name()));
 			}
-			if (((SelectiveTraversalStrategy) Strategy()).FeatureFilter()) {
+			if (filter_criteria.MatchFeature()) {
 				CurrentNode().AddDependency(FilterFactory().CreateFeature(node.Name()));
 			}
 		}

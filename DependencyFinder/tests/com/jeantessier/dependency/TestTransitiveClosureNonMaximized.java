@@ -39,7 +39,9 @@ import junit.framework.*;
 import org.apache.log4j.*;
 
 public class TestTransitiveClosureNonMaximized extends TestCase {
-	private NodeFactory factory;
+	private RegularExpressionSelectionCriteria scope_criteria;
+	private RegularExpressionSelectionCriteria filter_criteria;
+	private NodeFactory                        factory;
 
 	private FeatureNode in2;
 	private FeatureNode in1;
@@ -47,11 +49,12 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	private FeatureNode out1;
 	private FeatureNode out2;
 
-	private SelectiveTraversalStrategy strategy;
 	private TransitiveClosure          selector;
 	
 	protected void setUp() {
-		factory  = new NodeFactory();
+		scope_criteria  = new RegularExpressionSelectionCriteria();
+		filter_criteria = new RegularExpressionSelectionCriteria();
+		factory         = new NodeFactory();
 
 		in2  = factory.CreateFeature("in2.In2.In2()");
 		in1  = factory.CreateFeature("in1.In1.In1()");
@@ -64,30 +67,28 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 		base.AddDependency(out1);
 		out1.AddDependency(out2);
 		
-		strategy = new SelectiveTraversalStrategy();
-
 		List scope_includes = new ArrayList(1);
 		scope_includes.add("/^base/");
 		List filder_includes = new ArrayList(1);
 		filder_includes.add("//");
 		
-		strategy.ScopeIncludes(scope_includes);
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.FilterIncludes(filder_includes);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		scope_criteria.GlobalIncludes(scope_includes);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
+		filter_criteria.GlobalIncludes(filder_includes);
 		
-		selector = new TransitiveClosure(new SortedTraversalStrategy(strategy));
+		selector = new TransitiveClosure(new SortedTraversalStrategy(new SelectiveTraversalStrategy(scope_criteria, filter_criteria)));
 		selector.MaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 		selector.MaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 	}
 
 	public void testFeatureToFeatureFromFeature() {
-		strategy.FeatureScope(true);
-		strategy.FeatureFilter(true);
+		scope_criteria.MatchFeature(true);
+		filter_criteria.MatchFeature(true);
 
 		Logger.getLogger(getClass()).info("Start f2f test from feature ...");
 		base.Accept(selector);
@@ -135,8 +136,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testFeatureToFeatureFromPackages() {
-		strategy.FeatureScope(true);
-		strategy.FeatureFilter(true);
+		scope_criteria.MatchFeature(true);
+		filter_criteria.MatchFeature(true);
 
 		Logger.getLogger(getClass()).info("Start f2f test from package list ...");
 		selector.TraverseNodes(factory.Packages().values());
@@ -184,8 +185,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testClassToClassFromClass() {
-		strategy.ClassScope(true);
-		strategy.ClassFilter(true);
+		scope_criteria.MatchClass(true);
+		filter_criteria.MatchClass(true);
 
 		Logger.getLogger(getClass()).info("Start c2c test from class ...");
 		base.Class().Accept(selector);
@@ -224,8 +225,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testClassToClassFromPackageList() {
-		strategy.ClassScope(true);
-		strategy.ClassFilter(true);
+		scope_criteria.MatchClass(true);
+		filter_criteria.MatchClass(true);
 
 		Logger.getLogger(getClass()).info("Start c2c test from package list ...");
 		selector.TraverseNodes(factory.Packages().values());
@@ -264,8 +265,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testPackageToPackageFromPackage() {
-		strategy.PackageScope(true);
-		strategy.PackageFilter(true);
+		scope_criteria.MatchPackage(true);
+		filter_criteria.MatchPackage(true);
 
 		Logger.getLogger(getClass()).info("Start p2p test from package ...");
 		base.Class().Package().Accept(selector);
@@ -295,8 +296,8 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 	}
 
 	public void testPackageToPackageFromPackageList() {
-		strategy.PackageScope(true);
-		strategy.PackageFilter(true);
+		scope_criteria.MatchPackage(true);
+		filter_criteria.MatchPackage(true);
 
 		Logger.getLogger(getClass()).info("Start p2p test from package list ...");
 		selector.TraverseNodes(factory.Packages().values());

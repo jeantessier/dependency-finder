@@ -32,65 +32,50 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.util.*;
-
 import junit.framework.*;
 
-public class TestGraphSummarizerWithScoping extends TestCase {
-	private RegularExpressionSelectionCriteria scope_criteria;
-	private RegularExpressionSelectionCriteria filter_criteria;
-	private NodeFactory                        factory;
-	
-	private Node a;
-	private Node a_A;
-	private Node a_A_a;
-	private Node a_A_b;
-	
-	private Node b;
-	private Node b_B;
-	private Node b_B_b;
-	
-	private List include_scope;
+public class TestComprehensiveSelectionCriteria extends TestCase {
+	private ComprehensiveSelectionCriteria criteria;
+	private NodeFactory                    factory;
 
-	private GraphSummarizer summarizer;
+	private PackageNode a;
+	private ClassNode a_A;
+	private FeatureNode a_A_a;
+	
+	private PackageNode b;
+	private ClassNode b_B;
+	private FeatureNode b_B_b;
+	
+	private PackageNode c;
+	private ClassNode c_C;
+	private FeatureNode c_C_c;
 
 	protected void setUp() throws Exception {
-		scope_criteria  = new RegularExpressionSelectionCriteria();
-		filter_criteria = new RegularExpressionSelectionCriteria();
-		factory         = new NodeFactory();
+		criteria = new ComprehensiveSelectionCriteria();
+		factory = new NodeFactory();
 
 		a     = factory.CreatePackage("a");
 		a_A   = factory.CreateClass("a.A");
 		a_A_a = factory.CreateFeature("a.A.a");
-		a_A_b = factory.CreateFeature("a.A.b");
 		
 		b     = factory.CreatePackage("b");
 		b_B   = factory.CreateClass("b.B");
 		b_B_b = factory.CreateFeature("b.B.b");
 		
-		a_A_a.AddDependency(a_A_b);
-		a_A_a.AddDependency(b_B_b);
-
-		include_scope = new LinkedList();
-		include_scope.add("/^a/");
-
-		scope_criteria.MatchClass(false);
-		scope_criteria.MatchFeature(false);
-		scope_criteria.GlobalIncludes(include_scope);
-		filter_criteria.MatchClass(false);
-		filter_criteria.MatchFeature(false);
-
-		summarizer = new GraphSummarizer(scope_criteria, filter_criteria);
+		c     = factory.CreatePackage("c");
+		c_C   = factory.CreateClass("c.C");
+		c_C_c = factory.CreateFeature("c.C.c");
 	}
-
-	public void testIncludeF2F() {
-		summarizer.TraverseNodes(factory.Packages().values());
-
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Inbound().isEmpty());
-		assertEquals(summarizer.ScopeFactory().CreatePackage("a").Outbound().toString(),
-					 1, 
-					 summarizer.ScopeFactory().CreatePackage("a").Outbound().size());
-		assertTrue(summarizer.ScopeFactory().CreatePackage("a").Outbound().contains(b));
+	
+	public void testMatch() {
+		assertTrue("a not in package scope",     criteria.Match(a));
+		assertTrue("a.A not in package scope",   criteria.Match(a_A));
+		assertTrue("a.A.a not in package scope", criteria.Match(a_A_a));
+		assertTrue("b not in package scope",     criteria.Match(b));
+		assertTrue("b.B not in package scope",   criteria.Match(b_B));
+		assertTrue("b.B.b not in package scope", criteria.Match(b_B_b));
+		assertTrue("c not in package scope",     criteria.Match(c));
+		assertTrue("c.C not in package scope",   criteria.Match(c_C));
+		assertTrue("c.C.c not in package scope", criteria.Match(c_C_c));
 	}
 }

@@ -38,29 +38,31 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestGraphCopierWithFiltering extends TestCase {
-	SelectiveTraversalStrategy strategy;
-	NodeFactory                factory;
+	private RegularExpressionSelectionCriteria scope_criteria;
+	private RegularExpressionSelectionCriteria filter_criteria;
+	private NodeFactory                        factory;
 	
-	Node a;
-	Node a_A;
-	Node a_A_a;
+	private Node a;
+	private Node a_A;
+	private Node a_A_a;
 	
-	Node b;
-	Node b_B;
-	Node b_B_b;
+	private Node b;
+	private Node b_B;
+	private Node b_B_b;
 	
-	Node c;
-	Node c_C;
-	Node c_C_c;
+	private Node c;
+	private Node c_C;
+	private Node c_C_c;
 
-	List include_filter;
-	List exclude_filter;
+	private List include_filter;
+	private List exclude_filter;
 
-	GraphCopier copier;
+	private GraphCopier copier;
 
 	protected void setUp() throws Exception {
-		strategy = new SelectiveTraversalStrategy();
-		factory = new NodeFactory();
+		scope_criteria  = new RegularExpressionSelectionCriteria();
+		filter_criteria = new RegularExpressionSelectionCriteria();
+		factory         = new NodeFactory();
 
 		a     = factory.CreatePackage("a");
 		a_A   = factory.CreateClass("a.A");
@@ -80,18 +82,18 @@ public class TestGraphCopierWithFiltering extends TestCase {
 		exclude_filter = new LinkedList();
 		exclude_filter.add("/^c/");
 
-		copier = new GraphCopier(strategy);
+		copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
 	}
 
 	public void testIncludeFilterF2FtoP2P() {
 		a_A_a.AddDependency(b_B_b);
 		a_A_a.AddDependency(c_C_c);
 		
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
-		strategy.FilterIncludes(include_filter);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
+		filter_criteria.GlobalIncludes(include_filter);
 		
 		copier.TraverseNodes(factory.Packages().values());
 
@@ -103,11 +105,11 @@ public class TestGraphCopierWithFiltering extends TestCase {
 		a_A_a.AddDependency(b_B_b);
 		a_A_a.AddDependency(c_C_c);
 		
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
-		strategy.FilterExcludes(exclude_filter);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
+		filter_criteria.GlobalExcludes(exclude_filter);
 		
 		copier.TraverseNodes(factory.Packages().values());
 

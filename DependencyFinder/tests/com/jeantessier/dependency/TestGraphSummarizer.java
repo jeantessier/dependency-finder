@@ -40,25 +40,27 @@ import junit.framework.*;
 import org.apache.log4j.*;
 
 public class TestGraphSummarizer extends TestCase {
-	SelectiveTraversalStrategy strategy;
-	NodeFactory                factory;
+	private RegularExpressionSelectionCriteria scope_criteria;
+	private RegularExpressionSelectionCriteria filter_criteria;
+	private NodeFactory                        factory;
 	
-	Node a_package;
-	Node a_A_class;
-	Node a_A_a_method;
-	Node a_B_class;
+	private Node a_package;
+	private Node a_A_class;
+	private Node a_A_a_method;
+	private Node a_B_class;
 
-	Node b_package;
-	Node b_B_class;
-	Node b_B_b_method;
+	private Node b_package;
+	private Node b_B_class;
+	private Node b_B_b_method;
 
-	GraphSummarizer summarizer;
+	private GraphSummarizer summarizer;
 
 	protected void setUp() throws Exception {
 		Logger.getLogger(getClass()).info("Starting test: " + getName());
 
-		strategy = new SelectiveTraversalStrategy();
-		factory = new NodeFactory();
+		scope_criteria  = new RegularExpressionSelectionCriteria();
+		filter_criteria = new RegularExpressionSelectionCriteria();
+		factory         = new NodeFactory();
 
 		a_package = factory.CreatePackage("a");
 		a_A_class = factory.CreateClass("a.A");
@@ -69,7 +71,7 @@ public class TestGraphSummarizer extends TestCase {
 		b_B_class = factory.CreateClass("b.B");
 		b_B_b_method = factory.CreateFeature("b.B.b");
 		
-		summarizer = new GraphSummarizer(strategy);
+		summarizer = new GraphSummarizer(scope_criteria, filter_criteria);
 	}
 
 	protected void tearDown() throws Exception {
@@ -79,10 +81,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testP2PasP2P() {
 		a_package.AddDependency(b_package);
 		
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -102,10 +104,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testP2PasC2C() {
 		a_package.AddDependency(b_package);
 		
-		strategy.PackageScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -129,10 +131,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testP2PasF2F() {
 		a_package.AddDependency(b_package);
 		
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -162,10 +164,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testC2CasP2P() {
 		a_A_class.AddDependency(b_B_class);
 		
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -185,10 +187,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testC2CasP2CSamePackage() {
 		a_A_class.AddDependency(a_B_class);
 		
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -206,10 +208,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testC2CasC2C() {
 		a_A_class.AddDependency(b_B_class);
 		
-		strategy.PackageScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -235,10 +237,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testC2CasF2F() {
 		a_A_class.AddDependency(b_B_class);
 		
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -268,10 +270,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2FasP2P() {
 		a_A_a_method.AddDependency(b_B_b_method);
 		
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -291,10 +293,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2FasC2C() {
 		a_A_a_method.AddDependency(b_B_b_method);
 		
-		strategy.PackageScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -320,10 +322,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2FasF2F() {
 		a_A_a_method.AddDependency(b_B_b_method);
 		
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -355,10 +357,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2CasP2P() {
 		a_A_a_method.AddDependency(b_B_class);
 		
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -378,10 +380,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2CasC2C() {
 		a_A_a_method.AddDependency(b_B_class);
 		
-		strategy.PackageScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchFeature(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 
@@ -407,10 +409,10 @@ public class TestGraphSummarizer extends TestCase {
 	public void testF2CasF2F() {
 		a_A_a_method.AddDependency(b_B_class);
 		
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
 
 		summarizer.TraverseNodes(factory.Packages().values());
 

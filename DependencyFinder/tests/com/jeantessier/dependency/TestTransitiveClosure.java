@@ -37,14 +37,28 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestTransitiveClosure extends TestCase {
-	private SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
-	private NodeFactory                factory  = new NodeFactory();
+	private RegularExpressionSelectionCriteria scope_criteria;
+	private RegularExpressionSelectionCriteria filter_criteria;
+	private NodeFactory                        factory;
 
-	public void testFullConnectivity() {
-		ClassNode A = factory.CreateClass("A");
-		ClassNode B = factory.CreateClass("B");
-		ClassNode C = factory.CreateClass("C");
-		ClassNode D = factory.CreateClass("D");
+	private ClassNode A;
+	private ClassNode B;
+	private ClassNode C;
+	private ClassNode D;
+
+	private List includes;
+
+	private TransitiveClosure selector;
+
+	protected void setUp() throws Exception {
+		scope_criteria  = new RegularExpressionSelectionCriteria();
+		filter_criteria = new RegularExpressionSelectionCriteria();
+		factory         = new NodeFactory();
+
+		A = factory.CreateClass("A");
+		B = factory.CreateClass("B");
+		C = factory.CreateClass("C");
+		D = factory.CreateClass("D");
 
 		A.AddDependency(B);
 		A.AddDependency(C);
@@ -62,17 +76,20 @@ public class TestTransitiveClosure extends TestCase {
 		D.AddDependency(B);
 		D.AddDependency(C);
 
-		List includes = new ArrayList(1);
+		includes = new ArrayList(1);
 		includes.add("//");
-		
-		strategy.ScopeIncludes(includes);
-		strategy.PackageScope(false);
-		strategy.FeatureScope(false);
-		strategy.FilterIncludes(includes);
-		strategy.PackageFilter(false);
-		strategy.FeatureFilter(false);
 
-		TransitiveClosure selector = new TransitiveClosure(new SortedTraversalStrategy(strategy));
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchFeature(false);
+		scope_criteria.GlobalIncludes(includes);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchFeature(false);
+		filter_criteria.GlobalIncludes(includes);
+
+		selector = new TransitiveClosure(new SortedTraversalStrategy(new SelectiveTraversalStrategy(scope_criteria, filter_criteria)));
+	}
+	
+	public void testFullConnectivity() {
 		selector.SinglePath(false);
 
 		A.Accept(selector);
@@ -122,38 +139,6 @@ public class TestTransitiveClosure extends TestCase {
 	}
 
 	public void testSinglePathThroughFullConnectivity() {
-		ClassNode A = factory.CreateClass("A");
-		ClassNode B = factory.CreateClass("B");
-		ClassNode C = factory.CreateClass("C");
-		ClassNode D = factory.CreateClass("D");
-
-		A.AddDependency(B);
-		A.AddDependency(C);
-		A.AddDependency(D);
-
-		B.AddDependency(A);
-		B.AddDependency(C);
-		B.AddDependency(D);
-
-		C.AddDependency(A);
-		C.AddDependency(B);
-		C.AddDependency(D);
-
-		D.AddDependency(A);
-		D.AddDependency(B);
-		D.AddDependency(C);
-
-		List includes = new ArrayList(1);
-		includes.add("//");
-		
-		strategy.ScopeIncludes(includes);
-		strategy.PackageScope(false);
-		strategy.FeatureScope(false);
-		strategy.FilterIncludes(includes);
-		strategy.PackageFilter(false);
-		strategy.FeatureFilter(false);
-
-		TransitiveClosure selector = new TransitiveClosure(new SortedTraversalStrategy(strategy));
 		selector.SinglePath(true);
 
 		A.Accept(selector);

@@ -38,28 +38,30 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestGraphCopier extends TestCase {
-	SelectiveTraversalStrategy strategy;
-	NodeFactory                factory;
+	private RegularExpressionSelectionCriteria scope_criteria;
+	private RegularExpressionSelectionCriteria filter_criteria;
+	private NodeFactory                        factory;
 	
-	Node _package;
-	Node test_class;
-	Node test_main_method;
-	Node test_Test_method;
+	private Node _package;
+	private Node test_class;
+	private Node test_main_method;
+	private Node test_Test_method;
 		
-	Node java_lang_package;
-	Node java_lang_Object_class;
-	Node java_lang_Object_Object_method;
-	Node java_lang_String_class;
+	private Node java_lang_package;
+	private Node java_lang_Object_class;
+	private Node java_lang_Object_Object_method;
+	private Node java_lang_String_class;
 		
-	Node java_util_package;
-	Node java_util_Collections_class;
-	Node java_util_Collections_singleton_method;
+	private Node java_util_package;
+	private Node java_util_Collections_class;
+	private Node java_util_Collections_singleton_method;
 	
-    GraphCopier copier;
+    private GraphCopier copier;
 
 	protected void setUp() throws Exception {
-		strategy = new SelectiveTraversalStrategy();
-		factory = new NodeFactory();
+		scope_criteria  = new RegularExpressionSelectionCriteria();
+		filter_criteria = new RegularExpressionSelectionCriteria();
+		factory         = new NodeFactory();
 
 		_package = factory.CreatePackage("");
 		test_class = factory.CreateClass("test");
@@ -82,7 +84,7 @@ public class TestGraphCopier extends TestCase {
 		test_main_method.AddDependency(java_util_Collections_singleton_method);
 		test_Test_method.AddDependency(java_lang_Object_Object_method);
 
-		copier = new GraphCopier(strategy);
+		copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
 	}
 
 	public void testCopyFullGraph() {
@@ -135,9 +137,9 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyAllNodesOnly() {
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 		
 		copier.TraverseNodes(factory.Packages().values());
 
@@ -182,11 +184,11 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyPackageNodesOnly() {
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 		
 		copier.TraverseNodes(factory.Packages().values());
 
@@ -209,11 +211,11 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyClassNodesOnly() {
-		strategy.PackageScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchFeature(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 		
 		copier.TraverseNodes(factory.Packages().values());
 
@@ -247,11 +249,11 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyFeatureNodesOnly() {
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 		
 		copier.TraverseNodes(factory.Packages().values());
 
@@ -296,9 +298,9 @@ public class TestGraphCopier extends TestCase {
 	}
 
 	public void testCopyNothing() {
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
 		
 		copier.TraverseNodes(factory.Packages().values());
 
@@ -315,13 +317,15 @@ public class TestGraphCopier extends TestCase {
 	
 		a_A_class.AddDependency(a_B_class);
 
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.FeatureFilter(false);
+		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+
+		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchFeature(false);
 		
-		GraphCopier copier = new GraphCopier(strategy);
+		GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
 
 		copier.TraverseNodes(factory.Packages().values());
 

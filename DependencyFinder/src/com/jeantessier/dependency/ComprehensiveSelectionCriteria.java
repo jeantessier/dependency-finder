@@ -32,34 +32,40 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+public class ComprehensiveSelectionCriteria implements SelectionCriteria {
+	public boolean MatchPackage() {
+		return true;
+	}
+	
+	public boolean MatchClass() {
+		return true;
+	}
+	
+	public boolean MatchFeature() {
+		return true;
+	}
 
-public class TestAll extends TestCase {
-	public static Test suite() {
-		TestSuite result = new TestSuite();
+	public boolean Match(PackageNode node) {
+		return true;
+	}
+	
+	public boolean Match(ClassNode node) {
+		return true;
+	}
+	
+	public boolean Match(FeatureNode node) {
+		return true;
+	}
 
-		result.addTestSuite(TestNode.class);
-		result.addTestSuite(TestComprehensiveSelectionCriteria.class);
-		result.addTestSuite(TestRegularExpressionSelectionCriteria.class);
-		result.addTestSuite(TestSelectiveTraversalStrategy.class);
-		result.addTestSuite(TestLinkMinimizer.class);
-		result.addTestSuite(TestLinkMinimizerSystematic.class);
-		result.addTestSuite(TestLinkMaximizer.class);
-		result.addTestSuite(TestLinkMaximizerSystematic.class);
-		result.addTestSuite(TestTextPrinter.class);
-		result.addTestSuite(TestXMLPrinter.class);
-		result.addTestSuite(TestDependencyExtractor.class);
-		result.addTestSuite(TestGraphCopier.class);
-		result.addTestSuite(TestGraphCopierWithFiltering.class);
-		result.addTestSuite(TestGraphSummarizer.class);
-		result.addTestSuite(TestGraphSummarizerWithScoping.class);
-		result.addTestSuite(TestGraphSummarizerWithFiltering.class);
-		result.addTestSuite(TestTransitiveClosure.class);
-		result.addTestSuite(TestTransitiveClosureWithTestClass.class);
-		result.addTestSuite(TestTransitiveClosureSlice.class);
-		result.addTestSuite(TestTransitiveClosureNonMaximized.class);
-		result.addTestSuite(TestMetricsGatherer.class);
-
-		return result;
+	public boolean PackageMatch(String name) {
+		return true;
+	}
+	
+	public boolean ClassMatch(String name) {
+		return true;
+	}
+	
+	public boolean FeatureMatch(String name) {
+		return true;
 	}
 }

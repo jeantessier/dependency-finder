@@ -1044,39 +1044,45 @@ public class DependencyFinder extends JFrame {
 	}
 	
 	void DependencyQuery() {
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
+		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		strategy.PackageScope(package_scope.isSelected());
-		strategy.ClassScope(class_scope.isSelected());
-		strategy.FeatureScope(feature_scope.isSelected());
-		strategy.ScopeIncludes(scope_includes.getText());
-		strategy.ScopeExcludes(scope_excludes.getText());
-	
-		strategy.PackageFilter(package_filter.isSelected());
-		strategy.ClassFilter(class_filter.isSelected());
-		strategy.FeatureFilter(feature_filter.isSelected());
-		strategy.FilterIncludes(filter_includes.getText());
-		strategy.FilterExcludes(filter_excludes.getText());
+		scope_criteria.MatchPackage(package_scope.isSelected());
+		scope_criteria.MatchClass(class_scope.isSelected());
+		scope_criteria.MatchFeature(feature_scope.isSelected());
+		scope_criteria.GlobalIncludes(scope_includes.getText());
+		scope_criteria.GlobalExcludes(scope_excludes.getText());
 
 		if (AdvancedMode()) {
-			strategy.PackageScopeIncludes(package_scope_includes.getText());
-			strategy.ClassScopeIncludes(class_scope_includes.getText());
-			strategy.FeatureScopeIncludes(feature_scope_includes.getText());
-			strategy.PackageScopeExcludes(package_scope_excludes.getText());
-			strategy.ClassScopeExcludes(class_scope_excludes.getText());
-			strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
-			strategy.PackageFilterIncludes(package_filter_includes.getText());
-			strategy.ClassFilterIncludes(class_filter_includes.getText());
-			strategy.FeatureFilterIncludes(feature_filter_includes.getText());
-			strategy.PackageFilterExcludes(package_filter_excludes.getText());
-			strategy.ClassFilterExcludes(class_filter_excludes.getText());
-			strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+			scope_criteria.PackageIncludes(package_scope_includes.getText());
+			scope_criteria.ClassIncludes(class_scope_includes.getText());
+			scope_criteria.FeatureIncludes(feature_scope_includes.getText());
+			scope_criteria.PackageExcludes(package_scope_excludes.getText());
+			scope_criteria.ClassExcludes(class_scope_excludes.getText());
+			scope_criteria.FeatureExcludes(feature_scope_excludes.getText());
+		}
+	
+		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+		
+		filter_criteria.MatchPackage(package_filter.isSelected());
+		filter_criteria.MatchClass(class_filter.isSelected());
+		filter_criteria.MatchFeature(feature_filter.isSelected());
+		filter_criteria.GlobalIncludes(filter_includes.getText());
+		filter_criteria.GlobalExcludes(filter_excludes.getText());
+
+		if (AdvancedMode()) {
+			filter_criteria.PackageIncludes(package_filter_includes.getText());
+			filter_criteria.ClassIncludes(class_filter_includes.getText());
+			filter_criteria.FeatureIncludes(feature_filter_includes.getText());
+			filter_criteria.PackageExcludes(package_filter_excludes.getText());
+			filter_criteria.ClassExcludes(class_filter_excludes.getText());
+			filter_criteria.FeatureExcludes(feature_filter_excludes.getText());
 		}
 
 		if ((AdvancedMode() && copy_only.isSelected()) || Maximize()) {
+			TraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 			dependencies_query = new GraphCopier(strategy);
 		} else {
-			dependencies_query = new GraphSummarizer(strategy);
+			dependencies_query = new GraphSummarizer(scope_criteria, filter_criteria);
 		}
 		
 		dependencies_query.TraverseNodes(Packages());
@@ -1104,35 +1110,41 @@ public class DependencyFinder extends JFrame {
 	}
 	
 	void ClosureQuery() {
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
+		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		strategy.PackageScope(package_scope.isSelected());
-		strategy.ClassScope(class_scope.isSelected());
-		strategy.FeatureScope(feature_scope.isSelected());
-		strategy.ScopeIncludes(scope_includes.getText());
-		strategy.ScopeExcludes(scope_excludes.getText());
-	
-		strategy.PackageFilter(package_filter.isSelected());
-		strategy.ClassFilter(class_filter.isSelected());
-		strategy.FeatureFilter(feature_filter.isSelected());
-		strategy.FilterIncludes(filter_includes.getText());
-		strategy.FilterExcludes(filter_excludes.getText());
+		scope_criteria.MatchPackage(package_scope.isSelected());
+		scope_criteria.MatchClass(class_scope.isSelected());
+		scope_criteria.MatchFeature(feature_scope.isSelected());
+		scope_criteria.GlobalIncludes(scope_includes.getText());
+		scope_criteria.GlobalExcludes(scope_excludes.getText());
 
 		if (AdvancedMode()) {
-			strategy.PackageScopeIncludes(package_scope_includes.getText());
-			strategy.ClassScopeIncludes(class_scope_includes.getText());
-			strategy.FeatureScopeIncludes(feature_scope_includes.getText());
-			strategy.PackageScopeExcludes(package_scope_excludes.getText());
-			strategy.ClassScopeExcludes(class_scope_excludes.getText());
-			strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
-			strategy.PackageFilterIncludes(package_filter_includes.getText());
-			strategy.ClassFilterIncludes(class_filter_includes.getText());
-			strategy.FeatureFilterIncludes(feature_filter_includes.getText());
-			strategy.PackageFilterExcludes(package_filter_excludes.getText());
-			strategy.ClassFilterExcludes(class_filter_excludes.getText());
-			strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+			scope_criteria.PackageIncludes(package_scope_includes.getText());
+			scope_criteria.ClassIncludes(class_scope_includes.getText());
+			scope_criteria.FeatureIncludes(feature_scope_includes.getText());
+			scope_criteria.PackageExcludes(package_scope_excludes.getText());
+			scope_criteria.ClassExcludes(class_scope_excludes.getText());
+			scope_criteria.FeatureExcludes(feature_scope_excludes.getText());
 		}
+	
+		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
 		
+		filter_criteria.MatchPackage(package_filter.isSelected());
+		filter_criteria.MatchClass(class_filter.isSelected());
+		filter_criteria.MatchFeature(feature_filter.isSelected());
+		filter_criteria.GlobalIncludes(filter_includes.getText());
+		filter_criteria.GlobalExcludes(filter_excludes.getText());
+
+		if (AdvancedMode()) {
+			filter_criteria.PackageIncludes(package_filter_includes.getText());
+			filter_criteria.ClassIncludes(class_filter_includes.getText());
+			filter_criteria.FeatureIncludes(feature_filter_includes.getText());
+			filter_criteria.PackageExcludes(package_filter_excludes.getText());
+			filter_criteria.ClassExcludes(class_filter_excludes.getText());
+			filter_criteria.FeatureExcludes(feature_filter_excludes.getText());
+		}
+
+		TraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
 		TransitiveClosure selector = new TransitiveClosure(strategy);
 
 		try {
@@ -1160,36 +1172,42 @@ public class DependencyFinder extends JFrame {
 	}
 	
 	void MetricsQuery() {
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy();
+		RegularExpressionSelectionCriteria scope_criteria = new RegularExpressionSelectionCriteria();
 		
-		strategy.PackageScope(package_scope.isSelected());
-		strategy.ClassScope(class_scope.isSelected());
-		strategy.FeatureScope(feature_scope.isSelected());
-		strategy.ScopeIncludes(scope_includes.getText());
-		strategy.ScopeExcludes(scope_excludes.getText());
-	
-		strategy.PackageFilter(package_filter.isSelected());
-		strategy.ClassFilter(class_filter.isSelected());
-		strategy.FeatureFilter(feature_filter.isSelected());
-		strategy.FilterIncludes(filter_includes.getText());
-		strategy.FilterExcludes(filter_excludes.getText());
+		scope_criteria.MatchPackage(package_scope.isSelected());
+		scope_criteria.MatchClass(class_scope.isSelected());
+		scope_criteria.MatchFeature(feature_scope.isSelected());
+		scope_criteria.GlobalIncludes(scope_includes.getText());
+		scope_criteria.GlobalExcludes(scope_excludes.getText());
 
 		if (AdvancedMode()) {
-			strategy.PackageScopeIncludes(package_scope_includes.getText());
-			strategy.ClassScopeIncludes(class_scope_includes.getText());
-			strategy.FeatureScopeIncludes(feature_scope_includes.getText());
-			strategy.PackageScopeExcludes(package_scope_excludes.getText());
-			strategy.ClassScopeExcludes(class_scope_excludes.getText());
-			strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
-			strategy.PackageFilterIncludes(package_filter_includes.getText());
-			strategy.ClassFilterIncludes(class_filter_includes.getText());
-			strategy.FeatureFilterIncludes(feature_filter_includes.getText());
-			strategy.PackageFilterExcludes(package_filter_excludes.getText());
-			strategy.ClassFilterExcludes(class_filter_excludes.getText());
-			strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
+			scope_criteria.PackageIncludes(package_scope_includes.getText());
+			scope_criteria.ClassIncludes(class_scope_includes.getText());
+			scope_criteria.FeatureIncludes(feature_scope_includes.getText());
+			scope_criteria.PackageExcludes(package_scope_excludes.getText());
+			scope_criteria.ClassExcludes(class_scope_excludes.getText());
+			scope_criteria.FeatureExcludes(feature_scope_excludes.getText());
 		}
+	
+		RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
 		
-		com.jeantessier.dependency.MetricsGatherer metrics = new com.jeantessier.dependency.MetricsGatherer(strategy);
+		filter_criteria.MatchPackage(package_filter.isSelected());
+		filter_criteria.MatchClass(class_filter.isSelected());
+		filter_criteria.MatchFeature(feature_filter.isSelected());
+		filter_criteria.GlobalIncludes(filter_includes.getText());
+		filter_criteria.GlobalExcludes(filter_excludes.getText());
+
+		if (AdvancedMode()) {
+			filter_criteria.PackageIncludes(package_filter_includes.getText());
+			filter_criteria.ClassIncludes(class_filter_includes.getText());
+			filter_criteria.FeatureIncludes(feature_filter_includes.getText());
+			filter_criteria.PackageExcludes(package_filter_excludes.getText());
+			filter_criteria.ClassExcludes(class_filter_excludes.getText());
+			filter_criteria.FeatureExcludes(feature_filter_excludes.getText());
+		}
+
+		TraversalStrategy                          strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
+		com.jeantessier.dependency.MetricsGatherer metrics  = new com.jeantessier.dependency.MetricsGatherer(strategy);
 		
 		metrics.TraverseNodes(Packages());
 

@@ -337,33 +337,45 @@ public abstract class GraphTask extends Task {
 		}
 	}
 
-	protected SelectiveTraversalStrategy Strategy() {
-		SelectiveTraversalStrategy result = new SelectiveTraversalStrategy();
-		
-		result.ScopeIncludes(getScopeincludes());
-		result.ScopeExcludes(getScopeexcludes());
-		result.PackageScope(getPackagescope());
-		result.PackageScopeIncludes(getPackagescopeincludes());
-		result.PackageScopeExcludes(getPackagescopeexcludes());
-		result.ClassScope(getClassscope());
-		result.ClassScopeIncludes(getClassscopeincludes());
-		result.ClassScopeExcludes(getClassscopeexcludes());
-		result.FeatureScope(getFeaturescope());
-		result.FeatureScopeIncludes(getFeaturescopeincludes());
-		result.FeatureScopeExcludes(getFeaturescopeexcludes());
-		
-		result.FilterIncludes(getFilterincludes());
-		result.FilterExcludes(getFilterexcludes());
-		result.PackageFilter(getPackagefilter());
-		result.PackageFilterIncludes(getPackagefilterincludes());
-		result.PackageFilterExcludes(getPackagefilterexcludes());
-		result.ClassFilter(getClassfilter());
-		result.ClassFilterIncludes(getClassfilterincludes());
-		result.ClassFilterExcludes(getClassfilterexcludes());
-		result.FeatureFilter(getFeaturefilter());
-		result.FeatureFilterIncludes(getFeaturefilterincludes());
-		result.FeatureFilterExcludes(getFeaturefilterexcludes());
+	protected RegularExpressionSelectionCriteria ScopeCriteria() {
+		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
+
+		result.MatchPackage(getPackagescope());
+		result.MatchClass(getClassscope());
+		result.MatchFeature(getFeaturescope());
+
+		result.GlobalIncludes(getScopeincludes());
+		result.GlobalExcludes(getScopeexcludes());
+		result.PackageIncludes(getPackagescopeincludes());
+		result.PackageExcludes(getPackagescopeexcludes());
+		result.ClassIncludes(getClassscopeincludes());
+		result.ClassExcludes(getClassscopeexcludes());
+		result.FeatureIncludes(getFeaturescopeincludes());
+		result.FeatureExcludes(getFeaturescopeexcludes());
 
 		return result;
+	}
+
+	protected RegularExpressionSelectionCriteria FilterCriteria() {
+		RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
+
+		result.MatchPackage(getPackagefilter());
+		result.MatchClass(getClassfilter());
+		result.MatchFeature(getFeaturefilter());
+
+		result.GlobalIncludes(getFilterincludes());
+		result.GlobalExcludes(getFilterexcludes());
+		result.PackageIncludes(getPackagefilterincludes());
+		result.PackageExcludes(getPackagefilterexcludes());
+		result.ClassIncludes(getClassfilterincludes());
+		result.ClassExcludes(getClassfilterexcludes());
+		result.FeatureIncludes(getFeaturefilterincludes());
+		result.FeatureExcludes(getFeaturefilterexcludes());
+
+		return result;
+	}
+	
+	protected TraversalStrategy Strategy() {
+		return new SelectiveTraversalStrategy(ScopeCriteria(), FilterCriteria());
 	}
 }

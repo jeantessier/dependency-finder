@@ -119,7 +119,7 @@ public class DependencyReporter extends GraphTask {
 			if (getCopyOnly() || getMaximize()) {
 				copier = new GraphCopier(Strategy());
 			} else {
-				copier = new GraphSummarizer(Strategy());
+				copier = new GraphSummarizer(ScopeCriteria(), FilterCriteria());
 			}
 
 			String[] filenames = getSrc().list();

@@ -40,30 +40,32 @@ import junit.framework.*;
 import org.apache.oro.text.perl.*;
 
 public class TestTransitiveClosureWithTestClass extends TestCase {
-	SelectiveTraversalStrategy strategy;
-	NodeFactory                factory;
+	private RegularExpressionSelectionCriteria scope_criteria;
+	private RegularExpressionSelectionCriteria filter_criteria;
+	private NodeFactory                        factory;
 	
-	Node _package;
-	Node test_class;
-	Node test_main_method;
-	Node test_Test_method;
+	private Node _package;
+	private Node test_class;
+	private Node test_main_method;
+	private Node test_Test_method;
 		
-	Node java_lang_package;
-	Node java_lang_Object_class;
-	Node java_lang_Object_Object_method;
-	Node java_lang_String_class;
+	private Node java_lang_package;
+	private Node java_lang_Object_class;
+	private Node java_lang_Object_Object_method;
+	private Node java_lang_String_class;
 		
-	Node java_util_package;
-	Node java_util_Collections_class;
-	Node java_util_Collections_singleton_method;
+	private Node java_util_package;
+	private Node java_util_Collections_class;
+	private Node java_util_Collections_singleton_method;
 
-	List scope_includes;
+	private List scope_includes;
 	
-	TransitiveClosure selector;
+	private TransitiveClosure selector;
 
 	protected void setUp() throws Exception {
-		strategy = new SelectiveTraversalStrategy();
-		factory = new NodeFactory();
+		scope_criteria  = new RegularExpressionSelectionCriteria();
+		filter_criteria = new RegularExpressionSelectionCriteria();
+		factory         = new NodeFactory();
 
 		_package = factory.CreatePackage("");
 		test_class = factory.CreateClass("test");
@@ -89,11 +91,11 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 		scope_includes = new ArrayList(1);
 		scope_includes.add("/test/");
 		
-		selector = new TransitiveClosure(strategy);
+		selector = new TransitiveClosure(new SelectiveTraversalStrategy(scope_criteria, filter_criteria));
 	}
 
 	public void testCompleteClosure() {
-		strategy.ScopeIncludes(scope_includes) ;
+		scope_criteria.GlobalIncludes(scope_includes) ;
 		
 		selector.TraverseNodes(factory.Packages().values());
 
@@ -150,10 +152,10 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyAllNodesOnly() {
-		strategy.ScopeIncludes(scope_includes) ;
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.GlobalIncludes(scope_includes) ;
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 		
 		selector.TraverseNodes(factory.Packages().values());
 
@@ -198,12 +200,12 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyPackageNodesOnly() {
-		strategy.ScopeIncludes(scope_includes) ;
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
+		scope_criteria.GlobalIncludes(scope_includes) ;
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 		
 		selector.TraverseNodes(factory.Packages().values());
 
@@ -213,12 +215,12 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyClassNodesOnly() {
-		strategy.ScopeIncludes(scope_includes) ;
-		strategy.PackageScope(false);
-		strategy.FeatureScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchFeature(false);
+		scope_criteria.GlobalIncludes(scope_includes) ;
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 		
 		selector.TraverseNodes(factory.Packages().values());
 
@@ -252,12 +254,12 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyFeatureNodesOnly() {
-		strategy.ScopeIncludes(scope_includes) ;
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.GlobalIncludes(scope_includes) ;
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 		
 		selector.TraverseNodes(factory.Packages().values());
 
@@ -302,9 +304,9 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 	}
 
 	public void testCopyNothing() {
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
 		
 		selector.TraverseNodes(factory.Packages().values());
 

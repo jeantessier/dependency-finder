@@ -40,27 +40,31 @@ import junit.framework.*;
 import org.apache.oro.text.perl.*;
 
 public class TestSelectiveTraversalStrategy extends TestCase {
-	SelectiveTraversalStrategy strategy;
-	NodeFactory                factory;
+	private RegularExpressionSelectionCriteria scope_criteria;
+	private RegularExpressionSelectionCriteria filter_criteria;
+	private SelectiveTraversalStrategy         strategy;
+	private NodeFactory                        factory;
 
-	PackageNode a;
-	ClassNode a_A;
-	FeatureNode a_A_a;
+	private PackageNode a;
+	private ClassNode a_A;
+	private FeatureNode a_A_a;
 	
-	PackageNode b;
-	ClassNode b_B;
-	FeatureNode b_B_b;
+	private PackageNode b;
+	private ClassNode b_B;
+	private FeatureNode b_B_b;
 	
-	PackageNode c;
-	ClassNode c_C;
-	FeatureNode c_C_c;
+	private PackageNode c;
+	private ClassNode c_C;
+	private FeatureNode c_C_c;
 
-	List include;
-	List exclude;
+	private List include;
+	private List exclude;
 
 	protected void setUp() throws Exception {
-		strategy = new SelectiveTraversalStrategy();
-		factory = new NodeFactory();
+		scope_criteria  = new RegularExpressionSelectionCriteria();
+		filter_criteria = new RegularExpressionSelectionCriteria();
+		strategy        = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
+		factory         = new NodeFactory();
 
 		a     = factory.CreatePackage("a");
 		a_A   = factory.CreateClass("a.A");
@@ -80,63 +84,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		exclude = new LinkedList();
 		exclude.add("/^c/");
 	}
-
-	public void testParseRE() {
-		List expected = new ArrayList();
-		expected.add("/test/");
-
-		List test = SelectiveTraversalStrategy.ParseRE("/test/");
-		
-		assertEquals("size", expected.size(), test.size());
-		assertEquals("/test/", expected.get(0), test.get(0));
-	}
-
-	public void testParseBrokenRE() {
-		List expected = new ArrayList();
-		expected.add("/test");
-
-		List test = SelectiveTraversalStrategy.ParseRE("/test");
-		
-		assertEquals("size", expected.size(), test.size());
-		assertEquals("/test", expected.get(0), test.get(0));
-	}
-
-	public void testParseMultipleREs() {
-		List expected = new ArrayList();
-		expected.add("/test1/");
-		expected.add("/test2/");
-
-		List test = SelectiveTraversalStrategy.ParseRE("/test1/,/test2/");
-		
-		assertEquals("size", expected.size(), test.size());
-		assertEquals("/test1/", expected.get(0), test.get(0));
-		assertEquals("/test2/", expected.get(1), test.get(1));
-	}
-
-	public void testParseComplexREs() {
-		List expected = new ArrayList();
-		expected.add("/test1\\/test2/");
-
-		List test = SelectiveTraversalStrategy.ParseRE("/test1\\/test2/");
-		
-		assertEquals("size", expected.size(), test.size());
-		assertEquals("/test1\\/test2/", expected.get(0), test.get(0));
-	}
-
-	public void testParseReallyComplexREs() {
-		List expected = new ArrayList();
-		expected.add("m=test1\\=test2=i");
-
-		List test = SelectiveTraversalStrategy.ParseRE("m=test1\\=test2=i");
-		
-		assertEquals("size", expected.size(), test.size());
-		assertEquals("m=test1\\=test2=i", expected.get(0), test.get(0));
-	}
 	
 	public void testScope() {
-		strategy.PackageScope(true);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
+		scope_criteria.MatchPackage(true);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
 
 		assertTrue("a not in package scope",  strategy.InScope(a));
 		assertTrue("a.A in package scope",   !strategy.InScope(a_A));
@@ -148,9 +100,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",   !strategy.InScope(c_C));
 		assertTrue("c.C.c in package scope", !strategy.InScope(c_C_c));
 
-		strategy.PackageScope(false);
-		strategy.ClassScope(true);
-		strategy.FeatureScope(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(true);
+		scope_criteria.MatchFeature(false);
 
 		assertTrue("a in package scope",       !strategy.InScope(a));
 		assertTrue("a.A not in package scope",  strategy.InScope(a_A));
@@ -162,9 +114,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",      strategy.InScope(c_C));
 		assertTrue("c.C.c in package scope",   !strategy.InScope(c_C_c));
 
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(true);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(true);
 
 		assertTrue("a in package scope",         !strategy.InScope(a));
 		assertTrue("a.A in package scope",       !strategy.InScope(a_A));
@@ -178,11 +130,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testScopeIncludes() {
-		strategy.ScopeIncludes(include);
+		scope_criteria.GlobalIncludes(include);
 
-		strategy.PackageScope(true);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
+		scope_criteria.MatchPackage(true);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
 
 		assertTrue("a in package scope",     !strategy.InScope(a));
 		assertTrue("a.A in package scope",   !strategy.InScope(a_A));
@@ -194,9 +146,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",   !strategy.InScope(c_C));
 		assertTrue("c.C.c in package scope", !strategy.InScope(c_C_c));
 
-		strategy.PackageScope(false);
-		strategy.ClassScope(true);
-		strategy.FeatureScope(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(true);
+		scope_criteria.MatchFeature(false);
 
 		assertTrue("a in package scope",       !strategy.InScope(a));
 		assertTrue("a.A in package scope",     !strategy.InScope(a_A));
@@ -208,9 +160,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",     !strategy.InScope(c_C));
 		assertTrue("c.C.c in package scope",   !strategy.InScope(c_C_c));
 
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(true);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(true);
 
 		assertTrue("a in package scope",         !strategy.InScope(a));
 		assertTrue("a.A in package scope",       !strategy.InScope(a_A));
@@ -224,11 +176,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testScopeExcludes() {
-		strategy.ScopeExcludes(exclude);
+		scope_criteria.GlobalExcludes(exclude);
 
-		strategy.PackageScope(true);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(false);
+		scope_criteria.MatchPackage(true);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(false);
 
 		assertTrue("a not in package scope",  strategy.InScope(a));
 		assertTrue("a.A in package scope",   !strategy.InScope(a_A));
@@ -240,9 +192,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",   !strategy.InScope(c_C));
 		assertTrue("c.C.c in package scope", !strategy.InScope(c_C_c));
 
-		strategy.PackageScope(false);
-		strategy.ClassScope(true);
-		strategy.FeatureScope(false);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(true);
+		scope_criteria.MatchFeature(false);
 
 		assertTrue("a in package scope",       !strategy.InScope(a));
 		assertTrue("a.A not in package scope",  strategy.InScope(a_A));
@@ -254,9 +206,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package scope",     !strategy.InScope(c_C));
 		assertTrue("c.C.c in package scope",   !strategy.InScope(c_C_c));
 
-		strategy.PackageScope(false);
-		strategy.ClassScope(false);
-		strategy.FeatureScope(true);
+		scope_criteria.MatchPackage(false);
+		scope_criteria.MatchClass(false);
+		scope_criteria.MatchFeature(true);
 
 		assertTrue("a in package scope",         !strategy.InScope(a));
 		assertTrue("a.A in package scope",       !strategy.InScope(a_A));
@@ -270,9 +222,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testFilter() {
-		strategy.PackageFilter(true);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		filter_criteria.MatchPackage(true);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 
 		assertTrue("a not in package filter",  strategy.InFilter(a));
 		assertTrue("a.A in package filter",   !strategy.InFilter(a_A));
@@ -284,9 +236,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",   !strategy.InFilter(c_C));
 		assertTrue("c.C.c in package filter", !strategy.InFilter(c_C_c));
 
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(true);
-		strategy.FeatureFilter(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(true);
+		filter_criteria.MatchFeature(false);
 
 		assertTrue("a in package filter",       !strategy.InFilter(a));
 		assertTrue("a.A not in package filter",  strategy.InFilter(a_A));
@@ -298,9 +250,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",      strategy.InFilter(c_C));
 		assertTrue("c.C.c in package filter",   !strategy.InFilter(c_C_c));
 
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(true);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(true);
 
 		assertTrue("a in package filter",         !strategy.InFilter(a));
 		assertTrue("a.A in package filter",       !strategy.InFilter(a_A));
@@ -314,11 +266,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testFilterIncludes() {
-		strategy.FilterIncludes(include);
+		filter_criteria.GlobalIncludes(include);
 
-		strategy.PackageFilter(true);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		filter_criteria.MatchPackage(true);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 
 		assertTrue("a in package filter",     !strategy.InFilter(a));
 		assertTrue("a.A in package filter",   !strategy.InFilter(a_A));
@@ -330,9 +282,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",   !strategy.InFilter(c_C));
 		assertTrue("c.C.c in package filter", !strategy.InFilter(c_C_c));
 
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(true);
-		strategy.FeatureFilter(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(true);
+		filter_criteria.MatchFeature(false);
 
 		assertTrue("a in package filter",       !strategy.InFilter(a));
 		assertTrue("a.A in package filter",     !strategy.InFilter(a_A));
@@ -344,9 +296,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",     !strategy.InFilter(c_C));
 		assertTrue("c.C.c in package filter",   !strategy.InFilter(c_C_c));
 
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(true);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(true);
 
 		assertTrue("a in package filter",         !strategy.InFilter(a));
 		assertTrue("a.A in package filter",       !strategy.InFilter(a_A));
@@ -360,11 +312,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 	}
 
 	public void testFilterExcludes() {
-		strategy.FilterExcludes(exclude);
+		filter_criteria.GlobalExcludes(exclude);
 
-		strategy.PackageFilter(true);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(false);
+		filter_criteria.MatchPackage(true);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(false);
 
 		assertTrue("a not in package filter",  strategy.InFilter(a));
 		assertTrue("a.A in package filter",   !strategy.InFilter(a_A));
@@ -376,9 +328,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",   !strategy.InFilter(c_C));
 		assertTrue("c.C.c in package filter", !strategy.InFilter(c_C_c));
 
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(true);
-		strategy.FeatureFilter(false);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(true);
+		filter_criteria.MatchFeature(false);
 
 		assertTrue("a in package filter",       !strategy.InFilter(a));
 		assertTrue("a.A not in package filter",  strategy.InFilter(a_A));
@@ -390,9 +342,9 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		assertTrue("c.C in package filter",     !strategy.InFilter(c_C));
 		assertTrue("c.C.c in package filter",   !strategy.InFilter(c_C_c));
 
-		strategy.PackageFilter(false);
-		strategy.ClassFilter(false);
-		strategy.FeatureFilter(true);
+		filter_criteria.MatchPackage(false);
+		filter_criteria.MatchClass(false);
+		filter_criteria.MatchFeature(true);
 
 		assertTrue("a in package filter",         !strategy.InFilter(a));
 		assertTrue("a.A in package filter",       !strategy.InFilter(a_A));
