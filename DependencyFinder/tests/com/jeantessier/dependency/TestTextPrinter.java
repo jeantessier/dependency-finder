@@ -39,7 +39,7 @@ import junit.framework.*;
 
 import org.apache.oro.text.perl.*;
 
-public class TestPrettyPrinter extends TestCase {
+public class TestTextPrinter extends TestCase {
 	NodeFactory factory;
 	
 	Node _package;
@@ -85,7 +85,7 @@ public class TestPrettyPrinter extends TestCase {
 		test_main_method.AddDependency(java_util_Set_class);
 		test_test_method.AddDependency(java_lang_Object_Object_method);
 
-		visitor = new PrettyPrinter();
+		visitor = new TextPrinter();
 	}
 
 	public void testPrinter() {

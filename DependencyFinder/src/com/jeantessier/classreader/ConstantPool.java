@@ -114,7 +114,7 @@ public class ConstantPool extends ArrayList implements Visitable {
 
 		result.append("Constant Pool:").append(System.getProperty("line.separator", "\n"));
 		
-		Printer printer = new UglyPrinter();
+		Printer printer = new TextPrinter();
 		Accept(printer);
 		result.append(printer);
 

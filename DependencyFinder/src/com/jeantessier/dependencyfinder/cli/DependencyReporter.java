@@ -302,7 +302,7 @@ public class DependencyReporter {
 			if (command_line.IsPresent("xml")) {
 				printer = new XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
 			} else {
-				printer = new PrettyPrinter();
+				printer = new TextPrinter();
 			}
 			
 			if (command_line.IsPresent("indent-text")) {

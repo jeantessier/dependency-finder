@@ -34,7 +34,7 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public class PrettyPrinter extends Printer {
+public class TextPrinter extends Printer {
 	private boolean top = true;
 
 	public void VisitClassfile(Classfile classfile) {

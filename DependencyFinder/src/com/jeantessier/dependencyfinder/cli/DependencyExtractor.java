@@ -142,7 +142,7 @@ public class DependencyExtractor {
 			if (command_line.ToggleSwitch("xml")) {
 				printer = new com.jeantessier.dependency.XMLPrinter(command_line.SingleSwitch("dtd-prefix"));
 			} else {
-				printer = new com.jeantessier.dependency.PrettyPrinter();
+				printer = new com.jeantessier.dependency.TextPrinter();
 			}
 			
 			if (command_line.IsPresent("indent-text")) {

@@ -35,7 +35,7 @@ package com.jeantessier.metrics;
 import java.text.*;
 import java.util.*;
 
-public class PrettyPrinter extends Printer {
+public class TextPrinter extends Printer {
 	private static final NumberFormat value_format = new DecimalFormat("#.##");
 	private static final NumberFormat ratio_format = new DecimalFormat("#%");
 
@@ -45,7 +45,7 @@ public class PrettyPrinter extends Printer {
 	
 	private Metrics current_metrics = null;
 	
-	public PrettyPrinter(List descriptors) {
+	public TextPrinter(List descriptors) {
 		this.descriptors = descriptors;
 	}
 

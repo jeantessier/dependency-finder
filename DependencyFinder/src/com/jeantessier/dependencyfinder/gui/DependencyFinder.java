@@ -1054,7 +1054,7 @@ public class DependencyFinder extends JFrame {
 
 	void RefreshDependenciesDisplay() {
 		if (dependencies_query != null) {
-			com.jeantessier.dependency.PrettyPrinter printer = new com.jeantessier.dependency.PrettyPrinter();
+			com.jeantessier.dependency.TextPrinter printer = new com.jeantessier.dependency.TextPrinter();
 
 			printer.ShowInbounds(show_inbounds.isSelected());
 			printer.ShowOutbounds(show_outbounds.isSelected());
@@ -1116,7 +1116,7 @@ public class DependencyFinder extends JFrame {
 		
 		selector.TraverseNodes(Packages());
 		
-		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.PrettyPrinter();
+		com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter();
 		printer.TraverseNodes(selector.Factory().Packages().values());
 		closure_result_area.setText(printer.toString());
 	}		
