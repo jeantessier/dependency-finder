@@ -39,19 +39,19 @@ public class VersionBeanInfo extends SimpleBeanInfo {
 		PropertyDescriptor[] result = new PropertyDescriptor[13];
 		
 		try {
-			result[0]  = new PropertyDescriptor("ResourceURL",           Version.class, "ResourceURL",           null);
-			result[1]  = new PropertyDescriptor("JarName",               Version.class, "JarName",               null);
-			result[2]  = new PropertyDescriptor("ImplementationURL",     Version.class, "ImplementationURL",     null);
-			result[3]  = new PropertyDescriptor("ImplementationTitle",   Version.class, "ImplementationTitle",   null);
-			result[4]  = new PropertyDescriptor("ImplementationVersion", Version.class, "ImplementationVersion", null);
-			result[5]  = new PropertyDescriptor("ImplementationVendor",  Version.class, "ImplementationVendor",  null);
-			result[6]  = new PropertyDescriptor("ImplementationDate",    Version.class, "ImplementationDate",    null);
-			result[7]  = new PropertyDescriptor("SpecificationTitle",    Version.class, "SpecificationTitle",    null);
-			result[8]  = new PropertyDescriptor("SpecificationVersion",  Version.class, "SpecificationVersion",  null);
-			result[9]  = new PropertyDescriptor("SpecificationVendor",   Version.class, "SpecificationVendor",   null);
-			result[10] = new PropertyDescriptor("SpecificationDate",     Version.class, "SpecificationDate",     null);
-			result[11] = new PropertyDescriptor("CopyrightHolder",       Version.class, "CopyrightHolder",       null);
-			result[12] = new PropertyDescriptor("CopyrightDate",         Version.class, "CopyrightDate",         null);
+			result[0]  = new PropertyDescriptor("ResourceURL",           Version.class, "getResourceURL",           null);
+			result[1]  = new PropertyDescriptor("JarName",               Version.class, "getJarName",               null);
+			result[2]  = new PropertyDescriptor("ImplementationURL",     Version.class, "getImplementationURL",     null);
+			result[3]  = new PropertyDescriptor("ImplementationTitle",   Version.class, "getImplementationTitle",   null);
+			result[4]  = new PropertyDescriptor("ImplementationVersion", Version.class, "getImplementationVersion", null);
+			result[5]  = new PropertyDescriptor("ImplementationVendor",  Version.class, "getImplementationVendor",  null);
+			result[6]  = new PropertyDescriptor("ImplementationDate",    Version.class, "getImplementationDate",    null);
+			result[7]  = new PropertyDescriptor("SpecificationTitle",    Version.class, "getSpecificationTitle",    null);
+			result[8]  = new PropertyDescriptor("SpecificationVersion",  Version.class, "getSpecificationVersion",  null);
+			result[9]  = new PropertyDescriptor("SpecificationVendor",   Version.class, "getSpecificationVendor",   null);
+			result[10] = new PropertyDescriptor("SpecificationDate",     Version.class, "getSpecificationDate",     null);
+			result[11] = new PropertyDescriptor("CopyrightHolder",       Version.class, "getCopyrightHolder",       null);
+			result[12] = new PropertyDescriptor("CopyrightDate",         Version.class, "getCopyrightDate",         null);
 		} catch (IntrospectionException ex) {
 			result = null;
 		}

@@ -45,69 +45,69 @@
 <!-- Reading the parameters and setting up the forms -->
 
 <%
-    String scope_includes = request.getParameter("scope-includes");
-    if (scope_includes == null) {
-	scope_includes = "//";
+    String scopeIncludes = request.getParameter("scope-includes");
+    if (scopeIncludes == null) {
+	scopeIncludes = "//";
     }
 
-    String scope_excludes = request.getParameter("scope-excludes");
-    if (scope_excludes == null) {
-	scope_excludes = "";
+    String scopeExcludes = request.getParameter("scope-excludes");
+    if (scopeExcludes == null) {
+	scopeExcludes = "";
     }
 
-    boolean package_scope = "on".equals(request.getParameter("package-scope"));
+    boolean packageScope = "on".equals(request.getParameter("package-scope"));
     if (request.getParameter("submit") == null) {
-	package_scope = true;
+	packageScope = true;
     }
 
-    boolean class_scope = "on".equals(request.getParameter("class-scope"));
+    boolean classScope = "on".equals(request.getParameter("class-scope"));
     if (request.getParameter("submit") == null) {
-	class_scope = false;
+	classScope = false;
     }
 
-    boolean feature_scope = "on".equals(request.getParameter("feature-scope"));
+    boolean featureScope = "on".equals(request.getParameter("feature-scope"));
     if (request.getParameter("submit") == null) {
-	feature_scope = false;
+	featureScope = false;
     }
 
-    String filter_includes = request.getParameter("filter-includes");
-    if (filter_includes == null) {
-	filter_includes = "//";
+    String filterIncludes = request.getParameter("filter-includes");
+    if (filterIncludes == null) {
+	filterIncludes = "//";
     }
 
-    String filter_excludes = request.getParameter("filter-excludes");
-    if (filter_excludes == null) {
-	filter_excludes = "";
+    String filterExcludes = request.getParameter("filter-excludes");
+    if (filterExcludes == null) {
+	filterExcludes = "";
     }
 
-    boolean package_filter = "on".equals(request.getParameter("package-filter"));
+    boolean packageFilter = "on".equals(request.getParameter("package-filter"));
     if (request.getParameter("submit") == null) {
-	package_filter = true;
+	packageFilter = true;
     }
 
-    boolean class_filter = "on".equals(request.getParameter("class-filter"));
+    boolean classFilter = "on".equals(request.getParameter("class-filter"));
     if (request.getParameter("submit") == null) {
-	class_filter = false;
+	classFilter = false;
     }
 
-    boolean feature_filter = "on".equals(request.getParameter("feature-filter"));
+    boolean featureFilter = "on".equals(request.getParameter("feature-filter"));
     if (request.getParameter("submit") == null) {
-	feature_filter = false;
+	featureFilter = false;
     }
 
-    boolean show_inbounds = "on".equals(request.getParameter("show-inbounds"));
+    boolean showInbounds = "on".equals(request.getParameter("show-inbounds"));
     if (request.getParameter("submit") == null) {
-	show_inbounds = true;
+	showInbounds = true;
     }
 
-    boolean show_outbounds = "on".equals(request.getParameter("show-outbounds"));
+    boolean showOutbounds = "on".equals(request.getParameter("show-outbounds"));
     if (request.getParameter("submit") == null) {
-	show_outbounds = true;
+	showOutbounds = true;
     }
 
-    boolean show_empty_nodes = "on".equals(request.getParameter("show-empty-nodes"));
+    boolean showEmptyNodes = "on".equals(request.getParameter("show-empty-nodes"));
     if (request.getParameter("submit") == null) {
-	show_empty_nodes = true;
+	showEmptyNodes = true;
     }
 %>
 
@@ -147,14 +147,14 @@
     </tr>
     <tr>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-scope" <%= package_scope ? "checked" : "" %> onMouseOver="window.status='Select packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-scope" <%= class_scope ? "checked" : "" %> onMouseOver="window.status='Select classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-scope" <%= feature_scope ? "checked" : "" %> onMouseOver="window.status='Select methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
+	    <input type="checkbox" name="package-scope" <%= packageScope ? "checked" : "" %> onMouseOver="window.status='Select packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-scope" <%= classScope ? "checked" : "" %> onMouseOver="window.status='Select classes (with their package)'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-scope" <%= featureScope ? "checked" : "" %> onMouseOver="window.status='Select methods and fields (with their class and package)'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
 	<td align="center" colspan="2">
-	    <input type="checkbox" name="package-filter" <%= package_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
-	    <input type="checkbox" name="class-filter" <%= class_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
-	    <input type="checkbox" name="feature-filter" <%= feature_filter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
+	    <input type="checkbox" name="package-filter" <%= packageFilter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from packages'" onMouseOut="window.status=''">&nbsp;package
+	    <input type="checkbox" name="class-filter" <%= classFilter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from classes'" onMouseOut="window.status=''">&nbsp;class
+	    <input type="checkbox" name="feature-filter" <%= featureFilter ? "checked" : "" %> onMouseOver="window.status='Show dependencies to/from methods and fields'" onMouseOut="window.status=''">&nbsp;feature
 	</td>
     </tr>
     <tr>
@@ -173,16 +173,16 @@
     </tr>
     <tr>
 	<td>
-	    <input type="text" name="scope-includes" value="<%= scope_includes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="scope-includes" value="<%= scopeIncludes %>" onMouseOver="window.status='Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="scope-excludes" value="<%= scope_excludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="scope-excludes" value="<%= scopeExcludes %>" onMouseOver="window.status='Package, class, method, or field must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="filter-includes" value="<%= filter_includes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
+	    <input type="text" name="filter-includes" value="<%= filterIncludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/'" onMouseOut="window.status=''">
 	</td>
 	<td>
-	    <input type="text" name="filter-excludes" value="<%= filter_excludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
+	    <input type="text" name="filter-excludes" value="<%= filterExcludes %>" onMouseOver="window.status='Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/'" onMouseOut="window.status=''">
 	</td>
     </tr>
     </tbody>
@@ -192,9 +192,9 @@
         <td colspan="4" align="center">
 
 Show dependencies
-<input type="checkbox" name="show-inbounds" <%= show_inbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;to element
-<input type="checkbox" name="show-outbounds" <%= show_outbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that originate from the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;from element
-<input type="checkbox" name="show-empty-nodes" <%= show_empty_nodes ? "checked" : "" %> onMouseOver="window.status='Show selected packages, classes, methods, and fields even if they do not have dependencies'" onMouseOut="window.status=''">&nbsp;(empty elements)
+<input type="checkbox" name="show-inbounds" <%= showInbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that point to the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;to element
+<input type="checkbox" name="show-outbounds" <%= showOutbounds ? "checked" : "" %> onMouseOver="window.status='Show dependencies that originate from the selected packages, classes, methods, or fields'" onMouseOut="window.status=''">&nbsp;from element
+<input type="checkbox" name="show-empty-nodes" <%= showEmptyNodes ? "checked" : "" %> onMouseOver="window.status='Show selected packages, classes, methods, and fields even if they do not have dependencies'" onMouseOut="window.status=''">&nbsp;(empty elements)
 
         </td>
     </tr>
@@ -226,36 +226,36 @@ Show dependencies
 <%
 	    Date start = new Date();
 
-	    RegularExpressionSelectionCriteria scope_criteria  = new RegularExpressionSelectionCriteria();
-	    RegularExpressionSelectionCriteria filter_criteria = new RegularExpressionSelectionCriteria();
+	    RegularExpressionSelectionCriteria scopeCriteria  = new RegularExpressionSelectionCriteria();
+	    RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
 	    
-	    scope_criteria.MatchPackage(package_scope);
-	    scope_criteria.MatchClass(class_scope);
-	    scope_criteria.MatchFeature(feature_scope);
-	    scope_criteria.GlobalIncludes(scope_includes);
-	    scope_criteria.GlobalExcludes(scope_excludes);
+	    scopeCriteria.setMatchingPackages(packageScope);
+	    scopeCriteria.setMatchingClasses(classScope);
+	    scopeCriteria.setMatchingFeatures(featureScope);
+	    scopeCriteria.setGlobalIncludes(scopeIncludes);
+	    scopeCriteria.setGlobalExcludes(scopeExcludes);
 	
-	    filter_criteria.MatchPackage(package_filter);
-	    filter_criteria.MatchClass(class_filter);
-	    filter_criteria.MatchFeature(feature_filter);
-	    filter_criteria.GlobalIncludes(filter_includes);
-	    filter_criteria.GlobalExcludes(filter_excludes);
+	    filterCriteria.setMatchingPackages(packageFilter);
+	    filterCriteria.setMatchingClasses(classFilter);
+	    filterCriteria.setMatchingFeatures(featureFilter);
+	    filterCriteria.setGlobalIncludes(filterIncludes);
+	    filterCriteria.setGlobalExcludes(filterExcludes);
 
-	    GraphCopier dependencies_query = new GraphSummarizer(scope_criteria, filter_criteria);
+	    GraphCopier dependenciesQuery = new GraphSummarizer(scopeCriteria, filterCriteria);
 	    if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
-		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scope_criteria, filter_criteria);
-		dependencies_query = new GraphCopier(strategy);
+		SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+		dependenciesQuery = new GraphCopier(strategy);
 	    }
 	
-	    dependencies_query.TraverseNodes(((NodeFactory) application.getAttribute("factory")).Packages().values());
+	    dependenciesQuery.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
 	    TextPrinter printer = new TextPrinter(new PrintWriter(out));
 
-	    printer.ShowInbounds(show_inbounds);
-	    printer.ShowOutbounds(show_outbounds);
-	    printer.ShowEmptyNodes(show_empty_nodes);
+	    printer.setShowInbounds(showInbounds);
+	    printer.setShowOutbounds(showOutbounds);
+	    printer.setShowEmptyNodes(showEmptyNodes);
 		
-	    printer.TraverseNodes(dependencies_query.ScopeFactory().Packages().values());
+	    printer.traverseNodes(dependenciesQuery.getScopeFactory().getPackages().values());
 
 	    Date stop = new Date();
 %>

@@ -43,16 +43,16 @@
 	    this.out = out;
 	}
 	
-	public void BeginGroup(LoadEvent event) {
-	    super.BeginGroup(event);
+	public void beginGroup(LoadEvent event) {
+	    super.beginGroup(event);
 
 	    try {
 		out.println();
 		out.print("\tSearching ");
-		out.print(CurrentGroup().Name());
-		if (CurrentGroup().Size() >= 0) {
+		out.print(getCurrentGroup().getName());
+		if (getCurrentGroup().getSize() >= 0) {
 		    out.print(" (");
-		    out.print(CurrentGroup().Size());
+		    out.print(getCurrentGroup().getSize());
 		    out.print(" files)");
 		}
 		out.print(" ...");
@@ -62,22 +62,22 @@
 	    }
 	}
 
-	public void BeginFile(LoadEvent event) {
-	    super.BeginFile(event);
+	public void beginFile(LoadEvent event) {
+	    super.beginFile(event);
 
 	    try {
-		out.print(RatioIndicator());
+		out.print(getRatioIndicator());
 	    } catch (IOException ex) {
 		// Ignore
 	    }
 	}
 
-	public void EndClassfile(LoadEvent event) {
-	    super.EndClassfile(event);
+	public void endClassfile(LoadEvent event) {
+	    super.endClassfile(event);
 
 	    try {
 		out.print("\t\tGetting dependencies from ");
-		out.print(event.Classfile());
+		out.print(event.getClassfile());
 		out.print(" ...");
 		out.println();
 	    } catch (IOException ex) {
@@ -85,13 +85,13 @@
 	    }
 	}
 
-	public void EndFile(LoadEvent event) {
-	    super.EndFile(event);
+	public void endFile(LoadEvent event) {
+	    super.endFile(event);
 
 	    try {
-		if (!VisitedFiles().contains(event.Filename())) {
+		if (!getVisitedFiles().contains(event.getFilename())) {
 		    out.print("\t\t<i>Skipping ");
-		    out.print(event.Filename());
+		    out.print(event.getFilename());
 		    out.print(" ...</i>");
 		    out.println();
 		}
@@ -158,9 +158,9 @@
 	if (application.getAttribute("factory") != null) {
 %>
 
-		<tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Packages().size() %></td><td>packages</td></tr>
-		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Classes().size() %></td><td>classes</td></tr>
-		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Features().size() %></td><td>features</td></tr>
+		<tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getPackages().size() %></td><td>packages</td></tr>
+		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getClasses().size() %></td><td>classes</td></tr>
+		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getFeatures().size() %></td><td>features</td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td colspan="3">Extracting it took <%= application.getAttribute("delta") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
 
@@ -203,14 +203,14 @@
 	ClassfileLoader loader = new TransientClassfileLoader();
 	loader.addLoadListener(listener);
 	loader.addLoadListener(collector);
-	loader.Load(sources);
+	loader.load(sources);
 
 	if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 	    out.println("Maximizing ...");
-	    new LinkMaximizer().TraverseNodes(factory.Packages().values());
+	    new LinkMaximizer().traverseNodes(factory.getPackages().values());
 	} else if ("minimize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 	    out.println("Minimizing ...");
-	    new LinkMinimizer().TraverseNodes(factory.Packages().values());
+	    new LinkMinimizer().traverseNodes(factory.getPackages().values());
 	}
 
 	Date   stop  = new Date();
@@ -226,7 +226,7 @@
 </pre>
 
 <%
-	switch (listener.ClassCount()) {
+	switch (listener.getClassCount()) {
 	    case 0:
 		out.println("<p>Processed nothing in " + delta + " secs.</p>");
 		break;
@@ -234,7 +234,7 @@
 		out.println("<p>Processed 1 class in " + delta + " secs.</p>");
 		break;
 	    default:
-		out.println("<p>Processed " + listener.ClassCount() + " classes in " + delta + " secs.</p>");
+		out.println("<p>Processed " + listener.getClassCount() + " classes in " + delta + " secs.</p>");
 		break;
 	}
     }

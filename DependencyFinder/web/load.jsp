@@ -43,14 +43,14 @@
 	    this.out = out;
 	}
 
-	public void BeginSession(DependencyEvent event) {
+	public void beginSession(DependencyEvent event) {
 	    // Do nothing
 	}
 
-	public void BeginClass(DependencyEvent event) {
+	public void beginClass(DependencyEvent event) {
 	    try {
 		out.print("Loading dependencies for ");
-		out.print(event.Classname());
+		out.print(event.getClassName());
 		out.print(" ...");
 		out.println();
 	    } catch (IOException ex) {
@@ -58,15 +58,15 @@
 	    }
 	}
 
-	public void Dependency(DependencyEvent event) {
+	public void dependency(DependencyEvent event) {
 	    // Do nothing
 	}
 
-	public void EndClass(DependencyEvent event) {
+	public void endClass(DependencyEvent event) {
 	    // Do nothing
 	}
 
-	public void EndSession(DependencyEvent event) {
+	public void endSession(DependencyEvent event) {
 	    // Do nothing
 	}
     }
@@ -128,9 +128,9 @@
 	if (application.getAttribute("factory") != null) {
 %>
 
-		<tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Packages().size() %></td><td>packages</td></tr>
-		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Classes().size() %></td><td>classes</td></tr>
-		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Features().size() %></td><td>features</td></tr>
+		<tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getPackages().size() %></td><td>packages</td></tr>
+		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getClasses().size() %></td><td>classes</td></tr>
+		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getFeatures().size() %></td><td>features</td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td colspan="3">Loading it took <%= application.getAttribute("delta") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
 
@@ -176,7 +176,7 @@
 	while (i.hasNext()) {
 	    String filename = (String) i.next();
 	    try {
-		loader.Load(filename);
+		loader.load(filename);
 	    } catch (SAXException ex) {
 		out.println("<i>Could not load graph from file \"" + filename + "\": " + ex.getMessage() + "</i>");
 	    }
@@ -184,10 +184,10 @@
 
 	if ("maximize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 	    out.println("Maximizing ...");
-	    new LinkMaximizer().TraverseNodes(factory.Packages().values());
+	    new LinkMaximizer().traverseNodes(factory.getPackages().values());
 	} else if ("minimize".equalsIgnoreCase(application.getInitParameter("mode"))) {
 	    out.println("Minimizing ...");
-	    new LinkMinimizer().TraverseNodes(factory.Packages().values());
+	    new LinkMinimizer().traverseNodes(factory.getPackages().values());
 	}
 
 	Date   stop  = new Date();
