@@ -1,0 +1,167 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>DependencyExtractor Task</title>
+</head>
+
+<body>
+
+<h2><a name="dependencyextractor">DependencyExtractor</a></h2>
+
+<h3>Description</h3>
+
+<p>Takes a JAR and computes dependencies between packages, classes, and
+features (methods and attributes).  The result is an XML document containing
+all the dependencies.</p>
+
+<p>The normal output is the resulting dependency graph, rendered as text.</p>
+
+<p>With the <code>serialize</code> attribute, it serializes the entire
+dependency graph with Java serialization.</p>
+
+<p>With the <code>xml</code> attribute, it converts the entire dependency
+graph into an XML document that follows the
+<href a="http://depfind.sourceforge.net/dtd/dependencies.dtd"><code>dependencies</code></a>
+DTD.</p>
+
+<h3>Parameters</h3>
+
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td align="center" valign="top"><b>Required</b></td>
+  </tr>
+  <tr>
+    <td valign="top">destfile</td>
+    <td valign="top">where to write the output.  If the file does not exists,
+    it is created.  If it already exists, its content is overwritten.</td>
+    <td valign="top" align="center">Yes</td>
+  </tr>
+  <tr>
+    <td valign="top">serialize</td>
+    <td valign="top">writes the dependency graph as serialized Java
+    objects.  <strong>At this time, Dependency Finder cannot deserialize
+    a saved graph, so this switch is pretty useless.</strong></td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">xml</td>
+    <td valign="top">writes the dependency graph as an XML document with the
+    <code><a href="http://depfind.sourceforge.net/dtd/dependencies.dtd">dependencies</a></code>
+    DTD.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">dtdprefix</td>
+    <td valign="top">prefix of the DTD URL for the XML output document.
+    Only useful with <code>xml</code>.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">indenttext</td>
+    <td valign="top">used for each indentation level in textual and XML output.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">minimize</td>
+    <td valign="top">minimizes the dependency graph before outputing it.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">maximize</td>
+    <td valign="top">maximizes the dependency graph before outputing it.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+</table>
+
+<h3>Nested elements</h3>
+
+<h4>path</h4>
+
+<p>Use nested <code>path</code> elements to specify file names of JAR files,
+Zip files, and <code>.class</code> files for the tool to read.  You can also
+give directory names, the tool will search it for <code>.class</code> files
+and read them.  It is a
+<a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>.</p>
+
+<h3>Examples</h3>
+
+<p>To scan the current directory and its subdirectories for
+<code>.class</code> files to analyze and save the resulting dependency
+graph to <code>dg.xml</code>:</p>
+
+<pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
+    &lt;path&gt;
+      &lt;pathelement location=&quot;.&quot;/&gt;
+    &lt;/path&gt;
+  &lt;/dependencyextractor&gt;</pre>
+
+<p>To scan <code>DependencyFinder.jar</code> and <code>rt.jar</code> for
+<code>.class</code> files to analyze and save the resulting dependency graph
+to <code>dg.xml</code>:</p>
+
+<pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
+    &lt;path&gt;
+      &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
+      &lt;pathelement location=&quot;rt.jar&quot;/&gt;
+    &lt;/path&gt;
+  &lt;/dependencyextractor&gt;</pre>
+
+<p>To scan <code>DependencyFinder.jar</code> and <code>rt.jar</code> for
+<code>.class</code> files to analyze and save the resulting dependency graph
+to <code>dg.xml</code>, after having minimized it:</p>
+
+<pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot; minimize=&quot;yes&quot;&gt;
+    &lt;path&gt;
+      &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
+      &lt;pathelement location=&quot;rt.jar&quot;/&gt;
+    &lt;/path&gt;
+  &lt;/dependencyextractor&gt;</pre>
+
+<p>To scan the current directory and its subdirectories for
+<code>.class</code> files to analyze and save the resulting dependency
+graph to <code>dg.xml</code>, and then convert it to HTML:</p>
+
+<pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
+    &lt;path&gt;
+      &lt;pathelement location=&quot;.&quot;/&gt;
+    &lt;/path&gt;
+  &lt;/dependencyextractor&gt;
+  &lt;xslt style=&quot;${dependencyfinder.home}/etc/DependenciesToHTML.xsl&quot;
+        in=&quot;df.xml&quot;
+        out=&quot;df.html&quot;/></pre>
+
+<p>With the <code>&lt;taskdef&gt;</code> task definition:</p>
+
+<pre>  &lt;taskdef name=&quot;dependencyextractor&quot;
+           classname=&quot;com.jeantessier.dependencyfinder.ant.DependencyExtractor&quot;&gt;
+    &lt;classpath&gt;
+      &lt;pathelement location=&quot;${dependencyfinder.home}/lib/DependencyFinder.jar&quot;/&gt;
+      &lt;pathelement location=&quot;${dependencyfinder.home}/lib/jakarta-oro.jar&quot;/&gt;
+      &lt;pathelement location=&quot;${dependencyfinder.home}/lib/log4j.jar&quot;/&gt;
+      &lt;pathelement location=&quot;${dependencyfinder.home}/classes&quot;/&gt;
+    &lt;/classpath&gt;
+  &lt;/taskdef&gt;
+  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
+    &lt;path&gt;
+      &lt;pathelement location=&quot;.&quot;/&gt;
+    &lt;/path&gt;
+  &lt;/dependencyextractor&gt;
+  &lt;xslt style=&quot;${dependencyfinder.home}/etc/DependenciesToHTML.xsl&quot;
+        in=&quot;df.xml&quot;
+        out=&quot;df.html&quot;/></pre>
+    
+<!--
+         11111111112222222222333333333344444444445555555555666666666677777777778
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+<hr>
+
+<p align="center">Copyright &copy; 2001-2003 Jean Tessier.  All rights reserved.</p>
+
+</body>
+
+</html>

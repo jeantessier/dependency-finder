@@ -383,6 +383,7 @@
 		    <exclude name="index.html"/>
 		    <exclude name="Menu.html"/>
 		    <exclude name="Title.html"/>
+		    <exclude name="tasks/**"/>
 		</patternset>
 	    </fileset>
 	</delete>

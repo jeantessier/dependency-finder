@@ -2464,7 +2464,7 @@ Uses _text_ for each indentation level in textual and XML output.
 
 <blockquote>
 
-Maximize the dependency graph before outputing it.
+Maximizes the dependency graph before outputing it.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2478,7 +2478,7 @@ Maximize the dependency graph before outputing it.
 
 <blockquote>
 
-Minimize the dependency graph before outputing it.
+Minimizes the dependency graph before outputing it.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
