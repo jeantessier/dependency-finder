@@ -111,17 +111,28 @@
     }
 %>
 
+<table cellpadding="5">
+    <tr>
+	<td class="title">
+	    <code><%= application.getInitParameter("name") %></code>
+	</td>
+    </tr>
+    <tr>
+	<td>
+	    <table frame="border" rules="cols" class="controls" width="100%"><tr>
+
+	    <th class="navigation"><a href="query.jsp">Dependency graph</a></th>
+	    <th class="navigation"><a href="closure.jsp">Transitive closure</a></th>
+	    <th class="navigation"><a href="metrics.jsp">Dependency metrics</a></th>
+
+	    </tr></table>
+	</td>
+    </tr>
+
 <%
     if (request.getParameter("launch") == null) {
 %>
 
-<table>
-    <tr>
-	<td class="title">
-	    <code><%= application.getInitParameter("name") %></code><br />
-	    Extract Dependency Graph
-	</td>
-    </tr>
     <tr>
 	<td>
 	    <br />
@@ -150,6 +161,7 @@
 		<tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Packages().size() %></td><td>packages</td></tr>
 		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Classes().size() %></td><td>classes</td></tr>
 		<tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).Features().size() %></td><td>features</td></tr>
+		<tr><td>&nbsp;</td></tr>
 		<tr><td colspan="3">Extracting it took <%= application.getAttribute("delta") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
 
 <%
@@ -170,6 +182,7 @@
 <%
     } else {
 %>
+</table>
 
 <p>Extracting dependency graph for <b><code><%= application.getInitParameter("name") %></code></b></p>
 
