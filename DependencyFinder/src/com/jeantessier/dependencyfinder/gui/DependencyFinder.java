@@ -684,16 +684,6 @@ public class DependencyFinder extends JFrame {
 		class_filter_excludes.setText("");
 		feature_filter_excludes.setText("");
     }
-
-    private java.util.List ParseRE(String re) {
-		java.util.List result = new ArrayList(1);
-
-		if (re.length() > 0) {
-			result.add(re);
-		}
-		
-		return result;
-    }
 	
     void ClearDependencyResult() {
 		dependencies_query = null;
@@ -706,26 +696,26 @@ public class DependencyFinder extends JFrame {
 		strategy.PackageScope(package_scope.isSelected());
 		strategy.ClassScope(class_scope.isSelected());
 		strategy.FeatureScope(feature_scope.isSelected());
-		strategy.ScopeIncludes(ParseRE(scope_includes.getText()));
-		strategy.PackageScopeIncludes(ParseRE(package_scope_includes.getText()));
-		strategy.ClassScopeIncludes(ParseRE(class_scope_includes.getText()));
-		strategy.FeatureScopeIncludes(ParseRE(feature_scope_includes.getText()));
-		strategy.ScopeExcludes(ParseRE(scope_excludes.getText()));
-		strategy.PackageScopeExcludes(ParseRE(package_scope_excludes.getText()));
-		strategy.ClassScopeExcludes(ParseRE(class_scope_excludes.getText()));
-		strategy.FeatureScopeExcludes(ParseRE(feature_scope_excludes.getText()));
+		strategy.ScopeIncludes(scope_includes.getText());
+		strategy.PackageScopeIncludes(package_scope_includes.getText());
+		strategy.ClassScopeIncludes(class_scope_includes.getText());
+		strategy.FeatureScopeIncludes(feature_scope_includes.getText());
+		strategy.ScopeExcludes(scope_excludes.getText());
+		strategy.PackageScopeExcludes(package_scope_excludes.getText());
+		strategy.ClassScopeExcludes(class_scope_excludes.getText());
+		strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
 	
 		strategy.PackageFilter(package_filter.isSelected());
 		strategy.ClassFilter(class_filter.isSelected());
 		strategy.FeatureFilter(feature_filter.isSelected());
-		strategy.FilterIncludes(ParseRE(filter_includes.getText()));
-		strategy.PackageFilterIncludes(ParseRE(package_filter_includes.getText()));
-		strategy.ClassFilterIncludes(ParseRE(class_filter_includes.getText()));
-		strategy.FeatureFilterIncludes(ParseRE(feature_filter_includes.getText()));
-		strategy.FilterExcludes(ParseRE(filter_excludes.getText()));
-		strategy.PackageFilterExcludes(ParseRE(package_filter_excludes.getText()));
-		strategy.ClassFilterExcludes(ParseRE(class_filter_excludes.getText()));
-		strategy.FeatureFilterExcludes(ParseRE(feature_filter_excludes.getText()));
+		strategy.FilterIncludes(filter_includes.getText());
+		strategy.PackageFilterIncludes(package_filter_includes.getText());
+		strategy.ClassFilterIncludes(class_filter_includes.getText());
+		strategy.FeatureFilterIncludes(feature_filter_includes.getText());
+		strategy.FilterExcludes(filter_excludes.getText());
+		strategy.PackageFilterExcludes(package_filter_excludes.getText());
+		strategy.ClassFilterExcludes(class_filter_excludes.getText());
+		strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
 
 		if (Maximize()) {
 			dependencies_query = new GraphCopier(strategy);
@@ -762,26 +752,26 @@ public class DependencyFinder extends JFrame {
 		strategy.PackageScope(package_scope.isSelected());
 		strategy.ClassScope(class_scope.isSelected());
 		strategy.FeatureScope(feature_scope.isSelected());
-		strategy.ScopeIncludes(ParseRE(scope_includes.getText()));
-		strategy.PackageScopeIncludes(ParseRE(package_scope_includes.getText()));
-		strategy.ClassScopeIncludes(ParseRE(class_scope_includes.getText()));
-		strategy.FeatureScopeIncludes(ParseRE(feature_scope_includes.getText()));
-		strategy.ScopeExcludes(ParseRE(scope_excludes.getText()));
-		strategy.PackageScopeExcludes(ParseRE(package_scope_excludes.getText()));
-		strategy.ClassScopeExcludes(ParseRE(class_scope_excludes.getText()));
-		strategy.FeatureScopeExcludes(ParseRE(feature_scope_excludes.getText()));
+		strategy.ScopeIncludes(scope_includes.getText());
+		strategy.PackageScopeIncludes(package_scope_includes.getText());
+		strategy.ClassScopeIncludes(class_scope_includes.getText());
+		strategy.FeatureScopeIncludes(feature_scope_includes.getText());
+		strategy.ScopeExcludes(scope_excludes.getText());
+		strategy.PackageScopeExcludes(package_scope_excludes.getText());
+		strategy.ClassScopeExcludes(class_scope_excludes.getText());
+		strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
 	
 		strategy.PackageFilter(package_filter.isSelected());
 		strategy.ClassFilter(class_filter.isSelected());
 		strategy.FeatureFilter(feature_filter.isSelected());
-		strategy.FilterIncludes(ParseRE(filter_includes.getText()));
-		strategy.PackageFilterIncludes(ParseRE(package_filter_includes.getText()));
-		strategy.ClassFilterIncludes(ParseRE(class_filter_includes.getText()));
-		strategy.FeatureFilterIncludes(ParseRE(feature_filter_includes.getText()));
-		strategy.FilterExcludes(ParseRE(filter_excludes.getText()));
-		strategy.PackageFilterExcludes(ParseRE(package_filter_excludes.getText()));
-		strategy.ClassFilterExcludes(ParseRE(class_filter_excludes.getText()));
-		strategy.FeatureFilterExcludes(ParseRE(feature_filter_excludes.getText()));
+		strategy.FilterIncludes(filter_includes.getText());
+		strategy.PackageFilterIncludes(package_filter_includes.getText());
+		strategy.ClassFilterIncludes(class_filter_includes.getText());
+		strategy.FeatureFilterIncludes(feature_filter_includes.getText());
+		strategy.FilterExcludes(filter_excludes.getText());
+		strategy.PackageFilterExcludes(package_filter_excludes.getText());
+		strategy.ClassFilterExcludes(class_filter_excludes.getText());
+		strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
 		
 		GraphCopier copier = new TransitiveClosure(strategy);
 		
@@ -802,26 +792,26 @@ public class DependencyFinder extends JFrame {
 		strategy.PackageScope(package_scope.isSelected());
 		strategy.ClassScope(class_scope.isSelected());
 		strategy.FeatureScope(feature_scope.isSelected());
-		strategy.ScopeIncludes(ParseRE(scope_includes.getText()));
-		strategy.PackageScopeIncludes(ParseRE(package_scope_includes.getText()));
-		strategy.ClassScopeIncludes(ParseRE(class_scope_includes.getText()));
-		strategy.FeatureScopeIncludes(ParseRE(feature_scope_includes.getText()));
-		strategy.ScopeExcludes(ParseRE(scope_excludes.getText()));
-		strategy.PackageScopeExcludes(ParseRE(package_scope_excludes.getText()));
-		strategy.ClassScopeExcludes(ParseRE(class_scope_excludes.getText()));
-		strategy.FeatureScopeExcludes(ParseRE(feature_scope_excludes.getText()));
+		strategy.ScopeIncludes(scope_includes.getText());
+		strategy.PackageScopeIncludes(package_scope_includes.getText());
+		strategy.ClassScopeIncludes(class_scope_includes.getText());
+		strategy.FeatureScopeIncludes(feature_scope_includes.getText());
+		strategy.ScopeExcludes(scope_excludes.getText());
+		strategy.PackageScopeExcludes(package_scope_excludes.getText());
+		strategy.ClassScopeExcludes(class_scope_excludes.getText());
+		strategy.FeatureScopeExcludes(feature_scope_excludes.getText());
 	
 		strategy.PackageFilter(package_filter.isSelected());
 		strategy.ClassFilter(class_filter.isSelected());
 		strategy.FeatureFilter(feature_filter.isSelected());
-		strategy.FilterIncludes(ParseRE(filter_includes.getText()));
-		strategy.PackageFilterIncludes(ParseRE(package_filter_includes.getText()));
-		strategy.ClassFilterIncludes(ParseRE(class_filter_includes.getText()));
-		strategy.FeatureFilterIncludes(ParseRE(feature_filter_includes.getText()));
-		strategy.FilterExcludes(ParseRE(filter_excludes.getText()));
-		strategy.PackageFilterExcludes(ParseRE(package_filter_excludes.getText()));
-		strategy.ClassFilterExcludes(ParseRE(class_filter_excludes.getText()));
-		strategy.FeatureFilterExcludes(ParseRE(feature_filter_excludes.getText()));
+		strategy.FilterIncludes(filter_includes.getText());
+		strategy.PackageFilterIncludes(package_filter_includes.getText());
+		strategy.ClassFilterIncludes(class_filter_includes.getText());
+		strategy.FeatureFilterIncludes(feature_filter_includes.getText());
+		strategy.FilterExcludes(filter_excludes.getText());
+		strategy.PackageFilterExcludes(package_filter_excludes.getText());
+		strategy.ClassFilterExcludes(class_filter_excludes.getText());
+		strategy.FeatureFilterExcludes(feature_filter_excludes.getText());
 		
 		com.jeantessier.dependency.MetricsGatherer metrics = new com.jeantessier.dependency.MetricsGatherer(strategy);
 		

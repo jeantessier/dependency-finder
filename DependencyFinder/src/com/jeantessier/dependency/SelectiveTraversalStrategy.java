@@ -34,6 +34,7 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
+import org.apache.log4j.*;
 import org.apache.oro.text.perl.*;
 
 public class SelectiveTraversalStrategy implements TraversalStrategy {
@@ -43,6 +44,74 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return perl;
 	}
 
+	protected static List ParseRE(String re) {
+		List result = new LinkedList();
+
+		Logger logger = Logger.getLogger(SelectiveTraversalStrategy.class);
+		logger.debug("ParseRE \"" + re + "\"");
+
+		int length = re.length();
+		int start  = 0;
+		int stop   = -1;
+
+		while (start < length && stop < length) {
+			String separator = null;
+			
+			// Locate begining & determine separator
+			while (start < length && stop < start) {
+				if (re.charAt(start) == 'm' && (start + 1) < length) {
+					separator = re.substring(start + 1, start + 2);
+					stop = start + 2;
+				} else if (re.charAt(start) == '/') {
+					separator = "/";
+					stop = start + 1;
+				} else {
+					start++;
+				}
+			}
+
+			logger.debug("start is " + start);
+			logger.debug("separator is " + separator);
+			
+			// Locate end
+			while (stop < length && start < stop) {
+				stop = re.indexOf(separator, stop);
+				logger.debug("indexOf() is " + stop);
+				
+				if (stop == -1 || re.charAt(stop - 1) != '\\') {
+
+					if (stop == -1) {
+						stop = length;
+					} else {
+						// Look for modifiers
+						stop++;
+						while (stop < length && (re.charAt(stop) == 'g' ||
+												 re.charAt(stop) == 'i' ||
+												 re.charAt(stop) == 'm' ||
+												 re.charAt(stop) == 'o' ||
+												 re.charAt(stop) == 's' ||
+												 re.charAt(stop) == 'x')) {
+							stop++;
+						}
+					}
+
+					logger.debug("stop is " + stop);
+
+					// Add candidate
+					logger.debug("candidate is \"" + re.substring(start, stop) + "\"");
+					result.add(re.substring(start, stop));
+			
+					// Move start
+					start = stop + 1;
+				} else {
+					stop++;
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 	private boolean pre_outbound_traversal  = true;
 	private boolean pre_inbound_traversal   = true;
 	private boolean post_outbound_traversal = false;
@@ -113,12 +182,20 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return scope_includes;
 	}
 
+	public void ScopeIncludes(String scope_includes) {
+		ScopeIncludes(ParseRE(scope_includes));
+	}
+	
 	public void ScopeIncludes(List scope_includes) {
 		this.scope_includes = scope_includes;
 	}
 
 	public List ScopeExcludes() {
 		return scope_excludes;
+	}
+
+	public void ScopeExcludes(String scope_excludes) {
+		ScopeExcludes(ParseRE(scope_excludes));
 	}
 
 	public void ScopeExcludes(List scope_excludes) {
@@ -137,12 +214,20 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return package_scope_includes;
 	}
 
+	public void PackageScopeIncludes(String package_scope_includes) {
+		PackageScopeIncludes(ParseRE(package_scope_includes));
+	}
+
 	public void PackageScopeIncludes(List package_scope_includes) {
 		this.package_scope_includes = package_scope_includes;
 	}
 
 	public List PackageScopeExcludes() {
 		return package_scope_excludes;
+	}
+
+	public void PackageScopeExcludes(String package_scope_excludes) {
+		PackageScopeExcludes(ParseRE(package_scope_excludes));
 	}
 
 	public void PackageScopeExcludes(List package_scope_excludes) {
@@ -161,12 +246,20 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return class_scope_includes;
 	}
 
+	public void ClassScopeIncludes(String class_scope_includes) {
+		ClassScopeIncludes(ParseRE(class_scope_includes));
+	}
+
 	public void ClassScopeIncludes(List class_scope_includes) {
 		this.class_scope_includes = class_scope_includes;
 	}
 
 	public List ClassScopeExcludes() {
 		return class_scope_excludes;
+	}
+
+	public void ClassScopeExcludes(String class_scope_excludes) {
+		ClassScopeExcludes(ParseRE(class_scope_excludes));
 	}
 
 	public void ClassScopeExcludes(List class_scope_excludes) {
@@ -185,12 +278,20 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return feature_scope_includes;
 	}
 
+	public void FeatureScopeIncludes(String feature_scope_includes) {
+		FeatureScopeIncludes(ParseRE(feature_scope_includes));
+	}
+
 	public void FeatureScopeIncludes(List feature_scope_includes) {
 		this.feature_scope_includes = feature_scope_includes;
 	}
 
 	public List FeatureScopeExcludes() {
 		return feature_scope_excludes;
+	}
+
+	public void FeatureScopeExcludes(String feature_scope_excludes) {
+		FeatureScopeExcludes(ParseRE(feature_scope_excludes));
 	}
 
 	public void FeatureScopeExcludes(List feature_scope_excludes) {
@@ -201,12 +302,20 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return filter_includes;
 	}
 
+	public void FilterIncludes(String filter_includes) {
+		FilterIncludes(ParseRE(filter_includes));
+	}
+
 	public void FilterIncludes(List filter_includes) {
 		this.filter_includes = filter_includes;
 	}
 
 	public List FilterExcludes() {
 		return filter_excludes;
+	}
+
+	public void FilterExcludes(String filter_excludes) {
+		FilterExcludes(ParseRE(filter_excludes));
 	}
 
 	public void FilterExcludes(List filter_excludes) {
@@ -225,12 +334,20 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return package_filter_includes;
 	}
 
+	public void PackageFilterIncludes(String package_filter_includes) {
+		PackageFilterIncludes(ParseRE(package_filter_includes));
+	}
+
 	public void PackageFilterIncludes(List package_filter_includes) {
 		this.package_filter_includes = package_filter_includes;
 	}
 
 	public List PackageFilterExcludes() {
 		return package_filter_excludes;
+	}
+
+	public void PackageFilterExcludes(String package_filter_excludes) {
+		PackageFilterExcludes(ParseRE(package_filter_excludes));
 	}
 
 	public void PackageFilterExcludes(List package_filter_excludes) {
@@ -249,12 +366,20 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return class_filter_includes;
 	}
 
+	public void ClassFilterIncludes(String class_filter_includes) {
+		ClassFilterIncludes(ParseRE(class_filter_includes));
+	}
+
 	public void ClassFilterIncludes(List class_filter_includes) {
 		this.class_filter_includes = class_filter_includes;
 	}
 
 	public List ClassFilterExcludes() {
 		return class_filter_excludes;
+	}
+
+	public void ClassFilterExcludes(String class_filter_excludes) {
+		ClassFilterExcludes(ParseRE(class_filter_excludes));
 	}
 
 	public void ClassFilterExcludes(List class_filter_excludes) {
@@ -273,12 +398,20 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
 		return feature_filter_includes;
 	}
 
+	public void FeatureFilterIncludes(String feature_filter_includes) {
+		FeatureFilterIncludes(ParseRE(feature_filter_includes));
+	}
+
 	public void FeatureFilterIncludes(List feature_filter_includes) {
 		this.feature_filter_includes = feature_filter_includes;
 	}
 
 	public List FeatureFilterExcludes() {
 		return feature_filter_excludes;
+	}
+
+	public void FeatureFilterExcludes(String feature_filter_excludes) {
+		FeatureFilterExcludes(ParseRE(feature_filter_excludes));
 	}
 
 	public void FeatureFilterExcludes(List feature_filter_excludes) {

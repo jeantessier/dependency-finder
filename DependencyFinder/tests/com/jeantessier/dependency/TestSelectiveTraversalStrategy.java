@@ -85,6 +85,58 @@ public class TestSelectiveTraversalStrategy extends TestCase {
 		exclude.add("/^c/");
 	}
 
+	public void testParseRE() {
+		List expected = new ArrayList();
+		expected.add("/test/");
+
+		List test = SelectiveTraversalStrategy.ParseRE("/test/");
+		
+		assertEquals("size", expected.size(), test.size());
+		assertEquals("/test/", expected.get(0), test.get(0));
+	}
+
+	public void testParseBrokenRE() {
+		List expected = new ArrayList();
+		expected.add("/test");
+
+		List test = SelectiveTraversalStrategy.ParseRE("/test");
+		
+		assertEquals("size", expected.size(), test.size());
+		assertEquals("/test", expected.get(0), test.get(0));
+	}
+
+	public void testParseMultipleREs() {
+		List expected = new ArrayList();
+		expected.add("/test1/");
+		expected.add("/test2/");
+
+		List test = SelectiveTraversalStrategy.ParseRE("/test1/,/test2/");
+		
+		assertEquals("size", expected.size(), test.size());
+		assertEquals("/test1/", expected.get(0), test.get(0));
+		assertEquals("/test2/", expected.get(1), test.get(1));
+	}
+
+	public void testParseComplexREs() {
+		List expected = new ArrayList();
+		expected.add("/test1\\/test2/");
+
+		List test = SelectiveTraversalStrategy.ParseRE("/test1\\/test2/");
+		
+		assertEquals("size", expected.size(), test.size());
+		assertEquals("/test1\\/test2/", expected.get(0), test.get(0));
+	}
+
+	public void testParseReallyComplexREs() {
+		List expected = new ArrayList();
+		expected.add("m=test1\\=test2=i");
+
+		List test = SelectiveTraversalStrategy.ParseRE("m=test1\\=test2=i");
+		
+		assertEquals("size", expected.size(), test.size());
+		assertEquals("m=test1\\=test2=i", expected.get(0), test.get(0));
+	}
+	
 	public void testScope() {
 		strategy.PackageScope(true);
 		strategy.ClassScope(false);
