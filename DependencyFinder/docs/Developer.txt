@@ -1,5 +1,7 @@
 ---+ The Dependency Finder Developer Guide
 
+For Dependency Finder version <VERSION />.
+
 by Jean Tessier
 
 ----

@@ -414,18 +414,21 @@
 	      output="${docsDir}/Manual.html">
 	    <arg value="${binDir}/txt2html.pl"/>
 	    <arg value="${docsDir}/Manual.txt"/>
+	    <env key="TXT2HTML_VERSION" value="${release}"/>
 	</exec>
 	<echo message="Processing Developer.txt ..."/>
 	<exec executable="perl"
 	      output="${docsDir}/Developer.html">
 	    <arg value="${binDir}/txt2html.pl"/>
 	    <arg value="${docsDir}/Developer.txt"/>
+	    <env key="TXT2HTML_VERSION" value="${release}"/>
 	</exec>
 	<echo message="Processing Tools.txt ..."/>
 	<exec executable="perl"
 	      output="${docsDir}/Tools.html">
 	    <arg value="${binDir}/txt2html.pl"/>
 	    <arg value="${docsDir}/Tools.txt"/>
+	    <env key="TXT2HTML_VERSION" value="${release}"/>
 	</exec>
     </target>
 
@@ -442,6 +445,7 @@
 		<pathelement location="${ant.home}/lib/ant.jar"/>
 		<pathelement location="${java.home}/../lib/tools.jar"/>
 	    </classpath>
+	    <bottom><![CDATA[<i>Dependency Finder ${release} &#169; 2001-2004 Jean Tessier.</i>]]></bottom>
 	</javadoc>
     </target>
 

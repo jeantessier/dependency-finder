@@ -1,5 +1,7 @@
 ---+ The Dependency Finder User Manual
 
+For Dependency Finder version <VERSION />.
+
 by Jean Tessier
 
 ----

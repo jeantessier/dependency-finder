@@ -1,5 +1,7 @@
 ---+ Tools in Dependency Finder
 
+For Dependency Finder version <VERSION />.
+
 ----
 
 <h2>Table of Contents</h2>

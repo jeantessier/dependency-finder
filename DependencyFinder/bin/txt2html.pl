@@ -164,5 +164,7 @@ END {
 
     $TEXT =~ s/<TITLE \/>/$TITLE/;
 
+    $TEXT =~ s/<VERSION \/>/$ENV{"TXT2HTML_VERSION"}/;
+
     print $TEXT;
 }
