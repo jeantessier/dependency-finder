@@ -1,4 +1,4 @@
-<project name="DependencyFinder" default="compiletestsdebug" basedir=".">
+<project name="DependencyFinder" default="compiletests" basedir=".">
 
     <description>
 	Dependency Finder, JarJarDiff, and OOMetrics
@@ -74,13 +74,26 @@
         </javac>
     </target>
 
-    <target name="compiletests" depends="compile"
-	    description="Compiles all classes and JUnit tests">
-        <javac destdir="${classesDir}" excludes="JarJarDiff/**">
+    <target name="compiledebug" depends="init"
+	    description="Compiles all classes with debug flags">
+        <javac destdir="${classesDir}" debug="on">
+	    <src path="${srcDir}"/>
+	    <classpath refid="libs"/>
+	    <patternset refid="all.sources"/>
+        </javac>
+        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
+    </target>
+
+    <target name="compiletests" depends="compiledebug"
+	    description="Compiles all classes and JUnit tests with debug flags (default)">
+        <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on">
 	    <src path="${testsDir}"/>
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
+    </target>
+
+    <target name="tests" depends="compiletests">
 	<ant dir="tests/JarJarDiff" inheritAll="false"/>
     </target>
 
@@ -95,29 +108,6 @@
 	    <classpath refid="libs"/>
 	    <patternset refid="all.sources"/>
         </javac>
-    </target>
-
-    <target name="compiledebug" depends="init"
-	    description="Compiles all classes with debug flags">
-        <javac destdir="${classesDir}" debug="on">
-	    <src path="${srcDir}"/>
-	    <classpath refid="libs"/>
-	    <patternset refid="all.sources"/>
-        </javac>
-        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
-    </target>
-
-    <target name="compiletestsdebug" depends="compiledebug"
-	    description="Compiles all classes and JUnit tests with debug flags (default)">
-        <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on">
-	    <src path="${testsDir}"/>
-	    <classpath refid="libs"/>
-	    <patternset refid="all.sources"/>
-        </javac>
-    </target>
-
-    <target name="tests" depends="compiletestsdebug">
-	<ant dir="tests/JarJarDiff" inheritAll="false"/>
     </target>
 
     <target name="jar" depends="compile">
