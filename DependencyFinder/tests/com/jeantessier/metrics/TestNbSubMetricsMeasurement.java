@@ -201,7 +201,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 		descriptor.LongName("bar");
 		descriptor.Class(NbSubMetricsMeasurement.class);
 
-		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement();
+		measurement = (NbSubMetricsMeasurement) descriptor.CreateMeasurement(metrics);
 
 		assertEquals("empty metrics", 0, measurement.intValue());
 		
