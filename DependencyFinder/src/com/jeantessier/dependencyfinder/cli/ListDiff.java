@@ -38,6 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 import com.jeantessier.commandline.*;
+import com.jeantessier.diff.*;
 
 public class ListDiff {
 	public static void Error(CommandLineUsage clu, String msg) {
@@ -107,15 +108,6 @@ public class ListDiff {
 			new_api.add(line);
 		}
 		
-		Logger.getLogger(ListDiff.class).info("Printing results ...");
-		
-		PrintWriter out;
-		if (command_line.IsPresent("out")) {
-			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
-		} else {
-			out = new PrintWriter(new OutputStreamWriter(System.out));
-		}
-		
 		ListDiffPrinter printer = new ListDiffPrinter(command_line.ToggleSwitch("compress"), command_line.SingleSwitch("dtd-prefix"));
 		printer.Name(command_line.SingleSwitch("name"));
 		printer.OldVersion(command_line.SingleSwitch("old-label"));
@@ -142,15 +134,22 @@ public class ListDiff {
 			}
 		}
 
+		Logger.getLogger(ListDiff.class).info("Printing results ...");
+		
+		PrintWriter out;
+		if (command_line.IsPresent("out")) {
+			out = new PrintWriter(new FileWriter(command_line.SingleSwitch("out")));
+		} else {
+			out = new PrintWriter(new OutputStreamWriter(System.out));
+		}
 		out.print(printer);
+		out.flush();
+		out.close();
 
 		Date end = new Date();
 
 		if (command_line.ToggleSwitch("time")) {
 			System.err.println(ListDiff.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
 		}
-
-		out.flush();
-		out.close();
 	}
 }

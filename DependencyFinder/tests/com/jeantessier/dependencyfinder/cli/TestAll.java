@@ -38,7 +38,6 @@ public class TestAll extends TestCase {
 	public static Test suite() {
 		TestSuite result = new TestSuite();
 
-		result.addTestSuite(TestListDiffPrinter.class);
 		result.addTestSuite(TestVerboseListener.class);
 
 		return result;
