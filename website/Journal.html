@@ -18,11 +18,67 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	June 04, 2003
+    </dt>
+    <dd>
+	<p>Renamed some of the XSL stylesheets.  The names confused me and I
+	always get confused about which one does what.</p>
+
+	<blockquote>
+	<table>
+	    <tr>
+	        <td><code>DependenciesTo</code><i>X</i></td>
+	        <td><code>--&gt;</code></td>
+		<td><code>DependencyGraphTo</code><i>X</i></td>
+	    </tr>
+	    <tr>
+	        <td><code>DependablesTo</code><i>X</i></td>
+	        <td><code>--&gt;</code></td>
+		<td><code>DependablesTo</code><i>X</i></td>
+	    </tr>
+	    <tr>
+	        <td><code>DependentsTo</code><i>X</i></td>
+	        <td><code>--&gt;</code></td>
+		<td><code>DependentsTo</code><i>X</i></td>
+	    </tr>
+	    <tr>
+	        <td><code>ListDependablesTo</code><i>X</i></td>
+	        <td><code>--&gt;</code></td>
+		<td><code>HideOutboundDependenciesTo</code><i>X</i></td>
+	    </tr>
+	    <tr>
+	        <td><code>ListDependentsTo</code><i>X</i></td>
+	        <td><code>--&gt;</code></td>
+		<td><code>HideInboundDependenciesTo</code><i>X</i></td>
+	    </tr>
+	</table>
+	</blockquote>
+
+<!--
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+-->
+
+	<p>I have been thinking about an installer that would generate all the
+	<code>.bat</code> files and adjust them for Windows 98 vs. Windows NT
+	and JDK 1.3 vs. JDK 1.4.  I cannot use Perl because the machine where
+	you want to install it might not have Perl installed.  I cannot write
+	the installer as a DOS script either because string substitution would
+	just be too hard, and the Windows 98 version is quite limiting.  But I
+	could make it as a simple Java program.  And this way, it could figure
+	out the JVM version by itself, and even the OS from system properties.
+	Unless I have an epiphany, I won't delay the 1.0 release for this;
+	it'll go in the the next release.</p>
+    </dd>
+    <dt>
 	June 03, 2003
     </dt>
     <dd>
 	<p>More fixes for the quotes in the <code>.bat</code> file.  This time,
 	I am quite confident that they work fine.</p>
+
+	<p>Ad hoc testing of the printer modification show that the memory
+	footprint went down by roughly 80% and the processing time remained
+	pretty much the same.  This is nice.</p>
 
 	<p>I added a new tool to the web app to provide dependency metrics the
 	same way that the CLI and the GUI do.  I also added navigation controls
