@@ -38,8 +38,6 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
-    private static final String EOL = System.getProperty("line.separator");
-    
     private ClassfileLoaderDispatcher delegate;
 
     private Map timestamps = new HashMap();
@@ -54,6 +52,8 @@ public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
         File file = new File(filename);
 
         Long timestamp = (Long) timestamps.get(filename);
+
+        Logger.getLogger(getClass()).debug(filename + " has timestamp " + timestamp);
         
         if (file.isDirectory()) {
             Logger.getLogger(getClass()).debug("Delegating ...");
