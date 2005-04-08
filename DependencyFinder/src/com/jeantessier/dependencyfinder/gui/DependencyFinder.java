@@ -1002,6 +1002,7 @@ public class DependencyFinder extends JFrame {
         JComponent result = new JScrollPane(closureResultArea);
         
         closureResultArea.setEditable(false);
+        closureResultArea.setFont(getCodeFont(Font.PLAIN, 12));
         
         return result;
     }
