@@ -96,11 +96,11 @@ public class DependencyFinder extends JFrame {
     private JTextField classFilterExcludes   = new JTextField();
     private JTextField featureFilterExcludes = new JTextField();
 
-    private JCheckBox  showInbounds          = new JCheckBox("inbounds");
-    private JCheckBox  showOutbounds         = new JCheckBox("outbounds");
-    private JCheckBox  showEmptyNodes        = new JCheckBox("empty nodes");
+    private JCheckBox  showInbounds          = new JCheckBox("<--");
+    private JCheckBox  showOutbounds         = new JCheckBox("-->");
+    private JCheckBox  showEmptyNodes        = new JCheckBox("empty elements");
     private JCheckBox  copyOnly              = new JCheckBox("copy only");
-
+    
     private JTextField maximumInboundDepth   = new JTextField("0", 2);
     private JTextField maximumOutboundDepth  = new JTextField(2);
 
@@ -143,6 +143,9 @@ public class DependencyFinder extends JFrame {
         showOutbounds.setToolTipText("Show dependencies that originate from the selected packages, classes, methods, or fields");
         showEmptyNodes.setToolTipText("Show selected packages, classes, methods, and fields even if they do not have dependencies");
         copyOnly.setToolTipText("<html>Only copy explicit dependencies to the result graph.<br>Do not introduce implicit dependencies<br>where explicit dependencies match the regular expressions<br>but are otherwise out of scope</html>");
+
+        showInbounds.setFont(getCodeFont(Font.BOLD, 14));
+        showOutbounds.setFont(getCodeFont(Font.BOLD, 14));
         
         maximumInboundDepth.setToolTipText("Maximum hops against the direction dependencies.  Empty field means no limit.");
         maximumOutboundDepth.setToolTipText("Maximum hops in the direction of dependencies.  Empty field means no limit.");
@@ -160,6 +163,19 @@ public class DependencyFinder extends JFrame {
         }
         
         statusLine.showInfo("Ready.");
+    }
+
+    private Font getCodeFont(int style, int size) {
+        String fontName = "Monospaced";
+        
+        String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        for (int i=0; i<fontNames.length; i++) {
+            if (fontNames[i].indexOf("Courier") != -1) {
+                fontName = fontNames[i];
+            }
+        }
+
+        return new Font(fontName, style, size);
     }
 
     private boolean isAdvancedMode() {
@@ -938,7 +954,7 @@ public class DependencyFinder extends JFrame {
     private JComponent buildPrinterControlPanel() {
         JPanel result = new JPanel();
 
-        result.add(new JLabel("Show: "));
+        result.add(new JLabel("Show "));
         result.add(showInbounds);
         result.add(showOutbounds);
         result.add(showEmptyNodes);
@@ -956,6 +972,7 @@ public class DependencyFinder extends JFrame {
         JComponent result = new JScrollPane(dependenciesResultArea);
         
         dependenciesResultArea.setEditable(false);
+        dependenciesResultArea.setFont(getCodeFont(Font.PLAIN, 12));
         
         return result;
     }
