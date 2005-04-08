@@ -65,6 +65,29 @@
 	figure out.</p>
     </dd>
     <dt>
+	March 30, 2005
+    </dt>
+    <dd>
+	<p>There is a problem with <code>DependencyFinder</code>: it ignores
+	<code>.class</code> files passed in explicitly.  Somehow, the
+	dispatcher seems to think it should ignore the files.  This is because
+	the dispatcher is asked twice about the file: once as a group and once
+	as an individual file.  Since the file hasn't changed between being
+	looked at as a group and as a single file, the
+	<code>ModifiedOnlyDispatcher</code> tells the loader to ignore it the
+	second time around.  Maybe <code>ClassfileLoaderDispatcher</code>
+	needs both a <code>dispatchGroup()</code> method and a
+	<code>dispatchFile()</code> method instead of the current single
+	<code>dispatch()</code> method.</p>
+    </dd>
+    <dt>
+	March 28, 2005
+    </dt>
+    <dd>
+	<p>Looking into setting <code>Font</code> for UI elements in the
+	GUI.</p>
+    </dd>
+    <dt>
 	March 27, 2005
     </dt>
     <dd>
