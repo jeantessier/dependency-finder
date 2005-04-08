@@ -430,6 +430,26 @@
 		<msg><![CDATA[Always delegate directories.]]></msg>
 	</entry>
 	<entry>
+		<date>2005-04-06</date>
+		<time>05:46</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/classreader/ClassfileLoaderEventSource.java</name>
+			<revision>1.17</revision>
+			<prevrevision>1.16</prevrevision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>tests/com/jeantessier/classreader/TestAll.java</name>
+			<revision>1.19</revision>
+			<prevrevision>1.18</prevrevision>
+		</file>
+		<msg><![CDATA[Special case for group of single .class file]]></msg>
+	</entry>
+	<entry>
 		<date>2005-03-14</date>
 		<time>07:51</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -1446,6 +1466,62 @@
 			<prevrevision>1.7</prevrevision>
 		</file>
 		<msg><![CDATA[Copy confirmed status while computing closure]]></msg>
+	</entry>
+	<entry>
+		<date>2005-03-28</date>
+		<time>06:53</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>etc/ClosureToText.xsl</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<file>
+			<name>etc/DependablesToHTML.xsl</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<file>
+			<name>etc/DependablesToText.xsl</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<file>
+			<name>etc/DependentsToHTML.xsl</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<file>
+			<name>etc/DependentsToText.xsl</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<file>
+			<name>etc/HideInboundDependenciesToHTML.xsl</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<file>
+			<name>etc/HideInboundDependenciesToText.xsl</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<file>
+			<name>etc/HideOutboundDependenciesToHTML.xsl</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<file>
+			<name>etc/HideOutboundDependenciesToText.xsl</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<file>
+			<name>etc/ListUnused.xsl</name>
+			<revision>1.9</revision>
+			<prevrevision>1.8</prevrevision>
+		</file>
+		<msg><![CDATA[Conditional highlighting of inferred nodes]]></msg>
 	</entry>
 	<entry>
 		<date>2005-01-28</date>
@@ -3275,16 +3351,6 @@
 		<msg><![CDATA[Use only spaces for indentation]]></msg>
 	</entry>
 	<entry>
-		<date>2005-03-03</date>
-		<time>08:05</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/cli/ClassMatcher.java</name>
-			<revision>1.1</revision>
-		</file>
-		<msg><![CDATA[New ClassFinder tool]]></msg>
-	</entry>
-	<entry>
 		<date>2005-01-04</date>
 		<time>08:00</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3317,6 +3383,16 @@
 			<revision>1.38</revision>
 		</file>
 		<msg><![CDATA[Update copyright notice to 2005]]></msg>
+	</entry>
+	<entry>
+		<date>2005-03-03</date>
+		<time>08:05</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/cli/ClassMatcher.java</name>
+			<revision>1.1</revision>
+		</file>
+		<msg><![CDATA[New ClassFinder tool]]></msg>
 	</entry>
 	<entry>
 		<date>2005-03-27</date>
@@ -4670,6 +4746,32 @@ Update copyright notice to 2005]]></msg>
 			<revision>1.12</revision>
 		</file>
 		<msg><![CDATA[Code coverage instructions]]></msg>
+	</entry>
+	<entry>
+		<date>2005-04-06</date>
+		<time>05:40</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/classreader/DirectoryClassfileLoader.java</name>
+			<revision>1.18</revision>
+			<prevrevision>1.17</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/classreader/ModifiedOnlyDispatcher.java</name>
+			<revision>1.4</revision>
+			<prevrevision>1.3</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/classreader/PermissiveDispatcher.java</name>
+			<revision>1.10</revision>
+			<prevrevision>1.9</prevrevision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/classreader/StrictDispatcher.java</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+		<msg><![CDATA[Logging]]></msg>
 	</entry>
 	<entry>
 		<date>2005-03-11</date>
