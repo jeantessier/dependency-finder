@@ -105,6 +105,9 @@ by Jean Tessier
 <li><a href="#CombineThemBackTogether">Combine Them Back Together</a></li>
 </ul>
 <li><a href="#TransitiveClosure">Transitive Closure</a></li>
+<ul>
+<li><a href="#TrickyBehavior">Tricky Behavior</a></li>
+</ul>
 <li><a href="#DependencyMetrics">Dependency Metrics</a></li>
 </ul>
 <li><a href="#OOMetrics">OO Metrics</a></li>
@@ -3811,6 +3814,127 @@ Here is the general algorithm:
 
 <p>
 A transitive closure only keeps the shortest path between two nodes.
+</p>
+
+<a name="TrickyBehavior"></a>
+<h4>Tricky Behavior</h4>
+
+<p>
+The way Dependency Finder computes a closure is highly sensitive to the data it
+has to work from.  It requires a path to follow between nodes in order to
+include nodes in the closure.
+</p>
+
+<p>
+In the following example, there is no connection between the dependencies
+<code>a.A.a&nbsp;-->&nbsp;b.B.b1</code> and <code>b.B.b2&nbsp;-->&nbsp;c.C.c</code>.  Depending on
+how you call Dependency Finder, you may or may not be able to find a closure
+emanating from <code>a.A</code> that includes <code>c.C</code>.
+</p>
+
+<div align="center">
+<img src="images/ClosureSource.gif" /><br />
+<b>Source Graph</b>
+</div>
+
+<p>
+Say you want to find the classes that <code>a.A</code> depends on, both directly and
+indirectly.  You can compute the closure first and then reduce it to a
+class-to-class graph.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
+    C:\>DependencyClosure -xml -out closureA.xml -start-includes /A/ -stop-includes /C/ df.xml
+    C:\>c2c -show-all closureA.xml
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
+    a
+        A
+            --> b.B
+    b
+        B
+            <-- a.A
+</pre>
+
+</div>
+
+<p>
+What happens is that <code>DependencyClosure</code> follows all dependencies coming from
+<code>a.A</code> and its features.  It stops after <code>b.B.b1</code> because there are no
+dependencies leading from it.
+</p>
+
+<div align="center">
+<img src="images/ClosureA.gif" /><br />
+<b>Closure A</b>
+</div>
+
+<p>
+<code>c2c</code> then reduces the closure to it's class-to-class equivalent.
+</p>
+
+<div align="center">
+<img src="images/ClosureAC2C.gif" /><br />
+<b>Class-to-Class view of Closure A</b>
+</div>
+
+<p>
+If instead you reduce the graph first, the result ends up being different.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
+    C:\>c2c -xml -out df.c2c.xml -show-all df.xml
+    C:\>DependencyClosure -start-includes /A/ -stop-includes /C/ df.c2c.xml
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
+    a
+        A
+            --> b.B
+    b
+        B
+            <-- a.A
+            --> c.C
+    c
+        C
+            <-- b.B
+</pre>
+
+</div>
+
+<p>
+This time, <code>c2c</code> removes the fact that the two feature-level dependencies are
+not related and <code>DependencyClosure</code> is able to follow from <code>a.A</code> to <code>c.C</code> by
+going through <code>b.B</code>.
+</p>
+
+<div align="center">
+<img src="images/ClosureB.gif" /><br />
+<b>Closure B</b>
+</div>
+
+<p>
+Note that the first closure is still a valid transitive closure for <code>a.A</code>,
+since it does not use any of the parts of <code>b.B</code> that require <code>c.C</code>.  At
+runtime, all that is required for <code>a.A</code> to run properly is <code>b.B</code>.  It does not
+need to have <code>c.C</code> anywhere on the <code>CLASSPATH</code>.
 </p>
 
 <a name="DependencyMetrics"></a>

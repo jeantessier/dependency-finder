@@ -18,6 +18,46 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+	April 14, 2005
+    </dt>
+    <dd>
+	<p>Tech docs for closures.</p>
+    </dd>
+    <dt>
+	April 12, 2005
+    </dt>
+    <dd>
+	<p>Someone is having problems computing closures and finding paths
+	between components.  Can't blame them, the output from
+	<code>DependencyClosure</code> is very hard to follow.</p>
+
+	<p>They claim that in JDK 1.3.1, there is a path from
+	<code>JTree</code> to <code>Toolkit</code> through
+	<code>MouseEvent</code>.  <code>DependencyClosure</code> found one
+	through <code>Component</code> and I looked at the source for
+	<code>MouseEvent</code> from 1.3.1_09 and there is no mention of
+	<code>Toolkit</code> in there.  There is in JDK 1.4 but not in
+	1.3.</p>
+
+	<p>At the time, I didn't have <code>rt.jar</code> handy to repeat the
+	tests, so I used <code>DependencyFinder.jar</code> instead.  At first,
+	I tried to find a closure from
+	<code>com.jeantessier.dependencyfinder.cli.DependencyExtractor</code>
+	to <code>com.jeantessier.commandline.MultipleValuesSwitch</code>.  I
+	thought it called <code>CommandLine.addMultipleValuesSwitch()</code>
+	and would then find <code>MultipleValuesSwitch</code> from there, but
+	it doesn't.  Of course, <code>DependencyExtractor</code> does not have
+	multiple value switches, so there is no feature-to-feature path from
+	it to <code>MultipleValuesSwitch</code>.  I will need to document this
+	situation, in case someone else comes upon it too.</p>
+
+	<p>Gave some more thought to a specialized printer for transitive
+	closures.</p>
+
+	<p>Finishing the documentation shouldn't take too long.  Definitely not
+	long enough to justify having a beta release while we're waiting.</p>
+    </dd>
+    <dt>
 	April 07, 2005
     </dt>
     <dd>
