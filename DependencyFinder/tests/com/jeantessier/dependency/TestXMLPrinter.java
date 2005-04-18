@@ -145,7 +145,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -178,7 +178,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -210,7 +210,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -252,7 +252,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -293,7 +293,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -344,7 +344,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -394,7 +394,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -427,7 +427,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -459,7 +459,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -501,7 +501,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -542,7 +542,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -593,7 +593,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -644,7 +644,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -695,7 +695,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -746,7 +746,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -793,7 +793,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -844,7 +844,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -888,7 +888,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -939,7 +939,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.traverseNodes(factory.getPackages().values());
 
         int            lineNumber = 0;
-        BufferedReader in          = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
