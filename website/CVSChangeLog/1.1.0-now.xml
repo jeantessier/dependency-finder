@@ -218,6 +218,16 @@
 		<msg><![CDATA[Update copyright notice to 2005]]></msg>
 	</entry>
 	<entry>
+		<date>2005-04-15</date>
+		<time>07:26</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/images/ClosureA.gif</name>
+			<revision>1.1</revision>
+		</file>
+		<msg><![CDATA[Added documentation to transitive closures]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-12</date>
 		<time>06:38</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -852,6 +862,17 @@
 			<prevrevision>1.29</prevrevision>
 		</file>
 		<msg><![CDATA[favicon.ico using a GIF file]]></msg>
+	</entry>
+	<entry>
+		<date>2005-04-08</date>
+		<time>03:50</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/classreader/ModifiedOnlyDispatcher.java</name>
+			<revision>1.5</revision>
+			<prevrevision>1.4</prevrevision>
+		</file>
+		<msg><![CDATA[More debug-level logging]]></msg>
 	</entry>
 	<entry>
 		<date>2005-03-14</date>
@@ -1632,6 +1653,17 @@
 		<msg><![CDATA[Use only spaces for indentation]]></msg>
 	</entry>
 	<entry>
+		<date>2005-04-18</date>
+		<time>05:58</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestTextPrinter.java</name>
+			<revision>1.15</revision>
+			<prevrevision>1.14</prevrevision>
+		</file>
+		<msg><![CDATA[Line up equal signs]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-18</date>
 		<time>09:28</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -1776,6 +1808,17 @@
 		<msg><![CDATA[Use confirmed vs inferred information in XML dependency graph]]></msg>
 	</entry>
 	<entry>
+		<date>2005-04-08</date>
+		<time>06:20</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
+			<revision>1.45</revision>
+			<prevrevision>1.44</prevrevision>
+		</file>
+		<msg><![CDATA[Adjusted wording and font]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-04</date>
 		<time>07:45</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -1905,6 +1948,17 @@
 			<revision>1.1</revision>
 		</file>
 		<msg><![CDATA[Carry confirmed status across GraphCopier and GraphSummarizer]]></msg>
+	</entry>
+	<entry>
+		<date>2005-04-18</date>
+		<time>05:58</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>tests/com/jeantessier/dependency/TestXMLPrinter.java</name>
+			<revision>1.13</revision>
+			<prevrevision>1.12</prevrevision>
+		</file>
+		<msg><![CDATA[Line up equal signs]]></msg>
 	</entry>
 	<entry>
 		<date>2005-01-04</date>
@@ -2322,6 +2376,17 @@
 			<revision>1.3</revision>
 		</file>
 		<msg><![CDATA[Use only spaces for indentation]]></msg>
+	</entry>
+	<entry>
+		<date>2005-04-15</date>
+		<time>07:26</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.53</revision>
+			<prevrevision>1.52</prevrevision>
+		</file>
+		<msg><![CDATA[Added documentation to transitive closures]]></msg>
 	</entry>
 	<entry>
 		<date>2005-03-03</date>
@@ -3249,6 +3314,24 @@
 		<msg><![CDATA[Make HTML-compliant, instead of XHTML.]]></msg>
 	</entry>
 	<entry>
+		<date>2005-04-15</date>
+		<time>07:26</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/images/ClosureAC2C.gif</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>docs/images/ClosureB.gif</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>docs/images/ClosureSource.gif</name>
+			<revision>1.1</revision>
+		</file>
+		<msg><![CDATA[Added documentation to transitive closures]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-04</date>
 		<time>08:00</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3395,17 +3478,6 @@
 		<msg><![CDATA[New ClassFinder tool]]></msg>
 	</entry>
 	<entry>
-		<date>2005-03-27</date>
-		<time>04:23</time>
-		<author><![CDATA[jeantessier]]></author>
-		<file>
-			<name>src/com/jeantessier/dependency/TextPrinter.java</name>
-			<revision>1.18</revision>
-			<prevrevision>1.17</prevrevision>
-		</file>
-		<msg><![CDATA[Conditional highlighting of inferred nodes]]></msg>
-	</entry>
-	<entry>
 		<date>2005-03-03</date>
 		<time>08:05</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -3418,6 +3490,17 @@
 			<revision>1.1</revision>
 		</file>
 		<msg><![CDATA[New ClassFinder tool]]></msg>
+	</entry>
+	<entry>
+		<date>2005-03-27</date>
+		<time>04:23</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependency/TextPrinter.java</name>
+			<revision>1.18</revision>
+			<prevrevision>1.17</prevrevision>
+		</file>
+		<msg><![CDATA[Conditional highlighting of inferred nodes]]></msg>
 	</entry>
 	<entry>
 		<date>2005-01-04</date>
@@ -5002,6 +5085,17 @@ Update copyright notice to 2005]]></msg>
 			<revision>1.2</revision>
 		</file>
 		<msg><![CDATA[Use only spaces for indentation]]></msg>
+	</entry>
+	<entry>
+		<date>2005-04-08</date>
+		<time>06:31</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
+			<revision>1.46</revision>
+			<prevrevision>1.45</prevrevision>
+		</file>
+		<msg><![CDATA[Use monospaced font for closure results too]]></msg>
 	</entry>
 	<entry>
 		<date>2005-03-14</date>

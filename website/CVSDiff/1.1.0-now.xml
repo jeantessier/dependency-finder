@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagdiff startTag="release-110" endDate="2005-04-07 11:48:56" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
+<tagdiff startTag="release-110" endDate="2005-04-19 12:15:15" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/depfind" package="DependencyFinder" >
 	<entry>
 		<file>
 			<name>build.xml</name>
@@ -178,7 +178,7 @@
 	<entry>
 		<file>
 			<name>docs/Manual.txt</name>
-			<revision>1.52</revision>
+			<revision>1.53</revision>
 			<prevrevision>1.50</prevrevision>
 		</file>
 	</entry>
@@ -201,6 +201,30 @@
 			<name>docs/style.css</name>
 			<revision>1.5</revision>
 			<prevrevision>1.4</prevrevision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ClosureA.gif</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ClosureAC2C.gif</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ClosureB.gif</name>
+			<revision>1.1</revision>
+		</file>
+	</entry>
+	<entry>
+		<file>
+			<name>docs/images/ClosureSource.gif</name>
+			<revision>1.1</revision>
 		</file>
 	</entry>
 	<entry>
@@ -889,7 +913,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/classreader/ModifiedOnlyDispatcher.java</name>
-			<revision>1.4</revision>
+			<revision>1.5</revision>
 		</file>
 	</entry>
 	<entry>
@@ -1722,7 +1746,7 @@
 	<entry>
 		<file>
 			<name>src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java</name>
-			<revision>1.44</revision>
+			<revision>1.46</revision>
 			<prevrevision>1.39</prevrevision>
 		</file>
 	</entry>
@@ -2721,7 +2745,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestTextPrinter.java</name>
-			<revision>1.14</revision>
+			<revision>1.15</revision>
 			<prevrevision>1.8</prevrevision>
 		</file>
 	</entry>
@@ -2763,7 +2787,7 @@
 	<entry>
 		<file>
 			<name>tests/com/jeantessier/dependency/TestXMLPrinter.java</name>
-			<revision>1.12</revision>
+			<revision>1.13</revision>
 			<prevrevision>1.9</prevrevision>
 		</file>
 	</entry>
