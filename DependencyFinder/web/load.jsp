@@ -164,7 +164,7 @@
                 <tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getClasses().size() %></td><td>classes</td></tr>
                 <tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getFeatures().size() %></td><td>features</td></tr>
                 <tr><td>&nbsp;</td></tr>
-                <tr><td colspan="3">Loading it took <%= application.getAttribute("delta") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
+                <tr><td colspan="3">Loading it took <%= application.getAttribute("duration") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
 
 <%
         } else {
@@ -222,16 +222,16 @@
             new LinkMinimizer().traverseNodes(factory.getPackages().values());
         }
 
-        Date   stop  = new Date();
-        double delta = (stop.getTime() - start.getTime()) / (double) 1000;
+        Date   stop     = new Date();
+        double duration = (stop.getTime() - start.getTime()) / (double) 1000;
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         application.removeAttribute("dispatcher");
         application.removeAttribute("monitor");
-        application.setAttribute("factory", factory);
-        application.setAttribute("start",   formatter.format(start));
-        application.setAttribute("delta",   new Double(delta));
+        application.setAttribute("factory",  factory);
+        application.setAttribute("start",    formatter.format(start));
+        application.setAttribute("duration", new Double(duration));
 %>
 
 </pre>
@@ -239,13 +239,13 @@
 <%
         switch (files.size()) {
             case 0:
-                out.println("<p>Loaded nothing in " + delta + " secs.</p>");
+                out.println("<p>Loaded nothing in " + duration + " secs.</p>");
                 break;
             case 1:
-                out.println("<p>Loaded 1 file in " + delta + " secs.</p>");
+                out.println("<p>Loaded 1 file in " + duration + " secs.</p>");
                 break;
             default:
-                out.println("<p>Loaded " + files.size() + " files in " + delta + " secs.</p>");
+                out.println("<p>Loaded " + files.size() + " files in " + duration + " secs.</p>");
                 break;
         }
     }
