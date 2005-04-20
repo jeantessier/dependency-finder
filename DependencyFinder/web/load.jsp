@@ -159,19 +159,20 @@
 <%
         if (application.getAttribute("factory") != null) {
 %>
-
                 <tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getPackages().size() %></td><td>packages</td></tr>
                 <tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getClasses().size() %></td><td>classes</td></tr>
                 <tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getFeatures().size() %></td><td>features</td></tr>
+<%
+            if (application.getAttribute("loadStart") != null) {
+%>
                 <tr><td>&nbsp;</td></tr>
                 <tr><td colspan="3">Loading it took <%= application.getAttribute("duration") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
 
 <%
+            }
         } else {
 %>
-
                 There is no dependency graph at this time.
-
 <%
         }
 %>
@@ -227,11 +228,16 @@
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+        application.setAttribute("factory",      factory);
+        application.setAttribute("loadStart",    formatter.format(start));
+        application.setAttribute("loadDuration", new Double(duration));
+
         application.removeAttribute("dispatcher");
         application.removeAttribute("monitor");
-        application.setAttribute("factory",  factory);
-        application.setAttribute("start",    formatter.format(start));
-        application.setAttribute("duration", new Double(duration));
+        application.removeAttribute("extractStart");
+        application.removeAttribute("extractDuration");
+        application.removeAttribute("updateStart");
+        application.removeAttribute("updateDuration");
 %>
 
 </pre>

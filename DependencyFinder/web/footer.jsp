@@ -42,9 +42,19 @@
         <td>
 <%
             if (application.getAttribute("factory") != null) {
+                if (application.getAttribute("updateStart") != null) {
 %>
-            Current graph extracted on <%= application.getAttribute("start") %>.
+            Current graph last updated on <%= application.getAttribute("updateStart") %>.
 <%
+                } else if (application.getAttribute("extractStart") != null) {
+%>
+            Current graph extracted on <%= application.getAttribute("extractStart") %>.
+<%
+                } else if (application.getAttribute("loadStart") != null) {
+%>
+            Current graph loaded on <%= application.getAttribute("loadStart") %>.
+<%
+                }
             } else {
 %>
             There is no dependency graph at this time.

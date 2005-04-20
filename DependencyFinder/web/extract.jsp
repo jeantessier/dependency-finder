@@ -208,19 +208,39 @@
 <%
         if (application.getAttribute("factory") != null) {
 %>
-
                 <tr><td valign="top" rowspan="3">The current graph contains:</td><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getPackages().size() %></td><td>packages</td></tr>
                 <tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getClasses().size() %></td><td>classes</td></tr>
                 <tr><td align="right"><%= ((NodeFactory) application.getAttribute("factory")).getFeatures().size() %></td><td>features</td></tr>
+<%
+            if (application.getAttribute("extractStart") != null) {
+%>
                 <tr><td>&nbsp;</td></tr>
-                <tr><td colspan="3">Extracting it took <%= application.getAttribute("duration") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
+                <tr><td colspan="3">
+                    <table>
+                        <tr>
+                            <td align="left">Extracting it took</td>
+                            <td align="right"><%= application.getAttribute("extractDuration") %> second(s) on</td>
+                            <td align="right"><%= application.getAttribute("extractStart") %>.</td>
+                        </tr>
 
 <%
+                if (application.getAttribute("updateStart") != null) {
+%>
+                        <tr>
+                            <td align="left">Last update took</td>
+                            <td align="right"><%= application.getAttribute("updateDuration") %> second(s) on</td>
+                            <td align="rignt"><%= application.getAttribute("updateStart") %>.</td>
+                        </tr>
+<%
+                }
+%>
+                    </table>
+                </td></tr>
+<%
+            }
         } else {
 %>
-
                 There is no dependency graph at this time.
-
 <%
         }
 %>
@@ -287,8 +307,19 @@
         application.setAttribute("dispatcher", dispatcher);
         application.setAttribute("factory",    factory);
         application.setAttribute("monitor",    monitor);
-        application.setAttribute("start",      formatter.format(start));
-        application.setAttribute("duration",   new Double(duration));
+
+        if (request.getParameter("update") == null) {
+            application.setAttribute("extractStart",    formatter.format(start));
+            application.setAttribute("extractDuration", new Double(duration));
+            application.removeAttribute("updateStart");
+            application.removeAttribute("updateDuration");
+        } else {
+            application.setAttribute("updateStart",    formatter.format(start));
+            application.setAttribute("updateDuration", new Double(duration));
+        }
+
+        application.removeAttribute("loadStart");
+        application.removeAttribute("loadDuration");
 %>
 
 </pre>
