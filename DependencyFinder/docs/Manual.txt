@@ -1036,7 +1036,7 @@ example, this can happen when a class inherits from another, has an attribute
 whose type is of another class, or when one of its methods calls a method on
 an object of another class.
 
-Knowing about dependencies is useful for programmers when deciding the
+Knowing about dependencies is useful for programmers when evaluating the
 impact of a change.  When you're about to rename a feature or class, it is
 useful to know all the places in the codebase where it is being used.
 
@@ -1058,22 +1058,47 @@ outbound is relative to how you look at it.  We also say that =A= is a
 _dependent_ and =B= is _dependable_.
 
 A dependency graph comprises nodes for software artifacts linked
-together by two types of relationships.  Artifacts are packages,
-classes, and features.  We use the term _feature_ to designate
-class attributes, constructors, and methods; we will be treating
-them the same from here on.  For the purpose of analyzing dependencies,
-we do not distinguish between different types of features, whether they
-are constructors or regular methods, and regardless of the feature's
+together using two types of relationships.
+
+Artifacts are packages, classes, and features.  We use the term _feature_ to
+designate class attributes, constructors, and methods; we will be treating
+them the same from here on.  For the purpose of analyzing dependencies, we do
+not distinguish between different types of features, whether they are
+constructors or regular methods, and regardless of the feature's
 characteristics, such as being marked as =final= or =static=.
 
-Packages have classes, which themselves have features; this is called
-_composition_.  Classes refer to each other and so do features; this is
-called a _dependency_.
+The first type of relationship is _composition_.  Packages have classes, which
+themselves have features.  We call this kind of "has a" relationship
+_composition_.  A feature node is linked to its class node through composition.
+A class node is also linked to its package node through composition.
 
-So a feature node is linked to its class node through composition.
-The class node is also linked to its package node through
-composition.  Each is linked to various other nodes of various type
-using dependency links.
+The second type of relationship is _dependency_.  Classes refer to each other,
+features refer to each other, and features refer to classes.  We call this kind
+of relationship _dependency_.  Each node is linked to various other nodes of
+various type using dependency links.
+
+Here is a quick example:
+
+<div class="highlight">
+
+    public interface TestInterface {
+        // Left empty on purpose
+    }
+
+</div>
+
+In Java, _every_ class is ultimately derived from =java.lang.Object=.  For our
+example, we would write:
+
+    TestInterface --> java.lang.Object
+
+This notation looks nice when identifiers are small, but it quickly becomes
+unmanageable as real-life identifiers get longer and longer.  Dependency
+Finder uses a variation of this notation that is easier to display, read and
+even print when there are many dependencies at a time.
+
+    TestInterface
+        --> java.lang.Object
 
 ---+++ Extracting
 
@@ -1115,6 +1140,148 @@ There are _explicit_ dependencies, as present in the code itself.  There
 are also _implicit_ dependencies derived from these explicit ones.  A
 dependency between two classes in two separate packages _implies_ a
 dependency between the packages.
+
+---++++ Concrete vs. Referenced Elements
+
+Here is the full dependency graph, as seen by Dependency Finder, for the
+=TestInterface= example from before.
+
+<div class="highlight">
+
+    public interface TestInterface {
+        // Left empty on purpose
+    }
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
+        TestInterface
+            --> java.lang.Object *
+    java.lang *
+        Object *
+            <-- TestInterface
+
+</div>
+
+Dependency Finder uses =*= to distinguish identifers that were only
+_referenced_ in the code it analyzed, as opposed to _concrete_ symbols that it
+actually encountered.  In this case, we only analyzed =TestInterface= and not
+=Object=, so as far Dependency Finder is concerned, the actual existence of
+=Object= is only an unconfirmed rumor.  At runtime, the virtual machine will
+have to somehow resolve this reference to an actual class, but we do not need
+to do this for our purposes.
+
+Here is another, slightly more complex example:
+
+<div class="highlight">
+
+    public class ParentClass {
+        public void a() {
+            // Left empty on purpose
+        }
+    }
+    &nbsp;
+    public class ChildClass extends ParentClass {
+        public void b() {
+            a();
+        }
+    }
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
+        ChildClass
+            --> ParentClass
+            ChildClass()
+                --> ParentClass.ParentClass()
+            a() *
+                <-- ChildClass.b()
+            b()
+                --> ChildClass.a() *
+        ParentClass
+            <-- ChildClass
+            --> java.lang.Object *
+            ParentClass()
+                <-- ChildClass.ChildClass()
+                --> java.lang.Object.Object() *
+            a()
+    java.lang *
+        Object *
+            <-- ParentClass
+            Object() *
+                <-- ParentClass.ParentClass()
+
+</div>
+
+Here, the implicit constructor for =ChildClass= calls the implicit constructor
+for =ParentClass= (which in turn calls the default constructor for =Object=).
+So there is a dependency:
+
+    ChildClass.ChildClass --> ParentClass.ParentClass()
+
+These constructors were created by the compiler, but they are actual methods
+in the bytecode for their respective class.  Dependency Finder considers them
+concrete programming elements.
+
+We also see that the method =b()= calls the inherited method =a()=.  There is
+a dependency:
+
+    ChildClass.b() --> ChildClass.a()
+
+But there is no actual method =a()= in =ChildClass=, so Dependency Finder marks
+it as referenced only using a =*=.  The actual method =a()= in =ParentClass=
+does not have any direct dependency on it, but the virtual machine will resolve
+the calls to =ChildClass.a()= as calls to =ParentClass.a()= at runtime.
+
+Up until JDK 1.3, the compiler would have resolved the call to =a()= to the
+definition in =ParentClass=.  This works fine until later versions of classes
+start overridding =a()=.  Let us imaging a class =MiddleClass= that sits
+between =ParentClass= and =ChildClass= in the inheritance hierarchy.  At first,
+neither =MiddleClass= nor =ChildClass= override =a()=, so the compiled would
+resolve the method call to the version in =ParentClass=.  If we later
+substitute a new version of =MiddleClass= that overrides =a()= but we do not
+recompile =ChildClass=, it will mistakenly use the version in =ParentClass=
+instead of the correct version in =MiddleClass=.  The compiler in JDK 1.4 and
+forward no longer tries to resolve references to symbols to prevent this
+problem from occuring.
+
+Here is what the dependency graph would look like, using the JDK 1.3 compiler.
+
+<div class="lowlight">
+
+    &nbsp;
+        ChildClass
+            --> MiddleClass
+            ChildClass()
+                --> MiddleClass.MiddleClass()
+            *b()*
+                *--> ParentClass.a()*
+        MiddleClass
+            <-- ChildClass
+            --> ParentClass
+            MiddleClass()
+                <-- ChildClass.ChildClass()
+                --> ParentClass.ParentClass()
+            *a()*
+        ParentClass
+            <-- MiddleClass
+            --> java.lang.Object *
+            ParentClass()
+                <-- MiddleClass.ChildClass()
+                --> java.lang.Object.Object() *
+            *a()*
+                *<-- ChildClass.b()*
+    java.lang *
+        Object *
+            <-- ParentClass
+            Object() *
+                <-- ParentClass.ParentClass()
+
+</div>
 
 ---++++ Limitations
 
@@ -1328,29 +1495,29 @@ Here is the raw output dependency graph.
 
     &nbsp;
         test
-            --> java.lang.Object
+            --> java.lang.Object *
             main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.lang.String *
+                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Set *
             test()
-                --> java.lang.Object.Object()
-    java.lang
-        Object
+                --> java.lang.Object.Object() *
+    java.lang *
+        Object *
             <-- test
             <-- test.main(java.lang.String[])
-            Object()
+            Object() *
                 <-- test.main(java.lang.String[])
                 <-- test.test()
-        String
+        String *
             <-- test.main(java.lang.String[])
-    java.util
-        Collections
-            singleton(java.lang.Object)
+    java.util *
+        Collections *
+            singleton(java.lang.Object) *
                 <-- test.main(java.lang.String[])
-        Set
+        Set *
             <-- test.main(java.lang.String[])
 
 </div>
@@ -1376,10 +1543,10 @@ And narrow down the graph to class-to-class dependencies.
 
     &nbsp;
         test
-            --> java.lang.Object
-            --> java.lang.String
-            --> java.util.Collections
-            --> java.util.Set
+            --> java.lang.Object *
+            --> java.lang.String *
+            --> java.util.Collections *
+            --> java.util.Set *
 
 </div>
 
@@ -1447,8 +1614,8 @@ these commands are equivalent.
 
     &nbsp;
         test
-            --> java.lang
-            --> java.util
+            --> java.lang *
+            --> java.util *
 
 </div>
 
@@ -1478,11 +1645,11 @@ equivalent.
 <div class="lowlight">
 
     &nbsp;
-        --> java.lang
-        --> java.util
-    java.lang
+        --> java.lang *
+        --> java.util *
+    java.lang *
         <-- 
-    java.util
+    java.util *
         <-- 
 
 </div>
@@ -2259,20 +2426,20 @@ with the following tools:
 
 <div class="lowlight">
 
-    java.lang
-        java.lang.Object
+    java.lang *
+        java.lang.Object *
             <-- test
             <-- test.main(java.lang.String[])
-            java.lang.Object.Object()
+            java.lang.Object.Object() *
                 <-- test.main(java.lang.String[])
                 <-- test.test()
-        java.lang.String
+        java.lang.String *
             <-- test.main(java.lang.String[])
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
+    java.util *
+        java.util.Collections *
+            java.util.Collections.singleton(java.lang.Object) *
                 <-- test.main(java.lang.String[])
-        java.util.Set
+        java.util.Set *
             <-- test.main(java.lang.String[])
 
 </div>
@@ -2297,20 +2464,20 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
         test
             test.main(java.lang.String[])
             test.test()
-    java.lang
-        java.lang.Object
+    java.lang *
+        java.lang.Object *
             <-- test
             <-- test.main(java.lang.String[])
-            java.lang.Object.Object()
+            java.lang.Object.Object() *
                 <-- test.main(java.lang.String[])
                 <-- test.test()
-        java.lang.String
+        java.lang.String *
             <-- test.main(java.lang.String[])
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
+    java.util *
+        java.util.Collections *
+            java.util.Collections.singleton(java.lang.Object) *
                 <-- test.main(java.lang.String[])
-        java.util.Set
+        java.util.Set *
             <-- test.main(java.lang.String[])
 
 </div>
@@ -2363,15 +2530,15 @@ following tools:
 
     &nbsp;
         test
-            --> java.lang.Object
+            --> java.lang.Object *
             test.main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.lang.String *
+                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Set *
             test.test()
-                --> java.lang.Object.Object()
+                --> java.lang.Object.Object() *
 
 </div>
 
@@ -2393,23 +2560,23 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
 
     &nbsp;
         test
-            --> java.lang.Object
+            --> java.lang.Object *
             test.main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.lang.String *
+                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Set *
             test.test()
-                --> java.lang.Object.Object()
-    java.lang
-        java.lang.Object
-            java.lang.Object.Object()
-        java.lang.String
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
-        java.util.Set
+                --> java.lang.Object.Object() *
+    java.lang *
+        java.lang.Object *
+            java.lang.Object.Object() *
+        java.lang.String *
+    java.util *
+        java.util.Collections *
+            java.util.Collections.singleton(java.lang.Object) *
+        java.util.Set *
 
 </div>
 
@@ -2455,29 +2622,29 @@ navigation.
 
     &nbsp;
         test
-            --> java.lang.Object
+            --> java.lang.Object *
             test.main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.lang.String *
+                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Set *
             test.test()
-                --> java.lang.Object.Object()
-    java.lang
-        java.lang.Object
+                --> java.lang.Object.Object() *
+    java.lang *
+        java.lang.Object *
             <-- test
             <-- test.main(java.lang.String[])
-            java.lang.Object.Object()
+            java.lang.Object.Object() *
                 <-- test.main(java.lang.String[])
                 <-- test.test()
-        java.lang.String
+        java.lang.String *
             <-- test.main(java.lang.String[])
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
+    java.util *
+        java.util.Collections *
+            java.util.Collections.singleton(java.lang.Object) *
                 <-- test.main(java.lang.String[])
-        java.util.Set
+        java.util.Set *
             <-- test.main(java.lang.String[])
 
 </div>
