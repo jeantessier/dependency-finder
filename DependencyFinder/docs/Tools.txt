@@ -71,6 +71,7 @@ For Dependency Finder version <VERSION />.
 <p></p>
 <li><a href="#ClassList">ClassList</a></li>
 <li><a href="#ListSymbols">ListSymbols</a></li>
+<li><a href="#ClassFinder">ClassFinder</a></li>
 </ul>
 </td>
 </tr></table>
@@ -136,7 +137,14 @@ Hexadecimal text of the classfile whose name is passed in.
 
 <blockquote>
 
+<div class="highlight">
+
     ClassDump test
+
+</div>
+
+<div class="lowlight">
+
     test:
     test.class -> file:/C:/language/Java/myprojects/DependencyFinder/classes/test.class
     CAFEBABE 0000002E 002C0A00 02001907 001A0A00 1B001C07 001D0900 1E001F0A 
@@ -164,6 +172,8 @@ Hexadecimal text of the classfile whose name is passed in.
     20000300 00001A00 11001200 00000B00 00001300 14000100 0F000A00 15001600 
     01000100 17000000 020018
 
+</div>
+
 </blockquote>
 
 ---+++ Class
@@ -171,6 +181,252 @@ Hexadecimal text of the classfile whose name is passed in.
 <blockquote>
 
 =com.jeantessier.dependencyfinder.cli.ClassDump=
+
+</blockquote>
+
+----
+
+---++ ClassFinder
+
+<blockquote>
+
+For each class it could find, prints where it found it.
+
+</blockquote>
+
+---+++ Synopsis
+
+    ClassFinder
+        [-excludes value]*
+        [-help]
+        [-includes value]*
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+        [filename ...]
+
+---+++ Description
+
+<blockquote>
+
+Lists all the classes in a group of JAR file, Zip file, and directories along
+with the location(s) of each class.  Similar to [[#ClassList]], this one shows
+where the class can be found, which JAR or directory.
+
+You can also give it a =.class= file, but that would be trivial.  It will just
+print the fully qualified name of the class in it.
+
+You can use =-includes= and =-excludes= to limit the output to only those
+classes that interested you.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-excludes value=
+
+<blockquote>
+
+The name of a package, class, or feature must NOT match the regular expression
+in _value_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must not match any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+Prints synopsis.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes value=
+
+<blockquote>
+
+The name of a package, class, or feature must match the regular expression
+in _value_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must at least one of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out filename=
+
+<blockquote>
+
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+Prints how long it took to run the command.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [filename]=
+
+<blockquote>
+
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+File names for JAR files, Zip files, and =.class= files for the tool to read.
+You can also give directory names, the tool will search it for =.class= files
+and read them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>Current directory, "=.="</td></tr>
+</table>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+List of fully qualified class names, one per line, for each class the tool
+could find, followed by the location where if was found.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+<div class="highlight">
+
+    ClassFinder classes\com\jeantessier\metrics classes\com\jeantessier\commandline
+
+</div>
+
+<div class="lowlight">
+
+    com.jeantessier.commandline.AnyParameterStrategy: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.AtLeastParameterStrategy: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.AtMostParameterStrategy: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.CommandLine: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.CommandLineException: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.CommandLineSwitch: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.CommandLineSwitchBase: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.CommandLineUsage: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.CountingParameterStrategy: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.ExactlyParameterStrategy: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.MultipleValuesSwitch: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.NullParameterStrategy: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.OptionalValueSwitch: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.ParameterStrategy: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.SingleValueSwitch: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.ToggleSwitch: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.Visitable: classes\com\jeantessier\commandline
+    com.jeantessier.commandline.Visitor: classes\com\jeantessier\commandline
+    com.jeantessier.metrics.AccumulatorMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.CSVPrinter: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.CollectionMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.ContextAccumulatorMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.CounterMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.Measurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MeasurementBase: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MeasurementDescriptor: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MeasurementVisitor: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.Metrics: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MetricsComparator: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MetricsConfiguration: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MetricsConfigurationHandler: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MetricsConfigurationLoader: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MetricsEvent: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MetricsFactory: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MetricsGatherer: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.MetricsListener: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.NameListMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.NbSubMetricsMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.NullMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.Printer: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.RatioMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.StatisticalMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.SubMetricsAccumulatorMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.SumMeasurement: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.TextPrinter: classes\com\jeantessier\metrics
+    com.jeantessier.metrics.XMLPrinter: classes\com\jeantessier\metrics
+
+</div>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ClassFinder=
 
 </blockquote>
 
@@ -312,7 +568,14 @@ tool could find.
 
 <blockquote>
 
-    ClassList classes\com\jeantessier\metrics classes\jeantessier\commandline
+<div class="highlight">
+
+    ClassList classes\com\jeantessier\metrics classes\com\jeantessier\commandline
+
+</div>
+
+<div class="lowlight">
+
     classes\com\jeantessier\metrics:
     com.jeantessier.metrics.AccumulatorMeasurement
     com.jeantessier.metrics.CSVPrinter
@@ -360,6 +623,8 @@ tool could find.
     com.jeantessier.commandline.ToggleSwitch
     com.jeantessier.commandline.Visitable
     com.jeantessier.commandline.Visitor
+
+</div>
 
 </blockquote>
 
@@ -541,57 +806,66 @@ The output format is self-explanatory.
 
 <blockquote>
 
+<div class="highlight">
+
     ClassMetrics DependencyFinder.jar
-    176 class(es)
-    23 interface(s)
+
+</div>
+
+<div class="lowlight">
+
+    176&nbsp;class(es)
+    23&nbsp;interface(s)
     &nbsp;
-    2099 method(s) (average 10.547738693467336 per class/interface)
-    765 field(s) (average 3.8442211055276383 per class/interface)
+    2099&nbsp;method(s) (average 10.547738693467336 per class/interface)
+    765&nbsp;field(s) (average 3.8442211055276383 per class/interface)
     &nbsp;
-    38 synthetic element(s)
-        0 class(es)
-        20 fields(s)
-        18 method(s)
-    0 deprecated element(s)
-        0 class(es)
-        0 fields(s)
-        0 method(s)
-    2039 public element(s)
-        193 class(es)
-        148 fields(s)
-        1695 method(s)
-        3 inner class(es)
-    192 protected element(s)
-        1 fields(s)
-        191 method(s)
-        0 inner class(es)
-    716 private element(s)
-        586 fields(s)
-        130 method(s)
-        0 inner class(es)
-    116 package element(s)
-        3 class(es)
-        30 fields(s)
-        83 method(s)
-        0 inner class(es)
-    200 abstract element(s)
-        42 class(es)
-        155 method(s)
-        3 inner class(es)
-    390 static element(s)
-        245 fields(s)
-        142 method(s)
-        3 inner class(es)
-    221 final element(s)
-        2 class(es)
-        216 fields(s)
-        3 method(s)
-        0 inner class(es)
-    2 synchronized method(s)
-    0 native method(s)
-    0 volatile field(s)
-    0 transient field(s)
-    0 custom attribute(s)
+    38&nbsp;synthetic element(s)
+        0&nbsp;class(es)
+        20&nbsp;fields(s)
+        18&nbsp;method(s)
+    0&nbsp;deprecated element(s)
+        0&nbsp;class(es)
+        0&nbsp;fields(s)
+        0&nbsp;method(s)
+    2039&nbsp;public element(s)
+        193&nbsp;class(es)
+        148&nbsp;fields(s)
+        1695&nbsp;method(s)
+        3&nbsp;inner class(es)
+    192&nbsp;protected element(s)
+        1&nbsp;fields(s)
+        191&nbsp;method(s)
+        0&nbsp;inner class(es)
+    716&nbsp;private element(s)
+        586&nbsp;fields(s)
+        130&nbsp;method(s)
+        0&nbsp;inner class(es)
+    116&nbsp;package element(s)
+        3&nbsp;class(es)
+        30&nbsp;fields(s)
+        83&nbsp;method(s)
+        0&nbsp;inner class(es)
+    200&nbsp;abstract element(s)
+        42&nbsp;class(es)
+        155&nbsp;method(s)
+        3&nbsp;inner class(es)
+    390&nbsp;static element(s)
+        245&nbsp;fields(s)
+        142&nbsp;method(s)
+        3&nbsp;inner class(es)
+    221&nbsp;final element(s)
+        2&nbsp;class(es)
+        216&nbsp;fields(s)
+        3&nbsp;method(s)
+        0&nbsp;inner class(es)
+    2&nbsp;synchronized method(s)
+    0&nbsp;native method(s)
+    0&nbsp;volatile field(s)
+    0&nbsp;transient field(s)
+    0&nbsp;custom attribute(s)
+
+</div>
 
 </blockquote>
 
@@ -808,7 +1082,14 @@ document that follows the
 
 Here is a sample textual output:
 
+<div class="highlight">
+
     ClassReader classes\test.class
+
+</div>
+
+<div class="lowlight">
+
     1: Method java/lang/Object.&lt;init&gt;()V
     2: Class java/lang/Object
     3: Method java/util/Collections.singleton(Ljava/lang/Object;)Ljava/util/Set;
@@ -857,9 +1138,18 @@ Here is a sample textual output:
         public test();
     }
 
+</div>
+
 And here is the XML document, built from a =.class= file.
 
+<div class="highlight">
+
     ClassReader -xml classes\test.class
+
+</div>
+
+<div class="lowlight">
+
     &lt;?xml version%3D"1.0" encoding%3D"UTF-8" ?&gt;
     &nbsp;
     &lt;!DOCTYPE classfile SYSTEM "http://depfind.sourceforge.net/dtd/classfile.dtd"&gt;
@@ -987,6 +1277,8 @@ And here is the XML document, built from a =.class= file.
         &lt;/attributes&gt;
     &lt;/classfile&gt;
 
+</div>
+
 </blockquote>
 
 ---+++ Class
@@ -1085,11 +1377,19 @@ See =-out= above.
 
 To convert the closure in =dg.closure.xml= to a textual list of elements:
 
+<div class="highlight">
+
     ClosureToText -in dg.closure.xml
+
+</div>
 
 To save the output to a text file:
 
+<div class="highlight">
+
     ClosureToText -in dg.closure.xml -out dg.closure.txt
+
+</div>
 
 </blockquote>
 
@@ -1199,7 +1499,11 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to a hyperlinked
 HTML file with only inbound dependencies:
 
+<div class="highlight">
+
     DependablesToHTML -in dg.xml -out dependencies.html
+
+</div>
 
 An element with many inbound dependencies is said to be dependable,
 meaning that many other elements rely on it being stable.
@@ -1311,12 +1615,20 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to plain text
 with only inbound dependencies:
 
+<div class="highlight">
+
     DependablesToText -in dg.xml
+
+</div>
 
 To convert the dependency graph in =dg.xml= to a plain text
 file with only inbound dependencies:
 
+<div class="highlight">
+
     DependablesToText -in dg.xml -out dependencies.txt
+
+</div>
 
 An element with many inbound dependencies is said to be dependable,
 meaning that many other elements rely on it being stable.
@@ -1334,7 +1646,14 @@ Here is another example that uses the following dependency graph:
 
 Running this tool on that graph yields this output:
 
+<div class="highlight">
+
     DependablesToText -in sample.xml
+
+</div>
+
+<div class="lowlight">
+
     &nbsp;
         Middle
             <-- Outbound
@@ -1345,6 +1664,8 @@ Running this tool on that graph yields this output:
             <-- Bidirectional2
         Bidirectional2
             <-- Bidirectional1
+
+</div>
 
 </blockquote>
 
@@ -1974,7 +2295,14 @@ Here is an example that uses the following dependency graph:
 
 Running this tool on that graph yields this output:
 
+<div class="highlight">
+
     DependencyClosure -start-includes /Outbound/ sample.xml
+
+</div>
+
+<div class="lowlight">
+
     &nbsp;
         Inbound
             <-- Middle
@@ -1985,6 +2313,8 @@ Running this tool on that graph yields this output:
         Outbound
             --> Inbound
             --> Middle
+
+</div>
 
 It followed all dependencies leading out of =Outbound=.
 
@@ -2246,19 +2576,31 @@ To scan the current directory and its subdirectories for
 =.class= files to analyze and save the resulting dependency
 graph to =dg.xml=:
 
+<div class="highlight">
+
     DependencyExtractor -xml -out dg.xml 
+
+</div>
 
 To scan =DependencyFinder.jar= and =rt.jar= for .class
 files to analyze and save the resulting dependency graph
 to =dg.xml=:
 
+<div class="highlight">
+
     DependencyExtractor -xml -out dg.xml DependencyFinder.jar rt.jar
+
+</div>
 
 To scan =DependencyFinder.jar= and =rt.jar= for .class
 files to analyze and save the resulting dependency graph
 to =dg.xml=, after having minimized it:
 
+<div class="highlight">
+
     DependencyExtractor -xml -minimize -out dg.xml DependencyFinder.jar rt.jar
+
+</div>
 
 </blockquote>
 
@@ -2518,7 +2860,11 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to a hyperlinked
 HTML file, for ease of use:
 
+<div class="highlight">
+
     DependencyGraphToHTML -in dg.xml -out dependencies.html
+
+</div>
 
 This HTML file shows both outbound and inbound dependencies.
 
@@ -2626,12 +2972,20 @@ See =-out= above.
 
 To convert the dependency graph in =dg.xml= to a plain text:
 
+<div class="highlight">
+
     DependencyGraphToText -in dg.xml
+
+</div>
 
 To convert the dependency graph in =dg.xml= to a plain text
 file, for ease of use:
 
+<div class="highlight">
+
     DependencyGraphToText -in dg.xml -out dependencies.txt
+
+</div>
 
 This text file shows both outbound and inbound dependencies.
 
@@ -2648,7 +3002,14 @@ Here is another example that uses the following dependency graph:
 
 Running this tool on that graph yields this output:
 
+<div class="highlight">
+
     DependencyGraphToText -in sample.xml
+
+</div>
+
+<div class="lowlight">
+
     &nbsp;
         Outbound
             --> Middle
@@ -2666,6 +3027,8 @@ Running this tool on that graph yields this output:
             --> Bidirectional1
             <-- Bidirectional1
         Empty
+
+</div>
 
 </blockquote>
 
@@ -3612,31 +3975,47 @@ The output format is self-explanatory.
 
 Here is a sample output:
 
+<div class="highlight">
+
     DependencyExtractor -xml -out test.xml classes\test.class
     DependencyMetrics -all test.xml
-    4 package(s)
-    8 class(es)
-    6 feature(s)
+
+</div>
+
+<div class="lowlight">
+
+    4&nbsp;package(s)
+    8&nbsp;class(es)
+    6&nbsp;feature(s)
     &nbsp;
-    11 outbound link(s)
-        0 from package(s) (average 0.0 per package)
-        6 from class(es) (average 0.75 per class)
-        5 from feature(s) (average 0.8333333333333334 per feature)
-    11 inbound link(s)
-        0 to package(s) (average 0.0 per package)
-        1 to class(es) (average 0.125 per class)
-        10 to feature(s) (average 1.6666666666666667 per feature)
+    11&nbsp;outbound link(s)
+        0&nbsp;from package(s) (average 0.0 per package)
+        6&nbsp;from class(es) (average 0.75 per class)
+        5&nbsp;from feature(s) (average 0.8333333333333334 per feature)
+    11&nbsp;inbound link(s)
+        0&nbsp;to package(s) (average 0.0 per package)
+        1&nbsp;to class(es) (average 0.125 per class)
+        10&nbsp;to feature(s) (average 1.6666666666666667 per feature)
+
+</div>
 
 And here it is with =-list=:
 
+<div class="highlight">
+
     DependencyExtractor -xml -out test.xml classes\test.class
     DependencyMetrics -all -list test.xml
-    4 package(s)
+
+</div>
+
+<div class="lowlight">
+
+    4&nbsp;package(s)
         java.lang
         java.util
         java.io
         &nbsp;
-    8 class(es)
+    8&nbsp;class(es)
         java.lang.String
         java.lang.Object
         java.lang.NullPointerException
@@ -3645,7 +4024,7 @@ And here it is with =-list=:
         java.util.Set
         java.io.PrintStream
         test
-    6 feature(s)
+    6&nbsp;feature(s)
         java.lang.Object.Object()
         java.lang.System.out
         java.util.Collections.singleton(java.lang.Object)
@@ -3653,14 +4032,16 @@ And here it is with =-list=:
         test.test()
         test.main(java.lang.String[])
     &nbsp;
-    11 outbound link(s)
-        0 from package(s) (average 0.0 per package)
-        6 from class(es) (average 0.75 per class)
-        5 from feature(s) (average 0.8333333333333334 per feature)
-    11 inbound link(s)
-        0 to package(s) (average 0.0 per package)
-        1 to class(es) (average 0.125 per class)
-        10 to feature(s) (average 1.6666666666666667 per feature)
+    11&nbsp;outbound link(s)
+        0&nbsp;from package(s) (average 0.0 per package)
+        6&nbsp;from class(es) (average 0.75 per class)
+        5&nbsp;from feature(s) (average 0.8333333333333334 per feature)
+    11&nbsp;inbound link(s)
+        0&nbsp;to package(s) (average 0.0 per package)
+        1&nbsp;to class(es) (average 0.125 per class)
+        10&nbsp;to feature(s) (average 1.6666666666666667 per feature)
+
+</div>
 
 </blockquote>
 
@@ -4631,7 +5012,14 @@ document that follows the
 
 <blockquote>
 
+<div class="highlight">
+
     DependencyReporter -p2p -show-all -includes /jeantessier/ df.xml
+
+</div>
+
+<div class="lowlight">
+
     com.jeantessier.classreader
         <-- com.jeantessier.dependency
         <-- com.jeantessier.dependencyfinder.cli
@@ -4665,6 +5053,8 @@ document that follows the
         --> com.jeantessier.classreader
         <-- com.jeantessier.dependencyfinder.cli
         <-- com.jeantessier.dependencyfinder.gui
+
+</div>
 
 </blockquote>
 
@@ -4766,7 +5156,11 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to a hyperlinked
 HTML file with only outboud dependencies:
 
+<div class="highlight">
+
     DependentsToHTML -in dg.xml -out dependencies.html
+
+</div>
 
 An element with many outbound dependencies is said to be dependent,
 meaning that it relies on many other elements being stable.
@@ -4878,12 +5272,20 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to plain text
 with only outboud dependencies:
 
+<div class="highlight">
+
     DependentsToText -in dg.xml
+
+</div>
 
 To convert the dependency graph in =dg.xml= to a plain text
 file with only outboud dependencies:
 
+<div class="highlight">
+
     DependentsToText -in dg.xml -out dependencies.txt
+
+</div>
 
 An element with many outbound dependencies is said to be dependent,
 meaning that it relies on many other elements being stable.
@@ -4901,7 +5303,14 @@ Here is another example that uses the following dependency graph:
 
 Running this tool on that graph yields this output:
 
+<div class="highlight">
+
     DependentsToText -in sample.xml
+
+</div>
+
+<div class="lowlight">
+
     &nbsp;
         Outbound
             --> Middle
@@ -4912,6 +5321,8 @@ Running this tool on that graph yields this output:
             --> Bidirectional2
         Bidirectional2
             --> Bidirectional1
+
+</div>
 
 </blockquote>
 
@@ -5015,7 +5426,11 @@ See =-out= above.
 
 To convert the difference report in =report.xml= to HTML:
 
+<div class="highlight">
+
     DiffToHTML -in report.xml
+
+</div>
 
 </blockquote>
 
@@ -5125,7 +5540,11 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to a hyperlinked
 HTML file with only inbound dependencies:
 
+<div class="highlight">
+
     HideOutboundDependenciesToHTML -in dg.xml -out dependencies.html
+
+</div>
 
 An element with many inbound dependencies is said to be dependable,
 meaning that many other elements rely on it being stable.
@@ -5236,12 +5655,20 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to plain text
 with only inbound dependencies:
 
+<div class="highlight">
+
     HideOutboundDependenciesToText -in dg.xml
+
+</div>
 
 To convert the dependency graph in =dg.xml= to a plain text
 file with only inbound dependencies:
 
+<div class="highlight">
+
     HideOutboundDependenciesToText -in dg.xml -out dependencies.txt
+
+</div>
 
 An element with many inbound dependencies is said to be dependable,
 meaning that many other elements rely on it being stable.
@@ -5259,7 +5686,14 @@ Here is another example that uses the following dependency graph:
 
 Running this tool on that graph yields this output:
 
+<div class="highlight">
+
     HideOutboundDependenciesToText -in sample.xml
+
+</div>
+
+<div class="lowlight">
+
     &nbsp;
         Outbound
         Middle
@@ -5272,6 +5706,8 @@ Running this tool on that graph yields this output:
         Bidirectional2
             <-- Bidirectional1
         Empty
+
+</div>
 
 </blockquote>
 
@@ -5381,7 +5817,11 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to a hyperlinked
 HTML file with only outboud dependencies:
 
+<div class="highlight">
+
     HideInboundDependenciesToHTML -in dg.xml -out dependencies.html
+
+</div>
 
 An element with many outbound dependencies is said to be dependent,
 meaning that it relies on many other elements being stable.
@@ -5492,12 +5932,20 @@ See =-out= above.
 To convert the dependency graph in =dg.xml= to plain text
 with only outboud dependencies:
 
+<div class="highlight">
+
     HideInboundDependenciesToText -in dg.xml
+
+</div>
 
 To convert the dependency graph in =dg.xml= to a plain text
 file with only outboud dependencies:
 
+<div class="highlight">
+
     HideInboundDependenciesToText -in dg.xml -out dependencies.txt
+
+</div>
 
 An element with many outbound dependencies is said to be dependent,
 meaning that it relies on many other elements being stable.
@@ -5515,7 +5963,14 @@ Here is another example that uses the following dependency graph:
 
 Running this tool on that graph yields this output:
 
+<div class="highlight">
+
     HideInboundDependenciesToText -in sample.xml
+
+</div>
+
+<div class="lowlight">
+
     &nbsp;
         Outbound
             --> Middle
@@ -5528,6 +5983,8 @@ Running this tool on that graph yields this output:
         Bidirectional2
             --> Bidirectional1
         Empty
+
+</div>
 
 </blockquote>
 
@@ -5844,18 +6301,26 @@ to =result.xml=.  The title will say "Version old.jar to Version
 new.jar".  You can adjust the title by supplying =-old-label= and
 =-new-label= to JarJarDiff.
 
+<div class="highlight">
+
     JarJarDiff -old old.jar -new new.jar -out result.xml
     DiffToHTML -in result.xml -out internal_report.html
     PublishedDiffToHTML -in result.xml -out external_report.html
+
+</div>
 
 Because DOS only allows 9 parameters to =.bat= files, we
 cannot use =-out= in the following and we must use output
 redirection (the ">") instead.  The next two XSLT steps are
 identical.
 
+<div class="highlight">
+
     JarJarDiff -old old.jar -old-label 3.0.2 -new new.jar -new-label 3.5 > result.xml
     DiffToHTML -in result.xml -out internal_report.html
     PublishedDiffToHTML -in result.xml -out external_report.html
+
+</div>
 
 </blockquote>
 
@@ -6007,7 +6472,11 @@ list of areas in your code that depend on deprecated APIs.
 
 <blockquote>
 
+<div class="highlight">
+
     ListDeprecatedElements -out deprecated_elements.txt rt.jar
+
+</div>
 
 </blockquote>
 
@@ -6281,7 +6750,14 @@ And that file =new.txt= is:
 
 Then =ListDiff= will show:
 
+<div class="highlight">
+
     ListDiff -name sample -old old.txt -new new.txt
+
+</div>
+
+<div class="lowlight">
+
     &lt;?xml version%3D"1.0" encoding%3D"UTF-8" ?&gt;
     &nbsp;
     &lt;!DOCTYPE list-diff SYSTEM "http://depfind.sourceforge.net/dtd/list-diff.dtd"&gt;
@@ -6297,6 +6773,8 @@ Then =ListDiff= will show:
             &lt;line&gt;Added&lt;/line&gt;
         &lt;/added&gt;
     &lt;/list-diff&gt;
+
+</div>
 
 </blockquote>
 
@@ -6390,8 +6868,12 @@ See =-out= above.
 
 <blockquote>
 
+<div class="highlight">
+
     ListDiff -name sample -old old.txt -new new.txt -out listdiff.xml
     ListDiffToHTML -in listdiff.xml -out listdiff.html
+
+</div>
 
 </blockquote>
 
@@ -6493,8 +6975,15 @@ See =-out= above.
 
 <blockquote>
 
+<div class="highlight">
+
     ListDiff -name sample -old old.txt -old-label old -new new.txt -new-label new -out listdiff.xml
     ListDiffToHTML -in listdiff.xml
+
+</div>
+
+<div class="lowlight">
+
     sample - Documentation Changes
     &nbsp;
         old to new
@@ -6506,6 +6995,8 @@ See =-out= above.
         Newly Published:
     &nbsp;
             - Added
+
+</div>
 
 </blockquote>
 
@@ -6655,9 +7146,15 @@ further restrain the report and limit it to the published API.
 
 <blockquote>
 
+<div class="highlight">
+
     ListDocumentedElements -tag level -valid published -out documented_elements.txt
 
+</div>
+
 or, with Ant:
+
+<div class="highlight">
 
     &lt;javadoc&gt;
         &lt;doclet name%3D"com.jeantessier.diff.ListDocumentedElements"
@@ -6667,6 +7164,8 @@ or, with Ant:
             &lt;param name%3D"-out" value%3D"documented_elements.txt"/&gt;
         &lt;/doclet&gt;
     &lt;/javadoc&gt;
+
+</div>
 
 </blockquote>
 
@@ -6762,8 +7261,12 @@ See =-out= above.
 
 <blockquote>
 
+<div class="highlight">
+
     JarJarDiff -old old.jar -new new.jar -out report.xml
     ListInheritanceDiffToText -in report.xml -out inheritance.txt
+
+</div>
 
 </blockquote>
 
@@ -6985,7 +7488,14 @@ alphabetical order.
 
 <blockquote>
 
+<div class="highlight">
+
     ListSymbols classes\test.class
+
+</div>
+
+<div class="lowlight">
+
     test
     test.main(java.lang.String[])
     test.main(java.lang.String[]): args
@@ -6993,6 +7503,8 @@ alphabetical order.
     test.main(java.lang.String[]): ex
     test.test()
     test.test(): this
+
+</div>
 
 </blockquote>
 
@@ -7112,10 +7624,19 @@ Here is an example that uses the following dependency graph:
 
 Running this tool on that graph yields this output:
 
+<div class="highlight">
+
     ListUnused sample.xml
+
+</div>
+
+<div class="lowlight">
+
     &nbsp;
         class Outbound
         class Empty
+
+</div>
 
 </blockquote>
 
@@ -7221,7 +7742,11 @@ See =-out= above.
 
 To convert the metrics report in =metrics.xml= to a hyperlinked HTML file:
 
+<div class="highlight">
+
     MetricsToHTML -in metrics.xml -out metrics.html
+
+</div>
 
 </blockquote>
 
@@ -7329,7 +7854,11 @@ See =-out= above.
 
 To convert the dependency graph in =metrics.xml= to a text file:
 
+<div class="highlight">
+
     MetricsToText -in metrics.xml -out metrics.txt
+
+</div>
 
 </blockquote>
 
@@ -7917,11 +8446,19 @@ extension.
 
 To list all default metrics as text in =out.txt=:
 
+<div class="highlight">
+
     OOMetrics -all -out df DependencyFinder.jar
+
+</div>
 
 To list only package-level metrics from =MartinConfig.xml= as CSV in =Ds.csv=:
 
+<div class="highlight">
+
     OOMetrics -groups -csv -configuration _&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MartinConfig.xml -out Ds DependencyFinder.jar
+
+</div>
 
 </blockquote>
 
@@ -8172,14 +8709,22 @@ See =-out= above.
 
 To convert the difference report in =report.xml= to HTML:
 
+<div class="highlight">
+
     PublishedDiffToHTML -in report.xml
 
+</div>
+
 Here is a larger example with a defined published documentation:
+
+<div class="highlight">
 
     ListDocumentedElements -tag level -valid published -out old.txt old
     ListDocumentedElements -tag level -valid published -out new.txt new
     JarJarDiff -old old.jar -old-documentation old.txt -new new.jar -new-documentation new.txt -out report.xml
     PublishedDiffToHTML -in report.xml -param validation-list new.txt -out public-report.html
+
+</div>
 
 </blockquote>
 
@@ -8300,7 +8845,11 @@ See =-out= above.
 
 Instead of using [[#DependablesToHTML][DependablesToHTML]], you can use:
 
+<div class="highlight">
+
     XSLTProcess -xsl _&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependablesToHTML.xsl -in dg.xml -out dependencies.html
+
+</div>
 
 </blockquote>
 
