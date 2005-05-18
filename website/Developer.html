@@ -14,7 +14,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.1.0.
+For Dependency Finder version 1.1.1.
 </p>
 
 <p>
@@ -76,6 +76,11 @@ by Jean Tessier
 <li><a href="#CompilingaBuild">Compiling a Build</a></li>
 <li><a href="#TestingtheBuild">Testing the Build</a></li>
 <li><a href="#MakingaRelease">Making a Release</a></li>
+<li><a href="#ComputingCodeCoverage">Computing Code Coverage</a></li>
+<ul>
+<li><a href="#jcoverage">jcoverage</a></li>
+<li><a href="#Clover">Clover</a></li>
+</ul>
 </ul>
 </ul>
 
@@ -797,6 +802,67 @@ or
 <li>Post to depfind-announce</li>
 <li>Post to news groups (<code>comp.lang.java.announce</code>, <code>comp.lang.java.softwaretools</code>, <code>comp.software.measurement</code>, <code>comp.software-eng</code>)</li>
 <li>Generate sample files</li>
+</ol>
+
+<a name="ComputingCodeCoverage"></a>
+<h3>Computing Code Coverage</h3>
+
+<a name="jcoverage"></a>
+<h4>jcoverage</h4>
+
+<p>
+You can use <a href="http://www.jcoverage.com/">jcoverage</a> and the build file in
+<code>build.jcoverage.xml</code>.
+</p>
+
+<ol>
+<li><code>set CLASSPATH=%JUNIT_HOME%\junit.jar</code></li>
+<li><code>ant realclean</code></li>
+<li><code>ant -f build.jcoverage.xml realclean</code></li>
+<li><code>ant</code></li>
+<li><code>ant -f build.jcoverage.xml instrument</code></li>
+<li><code>ant tests</code></li>
+<li><code>ant -f build.jcoverage.xml tests</code></li>
+<li><code>ant -f build.jcoverage.xml report</code></li>
+</ol>
+
+<p>
+To publish the results:
+</p>
+
+<ol>
+<li>archive the <code>jcoverage</code> directory</li>
+<li>Use <code>scp</code> to transfer the archive to SourceForge</li>
+<li>Use <code>ssh</code> to login to SourceForge</li>
+<li>extract the archive in the root of the website</li>
+</ol>
+
+<a name="Clover"></a>
+<h4>Clover</h4>
+
+<p>
+You can use <a href="http://www.cenqua.com/clover/">clover</a> and the build file in
+<code>build.clover.xml</code>.
+</p>
+
+<ol>
+<li><code>set CLASSPATH=%JUNIT_HOME%\junit.jar;%CLOVER_HOME%\lib;%CLOVER_HOME%\lib\clover.jar</code></li>
+<li><code>ant -f build.clover.xml realclean</code></li>
+<li><code>ant -f build.clover.xml with.clover compiletests</code></li>
+<li><code>ant tests</code></li>
+<li><code>ant -f build.clover.xml alltests</code></li>
+<li><code>ant -f build.clover.xml report.html</code></li>
+</ol>
+
+<p>
+To publish the results:
+</p>
+
+<ol>
+<li>archive the <code>clover</code> directory</li>
+<li>Use <code>scp</code> to transfer the archive to SourceForge</li>
+<li>Use <code>ssh</code> to login to SourceForge</li>
+<li>extract the archive in the root of the website</li>
 </ol>
 
 <hr />

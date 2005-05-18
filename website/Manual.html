@@ -14,7 +14,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.1.0.
+For Dependency Finder version 1.1.1.
 </p>
 
 <p>
@@ -69,6 +69,7 @@ by Jean Tessier
 <ul>
 <li><a href="#Extracting">Extracting</a></li>
 <ul>
+<li><a href="#Concretevs.ReferencedElements">Concrete vs. Referenced Elements</a></li>
 <li><a href="#Limitations">Limitations</a></li>
 <ul>
 <li><a href="#DependenciesonSelf">Dependencies on Self</a></li>
@@ -82,6 +83,10 @@ by Jean Tessier
 <li><a href="#Example">Example</a></li>
 </ul>
 <li><a href="#ExtractingWiththeWebApplication">Extracting With the Web Application</a></li>
+<ul>
+<li><a href="#ExtractingfromCompiledJavaClasses">Extracting from Compiled Java Classes</a></li>
+<li><a href="#LoadingPre-ExtractedDependencyGraph">Loading Pre-Extracted Dependency Graph</a></li>
+</ul>
 <li><a href="#ExtractingWithAnt">Extracting With Ant</a></li>
 <li><a href="#MinimizingAndMaximizing">Minimizing And Maximizing</a></li>
 <ul>
@@ -638,49 +643,50 @@ There are four context parameters that you can adjust:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
-	    <b><code>name</code></b>
-	</td>
-	<td>
-	    Used in the JSPs to tell the users what that are looking at.
-	    Put the name of the application that you are extracting from
-	    here, it will be shown in titles by the JSPs.
-	</td>
+        <td valign="top">
+            <b><code>name</code></b>
+        </td>
+        <td>
+            Used in the JSPs to tell the users what that are looking at.
+            Put the name of the application that you are extracting from
+            here, it will be shown in titles by the JSPs.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>source</code></b>
-	</td>
-	<td>
-	    Use this variable to tell Dependency Finder where to locate
-	    classes from which to extract a dependency graph.  You can
-	    separate multiple locations by using commas.  Each location
-	    can either be a JAR file, a ZIP file, a <code>.class</code> file, or a
-	    directory that will be recursively searched for <code>.class</code> files.
-	</td>
+        <td valign="top">
+            <b><code>source</code></b>
+        </td>
+        <td>
+            Use this variable to tell Dependency Finder's <code>extract.jsp</code> where
+            to locate classes from which to extract a dependency graph.  You
+            can separate multiple locations by using commas.  Each location
+            can either be a JAR file, a ZIP file, a <code>.class</code> file, or a
+            directory that will be recursively searched for <code>.class</code> files.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>file</code></b>
-	</td>
-	<td>
-	    Use this variable to tell Dependency Finder where to locate
-	    files which contain extracted dependency graphs.  You can
-	    separate multiple locations by using commas.  Each location
-	    should contain an XML document, such as the ones produced by
-	    <code>DependencyExtractor</code> directory that will be recursively.
-	</td>
+        <td valign="top">
+            <b><code>file</code></b>
+        </td>
+        <td>
+            Use this variable to tell Dependency Finder's <code>load.jsp</code> where to
+            locate files which contain extracted dependency graphs.  You can
+            separate multiple locations by using commas.  Each location
+            should contain an XML document, such as the ones produced by
+            <code>DependencyExtractor</code>.  If you specify more than one file, their
+	    contents will be merged together.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>mode</code></b>
-	</td>
-	<td>
-	    Optional.  Tells Dependency Finder whether to <i>minimize</i> or
-	    <i>maximize</i> the resulting graph, or just leave it alone (<i>raw</i>,
-	    the default value).  See below for the implications of
-	    minimizing or maximizing a graph.
-	</td>
+        <td valign="top">
+            <b><code>mode</code></b>
+        </td>
+        <td>
+            Optional.  Tells Dependency Finder whether to <i>minimize</i> or
+            <i>maximize</i> the resulting graph, or just leave it alone (<i>raw</i>,
+            the default value).  See below for the implications of
+            minimizing or maximizing a graph.
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -744,529 +750,529 @@ tools and end with the Ant tasks.
 <table border="3"
        cellpadding="5">
     <tr>
-	<th>
-	    CLI
-	</th>
-	<th>
-	    Ant
-	</th>
-	<th>
-	    GUI
-	</th>
-	<th>
-	    Web 
-	</th>
+        <th>
+            CLI
+        </th>
+        <th>
+            Ant
+        </th>
+        <th>
+            GUI
+        </th>
+        <th>
+            Web 
+        </th>
     </tr>
     <tr>
-	<td>
-	    <code>ClassDump</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ClassDump</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ClassList</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ClassList</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ClassMetrics</code>
-	</td>
-	<td>
-	    <code>&lt;classmetrics&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ClassMetrics</code>
+        </td>
+        <td>
+            <code>&lt;classmetrics&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ClassReader</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ClassReader</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ClosureToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ClosureToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ClosureToText</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/ClosureToText.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependablesToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependablesToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DependablesToHTML</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/DependablesToHTML.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependablesToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependablesToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DependablesToText</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/DependablesToText.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependencyClosure</code>
-	</td>
-	<td>
-	    <code>&lt;dependencyclosure&gt;</code>
-	</td>
-	<td>
-	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Closure
-	</td>
-	<td>
-	    <code>closure.jsp</code> &amp; <code>advancedclosure.jsp</code>
-	</td>
+        <td>
+            <code>DependencyClosure</code>
+        </td>
+        <td>
+            <code>&lt;dependencyclosure&gt;</code>
+        </td>
+        <td>
+            <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Closure
+        </td>
+        <td>
+            <code>closure.jsp</code> &amp; <code>advancedclosure.jsp</code>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependencyExtractor</code>
-	</td>
-	<td>
-	    <code>&lt;dependencyextractor&gt;</code>
-	</td>
-	<td>
-	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Extract
-	</td>
-	<td>
-	    <code>extract.jsp</code>
-	</td>
+        <td>
+            <code>DependencyExtractor</code>
+        </td>
+        <td>
+            <code>&lt;dependencyextractor&gt;</code>
+        </td>
+        <td>
+            <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Extract
+        </td>
+        <td>
+            <code>extract.jsp</code>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependencyFinder</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DependencyFinder</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependencyGraphToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DependencyGraphToHTML</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependencyGraphToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependencyGraphToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DependencyGraphToText</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/DependencyGraphToText.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependencyMetrics</code>
-	</td>
-	<td>
-	    <code>&lt;dependencymetrics&gt;</code>
-	</td>
-	<td>
-	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Metrics
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DependencyMetrics</code>
+        </td>
+        <td>
+            <code>&lt;dependencymetrics&gt;</code>
+        </td>
+        <td>
+            <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Metrics
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependencyReporter</code>
-	</td>
-	<td>
-	    <code>&lt;dependencyreporter&gt;</code>
-	</td>
-	<td>
-	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
-	</td>
+        <td>
+            <code>DependencyReporter</code>
+        </td>
+        <td>
+            <code>&lt;dependencyreporter&gt;</code>
+        </td>
+        <td>
+            <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependentsToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependentsToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DependentsToHTML</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/DependentsToHTML.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependentsToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DependentsToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DependentsToText</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/DependentsToText.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DiffToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/DiffToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>DiffToHTML</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/DiffToHTML.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>HideOutboundDependencyGraphToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/HideOutboundDependencyGraphToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>HideOutboundDependencyGraphToHTML</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/HideOutboundDependencyGraphToHTML.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>HideOutboundDependencyGraphToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/HideOutboundDependencyGraphToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>HideOutboundDependencyGraphToText</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/HideOutboundDependencyGraphToText.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>HideInboundDependencyGraphToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/HideInboundDependencyGraphToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>HideInboundDependencyGraphToHTML</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/HideInboundDependencyGraphToHTML.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>HideInboundDependencyGraphToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/HideInboundDependencyGraphToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>HideInboundDependencyGraphToText</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/HideInboundDependencyGraphToText.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>JarJarDiff</code>
-	</td>
-	<td>
-	    <code>&lt;jarjardiff&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>JarJarDiff</code>
+        </td>
+        <td>
+            <code>&lt;jarjardiff&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ListDiff</code>
-	</td>
-	<td>
-	    <code>&lt;listdiff&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ListDiff</code>
+        </td>
+        <td>
+            <code>&lt;listdiff&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ListDiffToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDiffToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ListDiffToHTML</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDiffToHTML.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ListDiffToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDiffToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ListDiffToText</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDiffToText.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ListDocumentedElements</code>
-	</td>
-	<td>
-	    <pre>&lt;javadoc&gt;
+        <td>
+            <code>ListDocumentedElements</code>
+        </td>
+        <td>
+            <pre>&lt;javadoc&gt;
     &lt;doclet name="com.jeantessier.diff.ListDocumentedElements"
-	    path="${classesDir}"&gt;
-	&lt;param name="-tag" value="level"/&gt;
-	&lt;param name="-valid" value="published"/&gt;
-	&lt;param name="-out" value="documented_elements.txt"/&gt;
+            path="${classesDir}"&gt;
+        &lt;param name="-tag" value="level"/&gt;
+        &lt;param name="-valid" value="published"/&gt;
+        &lt;param name="-out" value="documented_elements.txt"/&gt;
     &lt;/doclet&gt;
 &lt;/javadoc&gt;</pre>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ListInheritanceDiffToText</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListInheritanceDiffToText.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ListInheritanceDiffToText</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/ListInheritanceDiffToText.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ListSymbols</code>
-	</td>
-	<td>
-	    <code>&lt;listsymbols&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ListSymbols</code>
+        </td>
+        <td>
+            <code>&lt;listsymbols&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>ListUnused</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/ListUnused.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>ListUnused</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/ListUnused.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>OOMetrics</code>
-	</td>
-	<td>
-	    <code>&lt;oometrics&gt;</code>
-	</td>
-	<td>
-	    <code>OOMetricsGUI</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>OOMetrics</code>
+        </td>
+        <td>
+            <code>&lt;oometrics&gt;</code>
+        </td>
+        <td>
+            <code>OOMetricsGUI</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>PublishedDiffToHTML</code>
-	</td>
-	<td>
-	    <code>&lt;xslt style="${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>PublishedDiffToHTML</code>
+        </td>
+        <td>
+            <code>&lt;xslt style="${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>XSLTProcess</code>
-	</td>
-	<td>
-	    <code>&lt;xslt&gt;</code>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
-	<td>
-	    <i>n/a</i>
-	</td>
+        <td>
+            <code>XSLTProcess</code>
+        </td>
+        <td>
+            <code>&lt;xslt&gt;</code>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
+        <td>
+            <i>n/a</i>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>c2c</code>
-	</td>
-	<td>
-	    <code>&lt;dependencyreporter c2c="yes"&gt;</code>
-	</td>
-	<td>
-	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
-	</td>
+        <td>
+            <code>c2c</code>
+        </td>
+        <td>
+            <code>&lt;dependencyreporter c2c="yes"&gt;</code>
+        </td>
+        <td>
+            <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>c2p</code>
-	</td>
-	<td>
-	    <code>&lt;dependencyreporter c2p="yes"&gt;</code>
-	</td>
-	<td>
-	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
-	</td>
+        <td>
+            <code>c2p</code>
+        </td>
+        <td>
+            <code>&lt;dependencyreporter c2p="yes"&gt;</code>
+        </td>
+        <td>
+            <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>f2f</code>
-	</td>
-	<td>
-	    <code>&lt;dependencyreporter f2f="yes"&gt;</code>
-	</td>
-	<td>
-	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
-	</td>
+        <td>
+            <code>f2f</code>
+        </td>
+        <td>
+            <code>&lt;dependencyreporter f2f="yes"&gt;</code>
+        </td>
+        <td>
+            <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>p2p</code>
-	</td>
-	<td>
-	    <code>&lt;dependencyreporter p2p="yes"&gt;</code>
-	</td>
-	<td>
-	    <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
-	</td>
-	<td>
-	    <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
-	</td>
+        <td>
+            <code>p2p</code>
+        </td>
+        <td>
+            <code>&lt;dependencyreporter p2p="yes"&gt;</code>
+        </td>
+        <td>
+            <code>DependencyFinder</code> &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+        </td>
+        <td>
+            <code>query.jsp</code> &amp; <code>advancedquery.jsp</code>
+        </td>
     </tr>
 </table>
 
@@ -1313,48 +1319,48 @@ support some or all of the following four command-line switches:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    <code>-in</code>
-	</td>
-	<td>
-	    Many of the CLI tools are automated translations of XML data
-	    into either HTML or plain text.  The scripts have hard-coded
-	    XSL stylesheets.  You specify the XML input with this switch.
-	</td>
+        <td valign="top"
+            nowrap="true">
+            <code>-in</code>
+        </td>
+        <td>
+            Many of the CLI tools are automated translations of XML data
+            into either HTML or plain text.  The scripts have hard-coded
+            XSL stylesheets.  You specify the XML input with this switch.
+        </td>
     </tr>
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    <code>-out filename</code>
-	</td>
-	<td>
-	    Writes the output of the command to <i>filename</i>.  Most commands
-	    default to the standard output if you do not use <code>-out</code>.
-	</td>
+        <td valign="top"
+            nowrap="true">
+            <code>-out filename</code>
+        </td>
+        <td>
+            Writes the output of the command to <i>filename</i>.  Most commands
+            default to the standard output if you do not use <code>-out</code>.
+        </td>
     </tr>
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    <code>-time</code>
-	</td>
-	<td>
-	    Prints the time it took to run the command.  If you run commands
-	    against a large codebase or dependency graph, it can take a
-	    substantial amount of time before it returns.  This information
-	    can help you plan lenghty operations in the future.
-	</td>
+        <td valign="top"
+            nowrap="true">
+            <code>-time</code>
+        </td>
+        <td>
+            Prints the time it took to run the command.  If you run commands
+            against a large codebase or dependency graph, it can take a
+            substantial amount of time before it returns.  This information
+            can help you plan lenghty operations in the future.
+        </td>
     </tr>
     <tr>
-	<td valign="top"
-	    nowrap="true">
-	    <code>-verbose [filename]</code>
-	</td>
-	<td>
-	    Writes summary processing information to <i>filename</i>.  If you do
-	    not specify a file, the tool will write the information to the
-	    standard output stream.
-	</td>
+        <td valign="top"
+            nowrap="true">
+            <code>-verbose [filename]</code>
+        </td>
+        <td>
+            Writes summary processing information to <i>filename</i>.  If you do
+            not specify a file, the tool will write the information to the
+            standard output stream.
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -1411,7 +1417,7 @@ an object of another class.
 </p>
 
 <p>
-Knowing about dependencies is useful for programmers when deciding the
+Knowing about dependencies is useful for programmers when evaluating the
 impact of a change.  When you're about to rename a feature or class, it is
 useful to know all the places in the codebase where it is being used.
 </p>
@@ -1445,27 +1451,66 @@ outbound is relative to how you look at it.  We also say that <code>A</code> is 
 
 <p>
 A dependency graph comprises nodes for software artifacts linked
-together by two types of relationships.  Artifacts are packages,
-classes, and features.  We use the term <i>feature</i> to designate
-class attributes, constructors, and methods; we will be treating
-them the same from here on.  For the purpose of analyzing dependencies,
-we do not distinguish between different types of features, whether they
-are constructors or regular methods, and regardless of the feature's
+together using two types of relationships.
+</p>
+
+<p>
+Artifacts are packages, classes, and features.  We use the term <i>feature</i> to
+designate class attributes, constructors, and methods; we will be treating
+them the same from here on.  For the purpose of analyzing dependencies, we do
+not distinguish between different types of features, whether they are
+constructors or regular methods, and regardless of the feature's
 characteristics, such as being marked as <code>final</code> or <code>static</code>.
 </p>
 
 <p>
-Packages have classes, which themselves have features; this is called
-<i>composition</i>.  Classes refer to each other and so do features; this is
-called a <i>dependency</i>.
+The first type of relationship is <i>composition</i>.  Packages have classes, which
+themselves have features.  We call this kind of "has a" relationship
+<i>composition</i>.  A feature node is linked to its class node through composition.
+A class node is also linked to its package node through composition.
 </p>
 
 <p>
-So a feature node is linked to its class node through composition.
-The class node is also linked to its package node through
-composition.  Each is linked to various other nodes of various type
-using dependency links.
+The second type of relationship is <i>dependency</i>.  Classes refer to each other,
+features refer to each other, and features refer to classes.  We call this kind
+of relationship <i>dependency</i>.  Each node is linked to various other nodes of
+various type using dependency links.
 </p>
+
+<p>
+Here is a quick example:
+</p>
+
+<div class="highlight">
+
+<pre>
+    public interface TestInterface {
+        // Left empty on purpose
+    }
+</pre>
+
+</div>
+
+<p>
+In Java, <i>every</i> class is ultimately derived from <code>java.lang.Object</code>.  For our
+example, we would write:
+</p>
+
+<pre>
+    TestInterface --> java.lang.Object
+</pre>
+
+<p>
+This notation looks nice when identifiers are small, but it quickly becomes
+unmanageable as real-life identifiers get longer and longer.  Dependency
+Finder uses a variation of this notation that is easier to display, read and
+even print when there are many dependencies at a time.
+</p>
+
+<pre>
+    TestInterface
+        --> java.lang.Object
+</pre>
 
 <a name="Extracting"></a>
 <h3>Extracting</h3>
@@ -1520,6 +1565,181 @@ are also <i>implicit</i> dependencies derived from these explicit ones.  A
 dependency between two classes in two separate packages <i>implies</i> a
 dependency between the packages.
 </p>
+
+<a name="Concretevs.ReferencedElements"></a>
+<h4>Concrete vs. Referenced Elements</h4>
+
+<p>
+Here is the full dependency graph, as seen by Dependency Finder, for the
+<code>TestInterface</code> example from before.
+</p>
+
+<div class="highlight">
+
+<pre>
+    public interface TestInterface {
+        // Left empty on purpose
+    }
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
+        TestInterface
+            --> java.lang.Object *
+    java.lang *
+        Object *
+            <-- TestInterface
+</pre>
+
+</div>
+
+<p>
+Dependency Finder uses <code>*</code> to distinguish identifers that were only
+<i>referenced</i> in the code it analyzed, as opposed to <i>concrete</i> symbols that it
+actually encountered.  In this case, we only analyzed <code>TestInterface</code> and not
+<code>Object</code>, so as far Dependency Finder is concerned, the actual existence of
+<code>Object</code> is only an unconfirmed rumor.  At runtime, the virtual machine will
+have to somehow resolve this reference to an actual class, but we do not need
+to do this for our purposes.
+</p>
+
+<p>
+Here is another, slightly more complex example:
+</p>
+
+<div class="highlight">
+
+<pre>
+    public class ParentClass {
+        public void a() {
+            // Left empty on purpose
+        }
+    }
+    &nbsp;
+    public class ChildClass extends ParentClass {
+        public void b() {
+            a();
+        }
+    }
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
+        ChildClass
+            --> ParentClass
+            ChildClass()
+                --> ParentClass.ParentClass()
+            a() *
+                <-- ChildClass.b()
+            b()
+                --> ChildClass.a() *
+        ParentClass
+            <-- ChildClass
+            --> java.lang.Object *
+            ParentClass()
+                <-- ChildClass.ChildClass()
+                --> java.lang.Object.Object() *
+            a()
+    java.lang *
+        Object *
+            <-- ParentClass
+            Object() *
+                <-- ParentClass.ParentClass()
+</pre>
+
+</div>
+
+<p>
+Here, the implicit constructor for <code>ChildClass</code> calls the implicit constructor
+for <code>ParentClass</code> (which in turn calls the default constructor for <code>Object</code>).
+So there is a dependency:
+</p>
+
+<pre>
+    ChildClass.ChildClass --> ParentClass.ParentClass()
+</pre>
+
+<p>
+These constructors were created by the compiler, but they are actual methods
+in the bytecode for their respective class.  Dependency Finder considers them
+concrete programming elements.
+</p>
+
+<p>
+We also see that the method <code>b()</code> calls the inherited method <code>a()</code>.  There is
+a dependency:
+</p>
+
+<pre>
+    ChildClass.b() --> ChildClass.a()
+</pre>
+
+<p>
+But there is no actual method <code>a()</code> in <code>ChildClass</code>, so Dependency Finder marks
+it as referenced only using a <code>*</code>.  The actual method <code>a()</code> in <code>ParentClass</code>
+does not have any direct dependency on it, but the virtual machine will resolve
+the calls to <code>ChildClass.a()</code> as calls to <code>ParentClass.a()</code> at runtime.
+</p>
+
+<p>
+Up until JDK 1.3, the compiler would have resolved the call to <code>a()</code> to the
+definition in <code>ParentClass</code>.  This works fine until later versions of classes
+start overridding <code>a()</code>.  Let us imaging a class <code>MiddleClass</code> that sits
+between <code>ParentClass</code> and <code>ChildClass</code> in the inheritance hierarchy.  At first,
+neither <code>MiddleClass</code> nor <code>ChildClass</code> override <code>a()</code>, so the compiled would
+resolve the method call to the version in <code>ParentClass</code>.  If we later
+substitute a new version of <code>MiddleClass</code> that overrides <code>a()</code> but we do not
+recompile <code>ChildClass</code>, it will mistakenly use the version in <code>ParentClass</code>
+instead of the correct version in <code>MiddleClass</code>.  The compiler in JDK 1.4 and
+forward no longer tries to resolve references to symbols to prevent this
+problem from occuring.
+</p>
+
+<p>
+Here is what the dependency graph would look like, using the JDK 1.3 compiler.
+</p>
+
+<div class="lowlight">
+
+<pre>
+    &nbsp;
+        ChildClass
+            --> MiddleClass
+            ChildClass()
+                --> MiddleClass.MiddleClass()
+            <b>b()</b>
+                <b>--> ParentClass.a()</b>
+        MiddleClass
+            <-- ChildClass
+            --> ParentClass
+            MiddleClass()
+                <-- ChildClass.ChildClass()
+                --> ParentClass.ParentClass()
+            <b>a()</b>
+        ParentClass
+            <-- MiddleClass
+            --> java.lang.Object *
+            ParentClass()
+                <-- MiddleClass.ChildClass()
+                --> java.lang.Object.Object() *
+            <b>a()</b>
+                <b><-- ChildClass.b()</b>
+    java.lang *
+        Object *
+            <-- ParentClass
+            Object() *
+                <-- ParentClass.ParentClass()
+</pre>
+
+</div>
 
 <a name="Limitations"></a>
 <h4>Limitations</h4>
@@ -1814,29 +2034,29 @@ Here is the raw output dependency graph.
 <pre>
     &nbsp;
         test
-            --> java.lang.Object
+            --> java.lang.Object *
             main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.lang.String *
+                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Set *
             test()
-                --> java.lang.Object.Object()
-    java.lang
-        Object
+                --> java.lang.Object.Object() *
+    java.lang *
+        Object *
             <-- test
             <-- test.main(java.lang.String[])
-            Object()
+            Object() *
                 <-- test.main(java.lang.String[])
                 <-- test.test()
-        String
+        String *
             <-- test.main(java.lang.String[])
-    java.util
-        Collections
-            singleton(java.lang.Object)
+    java.util *
+        Collections *
+            singleton(java.lang.Object) *
                 <-- test.main(java.lang.String[])
-        Set
+        Set *
             <-- test.main(java.lang.String[])
 </pre>
 
@@ -1872,10 +2092,10 @@ And narrow down the graph to class-to-class dependencies.
 <pre>
     &nbsp;
         test
-            --> java.lang.Object
-            --> java.lang.String
-            --> java.util.Collections
-            --> java.util.Set
+            --> java.lang.Object *
+            --> java.lang.String *
+            --> java.util.Collections *
+            --> java.util.Set *
 </pre>
 
 </div>
@@ -1967,8 +2187,8 @@ these commands are equivalent.
 <pre>
     &nbsp;
         test
-            --> java.lang
-            --> java.util
+            --> java.lang *
+            --> java.util *
 </pre>
 
 </div>
@@ -2006,11 +2226,11 @@ equivalent.
 
 <pre>
     &nbsp;
-        --> java.lang
-        --> java.util
-    java.lang
+        --> java.lang *
+        --> java.util *
+    java.lang *
         <-- 
-    java.util
+    java.util *
         <-- 
 </pre>
 
@@ -2025,12 +2245,21 @@ equivalent.
 <h4>Extracting With the Web Application</h4>
 
 <p>
-The web application can either extract a dependency graph from compiled Java
-code, or read one that was previously extracted from one or more XML document.
-The graph will stay in memory for the lifetime of the process serving the
-application, or until you load it anew.  This graph can get pretty big, so make
-sure you allocate enough memory to the application server.
+The web application can get a dependency graph from either compiled Java code
+or an XML document.  The graph will stay in memory for the lifetime of the
+process serving the application, or until you reload it.  This graph can get
+pretty big, so make sure you allocate enough memory to the application server.
+This is why the two pages you use to get the graph in memory, <code>extract.jsp</code> and
+<code>load.jsp</code>, are not linked into the navigation structure of the web
+application.  These operations can take a long time and consume vast amounts of
+memory.  Casual users should not launch them in an uncoordinated fashion or
+they could bring down the server.  It is best to have a designated
+administrator who can best decide when it is appropriate to refresh the data in
+the web application.
 </p>
+
+<a name="ExtractingfromCompiledJavaClasses"></a>
+<h5>Extracting from Compiled Java Classes</h5>
 
 <p>
 You use <code>extract.jsp</code> to generate a dependency graph from compiled Java code.
@@ -2048,8 +2277,19 @@ many classes it read and how long it took to analyze them.
 </p>
 
 <p>
+When there is already a graph present, <code>extract.jsp</code> shows a checkbox asking
+you if you just want to update the current graph instead of loading it from
+scratch.  If the codebase is large, it can take a few minutes to extract a
+complete graph from it.  If you just recompiled a class or two, you can ask the
+web application to simply pick up the changes and apply them to the current
+graph instead, which takes a lot less time.  Just leave the checkbox checked
+before you click on the <i>Launch</i> button.
+</p>
+
+<p>
 You can use the URL "<code>extract.jsp?launch=Launch</code>" to automatically update the
-graph after automated compilation runs, such as during nightly builds.
+graph after automated compilation runs, such as during nightly builds.  It
+always extracts a brand new graph from scratch.
 </p>
 
 <div class="highlight">
@@ -2062,6 +2302,9 @@ graph after automated compilation runs, such as during nightly builds.
 </pre>
 
 </div>
+
+<a name="LoadingPre-ExtractedDependencyGraph"></a>
+<h5>Loading Pre-Extracted Dependency Graph</h5>
 
 <p>
 You use <code>load.jsp</code> to read a dependency graph from an XML document such as the
@@ -2358,118 +2601,118 @@ Here are the dimentions of various graphs.
     <colgroup span="2" />
     <thead>
     <tr>
-	<td valign="top"
-	    rowspan="2"><b>Software</b></td>
-	<td align="center"
-	    colspan="3"><b>Artifacts</b></td>
-	<td align="center"
-	    colspan="5"><b>Dependencies</b></td>
+        <td valign="top"
+            rowspan="2"><b>Software</b></td>
+        <td align="center"
+            colspan="3"><b>Artifacts</b></td>
+        <td align="center"
+            colspan="5"><b>Dependencies</b></td>
     </tr>
     <tr>
-	<td align="center"><b>Packages</b></td>
-	<td align="center"><b>Classes</b></td>
-	<td align="center"><b>Features</b></td>
-	<td align="center"
-	    colspan="2"><b>Minimized</b></td>
-	<td align="center"><b>Raw</b></td>
-	<td align="center"
-	    colspan="2"><b>Maximized</b></td>
+        <td align="center"><b>Packages</b></td>
+        <td align="center"><b>Classes</b></td>
+        <td align="center"><b>Features</b></td>
+        <td align="center"
+            colspan="2"><b>Minimized</b></td>
+        <td align="center"><b>Raw</b></td>
+        <td align="center"
+            colspan="2"><b>Maximized</b></td>
     </tr>
     </thead>
     <tbody>
     <tr>
-	<td><code>test.java</code></td>
-	<td align="right">3</td>
-	<td align="right">5</td>
-	<td align="right">4</td>
-	<td align="right">5</td>
-	<td align="right">(-29%)</td>
-	<td align="right">7</td>
-	<td align="right">27</td>
-	<td align="right">(+286%)</td>
+        <td><code>test.java</code></td>
+        <td align="right">3</td>
+        <td align="right">5</td>
+        <td align="right">4</td>
+        <td align="right">5</td>
+        <td align="right">(-29%)</td>
+        <td align="right">7</td>
+        <td align="right">27</td>
+        <td align="right">(+286%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td>Jakarta-ORO</td>
-	<td align="right">9</td>
-	<td align="right">101</td>
-	<td align="right">835</td>
-	<td align="right">2,301</td>
-	<td align="right">(-13%)</td>
-	<td align="right">2,652</td>
-	<td align="right">4,641</td>
-	<td align="right">(+75%)</td>
+        <td>Jakarta-ORO</td>
+        <td align="right">9</td>
+        <td align="right">101</td>
+        <td align="right">835</td>
+        <td align="right">2,301</td>
+        <td align="right">(-13%)</td>
+        <td align="right">2,652</td>
+        <td align="right">4,641</td>
+        <td align="right">(+75%)</td>
     </tr>
     <tr>
-	<td>Log4J</td>
-	<td align="right">44</td>
-	<td align="right">542</td>
-	<td align="right">3,331</td>
-	<td align="right">10,880</td>
-	<td align="right">(-16%)</td>
-	<td align="right">12,961</td>
-	<td align="right">27,215</td>
-	<td align="right">(+110%)</td>
+        <td>Log4J</td>
+        <td align="right">44</td>
+        <td align="right">542</td>
+        <td align="right">3,331</td>
+        <td align="right">10,880</td>
+        <td align="right">(-16%)</td>
+        <td align="right">12,961</td>
+        <td align="right">27,215</td>
+        <td align="right">(+110%)</td>
     </tr>
     <tr>
-	<td>Xerces</td>
-	<td align="right">51</td>
-	<td align="right">880</td>
-	<td align="right">11,218</td>
-	<td align="right">38,194</td>
-	<td align="right">(-13%)</td>
-	<td align="right">43,893</td>
-	<td align="right">80,472</td>
-	<td align="right">(+83%)</td>
+        <td>Xerces</td>
+        <td align="right">51</td>
+        <td align="right">880</td>
+        <td align="right">11,218</td>
+        <td align="right">38,194</td>
+        <td align="right">(-13%)</td>
+        <td align="right">43,893</td>
+        <td align="right">80,472</td>
+        <td align="right">(+83%)</td>
     </tr>
     <tr>
-	<td>Xalan</td>
-	<td align="right">58</td>
-	<td align="right">855</td>
-	<td align="right">10,763</td>
-	<td align="right">35,317</td>
-	<td align="right">(-15%)</td>
-	<td align="right">41,594</td>
-	<td align="right">81,745</td>
-	<td align="right">(+97%)</td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr>
-	<td>Ant</td>
-	<td align="right">38</td>
-	<td align="right">568</td>
-	<td align="right">5,635</td>
-	<td align="right">22,057</td>
-	<td align="right">(-16%)</td>
-	<td align="right">26,184</td>
-	<td align="right">50,585</td>
-	<td align="right">(+93%)</td>
-    </tr>
-    <tr>
-	<td>Ant w/ optional</td>
-	<td align="right">113</td>
-	<td align="right">1,117</td>
-	<td align="right">10,854</td>
-	<td align="right">42,140</td>
-	<td align="right">(-16%)</td>
-	<td align="right">50,165</td>
-	<td align="right">99,178</td>
-	<td align="right">(+98%)</td>
+        <td>Xalan</td>
+        <td align="right">58</td>
+        <td align="right">855</td>
+        <td align="right">10,763</td>
+        <td align="right">35,317</td>
+        <td align="right">(-15%)</td>
+        <td align="right">41,594</td>
+        <td align="right">81,745</td>
+        <td align="right">(+97%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td>Dependency Finder</td>
-	<td align="right">27</td>
-	<td align="right">364</td>
-	<td align="right">3,587</td>
-	<td align="right">13,098</td>
-	<td align="right">(-18%)</td>
-	<td align="right">15,897</td>
-	<td align="right">28,923</td>
-	<td align="right">(+82%)</td>
+        <td>Ant</td>
+        <td align="right">38</td>
+        <td align="right">568</td>
+        <td align="right">5,635</td>
+        <td align="right">22,057</td>
+        <td align="right">(-16%)</td>
+        <td align="right">26,184</td>
+        <td align="right">50,585</td>
+        <td align="right">(+93%)</td>
+    </tr>
+    <tr>
+        <td>Ant w/ optional</td>
+        <td align="right">113</td>
+        <td align="right">1,117</td>
+        <td align="right">10,854</td>
+        <td align="right">42,140</td>
+        <td align="right">(-16%)</td>
+        <td align="right">50,165</td>
+        <td align="right">99,178</td>
+        <td align="right">(+98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td>Dependency Finder</td>
+        <td align="right">27</td>
+        <td align="right">364</td>
+        <td align="right">3,587</td>
+        <td align="right">13,098</td>
+        <td align="right">(-18%)</td>
+        <td align="right">15,897</td>
+        <td align="right">28,923</td>
+        <td align="right">(+82%)</td>
     </tr>
     </tbody>
 </table>
@@ -2614,60 +2857,60 @@ Special characters in regular expressions:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
-	    <b><code>[A-Z]</code></b>
-	</td>
-	<td>
-	    Capitals
-	</td>
+        <td valign="top">
+            <b><code>[A-Z]</code></b>
+        </td>
+        <td>
+            Capitals
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>\w</code></b>
-	</td>
-	<td>
-	    Alphanumerics [A-Za-z0-9_]
-	</td>
+        <td valign="top">
+            <b><code>\w</code></b>
+        </td>
+        <td>
+            Alphanumerics [A-Za-z0-9_]
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>\W</code></b>
-	</td>
-	<td>
-	    Non-alphanumerics [^A-Za-z0-9_]
-	</td>
+        <td valign="top">
+            <b><code>\W</code></b>
+        </td>
+        <td>
+            Non-alphanumerics [^A-Za-z0-9_]
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>\w+</code></b>
-	</td>
-	<td>
-	    At least one alphanumeric
-	</td>
+        <td valign="top">
+            <b><code>\w+</code></b>
+        </td>
+        <td>
+            At least one alphanumeric
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>\s</code></b>
-	</td>
-	<td>
-	    Space, including tab, carriage return, and line feed
-	</td>
+        <td valign="top">
+            <b><code>\s</code></b>
+        </td>
+        <td>
+            Space, including tab, carriage return, and line feed
+        </td>
     </tr>
      <tr>
-	<td valign="top">
-	    <b><code>\s*</code></b>
-	</td>
-	<td>
-	    Zero or more white space
-	</td>
+        <td valign="top">
+            <b><code>\s*</code></b>
+        </td>
+        <td>
+            Zero or more white space
+        </td>
     </tr>
    <tr>
-	<td valign="top">
-	    <b><code>\.</code></b>
-	</td>
-	<td>
-	    Matches '.', as opposed to any character
-	</td>
+        <td valign="top">
+            <b><code>\.</code></b>
+        </td>
+        <td>
+            Matches '.', as opposed to any character
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -2680,46 +2923,46 @@ Sample rules:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
-	    <b><code>//</code></b>
-	</td>
-	<td>
-	    Matches everything.
-	</td>
+        <td valign="top">
+            <b><code>//</code></b>
+        </td>
+        <td>
+            Matches everything.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>/abc/</code></b>
-	</td>
-	<td>
-	    Matches anything with "<code>abc</code>" in it.  Case-sensitive.
-	</td>
+        <td valign="top">
+            <b><code>/abc/</code></b>
+        </td>
+        <td>
+            Matches anything with "<code>abc</code>" in it.  Case-sensitive.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>/abc/i</code></b>
-	</td>
-	<td>
-	    Matches anything with "<code>abc</code>" in it.  Case-insensitive.
-	</td>
+        <td valign="top">
+            <b><code>/abc/i</code></b>
+        </td>
+        <td>
+            Matches anything with "<code>abc</code>" in it.  Case-insensitive.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>/^abc/</code></b>
-	</td>
-	<td>
-	    Matches anything starting with "<code>abc</code>" in it.
-	</td>
+        <td valign="top">
+            <b><code>/^abc/</code></b>
+        </td>
+        <td>
+            Matches anything starting with "<code>abc</code>" in it.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>/abc\(/</code></b>
-	</td>
-	<td>
-	    Matches anything with "<code>abc(</code>" in it.  Parentheses are
-	    special characters in Perl regular expressions and must be
-	    escaped with a backslash "\" character.
-	</td>
+        <td valign="top">
+            <b><code>/abc\(/</code></b>
+        </td>
+        <td>
+            Matches anything with "<code>abc(</code>" in it.  Parentheses are
+            special characters in Perl regular expressions and must be
+            escaped with a backslash "\" character.
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -2732,62 +2975,62 @@ Examples:
 <table border="0"
        cellpadding="5">
     <tr>
-	<td valign="top">
-	    <b><code>/java/</code></b>
-	</td>
-	<td>
-	    Matches anything with "<code>java</code>" in it.
-	</td>
+        <td valign="top">
+            <b><code>/java/</code></b>
+        </td>
+        <td>
+            Matches anything with "<code>java</code>" in it.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>/^java/</code></b>
-	</td>
-	<td>
-	    Matches anything that starts with "<code>java</code>".
-	</td>
+        <td valign="top">
+            <b><code>/^java/</code></b>
+        </td>
+        <td>
+            Matches anything that starts with "<code>java</code>".
+        </td>
     </tr>
      <tr>
-	<td valign="top">
-	    <b><code>/^com.jeantessier/</code></b>
-	</td>
-	<td>
-	    Matches anything that starts with "<code>com.jeantessier</code>".  Here,
-	    the '.' really matches any single character, which obviously
-	    includes the '.' character itself.
-	</td>
+        <td valign="top">
+            <b><code>/^com.jeantessier/</code></b>
+        </td>
+        <td>
+            Matches anything that starts with "<code>com.jeantessier</code>".  Here,
+            the '.' really matches any single character, which obviously
+            includes the '.' character itself.
+        </td>
     </tr>
    <tr>
-	<td valign="top">
-	    <b><code>/Node.Accept\(/</code></b>
-	</td>
-	<td>
-	    Matches any <code>Accept()</code> method of any class ending in "<code>Node</code>".
-	</td>
+        <td valign="top">
+            <b><code>/Node.Accept\(/</code></b>
+        </td>
+        <td>
+            Matches any <code>Accept()</code> method of any class ending in "<code>Node</code>".
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>/Test/</code></b>
-	</td>
-	<td>
-	    Matches anything with "<code>Test</code>" in it.
-	</td>
+        <td valign="top">
+            <b><code>/Test/</code></b>
+        </td>
+        <td>
+            Matches anything with "<code>Test</code>" in it.
+        </td>
     </tr>
     <tr>
-	<td valign="top">
-	    <b><code>/(Node)\.\1\(/</code></b>
-	</td>
-	<td>
-	    Matches any constructor for <code>Node</code>.
-	</td>
+        <td valign="top">
+            <b><code>/(Node)\.\1\(/</code></b>
+        </td>
+        <td>
+            Matches any constructor for <code>Node</code>.
+        </td>
     </tr>
     <tr>
-	<td valign="top" nowrap>
-	    <b><code>/(\w*Measurement)\.\1\(/</code></b>
-	</td>
-	<td>
-	    Matches any constructor for classes ending in <code>Measurement</code>.
-	</td>
+        <td valign="top" nowrap>
+            <b><code>/(\w*Measurement)\.\1\(/</code></b>
+        </td>
+        <td>
+            Matches any constructor for classes ending in <code>Measurement</code>.
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -2916,20 +3159,20 @@ with the following tools:
 <div class="lowlight">
 
 <pre>
-    java.lang
-        java.lang.Object
+    java.lang *
+        java.lang.Object *
             <-- test
             <-- test.main(java.lang.String[])
-            java.lang.Object.Object()
+            java.lang.Object.Object() *
                 <-- test.main(java.lang.String[])
                 <-- test.test()
-        java.lang.String
+        java.lang.String *
             <-- test.main(java.lang.String[])
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
+    java.util *
+        java.util.Collections *
+            java.util.Collections.singleton(java.lang.Object) *
                 <-- test.main(java.lang.String[])
-        java.util.Set
+        java.util.Set *
             <-- test.main(java.lang.String[])
 </pre>
 
@@ -2964,20 +3207,20 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
         test
             test.main(java.lang.String[])
             test.test()
-    java.lang
-        java.lang.Object
+    java.lang *
+        java.lang.Object *
             <-- test
             <-- test.main(java.lang.String[])
-            java.lang.Object.Object()
+            java.lang.Object.Object() *
                 <-- test.main(java.lang.String[])
                 <-- test.test()
-        java.lang.String
+        java.lang.String *
             <-- test.main(java.lang.String[])
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
+    java.util *
+        java.util.Collections *
+            java.util.Collections.singleton(java.lang.Object) *
                 <-- test.main(java.lang.String[])
-        java.util.Set
+        java.util.Set *
             <-- test.main(java.lang.String[])
 </pre>
 
@@ -3049,15 +3292,15 @@ following tools:
 <pre>
     &nbsp;
         test
-            --> java.lang.Object
+            --> java.lang.Object *
             test.main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.lang.String *
+                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Set *
             test.test()
-                --> java.lang.Object.Object()
+                --> java.lang.Object.Object() *
 </pre>
 
 </div>
@@ -3089,23 +3332,23 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
 <pre>
     &nbsp;
         test
-            --> java.lang.Object
+            --> java.lang.Object *
             test.main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.lang.String *
+                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Set *
             test.test()
-                --> java.lang.Object.Object()
-    java.lang
-        java.lang.Object
-            java.lang.Object.Object()
-        java.lang.String
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
-        java.util.Set
+                --> java.lang.Object.Object() *
+    java.lang *
+        java.lang.Object *
+            java.lang.Object.Object() *
+        java.lang.String *
+    java.util *
+        java.util.Collections *
+            java.util.Collections.singleton(java.lang.Object) *
+        java.util.Set *
 </pre>
 
 </div>
@@ -3166,29 +3409,29 @@ navigation.
 <pre>
     &nbsp;
         test
-            --> java.lang.Object
+            --> java.lang.Object *
             test.main(java.lang.String[])
-                --> java.lang.Object
-                --> java.lang.Object.Object()
-                --> java.lang.String
-                --> java.util.Collections.singleton(java.lang.Object)
-                --> java.util.Set
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.lang.String *
+                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Set *
             test.test()
-                --> java.lang.Object.Object()
-    java.lang
-        java.lang.Object
+                --> java.lang.Object.Object() *
+    java.lang *
+        java.lang.Object *
             <-- test
             <-- test.main(java.lang.String[])
-            java.lang.Object.Object()
+            java.lang.Object.Object() *
                 <-- test.main(java.lang.String[])
                 <-- test.test()
-        java.lang.String
+        java.lang.String *
             <-- test.main(java.lang.String[])
-    java.util
-        java.util.Collections
-            java.util.Collections.singleton(java.lang.Object)
+    java.util *
+        java.util.Collections *
+            java.util.Collections.singleton(java.lang.Object) *
                 <-- test.main(java.lang.String[])
-        java.util.Set
+        java.util.Set *
             <-- test.main(java.lang.String[])
 </pre>
 
@@ -3204,108 +3447,108 @@ This table summarizes which CLI tool shows which information.
 <blockquote>
 <table cellpadding="5">
     <tr>
-	<th align="left">
-	    Tool
-	</th>
-	<th>
-	    outbounds
-	</th>
-	<th>
-	    inbounds
-	</th>
-	<th>
-	    empty
-	</th>
+        <th align="left">
+            Tool
+        </th>
+        <th>
+            outbounds
+        </th>
+        <th>
+            inbounds
+        </th>
+        <th>
+            empty
+        </th>
     </tr>
     <tr>
-	<td>
-	    <code>DependencyGraphToHTML</code><br />
-	    <code>DependencyGraphToText</code>
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
+        <td>
+            <code>DependencyGraphToHTML</code><br />
+            <code>DependencyGraphToText</code>
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependablesToHTML</code><br />
-	    <code>DependablesToText</code>
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
+        <td>
+            <code>DependablesToHTML</code><br />
+            <code>DependablesToText</code>
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>DependentsToHTML</code><br />
-	    <code>DependentsToText</code>
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
+        <td>
+            <code>DependentsToHTML</code><br />
+            <code>DependentsToText</code>
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>HideOutboundDependenciesToHTML</code><br />
-	    <code>HideOutboundDependenciesToText</code>
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
+        <td>
+            <code>HideOutboundDependenciesToHTML</code><br />
+            <code>HideOutboundDependenciesToText</code>
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
     </tr>
     <tr>
-	<td>
-	    <code>HideInboundDependenciesToHTML</code><br />
-	    <code>HideInboundDependenciesToText</code>
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
-	<td align="center"
-	    valign="middle">
-	    -
-	</td>
-	<td align="center"
-	    valign="middle">
-	    X
-	</td>
+        <td>
+            <code>HideInboundDependenciesToHTML</code><br />
+            <code>HideInboundDependenciesToText</code>
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
+        <td align="center"
+            valign="middle">
+            -
+        </td>
+        <td align="center"
+            valign="middle">
+            X
+        </td>
     </tr>
 </table>
 </blockquote>
@@ -3487,233 +3730,233 @@ complexity.  This should help with both memory footprint and processing time.
     <colgroup span="2" />
     <thead>
     <tr>
-	<td valign="top"
+        <td valign="top"
             rowspan="2"><b>Graph</b></td>
-	<td align="center"
+        <td align="center"
             colspan="5"><b>Nodes</b></td>
-	<td valign="top"
+        <td valign="top"
             align="center"
             rowspan="2"
             colspan="2"><b>Dependencies</b></td>
-	<td valign="top"
+        <td valign="top"
             align="center"
             rowspan="2"
             colspan="2"><b>Nodes</b> x <b>Dependencies</b></td>
     </tr>
     <tr>
-	<td align="center"><b>Packages</b></td>
-	<td align="center"><b>Classes</b></td>
-	<td align="center"><b>Features</b></td>
-	<td align="center"
+        <td align="center"><b>Packages</b></td>
+        <td align="center"><b>Classes</b></td>
+        <td align="center"><b>Features</b></td>
+        <td align="center"
             colspan="2"><b>Total</b></td>
     </tr>
     </thead>
     <tbody>
     <tr>
-	<td><code>classreader.xml</code></td>
-	<td align="right">8</td>
-	<td align="right">112</td>
-	<td align="right">1,078</td>
-	<td align="right">1,198</td>
-	<td align="right"></td>
-	<td align="right">4,042</td>
-	<td align="right"></td>
-	<td align="right">4,842,316</td>
-	<td align="right"></td>
+        <td><code>classreader.xml</code></td>
+        <td align="right">8</td>
+        <td align="right">112</td>
+        <td align="right">1,078</td>
+        <td align="right">1,198</td>
+        <td align="right"></td>
+        <td align="right">4,042</td>
+        <td align="right"></td>
+        <td align="right">4,842,316</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td><code>classreader.c2c.xml</code></td>
-	<td align="right">8</td>
-	<td align="right">112</td>
-	<td align="right">0</td>
-	<td align="right">120</td>
-	<td align="right">(-90%)</td>
-	<td align="right">809</td>
-	<td align="right">(-80%)</td>
-	<td align="right">97,080</td>
-	<td align="right">(-98%)</td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr>
-	<td><code>commandline.xml</code></td>
-	<td align="right">3</td>
-	<td align="right">34</td>
-	<td align="right">204</td>
-	<td align="right">241</td>
-	<td align="right"></td>
-	<td align="right">545</td>
-	<td align="right"></td>
-	<td align="right">131,345</td>
-	<td align="right"></td>
-    </tr>
-    <tr>
-	<td><code>commandline.c2c.xml</code></td>
-	<td align="right">3</td>
-	<td align="right">34</td>
-	<td align="right">0</td>
-	<td align="right">37</td>
-	<td align="right">(-85%)</td>
-	<td align="right">115</td>
-	<td align="right">(-79%)</td>
-	<td align="right">4,255</td>
-	<td align="right">(-97%)</td>
+        <td><code>classreader.c2c.xml</code></td>
+        <td align="right">8</td>
+        <td align="right">112</td>
+        <td align="right">0</td>
+        <td align="right">120</td>
+        <td align="right">(-90%)</td>
+        <td align="right">809</td>
+        <td align="right">(-80%)</td>
+        <td align="right">97,080</td>
+        <td align="right">(-98%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td><code>dependency.xml</code></td>
-	<td align="right">11</td>
-	<td align="right">102</td>
-	<td align="right">903</td>
-	<td align="right">1,016</td>
-	<td align="right"></td>
-	<td align="right">3,429</td>
-	<td align="right"></td>
-	<td align="right">3,483,864</td>
-	<td align="right"></td>
+        <td><code>commandline.xml</code></td>
+        <td align="right">3</td>
+        <td align="right">34</td>
+        <td align="right">204</td>
+        <td align="right">241</td>
+        <td align="right"></td>
+        <td align="right">545</td>
+        <td align="right"></td>
+        <td align="right">131,345</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td><code>dependency.c2c.xml</code></td>
-	<td align="right">11</td>
-	<td align="right">102</td>
-	<td align="right">0</td>
-	<td align="right">113</td>
-	<td align="right">(-89%)</td>
-	<td align="right">395</td>
-	<td align="right">(-88%)</td>
-	<td align="right">44,635</td>
-	<td align="right">(-99%)</td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr>
-	<td><code>dependencyfinder.xml</code></td>
-	<td align="right">27</td>
-	<td align="right">252</td>
-	<td align="right">1,744</td>
-	<td align="right">2,023</td>
-	<td align="right"></td>
-	<td align="right">6,947</td>
-	<td align="right"></td>
-	<td align="right">14,053,781</td>
-	<td align="right"></td>
-    </tr>
-    <tr>
-	<td><code>dependencyfinder.c2c.xml</code></td>
-	<td align="right">27</td>
-	<td align="right">252</td>
-	<td align="right">0</td>
-	<td align="right">279</td>
-	<td align="right">(-86%)</td>
-	<td align="right">1,429</td>
-	<td align="right">(-79%)</td>
-	<td align="right">398,691</td>
-	<td align="right">(-97%)</td>
+        <td><code>commandline.c2c.xml</code></td>
+        <td align="right">3</td>
+        <td align="right">34</td>
+        <td align="right">0</td>
+        <td align="right">37</td>
+        <td align="right">(-85%)</td>
+        <td align="right">115</td>
+        <td align="right">(-79%)</td>
+        <td align="right">4,255</td>
+        <td align="right">(-97%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td><code>diff.xml</code></td>
-	<td align="right">9</td>
-	<td align="right">75</td>
-	<td align="right">504</td>
-	<td align="right">588</td>
-	<td align="right"></td>
-	<td align="right">1,580</td>
-	<td align="right"></td>
-	<td align="right">929,040</td>
-	<td align="right"></td>
+        <td><code>dependency.xml</code></td>
+        <td align="right">11</td>
+        <td align="right">102</td>
+        <td align="right">903</td>
+        <td align="right">1,016</td>
+        <td align="right"></td>
+        <td align="right">3,429</td>
+        <td align="right"></td>
+        <td align="right">3,483,864</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td><code>diff.c2c.xml</code></td>
-	<td align="right">9</td>
-	<td align="right">75</td>
-	<td align="right">0</td>
-	<td align="right">84</td>
-	<td align="right">(-86%)</td>
-	<td align="right">235</td>
-	<td align="right">(-85%)</td>
-	<td align="right">19,740</td>
-	<td align="right">(-98%)</td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr>
-	<td><code>metrics.xml</code></td>
-	<td align="right">13</td>
-	<td align="right">112</td>
-	<td align="right">820</td>
-	<td align="right">945</td>
-	<td align="right"></td>
-	<td align="right">2,873</td>
-	<td align="right"></td>
-	<td align="right">2,714,985</td>
-	<td align="right"></td>
-    </tr>
-    <tr>
-	<td><code>metrics.c2c.xml</code></td>
-	<td align="right">13</td>
-	<td align="right">112</td>
-	<td align="right">0</td>
-	<td align="right">125</td>
-	<td align="right">(-87%)</td>
-	<td align="right">418</td>
-	<td align="right">(-85%)</td>
-	<td align="right">52,250</td>
-	<td align="right">(-98%)</td>
+        <td><code>dependency.c2c.xml</code></td>
+        <td align="right">11</td>
+        <td align="right">102</td>
+        <td align="right">0</td>
+        <td align="right">113</td>
+        <td align="right">(-89%)</td>
+        <td align="right">395</td>
+        <td align="right">(-88%)</td>
+        <td align="right">44,635</td>
+        <td align="right">(-99%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td><code>text.xml</code></td>
-	<td align="right">5</td>
-	<td align="right">11</td>
-	<td align="right">20</td>
-	<td align="right">36</td>
-	<td align="right"></td>
-	<td align="right">66</td>
-	<td align="right"></td>
-	<td align="right">2,376</td>
-	<td align="right"></td>
+        <td><code>dependencyfinder.xml</code></td>
+        <td align="right">27</td>
+        <td align="right">252</td>
+        <td align="right">1,744</td>
+        <td align="right">2,023</td>
+        <td align="right"></td>
+        <td align="right">6,947</td>
+        <td align="right"></td>
+        <td align="right">14,053,781</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td><code>text.c2c.xml</code></td>
-	<td align="right">5</td>
-	<td align="right">11</td>
-	<td align="right">0</td>
-	<td align="right">16</td>
-	<td align="right">(-56%)</td>
-	<td align="right">10</td>
-	<td align="right">(-85%)</td>
-	<td align="right">160</td>
-	<td align="right">(-93%)</td>
+        <td><code>dependencyfinder.c2c.xml</code></td>
+        <td align="right">27</td>
+        <td align="right">252</td>
+        <td align="right">0</td>
+        <td align="right">279</td>
+        <td align="right">(-86%)</td>
+        <td align="right">1,429</td>
+        <td align="right">(-79%)</td>
+        <td align="right">398,691</td>
+        <td align="right">(-97%)</td>
     </tr>
     </tbody>
     <tbody>
     <tr>
-	<td><code>all.xml</code></td>
-	<td align="right">35</td>
-	<td align="right">420</td>
-	<td align="right">4,571</td>
-	<td align="right">5,026</td>
-	<td align="right"></td>
-	<td align="right">17,846</td>
-	<td align="right"></td>
-	<td align="right">89,693,996</td>
-	<td align="right"></td>
+        <td><code>diff.xml</code></td>
+        <td align="right">9</td>
+        <td align="right">75</td>
+        <td align="right">504</td>
+        <td align="right">588</td>
+        <td align="right"></td>
+        <td align="right">1,580</td>
+        <td align="right"></td>
+        <td align="right">929,040</td>
+        <td align="right"></td>
     </tr>
     <tr>
-	<td><code>all.c2c.xml</code></td>
-	<td align="right">35</td>
-	<td align="right">420</td>
-	<td align="right">0</td>
-	<td align="right">455</td>
-	<td align="right">(-91%)</td>
-	<td align="right">3,411</td>
-	<td align="right">(-81%)</td>
-	<td align="right">1,552,005</td>
-	<td align="right">(-98%)</td>
+        <td><code>diff.c2c.xml</code></td>
+        <td align="right">9</td>
+        <td align="right">75</td>
+        <td align="right">0</td>
+        <td align="right">84</td>
+        <td align="right">(-86%)</td>
+        <td align="right">235</td>
+        <td align="right">(-85%)</td>
+        <td align="right">19,740</td>
+        <td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td><code>metrics.xml</code></td>
+        <td align="right">13</td>
+        <td align="right">112</td>
+        <td align="right">820</td>
+        <td align="right">945</td>
+        <td align="right"></td>
+        <td align="right">2,873</td>
+        <td align="right"></td>
+        <td align="right">2,714,985</td>
+        <td align="right"></td>
+    </tr>
+    <tr>
+        <td><code>metrics.c2c.xml</code></td>
+        <td align="right">13</td>
+        <td align="right">112</td>
+        <td align="right">0</td>
+        <td align="right">125</td>
+        <td align="right">(-87%)</td>
+        <td align="right">418</td>
+        <td align="right">(-85%)</td>
+        <td align="right">52,250</td>
+        <td align="right">(-98%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td><code>text.xml</code></td>
+        <td align="right">5</td>
+        <td align="right">11</td>
+        <td align="right">20</td>
+        <td align="right">36</td>
+        <td align="right"></td>
+        <td align="right">66</td>
+        <td align="right"></td>
+        <td align="right">2,376</td>
+        <td align="right"></td>
+    </tr>
+    <tr>
+        <td><code>text.c2c.xml</code></td>
+        <td align="right">5</td>
+        <td align="right">11</td>
+        <td align="right">0</td>
+        <td align="right">16</td>
+        <td align="right">(-56%)</td>
+        <td align="right">10</td>
+        <td align="right">(-85%)</td>
+        <td align="right">160</td>
+        <td align="right">(-93%)</td>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr>
+        <td><code>all.xml</code></td>
+        <td align="right">35</td>
+        <td align="right">420</td>
+        <td align="right">4,571</td>
+        <td align="right">5,026</td>
+        <td align="right"></td>
+        <td align="right">17,846</td>
+        <td align="right"></td>
+        <td align="right">89,693,996</td>
+        <td align="right"></td>
+    </tr>
+    <tr>
+        <td><code>all.c2c.xml</code></td>
+        <td align="right">35</td>
+        <td align="right">420</td>
+        <td align="right">0</td>
+        <td align="right">455</td>
+        <td align="right">(-91%)</td>
+        <td align="right">3,411</td>
+        <td align="right">(-81%)</td>
+        <td align="right">1,552,005</td>
+        <td align="right">(-98%)</td>
     </tr>
     </tbody>
 </table>
@@ -3770,34 +4013,34 @@ distance to the source is 2 is <code>[A, E]</code>.
 <blockquote>
 <table cellpadding="3">
     <tr>
-	<td><b>distance</b></td>
-	<td></td>
-	<td><b>closure</b></td>
+        <td><b>distance</b></td>
+        <td></td>
+        <td><b>closure</b></td>
     </tr>
     <tr>
-	<td>0</td>
-	<td></td>
-	<td><code>[C]</code></td>
+        <td>0</td>
+        <td></td>
+        <td><code>[C]</code></td>
     </tr>
     <tr>
-	<td>1</td>
-	<td></td>
-	<td><code>[B, C, D]</code></td>
+        <td>1</td>
+        <td></td>
+        <td><code>[B, C, D]</code></td>
     </tr>
     <tr>
-	<td><i>no constraint</i></td>
-	<td></td>
-	<td><code>[A, B, C, D, E]</code></td>
+        <td><i>no limit</i></td>
+        <td></td>
+        <td><code>[A, B, C, D, E]</code></td>
     </tr>
     <tr>
-	<td><i>upstream</i></td>
-	<td></td>
-	<td><code>[A, B, C]</code></td>
+        <td><i>upstream only</i></td>
+        <td></td>
+        <td><code>[A, B, C]</code></td>
     </tr>
     <tr>
-	<td><i>downstream</i></td>
-	<td></td>
-	<td><code>[C, D, E]</code></td>
+        <td><i>downstream only</i></td>
+        <td></td>
+        <td><code>[C, D, E]</code></td>
     </tr>
 </table>
 </blockquote>
@@ -4806,30 +5049,30 @@ of the valid range you specified.
 <blockquote>
 <table cellpadding="5">
     <tr>
-	<td><b>specify</b></td>
-	<td></td>
-	<td><b>valid range is</b></td>
+        <td><b>specify</b></td>
+        <td></td>
+        <td><b>valid range is</b></td>
     </tr>
     <tr>
-	<td>none</td>
-	<td></td>
-	<td>all values are valid</td>
+        <td>none</td>
+        <td></td>
+        <td>all values are valid</td>
     </tr>
     <tr>
-	<td>lower threshold only</td>
-	<td></td>
-	<td>all values greater than or equal to the threshold are valid</td>
+        <td>lower threshold only</td>
+        <td></td>
+        <td>all values greater than or equal to the threshold are valid</td>
     </tr>
     <tr>
-	<td>upper threshold only</td>
-	<td></td>
-	<td>all values lesser than or equal to the threshold are valid</td>
+        <td>upper threshold only</td>
+        <td></td>
+        <td>all values lesser than or equal to the threshold are valid</td>
     </tr>
     <tr>
-	<td>both lower and upper threshold only</td>
-	<td></td>
-	<td>all values in the range between the lower and upper threshold,
-	including them, are valid</td>
+        <td>both lower and upper threshold only</td>
+        <td></td>
+        <td>all values in the range between the lower and upper threshold,
+        including them, are valid</td>
     </tr>
 </table>
 </blockquote>
@@ -5046,29 +5289,29 @@ files.
 <table>
     <caption align="left"><b>Key</b></caption>
     <tr>
-	<td align="right">
-	    <img src="images/SourceFiles.gif" /><br />
-	</td>
-	<td>
-	    Source files that <b>you</b> write.
-	</td>
+        <td align="right">
+            <img src="images/SourceFiles.gif" /><br />
+        </td>
+        <td>
+            Source files that <b>you</b> write.
+        </td>
     </tr>
     <tr>
-	<td align="right">
-	    <img src="images/JDKWorkflow.gif" /><br />
-	</td>
-	<td>
-	    JDK tools and files they generate.
-	</td>
+        <td align="right">
+            <img src="images/JDKWorkflow.gif" /><br />
+        </td>
+        <td>
+            JDK tools and files they generate.
+        </td>
     </tr>
     <tr>
-	<td align="right">
-	    <img src="images/DependencyFinderWorkflow.gif" /><br />
-	</td>
-	<td>
-	    Dependency Finder tools and files they generate,
-	    based on <b>your</b> code.
-	</td>
+        <td align="right">
+            <img src="images/DependencyFinderWorkflow.gif" /><br />
+        </td>
+        <td>
+            Dependency Finder tools and files they generate,
+            based on <b>your</b> code.
+        </td>
     </tr>
 </table>
 
@@ -5093,7 +5336,7 @@ computes the API differences between versions <i>Old</i> and <i>New</i> of
                    -old-label Old
                    -old old.jar
                    -new-label New
-	           -new new.jar
+                   -new new.jar
 </pre>
 
 </div>
@@ -5144,8 +5387,8 @@ the Dependency Finder classes.    There is a special
 <pre>
     &lt;jarjardiff destfile="xerces.xml"
                 name="My Project"
-	        oldlabel="Old"
-	        newlabel="New"&gt;
+                oldlabel="Old"
+                newlabel="New"&gt;
         &lt;old&gt;
             &lt;pathelement location="old.jar"/&gt;
         &lt;/old&gt;
@@ -5307,15 +5550,15 @@ Or, as an Ant task:
 <pre>
     &lt;target name="listdocumentedelements" depends="init"&gt;
         &lt;javadoc packagenames="${packageNames}"&gt;
-	    &lt;sourcepath path="src"/&gt;
-	    &lt;classpath refid="libs"/&gt;
-	    &lt;doclet name="com.jeantessier.diff.ListDocumentedElements"
-		    path="${classesDir}"&gt;
-		&lt;param name="-tag" value="level"/&gt;
-		&lt;param name="-invalid" value="developer"/&gt;
-		&lt;param name="-out" value="df.txt"/&gt;
-	    &lt;/doclet&gt;
-	&lt;/javadoc&gt;
+            &lt;sourcepath path="src"/&gt;
+            &lt;classpath refid="libs"/&gt;
+            &lt;doclet name="com.jeantessier.diff.ListDocumentedElements"
+                    path="${classesDir}"&gt;
+                &lt;param name="-tag" value="level"/&gt;
+                &lt;param name="-invalid" value="developer"/&gt;
+                &lt;param name="-out" value="df.txt"/&gt;
+            &lt;/doclet&gt;
+        &lt;/javadoc&gt;
     &lt;/target&gt;
 </pre>
 
@@ -5363,10 +5606,10 @@ just as well as <code>.class</code> files.
                    -name "My Project"
                    -old-label Old
                    -old old.jar
-	           -old-documentation old-list.txt
+                   -old-documentation old-list.txt
                    -new-label New
-	           -new new.jar
-	           -new-documentation new-list.txt
+                   -new new.jar
+                   -new-documentation new-list.txt
 </pre>
 
 </div>
