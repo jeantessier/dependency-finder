@@ -7,6 +7,7 @@
 <h1>Dependency Finder - API Change History</h1>
 
 <ul>
+<li><a href="#1.1.1">1.1.0 to 1.1.1</a></li>
 <li><a href="#1.1.0">1.1.0-beta3 to 1.1.0</a></li>
 <li><a href="#1.1.0 beta 3">1.1.0 beta 2 to 1.1.0 beta 3</a></li>
 <li><a href="#1.1.0 beta 2">1.1.0 beta 1 to 1.1.0 beta 2</a></li>
@@ -19,6 +20,448 @@
 <li><a href="#20020127">20020115 to 20020127</a></li>
 <li><a href="#20020115">20020111 to 20020115</a></li>
 <li><a href="#20020111">20011216 to 20020111</a></li>
+</ul>
+
+<hr>
+
+<a name="1.1.1"></a>
+<h2>1.1.0 to 1.1.1</h2>
+
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.GroupData</code></nobr>
+</li>
+</ul>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassfileLoaderEventSource</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final com.jeantessier.classreader.ClassfileLoaderDispatcher DEFAULT_DISPATCHER<br>
+<b>new:</b>public static final com.jeantessier.classreader.ClassfileLoaderDispatcher DEFAULT_DISPATCHER</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.LinkedList groupSizes</code></nobr>
+</li>
+<li>
+<nobr><code>private int previousDispatch</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private int getTopGroupSize()</code></nobr>
+</li>
+<li>
+<nobr><code>private int popGroupSize()</code></nobr>
+</li>
+<li>
+<nobr><code>private void pushGroupSize(int)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.ClassNode</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void makeConcrete()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void removeFeature(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>void setConfirmed(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.FeatureNode</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>void makeConcrete()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>void setConfirmed(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.Node</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean concrete</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isConcrete()</code></nobr>
+</li>
+<li>
+<nobr><code>void makeConcrete()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean confirmed</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isConfirmed()</code></nobr>
+</li>
+<li>
+<nobr><code>void setConfirmed(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.NodeFactory</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>void deleteClass(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>void deleteFeature(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>void deletePackage(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.NodeHandler</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private org.xml.sax.Attributes currentClassAttributes</code></nobr>
+</li>
+<li>
+<nobr><code>private org.xml.sax.Attributes currentDependencyAttributes</code></nobr>
+</li>
+<li>
+<nobr><code>private org.xml.sax.Attributes currentFeatureAttributes</code></nobr>
+</li>
+<li>
+<nobr><code>private org.xml.sax.Attributes currentPackageAttributes</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private boolean isConfirmed(org.xml.sax.Attributes)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.PackageNode</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void removeClass(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>void setConfirmed(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.Printer</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printNodeName(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printNodeName(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.RegularExpressionSelectionCriteria</code>
+</h4>
+<blockquote>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected static java.util.List parseRE(java.lang.String)<br>
+<b>new:</b>static java.util.List parseRE(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.TextPrinter</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean showInferred</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isShowInferred()</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printNodeName(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setShowInferred(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void printInboundNode(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printNodeName(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void printOutboundNode(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.VerboseListenerBase</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.VerboseListenerBase extends java.lang.Object implements com.jeantessier.classreader.LoadListener<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.VerboseListenerBase extends com.jeantessier.classreader.LoadListenerBase</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int classCount</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.LinkedList groups</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection visitedFiles</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void beginClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void beginGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void beginSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endClassfile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endFile(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endGroup(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public void endSession(com.jeantessier.classreader.LoadEvent)</code></nobr>
+</li>
+<li>
+<nobr><code>public int getClassCount()</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependencyfinder.GroupData getCurrentGroup()</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.util.Collection getVisitedFiles()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private int computeCurrentRatio()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyExtractAction</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.io.File[] files</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.io.File inputFile</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.io.File getInputFile()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setInputFile(java.io.File)</code></nobr>
+</li>
+</ul>
+<h5>Method Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void setMaximize(boolean)<br>
+<b>new:</b>private void setMaximize(boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void setMinimize(boolean)<br>
+<b>new:</b>private void setMinimize(boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void setNodeFactory(com.jeantessier.dependency.NodeFactory)<br>
+<b>new:</b>private void setNodeFactory(com.jeantessier.dependency.NodeFactory)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoaderDispatcher dispatcher</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection inputFiles</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.classreader.Monitor monitor</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addInputFiles(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.classreader.ClassfileLoaderDispatcher getClassfileLoaderDispatcher()</code></nobr>
+</li>
+<li>
+<nobr><code>private java.awt.Font getCodeFont(int, int)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection getInputFiles()</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.classreader.Monitor getMonitor()</code></nobr>
+</li>
+<li>
+<nobr><code>private void setClassfileLoaderDispatcher(com.jeantessier.classreader.ClassfileLoaderDispatcher)</code></nobr>
+</li>
+<li>
+<nobr><code>private void setInputFiles(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private void setMonitor(com.jeantessier.classreader.Monitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.extract_jsp$VerboseListener</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int classCount</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int getClassCount()</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.RemoveVisitor</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.GroupData</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.classreader.LoadListenerBase</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.classreader.ModifiedOnlyDispatcher</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.classreader.Monitor</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.DeletingVisitor</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.ClassFinder</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.ClassMatcher</code></nobr>
+</li>
 </ul>
 
 <hr>
