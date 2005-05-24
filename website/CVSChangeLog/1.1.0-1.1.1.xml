@@ -1998,6 +1998,17 @@
 		<msg><![CDATA[Better instructions for narrowing diffs to used API]]></msg>
 	</entry>
 	<entry>
+		<date>2005-05-14</date>
+		<time>06:03</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>build.xml</name>
+			<revision>1.68</revision>
+			<prevrevision>1.67</prevrevision>
+		</file>
+		<msg><![CDATA[New release tag]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-04</date>
 		<time>08:00</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -2416,23 +2427,16 @@
 		<msg><![CDATA[Added documentation to transitive closures]]></msg>
 	</entry>
 	<entry>
-		<date>2005-03-03</date>
-		<time>08:05</time>
+		<date>2005-05-03</date>
+		<time>05:41</time>
 		<author><![CDATA[jeantessier]]></author>
 		<file>
-			<name>src/com/jeantessier/classreader/GroupData.java</name>
-			<revision>1.1</revision>
+			<name>docs/Tools.txt</name>
+			<revision>1.41</revision>
+			<prevrevision>1.40</prevrevision>
 		</file>
-		<file>
-			<name>src/com/jeantessier/classreader/LoadListenerBase.java</name>
-			<revision>1.1</revision>
-		</file>
-		<file>
-			<name>src/com/jeantessier/dependencyfinder/GroupData.java</name>
-			<revision>1.6</revision>
-			<prevrevision>1.5</prevrevision>
-		</file>
-		<msg><![CDATA[Extract group stack to LoadListener base class]]></msg>
+		<msg><![CDATA[Document ClassFinder.
+Highlight command-lines and outputs.]]></msg>
 	</entry>
 	<entry>
 		<date>2005-01-04</date>
@@ -2459,6 +2463,25 @@
 			<revision>1.5</revision>
 		</file>
 		<msg><![CDATA[Update copyright notice to 2005]]></msg>
+	</entry>
+	<entry>
+		<date>2005-03-03</date>
+		<time>08:05</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>src/com/jeantessier/classreader/GroupData.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/classreader/LoadListenerBase.java</name>
+			<revision>1.1</revision>
+		</file>
+		<file>
+			<name>src/com/jeantessier/dependencyfinder/GroupData.java</name>
+			<revision>1.6</revision>
+			<prevrevision>1.5</prevrevision>
+		</file>
+		<msg><![CDATA[Extract group stack to LoadListener base class]]></msg>
 	</entry>
 	<entry>
 		<date>2005-02-22</date>
@@ -4386,6 +4409,17 @@
 		<msg><![CDATA[Copy confirmed status while computing closure]]></msg>
 	</entry>
 	<entry>
+		<date>2005-04-30</date>
+		<time>21:30</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>docs/Manual.txt</name>
+			<revision>1.55</revision>
+			<prevrevision>1.54</prevrevision>
+		</file>
+		<msg><![CDATA[Document referenced vs. concrete nodes]]></msg>
+	</entry>
+	<entry>
 		<date>2005-01-04</date>
 		<time>08:00</time>
 		<author><![CDATA[jeantessier]]></author>
@@ -5102,6 +5136,16 @@ Update copyright notice to 2005]]></msg>
 			<revision>1.5</revision>
 		</file>
 		<msg><![CDATA[Update copyright notice to 2005]]></msg>
+	</entry>
+	<entry>
+		<date>2005-05-14</date>
+		<time>06:03</time>
+		<author><![CDATA[jeantessier]]></author>
+		<file>
+			<name>cvs.properties</name>
+			<revision>1.5</revision>
+		</file>
+		<msg><![CDATA[New release tag]]></msg>
 	</entry>
 	<entry>
 		<date>2005-03-18</date>
