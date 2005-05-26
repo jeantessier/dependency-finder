@@ -32,12 +32,10 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
-
 import java.io.*;
 import java.util.*;
 
-import org.xml.sax.*;
+import junit.framework.*;
 
 import com.jeantessier.classreader.*;
 
@@ -72,7 +70,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         endSessionEvents   = new LinkedList();
     }
     
-    public void testEvents() throws IOException {
+    public void testEvents() {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         gatherer.visitClassfiles(loader.getAllClassfiles());
@@ -88,7 +86,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) endClassEvents.getLast()).getClassfile());
     }
     
-    public void testMultipleEvents() throws IOException {
+    public void testMultipleEvents() {
         Collection dirs = new ArrayList(2);
         dirs.add(TEST_DIRNAME);
         dirs.add(OTHER_DIRNAME);
@@ -104,7 +102,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         assertEquals("End Session",    1, endSessionEvents.size());
     }
     
-    public void testEventsWithNothing() throws IOException {
+    public void testEventsWithNothing() {
         loader.load(Collections.EMPTY_SET);
 
         gatherer.visitClassfiles(loader.getAllClassfiles());

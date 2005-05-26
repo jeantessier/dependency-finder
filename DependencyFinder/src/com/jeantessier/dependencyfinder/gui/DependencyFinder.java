@@ -1290,7 +1290,7 @@ public class DependencyFinder extends JFrame {
         System.err.println(clu);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // Parsing the command line
         CommandLine commandLine = new CommandLine(new NullParameterStrategy());
         commandLine.addToggleSwitch("minimize");

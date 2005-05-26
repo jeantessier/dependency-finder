@@ -196,7 +196,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         }
     }
 
-    public void testMultipleClassfiles() throws SAXException, IOException {
+    public void testMultipleClassfiles() {
         loader.load(Collections.singleton(TEST_DIRECTORY));
 
         printer.visitClassfiles(loader.getAllClassfiles());

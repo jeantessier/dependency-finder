@@ -58,7 +58,7 @@ public class TestSymbolGatherer extends TestCase {
         assertEquals("Different number of symbols", 0, gatherer.getCollection().size());
     }
     
-    public void testOnOneClass() throws IOException {
+    public void testOnOneClass() {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         assertTrue("Missing test class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test"));
@@ -71,7 +71,7 @@ public class TestSymbolGatherer extends TestCase {
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 7, gatherer.getCollection().size());
     }
     
-    public void testClassNamesOnly() throws IOException {
+    public void testClassNamesOnly() {
         gatherer.setCollectingClassNames(true);
         gatherer.setCollectingFieldNames(false);
         gatherer.setCollectingMethodNames(false);
@@ -83,7 +83,7 @@ public class TestSymbolGatherer extends TestCase {
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
     }
     
-    public void testMethodNamesOnly() throws IOException {
+    public void testMethodNamesOnly() {
         gatherer.setCollectingClassNames(false);
         gatherer.setCollectingFieldNames(false);
         gatherer.setCollectingMethodNames(true);
@@ -96,7 +96,7 @@ public class TestSymbolGatherer extends TestCase {
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 2, gatherer.getCollection().size());
     }
     
-    public void testLocalNamesOnly() throws IOException {
+    public void testLocalNamesOnly() {
         gatherer.setCollectingClassNames(false);
         gatherer.setCollectingFieldNames(false);
         gatherer.setCollectingMethodNames(false);

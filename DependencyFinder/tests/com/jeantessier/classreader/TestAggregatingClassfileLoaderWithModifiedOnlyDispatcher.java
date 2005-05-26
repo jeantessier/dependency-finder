@@ -56,13 +56,13 @@ public class TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher extends Te
         Logger.getLogger(getClass()).info("End of " + getName());
     }
     
-    public void testDirectory() throws IOException {
+    public void testDirectory() {
         loader.load(Collections.singleton(TEST_DIR));
 
         assertEquals("Nb Classfiles", 6, loader.getAllClassNames().size());
     }
     
-    public void testClassfile() throws IOException {
+    public void testClassfile() {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         assertEquals("Nb Classfiles", 1, loader.getAllClassNames().size());

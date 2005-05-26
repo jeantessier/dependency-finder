@@ -35,8 +35,6 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependencyfinder.*;
@@ -56,7 +54,7 @@ public class ListDeprecatedElements {
         System.err.println();
     }
 
-    public static void showVersion() throws IOException {
+    public static void showVersion() {
         Version version = new Version();
         
         System.err.print(version.getImplementationTitle());

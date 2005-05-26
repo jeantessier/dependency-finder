@@ -37,7 +37,7 @@ import java.io.*;
 import junit.framework.*;
 
 public class TestListBasedValidator extends TestCase {
-    public void testDefault() throws IOException {
+    public void testDefault() {
         Validator validator = new ListBasedValidator();
 
         assertTrue("package", validator.isPackageAllowed("foobar"));

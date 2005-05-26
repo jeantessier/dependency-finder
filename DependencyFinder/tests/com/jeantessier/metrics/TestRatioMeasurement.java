@@ -60,7 +60,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         descriptor.setCached(false);
     }
 
-    public void testMeasurementDescriptor() throws Exception {
+    public void testMeasurementDescriptor() {
         measurement = new RatioMeasurement(descriptor, metrics, "base\ndivider");
         
         assertNotNull(measurement.getDescriptor());

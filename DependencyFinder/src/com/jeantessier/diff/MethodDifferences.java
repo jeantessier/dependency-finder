@@ -35,12 +35,12 @@ package com.jeantessier.diff;
 import com.jeantessier.classreader.*;
 
 /**
- *  Documents the difference, if any, for a given method.
- *  All behavior is handled by superclasses.
+ * Documents the difference, if any, for a given method.
+ * All behavior is handled by superclasses.
  */
 public class MethodDifferences extends FeatureDifferences {
     /**
-     *  Only the DifferencesFactory can create instances of this class.
+     * Only the DifferencesFactory can create instances of this class.
      */
     MethodDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
         super(name, oldFeature, newFeature);

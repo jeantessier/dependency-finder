@@ -304,7 +304,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         assertEquals("StatisticalMeasurement.DISPOSE_NB_DATA_POINTS",     "nb",  StatisticalMeasurement.getDisposeAbbreviation(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS));
     }
 
-    public void testEmpty() throws Exception {
+    public void testEmpty() {
         assertTrue("Before AddSubMetrics()", measurement.isEmpty());
         
         Metrics m = new Metrics("m");

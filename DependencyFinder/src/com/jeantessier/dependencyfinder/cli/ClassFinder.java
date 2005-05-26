@@ -57,7 +57,7 @@ public class ClassFinder {
         System.err.println();
     }
 
-    public static void showVersion() throws IOException {
+    public static void showVersion() {
         Version version = new Version();
         
         System.err.print(version.getImplementationTitle());

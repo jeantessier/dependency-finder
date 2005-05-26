@@ -72,7 +72,7 @@ public class TestMetricsGatherer extends TestCase {
         assertEquals(factory.getMethodNames().toString(), 2, factory.getMethodNames().size());
     }
     
-    public void testNbAllElements() throws IOException, SAXException {
+    public void testNbAllElements() {
         assertEquals("factory.AllProjectNames().size()", 1, factory.getAllProjectNames().size());
         assertTrue(factory.getAllProjectNames().toString() + " does not contain project \"test\"", factory.getAllProjectNames().contains("test"));
 

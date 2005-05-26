@@ -48,7 +48,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
         loader = new ZipClassfileLoader(eventSource);
     }
 
-    public void testLoadFile() throws IOException {
+    public void testLoadFile() {
         String filename = TEST_DIR + File.separator + "onelevel.zip";
         assertTrue(filename + " missing", new File(filename).exists());
         
@@ -66,7 +66,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
         assertEquals("Group size", 38, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
     }
 
-    public void testLoadFileWrongName() throws IOException {
+    public void testLoadFileWrongName() {
         String filename = TEST_DIR + File.separator + "onelevel.mis";
         assertTrue(filename + " missing", new File(filename).exists());
         
@@ -84,7 +84,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
         assertEquals("Group size", 38, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
     }
 
-    public void testLoadWrongFile() throws IOException {
+    public void testLoadWrongFile() {
         String filename = TEST_DIR + File.separator + "old" + File.separator + "ModifiedPackage" + File.separator + "ModifiedClass.class";
         assertTrue(filename + " missing", new File(filename).exists());
         

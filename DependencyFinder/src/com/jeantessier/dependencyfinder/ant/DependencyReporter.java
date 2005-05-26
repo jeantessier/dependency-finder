@@ -44,46 +44,45 @@ import org.xml.sax.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyReporter extends GraphTask {
-    private String  scopeIncludes = "//";
-    private String  scopeExcludes = "";
+    private String scopeIncludes = "//";
+    private String scopeExcludes = "";
     private boolean packageScope;
-    private String  packageScopeIncludes = "";
-    private String  packageScopeExcludes = "";
+    private String packageScopeIncludes = "";
+    private String packageScopeExcludes = "";
     private boolean classScope;
-    private String  classScopeIncludes = "";
-    private String  classScopeExcludes = "";
+    private String classScopeIncludes = "";
+    private String classScopeExcludes = "";
     private boolean featureScope;
-    private String  featureScopeIncludes = "";
-    private String  featureScopeExcludes = "";
-    private String  filterIncludes = "//";
-    private String  filterExcludes = "";
+    private String featureScopeIncludes = "";
+    private String featureScopeExcludes = "";
+    private String filterIncludes = "//";
+    private String filterExcludes = "";
     private boolean packageFilter;
-    private String  packageFilterIncludes = "";
-    private String  packageFilterExcludes = "";
+    private String packageFilterIncludes = "";
+    private String packageFilterExcludes = "";
     private boolean classFilter;
-    private String  classFilterIncludes = "";
-    private String  classFilterExcludes = "";
+    private String classFilterIncludes = "";
+    private String classFilterExcludes = "";
     private boolean featureFilter;
-    private String  featureFilterIncludes = "";
-    private String  featureFilterExcludes = "";
+    private String featureFilterIncludes = "";
+    private String featureFilterExcludes = "";
 
-    private Path    scopeIncludesList;
-    private Path    scopeExcludesList;
-    private Path    filterIncludesList;
-    private Path    filterExcludesList;
+    private Path scopeIncludesList;
+    private Path scopeExcludesList;
+    private Path filterIncludesList;
+    private Path filterExcludesList;
 
-    private boolean showInbounds   = false;
-    private boolean showOutbounds  = false;
+    private boolean showInbounds = false;
+    private boolean showOutbounds = false;
     private boolean showEmptyNodes = false;
-    private boolean showAll        = false;
 
-    private boolean minimize   = false;
-    private boolean maximize   = false;
-    private boolean copyOnly   = false;
-    private boolean xml        = false;
-    private String  encoding   = XMLPrinter.DEFAULT_ENCODING;
-    private String  dtdPrefix  = XMLPrinter.DEFAULT_DTD_PREFIX;
-    private String  indentText;
+    private boolean minimize = false;
+    private boolean maximize = false;
+    private boolean copyOnly = false;
+    private boolean xml = false;
+    private String encoding = XMLPrinter.DEFAULT_ENCODING;
+    private String dtdPrefix = XMLPrinter.DEFAULT_DTD_PREFIX;
+    private String indentText;
 
     public String getScopeincludes() {
         return scopeIncludes;
@@ -92,7 +91,7 @@ public class DependencyReporter extends GraphTask {
     public void setScopeincludes(String scopeIncludes) {
         this.scopeIncludes = scopeIncludes;
     }
-    
+
     public String getScopeexcludes() {
         return scopeExcludes;
     }
@@ -108,7 +107,7 @@ public class DependencyReporter extends GraphTask {
     public void setPackagescope(boolean packageScope) {
         this.packageScope = packageScope;
     }
-    
+
     public String getPackagescopeincludes() {
         return packageScopeIncludes;
     }
@@ -116,7 +115,7 @@ public class DependencyReporter extends GraphTask {
     public void setPackagescopeincludes(String packageScopeIncludes) {
         this.packageScopeIncludes = packageScopeIncludes;
     }
-    
+
     public String getPackagescopeexcludes() {
         return packageScopeExcludes;
     }
@@ -132,7 +131,7 @@ public class DependencyReporter extends GraphTask {
     public void setClassscope(boolean classScope) {
         this.classScope = classScope;
     }
-    
+
     public String getClassscopeincludes() {
         return classScopeIncludes;
     }
@@ -140,7 +139,7 @@ public class DependencyReporter extends GraphTask {
     public void setClassscopeincludes(String classScopeIncludes) {
         this.classScopeIncludes = classScopeIncludes;
     }
-    
+
     public String getClassscopeexcludes() {
         return classScopeExcludes;
     }
@@ -156,7 +155,7 @@ public class DependencyReporter extends GraphTask {
     public void setFeaturescope(boolean featureScope) {
         this.featureScope = featureScope;
     }
-    
+
     public String getFeaturescopeincludes() {
         return featureScopeIncludes;
     }
@@ -164,7 +163,7 @@ public class DependencyReporter extends GraphTask {
     public void setFeaturescopeincludes(String featureScopeIncludes) {
         this.featureScopeIncludes = featureScopeIncludes;
     }
-    
+
     public String getFeaturescopeexcludes() {
         return featureScopeExcludes;
     }
@@ -180,7 +179,7 @@ public class DependencyReporter extends GraphTask {
     public void setFilterincludes(String filterIncludes) {
         this.filterIncludes = filterIncludes;
     }
-    
+
     public String getFilterexcludes() {
         return filterExcludes;
     }
@@ -196,7 +195,7 @@ public class DependencyReporter extends GraphTask {
     public void setPackagefilter(boolean packageFilter) {
         this.packageFilter = packageFilter;
     }
-    
+
     public String getPackagefilterincludes() {
         return packageFilterIncludes;
     }
@@ -204,7 +203,7 @@ public class DependencyReporter extends GraphTask {
     public void setPackagefilterincludes(String packageFilterIncludes) {
         this.packageFilterIncludes = packageFilterIncludes;
     }
-    
+
     public String getPackagefilterexcludes() {
         return packageFilterExcludes;
     }
@@ -220,7 +219,7 @@ public class DependencyReporter extends GraphTask {
     public void setClassfilter(boolean classFilter) {
         this.classFilter = classFilter;
     }
-    
+
     public String getClassfilterincludes() {
         return classFilterIncludes;
     }
@@ -228,7 +227,7 @@ public class DependencyReporter extends GraphTask {
     public void setClassfilterincludes(String classFilterIncludes) {
         this.classFilterIncludes = classFilterIncludes;
     }
-    
+
     public String getClassfilterexcludes() {
         return classFilterExcludes;
     }
@@ -244,7 +243,7 @@ public class DependencyReporter extends GraphTask {
     public void setFeaturefilter(boolean featureFilter) {
         this.featureFilter = featureFilter;
     }
-    
+
     public String getFeaturefilterincludes() {
         return featureFilterIncludes;
     }
@@ -252,7 +251,7 @@ public class DependencyReporter extends GraphTask {
     public void setFeaturefilterincludes(String featureFilterIncludes) {
         this.featureFilterIncludes = featureFilterIncludes;
     }
-    
+
     public String getFeaturefilterexcludes() {
         return featureFilterExcludes;
     }
@@ -269,12 +268,12 @@ public class DependencyReporter extends GraphTask {
         setClassfilter(value);
         setFeaturefilter(value);
     }
-        
+
     public void setP2p(boolean value) {
         setPackagescope(value);
         setPackagefilter(value);
     }
-    
+
     public void setC2p(boolean value) {
         setClassscope(value);
         setPackagefilter(value);
@@ -299,7 +298,7 @@ public class DependencyReporter extends GraphTask {
         setScopeexcludes(value);
         setFilterexcludes(value);
     }
-    
+
     public Path createScopeincludeslist() {
         if (scopeIncludesList == null) {
             scopeIncludesList = new Path(getProject());
@@ -307,11 +306,11 @@ public class DependencyReporter extends GraphTask {
 
         return scopeIncludesList;
     }
-    
+
     public Path getScopeincludeslist() {
         return scopeIncludesList;
     }
-    
+
     public Path createScopeexcludeslist() {
         if (scopeExcludesList == null) {
             scopeExcludesList = new Path(getProject());
@@ -319,11 +318,11 @@ public class DependencyReporter extends GraphTask {
 
         return scopeExcludesList;
     }
-    
+
     public Path getScopeexcludeslist() {
         return scopeExcludesList;
     }
-    
+
     public Path createFilterincludeslist() {
         if (filterIncludesList == null) {
             filterIncludesList = new Path(getProject());
@@ -331,11 +330,11 @@ public class DependencyReporter extends GraphTask {
 
         return filterIncludesList;
     }
-    
+
     public Path getFilterincludeslist() {
         return filterIncludesList;
     }
-    
+
     public Path createFilterexcludeslist() {
         if (filterExcludesList == null) {
             filterExcludesList = new Path(getProject());
@@ -343,11 +342,11 @@ public class DependencyReporter extends GraphTask {
 
         return filterExcludesList;
     }
-    
+
     public Path getFilterexcludeslist() {
         return filterExcludesList;
     }
-    
+
     public boolean getShowinbounds() {
         return showInbounds;
     }
@@ -355,7 +354,7 @@ public class DependencyReporter extends GraphTask {
     public void setShowinbounds(boolean showInbounds) {
         this.showInbounds = showInbounds;
     }
-    
+
     public boolean getShowoutbounds() {
         return showOutbounds;
     }
@@ -363,7 +362,7 @@ public class DependencyReporter extends GraphTask {
     public void setShowoutbounds(boolean showOutbounds) {
         this.showOutbounds = showOutbounds;
     }
-    
+
     public boolean getShowemptynodes() {
         return showEmptyNodes;
     }
@@ -371,13 +370,13 @@ public class DependencyReporter extends GraphTask {
     public void setShowemptynodes(boolean showEmptyNodes) {
         this.showEmptyNodes = showEmptyNodes;
     }
-    
+
     public void setShowAll(boolean showAll) {
         setShowinbounds(showAll);
         setShowoutbounds(showAll);
         setShowemptynodes(showAll);
     }
-    
+
     public boolean getMinimize() {
         return minimize;
     }
@@ -413,7 +412,7 @@ public class DependencyReporter extends GraphTask {
     public String getEncoding() {
         return encoding;
     }
-    
+
     public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
@@ -421,7 +420,7 @@ public class DependencyReporter extends GraphTask {
     public String getDtdprefix() {
         return dtdPrefix;
     }
-    
+
     public void setDtdprefix(String dtdPrefix) {
         this.dtdPrefix = dtdPrefix;
     }
@@ -429,7 +428,7 @@ public class DependencyReporter extends GraphTask {
     public String getIndenttext() {
         return indentText;
     }
-    
+
     public void setIntenttext(String indentText) {
         this.indentText = indentText;
     }
@@ -445,7 +444,7 @@ public class DependencyReporter extends GraphTask {
             throw new BuildException("Cannot have filter attributes for regular expressions and lists at the same time!");
         }
     }
-    
+
     public void execute() throws BuildException {
         // first off, make sure that we've got what we need
         validateParameters();
@@ -461,17 +460,17 @@ public class DependencyReporter extends GraphTask {
             }
 
             String[] filenames = getSrc().list();
-            for (int i=0; i<filenames.length; i++) {
+            for (int i = 0; i < filenames.length; i++) {
                 log("Reading graph from " + filenames[i]);
-                
+
                 Collection packages = Collections.EMPTY_LIST;
-                
+
                 if (filenames[i].endsWith(".xml")) {
                     NodeLoader loader = new NodeLoader(getValidate());
                     loader.addDependencyListener(verboseListener);
                     packages = loader.load(filenames[i]).getPackages().values();
                 }
-                
+
                 if (getMaximize()) {
                     log("Maximizing ...");
                     new LinkMaximizer().traverseNodes(packages);
@@ -479,12 +478,12 @@ public class DependencyReporter extends GraphTask {
                     log("Minimizing ...");
                     new LinkMinimizer().traverseNodes(packages);
                 }
-                
+
                 copier.traverseNodes(packages);
             }
 
             log("Saving dependency graph to " + getDestfile().getAbsolutePath());
-        
+
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
             Printer printer;
@@ -493,7 +492,7 @@ public class DependencyReporter extends GraphTask {
             } else {
                 printer = new TextPrinter(out);
             }
-                
+
             if (getIndenttext() != null) {
                 printer.setIndentText(getIndenttext());
             }
@@ -501,9 +500,9 @@ public class DependencyReporter extends GraphTask {
             printer.setShowInbounds(getShowinbounds());
             printer.setShowOutbounds(getShowoutbounds());
             printer.setShowEmptyNodes(getShowemptynodes());
-                
+
             printer.traverseNodes(copier.getScopeFactory().getPackages().values());
-                
+
             out.close();
         } catch (SAXException ex) {
             throw new BuildException(ex);
@@ -515,14 +514,10 @@ public class DependencyReporter extends GraphTask {
     protected SelectionCriteria getScopeCriteria() throws BuildException {
         SelectionCriteria result = new ComprehensiveSelectionCriteria();
 
-        try {
-            if (hasScopeRegularExpressionSwitches()) {
-                result = createRegularExpressionScopeCriteria();
-            } else if (hasScopeListSwitches()) {
-                result = createCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());
-            }
-        } catch (IOException ex) {
-            throw new BuildException(ex);
+        if (hasScopeRegularExpressionSwitches()) {
+            result = createRegularExpressionScopeCriteria();
+        } else if (hasScopeListSwitches()) {
+            result = createCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());
         }
 
         return result;
@@ -530,15 +525,11 @@ public class DependencyReporter extends GraphTask {
 
     protected SelectionCriteria getFilterCriteria() throws BuildException {
         SelectionCriteria result = new ComprehensiveSelectionCriteria();
-        
-        try {
-            if (hasFilterRegularExpressionSwitches()) {
-                result = createRegularExpressionFilterCriteria();
-            } else if (hasFilterListSwitches()) {
-                result = createCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());
-            }
-        } catch (IOException ex) {
-            throw new BuildException(ex);
+
+        if (hasFilterRegularExpressionSwitches()) {
+            result = createRegularExpressionFilterCriteria();
+        } else if (hasFilterListSwitches()) {
+            result = createCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());
         }
 
         return result;
@@ -581,53 +572,53 @@ public class DependencyReporter extends GraphTask {
 
         return result;
     }
-    
+
     private boolean hasScopeRegularExpressionSwitches() {
         return
-            !getScopeincludes().equals("//") ||
-            !getScopeexcludes().equals("") ||
-            getPackagescope() ||
-            !getPackagescopeincludes().equals("") ||
-            !getPackagescopeexcludes().equals("") ||
-            getClassscope() ||
-            !getClassscopeincludes().equals("") ||
-            !getClassscopeexcludes().equals("") ||
-            getFeaturescope() ||
-            !getFeaturescopeincludes().equals("") ||
-            !getFeaturescopeexcludes().equals("");
+                !getScopeincludes().equals("//") ||
+                !getScopeexcludes().equals("") ||
+                getPackagescope() ||
+                !getPackagescopeincludes().equals("") ||
+                !getPackagescopeexcludes().equals("") ||
+                getClassscope() ||
+                !getClassscopeincludes().equals("") ||
+                !getClassscopeexcludes().equals("") ||
+                getFeaturescope() ||
+                !getFeaturescopeincludes().equals("") ||
+                !getFeaturescopeexcludes().equals("");
     }
 
     private boolean hasScopeListSwitches() {
         return
-            getScopeincludeslist() != null ||
-            getScopeexcludeslist() != null;
+                getScopeincludeslist() != null ||
+                getScopeexcludeslist() != null;
     }
 
     private boolean hasFilterRegularExpressionSwitches() {
         return
-            !getFilterincludes().equals("//") ||
-            !getFilterexcludes().equals("") ||
-            getPackagefilter() ||
-            !getPackagefilterincludes().equals("") ||
-            !getPackagefilterexcludes().equals("") ||
-            getClassfilter() ||
-            !getClassfilterincludes().equals("") ||
-            !getClassfilterexcludes().equals("") ||
-            getFeaturefilter() ||
-            !getFeaturefilterincludes().equals("") ||
-            !getFeaturefilterexcludes().equals("");
+                !getFilterincludes().equals("//") ||
+                !getFilterexcludes().equals("") ||
+                getPackagefilter() ||
+                !getPackagefilterincludes().equals("") ||
+                !getPackagefilterexcludes().equals("") ||
+                getClassfilter() ||
+                !getClassfilterincludes().equals("") ||
+                !getClassfilterexcludes().equals("") ||
+                getFeaturefilter() ||
+                !getFeaturefilterincludes().equals("") ||
+                !getFeaturefilterexcludes().equals("");
     }
 
     private boolean hasFilterListSwitches() {
         return
-            getFilterincludeslist() != null ||
-            getFilterexcludeslist() != null;
+                getFilterincludeslist() != null ||
+                getFilterexcludeslist() != null;
     }
 
-    private CollectionSelectionCriteria createCollectionSelectionCriteria(Path includes, Path excludes) throws IOException {
+    private CollectionSelectionCriteria createCollectionSelectionCriteria(Path includes, Path excludes) {
         return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
     }
-    
+
     private TraversalStrategy getStrategy() throws BuildException {
         return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());
     }
@@ -637,12 +628,12 @@ public class DependencyReporter extends GraphTask {
 
         if (path != null) {
             result = new HashSet();
-            
+
             String[] filenames = path.list();
-            for (int i=0; i<filenames.length; i++) {
+            for (int i = 0; i < filenames.length; i++) {
                 BufferedReader reader = null;
                 String line;
-                
+
                 try {
                     reader = new BufferedReader(new FileReader(filenames[i]));
                     while ((line = reader.readLine()) != null) {
@@ -661,7 +652,7 @@ public class DependencyReporter extends GraphTask {
                 }
             }
         }
-        
+
         return result;
     }
 }

@@ -83,7 +83,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
         assertEquals("repeat delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
     }
     
-    public void testDispatchDirectory() throws IOException {
+    public void testDispatchDirectory() {
         assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
 

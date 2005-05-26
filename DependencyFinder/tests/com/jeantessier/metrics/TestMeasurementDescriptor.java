@@ -72,7 +72,7 @@ public class TestMeasurementDescriptor extends TestCase {
     public void testNullClass() {
         assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
         try {
-            descriptor.setClassFor((Class) null);
+            descriptor.setClassFor(null);
             fail("set class to null");
         } catch (IllegalArgumentException ex) {
             // Do nothing

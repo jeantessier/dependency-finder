@@ -59,7 +59,7 @@ public class ClassDump {
         dumpClass(c.getResourceAsStream(resource));
     }
 
-    public static void dumpClass(InputStream in) throws IOException {
+    public static void dumpClass(InputStream in) {
         dumpClass(new DataInputStream(in));
     }
 

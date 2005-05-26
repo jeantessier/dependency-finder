@@ -81,7 +81,7 @@ public class TestAggregatingClassfileLoader extends TestCase {
                       loader.getClassfile(TEST_CLASS));
     }
 
-    public void testClassfile() throws IOException {
+    public void testClassfile() {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         assertNotNull("No Classfile from " + TEST_FILENAME, loader.getClassfile(TEST_CLASS));

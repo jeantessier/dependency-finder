@@ -96,7 +96,7 @@ public class DependencyReporter {
         System.err.println();
     }
 
-    public static void showVersion() throws IOException {
+    public static void showVersion() {
         Version version = new Version();
         
         System.err.print(version.getImplementationTitle());
@@ -473,7 +473,7 @@ public class DependencyReporter {
             switches.contains("filter-excludes-list");
     }
 
-    private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection includes, Collection excludes) throws IOException {
+    private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection includes, Collection excludes) {
         return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
     }
 

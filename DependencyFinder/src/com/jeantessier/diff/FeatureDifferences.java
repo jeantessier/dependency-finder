@@ -37,35 +37,35 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 /**
- *  Documents the difference, if any, for a given feature
- *  (field, constructor, or method).  Its subclasses only
- *  differ in which Visitor callback they invoke.
+ * Documents the difference, if any, for a given feature
+ * (field, constructor, or method).  Its subclasses only
+ * differ in which Visitor callback they invoke.
  *
- *  @see Visitor
+ * @see Visitor
  */
 public abstract class FeatureDifferences extends RemovableDifferences {
     private Feature_info oldFeature;
     private Feature_info newFeature;
-    
+
     private boolean inherited = false;
 
     /**
-     *  Only the DifferencesFactory can create instances of this class.
+     * Only the DifferencesFactory can create instances of this class.
      */
     protected FeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
         super(name);
 
         setOldFeature(oldFeature);
         setNewFeature(newFeature);
-                    
+
         if (oldFeature != null) {
             setOldDeclaration(oldFeature.getDeclaration());
         }
-        
+
         if (newFeature != null) {
             setNewDeclaration(newFeature.getDeclaration());
         }
-    
+
         if (isModified()) {
             Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
         } else {

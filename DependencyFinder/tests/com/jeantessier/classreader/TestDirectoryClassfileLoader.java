@@ -52,7 +52,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
         loader = new DirectoryClassfileLoader(eventSource);
     }
 
-    public void testLoadClassFile() throws IOException {
+    public void testLoadClassFile() {
         loader.load(TEST_FILENAME);
 
         assertEquals("Begin Session",   0, getBeginSessionEvents().size());
@@ -81,7 +81,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
         assertEquals("End Session",     0, getEndSessionEvents().size());
     }
 
-    public void testLoadBogusFile() throws IOException {
+    public void testLoadBogusFile() {
         loader.load(BOGUS_TEST_FILENAME);
 
         assertEquals("Begin Session",   0, getBeginSessionEvents().size());
@@ -107,7 +107,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
         assertEquals("End Session",     0, getEndSessionEvents().size());
     }
 
-    public void testLoadDirectory() throws IOException {
+    public void testLoadDirectory() {
         loader.load(TEST_DIRNAME);
 
         assertEquals("Begin Session",   0, getBeginSessionEvents().size());
@@ -120,7 +120,7 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
         assertEquals("End Session",     0, getEndSessionEvents().size());
     }
     
-    public void testMultipleDirectories() throws IOException {
+    public void testMultipleDirectories() {
         loader.load(TEST_DIRNAME);
         loader.load(OTHER_DIRNAME);
 

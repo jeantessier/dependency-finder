@@ -64,7 +64,7 @@ public class OOMetrics {
         System.err.println();
     }
 
-    public static void showVersion() throws IOException {
+    public static void showVersion() {
         Version version = new Version();
         
         System.err.print(version.getImplementationTitle());
@@ -232,11 +232,11 @@ public class OOMetrics {
         verboseListener.print("Printing results ...");
         
         if (commandLine.isPresent("csv")) {
-            printCSVFiles(start, commandLine, gatherer.getMetricsFactory());
+            printCSVFiles(commandLine, gatherer.getMetricsFactory());
         } else if (commandLine.isPresent("txt")) {
-            printTextFile(start, commandLine, gatherer.getMetricsFactory());
+            printTextFile(commandLine, gatherer.getMetricsFactory());
         } else if (commandLine.isPresent("xml")) {
-            printXMLFile(start, commandLine, gatherer.getMetricsFactory());
+            printXMLFile(commandLine, gatherer.getMetricsFactory());
         }
 
         Logger.getLogger(OOMetrics.class).debug("Done.");
@@ -277,16 +277,15 @@ public class OOMetrics {
         return result;
     }
 
-    private static void printCSVFiles(Date start, CommandLine commandLine, MetricsFactory factory) throws IOException {
+    private static void printCSVFiles(CommandLine commandLine, MetricsFactory factory) throws IOException {
         MetricsComparator comparator = new MetricsComparator(commandLine.getSingleSwitch("sort"));
         if (commandLine.getToggleSwitch("reverse")) {
             comparator.reverse();
         }
 
-        List               metrics;
-        Iterator           i;
+        List                            metrics;
         com.jeantessier.metrics.Printer printer;
-        PrintWriter        out = new PrintWriter(new OutputStreamWriter(System.out));
+        PrintWriter                     out     = new PrintWriter(new OutputStreamWriter(System.out));
 
         if (commandLine.getToggleSwitch("project") || commandLine.getToggleSwitch("all")) {
             if (commandLine.isPresent("out")) {
@@ -387,7 +386,7 @@ public class OOMetrics {
         }
     }
 
-    private static void printTextFile(Date start, CommandLine commandLine, MetricsFactory factory) throws IOException {
+    private static void printTextFile(CommandLine commandLine, MetricsFactory factory) throws IOException {
         PrintWriter out;
         if (commandLine.isPresent("out")) {
             out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out") + ".txt"));
@@ -401,7 +400,6 @@ public class OOMetrics {
         }
 
         List               metrics;
-        Iterator           i;
 
         if (commandLine.getToggleSwitch("project") || commandLine.getToggleSwitch("all")) {
             out.println("Project metrics");
@@ -478,7 +476,7 @@ public class OOMetrics {
         out.close();
     }
 
-    private static void printXMLFile(Date start, CommandLine commandLine, MetricsFactory factory) throws IOException {
+    private static void printXMLFile(CommandLine commandLine, MetricsFactory factory) throws IOException {
         PrintWriter out;
         if (commandLine.isPresent("out")) {
             out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out") + ".xml"));
@@ -491,8 +489,7 @@ public class OOMetrics {
             comparator.reverse();
         }
 
-        List               metrics;
-        Iterator           i;
+        List                            metrics;
         com.jeantessier.metrics.Printer printer;
 
         metrics = new ArrayList(factory.getProjectMetrics());

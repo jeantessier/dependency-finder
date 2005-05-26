@@ -186,7 +186,7 @@ public class TestDependencyExtractor extends TestCase {
         }
     }
 
-    public void testStaticInitializer() throws IOException {
+    public void testStaticInitializer() {
         ClassfileLoader loader  = new AggregatingClassfileLoader();
         NodeFactory     factory = new NodeFactory();
         

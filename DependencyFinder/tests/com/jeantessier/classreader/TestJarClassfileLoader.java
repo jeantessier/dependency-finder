@@ -48,7 +48,7 @@ public class TestJarClassfileLoader extends TestClassfileLoader {
         loader = new JarClassfileLoader(eventSource);
     }
 
-    public void testLoadFile() throws IOException {
+    public void testLoadFile() {
         String filename = TEST_DIR + File.separator + "onelevel.jar";
         assertTrue(filename + " missing", new File(filename).exists());
         
@@ -66,7 +66,7 @@ public class TestJarClassfileLoader extends TestClassfileLoader {
         assertEquals("Group size", 40, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
     }
 
-    public void testLoadWrongFile() throws IOException {
+    public void testLoadWrongFile() {
         String filename = TEST_DIR + File.separator + "onelevel.mis";
         assertTrue(filename + " missing", new File(filename).exists());
         

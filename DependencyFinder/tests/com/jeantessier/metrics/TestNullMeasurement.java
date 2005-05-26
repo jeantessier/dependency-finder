@@ -42,7 +42,7 @@ public class TestNullMeasurement extends TestCase implements MeasurementVisitor 
         measurement = new NullMeasurement();
     }
     
-    public void testMeasurementDescriptor() throws Exception {
+    public void testMeasurementDescriptor() {
         assertNull(measurement.getDescriptor());
         assertNull(measurement.getShortName());
         assertNull(measurement.getLongName());

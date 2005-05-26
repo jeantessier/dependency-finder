@@ -93,7 +93,7 @@ public class TestMetricsGatherer extends TestCase {
         metrics = new MetricsGatherer();
     }
 
-    public void testEverything() throws IOException {
+    public void testEverything() {
         metrics.traverseNodes(factory.getPackages().values());
 
         assertEquals("Number of packages", 4, metrics.getPackages().size());
