@@ -32,12 +32,9 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
-
-import org.apache.oro.text.perl.*;
 
 public class TestTransitiveClosureEngine extends TestCase {
     private NodeFactory factory;

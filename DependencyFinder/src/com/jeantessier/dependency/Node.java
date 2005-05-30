@@ -125,7 +125,9 @@ public abstract class Node implements Comparable {
 
         if (this == object) {
             result = 0;
-        } else if (object == null || !(object instanceof Node)) {
+        } else if (object == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        } else if (!(object instanceof Node)) {
             throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got a " + object.getClass().getName());
         } else {
             Node other = (Node) object;

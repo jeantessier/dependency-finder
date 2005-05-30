@@ -32,12 +32,9 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.net.*;
 import java.util.*;
 
 import org.apache.log4j.*;
-
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 

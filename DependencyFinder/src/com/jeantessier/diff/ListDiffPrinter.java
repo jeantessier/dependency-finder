@@ -216,13 +216,13 @@ public class ListDiffPrinter {
         
         indent().append("<removed>").eol();
         raiseIndent();
-        printLines(buffer, compress ? compress(getRemoved()) : getRemoved());
+        printLines(compress ? compress(getRemoved()) : getRemoved());
         lowerIndent();
         indent().append("</removed>").eol();
         
         indent().append("<added>").eol();
         raiseIndent();
-        printLines(buffer, compress ? compress(getAdded()) : getAdded());
+        printLines(compress ? compress(getAdded()) : getAdded());
         lowerIndent();
         indent().append("</added>").eol();
         
@@ -232,7 +232,7 @@ public class ListDiffPrinter {
         return buffer.toString();
     }
 
-    private void printLines(StringBuffer buffer, Collection lines) {
+    private void printLines(Collection lines) {
         Iterator i = lines.iterator();
         while (i.hasNext()) {
             String line = (String) i.next();

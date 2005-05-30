@@ -49,11 +49,11 @@ public class ClassDump {
         }
     }
 
-    public static void dumpClass(String classname) throws ClassNotFoundException, IOException  {
+    public static void dumpClass(String classname) throws ClassNotFoundException  {
         dumpClass(Class.forName(classname));
     }
 
-    public static void dumpClass(Class c) throws IOException {
+    public static void dumpClass(Class c) {
         String resource = c.getName().substring(c.getName().lastIndexOf(".") + 1) + ".class";
         System.out.println(resource + " -> " + c.getResource(resource));
         dumpClass(c.getResourceAsStream(resource));
