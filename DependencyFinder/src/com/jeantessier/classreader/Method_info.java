@@ -139,6 +139,20 @@ public class Method_info extends Feature_info {
         return result.toString();
     }
 
+    public Code_attribute getCode() {
+        Code_attribute result = null;
+
+        Iterator i = getAttributes().iterator();
+        while (result == null && i.hasNext()) {
+            Object temp = i.next();
+            if (temp instanceof Code_attribute) {
+                result = (Code_attribute) temp;
+            }
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitMethod_info(this);
     }

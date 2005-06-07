@@ -258,9 +258,9 @@ public class DifferencesFactory {
             }
         } else {
             if (((oldFeature instanceof Method_info) && ((Method_info) oldFeature).isConstructor()) || ((newFeature instanceof Method_info) && ((Method_info) newFeature).isConstructor())) {
-                featureDifferences = new ConstructorDifferences(name, oldFeature, newFeature);
+                featureDifferences = new ConstructorDifferences(name, (Method_info) oldFeature, (Method_info) newFeature);
             } else {
-                featureDifferences = new MethodDifferences(name, oldFeature, newFeature);
+                featureDifferences = new MethodDifferences(name, (Method_info) oldFeature, (Method_info) newFeature);
             }
 
             if (featureDifferences.isRemoved()) {

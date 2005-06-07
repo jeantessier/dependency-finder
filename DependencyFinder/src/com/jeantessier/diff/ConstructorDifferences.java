@@ -38,11 +38,11 @@ import com.jeantessier.classreader.*;
  *  Documents the difference, if any, for a given constructor.
  *  All behavior is handled by superclasses.
  */
-public class ConstructorDifferences extends FeatureDifferences {
+public class ConstructorDifferences extends CodeDifferences {
     /**
      *  Only the DifferencesFactory can create instances of this class.
      */
-    ConstructorDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
+    ConstructorDifferences(String name, Method_info oldFeature, Method_info newFeature) {
         super(name, oldFeature, newFeature);
     }
 
