@@ -34,8 +34,6 @@ package com.jeantessier.diff;
 
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 
 public class ClassReport extends Printer implements Comparable {
@@ -357,20 +355,26 @@ public class ClassReport extends Printer implements Comparable {
 
             Iterator i = modifiedConstructors.iterator();
             while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+                CodeDifferences cd = (CodeDifferences) i.next();
 
                 indent().append("<feature>").eol();
                 raiseIndent();
 
-                indent().append("<name>").append(fd.getName()).append("</name>").eol();
-        
-                indent().append("<modified-declaration>").eol();
-                raiseIndent();
-                indent().append("<old-declaration").append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(">").append(fd.getOldDeclaration()).append("</old-declaration>").eol();
-                indent().append("<new-declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</new-declaration>").eol();
-                lowerIndent();
-                indent().append("</modified-declaration>").eol();
-        
+                indent().append("<name>").append(cd.getName()).append("</name>").eol();
+
+                if (!cd.getOldDeclaration().equals(cd.getNewDeclaration())) {
+                    indent().append("<modified-declaration>").eol();
+                    raiseIndent();
+                    indent().append("<old-declaration").append(breakdownDeclaration((Method_info) cd.getOldFeature())).append(">").append(cd.getOldDeclaration()).append("</old-declaration>").eol();
+                    indent().append("<new-declaration").append(breakdownDeclaration((Method_info) cd.getNewFeature())).append(">").append(cd.getNewDeclaration()).append("</new-declaration>").eol();
+                    lowerIndent();
+                    indent().append("</modified-declaration>").eol();
+                }
+
+                if (cd.isCodeDifference()) {
+                    indent().append("<modified-code/>").eol();
+                }
+
                 lowerIndent();
                 indent().append("</feature>").eol();
             }
@@ -385,20 +389,26 @@ public class ClassReport extends Printer implements Comparable {
 
             Iterator i = modifiedMethods.iterator();
             while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+                CodeDifferences md = (CodeDifferences) i.next();
 
                 indent().append("<feature>").eol();
                 raiseIndent();
         
-                indent().append("<name>").append(fd.getName()).append("</name>").eol();
+                indent().append("<name>").append(md.getName()).append("</name>").eol();
 
-                indent().append("<modified-declaration>").eol();
-                raiseIndent();
-                indent().append("<old-declaration").append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(">").append(fd.getOldDeclaration()).append("</old-declaration>").eol();
-                indent().append("<new-declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</new-declaration>").eol();
-                lowerIndent();
-                indent().append("</modified-declaration>").eol();
-        
+                if (!md.getOldDeclaration().equals(md.getNewDeclaration())) {
+                    indent().append("<modified-declaration>").eol();
+                    raiseIndent();
+                    indent().append("<old-declaration").append(breakdownDeclaration((Method_info) md.getOldFeature())).append(">").append(md.getOldDeclaration()).append("</old-declaration>").eol();
+                    indent().append("<new-declaration").append(breakdownDeclaration((Method_info) md.getNewFeature())).append(">").append(md.getNewDeclaration()).append("</new-declaration>").eol();
+                    lowerIndent();
+                    indent().append("</modified-declaration>").eol();
+                }
+
+                if (md.isCodeDifference()) {
+                    indent().append("<modified-code/>").eol();
+                }
+
                 lowerIndent();
                 indent().append("</feature>").eol();
             }

@@ -53,6 +53,10 @@ public abstract class CodeDifferences extends FeatureDifferences {
     }
 
     public boolean isModified() {
-        return codeDifference || super.isModified();
+        return isCodeDifference() || super.isModified();
+    }
+
+    public boolean isCodeDifference() {
+        return codeDifference;
     }
 }

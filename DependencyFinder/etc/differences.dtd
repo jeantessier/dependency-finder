@@ -192,7 +192,9 @@
           throws         CDATA #IMPLIED
 >
 
-<!ELEMENT feature (name,modified-declaration?) >
+<!ELEMENT feature (name,modified-declaration?,modified-code?) >
+
+<!ELEMENT modified-code EMPTY >
 
 <!ELEMENT declaration (#PCDATA) >
 <!ATTLIST declaration
