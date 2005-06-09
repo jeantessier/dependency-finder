@@ -41,6 +41,13 @@ public class ModifiedClass {
      */
     public ModifiedClass(int i, int j, int k) {
     }
+
+    /**
+     *  Modified Code Constructor
+     */
+    public ModifiedClass(float f) {
+        float g = 10 * f;
+    }
     
     /**
      *  Documented Constructor
@@ -50,7 +57,7 @@ public class ModifiedClass {
     }
 
     /**
-     *  Deprecated Constructor
+     *  Undeprecated Constructor
      *  @deprecated
      */
     public ModifiedClass(int i, int j, int k, int m, int n) {
@@ -67,6 +74,10 @@ public class ModifiedClass {
     }
     
     public void modifiedMethod() {
+    }
+    
+    public void modifiedCodeMethod() {
+        int i = 10 * 10;
     }
 
     /** @level private */
