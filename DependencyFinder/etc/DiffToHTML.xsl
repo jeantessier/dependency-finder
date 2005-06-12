@@ -272,15 +272,36 @@
     </xsl:template>
  
     <xsl:template match="modified-constructors">
-        <h5>Constructor Declaration Changes:</h5>
+        <h5>Constructor Changes:</h5>
         <xsl:apply-templates/>
     </xsl:template>
  
     <xsl:template match="modified-methods">
-        <h5>Method Declaration Changes:</h5>
+        <h5>Method Changes:</h5>
         <xsl:apply-templates/>
     </xsl:template>
- 
+
+    <xsl:template match="feature">
+        <blockquote>
+        <p><nobr><code>
+            <xsl:apply-templates/>
+        </code></nobr></p>
+        </blockquote>
+    </xsl:template>
+
+    <xsl:template match="modified-code">
+        <b>code:</b> <xsl:value-of select="."/>
+    </xsl:template>
+
+    <xsl:template match="modified-declaration">
+        <b>old:</b> <xsl:value-of select="old-declaration"/>
+        <xsl:if test="old-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
+        <br/>
+        <b>new:</b> <xsl:value-of select="new-declaration"/>
+        <xsl:if test="new-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
+	<xsl:if test="../modified-code"><br/></xsl:if>
+    </xsl:template>
+
     <xsl:template match="documented-fields">
         <h5>Fields Newly Published:</h5>
         <ul>
@@ -343,23 +364,11 @@
             <xsl:apply-templates/>
         </ul>
     </xsl:template>
- 
+
     <xsl:template match="class/name | feature/name"></xsl:template>
 
     <xsl:template match="class/modified-declaration">
         <h5>Declaration Changes:</h5>
-        <blockquote>
-        <p><nobr><code>
-        <b>old:</b> <xsl:value-of select="old-declaration"/>
-        <xsl:if test="old-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
-        <br/>
-        <b>new:</b> <xsl:value-of select="new-declaration"/>
-        <xsl:if test="new-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
-        </code></nobr></p>
-        </blockquote>
-    </xsl:template>
-
-    <xsl:template match="modified-declaration">
         <blockquote>
         <p><nobr><code>
         <b>old:</b> <xsl:value-of select="old-declaration"/>
@@ -380,4 +389,3 @@
     </xsl:template>
 
 </xsl:stylesheet>
-

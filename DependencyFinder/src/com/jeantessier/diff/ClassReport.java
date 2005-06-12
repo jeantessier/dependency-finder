@@ -372,7 +372,7 @@ public class ClassReport extends Printer implements Comparable {
                 }
 
                 if (cd.isCodeDifference()) {
-                    indent().append("<modified-code/>").eol();
+                    indent().append("<modified-code").append(breakdownDeclaration((Method_info) cd.getNewFeature())).append(">").append(cd.getNewDeclaration()).append("</modified-code>").eol();
                 }
 
                 lowerIndent();
@@ -406,7 +406,7 @@ public class ClassReport extends Printer implements Comparable {
                 }
 
                 if (md.isCodeDifference()) {
-                    indent().append("<modified-code/>").eol();
+                    indent().append("<modified-code").append(breakdownDeclaration((Method_info) md.getNewFeature())).append(">").append(md.getNewDeclaration()).append("</modified-code>").eol();
                 }
 
                 lowerIndent();
