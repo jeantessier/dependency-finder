@@ -18,6 +18,67 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        June 23, 2005
+    </dt>
+    <dd>
+        <p>Upgraded the following development components:</p>
+
+        <blockquote>
+        <table>
+            <tr>
+                <td>Ant</td>
+                <td>:</td>
+                <td>1.6.2</td>
+                <td>-></td>
+                <td>1.6.5</td>
+            </tr>
+            <tr>
+                <td>JDK</td>
+                <td>:</td>
+                <td>1.4.2</td>
+                <td>-></td>
+                <td>1.5.0</td>
+            </tr>
+            <tr>
+                <td>Tomcat</td>
+                <td>:</td>
+                <td>5.0.28</td>
+                <td>-></td>
+                <td>5.5.9</td>
+            </tr>
+        </table>
+        </blockquote>
+    </dd>
+    <dt>
+        June 18, 2005
+    </dt>
+    <dd>
+        <p>Took one more look at using JDK 1.5 to generate the code for JDK 1.3
+        instead of JDK 1.3 itself.  The differences are very minor, from what I
+        could see.  Mostly, it has to do with how JDK 1.3 was resolving method
+        calls to their latest definition, while from JDK 1.4 forward they are
+        resolved to the most specific class of the reference.  This has no ill
+        effect on running the code in the JDK 1.3 virtual machine.</p>
+    </dd>
+    <dt>
+        June 17, 2005
+    </dt>
+    <dd>
+        <p>Worked a little more on <code>SelectedDiffToHTML</code>.</p>
+    </dd>
+    <dt>
+        June 16, 2005
+    </dt>
+    <dd>
+        <p>A coworker requested that pages from the web app be bookmarkable.
+        The easy solution is to replace the "method" attribute of
+        <code>&lt;form&gt;</code> tags in the JSPs.  The URLs can get pretty
+        large.  Just the parameter names for <code>advancedquery</code> make it
+        600 characters long.  With web proxies that can truncate URLs at 1K,
+        that leaves about 400 characters for specifying regular expressions.  I
+        haven't checked it in yet.</p>
+    </dd>
+    <dt>
         June 08, 2005
     </dt>
     <dd>
