@@ -89,7 +89,7 @@
 
 <body>
 
-<form action="<%= request.getRequestURI() %>" method="post">
+<form action="<%= request.getRequestURI() %>" method="get">
 
 <table border="0" cellpadding="5"><tr><td colspan="2">
 
