@@ -18,6 +18,44 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        July 06, 2005
+    </dt>
+    <dd>
+        <p>I started to reorganize the package
+        <code>com.jeantessier.dependency</code> (on paper) to separate the
+        classes that deal exclusively with the graph from those that deal in
+        terms of dependencies (from those about transitive closures).  Maybe
+        it's not as bad as I think.</p>
+
+        <p>Started looking at how Java 5.0 stores some of its more exotic
+        constructs, like variable argument methods and generics.  I found some
+        links to the updated JVM specification.  I have some work ahead of me.
+        The good news is that its all new special attributes and new access
+        flags, so everything kinds works already.  It's just that they are not
+        really accounted for when extracting dependencies or computing
+        metrics.</p>
+
+        <p>Moved <code>Hex</code> from package
+        <code>com.jeantessier.dependencyfinder</code> to package
+        <code>com.jeantessier.text</code> so classes in other packages can use
+        it to dump binary data to log files, like <code>Custom_attribute</code>
+        when logging the content of unknown attributes.</p>
+    </dd>
+    <dt>
+        July 05, 2005
+    </dt>
+    <dd>
+        <p>Somebody suggested using Dependency Finder to generate data flow
+        graphs.  They asked if inbound dependencies on fields couldn't map to
+        setting the value and outbound dependencies to reading the value.  The
+        goals are different between dependency graphs and data flow graps.  But
+        this got me thinking that maybe just having a different collector could
+        do the trick.  The <code>Node</code> class and its related classes are
+        generic enough to represent any kind of relationships.  It is up to the
+        consumer of the graph to infer meaning from things like "inbound" and
+        "outbound" nodes.</p>
+    </dd>
+    <dt>
         June 23, 2005
     </dt>
     <dd>
