@@ -33,7 +33,6 @@
 package com.jeantessier.text;
 
 import java.io.*;
-import java.util.*;
 
 public final class Hex {
     private Hex() {
