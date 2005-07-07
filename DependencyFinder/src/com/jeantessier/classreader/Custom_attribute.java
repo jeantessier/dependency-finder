@@ -33,9 +33,10 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 
 import org.apache.log4j.*;
+
+import com.jeantessier.text.*;
 
 public class Custom_attribute extends Attribute_info {
     private String name;
@@ -55,7 +56,15 @@ public class Custom_attribute extends Attribute_info {
 
         this.info = new byte[byteCount];
         int bytesRead = in.read(info);
-        Logger.getLogger(getClass()).debug("Bytes read: " + bytesRead);
+
+        Logger logger = Logger.getLogger(getClass());
+        if (logger.isDebugEnabled()) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            Hex.print(pw, this.info);
+            pw.close();
+            logger.debug("Read " + bytesRead + " byte(s): " + sw);
+        }
     }
 
     public String getName() {
