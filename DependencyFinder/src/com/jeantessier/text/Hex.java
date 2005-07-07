@@ -30,7 +30,7 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.dependencyfinder;
+package com.jeantessier.text;
 
 import java.io.*;
 import java.util.*;

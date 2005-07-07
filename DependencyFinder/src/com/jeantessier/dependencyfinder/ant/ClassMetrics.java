@@ -39,7 +39,7 @@ import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.dependencyfinder.*;
+import com.jeantessier.text.*;
 
 public class ClassMetrics extends Task {
     private boolean list              = false;

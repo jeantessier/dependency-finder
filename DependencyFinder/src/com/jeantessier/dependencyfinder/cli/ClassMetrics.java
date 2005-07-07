@@ -35,11 +35,10 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependencyfinder.*;
+import com.jeantessier.text.*;
 
 public class ClassMetrics {
     public static final String DEFAULT_LOGFILE = "System.out";
