@@ -3197,8 +3197,8 @@ A transitive closure only keeps the shortest path between two nodes.
 ---++++ Tricky Behavior
 
 The way Dependency Finder computes a closure is highly sensitive to the data it
-has to work from.  It requires a path to follow between nodes in order to
-include nodes in the closure.
+has to work from.  There has to be a path between two nodes in order to include
+them in the closure.
 
 In the following example, there is no connection between the dependencies
 =a.A.a&nbsp;-->&nbsp;b.B.b1= and =b.B.b2&nbsp;-->&nbsp;c.C.c=.  Depending on
@@ -3234,8 +3234,8 @@ class-to-class graph.
 
 </div>
 
-What happens is that =DependencyClosure= follows all dependencies coming from
-=a.A= and its features.  It stops after =b.B.b1= because there are no
+What happened was that =DependencyClosure= followed all dependencies coming from
+=a.A= and its features.  It stopped after =b.B.b1= because there were no
 dependencies leading from it.
 
 <div align="center">
@@ -3243,14 +3243,15 @@ dependencies leading from it.
 *Closure A*
 </div>
 
-=c2c= then reduces the closure to it's class-to-class equivalent.
+=c2c= then reduced the closure to it's class-to-class equivalent.
 
 <div align="center">
 [[images/ClosureAC2C.gif]]
 *Class-to-Class view of Closure A*
 </div>
 
-If instead you reduce the graph first, the result ends up being different.
+If instead you had reduced the graph first, the result would have ended up
+different.
 
 <div class="highlight">
 
@@ -3276,9 +3277,9 @@ If instead you reduce the graph first, the result ends up being different.
 
 </div>
 
-This time, =c2c= removes the fact that the two feature-level dependencies are
-not related and =DependencyClosure= is able to follow from =a.A= to =c.C= by
-going through =b.B=.
+=c2c= would have removed the fact that the two feature-level dependencies were
+not related and =DependencyClosure= would have been able to follow from =a.A= to
+=c.C= by going through =b.B=.
 
 <div align="center">
 [[images/ClosureB.gif]]
@@ -3289,6 +3290,171 @@ Note that the first closure is still a valid transitive closure for =a.A=,
 since it does not use any of the parts of =b.B= that require =c.C=.  At
 runtime, all that is required for =a.A= to run properly is =b.B=.  It does not
 need to have =c.C= anywhere on the =CLASSPATH=.
+
+---++++ Negative Closure
+
+Sometimes, you want the reverse of a closure.  You want everything that is not
+used through some starting point such as =main()=.  You need to use a few tools
+together to get this _negative closure_.
+
+Take the following graph for example, we highlighted the transitive closure from
+=a.A.a=.  Everything not in the highlighted section is the negative closure.
+
+<div align="center">
+[[images/NegativeClosureSource.gif]]
+*Source Graph*
+</div>
+
+First, we extract the complete graph and get a list of all the symbols in it.
+
+<div class="highlight">
+
+    C:\>DependencyExtractor -xml -out df.xml _classes_
+    C:\>ListFullyQualifiedNames -in df.xml -out df.symbols.txt
+
+</div>
+
+<div class="lowlight">
+
+    a&nbsp;
+    a.A
+    a.A.a
+    b
+    b.B
+    b.B.b1
+    b.B.b2
+    c
+    c.C
+
+</div>
+
+Next, we compute the closure and get a list of the symbols in the closure.
+
+<div class="highlight">
+
+    C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
+    C:\>ListFullyQualifiedNames -in closure.xml -out closure.symbols.txt
+
+</div>
+
+<div class="lowlight">
+
+    a&nbsp;
+    a.A
+    a.A.a
+    b
+    b.B
+    b.B.b1
+
+</div>
+
+Finally, we get the difference between the two lists using =ListDiff=.  The
+=<removed>= tag lists the symbols in the negative closure.
+
+<div class="highlight">
+
+    C:\>ListDiff -out symbols.diff.xml -old df.symbols.txt -new closure.symbols.txt
+
+</div>
+
+<div class="lowlight">
+
+    &lt;list-diff&gt;
+        &lt;name&gt;&lt;/name&gt;
+        &lt;old&gt;&lt;/old&gt;
+        &lt;new&gt;&lt;/new&gt;
+        &lt;removed&gt;
+            &lt;line&gt;b.B.b2&lt;/line&gt;
+            &lt;line&gt;c&lt;/line&gt;
+            &lt;line&gt;c.C&lt;/line&gt;
+        &lt;/removed&gt;
+        &lt;added&gt;
+        &lt;/added&gt;
+    &lt;/list-diff&gt;
+
+</div>
+
+<div align="center">
+[[images/NegativeClosure.gif]]
+*Negative Closure*
+</div>
+
+If you want only the class-to-class negative closure, simply reduce the initial
+graph and the transitive cloure before you extract symbols from them.
+
+<div align="center">
+[[images/NegativeClosureSourceC2C.gif]]
+*Class-to-class Source Graph*
+</div>
+
+So first, process the complete graph.
+
+<div class="highlight">
+
+    C:\>DependencyExtractor -xml -out df.xml _classes_
+    C:\>c2c -xml -out df.c2c.xml -show-all df.xml
+    C:\>ListFullyQualifiedNames -in df.c2c.xml -out df.c2c.symbols.txt
+
+</div>
+
+<div class="lowlight">
+
+    a&nbsp;
+    a.A
+    b
+    b.B
+    c
+    c.C
+
+</div>
+
+Next, compute the closure.
+
+<div class="highlight">
+
+    C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
+    C:\>c2c -xml -out closure.c2c.xml -show-all closure.xml
+    C:\>ListFullyQualifiedNames -in closure.c2c.xml -out closure.c2c.symbols.txt
+
+</div>
+
+<div class="lowlight">
+
+    a&nbsp;
+    a.A
+    b
+    b.B
+
+</div>
+
+Finally, we get the difference between the two lists using =ListDiff=.  The
+=<removed>= tag lists the symbols in the negative closure.
+
+<div class="highlight">
+
+    C:\>ListDiff -out c2c.symbols.diff.xml -old df.c2c.symbols.txt -new closure.c2c.symbols.txt
+
+</div>
+
+<div class="lowlight">
+
+    &lt;list-diff&gt;
+        &lt;name&gt;&lt;/name&gt;
+        &lt;old&gt;&lt;/old&gt;
+        &lt;new&gt;&lt;/new&gt;
+        &lt;removed&gt;
+            &lt;line&gt;c&lt;/line&gt;
+            &lt;line&gt;c.C&lt;/line&gt;
+        &lt;/removed&gt;
+        &lt;added&gt;
+        &lt;/added&gt;
+    &lt;/list-diff&gt;
+
+</div>
+
+So at the class level, the negative closure is only class =c.C=.  Even though
+feature =b.B.b2= is not in the closure, its class, =b.B=, is part of it and
+therefore not in the negative closure.
 
 ---+++ Dependency Metrics
 

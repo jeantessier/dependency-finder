@@ -31,6 +31,7 @@ For Dependency Finder version <VERSION />.
 <li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 <li><a href="#ListUnused">ListUnused</a></li>
 <li><a href="#ListDeprecatedElements">ListDeprecatedElements</a></li>
+<li><a href="#ListFullyQualifiedNames">ListFullyQualifiedNames</a></li>
 <p></p>
 <li><a href="#DependencyClosure">DependencyClosure</a></li>
 <li><a href="#ClosureToText">ClosureToText</a></li>
@@ -6463,7 +6464,7 @@ and read them.
 List of package names, class names, and feature names that are deprecated,
 one per line.
 
-You can pass this output to [[#DeprecationReport][DeprecationReport]] to get a
+You can pass this output to [[#DependencyReporter][DependencyReporter]] to get a
 list of areas in your code that depend on deprecated APIs.
 
 </blockquote>
@@ -7138,7 +7139,7 @@ You can pass this output to [[#ListDiff][ListDiff]] to get a list additions
 and removals from the published documentation.
 
 You can pass this output to [[#PublishedDiffToHTML][PublishedDiffToHTML]] to
-further restrain the report and limit it to the published API.
+further constrain the report and limit it to the published API.
 
 </blockquote>
 
@@ -7174,6 +7175,160 @@ or, with Ant:
 <blockquote>
 
 =com.jeantessier.diff.ListDocumentedElements=
+
+</blockquote>
+
+----
+
+---++ ListFullyQualifiedNames
+
+<blockquote>
+
+Lists node names in their fully qualified form, one per line.
+
+</blockquote>
+
+---+++ Synopsis
+
+    ListFullyQualifiedNames
+        -in input_file.xml
+        [-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+Translates only node names to text.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the dependency graph in =dg.xml= to plain text
+with only inbound dependencies:
+
+<div class="highlight">
+
+    ListFullyQualifiedNames -in dg.xml
+
+</div>
+
+To convert the dependency graph in =dg.xml= to a plain text
+file with only inbound dependencies:
+
+<div class="highlight">
+
+    ListFullyQualifiedNames -in dg.xml -out dependencies.txt
+
+</div>
+
+An element with many inbound dependencies is said to be dependable,
+meaning that many other elements rely on it being stable.
+
+Here is another example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+<div class="highlight">
+
+    ListFullyQualifiedNames -in sample.xml
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
+    Outbound
+    Middle
+    Inbound
+    Bidirectional1
+    Bidirectional2
+    Empty
+
+</div>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/ListFullyQualifiedNames.xsl=
 
 </blockquote>
 

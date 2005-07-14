@@ -38,7 +38,8 @@ require "getopts.pl";
 
 &Getopts (":cguvw");
 
-%TEMPLATES = ("ClassClassDiff" => ".cli.template.txt",
+%TEMPLATES = (
+              "ClassClassDiff" => ".cli.template.txt",
               "ClassDump" => ".cli.template.txt",
               "ClassFinder" => ".cli.template.txt",
               "ClassList" => ".cli.template.txt",
@@ -50,6 +51,7 @@ require "getopts.pl";
               "DependencyClosure" => ".cli.template.txt",
               "DependencyExtractor" => ".cli.template.txt",
               "DependencyGraphToHTML" => ".xsl.template.txt",
+              "DependencyGraphToRDF" => ".xsl.template.txt",
               "DependencyGraphToText" => ".xsl.template.txt",
               "DependencyMetrics" => ".cli.template.txt",
               "DependencyReporter" => ".cli.template.txt",
@@ -65,6 +67,7 @@ require "getopts.pl";
               "ListDiff" => ".cli.template.txt",
               "ListDiffToHTML" => ".xsl.template.txt",
               "ListDiffToText" => ".xsl.template.txt",
+              "ListFullyQualifiedNames" => ".xsl.template.txt",
               "ListInheritanceDiffToText" => ".xsl.template.txt",
               "ListSymbols" => ".cli.template.txt",
               "ListUnused" => ".xsl.template.txt",
@@ -75,7 +78,8 @@ require "getopts.pl";
               "c2c" => ".reporter.template.txt",
               "c2p" => ".reporter.template.txt",
               "f2f" => ".reporter.template.txt",
-              "p2p" => ".reporter.template.txt");
+              "p2p" => ".reporter.template.txt",
+);
 
 if ($opt_g) {
     &Generate("sh", "");
