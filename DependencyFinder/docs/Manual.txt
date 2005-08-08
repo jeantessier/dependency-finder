@@ -242,18 +242,18 @@ Suppose you extracted the TAR file in =$HOME=.
 
 For sh:
 
-    PATH=$DEPENDENCYFINDER_HOME\bin;$PATH
+    PATH=$DEPENDENCYFINDER_HOME/bin:$PATH
     export PATH
 
 For bash:
 
-    export PATH=$DEPENDENCYFINDER_HOME\bin;$PATH
+    export PATH=$DEPENDENCYFINDER_HOME/bin:$PATH
 
 You can put these lines in your =.profile= file.
 
 For csh or tcsh:
 
-    set path = ($DEPENDENCYFINDER_HOME\bin $path)
+    set path = ($DEPENDENCYFINDER_HOME/bin $path)
 
 You can put this line in your =.cshrc= file.
 
