@@ -57,8 +57,7 @@ public class DifferencesFactory {
         Logger.getLogger(getClass()).debug("Begin " + name + " (" + oldVersion + " -> " + newVersion + ")");
 
         JarDifferences jarDifferences = new JarDifferences(name, oldVersion, newVersion);
-        Differences    result = jarDifferences;
-        
+
         this.oldJar = oldJar;
         this.newJar = newJar;
         
@@ -97,9 +96,9 @@ public class DifferencesFactory {
             }
         }
         
-        Logger.getLogger(getClass()).debug("End   " + name + " (" + oldVersion + " -> " + newVersion + "): " + (result.isEmpty() ? "empty" : "not empty"));
+        Logger.getLogger(getClass()).debug("End   " + name + " (" + oldVersion + " -> " + newVersion + "): " + (jarDifferences.isEmpty() ? "empty" : "not empty"));
         
-        return result;
+        return jarDifferences;
     }
     
     public Differences createPackageDifferences(String name, PackageNode oldPackage, PackageNode newPackage) {
