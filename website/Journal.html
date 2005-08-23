@@ -18,6 +18,54 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        August 22, 2005
+    </dt>
+    <dd>
+        <p>Toyed with the idea of removing deprecation-related entries from
+        <code>JarJarDiff</code> reports, in addition to the
+        documentation-related ones I removed two days ago.  In the end, I
+        decided to keep them since they impact the compilation messages you get
+        when building code.</p>
+
+        <p>Further modified <code>JarJarDiff</code> to use
+        <code>Validator</code> as a filter instead of the two documentation
+        parameters it had before.  Now, it uses a new
+        <code>ComprehensiveValidator</code> by default but if supplied with
+        the <code>-filter</code> switch, it uses a
+        <code>ListBaSedValidator</code> instead to limit the report to
+        selected elements.  I have to modify <code>ListBaSedValidator</code> to
+        throw an exception when its input file is missing.  I am not finished
+        yet.  There are no tests for filtering and when I pass in the switch,
+        the resulting report is empty.  This shouldn't take too long to sort
+        out.</p>
+    </dd>
+    <dt>
+        August 21, 2005
+    </dt>
+    <dd>
+        <p>For some obscure reason, my laptop won't let me start SmartCVS
+        anymore.  It complains that I don't have Java 1.4 or later installed.
+        I have JDK 1.5!  I tried everything, up to and including uninstalling
+        both SmartCVS and JDK and reinstalling them, to no avail.  I figured
+        I'd use the CVS support in IntelliJ IDEA, but the branch only exists
+        on the source code and not on the website module, which confused my IDE
+        for a little while.</p>
+
+        <p>Upgraded the following development components:</p>
+
+        <blockquote>
+        <table>
+            <tr>
+                <td>SmartCVS</td>
+                <td>:</td>
+                <td>4.0.5</td>
+                <td>-></td>
+                <td>4.0.6</td>
+            </tr>
+        </table>
+        </blockquote>
+    </dd>
+    <dt>
         August 20, 2005
     </dt>
     <dd>
@@ -25,7 +73,9 @@
         dealt with the level of documentation as separate entries in the XML
         report.  The next step will be to use the lists from
         <code>-old-validator</code> and <code>-new-validator</code> to trim the
-        report itself, not with an XSL stylesheet.</p>
+        report itself, not with an XSL stylesheet.  I will do this work on a
+        separate branch and merge it in when I'm done.  The branch is named
+        <code>published_API</code>.</p>
 
         <p>Fixed <code>textjunit.bat</code> and <code>junit.bat</code> to allow
         for spaces in the <code>JAVA_HOME</code> environment variable.</p>
