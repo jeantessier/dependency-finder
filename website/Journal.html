@@ -18,6 +18,55 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        September 08, 2005
+    </dt>
+    <dd>
+        <p>Started work on <code>DifferenceStrategy</code> to encapsulate the
+        behavior behind <code>Differences.isEmpty()</code>.  Got through the
+        simple tests for fields, constructors, and methods.</p>
+
+        <p>Ran a quick test with a large JAR file: removing all calls to Log4J
+        reduces extraction time by 50%.  I should look into more discretionary
+        use of logging to make the application more responsive, specially for
+        large codebases.</p>
+    </dd>
+    <dt>
+        September 07, 2005
+    </dt>
+    <dd>
+        <p>After staring at the code for some time, I am finally convinced the
+        various subclasses of <code>Differences</code> each expose enough
+        information that I can come up with a strategy object that can look at
+        each one and determine if it is <em>empty</em> or not.  At first, I had
+        thought of using a visitor, but that would mean either changing the
+        <code>Visitor</code> interface to have a return value, or make the
+        visitors stateful.  Neither is appealing to me, so I'll stick with my
+        idea of using the Strategy pattern instead.</p>
+
+        <p>Fixed <code>RemovableDifferences</code> that was directly
+        referencing fields internally instead of going though accessors.  Since
+        the places it was doing the accessing will move to a strategy, it made
+        sense to go through an accessor instead so the calling code will be
+        easier to move later on.</p>
+    </dd>
+    <dt>
+        September 05, 2005
+    </dt>
+    <dd>
+        <p>I am stuck.  On two fronts.  With JarJarDiff, I can't seem to see a
+        way to insert some kind of strategy in the difference engine to choose
+        between all differences and only those I judge might break backward
+        compatibility.  With the HTML-ization of the web app output, I can't
+        seem to find a clean way to go from preformatted text output to
+        hyperlinked HTML.  This is frustrating.</p>
+    </dd>
+    <dt>
+        September 01, 2005
+    </dt>
+    <dd>
+        <p>Fixed a typo in the manual.</p>
+    </dd>
+    <dt>
         August 25, 2005
     </dt>
     <dd>
