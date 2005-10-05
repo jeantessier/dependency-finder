@@ -1,3 +1,4 @@
+
 <!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
 
 <html>
@@ -17,6 +18,22 @@
          11111111112222222222333333333344444444445555555555666666666677777777778
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
+    <dt>
+        October 04, 2005
+    </dt>
+    <dd>
+        <p>Changed all the JarJarDiff variations to use the new
+        <code>DifferenceStrategy</code>.  Each has a new <code>level</code>
+        parameter to tell it which strategy to use.  Level can either be a
+        predefined constant, <code>api</code> for
+        <code>APIOnlyDifferenceStrategy</code> or <code>code</code> for
+        <code>ComprehensiveDifferenceStrategy</code>.  In addition, users can
+        set it to the name of a class that implements
+        <code>DifferenceStrategy</code> and that has a default constructor;
+        the program will instantiate it and use the instance to analyze
+        API differences.  I might so the same thing for the selection of
+        printers in many of the tools.</p>
+    </dd>
     <dt>
         October 03, 2005
     </dt>
