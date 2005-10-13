@@ -19,6 +19,30 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        October 12, 2005
+    </dt>
+    <dd>
+        <p>Reworked the way <code>DifferencesFactory</code> determines code
+        differences.  It is now all done by the strategy and the factory only
+        sets a flag in the appropriate <code>CodeDifferences</code> instance.
+        I had to adjust <code>DifferenceStrategy</code> in order to expose
+        <code>isCodeDifference()</code>.  I eventually would like for constant
+        value and code differences to have their own instance of
+        <code>Differences</code> instead of just being flags.  Objects can
+        hold information about the nature of the difference.</p>
+
+        <p>I had an idea of using a chain of command pattern instead of my
+        current strategy pattern for <code>DifferencesFactory</code>, but that
+        would make it much more complicated to insert user-defined strategies.
+        So I'll stick with my current design for now.</p>
+    </dd>
+    <dt>
+        October 11, 2005
+    </dt>
+    <dd>
+        <p>Removed obsolete method <code>Differences.isEmpty()</code>.</p>
+    </dd>
+    <dt>
         October 09, 2005
     </dt>
     <dd>
