@@ -18,37 +18,54 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        October 28, 2005
+    </dt>
+    <dd>
+        <p>Refactored of tests for
+        <code>IncompatibleDifferenceStragegy</code>.  Not done yet.</p>
+    </dd>
+    <dt>
+        October 25, 2005
+    </dt>
+    <dd>
+        <p>Reworked the entire <code>DifferenceStragegy</code> hierarchy.  For
+        a short time, I considered using a chain of responsibility pattern,
+        but setting it up in a flexible way, from the command-line, was just
+        too complicated.  So I will stay with decorators and some limited
+        combinations, based on command-line parameters.</p>
+    </dd>
+    <dt>
         October 19, 2005
     </dt>
     <dd>
         <p>I'm going to make <code>IncompatibleDifferenceStragegy</code> a
-	subclass of <code>DifferenceStrategyDecorator</code>.</p>
+        subclass of <code>DifferenceStrategyDecorator</code>.</p>
 
         <p>I read that JDK 1.5 has JMX instrumentation to help with profiling.
-	I should look further into it to help with performance issues with
-	regard to logging.</p>
+        I should look further into it to help with performance issues with
+        regard to logging.</p>
     </dd>
     <dt>
         October 15, 2005
     </dt>
     <dd>
         <p>More test data and initial tests for
-	<code>IncompatibleDifferenceStrategy</code>.</p>
+        <code>IncompatibleDifferenceStrategy</code>.</p>
     </dd>
     <dt>
         October 14, 2005
     </dt>
     <dd>
         <p>More test data and new <code>IncompatibleDifferenceStrategy</code>
-	to replace <code>PublishedDiffToHTML.xsl</code>.</p>
+        to replace <code>PublishedDiffToHTML.xsl</code>.</p>
     </dd>
     <dt>
         October 13, 2005
     </dt>
     <dd>
         <p>Created some more test data to test the new
-	<code>DifferenceStrategy</code> to replace
-	<code>PublishedDiffToHTML.xsl</code>.</p>
+        <code>DifferenceStrategy</code> to replace
+        <code>PublishedDiffToHTML.xsl</code>.</p>
     </dd>
     <dt>
         October 12, 2005
