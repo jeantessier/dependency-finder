@@ -18,6 +18,24 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        November 03, 2005
+    </dt>
+    <dd>
+        <p>Fixed JarJarDiff so the <code>-level</code> switch that takes a
+        possible class name can look for a constructor that takes a
+        <code>DifferenceStrategy</code> before it falls back on the default
+        constructor.  This way, users can specify strategies that extend
+        <code>DifferenceStrategyDecorator</code> and have then decorate the
+        same basic strategy that <code>APIDifferenceStrategy</code> and
+        <code>IncompatibleDifferenceStrategy</code> do.</p>
+
+        <p>I want to do the same thing for printers, too.</p>
+
+        <p>JUnit launch scripts for Unix.  I have had the Windows
+        <code>.bat</code> files since forever, but only got around to writing
+        Unix equivalents last year.  I finally checked them in.</p>
+    </dd>
+    <dt>
         November 02, 2005
     </dt>
     <dd>
