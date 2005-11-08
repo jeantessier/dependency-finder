@@ -49,6 +49,7 @@ public class ClassDifferences extends RemovableDifferences {
     private Classfile oldClass;
     private Classfile newClass;
 
+    private boolean declarationModified;
     private Collection featureDifferences = new LinkedList();
 
     /**
@@ -59,7 +60,7 @@ public class ClassDifferences extends RemovableDifferences {
 
         setOldClass(oldClass);
         setNewClass(newClass);
-        
+
         if (oldClass != null) {
             setOldDeclaration(oldClass.getDeclaration());
         }
@@ -67,7 +68,7 @@ public class ClassDifferences extends RemovableDifferences {
         if (newClass != null) {
             setNewDeclaration(newClass.getDeclaration());
         }
-    
+
         if (isModified()) {
             Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
         } else {
@@ -91,12 +92,23 @@ public class ClassDifferences extends RemovableDifferences {
         this.newClass = newClass;
     }
 
+    public boolean isDeclarationModified() {
+        return declarationModified;
+    }
+
+    /**
+     * Only the DifferencesFactory can set this flag
+     */
+    void setDeclarationModified(boolean declarationModified) {
+        this.declarationModified = declarationModified;
+    }
+
     public Collection getFeatureDifferences() {
         return featureDifferences;
     }
 
     public boolean isModified() {
-        return super.isModified() || (getFeatureDifferences().size() != 0);
+        return isDeclarationModified() || (getFeatureDifferences().size() != 0);
     }
 
     public void accept(Visitor visitor) {

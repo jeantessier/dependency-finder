@@ -38,7 +38,6 @@ package com.jeantessier.diff;
  *  @see Visitor
  */
 public interface Differences {
-    public String  getName();
-    public boolean isEmpty();
-    public void    accept(Visitor visitor);
+    public String getName();
+    public void   accept(Visitor visitor);
 }

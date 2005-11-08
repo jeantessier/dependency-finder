@@ -146,9 +146,9 @@ public class TextPrinter extends Printer {
     public void visitString_info(String_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": String ");
+            append(currentCount()).append(": String \"");
             entry.getRawValue().accept(this);
-            eol();
+            append("\"").eol();
             top = true;
         } else {
             entry.getRawValue().accept(this);

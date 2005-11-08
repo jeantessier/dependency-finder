@@ -39,11 +39,28 @@ import com.jeantessier.classreader.*;
  *  All behavior is handled by superclasses.
  */
 public class FieldDifferences extends FeatureDifferences {
+    private boolean constantValueDifference = false;
+
     /**
      *  Only the DifferencesFactory can create instances of this class.
      */
-    FieldDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
-        super(name, oldFeature, newFeature);
+    FieldDifferences(String name, Field_info oldField, Field_info newField) {
+        super(name, oldField, newField);
+    }
+
+    public boolean isConstantValueDifference() {
+        return constantValueDifference;
+    }
+
+    /**
+     * Only the DifferencesFactory can set this flag
+     */
+    void setConstantValueDifference(boolean constantValueDifference) {
+        this.constantValueDifference = constantValueDifference;
+    }
+
+    public boolean isModified() {
+        return isConstantValueDifference() || super.isModified();
     }
 
     public void accept(Visitor visitor) {

@@ -51,6 +51,23 @@ public class Integer_info extends ConstantPoolEntry {
         return String.valueOf(getValue());
     }
 
+    public int hashCode() {
+        return new Integer(getValue()).hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            Integer_info other = (Integer_info) object;
+            result = this.getValue() == other.getValue();
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitInteger_info(this);
     }

@@ -51,6 +51,23 @@ public class Double_info extends ConstantPoolEntry {
         return String.valueOf(getValue());
     }
 
+    public int hashCode() {
+        return new Double(getValue()).hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            Double_info other = (Double_info) object;
+            result = Double.compare(this.getValue(), other.getValue()) == 0;
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitDouble_info(this);
     }

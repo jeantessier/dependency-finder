@@ -33,81 +33,45 @@
 package com.jeantessier.diff;
 
 import java.io.*;
-import java.util.*;
-
-import junit.framework.*;
 
 import com.jeantessier.classreader.*;
 
-public class TestDifferencesFactory extends TestCase {
-    public static final String OLD_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
-    public static final String NEW_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
-
-    private JarDifferences jarDifferences;
+public class TestDifferencesFactory extends TestDifferencesFactoryBase {
+    private ProjectDifferences projectDifferences;
 
     protected void setUp() throws Exception {
-        ClassfileLoader oldJar = new AggregatingClassfileLoader();
-        oldJar.load(Collections.singleton(OLD_CLASSPATH));
+        super.setUp();
 
-        ClassfileLoader newJar = new AggregatingClassfileLoader();
-        newJar.load(Collections.singleton(NEW_CLASSPATH));
-
-        Validator oldValidator = new ListBasedValidator(new BufferedReader(new FileReader(OLD_CLASSPATH + ".txt")));
-        Validator newValidator = new ListBasedValidator(new BufferedReader(new FileReader(NEW_CLASSPATH + ".txt")));
-
-        DifferencesFactory factory = new DifferencesFactory(oldValidator, newValidator);
-        jarDifferences = (JarDifferences) factory.createJarDifferences("test", "old", oldJar, "new", newJar);
+        DifferencesFactory factory = new DifferencesFactory();
+        projectDifferences = (ProjectDifferences) factory.createProjectDifferences("test", "old", getOldPackages(), "new", getNewPackages());
     }
 
-    public void testEmpty() throws IOException {
-        Validator validator = new ListBasedValidator(new BufferedReader(new StringReader("")));
-        DifferencesFactory factory = new DifferencesFactory(validator, validator);
-        JarDifferences emptyDifferences = (JarDifferences) factory.createJarDifferences("test", "old", new AggregatingClassfileLoader(), "new", new AggregatingClassfileLoader());
+    public void testEmptyJars() throws IOException {
+        DifferencesFactory factory = new DifferencesFactory();
+        ProjectDifferences emptyDifferences = (ProjectDifferences) factory.createProjectDifferences("test", "old", new PackageMapper(), "new", new PackageMapper());
 
         assertEquals("name",        "test", emptyDifferences.getName());
         assertEquals("old version", "old",  emptyDifferences.getOldVersion());
         assertEquals("new version", "new",  emptyDifferences.getNewVersion());
 
-        assertTrue("IsEmpty()", emptyDifferences.isEmpty());
-
-        assertTrue("!IsEmpty()", !jarDifferences.isEmpty());
-        assertEquals("NbPackageDifferences: " + jarDifferences.getPackageDifferences(), 5, jarDifferences.getPackageDifferences().size());
+        assertEquals("NbPackageDifferences: " + projectDifferences.getPackageDifferences(), 3, projectDifferences.getPackageDifferences().size());
     }
-    
-    public void testDocumentedPackage() {
-        String name = "DocumentedPackage";
-        DocumentableDifferences documentableDifferences = (DocumentableDifferences) find(name, jarDifferences.getPackageDifferences());
-        PackageDifferences differences = (PackageDifferences) documentableDifferences.getComponent();
-        assertNotNull(name, differences);
 
-        assertTrue(name + ".NewDocumentation()",      documentableDifferences.isNewDocumentation());
-        assertTrue(name + ".Remove Documentation()", !documentableDifferences.isRemovedDocumentation());
-        assertTrue(name + ".IsEmpty()",              !documentableDifferences.isEmpty());
-
-        assertEquals(name, differences.getName());
-        assertEquals(name + ".ClassDifferences: " + differences.getClassDifferences(), 1, differences.getClassDifferences().size());
-        assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
-        assertTrue(name + ".IsModified()",  differences.isModified());
-        assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
-    }
-        
     public void testModifiedPackage() {
         String name = "ModifiedPackage";
-        PackageDifferences differences = (PackageDifferences) find(name, jarDifferences.getPackageDifferences());
+        PackageDifferences differences = (PackageDifferences) find(name, projectDifferences.getPackageDifferences());
         assertNotNull(name, differences);
 
         assertEquals(name, differences.getName());
-        assertEquals(name + ".ClassDifferences: " + differences.getClassDifferences(), 14, differences.getClassDifferences().size());
+        assertEquals(name + ".ClassDifferences: " + differences.getClassDifferences(), 12, differences.getClassDifferences().size());
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
 
     public void testNewPackage() {
         String name = "NewPackage";
-        PackageDifferences differences = (PackageDifferences) find(name, jarDifferences.getPackageDifferences());
+        PackageDifferences differences = (PackageDifferences) find(name, projectDifferences.getPackageDifferences());
         assertNotNull(name, differences);
 
         assertEquals(name, differences.getName());
@@ -115,12 +79,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",       differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
 
     public void testRemovedPackage() {
         String name = "RemovedPackage";
-        PackageDifferences differences = (PackageDifferences) find(name, jarDifferences.getPackageDifferences());
+        PackageDifferences differences = (PackageDifferences) find(name, projectDifferences.getPackageDifferences());
         assertNotNull(name, differences);
 
         assertEquals(name, differences.getName());
@@ -128,30 +91,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",   differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
-    
-    public void testUndocumentedPackage() {
-        String name = "UndocumentedPackage";
-        DocumentableDifferences documentableDifferences = (DocumentableDifferences) find(name, jarDifferences.getPackageDifferences());
-        PackageDifferences differences = (PackageDifferences) documentableDifferences.getComponent();
-        assertNotNull(name, differences);
 
-        assertTrue(name + ".NewDocumentation()",     !documentableDifferences.isNewDocumentation());
-        assertTrue(name + ".Remove Documentation()",  documentableDifferences.isRemovedDocumentation());
-        assertTrue(name + ".IsEmpty()",              !documentableDifferences.isEmpty());
-
-        assertEquals(name, differences.getName());
-        assertEquals(name + ".ClassDifferences: " + differences.getClassDifferences(), 1, differences.getClassDifferences().size());
-        assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
-        assertTrue(name + ".IsModified()",  differences.isModified());
-        assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
-    }
-    
     public void testDeprecatedClass() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String name = packageName + ".DeprecatedClass";
         DeprecatableDifferences deprecatableDifferences = (DeprecatableDifferences) find(name, packageDifferences.getClassDifferences());
@@ -160,93 +104,47 @@ public class TestDifferencesFactory extends TestCase {
 
         assertTrue(name + ".NewDeprecation()",        deprecatableDifferences.isNewDeprecation());
         assertTrue(name + ".RemovedDeprecation()",   !deprecatableDifferences.isRemovedDeprecation());
-        assertTrue(name + ".IsEmpty()",              !deprecatableDifferences.isEmpty());
-        
-        assertEquals(name, differences.getName());
-        assertEquals(name + ".FeatureDifferences", 0, differences.getFeatureDifferences().size());
-        assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
-        assertTrue(name + ".IsModified()", !differences.isModified());
-        assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",     differences.isEmpty());
-    }
-        
-    public void testUndocumentedPackagePublishedClass() {
-        String packageName = "UndocumentedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) ((DecoratorDifferences) find(packageName, jarDifferences.getPackageDifferences())).getLeafComponent();
-
-        String name = packageName + ".PublishedClass";
-        DocumentableDifferences documentableDifferences = (DocumentableDifferences) find(name, packageDifferences.getClassDifferences());
-        ClassDifferences differences = (ClassDifferences) documentableDifferences.getComponent();
-        assertNotNull(name, differences);
-
-        assertTrue(name + ".NewDocumentation()",     !documentableDifferences.isNewDocumentation());
-        assertTrue(name + ".Remove Documentation()",  documentableDifferences.isRemovedDocumentation());
-        assertTrue(name + ".IsEmpty()",              !documentableDifferences.isEmpty());
 
         assertEquals(name, differences.getName());
         assertEquals(name + ".FeatureDifferences", 0, differences.getFeatureDifferences().size());
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",     differences.isEmpty());
-    }
-        
-    public void testDocumentedClass() {
-        String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
-
-        String name = packageName + ".DocumentedClass";
-        DocumentableDifferences documentableDifferences = (DocumentableDifferences) find(name, packageDifferences.getClassDifferences());
-        ClassDifferences differences = (ClassDifferences) documentableDifferences.getComponent();
-        assertNotNull(name, differences);
-
-        assertTrue(name + ".NewDocumentation()",      documentableDifferences.isNewDocumentation());
-        assertTrue(name + ".Remove Documentation()", !documentableDifferences.isRemovedDocumentation());
-        assertTrue(name + ".IsEmpty()",              !documentableDifferences.isEmpty());
-
-        assertEquals(name, differences.getName());
-        assertEquals(name + ".FeatureDifferences", 0, differences.getFeatureDifferences().size());
-        assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
-        assertTrue(name + ".IsModified()", !differences.isModified());
-        assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",     differences.isEmpty());
     }
 
     public void testModifiedClass() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String name = packageName + ".ModifiedClass";
         ClassDifferences differences = (ClassDifferences) find(name, packageDifferences.getClassDifferences());
         assertNotNull(name, differences);
 
         assertEquals(name, differences.getName());
-        assertEquals(name + ".FeatureDifferences", 23, differences.getFeatureDifferences().size());
+        assertEquals(name + ".FeatureDifferences", 17, differences.getFeatureDifferences().size());
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
-    
+
     public void testModifiedInterface() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String name = packageName + ".ModifiedInterface";
         ClassDifferences differences = (ClassDifferences) find(name, packageDifferences.getClassDifferences());
         assertNotNull(name, differences);
 
         assertEquals(name, differences.getName());
-        assertEquals(name + ".FeatureDifferences", 14, differences.getFeatureDifferences().size());
+        assertEquals(name + ".FeatureDifferences", 11, differences.getFeatureDifferences().size());
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
-    
+
     public void testNewClass() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String name = packageName + ".NewClass";
         ClassDifferences differences = (ClassDifferences) find(name, packageDifferences.getClassDifferences());
@@ -257,12 +155,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",       differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
-    
+
     public void testNewInterface() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String name = packageName + ".NewInterface";
         ClassDifferences differences = (ClassDifferences) find(name, packageDifferences.getClassDifferences());
@@ -273,12 +170,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",       differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
-    
+
     public void testRemovedClass() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String name = packageName + ".RemovedClass";
         ClassDifferences differences = (ClassDifferences) find(name, packageDifferences.getClassDifferences());
@@ -289,12 +185,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",   differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
-    
+
     public void testRemovedInterface() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String name = packageName + ".RemovedInterface";
         ClassDifferences differences = (ClassDifferences) find(name, packageDifferences.getClassDifferences());
@@ -305,12 +200,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",   differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
-    
+
     public void testUndeprecatedClass() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String name = packageName + ".UndeprecatedClass";
         DeprecatableDifferences deprecatableDifferences = (DeprecatableDifferences) find(name, packageDifferences.getClassDifferences());
@@ -319,61 +213,17 @@ public class TestDifferencesFactory extends TestCase {
 
         assertTrue(name + ".NewDeprecation()",       !deprecatableDifferences.isNewDeprecation());
         assertTrue(name + ".RemovedDeprecation()",    deprecatableDifferences.isRemovedDeprecation());
-        assertTrue(name + ".IsEmpty()",              !deprecatableDifferences.isEmpty());
 
         assertEquals(name, differences.getName());
         assertEquals(name + ".FeatureDifferences", 0, differences.getFeatureDifferences().size());
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",     differences.isEmpty());
     }
-    
-    public void testUndocumentedClass() {
-        String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
 
-        String name = packageName + ".UndocumentedClass";
-        DocumentableDifferences documentableDifferences = (DocumentableDifferences) find(name, packageDifferences.getClassDifferences());
-        ClassDifferences differences = (ClassDifferences) documentableDifferences.getComponent();
-        assertNotNull(name, differences);
-
-        assertTrue(name + ".NewDocumentation()",     !documentableDifferences.isNewDocumentation());
-        assertTrue(name + ".Remove Documentation()",  documentableDifferences.isRemovedDocumentation());
-        assertTrue(name + ".IsEmpty()",              !documentableDifferences.isEmpty());
-
-        assertEquals(name, differences.getName());
-        assertEquals(name + ".FeatureDifferences", 0, differences.getFeatureDifferences().size());
-        assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
-        assertTrue(name + ".IsModified()", !differences.isModified());
-        assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",     differences.isEmpty());
-    }
-        
-    public void testDocumentedPackagePublishedClass() {
-        String packageName = "DocumentedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) ((DecoratorDifferences) find(packageName, jarDifferences.getPackageDifferences())).getLeafComponent();
-
-        String name = packageName + ".PublishedClass";
-        DocumentableDifferences documentableDifferences = (DocumentableDifferences) find(name, packageDifferences.getClassDifferences());
-        ClassDifferences differences = (ClassDifferences) documentableDifferences.getComponent();
-        assertNotNull(name, differences);
-
-        assertTrue(name + ".NewDocumentation()",      documentableDifferences.isNewDocumentation());
-        assertTrue(name + ".Remove Documentation()", !documentableDifferences.isRemovedDocumentation());
-        assertTrue(name + ".IsEmpty()",              !documentableDifferences.isEmpty());
-        
-        assertEquals(name, differences.getName());
-        assertEquals(name + ".FeatureDifferences", 0, differences.getFeatureDifferences().size());
-        assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
-        assertTrue(name + ".IsModified()", !differences.isModified());
-        assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",     differences.isEmpty());
-    }
-    
     public void testModifiedClassModifiedField() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -386,12 +236,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedClassNewField() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -404,12 +253,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",       differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedClassRemovedField() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -422,12 +270,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",   differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedClassModifiedConstructor() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -440,12 +287,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
 
     public void testModifiedClassModifiedCodeConstructor() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -458,12 +304,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
 
     public void testModifiedClassNewConstructor() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -476,12 +321,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",       differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedClassRemovedConstructor() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -494,12 +338,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",   differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedClassModifiedMethod() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -512,12 +355,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
 
     public void testModifiedClassModifiedCodeMethod() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -530,12 +372,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
 
     public void testModifiedClassNewMethod() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -548,12 +389,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",       differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedClassRemovedMethod() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -566,12 +406,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",   differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedInterfaceModifiedField() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -584,12 +423,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedInterfaceNewField() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -602,12 +440,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",       differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedInterfaceRemovedField() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -620,12 +457,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",   differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedInterfaceModifiedMethod() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -638,12 +474,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedInterfaceNewMethod() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -656,12 +491,11 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",       differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
     }
     
     public void testModifiedInterfaceRemovedMethod() {
         String packageName = "ModifiedPackage";
-        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, jarDifferences.getPackageDifferences());
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
@@ -674,20 +508,5 @@ public class TestDifferencesFactory extends TestCase {
         assertTrue(name + ".IsRemoved()",   differences.isRemoved());
         assertTrue(name + ".IsModified()", !differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());
-        assertTrue(name + ".IsEmpty()",    !differences.isEmpty());
-    }
-
-    private Differences find(String name, Collection differences) {
-        Differences result = null;
-
-        Iterator i = differences.iterator();
-        while (result == null && i.hasNext()) {
-            Differences candidate = (Differences) i.next();
-            if (name.equals(candidate.getName())) {
-                result = candidate;
-            }
-        }
-
-        return result;
     }
 }

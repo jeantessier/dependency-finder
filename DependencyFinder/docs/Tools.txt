@@ -56,12 +56,10 @@ For Dependency Finder version <VERSION />.
 <li><a href="#JarJarDiff">JarJarDiff</a></li>
 <li><a href="#DiffToHTML">DiffToHTML</a></li>
 <p></p>
+<li><a href="#ListDocumentedElements">ListDocumentedElements</a></li>
 <li><a href="#ListDiff">ListDiff</a></li>
 <li><a href="#ListDiffToHTML">ListDiffToHTML</a></li>
 <li><a href="#ListDiffToText">ListDiffToText</a></li>
-<p></p>
-<li><a href="#ListDocumentedElements">ListDocumentedElements</a></li>
-<li><a href="#PublishedDiffToHTML">PublishedDiffToHTML</a></li>
 <p></p>
 <li><a href="#ListInheritanceDiffToText">ListInheritanceDiffToText</a></li>
 </ul>
@@ -6018,16 +6016,17 @@ Computes API differences between two versions of a codebase.
 ---+++ Synopsis
 
     JarJarDiff
+        [-code]
         [-encoding name]
         [-dtd-prefix uri]
         [-help]
+        [-filter filename]
         [-indent-text text]
+        [-level value]
         [-name value]
         [-new filename]+
-        [-new-documentation filename]
         [-new-label value]
         [-old filename]+
-        [-old-documentation filename]
         [-old-label value]
         [-out filename]
         [-time]
@@ -6038,21 +6037,47 @@ Computes API differences between two versions of a codebase.
 
 <blockquote>
 
-Takes two JAR files and computes the API changes between
-them.  The first JAR file is considered the "old" code and
-the second JAR file is considered the "new" code.  The
-result is an XML document listing the changes.  You can
-use [[#DiffToHTML][DiffToHTML]] and
-[[#PublishedDiffToHTML][PublishedDiffToHTML]] to render
-the report in HTML.  The second one is more restrictive as
-to what gets included in the report, so you can limit the
-report to "public" changes.
+Takes two JAR files and computes the API changes between them.  The first JAR
+file is considered the "old" code and the second JAR file is considered the
+"new" code.  The result is an XML document listing the changes.  You can
+use [[#DiffToHTML][DiffToHTML]] to render the report in HTML.  The second one
+is more restrictive as to what gets included in the report, so you can limit
+the report to "public" changes.
 
 </blockquote>
 
 ---+++ Switches
 
 <blockquote>
+
+---++++ =-code=
+
+<blockquote>
+
+Show differences that only appear in code but did not impact the API, such as
+bytecode changes or different constant values.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix uri=
+
+<blockquote>
+
+The prefix of the DTD URL for the XML output document.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
 
 ---++++ =-encoding name=
 
@@ -6068,16 +6093,17 @@ The encoding used for the XML output document.  Only useful with =-xml=.
 
 </blockquote>
 
----++++ =-dtd-prefix uri=
+---++++ =-filter filename=
 
 <blockquote>
 
-The prefix of the DTD URL for the XML output document.
+Location of the file with the list of programming elements that the tool should
+limit itself to.  If omitted, the tool reports on all programming elements.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -6106,6 +6132,38 @@ Uses _text_ for each indentation level in XML output.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-level value=
+
+<blockquote>
+
+Tells =JarJarDiff= which strategy to use to determine differences.
+
+There are two special values for the predefined values for the strategies that
+come with Dependency Finder:
+
+<blockquote>
+<dl>
+    <dt>=api=</dt>
+    <dd>Shows all API differences.  Same as
+    =com.jeantessier.diff.APIDifferenceStrategy=.</dd>
+    <dt>=incompatible=</dt>
+    <dd>Shows only differences that would be incompatible with the old version.
+    Same as =com.jeantessier.diff.IncompatibleDifferenceStrategy=.</dd>
+</dl>
+</blockquote>
+
+If _value_ is not one of the special values above, it treated as a class name.
+The tool will try to instantiate it using a default constructor as pass it as a
+=DifferenceStrategy=.  If that fails, it will fall back on the default value.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=api=</td></tr>
 </table>
 
 </blockquote>
@@ -6140,22 +6198,6 @@ and read them.  These make up the _new_ version of the codebase.
 
 </blockquote>
 
----++++ =-new-documentation filename=
-
-<blockquote>
-
-Location of the file with the list of _published_ programming elements in the
-_new_ version of the codebase.  If omitted, the tool reports on all programming
-elements.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=new_documentation.txt=</td></tr>
-</table>
-
-</blockquote>
-
 ---++++ =-new-label value=
 
 <blockquote>
@@ -6182,22 +6224,6 @@ and read them.  These make up the _old_ version of the codebase.
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=true=</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-old-documentation filename=
-
-<blockquote>
-
-Location of the file with the list of _published_ programming elements in the
-_old_ version of the codebase.  If omitted, the tool reports on all programming
-elements.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=old_documentation.txt=</td></tr>
 </table>
 
 </blockquote>
@@ -6304,22 +6330,19 @@ new.jar".  You can adjust the title by supplying =-old-label= and
 
 <div class="highlight">
 
-    JarJarDiff -old old.jar -new new.jar -out result.xml
-    DiffToHTML -in result.xml -out internal_report.html
-    PublishedDiffToHTML -in result.xml -out external_report.html
+    JarJarDiff -old old.jar -new new.jar -out report.xml
+    DiffToHTML -in report.xml -out report.html
 
 </div>
 
 Because DOS only allows 9 parameters to =.bat= files, we
 cannot use =-out= in the following and we must use output
-redirection (the ">") instead.  The next two XSLT steps are
-identical.
+redirection (the ">") instead.
 
 <div class="highlight">
 
-    JarJarDiff -old old.jar -old-label 3.0.2 -new new.jar -new-label 3.5 > result.xml
-    DiffToHTML -in result.xml -out internal_report.html
-    PublishedDiffToHTML -in result.xml -out external_report.html
+    JarJarDiff -old old.jar -old-label 3.0.2 -new new.jar -new-label 3.5 > report.xml
+    DiffToHTML -in report.xml -out report.html
 
 </div>
 
@@ -7138,8 +7161,8 @@ respectively to help =ListDiff= compress the lists.
 You can pass this output to [[#ListDiff][ListDiff]] to get a list additions
 and removals from the published documentation.
 
-You can pass this output to [[#PublishedDiffToHTML][PublishedDiffToHTML]] to
-further constrain the report and limit it to the published API.
+You can pass this output to [[#JarJarDiff][JarJarDiff]] to further constrain
+the report and limit it to the published API.
 
 </blockquote>
 
@@ -8752,150 +8775,6 @@ See the [[Manual.html][user manual]].
 <blockquote>
 
 =com.jeantessier.dependencyfinder.gui.OOMetrics=
-
-</blockquote>
-
-----
-
----++ PublishedDiffToHTML
-
-<blockquote>
-
-Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML, but limits it to
-the _published_ interface, the one that you expose to your customers.
-
-</blockquote>
-
----+++ Synopsis
-
-    PublishedDiffToHTML
-        -in input_file.xml
-        [-out output_file.html]
-        [-param validation-list list.txt]
-
----+++ Description
-
-<blockquote>
-
-PublishedDiffToHTML uses the file
-=%%DEPENDENCYFINDER%5FHOME%\etc\public%5Fpackages.txt= by default to
-limit the report to the specified packages.  If it cannot
-find this file, it looks for a file named =public_packages.txt=
-in the current directory.  You can specify a custom file
-by setting the validation-list parameter to XSLT:
-
-    PublishedDiffToHTML -in result.xml -out external%5Freport.html -param validation-list my%5Flist.txt
-
-</blockquote>
-
----+++ Switches
-
-<blockquote>
-
----++++ =-in input_file.xml=
-
-<blockquote>
-
-The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD,
-such as the output of [[#JarJarDiff][JarJarDiff]].
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-out output_file.html=
-
-<blockquote>
-
-Where to put the outcome of the translation.
-
-If not specified, the translation goes to the standard output.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-param validation-list list.txt=
-
-<blockquote>
-
-Uses the list of element names in _list.txt_ to limit the scope of the report
-to only the listed elements.  If the file does not exist, the tool uses all
-public and all protected elements.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=%DEPENDENCYFINDER%5FHOME%\etc\public%5Fpackages.txt=</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
----+++ Parameters
-
-<blockquote>
-
-_none_
-
-</blockquote>
-
----+++ Output
-
-<blockquote>
-
-See =-out= above.
-
-</blockquote>
-
----+++ Examples
-
-<blockquote>
-
-To convert the difference report in =report.xml= to HTML:
-
-<div class="highlight">
-
-    PublishedDiffToHTML -in report.xml
-
-</div>
-
-Here is a larger example with a defined published documentation:
-
-<div class="highlight">
-
-    ListDocumentedElements -tag level -valid published -out old.txt old
-    ListDocumentedElements -tag level -valid published -out new.txt new
-    JarJarDiff -old old.jar -old-documentation old.txt -new new.jar -new-documentation new.txt -out report.xml
-    PublishedDiffToHTML -in report.xml -param validation-list new.txt -out public-report.html
-
-</div>
-
-</blockquote>
-
----+++ Class
-
-<blockquote>
-
-=org.apache.xalan.xslt.Process=
-
-</blockquote>
-
----+++ XSL Stylesheet
-
-<blockquote>
-
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/PublishedDiffToHTML.xsl=
 
 </blockquote>
 

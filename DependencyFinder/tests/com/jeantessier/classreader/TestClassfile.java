@@ -49,4 +49,14 @@ public class TestClassfile extends TestCase {
         assertTrue("ModifiedPackage.DeprecatedClass",    loader.getClassfile("ModifiedPackage.DeprecatedClass").isDeprecated());
         assertTrue("ModifiedPackage.UndeprecatedClass", !loader.getClassfile("ModifiedPackage.UndeprecatedClass").isDeprecated());
     }
+
+    public void testGetCode() {
+        assertNotNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", loader.getClassfile("UnmodifiedPackage.UnmodifiedClass").getMethod("unmodifiedMethod()").getCode());
+        assertNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedMethod()", loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface").getMethod("unmodifiedMethod()").getCode());
+    }
+
+    public void testGetConstantValue() {
+        assertNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedField", loader.getClassfile("UnmodifiedPackage.UnmodifiedClass").getField("unmodifiedField").getConstantValue());
+        assertNotNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedField", loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface").getField("unmodifiedField").getConstantValue());
+    }
 }

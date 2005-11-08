@@ -59,6 +59,23 @@ public class String_info extends ConstantPoolEntry {
         return getValue();
     }
 
+    public int hashCode() {
+        return getRawValue().hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            String_info other = (String_info) object;
+            result = this.getRawValue().equals(other.getRawValue());
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitString_info(this);
     }

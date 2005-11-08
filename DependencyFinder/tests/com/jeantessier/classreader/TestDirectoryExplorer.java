@@ -73,7 +73,7 @@ public class TestDirectoryExplorer extends TestCase {
 
         List list = new ArrayList(explorer.getCollection());
         
-        assertEquals("size", 60, list.size());
+        assertEquals("size", 43, list.size());
         assertEquals(TEST_DIRNAME, ((File) list.get(0)).getPath());
     }
     
@@ -86,7 +86,7 @@ public class TestDirectoryExplorer extends TestCase {
 
         List list = new ArrayList(explorer.getCollection());
         
-        assertEquals("size", 120, list.size());
+        assertEquals("size", 86, list.size());
         assertEquals(TEST_DIRNAME, ((File) list.get(0)).getPath());
     }
     

@@ -34,20 +34,23 @@ package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
 import java.util.*;
+import java.lang.reflect.*;
 
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
-import com.jeantessier.dependency.*;
 import com.jeantessier.dependencyfinder.*;
-import com.jeantessier.dependencyfinder.cli.*;
 import com.jeantessier.diff.*;
 
 public class ClassClassDiff {
+    public static final String API_STRATEGY          = "api";
+    public static final String INCOMPATIBLE_STRATEGY = "incompatible";
+
     public static final String DEFAULT_OLD_DOCUMENTATION = "old_documentation.txt";
     public static final String DEFAULT_NEW_DOCUMENTATION = "new_documentation.txt";
     public static final String DEFAULT_LOGFILE           = "System.out";
+    public static final String DEFAULT_LEVEL             = API_STRATEGY;
 
     public static void showError(CommandLineUsage clu, String msg) {
         System.err.println(msg);
@@ -86,16 +89,17 @@ public class ClassClassDiff {
         CommandLine commandLine = new CommandLine(new NullParameterStrategy());
         commandLine.addSingleValueSwitch("name");
         commandLine.addMultipleValuesSwitch("old", true);
-        commandLine.addSingleValueSwitch("old-documentation", DEFAULT_OLD_DOCUMENTATION);
         commandLine.addMultipleValuesSwitch("new", true);
-        commandLine.addSingleValueSwitch("new-documentation", DEFAULT_NEW_DOCUMENTATION);
-        commandLine.addSingleValueSwitch("encoding",          Report.DEFAULT_ENCODING);
-        commandLine.addSingleValueSwitch("dtd-prefix",        Report.DEFAULT_DTD_PREFIX);
+        commandLine.addSingleValueSwitch("filter");
+        commandLine.addToggleSwitch("code");
+        commandLine.addSingleValueSwitch("level",       DEFAULT_LEVEL);
+        commandLine.addSingleValueSwitch("encoding",    Report.DEFAULT_ENCODING);
+        commandLine.addSingleValueSwitch("dtd-prefix",  Report.DEFAULT_DTD_PREFIX);
         commandLine.addSingleValueSwitch("indent-text");
         commandLine.addToggleSwitch("time");
         commandLine.addSingleValueSwitch("out");
         commandLine.addToggleSwitch("help");
-        commandLine.addOptionalValueSwitch("verbose",         DEFAULT_LOGFILE);
+        commandLine.addOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
         commandLine.addToggleSwitch("version");
 
         CommandLineUsage usage = new CommandLineUsage("ClassClassDiff");
@@ -141,15 +145,56 @@ public class ClassClassDiff {
         // Collecting data, first classfiles from JARs,
         // then package/class trees using NodeFactory.
 
-        Validator oldValidator = new ListBasedValidator(commandLine.getSingleSwitch("old-documentation"));
         ClassfileLoader oldJar = new AggregatingClassfileLoader();
         oldJar.addLoadListener(verboseListener);
         oldJar.load(commandLine.getMultipleSwitch("old"));
 
-        Validator newValidator = new ListBasedValidator(commandLine.getSingleSwitch("new-documentation"));
         ClassfileLoader newJar = new AggregatingClassfileLoader();
         newJar.addLoadListener(verboseListener);
         newJar.load(commandLine.getMultipleSwitch("new"));
+
+        DifferenceStrategy strategy = null;
+        if (commandLine.getToggleSwitch("code")) {
+            strategy = new CodeDifferenceStrategy();
+        } else {
+            strategy = new NoDifferenceStrategy();
+        }
+
+        String level = commandLine.getSingleSwitch("level");
+        if (API_STRATEGY.equals(level)) {
+            strategy = new APIDifferenceStrategy(strategy);
+        } else if (INCOMPATIBLE_STRATEGY.equals(level)) {
+            strategy = new IncompatibleDifferenceStrategy(strategy);
+        } else if (level != null) {
+            try {
+                Constructor constructor;
+                try {
+                    constructor = Class.forName(level).getConstructor(new Class[] {DifferenceStrategy.class});
+                    strategy = (DifferenceStrategy) constructor.newInstance(new Object[] {strategy});
+                } catch (NoSuchMethodException ex) {
+                    strategy = (DifferenceStrategy) Class.forName(level).newInstance();
+                }
+            } catch (InvocationTargetException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                strategy = new APIDifferenceStrategy(strategy);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                strategy = new APIDifferenceStrategy(strategy);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                strategy = new APIDifferenceStrategy(strategy);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                strategy = new APIDifferenceStrategy(strategy);
+            } catch (ClassCastException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                strategy = new APIDifferenceStrategy(strategy);
+            }
+        }
+
+        if (commandLine.isPresent("filter")) {
+            strategy = new ListBasedDifferenceStrategy(strategy, commandLine.getSingleSwitch("filter"));
+        }
 
         // Starting to compare, first at package level,
         // then descending to class level for packages
@@ -162,7 +207,7 @@ public class ClassClassDiff {
         Classfile oldClass = (Classfile) oldJar.getAllClassfiles().iterator().next();
         Classfile newClass = (Classfile) newJar.getAllClassfiles().iterator().next();
 
-        DifferencesFactory factory = new DifferencesFactory(oldValidator, newValidator);
+        DifferencesFactory factory = new DifferencesFactory(strategy);
         Differences differences = factory.createClassDifferences(name, oldClass, newClass);
 
         Logger.getLogger(JarJarDiff.class).info("Printing results ...");

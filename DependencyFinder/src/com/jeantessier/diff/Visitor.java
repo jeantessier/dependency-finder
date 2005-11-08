@@ -33,7 +33,7 @@
 package com.jeantessier.diff;
 
 public interface Visitor {
-    public void visitJarDifferences(JarDifferences differences);
+    public void visitProjectDifferences(ProjectDifferences differences);
     public void visitPackageDifferences(PackageDifferences differences);
     public void visitInterfaceDifferences(InterfaceDifferences differences);
     public void visitClassDifferences(ClassDifferences differences);
@@ -41,5 +41,4 @@ public interface Visitor {
     public void visitConstructorDifferences(ConstructorDifferences differences);
     public void visitMethodDifferences(MethodDifferences differences);
     public void visitDeprecatableDifferences(DeprecatableDifferences differences);
-    public void visitDocumentableDifferences(DocumentableDifferences differences);
 }

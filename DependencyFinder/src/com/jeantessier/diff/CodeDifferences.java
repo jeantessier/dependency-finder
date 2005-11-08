@@ -32,8 +32,6 @@
 
 package com.jeantessier.diff;
 
-import java.util.*;
-
 import com.jeantessier.classreader.*;
 
 /**
@@ -46,17 +44,20 @@ public abstract class CodeDifferences extends FeatureDifferences {
 
     protected CodeDifferences(String name, Method_info oldFeature, Method_info newFeature) {
         super(name, oldFeature, newFeature);
-
-        if (oldFeature != null && oldFeature.getCode() != null && newFeature != null && newFeature.getCode() != null) {
-            codeDifference = !Arrays.equals(oldFeature.getCode().getCode(), newFeature.getCode().getCode());
-        }
-    }
-
-    public boolean isModified() {
-        return isCodeDifference() || super.isModified();
     }
 
     public boolean isCodeDifference() {
         return codeDifference;
+    }
+
+    /**
+     * Only the DifferencesFactory can set this flag
+     */
+    void setCodeDifference(boolean codeDifference) {
+        this.codeDifference = codeDifference;
+    }
+
+    public boolean isModified() {
+        return isCodeDifference() || super.isModified();
     }
 }

@@ -11,6 +11,8 @@ public interface ModifiedInterface {
     
     public int modifiedField = 1;
 
+    public int modifiedValueField = 1;
+
     /** @level private */
     public int documentedField = 1;
 

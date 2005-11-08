@@ -42,7 +42,7 @@ import com.jeantessier.classreader.*;
 public class TestClassMatcher extends TestCase {
     public static final String TEST_CLASS    = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
-    public static final String TEST_DIR = "tests" + File.separator + "JarJarDiff";
+    public static final String TEST_DIR      = "tests"   + File.separator + "JarJarDiff";
     
     public void testMatchNone() {
         ClassMatcher matcher = new ClassMatcher(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
@@ -81,7 +81,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(filename));
 
-        assertEquals("Number of results", 17, matcher.getResults().size());
+        assertEquals("Number of results", 13, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();
@@ -100,7 +100,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(filename));
 
-        assertEquals("Number of results", 17, matcher.getResults().size());
+        assertEquals("Number of results", 13, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();
@@ -119,7 +119,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dirname));
 
-        assertEquals("Number of results", 17, matcher.getResults().size());
+        assertEquals("Number of results", 13, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();
@@ -157,7 +157,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dirname));
 
-        assertEquals("Number of results", 5, matcher.getResults().size());
+        assertEquals("Number of results", 1, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();
@@ -182,7 +182,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(filenames);
 
-        assertEquals("Number of results", 17, matcher.getResults().size());
+        assertEquals("Number of results", 13, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();

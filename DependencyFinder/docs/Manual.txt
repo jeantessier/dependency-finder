@@ -5235,7 +5235,7 @@ actually using in _S_.
 
 ---+++ Computing the D' Metric
 
-You can use =OOMetrics= to computer Robert C. Martin's D metric.  Dependency
+You can use =OOMetrics= to compute Robert C. Martin's D metric.  Dependency
 Finder comes with a special configuration that computes a normalized variation,
 called D', in the configuration file =etc\MartinConfig.xml=.
 

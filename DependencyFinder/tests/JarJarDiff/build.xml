@@ -4,7 +4,7 @@
         <include name="**/*.java"/>
     </patternset>
 
-    <target name="all" depends="archives, olddoc, newdoc"/>
+    <target name="all" depends="archives, olddoc, newdoc, published.old, published.new"/>
 
     <target name="old">
         <javac>
@@ -81,6 +81,20 @@
                 </patternset>
             </zipfileset>
         </zip>
+    </target>
+
+    <target name="published.old">
+        <javac>
+            <src path="oldpublished"/>
+            <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="published.new">
+        <javac>
+            <src path="newpublished"/>
+            <patternset refid="all.sources"/>
+        </javac>
     </target>
 
     <target name="clean">

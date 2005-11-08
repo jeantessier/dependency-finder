@@ -77,6 +77,23 @@ public class NameAndType_info extends ConstantPoolEntry {
         return result.toString();
     }
 
+    public int hashCode() {
+        return getRawName().hashCode() ^ getRawType().hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            NameAndType_info other = (NameAndType_info) object;
+            result = this.getRawName().equals(other.getRawName()) && this.getRawType().equals(other.getRawType());
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitNameAndType_info(this);
     }

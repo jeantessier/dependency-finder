@@ -51,6 +51,23 @@ public class UTF8_info extends ConstantPoolEntry {
         return getValue();
     }
 
+    public int hashCode() {
+        return getValue().hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            UTF8_info other = (UTF8_info) object;
+            result = this.getValue().equals(other.getValue());
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitUTF8_info(this);
     }

@@ -34,12 +34,9 @@ package com.jeantessier.diff;
 
 public abstract class VisitorBase implements Visitor {
     private int deprecatableLevel = 0;
-    private int documentableLevel = 0;
-    
+
     private boolean deprecated[]   = new boolean[4];
     private boolean undeprecated[] = new boolean[4];
-    private boolean documented[]   = new boolean[4];
-    private boolean undocumented[] = new boolean[4];
 
     private void raiseDeprecatableLevel() {
         deprecatableLevel++;
@@ -49,14 +46,6 @@ public abstract class VisitorBase implements Visitor {
         deprecatableLevel--;
     }
 
-    private void raiseDocumentableLevel() {
-        documentableLevel++;
-    }
-
-    private void lowerDocumentableLevel() {
-        documentableLevel--;
-    }
-    
     public boolean isDeprecated() {
         return deprecated[deprecatableLevel];
     }
@@ -73,23 +62,7 @@ public abstract class VisitorBase implements Visitor {
         this.undeprecated[deprecatableLevel] = undeprecated;
     }
 
-    public boolean isDocumented() {
-        return documented[documentableLevel];
-    }
-
-    public void setDocumented(boolean documented) {
-        this.documented[documentableLevel] = documented;
-    }
-    
-    public boolean isUndocumented() {
-        return undocumented[documentableLevel];
-    }
-
-    public void setUndocumented(boolean undocumented) {
-        this.undocumented[documentableLevel] = undocumented;
-    }
-    
-    public void visitJarDifferences(JarDifferences differences) {
+    public void visitProjectDifferences(ProjectDifferences differences) {
         // Do nothing
     }
         
@@ -118,16 +91,5 @@ public abstract class VisitorBase implements Visitor {
         differences.getComponent().accept(this);
         
         lowerDeprecatableLevel();
-    }
-    
-    public void visitDocumentableDifferences(DocumentableDifferences differences) {
-        raiseDocumentableLevel();
-        
-        setDocumented(differences.isNewDocumentation());
-        setUndocumented(differences.isRemovedDocumentation());
-
-        differences.getComponent().accept(this);
-        
-        lowerDocumentableLevel();
     }
 }

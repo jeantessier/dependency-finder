@@ -65,7 +65,7 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
     public void testManyFiles() {
         loader.load(TEST_DIR);
 
-        assertEquals("Nb visited classes", 136, classfiles.size());
+        assertEquals("Nb visited classes", 72, classfiles.size());
     }
 
     public void visitClassfiles(Collection classfiles) {
@@ -186,6 +186,5 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
     
     public void visitLocalVariable(LocalVariable helper) {
         // Do nothing
-    }
-    
+    }    
 }

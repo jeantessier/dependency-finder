@@ -73,8 +73,6 @@ require "getopts.pl";
               "ListUnused" => ".xsl.template.txt",
               "MetricsToHTML" => ".xsl.template.txt",
               "MetricsToText" => ".xsl.template.txt",
-              "PublishedDiffToHTML" => ".xsl.template.txt",
-              "SelectedDiffToHTML" => ".xsl.template.txt",
               "c2c" => ".reporter.template.txt",
               "c2p" => ".reporter.template.txt",
               "f2f" => ".reporter.template.txt",

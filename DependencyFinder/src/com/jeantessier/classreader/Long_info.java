@@ -51,6 +51,23 @@ public class Long_info extends ConstantPoolEntry {
         return String.valueOf(getValue());
     }
 
+    public int hashCode() {
+        return new Long(getValue()).hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            Long_info other = (Long_info) object;
+            result = this.getValue() == other.getValue();
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitLong_info(this);
     }

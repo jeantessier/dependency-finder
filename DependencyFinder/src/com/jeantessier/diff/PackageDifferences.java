@@ -36,9 +36,6 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
-import com.jeantessier.classreader.*;
-import com.jeantessier.dependency.*;
-
 /**
  *  Documents the difference, if any, for a given package.
  */
@@ -48,15 +45,15 @@ public class PackageDifferences extends RemovableDifferences {
     /**
      *  Only the DifferencesFactory can create instances of this class.
      */
-    PackageDifferences(String name, PackageNode oldPackage, PackageNode newPackage) {
+    PackageDifferences(String name, Map oldPackage, Map newPackage) {
         super(name);
 
-        if (oldPackage != null) {
-            setOldDeclaration(oldPackage.getName());
+        if (oldPackage != null && !oldPackage.isEmpty()) {
+            setOldDeclaration(name);
         }
 
-        if (newPackage != null) {
-            setNewDeclaration(newPackage.getName());
+        if (newPackage != null && !newPackage.isEmpty()) {
+            setNewDeclaration(name);
         }
     
         if (isModified()) {

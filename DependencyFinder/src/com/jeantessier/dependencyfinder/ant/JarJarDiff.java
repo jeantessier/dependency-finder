@@ -34,26 +34,32 @@ package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
 import java.util.*;
+import java.lang.reflect.*;
 
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.dependency.*;
 import com.jeantessier.diff.*;
 
 public class JarJarDiff extends Task {
-    private String name             = "";
-    private Path   oldPath;
-    private String oldLabel;
-    private File   oldDocumentation = new File("old_documentation.txt");
-    private Path   newPath;
-    private String newLabel;
-    private File   newDocumentation = new File("new_documentation.txt");
-    private String encoding         = Report.DEFAULT_ENCODING;
-    private String dtdPrefix        = Report.DEFAULT_DTD_PREFIX;
-    private String indentText;
-    private File   destfile;
+    public static final String API_STRATEGY          = "api";
+    public static final String INCOMPATIBLE_STRATEGY = "incompatible";
+
+    public static final String DEFAULT_LEVEL = API_STRATEGY;
+
+    private String  name      = "";
+    private Path    oldPath;
+    private String  oldLabel;
+    private Path    newPath;
+    private String  newLabel;
+    private File    filter;
+    private String  level;
+    private boolean code;
+    private String  encoding  = Report.DEFAULT_ENCODING;
+    private String  dtdPrefix = Report.DEFAULT_DTD_PREFIX;
+    private String  indentText;
+    private File    destfile;
 
     public String getName() {
         return name;
@@ -83,14 +89,6 @@ public class JarJarDiff extends Task {
         this.oldLabel = oldLabel;
     }
 
-    public File getOlddocumentation() {
-        return oldDocumentation;
-    }
-    
-    public void setOlddocumentation(File oldDocumentation) {
-        this.oldDocumentation = oldDocumentation;
-    }
-    
     public Path createNew() {
         if (newPath == null) {
             newPath = new Path(getProject());
@@ -111,12 +109,28 @@ public class JarJarDiff extends Task {
         this.newLabel = newLabel;
     }
 
-    public File getNewdocumentation() {
-        return newDocumentation;
+    public File getFilter() {
+        return filter;
     }
-    
-    public void setNewdocumentation(File newDocumentation) {
-        this.newDocumentation = newDocumentation;
+
+    public void setfilter(File filter) {
+        this.filter = filter;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public boolean getCode() {
+        return code;
+    }
+
+    public void setCode(boolean code) {
+        this.code = code;
     }
 
     public String getEncoding() {
@@ -171,41 +185,85 @@ public class JarJarDiff extends Task {
         try {
             // Collecting data, first classfiles from JARs,
             // then package/class trees using NodeFactory.
-            
+
             log("Loading old classes from path " + getOld());
-            Validator oldValidator = new ListBasedValidator(getOlddocumentation());
+            PackageMapper oldPackages = new PackageMapper();
             ClassfileLoader oldJar = new AggregatingClassfileLoader();
+            oldJar.addLoadListener(oldPackages);
             oldJar.addLoadListener(verboseListener);
             oldJar.load(Arrays.asList(getOld().list()));
-            
+
             log("Loading new classes from path " + getNew());
-            Validator newValidator = new ListBasedValidator(getNewdocumentation());
+            PackageMapper newPackages = new PackageMapper();
             ClassfileLoader newJar = new AggregatingClassfileLoader();
+            newJar.addLoadListener(newPackages);
             newJar.addLoadListener(verboseListener);
             newJar.load(Arrays.asList(getNew().list()));
-            
+
+            DifferenceStrategy strategy = null;
+            if (getCode()) {
+                strategy = new CodeDifferenceStrategy();
+            } else {
+                strategy = new NoDifferenceStrategy();
+            }
+
+            if (API_STRATEGY.equals(getLevel())) {
+                strategy = new APIDifferenceStrategy(strategy);
+            } else if (INCOMPATIBLE_STRATEGY.equals(getLevel())) {
+                strategy = new IncompatibleDifferenceStrategy(strategy);
+            } else if (getLevel() != null) {
+                try {
+                    Constructor constructor;
+                    try {
+                        constructor = Class.forName(getLevel()).getConstructor(new Class[] {DifferenceStrategy.class});
+                        strategy = (DifferenceStrategy) constructor.newInstance(new Object[] {strategy});
+                    } catch (NoSuchMethodException ex) {
+                        strategy = (DifferenceStrategy) Class.forName(getLevel()).newInstance();
+                    }
+                } catch (InvocationTargetException ex) {
+                    log("Unknown level \"" + getLevel() + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
+                    strategy = new APIDifferenceStrategy(strategy);
+                } catch (InstantiationException ex) {
+                    log("Unknown level \"" + getLevel() + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
+                    strategy = new APIDifferenceStrategy(strategy);
+                } catch (IllegalAccessException ex) {
+                    log("Unknown level \"" + getLevel() + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
+                    strategy = new APIDifferenceStrategy(strategy);
+                } catch (ClassNotFoundException ex) {
+                    log("Unknown level \"" + getLevel() + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
+                    strategy = new APIDifferenceStrategy(strategy);
+                } catch (ClassCastException ex) {
+                    log("Unknown level \"" + getLevel() + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
+                    strategy = new APIDifferenceStrategy(strategy);
+                }
+            }
+
+            if (getFilter() != null) {
+                strategy = new ListBasedDifferenceStrategy(strategy, getFilter());
+            }
+
             // Starting to compare, first at package level,
             // then descending to class level for packages
             // that are in both the old and the new codebase.
-            
+
             log("Comparing old and new classes ...");
-            
-            String name     = getName();
+
+            String name = getName();
             String oldLabel = (getOldlabel() != null) ? getOldlabel() : getOld().toString();
             String newLabel = (getNewlabel() != null) ? getNewlabel() : getNew().toString();
-            
-            DifferencesFactory factory = new DifferencesFactory(oldValidator, newValidator);
-            Differences differences = factory.createJarDifferences(name, oldLabel, oldJar, newLabel, newJar);
-            
+
+            DifferencesFactory factory = new DifferencesFactory(strategy);
+            Differences differences = factory.createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
+
             log("Saving difference report to " + getDestfile().getAbsolutePath());
-            
+
             com.jeantessier.diff.Printer printer = new Report(getEncoding(), getDtdprefix());
             if (getIndenttext() != null) {
                 printer.setIndentText(getIndenttext());
             }
-            
+
             differences.accept(printer);
-            
+
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
             out.print(printer);
             out.close();

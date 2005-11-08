@@ -76,8 +76,36 @@ public class Field_info extends Feature_info {
         return result.toString();
     }
 
+    public String getFullDeclaration() {
+        String result = getDeclaration();
+
+        if (getConstantValue() != null) {
+            if (getConstantValue().getRawValue() instanceof String_info) {
+                result += " = \"" + getConstantValue().getRawValue() + "\"";
+            } else {
+                result += " = " + getConstantValue().getRawValue();
+            }
+        }
+
+        return result;
+    }
+
     public String getSignature() {
         return getName();
+    }
+
+    public ConstantValue_attribute getConstantValue() {
+        ConstantValue_attribute result = null;
+
+        Iterator i = getAttributes().iterator();
+        while (result == null && i.hasNext()) {
+            Object temp = i.next();
+            if (temp instanceof ConstantValue_attribute) {
+                result = (ConstantValue_attribute) temp;
+            }
+        }
+
+        return result;
     }
 
     public void accept(Visitor visitor) {

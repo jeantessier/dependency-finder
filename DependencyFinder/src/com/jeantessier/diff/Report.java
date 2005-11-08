@@ -34,8 +34,6 @@ package com.jeantessier.diff;
 
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 
 public class Report extends Printer {
@@ -47,7 +45,6 @@ public class Report extends Printer {
     private String newVersion;
 
     private Collection removedPackages        = new TreeSet();
-    private Collection undocumentedPackages   = new TreeSet();
 
     private Collection removedInterfaces      = new TreeSet();
     private Collection removedClasses         = new TreeSet();
@@ -55,20 +52,13 @@ public class Report extends Printer {
     private Collection deprecatedInterfaces   = new TreeSet();
     private Collection deprecatedClasses      = new TreeSet();
     
-    private Collection undocumentedInterfaces = new TreeSet();
-    private Collection undocumentedClasses    = new TreeSet();
-
     private Collection modifiedInterfaces     = new TreeSet();
     private Collection modifiedClasses        = new TreeSet();
 
-    private Collection documentedInterfaces   = new TreeSet();
-    private Collection documentedClasses      = new TreeSet();
-    
     private Collection undeprecatedInterfaces = new TreeSet();
     private Collection undeprecatedClasses    = new TreeSet();
     
     private Collection newPackages            = new TreeSet();
-    private Collection documentedPackages     = new TreeSet();
 
     private Collection newInterfaces          = new TreeSet();
     private Collection newClasses             = new TreeSet();
@@ -88,7 +78,7 @@ public class Report extends Printer {
         eol();
     }
 
-    public void visitJarDifferences(JarDifferences differences) {
+    public void visitProjectDifferences(ProjectDifferences differences) {
         name       = differences.getName();
         oldVersion = differences.getOldVersion();
         newVersion = differences.getNewVersion();
@@ -111,14 +101,6 @@ public class Report extends Printer {
 
         if (differences.isNew()) {
             newPackages.add(differences);
-        }
-
-        if (isDocumented()) {
-            documentedPackages.add(differences);
-        }
-
-        if (isUndocumented()) {
-            undocumentedPackages.add(differences);
         }
     }
 
@@ -145,14 +127,6 @@ public class Report extends Printer {
         if (isUndeprecated()) {
             undeprecatedClasses.add(differences);
         }
-
-        if (isDocumented()) {
-            documentedClasses.add(differences);
-        }
-
-        if (isUndocumented()) {
-            undocumentedClasses.add(differences);
-        }
     }
 
     public void visitInterfaceDifferences(InterfaceDifferences differences) {
@@ -178,14 +152,6 @@ public class Report extends Printer {
         if (isUndeprecated()) {
             undeprecatedInterfaces.add(differences);
         }
-
-        if (isDocumented()) {
-            documentedInterfaces.add(differences);
-        }
-
-        if (isUndocumented()) {
-            undocumentedInterfaces.add(differences);
-        }
     }
 
     public String toString() {
@@ -207,19 +173,6 @@ public class Report extends Printer {
 
             lowerIndent();
             indent().append("</removed-packages>").eol();
-        }
-    
-        if (undocumentedPackages.size() !=0) {
-            indent().append("<undocumented-packages>").eol();
-            raiseIndent();
-
-            Iterator i = undocumentedPackages.iterator();
-            while (i.hasNext()) {
-                indent().append("<name>").append(i.next()).append("</name>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</undocumented-packages>").eol();
         }
 
         if (removedInterfaces.size() !=0) {
@@ -278,34 +231,6 @@ public class Report extends Printer {
             indent().append("</deprecated-classes>").eol();
         }
 
-        if (undocumentedInterfaces.size() !=0) {
-            indent().append("<undocumented-interfaces>").eol();
-            raiseIndent();
-
-            Iterator i = undocumentedInterfaces.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
-                indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</undocumented-interfaces>").eol();
-        }
-
-        if (undocumentedClasses.size() !=0) {
-            indent().append("<undocumented-classes>").eol();
-            raiseIndent();
-
-            Iterator i = undocumentedClasses.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
-                indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</undocumented-classes>").eol();
-        }
-
         if (modifiedInterfaces.size() !=0) {
             indent().append("<modified-interfaces>").eol();
             raiseIndent();
@@ -330,34 +255,6 @@ public class Report extends Printer {
 
             lowerIndent();
             indent().append("</modified-classes>").eol();
-        }
-
-        if (documentedInterfaces.size() !=0) {
-            indent().append("<documented-interfaces>").eol();
-            raiseIndent();
-
-            Iterator i = documentedInterfaces.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
-                indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</documented-interfaces>").eol();
-        }
-
-        if (documentedClasses.size() !=0) {
-            indent().append("<documented-classes>").eol();
-            raiseIndent();
-
-            Iterator i = documentedClasses.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
-                indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</documented-classes>").eol();
         }
 
         if (undeprecatedInterfaces.size() !=0) {
@@ -399,19 +296,6 @@ public class Report extends Printer {
 
             lowerIndent();
             indent().append("</new-packages>").eol();
-        }
-    
-        if (documentedPackages.size() !=0) {
-            indent().append("<documented-packages>").eol();
-            raiseIndent();
-
-            Iterator i = documentedPackages.iterator();
-            while (i.hasNext()) {
-                indent().append("<name>").append(i.next()).append("</name>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</documented-packages>").eol();
         }
 
         if (newInterfaces.size() !=0) {

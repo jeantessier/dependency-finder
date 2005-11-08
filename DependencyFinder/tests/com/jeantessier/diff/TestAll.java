@@ -38,10 +38,19 @@ public class TestAll extends TestCase {
     public static Test suite() {
         TestSuite result = new TestSuite();
 
-        result.addTestSuite(TestPackageValidator.class);
-        result.addTestSuite(TestListBasedValidator.class);
+        result.addTestSuite(TestCodeDifferenceStrategy.class);
+        result.addTestSuite(TestAPIDifferenceStrategy.class);
+        result.addTestSuite(TestIncompatibleDifferenceStrategy.class);
+        result.addTestSuite(TestIncompatibleDifferenceStrategyWithPublishedAPI.class);
+        result.addTestSuite(TestListBasedDifferenceStrategy.class);
         result.addTestSuite(TestDeprecatableDifferences.class);
         result.addTestSuite(TestDifferencesFactory.class);
+        result.addTestSuite(TestDifferencesFactoryWithFilter.class);
+        result.addTestSuite(TestDifferencesFactoryWithStrategy.class);
+        result.addTestSuite(TestDifferencesFactoryWithAPIDifferenceStrategy.class);
+        result.addTestSuite(TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy.class);
+        result.addTestSuite(TestDifferencesFactoryWithIncompatibleDifferenceStrategy.class);
+        result.addTestSuite(TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod.class);
         result.addTestSuite(TestReport.class);
         result.addTestSuite(TestListDiffPrinter.class);
 

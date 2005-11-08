@@ -254,7 +254,7 @@ public class TextPrinter extends Printer {
         return this;
     }
     
-    private void printDependencies(Map dependencies) {
+    protected void printDependencies(Map dependencies) {
         Iterator i = dependencies.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry entry = (Map.Entry) i.next();

@@ -47,17 +47,9 @@ public class ClassReport extends Printer implements Comparable {
     private Collection deprecatedConstructors   = new TreeSet();
     private Collection deprecatedMethods        = new TreeSet();
 
-    private Collection undocumentedFields       = new TreeSet();
-    private Collection undocumentedConstructors = new TreeSet();
-    private Collection undocumentedMethods      = new TreeSet();
-
     private Collection modifiedFields           = new TreeSet();
     private Collection modifiedConstructors     = new TreeSet();
     private Collection modifiedMethods          = new TreeSet();
-
-    private Collection documentedFields         = new TreeSet();
-    private Collection documentedConstructors   = new TreeSet();
-    private Collection documentedMethods        = new TreeSet();
 
     private Collection undeprecatedFields       = new TreeSet();
     private Collection undeprecatedConstructors = new TreeSet();
@@ -105,14 +97,6 @@ public class ClassReport extends Printer implements Comparable {
         if (isUndeprecated()) {
             undeprecatedFields.add(differences);
         }
-
-        if (isDocumented()) {
-            documentedFields.add(differences);
-        }
-
-        if (isUndocumented()) {
-            undocumentedFields.add(differences);
-        }
     }
 
     public void visitConstructorDifferences(ConstructorDifferences differences) {
@@ -135,14 +119,6 @@ public class ClassReport extends Printer implements Comparable {
         if (isUndeprecated()) {
             undeprecatedConstructors.add(differences);
         }
-
-        if (isDocumented()) {
-            documentedConstructors.add(differences);
-        }
-
-        if (isUndocumented()) {
-            undocumentedConstructors.add(differences);
-        }
     }
 
     public void visitMethodDifferences(MethodDifferences differences) {
@@ -164,14 +140,6 @@ public class ClassReport extends Printer implements Comparable {
 
         if (isUndeprecated()) {
             undeprecatedMethods.add(differences);
-        }
-
-        if (isDocumented()) {
-            documentedMethods.add(differences);
-        }
-
-        if (isUndocumented()) {
-            undocumentedMethods.add(differences);
         }
     }
 
@@ -279,55 +247,13 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("</deprecated-methods>").eol();
         }
 
-        if (undocumentedFields.size() != 0) {
-            indent().append("<undocumented-fields>").eol();
-            raiseIndent();
-
-            Iterator i = undocumentedFields.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
-                indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</undocumented-fields>").eol();
-        }
-
-        if (undocumentedConstructors.size() != 0) {
-            indent().append("<undocumented-constructors>").eol();
-            raiseIndent();
-
-            Iterator i = undocumentedConstructors.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
-                indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</undocumented-constructors>").eol();
-        }
-
-        if (undocumentedMethods.size() != 0) {
-            indent().append("<undocumented-methods>").eol();
-            raiseIndent();
-
-            Iterator i = undocumentedMethods.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
-                indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</undocumented-methods>").eol();
-        }
-
         if (modifiedFields.size() != 0) {
             indent().append("<modified-fields>").eol();
             raiseIndent();
 
             Iterator i = modifiedFields.iterator();
             while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+                FieldDifferences fd = (FieldDifferences) i.next();
 
                 indent().append("<feature>").eol();
                 raiseIndent();
@@ -336,11 +262,20 @@ public class ClassReport extends Printer implements Comparable {
 
                 indent().append("<modified-declaration>").eol();
                 raiseIndent();
-                indent().append("<old-declaration").append(breakdownDeclaration((Field_info) fd.getOldFeature())).append(">").append(fd.getOldDeclaration()).append("</old-declaration>").eol();
-                indent().append("<new-declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</new-declaration>").eol();
+
+                Field_info oldField = (Field_info) fd.getOldFeature();
+                Field_info newField = (Field_info) fd.getNewFeature();
+                if (fd.isConstantValueDifference()) {
+                    indent().append("<old-declaration").append(breakdownDeclaration(oldField)).append(">").append(oldField.getFullDeclaration()).append("</old-declaration>").eol();
+                    indent().append("<new-declaration").append(breakdownDeclaration(newField)).append(">").append(newField.getFullDeclaration()).append("</new-declaration>").eol();
+                } else {
+                    indent().append("<old-declaration").append(breakdownDeclaration(oldField)).append(">").append(oldField.getDeclaration()).append("</old-declaration>").eol();
+                    indent().append("<new-declaration").append(breakdownDeclaration(newField)).append(">").append(newField.getDeclaration()).append("</new-declaration>").eol();
+                }
+
                 lowerIndent();
                 indent().append("</modified-declaration>").eol();
-        
+
                 lowerIndent();
                 indent().append("</feature>").eol();
             }
@@ -415,48 +350,6 @@ public class ClassReport extends Printer implements Comparable {
 
             lowerIndent();
             indent().append("</modified-methods>").eol();
-        }
-
-        if (documentedFields.size() != 0) {
-            indent().append("<documented-fields>").eol();
-            raiseIndent();
-
-            Iterator i = documentedFields.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
-                indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</documented-fields>").eol();
-        }
-
-        if (documentedConstructors.size() != 0) {
-            indent().append("<documented-constructors>").eol();
-            raiseIndent();
-
-            Iterator i = documentedConstructors.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
-                indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</documented-constructors>").eol();
-        }
-
-        if (documentedMethods.size() != 0) {
-            indent().append("<documented-methods>").eol();
-            raiseIndent();
-
-            Iterator i = documentedMethods.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
-                indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
-            }
-
-            lowerIndent();
-            indent().append("</documented-methods>").eol();
         }
 
         if (undeprecatedFields.size() != 0) {
@@ -613,6 +506,10 @@ public class ClassReport extends Printer implements Comparable {
             result.append(" name=\"").append(element.getName()).append("\"");
             result.append(" signature=\"").append(element.getSignature()).append("\"");
             result.append(" full-signature=\"").append(element.getFullSignature()).append("\"");
+
+            if (element.getConstantValue() != null) {
+                result.append(" value=\"").append(element.getConstantValue().getRawValue()).append("\"");
+            }
         }
 
         return result.toString();

@@ -58,9 +58,7 @@ public class TestReport extends TestCase implements ErrorHandler {
     private static final String OLD_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
     private static final String NEW_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
 
-    private Visitor   printer;
     private XMLReader reader;
-
     private Perl5Util perl;
 
     protected void setUp() throws Exception {
@@ -73,7 +71,7 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultDTDPrefix() {
-        printer = new Report();
+        Visitor printer = new Report();
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -89,7 +87,7 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
     
     public void testSpecificDTDPrefix() {
-        printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        Visitor printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -105,7 +103,7 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultEncoding() {
-        printer = new Report();
+        Visitor printer = new Report();
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -121,7 +119,7 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        printer = new Report(SPECIFIC_ENCODING, Report.DEFAULT_DTD_PREFIX);
+        Visitor printer = new Report(SPECIFIC_ENCODING, Report.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -137,20 +135,21 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
 
     public void testContent() throws IOException, ParserConfigurationException, SAXException, TransformerException {
+        PackageMapper oldPackages = new PackageMapper();
         ClassfileLoader oldJar = new AggregatingClassfileLoader();
+        oldJar.addLoadListener(oldPackages);
         oldJar.load(Collections.singleton(OLD_CLASSPATH));
 
+        PackageMapper newPackages = new PackageMapper();
         ClassfileLoader newJar = new AggregatingClassfileLoader();
+        newJar.addLoadListener(newPackages);
         newJar.load(Collections.singleton(NEW_CLASSPATH));
 
-        Validator oldValidator = new ListBasedValidator(new BufferedReader(new FileReader(OLD_CLASSPATH + ".txt")));
-        Validator newValidator = new ListBasedValidator(new BufferedReader(new FileReader(NEW_CLASSPATH + ".txt")));
+        DifferencesFactory factory = new DifferencesFactory();
+        ProjectDifferences projectDifferences = (ProjectDifferences) factory.createProjectDifferences("test", "old", oldPackages, "new", newPackages);
 
-        DifferencesFactory factory = new DifferencesFactory(oldValidator, newValidator);
-        JarDifferences jarDifferences = (JarDifferences) factory.createJarDifferences("test", "old", oldJar, "new", newJar);
-
-        printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-        jarDifferences.accept(printer);
+        Visitor printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        projectDifferences.accept(printer);
 
         String xmlDocument = printer.toString();
 
@@ -167,7 +166,7 @@ public class TestReport extends TestCase implements ErrorHandler {
 
         assertNotNull("//differences", XPathAPI.selectSingleNode(doc, "//differences"));
         assertNotNull("*/old[text()='old']", XPathAPI.selectSingleNode(doc, "*/old[text()='old']"));
-        assertEquals("*/modified-classes/class", 1, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
+        assertEquals("*/modified-classes/class", 2, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
     }
     
     public void error(SAXParseException ex) {

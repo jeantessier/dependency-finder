@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.util.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, java.text.*, java.util.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -261,7 +261,32 @@ Show&nbsp;&nbsp;
         
             dependenciesQuery.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
-            TextPrinter printer = new TextPrinter(new PrintWriter(out));
+            StringBuffer urlPattern = new StringBuffer();
+            urlPattern.append(request.getRequestURI());
+            urlPattern.append("?");
+            Iterator entries = request.getParameterMap().entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                String key = (String) entry.getKey();
+                if ("scope-includes".equals(entry.getKey())) {
+                    urlPattern.append(entry.getKey()).append("=/^{0}/");
+                } else {
+                    String[] values = (String[]) entry.getValue();
+                    for (int i=0; i<values.length; i++) {
+                        urlPattern.append(entry.getKey()).append("=").append(values[i]);
+                        if (i < values.length - 1) {
+                            urlPattern.append("&");
+                        }
+                    }
+                }
+                if (entries.hasNext()) {
+                    urlPattern.append("&");
+                }
+            }
+
+            MessageFormat urlFormat = new MessageFormat(urlPattern.toString());
+
+            TextPrinter printer = new HTMLPrinter(new PrintWriter(out), urlFormat);
 
             printer.setShowInbounds(showInbounds);
             printer.setShowOutbounds(showOutbounds);

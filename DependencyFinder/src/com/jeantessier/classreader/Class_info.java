@@ -59,6 +59,23 @@ public class Class_info extends ConstantPoolEntry {
         return getName();
     }
 
+    public int hashCode() {
+        return getRawName().hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            Class_info other = (Class_info) object;
+            result = this.getRawName().equals(other.getRawName());
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitClass_info(this);
     }

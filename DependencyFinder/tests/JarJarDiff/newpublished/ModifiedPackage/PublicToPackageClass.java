@@ -1,0 +1,3 @@
+package ModifiedPackage;
+
+class PublicToPackageClass {}

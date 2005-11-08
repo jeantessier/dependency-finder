@@ -61,7 +61,7 @@ public class DeprecatableDifferences extends DecoratorDifferences {
             setNewDeprecation(!oldDeprecatable.isDeprecated() && newDeprecatable.isDeprecated());
         }
 
-        Logger.getLogger(getClass()).debug("End   " + getName() + ": " + (isEmpty() ? "empty" : "not empty"));
+        Logger.getLogger(getClass()).debug("End   " + getName());
     }
 
     public boolean isNewDeprecation() {
@@ -80,13 +80,6 @@ public class DeprecatableDifferences extends DecoratorDifferences {
 
     public void setRemovedDeprecation(boolean removedDeprecation) {
         this.removedDeprecation = removedDeprecation;
-    }
-
-    public boolean isEmpty() {
-        return
-            !isNewDeprecation() &&
-            !isRemovedDeprecation() &&
-            getComponent().isEmpty();
     }
 
     public void accept(Visitor visitor) {

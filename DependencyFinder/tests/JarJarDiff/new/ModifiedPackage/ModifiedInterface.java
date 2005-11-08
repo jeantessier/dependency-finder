@@ -10,6 +10,8 @@ public interface ModifiedInterface {
     
     public float modifiedField = 1;
 
+    public int modifiedValueField = 2;
+
     /** @level public */
     public int documentedField = 1;
 

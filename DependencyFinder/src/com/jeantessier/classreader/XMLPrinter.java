@@ -430,13 +430,11 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
-        indent().append("<constant-value-attribute>").eol();
-        raiseIndent();
+        indent().append("<constant-value-attribute>");
 
         attribute.getRawValue().accept(this);
 
-        lowerIndent();
-        indent().append("</constant-value-attribute>").eol();
+        append("</constant-value-attribute>").eol();
     }
 
     public void visitCode_attribute(Code_attribute attribute) {

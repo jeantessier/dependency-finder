@@ -97,4 +97,21 @@ public abstract class FeatureRef_info extends ConstantPoolEntry {
 
         return result.toString();
     }
+
+    public int hashCode() {
+        return getRawClass().hashCode() ^ getRawNameAndType().hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            FeatureRef_info other = (FeatureRef_info) object;
+            result = this.getRawClass().equals(other.getRawClass()) && this.getRawNameAndType().equals(other.getRawNameAndType());
+        }
+
+        return result;
+    }
 }

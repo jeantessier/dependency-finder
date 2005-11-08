@@ -56,6 +56,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestLinkMaximizer.class);
         result.addTestSuite(TestLinkMaximizerSystematic.class);
         result.addTestSuite(TestTextPrinter.class);
+        result.addTestSuite(TestHTMLPrinter.class);
         result.addTestSuite(TestXMLPrinter.class);
         result.addTestSuite(TestNodeHandler.class);
         result.addTestSuite(TestNodeLoader.class);

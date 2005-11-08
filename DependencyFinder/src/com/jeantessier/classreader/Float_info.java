@@ -51,6 +51,23 @@ public class Float_info extends ConstantPoolEntry {
         return String.valueOf(getValue());
     }
 
+    public int hashCode() {
+        return new Float(getValue()).hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            Float_info other = (Float_info) object;
+            result = Float.compare(this.getValue(), other.getValue()) == 0;
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitFloat_info(this);
     }

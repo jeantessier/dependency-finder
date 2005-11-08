@@ -61,6 +61,23 @@ public class ConstantValue_attribute extends Attribute_info {
         return "ConstantValue " + getRawValue();
     }
 
+    public int hashCode() {
+        return getRawValue().hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            ConstantValue_attribute other = (ConstantValue_attribute) object;
+            result = this.getRawValue().equals(other.getRawValue());
+        }
+
+        return result;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitConstantValue_attribute(this);
     }
