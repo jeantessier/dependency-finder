@@ -58,6 +58,9 @@ public class TestReport extends TestCase implements ErrorHandler {
     private static final String OLD_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
     private static final String NEW_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
 
+    private static final String OLD_PUBLISHED_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "oldpublished";
+    private static final String NEW_PUBLISHED_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "newpublished";
+
     private XMLReader reader;
     private Perl5Util perl;
 
@@ -168,7 +171,45 @@ public class TestReport extends TestCase implements ErrorHandler {
         assertNotNull("*/old[text()='old']", XPathAPI.selectSingleNode(doc, "*/old[text()='old']"));
         assertEquals("*/modified-classes/class", 2, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
     }
-    
+
+    public void testIncompatibleContent() throws IOException, ParserConfigurationException, SAXException, TransformerException {
+        PackageMapper oldPackages = new PackageMapper();
+        ClassfileLoader oldJar = new AggregatingClassfileLoader();
+        oldJar.addLoadListener(oldPackages);
+        oldJar.load(Collections.singleton(OLD_PUBLISHED_CLASSPATH + File.separator + "ModifiedPackage" + File.separator + "CompatibleClass.class"));
+
+        PackageMapper newPackages = new PackageMapper();
+        ClassfileLoader newJar = new AggregatingClassfileLoader();
+        newJar.addLoadListener(newPackages);
+        newJar.load(Collections.singleton(NEW_PUBLISHED_CLASSPATH + File.separator + "ModifiedPackage" + File.separator + "CompatibleClass.class"));
+
+        DifferencesFactory factory = new DifferencesFactory(new IncompatibleDifferenceStrategy(new NoDifferenceStrategy()));
+        ProjectDifferences projectDifferences = (ProjectDifferences) factory.createProjectDifferences("test", "old", oldPackages, "new", newPackages);
+
+        Visitor printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        projectDifferences.accept(printer);
+
+        String xmlDocument = printer.toString();
+
+        try {
+            reader.parse(new InputSource(new StringReader(xmlDocument)));
+        } catch (SAXException ex) {
+            fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xmlDocument);
+        } catch (IOException ex) {
+            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
+        }
+
+        InputSource in  = new InputSource(new StringReader(xmlDocument));
+        Document    doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
+
+        assertNotNull("//differences", XPathAPI.selectSingleNode(doc, "//differences"));
+        assertNotNull("*/old[text()='old']", XPathAPI.selectSingleNode(doc, "*/old[text()='old']"));
+        assertEquals("*/modified-classes/class", 1, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
+        assertNull("*/modified-classes/class/modified-declaration", XPathAPI.selectSingleNode(doc, "*/modified-classes/class/modified-declaration"));
+        assertEquals("*/modified-classes/class/modified-methods/feature", 1, XPathAPI.selectNodeList(doc, "*/modified-classes/class/modified-methods/feature").getLength());
+        assertNotNull("*/modified-classes/class/modified-methods/feature/modified-declaration", XPathAPI.selectSingleNode(doc, "*/modified-classes/class/modified-methods/feature/modified-declaration"));
+    }
+
     public void error(SAXParseException ex) {
         // Ignore
     }

@@ -152,7 +152,7 @@ public class ClassReport extends Printer implements Comparable {
 
         indent().append("<name>").append(differences.getName()).append("</name>").eol();
 
-        if (!differences.getOldDeclaration().equals(differences.getNewDeclaration())) {
+        if (differences.isDeclarationModified()) {
             indent().append("<modified-declaration>").eol();
             raiseIndent();
 
