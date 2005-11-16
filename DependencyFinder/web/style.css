@@ -41,3 +41,17 @@ legend {
 .footer {
     font-size: smaller;
 }
+
+pre a {
+    text-decoration: none;
+    color: black;
+}
+
+pre a:visited {
+    color: black;
+}
+
+pre a:hover {
+    text-decoration: underline;
+    color: blue;
+}
