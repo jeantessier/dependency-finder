@@ -18,6 +18,30 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        November 15, 2005
+    </dt>
+    <dd>
+        <p>Started a new <code>com.jeantessier.dependency.Visitor</code> to
+        look for cycles in the dependency graph.  It seems that many people out
+        there who are interested in dependencies really want to detect cycles.
+        I still think that not all cycles are necessarily bad, but maybe at
+        least listing them can be of some use.  You definitely want to avoid
+        circular dependencies between large-scale components, but one
+        component might be implemented as many, tightly coupled, packages.
+        Since Dependency Finder is not aware of organizing principles beyond
+        the package, it's usefulness at detecting unwanted cycles will be
+        limited.</p>
+
+        <p>Further refined the webapp's <code>style.css</code>.</p>
+    </dd>
+    <dt>
+        November 14, 2005
+    </dt>
+    <dd>
+        <p>Experimented with the webapp's <code>style.css</code> so hyperlinks
+        don't stand out too much.</p>
+    </dd>
+    <dt>
         November 09, 2005
     </dt>
     <dd>
