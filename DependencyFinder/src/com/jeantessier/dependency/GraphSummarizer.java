@@ -32,8 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import org.apache.log4j.*;
-
 public class GraphSummarizer extends GraphCopier {
     private SelectionCriteria scopeCriteria;
     private SelectionCriteria filterCriteria;
@@ -44,41 +42,9 @@ public class GraphSummarizer extends GraphCopier {
         this.scopeCriteria  = scopeCriteria;
         this.filterCriteria = filterCriteria;
     }
-    
-    public void visitPackageNode(PackageNode node) {
-        Logger.getLogger(getClass()).debug("node = " + node);
-        
-        boolean inScope = scopeCriteria.matchesPackageName(node.getName());
 
-        if (inScope) {
-            preprocessPackageNode(node);
-            
-            if (getStrategy().doPreOutboundTraversal()) {
-                traverseOutbound(node.getOutboundDependencies());
-            }
-            
-            if (getStrategy().doPreInboundTraversal()) {
-                traverseInbound(node.getInboundDependencies());
-            }
-            
-            preprocessAfterDependenciesPackageNode(node);
-        }
-            
-        traverseNodes(node.getClasses());
-
-        if (inScope) {
-            postprocessBeforeDependenciesPackageNode(node);
-
-            if (getStrategy().doPostOutboundTraversal()) {
-                traverseOutbound(node.getOutboundDependencies());
-            }
-            
-            if (getStrategy().doPostInboundTraversal()) {
-                traverseInbound(node.getInboundDependencies());
-            }
-
-            postprocessPackageNode(node);
-        }
+    protected boolean isInScope(PackageNode node) {
+        return scopeCriteria.matchesPackageName(node.getName());
     }
 
     protected void preprocessPackageNode(PackageNode node) {
@@ -86,7 +52,7 @@ public class GraphSummarizer extends GraphCopier {
             super.preprocessPackageNode(node);
         }
     }
-    
+
     protected void postprocessPackageNode(PackageNode node) {
         if (scopeCriteria.isMatchingPackages()) {
             super.postprocessPackageNode(node);
@@ -109,38 +75,8 @@ public class GraphSummarizer extends GraphCopier {
         }
     }
 
-    public void visitClassNode(ClassNode node) {
-        boolean inScope = scopeCriteria.matchesClassName(node.getName());
-        
-        if (inScope) {
-            preprocessClassNode(node);
-            
-            if (getStrategy().doPreOutboundTraversal()) {
-                traverseOutbound(node.getOutboundDependencies());
-            }
-            
-            if (getStrategy().doPreInboundTraversal()) {
-                traverseInbound(node.getInboundDependencies());
-            }
-        
-            preprocessAfterDependenciesClassNode(node);
-        }
-        
-        traverseNodes(node.getFeatures());
-            
-        if (inScope) {
-            postprocessBeforeDependenciesClassNode(node);
-
-            if (getStrategy().doPostOutboundTraversal()) {
-                traverseOutbound(node.getOutboundDependencies());
-            }
-            
-            if (getStrategy().doPostInboundTraversal()) {
-                traverseInbound(node.getInboundDependencies());
-            }
-            
-            postprocessClassNode(node);
-        }
+    protected boolean isInScope(ClassNode node) {
+        return scopeCriteria.matchesClassName(node.getName());
     }
 
     protected void preprocessClassNode(ClassNode node) {
@@ -148,7 +84,7 @@ public class GraphSummarizer extends GraphCopier {
             super.preprocessClassNode(node);
         }
     }
-    
+
     protected void postprocessClassNode(ClassNode node) {
         if (scopeCriteria.isMatchingClasses()) {
             super.postprocessClassNode(node);
@@ -175,28 +111,8 @@ public class GraphSummarizer extends GraphCopier {
         }
     }
 
-    public void visitFeatureNode(FeatureNode node) {
-        if (scopeCriteria.matchesFeatureName(node.getName())) {
-            preprocessFeatureNode(node);
-            
-            if (getStrategy().doPreOutboundTraversal()) {
-                traverseOutbound(node.getOutboundDependencies());
-            }
-            
-            if (getStrategy().doPreInboundTraversal()) {
-                traverseInbound(node.getInboundDependencies());
-            }
-            
-            if (getStrategy().doPostOutboundTraversal()) {
-                traverseOutbound(node.getOutboundDependencies());
-            }
-            
-            if (getStrategy().doPostInboundTraversal()) {
-                traverseInbound(node.getInboundDependencies());
-            }
-            
-            postprocessFeatureNode(node);
-        }
+    protected boolean isInScope(FeatureNode node) {
+        return scopeCriteria.matchesFeatureName(node.getName());
     }
 
     protected void preprocessFeatureNode(FeatureNode node) {
@@ -204,13 +120,13 @@ public class GraphSummarizer extends GraphCopier {
             super.preprocessFeatureNode(node);
         }
     }
-    
+
     protected void postprocessFeatureNode(FeatureNode node) {
         if (scopeCriteria.isMatchingFeatures()) {
             super.postprocessFeatureNode(node);
         }
     }
-    
+
     public void visitInboundFeatureNode(FeatureNode node) {
         if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
             if (filterCriteria.isMatchingFeatures()) {

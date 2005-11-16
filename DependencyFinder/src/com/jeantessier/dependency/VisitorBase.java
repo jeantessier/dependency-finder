@@ -46,7 +46,6 @@ public abstract class VisitorBase implements Visitor {
     private TraversalStrategy strategy;
 
     private LinkedList currentNodes = new LinkedList();
-    private SortedSet  scope        = new TreeSet();
     
     public VisitorBase() {
         this(new SelectiveTraversalStrategy());
@@ -116,7 +115,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitPackageNode(PackageNode node) {
-        boolean inScope = getStrategy().isInScope(node);
+        boolean inScope = isInScope(node);
         
         if (inScope) {
             preprocessPackageNode(node);
@@ -149,6 +148,10 @@ public abstract class VisitorBase implements Visitor {
         }
     }
 
+    protected boolean isInScope(PackageNode node) {
+        return getStrategy().isInScope(node);
+    }
+
     protected void preprocessPackageNode(PackageNode node) {
         pushNode(node);
     }
@@ -176,7 +179,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitClassNode(ClassNode node) {
-        boolean inScope = getStrategy().isInScope(node);
+        boolean inScope = isInScope(node);
         
         if (inScope) {
             preprocessClassNode(node);
@@ -209,6 +212,10 @@ public abstract class VisitorBase implements Visitor {
         }
     }
 
+    protected boolean isInScope(ClassNode node) {
+        return getStrategy().isInScope(node);
+    }
+
     protected void preprocessClassNode(ClassNode node) {
         pushNode(node);
     }
@@ -236,7 +243,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        if (getStrategy().isInScope(node)) {
+        if (isInScope(node)) {
             preprocessFeatureNode(node);
             
             if (getStrategy().doPreOutboundTraversal()) {
@@ -257,6 +264,10 @@ public abstract class VisitorBase implements Visitor {
             
             postprocessFeatureNode(node);
         }
+    }
+
+    protected boolean isInScope(FeatureNode node) {
+        return getStrategy().isInScope(node);
     }
 
     protected void preprocessFeatureNode(FeatureNode node) {

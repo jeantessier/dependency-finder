@@ -114,7 +114,7 @@ public abstract class Node implements Comparable {
             result = false;
         } else {
             Node other = (Node) object;
-            result = getName().equals(other.getName());
+            result = compareTo(other) == 0;
         }
 
         return result;
