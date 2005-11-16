@@ -71,4 +71,26 @@ public class TestCycleDetector extends TestCase {
         detector.traverseNodes(factory.getPackages().values());
         assertEquals("Nb cycles", 2, detector.getCycles().size());
     }
+
+    public void testOneLength2AndOneLength3Cycles() {
+        a_package.addDependency(b_package);
+        b_package.addDependency(a_package);
+        c_package.addDependency(d_package);
+        d_package.addDependency(e_package);
+        e_package.addDependency(c_package);
+        detector.traverseNodes(factory.getPackages().values());
+        assertEquals("Nb cycles", 2, detector.getCycles().size());
+    }
+
+    public void testMaximumLength() {
+        a_package.addDependency(b_package);
+        b_package.addDependency(a_package);
+        c_package.addDependency(d_package);
+        d_package.addDependency(e_package);
+        e_package.addDependency(c_package);
+        detector.setMaximumCycleLength(2);
+        detector.traverseNodes(factory.getPackages().values());
+        assertEquals("Nb cycles", 1, detector.getCycles().size());
+        assertEquals("Cycle length", 2, ((Cycle) detector.getCycles().iterator().next()).getLength());
+    }
 }

@@ -14,6 +14,10 @@ public class Cycle {
         this.nodes = new TreeSet(path);
     }
 
+    public int getLength() {
+        return nodes.size();
+    }
+
     public boolean equals(Object object) {
         boolean result;
 
