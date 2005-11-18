@@ -39,6 +39,7 @@ public class TestAll extends TestCase {
         TestSuite result = new TestSuite();
 
         result.addTestSuite(TestBitFormat.class);
+        result.addTestSuite(TestSignatureHelper.class);
         result.addTestSuite(TestDirectoryExplorer.class);
         result.addTestSuite(TestAggregatingClassfileLoader.class);
         result.addTestSuite(TestTransientClassfileLoader.class);

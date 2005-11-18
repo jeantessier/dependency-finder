@@ -54,7 +54,7 @@ public final class SignatureHelper {
         conversion.put("Z", "boolean");
     }
 
-    static String convert(String type) {
+    public static String convert(String type) {
         String result = null;
 
         Logger.getLogger(SignatureHelper.class).debug("Begin Convert(\"" + type + "\")");
@@ -68,6 +68,20 @@ public final class SignatureHelper {
         }
 
         Logger.getLogger(SignatureHelper.class).debug("End   Convert(\"" + type + "\"): \"" + result + "\"");
+
+        return result;
+    }
+
+    public static String convertClassName(String type) {
+        String result = null;
+
+        if (type.charAt(0) == 'L' && type.indexOf(';') > 0) {
+            result = path2ClassName(type.substring(1, type.indexOf(';')));
+        } else if (type.charAt(0) == '[') {
+            result = convert(type.substring(1)) + "[]";
+        } else {
+            result = path2ClassName(type);
+        }
 
         return result;
     }
