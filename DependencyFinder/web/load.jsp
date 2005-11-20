@@ -102,8 +102,8 @@
 
 <%
     Perl5Util perl = new Perl5Util();
-    Collection sources = new LinkedList();
-    perl.split(sources, "/,\\s*/", application.getInitParameter("file"));
+    Collection files = new LinkedList();
+    perl.split(files, "/,\\s*/", application.getInitParameter("file"));
 
     if (request.getParameter("launch") == null) {
         if (Boolean.valueOf(application.getInitParameter("showFile")).booleanValue()) {
@@ -117,7 +117,7 @@
             <ul>
 
 <%
-            Iterator i = sources.iterator();
+            Iterator i = files.iterator();
             while (i.hasNext()) {
                 String filename = (String) i.next();
                 if (new File(filename).exists()) {
@@ -204,7 +204,7 @@
         NodeLoader loader = new NodeLoader(factory);
         loader.addDependencyListener(listener);
 
-        Iterator i = sources.iterator();
+        Iterator i = files.iterator();
         while (i.hasNext()) {
             String filename = (String) i.next();
             try {
@@ -244,7 +244,7 @@
 </pre>
 
 <%
-        switch (sources.size()) {
+        switch (files.size()) {
             case 0:
                 out.println("<p>Loaded nothing in " + duration + " secs.</p>");
                 break;
@@ -252,7 +252,7 @@
                 out.println("<p>Loaded 1 file in " + duration + " secs.</p>");
                 break;
             default:
-                out.println("<p>Loaded " + sources.size() + " files in " + duration + " secs.</p>");
+                out.println("<p>Loaded " + files.size() + " files in " + duration + " secs.</p>");
                 break;
         }
     }
