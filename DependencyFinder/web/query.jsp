@@ -267,7 +267,6 @@ Show&nbsp;&nbsp;
             Iterator entries = request.getParameterMap().entrySet().iterator();
             while (entries.hasNext()) {
                 Map.Entry entry = (Map.Entry) entries.next();
-                String key = (String) entry.getKey();
                 if ("scope-includes".equals(entry.getKey())) {
                     urlPattern.append(entry.getKey()).append("=/^{0}/");
                 } else {

@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.text.*, java.util.*, org.apache.oro.text.perl.*, org.xml.sax.*, com.jeantessier.dependency.*, com.jeantessier.dependencyfinder.*, com.jeantessier.classreader.*" %>
+<%@ page import="java.io.*, java.text.*, java.util.*, javax.servlet.jsp.*, org.apache.oro.text.perl.*, org.xml.sax.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -101,14 +101,12 @@
     </tr>
 
 <%
-    if (request.getParameter("launch") == null) {
-%>
+    Perl5Util perl = new Perl5Util();
+    Collection sources = new LinkedList();
+    perl.split(sources, "/,\\s*/", application.getInitParameter("file"));
 
-<%
+    if (request.getParameter("launch") == null) {
         if (Boolean.valueOf(application.getInitParameter("showFile")).booleanValue()) {
-            Perl5Util perl = new Perl5Util();
-            Collection sources = new LinkedList();
-            perl.split(sources, "/,\\s*/", application.getInitParameter("file"));
 %>
 
     <tr>
@@ -121,9 +119,16 @@
 <%
             Iterator i = sources.iterator();
             while (i.hasNext()) {
+                String filename = (String) i.next();
+                if (new File(filename).exists()) {
 %>
-                <li><tt><%= i.next() %></tt></li>
+                    <li><tt><%= filename %></tt></li>
 <%
+                } else {
+%>
+                    <li><tt><span class="error"><%= filename %></span></tt></li>
+<%
+                }
             }
 %>
 
@@ -195,23 +200,19 @@
         Date start = new Date();
         VerboseListener listener = new VerboseListener(out);
 
-        Perl5Util perl = new Perl5Util();
-
-        Collection files = new LinkedList();
-        perl.split(files, "/,\\s*/", application.getInitParameter("file"));
-
         NodeFactory factory = new NodeFactory();
-
         NodeLoader loader = new NodeLoader(factory);
         loader.addDependencyListener(listener);
 
-        Iterator i = files.iterator();
+        Iterator i = sources.iterator();
         while (i.hasNext()) {
             String filename = (String) i.next();
             try {
                 loader.load(filename);
             } catch (SAXException ex) {
-                out.println("<i>Could not load graph from file \"" + filename + "\": " + ex.getMessage() + "</i>");
+                out.println("<i class=\"error\">Could not load graph from file \"" + filename + "\": " + ex.getMessage() + "</i>");
+            } catch (FileNotFoundException ex) {
+                out.println("<i class=\"error\">Could not load graph from file \"" + filename + "\": " + ex.getMessage() + "</i>");
             }
         }
 
@@ -243,7 +244,7 @@
 </pre>
 
 <%
-        switch (files.size()) {
+        switch (sources.size()) {
             case 0:
                 out.println("<p>Loaded nothing in " + duration + " secs.</p>");
                 break;
@@ -251,7 +252,7 @@
                 out.println("<p>Loaded 1 file in " + duration + " secs.</p>");
                 break;
             default:
-                out.println("<p>Loaded " + files.size() + " files in " + duration + " secs.</p>");
+                out.println("<p>Loaded " + sources.size() + " files in " + duration + " secs.</p>");
                 break;
         }
     }

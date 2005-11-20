@@ -139,14 +139,12 @@
     </tr>
 
 <%
-    if (request.getParameter("launch") == null) {
-%>
+    Perl5Util perl = new Perl5Util();
+    Collection sources = new LinkedList();
+    perl.split(sources, "/,\\s*/", application.getInitParameter("source"));
 
-<%
+    if (request.getParameter("launch") == null) {
         if (Boolean.valueOf(application.getInitParameter("showSource")).booleanValue()) {
-            Perl5Util perl = new Perl5Util();
-            Collection sources = new LinkedList();
-            perl.split(sources, "/,\\s*/", application.getInitParameter("source"));
 %>
 
     <tr>
@@ -159,9 +157,16 @@
 <%
             Iterator i = sources.iterator();
             while (i.hasNext()) {
+                String filename = (String) i.next();
+                if (new File(filename).exists()) {
 %>
-                <li><tt><%= i.next() %></tt></li>
+                    <li><tt><%= filename %></tt></li>
 <%
+                } else {
+%>
+                    <li><tt><span class="error"><%= filename %></span></tt></li>
+<%
+                }
             }
 %>
 
@@ -280,11 +285,6 @@
 
             monitor = new Monitor(collector, deletingVisitor);
         }
-
-        Perl5Util perl = new Perl5Util();
-
-        Collection sources = new LinkedList();
-        perl.split(sources, "/,\\s*/", application.getInitParameter("source"));
 
         ClassfileLoader loader = new TransientClassfileLoader(dispatcher);
         loader.addLoadListener(listener);
