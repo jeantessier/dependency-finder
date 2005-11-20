@@ -159,44 +159,8 @@ public class JarJarDiff {
         newJar.addLoadListener(verboseListener);
         newJar.load(commandLine.getMultipleSwitch("new"));
 
-        DifferenceStrategy strategy = null;
-        if (commandLine.getToggleSwitch("code")) {
-            strategy = new CodeDifferenceStrategy();
-        } else {
-            strategy = new NoDifferenceStrategy();
-        }
-
-        String level = commandLine.getSingleSwitch("level");
-        if (API_STRATEGY.equals(level)) {
-            strategy = new APIDifferenceStrategy(strategy);
-        } else if (INCOMPATIBLE_STRATEGY.equals(level)) {
-            strategy = new IncompatibleDifferenceStrategy(strategy);
-        } else if (level != null) {
-            try {
-                Constructor constructor;
-                try {
-                    constructor = Class.forName(level).getConstructor(new Class[] {DifferenceStrategy.class});
-                    strategy = (DifferenceStrategy) constructor.newInstance(new Object[] {strategy});
-                } catch (NoSuchMethodException ex) {
-                    strategy = (DifferenceStrategy) Class.forName(level).newInstance();
-                }
-            } catch (InvocationTargetException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                strategy = new APIDifferenceStrategy(strategy);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                strategy = new APIDifferenceStrategy(strategy);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                strategy = new APIDifferenceStrategy(strategy);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                strategy = new APIDifferenceStrategy(strategy);
-            } catch (ClassCastException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                strategy = new APIDifferenceStrategy(strategy);
-            }
-        }
+        DifferenceStrategy baseStrategy = getBaseStrategy(commandLine.getToggleSwitch("code"));
+        DifferenceStrategy strategy = getStrategy(commandLine.getSingleSwitch("level"), baseStrategy);
 
         if (commandLine.isPresent("filter")) {
             strategy = new ListBasedDifferenceStrategy(strategy, commandLine.getSingleSwitch("filter"));
@@ -243,5 +207,58 @@ public class JarJarDiff {
         out.close();
 
         verboseListener.close();
+    }
+
+    private static DifferenceStrategy getStrategy(String level, DifferenceStrategy baseStrategy) {
+        DifferenceStrategy result;
+
+        if (API_STRATEGY.equals(level)) {
+            result = new APIDifferenceStrategy(baseStrategy);
+        } else if (INCOMPATIBLE_STRATEGY.equals(level)) {
+            result = new IncompatibleDifferenceStrategy(baseStrategy);
+        } else {
+            try {
+                Constructor constructor;
+                try {
+                    constructor = Class.forName(level).getConstructor(new Class[] {DifferenceStrategy.class});
+                    result = (DifferenceStrategy) constructor.newInstance(new Object[] {baseStrategy});
+                } catch (NoSuchMethodException ex) {
+                    result = (DifferenceStrategy) Class.forName(level).newInstance();
+                }
+            } catch (InvocationTargetException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                result = getDefaultStrategy(baseStrategy);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                result = getDefaultStrategy(baseStrategy);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                result = getDefaultStrategy(baseStrategy);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                result = getDefaultStrategy(baseStrategy);
+            } catch (ClassCastException ex) {
+                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                result = getDefaultStrategy(baseStrategy);
+            }
+        }
+
+        return result;
+    }
+
+    private static DifferenceStrategy getBaseStrategy(boolean useCode) {
+        DifferenceStrategy result;
+
+        if (useCode) {
+            result = new CodeDifferenceStrategy();
+        } else {
+            result = new NoDifferenceStrategy();
+        }
+
+        return result;
+    }
+
+    private static DifferenceStrategy getDefaultStrategy(DifferenceStrategy strategy) {
+        return new APIDifferenceStrategy(strategy);
     }
 }
