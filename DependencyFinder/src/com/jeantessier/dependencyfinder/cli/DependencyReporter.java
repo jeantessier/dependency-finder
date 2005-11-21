@@ -230,11 +230,25 @@ public class DependencyReporter {
 
         if (hasScopeRegularExpressionSwitches(commandLine)) {
             RegularExpressionSelectionCriteria regularExpressionScopeCriteria = new RegularExpressionSelectionCriteria();
-            
-            regularExpressionScopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
-            regularExpressionScopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
-            regularExpressionScopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
-            
+
+            if (commandLine.isPresent("package-scope") || commandLine.isPresent("class-scope") || commandLine.isPresent("feature-scope")) {
+                regularExpressionScopeCriteria.setMatchingPackages(false);
+                regularExpressionScopeCriteria.setMatchingClasses(false);
+                regularExpressionScopeCriteria.setMatchingFeatures(false);
+            }
+
+            if (commandLine.isPresent("package-scope")) {
+                regularExpressionScopeCriteria.setMatchingPackages(true);
+            }
+
+            if (commandLine.isPresent("class-scope")) {
+                regularExpressionScopeCriteria.setMatchingClasses(true);
+            }
+
+            if (commandLine.isPresent("feature-scope")) {
+                regularExpressionScopeCriteria.setMatchingFeatures(true);
+            }
+
             if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
                 // Only use the default if nothing else has been specified.
                 regularExpressionScopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("scope-includes"));
@@ -287,9 +301,23 @@ public class DependencyReporter {
         if (hasFilterRegularExpressionSwitches(commandLine)) {
             RegularExpressionSelectionCriteria regularExpressionFilterCriteria = new RegularExpressionSelectionCriteria();
             
-            regularExpressionFilterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
-            regularExpressionFilterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
-            regularExpressionFilterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
+            if (commandLine.isPresent("package-filter") || commandLine.isPresent("class-filter") || commandLine.isPresent("feature-filter")) {
+                regularExpressionFilterCriteria.setMatchingPackages(false);
+                regularExpressionFilterCriteria.setMatchingClasses(false);
+                regularExpressionFilterCriteria.setMatchingFeatures(false);
+            }
+
+            if (commandLine.isPresent("package-filter")) {
+                regularExpressionFilterCriteria.setMatchingPackages(true);
+            }
+
+            if (commandLine.isPresent("class-filter")) {
+                regularExpressionFilterCriteria.setMatchingClasses(true);
+            }
+
+            if (commandLine.isPresent("feature-filter")) {
+                regularExpressionFilterCriteria.setMatchingFeatures(true);
+            }
             
             if (commandLine.isPresent("filter-includes") || (!commandLine.isPresent("package-filter-includes") && !commandLine.isPresent("class-filter-includes") && !commandLine.isPresent("feature-filter-includes"))) {
                 // Only use the default if nothing else has been specified.
