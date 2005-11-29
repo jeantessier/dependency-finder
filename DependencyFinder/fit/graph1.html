@@ -1,0 +1,132 @@
+<html>
+
+<head>
+<title>Graph Tests on Independent Graphs</title>
+</head>
+
+<body>
+
+<h1>Graph Tests on Independent Graphs</h1>
+
+<p>Create a package.</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.ActionFixture</td>
+    </tr>
+    <tr>
+        <td>start</td>
+        <td colspan="2">com.jeantessier.dependency.GraphActions</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num packages</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>create package</td>
+        <td>foobar</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num packages</td>
+        <td>1</td>
+    </tr>
+</table>
+
+<p>Create a class.</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.ActionFixture</td>
+    </tr>
+    <tr>
+        <td>start</td>
+        <td colspan="2">com.jeantessier.dependency.GraphActions</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num packages</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num classes</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>create class</td>
+        <td>foobar</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num packages</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num classes</td>
+        <td>1</td>
+    </tr>
+</table>
+
+<p>Create a feature.</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.ActionFixture</td>
+    </tr>
+    <tr>
+        <td>start</td>
+        <td colspan="2">com.jeantessier.dependency.GraphActions</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num packages</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num classes</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num features</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>create feature</td>
+        <td>foobar.foobar</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num packages</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num classes</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>check</td>
+        <td>num features</td>
+        <td>1</td>
+    </tr>
+</table>
+
+<hr/>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.Summary</td>
+    </tr>
+</table>
+
+</body>
+
+</html>

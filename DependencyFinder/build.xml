@@ -33,6 +33,7 @@
         </fileset>
         <pathelement location="classes"/>
         <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
+        <pathelement location="${env.FIT_HOME}/fit.jar"/>
     </path>
 
     <target name="init">
@@ -47,6 +48,7 @@
 
         <property name="srcDir"       value="src"/>
         <property name="testsDir"     value="tests"/>
+        <property name="fitDir"       value="fit"/>
         <property name="binDir"       value="bin"/>
         <property name="classesDir"   value="classes"/>
         <property name="libDir"       value="lib"/>
@@ -59,6 +61,7 @@
 
         <property name="srcFiles"     value="${srcDir}/**"/>
         <property name="testsFiles"   value="${testsDir}/**"/>
+        <property name="fitFiles"     value="${fitDir}/**"/>
         <property name="binFiles"     value="${binDir}/**"/>
         <property name="libFiles"     value="${libDir}/**"/>
         <property name="etcFiles"     value="${etcDir}/**"/>
@@ -88,6 +91,11 @@
             description="Compiles all classes and JUnit tests with debug flags (default)">
         <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on" source="1.4" target="1.4">
             <src path="${testsDir}"/>
+            <classpath refid="libs"/>
+            <patternset refid="all.sources"/>
+        </javac>
+        <javac destdir="${classesDir}" debug="on" source="1.4" target="1.4">
+            <src path="${fitDir}"/>
             <classpath refid="libs"/>
             <patternset refid="all.sources"/>
         </javac>
