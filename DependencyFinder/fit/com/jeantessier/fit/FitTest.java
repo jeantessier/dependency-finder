@@ -68,9 +68,11 @@ public class FitTest extends TestCase {
     }
 
     protected void tearDown() throws Exception {
-        output.close();
-
-        super.tearDown();
+        try {
+            output.close();
+        } finally {
+            super.tearDown();
+        }
     }
 
     protected void runTest() throws Throwable {
