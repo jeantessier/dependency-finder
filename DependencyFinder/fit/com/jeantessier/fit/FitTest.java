@@ -43,6 +43,10 @@ public class FitTest extends TestCase {
     private File inFile;
     private File outFile;
 
+    private Fixture fixture;
+    private String input;
+    private PrintWriter output;
+
     public FitTest(File inFile, File outFile) {
         super(inFile.getName());
 
@@ -50,14 +54,28 @@ public class FitTest extends TestCase {
         this.outFile = outFile;
     }
 
-    protected void runTest() throws Throwable {
-        Fixture fixture = new Fixture();
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        fixture = new Fixture();
         fixture.summary.put("input file", inFile.getAbsolutePath());
         fixture.summary.put("input update", new Date(inFile.lastModified()));
         fixture.summary.put("output file", outFile.getAbsolutePath());
-        String input = read(inFile);
-        PrintWriter output = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
+
+        input = read(inFile);
+
+        output = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
+    }
+
+    protected void tearDown() throws Exception {
+        output.close();
+
+        super.tearDown();
+    }
+
+    protected void runTest() throws Throwable {
         Parse tables;
+
         if (input.indexOf("<wiki>") >= 0) {
             tables = new Parse(input, new String[]{"wiki", "table", "tr", "td"});
             fixture.doTables(tables.parts);
@@ -66,12 +84,11 @@ public class FitTest extends TestCase {
             fixture.doTables(tables);
         }
         tables.print(output);
-        output.close();
 
         assertEquals("count wrongs(" + fixture.counts.wrong + ") + exceptions(" + fixture.counts.exceptions + ")", 0, fixture.counts.wrong + fixture.counts.exceptions);
     }
 
-    protected String read(File input) throws IOException {
+    private String read(File input) throws IOException {
         char chars[] = new char[(int) (input.length())];
         FileReader in = new FileReader(input);
         in.read(chars);
