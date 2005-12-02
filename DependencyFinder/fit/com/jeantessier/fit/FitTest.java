@@ -48,7 +48,7 @@ public class FitTest extends TestCase {
     private PrintWriter output;
 
     public FitTest(File inFile, File outFile) {
-        super(inFile.getName());
+        super(inFile.getPath());
 
         this.inFile = inFile;
         this.outFile = outFile;

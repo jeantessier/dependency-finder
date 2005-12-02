@@ -37,8 +37,11 @@ import java.io.*;
 import junit.framework.*;
 
 public class FitTestSuite extends TestSuite {
+    protected static final String SOURCE_PATHNAME = "fit";
+    protected static final String OUTPUT_PATHNAME = "reports";
+
     public FitTestSuite(File inDir, File outDir) {
-        super(inDir.getName());
+        super(inDir.getPath());
 
         String[] filenames = inDir.list();
         for (int i=0; i<filenames.length; i++) {
@@ -48,10 +51,10 @@ public class FitTestSuite extends TestSuite {
             }
         }
     }
-    
+
     public static TestSuite suite() {
-        File inDir = new File("fit");
-        File outDir = new File(inDir, "reports");
+        File inDir = new File(SOURCE_PATHNAME);
+        File outDir = new File(inDir, OUTPUT_PATHNAME);
         outDir.mkdir();
 
         return new FitTestSuite(inDir, outDir);
