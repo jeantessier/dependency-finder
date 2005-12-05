@@ -1,0 +1,141 @@
+<html>
+
+<head>
+<title>Graph Content Tests</title>
+</head>
+
+<body>
+
+<h1>Graph Content Tests</h1>
+
+<table border="1">
+    <tr>
+        <td colspan="2">fit.ActionFixture</td>
+    </tr>
+    <tr>
+        <td>start</td>
+        <td>com.jeantessier.dependency.GraphActions</td>
+    </tr>
+</table>
+
+<p>Set up.</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.ActionFixture</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>package name</td>
+        <td>foo</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>is confirmed</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>press</td>
+        <td colspan="2">create package</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>class name</td>
+        <td>bar.Bar</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>is confirmed</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>press</td>
+        <td colspan="2">create class</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>feature name</td>
+        <td>baz.Baz.baz</td>
+    </tr>
+    <tr>
+        <td>enter</td>
+        <td>is confirmed</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>press</td>
+        <td colspan="2">create feature</td>
+    </tr>
+</table>
+
+<p>Packages</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">com.jeantessier.dependency.PackageList</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>is confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>bar</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>baz</td>
+        <td>true</td>
+    </tr>
+</table>
+
+<p>Classes</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">com.jeantessier.dependency.ClassList</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>is confirmed</i></td>
+    </tr>
+    <tr>
+        <td>bar.Bar</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>baz.Baz</td>
+        <td>true</td>
+    </tr>
+</table>
+
+<p>Features</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">com.jeantessier.dependency.FeatureList</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>is confirmed</i></td>
+    </tr>
+    <tr>
+        <td>baz.Baz.baz</td>
+        <td>true</td>
+    </tr>
+</table>
+
+<hr/>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.Summary</td>
+    </tr>
+</table>
+
+</body>
+
+</html>

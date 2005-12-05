@@ -35,6 +35,27 @@ package com.jeantessier.dependency;
 public class GraphActions extends fit.Fixture {
     public NodeFactory factory = new NodeFactory();
 
+    public String packageName;
+    public String className;
+    public String featureName;
+    public boolean isConfirmed;
+
+    public void packageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void className(String className) {
+        this.className = className;
+    }
+
+    public void featureName(String featureName) {
+        this.featureName = featureName;
+    }
+
+    public void isConfirmed(boolean confirmed) {
+        isConfirmed = confirmed;
+    }
+
     public int numPackages() {
         return factory.getPackages().size();
     }
@@ -47,12 +68,24 @@ public class GraphActions extends fit.Fixture {
         return factory.getFeatures().size();
     }
 
+    public void createPackage() {
+        factory.createPackage(packageName, isConfirmed);
+    }
+
     public void createPackage(String name) {
         factory.createPackage(name);
     }
 
+    public void createClass() {
+        factory.createClass(className, isConfirmed);
+    }
+
     public void createClass(String name) {
         factory.createClass(name);
+    }
+
+    public void createFeature() {
+        factory.createFeature(featureName, isConfirmed);
     }
 
     public void createFeature(String name) {
