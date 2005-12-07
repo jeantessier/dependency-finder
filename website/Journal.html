@@ -18,6 +18,37 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        December 06, 2005
+    </dt>
+    <dd>
+        <p>I finally figured out why Fit behaved differently between my desktop
+        and my laptop.  It turns out they had a different version of Fit.  I
+        must have downloaded Fit 1.0 to my laptop by accident.  Anyway, I
+        tried diff'ing the <code>fit.jar</code> and noticed they were
+        different.  I followed up with a quick run of JarJarDiff, just to be
+        sure, and there it was, lots of signature and code changes.  I copied
+        Fit from my desktop back onto my laptop and <em>voil&agrave;!</em> it
+        now works like a charm.</p>
+
+        <p>Also wrangled <code>DoFixture</code> into doing what I wanted it to
+        do.  It works great for dealing with simple values.  Now, I need to
+        figure out how to call <code>Node.addDependency()</code> and pass
+        <code>Node</code> values from the Fit tables.  I guess I will need one
+        of those fabled <code>TypeAdapter</code>.</p>
+    </dd>
+    <dt>
+        December 05, 2005
+    </dt>
+    <dd>
+        <p>Wrote Fit tests using <code>fit.DoFixture</code> so I don't need to
+        write custom fixture classes.  The book and the documentation are a
+        little sketchy and I need quite a few trial and errors to get it to do
+        what I want.  Or, at least, almost what I want.</p>
+
+        <p>Fit still behaves differently between my desktop and my laptop.  I
+        am still baffled.</p>
+    </dd>
+    <dt>
         December 01, 2005
     </dt>
     <dd>
