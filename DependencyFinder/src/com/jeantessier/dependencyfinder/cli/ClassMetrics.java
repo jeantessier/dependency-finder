@@ -139,12 +139,12 @@ public class ClassMetrics {
             parameters.add(".");
         }
 
-        ClassfileLoader loader = new AggregatingClassfileLoader();
-        loader.addLoadListener(verboseListener);
-        loader.load(parameters);
-
         MetricsGatherer metrics = new MetricsGatherer();
-        metrics.visitClassfiles(loader.getAllClassfiles());
+
+        ClassfileLoader loader = new TransientClassfileLoader();
+        loader.addLoadListener(verboseListener);
+        loader.addLoadListener(new LoadListenerVisitorAdapter(metrics));
+        loader.load(parameters);
 
         verboseListener.print("Printing report ...");
         

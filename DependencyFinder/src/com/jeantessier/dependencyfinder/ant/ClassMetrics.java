@@ -98,12 +98,12 @@ public class ClassMetrics extends Task {
 
         VerboseListener verboseListener = new VerboseListener(this);
 
-        ClassfileLoader loader = new AggregatingClassfileLoader();
-        loader.addLoadListener(verboseListener);
-        loader.load(Arrays.asList(getPath().list()));
-
         MetricsGatherer metrics = new MetricsGatherer();
-        metrics.visitClassfiles(loader.getAllClassfiles());
+
+        ClassfileLoader loader = new TransientClassfileLoader();
+        loader.addLoadListener(verboseListener);
+        loader.addLoadListener(new LoadListenerVisitorAdapter(metrics));
+        loader.load(Arrays.asList(getPath().list()));
 
         log("Saving class metrics to " + getDestfile().getAbsolutePath());
         
