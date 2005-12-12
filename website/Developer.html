@@ -14,7 +14,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.1.1.
+For Dependency Finder version .
 </p>
 
 <p>
@@ -206,23 +206,91 @@ instances of <code>Classfile</code> back.
 <a name="ClassfileLoader"></a>
 <h3><code>ClassfileLoader</code></h3>
 
+<div align="center">
+    <img src="images/ClassfileLoaders.gif" /><br />
+<b><code>CLassfileLoader</code> Hierarchy</b>
+</div>
+
 <p>
-The <code>ClassfileLoader</code> classes you will use the most often derive from
-<code>ClassfileLoaderEventSource</code>.  These loaders are the ones who actually
-create instances of <code>Classfile</code>.  They also keep track of <code>LoadListener</code>
-objects and drive the event model associated parsing class files.
+Here is the basic interface for <code>ClassfileLoader</code>:
+</p>
+
+<div class="highlight">
+
+<pre>
+    public class ClassfileLoader {
+        public void <b>load</b>(Collection filenames) {
+        public Collection <b>getAllClassfiles</b>();
+    }
+</pre>
+
+</div>
+
+<p>
+At the most simple, you can just call <code>load(filenames)</code> and then iterate over
+the <code>Classfile</code>s from <code>getAllClassfiles()</code>.
+</p>
+
+<div class="lowlight">
+
+<pre>
+    Collection sources = /* Get filenames to read ... */
+    ClassfileLoader loader = new AggregatingClassfileLoader();
+    loader.load(sources);
+</pre>
+
+<pre>
+    for(Classfile classfile: loader.getAllClassfiles()) {
+        /* Do something with classfile ... */
+    }
+</pre>
+
+</div>
+
+<p>
+This approach has a few drawbacks.
+First, it requires you to read all the <code>.class</code> files into memory before you
+can start processing them.  Often, processing one class does not require any of
+the others, so this is potentially using up a lot of memory needlessly.
+Second, there is no way for you to monitor classes as they are being loaded.
+This comes in handy for showing progress indicators.
 </p>
 
 <p>
-<code>ClassfileLoader</code> has only one public method for loading classes that
-takes a collection of names.  This defines a session.  Listeners will
-receive a <code>BeginSession</code> event at the beginning of the method and an
-<code>EndSession</code> event just before the method returns.  Each name in the
-collection defines a group.  This can be a JAR file, a Zip file, a
-directory hierarchy containing <code>.class</code> files, or even a single <code>.class</code>
-file.  Each group starts with a <code>BeginGroup</code> and ends with an <code>EndGroup</code>
-event.  Finally, the loader sends a <code>BeginClassfile</code> event before
-processing every class file, and an <code>EndClassfile</code> event afterwards.
+For those reasons, you should use an event-driven approach instead.  You can
+implement the <code>LoadListener</code> interface and register with the <code>ClassfileLoader</code>
+by calling <code>addLoadListener(listener)</code> (not shown above).  Your implementation
+will receive various callbacks as the <code>.class</code> files are read in to let it know
+how things are progressing.
+</p>
+
+<div class="lowlight">
+
+<pre>
+    class MyLoadListener implements LoadListener {
+        public void EndClassfile(LoadEvent event) {
+            Classfile classfile = event.getClassfile();
+            /* Do something with classfile ... */
+        }
+        /* ... */
+    }
+</pre>
+
+<pre>
+    Collection sources = /* Get filenames to read ... */
+    LoadListener listener = MyLoadListener();
+    ClassfileLoader loader = new TransientClassfileLoader();
+    loader.addLoadListener(listener);
+    loader.load(sources);
+</pre>
+
+</div>
+
+<p>
+The <code>ClassfileLoader</code> classes you will use the most often derive from
+<code>ClassfileLoaderEventSource</code>.  These loaders are the ones who actually create
+instances of <code>Classfile</code>.  They also keep track of <code>LoadListener</code> objects and
+drive the event model associated with parsing class files.
 </p>
 
 <p>
@@ -235,20 +303,47 @@ There are two concrete subclasses of <code>ClassfileLoaderEventSource</code>:
 </ul>
 
 <p>
-They differ in whether or not they keep track of the classes they parse.
+<code>AggregatingClassfileLoader</code> keeps a reference to every <code>Classfile</code> it loads.
+You can access them through <code>getAllClassfiles()</code>.  <code>TransientClassfileLoader</code>,
+on the other hand, does not hold on to any of them.  It simply drives the event
+loop.  It's implementation of <code>getAllClassfiles()</code> returns an empty collection.
 </p>
 
 <p>
-You can get instances of <code>Classfile</code> either from <code>EndClassfile</code> events
-or by querying the loader.  You can traverse them with objects that
-implement <code>com.jeantessier.classreader.Visitor</code>.  They have callback
-methods that get called by the various parts of <code>Classfile</code> objects.
+<code>ClassfileLoader</code> has only one public method for loading classes that takes a
+collection of names.  This defines a session.  The listeners will receive a
+<code>BeginSession</code> event at the beginning of the method and an <code>EndSession</code> event
+just before the method returns.  Each name in the collection defines a group.
+This can be a JAR file, a Zip file, a directory hierarchy containing <code>.class</code>
+files, or even a single <code>.class</code> file.  The processing of each group starts
+with a <code>BeginGroup</code> event and ends with an <code>EndGroup</code> event.  The loader treats
+a group as a collection of files.  Each file is processed in turn, begining
+with a <code>BeginFile</code> event and ending with an <code>EndFile</code> event.  The loader uses
+a <code>ClassfileLoaderDispatcher</code> instance to determine how to process a file.  If
+the file is a <code>.class</code> file (as per the dispatcher), the loader finally starts
+processing it, surrounded by a <code>BeginClassfile</code> event and an <code>EndClassfile</code>
+event.  The <code>EndClassfile</code> event will have a reference to the newly loaded
+<code>Classfile</code> instance.
 </p>
 
 <p>
-Depending on the nature of a given name for a group, the loader uses a
-decorator loader to actually open input streams to individual class files.
-These decorators are subclasses of <code>ClassfileLoaderDecorator</code>.  They are:
+Node that the various <code>Begin???</code> events are not guaranteed to be matched by
+corresponding <code>End???</code> events.  Various errors can lead to the loss of events.
+</p>
+
+<p>
+In summary, you can get instances of <code>Classfile</code> either from <code>EndClassfile</code>
+events or by querying the loader.  Once you have them, you can traverse them
+with objects that implement <code>com.jeantessier.classreader.Visitor</code>.  They have
+callback methods that get called by the various parts of <code>Classfile</code> objects.
+</p>
+
+<p>
+<code>EventSourceClassfileLoader</code> uses other <code>ClassfileLoader</code> implementation to
+process the various kinds of files it encounters.  Depending on the nature of a
+file, as determined by its dispatcher, the loader uses one of three <i>decorator</i>
+loaders to actually open input streams to individual class files.  These
+decorators are subclasses of <code>ClassfileLoaderDecorator</code>.  They are:
 </p>
 
 <ul>
@@ -259,13 +354,9 @@ These decorators are subclasses of <code>ClassfileLoaderDecorator</code>.  They 
 
 <p>
 A decorator opens input streams from the data sources and passes them to an
-underlying <code>ClassfileLoader</code>.
-</p>
-
-<p>
-The reason for the distinction is because the first kind handles how long
-the <code>Classfile</code> instances remain in memory, while the second kind handles
-various input file types.
+underlying <code>ClassfileLoader</code>.  The reason for the distinction is to separate
+concerns of how long the <code>Classfile</code> instances remain in memory from concerns
+about how to open various input file types.
 </p>
 
 <a name="Visitor"></a>
@@ -273,7 +364,7 @@ various input file types.
 
 <p>
 You can implement the <code>Visitor</code> interface to traverse <code>Classfile</code> structures.
-It has callback methods that get called by various parts of the structure.
+It has callback methods that get called on various parts of the structure.
 </p>
 
 <p>
