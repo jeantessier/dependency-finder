@@ -268,7 +268,7 @@ how things are progressing.
 
 <pre>
     class MyLoadListener implements LoadListener {
-        public void EndClassfile(LoadEvent event) {
+        public void endClassfile(LoadEvent event) {
             Classfile classfile = event.getClassfile();
             /* Do something with classfile ... */
         }
@@ -312,27 +312,27 @@ loop.  It's implementation of <code>getAllClassfiles()</code> returns an empty c
 <p>
 <code>ClassfileLoader</code> has only one public method for loading classes that takes a
 collection of names.  This defines a session.  The listeners will receive a
-<code>BeginSession</code> event at the beginning of the method and an <code>EndSession</code> event
+<code>beginSession</code> event at the beginning of the method and an <code>endSession</code> event
 just before the method returns.  Each name in the collection defines a group.
 This can be a JAR file, a Zip file, a directory hierarchy containing <code>.class</code>
 files, or even a single <code>.class</code> file.  The processing of each group starts
-with a <code>BeginGroup</code> event and ends with an <code>EndGroup</code> event.  The loader treats
+with a <code>beginGroup</code> event and ends with an <code>endGroup</code> event.  The loader treats
 a group as a collection of files.  Each file is processed in turn, begining
-with a <code>BeginFile</code> event and ending with an <code>EndFile</code> event.  The loader uses
+with a <code>beginFile</code> event and ending with an <code>endFile</code> event.  The loader uses
 a <code>ClassfileLoaderDispatcher</code> instance to determine how to process a file.  If
 the file is a <code>.class</code> file (as per the dispatcher), the loader finally starts
-processing it, surrounded by a <code>BeginClassfile</code> event and an <code>EndClassfile</code>
+processing it, surrounded by a <code>beginClassfile</code> event and an <code>endClassfile</code>
 event.  The <code>EndClassfile</code> event will have a reference to the newly loaded
 <code>Classfile</code> instance.
 </p>
 
 <p>
-Node that the various <code>Begin???</code> events are not guaranteed to be matched by
-corresponding <code>End???</code> events.  Various errors can lead to the loss of events.
+Node that the various <code>begin???</code> events are not guaranteed to be matched by
+corresponding <code>end???</code> events.  Various errors can lead to the loss of events.
 </p>
 
 <p>
-In summary, you can get instances of <code>Classfile</code> either from <code>EndClassfile</code>
+In summary, you can get instances of <code>Classfile</code> either from <code>endClassfile</code>
 events or by querying the loader.  Once you have them, you can traverse them
 with objects that implement <code>com.jeantessier.classreader.Visitor</code>.  They have
 callback methods that get called by the various parts of <code>Classfile</code> objects.
@@ -363,9 +363,71 @@ about how to open various input file types.
 <h3><code>Visitor</code></h3>
 
 <p>
-You can implement the <code>Visitor</code> interface to traverse <code>Classfile</code> structures.
-It has callback methods that get called on various parts of the structure.
+We use <code>Classfile</code> instances to represent the data in <code>.class</code> files.  We just
+saw how to get <code>Classfile</code> instances using a <code>ClassfileLoader</code> and the
+event-driven mechanism.  Now, <code>Classfile</code> is actually the root of a large set
+of objects that represent all the details of a compiled Java class.  Traversing
+this complex object graph can be non-trivial and is very repetitive.  This is
+why Dependency Finder uses the Visitor pattern as a means of traversing
+<code>Classfile</code> data.
 </p>
+
+<p>
+You can implement the <code>com.jeantessier.classreader.Visitor</code> interface to
+traverse <code>Classfile</code> structures.  It has callback methods that get called on
+various parts of the structure.
+</p>
+
+<p>
+One easy solution is to have a class that implements both <code>LoadListener</code> and
+<code>Visitor</code> with the following <code>endClassfile()</code> method:
+</p>
+
+<div class="lowlight">
+
+<pre>
+    class MyListenerAndVisitor implements LoadListener, Visitor {
+        public void endClassfile(LoadEvent event) {
+            event.getClassfile().accept(this);
+        }
+        /* ... */
+    }
+</pre>
+
+</div>
+
+<p>
+You might end up having quite a few visitors, all duplicating this piece of
+code.  So we already provide it as part of the Dependency Finder library.  The
+class <code>LoadListenerVisitorAdapter</code> takes a <code>Visitor</code> and hands it over to
+<code>Classfile</code> instances are they are made available by the <code>ClassfileLoader</code>.
+With it, your class only needs to implement the <code>Visitor</code> interface and can
+focus on the processing at hand, instead needing a series of empty methods to
+satisfy the <code>LoadListener</code> contract.
+</p>
+
+<div class="lowlight">
+
+<pre>
+    class MyVisitor implements Visitor {
+        /* ... */
+    }
+</pre>
+
+<pre>
+    Collection sources = /* Get filenames to read ... */
+    MyVisitor visitor = MyVisitor();
+    ClassfileLoader loader = new TransientClassfileLoader();
+    loader.addLoadListener(new LoadListenerVisitorAdapter(visitor));
+    loader.load(sources);
+</pre>
+
+</div>
+
+<div align="center">
+    <img src="images/LoadListenerVisitorAdapter.gif" /><br />
+<b><code>LoadListener</code> to <code>Visitor</code> Adapter</b>
+</div>
 
 <p>
 Look at the code of <code>ClassMetrics</code> for an example of using the Visitor
@@ -386,64 +448,96 @@ Individual nodes keep track of their outbound and inbound dependencies.
 <p>
 You extract dependencies from <code>Classfile</code> instances with a
 <code>CodeDependencyCollector</code>.  You can either give it your own <code>NodeFactory</code> or
-you can let it create one from scratch for you.  Now the interesting part is
-that <code>CodeDependencyCollector</code> is a <code>LoadListener</code>, so you only have to
-register it with a <code>ClassfileLoader</code> and it will visit each <code>Classfile</code> as it
-is loaded.
+you can let it create an empty one for you.  <code>CodeDependencyCollector</code> is a
+<code>Visitor</code>, so you can register it with a <code>ClassfileLoader</code> using a
+<code>LoadListenerVisitorAdapter</code> so it will visit each <code>Classfile</code> as it is loaded.
 </p>
+
+<div class="lowlight">
+
+<pre>
+    Collection sources = /* Get filenames to read ... */
+    NodeFactory factory = new NodeFactory();
+    Visitor visitor = CodeDependencyCollector(factory);
+    ClassfileLoader loader = new TransientClassfileLoader();
+    loader.addLoadListener(new LoadListenerVisitorAdapter(visitor));
+    loader.load(sources);
+</pre>
+
+<pre>
+    /* Further processing using factory ... */
+</pre>
+
+</div>
+
+<div align="center">
+    <img src="images/CodeDependencyCollectorEventChain.gif" /><br />
+<b>Processing files with <code>CodeDependencyCollector</code></b>
+</div>
 
 <p>
 <code>CodeDependencyCollector</code> fires its own set of events during processing.  If
 you are interested in those events, simply implement <code>DependencyListener</code> and
-register yourself with it.  You will receive a <code>DependencyEvent</code> and the start
-and end of each <code>Classfile</code>, and a separate one for each and every dependency.
-It is important to note that the dependency graph does not have duplicates
-of dependencies, but there will be multiple events.  It is also impossible to
-determine the order of calls from the dependency graph, but the events arrive
-in the order the dependencies are discovered.
+register yourself with it.  Processing a <code>Classfile</code> begins with a <code>beginClass</code>
+event and ends with an <code>endClass</code> event.  As the processing unfolds, it will
+fire a <code>dependency</code> event for each dependency in encounters.  Please note that
+while the dependency graph shows only a single dependency for
+<code>A&nbsp;--&gt;&nbsp;B</code>, the collector can potentially fire multiple
+<code>dependency</code> events for it if it occurs more than once in the code.  It is also
+impossible to determine the order of calls from the dependency graph, but the
+events arrive in the order the dependencies are discovered.
 </p>
 
 <p>
 For example, if you take the following method:
 </p>
 
+<div class="highlight">
+
 <pre>
-    public void f() {
+    public void f() throws Exception {
         try {
-            out.print("abcd");
-        } catch (java.io.Exception ex) {
+            out.write("abcd");
+        } catch (java.io.IOException ex) {
             out.close()
         }
     }
 </pre>
 
+</div>
+
 <p>
-will trigger the following events:
+Processing it will fire the following events:
 </p>
 
 <ol>
 <li><code>f() --&gt; out</code></li>
-<li><code>f() --&gt; java.io.Writer.print(java.lang.String)</code></li>
+<li><code>f() --&gt; java.io.Writer</code></li>
+<li><code>f() --&gt; java.io.Writer.write(java.lang.String)</code></li>
 <li><code>f() --&gt; java.lang.String</code></li>
+<li><code>f() --&gt; out</code></li>
+<li><code>f() --&gt; java.io.Writer</code></li>
 <li><code>f() --&gt; java.io.Writer.close()</code></li>
 <li><code>f() --&gt; java.io.IOException</code></li>
+<li><code>f() --&gt; java.lang.Exception</code></li>
 </ol>
 
 <p>
-The third one comes from analyzing the signature of <code>print()</code>, <b>not</b> from
-<code>"abcd"</code>.  The last one comes from looking at exception handlers. 
+No. 4 comes from analyzing the signature of <code>write()</code>, <b>not</b> from the constant
+<code>"abcd"</code>.  No. 8 comes from looking at exception handlers.
 </p>
 
 <a name="VisitorX"></a>
 <h3><code>Visitor</code></h3>
 
 <p>
-You can implement the <code>Visitor</code> interface to traverse <code>Node</code> structures.  It
-has callback methods that get called by various types of nodes.
+You can implement the <code>com.jeantessier.dependency.Visitor</code> interface to
+traverse <code>Node</code> structures.  It has callback methods that get called by various
+types of nodes.
 </p>
 
 <p>
-Look at the code of <code>DependencyReporter</code> and <code>DependencyMetrics</code> for an example
+Look at the code of <code>DependencyReporter</code> and <code>DependencyMetrics</code> for examples
 of using the Visitor pattern to traverse <code>Node</code> instances.
 </p>
 
@@ -463,7 +557,7 @@ once during the call sequence:
 </pre>
 
 <p>
-AND a second time during:
+and a second time during:
 </p>
 
 <pre>
