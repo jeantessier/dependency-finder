@@ -142,7 +142,7 @@ how things are progressing.
 <div class="lowlight">
 
     class MyLoadListener implements LoadListener {
-        public void EndClassfile(LoadEvent event) {
+        public void endClassfile(LoadEvent event) {
             Classfile classfile = event.getClassfile();
             /%2A Do something with classfile ... %2A/
         }
@@ -174,23 +174,23 @@ loop.  It's implementation of =getAllClassfiles()= returns an empty collection.
 
 =ClassfileLoader= has only one public method for loading classes that takes a
 collection of names.  This defines a session.  The listeners will receive a
-=BeginSession= event at the beginning of the method and an =EndSession= event
+=beginSession= event at the beginning of the method and an =endSession= event
 just before the method returns.  Each name in the collection defines a group.
 This can be a JAR file, a Zip file, a directory hierarchy containing =.class=
 files, or even a single =.class= file.  The processing of each group starts
-with a =BeginGroup= event and ends with an =EndGroup= event.  The loader treats
+with a =beginGroup= event and ends with an =endGroup= event.  The loader treats
 a group as a collection of files.  Each file is processed in turn, begining
-with a =BeginFile= event and ending with an =EndFile= event.  The loader uses
+with a =beginFile= event and ending with an =endFile= event.  The loader uses
 a =ClassfileLoaderDispatcher= instance to determine how to process a file.  If
 the file is a =.class= file (as per the dispatcher), the loader finally starts
-processing it, surrounded by a =BeginClassfile= event and an =EndClassfile=
+processing it, surrounded by a =beginClassfile= event and an =endClassfile=
 event.  The =EndClassfile= event will have a reference to the newly loaded
 =Classfile= instance.
 
-Node that the various =Begin???= events are not guaranteed to be matched by
-corresponding =End???= events.  Various errors can lead to the loss of events.
+Node that the various =begin???= events are not guaranteed to be matched by
+corresponding =end???= events.  Various errors can lead to the loss of events.
 
-In summary, you can get instances of =Classfile= either from =EndClassfile=
+In summary, you can get instances of =Classfile= either from =endClassfile=
 events or by querying the loader.  Once you have them, you can traverse them
 with objects that implement =com.jeantessier.classreader.Visitor=.  They have
 callback methods that get called by the various parts of =Classfile= objects.
@@ -212,8 +212,58 @@ about how to open various input file types.
 
 ---+++ =Visitor=
 
-You can implement the =Visitor= interface to traverse =Classfile= structures.
-It has callback methods that get called on various parts of the structure.
+We use =Classfile= instances to represent the data in =.class= files.  We just
+saw how to get =Classfile= instances using a =ClassfileLoader= and the
+event-driven mechanism.  Now, =Classfile= is actually the root of a large set
+of objects that represent all the details of a compiled Java class.  Traversing
+this complex object graph can be non-trivial and is very repetitive.  This is
+why Dependency Finder uses the Visitor pattern as a means of traversing
+=Classfile= data.
+
+You can implement the =com.jeantessier.classreader.Visitor= interface to
+traverse =Classfile= structures.  It has callback methods that get called on
+various parts of the structure.
+
+One easy solution is to have a class that implements both =LoadListener= and
+=Visitor= with the following =endClassfile()= method:
+
+<div class="lowlight">
+
+    class MyListenerAndVisitor implements LoadListener, Visitor {
+        public void endClassfile(LoadEvent event) {
+            event.getClassfile().accept(this);
+        }
+        /%2A ... %2A/
+    }
+
+</div>
+
+You might end up having quite a few visitors, all duplicating this piece of
+code.  So we already provide it as part of the Dependency Finder library.  The
+class =LoadListenerVisitorAdapter= takes a =Visitor= and hands it over to
+=Classfile= instances are they are made available by the =ClassfileLoader=.
+With it, your class only needs to implement the =Visitor= interface and can
+focus on the processing at hand, instead needing a series of empty methods to
+satisfy the =LoadListener= contract.
+
+<div class="lowlight">
+
+    class MyVisitor implements Visitor {
+        /%2A ... %2A/
+    }
+
+    Collection sources = /%2A Get filenames to read ... %2A/
+    MyVisitor visitor = MyVisitor();
+    ClassfileLoader loader = new TransientClassfileLoader();
+    loader.addLoadListener(new LoadListenerVisitorAdapter(visitor));
+    loader.load(sources);
+
+</div>
+
+<div align="center">
+    [[images/LoadListenerVisitorAdapter.gif]]
+*=LoadListener= to =Visitor= Adapter*
+</div>
 
 Look at the code of =ClassMetrics= for an example of using the Visitor
 pattern to traverse =Classfile= instances.
@@ -228,47 +278,75 @@ Individual nodes keep track of their outbound and inbound dependencies.
 
 You extract dependencies from =Classfile= instances with a
 =CodeDependencyCollector=.  You can either give it your own =NodeFactory= or
-you can let it create one from scratch for you.  Now the interesting part is
-that =CodeDependencyCollector= is a =LoadListener=, so you only have to
-register it with a =ClassfileLoader= and it will visit each =Classfile= as it
-is loaded.
+you can let it create an empty one for you.  =CodeDependencyCollector= is a
+=Visitor=, so you can register it with a =ClassfileLoader= using a
+=LoadListenerVisitorAdapter= so it will visit each =Classfile= as it is loaded.
+
+<div class="lowlight">
+
+    Collection sources = /%2A Get filenames to read ... %2A/
+    NodeFactory factory = new NodeFactory();
+    Visitor visitor = CodeDependencyCollector(factory);
+    ClassfileLoader loader = new TransientClassfileLoader();
+    loader.addLoadListener(new LoadListenerVisitorAdapter(visitor));
+    loader.load(sources);
+
+    /%2A Further processing using factory ... %2A/
+
+</div>
+
+<div align="center">
+    [[images/CodeDependencyCollectorEventChain.gif]]
+*Processing files with =CodeDependencyCollector=*
+</div>
 
 =CodeDependencyCollector= fires its own set of events during processing.  If
 you are interested in those events, simply implement =DependencyListener= and
-register yourself with it.  You will receive a =DependencyEvent= and the start
-and end of each =Classfile=, and a separate one for each and every dependency.
-It is important to note that the dependency graph does not have duplicates
-of dependencies, but there will be multiple events.  It is also impossible to
-determine the order of calls from the dependency graph, but the events arrive
-in the order the dependencies are discovered.
+register yourself with it.  Processing a =Classfile= begins with a =beginClass=
+event and ends with an =endClass= event.  As the processing unfolds, it will
+fire a =dependency= event for each dependency in encounters.  Please note that
+while the dependency graph shows only a single dependency for
+=A&nbsp;--&gt;&nbsp;B=, the collector can potentially fire multiple
+=dependency= events for it if it occurs more than once in the code.  It is also
+impossible to determine the order of calls from the dependency graph, but the
+events arrive in the order the dependencies are discovered.
 
 For example, if you take the following method:
 
-    public void f() {
+<div class="highlight">
+
+    public void f() throws Exception {
         try {
-            out.print("abcd");
-        } catch (java.io.Exception ex) {
+            out.write("abcd");
+        } catch (java.io.IOException ex) {
             out.close()
         }
     }
 
-will trigger the following events:
+</div>
+
+Processing it will fire the following events:
 
    1 =f() --&gt; out=
-   1 =f() --&gt; java.io.Writer.print(java.lang.String)=
+   1 =f() --&gt; java.io.Writer=
+   1 =f() --&gt; java.io.Writer.write(java.lang.String)=
    1 =f() --&gt; java.lang.String=
+   1 =f() --&gt; out=
+   1 =f() --&gt; java.io.Writer=
    1 =f() --&gt; java.io.Writer.close()=
    1 =f() --&gt; java.io.IOException=
+   1 =f() --&gt; java.lang.Exception=
 
-The third one comes from analyzing the signature of =print()=, *not* from
-="abcd"=.  The last one comes from looking at exception handlers. 
+No. 4 comes from analyzing the signature of =write()=, *not* from the constant
+="abcd"=.  No. 8 comes from looking at exception handlers.
 
 ---+++ =Visitor=
 
-You can implement the =Visitor= interface to traverse =Node= structures.  It
-has callback methods that get called by various types of nodes.
+You can implement the =com.jeantessier.dependency.Visitor= interface to
+traverse =Node= structures.  It has callback methods that get called by various
+types of nodes.
 
-Look at the code of =DependencyReporter= and =DependencyMetrics= for an example
+Look at the code of =DependencyReporter= and =DependencyMetrics= for examples
 of using the Visitor pattern to traverse =Node= instances.
 
 If you traverse a standard dependency graph, such as the ones produced by
@@ -282,7 +360,7 @@ once during the call sequence:
                 B.AcceptOutbound(visitor)
                     visitorVisitOutbound[Package|Class|Feature]Node(B)
 
-AND a second time during:
+and a second time during:
 
     B.Accept(visitor)
         visitor.Visit[Package|Class|Feature](B)
