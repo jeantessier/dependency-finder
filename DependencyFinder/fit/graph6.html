@@ -76,15 +76,11 @@
         <td>depends on</td>
         <td>bar</td>
     </tr>
-    <tr>
-        <td>source</td>
-        <td>bar</td>
-        <td>depends on</td>
-        <td>baz</td>
-    </tr>
 </table>
 
 <p>Verify dependencies.</p>
+
+<p>package <code>foo</code></p>
 
 <table border="1">
     <tr>
@@ -111,6 +107,25 @@
 
 <table border="1">
     <tr>
+        <td>dependencies for</td>
+        <td colspan="2">foo</td>
+    </tr>
+    <tr>
+        <td><i>source</i></td>
+        <td><i>direction</i></td>
+        <td><i>filter</i></td>
+    </tr>
+    <tr>
+        <td>foo</td>
+        <td>--></td>
+        <td>bar</td>
+    </tr>
+</table>
+
+<p>package <code>bar</code></p>
+
+<table border="1">
+    <tr>
         <td>inbound dependencies to</td>
         <td>bar</td>
     </tr>
@@ -134,6 +149,25 @@
 
 <table border="1">
     <tr>
+        <td>dependencies for</td>
+        <td colspan="2">bar</td>
+    </tr>
+    <tr>
+        <td><i>source</i></td>
+        <td><i>direction</i></td>
+        <td><i>filter</i></td>
+    </tr>
+    <tr>
+        <td>bar</td>
+        <td><--</td>
+        <td>foo</td>
+    </tr>
+</table>
+
+<p>package <code>baz</code></p>
+
+<table border="1">
+    <tr>
         <td>inbound dependencies to</td>
         <td>baz</td>
     </tr>
@@ -149,6 +183,18 @@
     </tr>
     <tr>
         <td colspan="2"><i>name</i></td>
+    </tr>
+</table>
+
+<table border="1">
+    <tr>
+        <td>dependencies for</td>
+        <td colspan="2">baz</td>
+    </tr>
+    <tr>
+        <td><i>source</i></td>
+        <td><i>direction</i></td>
+        <td><i>filter</i></td>
     </tr>
 </table>
 

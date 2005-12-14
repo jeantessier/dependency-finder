@@ -1,5 +1,7 @@
 package com.jeantessier.dependency;
 
+import java.util.*;
+
 import fit.*;
 
 /**
@@ -24,6 +26,24 @@ public class NodeFactoryFixture extends DoFixture {
 
     public SetFixture outboundDependenciesFrom(Node node) {
         return new SetFixture(node.getOutboundDependencies());
+    }
+
+    public SetFixture dependenciesFor(Node node) {
+        Collection dependencies = new LinkedList();
+
+        Iterator i;
+
+        i = node.getInboundDependencies().iterator();
+        while (i.hasNext()) {
+            dependencies.add(new Dependency(node.getName(), Dependency.INBOUND, ((Node) i.next()).getName()));
+        }
+
+        i = node.getOutboundDependencies().iterator();
+        while (i.hasNext()) {
+            dependencies.add(new Dependency(node.getName(), Dependency.OUTBOUND, ((Node) i.next()).getName()));
+        }
+
+        return new SetFixture(dependencies);
     }
 
     public Object parse(String s, Class type) throws Exception {
