@@ -130,7 +130,7 @@ public class NodeFactory {
         FeatureNode result = (FeatureNode) features.get(featureName);
 
         if (result == null) {
-            String parentName = null;
+            String parentName;
 
             if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)$/", featureName)) {
                 parentName = perl.group(1);

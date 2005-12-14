@@ -32,8 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
-
 public class FeatureNode extends Node {
     private ClassNode parent;
 
