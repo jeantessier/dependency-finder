@@ -340,19 +340,177 @@ Processing it will fire the following events:
 No. 4 comes from analyzing the signature of =write()=, *not* from the constant
 ="abcd"=.  No. 8 comes from looking at exception handlers.
 
+---+++ =DependencyExtractor=
+
+Let's take a look at =DependencyExtractor= and see how it uses what we've seen
+so far to generate a dependency graph.  Here is the core part of the =main()=
+method from =com.jeantessier.dependencyfinder.cli.DependencyExtractor=.  The
+Ant equivalent is very similar.
+
+<div class="highlight">
+
+    01:    List *parameters* = commandLine.getParameters();
+    02:    if (parameters.size() == 0) {
+    03:        parameters.add(".");
+    04:    }
+    05:
+    06:    VerboseListener *verboseListener* = new VerboseListener();
+    07:
+    08:    NodeFactory *factory* = new NodeFactory();
+    09:    CodeDependencyCollector *collector* = new CodeDependencyCollector(factory);
+    10:
+    11:    ClassfileLoader *loader* = new TransientClassfileLoader();
+    12:    loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
+    13:    loader.addLoadListener(verboseListener);
+    14:    loader.load(parameters);
+
+</div>
+
+On lines 1 through 4, we set _parameters_ to a list of file and directory
+names, similar to what you would expect on =CLASSPATH=.  The =ClassfileLoader=
+will explore each one in turn, looking for =.class= files.  Typically, I give
+it a single directory where my compiled classes are, such as =classes/=, or a
+single JAR file, such as =myapp.jar=.  For large projects, I have sometimes
+give it multiple JARs, though now =ClassfileLoader= is smart enough to search
+for them automatically if I put all the JARs in one directory, such as =lib/=.
+
+Line 6 sets _verboseListener_.  It is only there to provide a progress
+indicator for the user.  It counts how many files are slated to be processed
+and listens to "beginFile" events to tell the user how many percent-complete.
+It also displays the name of files are they are being processed.  There is a
+=VerboseListenerBase= in the =com.jeantessier.dependencyfinder= package with
+common functionality.  Each subpackage (=cli=, =ant=, =gui=, the webapp)
+extends it to create its own =VerboseListener= that is specific to that
+package's user interface.
+
+Lines 8 and 9 set up the _collector_ that will build the graph and store it in
+_factory_.  After all this, _factory_ will contain the resulting graph.
+
+Line 11 creates the _loader_ and lines 12 and 13 attach our two listeners to it
+so they will receive =LoadEvent=s.  Notice how we use a
+=LoadListenerVisitorAdapter= to tie the _collector_.  Again, _verboseListener_
+on line 13 is only there to help keep the user appraised of what is going on.
+
+With the entire event pipeline in place, we finally put it all in motion on
+line 14 by passing it the _parameters_.  After control returns from =load()=,
+the dependency graph is in _factory_.
+
+What I typically do is pass =factory.getPackages().values()= to some visitor.
+All visitors have a =traverseNodes()= method that takes a collection of
+=Nodes=.  So it usually looks like:
+
+    visitor.traverseNodes (factory.getPackages().values());
+
+You might also want to look at =GraphCopier= and =GraphSummarizer= as example
+visitors.  They use two factories and a =TraversalStrategy= to make a partial
+copy of a graph.  You can take a look at =query.jsp= for an example of how this
+is done.  It uses the graph in the _factory_, select specific nodes and
+dependencies from it according to the =TraversalStragey=, and copy them to
+their own internal =NodeFactory= instances.  Then, the JSP runs a =Printer= on
+the scope =NodeFactory= from the copier, not the original _factory_.
+
+---+++ Updating the Graph for Changed Files
+
+So far, we have looked at extracting a brand new graph.  For a large codebase,
+this can take a while.  It would be nice if, after making a simple change, we
+could refresh the graph quickly by having it re-extract only those files that
+have changed and adjust the graph accordingly.
+
+<div align="center">
+    [[images/ExtractingWithMonitor_class.gif]]
+*Updating a Graph using =Monitor=*
+</div>
+
+<div align="center">
+    [[images/ExtractingWithMonitor_sequence.gif]]
+*Updating a Graph using =Monitor=*
+</div>
+
+---+++ =extract.jsp=
+
+Let's take a look at =DependencyExtractor= and see how it uses what we've seen
+so far to generate a dependency graph.  Here is the core part of the =main()=
+method from =com.jeantessier.dependencyfinder.cli.DependencyExtractor=.  The
+Ant equivalent is very similar.
+
+<div class="highlight">
+
+    01:    Perl5Util perl = new Perl5Util();
+    02:    Collection *sources* = new LinkedList();
+    03:    perl.split(sources, "/,\\s*/", application.getInitParameter("source"));
+    04:
+    05:    VerboseListener *verboseListener* = new VerboseListener(out);
+    06:
+    07:    ClassfileLoaderDispatcher *dispatcher* = (ClassfileLoaderDispatcher) application.getAttribute("dispatcher");
+    08:    if (dispatcher == null || request.getParameter("update") == null) {
+    09:        dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+    10:    }
+    11:
+    12:    NodeFactory factory = (NodeFactory) application.getAttribute("factory");
+    13:    if (factory == null || request.getParameter("update") == null) {
+    14:        factory = new NodeFactory();
+    15:    }
+    16:
+    17:    Monitor *monitor* = (Monitor) application.getAttribute("monitor");
+    18:    if (monitor == null || request.getParameter("update") == null) {
+    19:        CodeDependencyCollector *collector*       = new CodeDependencyCollector(factory);
+    20:        DeletingVisitor         *deletingVisitor* = new DeletingVisitor(factory);
+    21:
+    22:        monitor = new Monitor(collector, deletingVisitor);
+    23:    }
+    24:
+    25:    ClassfileLoader *loader* = new TransientClassfileLoader(dispatcher);
+    26:    loader.addLoadListener(verboseListener);
+    27:    loader.addLoadListener(monitor);
+    28:    loader.load(sources);
+
+</div>
+
+Lines 1 through 3 set up _sources_, the equivalent of _parameters_ from
+=DependencyExtractor=.  We have already covered the purpose of
+_verboseListener_, _factory_, and _collector_.
+
+Lines 7 through 9 set up a special _dispatcher_ for the _loader_.  It has to do
+with the webapp being a long-running process and =extract.jsp= being able to
+only reload the classes that have changed since "the last time."  Here, the
+code uses a =ModifiedOnlyDispatcher= to remember what was done "the last time."
+This dispatcher is stored in the session and passed to the =ClassfileLoader=.
+That is, unless the user chooses to discard the current graph and start all
+over, in which case the JSP creates a brand new _dispatcher_.
+
+The JSP also saves _factory_ in the session to make it available to the other
+JSPs that make up the web application.  Lines 12 through 15 deal with
+retrieving back from the session or creating a new one, as appropriate.
+
+Lines 17 through 23 create the _monitor_ that will apply changes to the graph.
+This is the second part of figuring out what "the last time" was.  It, too,
+keeps track of files as they are flying by on the event pipeline.  When the
+_loader_ reloads a =.class= file, the _monitor_ will first call =removeClass()=
+on _deletingVisitor_ to remove the previous dependencies regarding that class
+from the graph.  It then passes the event along to the _collector_ to add the
+new dependency information.  Just like the _dispatcher_ earlier, the _monitor_
+is saved in the session and reused between invocations, unless the user decides
+to start over, at which point the JSP simply create a brand new one instead of
+reusing the one in the session.
+
+Lines 25 through 28 serve the same purpose as before in =DependencyExtractor=.
+Notice that =Monitor= extends =LoadListenerVisitorAdapter= and does not need
+any special treatment before we register it with the _loader_.
+
 ---+++ =Visitor=
 
 You can implement the =com.jeantessier.dependency.Visitor= interface to
-traverse =Node= structures.  It has callback methods that get called by various
-types of nodes.
+traverse a dependency graph.  It has callback methods that get called by the
+various instances of =Node= as the traversal progresses.
 
-Look at the code of =DependencyReporter= and =DependencyMetrics= for examples
+Look at the code for =DependencyReporter= and =DependencyMetrics= for examples
 of using the Visitor pattern to traverse =Node= instances.
 
 If you traverse a standard dependency graph, such as the ones produced by
 =CodeDependencyCollector=, you will visit *each* dependency twice.  If we take
 the dependency =A&nbsp;--&gt;&nbsp;B= as an example, a visitor will see it
-once during the call sequence:
+once as an outbound node =B= while visiting node =A=, as shown in this call
+stack:
 
     A.Accept(visitor)
         visitor.Visit[Package|Class|Feature](A)
@@ -360,7 +518,8 @@ once during the call sequence:
                 B.AcceptOutbound(visitor)
                     visitorVisitOutbound[Package|Class|Feature]Node(B)
 
-and a second time during:
+and a second time as an inbound node =A= while visiting node =B=, as shown in
+this call stack:
 
     B.Accept(visitor)
         visitor.Visit[Package|Class|Feature](B)
@@ -368,8 +527,122 @@ and a second time during:
                 A.AcceptInbound(visitor)
                     visitor.VisitInbound[Package|Class|Feature]Node(A)
 
-In some cases, you can easily limit your processing to calls to
-=VisitOutbound[Package|Class|Feature]Node()= and cover everything. 
+If you are only interested in outbound dependencies, you only have to
+implement =VisitOutbound[Package|Class|Feature]Node()= and leave their inbound
+equivalents empty.  If you are only interested in inbound dependencies, you
+only have to implement =VisitInbound[Package|Class|Feature]Node()= and leave
+their outbound equivalents empty.
+
+There is a =VisitorBase= class that embodies the Template pattern.  It
+implements all the methods from the =Visitor= interface, provides default
+traversal of the dependency graph, and offers numerous extension points where
+specific visitors can insert their own custom behavior.  The following class
+diagram shows all the methods that make up the extension points.
+
+<div align="center">
+    [[images/DependencyVisitorBaseTemplatePatterns.gif]]
+*Template Patterns in =VisitorBase=*
+</div>
+
+Let's look into more details at =visitPackageNode()= to get a better
+understanding of how the various templates operate.
+
+<div class="highlight">
+
+    01:    public void visitPackageNode(PackageNode node) {
+    02:        boolean inScope = *isInScope*(node);
+    03:
+    04:        if (inScope) {
+    05:            *preprocessPackageNode*(node);
+    06:
+    07:            if (getStrategy().doPreOutboundTraversal()) {
+    08:                traverseOutbound(node.getOutboundDependencies());
+    09:            }
+    10:
+    11:            if (getStrategy().doPreInboundTraversal()) {
+    12:                traverseInbound(node.getInboundDependencies());
+    13:            }
+    14:
+    15:            *preprocessAfterDependenciesPackageNode*(node);
+    16:        }
+    17:
+    18:        traverseNodes(node.getClasses());
+    19:
+    20:        if (inScope) {
+    21:            *postprocessBeforeDependenciesPackageNode*(node);
+    22:
+    23:            if (getStrategy().doPostOutboundTraversal()) {
+    24:                traverseOutbound(node.getOutboundDependencies());
+    25:            }
+    26:
+    27:            if (getStrategy().doPostInboundTraversal()) {
+    28:                traverseInbound(node.getInboundDependencies());
+    29:            }
+    30:
+    31:            *postprocessPackageNode*(node);
+    32:        }
+    33:    }
+
+</div>
+
+Line 2 determines if we should bother visiting this package _node_ at all.  But
+before that comes into play, notice that on line 18, we traverse the classes in
+the package unconditionally.  _inScope_ will only affect whether or not we look
+at the node itself and its dependencies; it has no bearings on classe in the
+package or their features.  The =isInScope()= method is an extension point for
+this template method.
+
+A subclass can do some processing before going down to visit classes.  This is
+shown in lines 4 through 16.  =preprocessPackageNode()= on line 5, is called
+before any dependencies or classes have been visited.
+=preprocessAfterDependenciesPackageNode()=, on line 15, is called after the
+dependencies but before the classes.  They represent two more extension points
+for this template method.
+
+Similarily, a subclass can do some processing after going down to visit the
+classes.  This is shown in lines 20 through 32.
+=postprocessBeforeDependenciesPackageNode()= on line 21, is called before any
+dependencies but after the classes have been visited.
+=postprocessPackageNode()=, on line 31, is called after the dependencies and
+the classes.  They represent two more extension points for this template
+method.
+
+The =TraversalStrategy= instance decides if inbound or outbound dependencies
+get visited.  The methods =traverseNodes()=, =traverseOutbound()=, and
+=traverseInbound()= provide the traversal of the graph.  They are the common
+behavior of the template method.
+
+The template methods =visitClassNode()= and =visitFeatureNode()= work very much
+the same way, except that =FeatureNode=s have no descendants.
+
+When overriding any of the extension methods, such as =preprocessPackageNode()=
+and =postprocessPackageNode()=, it is very important to call their =super=
+definitions.
+
+<div class="lowlight">
+
+    protected void preprocessPackageNode(PackageNode node) {
+        super.preprocessPackageNode(node);
+        /%3A Custom processing ... %3A/
+    }
+
+    /%3A ... %3A/
+
+    protected void postprocessPackageNode(PackageNode node) {
+        /%3A Custom processing ... %3A/
+        super.postprocessPackageNode(node);
+    }
+
+</div>
+
+This lets =VisitorBase= maintain a stack of =Nodes= that represents the current
+path through the graph.  All subclasses can call =getCurrentNode()= to get at
+the current node in the traversal.  This is particuliarily handy in the methods
+that process inbound and outbound nodes to let them know which perspective to
+use when looking at a dependency.  For a dependency =A&nbsp;--&gt;&nbsp;B=, are
+we visiting =A= and looking at an outbound dependency to =B=?  Or are we
+visiting =B= and looking at an inbound dependency from =A=?  Some visitors care
+about this distinction, like =TextPrinter= for example.
 
 ---++++ =Visitor= and =TraversalStrategy=
 
@@ -630,7 +903,7 @@ ship with Dependency Finder.
 </blockquote>
 
 Once you have a parser, you can add switch definitions to it.  There are four
-types of switches described below. 
+types of switches described below.
 
 <blockquote>
 <dl>
