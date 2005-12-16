@@ -43,36 +43,38 @@
             <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
         </tstamp>
 
-        <property name="release"      value="1.1.2-beta1"/>
+        <property name="release"       value="1.1.2-beta1"/>
 
-        <property name="packageNames" value="com.jeantessier.*"/>
+        <property name="packageNames"  value="com.jeantessier.*"/>
 
-        <property name="srcDir"       value="src"/>
-        <property name="testsDir"     value="tests"/>
-        <property name="fitDir"       value="fit"/>
-        <property name="binDir"       value="bin"/>
-        <property name="classesDir"   value="classes"/>
-        <property name="libDir"       value="lib"/>
-        <property name="etcDir"       value="etc"/>
-        <property name="webDir"       value="web"/>
-        <property name="docsDir"      value="docs"/>
-        <property name="apiDir"       value="${docsDir}/api"/>
-        <property name="logsDir"      value="logs"/>
-        <property name="reportsDir"   value="reports"/>
+        <property name="srcDir"        value="src"/>
+        <property name="testsDir"      value="tests"/>
+        <property name="fitDir"        value="fit"/>
+        <property name="binDir"        value="bin"/>
+        <property name="classesDir"    value="classes"/>
+        <property name="libDir"        value="lib"/>
+        <property name="etcDir"        value="etc"/>
+        <property name="webDir"        value="web"/>
+        <property name="docsDir"       value="docs"/>
+        <property name="apiDir"        value="${docsDir}/api"/>
+        <property name="logsDir"       value="logs"/>
+        <property name="reportsDir"    value="reports"/>
+        <property name="fitDir"        value="fit"/>
+        <property name="fitReportsDir" value="${fitDir}/reports"/>
 
-        <property name="srcFiles"     value="${srcDir}/**"/>
-        <property name="testsFiles"   value="${testsDir}/**"/>
-        <property name="fitFiles"     value="${fitDir}/**"/>
-        <property name="binFiles"     value="${binDir}/**"/>
-        <property name="libFiles"     value="${libDir}/**"/>
-        <property name="etcFiles"     value="${etcDir}/**"/>
-        <property name="webFiles"     value="${webDir}/**"/>
-        <property name="docsFiles"    value="${docsDir}/**"/>
+        <property name="srcFiles"      value="${srcDir}/**"/>
+        <property name="testsFiles"    value="${testsDir}/**"/>
+        <property name="fitFiles"      value="${fitDir}/**"/>
+        <property name="binFiles"      value="${binDir}/**"/>
+        <property name="libFiles"      value="${libDir}/**"/>
+        <property name="etcFiles"      value="${etcDir}/**"/>
+        <property name="webFiles"      value="${webDir}/**"/>
+        <property name="docsFiles"     value="${docsDir}/**"/>
 
-        <property name="jarFile"      value="${libDir}/${ant.project.name}.jar"/>
-        <property name="warFile"      value="${ant.project.name}-${release}.war"/>
-        <property name="srcArchive"   value="${ant.project.name}-${release}.src"/>
-        <property name="binArchive"   value="${ant.project.name}-${release}.bin"/>
+        <property name="jarFile"       value="${libDir}/${ant.project.name}.jar"/>
+        <property name="warFile"       value="${ant.project.name}-${release}.war"/>
+        <property name="srcArchive"    value="${ant.project.name}-${release}.src"/>
+        <property name="binArchive"    value="${ant.project.name}-${release}.bin"/>
 
         <mkdir dir="${classesDir}"/>
         <mkdir dir="${apiDir}"/>
@@ -583,6 +585,9 @@
                 includeEmptyDirs="true"
                 verbose="true"/>
         <delete dir="${reportsDir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
+        <delete dir="${fitReportsDir}"
                 includeEmptyDirs="true"
                 verbose="true"/>
         <delete verbose="true">
