@@ -4,13 +4,6 @@ import java.util.*;
 
 import fit.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jeantessier
- * Date: Dec 7, 2005
- * Time: 10:25:19 AM
- * To change this template use File | Settings | File Templates.
- */
 public class NodeFactoryFixture extends DoFixture {
     public NodeFactoryFixture() {
         setSystemUnderTest(new NodeFactory());
