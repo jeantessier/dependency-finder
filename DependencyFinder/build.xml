@@ -34,6 +34,7 @@
         <pathelement location="classes"/>
         <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
         <pathelement location="${env.FIT_HOME}/fit.jar"/>
+        <pathelement location="${env.FITLIBRARY_HOME}/dist/fitLibraryForFit.jar"/>
     </path>
 
     <target name="init">
