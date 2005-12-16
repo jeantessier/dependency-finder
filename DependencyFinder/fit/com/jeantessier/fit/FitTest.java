@@ -47,11 +47,11 @@ public class FitTest extends TestCase {
     private String input;
     private PrintWriter output;
 
-    public FitTest(File inFile, File outFile) {
-        super(inFile.getPath());
+    public FitTest(String name, File inDir, File outDir) {
+        super(name);
 
-        this.inFile = inFile;
-        this.outFile = outFile;
+        inFile = new File(inDir, name);
+        outFile = new File(outDir, name);
     }
 
     protected void setUp() throws Exception {

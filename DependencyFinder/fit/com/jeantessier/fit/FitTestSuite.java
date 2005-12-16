@@ -37,8 +37,11 @@ import java.io.*;
 import junit.framework.*;
 
 public class FitTestSuite extends TestSuite {
-    protected static final String SOURCE_PATHNAME = "fit";
-    protected static final String OUTPUT_PATHNAME = "reports";
+    protected static final String SOURCE_PATHNAME = "fit/tests";
+    protected static final String OUTPUT_PATHNAME = "fit/reports";
+
+    private static final File SOURCE_DIR = new File(SOURCE_PATHNAME);
+    private static final File OUTPUT_DIR = new File(OUTPUT_PATHNAME);
 
     public FitTestSuite(File inDir, File outDir) {
         super(inDir.getPath());
@@ -47,15 +50,25 @@ public class FitTestSuite extends TestSuite {
         for (int i=0; i<filenames.length; i++) {
             String filename = filenames[i];
             if (filename.endsWith(".html")) {
-                addTest(new FitTest(new File(inDir, filename), new File(outDir, filename)));
+                addTest(new FitTest(filename, inDir, outDir));
             }
         }
     }
 
     public static TestSuite suite() {
-        File inDir = new File(SOURCE_PATHNAME);
-        File outDir = new File(inDir, OUTPUT_PATHNAME);
-        outDir.mkdir();
+        TestSuite suite = new TestSuite();
+
+        suite.addTest(com.jeantessier.dependency.FitTestSuite.suite());
+
+        return suite;
+    }
+
+    public static TestSuite suite(String path) {
+        return suite(new File(SOURCE_DIR, path), new File(OUTPUT_DIR, path));
+    }
+
+    public static TestSuite suite(File inDir, File outDir) {
+        outDir.mkdirs();
 
         return new FitTestSuite(inDir, outDir);
     }
