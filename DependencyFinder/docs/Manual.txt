@@ -4293,35 +4293,39 @@ Dependency Finder classes.    There is a special
 
 ---++ API Differences
 
-If you are developing libraries or frameworks, that is, software that will
-be used and/or extended by others, you need to know what changed from
+Either you write software that is used by other programmers to build their own
+software, or you write software for non-programmers to use as is.  Sometimes,
+you are your own customer, but that is still in a programmer or non-programmer
+capacity.  In all cases, you want to use =JarJarDiff= to keep track of changes
+in your API, either for your own sanity or that of others.
+
+If you are developing libraries or frameworks, that is, software that will be
+used and/or extended by other programmers, you need to know what changed from
 version to version.  Your clients depend on your published set of APIs for
 their own development efforts.  It becomes important, as you release new
-revisions of your software, to keep track of which parts of the published
-API changed, so that you can tell your clients how to upgrade their code.
-The =JarJarDiff= tool can compute differences automatically, so you can
-quickly know what you might have broken in your customer's code.
+revisions of your software, to keep track of which parts of the published API
+changed, so that you can tell your clients how to upgrade their code.
+=JarJarDiff= can compute differences automatically, so you can quickly know
+what you might have broken in your customer's code.  Maybe you can even just
+hand them the report from =JarJarDiff=.
 
-Even if this is not your case, it is still a good practive to have a
-look at what changed across your software since the latest baseline.
-This allows you to keep track of changes to the classes and methods
-and verify that they are evolving in the right direction, whichever
-way you decide that is.
+If you are developing end-user applications, it is still a good practive to
+have a look at what changed across your software between baselines.  It lets
+you keep track of changes to the classes and methods and verify that they are
+evolving in the right direction, whichever way that is for you.  Keeping your
+software evolution under control frees you up to focus on developing the
+features your clients want, instead of fighting your own code to wedge in new
+functionality.
 
 ---+++ Extracting
 
----++++ Extracting With the CLI
+You can use =JarJarDiff= straight from the command-line or you can make it an
+integral part of your build through its Ant integration.  I will address each
+one in turn.
 
-Typically, you compile Java source files to =.class= files and javadocs.
-You may even combine the =.class= files into one or more JAR files.  From
-source code in =.java= files, you can use =javadoc= to generate HTML
-documentation or you can use =javac=/=jar= to generate executable code in JAR
-files.
-
-<div align="center">
-    [[images/Compiling.gif]]
-*Compilation Workflow*
-</div>
+In the following discussion, I will use the following notation to distinguish
+between things *you* have to provide, what comes with the JDK, and what
+Dependency Finder gives you.
 
 <table>
     <caption align="left">*Key*</caption>
@@ -4338,7 +4342,7 @@ files.
             [[images/JDKWorkflow.gif]]
         </td>
         <td>
-            JDK tools and files they generate.
+            JDK tools and the files they generate.
         </td>
     </tr>
     <tr>
@@ -4352,23 +4356,35 @@ files.
     </tr>
 </table>
 
-The tools in Dependency Finder work from the executable code, either in
-JAR files or in individual =.class= files; they do not work from either the
-source code or the generated javadoc.
+---++++ Extracting With the CLI
+
+Typically, you compile Java source files to =.class= files and javadocs.
+You may even combine the =.class= files into one or more JAR files.  From
+source code in =.java= files, you can use =javadoc= to generate HTML
+documentation or you can use =javac=/=jar= to generate executable code in JAR
+files.
+
+<div align="center">
+    [[images/Compiling.gif]]
+*Compilation Workflow*
+</div>
+
+The tools in Dependency Finder work from the compiled code, either in JAR files
+or in individual =.class= files; they do not work from either the source code
+or the generated javadoc (except =ListDocumentedElements=, as we'll see later).
 
 You use =JarJarDiff= to extract API differences.  The following command
-computes the API differences between versions _Old_ and _New_ of
-_My Project_.  The differences are saved as an XML document in the file
-=diff.xml=.
+computes the API differences between versions _Old_ and _New_ of _My Project_.
+The differences are saved as an XML document in the file =diff.xml=.
 
 <div class="highlight">
 
-    C:\>JarJarDiff -out diff.xml
+    C:\>JarJarDiff -out *diff.xml*
                    -name "My Project"
                    -old-label Old
-                   -old old.jar
+                   -old *old.jar*
                    -new-label New
-                   -new new.jar
+                   -new *new.jar*
 
 </div>
 
@@ -4377,122 +4393,229 @@ _My Project_.  The differences are saved as an XML document in the file
 *Extracting Differences*
 </div>
 
-You use =-old= switches to tell it where the _old_, or base version is
-located.  Each =-old= switch can point to either a JAR file, a Zip file,
-or a directory that will be searched for =.class= files.  You can
-specify a label for the version with the =-old-label= switch.  If you
-do not provide a label, the tool with create one by concatenating the
-parameters to =-old= switches.
+You use =-old= switches to tell it where the _old_, or base, version is
+located.  You can use multiple =-old= switches if it is spread across multiple
+locations.  If an =-old= switch points to a directory, it will be searched for
+possible compiled Java code.  This means =JarJarDiff= will include any JAR,
+EAR, WAR, or Zip files it encounters in that directory or any of its
+subdirectories, in addition to any =.class= files it encounters.  You can
+include a label for the version with the =-old-label= switch.  If you do not
+provide a label, the tool will create one by for you by concatenating the
+values of the =-old= switches.  In the example above, it would have created the
+label _old.jar_ if we had not given it one already.
 
-You use =-new= switches to tell it where the _new_, or modified version
-is located.  Each =-new= switch can point to either a JAR file, a Zip
-file, or a directory that will be searched for =.class= files.  You can
-specify a label for the version with the =-new-label= switch.  If you
-do not provide a label, the tool with create one by concatenating the
-parameters to =-new= switches.
+You use =-new= switches to tell it where the _new_, or modified, version is
+located.  You can use multiple =-new= switches if it is spread across multiple
+locations.  If an =-new= switch points to a directory, it will be searched for
+possible compiled Java code.  This means =JarJarDiff= will include any JAR,
+EAR, WAR, or Zip files it encounters in that directory or any of its
+subdirectories, in addition to any =.class= files it encounters.  You can
+include a label for the version with the =-new-label= switch.  If you do not
+provide a label, the tool will create one for you by concatenating the
+values of the =-new= switches.  In the example above, it would have created the
+label _new.jar_ if we had not given it one already.
 
-By default, the raw results are written in XML to the standard output
-stream (i.e., =System.out=).  You can write it to a file by using the
-=-out= switch.
+By default, the raw results are written in XML to the standard output stream
+(i.e., =System.out=).  You can have it write to a file by using the =-out=
+switch.
 
 ---++++ Extracting With Ant
 
-You can also do the extraction from your build script if you use Ant.
-You use the =com.jeantessier.dependencyfinder.ant.JarJarDiff= task to compute
-differences and produce a report.  You need to associate the class to a tag
-using Ant's =&lt;taskdef&gt;= task.  You also need to tell Ant where to find
-the Dependency Finder classes.    There is a special
-[[tasks/index.html][help page]] on how to do this.
+You can also do the extraction from your build script if you use Ant.  The
+special task =&lt;JarJarDiff&gt;= computes differences and writes a report.
+You need to tell Ant where to find Dependency Finder, there is a special
+[[tasks/index.html][help page]] detailing how to do this.
 
 <div class="highlight">
 
-    &lt;jarjardiff destfile%3D"xerces.xml"
-                name%3D"My Project"
-                oldlabel%3D"Old"
-                newlabel%3D"New"&gt;
+    &lt;jarjardiff destfile="*diff.xml*"
+                name="My Project"
+                oldlabel="Old"
+                newlabel="New"&gt;
         &lt;old&gt;
-            &lt;pathelement location="old.jar"/&gt;
+            &lt;pathelement location="*old.jar*"/&gt;
         &lt;/old&gt;
         &lt;new&gt;
-            &lt;pathelement location="new.jar"/&gt;
+            &lt;pathelement location="*new.jar*"/&gt;
         &lt;/new&gt;
     &lt;/jarjardiff&gt;
-    &lt;xslt style%3D"${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"
-          in%3D"xerces.xml"
-          out%3D"xerces.html"/&gt;
+    &lt;xslt style="${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"
+          in="*diff.xml*"
+          out="*diff.html*"/&gt;
 
 </div>
 
----+++ Reporting
+---++++ Pretty Printing the Reports
 
-Dependency Finder includes XSL stylesheets for representing differences
-using HTML.  The stylesheets include:
+Dependency Finder includes XSL stylesheets for representing differences using
+HTML.
 
-    * DiffToHTML.xsl
-    * PublishedDiffToHTML.xsl
-    * ListDocumentationDiffToText.xsl
-    * ListDocumentationDiffToHTML.xsl
-    * ListInheritanceDiffToText.xsl
+<div align="center">
+    [[images/PrettyPrint.gif]]
+*Differences as HTML*
+</div>
 
-You can run them using the script of the same name and the =-in= and
-=-out= switches.  The scripts call =XSLTProcess= and specify the XSL
-stylesheet with the =-xsl= switch.  You can do the same, if you want,
-with either our stylesheets or your own.
+There are two stylesheets:
 
----++++ Full List
+    * =DiffToHTML.xsl=
+    * =ListInheritanceDiffToText.xsl=
 
-You use =DiffToHTML= to convert all API differences to HTML.  The
-following command produces a full report from the output of the previous
-=JarJarDiff= command.
+=DiffToHTML= simply renders the whole report as HTML.
+=ListInheritanceDiffToText= only shows changes in the inheritance hierarchy.
+
+You can run them using the scripts of the same names and their =-in= and =-out=
+switches.  The scripts call =XSLTProcess= and specify the XSL stylesheet with
+the =-xsl= switch.  You can convert the reports yourself, if you want to,
+either with Dependency Finder's stylesheets or any others that understand the
+internal structure of the reports.  See the [[Developer.html][Developer Guide]]
+for more details on writing your own stylesheets.
+
+---+++ Customizing the Reports
+
+Various switches impact what =JarJarDiff= includes in the report and what it
+leaves out.
+
+---++++ Reporting Changes in the Code
+
+By default, =JarJarDiff= only reports API changes, that is, changes in the
+definition of programming elements.  It does not report on changes in their
+implementation.
+
+You can use the =-code= switch to tell it to also flag methods with a different
+implementation or constants with a different value.  This is regardless of
+whether their definition has changed.  A method could have exactly the same
+declaration but some change in its implementation and it will be included in
+the report.
 
 <div class="highlight">
 
-    C:\>DiffToHTML -in diff.xml
-                   -out fullreport.html
+    C:\>JarJarDiff *-code*
+                   -old old.jar
+                   -new new.jar
+                   -out codediff.xml
+    C:\>DiffToHTML -in  codediff.xml
+                   -out *codediff.html*
 
 </div>
 
-<div align="center">
-    [[images/CompleteList.gif]]
-*Full List*
-</div>
+---++++ Controling the Level of Reporting
 
----++++ Public List
+You can control what kind of changes are in the report with the =-level=
+switch.
 
-You use =PublishedDiffToHTML= to convert only public API differences
-to HTML.  The following command produces a full report from the output
-of the previous =JarJarDiff= command.
+---+++++ Showing All Changes
+
+By default, =JarJarDiff= lists all API differences, whether they are on public
+or private elements, or anything in between.  These reports can be quite
+lengthy and include internal details of your API.  They are useful for internal
+use, monitoring the evolution of the codebase, but not all that useful to
+third parties.
+
+The following commands produce a full report from the output of =JarJarDiff=.
+Note that =-level api= is the default, so technically, you don't need to
+specify it.  I include it here so you can better compare with the other
+options.
 
 <div class="highlight">
 
-    C:\>PublishedDiffToHTML -in diff.xml
-                            -out publishedAPIreport.html
+    C:\>JarJarDiff -level *api*
+                   -old old.jar
+                   -new new.jar
+                   -out fulldiff.xml
+    C:\>DiffToHTML -in  fulldiff.xml
+                   -out *fulldiff.html*
 
 </div>
 
-<div align="center">
-    [[images/PublicList.gif]]
-*Public List*
+---+++++ Showing Only Incompatible Changes
+
+You can limit the report to changes that would break backwards compatibility
+of your code.  In this mode, =JarJarDiff= limits itself to public and protected
+members of public classes and it does not report changes that would not break
+client code.  It does not need to report on private or package-level members
+because client code should not refer to it to begin with.  The same goes for
+package-level classes.
+
+It will report a method that went from non-final to final because that would
+potentially break subclasses that tried to override that method.  But it will
+not report a method that went from final to non-final since that couldn't
+possibly break client code: subclasses would not have been able to override it
+since it was marked final.
+
+Similarily, =JarJarDiff= will report on removed members and classes, but not on
+new ones.  See the javadocs for
+=com.jeantessier.diff.IncompatibleDifferenceStrategy= for a complete list of
+what's in the report and what is not.
+
+The following commands produce a full report from the output of =JarJarDiff=.
+This time, the switch =-level incompatible= is no longer optional.
+
+<div class="highlight">
+
+    C:\>JarJarDiff -level *incompatible*
+                   -old old.jar
+                   -new new.jar
+                   -out incompatdiff.xml
+    C:\>DiffToHTML -in  incompatdiff.xml
+                   -out *incompatdiff.html*
+
 </div>
+
+---+++++ Customizing the List of Changes
+
+You can customize the report by providing the name of your own implementation
+of the =com.jeantessier.diff.DifferenceStrategy= interface as the value to the
+=-level= switch.  See the [[Developer.html][Developer Guide]] for the details
+of implementing this interface.
+
+<div class="highlight">
+
+    C:\>JarJarDiff -level *com.acme.MyCustomDifferenceStrategy*
+                   -old old.jar
+                   -new new.jar
+                   -out customdiff.xml
+    C:\>DiffToHTML -in  customdiff.xml
+                   -out *customdiff.html*
+
+</div>
+
+Your custom class will need to be somewhere on your =CLASSPATH= in order for
+=JarJarDiff= to find it.
 
 ---++++ Filtering
+
+You can limit the reports to an explicit list of symbols.  Simply list the
+fully-qualified targets, one per line, in a simple text file and pass it to
+=JarJarDiff=.
+
+<div class="highlight">
+
+    C:\>JarJarDiff -filter *filter.txt*
+                   -old old.jar
+                   -new new.jar
+                   -out filterdiff.xml
+    C:\>DiffToHTML -in  filterdiff.xml
+                   -out *filterdiff.html*
+
+</div>
+
+---++ Listing the Published API
 
 =ListDocumentedElements= is a Java doclet that can list all packages, classes,
 interfaces, fields, constructors, and methods in a given set of Java source
 files.  You can run this tool on the "old version" source files to get the list
 of everything in it (old list), and on the "new version" to get the list of
 everything in the "new version" (new list).  All you have left to do is compare
-the two lists, either yourself or with the =ListDiff= tool.  This will show you
-the names of all the additions and removals between the two versions.
+the two lists, either yourself or with the =ListDiff= tool, to have the names
+of all the additions and removals between the two versions.
 
-You can also limit the reporting to specific programming elements that have
-been earmarked using special javadoc tags.  You get the list of earmarked
-elements with =ListDocumentedElements=.  The following commands run this doclet
-on the old as well as the new codebases, saving the results in individual text
-files.
+You can use these lists with the =-filter= switch to =JarJarDiff= to limit the
+reporting to specific programming elements that have been earmarked using
+special javadoc tags.
 
-In this first case, the command will only list elements that you marked as
-=@level published=.
+---+++ Extraction
+
+This command will only list elements that you marked as =@level published=.
 
 <div class="highlight">
 
@@ -4506,6 +4629,11 @@ In this first case, the command will only list elements that you marked as
                                -out new-list.txt
                                new.java
 
+</div>
+
+<div align="center">
+    [[images/ListDocumentedElements.gif]]
+*Extracting Documented Elements*
 </div>
 
 If you add Dependency Finder's JAR file to your =CLASSPATH=, you can call
@@ -4546,8 +4674,8 @@ Or, as an Ant task:
 
 </div>
 
-In this second case, the command will only list elements that you did marked
-not mark as =@level developer=.
+This command will only list elements that you did *not* mark as
+=@level developer=.
 
 <div class="highlight">
 
@@ -4563,71 +4691,11 @@ not mark as =@level developer=.
 
 </div>
 
-<div align="center">
-    [[images/ListDocumentedElements.gif]]
-*Extracting Documented Elements*
-</div>
+---+++ Listing Published Documentation Changes
 
-You then feed the output from the doclet to =JarJarDiff=.  In the diagram
-below, we show both =.class= and JAR files being fed to =JarJarDiff=, but you
-only need to do either, not both.  Dependency Finder tools can read JAR files
-just as well as =.class= files.
-
-<div class="highlight">
-
-    C:\>JarJarDiff -out diff.xml
-                   -name "My Project"
-                   -old-label Old
-                   -old old.jar
-                   -old-documentation old-list.txt
-                   -new-label New
-                   -new new.jar
-                   -new-documentation new-list.txt
-
-</div>
-
-<div align="center">
-    [[images/ExtractingDifferencesAndDocumentationChanges.gif]]
-*Extracting Differences on Documented Elements*
-</div>
-
-The full list will include special sections that highlight
-changes in what is no more part of the documentation and what
-was newly added to the documentation.
-
-<div class="highlight">
-
-    C:\>DiffToHTML -in diff.xml
-                   -out fullreport.html
-
-</div>
-
-<div align="center">
-    [[images/CompleteListOfDocumentedElements.gif]]
-*Full List Of Documented Elements*
-</div>
-
-The list can also be fed to =PublishedDiffToHTML= to further
-limit the changes to the published public API.
-
-<div class="highlight">
-
-    C:\>PublishedDiffToHTML -in diff.xml
-                            -out publishedAPIreport.html
-                            -param validation-list new-list.txt
-
-</div>
-
-<div align="center">
-    [[images/PublicListOfDocumentedElements.gif]]
-*Public List Of Documented Elements*
-</div>
-
----++++ Listing Published Documentation Changes
-
-You use =ListDiff= to list changes in what is considered part of the
-published API.  It only needs the lists generated by the doclet.  No
-source or bytecode required.
+You use =ListDiff= to list changes in what is considered part of the published
+API.  It only needs the lists generated by the doclet.  No source or bytecode
+required.
 
 <div class="highlight">
 
@@ -4646,9 +4714,8 @@ source or bytecode required.
 *Listing Differences in Documented Elements*
 </div>
 
-=ListDiff= writes in XML and you can convert this XML
-into HTML with =ListDiffToHTML=, or to text with
-=ListDiffToText=.
+=ListDiff= writes in XML and you can convert this XML into HTML with
+=ListDiffToHTML=, or to text with =ListDiffToText=.
 
 <div class="highlight">
 
@@ -4661,14 +4728,6 @@ into HTML with =ListDiffToHTML=, or to text with
     [[images/ListDiff2HTML.gif]]
 *Report on Differences in Documented Elements*
 </div>
-
-<dl>
-    <dt>NOTE:</dt>
-    <dd><i>You can also use =ListDocumentationDiffToText= and
-    =ListDocumentationDiffToHTML= to extract similar information from the
-    output of =JarJarDiff=.  The list is written in HTML.  But we recommend
-    that you use =ListDiff= instead; it is faster and simpler.</i></dd>
-</dl>
 
 ----
 
@@ -5199,39 +5258,35 @@ them in one call or supply multiple =-scope-includes-list= switches to
 that has all the symbols across all third-party libraries.
 
 Now, =_S_-_L_.symbols.txt= has the list of all elements from _L_ used in _S_.
-You can pass it to =JarJarDiff= and =PublishedDiffToHTML= to limit the report
-to these elements only.
+You can pass it to =JarJarDiff= to limit the report to these elements only.
 
-Step 4: Get the differences between _L_ and _L'_.
+Step 4: Get the differences between _L_ and _L'_, narrowed down the differences
+to what is used by _S_.
 
 <div class="highlight">
 
-    C:\>JarJarDiff -out _L_-_L'_.diff.xml
+    C:\>JarJarDiff -filter *_S_-_L_.symbols.txt*
                    -name L
                    -old-label L
                    -old _L_
                    -new-label L'
                    -new _L'_
+                   -out _L_-_L'_.diff.xml
 
 </div>
 
-Step 5: Narrow down the differences to what is used by _S_.
+Step 5: Convert to HTML
 
 <div class="highlight">
 
-    C:\>PublishedDiffToHTML -in _L_-_L'_.diff.xml
-                            -out _S_-_L_-_L'_.diff.html
-                            -param validation-list *_S_-_L_.symbols.txt*
+    C:\>DiffToHTML -in _L_-_L'_.diff.xml
+                   -out _L_-_L'_.diff.html
 
 </div>
 
-The level of detail in the final report depends on which stylesheet you use and
-what parameters you give to it.  If you run =DiffToHTML= instead of
-=PublishedDiffToHTML=, you will get a complete report on what changed in _L_.
-If you run =PublishedDiffToHTML= without a validation list, you will get a
-report that covers the entire public API of _L_.  The example shown above, with
-the validation list, focuses exclusively on those parts of the _L_ that you are
-actually using in _S_.
+The level of detail in the final report depends on which what parameters you
+use with =JarJarDiff=.  This example focuses exclusively on those parts of the
+_L_ that you are actually using in _S_.
 
 ---+++ Computing the D' Metric
 
