@@ -47,10 +47,8 @@ public class JarJarDiff {
     public static final String API_STRATEGY          = "api";
     public static final String INCOMPATIBLE_STRATEGY = "incompatible";
 
-    public static final String DEFAULT_OLD_DOCUMENTATION = "old_documentation.txt";
-    public static final String DEFAULT_NEW_DOCUMENTATION = "new_documentation.txt";
-    public static final String DEFAULT_LOGFILE           = "System.out";
-    public static final String DEFAULT_LEVEL             = API_STRATEGY;
+    public static final String DEFAULT_LOGFILE  = "System.out";
+    public static final String DEFAULT_LEVEL    = API_STRATEGY;
 
     public static void showError(CommandLineUsage clu, String msg) {
         System.err.println(msg);
