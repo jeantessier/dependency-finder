@@ -1,4 +1,3 @@
-
 <!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3c.org/TR/html40/strict.dtd">
 
 <html>
@@ -18,6 +17,29 @@
          11111111112222222222333333333344444444445555555555666666666677777777778
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
+    <dt>
+        December 30, 2005
+    </dt>
+    <dd>
+        <p>Making the switch to Java 5.0.  <b>If you're still running it with
+        the JDK 1.4, let me know ASAP.</b></p>
+
+        <p>Trying to compile for Java 1.4 with the 1.5 compiler is just too
+        risky.  It catches uses of the new language constructs, but not uses of
+        new API elements.  Relying on the compiler to keep me straight is just
+        not reliable.  And I'm tired of keeping multiple versions of the JDK
+        just so I can compile Dependency Finder in near-obsolete
+        technology.</p>
+
+        <p>Removed JARs for Xalan.  I'll rely on the version what ships with
+        the JDK.  It means that dependencies shift from <code>org.apache</code>
+        packages to <code>com.sun.org.apache</code> packages, which seems a
+        little fishy, especially since some of those have <em>internal</em>
+        in their name.  I'll have to read some more documentation about how
+        we're supposed to use those XSL-related classes.  On the plus side, I
+        can now use the default <code>XMLReaderFactory.createXMLReader()</code>
+        method instead of hard-coding the Apache implementation.</p>
+    </dd>
     <dt>
         December 18, 2005
     </dt>
