@@ -46,11 +46,11 @@ public class ToggleSwitch extends CommandLineSwitchBase {
     }
 
     public ToggleSwitch(boolean defaultValue, boolean mandatory) {
-        super(new Boolean(defaultValue), mandatory);
+        super(defaultValue, mandatory);
     }
 
     public int parse(String name, String value) throws CommandLineException {
-        setValue(new Boolean(true));
+        setValue(true);
     
         return 1;
     }

@@ -83,7 +83,7 @@
 
     <target name="compile" depends="init"
             description="Compiles all classes">
-        <javac destdir="${classesDir}" debug="on" source="1.4" target="1.4">
+        <javac destdir="${classesDir}" debug="on">
             <src path="${srcDir}"/>
             <classpath refid="libs"/>
             <patternset refid="all.sources"/>
@@ -92,12 +92,12 @@
 
     <target name="compiletests" depends="compile"
             description="Compiles all classes and JUnit tests with debug flags (default)">
-        <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on" source="1.4" target="1.4">
+        <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on">
             <src path="${testsDir}"/>
             <classpath refid="libs"/>
             <patternset refid="all.sources"/>
         </javac>
-        <javac destdir="${classesDir}" debug="on" source="1.4" target="1.4">
+        <javac destdir="${classesDir}" debug="on">
             <src path="${fitDir}"/>
             <classpath refid="libs"/>
             <patternset refid="all.sources"/>

@@ -208,6 +208,35 @@ public class DependencyReporter {
             }
         }
 
+        if (commandLine.getToggleSwitch("all")) {
+            commandLine.getSwitch("package-scope").setValue(true);
+            commandLine.getSwitch("class-scope").setValue(true);
+            commandLine.getSwitch("feature-scope").setValue(true);
+            commandLine.getSwitch("package-filter").setValue(true);
+            commandLine.getSwitch("class-filter").setValue(true);
+            commandLine.getSwitch("feature-filter").setValue(true);
+        }
+
+        if (commandLine.getToggleSwitch("p2p")) {
+            commandLine.getSwitch("package-scope").setValue(true);
+            commandLine.getSwitch("package-filter").setValue(true);
+        }
+
+        if (commandLine.getToggleSwitch("c2p")) {
+            commandLine.getSwitch("class-scope").setValue(true);
+            commandLine.getSwitch("package-filter").setValue(true);
+        }
+
+        if (commandLine.getToggleSwitch("c2c")) {
+            commandLine.getSwitch("class-scope").setValue(true);
+            commandLine.getSwitch("class-filter").setValue(true);
+        }
+
+        if (commandLine.getToggleSwitch("f2f")) {
+            commandLine.getSwitch("feature-scope").setValue(true);
+            commandLine.getSwitch("feature-filter").setValue(true);
+        }
+
         if (commandLine.getToggleSwitch("maximize") && commandLine.getToggleSwitch("minimize")) {
             showError(usage, "Only one of -maximize or -minimize allowed");
         }
@@ -260,29 +289,7 @@ public class DependencyReporter {
             regularExpressionScopeCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-scope-excludes"));
             regularExpressionScopeCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-scope-includes"));
             regularExpressionScopeCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-scope-excludes"));
-            
-            if (commandLine.getToggleSwitch("all")) {
-                regularExpressionScopeCriteria.setMatchingPackages(true);
-                regularExpressionScopeCriteria.setMatchingClasses(true);
-                regularExpressionScopeCriteria.setMatchingFeatures(true);
-            }
-            
-            if (commandLine.getToggleSwitch("p2p")) {
-                regularExpressionScopeCriteria.setMatchingPackages(true);
-            }
-            
-            if (commandLine.getToggleSwitch("c2p")) {
-                regularExpressionScopeCriteria.setMatchingClasses(true);
-            }
-            
-            if (commandLine.getToggleSwitch("c2c")) {
-                regularExpressionScopeCriteria.setMatchingClasses(true);
-            }
-            
-            if (commandLine.getToggleSwitch("f2f")) {
-                regularExpressionScopeCriteria.setMatchingFeatures(true);
-            }
-            
+
             if (commandLine.isPresent("includes")) {
                 regularExpressionScopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
             }
@@ -330,29 +337,7 @@ public class DependencyReporter {
             regularExpressionFilterCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-filter-excludes"));
             regularExpressionFilterCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-filter-includes"));
             regularExpressionFilterCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-filter-excludes"));
-            
-            if (commandLine.getToggleSwitch("all")) {
-                regularExpressionFilterCriteria.setMatchingPackages(true);
-                regularExpressionFilterCriteria.setMatchingClasses(true);
-                regularExpressionFilterCriteria.setMatchingFeatures(true);
-            }
-            
-            if (commandLine.getToggleSwitch("p2p")) {
-                regularExpressionFilterCriteria.setMatchingPackages(true);
-            }
-            
-            if (commandLine.getToggleSwitch("c2p")) {
-                regularExpressionFilterCriteria.setMatchingPackages(true);
-            }
-            
-            if (commandLine.getToggleSwitch("c2c")) {
-                regularExpressionFilterCriteria.setMatchingClasses(true);
-            }
-            
-            if (commandLine.getToggleSwitch("f2f")) {
-                regularExpressionFilterCriteria.setMatchingFeatures(true);
-            }
-            
+
             if (commandLine.isPresent("includes")) {
                 regularExpressionFilterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
             }
