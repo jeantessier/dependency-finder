@@ -34,6 +34,8 @@ package com.jeantessier.fit;
 
 import java.io.*;
 
+import org.apache.oro.io.*;
+
 import junit.framework.*;
 
 public class FitTestSuite extends TestSuite {
@@ -50,12 +52,8 @@ public class FitTestSuite extends TestSuite {
         File outDir = new File(OUTPUT_DIR, path);
         outDir.mkdirs();
 
-        String[] filenames = inDir.list();
-        for (int i=0; i<filenames.length; i++) {
-            String filename = filenames[i];
-            if (filename.endsWith(".html")) {
-                addTest(new FitTest(filename, inDir, outDir));
-            }
+        for (String filename : inDir.list(new Perl5FilenameFilter(".*\\.html"))) {
+            addTest(new FitTest(filename, inDir, outDir));
         }
     }
 
