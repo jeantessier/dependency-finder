@@ -38,7 +38,7 @@ import java.util.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 
-import org.apache.xpath.*;
+import com.sun.org.apache.xpath.internal.*;
 import org.w3c.dom.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
@@ -50,8 +50,6 @@ import junit.framework.*;
 import com.jeantessier.classreader.*;
 
 public class TestReport extends TestCase implements ErrorHandler {
-    private static final String READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
-
     private static final String SPECIFIC_ENCODING   = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
@@ -65,7 +63,7 @@ public class TestReport extends TestCase implements ErrorHandler {
     private Perl5Util perl;
 
     protected void setUp() throws Exception {
-        reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
+        reader = XMLReaderFactory.createXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", true);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
         reader.setErrorHandler(this);

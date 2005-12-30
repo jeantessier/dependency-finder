@@ -33,54 +33,32 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
-import java.net.*;
-import java.util.*;
 
 import org.apache.log4j.*;
-
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 public class NodeLoader {
-    private static final String  DEFAULT_READER_CLASS_NAME = "org.apache.xerces.parsers.SAXParser";
-    private static final boolean DEFAULT_VALIDATE          = false;
+    private static final boolean DEFAULT_VALIDATE = false;
 
     private NodeHandler handler;
-    private String      readerClassName;
     private boolean     validate;
 
     public NodeLoader() {
-        this(new NodeFactory(), DEFAULT_READER_CLASS_NAME, DEFAULT_VALIDATE);
+        this(new NodeFactory(), DEFAULT_VALIDATE);
     }
 
     public NodeLoader(NodeFactory factory) {
-        this(factory, DEFAULT_READER_CLASS_NAME, DEFAULT_VALIDATE);
-    }
-
-    public NodeLoader(String readerClassName) {
-        this(new NodeFactory(), readerClassName, DEFAULT_VALIDATE);
+        this(factory, DEFAULT_VALIDATE);
     }
 
     public NodeLoader(boolean validate) {
-        this(new NodeFactory(), DEFAULT_READER_CLASS_NAME, validate);
-    }
-
-    public NodeLoader(NodeFactory factory, String readerClassName) {
-        this(factory, readerClassName, DEFAULT_VALIDATE);
+        this(new NodeFactory(), validate);
     }
 
     public NodeLoader(NodeFactory factory, boolean validate) {
-        this(factory, DEFAULT_READER_CLASS_NAME, validate);
-    }
-
-    public NodeLoader(String readerClassName, boolean validate) {
-        this(new NodeFactory(), readerClassName, validate);
-    }
-    
-    public NodeLoader(NodeFactory factory, String readerClassName, boolean validate) {
-        this.handler         = new NodeHandler(factory);
-        this.readerClassName = readerClassName;
-        this.validate        = validate;
+        this.handler  = new NodeHandler(factory);
+        this.validate = validate;
     }
 
     public NodeFactory load(String filename) throws IOException, SAXException {
@@ -108,7 +86,7 @@ public class NodeLoader {
     }
 
     public NodeFactory load(InputSource in) throws IOException, SAXException {
-        XMLReader reader = XMLReaderFactory.createXMLReader(readerClassName);
+        XMLReader reader = XMLReaderFactory.createXMLReader();
         reader.setDTDHandler(handler);
         reader.setContentHandler(handler);
         reader.setErrorHandler(handler);

@@ -42,8 +42,6 @@ import org.apache.oro.text.perl.*;
 import junit.framework.*;
 
 public class TestXMLPrinter extends TestCase implements ErrorHandler {
-    private static final String READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
-
     private static final String SPECIFIC_ENCODING   = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
@@ -55,7 +53,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     private XMLPrinter   printer;
 
     protected void setUp() throws Exception {
-        reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
+        reader = XMLReaderFactory.createXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", true);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
         reader.setErrorHandler(this);

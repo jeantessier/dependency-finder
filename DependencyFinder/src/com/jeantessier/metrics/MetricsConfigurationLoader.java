@@ -33,54 +33,32 @@
 package com.jeantessier.metrics;
 
 import java.io.*;
-import java.net.*;
-import java.util.*;
 
 import org.apache.log4j.*;
-
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 public class MetricsConfigurationLoader {
-    private static final String  DEFAULT_READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
-    private static final boolean DEFAULT_VALIDATE         = false;
+    private static final boolean DEFAULT_VALIDATE = false;
 
     private MetricsConfigurationHandler handler;
-    private String                      readerClassname;
     private boolean                     validate;
 
     public MetricsConfigurationLoader() {
-        this(new MetricsConfiguration(), DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
+        this(new MetricsConfiguration(), DEFAULT_VALIDATE);
     }
 
     public MetricsConfigurationLoader(MetricsConfiguration configuration) {
-        this(configuration, DEFAULT_READER_CLASSNAME, DEFAULT_VALIDATE);
-    }
-
-    public MetricsConfigurationLoader(String readerClassname) {
-        this(new MetricsConfiguration(), readerClassname, DEFAULT_VALIDATE);
+        this(configuration, DEFAULT_VALIDATE);
     }
 
     public MetricsConfigurationLoader(boolean validate) {
-        this(new MetricsConfiguration(), DEFAULT_READER_CLASSNAME, validate);
-    }
-
-    public MetricsConfigurationLoader(MetricsConfiguration configuration, String readerClassname) {
-        this(configuration, readerClassname, DEFAULT_VALIDATE);
+        this(new MetricsConfiguration(), validate);
     }
 
     public MetricsConfigurationLoader(MetricsConfiguration configuration, boolean validate) {
-        this(configuration, DEFAULT_READER_CLASSNAME, validate);
-    }
-
-    public MetricsConfigurationLoader(String readerClassname, boolean validate) {
-        this(new MetricsConfiguration(), readerClassname, validate);
-    }
-    
-    public MetricsConfigurationLoader(MetricsConfiguration configuration, String readerClassname, boolean validate) {
-        this.handler          = new MetricsConfigurationHandler(configuration);
-        this.readerClassname = readerClassname;
-        this.validate         = validate;
+        this.handler  = new MetricsConfigurationHandler(configuration);
+        this.validate = validate;
     }
 
     public MetricsConfiguration load(String filename) throws IOException, SAXException {
@@ -109,7 +87,7 @@ public class MetricsConfigurationLoader {
     }
 
     public MetricsConfiguration load(InputSource in) throws IOException, SAXException {
-        XMLReader reader = XMLReaderFactory.createXMLReader(readerClassname);
+        XMLReader reader = XMLReaderFactory.createXMLReader();
         reader.setDTDHandler(handler);
         reader.setContentHandler(handler);
         reader.setErrorHandler(handler);

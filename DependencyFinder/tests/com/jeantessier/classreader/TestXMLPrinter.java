@@ -43,7 +43,6 @@ import org.apache.oro.text.perl.*;
 import junit.framework.*;
 
 public class TestXMLPrinter extends TestCase implements ErrorHandler {
-    private static final String READER_CLASSNAME = "org.apache.xerces.parsers.SAXParser";
     private static final String TEST_CLASS       = "test";
     private static final String TEST_FILENAME    = "classes" + File.separator + "test.class";
     private static final String TEST_DIRECTORY   = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
@@ -64,7 +63,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         buffer  = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-        reader = XMLReaderFactory.createXMLReader(READER_CLASSNAME);
+        reader = XMLReaderFactory.createXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", true);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
         reader.setErrorHandler(this);
