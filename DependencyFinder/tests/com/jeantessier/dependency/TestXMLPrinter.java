@@ -33,27 +33,23 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
-
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-
-import org.apache.oro.text.perl.*;
+import javax.xml.parsers.*;
 
 import junit.framework.*;
+import org.apache.oro.text.perl.*;
+import org.xml.sax.*;
 
 public class TestXMLPrinter extends TestCase implements ErrorHandler {
     private static final String SPECIFIC_ENCODING   = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
-    private XMLReader reader;
-    private Perl5Util perl;
-
+    private XMLReader    reader;
+    private Perl5Util    perl;
     private NodeFactory  factory;
     private StringWriter out;
-    private XMLPrinter   printer;
 
     protected void setUp() throws Exception {
-        reader = XMLReaderFactory.createXMLReader();
+        reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", true);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
         reader.setErrorHandler(this);
@@ -65,7 +61,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultDTDPrefix() {
-        printer = new XMLPrinter(new PrintWriter(out));
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out));
 
         String xmlDocument = out.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -82,7 +78,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
     
     public void testSpecificDTDPrefix() {
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = out.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -99,7 +95,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultEncoding() {
-        printer = new XMLPrinter(new PrintWriter(out));
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out));
 
         String xmlDocument = out.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -116,7 +112,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        printer = new XMLPrinter(new PrintWriter(out), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = out.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -136,7 +132,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createPackage("empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(true);
         printer.setShowOutbounds(false);
 
@@ -169,7 +165,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createPackage("empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(false);
 
@@ -201,7 +197,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createClass("empty.Empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(true);
         printer.setShowOutbounds(false);
 
@@ -243,7 +239,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createClass("empty.Empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(false);
 
@@ -284,7 +280,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(true);
         printer.setShowOutbounds(false);
 
@@ -335,7 +331,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(false);
 
@@ -385,7 +381,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createPackage("empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(true);
 
@@ -418,7 +414,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
         factory.createPackage("empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(false);
 
@@ -450,7 +446,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createClass("empty.Empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(true);
 
@@ -492,7 +488,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
         factory.createClass("empty.Empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(false);
 
@@ -533,7 +529,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(true);
 
@@ -584,7 +580,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowInbounds(false);
         printer.setShowOutbounds(false);
 
@@ -636,7 +632,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createPackage("empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowEmptyNodes(true);
 
         printer.traverseNodes(factory.getPackages().values());
@@ -687,7 +683,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
         factory.createPackage("empty", true);
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowEmptyNodes(true);
 
         printer.traverseNodes(factory.getPackages().values());
@@ -738,7 +734,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createPackage("empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowEmptyNodes(false);
 
         printer.traverseNodes(factory.getPackages().values());
@@ -785,7 +781,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createClass("empty.Empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowEmptyNodes(true);
 
         printer.traverseNodes(factory.getPackages().values());
@@ -836,7 +832,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createClass("empty.Empty");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowEmptyNodes(false);
 
         printer.traverseNodes(factory.getPackages().values());
@@ -880,7 +876,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowEmptyNodes(true);
 
         printer.traverseNodes(factory.getPackages().values());
@@ -931,7 +927,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
 
-        printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setShowEmptyNodes(false);
 
         printer.traverseNodes(factory.getPackages().values());

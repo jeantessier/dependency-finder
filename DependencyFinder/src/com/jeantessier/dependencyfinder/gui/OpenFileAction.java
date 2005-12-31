@@ -37,6 +37,7 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.xml.parsers.*;
 
 import org.xml.sax.*;
 
@@ -98,6 +99,8 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 
             model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
         } catch (SAXException ex) {
+            model.getStatusLine().showError("Cannot parse: " + ex.getClass().getName() + ": " + ex.getMessage());
+        } catch (ParserConfigurationException ex) {
             model.getStatusLine().showError("Cannot parse: " + ex.getClass().getName() + ": " + ex.getMessage());
         } catch (IOException ex) {
             model.getStatusLine().showError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());

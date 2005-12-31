@@ -34,18 +34,16 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 import java.util.*;
-
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-
-import org.apache.oro.text.perl.*;
+import javax.xml.parsers.*;
 
 import junit.framework.*;
+import org.apache.oro.text.perl.*;
+import org.xml.sax.*;
 
 public class TestXMLPrinter extends TestCase implements ErrorHandler {
-    private static final String TEST_CLASS       = "test";
-    private static final String TEST_FILENAME    = "classes" + File.separator + "test.class";
-    private static final String TEST_DIRECTORY   = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
+    private static final String TEST_CLASS     = "test";
+    private static final String TEST_FILENAME  = "classes" + File.separator + "test.class";
+    private static final String TEST_DIRECTORY = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
 
     private static final String SPECIFIC_ENCODING   = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
@@ -63,7 +61,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         buffer  = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-        reader = XMLReaderFactory.createXMLReader();
+        reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", true);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
         reader.setErrorHandler(this);

@@ -34,6 +34,8 @@ package com.jeantessier.dependency;
 
 import java.io.*;
 
+import javax.xml.parsers.*;
+
 import org.xml.sax.*;
 
 import junit.framework.*;
@@ -46,7 +48,7 @@ public class TestNodeLoader extends TestCase {
     private static final String OTHER_CLASS_NAME   = "otherpackage.OtherClass";
     private static final String OTHER_FEATURE_NAME = "otherpackage.OtherClass.otherFeature";
     
-    public void testReadDocument() throws IOException, SAXException {
+    public void testReadDocument() throws IOException, ParserConfigurationException, SAXException {
         StringBuffer xml = new StringBuffer();
 
         xml.append("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
@@ -79,7 +81,7 @@ public class TestNodeLoader extends TestCase {
         xml.append("        </class>\n");
         xml.append("    </package>\n");
         xml.append("</dependencies>\n");
-        
+
         NodeLoader loader = new NodeLoader();
         NodeFactory factory = loader.load(new StringReader(xml.toString()));
 

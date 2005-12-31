@@ -33,25 +33,21 @@
 package com.jeantessier.diff;
 
 import java.io.*;
-
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-
-import org.apache.oro.text.perl.*;
+import javax.xml.parsers.*;
 
 import junit.framework.*;
+import org.apache.oro.text.perl.*;
+import org.xml.sax.*;
 
 public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     private static final String SPECIFIC_ENCODING   = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
-    private ListDiffPrinter printer;
-    private XMLReader       reader;
-
+    private XMLReader reader;
     private Perl5Util perl;
 
     protected void setUp() throws Exception {
-        reader = XMLReaderFactory.createXMLReader();
+        reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", true);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
         reader.setErrorHandler(this);
@@ -60,7 +56,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultDTDPrefix() {
-        printer = new ListDiffPrinter();
+        ListDiffPrinter printer = new ListDiffPrinter();
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -76,7 +72,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
     
     public void testSpecificDTDPrefix() {
-        printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -92,7 +88,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultEncoding() {
-        printer = new ListDiffPrinter();
+        ListDiffPrinter printer = new ListDiffPrinter();
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -108,7 +104,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        printer = new ListDiffPrinter(SPECIFIC_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(SPECIFIC_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));

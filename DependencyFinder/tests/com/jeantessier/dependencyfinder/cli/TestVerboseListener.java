@@ -35,6 +35,8 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
+import javax.xml.parsers.*;
+
 import junit.framework.*;
 
 import org.xml.sax.*;
@@ -78,7 +80,7 @@ public class TestVerboseListener extends TestCase {
         assertTrue("Wrote nothing", writer.toString().length() > 0);
     }
     
-    public void testMetricsListener() throws IOException, SAXException {
+    public void testMetricsListener() throws IOException, SAXException, ParserConfigurationException {
         AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_FILENAME));
 

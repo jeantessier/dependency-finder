@@ -33,10 +33,10 @@
 package com.jeantessier.metrics;
 
 import java.io.*;
+import javax.xml.parsers.*;
 
 import org.apache.log4j.*;
 import org.xml.sax.*;
-import org.xml.sax.helpers.*;
 
 public class MetricsConfigurationLoader {
     private static final boolean DEFAULT_VALIDATE = false;
@@ -61,7 +61,7 @@ public class MetricsConfigurationLoader {
         this.validate = validate;
     }
 
-    public MetricsConfiguration load(String filename) throws IOException, SAXException {
+    public MetricsConfiguration load(String filename) throws IOException, SAXException, ParserConfigurationException {
         MetricsConfiguration result = null;
 
         FileReader in = null;
@@ -78,16 +78,16 @@ public class MetricsConfigurationLoader {
         return result;
     }
 
-    public MetricsConfiguration load(InputStream in) throws IOException, SAXException {
+    public MetricsConfiguration load(InputStream in) throws IOException, SAXException, ParserConfigurationException {
         return load(new InputSource(in));
     }
 
-    public MetricsConfiguration load(Reader in) throws IOException, SAXException {
+    public MetricsConfiguration load(Reader in) throws IOException, SAXException, ParserConfigurationException {
         return load(new InputSource(in));
     }
 
-    public MetricsConfiguration load(InputSource in) throws IOException, SAXException {
-        XMLReader reader = XMLReaderFactory.createXMLReader();
+    public MetricsConfiguration load(InputSource in) throws IOException, SAXException, ParserConfigurationException {
+        XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setDTDHandler(handler);
         reader.setContentHandler(handler);
         reader.setErrorHandler(handler);
@@ -105,9 +105,9 @@ public class MetricsConfigurationLoader {
         } catch (Exception ex) {
             Logger.getLogger(getClass()).warn("Problem setting validation feature on XML reader",ex);
         }
-    
+
         reader.parse(in);
-    
+
         return handler.getMetricsConfiguration();
     }
 }

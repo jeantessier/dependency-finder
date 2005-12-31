@@ -35,6 +35,8 @@ package com.jeantessier.dependencyfinder.ant;
 import java.io.*;
 import java.util.*;
 
+import javax.xml.parsers.*;
+
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
@@ -302,6 +304,8 @@ public class DependencyClosure extends GraphTask {
                 
             out.close();
         } catch (SAXException ex) {
+            throw new BuildException(ex);
+        } catch (ParserConfigurationException ex) {
             throw new BuildException(ex);
         } catch (IOException ex) {
             throw new BuildException(ex);

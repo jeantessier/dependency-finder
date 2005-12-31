@@ -36,6 +36,8 @@ import junit.framework.*;
 
 import java.io.*;
 
+import javax.xml.parsers.*;
+
 import org.xml.sax.*;
 
 public class TestMetricsConfigurationLoader extends TestCase {
@@ -47,7 +49,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         loader        = new MetricsConfigurationLoader(configuration, Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE"));
     }
     
-    public void testEmptyFile() throws IOException, SAXException {
+    public void testEmptyFile() throws IOException, SAXException, ParserConfigurationException {
         Reader in = new StringReader("");
 
         try {
@@ -63,7 +65,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
     }
 
-    public void testEmptyDocument() throws IOException, SAXException {
+    public void testEmptyDocument() throws IOException, SAXException, ParserConfigurationException {
         Reader in = new StringReader("<metrics-configuration/>");
 
         MetricsConfiguration configuration2 = loader.load(in);
@@ -75,7 +77,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
     }
 
-    public void testNonWellFormedDocument() throws IOException, SAXException {
+    public void testNonWellFormedDocument() throws IOException, SAXException, ParserConfigurationException {
         Reader in = new StringReader("<metrics-configuration>");
 
         try {
@@ -91,7 +93,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
     }
 
-    public void testValidation() throws IOException, SAXException {
+    public void testValidation() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
@@ -113,7 +115,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
     }
 
-    public void testPackageMeasurement() throws IOException, SAXException {
+    public void testPackageMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
@@ -153,7 +155,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
     }
 
-    public void testGroupMeasurement() throws IOException, SAXException {
+    public void testGroupMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
@@ -193,7 +195,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
     }
 
-    public void testClassMeasurement() throws IOException, SAXException {
+    public void testClassMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
@@ -232,7 +234,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
     }
 
-    public void testMethodMeasurement() throws IOException, SAXException {
+    public void testMethodMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
@@ -269,7 +271,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("descriptor.UpperThreshold()", "50", descriptor.getUpperThreshold());
     }
 
-    public void testGroupDefinitions() throws IOException, SAXException {
+    public void testGroupDefinitions() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");

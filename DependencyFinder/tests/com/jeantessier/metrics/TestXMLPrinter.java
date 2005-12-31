@@ -34,13 +34,11 @@ package com.jeantessier.metrics;
 
 import java.io.*;
 import java.util.*;
-
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-
-import org.apache.oro.text.perl.*;
+import javax.xml.parsers.*;
 
 import junit.framework.*;
+import org.apache.oro.text.perl.*;
+import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
 
@@ -54,7 +52,6 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     
     private StringWriter                       buffer;
     private MetricsConfiguration               configuration;
-    private com.jeantessier.metrics.XMLPrinter printer;
     private XMLReader                          reader;
 
     private Perl5Util perl;
@@ -63,7 +60,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         buffer        = new StringWriter();
         configuration = new MetricsConfigurationLoader().load(CONFIGURATION_FILENAME);
 
-        reader = XMLReaderFactory.createXMLReader();
+        reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", true);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
         reader.setErrorHandler(this);
@@ -72,7 +69,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultDTDPrefix() {
-        printer = new XMLPrinter(new PrintWriter(buffer), configuration);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
         String xmlDocument = buffer.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -89,7 +86,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
     
     public void testSpecificDTDPrefix() {
-        printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -106,7 +103,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultEncoding() {
-        printer = new XMLPrinter(new PrintWriter(buffer), configuration);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
         String xmlDocument = buffer.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -123,7 +120,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        printer = new XMLPrinter(new PrintWriter(buffer), configuration, SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -146,7 +143,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         loader.load(Collections.singleton(TEST_FILENAME));
         loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer("test", factory));
 
-        printer = new XMLPrinter(new PrintWriter(buffer), configuration, com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitMetrics(factory.getProjectMetrics());
 
         String xmlDocument = buffer.toString();

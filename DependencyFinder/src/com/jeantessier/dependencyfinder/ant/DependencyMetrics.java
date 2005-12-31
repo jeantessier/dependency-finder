@@ -35,6 +35,8 @@ package com.jeantessier.dependencyfinder.ant;
 import java.io.*;
 import java.util.*;
 
+import javax.xml.parsers.*;
+
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
@@ -402,7 +404,7 @@ public class DependencyMetrics extends GraphTask {
         setChartinboundsperfeature(chartAll);
         setChartoutboundsperfeature(chartAll);
     }
-    
+
     public void execute() throws BuildException {
         // first off, make sure that we've got what we need
         validateParameters();
@@ -411,13 +413,13 @@ public class DependencyMetrics extends GraphTask {
 
         try {
             NodeFactory factory = new NodeFactory();
-            
+
             String[] filenames = getSrc().list();
             for (int i=0; i<filenames.length; i++) {
                 log("Reading graph from " + filenames[i]);
-                
+
                 Collection packages = Collections.EMPTY_LIST;
-                
+
                 if (filenames[i].endsWith(".xml")) {
                     NodeLoader loader = new NodeLoader(factory, getValidate());
                     loader.addDependencyListener(verboseListener);
@@ -426,11 +428,11 @@ public class DependencyMetrics extends GraphTask {
             }
 
             log("Saving metrics report to " + getDestfile().getAbsolutePath());
-            
+
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
             MetricsReport reporter = new MetricsReport(out);
-            
+
             reporter.setListingElements(getList());
             reporter.setChartingClassesPerPackage(getChartclassesperpackage());
             reporter.setChartingFeaturesPerClass(getChartfeaturesperclass());
@@ -447,6 +449,8 @@ public class DependencyMetrics extends GraphTask {
 
             out.close();
         } catch (SAXException ex) {
+            throw new BuildException(ex);
+        } catch (ParserConfigurationException ex) {
             throw new BuildException(ex);
         } catch (IOException ex) {
             throw new BuildException(ex);

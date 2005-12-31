@@ -34,9 +34,10 @@ package com.jeantessier.dependency;
 
 import java.io.*;
 
+import javax.xml.parsers.*;
+
 import org.apache.log4j.*;
 import org.xml.sax.*;
-import org.xml.sax.helpers.*;
 
 public class NodeLoader {
     private static final boolean DEFAULT_VALIDATE = false;
@@ -61,7 +62,7 @@ public class NodeLoader {
         this.validate = validate;
     }
 
-    public NodeFactory load(String filename) throws IOException, SAXException {
+    public NodeFactory load(String filename) throws IOException, SAXException, ParserConfigurationException {
         NodeFactory result = null;
 
         FileReader in = null;
@@ -77,16 +78,16 @@ public class NodeLoader {
         return result;
     }
 
-    public NodeFactory load(InputStream in) throws IOException, SAXException {
+    public NodeFactory load(InputStream in) throws IOException, ParserConfigurationException, SAXException {
         return load(new InputSource(in));
     }
 
-    public NodeFactory load(Reader in) throws IOException, SAXException {
+    public NodeFactory load(Reader in) throws IOException, ParserConfigurationException, SAXException {
         return load(new InputSource(in));
     }
 
-    public NodeFactory load(InputSource in) throws IOException, SAXException {
-        XMLReader reader = XMLReaderFactory.createXMLReader();
+    public NodeFactory load(InputSource in) throws IOException, ParserConfigurationException, SAXException {
+        XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setDTDHandler(handler);
         reader.setContentHandler(handler);
         reader.setErrorHandler(handler);
@@ -104,9 +105,9 @@ public class NodeLoader {
         } catch (Exception ex) {
             Logger.getLogger(getClass()).warn("Problem setting validation feature on XML reader",ex);
         }
-    
+
         reader.parse(in);
-    
+
         return handler.getFactory();
     }
 

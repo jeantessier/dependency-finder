@@ -32,12 +32,11 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
-
 import java.io.*;
+import javax.xml.parsers.*;
 
+import junit.framework.*;
 import org.xml.sax.*;
-import org.xml.sax.helpers.*;
 
 public class TestMetricsConfigurationHandler extends TestCase {
     private MetricsConfigurationHandler handler;
@@ -46,7 +45,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     protected void setUp() throws Exception {
         handler = new MetricsConfigurationHandler();
         
-        reader = XMLReaderFactory.createXMLReader();
+        reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setDTDHandler(handler);
         reader.setContentHandler(handler);
         reader.setErrorHandler(handler);
