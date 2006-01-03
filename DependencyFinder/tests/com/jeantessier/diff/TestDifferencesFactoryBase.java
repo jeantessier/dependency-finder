@@ -43,41 +43,54 @@ public abstract class TestDifferencesFactoryBase extends TestCase {
     public static final String OLD_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
     public static final String NEW_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
 
-    private PackageMapper oldPackages;
-    private PackageMapper newPackages;
+    private static PackageMapper oldPackages;
+    private static PackageMapper newPackages;
 
-    private ClassfileLoader oldJar;
-    private ClassfileLoader newJar;
+    private static ClassfileLoader oldJar;
+    private static ClassfileLoader newJar;
 
-    public PackageMapper getOldPackages() {
+    protected static PackageMapper getOldPackages() {
+        if (oldPackages == null) {
+            oldPackages = new PackageMapper();
+        }
+
         return oldPackages;
     }
 
-    public PackageMapper getNewPackages() {
+    protected static PackageMapper getNewPackages() {
+        if (newPackages == null) {
+            newPackages = new PackageMapper();
+        }
+
         return newPackages;
     }
 
-    public ClassfileLoader getOldJar() {
+    protected static ClassfileLoader getOldJar() {
+        if (oldJar == null) {
+            oldJar = new AggregatingClassfileLoader();
+            oldJar.addLoadListener(getOldPackages());
+            oldJar.load(Collections.singleton(OLD_CLASSPATH));
+        }
+
         return oldJar;
     }
 
-    public ClassfileLoader getNewJar() {
+    protected static ClassfileLoader getNewJar() {
+        if (newJar == null) {
+            newJar = new AggregatingClassfileLoader();
+            newJar.addLoadListener(getNewPackages());
+            newJar.load(Collections.singleton(NEW_CLASSPATH));
+        }
+
         return newJar;
     }
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        oldPackages = new PackageMapper();
-        newPackages = new PackageMapper();
-
-        oldJar = new AggregatingClassfileLoader();
-        oldJar.addLoadListener(oldPackages);
-        oldJar.load(Collections.singleton(OLD_CLASSPATH));
-
-        newJar = new AggregatingClassfileLoader();
-        newJar.addLoadListener(newPackages);
-        newJar.load(Collections.singleton(NEW_CLASSPATH));
+        // Make sure classes are loaded
+        getOldJar();
+        getNewJar();
     }
 
     protected Differences find(String name, Collection differences) {

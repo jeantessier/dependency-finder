@@ -254,12 +254,12 @@
                 <path refid="libs"/>
                 <path location="${classesDir}"/>
             </classpath>
-            <sysproperty key="org.xml.sax.driver" value="org.apache.xerces.parsers.SAXParser"/>
             <formatter type="xml"/>
             <batchtest todir="${reportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/**/Test*.java"/>
                     <exclude name="**/TestClassfileLoader.java"/>
+                    <exclude name="**/TestDifferencesFactoryBase.java"/>
                     <exclude name="**/TestAll.java"/>
                 </fileset>
             </batchtest>

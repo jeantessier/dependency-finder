@@ -43,44 +43,53 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
     public static final String OLD_PUBLISHED_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "oldpublished";
     public static final String NEW_PUBLISHED_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "newpublished";
 
-    private PackageMapper oldPublishedPackages;
-    private PackageMapper newPublishedPackages;
+    private static PackageMapper oldPublishedPackages;
+    private static PackageMapper newPublishedPackages;
 
-    private ClassfileLoader oldPublishedJar;
-    private ClassfileLoader newPublishedJar;
+    private static ClassfileLoader oldPublishedJar;
+    private static ClassfileLoader newPublishedJar;
+
+    public static PackageMapper getOldPublishedPackages() {
+        if (oldPublishedPackages == null) {
+            oldPublishedPackages = new PackageMapper();
+        }
+
+        return oldPublishedPackages;
+    }
+
+    public static PackageMapper getNewPublishedPackages() {
+        if (newPublishedPackages == null) {
+            newPublishedPackages = new PackageMapper();
+        }
+
+        return newPublishedPackages;
+    }
+
+    public static  ClassfileLoader getOldPublishedJar() {
+        if (oldPublishedJar == null) {
+            oldPublishedJar = new AggregatingClassfileLoader();
+            oldPublishedJar.addLoadListener(getOldPublishedPackages());
+            oldPublishedJar.load(Collections.singleton(OLD_PUBLISHED_CLASSPATH));
+        }
+
+        return oldPublishedJar;
+    }
+
+    public static ClassfileLoader getNewPublishedJar() {
+        if (newPublishedJar == null) {
+            newPublishedJar = new AggregatingClassfileLoader();
+            newPublishedJar.addLoadListener(getNewPublishedPackages());
+            newPublishedJar.load(Collections.singleton(NEW_PUBLISHED_CLASSPATH));
+        }
+
+        return newPublishedJar;
+    }
 
     private MockDifferenceStrategy         mockStrategy;
     private IncompatibleDifferenceStrategy strategy;
 
-    public PackageMapper getOldPublishedPackages() {
-        return oldPublishedPackages;
-    }
-
-    public PackageMapper getNewPublishedPackages() {
-        return newPublishedPackages;
-    }
-
-    public ClassfileLoader getOldPublishedJar() {
-        return oldPublishedJar;
-    }
-
-    public ClassfileLoader getNewPublishedJar() {
-        return newPublishedJar;
-    }
-
     protected void setUp() throws Exception {
         super.setUp();
-
-        oldPublishedPackages = new PackageMapper();
-        newPublishedPackages = new PackageMapper();
-
-        oldPublishedJar = new AggregatingClassfileLoader();
-        oldPublishedJar.addLoadListener(oldPublishedPackages);
-        oldPublishedJar.load(Collections.singleton(OLD_PUBLISHED_CLASSPATH));
-
-        newPublishedJar = new AggregatingClassfileLoader();
-        newPublishedJar.addLoadListener(newPublishedPackages);
-        newPublishedJar.load(Collections.singleton(NEW_PUBLISHED_CLASSPATH));
 
         mockStrategy = new MockDifferenceStrategy(new NoDifferenceStrategy());
         strategy     = new IncompatibleDifferenceStrategy(mockStrategy);
