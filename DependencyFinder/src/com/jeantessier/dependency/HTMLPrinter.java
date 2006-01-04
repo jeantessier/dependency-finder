@@ -57,7 +57,11 @@ public class HTMLPrinter extends TextPrinter {
         Iterator i = dependencies.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry entry = (Map.Entry) i.next();
-            urlArgument[0] = entry.getKey();
+            Node node = (Node) entry.getKey();
+            String name = node.getName();
+            name = perl().substitute("s/\\(/\\\\(/g", name);
+            name = perl().substitute("s/\\)/\\\\)/g", name);
+            urlArgument[0] = name;
             if (((Integer) entry.getValue()).intValue() < 0) {
                 indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName((Node) entry.getKey()).append("</a>").eol();
             } else if (((Integer) entry.getValue()).intValue() > 0) {
