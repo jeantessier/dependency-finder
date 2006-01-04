@@ -247,7 +247,8 @@
         Tests
     -->
 
-    <target name="alltests" depends="init">
+    <target name="alltests" depends="init"
+            description="Runs all unit tests and generates a test run report">
         <mkdir dir="${reportsDir}"/>
         <junit>
             <classpath>
