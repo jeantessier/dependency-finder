@@ -1,0 +1,6 @@
+Refactored =AccumulatorMeasurement= some more.
+Yesterday's implementation was to limiting.  Still has a
+few kinks to work out.  I'm also working on
+=etc/MartinMetrics.xml= which has the metrics
+configuration to support instability and abstractness
+metrics and his A vs. I graph.

@@ -1,0 +1,5 @@
+Talked to a former coworker who is still using
+=JarJarDiff=.  He mentioned that having it also report on
+methods whose implementation changed without impacting their
+signature.  This is the same as Request for Enhancement #900448.  So
+don't despair, it'll come one day.

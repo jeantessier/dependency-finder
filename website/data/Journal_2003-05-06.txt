@@ -1,0 +1,26 @@
+Updated the samples to add 1.0 beta data.
+
+I had been having problems with the ZIP files that come out of the
+builds.  For some reason, I could not see their contents using WinZIP
+and could not extract them.  Other tools, such as =unzip=,
+=jar=, and even Emacs did not have any trouble.  For some
+time, I thought this was a problem between Java-generated ZIP files
+and WinZIP 8.1.  It turns out that Ant was the culprit.  They even had
+an open bug report about it.  It got fixed in the latest release, but
+it is too late for the 1.0 beta release.  I hope people can make do
+with =jar= for the duration of the beta.  Future releases
+will work with WinZIP as expected.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Ant</td>
+        <td>:</td>
+        <td>1.5.2</td>
+        <td>-></td>
+        <td>1.5.3-1</td>
+    </tr>
+</table>
+</blockquote>

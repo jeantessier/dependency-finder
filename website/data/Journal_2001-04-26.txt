@@ -1,0 +1,4 @@
+I upgraded the package =jt.classreader= so I could
+get signatures from all methods references.  I also upgraded the
+package =jt.dependency= to track methods by signature,
+instead of only by name.

@@ -1,0 +1,8 @@
+Back from vacation.
+
+Adjusted release plan to close current release and spec
+out the first beta.
+
+Wrote a Perl script to parse log information from CVS
+to prepare the change file listing differences since the
+last release.  New release is imminent.

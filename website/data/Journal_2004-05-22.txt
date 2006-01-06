@@ -1,0 +1,25 @@
+New beta release for version 1.1.0.  And I forgot to mention, I
+relabeled 1.0.2 to 1.1.0.  I figured the changes to the tools, with the
+introduction of list-based scoping and filtering warranted a higher
+version number change.
+
+I tried to generate a distribution that didn't include Xalan or
+Xerces and relied on what is provided by JDK 1.4.2, but I hit a wall
+when it came to creating SAX readers.  Right now, I explicitly name a
+reader class from Xerces, which allows me to use custom attributes to
+trigger validation of the XML.  But this custom class is part of
+Xerces while JDK 1.4.2 ships with Crimson; almost the same, but my
+reader is not in there.  Once I had found the corresponding reader
+class, the custom attributes didn't match, so I was stuck.  Changing
+reader might lock the code into JDK 1.4.2, which I am still reluctant
+to do.  People relying on prior version of the JDK should still be
+able to just get the source, get Xerces and Xalan, and simply
+recompile.
+
+I also tried to package the documentation in a separate JAR file.
+At one point, the main distribution file was about 800 KB instead of
+the current 5+ MB, once Xalan and Xerces and the documentation were
+removed.  But since I cannot get rid of Xerces and Xalan just yet,
+I will wait a little longer before separating the documentation too.
+Right now, the difference is not worth the added complexity of
+downloading two files for people who want the documentation.

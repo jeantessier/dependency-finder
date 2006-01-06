@@ -1,0 +1,1 @@
+Fine tuned spaces in JSPs for the web application.

@@ -1,0 +1,12 @@
+Had a bout with the flu.
+
+Jeff Harman asked questions about dependency visitors and such,
+which prompted me to document that control flow a little more.  I'll
+add the new information to the fledgling developer guide when I get
+a change and when I can find a decent (free) editor for UML diagrams.
+
+Had some ideas about correlating project size and complexity
+and estimating each via the current metrics.  I might be able to
+do something about complexity with a combination of intra-class,
+intra-package, and extra-package dependencies at both the class
+and method levels.

@@ -1,0 +1,4 @@
+Tried to create an =HTMLPrinter= for the webapp so
+dependencies can be hyperlinks to further queries.  Right now, it is
+just a quick hack.  It will need more work to make it pretty and
+generic enough.

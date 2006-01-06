@@ -1,0 +1,20 @@
+Got an idea to characterize nodes in the dependency graph between
+nodes that represent elements that are only referenced by analyzed code
+versus nodes that represent elements that underwent analysis.  I was
+trying to track dependencies in a piece of software and hit a wall when
+I tried to see if anybody accessed private methods of an implementation
+class.  All the other methods it inherited from superclasses kept
+showing up too.
+
+Under JDK 1.4, dependencies are resolved to the exact type of the
+reference.  For example, in the case of the Template Method pattern,
+if the client calls the template method on the concrete subclass, it
+creates a dependency to a shadow template method on the subclass, not
+the actual template method in the abstract superclass.  This is a new
+form of interface polution where a class can have symbols that it does
+not necessarily define but that it rather inherits from a superclass.
+These can create false impressions when running dependency analysis
+because you can miss actual calls to a method that are attributed an
+hypothetically overriden version in a subclass.
+
+I could have Dependency Finder figure it out, somehow.

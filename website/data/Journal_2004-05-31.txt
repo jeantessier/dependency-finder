@@ -1,0 +1,3 @@
+Fixed documentation for =DependencyReporter= to include
+the switches that control what gets shown in the output graph or
+not.

@@ -1,0 +1,9 @@
+I just started on the metrics features.  After these are
+done, and I've completed the user's manual, I'll be done
+with this release!
+
+I need to adjust the =MetricsFactory= to create
+the elementary measurements at each level and then setup the
+composite measurements from some configuration.  This will set
+the stage for using custom configuration files for custom
+metrics reports in the next release.

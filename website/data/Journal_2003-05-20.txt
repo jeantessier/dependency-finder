@@ -1,0 +1,11 @@
+Worked on the design for the new closure calculator.  It will be a
+little more structured and keep track of each layer as the closure is
+expanded.  This way, I should be able to print actual paths instead of
+just dumping the graph and let users figure it out.  I will also be
+able to use this calculator in finding the shortest path between two
+groups of elements (packages, classes, and/or features).
+
+I haven't heard anything about the ongoing beta trial, except for
+the nasty problem with the ZIP file.  I'm thinking of closing the beta
+and release 1.0 over the upcoming Memorial Day weekend (this weekend).
+I'll see.

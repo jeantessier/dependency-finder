@@ -1,0 +1,2 @@
+More test data and new =IncompatibleDifferenceStrategy=
+to replace =PublishedDiffToHTML.xsl=.

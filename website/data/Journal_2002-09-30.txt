@@ -1,0 +1,6 @@
+Adjusted =classfile.dtd= and
+=com.jeantessier.classreader.XMLPrinter= to make
+=&lt;fields&gt;=, =&lt;methods&gt;=,
+and =&lt;attributes&gt;= tags optional.  This is
+to account for backward compatibility and make the resulting
+XML documents a little simpler.

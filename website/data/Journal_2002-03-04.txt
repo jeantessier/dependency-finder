@@ -1,0 +1,12 @@
+I've simplified how =TransitiveClosure= determines
+whether or not to follow inbound and outbound dependencies.  But
+I still have problems with weird interactions when following both
+inbound and outbound dependencies at the same time.
+
+I've created =closure.jsp=, a web application
+interface to =TransitiveClosure=.
+
+I've added the appropriate switches to
+=DependencyClosure=.
+
+I fixed a typo in =DiffToExternalHTML.xsl=.

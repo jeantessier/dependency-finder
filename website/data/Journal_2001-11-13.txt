@@ -1,0 +1,16 @@
+I've put everything under the
+<a target="_blank" href="http://www.gnu.org/licenses/lgpl.html">LGPL</a>.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Jean Tessier API</td>
+        <td>:</td>
+        <td>_unknown_</td>
+        <td>-></td>
+        <td>20011114</td>
+    </tr>
+</table>
+</blockquote>

@@ -1,0 +1,9 @@
+First shot at tracking documentation levels using
+=JarJarDiff=.
+
+After looking at the format used by Argo/UML to save UML project
+files, I'm having renewed interest in XMI to import dependency
+graph into UML modeling tools.  This would allow people to draw
+the graph visually using their favorite UML tool.  Argo/UML also
+uses PGML to store graphics.  This has led to W3C to standardize
+SVG, which I might be looking into in the future.

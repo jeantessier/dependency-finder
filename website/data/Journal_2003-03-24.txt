@@ -1,0 +1,11 @@
+Finished the Ant task for =DependencyExtractor= and
+also wrote those for =ClassMetrics=,
+=DependencyReporter=, and =JarJarDiff=.
+I decided to stick with the Ant naming convention and use
+=destfile= for the output attribute.
+
+Introduced a new tool, =ClassClassDiff=, which compares
+two classes, even if they don't have the same name.  I found a need
+for it when a renamed one class to work on temporarily and wanted
+to see later on what differences I had introduced.  The class was
+too large for me to do this with regular diffs.

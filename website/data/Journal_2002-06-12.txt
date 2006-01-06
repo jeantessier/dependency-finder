@@ -1,0 +1,10 @@
+=ListDiff= can now compress the resulting list.
+This means that if, for instance, a class is in a list, it
+will remove entries for methods of that class from the list.
+The same goes for packages and their classes.  Just call it
+with the =compress= switch.
+
+I changed the published list to use with
+=PublishedDiffToHTML=.  It makes more sense to use
+the old list, since the goal is to notify customers of the
+changes that possibly break backwards compatibility.

@@ -1,0 +1,22 @@
+I reinstated the Visitor pattern in the
+=jt.dependencygenerator.classreader=
+package with a vengeance.  It turned out to
+be useful in other areas of the =.class=
+file as well.  Visitors can now explore the
+whole =.class= file, including fields,
+methods, and attributes.
+
+I moved the =ClassReader= tool from the
+=jt.dependencygenerator.classreader=
+package to the =jt.dependencygenerator.tools=
+package.
+
+The extractor now reads the entire =.class=
+file.
+
+It has problems reading from compressed JAR files.
+It seems to be OK with uncompressed ones.  Maybe I can
+use the =java.util.jar= package to read the
+whole byte stream in memory before starting the processing.
+
+Handed a copy of the code to Jeff Chan.

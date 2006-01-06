@@ -1,0 +1,3 @@
+I adjusted the text output for a nicer printout.  I reorganized
+the =jt.dependency.Printer= hierarchy to preserve the old
+format and maximize code reuse.

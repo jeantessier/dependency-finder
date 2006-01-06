@@ -1,0 +1,4 @@
+Added feature =502554 "Sorting doesn't work on NaN"=.
+I changed =com.jeantessier.metrics.MetricsComparator=
+so that =NaN= always appears at the bottom of the
+list.

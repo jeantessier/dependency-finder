@@ -1,0 +1,15 @@
+I did a quick check to see if I can still compile
+Dependency Finder with JDK 1.2.2, but I can't anymore.
+I use =java.util.Collections.singletonList()= in
+=com.jeantessier.commandline.MultipleValuesSwitch=
+and a new constructor for
+=javax.swing.JRadioButtonMenuItem= in
+=com.jeantessier.dependencyfinder.gui.DependencyFinder=
+that takes an instance of
+=javax.swing.Action=.  Given the context in
+which these happen, I don't see how I can write around
+them in a clean way.
+
+So I'm probably just going to drop support of JDK
+1.2.2 and ask people to use Dependency Finder with
+JDK 1.3 and above.

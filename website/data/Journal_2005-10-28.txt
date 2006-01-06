@@ -1,0 +1,2 @@
+Refactored of tests for
+=IncompatibleDifferenceStragegy=.  Not done yet.

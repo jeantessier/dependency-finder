@@ -1,0 +1,23 @@
+Well, it didn't work out.  They tried to break down their codebase
+but all their =DependencyReporter= output is either of
+size zero or badly truncated.
+
+Back in July, I had problems with truncated files, but back then it
+was because =java.io.Writer= instances were not being closed.
+I removed all calls to =java.io.Writer.flush()= because the
+stream is supposed to be automatically flushed when it is closed.  It
+has worked just well for me since then and I am troubled that they
+should be having these kinds of problems.
+
+They gave me a copy of their codebase to try and recreate the
+problem, but it worked fine for me.  I'm down to thinking maybe it's
+because they're on Linux, for some reason.  But that can't be it.
+
+As I was working out their problem, I realized how great it is to
+have =DependencyReporter= to merge graphs together.  I can
+give it as many graphs as I want and it can combine them all
+together.  I noticed the Ant task version doesn't do that; it can
+only take a single graph at a time.  I'll need to fix that.
+
+I fixed measurements IEPM's and OEPF's long name.  Now, I'll need
+to create a patch for this.

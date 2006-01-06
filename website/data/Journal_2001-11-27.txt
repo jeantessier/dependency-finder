@@ -1,0 +1,17 @@
+I change the root of the packages from =jt= to
+=com.jeantessier=.  This comes as part of the preparations
+to make this software open source.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Jean Tessier API</td>
+        <td>:</td>
+        <td>20011114</td>
+        <td>-></td>
+        <td>20011125</td>
+    </tr>
+</table>
+</blockquote>

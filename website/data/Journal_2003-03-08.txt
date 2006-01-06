@@ -1,0 +1,23 @@
+Looking at upgrade for:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Xerces</td>
+        <td>:</td>
+        <td>2.2.1</td>
+        <td>-></td>
+        <td>2.3.0</td>
+    </tr>
+    <tr>
+        <td>Xalan</td>
+        <td>:</td>
+        <td>2.4.1</td>
+        <td>-></td>
+        <td>2.5 D1</td>
+    </tr>
+</table>
+</blockquote>
+
+I need to investigate how this will impact usage with JDK
+1.4.

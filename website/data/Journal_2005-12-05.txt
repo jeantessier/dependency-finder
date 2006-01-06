@@ -1,0 +1,7 @@
+Wrote Fit tests using =fit.DoFixture= so I don't need to
+write custom fixture classes.  The book and the documentation are a
+little sketchy and I need quite a few trial and errors to get it to do
+what I want.  Or, at least, almost what I want.
+
+Fit still behaves differently between my desktop and my laptop.  I
+am still baffled.

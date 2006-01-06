@@ -1,0 +1,4 @@
+Release 1.1.1.
+
+Also found about a new graphics package for rendering graphs:
+<a target="_blank" href="http://jung.sourceforge.net/">JUNG</a>.

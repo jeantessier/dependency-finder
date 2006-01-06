@@ -1,0 +1,42 @@
+Got a new laptop.  Now I can have something closer to a real
+development environment.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>OS</td>
+        <td>:</td>
+        <td>Windows 98</td>
+        <td>-></td>
+        <td>Windows XP Home</td>
+    </tr>
+    <tr>
+        <td>JDK 1.3</td>
+        <td>:</td>
+        <td>1.3.1_05</td>
+        <td>-></td>
+        <td>1.3.1_09</td>
+    </tr>
+    <tr>
+        <td>JDK 1.4</td>
+        <td>:</td>
+        <td>1.4.1</td>
+        <td>-></td>
+        <td>1.4.2_03</td>
+    </tr>
+    <tr>
+        <td>Tomcat</td>
+        <td>:</td>
+        <td>4.1.27-LE-jdk14</td>
+        <td>-></td>
+        <td>5.0.16</td>
+    </tr>
+</table>
+</blockquote>
+
+With the Windows XP based on Windows NT, I can actually use the
+startup scripts that ship with Dependency Finder.  On Windows 98, I had
+to use variations that worked around limited memory and an
+impossibility to create temporary environment variables.

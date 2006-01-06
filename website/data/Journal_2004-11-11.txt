@@ -1,0 +1,7 @@
+I decided not to mess with the UI on the GUI application.  It would
+require massive reorganization to account for the different semantics
+of the UI elements between closures and the other functions.  I will
+need to rework it anyway when I have a new renderer for closures, I'll
+take care of it then.  I want to finish this release.
+
+Also cleaned up the build file a little more.

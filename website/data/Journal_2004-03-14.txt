@@ -1,0 +1,4 @@
+Started working of a =NodeSelector= to handle the initial
+step of the new transitive closure algorithm.  I need to take a scope
+criteria and traverse the graph, collecting nodes matching the
+closure's starting point as I go.

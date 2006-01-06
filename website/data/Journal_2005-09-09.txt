@@ -1,0 +1,7 @@
+Continued work on =DifferenceStrategy= to encapsulate the
+behavior behind =Differences.isEmpty()=.  Got through the
+tests for classes and interfaces.
+
+It turns out that constants have their value embedded directly into
+their field entry.  I adjusted the new difference engine to look at
+those values too (the old one was ignoring them).

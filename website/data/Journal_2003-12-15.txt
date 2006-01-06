@@ -1,0 +1,5 @@
+Came up with much better screenshots.
+
+Started working on how to break up analysis of large codebases.  I
+am struggling with where to put it, though.  Should it go in the Manual
+or as part of the samples?

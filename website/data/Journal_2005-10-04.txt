@@ -1,0 +1,11 @@
+Changed all the JarJarDiff variations to use the new
+=DifferenceStrategy=.  Each has a new =level=
+parameter to tell it which strategy to use.  Level can either be a
+predefined constant, =api= for
+=APIOnlyDifferenceStrategy= or =code= for
+=ComprehensiveDifferenceStrategy=.  In addition, users can
+set it to the name of a class that implements
+=DifferenceStrategy= and that has a default constructor;
+the program will instantiate it and use the instance to analyze
+API differences.  I might so the same thing for the selection of
+printers in many of the tools.

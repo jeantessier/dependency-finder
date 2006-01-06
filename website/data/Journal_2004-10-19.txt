@@ -1,0 +1,3 @@
+More tests in preparation for retrofitting
+=TransitiveClosure= to use the new
+=TransitiveClosureEngine=.

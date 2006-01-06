@@ -1,0 +1,8 @@
+Tech docs.
+
+Finished release 1.1.1.
+
+Considered merging =ClassFinder= and
+=ClassList= into a single tool.  But in other areas, I have
+simple tools that each do one thing only, so I might as well let these
+two follow the same pattern.

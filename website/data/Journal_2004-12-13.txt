@@ -1,0 +1,3 @@
+Wrote a section of the User Manual to describe how you can keep
+track of usage of deprecated programming elements using
+=DependencyReporter=.

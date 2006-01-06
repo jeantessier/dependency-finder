@@ -1,0 +1,8 @@
+Took a break for a few days, but now I'm back and bent on getting
+the beta out.  I need to build some kind of equivalence table for
+features between the CLI, GUI, Ant tasks, and web app.  I don't know
+quite where to put it.  One place might be as part of each tool
+description in the tools docs, but that spreads it a little too much.
+I might just go with a table in the manual instead.
+
+After this, I should be done.  The Beta is near!

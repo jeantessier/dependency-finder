@@ -1,0 +1,11 @@
+I adjusted =GraphCopier= and =GraphSummarizer=
+to reduce the noise in their scope output.  They used to output the
+whole package of any node that was in scope.  This often produced extra
+output that would obscure the answer to the query.
+
+The new =GraphCopier= maintains a separate =NodeFactory=
+for scoped nodes and filtered nodes.  Only nodes in the scope are
+created using the scoping =NodeFactory=.  This cuts away
+a lot of extraneous information.
+
+This has unfortunately broken =TransitiveClosure=.

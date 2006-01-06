@@ -1,0 +1,4 @@
+More work on =TransitiveClosureEngine=.  I'm stuck in the
+selectors and how they navigate the original graph and copy only what's
+needed to the destination graph, all the while keeping track of
+individual layers as I build the closure.

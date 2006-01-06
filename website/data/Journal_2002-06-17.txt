@@ -1,0 +1,6 @@
+Done with SLOC.
+
+Added =indent-text= switch to commands that
+generate textual output, including XML documents.  This
+allows users to adjust file size by replacing four spaces
+with a single TAB or whatever else they want.

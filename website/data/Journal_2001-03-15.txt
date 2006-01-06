@@ -1,0 +1,9 @@
+Refactored =JarJarDiff= and the XSL stylesheets
+to generate both reports from the same XML file.  =JarJarDiff=
+still supports the =-external= switch, but not for
+long.  I am also more strict regarding what goes in the external
+(i.e., public) report.  Now, all I need to do is be still more
+strict on what features are reported, and restrict the report to
+a subset of packages.
+
+It turns out we want feature signatures after all.

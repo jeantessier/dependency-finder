@@ -1,0 +1,8 @@
+Came up with an idea for a =LoadListenerBase= that would
+handle the group-related events and maintain a stack of group data.
+This way, all =VerboseListener= classes can share that
+behavior, including rendering the group stack consistently.  This new
+abstract base class would include much of the =LoadListener=
+logic from =extract.jsp=.  I still not sure if I should call
+it =LoadListenerBase= or =LoadAdapter=.
+

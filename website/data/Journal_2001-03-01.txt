@@ -1,0 +1,14 @@
+Added a script for doing XSL Transformations.  It uses
+Apache's Xalan.  Now all I need are some XSL stylesheets.
+
+=DependencyReporter= is working fine, except
+that the command-line is starting to exceed DOS limits.
+I will need to create an XML configuration document if
+I want to process complex queries.
+
+I fixed =DependencyExtractor= so that it can
+read from JAR and Zip files.
+
+I found yet another bug caused by things use index 0 in
+the constant pool to represent special cases.  There may be
+others still waiting to manifest themselves.

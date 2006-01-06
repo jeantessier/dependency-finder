@@ -1,0 +1,28 @@
+It turns out the problem with XSL was my fault.  Apparently,
+I was not supposed to use the string "--" in comments the way
+I did to format the copyright notice.  I'll put the fix in the
+next release.  In the mean time, people can either edit the files
+themselves or stick to the GUI.
+
+I'm working on fixing =-verbose= and =-trace=
+switches.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Log4J</td>
+        <td>:</td>
+        <td>1.1.3</td>
+        <td>-></td>
+        <td>1.2alpha6</td>
+    </tr>
+</table>
+</blockquote>
+
+I thought about upgrading Jakarta ORO, who just came out with
+version 2.0.5.  But the changes are just bug fixes that don't
+impact me, so I decided against.
+
+I'll also try to fix the dependency metrics for the next release.

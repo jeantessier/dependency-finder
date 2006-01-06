@@ -1,0 +1,10 @@
+For a while now, I have been less than pleased at having to
+operate on maximized graphs.  I revised =jt.dependency.GraphCopier=
+to make =jt.dependency.GraphSummarizer=.  The latter
+explores the graph more fully to compensate for the sparseness of the
+graph.  This modification will shorten the time it takes to read the graph,
+but queries will take longer to process.  Usage in the field will tell which
+mode works best on real projects, whether it is _normal_, _minimized_,
+or _maximized_.  I had to retrofit =DependencyReporter=,
+=DependencyMetrics=, and =DependencyFinder= and give
+them the appropriate switches.

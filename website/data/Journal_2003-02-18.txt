@@ -1,0 +1,6 @@
+Tools docs.
+
+Rewrote the intro page for the website.  I thought it needed
+some words of encouragement to prospective users as to why they
+should use Dependency Finder instead of the other available
+solutions.

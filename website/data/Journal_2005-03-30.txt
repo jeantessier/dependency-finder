@@ -1,0 +1,11 @@
+There is a problem with =DependencyFinder=: it ignores
+=.class= files passed in explicitly.  Somehow, the
+dispatcher seems to think it should ignore the files.  This is because
+the dispatcher is asked twice about the file: once as a group and once
+as an individual file.  Since the file hasn't changed between being
+looked at as a group and as a single file, the
+=ModifiedOnlyDispatcher= tells the loader to ignore it the
+second time around.  Maybe =ClassfileLoaderDispatcher=
+needs both a =dispatchGroup()= method and a
+=dispatchFile()= method instead of the current single
+=dispatch()= method.

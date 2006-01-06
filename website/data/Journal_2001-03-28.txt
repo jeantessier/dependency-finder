@@ -1,0 +1,3 @@
+I gave a copy to Mickey Reilly so she can start using
+=JarJarDiff=.  I had to add quick installation instructions
+in =readme.txt=.

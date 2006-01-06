@@ -1,0 +1,6 @@
+I now have progress bars on the GUIs!
+
+I am going to do one more release before the beta, either
+tomorrow (12/31) or the day after (1/1).  Like I said before,
+this will let people out there use the new features and bug
+fixes without having to wait on the user guide.

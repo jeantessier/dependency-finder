@@ -1,0 +1,21 @@
+I'm not going to make it.  I wanted to finish the first
+beta release before going on vacation next week, but I'm
+not done with the coding and there is a lot of documentation
+to write still.  I'll do a date-tagged release with all the
+code fixes so I can close the bugs and do the beta later,
+when I've had some time to write good docs and package the
+whole thing properly.  I've updated the release plan
+accordingly.
+
+Worked on dependency-related metrics.  I think I've got
+it nailed down, but I need to write more tests.
+
+Made progress with SLOC.  Methods are pretty good.
+Fields are accounted for.  I've added one for the class
+declaration.  I still need to work out =try {=
+lines.
+
+I got feedback regarding =ListDiff= and
+=PublisedDiffToHTML.xsl=.  I need to do more
+testing to make sure that they compute differences
+correctly.

@@ -1,0 +1,4 @@
+Finished adjusting all the remaining dependency graph-related
+stylesheets to use the new information about inferred versus confirmed
+nodes.  I took the opportunity to update all the HTML stylesheets to
+use the CSS styles instead of hard-coded HTML tags.

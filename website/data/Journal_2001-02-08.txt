@@ -1,0 +1,12 @@
+I should consider turning this into an Ant task.
+
+What if I used a =ClassLoader= instead to
+trap class requests as the target class is being
+resolved?  The good thing about looking at the
+=.class= file only is that I don't need to
+have all the dependencies on the =CLASSPATH=
+at the time.
+
+I looked at the classes used by =javac=
+and it appears to be a mess.  I'll stick with my things
+for now.

@@ -1,0 +1,5 @@
+Added separators and table of contents to the output of
+=DiffToHTML.xsl=.  This helps me combine reports
+into one long history file, with individual diffs separated
+by &lt;hr&gt; tags.  I also added new sample outputs of
+=JarJarDiff=.

@@ -1,0 +1,6 @@
+New release!  I was hoping to launch a beta, but I'm
+behind with the documentation.  With this release, people
+can benefit from the bug fixes while I finalize the docs.
+
+I'm still going through the change logs from CVS to
+publish the list of changes since the last release.

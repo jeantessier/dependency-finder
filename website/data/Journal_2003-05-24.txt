@@ -1,0 +1,7 @@
+Made some minor renaming in the
+=com.jeantessier.commandline= package.
+
+It is interesting that since I announced I might do the 1.0 release
+imminently, there has been no downloads of Dependency Finder.  I would
+like to think that the world is standing still, waiting for this 1.0
+release.  :-)

@@ -1,0 +1,2 @@
+Wrote examples of using =OOMetrics= for tracking usage of
+deprecated elements and computing the D' metric in the User Manual.

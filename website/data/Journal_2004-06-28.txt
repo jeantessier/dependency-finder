@@ -1,0 +1,4 @@
+Attended a session at JavaOne on sorting and filtering in Swing
+JTables.  They had a nice approach to combine multiple levels of
+sorting and filter on multiple columns.  I'll try to incorporate it
+into =OOMetrics= when I get a chance.

@@ -1,0 +1,3 @@
+I have started defining the DTD and initial document for the
+metrics configuration.  I have yet to read it in or do anything
+useful with it.

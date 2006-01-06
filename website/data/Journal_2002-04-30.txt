@@ -1,0 +1,5 @@
+I have found a silly bug in =com.jeantessier.dependency.TextPrinter=
+where it was not following the Inherited Behavior pattern in
+some of its methods.  This was slowing down the printing of
+dependency graphs tremendously (by a factor of 60 for analyzing
+Dependency Finder itself).  It is all fixed now.

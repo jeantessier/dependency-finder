@@ -1,0 +1,4 @@
+Adjusted =OpenFileAction= so it gets its
+=NodeFactory= from the model instead of creating its own.
+This is in preparation to having it use a =Monitor=
+instead.

@@ -1,0 +1,2 @@
+Realized I had mistakenly swapped the current CVSDiff and
+CVSChangelog reports when I last updated them.

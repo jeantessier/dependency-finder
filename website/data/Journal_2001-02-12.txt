@@ -1,0 +1,18 @@
+Regarding the need for compiling in debug mode
+(=-g= switch).  This is required in order to
+capture dependencies created by the type of local variables
+in methods.  The compiler verifies the legality of type
+assignments and then discards the type information.  When
+the compiler is called with =-g=, it keeps the
+type information to create the =LocalVariableTable=
+attribute of =Code= attributes.  If the
+assignment is legal, then it meets all the dependency
+requirements.  It either uses the same dependency, or creates
+a new one which is more restrictive than the initial
+dependency (i.e., it transitively includes the former).
+Dependencies are not automatically considered transitive,
+but in this case they are.  It is therefore acceptable
+to ignore the dropped dependency.  If someone really
+wants to see it, he or she simply has to compile the
+code using =-g= and run the dependency
+finder again.

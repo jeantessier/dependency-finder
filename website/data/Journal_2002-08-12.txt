@@ -1,0 +1,7 @@
+I found two other tools that do similar things as
+Dependency Finder: <a target="_blank" href="http://remotejava.com/classdep/">classdep</a>
+and <a target="_blank" href="http://www.headwaysoftware.com/">reView</a>.
+
+Faced with the declining number of downloads of Dependency
+Finder recently, I'm going to have to start advertising.  I'm going to
+start by spamming newsgroups...  See you in comp.lang.java.*  :-)

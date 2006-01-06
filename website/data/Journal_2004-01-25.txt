@@ -1,0 +1,3 @@
+I'm done with the refactoring.  It was a lot of work but went on
+smoothly.  Now, I move on to the next task in fixing the closure
+logic.

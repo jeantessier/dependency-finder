@@ -1,0 +1,5 @@
+Updated CVS diff and change log data.
+
+Generated some
+<a target="_blank" href="statcvs/">CVS statistics</a> using
+<a target="_blank" href="http://statcvs.sf.net/">StatCVS</a>.

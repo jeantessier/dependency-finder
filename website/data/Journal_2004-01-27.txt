@@ -1,0 +1,5 @@
+Started working on a tool to list packages by JAR file in a given
+codebase.  I'm thinking I could turn this into a way to track classes
+by their location, be it a loose class file or as part of a JAR file.
+I have had a few requests for tracking inter-JAR dependencies and this
+could be a step in that direction.

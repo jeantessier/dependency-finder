@@ -1,0 +1,29 @@
+Someone is having problems computing closures and finding paths
+between components.  Can't blame them, the output from
+=DependencyClosure= is very hard to follow.
+
+They claim that in JDK 1.3.1, there is a path from
+=JTree= to =Toolkit= through
+=MouseEvent=.  =DependencyClosure= found one
+through =Component= and I looked at the source for
+=MouseEvent= from 1.3.1_09 and there is no mention of
+=Toolkit= in there.  There is in JDK 1.4 but not in
+1.3.
+
+At the time, I didn't have =rt.jar= handy to repeat the
+tests, so I used =DependencyFinder.jar= instead.  At first,
+I tried to find a closure from
+=com.jeantessier.dependencyfinder.cli.DependencyExtractor=
+to =com.jeantessier.commandline.MultipleValuesSwitch=.  I
+thought it called =CommandLine.addMultipleValuesSwitch()=
+and would then find =MultipleValuesSwitch= from there, but
+it doesn't.  Of course, =DependencyExtractor= does not have
+multiple value switches, so there is no feature-to-feature path from
+it to =MultipleValuesSwitch=.  I will need to document this
+situation, in case someone else comes upon it too.
+
+Gave some more thought to a specialized printer for transitive
+closures.
+
+Finishing the documentation shouldn't take too long.  Definitely not
+long enough to justify having a beta release while we're waiting.

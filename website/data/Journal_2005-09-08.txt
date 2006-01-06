@@ -1,0 +1,8 @@
+Started work on =DifferenceStrategy= to encapsulate the
+behavior behind =Differences.isEmpty()=.  Got through the
+simple tests for fields, constructors, and methods.
+
+Ran a quick test with a large JAR file: removing all calls to Log4J
+reduces extraction time by 50%.  I should look into more discretionary
+use of logging to make the application more responsive, specially for
+large codebases.

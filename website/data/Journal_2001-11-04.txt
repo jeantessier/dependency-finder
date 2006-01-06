@@ -1,0 +1,7 @@
+=OOMetricsGUI= is a Swing GUI put on top of
+=OOMetrics=.  It resulted in the creation of the
+=jt.swing= package to hold generic classes for
+Swing applications.
+
+The next step is to be able to sort on arbitrary columns.
+I must also integrate it with =DependencyFinder=.

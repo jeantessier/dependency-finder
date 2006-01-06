@@ -1,0 +1,3 @@
+I have added a utility for diff'ing published API lists.
+The utility is called =ListDiff= and has two XSL
+stylesheets for writing to HTML and regular text.

@@ -1,0 +1,9 @@
+Moved the GUI's =LoadListener= implementations to use the
+new =VerboseListenerBase=.  Instead of mingling it in the
+action class, I moved it out into delegate listener classes.  Again,
+classes should do one thing only, and do it well.  A lesson to
+remember.
+
+Now that the GUI, the CLI, and the Ant tasks have access to the full
+group processing stack, I can work on to how use that information in the
+progress messages.

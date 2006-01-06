@@ -1,0 +1,7 @@
+Cleaned up =MartinConfig.xml= to compute Robert C.
+Martin's =D'= metric.  I also drew a diagram of the various
+measurements and how they feed into each other.  This might be useful
+documentation.
+
+CVS on SourceForge is still down.  This is annoying.  I don't want
+to have too much code not checked in; it's not safe.

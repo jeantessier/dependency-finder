@@ -1,0 +1,6 @@
+I added switches to =OOMetrics= to make the parts
+of the report conditional.  This way, the users can request only
+specific parts of the report if they want.
+
+I need modified =jt.metrics.ui.OOMetrics= so that
+it parses all classes before starting the analysis.

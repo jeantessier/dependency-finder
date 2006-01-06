@@ -1,0 +1,24 @@
+Removed =-plain= and =-raw= switches
+from =ClassReader=, =DependencyExtractor=,
+and =DependencyReporter=.  Their output was not adding
+any new information and looked ugly.
+
+Fixed =MetricsTableModel=.
+=DependencyFinder= uses it to render dependency
+distributions in a =JTable=.  A small glitch was making
+it miss the last row of data.  I also renamed
+=com.jeantessier.dependency.MetricsGatherer.ChartSize()=
+to
+=com.jeantessier.dependency.MetricsGatherer.ChartMaximum()=.
+
+Normalized naming of human-readable text printers from
+=PrettyPrinter= to =TextPrinter=.  In
+=com.jeantessier.dependency=, I had to merge the two
+classes.  I also got rid of
+=com.jeantessier.dependency.UglyPrinter=.  As a
+result, I could get rid of =-plain= and =-raw=
+command-line switches and simplify the output of
+=ClassReader=, =DependencyExtractor=, and
+=DependencyReporter=.
+
+Tools docs.

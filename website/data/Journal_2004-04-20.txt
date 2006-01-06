@@ -1,0 +1,14 @@
+Wrote a whole new tool to monitor usage of deprecated APIs.
+=ListDeprecatedElements= scans JARs and collects a list of
+names for deprecated classes, interfaces, fields, methods, and
+constructors.  =DeprecationReporter= is a variation on
+=DependencyReporter= that uses the list instead of
+regular expressions to figure out the scope and does no filtering.
+There are CLI and Ant versions of each, with associated
+documentation.
+
+Refactored =TestRecord= to use =StringReader=
+to read back generated XML documents in strings.
+
+Refactored =TestRegularExpressionSelectionCriteria= to
+make all its fields private.

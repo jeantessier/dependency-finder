@@ -1,0 +1,24 @@
+Addressed a possible performance issue which
+=com.jeantessier.metrics.XMLPrinter= where using
+four spaces for indent was yielding _huge_ XML reports.
+I changed =OOMetrics= to use a tab character
+instead.  We'll see how it goes.  At the same time, I adjusted
+=XMLPrinter= to generate &lt;measurement&gt;
+nodes instead of &lt;metric&gt;.  It will also ignore
+=NullMeasurement= instances from here on.
+
+Use the system property =line.separator=
+instead of "\n" in metrics reports.  This should help with
+cross-platform portability.
+
+Rigged =MetricsFactory= to handle group
+definitions properly.
+
+I've been looking at using tool tips in the header of the
+result tables in =OOMetricsGUI= to expand the
+measurement names.  Each header has an associated
+=JComponent=, but getting to is proving rather
+difficult.  I'd almost have to provide a custom
+implementation of =TableColumnModel=, but I
+only need to override a tiny piece of the behavior.  More
+on this later.

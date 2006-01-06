@@ -1,0 +1,2 @@
+The logic to pull out nodes is too complex.  I'm getting lost in all
+the bookkeeping required.

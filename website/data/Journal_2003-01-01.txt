@@ -1,0 +1,3 @@
+New release!
+
+Updated the copyright notice for the new year.

@@ -1,0 +1,2 @@
+Finished =APIOnlyDifferenceStrategy=.  Now, I need a
+switch in JarJarDiff to select the strategy at runtime.

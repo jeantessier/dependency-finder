@@ -1,0 +1,4 @@
+Maybe I could submit papers for sessions at JavaOne.
+
+A colleague deployed two instances of the Dependency
+Finder web app for us to use.

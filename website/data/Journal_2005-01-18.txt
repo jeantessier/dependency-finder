@@ -1,0 +1,9 @@
+Added more tests for =DeletingVisitor= to make sure that
+deleting nodes with inbound dependencies does not remove them from the
+graph but only makes them as referenced elements.
+
+Added flags to the web application to control whether or not to
+display the =source= and =file= parameters on
+=extract.jsp= and =load.jsp= respectively.  This
+can help in debugging where a given installation is getting its data
+from.

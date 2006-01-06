@@ -1,0 +1,9 @@
+Studied the impact of logging a little further.  If I remove all
+logging in =CodeDependencyCollector=, I can save about 15%.
+
+Worked at breaking down the Journal into individual wiki-like files.
+The large, single file HTML was becoming too unwieldy.  IntelliJ IDEA
+was stalling every time I opened a new tag.  With the wiki-like
+notation, it will make writing entries a little easier since I won't
+have to type all those HTML tags anymore.  I still need to figure out
+how to rebuild the HTML file from the individual pieces.

@@ -1,0 +1,5 @@
+Looked at building and "about..." box for the GUI.  I started with
+the one in JUnit, but it is based on AWT.  I think that I may be able
+to cook up something similar using Swing instead.  I'll start with
+=JOptionPane.showInternalMessageDialog()= and see where it
+leads.

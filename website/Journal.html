@@ -18,6 +18,38 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 -->
     <dt>
+        January 05, 2006
+    </dt>
+    <dd>
+        <p>Studied the impact of logging a little further.  If I remove all
+	logging in <code>CodeDependencyCollector</code>, I can save about
+	15%.</p>
+
+        <p>Worked at breaking down the Journal into individual wiki-like
+	files.  The large, single file HTML was becoming too unwieldy.
+	IntelliJ IDEA was stalling every time I opened a new tag.  With the
+	wiki-like notation, it will make writing entries a little easier since
+	I won't have to type all those HTML tags anymore.  I still need to
+	figure out how to rebuild the HTML file from the individual
+	pieces.</p>
+    </dd>
+    <dt>
+        January 04, 2006
+    </dt>
+    <dd>
+        <p>Took another look at the impact of logging.  When analyzing
+	Dependency Finder itself with all logging turned on, some of the lines
+	from <code>VisitorBase</code> are over 300 KB long!  But these logging
+	calls are guarded by calls to <code>Logger.isDebugEnabled()</code>, so
+	those 300K lines usually aren't generated.</p>
+    </dd>
+    <dt>
+        January 03, 2006
+    </dt>
+    <dd>
+        <p>Cleaned up <code>build.xml</code>.</p>
+    </dd>
+    <dt>
         December 30, 2005
     </dt>
     <dd>
@@ -502,7 +534,7 @@
         then explodes with a <code>NoSuchMethodError</code> for either
         <code>Float.compare(float, float)</code> or
         <code>Double.compare(double, double)</code>.</p>
-        </dd>
+    </dd>
     <dt>
         September 26, 2005
     </dt>
@@ -5796,7 +5828,7 @@
         <p>Tech docs for the developer guide.  Added an additional reference
         to the <code>OOMetricsGUI</code> screenshot for after the extract.</p>
     </dd>
-     <dt>
+    <dt>
         March 19, 2003
     </dt>
     <dd>
@@ -5813,7 +5845,7 @@
         intra-package, and extra-package dependencies at both the class
         and method levels.</p>
     </dd>
-   <dt>
+    <dt>
         March 12, 2003
     </dt>
     <dd>
@@ -5889,7 +5921,7 @@
             </tr>
         </table>
         </blockquote>
-   </dd>
+    </dd>
     <dt>
         March 11, 2003
     </dt>
@@ -6123,7 +6155,7 @@
     <dd>
         <p>Tools docs.</p>
     </dd>
-     <dt>
+    <dt>
         February 14, 2003
     </dt>
     <dd>
@@ -6131,7 +6163,7 @@
 
         <p>After I launch the beta, I'll work on some articles.</p>
     </dd>
-   <dt>
+    <dt>
         February 13, 2003
     </dt>
     <dd>
@@ -6290,7 +6322,7 @@
     <dd>
         <p>Tech docs.</p>
     </dd>
-     <dt>
+    <dt>
         January 21, 2003
     </dt>
     <dd>
@@ -6415,7 +6447,7 @@
 
         <p>Updated the copyright notice for the new year.</p>
     </dd>
-     <dt>
+    <dt>
         December 30, 2002
     </dt>
     <dd>
@@ -6426,7 +6458,7 @@
         this will let people out there use the new features and bug
         fixes without having to wait on the user guide.</p>
     </dd>
-   <dt>
+    <dt>
         December 28, 2002
     </dt>
     <dd>
@@ -6623,7 +6655,7 @@
         this year.  No way I can get an official major release
         out before December 31.  But next year, for sure.</p>
     </dd>
-     <dt>
+    <dt>
         November 25, 2002
     </dt>
     <dd>
@@ -6640,7 +6672,7 @@
         the notation is simpler and the embedded HTML does not get
         in the way.</p>
     </dd>
-   <dt>
+    <dt>
         November 21, 2002
     </dt>
     <dd>
@@ -6782,7 +6814,7 @@
         <p>I will also write a more decent samples section in the
         manual.  The current one is rather laughable.</p>
     </dd>
-     <dt>
+    <dt>
         November 07, 2002
     </dt>
     <dd>
@@ -6792,7 +6824,7 @@
         how this stuff is used as part of an actual development
         process.</p>
     </dd>
-   <dt>
+    <dt>
         November 04, 2002
     </dt>
     <dd>
@@ -7313,7 +7345,7 @@
         by &lt;hr&gt; tags.  I also added new sample outputs of
         <code>JarJarDiff</code>.</p>
     </dd>
-     <dt>
+    <dt>
         September 05, 2002
     </dt>
     <dd>
@@ -7327,7 +7359,7 @@
         one for each current measurement collected by the
         gatherer.</p>
     </dd>
-   <dt>
+    <dt>
         September 04, 2002
     </dt>
     <dd>
@@ -7362,7 +7394,7 @@
         aggregate extra-package dependencies and compute coupling
         metrics.</p>
     </dd>
-     <dt>
+    <dt>
         August 28, 2002
     </dt>
     <dd>
@@ -7373,7 +7405,7 @@
         wrong.  This modification is pretty useless, I can't think of
         a valid use case.  But what the heck, it's in there already.</p>
     </dd>
-   <dt>
+    <dt>
         August 27, 2002
     </dt>
     <dd>
@@ -7409,7 +7441,7 @@
         JUnit and that <code>junit.framework.TestCase</code> now has a
         no argument constructor.</p>
     </dd>
-     <dt>
+    <dt>
         August 23, 2002
     </dt>
     <dd>
@@ -7438,7 +7470,7 @@
         </table>
         </blockquote>
     </dd>
-   <dt>
+    <dt>
         August 22, 2002
     </dt>
     <dd>
@@ -8140,7 +8172,7 @@
         <code>ArrayIndexOutOfBoundsException</code> from the transformation
         engine.</p>
     </dd>
-     <dt>
+    <dt>
         April 09, 2002
     </dt>
     <dd>
@@ -8154,7 +8186,7 @@
         also need an new XSL stylesheet to extract the documentation
         level information from all the other differences.</p>
     </dd>
-   <dt>
+    <dt>
         April 08, 2002
     </dt>
     <dd>
@@ -8255,7 +8287,7 @@
         <p>I streamlined <code>Diff.dtd</code> to remove duplicated
         information in the output of <code>JarJarDiff</code>.</p>
     </dd>
-     <dt>
+    <dt>
         March 10, 2002
     </dt>
     <dd>
@@ -8269,7 +8301,7 @@
         <p>I've started to adjust <code>DiffToExternalHTML</code>, but
         that XSL non-trivial.</p>
     </dd>
-   <dt>
+    <dt>
         March 07, 2002
     </dt>
     <dd>
@@ -8278,7 +8310,7 @@
         more granular validation that would have a feature-level
         resolution.</p>
     </dd>
-     <dt>
+    <dt>
         March 04, 2002
     </dt>
     <dd>
@@ -8295,7 +8327,7 @@
 
         <p>I fixed a typo in <code>DiffToExternalHTML.xsl</code>.</p>
     </dd>
-   <dt>
+    <dt>
         March 03, 2002
     </dt>
     <dd>
@@ -8379,7 +8411,7 @@
 
         <p>I moved <code>log4j.properties</code> under <code>src/</code>.</p>
     </dd>
-     <dt>
+    <dt>
         February 13, 2002
     </dt>
     <dd>
@@ -8391,7 +8423,7 @@
         <code>Classfile</code> instance once the dependencies have been
         extracted.</p>
     </dd>
-   <dt>
+    <dt>
         February 05, 2002
     </dt>
     <dd>
@@ -9251,7 +9283,7 @@
         or <code>implements</code> clause have changed.</p>
 
         <p>I need to redo the packaging and add documentation.</p>
-   </dd>
+    </dd>
     <dt>
         April 02, 2001
     </dt>
@@ -9264,7 +9296,7 @@
         with restricting the processing to public or protected features,
         as well as correctly detecting changes in visibility from protected
         to package or private.</p>
-   </dd>
+    </dd>
     <dt>
         March 28, 2001
     </dt>
@@ -9272,7 +9304,7 @@
         <p>I gave a copy to Mickey Reilly so she can start using
         <code>JarJarDiff</code>.  I had to add quick installation instructions
         in <code>readme.txt</code>.</p>
-   </dd>
+    </dd>
     <dt>
         March 20, 2001
     </dt>
@@ -9304,7 +9336,7 @@
         </ul>
  
         <p>I may also need to revise the package names and organization.</p>
-   </dd>
+    </dd>
     <dt>
         March 19, 2001
     </dt>
@@ -9495,7 +9527,7 @@
         <p>I found yet another bug with <code>byte</code> as a signed type.
         There may be others still waiting to manifest themselves.</p>
     </dd>
-     <dt>
+    <dt>
         March 01, 2001
     </dt>
     <dd>

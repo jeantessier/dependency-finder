@@ -1,0 +1,9 @@
+Found a problem when analyzing individual =.class= files.
+For some reason, the GUI keeps on skipping them.  It turns out the
+dispatcher gets called twice: once when initiating the group processing
+and a second time to deal with the file as part of the group.  The
+GUI uses a =ModifiedOnlyDispatcher=, which instructs the
+=ClassfileLoader= to ignore the file after the first time,
+so the file is never read.  The intricate collaboration between the
+various =ClassfileLoader= subclasses will make this hard to
+figure out.

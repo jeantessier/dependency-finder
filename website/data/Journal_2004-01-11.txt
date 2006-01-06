@@ -1,0 +1,10 @@
+I fixed my HTML scraper to account for the new HTML on
+SourceForge's download page.  It now seems to work just fine.  But the
+data on SourceForge is stale.  The statistics page only go to
+December 30, 2003.  I fear that SourceForge is having problems with its
+statistics collection again.
+
+Apparently, there were over 50 downloads of release 20020127 during
+the holidays.  I don't see why people would be interested in that old
+version.  Something is definitely fishy with SourceForge's statistics
+and download tallies.

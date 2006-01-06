@@ -1,0 +1,6 @@
+Adjusted =classfile.dtd= and
+=com.jeantessier.classreader.XMLPrinter= to make
+the =&lt;interfaces&gt;= tag under
+=&lt;classfile&gt;= optional.  This is to make
+it consistent with the other "optional" sections for
+fields, methods, and attributes.

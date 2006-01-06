@@ -1,0 +1,9 @@
+Toying with the idea of changing the naming convention to adopt the
+regular Java convention instead of my beloved C++ convention.  This
+would mean renaming accessors to =getX()= and
+=setX()= and renaming all methods and fields so they
+start with a lowercase letter and use camel case.  That's a lot of
+work and will obviously break the code of anyone who's be programming
+to the API.  Is it acceptable, if it brings the code in line with what
+people expect of Java code?  And it's quite an undertaking: 239 classes
+and over 3,000 methods.

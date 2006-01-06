@@ -1,0 +1,17 @@
+Toyed with the idea of removing deprecation-related entries from
+=JarJarDiff= reports, in addition to the
+documentation-related ones I removed two days ago.  In the end, I
+decided to keep them since they impact the compilation messages you get
+when building code.
+
+Further modified =JarJarDiff= to use
+=Validator= as a filter instead of the two documentation
+parameters it had before.  Now, it uses a new
+=ComprehensiveValidator= by default but if supplied with
+the =-filter= switch, it uses a
+=ListBaSedValidator= instead to limit the report to
+selected elements.  I have to modify =ListBaSedValidator= to
+throw an exception when its input file is missing.  I am not finished
+yet.  There are no tests for filtering and when I pass in the switch,
+the resulting report is empty.  This shouldn't take too long to sort
+out.

@@ -1,0 +1,3 @@
+Came up with a name!  Nodes are _referenced_ by default,
+until the dependency extractor actually encounters them in analyzed
+code and then marks them as _concrete_.

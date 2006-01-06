@@ -1,0 +1,4 @@
+Started coding =BeginFile= and =EndFile=
+load-time events.  I also want to automatically expand ZIP and JAR
+files, so I can open compound ZIP-like files, such as WAR and EAR,
+directly.  This will complicate the flow of events, though.

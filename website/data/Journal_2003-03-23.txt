@@ -1,0 +1,7 @@
+Wrote Ant task for =DependencyExtractor=.  It turns out
+that using a path-like structure is actually easier than extending
+=MatchingTask=.  I hesitate about the name of the
+attribute for the output file.  The other tools use =out=
+but Ant recommends =destfile= instead.  So do I make it
+consistent with other Dependency Finder tools or with other Ant
+tasks?

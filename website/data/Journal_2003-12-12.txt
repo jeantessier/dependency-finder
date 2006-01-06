@@ -1,0 +1,33 @@
+That one customer with the large codebase and low memory still has
+problems.  They had tried =OOMetrics= without much success.
+The dependency-related measurement proved too hard to figure out
+right.  I really need to do something about them.
+
+So, they need to count dependencies between classes.
+
+One approach is to use the dependency counts from
+=OOMetrics=.  The downside  is that it uses an
+=AggregatingClassfileLoader= to load all the class
+structures before making any measurements.  Some measurements attempt
+to traverse multiple classes and the tool must make sure they are
+present in memory at that time.
+
+Another option is to use =DependencyExtractor= to extract
+a dependency graph first, and then get the information from it.
+=DependencyExtractor= uses a
+=TransientClassfileLoader= and discards each class structure
+as soon as it's gotten the dependency information it needs.  The memory
+requirements are much less.
+
+But for a large codebase, the resulting graph can still be quite
+large.  If you are really restrained memory-wise, it may still be too
+much.  My customer was trying to run =DependencyExtractor=
+to create one large graph and then reduce it with =c2c=.
+Since all they needed were class-to-class dependencies, we figured they
+could run =DependencyExtractor= multiple times on subsets of
+the codebase, run =c2c= on the resulting graph subsets, and
+finally recombine the now much smaller class-to-class graphs.  After
+trying this with =DependencyFinder.jar=, it turned out that
+the class-to-class graph reduced complexity by 98% compared to the
+equivalent extracted graph.  I'm anxious to see if this worked for
+them.

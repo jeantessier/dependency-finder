@@ -1,0 +1,16 @@
+Wrote a section of the User Manual to describe how you can limit the
+API diff report of a third-party library to the subset of that API that
+you are using in your code.
+
+Found a bug with the CLI scripts.  When I generated the template for
+1.1.0 beta3, I used an example that lacked the Xerces libraries.  This
+means that all tools that need to read XML coudn't find a proper
+parser.  Since no one has complained yet, I guess they all use the GUI
+or the Ant tasks.  I won't write a patch for this since the official
+1.1.0 release is very close and will have the correct scripts.
+
+Had a similar problem with the XSL scripts, but in reverse.  Most of
+them are straightforward XSL transformations and only require Xalan
+JARs.  But =PublishedDiffToHTML.xsl= uses some custom code
+and needs Dependency Finder's JARs.  I changed the template to include
+them all the time, just like the Unix template was doing.

@@ -1,0 +1,2 @@
+Started looking at <a href="http://fitnesse.org/">FitNesse</a> in
+combination with its HtmlFixture to test the web app.

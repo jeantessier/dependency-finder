@@ -1,0 +1,11 @@
+Finished moving my office to the next room down the hall.  I do have
+quite a few books!
+
+Someone asked me how to tie additional information to
+=com.jeantessier.dependency.Node= objects for their
+application.  My answer to them is to use the =Node=
+instances as keys in a =java.util.Map=.  It implements
+=equals()= and =hashCode()= based on the name of
+the node, so comparisons will match just fine.  This allows you to
+associate any arbitrary data to nodes without introducing any
+additional dependencies in the node classes.

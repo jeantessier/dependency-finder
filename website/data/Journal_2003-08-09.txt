@@ -1,0 +1,25 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Xerces</td>
+        <td>:</td>
+        <td>2.3.0</td>
+        <td>-></td>
+        <td>2.5.0</td>
+    </tr>
+    <tr>
+        <td>Xalan</td>
+        <td>:</td>
+        <td>2.5 D1</td>
+        <td>-></td>
+        <td>2.5.1</td>
+    </tr>
+</table>
+</blockquote>
+
+For Xalan, I used  the distribution with two JAR files,
+=xalan.jar= and =xsltc.jar=.  I don't need the
+material in the second one, so I only ship =xalan.jar= and
+this keeps the size of the distribution down.

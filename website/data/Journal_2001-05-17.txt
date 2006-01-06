@@ -1,0 +1,9 @@
+I added a =-f2f= switch and matching =.bat=
+files for =DependencyReporter= to analyze
+software at the feature level.
+
+I am rewriting the =.bat= files to support an
+arbitrary number of arguments.
+
+I also added a =-time= switch to all commands
+so we can time their execution.

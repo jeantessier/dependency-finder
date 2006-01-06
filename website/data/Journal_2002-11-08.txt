@@ -1,0 +1,12 @@
+Found two references to Perl regular expressions in Java.
+I will be able to point people to them in the manual and the
+JSPs.  This will help with teaching people how to use the
+regular expressions to get them data they want.
+
+<ul>
+    <li>=<a href="http://jakarta.apache.org/oro/api/org/apache/oro/text/regex/package-summary.html#package_description">org.apache.oro.text.regex</a>= in Jakarta ORO</li>
+    <li>=<a href="http://java.sun.com/j2se/1.4/docs/api/java/util/regex/Pattern.html#sum">java.util.regex.Pattern</a>= in JDK 1.4</li>
+</ul>
+
+I will also write a more decent samples section in the
+manual.  The current one is rather laughable.

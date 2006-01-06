@@ -1,0 +1,5 @@
+Submitted another session for the next JavaOne conference.
+This one is about JarJarDiff and API evolution management.  I
+also got someone from work to give first hand experience of
+how this stuff is used as part of an actual development
+process.

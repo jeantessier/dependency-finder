@@ -1,0 +1,10 @@
+Svetlin Stanchev asked me to include a property file for Ant tasks
+directly into =DependencyFinder.jar=, and also asked for
+more extended Ant documentation.  I have had a task on my desk to
+provide more process-related documentation for the Ant tasks and
+provide examples of how to use them together to provide added value.  I
+guess it's time I get to it.
+
+Jason Bell, in his JDJ editorial for October 2003, talks about
+"dependency rot" and how tracking dependencies is critical.  I need
+to make him aware of Dependency Finder!  :-)

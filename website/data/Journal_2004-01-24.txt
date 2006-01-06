@@ -1,0 +1,6 @@
+I started revamping the dependency closure computations.  First, I
+need to extract node selection logic to its own class and refactor
+=SelectiveTraversalStrategy= to use the new
+=SelectionCriteria= to determine both scope and filter.
+This is getting to be quite an undertaking, but it will help the new
+closure logic figure out starting nodes and stopping conditions.

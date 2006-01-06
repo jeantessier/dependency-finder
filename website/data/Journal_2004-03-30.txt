@@ -1,0 +1,7 @@
+Release the Dependency Finder tutorial at last.  I managed to crop
+all my screen captures in a consistent fashion.  At the last moment, I
+noticed that a tool tip was on one of the GUI captures.  Too bad.
+
+I started thinking about an OO Metrics tutorial too.  Setting up a
+custom configuration is non-trivial and could use some kind of
+introduction.

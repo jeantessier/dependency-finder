@@ -1,0 +1,9 @@
+I am almost done with new features to =JarJarDiff=!
+
+I fixed all the unit tests and the XSL stylesheets.  In the
+process, I fixed a bug in =PackageDifferences= and
+=ClassDifferences= when adding decorators.
+
+=DiffToExternal= may need additional tweaking.  I
+also need an new XSL stylesheet to extract the documentation
+level information from all the other differences.

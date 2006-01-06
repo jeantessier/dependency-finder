@@ -1,0 +1,25 @@
+This is my luck.  The day after the 1.0 Release I find a number of
+oversights.
+
+First, =OOMetrics= still tries to print its printer.
+This made sense when the printers contained a =StringBuffer=
+and returned the text as part of their =toString()=
+method.  But now, they print directly to the output stream and don't
+have a =toString()= method anymore.  The output now has
+weird strings in odd places, which actually breaks the XML output.
+
+Second, the version information in the JAR file's manifest is the
+stripped version: "10" instead of "1.0".  I added additional properties
+in =build.xml= to handle CVS vs. version labels.
+
+Third, some classes call =flush()= on streams before
+closing them, and others don't.  The documentation says this is
+redundant, so I removed all of these calls.
+
+Added "Powered by ..." statement to all the JSPs.  This also gave me
+an occasion to do minor touch ups in the HTML.
+
+I realized that I ran =OOMetrics= on non-debug code
+yesterday when I gathered metrics for the 1.0 release.  This means that
+SLOC metrics are way off.  I'll have to figure a way to recompile that
+version and rerun =OOMetrics=.

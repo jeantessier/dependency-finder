@@ -1,0 +1,9 @@
+Fixed the =ListDocumentedElements= doclet so it
+skips static initializers.
+
+Added =dtd-prefix= switch to commands that
+generate XML documents.  This allows users to point to local
+DTDs when they are disconnected from the Internet.  The
+user can simply use
+"=-dtd-prefix %DEPENDENCYFINDER_HOME%\etc=".  The
+default value points back to the Dependency Finder website.

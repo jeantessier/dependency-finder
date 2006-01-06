@@ -1,0 +1,9 @@
+Svetlin Stanchev brought up the idea of having the web application
+produce HTML instead of pre-formatted text.  I already have an
+unscheduled task for this, so now I must decide whether or not to move
+it forward.  I could use a dedicated =Printer= subclass,
+like I do for text rendering.  This has the disadvantage of
+duplicating the logic of rendering a dependency graph to a Java class
+and an XSL transformation.  But I already did it for the text form, so
+there is a precedent ...  I'm just not sure it really is a good
+thing.

@@ -1,0 +1,11 @@
+I have fixed all the unit tests!
+
+I was not happy with the way that most measurements
+inherited from =MeasurementBase= and implemented
+=NumericalMeasurement=.  This led to a lot of
+duplicate code and the resulting class diagram was hard
+to read.  So I created =NumericalMeasurementBase=
+to store the common code and provided some sensible default
+method implementations in both abstract classes.  Now, there
+is no longer any duplicated code and the class diagram is
+simple and obvious.

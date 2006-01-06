@@ -1,0 +1,12 @@
+Adjusted all implementations of =LoadListener= to handle
+the new events.  It is still a little quirky and I will need to fine
+tune them later.
+
+I also renamed some of the attributes in the =LoadEvent=.
+What was the _filename_ is now called the _group_name_ and
+what was the _element_ is now called the _filename_.  This
+way, the naming reflects more closely the use for these attributes.
+
+I have been considering removing =ClassDependencyCollector= and
+=FeatureDependencyCollector=.  I am not using them anymore,
+and =CodeDependencyCollector= does a much better job.

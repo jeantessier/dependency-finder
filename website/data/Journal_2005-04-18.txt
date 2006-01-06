@@ -1,0 +1,15 @@
+Dependency Finder: social networking for your code!
+
+Cleared up the documentation regarding the web application and how
+to get a dependency graph loaded.
+
+Also changed the obscure =delta= application variable
+to the more aplty named =duration=.  It tells how long the
+last extraction or loading took.  In the case of extracting a graph,
+I should probably have separate numbers for the last full extraction
+and the last update only.
+
+On my new PC, I can't seem to start Tomcat on port 8080.  It keeps
+complaining that port 8080 is already in use, but I can't figure out
+by what.  I've changed the default config to port 8000 in the meantime
+and it seems to work just fine.

@@ -1,0 +1,52 @@
+It's been a while, but I've been preparing an OO metrics module.
+Right now, it is only available as a command-line utility named
+=OOMetrics=.  It is very unstable and not all metrics
+are computed yet.  Output is either text, =.csv= file,
+or XML.  I will eventually have XSL stylesheets to format the XML
+output.  I will also eventually incorporate it in
+=DependencyFinder=.
+
+I added PC counter information to the trace information from
+=jt.classreader.Code_attribute=.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>JDK</td>
+        <td>:</td>
+        <td>1.3</td>
+        <td>-></td>
+        <td>1.3.1_01</td>
+    </tr>
+    <tr>
+        <td>Ant</td>
+        <td>:</td>
+        <td>1.3</td>
+        <td>-></td>
+        <td>1.4.1</td>
+    </tr>
+    <tr>
+        <td>Jakarta ORO</td>
+        <td>:</td>
+        <td>2.0.1</td>
+        <td>-></td>
+        <td>2.0.4</td>
+    </tr>
+    <tr>
+        <td>Xerces</td>
+        <td>:</td>
+        <td>1.4.1</td>
+        <td>-></td>
+        <td>1.4.3</td>
+    </tr>
+    <tr>
+        <td>Xalan</td>
+        <td>:</td>
+        <td>2.2_D3</td>
+        <td>-></td>
+        <td>2.2_D11</td>
+    </tr>
+</table>
+</blockquote>

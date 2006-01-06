@@ -1,0 +1,7 @@
+Finished the documentation.  I added a section for contributors.
+For now, I feel very paternal about Dependency Finder and I am not
+quite ready to give up control.  I guess I'm more on the _cathedral_
+than the _bazaar_ side of things.  For those who don't get it, it
+just means I can be quite stuck up.  :-)
+
+I will be releasing the 1.0 beta shortly.  Stay tuned.

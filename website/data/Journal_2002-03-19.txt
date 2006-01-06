@@ -1,0 +1,7 @@
+That validation list is still giving me headaches.  How can I
+make that feature fit without breaking the _purity_ of my
+code so far?  :-)
+
+In the meantime, I've added a confirmation screen to
+=extract.jsp=, hoping this will prevent lengthy
+extractions from happening by accident.

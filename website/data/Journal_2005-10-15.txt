@@ -1,0 +1,2 @@
+More test data and initial tests for
+=IncompatibleDifferenceStrategy=.

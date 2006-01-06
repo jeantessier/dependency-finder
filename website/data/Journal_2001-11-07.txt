@@ -1,0 +1,41 @@
+I got some performance numbers.  I don't recall which column
+is which implementation, but it seems to point to a decrease in
+performance.  :-(
+
+<table border="1">
+    <tr>
+        <th>
+            Corpus
+        </th>
+        <th>
+            Before (secs)
+        </th>
+        <th>
+            After (secs)
+        </th>
+    </tr>
+    <tr>
+        <td>
+            JDK 1.3.1_01
+        </td>
+        <td align="right">
+            148.363
+        </td>
+        <td align="right">
+            154.507
+        </td>
+    </tr>
+    <tr>
+        <td>
+            EFS 4.0 b29
+        </td>
+        <td align="right">
+            206.717
+        </td>
+        <td align="right">
+            210.042
+        </td>
+    </tr>
+</table>
+
+I'll have to redo these tests to make sure.

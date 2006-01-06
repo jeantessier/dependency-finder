@@ -1,0 +1,4 @@
+Continued work on =DifferenceStrategy= to encapsulate the
+behavior behind =Differences.isEmpty()=.  Got through the
+tests for packages.  Now, I need to handle entire projects and create a
+subclass for backward-compatilibity breaking changes.

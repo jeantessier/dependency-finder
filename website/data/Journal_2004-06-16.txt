@@ -1,0 +1,10 @@
+Fixed =CollectionSelectionCriteria= so it has separate
+include and exclude lists.  This way, I can leave the include list as
+=null= to indicate a wildcard and explicitly exclude names
+from a list.  The previous implementation applied the the excluded
+list to a predefined inclusion list, preventing me from doing
+"anything but ..." type of logic.
+
+Next, I'll need to combine regular expression-based with list-based
+selection criteria for maximum flexibility.  This will mean some kind
+of _AndSelectionCriteria_.

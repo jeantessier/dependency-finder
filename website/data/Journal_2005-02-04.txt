@@ -1,0 +1,4 @@
+Compiles and passes all tests with JDK 1.5.0 on Alienware.  Compiles
+in 15 seconds and tests run in 10.203 secs.  My laptop, with JDK 1.4.2,
+would take 31 seconds to compile it and the tests would take 20 secs.
+to run.

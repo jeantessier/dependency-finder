@@ -1,0 +1,4 @@
+Fixed =NodeHandler= to use the new =confirmed=
+attribute in the XML description of graphs.  In the process, I added
+new tests for =NodeHandler= and =NodeLoader=,
+which will help a little with the code coverage of the test suite.

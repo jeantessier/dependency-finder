@@ -1,0 +1,9 @@
+Looked into making each implementation of
+=Measurement= compute its own metrics,
+instead of having everything crammed in
+=MetricsGatherer=.  This is a major
+undertaking and will have to wait until after I have
+launched the first beta test.  I would have to create
+over 60 custom =Measurement= implementations,
+one for each current measurement collected by the
+gatherer.

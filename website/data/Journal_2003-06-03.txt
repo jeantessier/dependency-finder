@@ -1,0 +1,20 @@
+More fixes for the quotes in the =.bat= file.  This time,
+I am quite confident that they work fine.
+
+Ad hoc testing of the printer modification show that the memory
+footprint went down by roughly 80% and the processing time remained
+pretty much the same.  This is nice.
+
+I added a new tool to the web app to provide dependency metrics the
+same way that the CLI and the GUI do.  I also added navigation controls
+to move between graphs, closures, and metrics.  In the process, I moved
+=com.jeantessier.dependency.MetricsReport= to a
+=java.io.PrintWriter= instead of a
+=java.lang.StringBuffer=, like I did for other printers
+yesterday.
+
+Added the =web/= directory to the source archive
+=DependencyFinder.src.zip=.
+
+Fixed =com.jeantessier.dependency.MetricsReport= that did
+not interpret inbound and outbound dependencies correctly.

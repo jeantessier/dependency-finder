@@ -1,0 +1,26 @@
+Fixed bugs in:
+
+<ul>
+    <li>=com.jeantessier.classreader.DirectoryClassfileReader=</li>
+    <li>=com.jeantessier.classreader.JarClassfileReader=</li>
+    <li>=com.jeantessier.classreader.ZipClassfileReader=</li>
+</ul>
+
+where they were not closing the files they were opening.
+This resulted in locked resources under Windows NT that
+prevented me from recompiling classes after finding out stuff
+about them.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Log4J</td>
+        <td>:</td>
+        <td>1.2beta3</td>
+        <td>-></td>
+        <td>1.2rc1</td>
+    </tr>
+</table>
+</blockquote>

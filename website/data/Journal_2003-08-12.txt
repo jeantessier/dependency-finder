@@ -1,0 +1,20 @@
+Moved the version stuff to its own class, but since it reads
+information from its JAR file's manifest, I cannot find a way to test
+it properly.  The good news is that with its no-args constructor, I
+can use it in JSPs with the &lt;jsp:useBean&gt; tag.  Next, I will
+outfit the CLI tools with a =-version= switch.  And maybe
+I can even get an "About" box for the GUI.
+
+On the downside, I am not too sure where to put this new class.  It
+is in the new package =com.jeantessier.dependencyfinder=,
+soon to be joined by tools to group the cut and pasted code that ends
+up duplicated between the CLI, the GUI, the JSPs, and the Ant tasks.
+I might even go as far as creating custom tags for the JSPs, or at
+least JavaBeans for the parameters to the query, closure, and
+dependency metrics engines.
+
+I created a feature request to address the start scripts for Unix
+(#787904).  Since I don't have an environment setup to develop and
+tests and package on Unix (yet), I am going to leave these scripts in a
+patch for now. These scripts don't use the contribution from Jonathan
+Doughty because I am not done studying it, yet.  More on this later.

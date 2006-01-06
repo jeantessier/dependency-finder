@@ -1,0 +1,13 @@
+Tried the new filtered dependency metrics report on some production
+code at work.  Gave it 1GB heap and it crashed after 4 hours with an
+out of memory error.  Filtering in accumulators is too expensive.  The
+elementary measurements (IICM, OIP, ...) still gather all dependencies
+before we start filtering and they use up all the memory.
+
+So I moved the filtering to =MetricsGatherer= instead.
+This way, I can take out dependencies at the source.  I only had time
+to do filter lists now.  I'll look at scope lists later.  Also, right
+now the resulting report is broken down by dependency source.  Showing
+them broken down by target is going to be more difficult, but I can
+use =MetricsFactory.All_xxx_Metrics()= to get at metrics
+for deprecated symbols outside the codebase.

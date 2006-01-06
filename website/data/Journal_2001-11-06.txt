@@ -1,0 +1,8 @@
+I removed trace statements from
+=jt.dependency.VisitorBase= to boost performance.
+In tests with =JT.jar= and =DependencyFinder.jar=,
+I couldn't detect any difference.  Can you see the difference?
+
+I also got the latest =JT= library.
+
+I revamped the web page.

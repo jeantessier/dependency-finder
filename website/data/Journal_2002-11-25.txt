@@ -1,0 +1,12 @@
+Started working on a generator for a template for
+documenting the tools that make up Dependency Finder.  I am
+using a Perl script to scan the =bin/= directory
+and automatically generate information about each script.
+When I am done, the template will use the same kind of
+annotation that I have been using for the user guide.
+This way, I can use the same translator for both files to
+convert them to HTML.  At first, I thought of generating
+XML and then use XSLT to convert it to HTML, but managing
+XML with embedded HTML tags proved too much.  This way,
+the notation is simpler and the embedded HTML does not get
+in the way.

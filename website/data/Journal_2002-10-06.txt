@@ -1,0 +1,3 @@
+I may have found suitable examples on how to rewrite
+=PublishedDiffToHTML.xsl= in Michael Kay's
+book on XSLT.

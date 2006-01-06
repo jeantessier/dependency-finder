@@ -1,0 +1,5 @@
+Added =MANIFEST.MF= to the list of files for the
+=PermissiveDispatcher= to ignore.
+
+Added tests for both =PermissiveDispatcher= and
+=StrictDispatcher= to increase code coverage.

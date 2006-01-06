@@ -1,0 +1,3 @@
+Started writing Fit tests for creating dependency graphs.  I hope
+that using tables to create test setup will be easier.  I still have to
+figure out how to run them automatically using Ant.

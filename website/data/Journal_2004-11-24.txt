@@ -1,0 +1,26 @@
+I've been struggling for some time with how to deal with start
+scripts for Unix.  I also find it tedious to maintain a large number of
+scripts that are identical except for one identifier.  At first, I
+thought of having some kind of _install_ program that could link
+up the right version of the right script, but I was hesitant at making
+the installation procedure more complex.  A friend suggested to
+generate the scripts at build-time.  This solves two problems:
+maintaining nearly identical files and having start scripts for Unix.
+Now, I can generate both and select which ones get in the ZIP file for
+Windows and which ones get in a new compressed TAR file for Unix.
+
+Right now, I'm generating a ZIP file with =.bat= scripts
+only and a separate compressed TAR file with shell scripts with no
+extension only.  Neither one has all the scripts but they are otherwise
+identical.  I could have the two files be identical and have both sets
+of scripts, and possibly give the shell scripts a =.sh=
+extension.  But I hesitate since I don't think this is the standard in
+Unix-land yet.
+
+Code contribution!
+
+Joe Fisher submitted a new version of the GUI's
+=SaveFileAction= so it reports its progress to the user.  I
+have incorporated it into the codebase, it will ship with the next
+release.  Thanks, Joe.  You get to be the very first external
+contributor to the project.

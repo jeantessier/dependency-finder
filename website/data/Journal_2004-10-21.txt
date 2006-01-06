@@ -1,0 +1,6 @@
+Thought up of a way to have =TransitiveClosure= work on
+the raw graph and do the summarization separately.  This works fine for
+CLI and Ant tasks, but is awkward for the GUI and web application where
+the user cannot easily save intermediary results.  These last two will
+need to include the summarization function internally and rework their
+UI accordingly.

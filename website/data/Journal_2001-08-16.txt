@@ -1,0 +1,12 @@
+I made major changes in the =jt.dependency.Visitor=
+and =jt.dependency.TraversalStrategy= hierarchies.  I
+have consolidated the visitors under a single base class and
+moved the complex traversal logic into a traversal strategy
+implementation.
+
+There is a bug with the new traversal strategy which does not
+traverse the graph at all unless
+=jt.dependency.TraversalStrategy.PackageScope()=
+is true.  Likewise, feature nodes don't get visited unless
+=jt.dependency.TraversalStrategy.ClassScope()=
+is also true.

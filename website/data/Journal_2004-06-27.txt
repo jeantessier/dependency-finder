@@ -1,0 +1,2 @@
+Checked in the new composite selection criteria.  Now, I need to put
+them to good use in the CLI and the appropriate Ant tasks.

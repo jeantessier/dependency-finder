@@ -1,0 +1,9 @@
+Came up with a much better way to narrow down a diff to the API
+actually used by some software.  I use =ListSymbols= first
+on the library and then use the symbols to extract a subgraph from the
+calling software.  By using
+=DependencyReporter -show-empty-nodes=, the graph only has
+the nodes for used symbols.  Converting this subgraph from XML to text
+with =DependencyGraphToText= gives me the subset of symbols
+that are used in the software.  Pass this shorter list to
+=PublishedDiffToHTML= and that is all there is to it.

@@ -1,0 +1,4 @@
+Checked the help discussion on the project page in SourceForge and
+found a few new messages since the last time I checked.  Somehow, I
+don't receive emails from that discussion anymore, even though
+SourceForge still says I'm monitoring it.

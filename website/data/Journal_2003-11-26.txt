@@ -1,0 +1,13 @@
+Sent a message on Ant's user mailing list to request that they add
+Dependency Finder to Ant's list of external tools.  I'll have to keep
+an eye on their file to see how long it takes them to include the
+reference.
+
+Did some code clean up to replace error reporting via system
+=println()= calls with logging via Log4J instead.
+
+I want to revamp the release schedule.  I'm going to break it up
+into smaller chunks so I can have smaller, more frequent releases.  I
+am going to put most of the small, miscellaneous tasks as
+"unscheduled", that is I will not hold up a release just because of
+them, but I will work on them as time allows.

@@ -1,0 +1,13 @@
+Added an extraction timestamp to the JSPs' footer.  I was tired of
+always having to manually type the URL to =extract.jsp=
+every time I wanted to know if I could rely on the data.
+
+Someone has mentioned that API diff reports still list modified
+methods even when the class is deprecated.  Would it not be better if
+a class that is now deprecated simply repress all further modifications
+to it?  I say no.  Even though the class is now deprecated, it is
+still part of your supported API until it is completely removed.  As
+such, its modifications should still be listed since users of the
+library are likely to still be using the class.
+
+Upgraded my testing environment from Tomcat 4.1.24 to 4.1.27.

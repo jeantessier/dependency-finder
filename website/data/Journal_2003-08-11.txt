@@ -1,0 +1,14 @@
+Figured a way to get at the information in the JAR file's
+=/META-INF/MANIFEST.MF= entry.  I now use it in the web
+application's JSPs to generate the "Powered by ..." branding with a URL
+back to the Dependency Finder website.  I will soon refactor it into a
+class I can use with =-version= switches in the CLI and in
+an About box in the GUI.
+
+I tried to use
+=getClass().getResourceAsStream("/META-INF/MANIFEST.MF")=,
+but the classloader has to defer to its parent first, before it tries
+to resolve anything.  So I always go the manifest for the JDK itself.
+I had to get the resource URL for the class itself first, and parse it
+to extract the path to the JAR file instead, and extract its manifest
+via the =java.util.jar= package.

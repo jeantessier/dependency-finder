@@ -1,0 +1,22 @@
+I have a problem with test-driven development.  People say you can
+use the test suite to document how to use a system; but if I'm new to
+this software, which one of the hundreds of tests should I look at
+first?  I have been toying with the idea of using the dependency graph
+to categorize the tests and maybe provide a order in which to approach
+them.  I wonder if I could use some clever heuristic estimate the
+complexity of a given test.  I would have to start with a test method
+and look at dependencies to other classes and methods in the same
+package.  I don't know what the heuristics would look like, yet.
+
+I tried to list OO metrics for test classes by using a group
+definition.  I noticed that the group counters for the group I had
+created were all at zero.  It looked strange since the first one is the
+number of public classes and it said zero.  Statistical measurements
+were just fine.  After investigating a bit, I realized the counters are
+incremented by =MetricsGatherer=, but only for the package
+group of a given class.  My custom group never had a chance.
+
+I also noticed one more problem.  The statistical measurements at
+the project level take _all_ groups into account, packages and
+user-defined.  This means that SLOC counts some classes more than once,
+for example.  I don't have a solution at this time.

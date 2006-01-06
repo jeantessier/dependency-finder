@@ -1,0 +1,53 @@
+I put the functionality for exploring dependency graphs
+into a web application.  It is governed by three application
+context parameters:
+
+<dl>
+    <dt>
+        *=name=*
+    </dt>
+    <dd>
+        A user-friendly name for the codebase.  This allows
+        users to know the subject of the dependency graph
+        without revealing where it is on the server's file
+        system.
+    </dd>
+    <dt>
+        *=source=*
+    </dt>
+    <dd>
+        The compiled Java code to be extracted.  You can
+        specify multiple locations by separating them with
+        commas.
+    </dd>
+    <dt>
+        *=mode=*
+    </dt>
+    <dd>
+        Whether to maximize or minimize the graph, or leave
+        it in raw form.
+    </dd>
+</dl>
+
+The application consists of only two JSPs:
+
+<dl>
+    <dt>
+        *=extract.jsp=*
+    </dt>
+    <dd>
+        Extracts the dependency graph from the source specified
+        by =application.getInitParameter("source")=.
+        The graph will further be processed based on
+        =application.getInitParameter("mode")=.
+    </dd>
+    <dt>
+        *=query.jsp=*
+    </dt>
+    <dd>
+        Displays a subset of the dependency graph, according
+        to the user-specified scope and filter.
+    </dd>
+</dl>
+
+I may look into better rendering and status out of the JSPs.

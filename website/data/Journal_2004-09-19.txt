@@ -1,0 +1,2 @@
+Generated a few finer-grained CVS reports to show changes between
+beta releases for 1.1.0.

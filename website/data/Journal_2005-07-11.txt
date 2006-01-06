@@ -1,0 +1,4 @@
+Gave some thoughts to computing negative closures using the tools
+that are already there.  All I really need is a new stylesheet to
+extract the fully qualified node names from the XML graph without any
+indentation.

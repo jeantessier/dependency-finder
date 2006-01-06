@@ -1,0 +1,4 @@
+Checked in the new version of =TransitiveClosure= that
+uses the new =TransitiveClosureEngine=.  All the unit tests
+are now passing, for the first time in nearly two years.  I still need
+to fix the UI and documentation of the transitive closure tools.

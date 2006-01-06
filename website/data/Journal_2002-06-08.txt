@@ -1,0 +1,3 @@
+Wrote test cases for dependency-related metrics.
+I'm thinking of using it to test
+=CodeDependencyCollector= too, some day.

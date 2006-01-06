@@ -1,0 +1,13 @@
+Someone wrote to me saying they had they couldn't figure out the
+measurements names from their short acronyms in CSV output.  I pointed
+them to the metrics configuration XML document, which lists the long
+name next to each measurement's short name.  I also pointed out that
+the text and XML outputs list both side by side.
+
+Back when I was preparing version 1.0, I toyed with the idea of
+having part of the documentation describe each measurement the same
+way that I have detailed descriptions for each tool in Dependency
+Finder.  I gave up it when I figured that the long names were already
+fairly indicative and keeping this document in sync with the
+configuration file would be a lot of work.  Maybe I can still add a
+simple description section in the descriptor...

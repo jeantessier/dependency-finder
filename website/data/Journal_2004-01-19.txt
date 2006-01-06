@@ -1,0 +1,37 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Ant</td>
+        <td>:</td>
+        <td>1.5.3-1</td>
+        <td>-></td>
+        <td>1.6.0</td>
+    </tr>
+    <tr>
+        <td>Jakarta ORO</td>
+        <td>:</td>
+        <td>2.0.7</td>
+        <td>-></td>
+        <td>2.0.8</td>
+    </tr>
+</table>
+</blockquote>
+
+There is a nice new feature in Javadoc that Ant 1.6 now makes
+available to me.  The =-linksource= switch to Javadoc links
+the documentation to the source code.  An HTML-ized version of the
+source files is created alongside the javadocs.  I also saw something
+called either "j2h"  or "java2html" a while back that created
+hyperlinked version of the source code, complete with syntax
+highlighting.  I wonder if I could somehow get to two to work together.
+The links between documentation and source could definitely be useful,
+and the syntax highlighting is quite cool too.
+
+I hesitated to checking the new version of =build.xml=
+that uses the =linksource= attribute to the
+=&lt;java&gt;= task.  This would require that people upgrade
+to Ant 1.6 just to compile Dependency Finder.  But then again, it is
+only if they try to generate the javadocs, so it shouldn't really be a
+problem.

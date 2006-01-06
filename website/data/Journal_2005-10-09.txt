@@ -1,0 +1,6 @@
+Got rid of the =Validator= hierarchy.  The only one that
+was used at all was =ListBasedValidator= which I turned into
+a decorator for =DiffereneStrategy=.  The resulting design
+is much cleaner and it makes =DifferencesFactory= that much
+simpler.  One last strategy for backward-compatibility-breaking changes
+and I'll be done with this development item.

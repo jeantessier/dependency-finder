@@ -1,0 +1,13 @@
+Reworked the way =DifferencesFactory= determines code
+differences.  It is now all done by the strategy and the factory only
+sets a flag in the appropriate =CodeDifferences= instance.
+I had to adjust =DifferenceStrategy= in order to expose
+=isCodeDifference()=.  I eventually would like for constant
+value and code differences to have their own instance of
+=Differences= instead of just being flags.  Objects can
+hold information about the nature of the difference.
+
+I had an idea of using a chain of command pattern instead of my
+current strategy pattern for =DifferencesFactory=, but that
+would make it much more complicated to insert user-defined strategies.
+So I'll stick with my current design for now.

@@ -1,0 +1,6 @@
+I am stuck.  On two fronts.  With JarJarDiff, I can't seem to see a
+way to insert some kind of strategy in the difference engine to choose
+between all differences and only those I judge might break backward
+compatibility.  With the HTML-ization of the web app output, I can't
+seem to find a clean way to go from preformatted text output to
+hyperlinked HTML.  This is frustrating.

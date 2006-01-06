@@ -1,0 +1,8 @@
+Thought about categorizing dependency nodes some more.  I was
+concerned that dependencies on things that are not part of the body of
+code under analysis might muddy things up and that everything might end
+up in =Object= somehow.  If I find a non-visited feature in
+a visited class node, and I start walking up the inheritance tree to
+locate where that feature is actually defined (wait a minute, I will
+need to store inheritance information too), I might not find the
+definition if it is in some third party library.

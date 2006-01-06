@@ -1,0 +1,14 @@
+I have figured out how to work around the expression size
+limitation in =DiffToExternalHTML.xsl=.  I have added
+a =full-signature= attribute to =declaration=
+nodes in the DTD for differences.  This keeps the size of the
+expression somewhat lower, but it is still a behemoth.
+
+I am now done with the higher-resolution validation feature.
+
+The XSL stylesheets for =JarJarDiff= seem to work
+fine.  I have added one more to only list documentation level
+changes.  I also need to test =DiffToExternal= on a
+real-life sample.  I am still not clear as to which validation
+list to use: the one generated from the old code, the one generated
+from the new code, or a merge of the two.

@@ -1,0 +1,4 @@
+Added a section to the User Manual to deal with very large codebase
+by breaking them up and analysing the pieces separetely.
+
+Added version information to the documentation.

@@ -1,0 +1,16 @@
+Technical documentation.
+
+Discovered another free tool that deals with metrics:
+<a target="_blank" href="http://www.kclee.com/clemens/java/javancss/">JavaNCSS</a>.
+It includes two measurements: McCabe's cyclomatic complexity
+and its own non-comment source statement.  I really need to move
+=com.jeantessier.metrics= off of the Visitor pattern
+and let people code and add their own measurements.
+
+I looked up McCabe's cyclomatic complexity and it shouldn't
+be too hard to implement.  It's basically just a matter of counting
+specific instructions.
+
+Found another, older article by
+<a target="_blank" href="http://www.objectmentor.com/resources/articles/oodmetrc.pdf">Robert C. Martin</a>
+about his "distance from the main sequence" dependency metric.

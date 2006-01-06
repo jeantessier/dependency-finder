@@ -1,0 +1,7 @@
+Fixed the Unix script for =OOMetrics= and
+=OOMetricsGUI=.  Because they were symbolic links to one
+script used by all other tools, they were missing their mandatory
+=-default-configuration= switch.  Now, they are their own
+scripts, shared by no one else.
+
+Tech docs around metrics and dependency-related measurements.

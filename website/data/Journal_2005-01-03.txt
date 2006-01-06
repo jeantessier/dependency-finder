@@ -1,0 +1,5 @@
+Amended the User Manual to have the simpler way of narrowing down an
+API diff to the subset actually used.
+
+Incremented the date in the copyright to 2005.  Incremented the
+working version number to 1.1.1.

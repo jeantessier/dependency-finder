@@ -1,0 +1,5 @@
+Someone wrote to me saying they had problems with
+=ListUnused=.  It was showing their constants as unused.
+This is because the compiler inlines them in the bytecode if they are
+simple enough.  I amended the documentation for =ListUnused=
+to explain this in a little more details.

@@ -1,0 +1,5 @@
+Looking at the release plan, I think I'm a little dispersed right
+now.  I need to focus and get things rolling again.  The holiday break
+really threw me off and left me with a couple of unfinished tasks.  I'm
+going to complete the documentation and fix the dependency closure bugs
+and ship the net release ASAP.

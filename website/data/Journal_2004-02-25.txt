@@ -1,0 +1,9 @@
+Got started on a =TransitiveClosureEngine= to handle the
+next version of transitive closures.  The engine should select a
+starting point in the graph and incrementally grow a subgraph from that
+initial set of nodes until some termination criteria is met.  This
+could be that a given node is reached or that a certain number of steps
+have been taken.
+
+Added a link to the patch tracker on SourceForge from the project's
+home page.

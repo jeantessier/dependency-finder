@@ -1,0 +1,12 @@
+Added a copy-only feature to =DependencyReporter= (both
+on the CLI and the Ant task), =DependencyFinder= and
+=advancedquery.jsp=.  When turned on, the tools always use
+=GraphCopier= to answer queries.  This is useful if you
+want a class-to-class graph with only inheritance, for instance.  I
+still have to document this new feature in the manuals.
+
+I added navigation controls to =extract.jsp=.  I was
+tired of always editing the URL to go to the query JSP after
+extracting a graph.  The navigation is the same as on the other JSPs
+and I adjusted the title at the top of the page to match that of the
+other pages.

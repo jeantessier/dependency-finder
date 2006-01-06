@@ -1,0 +1,7 @@
+Finished the generator and generated a template for
+documenting the tools that make up Dependency Finder.
+Now, I must fill in the template.
+
+I'm afraid that I must forget about the Jolt Awards
+this year.  No way I can get an official major release
+out before December 31.  But next year, for sure.

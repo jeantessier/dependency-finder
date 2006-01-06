@@ -1,0 +1,25 @@
+Tracking value differences for constants via their declaration is
+too sensitive.  I will want cases where I only look at changes that
+could break backward compatibility and these will show up.  I'm back to
+finding a way to distinguish declaration changes separately from value
+changes.
+
+I'm seriously considering simply switching to Java 1.5.  It will let
+me use all the features from the library and also some of the new
+enhancements in the language, notably the new =for()= loop
+for iterating over a collection.  At a place I used to work, we wrote
+software that customers would run as part of their operation.  Some
+customers were still using Java 1.3, so our build environment was
+limited to 1.3 on purpose so we could detect any change that would not
+be compatible with 1.3.  In order to run Dependency Finder reports as
+part of the build, it had to run under 1.3.  I figured there might be
+other installations with similar constraints, so it would be nice if
+they could still benefit from Dependency Finder and I have kept it at
+Java 1.3 ever since.  But it is starting to hurt, and I don't care
+quite as much anymore.  Java 1.3 is approaching retirement, so it
+should be safe to move up to Java 1.4.  But Java 1.5 is even better and
+it has been out for a while now.  Surely anybody serious about Java
+development has moved to it by now!
+
+*If you're using Dependency Finder in an environment that requires Java 1.4, let me know.*
+Otherwise, I'm just going to move up to Java 1.5 and ease my own suffering.  :-)

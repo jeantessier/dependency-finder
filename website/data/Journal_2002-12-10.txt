@@ -1,0 +1,14 @@
+Refactored =ClassfileLoader= and its subclasses.
+The decorators are now hidden inside the
+=ClassfileLoaderEventSource= class, so clients of the
+package don't have to bother with which decorator to instantiate.
+This paves the way to including progress measurements in the
+=LoadEvent= passed in =LoadStart()= and
+=LoadElement()= events.  This way, I can have either
+a "percent complete" or a progress bar as things are loading.
+I might even be able to have an elapsed time and a predicted
+remaining time.
+
+Documented the methods of =LoadListener=, but I
+must revise the description of the various attributes and under
+which cases each one has a value.

@@ -1,0 +1,25 @@
+I could depend only on JDK 1.4.2 instead of 1.3.  This way, I would
+not have to ship Xalan with Dependency Finder.  I could even go further
+and use Java Logging and Regex instead of Log4J and ORO respectively.
+Then, Dependency Finder wouldn't need any third party software.
+
+A while back, I compared Log4J with Java's Logging API and preferred
+Log4J.  It is more flexible and easier to configure.  It would feel
+strange to move away from it now.
+
+I chose ORO because it supports pretty much all of Perl's very rich
+regular expression language.  From what I understand, its coverage
+even outdoes Java's Regex.  But Dependency Finder only uses a small
+subset of that language, which is equally covered by both package, so
+I could easily switch.
+
+So switching to JDK 1.4.2 would give me access to both the Logging
+and Regex APIs.  It also includes a complete copy of Xalan.  JDK
+1.4.1 had a bug in its Xalan, but 1.4.2 is all better.
+
+I wonder how many people out there currently use JDK 1.3 or a
+version of 1.4 that is below 1.4.2.  If I switch now, how many users
+will not be able to follow?  If I don't switch, then I need to keep
+dragging Log4J and ORO along.
+
+CVS on SourceForge is still out.

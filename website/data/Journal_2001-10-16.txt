@@ -1,0 +1,13 @@
+I added ratio metrics in =jt.metrics.MetricsFactory=.
+
+I now use instances of =java.text.NumberFormat= in
+=jt.metrics.PrettyPrinter= to adjust the display of
+numbers.
+
+I played with using =Jikes= to compile the code
+instead of =javac=, but the difference in compile
+time was not worth the extra warnings (4 secs vs. 10 secs).
+
+I now use the default compiler mode in =javac=,
+=modern=, instead of =classic=.  I hope
+this won't break the compatibility with JDK 1.2 VMs.

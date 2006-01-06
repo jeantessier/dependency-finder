@@ -1,0 +1,9 @@
+Got some new ideas on fixing the serialization of dependency
+graphs.  I can separate the nodes from the dependencies and put
+everything in a =Graph=-like object.  Each dependency
+would become its own object, allowing me to record additional
+information about each dependency such as its type (dependency,
+association, generalization, realization) and weight (how many
+times it occurs in the code).
+
+Looked at possible graphical renders for metrics.

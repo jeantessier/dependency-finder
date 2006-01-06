@@ -1,0 +1,24 @@
+Found some articles
+(one by <a target="_blank" href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.PDF">Robert C. Martin</a>)
+and a tool for the Resource section.  The article by Mr. Martin
+gave me the idea of providing a custom metrics configuration
+with the metrics he describes in the article, using the same
+abbreviations.  I might need more powerful computational measurements
+to handle the equations.
+
+I've put up some <a target="_blank" href="Samples/">sample outputs</a>
+so you can see what they looks like.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>JUnit</td>
+        <td>:</td>
+        <td>3.7</td>
+        <td>-></td>
+        <td>3.8</td>
+    </tr>
+</table>
+</blockquote>

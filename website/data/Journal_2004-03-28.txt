@@ -1,0 +1,7 @@
+Did some screen capture for the tutorial.  My previous version had
+crappy mockups in PowerPoint.  I captured the same pictures in both the
+web application and the GUI, but the images are too big (800x600) to
+put in the PowerPoint slides that make up the tutorial.  If I shrink
+them down to make them fit, I cannot make out the details that I need
+to show.  So I will need to crop the important parts out, on all
+images.

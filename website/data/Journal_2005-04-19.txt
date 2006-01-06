@@ -1,0 +1,4 @@
+Adjusted the JSPs that manage the graph in memory to keep track
+of extrat, update, and load times separately.  This way,
+=extract.jsp= limits itself to extract and update times, as
+appropriate, while =load.jsp= takes care of load times.

@@ -1,0 +1,31 @@
+Thought about my current dilemma regarding what to display in
+=JarJarDiff= reports between entire APIs, published ones
+only, and selective display.  I thought I could do it with XSL
+transformations, but those are becoming too complex.  Plus, there is an
+issue with using function calls in predicates that I still haven't
+resolved.  I'm starting to think I'd better generate different reports
+from =JarJarDiff= and have a single stylesheet to render
+them in HTML.  I might do the same for the stylesheets that narrow
+down dependency graphs instead of using
+=DependencyReporter=.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>JDK</td>
+        <td>:</td>
+        <td>1.5.0_01</td>
+        <td>-></td>
+        <td>1.5.0_04</td>
+    </tr>
+    <tr>
+        <td>IntelliJ IDEA</td>
+        <td>:</td>
+        <td>4.5</td>
+        <td>-></td>
+        <td>5.0</td>
+    </tr>
+</table>
+</blockquote>

@@ -1,0 +1,4 @@
+Created =AndCompositeSelectionCriteria= so I can combine
+regular expression-based and list-based selection criteria.  This will
+only be useful for CLI and Ant tasks, since the GUI and the web app do
+not support list-based selection.

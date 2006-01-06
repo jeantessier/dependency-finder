@@ -1,0 +1,4 @@
+Retrofitted =TransitiveClosure= to use the new
+=TransitiveClosureEngine=.  Many tests are now broken
+because it used to include summarization capabilities that are no
+longer there.

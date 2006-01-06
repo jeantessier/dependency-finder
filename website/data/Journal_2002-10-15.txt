@@ -1,0 +1,19 @@
+Further simplified the default settings in
+=DependencyFinder= and =query.jsp=.
+The new defaults print the entire package-to-package
+dependency graph, as opposed to the entire graph like
+it was doing before.  This is so that new users, as they
+start using the interface, can simply launch a query and
+see something useful without using all the memory available
+to render an immense graph.
+
+I will expand the manual to include a tutorial with
+sample queries and their results.
+
+There was a rendering problem for =JTable=
+under JDK 1.3.  I try to group rows in bands of three with
+alternating background colors.  For some reason, under JDK
+1.3, the cells in column 0 would not get the right background
+sometimes.  This problem is gone under JDK 1.4.  Since this
+is not breaking any functionality (it is just annoying), I
+will recommend that you upgrade your JVM if it bothers you.

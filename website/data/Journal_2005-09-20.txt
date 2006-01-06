@@ -1,0 +1,3 @@
+Created =PackageMapper= to have one place where a
+collection of classfiles get mapped to packages.  Reworked its use into
+=ComprehensiveDifferencesStrategy=.

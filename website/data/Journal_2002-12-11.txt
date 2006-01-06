@@ -1,0 +1,12 @@
+More refactoring for the =ClassfileLoader= event
+model.  I've added a concept of session, basically a call to
+=Load(Collection)=.  This will allow me to start
+measuring how long extraction is taking and maybe even make an
+estimate has to how much longer it'll take.  In the meantime,
+I have "percent completed" measurement in place.
+
+I'm thinking of having one more release before the beta.
+This would let people out there use the latest features and
+bug fixes without having to wait for the user guide.  One
+thing that I would like to release quickly is the new, simpler
+user interface.

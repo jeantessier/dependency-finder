@@ -1,0 +1,11 @@
+I started writing more tests to check that interactions with Xerces
+are tested.  In the process, I cleaned up some of the tests for classes
+that generate XML documents.
+
+I found some mistakes in =classfile.dtd=: missing
+elements, typos in element and attribute names, those sorts of things.
+I fixed them.  I also changed the generated XML so it does not pretend
+to be standalone anymore.  The DTDs are on the project's website, how
+can these documents be standalone!
+
+Now, I need to write some regression tests for Xalan too.

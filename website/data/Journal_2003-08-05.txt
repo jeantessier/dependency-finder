@@ -1,0 +1,13 @@
+Published patch for choosing between a =GraphCopier= and
+a =GraphSummarizer= when running dependency queries.  This
+new patch (#784040) replaces two previous ones (#776154 and #776161)
+and also fixes a bug in =ClassReader= where it sent its
+=Printer= to the output stream and generated erroneous XML
+data.
+
+Found that =StatisticalMeasurement.CollectData()= was
+both =synchronized= *and* had a
+=synchronized= block inside that synchronized on
+=this=.  This being redundant, I removed the synchronization
+in the method signature and kept the internal block.  This way, it runs
+a tinny bit faster when the data set has not changed.

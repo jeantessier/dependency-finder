@@ -1,0 +1,13 @@
+Found a bug in the Unix script for =OOMetricsGUI=.  It
+tried to be clever and use a local variable based on the named under
+which the script was invoked to determine the class name to start.  It
+works for all other scripts, but in this case, the class name is
+different from the script name.  The script =OOMetrics=
+starts =com.jeantessier.dependencyfinder.*cli*.OOMetrics=
+and the script =OOMetricsGUI= starts
+=com.jeantessier.dependencyfinder.*gui*.OOMetrics=.
+
+I fixed the bug and issued patch
+<a target="_blank" href="http://sourceforge.net/tracker/index.php?func=detail&aid=1100722&group_id=43305&atid=435886">#1100722</a>.
+
+Fixed the bug using a CVS branch: =bug-1100131=.

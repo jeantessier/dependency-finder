@@ -1,0 +1,17 @@
+I fixed a problem with inner classes.  =OOMetrics= was
+counting all inner class entries in the InnerClasses class attribute.
+This included references to inner classes in other classes, resulting
+in a count that was higher than reality.  It now restricts itself to
+actual inner classes of the current class, resulting in the correct
+count.
+
+I also adjusted how the =jt.classreader.Classfile=
+constructor writes trace entries about its constant pool.  This way,
+the text of the pool gets generated only if there is a log object to
+print it.  I'm expecting a 25% improvement in performance as this
+involves quite a bit of conversions when printing the entries in the
+constant pool.
+
+I also fixed a bug in =OOMetrics= so that it now uses the
+=-project-name= command line switch instead of
+=-project= to determine the project's name in reports.

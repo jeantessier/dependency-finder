@@ -1,0 +1,12 @@
+Looked at the bug list and feature request list.  It had been a
+while.  There was one bug request regarding broken links on the web
+site, and two requests for interesting new ways to use JarJarDiff.
+
+It turns out that I had thought of one such way back on August 19,
+2003.  The idea is to use a dependency graph to list the parts of a
+third party API you are using.  Then feed this list to JarJarDiff to
+limit the hange report to the subset that you are really using.  All
+the tools are there, it's just a matter of how you use them.  I
+scanned my notes and added them to
+<a target="_blank" href="http://sourceforge.net/tracker/index.php?func=detail&aid=900446&group_id=43305&atid=435887x">feature request #900446</a>
+until I come up with a formal description.

@@ -1,0 +1,10 @@
+Added a more permissive =ClassfileLoaderDispatcher= that
+tried to use =ZipClassfileLoader= on files of unknown type.
+I also made this new, more permissive dispatcher the new default.
+
+Finally figured out how to use @link tags for =javadoc=
+and fixed the one file where I was using it: the package description
+for =com.jeantessier.classreader=.
+
+Also edited the website's introductory page to adjust some of the
+phrasing.

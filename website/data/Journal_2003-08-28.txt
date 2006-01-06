@@ -1,0 +1,5 @@
+Got all unit tests to pass again, except for those four that deal
+with closures.  Finished the work on =ClassfileLoader=.  Now
+I need to adjust all =LoadListener= as well as come up with
+a more permissive =ClassfileLoaderDispatcher= that is also
+configurable.  Maybe another XML descriptor?

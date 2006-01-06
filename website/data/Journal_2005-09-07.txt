@@ -1,0 +1,14 @@
+After staring at the code for some time, I am finally convinced the
+various subclasses of =Differences= each expose enough
+information that I can come up with a strategy object that can look at
+each one and determine if it is _empty_ or not.  At first, I had
+thought of using a visitor, but that would mean either changing the
+=Visitor= interface to have a return value, or make the
+visitors stateful.  Neither is appealing to me, so I'll stick with my
+idea of using the Strategy pattern instead.
+
+Fixed =RemovableDifferences= that was directly
+referencing fields internally instead of going though accessors.  Since
+the places it was doing the accessing will move to a strategy, it made
+sense to go through an accessor instead so the calling code will be
+easier to move later on.

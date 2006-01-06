@@ -1,0 +1,9 @@
+Wrote a new tool to list all symbolic names in a codebase:
+=SymbolList=.  It shows all class names, all methods' full
+signature, and all fields' full signature.  In addition, if the code
+was compiled with =-g= and retained its local variables
+table, the tool can list method parameters and local variables too.
+
+Phase VI: find what previous phases might have missed.
+
+Phase VII: fix what previous phases had missed.

@@ -1,0 +1,3 @@
+Sent a long email to a user who was asking how to use the classes in
+the Dependency Finder library to extract dependencies and how to
+operate on the graph.  I should work that into the Developer Guide.

@@ -1,0 +1,9 @@
+I reorganized the =Differences= hierarchy to
+make room for a Decorator pattern.  I'm reimplementing tracking
+of deprecated features to arrange the code.  After that, I'll
+be better able to take care of documented vs. undocumented
+programming elements.
+
+Right now, I've broken something.  I don't have the adequate
+unit tests to tell me what it is that I broke.  I guess I've
+been a bad boy.  This will take a little while to fix.

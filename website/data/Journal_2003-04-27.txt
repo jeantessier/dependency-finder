@@ -1,0 +1,10 @@
+I have been trying to add Dependency Finder tasks to the build
+file, but Ant's &lt;xslt&gt; tasks has problems with some of the XSL
+transformations.  At least =DependenciesToHTML= generates
+and error about "not enough DTMs", whatever that means.  I can still
+run the transform with the CLI script, so I will have to investigate
+some more.
+
+I just need to add a legend to the diagrams for
+=JarJarDiff= and write up the project's policy regarding
+code contributions.  Then I can release the beta.

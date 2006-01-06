@@ -1,0 +1,6 @@
+Took one more look at using JDK 1.5 to generate the code for JDK 1.3
+instead of JDK 1.3 itself.  The differences are very minor, from what I
+could see.  Mostly, it has to do with how JDK 1.3 was resolving method
+calls to their latest definition, while from JDK 1.4 forward they are
+resolved to the most specific class of the reference.  This has no ill
+effect on running the code in the JDK 1.3 virtual machine.

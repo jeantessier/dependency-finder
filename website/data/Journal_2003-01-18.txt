@@ -1,0 +1,6 @@
+Looked at ways to restrict listed metrics to the classes and
+methods actually visited, instead of all referenced elements.  I
+tried to distinguish between getting a metrics and creating it
+only as part of a =VisitX()= method, but that didn't
+work since metrics would only start accumulating after their
+call to =VisitX()=.  I'll have to try something else.

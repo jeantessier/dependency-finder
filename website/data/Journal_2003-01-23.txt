@@ -1,0 +1,11 @@
+Played with SourceForge resources.  Someone mentioned that I
+might be able to use SourceForge shell server to test Unix launch
+scripts.  The shell server does not have compilers and connecting
+through SSH is tedious, so I will not do this on an extended basis.
+But I did setup the website as a checkout from CVS.  Now I need to
+figure out how to setup the cron job so it updates itself
+automatically.
+
+I think I've got it...
+
+Yup.

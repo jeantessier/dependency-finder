@@ -1,0 +1,3 @@
+Phase V: everything else under =src/=.  Now I have to
+deal with =tests/= and straggling parameters and local
+variables.

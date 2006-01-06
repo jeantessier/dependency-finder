@@ -1,0 +1,10 @@
+Fixed progress bar notification in GUI.  It had trouble dealing with
+the processing of nested groups and was getting off track.  In doing
+so, I ended up renaming events under =DependencyListener=
+and =MetricsListener= from =StartX()= and
+=StopX()= to =BeginX()= and = EndX()=
+respectively.  This way, all events follow the same convention.  It
+could impact people who developed on top of Dependency Finder, I'll
+see if it causes an uproar.  They should be able to upgrade by simply
+renaming their methods and adding empty implementations for the new
+=BeginSession()= and =EndSession()= events.

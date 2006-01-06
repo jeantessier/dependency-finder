@@ -1,0 +1,13 @@
+Added =SumMeasurement= in preparation for SLOC
+and dependency measurements.
+
+Created =metrics.dtd= and put it at:
+
+    [[dtd][http://depfind.sourceforge.net/dtd/]]
+
+Fixed a mistyped measurement in =MetricsConfig.xml=.
+
+Fixed =MeasurementBase.InRange()= to handle
+textual thresholds.  It assumed the thresholds were instances
+of =Number=, but the XML descriptor provides them
+as text which has to be parsed.

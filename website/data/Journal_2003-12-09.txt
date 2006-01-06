@@ -1,0 +1,3 @@
+Added help links to the resources page.
+
+Started an embryonic screenshot gallery.

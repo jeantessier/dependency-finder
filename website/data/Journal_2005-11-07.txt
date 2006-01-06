@@ -1,0 +1,3 @@
+Merged the =published_API= branch back into the trunk.
+
+Fixed file count based tests.

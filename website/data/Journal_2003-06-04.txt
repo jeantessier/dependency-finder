@@ -1,0 +1,43 @@
+Renamed some of the XSL stylesheets.  The names confused me and I
+always get confused about which one does what.
+
+<blockquote>
+<table>
+    <tr>
+        <td>=DependenciesTo=_X_</td>
+        <td>=--&gt;=</td>
+        <td>=DependencyGraphTo=_X_</td>
+    </tr>
+    <tr>
+        <td>=DependablesTo=_X_</td>
+        <td>=--&gt;=</td>
+        <td>=DependablesTo=_X_</td>
+    </tr>
+    <tr>
+        <td>=DependentsTo=_X_</td>
+        <td>=--&gt;=</td>
+        <td>=DependentsTo=_X_</td>
+    </tr>
+    <tr>
+        <td>=ListDependablesTo=_X_</td>
+        <td>=--&gt;=</td>
+        <td>=HideOutboundDependenciesTo=_X_</td>
+    </tr>
+    <tr>
+        <td>=ListDependentsTo=_X_</td>
+        <td>=--&gt;=</td>
+        <td>=HideInboundDependenciesTo=_X_</td>
+    </tr>
+</table>
+</blockquote>
+
+I have been thinking about an installer that would generate all the
+=.bat= files and adjust them for Windows 98 vs. Windows NT
+and JDK 1.3 vs. JDK 1.4.  I cannot use Perl because the machine where
+you want to install it might not have Perl installed.  I cannot write
+the installer as a DOS script either because string substitution would
+just be too hard, or the Windows 98 version is quite limiting.  But I
+could make it as a simple Java program.  And this way, it could figure
+out the JVM version by itself, and even the OS from system properties.
+Unless I have an epiphany, I won't delay the 1.0 release for this;
+it'll go in the next release.

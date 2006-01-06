@@ -1,0 +1,17 @@
+Added scope lists for =OOMetrics= similar to its current
+filter lists.  I don't know what good they could serve yet, since any
+such filtering could already be achieved by extracting only the desired
+classes.
+
+Added =-show-all-metrics= switch to
+=OOMetrics= to show metrics for classes that were not
+extracted.  This is so I can list metrics regarding inbound
+dependencies on classes outside the examined codebase, so I can group
+dependencies on deprecated symbols by those same deprecated symbols.
+It still uses =-filter-includes-list= to limit the tracking
+to dependencies on deprecated symbols, but all non-deprecated classes
+and methods will now be empty.  With the new switch, it will list all
+non-empty metrics, including those metrics attached to symbols outside
+the codebase.
+
+CVS on SourceForge is down again.

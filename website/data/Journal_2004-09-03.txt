@@ -1,0 +1,19 @@
+Looking a little further into renaming symbols.  There are over
+3,000 methods, but from those I can remove constructors, which will
+retain their initial capital, and methods that already follow the Java
+convention, such as =toString()= and
+=equals(java.lang.Object)=.  But I must also account for
+fields, where I use all lowercase with underscore to separate words.
+Constants in all caps don't count, and fields with only one word are
+just fine.  So I wrote a little Perl script to list what's left and
+ended up with 2,611 symbols that need renaming.
+
+That still leaves local variable to take care of.  I'll need to
+tweak =com.jeantessier.metrics.MetricsGatherer= to find a
+way to list them.  It currently counts them, but doesn't keep track of
+their names.  Then again, maybe a simple classfile printer could do the
+trick.
+
+Phase I: got started on =com.jeantessier.classreader=.
+I'll check it in, and when I'm done, I'll release beta 2 and see the
+reaction it gathers.

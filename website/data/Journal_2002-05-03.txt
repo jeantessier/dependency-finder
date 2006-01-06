@@ -1,0 +1,10 @@
+I switched the XML formats to use an external DTD instead
+of an internal one, like I've been doing so far.  Not that I
+have an "official" web site, I can store the DTDs there for
+all to share.  When the release is ready, I'll put the DTDs
+at:
+
+    [[dtd][http://depfind.sourceforge.net/dtd/]]
+
+I have got a design for the configuration of metrics system.
+I have started writing some unit tests.

@@ -1,0 +1,26 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Xerces</td>
+        <td>:</td>
+        <td>2.5.0</td>
+        <td>-></td>
+        <td>_none_</td>
+    </tr>
+    <tr>
+        <td>Xalan</td>
+        <td>:</td>
+        <td>2.5.1</td>
+        <td>-></td>
+        <td>2.6.0</td>
+    </tr>
+</table>
+</blockquote>
+
+I am not going to chase after Xerces anymore.  I do not use anything
+fancy that would require me to be absolutely up-to-date.  I will do
+just as fine with the version that comes with Xalan.  And thie way, I
+don't have to worry about my Xerces version working with my Xalan
+version.

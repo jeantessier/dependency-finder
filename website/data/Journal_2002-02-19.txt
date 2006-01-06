@@ -1,0 +1,7 @@
+Fixed bugs with =com.jeantessier.classreader.XMLPrinter=.
+The XML now uses lower-case tag names.  I'm still missing a DTD.
+
+I upgraded =extract.jsp= and =query.jsp=,
+so they are a little more friendly now.
+
+I moved =log4j.properties= under =src/=.

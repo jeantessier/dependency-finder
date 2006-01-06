@@ -1,0 +1,1 @@
+Added an icon to =DependencyFinder= and =OOMetricsGUI=.

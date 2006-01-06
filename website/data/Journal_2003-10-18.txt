@@ -1,0 +1,7 @@
+Added copyright dates to the version information.  I will need to do
+something about the code duplication in all the CLI tools.
+
+I want to nominate Dependency Finder for the next Jolt Awards.  I
+couldn't last year because products needed to have had a major release
+in the year, but now with 1.0 out and 1.0.1 on the way, I'm in the
+clear.

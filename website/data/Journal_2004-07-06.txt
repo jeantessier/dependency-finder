@@ -1,0 +1,20 @@
+Some more thoughts about combining selection criteria.
+
+So the target boolean expression is:
+
+    (include1 || include2) && (!exclude1 && !exclude2)
+
+Which we can generalize and rewrite as:
+
+    (include1 || include2 || ...) && !(exclude1 || exclude2 || ...)
+
+Now, most of the time, there is only a single _include_
+clause and a single _exclude_ clause.  Especially in the GUI and
+the web application, where I have limited the range of options and
+where responsiveness is critical.  It does not feel right to have all
+this overhead for traversing composite lists of one subcriteria.  In
+the case where there is only one subcriteria, I should be able to use
+it directly and forgo all of the composite overhead.  But I will need
+some kind of builder pattern to get to that point, somewhere I can
+encapsulate the decision of which classes to instantiate as I figure
+out what the selection expression is going to look like.

@@ -1,0 +1,13 @@
+Tools docs.
+
+Figured out how to get Ant's =&lt;cvsTagDiff&gt;=
+task work from "now" instead of "last midnight".  It turns out
+that adding the time to the date screws up how Ant generates
+the resulting CVS command.  There is an open bug report with
+Apache, so maybe they'll fix it in the future.  While we are
+waiting, I had to add the quotes in the tag's attribute myself.
+
+I'm thinking of getting rid of the =-plain= switch
+to some of the CLI tools.  It is useless.  I should be able to
+get rid of =com.jeantessier.dependency.TextPrinter=
+by the same token.  We'll see about this last one.

@@ -1,0 +1,29 @@
+Changed initial status message in
+=MetricsExtractAction= and
+=DependencyExtractAction= to account for long
+waiting time while =DirectoryExplorer= scans for
+=.class= files.
+
+I was having problems with =SumMeasurement=
+today.  I added trace statements to track down what was going
+on and it started going haywire.  Took me a while, but I
+realized its =Compute()= method was not thread-safe.
+I synchronized its processing and it is now fine.  I looked at
+the other measurements and =NbSubMetricsMeasurement=
+was in the same situation.  I fixed it too.
+
+I noticed that cut &amp; paste of values in
+=OOMetricsGUI= were coming through as calls to
+=toString()=, yielding the default stringification
+from =java.lang.Object=.  I added an implementation
+of =toString()= to =MeasurementBase= so
+that measurements print their numerical value by default.  It
+works well, except for =StatisticalMeasurement=
+which ends up displaying itself five times.
+
+Added standard deviation subvalue to
+=StatisticalMeasurement=.
+
+Added an =InRange()= method to =Metrics=
+that returns =false= if any of the measurements is not
+in range.

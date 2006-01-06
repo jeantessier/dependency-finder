@@ -1,0 +1,3 @@
+Got a bunch of questions from a user on how to use the various
+classes in the Dependency Finder library to process =.class=
+files and generate dependency graphs ready for further processing.

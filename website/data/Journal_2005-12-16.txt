@@ -1,0 +1,2 @@
+Cleaned up =build.xml=.  I had been running the tests
+from my IDE for too long and some of the targets had gotten broken.

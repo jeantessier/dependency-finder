@@ -1,0 +1,8 @@
+Presentation went well.  Two questions:
+
+_When will there be a graphical representation?_  This
+is a tough one to crack; it will require a lot of work.
+
+_Why *Perl* regular expressions?_  Because they are
+quite powerful and the only regular expression syntax that
+I bothered to learn a long time ago.
