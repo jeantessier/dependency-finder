@@ -1,0 +1,1411 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>StatCVS - Commit Log (Page 7 of 14)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="Generator" content="StatCVS 0.2.2">
+    <link rel="stylesheet" href="statcvs.css" type="text/css">
+  </head>
+
+<body>
+
+
+<h1>Commit Log (Page 7 of 14)</h1>
+
+<p><a href="index.html">back to main page</a></p>
+<p>Pages: <a href="commit_log_page_6.html">&laquo; Previous</a> <a href="commit_log.html">1</a> <a href="commit_log_page_2.html">2</a> <a href="commit_log_page_3.html">3</a> <a href="commit_log_page_4.html">4</a> <a href="commit_log_page_5.html">5</a> <a href="commit_log_page_6.html">6</a> 7 <a href="commit_log_page_8.html">8</a> <a href="commit_log_page_9.html">9</a> <a href="commit_log_page_10.html">10</a> <a href="commit_log_page_11.html">11</a> <a href="commit_log_page_12.html">12</a> <a href="commit_log_page_13.html">13</a> <a href="commit_log_page_14.html">14</a> <a href="commit_log_page_8.html">Next &raquo;</a> </p>
+<p class="summaryperiod">
+  Summary Period:
+  <span class="date">2003-09-03</span> to
+  <span class="date">2003-04-23</span>  (Commits 338-387 of 687)
+</p>
+<dl class="commitlist">
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-09-03 23:36</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Also skip MANIFEST.MF in PermissiveDispatcher
+    </p>
+    <p class="commitdetails"><strong>337</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/PermissiveDispatcher.java.diff?r1=1.1&amp;r2=1.2" class="webrepository">PermissiveDispatcher.java</a>&nbsp;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>tests/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestAll.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">TestAll.java</a>&nbsp;<span class="change">(+2&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/Attic/TestClassfileLoaderDispatch.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestClassfileLoaderDispatch.java</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoaderPermissiveDispatcher.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestClassfileLoaderPermissiveDispatcher.java</a>&nbsp;<span class="new">(new&nbsp;167)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoaderStrictDispatcher.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestClassfileLoaderStrictDispatcher.java</a>&nbsp;<span class="new">(new&nbsp;167)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-09-02 23:13</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fix @link
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/package.html.diff?r1=1.1&amp;r2=1.2" class="webrepository">package.html</a>&nbsp;<span class="change">(+5&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-09-02 22:52</span>
+  </dt>
+  <dd>
+    <p class="comment">
+New, more permissive, dispatch strategy for ClassfileLoaders
+    </p>
+    <p class="commitdetails"><strong>75</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoaderEventSource.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">ClassfileLoaderEventSource.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/PermissiveDispatcher.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">PermissiveDispatcher.java</a>&nbsp;<span class="new">(new&nbsp;74)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-31 21:43</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Adjust progress messages
+    </p>
+    <p class="commitdetails"><strong>75</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.26&amp;r2=1.27" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+75&nbsp;-30)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-31 17:33</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Include shared footer.<BR>
+Fix progress messages in extract.jsp.
+    </p>
+    <p class="commitdetails"><strong>93</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.35&amp;r2=1.36" class="webrepository">build.xml</a>&nbsp;<span class="change">(+7&nbsp;-2)</span>
+      </li>
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp.diff?r1=1.19&amp;r2=1.20" class="webrepository">advancedclosure.jsp</a>&nbsp;<span class="change">(+1&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedmetrics.jsp.diff?r1=1.6&amp;r2=1.7" class="webrepository">advancedmetrics.jsp</a>&nbsp;<span class="change">(+1&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.21&amp;r2=1.22" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+1&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp.diff?r1=1.20&amp;r2=1.21" class="webrepository">closure.jsp</a>&nbsp;<span class="change">(+1&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/errorpage.jsp.diff?r1=1.8&amp;r2=1.9" class="webrepository">errorpage.jsp</a>&nbsp;<span class="change">(+1&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.25&amp;r2=1.26" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+33&nbsp;-18)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/footer.jsp?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">footer.jsp</a>&nbsp;<span class="new">(new&nbsp;46)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/metrics.jsp.diff?r1=1.6&amp;r2=1.7" class="webrepository">metrics.jsp</a>&nbsp;<span class="change">(+1&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp.diff?r1=1.24&amp;r2=1.25" class="webrepository">query.jsp</a>&nbsp;<span class="change">(+1&nbsp;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-30 00:10</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Adjust LoadListeners for new group and file information
+    </p>
+    <p class="commitdetails"><strong>70</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/DirectoryClassfileLoader.java.diff?r1=1.10&amp;r2=1.11" class="webrepository">DirectoryClassfileLoader.java</a>&nbsp;<span class="change">(+9&nbsp;-10)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LoadEvent.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">LoadEvent.java</a>&nbsp;<span class="change">(+14&nbsp;-14)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/ant</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/VerboseListener.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">VerboseListener.java</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/VerboseListener.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">VerboseListener.java</a>&nbsp;<span class="change">(+9&nbsp;-9)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java.diff?r1=1.17&amp;r2=1.18" class="webrepository">DependencyExtractAction.java</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java.diff?r1=1.20&amp;r2=1.21" class="webrepository">MetricsExtractAction.java</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java.diff?r1=1.2&amp;r2=1.3" class="webrepository">RefreshDependencyGraphAction.java</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>
+      </li>
+      <li>
+        <strong>tests/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDirectoryClassfileLoader.java.diff?r1=1.9&amp;r2=1.10" class="webrepository">TestDirectoryClassfileLoader.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.24&amp;r2=1.25" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+9&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-29 02:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Adjust ClassfileLoaders to read arbitrary class containment hierarchies,<BR>
+such as all JARs in a directory and ZIPs within ZIPs.
+    </p>
+    <p class="commitdetails"><strong>1164</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/AggregatingClassfileLoader.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">AggregatingClassfileLoader.java</a>&nbsp;<span class="change">(+8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoader.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">ClassfileLoader.java</a>&nbsp;<span class="change">(+10&nbsp;-8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoaderDecorator.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">ClassfileLoaderDecorator.java</a>&nbsp;<span class="change">(+16&nbsp;-8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoaderDispatcher.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ClassfileLoaderDispatcher.java</a>&nbsp;<span class="new">(new&nbsp;43)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassfileLoaderEventSource.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">ClassfileLoaderEventSource.java</a>&nbsp;<span class="change">(+120&nbsp;-15)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/CollectorBase.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">CollectorBase.java</a>&nbsp;<span class="change">(+8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/DirectoryClassfileLoader.java.diff?r1=1.9&amp;r2=1.10" class="webrepository">DirectoryClassfileLoader.java</a>&nbsp;<span class="change">(+17&nbsp;-10)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/DirectoryExplorer.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">DirectoryExplorer.java</a>&nbsp;<span class="change">(+9&nbsp;-31)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/JarClassfileLoader.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">JarClassfileLoader.java</a>&nbsp;<span class="change">(+39&nbsp;-15)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LoadListener.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">LoadListener.java</a>&nbsp;<span class="change">(+33&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/StrictDispatcher.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">StrictDispatcher.java</a>&nbsp;<span class="new">(new&nbsp;62)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/TransientClassfileLoader.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">TransientClassfileLoader.java</a>&nbsp;<span class="change">(+8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ZipClassfileLoader.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">ZipClassfileLoader.java</a>&nbsp;<span class="change">(+93&nbsp;-33)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CodeDependencyCollector.java.diff?r1=1.12&amp;r2=1.13" class="webrepository">CodeDependencyCollector.java</a>&nbsp;<span class="change">(+8)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/ant</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/VerboseListener.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">VerboseListener.java</a>&nbsp;<span class="change">(+8)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/VerboseListener.java.diff?r1=1.2&amp;r2=1.3" class="webrepository">VerboseListener.java</a>&nbsp;<span class="change">(+8)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java.diff?r1=1.16&amp;r2=1.17" class="webrepository">DependencyExtractAction.java</a>&nbsp;<span class="change">(+8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java.diff?r1=1.19&amp;r2=1.20" class="webrepository">MetricsExtractAction.java</a>&nbsp;<span class="change">(+8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java.diff?r1=1.1&amp;r2=1.2" class="webrepository">RefreshDependencyGraphAction.java</a>&nbsp;<span class="change">(+8)</span>
+      </li>
+      <li>
+        <strong>tests/JarJarDiff</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/JarJarDiff/build.xml.diff?r1=1.4&amp;r2=1.5" class="webrepository">build.xml</a>&nbsp;<span class="change">(+36&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>tests/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestAggregatingClassfileLoader.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">TestAggregatingClassfileLoader.java</a>&nbsp;<span class="change">(+7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestAll.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">TestAll.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestClassfileLoader.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestClassfileLoader.java</a>&nbsp;<span class="new">(new&nbsp;134)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/Attic/TestClassfileLoaderDispatch.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestClassfileLoaderDispatch.java</a>&nbsp;<span class="new">(new)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDirectoryClassfileLoader.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">TestDirectoryClassfileLoader.java</a>&nbsp;<span class="change">(+89&nbsp;-235)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestDirectoryExplorer.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestDirectoryExplorer.java</a>&nbsp;<span class="new">(new&nbsp;104)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestJarClassfileLoader.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestJarClassfileLoader.java</a>&nbsp;<span class="new">(new&nbsp;122)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/classreader/TestZipClassfileLoader.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestZipClassfileLoader.java</a>&nbsp;<span class="new">(new&nbsp;154)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-18 20:21</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fixed &lt;cvstagdiff&gt; task with wrong tags
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.34&amp;r2=1.35" class="webrepository">build.xml</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-15 21:57</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Use Version bean with BeanInfo helper class
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.33&amp;r2=1.34" class="webrepository">build.xml</a>&nbsp;<span class="change">(+3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-15 21:46</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Use Version bean with BeanInfo helper class
+    </p>
+    <p class="commitdetails"><strong>94</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/VersionBeanInfo.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">VersionBeanInfo.java</a>&nbsp;<span class="new">(new&nbsp;60)</span>
+      </li>
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp.diff?r1=1.18&amp;r2=1.19" class="webrepository">advancedclosure.jsp</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedmetrics.jsp.diff?r1=1.5&amp;r2=1.6" class="webrepository">advancedmetrics.jsp</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.20&amp;r2=1.21" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp.diff?r1=1.19&amp;r2=1.20" class="webrepository">closure.jsp</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/errorpage.jsp.diff?r1=1.7&amp;r2=1.8" class="webrepository">errorpage.jsp</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.23&amp;r2=1.24" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/metrics.jsp.diff?r1=1.5&amp;r2=1.6" class="webrepository">metrics.jsp</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp.diff?r1=1.23&amp;r2=1.24" class="webrepository">query.jsp</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-13 01:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Version data in JSPs
+    </p>
+    <p class="commitdetails"><strong>235</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.32&amp;r2=1.33" class="webrepository">build.xml</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/Version.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">Version.java</a>&nbsp;<span class="new">(new&nbsp;160)</span>
+      </li>
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp.diff?r1=1.17&amp;r2=1.18" class="webrepository">advancedclosure.jsp</a>&nbsp;<span class="change">(+8&nbsp;-19)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedmetrics.jsp.diff?r1=1.4&amp;r2=1.5" class="webrepository">advancedmetrics.jsp</a>&nbsp;<span class="change">(+8&nbsp;-19)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.19&amp;r2=1.20" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+8&nbsp;-19)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp.diff?r1=1.18&amp;r2=1.19" class="webrepository">closure.jsp</a>&nbsp;<span class="change">(+8&nbsp;-19)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/errorpage.jsp.diff?r1=1.6&amp;r2=1.7" class="webrepository">errorpage.jsp</a>&nbsp;<span class="change">(+7&nbsp;-18)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.22&amp;r2=1.23" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+19&nbsp;-30)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/metrics.jsp.diff?r1=1.4&amp;r2=1.5" class="webrepository">metrics.jsp</a>&nbsp;<span class="change">(+8&nbsp;-19)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp.diff?r1=1.22&amp;r2=1.23" class="webrepository">query.jsp</a>&nbsp;<span class="change">(+8&nbsp;-19)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-12 02:42</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Use MANIFEST.MF information in branding string
+    </p>
+    <p class="commitdetails"><strong>150</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp.diff?r1=1.16&amp;r2=1.17" class="webrepository">advancedclosure.jsp</a>&nbsp;<span class="change">(+19&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedmetrics.jsp.diff?r1=1.3&amp;r2=1.4" class="webrepository">advancedmetrics.jsp</a>&nbsp;<span class="change">(+19&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.18&amp;r2=1.19" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+19&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp.diff?r1=1.17&amp;r2=1.18" class="webrepository">closure.jsp</a>&nbsp;<span class="change">(+19&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/errorpage.jsp.diff?r1=1.5&amp;r2=1.6" class="webrepository">errorpage.jsp</a>&nbsp;<span class="change">(+18&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.21&amp;r2=1.22" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+18&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/metrics.jsp.diff?r1=1.3&amp;r2=1.4" class="webrepository">metrics.jsp</a>&nbsp;<span class="change">(+19&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp.diff?r1=1.21&amp;r2=1.22" class="webrepository">query.jsp</a>&nbsp;<span class="change">(+19&nbsp;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-09 22:31</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Upgrade Xerces 2.3.0 -&gt; 2.5.0.<BR>
+Upgrade Xalan 2.5 D1 -&gt; 2.5.1.
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>lib</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/lib/Attic/xalan.jar.diff?r1=1.4&amp;r2=1.5" class="webrepository">xalan.jar</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/lib/Attic/xercesImpl.jar.diff?r1=1.3&amp;r2=1.4" class="webrepository">xercesImpl.jar</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/lib/Attic/xml-apis.jar.diff?r1=1.3&amp;r2=1.4" class="webrepository">xml-apis.jar</a>&nbsp;<span class="change">(changed)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-06 02:30</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Oversynchronization
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/metrics</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/StatisticalMeasurement.java.diff?r1=1.13&amp;r2=1.14" class="webrepository">StatisticalMeasurement.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-08-06 02:25</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fix bug with extraneous output
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassReader.java.diff?r1=1.17&amp;r2=1.18" class="webrepository">ClassReader.java</a>&nbsp;<span class="change">(-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-07-29 02:08</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Navigation bar
+    </p>
+    <p class="commitdetails"><strong>20</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.20&amp;r2=1.21" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+20&nbsp;-7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-07-29 02:07</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Copy only explicit dependencies
+    </p>
+    <p class="commitdetails"><strong>63</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/ant</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">DependencyReporter.java</a>&nbsp;<span class="change">(+10&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java.diff?r1=1.18&amp;r2=1.19" class="webrepository">DependencyReporter.java</a>&nbsp;<span class="change">(+2&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/AdvancedQueryPanelAction.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">AdvancedQueryPanelAction.java</a>&nbsp;<span class="change">(+2&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java.diff?r1=1.27&amp;r2=1.28" class="webrepository">DependencyFinder.java</a>&nbsp;<span class="change">(+37&nbsp;-27)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/SimpleQueryPanelAction.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">SimpleQueryPanelAction.java</a>&nbsp;<span class="change">(+2&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.17&amp;r2=1.18" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+10&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-07-23 03:28</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fix bug #775747.<BR>
+Close PrintWriter.
+    </p>
+    <p class="commitdetails"><strong>15</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantPool.java.diff?r1=1.9&amp;r2=1.10" class="webrepository">ConstantPool.java</a>&nbsp;<span class="change">(+2)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java.diff?r1=1.17&amp;r2=1.18" class="webrepository">DependencyReporter.java</a>&nbsp;<span class="change">(+13&nbsp;-12)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-07-23 02:41</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Clean whitespace in program indentation
+    </p>
+    <p class="commitdetails"><strong>817</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/AttributeFactory.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">AttributeFactory.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Attribute_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Attribute_info.java</a>&nbsp;<span class="change">(+12&nbsp;-12)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/BitFormat.java.diff?r1=1.2&amp;r2=1.3" class="webrepository">BitFormat.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ClassDependencyCollector.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">ClassDependencyCollector.java</a>&nbsp;<span class="change">(+36&nbsp;-36)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Classfile.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">Classfile.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/CodeIterator.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">CodeIterator.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Collector.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">Collector.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/CollectorBase.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">CollectorBase.java</a>&nbsp;<span class="change">(+11&nbsp;-11)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantPool.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">ConstantPool.java</a>&nbsp;<span class="change">(+10&nbsp;-10)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantPoolEntry.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">ConstantPoolEntry.java</a>&nbsp;<span class="change">(+19&nbsp;-19)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Custom_attribute.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">Custom_attribute.java</a>&nbsp;<span class="change">(+14&nbsp;-15)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Deprecated_attribute.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">Deprecated_attribute.java</a>&nbsp;<span class="change">(+6&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Double_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Double_info.java</a>&nbsp;<span class="change">(+9&nbsp;-9)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/FeatureDependencyCollector.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">FeatureDependencyCollector.java</a>&nbsp;<span class="change">(+16&nbsp;-16)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/FeatureRef_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">FeatureRef_info.java</a>&nbsp;<span class="change">(+24&nbsp;-24)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Float_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Float_info.java</a>&nbsp;<span class="change">(+9&nbsp;-9)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/InnerClass.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">InnerClass.java</a>&nbsp;<span class="change">(+43&nbsp;-43)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Instruction.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Instruction.java</a>&nbsp;<span class="change">(+6&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Integer_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Integer_info.java</a>&nbsp;<span class="change">(+9&nbsp;-9)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/InterfaceMethodRef_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">InterfaceMethodRef_info.java</a>&nbsp;<span class="change">(+8&nbsp;-8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/LocalVariable.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">LocalVariable.java</a>&nbsp;<span class="change">(+34&nbsp;-34)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Long_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Long_info.java</a>&nbsp;<span class="change">(+9&nbsp;-9)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/MethodRef_info.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">MethodRef_info.java</a>&nbsp;<span class="change">(+12&nbsp;-12)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Printer.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">Printer.java</a>&nbsp;<span class="change">(+19&nbsp;-19)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/SignatureHelper.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">SignatureHelper.java</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/SourceFile_attribute.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">SourceFile_attribute.java</a>&nbsp;<span class="change">(+13&nbsp;-13)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/String_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">String_info.java</a>&nbsp;<span class="change">(+13&nbsp;-13)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Synthetic_attribute.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">Synthetic_attribute.java</a>&nbsp;<span class="change">(+6&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/UTF8_info.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">UTF8_info.java</a>&nbsp;<span class="change">(+9&nbsp;-9)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Visitable.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Visitable.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Visitor.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Visitor.java</a>&nbsp;<span class="change">(+34&nbsp;-34)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/XMLPrinter.java.diff?r1=1.20&amp;r2=1.21" class="webrepository">XMLPrinter.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/commandline</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AnyParameterStrategy.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">AnyParameterStrategy.java</a>&nbsp;<span class="change">(+6&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AtLeastParameterStrategy.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">AtLeastParameterStrategy.java</a>&nbsp;<span class="change">(+14&nbsp;-14)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AtMostParameterStrategy.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">AtMostParameterStrategy.java</a>&nbsp;<span class="change">(+14&nbsp;-14)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLine.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">CommandLine.java</a>&nbsp;<span class="change">(+79&nbsp;-79)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineException.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">CommandLineException.java</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineSwitch.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">CommandLineSwitch.java</a>&nbsp;<span class="change">(+6&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineSwitchBase.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">CommandLineSwitchBase.java</a>&nbsp;<span class="change">(+26&nbsp;-26)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineUsage.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">CommandLineUsage.java</a>&nbsp;<span class="change">(+27&nbsp;-27)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CountingParameterStrategy.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">CountingParameterStrategy.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ExactlyParameterStrategy.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">ExactlyParameterStrategy.java</a>&nbsp;<span class="change">(+14&nbsp;-14)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/MultipleValuesSwitch.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">MultipleValuesSwitch.java</a>&nbsp;<span class="change">(+24&nbsp;-24)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/NullParameterStrategy.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">NullParameterStrategy.java</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/OptionalValueSwitch.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">OptionalValueSwitch.java</a>&nbsp;<span class="change">(+12&nbsp;-12)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ParameterStrategy.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">ParameterStrategy.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/SingleValueSwitch.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">SingleValueSwitch.java</a>&nbsp;<span class="change">(+12&nbsp;-12)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ToggleSwitch.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">ToggleSwitch.java</a>&nbsp;<span class="change">(+10&nbsp;-10)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/Visitable.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Visitable.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/Visitor.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">Visitor.java</a>&nbsp;<span class="change">(+10&nbsp;-10)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/ClassNode.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">ClassNode.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/CodeDependencyCollector.java.diff?r1=1.11&amp;r2=1.12" class="webrepository">CodeDependencyCollector.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/FeatureNode.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">FeatureNode.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/NodeHandler.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">NodeHandler.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TextPrinter.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">TextPrinter.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/Visitor.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">Visitor.java</a>&nbsp;<span class="change">(+10&nbsp;-10)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/VisitorBase.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">VisitorBase.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/XMLPrinter.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">XMLPrinter.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/ant</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/ClassMetrics.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">ClassMetrics.java</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">DependencyClosure.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">DependencyExtractor.java</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">DependencyMetrics.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">DependencyReporter.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/GraphTask.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">GraphTask.java</a>&nbsp;<span class="change">(+12&nbsp;-12)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/JarJarDiff.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">JarJarDiff.java</a>&nbsp;<span class="change">(+10&nbsp;-10)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/ListDiff.java.diff?r1=1.2&amp;r2=1.3" class="webrepository">ListDiff.java</a>&nbsp;<span class="change">(+22&nbsp;-22)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/OOMetrics.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">OOMetrics.java</a>&nbsp;<span class="change">(+16&nbsp;-16)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java.diff?r1=1.19&amp;r2=1.20" class="webrepository">DependencyClosure.java</a>&nbsp;<span class="change">(+13&nbsp;-13)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java.diff?r1=1.15&amp;r2=1.16" class="webrepository">DependencyExtractor.java</a>&nbsp;<span class="change">(+8&nbsp;-8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java.diff?r1=1.16&amp;r2=1.17" class="webrepository">DependencyReporter.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/Attic/Hex.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">Hex.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/diff</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ClassReport.java.diff?r1=1.11&amp;r2=1.12" class="webrepository">ClassReport.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ConstructorDifferences.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">ConstructorDifferences.java</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Attic/ListBasedValidator.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">ListBasedValidator.java</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ListDocumentedElements.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">ListDocumentedElements.java</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Attic/PackageValidator.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">PackageValidator.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Printer.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">Printer.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/RemovableDifferences.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">RemovableDifferences.java</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/Report.java.diff?r1=1.15&amp;r2=1.16" class="webrepository">Report.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/metrics</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/MetricsEvent.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">MetricsEvent.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/NbSubMetricsMeasurement.java.diff?r1=1.11&amp;r2=1.12" class="webrepository">NbSubMetricsMeasurement.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/XMLPrinter.java.diff?r1=1.12&amp;r2=1.13" class="webrepository">XMLPrinter.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>tests/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphCopierWithFiltering.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">TestGraphCopierWithFiltering.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizer.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">TestGraphSummarizer.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizerWithFiltering.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">TestGraphSummarizerWithFiltering.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestGraphSummarizerWithScoping.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">TestGraphSummarizerWithScoping.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMaximizer.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">TestLinkMaximizer.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestLinkMinimizer.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">TestLinkMinimizer.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureSlice.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">TestTransitiveClosureSlice.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTransitiveClosureWithTestClass.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">TestTransitiveClosureWithTestClass.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-07-22 23:28</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Rename "Reload" to "Refresh"
+    </p>
+    <p class="commitdetails"><strong>120</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java.diff?r1=1.26&amp;r2=1.27" class="webrepository">DependencyFinder.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/RefreshDependencyGraphAction.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">RefreshDependencyGraphAction.java</a>&nbsp;<span class="new">(new&nbsp;119)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/Attic/ReloadDependencyGraphAction.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ReloadDependencyGraphAction.java</a>&nbsp;<span class="del">(del)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui/icons</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/icons/refresh.gif.diff?r1=0.0&amp;r2=1.1" class="webrepository">refresh.gif</a>&nbsp;<span class="change">(changed)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-07-17 23:56</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Reload button
+    </p>
+    <p class="commitdetails"><strong>8</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyExtractAction.java.diff?r1=1.15&amp;r2=1.16" class="webrepository">DependencyExtractAction.java</a>&nbsp;<span class="change">(+1&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java.diff?r1=1.25&amp;r2=1.26" class="webrepository">DependencyFinder.java</a>&nbsp;<span class="change">(+7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/Attic/ReloadDependencyGraphAction.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ReloadDependencyGraphAction.java</a>&nbsp;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-12 23:04</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Minor changes.
+    </p>
+    <p class="commitdetails"><strong>8</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.31&amp;r2=1.32" class="webrepository">build.xml</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>docs/tasks</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/tasks/definitions.html.diff?r1=1.1&amp;r2=1.2" class="webrepository">definitions.html</a>&nbsp;<span class="change">(+6&nbsp;-2)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/diff</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ListDiffPrinter.java.diff?r1=1.2&amp;r2=1.3" class="webrepository">ListDiffPrinter.java</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-07 00:10</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Clean up HTML.<BR>
+Add "Powered by ..." branding.
+    </p>
+    <p class="commitdetails"><strong>101</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp.diff?r1=1.15&amp;r2=1.16" class="webrepository">advancedclosure.jsp</a>&nbsp;<span class="change">(+13&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedmetrics.jsp.diff?r1=1.2&amp;r2=1.3" class="webrepository">advancedmetrics.jsp</a>&nbsp;<span class="change">(+13&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.16&amp;r2=1.17" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+13&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp.diff?r1=1.16&amp;r2=1.17" class="webrepository">closure.jsp</a>&nbsp;<span class="change">(+13&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/errorpage.jsp.diff?r1=1.4&amp;r2=1.5" class="webrepository">errorpage.jsp</a>&nbsp;<span class="change">(+9&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.19&amp;r2=1.20" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+8&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/metrics.jsp.diff?r1=1.2&amp;r2=1.3" class="webrepository">metrics.jsp</a>&nbsp;<span class="change">(+13&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp.diff?r1=1.20&amp;r2=1.21" class="webrepository">query.jsp</a>&nbsp;<span class="change">(+13&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/style.css.diff?r1=1.3&amp;r2=1.4" class="webrepository">style.css</a>&nbsp;<span class="change">(+6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-07 00:09</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Removed unnecessary manipulation of PrintWriter
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/MetricsReport.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">MetricsReport.java</a>&nbsp;<span class="change">(-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-07 00:07</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Removed unnecessary calls to flush()
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassClassDiff.java.diff?r1=1.2&amp;r2=1.3" class="webrepository">ClassClassDiff.java</a>&nbsp;<span class="change">(-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java.diff?r1=1.12&amp;r2=1.13" class="webrepository">DependencyMetrics.java</a>&nbsp;<span class="change">(-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/JarJarDiff.java.diff?r1=1.18&amp;r2=1.19" class="webrepository">JarJarDiff.java</a>&nbsp;<span class="change">(-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ListDiff.java.diff?r1=1.8&amp;r2=1.9" class="webrepository">ListDiff.java</a>&nbsp;<span class="change">(-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-07 00:06</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Remove extraneous calls to "print the printer"
+    </p>
+    <p class="commitdetails"><strong>8</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/ant</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/OOMetrics.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">OOMetrics.java</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/OOMetrics.java.diff?r1=1.22&amp;r2=1.23" class="webrepository">OOMetrics.java</a>&nbsp;<span class="change">(+4&nbsp;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-07 00:04</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Minor clean up
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/diff</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/diff/ListDiffPrinter.java.diff?r1=1.1&amp;r2=1.2" class="webrepository">ListDiffPrinter.java</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-06 23:59</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Adjusted version properties so its shows correctly in manifest.mf
+    </p>
+    <p class="commitdetails"><strong>36</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.30&amp;r2=1.31" class="webrepository">build.xml</a>&nbsp;<span class="change">(+36&nbsp;-34)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-05 23:59</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Post 1.0
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.29&amp;r2=1.30" class="webrepository">build.xml</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-05 01:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Renamed XSL stylesheets
+    </p>
+    <p class="commitdetails"><strong>1269</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>bin</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependenciesToHTML.bat?rev=1.9&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">DependenciesToHTML.bat</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependenciesToText.bat?rev=1.9&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">DependenciesToText.bat</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyGraphToHTML.bat?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">DependencyGraphToHTML.bat</a>&nbsp;<span class="new">(new&nbsp;1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyGraphToText.bat?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">DependencyGraphToText.bat</a>&nbsp;<span class="new">(new&nbsp;1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/HideInboundDependenciesToHTML.bat?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">HideInboundDependenciesToHTML.bat</a>&nbsp;<span class="new">(new&nbsp;1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/HideInboundDependenciesToText.bat?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">HideInboundDependenciesToText.bat</a>&nbsp;<span class="new">(new&nbsp;1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/HideOutboundDependenciesToHTML.bat?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">HideOutboundDependenciesToHTML.bat</a>&nbsp;<span class="new">(new&nbsp;1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/HideOutboundDependenciesToText.bat?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">HideOutboundDependenciesToText.bat</a>&nbsp;<span class="new">(new&nbsp;1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependablesToHTML.bat?rev=1.8&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ListDependablesToHTML.bat</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependablesToText.bat?rev=1.8&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ListDependablesToText.bat</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependentsToHTML.bat?rev=1.8&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ListDependentsToHTML.bat</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependentsToText.bat?rev=1.8&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ListDependentsToText.bat</a>&nbsp;<span class="del">(del)</span>
+      </li>
+      <li>
+        <strong>docs</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Manual.txt.diff?r1=1.31&amp;r2=1.32" class="webrepository">Manual.txt</a>&nbsp;<span class="change">(+196&nbsp;-78)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Tools.txt.diff?r1=1.21&amp;r2=1.22" class="webrepository">Tools.txt</a>&nbsp;<span class="change">(+570&nbsp;-567)</span>
+      </li>
+      <li>
+        <strong>etc</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/Attic/DependenciesToHTML.xsl?rev=1.5&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">DependenciesToHTML.xsl</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/Attic/DependenciesToText.xsl?rev=1.5&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">DependenciesToText.xsl</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/DependencyGraphToHTML.xsl?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">DependencyGraphToHTML.xsl</a>&nbsp;<span class="new">(new&nbsp;94)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/DependencyGraphToText.xsl?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">DependencyGraphToText.xsl</a>&nbsp;<span class="new">(new&nbsp;85)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/HideInboundDependenciesToHTML.xsl?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">HideInboundDependenciesToHTML.xsl</a>&nbsp;<span class="new">(new&nbsp;86)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/HideInboundDependenciesToText.xsl?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">HideInboundDependenciesToText.xsl</a>&nbsp;<span class="new">(new&nbsp;73)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/HideOutboundDependenciesToHTML.xsl?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">HideOutboundDependenciesToHTML.xsl</a>&nbsp;<span class="new">(new&nbsp;86)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/HideOutboundDependenciesToText.xsl?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">HideOutboundDependenciesToText.xsl</a>&nbsp;<span class="new">(new&nbsp;73)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/Attic/ListDependablesToHTML.xsl?rev=1.5&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ListDependablesToHTML.xsl</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/Attic/ListDependablesToText.xsl?rev=1.5&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ListDependablesToText.xsl</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/Attic/ListDependentsToHTML.xsl?rev=1.5&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ListDependentsToHTML.xsl</a>&nbsp;<span class="del">(del)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/etc/Attic/ListDependentsToText.xsl?rev=1.5&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">ListDependentsToText.xsl</a>&nbsp;<span class="del">(del)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-04 00:49</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Adjusted navigation colors
+    </p>
+    <p class="commitdetails"><strong>40</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp.diff?r1=1.14&amp;r2=1.15" class="webrepository">advancedclosure.jsp</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedmetrics.jsp.diff?r1=1.1&amp;r2=1.2" class="webrepository">advancedmetrics.jsp</a>&nbsp;<span class="change">(+12&nbsp;-10)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.15&amp;r2=1.16" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp.diff?r1=1.15&amp;r2=1.16" class="webrepository">closure.jsp</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/errorpage.jsp.diff?r1=1.3&amp;r2=1.4" class="webrepository">errorpage.jsp</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/extract.jsp.diff?r1=1.18&amp;r2=1.19" class="webrepository">extract.jsp</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/metrics.jsp.diff?r1=1.1&amp;r2=1.2" class="webrepository">metrics.jsp</a>&nbsp;<span class="change">(+7&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp.diff?r1=1.19&amp;r2=1.20" class="webrepository">query.jsp</a>&nbsp;<span class="change">(+3&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/style.css.diff?r1=1.2&amp;r2=1.3" class="webrepository">style.css</a>&nbsp;<span class="change">(+7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 23:38</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fixed dependency counts in MetricsGatherer
+    </p>
+    <p class="commitdetails"><strong>138</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/MetricsGatherer.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">MetricsGatherer.java</a>&nbsp;<span class="change">(+24&nbsp;-6)</span>
+      </li>
+      <li>
+        <strong>tests/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestAll.java.diff?r1=1.11&amp;r2=1.12" class="webrepository">TestAll.java</a>&nbsp;<span class="change">(+1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestMetricsGatherer.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestMetricsGatherer.java</a>&nbsp;<span class="new">(new&nbsp;113)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 17:45</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Change accelarator for all queries
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java.diff?r1=1.24&amp;r2=1.25" class="webrepository">DependencyFinder.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 17:45</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Set DTD prefix
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">SaveFileAction.java</a>&nbsp;<span class="change">(+2&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 17:37</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Move MetricsReport to PrintWriter instead of StringBuffer
+    </p>
+    <p class="commitdetails"><strong>21</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/MetricsReport.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">MetricsReport.java</a>&nbsp;<span class="change">(+5&nbsp;-6)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/ant</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyMetrics.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">DependencyMetrics.java</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyMetrics.java.diff?r1=1.11&amp;r2=1.12" class="webrepository">DependencyMetrics.java</a>&nbsp;<span class="change">(+8&nbsp;-10)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java.diff?r1=1.23&amp;r2=1.24" class="webrepository">DependencyFinder.java</a>&nbsp;<span class="change">(+3&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 17:36</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Forgot JSPs in src ZIP file
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.28&amp;r2=1.29" class="webrepository">build.xml</a>&nbsp;<span class="change">(+1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 17:33</span>
+  </dt>
+  <dd>
+    <p class="comment">
+New dependency metrics tool.<BR>
+Navigation.
+    </p>
+    <p class="commitdetails"><strong>680</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp.diff?r1=1.13&amp;r2=1.14" class="webrepository">advancedclosure.jsp</a>&nbsp;<span class="change">(+10&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedmetrics.jsp?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">advancedmetrics.jsp</a>&nbsp;<span class="new">(new&nbsp;384)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.14&amp;r2=1.15" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+10&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp.diff?r1=1.14&amp;r2=1.15" class="webrepository">closure.jsp</a>&nbsp;<span class="change">(+10&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/metrics.jsp?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">metrics.jsp</a>&nbsp;<span class="new">(new&nbsp;256)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp.diff?r1=1.18&amp;r2=1.19" class="webrepository">query.jsp</a>&nbsp;<span class="change">(+10&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 17:32</span>
+  </dt>
+  <dd>
+    <p class="comment">
+More quotes
+    </p>
+    <p class="commitdetails"><strong>39</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>bin</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassClassDiff.bat.diff?r1=1.3&amp;r2=1.4" class="webrepository">ClassClassDiff.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassDump.bat.diff?r1=1.8&amp;r2=1.9" class="webrepository">ClassDump.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassList.bat.diff?r1=1.8&amp;r2=1.9" class="webrepository">ClassList.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassMetrics.bat.diff?r1=1.8&amp;r2=1.9" class="webrepository">ClassMetrics.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassReader.bat.diff?r1=1.8&amp;r2=1.9" class="webrepository">ClassReader.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClosureToText.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ClosureToText.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependablesToHTML.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">DependablesToHTML.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependablesToText.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">DependablesToText.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependenciesToHTML.bat.diff?r1=1.8&amp;r2=1.9" class="webrepository">DependenciesToHTML.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependenciesToText.bat.diff?r1=1.8&amp;r2=1.9" class="webrepository">DependenciesToText.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyClosure.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">DependencyClosure.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyExtractor.bat.diff?r1=1.8&amp;r2=1.9" class="webrepository">DependencyExtractor.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/DependencyFinder.bat.diff?r1=1.11&amp;r2=1.12" class="webrepository">DependencyFinder.bat</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyMetrics.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">DependencyMetrics.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyReporter.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">DependencyReporter.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependentsToHTML.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">DependentsToHTML.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependentsToText.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">DependentsToText.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DiffToHTML.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">DiffToHTML.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/JarJarDiff.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">JarJarDiff.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependablesToHTML.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ListDependablesToHTML.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependablesToText.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ListDependablesToText.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependentsToHTML.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ListDependentsToHTML.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependentsToText.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ListDependentsToText.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDiff.bat.diff?r1=1.4&amp;r2=1.5" class="webrepository">ListDiff.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDiffToHTML.bat.diff?r1=1.4&amp;r2=1.5" class="webrepository">ListDiffToHTML.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDiffToText.bat.diff?r1=1.4&amp;r2=1.5" class="webrepository">ListDiffToText.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/ListDocumentedElements.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">ListDocumentedElements.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListInheritanceDiffToText.bat.diff?r1=1.4&amp;r2=1.5" class="webrepository">ListInheritanceDiffToText.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListUnused.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ListUnused.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/OOMetrics.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">OOMetrics.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/OOMetricsGUI.bat.diff?r1=1.11&amp;r2=1.12" class="webrepository">OOMetricsGUI.bat</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/PublishedDiffToHTML.bat.diff?r1=1.4&amp;r2=1.5" class="webrepository">PublishedDiffToHTML.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/XSLTProcess.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">XSLTProcess.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/c2c.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">c2c.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/c2p.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">c2p.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/f2f.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">f2f.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/p2p.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">p2p.bat</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 04:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+More intuitive text
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/AllQueriesAction.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">AllQueriesAction.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-03 03:43</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Changed Printers to use PrintWriter instead of StringBuffer
+    </p>
+    <p class="commitdetails"><strong>721</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/classreader</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/ConstantPool.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">ConstantPool.java</a>&nbsp;<span class="change">(+6&nbsp;-6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/Printer.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">Printer.java</a>&nbsp;<span class="change">(+22&nbsp;-24)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/TextPrinter.java.diff?r1=1.2&amp;r2=1.3" class="webrepository">TextPrinter.java</a>&nbsp;<span class="change">(+5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/classreader/XMLPrinter.java.diff?r1=1.19&amp;r2=1.20" class="webrepository">XMLPrinter.java</a>&nbsp;<span class="change">(+6&nbsp;-3)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/Printer.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">Printer.java</a>&nbsp;<span class="change">(+22&nbsp;-51)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/TextPrinter.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">TextPrinter.java</a>&nbsp;<span class="change">(+65&nbsp;-26)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependency/XMLPrinter.java.diff?r1=1.7&amp;r2=1.8" class="webrepository">XMLPrinter.java</a>&nbsp;<span class="change">(+9&nbsp;-8)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/ant</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyClosure.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">DependencyClosure.java</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyExtractor.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">DependencyExtractor.java</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/DependencyReporter.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">DependencyReporter.java</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/ant/OOMetrics.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">OOMetrics.java</a>&nbsp;<span class="change">(+34&nbsp;-34)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/cli</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/ClassReader.java.diff?r1=1.16&amp;r2=1.17" class="webrepository">ClassReader.java</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyClosure.java.diff?r1=1.18&amp;r2=1.19" class="webrepository">DependencyClosure.java</a>&nbsp;<span class="change">(+13&nbsp;-12)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyExtractor.java.diff?r1=1.14&amp;r2=1.15" class="webrepository">DependencyExtractor.java</a>&nbsp;<span class="change">(+10&nbsp;-9)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/DependencyReporter.java.diff?r1=1.15&amp;r2=1.16" class="webrepository">DependencyReporter.java</a>&nbsp;<span class="change">(+10&nbsp;-10)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/cli/OOMetrics.java.diff?r1=1.21&amp;r2=1.22" class="webrepository">OOMetrics.java</a>&nbsp;<span class="change">(+10&nbsp;-10)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/dependencyfinder/gui</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/DependencyFinder.java.diff?r1=1.22&amp;r2=1.23" class="webrepository">DependencyFinder.java</a>&nbsp;<span class="change">(+7&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/MetricsExtractAction.java.diff?r1=1.18&amp;r2=1.19" class="webrepository">MetricsExtractAction.java</a>&nbsp;<span class="change">(+3&nbsp;-2)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/dependencyfinder/gui/SaveFileAction.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">SaveFileAction.java</a>&nbsp;<span class="change">(+7&nbsp;-8)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/metrics</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/CSVPrinter.java.diff?r1=1.9&amp;r2=1.10" class="webrepository">CSVPrinter.java</a>&nbsp;<span class="change">(+4&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/Printer.java.diff?r1=1.10&amp;r2=1.11" class="webrepository">Printer.java</a>&nbsp;<span class="change">(+21&nbsp;-24)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/TextPrinter.java.diff?r1=1.3&amp;r2=1.4" class="webrepository">TextPrinter.java</a>&nbsp;<span class="change">(+4&nbsp;-1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/metrics/XMLPrinter.java.diff?r1=1.11&amp;r2=1.12" class="webrepository">XMLPrinter.java</a>&nbsp;<span class="change">(+6&nbsp;-3)</span>
+      </li>
+      <li>
+        <strong>tests/com/jeantessier/dependency</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestAll.java.diff?r1=1.10&amp;r2=1.11" class="webrepository">TestAll.java</a>&nbsp;<span class="change">(+1)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestTextPrinter.java.diff?r1=1.2&amp;r2=1.3" class="webrepository">TestTextPrinter.java</a>&nbsp;<span class="change">(+250&nbsp;-51)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/tests/com/jeantessier/dependency/TestXMLPrinter.java?rev=1.1&amp;content-type=text/vnd.viewcvs-markup" class="webrepository">TestXMLPrinter.java</a>&nbsp;<span class="new">(new&nbsp;172)</span>
+      </li>
+      <li>
+        <strong>web</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedclosure.jsp.diff?r1=1.12&amp;r2=1.13" class="webrepository">advancedclosure.jsp</a>&nbsp;<span class="change">(+5&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/advancedquery.jsp.diff?r1=1.13&amp;r2=1.14" class="webrepository">advancedquery.jsp</a>&nbsp;<span class="change">(+5&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/closure.jsp.diff?r1=1.13&amp;r2=1.14" class="webrepository">closure.jsp</a>&nbsp;<span class="change">(+5&nbsp;-3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/web/query.jsp.diff?r1=1.17&amp;r2=1.18" class="webrepository">query.jsp</a>&nbsp;<span class="change">(+5&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-06-02 20:59</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added quotes when using environment variables.<BR>
+Bug #746869
+    </p>
+    <p class="commitdetails"><strong>188</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>bin</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassClassDiff.bat.diff?r1=1.2&amp;r2=1.3" class="webrepository">ClassClassDiff.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassDump.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ClassDump.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassList.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ClassList.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassMetrics.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ClassMetrics.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClassReader.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">ClassReader.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ClosureToText.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">ClosureToText.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependablesToHTML.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">DependablesToHTML.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependablesToText.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">DependablesToText.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependenciesToHTML.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">DependenciesToHTML.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependenciesToText.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">DependenciesToText.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyClosure.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">DependencyClosure.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyExtractor.bat.diff?r1=1.7&amp;r2=1.8" class="webrepository">DependencyExtractor.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/DependencyFinder.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">DependencyFinder.bat</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyMetrics.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">DependencyMetrics.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependencyReporter.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">DependencyReporter.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependentsToHTML.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">DependentsToHTML.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DependentsToText.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">DependentsToText.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/DiffToHTML.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">DiffToHTML.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/JarJarDiff.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">JarJarDiff.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependablesToHTML.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">ListDependablesToHTML.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependablesToText.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">ListDependablesToText.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependentsToHTML.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">ListDependentsToHTML.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDependentsToText.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">ListDependentsToText.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDiff.bat.diff?r1=1.3&amp;r2=1.4" class="webrepository">ListDiff.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDiffToHTML.bat.diff?r1=1.3&amp;r2=1.4" class="webrepository">ListDiffToHTML.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListDiffToText.bat.diff?r1=1.3&amp;r2=1.4" class="webrepository">ListDiffToText.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/ListDocumentedElements.bat.diff?r1=1.5&amp;r2=1.6" class="webrepository">ListDocumentedElements.bat</a>&nbsp;<span class="change">(+4&nbsp;-4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListInheritanceDiffToText.bat.diff?r1=1.3&amp;r2=1.4" class="webrepository">ListInheritanceDiffToText.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/ListUnused.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">ListUnused.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/OOMetrics.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">OOMetrics.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/OOMetricsGUI.bat.diff?r1=1.10&amp;r2=1.11" class="webrepository">OOMetricsGUI.bat</a>&nbsp;<span class="change">(+7&nbsp;-7)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/PublishedDiffToHTML.bat.diff?r1=1.3&amp;r2=1.4" class="webrepository">PublishedDiffToHTML.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/XSLTProcess.bat.diff?r1=1.6&amp;r2=1.7" class="webrepository">XSLTProcess.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/c2c.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">c2c.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/c2p.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">c2p.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/f2f.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">f2f.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/bin/Attic/p2p.bat.diff?r1=1.9&amp;r2=1.10" class="webrepository">p2p.bat</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-05-28 00:30</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Documenting com.jeantessier.commandline
+    </p>
+    <p class="commitdetails"><strong>141</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>docs</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Developer.txt.diff?r1=1.5&amp;r2=1.6" class="webrepository">Developer.txt</a>&nbsp;<span class="change">(+78)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Manual.txt.diff?r1=1.30&amp;r2=1.31" class="webrepository">Manual.txt</a>&nbsp;<span class="change">(+2&nbsp;-2)</span>
+      </li>
+      <li>
+        <strong>src/com/jeantessier/commandline</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AnyParameterStrategy.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">AnyParameterStrategy.java</a>&nbsp;<span class="change">(+6)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AtLeastParameterStrategy.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">AtLeastParameterStrategy.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/AtMostParameterStrategy.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">AtMostParameterStrategy.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLine.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">CommandLine.java</a>&nbsp;<span class="change">(+3&nbsp;-64)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineSwitch.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">CommandLineSwitch.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineSwitchBase.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">CommandLineSwitchBase.java</a>&nbsp;<span class="change">(+3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineUsage.java.diff?r1=1.6&amp;r2=1.7" class="webrepository">CommandLineUsage.java</a>&nbsp;<span class="change">(+3)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CountingParameterStrategy.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">CountingParameterStrategy.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ExactlyParameterStrategy.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">ExactlyParameterStrategy.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/MultipleValuesSwitch.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">MultipleValuesSwitch.java</a>&nbsp;<span class="change">(+5)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/NullParameterStrategy.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">NullParameterStrategy.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/OptionalValueSwitch.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">OptionalValueSwitch.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ParameterStrategy.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">ParameterStrategy.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/SingleValueSwitch.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">SingleValueSwitch.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/ToggleSwitch.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">ToggleSwitch.java</a>&nbsp;<span class="change">(+4)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/package.html.diff?r1=1.1&amp;r2=1.2" class="webrepository">package.html</a>&nbsp;<span class="change">(+1&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-05-25 14:03</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Minor cleanup
+    </p>
+    <p class="commitdetails"><strong>31</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>src/com/jeantessier/commandline</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/CommandLineUsage.java.diff?r1=1.5&amp;r2=1.6" class="webrepository">CommandLineUsage.java</a>&nbsp;<span class="change">(+26&nbsp;-24)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/src/com/jeantessier/commandline/Visitor.java.diff?r1=1.4&amp;r2=1.5" class="webrepository">Visitor.java</a>&nbsp;<span class="change">(+5&nbsp;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-05-07 01:34</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fix sample data generation
+    </p>
+    <p class="commitdetails"><strong>7</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.27&amp;r2=1.28" class="webrepository">build.xml</a>&nbsp;<span class="change">(+7&nbsp;-14)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-05-02 07:47</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fixed images
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>docs/images</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/CompleteList.gif.diff?r1=1.4&amp;r2=1.5" class="webrepository">CompleteList.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/ListDiff.gif.diff?r1=1.4&amp;r2=1.5" class="webrepository">ListDiff.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Maximized.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">Maximized.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/MaximizedTest.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">MaximizedTest.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Minimized.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">Minimized.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/MinimizedTest.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">MinimizedTest.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/PublicListOfDocumentedElements.gif.diff?r1=1.7&amp;r2=1.8" class="webrepository">PublicListOfDocumentedElements.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/RedundantI.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">RedundantI.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/RedundantII.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">RedundantII.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/RedundantIII.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">RedundantIII.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Scope.gif.diff?r1=1.3&amp;r2=1.4" class="webrepository">Scope.gif</a>&nbsp;<span class="change">(changed)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-05-01 22:18</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Adjustments to "Making a Release"
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.26&amp;r2=1.27" class="webrepository">build.xml</a>&nbsp;<span class="change">(+4&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>docs</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Developer.txt.diff?r1=1.4&amp;r2=1.5" class="webrepository">Developer.txt</a>&nbsp;<span class="change">(+1&nbsp;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-05-01 01:20</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Finished documentation
+    </p>
+    <p class="commitdetails"><strong>104</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.25&amp;r2=1.26" class="webrepository">build.xml</a>&nbsp;<span class="change">(+16&nbsp;-7)</span>
+      </li>
+      <li>
+        <strong>docs</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Developer.txt.diff?r1=1.3&amp;r2=1.4" class="webrepository">Developer.txt</a>&nbsp;<span class="change">(+55)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Manual.txt.diff?r1=1.29&amp;r2=1.30" class="webrepository">Manual.txt</a>&nbsp;<span class="change">(+33&nbsp;-1)</span>
+      </li>
+      <li>
+        <strong>docs/images</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/CompleteList.gif.diff?r1=1.3&amp;r2=1.4" class="webrepository">CompleteList.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/DependencyFinderWorkflow.gif.diff?r1=0.0&amp;r2=1.1" class="webrepository">DependencyFinderWorkflow.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/JDKWorkflow.gif.diff?r1=0.0&amp;r2=1.1" class="webrepository">JDKWorkflow.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/ListDiff.gif.diff?r1=1.3&amp;r2=1.4" class="webrepository">ListDiff.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Maximized.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">Maximized.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/MaximizedTest.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">MaximizedTest.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Minimized.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">Minimized.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/MinimizedTest.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">MinimizedTest.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/PublicListOfDocumentedElements.gif.diff?r1=1.6&amp;r2=1.7" class="webrepository">PublicListOfDocumentedElements.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/RedundantI.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">RedundantI.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/RedundantII.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">RedundantII.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/RedundantIII.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">RedundantIII.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Scope.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">Scope.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/SourceFiles.gif.diff?r1=0.0&amp;r2=1.1" class="webrepository">SourceFiles.gif</a>&nbsp;<span class="change">(changed)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-04-27 23:33</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Dependency tasks
+    </p>
+    <p class="commitdetails"><strong>50</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/build.xml.diff?r1=1.24&amp;r2=1.25" class="webrepository">build.xml</a>&nbsp;<span class="change">(+50)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-04-26 01:02</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Redone JarJarDiff flow images
+    </p>
+    <p class="commitdetails"><strong>36</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>docs</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Manual.txt.diff?r1=1.28&amp;r2=1.29" class="webrepository">Manual.txt</a>&nbsp;<span class="change">(+29&nbsp;-8)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Tools.txt.diff?r1=1.20&amp;r2=1.21" class="webrepository">Tools.txt</a>&nbsp;<span class="change">(+7)</span>
+      </li>
+      <li>
+        <strong>docs/images</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Compiling.gif.diff?r1=0.0&amp;r2=1.1" class="webrepository">Compiling.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/CompleteList.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">CompleteList.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/CompleteListOfDocumentedElements.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">CompleteListOfDocumentedElements.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/ExtractingDifferences.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">ExtractingDifferences.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/ExtractingDifferencesAndDocumentationChanges.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">ExtractingDifferencesAndDocumentationChanges.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/ListDiff.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">ListDiff.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/ListDiff2HTML.gif.diff?r1=1.2&amp;r2=1.3" class="webrepository">ListDiff2HTML.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/ListDocumentedElements.gif.diff?r1=1.1&amp;r2=1.2" class="webrepository">ListDocumentedElements.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/PublicList.gif.diff?r1=1.3&amp;r2=1.4" class="webrepository">PublicList.gif</a>&nbsp;<span class="change">(changed)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/images/Attic/PublicListOfDocumentedElements.gif.diff?r1=1.5&amp;r2=1.6" class="webrepository">PublicListOfDocumentedElements.gif</a>&nbsp;<span class="change">(changed)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>
+    <a href="user_jeantessier.html" class="author">jeantessier</a>
+    <span class="date">2003-04-23 22:15</span>
+  </dt>
+  <dd>
+    <p class="comment">
+Equivalence table
+    </p>
+    <p class="commitdetails"><strong>554</strong> lines of code changed in:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>docs</strong>:
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Manual.txt.diff?r1=1.27&amp;r2=1.28" class="webrepository">Manual.txt</a>&nbsp;<span class="change">(+542&nbsp;-42)</span>,
+        <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/depfind/DependencyFinder/docs/Tools.txt.diff?r1=1.19&amp;r2=1.20" class="webrepository">Tools.txt</a>&nbsp;<span class="change">(+12&nbsp;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<p>Pages: <a href="commit_log_page_6.html">&laquo; Previous</a> <a href="commit_log.html">1</a> <a href="commit_log_page_2.html">2</a> <a href="commit_log_page_3.html">3</a> <a href="commit_log_page_4.html">4</a> <a href="commit_log_page_5.html">5</a> <a href="commit_log_page_6.html">6</a> 7 <a href="commit_log_page_8.html">8</a> <a href="commit_log_page_9.html">9</a> <a href="commit_log_page_10.html">10</a> <a href="commit_log_page_11.html">11</a> <a href="commit_log_page_12.html">12</a> <a href="commit_log_page_13.html">13</a> <a href="commit_log_page_14.html">14</a> <a href="commit_log_page_8.html">Next &raquo;</a> </p>
+<div id="generatedby"><p>Generated by <a href="http://statcvs.sf.net">StatCVS</a> 0.2.2</p>
+</div>
+</body>
+</html>
