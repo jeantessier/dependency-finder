@@ -14,14 +14,12 @@ it to HTML.
 
 I may need to split this website according to the various tools:
 
-<ul>
-    <li>=DependencyExtractor=</li>
-    <li>=DependencyReporter=</li>
-    <li>=DependencyClosure=</li>
-    <li>=DependencyMetrics=</li>
-    <li>=ClassMetrics=</li>
-    <li>=JarJarDiff=</li>
-    <li>utilities</li>
-</ul>
+    * =DependencyExtractor=
+    * =DependencyReporter=
+    * =DependencyClosure=
+    * =DependencyMetrics=
+    * =ClassMetrics=
+    * =JarJarDiff=
+    * utilities
  
 I may also need to revise the package names and organization.

@@ -1,5 +1,5 @@
 I am going to switch to SourceForge's project management
 tools for keeping track of status and downloads.  It provides
 more information and is easier to maintain than my
-<a href="Status.html">little manual HTML page</a>.  I'm going to
+[[Status.html][little manual HTML page]].  I'm going to
 merge it with this journal and then merge it.

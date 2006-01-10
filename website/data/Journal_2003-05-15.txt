@@ -1,10 +1,10 @@
 Finally got around to running
-<a target="_blank" href="http://www.thecortex.net/clover">Clover</a>
+[[http://www.thecortex.net/clover][Clover]]
 on Dependency Finder.  Overall coverage is at 52.2%.  About 16 tests
 in the =com.jeantessier.metrics= package failed because the
 code instrumentation from Clover messed with the expected metrics.  I
 have put the preliminary results
-<a target="_blank" href="clover/">here</a>.  I can move the tests for
+[[clover/][here]].  I can move the tests for
 =com.jeantessier.commandline= package from the
 =main()= methods to proper JUnit tests.  That should raise
 coverage somewhat.  I'll look further into Clover for what else I can

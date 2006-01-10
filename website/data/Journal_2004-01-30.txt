@@ -1,5 +1,5 @@
 Turns out the discussion on
-<a target="_blank" href="http://groups.yahoo.com/group/pragprog/">praprog</a> was aimed
+[[http://groups.yahoo.com/group/pragprog/][praprog]] was aimed
 at code analyzers that are part of the language compilers and how they
 traverse parse trees to determine the type of expressions in loosely
 typed languages.  It was not directly related to the work done by

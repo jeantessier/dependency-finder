@@ -5,7 +5,7 @@ dealing with PDF files.  That could also be an interesting avenue for
 future development.
 
 That same issue of JavaPro also listed
-<a href="http://thesmallworlds.com/">Small Worlds</a> as an analysis
+[[http://thesmallworlds.com/][Small Worlds]] as an analysis
 tool.  I will need to write to them that maybe they should have listed
 Dependency Finder too.  :-)
 

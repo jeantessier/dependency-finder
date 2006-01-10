@@ -1,5 +1,5 @@
 Expanded the documentation for dealing with Ant and XSL transforms.
-Check out the documentation, under the "<a href="tasks/">Ant Tasks</a>"
+Check out the documentation, under the "[[tasks/][Ant Tasks]]"
 heading.
 
 As I was preparing a reply to the original call for help, I noticed

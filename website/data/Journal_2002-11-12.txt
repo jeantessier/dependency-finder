@@ -19,8 +19,8 @@ intersection, I will get a subgraph that contains all the paths
 from A to B with minimal length.  I can use the
 _scope selector_ described above to select source and sink groups.
 
-I also found out that <a href="http://sdmagazine.com/">Software
-Development</a> magazine is taking nominations for its Jolt Awards.
+I also found out that [[http://sdmagazine.com/][Software Development]]
+magazine is taking nominations for its Jolt Awards.
 I'm going to submit Dependency Finder.  But they don't want betas, so
 I will have to push up my release schedule.  I'll have a very
 short beta period and a release in December.  ;-)

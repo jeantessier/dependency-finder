@@ -1,14 +1,12 @@
 I have been looking at the
-<a target="_blank" href="clover/">output</a> from
-<a target="_blank" href="http://www.thecortex.net/clover">Clover</a>.
+[[clover/][output]] from
+[[http://www.thecortex.net/clover][Clover]].
 It includes a few metrics, such as:
 
-<ul>
-    <li>Number of classes</li>
-    <li>Number of methods</li>
-    <li>Lines of code (LOC)</li>
-    <li>Non-comment lines of code (NCLOC)</li>
-</ul>
+    * Number of classes
+    * Number of methods
+    * Lines of code (LOC)
+    * Non-comment lines of code (NCLOC)
 
 It is interesting to compare them to the metrics from
 =OOMetrics=.  First, the number of classes are the same.

@@ -23,5 +23,5 @@ Upgraded the following development components:
 </blockquote>
 
 The upgrade to Xalan should have fixed
-<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=13106">bug 13106</a>.
+[[http://nagoya.apache.org/bugzilla/show_bug.cgi?id=13106][bug 13106]].
 I'll check it out tomorrow.

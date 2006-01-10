@@ -6,37 +6,37 @@ Possible third-party software that might be useful:
 <table>
     <tr>
         <td>JCharts</td>
-        <td><a href="http://www.sourceforge.net/">SourceForge</a></td>
+        <td>[[http://www.sourceforge.net/][SourceForge]]</td>
         <td>graphical charting package</td>
     </tr>
     <tr>
         <td>JOpenChart</td>
-        <td><a href="http://www.sourceforge.net/">SourceForge</a></td>
+        <td>[[http://www.sourceforge.net/][SourceForge]]</td>
         <td>graphical charting package</td>
     </tr>
     <tr>
         <td>The Big Faceless Java Graph Library</td>
-        <td><a href="http://www.big.faceless.org/">The Big Faceless Organization</a></td>
+        <td>[[http://www.big.faceless.org/][The Big Faceless Organization]]</td>
         <td>graphical charting package</td>
     </tr>
     <tr>
         <td>The Big Faceless Java PDF Library</td>
-        <td><a href="http://www.big.faceless.org/">The Big Faceless Organization</a></td>
+        <td>[[http://www.big.faceless.org/][The Big Faceless Organization]]</td>
         <td>library for handling PDF documents</td>
     </tr>
     <tr>
         <td>Japhar</td>
-        <td><a href="http://www.japhar.org/">Japhar.org</a></td>
+        <td>[[http://www.japhar.org/][Japhar.org]]</td>
         <td>JVM</td>
     </tr>
     <tr>
         <td>Kaffe</td>
-        <td><a href="http://www.kaffe.org/">Kaffe.org</a></td>
+        <td>[[http://www.kaffe.org/][Kaffe.org]]</td>
         <td>JVM</td>
     </tr>
     <tr>
         <td>Jeode</td>
-        <td><a href="http://www.esmertec.com/">esmertec</a></td>
+        <td>[[http://www.esmertec.com/][esmertec]]</td>
         <td>JVM</td>
     </tr>
 </table>

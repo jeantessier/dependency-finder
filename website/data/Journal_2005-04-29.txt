@@ -1,5 +1,5 @@
 Someone brought
-<a target="_blank" href="http://www.jayasoft.fr/org/modules/ivy/overview.php?">Ivy</a>
+[[http://www.jayasoft.fr/org/modules/ivy/overview.php?][Ivy]]
 to my attention.  It is a package for analyzing dependencies and
 producing reports with integration into Ant, Maven, Cruise Control, and
 even Eclipse.  I couldn't understand the sample reports on the website,

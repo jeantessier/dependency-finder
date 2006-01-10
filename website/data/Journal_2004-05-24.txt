@@ -13,7 +13,7 @@ Upgraded the following development components:
 </blockquote>
 
 I also came upon a new UML tool called
-<a target="_blank" href="http://objectclub.esm.co.jp/Jude/jude-e.html">Jude</a>.
+[[http://objectclub.esm.co.jp/Jude/jude-e.html][Jude]].
 It has decent sequence diagrams but only supports UML 1.4 yet, not UML
 2.0 with the nice ball and socket notation for interfaces.  Maybe I
 can use Poseidon for clas diagrams and Jude for sequence diagram, at

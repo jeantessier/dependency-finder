@@ -19,6 +19,6 @@ this optimization is therefore useless, so I dropped it.  For it
 to make sense, I would have had to complexify the life cycle of
 =VerboseListener= too much.
 
-Added <a target="_blank" href="http://www.intellij.com">IntelliJ IDEA</a>
-and <a target="_blank" href="http://www.xref-tech.com">Xrefactory</a>
+Added [[http://www.intellij.com][IntelliJ IDEA]]
+and [[http://www.xref-tech.com][Xrefactory]]
 to the resources page.

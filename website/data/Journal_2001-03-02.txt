@@ -4,11 +4,9 @@ the package hierarchy and simplified it greatly.
 I added XSL stylesheets for converting dependency graphs
 to text and HTML.  Each stylesheet has three version:
 
-<ol>
-    <li>Whole graph</li>
-    <li>List only outbound dependencies (show nodes that are dependent on others)</li>
-    <li>List only inbound dependencies (show dependable nodes, i.e., depended upon)</li>
-</ol>
+    1 Whole graph
+    1 List only outbound dependencies (show nodes that are dependent on others)
+    1 List only inbound dependencies (show dependable nodes, i.e., depended upon)
 
 I added shorthand options to =DependencyReporter=.
 I also added shorthand =.bat= files.

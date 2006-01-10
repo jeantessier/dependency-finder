@@ -1,5 +1,5 @@
 Added a SAX parser for reading the dependency
-<a href="Components.html#xml">XML format</a>, using Xerces
+[[Components.html#xml][XML format]], using Xerces
 from Apache.
 
 Added an embryonic =DependencyReporter= tool.

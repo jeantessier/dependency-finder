@@ -1,3 +1,1 @@
-Started reading about the
-<a target="_blank" href="http://fit.c2.com">Fit</a> testing
-framework.
+Started reading about the [[http://fit.c2.com][Fit]] testing framework.

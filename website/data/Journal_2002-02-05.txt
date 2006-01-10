@@ -18,11 +18,9 @@ edit the configuration file and adjust logging to their liking.
 It took a lot of hard work to figure it out.  I had to follow all
 the steps below, pretty much in that order:
 
-<ol>
-    <li>RTFM</li>
-    <li>RTFM</li>
-    <li>RTFM :-)</li>
-</ol>
+    1 RTFM
+    1 RTFM
+    1 RTFM :-)
 
 I temporarily removed =xerces.jar= and =xalan.jar=
 from the web application WAR file.  This dramatically reduced its size.

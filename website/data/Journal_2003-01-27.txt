@@ -1,7 +1,7 @@
-Added an <a href="AvsI.html">analysis</a> study of Robert
+Added an [[AvsI.html][analysis]] study of Robert
 Martin's metrics, as described in Robert C. Martin's
-<a target="_blank" href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.PDF">Design Principles and Design Patterns</a> article.
+[[http://www.objectmentor.com/resources/articles/Principles_and_Patterns.PDF][Design Principles and Design Patterns]] article.
 
-Also added <a href="CVSDiff/">output</a> from
+Also added [[CVSDiff/][output]] from
 =&lt;cvsTagDiff&gt;= tasks in Ant that list files
 that changed between release.

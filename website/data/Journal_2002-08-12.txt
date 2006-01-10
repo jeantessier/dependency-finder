@@ -1,6 +1,6 @@
 I found two other tools that do similar things as
-Dependency Finder: <a target="_blank" href="http://remotejava.com/classdep/">classdep</a>
-and <a target="_blank" href="http://www.headwaysoftware.com/">reView</a>.
+Dependency Finder: [[http://remotejava.com/classdep/][classdep]]
+and [[http://www.headwaysoftware.com/][reView]].
 
 Faced with the declining number of downloads of Dependency
 Finder recently, I'm going to have to start advertising.  I'm going to

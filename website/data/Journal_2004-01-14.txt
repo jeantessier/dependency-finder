@@ -1,10 +1,8 @@
 Latest SourceForge tallies show downloads only for old release files:
 
-<ul>
-    <li>=release 20020127 of "DependencyFinder.zip"=</li>
-    <li>=release 20020127 of "DependencyFinder.src.zip"=</li>
-    <li>=release 20020711 of "DependencyFinder.war"=</li>
-</ul>
+    * =release 20020127 of "DependencyFinder.zip"=
+    * =release 20020127 of "DependencyFinder.src.zip"=
+    * =release 20020711 of "DependencyFinder.war"=
 
 These coincide with the first time these names were used, when I
 removed the release label from the file names.  I suspect that some new

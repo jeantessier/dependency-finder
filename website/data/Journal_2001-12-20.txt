@@ -1,8 +1,7 @@
 I've been considering switching from Log4J to the
 JDK 1.4 Logging API. I decided against it after reading
-<a target="_black" href="http://jakarta.apache.org/log4j/docs/critique.html">
-Ceki G&uuml;lc&uuml;'s comparison of the two</a>.  I've
-played a little bit with the Logging API and it was very
+[[http://jakarta.apache.org/log4j/docs/critique.html][Ceki G&uuml;lc&uuml;'s comparison of the two]].
+I've played a little bit with the Logging API and it was very
 difficult to introduce a new format for the logged messages.
 I believe Log4J is more flexible and easier to use.
 

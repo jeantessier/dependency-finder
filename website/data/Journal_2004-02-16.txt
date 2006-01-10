@@ -1,5 +1,5 @@
 Someone at work brought
-<a target="_blank" href="http://www.touchgraph.com/index.html">TouchGraph</a> to my
+[[http://www.touchgraph.com/index.html][TouchGraph]] to my
 attention.  It's a graph package for complex graphs that lay themselves
 out.  You can collapse nodes and stretch things around.  It looks very
 cool and maybe I could make use of it in Dependency Finder for some

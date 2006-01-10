@@ -1,6 +1,6 @@
 Regenerated the code coverage
-<a target="_blank" href="clover/">output</a> from
-<a target="_blank" href="http://www.thecortex.net/clover">Clover</a>.
+[[clover/][output]] from
+[[http://www.thecortex.net/clover][Clover]].
 Added the code coverage
-<a target="_blank" href="jcoverage/">output</a> from
-<a target="_blank" href="http://jcoverage.com/">jcoverage</a>.
+[[jcoverage/][output]] from
+[[http://jcoverage.com/][jcoverage]].

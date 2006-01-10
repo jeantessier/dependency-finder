@@ -1,5 +1,5 @@
 I've put everything under the
-<a target="_blank" href="http://www.gnu.org/licenses/lgpl.html">LGPL</a>.
+[[http://www.gnu.org/licenses/lgpl.html][LGPL]].
 
 Upgraded the following development components:
 

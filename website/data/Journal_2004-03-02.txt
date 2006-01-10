@@ -3,7 +3,7 @@ acquired SmallWorlds and this is based on the SmallWorlds tool.  It
 would explain why my link to SmallWorlds on the Resource page is
 broken.  Thanks Scott for pluging Dependency Finder in a related
 article on
-<a target="_blank" href="http://www.theserverside.com/news/thread.jsp?thread_id=24255">TheServerSide.COM</a>.
+[[http://www.theserverside.com/news/thread.jsp?thread_id=24255][TheServerSide.COM]].
 
 Scott also gave me some feedback on the documentation and submitted
 some improvements.  He's also investigating graphical rendering of

@@ -13,6 +13,6 @@ Upgraded the following development components:
 </blockquote>
 
 Opened a new
-<a target="_blank" href="http://sourceforge.net/tracker/?func=detail&aid=957832&group_id=1&atid=200001">trouble
-ticket</a> with SourceForge.  I haven't been able to contact the CVS
+[[http://sourceforge.net/tracker/?func=detail&aid=957832&group_id=1&atid=200001][trouble ticket]]
+with SourceForge.  I haven't been able to contact the CVS
 repository for over a week now.

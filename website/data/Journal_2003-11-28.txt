@@ -5,5 +5,5 @@ batch files.  I added a quoted string right after the initial
 correctly under all circumstances.
 
 Ant's latest version of their
-<a target="_blank" href="http://ant.apache.org/external.html">list of external tools</a>
+[[http://ant.apache.org/external.html][list of external tools]]
 now includes Dependency Finder.  That was quick!

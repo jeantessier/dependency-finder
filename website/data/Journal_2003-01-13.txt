@@ -4,7 +4,7 @@ recognizing static initializers of the form "=static {}=".
 Switched =log4j.properties= to use CHAINSAW instead
 of log files.
 
-Found another article on <a href="http://thesmallworlds.com/">Small Worlds</a>.
+Found another article on [[http://thesmallworlds.com/][Small Worlds]].
 This time, it was a review in Software Development Magazine.
 
 The more I think of it, the more I was to revamp

@@ -2,7 +2,7 @@ Started playing with a code coverage tool.  They gave me a free
 license because Dependency Finder is open source.  So far, it looks
 interesting; it consists of Ant tasks to instrument code and gather
 measurements.  Check it out on the 
-<a target="_blank" href="http://www.thecortex.net/clover">Clover website</a>.
+[[http://www.thecortex.net/clover][Clover website]].
 I'll publish the coverage report for Dependency Finder when I have
 one.
 

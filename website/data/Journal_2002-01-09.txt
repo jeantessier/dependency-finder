@@ -6,7 +6,7 @@ one.
 I also uploaded the release file in SourceForge's FRS.
 One more thing to learn (and is not trivial).
 
-I looked at <a target="_blank" href="http://jakarta.apache.org/bcel/">BCEL</a>.
+I looked at [[http://jakarta.apache.org/bcel/][BCEL]].
 It looks too complex for me to bother with right now.
 I already have something that works.  I'm going to stick with
 it for now.  I like how my code uses the =Visitor=

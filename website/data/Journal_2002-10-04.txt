@@ -1,5 +1,5 @@
 The good folks at Xalan fixed
-<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=13106">bug 13106</a>.
+[[http://nagoya.apache.org/bugzilla/show_bug.cgi?id=13106][bug 13106]].
 They pointed out that I violate an XSLT rule when I reference
 validator instances in =match= clauses of
 =&lt;xsl:template&gt;= tags.  It has been working

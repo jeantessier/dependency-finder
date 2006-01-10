@@ -1,5 +1,5 @@
 Found a reference to Dependency Finder on the
-<a target="_blank" href="http://osswin.sourceforge.net/">OSSwin</a> project page.  They
+[[http://osswin.sourceforge.net/][OSSwin]] project page.  They
 had mistakenly listed the licensing scheme as GPL when it is actually
 BSD, but it has all been fixed now.  This project is a nice,
 comprehensive list of open source software for the Windows platform.

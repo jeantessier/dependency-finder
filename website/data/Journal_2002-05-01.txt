@@ -1,10 +1,8 @@
 Fixed bugs in:
 
-<ul>
-    <li>=com.jeantessier.classreader.DirectoryClassfileReader=</li>
-    <li>=com.jeantessier.classreader.JarClassfileReader=</li>
-    <li>=com.jeantessier.classreader.ZipClassfileReader=</li>
-</ul>
+    * =com.jeantessier.classreader.DirectoryClassfileReader=
+    * =com.jeantessier.classreader.JarClassfileReader=
+    * =com.jeantessier.classreader.ZipClassfileReader=
 
 where they were not closing the files they were opening.
 This resulted in locked resources under Windows NT that

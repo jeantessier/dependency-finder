@@ -16,22 +16,18 @@ I also want to create some additional implementations of the
 =jt.dependencyfinder.classreader.Visitor=
 interface to compute software metrics, such as:
 
-<ul>
-    <li>number of packages, classes, methods</li>
-    <li>number of classes per package or methods per class</li>
-    <li>number of public, static, or synthetic classes or features (i.e., fields and methods)</li>
-    <li>...</li>
-</ul>
+    * number of packages, classes, methods
+    * number of classes per package or methods per class
+    * number of public, static, or synthetic classes or features (i.e., fields and methods)
+    * ...
 
 I could do the same with additional implementations of the
 =jt.dependencyfinder.model.Visitor=
 interface to compute software metrics, such as:
 
-<ul>
-    <li>number of outbound dependencies per package, class, or feature</li>
-    <li>number of inbound dependencies per package, class, or feature</li>
-    <li>...</li>
-</ul>
+    * number of outbound dependencies per package, class, or feature
+    * number of inbound dependencies per package, class, or feature
+    * ...
 
 For these last dependency metrics, the tools should be applicable to
 the output of both =DependencyExtractor= and

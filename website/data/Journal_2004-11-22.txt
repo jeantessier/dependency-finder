@@ -6,8 +6,8 @@ Renamed =SymbolList= to =ListSymbols=.
 Finished its documentation and wrote a corresponding Ant task.
 
 Started looking at
-<a target="_blank" href="http://fitnesse.org/">FitNesse</a> and the
-<a target="_blank" href="http://fit.c2.com/">FIT framework</a> again.
+[[http://fitnesse.org/][FitNesse]] and the
+[[http://fit.c2.com/][FIT framework]] again.
 One thing I don't understand is how to set these up as part of an
 automated build and put the contents under source control.  Someone on
 the FitNesse Yahoo! group gets weird behavior when they put the

@@ -1,2 +1,2 @@
-Started looking at <a href="http://fitnesse.org/">FitNesse</a> in
+Started looking at [[http://fitnesse.org/][FitNesse]] in
 combination with its HtmlFixture to test the web app.

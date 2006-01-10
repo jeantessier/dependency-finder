@@ -8,7 +8,7 @@ First, suppose you have the following classes =A= and
 
 <table><tr>
 <td valign="top">
-
+<pre>
     class B {
         void b() {}
     }
@@ -21,9 +21,10 @@ First, suppose you have the following classes =A= and
             b();
         }
     }
-
+</pre>
 </td>
-<td width="150" align="right">
+<td width="150"
+    align="right">
 [[images/AandB.gif]]
 </td>
 </tr></table>
@@ -42,7 +43,8 @@ Now, imagine for a second that we have the following class
     }
 
 </td>
-<td width="500" align="right">
+<td width="500"
+    align="right">
 [[images/AandBandC.gif]]
 </td>
 </tr></table>

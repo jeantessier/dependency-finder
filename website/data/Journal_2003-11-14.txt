@@ -54,23 +54,9 @@ For example, if I run this against Dependency Finder, I get:
 
 There are a number of problems:
 
-<ol>
-<li>There are quite a few packages and a lot of repeated information.
-If some JARs are quite obvious, like =ant.jar=,
-=jakarta-oro.jar=, and =log4j.jar=, it is not
-clear where "=org.xml.*=" would come from.  I'm thinking
-that the JVM would probably get them from its
-=BOOTCLASSPATH=.</li>
-<li>It the tool analyzes =A.jar=, it will find dependencies
-on packages outside of =A.jar=.  It would then be quite
-difficult, maybe impossible, to find out in which JARs these extra
-packages are located.  The tool would need a mapping of packages to
-JAR;  this mapping would preferably be generated automatically by some
-other tool.</li>
-<li>It is possible to put two classes of a package in two separate
-JARs.  This means that the tool would have to work at the class level
-instead of the package level.</li>
-</ol>
+    1 There are quite a few packages and a lot of repeated information.  If some JARs are quite obvious, like =ant.jar=, =jakarta-oro.jar=, and =log4j.jar=, it is not clear where "=org.xml.*=" would come from.  I'm thinking that the JVM would probably get them from its =BOOTCLASSPATH=.
+    1 It the tool analyzes =A.jar=, it will find dependencies on packages outside of =A.jar=.  It would then be quite difficult, maybe impossible, to find out in which JARs these extra packages are located.  The tool would need a mapping of packages to JAR;  this mapping would preferably be generated automatically by some other tool.
+    1 It is possible to put two classes of a package in two separate JARs.  This means that the tool would have to work at the class level instead of the package level.
 
 I'm sorry there is no obvious answer to this problem, but I will
 keep thinking about it.  In the meantime, there are some tools on the

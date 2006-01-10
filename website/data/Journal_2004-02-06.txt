@@ -1,4 +1,4 @@
-<a target="_blank" href="http://www.sdmagazine.com/">Software Development</a>
+[[http://www.sdmagazine.com/][Software Development]]
 magazine published a piece on open source software in which they
 mention Dependency Finder.  It is listed right alongside heavy hitters
 like LAMP (Linux, Apache, MySQL, PHP), Perl, and JUnit.  My name is

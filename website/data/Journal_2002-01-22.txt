@@ -1,11 +1,11 @@
-I fixed the <a target="_blank" href="MinMax.html">minimize and
-maximize discussion</a>.  It had broken links and I had to regenerate
+I fixed the [[MinMax.html][minimize and maximize discussion]].
+It had broken links and I had to regenerate
 the HTML from the source MS Word document.
 
-While I was at it, I fixed the <a href="Documentation.html">Documentation</a>
+While I was at it, I fixed the [[Documentation.html][Documentation]]
 section too.  It had a few obsolete links.
 
-Someone brought <a target="_blank" href="http://sourceforge.net/projects/jdiff/">JDiff</a>
+Someone brought [[http://sourceforge.net/projects/jdiff/][JDiff]]
 to my attention.  I've given it a cursory look and I still believe
 that my work is so much better.  ;-)  More on this later.  I'll have
 to create a section on the _competition_.
