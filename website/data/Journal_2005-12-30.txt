@@ -16,3 +16,17 @@ in their name.  I'll have to read some more documentation about how
 we're supposed to use those XSL-related classes.  On the plus side, I
 can now use the default =XMLReaderFactory.createXMLReader()=
 method instead of hard-coding the Apache implementation.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Xalan</td>
+        <td>:</td>
+        <td>2.6.0</td>
+        <td>-></td>
+        <td>_none_</td>
+    </tr>
+</table>
+</blockquote>
