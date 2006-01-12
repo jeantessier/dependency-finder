@@ -76,7 +76,7 @@ if (/^---(\++)\s*(.*)\s*/) {
 
     $SHORT_TOC .= "<li><a href=\"#$anchor\">$title</a></li>\n" if $TOC_LEVEL == 2;
 
-    $TITLE = "<title>$title</title\n" if $level == 1;
+    $TITLE = "<title>$title</title>\n" if $level == 1;
 
     $TEXT .= "<a name=\"$anchor\"></a>\n" if $level > 1;
     $_ = "<h$level>$title</h$level>\n";
