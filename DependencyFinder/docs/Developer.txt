@@ -302,7 +302,8 @@ you can let it create an empty one for you.  =CodeDependencyCollector= is a
 
 =CodeDependencyCollector= fires its own set of events during processing.  If
 you are interested in those events, simply implement =DependencyListener= and
-register yourself with it.  Processing a =Classfile= begins with a =beginClass=
+register yourself with the collector through its =addDependencyListener()=
+method.  Processing a =Classfile= begins with a =beginClass=
 event and ends with an =endClass= event.  As the processing unfolds, it will
 fire a =dependency= event for each dependency in encounters.  Please note that
 while the dependency graph shows only a single dependency for
@@ -325,7 +326,7 @@ For example, if you take the following method:
 
 </div>
 
-Processing it will fire the following events:
+Processing it will fire the following events in this order:
 
    1 =f() --&gt; out=
    1 =f() --&gt; java.io.Writer=
@@ -339,6 +340,23 @@ Processing it will fire the following events:
 
 No. 4 comes from analyzing the signature of =write()=, *not* from the constant
 ="abcd"=.  No. 8 comes from looking at exception handlers.
+
+Because =Node= uses =Set= to store dependencies on other =Node=s, duplicate
+dependencies are removed.  No. 1 and No. 5 above are duplicates.  No. 2 and
+No. 6 are duplicates too.  In the end, the graph would look as follow:
+
+<div class="lowlight">
+
+    f()
+        --&gt; java.io.IOException
+        --&gt; java.io.Writer
+        --&gt; java.io.Writer.close()
+        --&gt; java.io.Writer.write(java.lang.String)
+        --&gt; java.lang.Exception
+        --&gt; java.lang.String
+        --&gt; out
+
+</div>
 
 ---+++ =DependencyExtractor=
 

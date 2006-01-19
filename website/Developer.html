@@ -481,7 +481,8 @@ you can let it create an empty one for you.  <code>CodeDependencyCollector</code
 <p>
 <code>CodeDependencyCollector</code> fires its own set of events during processing.  If
 you are interested in those events, simply implement <code>DependencyListener</code> and
-register yourself with it.  Processing a <code>Classfile</code> begins with a <code>beginClass</code>
+register yourself with the collector through its <code>addDependencyListener()</code>
+method.  Processing a <code>Classfile</code> begins with a <code>beginClass</code>
 event and ends with an <code>endClass</code> event.  As the processing unfolds, it will
 fire a <code>dependency</code> event for each dependency in encounters.  Please note that
 while the dependency graph shows only a single dependency for
@@ -510,7 +511,7 @@ For example, if you take the following method:
 </div>
 
 <p>
-Processing it will fire the following events:
+Processing it will fire the following events in this order:
 </p>
 
 <ol>
@@ -529,6 +530,27 @@ Processing it will fire the following events:
 No. 4 comes from analyzing the signature of <code>write()</code>, <b>not</b> from the constant
 <code>"abcd"</code>.  No. 8 comes from looking at exception handlers.
 </p>
+
+<p>
+Because <code>Node</code> uses <code>Set</code> to store dependencies on other <code>Node</code>s, duplicate
+dependencies are removed.  No. 1 and No. 5 above are duplicates.  No. 2 and
+No. 6 are duplicates too.  In the end, the graph would look as follow:
+</p>
+
+<div class="lowlight">
+
+<pre>
+    f()
+        --&gt; java.io.IOException
+        --&gt; java.io.Writer
+        --&gt; java.io.Writer.close()
+        --&gt; java.io.Writer.write(java.lang.String)
+        --&gt; java.lang.Exception
+        --&gt; java.lang.String
+        --&gt; out
+</pre>
+
+</div>
 
 <a name="DependencyExtractor"></a>
 <h3><code>DependencyExtractor</code></h3>
