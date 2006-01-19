@@ -1,0 +1,2 @@
+Edited the Developer Guide to clarify the source of dependency events and how
+Dependency Finder removes duplicates.
