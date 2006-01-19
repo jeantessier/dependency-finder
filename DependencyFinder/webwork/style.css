@@ -1,0 +1,61 @@
+body {
+    background: rgb(255, 235, 205);
+    color:      rgb( 25,  25, 112);
+}
+
+table.controls {
+    background:   rgb(204, 204, 255);
+    border-width: 3;
+}
+
+hr {
+    background: rgb(204, 204, 255);
+}
+
+fieldset {
+    padding: 0;
+}
+
+legend {
+    font-weight: bold;
+}
+
+.title {
+    text-align:  center;
+    font-famiy:  courier, monospace;
+    font-weight: bold;
+    font-size:   larger;
+}
+
+.navigation {
+}
+
+.currentnavigation {
+    background: rgb(255, 187, 187);
+}
+
+.result {
+    color:  black;
+}
+
+.footer {
+    font-size: smaller;
+}
+
+pre a {
+    text-decoration: none;
+    color: black;
+}
+
+pre a:visited {
+    color: black;
+}
+
+pre a:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+.error {
+    color: red;
+}

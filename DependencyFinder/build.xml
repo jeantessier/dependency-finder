@@ -33,6 +33,10 @@
         </fileset>
         <pathelement location="classes"/>
         <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
+        <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.jar"/>
+        <fileset dir="${env.WEBWORK_HOME}/lib/default">
+            <include name="**/*.jar"/>
+        </fileset>
         <pathelement location="${env.FIT_HOME}/fit.jar"/>
         <pathelement location="${env.FITLIBRARY_HOME}/dist/fitLibraryForFit.jar"/>
     </path>
@@ -75,6 +79,9 @@
         <property name="warFile"       value="${ant.project.name}-${release}.war"/>
         <property name="srcArchive"    value="${ant.project.name}-${release}.src"/>
         <property name="binArchive"    value="${ant.project.name}-${release}.bin"/>
+
+        <property name="webworkWarFile" value="${ant.project.name}-${release}.webwork.war"/>
+        <property name="webworkDir"     value="webwork"/>
 
         <mkdir dir="${classesDir}"/>
         <mkdir dir="${apiDir}"/>
@@ -241,6 +248,71 @@
     <target name="webapp.redeploy" depends="webapp.undeploy, webapp.deploy"
             description="Undeploys and then deploys the web application to a Tomcat container"/>
     <target name="webapp.restart" depends="webapp.stop, webapp.start"
+            description="Stops and then starts the web application in a Tomcat container"/>
+
+    <!--
+        WebWork
+    -->
+
+    <target name="webwork.war" depends="jar"
+            description="Compiles and builds the web application archive">
+        <war destfile="${webworkWarFile}"
+             webxml="${webworkDir}/WEB-INF/web.xml">
+            <zipfileset dir="${webworkDir}">
+                <exclude name="**/CSV"/>
+                <exclude name="**/WEB-INF/*"/>
+            </zipfileset>
+            <classes dir="${srcDir}"
+                     includes="**/*.properties"/>
+            <lib dir="${libDir}"
+                 includes="**/*.jar"/>
+        </war>
+    </target>
+
+    <target name="webwork.deploy" depends="webwork.war"
+            description="Deploys the web application to a Tomcat container">
+        <deploy url="${tomcat.manager.url}"
+                username="${tomcat.manager.username}"
+                password="${tomcat.manager.password}"
+                path="${tomcat.webwork.path}"
+                war="${webworkWarFile}"/>
+    </target>
+
+    <target name="webwork.undeploy" depends="init"
+            description="Undeploys the web application from a Tomcat container">
+        <undeploy url="${tomcat.manager.url}"
+                  username="${tomcat.manager.username}"
+                  password="${tomcat.manager.password}"
+                  path="${tomcat.webwork.path}"/>
+    </target>
+
+    <target name="webwork.reload" depends="init"
+            description="Reloads the web application in a Tomcat container">
+        <reload url="${tomcat.manager.url}"
+                username="${tomcat.manager.username}"
+                password="${tomcat.manager.password}"
+                path="${tomcat.webwork.path}"/>
+    </target>
+
+    <target name="webwork.start" depends="init"
+            description="Starts the web application in a Tomcat container">
+        <start url="${tomcat.manager.url}"
+               username="${tomcat.manager.username}"
+               password="${tomcat.manager.password}"
+               path="${tomcat.webwork.path}"/>
+    </target>
+
+    <target name="webwork.stop" depends="init"
+            description="Stops the web application in a Tomcat container">
+        <stop url="${tomcat.manager.url}"
+              username="${tomcat.manager.username}"
+              password="${tomcat.manager.password}"
+              path="${tomcat.webwork.path}"/>
+    </target>
+
+    <target name="webwork.redeploy" depends="webwork.undeploy, webwork.deploy"
+            description="Undeploys and then deploys the web application to a Tomcat container"/>
+    <target name="webwork.restart" depends="webwork.stop, webwork.start"
             description="Stops and then starts the web application in a Tomcat container"/>
 
     <!--
