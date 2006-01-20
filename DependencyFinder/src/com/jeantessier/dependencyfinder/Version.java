@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2005, Jean Tessier
+ *  Copyright (c) 2001-2006, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@ public class Version {
     public static final String DEFAULT_VENDOR           = "Jean Tessier";
     public static final String DEFAULT_DATE             = "<i>unknown</i>";
     public static final String DEFAULT_COPYRIGHT_HOLDER = "Jean Tessier";
-    public static final String DEFAULT_COPYRIGHT_DATE   = "2001-2005";
+    public static final String DEFAULT_COPYRIGHT_DATE   = "2001-2006";
 
     private String resourceURL = null;
     private String jarName     = null;
