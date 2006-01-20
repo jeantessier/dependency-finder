@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2006, Jean Tessier
+ *  Copyright (c) 2001-2005, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -34,34 +34,29 @@ package com.jeantessier.dependencyfinder.webwork;
 
 import java.util.*;
 
-import com.opensymphony.xwork.*;
-import com.opensymphony.webwork.interceptor.*;
+import junit.framework.*;
 
-public class ExtractAction extends ActionSupport implements ApplicationAware, Preparable {
-    private Map application;
-    private boolean update;
+import com.jeantessier.dependency.*;
 
-    public void setUpdate(boolean update) {
-        this.update = update;
+public class TestExtractAction extends TestCase {
+    public void testUpdateOnFirstCall() throws Exception {
+        Map application = new HashMap();
+
+        ExtractAction action = new ExtractAction();
+        action.setApplication(application);
+        action.prepare();
+
+        assertEquals("update", false, action.getUpdate());
     }
 
-    public boolean getUpdate() {
-        return update;
-    }
+    public void testUpdateOnSecondCall() throws Exception {
+        Map application = new HashMap();
+        application.put("factory", new NodeFactory());
 
-    public void setApplication(Map application) {
-        this.application = application;
-    }
+        ExtractAction action = new ExtractAction();
+        action.setApplication(application);
+        action.prepare();
 
-    public String execute() throws Exception {
-        return SUCCESS;
-    }
-
-    public String doDefault() {
-        return INPUT;
-    }
-
-    public void prepare() throws Exception {
-        update = application.get("factory") != null;
+        assertEquals("update", true, action.getUpdate());
     }
 }

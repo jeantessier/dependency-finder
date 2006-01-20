@@ -32,36 +32,14 @@
 
 package com.jeantessier.dependencyfinder.webwork;
 
-import java.util.*;
+import junit.framework.*;
 
-import com.opensymphony.xwork.*;
-import com.opensymphony.webwork.interceptor.*;
+public class TestAll extends TestCase {
+    public static Test suite() {
+        TestSuite result = new TestSuite();
 
-public class ExtractAction extends ActionSupport implements ApplicationAware, Preparable {
-    private Map application;
-    private boolean update;
+        result.addTestSuite(TestExtractAction.class);
 
-    public void setUpdate(boolean update) {
-        this.update = update;
-    }
-
-    public boolean getUpdate() {
-        return update;
-    }
-
-    public void setApplication(Map application) {
-        this.application = application;
-    }
-
-    public String execute() throws Exception {
-        return SUCCESS;
-    }
-
-    public String doDefault() {
-        return INPUT;
-    }
-
-    public void prepare() throws Exception {
-        update = application.get("factory") != null;
+        return result;
     }
 }
