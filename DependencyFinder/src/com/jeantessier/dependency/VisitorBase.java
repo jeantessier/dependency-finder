@@ -38,7 +38,7 @@ import org.apache.log4j.*;
 
 /**
  *  This is a basic implementation of Visitor.
- *  
+ *
  *  @see Visitor
  *  @author Jean Tessier
  */
@@ -46,7 +46,7 @@ public abstract class VisitorBase implements Visitor {
     private TraversalStrategy strategy;
 
     private LinkedList currentNodes = new LinkedList();
-    
+
     public VisitorBase() {
         this(new SelectiveTraversalStrategy());
     }
@@ -60,25 +60,24 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void traverseNodes(Collection nodes) {
-        Logger.getLogger(getClass()).debug("nodes = " + nodes);
-        
-        Iterator i = getStrategy().order(nodes).iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).accept(this);
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug("nodes = " + nodes);
+        }
+
+        for (Object node : getStrategy().order(nodes)) {
+            ((Node) node).accept(this);
         }
     }
 
     protected void traverseInbound(Collection nodes) {
-        Iterator i = getStrategy().order(nodes).iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).acceptInbound(this);
+        for (Object node : getStrategy().order(nodes)) {
+            ((Node) node).acceptInbound(this);
         }
     }
 
     protected void traverseOutbound(Collection nodes) {
-        Iterator i = getStrategy().order(nodes).iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).acceptOutbound(this);
+        for (Object node : getStrategy().order(nodes)) {
+            ((Node) node).acceptOutbound(this);
         }
     }
 
@@ -92,7 +91,7 @@ public abstract class VisitorBase implements Visitor {
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug(currentNodes + ": " + result);
         }
-        
+
         return result;
     }
 
@@ -100,7 +99,7 @@ public abstract class VisitorBase implements Visitor {
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug(currentNodes + " + " + currentNode);
         }
-        
+
         currentNodes.addLast(currentNode);
     }
 
@@ -110,7 +109,7 @@ public abstract class VisitorBase implements Visitor {
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug(currentNodes + " -> " + result);
         }
-        
+
         return result;
     }
 

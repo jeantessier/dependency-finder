@@ -94,40 +94,55 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public void visitClass_info(Class_info entry) {
-        Logger.getLogger(getClass()).debug("VisitClass_info():");
-        Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug("VisitClass_info():");
+            Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+        }
+
         if (entry.getName().startsWith("[")) {
             processDescriptor(entry.getName());
         } else {
             Node other = getFactory().createClass(entry.getName());
             current.addDependency(other);
-            Logger.getLogger(getClass()).info("Class_info dependency: " + current + " --> " + other);
+            if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                Logger.getLogger(getClass()).info("Class_info dependency: " + current + " --> " + other);
+            }
             fireDependency(current, other);
         }
     }
 
     public void visitFieldRef_info(FieldRef_info entry) {
-        Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
-        Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
-        Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
-        Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug("VisitFieldRef_info():");
+            Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+            Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
+            Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        }
+
         Node other = getFactory().createFeature(entry.getFullSignature());
         current.addDependency(other);
-        Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
+        }
         fireDependency(current, other);
 
         processDescriptor(entry.getRawNameAndType().getType());
     }
 
     public void visitMethodRef_info(MethodRef_info entry) {
-        Logger.getLogger(getClass()).debug("VisitMethodRef_info():");
-        Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
-        Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
-        Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug("VisitMethodRef_info():");
+            Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+            Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
+            Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        }
+
         if (!entry.isStaticInitializer()) {
             Node other  = getFactory().createFeature(entry.getFullSignature());
             current.addDependency(other);
-            Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
+            if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
+            }
             fireDependency(current, other);
 
             processDescriptor(entry.getRawNameAndType().getType());
@@ -135,22 +150,29 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-        Logger.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
-        Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
-        Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
-        Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
+            Logger.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
+            Logger.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
+            Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        }
+
         Node other  = getFactory().createFeature(entry.getFullSignature());
         current.addDependency(other);
-        Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
+        }
         fireDependency(current, other);
 
         processDescriptor(entry.getRawNameAndType().getType());
     }
 
     public void visitField_info(Field_info entry) {
-        Logger.getLogger(getClass()).debug("VisitField_info():");
-        Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
-        Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug("VisitField_info():");
+            Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+            Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
+        }
 
         current = getFactory().createFeature(entry.getFullSignature(), true);
 
@@ -160,10 +182,12 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public void visitMethod_info(Method_info entry) {
-        Logger.getLogger(getClass()).debug("VisitMethod_info():");
-        Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
-        Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
-    
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug("VisitMethod_info():");
+            Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+            Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
+        }
+
         current = getFactory().createFeature(entry.getFullSignature(), true);
 
         processDescriptor(entry.getDescriptor());
@@ -212,8 +236,10 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public void visitExceptionHandler(ExceptionHandler helper) {
-        Logger.getLogger(getClass()).debug(getClass().getName() + "VisitExceptionHandler(): " + helper);
-        
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug(getClass().getName() + "VisitExceptionHandler(): " + helper);
+        }
+
         if (helper.getCatchTypeIndex() != 0) {
             helper.getRawCatchType().accept(this);
         }
@@ -227,10 +253,14 @@ public class CodeDependencyCollector extends CollectorBase {
         while ((startPos = str.indexOf('L', currentPos)) != -1) {
             if ((endPos = str.indexOf(';', startPos)) != -1) {
                 String classname = SignatureHelper.path2ClassName(str.substring(startPos + 1, endPos));
-                Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
+                if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                    Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
+                }
                 Node other = getFactory().createClass(classname);
                 current.addDependency(other);
-                Logger.getLogger(getClass()).info("descriptor dependency: " + current + " --> " + other);
+                if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                    Logger.getLogger(getClass()).info("descriptor dependency: " + current + " --> " + other);
+                }
                 fireDependency(current, other);
                 currentPos = endPos + 1;
             } else {
@@ -259,9 +289,8 @@ public class CodeDependencyCollector extends CollectorBase {
             listeners = (HashSet) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).beginSession(event);
+        for (Object listener : listeners) {
+            ((DependencyListener) listener).beginSession(event);
         }
     }
     
@@ -273,9 +302,8 @@ public class CodeDependencyCollector extends CollectorBase {
             listeners = (HashSet) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).beginClass(event);
+        for (Object listener : listeners) {
+            ((DependencyListener) listener).beginClass(event);
         }
     }
 
@@ -287,9 +315,8 @@ public class CodeDependencyCollector extends CollectorBase {
             listeners = (HashSet) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).dependency(event);
+        for (Object listener : listeners) {
+            ((DependencyListener) listener).dependency(event);
         }
     }
 
@@ -301,9 +328,8 @@ public class CodeDependencyCollector extends CollectorBase {
             listeners = (HashSet) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).endClass(event);
+        for (Object listener : listeners) {
+            ((DependencyListener) listener).endClass(event);
         }
     }
 
@@ -315,9 +341,8 @@ public class CodeDependencyCollector extends CollectorBase {
             listeners = (HashSet) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).endSession(event);
+        for (Object listener : listeners) {
+            ((DependencyListener) listener).endSession(event);
         }
     }
 }
