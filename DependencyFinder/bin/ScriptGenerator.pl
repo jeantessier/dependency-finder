@@ -58,6 +58,7 @@ require "getopts.pl";
               "DependentsToHTML" => ".xsl.template.txt",
               "DependentsToText" => ".xsl.template.txt",
               "DiffToHTML" => ".xsl.template.txt",
+              "DiffSymbolsToText" => ".xsl.template.txt",
               "HideInboundDependenciesToHTML" => ".xsl.template.txt",
               "HideInboundDependenciesToText" => ".xsl.template.txt",
               "HideOutboundDependenciesToHTML" => ".xsl.template.txt",
