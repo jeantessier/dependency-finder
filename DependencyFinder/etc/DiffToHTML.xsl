@@ -139,13 +139,6 @@
             <xsl:apply-templates/>
         </ul>
     </xsl:template>
-  
-    <xsl:template match="documented-packages">
-        <h3>Packages Newly Published:</h3>
-        <ul>
-            <xsl:apply-templates/>
-        </ul>
-    </xsl:template>
 
     <xsl:template match="new-interfaces">
         <h3>New Interfaces:</h3>
