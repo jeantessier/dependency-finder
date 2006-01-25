@@ -31,7 +31,7 @@ For Dependency Finder version <VERSION />.
 <li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
 <li><a href="#ListUnused">ListUnused</a></li>
 <li><a href="#ListDeprecatedElements">ListDeprecatedElements</a></li>
-<li><a href="#ListFullyQualifiedNames">ListFullyQualifiedNames</a></li>
+<li><a href="#DependencyGraphToFullyQualifiedNames">DependencyGraphToFullyQualifiedNames</a></li>
 <p></p>
 <li><a href="#DependencyClosure">DependencyClosure</a></li>
 <li><a href="#ClosureToText">ClosureToText</a></li>
@@ -62,6 +62,7 @@ For Dependency Finder version <VERSION />.
 <li><a href="#ListDiffToText">ListDiffToText</a></li>
 <p></p>
 <li><a href="#ListInheritanceDiffToText">ListInheritanceDiffToText</a></li>
+<li><a href="#DiffToFullyQualifiedNames">DiffToFullyQualifiedNames</a></li>
 </ul>
 <b>Classfile Utilities</b>
 <ul>
@@ -1718,9 +1719,13 @@ point to either a specified end point or depth.
         [-package-stop-excludes value]*
         [-package-stop-includes value]*
         [-start-excludes value]*
+        [-start-excludes-list filename]*
         [-start-includes value]*
+        [-start-includes-list filename]*
         [-stop-excludes value]*
+        [-stop-excludes-list filename]*
         [-stop-includes value]*
+        [-stop-includes-list filename]*
         [-time]
         [-validate]
         [-verbose [filename]]
@@ -2118,6 +2123,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
+---++++ =-start-excludes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must NOT match any of the entries in
+_filename_ for it to be included in the query's starting point.
+
+If there are multiples of this switch, the name must not be in any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-start-includes value=
 
 <blockquote>
@@ -2129,6 +2151,27 @@ If there are multiples of this switch, the name must at least one of them.
 
 The package, class, or feature can still be excluded if it matches one of the
 =-start-excludes= switches.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-start-includes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must match an entry in _filename_ for
+it to be included in the query's starting point.
+
+If there are multiples of this switch, the name must be in at least one of them.
+
+The package, class, or feature can still be excluded if it matches one of the
+=-start-excludes= switches, including if it is in a file listed using
+=-start-excludes-list=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2156,6 +2199,24 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
+---++++ =-stop-excludes-list filename=
+
+<blockquote>
+
+After a package, class, or feature matches one of the =-stop-includes=
+switches, its name must also NOT match any of the entries in _filename_ for it
+to be included in the query's end point.
+
+If there are multiples of this switch, the name must not be in any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-stop-includes value=
 
 <blockquote>
@@ -2163,10 +2224,32 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package, class, or feature must match the regular expression in
 _value_ for it to be included in the query's end point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of them.
 
 The package, class, or feature can still be excluded if it matches one of the
 =-stop-excludes= switches.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-stop-includes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must match an entry in _filename_ for
+it to be included in the query's end point.
+
+If there are multiples of this switch, the name must be in at least one of the
+files.
+
+The package, class, or feature can still be excluded if it matches one of the
+=-stop-excludes= switches, including if it is in a file listed using
+=-stop-excludes-list=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2767,6 +2850,163 @@ See the [[Manual.html][user manual]].
 <blockquote>
 
 =com.jeantessier.dependencyfinder.gui.DependencyFinder=
+
+</blockquote>
+
+----
+
+---++ DependencyGraphToFullyQualifiedNames
+
+<blockquote>
+
+Lists symbols from a dependency graph.
+
+</blockquote>
+
+---+++ Synopsis
+
+    DependencyGraphToFullyQualifiedNames
+        -in input_file.xml
+        [-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+Looks at the graph from [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]] and lists package, class, and feature
+names that are in it.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the dependency graph in =dg.xml= to plain text
+with only inbound dependencies:
+
+<div class="highlight">
+
+    DependencyGraphToFullyQualifiedNames -in dg.xml
+
+</div>
+
+To convert the dependency graph in =dg.xml= to a plain text
+file with only inbound dependencies:
+
+<div class="highlight">
+
+    DependencyGraphToFullyQualifiedNames -in dg.xml -out dependencies.txt
+
+</div>
+
+An element with many inbound dependencies is said to be dependable,
+meaning that many other elements rely on it being stable.
+
+Here is another example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    Outbound ----> Middle ----> Inbound
+       |                           ^
+       |                           |
+       \---------------------------/
+
+Running this tool on that graph yields this output:
+
+<div class="highlight">
+
+    DependencyGraphToFullyQualifiedNames -in sample.xml
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
+    Outbound
+    Middle
+    Inbound
+    Bidirectional1
+    Bidirectional2
+    Empty
+
+</div>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToFullyQualifiedNames.xsl=
 
 </blockquote>
 
@@ -4524,7 +4764,7 @@ The name of a package, class, or feature at the other end of the dependency
 must NOT match any of the entries in _filename_ for the dependency to be
 included in the results.
 
-If there are multiples of this switch, the name must not match any of them.
+If there are multiples of this switch, the name must not be in any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4542,7 +4782,7 @@ The name of a package, class, or feature at the other end of the dependency
 must match the regular expression in _value_ for the dependency to be
 included in the results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4560,7 +4800,7 @@ The name of a package, class, or feature at the other end of the dependency
 must match match an entry in _filename_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must be in at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4801,7 +5041,7 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package, class, or feature must NOT match any of the entries in
 _filename_ for it to be included in the query's focus.
 
-If there are multiples of this switch, the name must not match any of them.
+If there are multiples of this switch, the name must not be in any of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4818,7 +5058,7 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package, class, or feature must match the regular expression
 in _value_ for it to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4835,7 +5075,7 @@ If there are multiples of this switch, the name must at least one of them.
 The name of a package, class, or feature must match an entry in _filename_ for
 it to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must be in at least one of them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -5338,6 +5578,114 @@ Running this tool on that graph yields this output:
 <blockquote>
 
 =_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependentsToText.xsl=
+
+</blockquote>
+
+----
+
+---++ DiffToFullyQualifiedNames
+
+<blockquote>
+
+Lists changed symbols from =JarJarDiff= reports.
+
+</blockquote>
+
+---+++ Synopsis
+
+    DiffToFullyQualifiedNames
+        -in input_file.xml
+        [-out output_file.txt]
+
+---+++ Description
+
+<blockquote>
+
+Looks at the report from [[#JarJarDiff][JarJarDiff]] and lists package, class,
+interface, field, constructor, and method names that have changed.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD,
+such as the output of [[#JarJarDiff][JarJarDiff]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.txt=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+<div class="highlight">
+
+    JarJarDiff -old old.jar -new new.jar -out report.xml
+    DiffToFullyQualifiedNames -in report.xml -out diff-symbols.txt
+
+</div>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DiffToFullyQualifiedNames.xsl=
 
 </blockquote>
 
@@ -7203,160 +7551,6 @@ or, with Ant:
 
 ----
 
----++ ListFullyQualifiedNames
-
-<blockquote>
-
-Lists node names in their fully qualified form, one per line.
-
-</blockquote>
-
----+++ Synopsis
-
-    ListFullyQualifiedNames
-        -in input_file.xml
-        [-out output_file.txt]
-
----+++ Description
-
-<blockquote>
-
-Translates only node names to text.
-
-</blockquote>
-
----+++ Switches
-
-<blockquote>
-
----++++ =-in input_file.xml=
-
-<blockquote>
-
-The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
-
-<table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-out output_file.txt=
-
-<blockquote>
-
-Where to put the outcome of the translation.
-
-If not specified, the translation goes to the standard output.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
-</blockquote>
-
----+++ Parameters
-
-<blockquote>
-
-_none_
-
-</blockquote>
-
----+++ Output
-
-<blockquote>
-
-See =-out= above.
-
-</blockquote>
-
----+++ Examples
-
-<blockquote>
-
-To convert the dependency graph in =dg.xml= to plain text
-with only inbound dependencies:
-
-<div class="highlight">
-
-    ListFullyQualifiedNames -in dg.xml
-
-</div>
-
-To convert the dependency graph in =dg.xml= to a plain text
-file with only inbound dependencies:
-
-<div class="highlight">
-
-    ListFullyQualifiedNames -in dg.xml -out dependencies.txt
-
-</div>
-
-An element with many inbound dependencies is said to be dependable,
-meaning that many other elements rely on it being stable.
-
-Here is another example that uses the following dependency graph:
-
-    Empty
-    &nbsp;
-    Bidirectional1 <---> Bidirectional2
-    &nbsp;
-    Outbound ----> Middle ----> Inbound
-       |                           ^
-       |                           |
-       \---------------------------/
-
-Running this tool on that graph yields this output:
-
-<div class="highlight">
-
-    ListFullyQualifiedNames -in sample.xml
-
-</div>
-
-<div class="lowlight">
-
-    &nbsp;
-    Outbound
-    Middle
-    Inbound
-    Bidirectional1
-    Bidirectional2
-    Empty
-
-</div>
-
-</blockquote>
-
----+++ Class
-
-<blockquote>
-
-=org.apache.xalan.xslt.Process=
-
-</blockquote>
-
----+++ XSL Stylesheet
-
-<blockquote>
-
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/ListFullyQualifiedNames.xsl=
-
-</blockquote>
-
-----
-
 ---++ ListInheritanceDiffToText
 
 <blockquote>
@@ -8936,4 +9130,3 @@ Same as "=DependencyReporter -p2p=".
 </blockquote>
 
 ----
-
