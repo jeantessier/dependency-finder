@@ -97,6 +97,11 @@ public class DependencyClosure {
         commandLine.addMultipleValuesSwitch("feature-stop-includes");
         commandLine.addMultipleValuesSwitch("feature-stop-excludes");
 
+        commandLine.addMultipleValuesSwitch("start-includes-list");
+        commandLine.addMultipleValuesSwitch("start-excludes-list");
+        commandLine.addMultipleValuesSwitch("stop-includes-list");
+        commandLine.addMultipleValuesSwitch("stop-excludes-list");
+
         commandLine.addOptionalValueSwitch("maximum-inbound-depth");
         commandLine.addOptionalValueSwitch("maximum-outbound-depth");
         
@@ -168,30 +173,46 @@ public class DependencyClosure {
             Logger.getLogger(DependencyClosure.class).info("Read \"" + filename + "\".");
         }
 
-        RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
-        
-        if (commandLine.isPresent("start-includes") || (!commandLine.isPresent("package-start-includes") && !commandLine.isPresent("class-start-includes") && !commandLine.isPresent("feature-start-includes"))) {
-            // Only use the default if nothing else has been specified.
-            startCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("start-includes"));
+        SelectionCriteria startCriteria = new ComprehensiveSelectionCriteria();
+
+        if (hasStartRegularExpressionSwitches(commandLine)) {
+            RegularExpressionSelectionCriteria regularExpressionStartCriteria = new RegularExpressionSelectionCriteria();
+
+            if (commandLine.isPresent("start-includes") || (!commandLine.isPresent("package-start-includes") && !commandLine.isPresent("class-start-includes") && !commandLine.isPresent("feature-start-includes"))) {
+                // Only use the default if nothing else has been specified.
+                regularExpressionStartCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("start-includes"));
+            }
+            regularExpressionStartCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("start-excludes"));
+            regularExpressionStartCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-start-includes"));
+            regularExpressionStartCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-start-excludes"));
+            regularExpressionStartCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-start-includes"));
+            regularExpressionStartCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-start-excludes"));
+            regularExpressionStartCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-start-includes"));
+            regularExpressionStartCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-start-excludes"));
+
+            startCriteria = regularExpressionStartCriteria;
+        } else if (hasStartListSwitches(commandLine)) {
+            startCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("start-includes-list"), commandLine.getMultipleSwitch("start-excludes-list"));
         }
-        startCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("start-excludes"));
-        startCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-start-includes"));
-        startCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-start-excludes"));
-        startCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-start-includes"));
-        startCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-start-excludes"));
-        startCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-start-includes"));
-        startCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-start-excludes"));
 
-        RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
+        SelectionCriteria stopCriteria = new NullSelectionCriteria();
 
-        stopCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("stop-includes"));
-        stopCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("stop-excludes"));
-        stopCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-stop-includes"));
-        stopCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-stop-excludes"));
-        stopCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-stop-includes"));
-        stopCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-stop-excludes"));
-        stopCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-stop-includes"));
-        stopCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-stop-excludes"));
+        if (hasStopRegularExpressionSwitches(commandLine)) {
+            RegularExpressionSelectionCriteria regularExpressionStopCriteria = new RegularExpressionSelectionCriteria();
+
+            regularExpressionStopCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("stop-includes"));
+            regularExpressionStopCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("stop-excludes"));
+            regularExpressionStopCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-stop-includes"));
+            regularExpressionStopCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-stop-excludes"));
+            regularExpressionStopCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-stop-includes"));
+            regularExpressionStopCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-stop-excludes"));
+            regularExpressionStopCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-stop-includes"));
+            regularExpressionStopCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-stop-excludes"));
+
+            stopCriteria = regularExpressionStopCriteria;
+        } else if (hasStopListSwitches(commandLine)) {
+            stopCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("stop-includes-list"), commandLine.getMultipleSwitch("stop-excludes-list"));
+        }
 
         TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);
 
@@ -248,5 +269,88 @@ public class DependencyClosure {
         }
 
         verboseListener.close();
+    }
+
+    private static boolean hasStartRegularExpressionSwitches(CommandLine commandLine) {
+        Collection switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("start-includes") ||
+            switches.contains("start-excludes") ||
+            switches.contains("package-start-includes") ||
+            switches.contains("package-start-excludes") ||
+            switches.contains("class-start-includes") ||
+            switches.contains("class-start-excludes") ||
+            switches.contains("feature-start-includes") ||
+            switches.contains("feature-start-excludes");
+    }
+
+    private static boolean hasStartListSwitches(CommandLine commandLine) {
+        Collection switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("start-includes-list") ||
+            switches.contains("start-excludes-list");
+    }
+
+    private static boolean hasStopRegularExpressionSwitches(CommandLine commandLine) {
+        Collection switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("stop-includes") ||
+            switches.contains("stop-excludes") ||
+            switches.contains("package-stop-includes") ||
+            switches.contains("package-stop-excludes") ||
+            switches.contains("class-stop-includes") ||
+            switches.contains("class-stop-excludes") ||
+            switches.contains("feature-stop-includes") ||
+            switches.contains("feature-stop-excludes");
+    }
+
+    private static boolean hasStopListSwitches(CommandLine commandLine) {
+        Collection switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("stop-includes-list") ||
+            switches.contains("stop-excludes-list");
+    }
+
+    private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection includes, Collection excludes) {
+        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
+    }
+
+    private static Collection loadCollection(Collection filenames) {
+        Collection result = null;
+
+        if (!filenames.isEmpty()) {
+            result = new HashSet();
+
+            Iterator i = filenames.iterator();
+            while (i.hasNext()) {
+                String filename = i.next().toString();
+
+                BufferedReader reader = null;
+                String line;
+
+                try {
+                    reader = new BufferedReader(new FileReader(filename));
+                    while ((line = reader.readLine()) != null) {
+                        result.add(line);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(DependencyReporter.class).error("Couldn't read file " + filename, ex);
+                } finally {
+                    try {
+                        if (reader != null) {
+                            reader.close();
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(DependencyReporter.class).error("Couldn't close file " + filename, ex);
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }
