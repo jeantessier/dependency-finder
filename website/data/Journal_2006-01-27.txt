@@ -5,7 +5,7 @@ no way to stream data that would end up embedded in the result, the way
 =extract.jsp= streams parsing information to keep the user notified of its
 progress.
 
-But I found that the JSP can use and =&lt;ww:action&gt;= tag to invoke another
+But I found that the JSP can use the =&lt;ww:action&gt;= tag to invoke another
 action while the JSP is rendered.  Maybe I can use this to have a dummy action
 launch the =extract.jsp= and from within it, call the real action that extracts
 the graph and stream progress to the output stream.
