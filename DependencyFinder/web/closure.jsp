@@ -265,11 +265,13 @@ follow
             scopeCriteria.setMatchingPackages("package".equals(scope));
             scopeCriteria.setMatchingClasses("class".equals(scope));
             scopeCriteria.setMatchingFeatures("feature".equals(scope));
+            scopeCriteria.setGlobalIncludes("//");
 
             RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
             filterCriteria.setMatchingPackages("package".equals(filter));
             filterCriteria.setMatchingClasses("class".equals(filter));
             filterCriteria.setMatchingFeatures("feature".equals(filter));
+            filterCriteria.setGlobalIncludes("//");
 
             GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
             summarizer.traverseNodes(closure.getFactory().getPackages().values());

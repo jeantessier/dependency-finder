@@ -1199,12 +1199,14 @@ public class DependencyFinder extends JFrame {
         scopeCriteria.setMatchingPackages(packageScope.isSelected());
         scopeCriteria.setMatchingClasses(classScope.isSelected());
         scopeCriteria.setMatchingFeatures(featureScope.isSelected());
-        
+        scopeCriteria.setGlobalIncludes("//");
+
         RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
         
         filterCriteria.setMatchingPackages(packageFilter.isSelected());
         filterCriteria.setMatchingClasses(classFilter.isSelected());
         filterCriteria.setMatchingFeatures(featureFilter.isSelected());
+        filterCriteria.setGlobalIncludes("//");
 
         GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
         summarizer.traverseNodes(selector.getFactory().getPackages().values());
