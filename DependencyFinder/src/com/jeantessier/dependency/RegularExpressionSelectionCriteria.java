@@ -55,9 +55,13 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     private List    featureExcludes  = new LinkedList();
     
     public RegularExpressionSelectionCriteria() {
-        getGlobalIncludes().add("//");
+        // Do nothing
     }
-    
+
+    public RegularExpressionSelectionCriteria(String initialGlobalIncludes) {
+        setGlobalIncludes(initialGlobalIncludes);
+    }
+
     public List getGlobalIncludes() {
         return globalIncludes;
     }

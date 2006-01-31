@@ -32,16 +32,12 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
 
-import org.apache.oro.text.perl.*;
-
 public class TestRegularExpressionSelectionCriteria extends TestCase {
     private RegularExpressionSelectionCriteria criteria;
-    private NodeFactory                        factory;
 
     private PackageNode a;
     private ClassNode a_A;
@@ -60,7 +56,8 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
 
     protected void setUp() throws Exception {
         criteria = new RegularExpressionSelectionCriteria();
-        factory = new NodeFactory();
+
+        NodeFactory factory = new NodeFactory();
 
         a     = factory.createPackage("a");
         a_A   = factory.createClass("a.A");
@@ -134,6 +131,7 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
     }
     
     public void testMatch() {
+        criteria.setGlobalIncludes("//");
         criteria.setMatchingPackages(true);
         criteria.setMatchingClasses(false);
         criteria.setMatchingFeatures(false);
@@ -224,6 +222,7 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
     }
 
     public void testGlobalExcludes() {
+        criteria.setGlobalIncludes("//");
         criteria.setGlobalExcludes(exclude);
 
         criteria.setMatchingPackages(true);

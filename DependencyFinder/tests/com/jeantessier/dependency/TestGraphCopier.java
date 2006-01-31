@@ -32,7 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
@@ -59,8 +58,8 @@ public class TestGraphCopier extends TestCase {
     private GraphCopier copier;
 
     protected void setUp() throws Exception {
-        scopeCriteria  = new RegularExpressionSelectionCriteria();
-        filterCriteria = new RegularExpressionSelectionCriteria();
+        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
+        filterCriteria = new RegularExpressionSelectionCriteria("//");
         factory        = new NodeFactory();
 
         _package = factory.createPackage("");
@@ -321,10 +320,12 @@ public class TestGraphCopier extends TestCase {
         RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
         scopeCriteria.setMatchingClasses(false);
         scopeCriteria.setMatchingFeatures(false);
+        scopeCriteria.setGlobalIncludes("//");
 
         RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
         filterCriteria.setMatchingPackages(false);
         filterCriteria.setMatchingFeatures(false);
+        filterCriteria.setGlobalIncludes("//");
         
         GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 

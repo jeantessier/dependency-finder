@@ -32,11 +32,7 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.util.*;
-
 import junit.framework.*;
-
 import org.apache.log4j.*;
 
 public class TestGraphSummarizer extends TestCase {
@@ -58,8 +54,8 @@ public class TestGraphSummarizer extends TestCase {
     protected void setUp() throws Exception {
         Logger.getLogger(getClass()).info("Starting test: " + getName());
 
-        scopeCriteria  = new RegularExpressionSelectionCriteria();
-        filterCriteria = new RegularExpressionSelectionCriteria();
+        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
+        filterCriteria = new RegularExpressionSelectionCriteria("//");
         factory        = new NodeFactory();
 
         a_package = factory.createPackage("a");

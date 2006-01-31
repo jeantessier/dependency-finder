@@ -67,7 +67,7 @@ public class TestTransitiveClosureSlice extends TestCase {
         out1.addDependency(out2);
         out2.addDependency(out3);
         
-        selector = new TransitiveClosure(new RegularExpressionSelectionCriteria(), new NullSelectionCriteria());
+        selector = new TransitiveClosure(new RegularExpressionSelectionCriteria("//"), new NullSelectionCriteria());
     }
 
     public void testDefaultDepth() {

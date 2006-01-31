@@ -32,12 +32,9 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
-
-import org.apache.oro.text.perl.*;
 
 public class TestTransitiveClosureWithTestClass extends TestCase {
     private NodeFactory factory;
@@ -157,7 +154,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         stopCriteria.setMatchingPackages(false);
         stopCriteria.setMatchingClasses(false);
         stopCriteria.setMatchingFeatures(false);
-        
+        stopCriteria.setGlobalIncludes("//");
+
         compute(factory.getPackages().values());
 
         assertEquals("Different number of packages",
@@ -207,7 +205,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         stopCriteria.setMatchingPackages(false);
         stopCriteria.setMatchingClasses(false);
         stopCriteria.setMatchingFeatures(false);
-        
+        stopCriteria.setGlobalIncludes("//");
+
         compute(factory.getPackages().values());
 
         assertEquals("Different number of packages",
@@ -224,7 +223,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         stopCriteria.setMatchingPackages(false);
         stopCriteria.setMatchingClasses(false);
         stopCriteria.setMatchingFeatures(false);
-        
+        stopCriteria.setGlobalIncludes("//");
+
         compute(factory.getPackages().values());
 
         assertEquals("Different number of packages",
@@ -263,7 +263,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         stopCriteria.setMatchingPackages(false);
         stopCriteria.setMatchingClasses(false);
         stopCriteria.setMatchingFeatures(false);
-        
+        stopCriteria.setGlobalIncludes("//");
+
         compute(factory.getPackages().values());
 
         assertEquals("Different number of packages",
@@ -331,10 +332,12 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         localScopeCriteria.setMatchingPackages(startCriteria.isMatchingPackages());
         localScopeCriteria.setMatchingClasses(startCriteria.isMatchingClasses());
         localScopeCriteria.setMatchingFeatures(startCriteria.isMatchingFeatures());
+        localScopeCriteria.setGlobalIncludes("//");
         RegularExpressionSelectionCriteria localFilterCriteria = new RegularExpressionSelectionCriteria();
         localFilterCriteria.setMatchingPackages(stopCriteria.isMatchingPackages());
         localFilterCriteria.setMatchingClasses(stopCriteria.isMatchingClasses());
         localFilterCriteria.setMatchingFeatures(stopCriteria.isMatchingFeatures());
+        localFilterCriteria.setGlobalIncludes("//");
 
         GraphSummarizer summarizer = new GraphSummarizer(localScopeCriteria, localFilterCriteria);
         summarizer.traverseNodes(closure.getFactory().getPackages().values());

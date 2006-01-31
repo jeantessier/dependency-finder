@@ -173,8 +173,7 @@ public class DependencyClosure {
             Logger.getLogger(DependencyClosure.class).info("Read \"" + filename + "\".");
         }
 
-        SelectionCriteria startCriteria = new ComprehensiveSelectionCriteria();
-
+        SelectionCriteria startCriteria;
         if (hasStartRegularExpressionSwitches(commandLine)) {
             RegularExpressionSelectionCriteria regularExpressionStartCriteria = new RegularExpressionSelectionCriteria();
 
@@ -193,10 +192,11 @@ public class DependencyClosure {
             startCriteria = regularExpressionStartCriteria;
         } else if (hasStartListSwitches(commandLine)) {
             startCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("start-includes-list"), commandLine.getMultipleSwitch("start-excludes-list"));
+        } else {
+            startCriteria = new ComprehensiveSelectionCriteria();
         }
 
-        SelectionCriteria stopCriteria = new NullSelectionCriteria();
-
+        SelectionCriteria stopCriteria;
         if (hasStopRegularExpressionSwitches(commandLine)) {
             RegularExpressionSelectionCriteria regularExpressionStopCriteria = new RegularExpressionSelectionCriteria();
 
@@ -212,6 +212,8 @@ public class DependencyClosure {
             stopCriteria = regularExpressionStopCriteria;
         } else if (hasStopListSwitches(commandLine)) {
             stopCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("stop-includes-list"), commandLine.getMultipleSwitch("stop-excludes-list"));
+        } else {
+            stopCriteria = new NullSelectionCriteria();
         }
 
         TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);

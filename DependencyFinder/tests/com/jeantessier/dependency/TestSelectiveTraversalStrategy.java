@@ -32,18 +32,14 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
-
-import org.apache.oro.text.perl.*;
 
 public class TestSelectiveTraversalStrategy extends TestCase {
     private RegularExpressionSelectionCriteria scopeCriteria;
     private RegularExpressionSelectionCriteria filterCriteria;
     private SelectiveTraversalStrategy         strategy;
-    private NodeFactory                        factory;
 
     private PackageNode a;
     private ClassNode a_A;
@@ -61,10 +57,11 @@ public class TestSelectiveTraversalStrategy extends TestCase {
     private List exclude;
 
     protected void setUp() throws Exception {
-        scopeCriteria  = new RegularExpressionSelectionCriteria();
-        filterCriteria = new RegularExpressionSelectionCriteria();
+        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
+        filterCriteria = new RegularExpressionSelectionCriteria("//");
         strategy       = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-        factory        = new NodeFactory();
+
+        NodeFactory factory = new NodeFactory();
 
         a     = factory.createPackage("a");
         a_A   = factory.createClass("a.A");

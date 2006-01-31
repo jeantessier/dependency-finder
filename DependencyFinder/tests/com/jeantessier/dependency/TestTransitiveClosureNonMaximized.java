@@ -338,10 +338,12 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         localScopeCriteria.setMatchingPackages(startCriteria.isMatchingPackages());
         localScopeCriteria.setMatchingClasses(startCriteria.isMatchingClasses());
         localScopeCriteria.setMatchingFeatures(startCriteria.isMatchingFeatures());
+        localScopeCriteria.setGlobalIncludes("//");
         RegularExpressionSelectionCriteria localFilterCriteria = new RegularExpressionSelectionCriteria();
         localFilterCriteria.setMatchingPackages(stopCriteria.isMatchingPackages());
         localFilterCriteria.setMatchingClasses(stopCriteria.isMatchingClasses());
         localFilterCriteria.setMatchingFeatures(stopCriteria.isMatchingFeatures());
+        localFilterCriteria.setGlobalIncludes("//");
 
         GraphSummarizer summarizer = new GraphSummarizer(localScopeCriteria, localFilterCriteria);
         summarizer.traverseNodes(closure.getFactory().getPackages().values());

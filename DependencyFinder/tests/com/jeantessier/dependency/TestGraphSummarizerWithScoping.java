@@ -32,7 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
@@ -56,8 +55,8 @@ public class TestGraphSummarizerWithScoping extends TestCase {
     private GraphSummarizer summarizer;
 
     protected void setUp() throws Exception {
-        scopeCriteria  = new RegularExpressionSelectionCriteria();
-        filterCriteria = new RegularExpressionSelectionCriteria();
+        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
+        filterCriteria = new RegularExpressionSelectionCriteria("//");
         factory        = new NodeFactory();
 
         a     = factory.createPackage("a");
