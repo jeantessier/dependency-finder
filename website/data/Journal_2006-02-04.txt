@@ -1,0 +1,1 @@
+Tested actual extraction in new WebWork-based =ExtractAction=.

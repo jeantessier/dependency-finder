@@ -33,30 +33,76 @@
 package com.jeantessier.dependencyfinder.webwork;
 
 import java.util.*;
+import java.io.*;
 
 import junit.framework.*;
 
 import com.jeantessier.dependency.*;
+import com.jeantessier.classreader.*;
+
+import com.opensymphony.xwork.*;
 
 public class TestExtractAction extends TestCase {
-    public void testUpdateOnFirstCall() throws Exception {
-        Map application = new HashMap();
+    private Map application;
 
-        ExtractAction action = new ExtractAction();
-        action.setApplication(application);
-        action.prepare();
+    private ExtractAction action;
 
-        assertEquals("update", false, action.getUpdate());
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        application = new HashMap();
+        application.put("source", "classes" + File.separator + "test.class");
+
+        action = new ExtractAction();
     }
 
-    public void testUpdateOnSecondCall() throws Exception {
-        Map application = new HashMap();
-        application.put("factory", new NodeFactory());
-
-        ExtractAction action = new ExtractAction();
+    public void testFirstExtract() {
         action.setApplication(application);
-        action.prepare();
+        String result = action.doExtract();
 
-        assertEquals("update", true, action.getUpdate());
+        assertEquals("Result", Action.SUCCESS, result);
+        assertNotNull("Missing dispatcher", application.get("dispatcher"));
+        assertNotNull("Missing factory", application.get("factory"));
+        assertNotNull("Missing monitor", application.get("monitor"));
+    }
+
+    public void testUpdate() {
+        ClassfileLoaderDispatcher dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+        NodeFactory factory = new NodeFactory();
+        CodeDependencyCollector collector = new CodeDependencyCollector(factory);
+        DeletingVisitor deletingVisitor = new DeletingVisitor(factory);
+        Monitor monitor = new Monitor(collector, deletingVisitor);
+
+        application.put("dispatcher", dispatcher);
+        application.put("factory", factory);
+        application.put("monitor", monitor);
+
+        action.setApplication(application);
+        String result = action.doUpdate();
+
+        assertEquals("Result", Action.SUCCESS, result);
+        assertSame("Dispatcher", dispatcher, application.get("dispatcher"));
+        assertSame("Factory", factory, application.get("factory"));
+        assertSame("Monitor", monitor, application.get("monitor"));
+    }
+
+    public void testExtract() {
+        ClassfileLoaderDispatcher dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+        NodeFactory factory = new NodeFactory();
+        CodeDependencyCollector collector = new CodeDependencyCollector(factory);
+        DeletingVisitor deletingVisitor = new DeletingVisitor(factory);
+        Monitor monitor = new Monitor(collector, deletingVisitor);
+
+        application.put("dispatcher", dispatcher);
+        application.put("factory", factory);
+        application.put("monitor", monitor);
+
+        action.setApplication(application);
+        String result = action.doExtract();
+
+        assertEquals("Result", Action.SUCCESS, result);
+        assertNotSame("Dispatcher", dispatcher, application.get("dispatcher"));
+        assertNotSame("Factory", factory, application.get("factory"));
+        assertNotSame("Monitor", monitor, application.get("monitor"));
     }
 }

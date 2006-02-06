@@ -32,14 +32,22 @@
 
 package com.jeantessier.dependencyfinder.webwork;
 
+import java.io.*;
+import java.text.*;
 import java.util.*;
+import javax.servlet.http.*;
 
-import com.opensymphony.xwork.*;
 import com.opensymphony.webwork.interceptor.*;
+import org.apache.oro.text.perl.*;
 
-public class ExtractAction extends ActionSupport implements ApplicationAware, Preparable {
-    private Map application;
+import com.jeantessier.classreader.*;
+import com.jeantessier.dependency.*;
+import com.jeantessier.dependencyfinder.*;
+
+public class ExtractAction extends ActionBase implements ServletResponseAware {
     private boolean update;
+
+    private PrintWriter out = new NullPrintWriter();
 
     public void setUpdate(boolean update) {
         this.update = update;
@@ -49,8 +57,12 @@ public class ExtractAction extends ActionSupport implements ApplicationAware, Pr
         return update;
     }
 
-    public void setApplication(Map application) {
-        this.application = application;
+    public void setServletResponse(HttpServletResponse response) {
+        try {
+            out = new PrintWriter(response.getOutputStream(), true);
+        } catch (IOException e) {
+            // Ignore
+        }
     }
 
     public String execute() throws Exception {
@@ -61,7 +73,75 @@ public class ExtractAction extends ActionSupport implements ApplicationAware, Pr
         return INPUT;
     }
 
-    public void prepare() throws Exception {
-        update = application.get("factory") != null;
+    public String doUpdate() {
+        Date start = new Date();
+
+        extractGraph();
+
+        Date   stop     = new Date();
+        double duration = (stop.getTime() - start.getTime()) / (double) 1000;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        application.put("updateStart",    formatter.format(start));
+        application.put("updateDuration", new Double(duration));
+
+        application.remove("loadStart");
+        application.remove("loadDuration");
+
+        return SUCCESS;
+    }
+
+    public String doExtract() {
+        Date start = new Date();
+
+        dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+        factory = new NodeFactory();
+        CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
+        DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
+
+        monitor = new Monitor(collector, deletingVisitor);
+
+        extractGraph();
+
+        Date   stop     = new Date();
+        double duration = (stop.getTime() - start.getTime()) / (double) 1000;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        application.put("dispatcher", dispatcher);
+        application.put("factory",    factory);
+        application.put("monitor",    monitor);
+
+        application.put("extractStart",    formatter.format(start));
+        application.put("extractDuration", new Double(duration));
+        application.remove("updateStart");
+        application.remove("updateDuration");
+
+        application.remove("loadStart");
+        application.remove("loadDuration");
+
+        return SUCCESS;
+    }
+
+    private void extractGraph() {
+        Perl5Util perl = new Perl5Util();
+        Collection sources = new LinkedList();
+        perl.split(sources, "/,\\s*/", source);
+
+        VerboseListener listener = new VerboseListener(out);
+
+        ClassfileLoader loader = new TransientClassfileLoader(dispatcher);
+        loader.addLoadListener(listener);
+        loader.addLoadListener(monitor);
+        loader.load(sources);
+
+        if ("maximize".equalsIgnoreCase(mode)) {
+            listener.print("Maximizing ...");
+            new LinkMaximizer().traverseNodes(factory.getPackages().values());
+        } else if ("minimize".equalsIgnoreCase(mode)) {
+            listener.print("Minimizing ...");
+            new LinkMinimizer().traverseNodes(factory.getPackages().values());
+        }
     }
 }
