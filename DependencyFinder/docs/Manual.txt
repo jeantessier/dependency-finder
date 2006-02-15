@@ -1526,8 +1526,8 @@ We can save it to an XML document for use with the other tools.
 
 <div class="highlight">
 
-    C:\>DependencyFinder *-xml -out test.xml*
-                         test.class
+    C:\>DependencyExtractor *-xml -out test.xml*
+                            test.class
 
 </div>
 
@@ -1535,7 +1535,7 @@ And narrow down the graph to class-to-class dependencies.
 
 <div class="highlight">
 
-    C:\>c2c -scope-includes /test/ test.xml
+    C:\>c2c -show-all -scope-includes /test/ test.xml
 
 </div>
 

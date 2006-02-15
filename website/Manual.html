@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link rel="shortcut icon" href="images/logoicon.gif" type="image/gif" />
-<title>The Dependency Finder User Manual</title
+<title>The Dependency Finder User Manual</title>
 
 </head>
 
@@ -2069,8 +2069,8 @@ We can save it to an XML document for use with the other tools.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyFinder <b>-xml -out test.xml</b>
-                         test.class
+    C:\>DependencyExtractor <b>-xml -out test.xml</b>
+                            test.class
 </pre>
 
 </div>
@@ -2082,7 +2082,7 @@ And narrow down the graph to class-to-class dependencies.
 <div class="highlight">
 
 <pre>
-    C:\>c2c -scope-includes /test/ test.xml
+    C:\>c2c -show-all -scope-includes /test/ test.xml
 </pre>
 
 </div>
