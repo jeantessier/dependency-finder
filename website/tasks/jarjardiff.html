@@ -42,14 +42,18 @@ DTD.</p>
     <td valign="top" align="center">Yes</td>
   </tr>
   <tr>
+    <td valign="top">encoding</td>
+    <td valign="top">encoding used for the XML output document.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
     <td valign="top">dtdprefix</td>
-    <td valign="top">prefix of the DTD URL for the XML output document.
-    Only useful with <code>xml</code>.</td>
+    <td valign="top">prefix of the DTD URL for the XML output document.</td>
     <td align="center" valign="top">No</td>
   </tr>
   <tr>
     <td valign="top">indenttext</td>
-    <td valign="top">used for each indentation level in textual and XML output.</td>
+    <td valign="top">used for each indentation level in the XML output.</td>
     <td align="center" valign="top">No</td>
   </tr>
   <tr>
@@ -168,7 +172,7 @@ report to HTML:</p>
       &lt;pathelement location=&quot;xerces-2_3_0\xml-apis.jar&quot;/&gt;
       &lt;pathelement location=&quot;xerces-2_3_0\xercesImpl.jar&quot;/&gt;
     &lt;/new&gt;
-  &lt;/jarjardiff&gt;</pre>
+  &lt;/jarjardiff&gt;
   &lt;xslt style=&quot;${dependencyfinder.home}/etc/DiffToHTML.xsl&quot;
         in=&quot;xerces.xml&quot;
         out=&quot;xerces.html&quot;/></pre>
@@ -189,7 +193,7 @@ report to HTML, keeping only modifications to the public API:</p>
       &lt;pathelement location=&quot;xerces-2_3_0\xml-apis.jar&quot;/&gt;
       &lt;pathelement location=&quot;xerces-2_3_0\xercesImpl.jar&quot;/&gt;
     &lt;/new&gt;
-  &lt;/jarjardiff&gt;</pre>
+  &lt;/jarjardiff&gt;
   &lt;xslt style=&quot;${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl&quot;
         in=&quot;xerces.xml&quot;
         out=&quot;xerces.html&quot;/></pre>

@@ -54,7 +54,7 @@ public class JarJarDiff extends Task {
     private Path    newPath;
     private String  newLabel;
     private File    filter;
-    private String  level;
+    private String  level     = DEFAULT_LEVEL;
     private boolean code;
     private String  encoding  = Report.DEFAULT_ENCODING;
     private String  dtdPrefix = Report.DEFAULT_DTD_PREFIX;
