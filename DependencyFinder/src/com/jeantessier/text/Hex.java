@@ -40,14 +40,14 @@ public final class Hex {
     }
 
     public static void print(PrintStream out, byte[] bytes) {
-        for (int i=0; i<bytes.length; i++) {
-            print(out, bytes[i]);
+        for (byte b : bytes) {
+            print(out, b);
         }
     }
 
     public static void print(PrintWriter out, byte[] bytes) {
-        for (int i=0; i<bytes.length; i++) {
-            print(out, bytes[i]);
+        for (byte b : bytes) {
+            print(out, b);
         }
     }
 
@@ -73,6 +73,30 @@ public final class Hex {
 
     public static void print(PrintWriter out, int n) {
         out.print(toHexChar(n));
+    }
+
+    public static String toString(byte[] bytes) {
+        StringBuffer result = new StringBuffer();
+        toString(bytes, result);
+        return result.toString();
+    }
+
+    private static void toString(byte[] bytes, StringBuffer buffer) {
+        for (byte b : bytes) {
+            toString(b, buffer);
+        }
+    }
+
+    public static void toString(byte b, StringBuffer buffer) {
+        int highBits = (b & 0xF0) >> 4;
+        int lowBits  = (b & 0x0F);
+
+        toString(highBits, buffer);
+        toString(lowBits, buffer);
+    }
+
+    private static void toString(int n, StringBuffer buffer) {
+        buffer.append(toHexChar(n));
     }
 
     public static String toHexChar(int n) {

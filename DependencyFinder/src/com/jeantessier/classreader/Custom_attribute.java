@@ -57,13 +57,8 @@ public class Custom_attribute extends Attribute_info {
         this.info = new byte[byteCount];
         int bytesRead = in.read(info);
 
-        Logger logger = Logger.getLogger(getClass());
-        if (logger.isDebugEnabled()) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            Hex.print(pw, this.info);
-            pw.close();
-            logger.debug("Read " + bytesRead + " byte(s): " + sw);
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            Logger.getLogger(getClass()).debug("Read " + bytesRead + " byte(s): " + Hex.toString(this.info));
         }
     }
 

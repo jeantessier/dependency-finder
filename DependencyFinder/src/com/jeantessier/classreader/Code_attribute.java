@@ -60,16 +60,12 @@ public class Code_attribute extends Attribute_info {
 
         int codeLength = in.readInt();
         Logger.getLogger(getClass()).debug("Code length: " + codeLength);
+        
         code = new byte[codeLength];
         int bytesRead = in.read(code);
-        Logger.getLogger(getClass()).debug("Bytes read: " + bytesRead);
 
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            Hex.print(pw, code);
-            pw.close();
-            Logger.getLogger(getClass()).debug("Code: " + sw);
+            Logger.getLogger(getClass()).debug("Read " + bytesRead + " byte(s): " + Hex.toString(code));
 
             Iterator ci = iterator();
             while (ci.hasNext()) {
