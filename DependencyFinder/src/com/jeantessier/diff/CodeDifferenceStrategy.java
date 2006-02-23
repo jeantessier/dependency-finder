@@ -33,7 +33,6 @@
 package com.jeantessier.diff;
 
 import java.util.*;
-import java.io.*;
 
 import org.apache.log4j.*;
 
@@ -80,19 +79,22 @@ public class CodeDifferenceStrategy implements DifferenceStrategy {
         boolean result;
 
         if (oldCode != null && newCode != null) {
-            result = !Arrays.equals(oldCode.getCode(), newCode.getCode());
+            result = oldCode.getCode().length != newCode.getCode().length;
+
+            Iterator oldIterator = oldCode.iterator();
+            Iterator newIterator = newCode.iterator();
+
+            while (!result && oldIterator.hasNext() && newIterator.hasNext()) {
+                Instruction oldInstruction = (Instruction) oldIterator.next();
+                Instruction newInstruction = (Instruction) newIterator.next();
+                result = !oldInstruction.equals(newInstruction);
+            }
+
             if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-                pw.println("Code compare for " + oldCode.getOwner());
-                Hex.print(pw, oldCode.getCode());
-                pw.println();
-                pw.println("vs.");
-                Hex.print(pw, newCode.getCode());
-                pw.println();
-                pw.println(result ? "[different]" : "[same]");
-                pw.close();
-                Logger.getLogger(getClass()).debug(sw);
+                Logger.getLogger(getClass()).debug("Code compare for " + oldCode.getOwner());
+                Logger.getLogger(getClass()).debug("old code: " + Hex.toString(oldCode.getCode()));
+                Logger.getLogger(getClass()).debug("new code: " + Hex.toString(newCode.getCode()));
+                Logger.getLogger(getClass()).debug(result ? "[different]" : "[same]");
             }
         } else {
             result = oldCode != newCode;

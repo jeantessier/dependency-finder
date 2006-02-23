@@ -32,8 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
-
 public class Instruction {
     private static String[] opcode = new String[256];
     private static int[]    length = new int[256];
@@ -655,6 +653,34 @@ public class Instruction {
             default:
                 // Do nothing
                 break;
+        }
+
+        return result;
+    }
+
+    public int hashCode() {
+        int result = getOpcode();
+
+        for (int i=1; i<getLength(); i++) {
+            result ^= code[start+i];
+        }
+
+        return result;
+    }
+
+    public boolean equals(Object object) {
+        boolean result;
+
+        if (this == object) {
+            result = true;
+        } else if (object == null || getClass() != object.getClass()) {
+            result = false;
+        } else {
+            Instruction other = (Instruction) object;
+            result = getOpcode() == other.getOpcode();
+            for (int i=1; result && i<getLength(); i++) {
+                result = code[start+i] == other.code[other.start+i];
+            }
         }
 
         return result;
