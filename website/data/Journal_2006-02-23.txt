@@ -6,10 +6,10 @@ compare the actual parameter to an instruction when deciding if something is
 different or not.
 
 I found something interesting.  In the compiled code I received from a user
-yesterday, there is and =ldc_w= instruction that points to a =CONSTANT_class=
-entry in the constant pool.  Now, the spec clearly says it has to point to a
-either an =int=, a =float=, or a =string=.  I wonder if maybe they used a
-non-compliant compiler or something.
+yesterday, there is and =ldc_w= instruction that points to a
+=CONSTANT_class= entry in the constant pool.  Now, the spec clearly says it has
+to point to a either an =int=, a =float=, or a =string=.  I wonder if maybe
+they used a non-compliant compiler or something.
 
 Instrumented more debug info in the processing of bytecode from methods, when
 reading it and when comparing it in =JarJarDiff=.
