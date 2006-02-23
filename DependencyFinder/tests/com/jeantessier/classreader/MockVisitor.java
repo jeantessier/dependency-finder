@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class MockVisitor extends VisitorBase {
-    private List visitedClasses = new LinkedList();
+    private List<Classfile> visitedClasses = new LinkedList<Classfile>();
 
     public List getVisitedClasses() {
         return visitedClasses;

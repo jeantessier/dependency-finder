@@ -36,9 +36,8 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.log4j.*;
-import org.apache.oro.text.perl.*;
 
-public class ConstantPool extends ArrayList implements Visitable {
+public class ConstantPool extends ArrayList<ConstantPoolEntry> implements Visitable {
     private Classfile classfile;
 
     public ConstantPool(Classfile classfile, DataInputStream in) throws IOException {

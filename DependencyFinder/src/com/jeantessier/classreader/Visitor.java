@@ -36,7 +36,7 @@ import java.util.*;
 
 public interface Visitor {
     // Classfile
-    public void visitClassfiles(Collection classfiles);
+    public void visitClassfiles(Collection<Classfile> classfiles);
     public void visitClassfile(Classfile classfile);
 
     // ConstantPool entries

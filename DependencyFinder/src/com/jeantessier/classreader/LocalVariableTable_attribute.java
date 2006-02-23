@@ -38,7 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class LocalVariableTable_attribute extends Attribute_info {
-    private Collection localVariables = new LinkedList();
+    private Collection<LocalVariable> localVariables = new LinkedList<LocalVariable>();
 
     public LocalVariableTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
         super(classfile, owner);
@@ -54,7 +54,7 @@ public class LocalVariableTable_attribute extends Attribute_info {
         }
     }
 
-    public Collection getLocalVariables() {
+    public Collection<LocalVariable> getLocalVariables() {
         return localVariables;
     }
 

@@ -53,10 +53,10 @@ public class Classfile implements Deprecatable, Visitable {
     private int          accessFlag;
     private int          classIndex;
     private int          superclassIndex;
-    private Map          interfaces = new TreeMap();
-    private Map          fields     = new TreeMap();
-    private Map          methods    = new TreeMap();
-    private Collection   attributes = new LinkedList();
+    private Map<String, Class_info> interfaces = new TreeMap<String, Class_info>();
+    private Map<String, Field_info> fields = new TreeMap<String, Field_info>();
+    private Map<String, Method_info> methods = new TreeMap<String, Method_info>();
+    private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
     /**
      *  Parses the input stream and extracts the class description.
@@ -186,19 +186,19 @@ public class Classfile implements Deprecatable, Visitable {
     }
 
     public Class_info getInterface(String name) {
-        return (Class_info) interfaces.get(name);
+        return interfaces.get(name);
     }
 
-    public Collection getAllInterfaces() {
+    public Collection<Class_info> getAllInterfaces() {
         return interfaces.values();
     }
 
-    public Collection getAllFields() {
+    public Collection<Field_info> getAllFields() {
         return fields.values();
     }
 
     public Field_info getField(String name) {
-        return (Field_info) fields.get(name);
+        return fields.get(name);
     }
 
     public Field_info locateField(String name) {
@@ -228,12 +228,12 @@ public class Classfile implements Deprecatable, Visitable {
         return result;
     }
 
-    public Collection getAllMethods() {
+    public Collection<Method_info> getAllMethods() {
         return methods.values();
     }
 
     public Method_info getMethod(String signature) {
-        return (Method_info) methods.get(signature);
+        return methods.get(signature);
     }
 
     public Method_info locateMethod(String signature) {
@@ -263,7 +263,7 @@ public class Classfile implements Deprecatable, Visitable {
         return result;
     }
 
-    public Collection getAttributes() {
+    public Collection<Attribute_info> getAttributes() {
         return attributes;
     }
 

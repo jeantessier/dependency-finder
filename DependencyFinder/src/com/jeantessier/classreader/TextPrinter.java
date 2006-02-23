@@ -47,16 +47,12 @@ public class TextPrinter extends Printer {
 
         append(classfile.getDeclaration()).append(" {").eol();
 
-        Iterator i;
-
-        i = classfile.getAllFields().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Field_info field : classfile.getAllFields()) {
+            field.accept(this);
         }
 
-        i = classfile.getAllMethods().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Method_info method : classfile.getAllMethods()) {
+            method.accept(this);
         }
 
         append("}").eol();

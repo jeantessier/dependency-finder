@@ -48,7 +48,7 @@ public abstract class Feature_info implements Deprecatable, Visitable {
     private int        accessFlag;
     private int        nameIndex;
     private int        descriptorIndex;
-    private Collection attributes = new LinkedList();
+    private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
     public Feature_info(Classfile classfile, DataInputStream in) throws IOException {
         this.classfile = classfile;
@@ -130,7 +130,7 @@ public abstract class Feature_info implements Deprecatable, Visitable {
         return getRawDescriptor().toString();
     }
 
-    public Collection getAttributes() {
+    public Collection<Attribute_info> getAttributes() {
         return attributes;
     }
 

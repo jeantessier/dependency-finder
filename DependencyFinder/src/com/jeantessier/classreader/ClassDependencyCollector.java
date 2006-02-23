@@ -32,11 +32,9 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
-
 public class ClassDependencyCollector extends CollectorBase {
     private Class_info thisClass;
-    private boolean    top       = true;
+    private boolean top = true;
 
     public void visitClassfile(Classfile classfile) {
         thisClass = classfile.getRawClass();
@@ -45,21 +43,16 @@ public class ClassDependencyCollector extends CollectorBase {
 
         classfile.getRawSuperclass().accept(this);
 
-        Iterator i;
-
-        i = classfile.getAllInterfaces().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Class_info class_info : classfile.getAllInterfaces()) {
+            class_info.accept(this);
         }
 
-        i = classfile.getAllFields().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Field_info field : classfile.getAllFields()) {
+            field.accept(this);
         }
 
-        i = classfile.getAllMethods().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Method_info method : classfile.getAllMethods()) {
+            method.accept(this);
         }
     }
 
@@ -144,37 +137,32 @@ public class ClassDependencyCollector extends CollectorBase {
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
-        Iterator i = attribute.getAttributes().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Attribute_info attribute_info : attribute.getAttributes()) {
+            attribute_info.accept(this);
         }
     }
 
     public void visitExceptions_attribute(Exceptions_attribute attribute) {
-        Iterator i = attribute.getExceptions().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Class_info exception : attribute.getExceptions()) {
+            exception.accept(this);
         }
     }
 
     public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
-        Iterator i = attribute.getClasses().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (InnerClass innerClass : attribute.getInnerClasses()) {
+            innerClass.accept(this);
         }
     }
 
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-        Iterator i = attribute.getLineNumbers().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (LineNumber lineNumber : attribute.getLineNumbers()) {
+            lineNumber.accept(this);
         }
     }
 
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-        Iterator i = attribute.getLocalVariables().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (LocalVariable localVariable : attribute.getLocalVariables()) {
+            localVariable.accept(this);
         }
     }
 

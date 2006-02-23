@@ -55,14 +55,12 @@ public class DeprecationPrinter extends Printer {
 
                 Iterator i;
 
-                i = classfile.getAllFields().iterator();
-                while (i.hasNext()) {
-                    append(((Feature_info) i.next()).getFullSignature()).eol();
+                for (Field_info field : classfile.getAllFields()) {
+                    append(field.getFullSignature()).eol();
                 }
 
-                i = classfile.getAllMethods().iterator();
-                while (i.hasNext()) {
-                    append(((Feature_info) i.next()).getFullSignature()).eol();
+                for (Method_info method : classfile.getAllMethods()) {
+                    append(method.getFullSignature()).eol();
                 }
             }
         }

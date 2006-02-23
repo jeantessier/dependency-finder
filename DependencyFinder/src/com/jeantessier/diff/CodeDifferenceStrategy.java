@@ -33,8 +33,12 @@
 package com.jeantessier.diff;
 
 import java.util.*;
+import java.io.*;
+
+import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
+import com.jeantessier.text.*;
 
 /**
  * TODO class comment
@@ -77,6 +81,19 @@ public class CodeDifferenceStrategy implements DifferenceStrategy {
 
         if (oldCode != null && newCode != null) {
             result = !Arrays.equals(oldCode.getCode(), newCode.getCode());
+            if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                pw.println("Code compare for " + oldCode.getOwner());
+                Hex.print(pw, oldCode.getCode());
+                pw.println();
+                pw.println("vs.");
+                Hex.print(pw, newCode.getCode());
+                pw.println();
+                pw.println(result ? "[different]" : "[same]");
+                pw.close();
+                Logger.getLogger(getClass()).debug(sw);
+            }
         } else {
             result = oldCode != newCode;
         }

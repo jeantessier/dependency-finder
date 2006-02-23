@@ -38,7 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class InnerClasses_attribute extends Attribute_info {
-    private Collection classes = new LinkedList();
+    private Collection<InnerClass> classes = new LinkedList<InnerClass>();
 
     public InnerClasses_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
         super(classfile, owner);
@@ -54,7 +54,7 @@ public class InnerClasses_attribute extends Attribute_info {
         }
     }
 
-    public Collection getClasses() {
+    public Collection<InnerClass> getInnerClasses() {
         return classes;
     }
 

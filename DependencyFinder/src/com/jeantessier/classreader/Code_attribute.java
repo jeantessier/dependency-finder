@@ -37,12 +37,14 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
+import com.jeantessier.text.*;
+
 public class Code_attribute extends Attribute_info {
     private int        maxStack;
     private int        maxLocals;
     private byte[]     code;
-    private Collection exceptionHandlers = new LinkedList();
-    private Collection attributes        = new LinkedList();
+    private Collection<ExceptionHandler> exceptionHandlers = new LinkedList<ExceptionHandler>();
+    private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
     public Code_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
         super(classfile, owner);
@@ -62,31 +64,46 @@ public class Code_attribute extends Attribute_info {
         int bytesRead = in.read(code);
         Logger.getLogger(getClass()).debug("Bytes read: " + bytesRead);
 
-        Iterator ci = iterator();
-        while (ci.hasNext()) {
-            Instruction instr = (Instruction) ci.next();
-            int         start = instr.getStart();
-            
-            switch (instr.getOpcode()) {
-                case 0xb2: // getstatic
-                case 0xb3: // putstatic
-                case 0xb4: // getfield
-                case 0xb5: // putfield
-                case 0xb6: // invokevirtual
-                case 0xb7: // invokespecial
-                case 0xb8: // invokestatic
-                case 0xb9: // invokeinterface
-                case 0xbb: // new
-                case 0xbd: // anewarray
-                case 0xc0: // checkcast
-                case 0xc1: // instanceof
-                case 0xc5: // multianewarray
-                    int index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-                    Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getClassfile().getConstantPool().get(index) + ")");
-                    break;
-                default:
-                    Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getLength() + " byte(s))");
-                    break;
+        if (Logger.getLogger(getClass()).isDebugEnabled()) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            Hex.print(pw, code);
+            pw.close();
+            Logger.getLogger(getClass()).debug("Code: " + sw);
+
+            Iterator ci = iterator();
+            while (ci.hasNext()) {
+                Instruction instr = (Instruction) ci.next();
+                int         start = instr.getStart();
+
+                int index;
+                switch (instr.getOpcode()) {
+                    case 0x13: // ldc_w
+                    case 0x14: // ldc2_w
+                    case 0xb2: // getstatic
+                    case 0xb3: // putstatic
+                    case 0xb4: // getfield
+                    case 0xb5: // putfield
+                    case 0xb6: // invokevirtual
+                    case 0xb7: // invokespecial
+                    case 0xb8: // invokestatic
+                    case 0xb9: // invokeinterface
+                    case 0xbb: // new
+                    case 0xbd: // anewarray
+                    case 0xc0: // checkcast
+                    case 0xc1: // instanceof
+                    case 0xc5: // multianewarray
+                        index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getClassfile().getConstantPool().get(index) + ")");
+                        break;
+                    case 0x12: // ldc
+                        index = code[start+1] & 0xff;
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getClassfile().getConstantPool().get(index) + ")");
+                        break;
+                    default:
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getLength() + " byte(s))");
+                        break;
+                }
             }
         }
 
@@ -121,11 +138,11 @@ public class Code_attribute extends Attribute_info {
         return new CodeIterator(code);
     }
 
-    public Collection getExceptionHandlers() {
+    public Collection<ExceptionHandler> getExceptionHandlers() {
         return exceptionHandlers;
     }
 
-    public Collection getAttributes() {
+    public Collection<Attribute_info> getAttributes() {
         return attributes;
     }
 

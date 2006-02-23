@@ -38,7 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Exceptions_attribute extends Attribute_info {
-    private Collection exceptions = new LinkedList();
+    private Collection<Class_info> exceptions = new LinkedList<Class_info>();
 
     public Exceptions_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
         super(classfile, owner);
@@ -56,7 +56,7 @@ public class Exceptions_attribute extends Attribute_info {
         }
     }
 
-    public Collection getExceptions() {
+    public Collection<Class_info> getExceptions() {
         return exceptions;
     }
 

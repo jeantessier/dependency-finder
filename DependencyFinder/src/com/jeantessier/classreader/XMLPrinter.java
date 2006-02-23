@@ -63,7 +63,7 @@ public class XMLPrinter extends Printer {
         eol();
     }
 
-    public void visitClassfiles(Collection classfiles) {
+    public void visitClassfiles(Collection<Classfile> classfiles) {
         indent().append("<classfiles>").eol();
         raiseIndent();
 
@@ -74,8 +74,6 @@ public class XMLPrinter extends Printer {
     }
     
     public void visitClassfile(Classfile classfile) {
-        Iterator i;
-
         indent().append("<classfile magic-number=\"").append(classfile.getMagicNumber()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flag=\"").append(format.format(classfile.getAccessFlag())).append("\">").eol();
         raiseIndent();
 
@@ -104,11 +102,10 @@ public class XMLPrinter extends Printer {
         if (!classfile.getAllInterfaces().isEmpty()) {
             indent().append("<interfaces>").eol();
             raiseIndent();
-            i = classfile.getAllInterfaces().iterator();
-            while (i.hasNext()) {
+            for (Class_info class_info : classfile.getAllInterfaces()) {
                 indent();
                 append("<interface>");
-                ((Visitable) i.next()).accept(this);
+                class_info.accept(this);
                 append("</interface>").eol();
             }
             lowerIndent();
@@ -118,9 +115,8 @@ public class XMLPrinter extends Printer {
         if (!classfile.getAllFields().isEmpty()) {
             indent().append("<fields>").eol();
             raiseIndent();
-            i = classfile.getAllFields().iterator();
-            while (i.hasNext()) {
-                ((Visitable) i.next()).accept(this);
+            for (Field_info field : classfile.getAllFields()) {
+                field.accept(this);
             }
             lowerIndent();
             indent().append("</fields>").eol();
@@ -129,9 +125,8 @@ public class XMLPrinter extends Printer {
         if (!classfile.getAllMethods().isEmpty()) {
             indent().append("<methods>").eol();
             raiseIndent();
-            i = classfile.getAllMethods().iterator();
-            while (i.hasNext()) {
-                ((Visitable) i.next()).accept(this);
+            for (Method_info method : classfile.getAllMethods()) {
+                method.accept(this);
             }
             lowerIndent();
             indent().append("</methods>").eol();
@@ -140,9 +135,8 @@ public class XMLPrinter extends Printer {
         if (!classfile.getAttributes().isEmpty()) {
             indent().append("<attributes>").eol();
             raiseIndent();
-            i = classfile.getAttributes().iterator();
-            while (i.hasNext()) {
-                ((Visitable) i.next()).accept(this);
+            for (Attribute_info attribute : classfile.getAttributes()) {
+                attribute.accept(this);
             }
             lowerIndent();
             indent().append("</attributes>").eol();
@@ -158,13 +152,11 @@ public class XMLPrinter extends Printer {
         indent().append("<constant-pool>").eol();
         raiseIndent();
 
-        Iterator i = constantPool.iterator();
-        while (i.hasNext()) {
-            Visitable entry = (Visitable) i.next();
+        for (ConstantPoolEntry entry : constantPool) {
             if (entry != null) {
                 entry.accept(this);
             }
-            raiseCount();
+            incrementCount();
         }
 
         lowerIndent();
@@ -438,8 +430,6 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
-        Iterator i;
-        
         indent().append("<code-attribute>").eol();
         raiseIndent();
 
@@ -447,12 +437,15 @@ public class XMLPrinter extends Printer {
 
         indent().append("<instructions>").eol();
         raiseIndent();
-        i = attribute.iterator();
+        Iterator i = attribute.iterator();
         while (i.hasNext()) {
             Instruction instr = (Instruction) i.next();
             indent();
             append("<instruction pc=\"").append(instr.getStart()).append("\" length=\"").append(instr.getLength()).append("\">");
+            int index;
             switch (instr.getOpcode()) {
+                case 0x13: // ldc_w
+                case 0x14: // ldc2_w
                 case 0xb2: // getstatic
                 case 0xb3: // putstatic
                 case 0xb4: // getfield
@@ -466,10 +459,16 @@ public class XMLPrinter extends Printer {
                 case 0xc0: // checkcast
                 case 0xc1: // instanceof
                 case 0xc5: // multianewarray
-                    int index = ((instr.getCode()[instr.getStart()+1] & 0xff) << 8) | (instr.getCode()[instr.getStart()+2] & 0xff);
+                    index = ((instr.getCode()[instr.getStart()+1] & 0xff) << 8) | (instr.getCode()[instr.getStart()+2] & 0xff);
                     append(instr);
                     append(" ");
-                    ((ConstantPoolEntry) attribute.getClassfile().getConstantPool().get(index)).accept(this);
+                    attribute.getClassfile().getConstantPool().get(index).accept(this);
+                    break;
+                case 0x12: // ldc
+                    index = instr.getCode()[instr.getStart()+1] & 0xff;
+                    append(instr);
+                    append(" ");
+                    attribute.getClassfile().getConstantPool().get(index).accept(this);
                     break;
                 default:
                     append(instr);
@@ -483,9 +482,8 @@ public class XMLPrinter extends Printer {
         if (!attribute.getExceptionHandlers().isEmpty()) {
             indent().append("<exception-handlers>").eol();
             raiseIndent();
-            i = attribute.getExceptionHandlers().iterator();
-            while (i.hasNext()) {
-                ((Visitable) i.next()).accept(this);
+            for (ExceptionHandler exceptionHandler : attribute.getExceptionHandlers()) {
+                exceptionHandler.accept(this);
             }
             lowerIndent();
             indent().append("</exception-handlers>").eol();
@@ -494,9 +492,8 @@ public class XMLPrinter extends Printer {
         if (!attribute.getAttributes().isEmpty()) {
             indent().append("<attributes>").eol();
             raiseIndent();
-            i = attribute.getAttributes().iterator();
-            while (i.hasNext()) {
-                ((Visitable) i.next()).accept(this);
+            for (Attribute_info attribute_info : attribute.getAttributes()) {
+                attribute_info.accept(this);
             }
             lowerIndent();
             indent().append("</attributes>").eol();
@@ -510,11 +507,10 @@ public class XMLPrinter extends Printer {
         indent().append("<exceptions-attribute>").eol();
         raiseIndent();
 
-        Iterator i = attribute.getExceptions().iterator();
-        while (i.hasNext()) {
+        for (Class_info exception : attribute.getExceptions()) {
             indent();
             append("<exception>");
-            ((Visitable) i.next()).accept(this);
+            exception.accept(this);
             append("</exception>").eol();
         }
 
@@ -526,9 +522,8 @@ public class XMLPrinter extends Printer {
         indent().append("<inner-classes-attribute>").eol();
         raiseIndent();
 
-        Iterator i = attribute.getClasses().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (InnerClass innerClass : attribute.getInnerClasses()) {
+            innerClass.accept(this);
         }
 
         lowerIndent();
@@ -547,9 +542,8 @@ public class XMLPrinter extends Printer {
         indent().append("<line-number-table-attribute>").eol();
         raiseIndent();
 
-        Iterator i = attribute.getLineNumbers().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (LineNumber lineNumber : attribute.getLineNumbers()) {
+            lineNumber.accept(this);
         }
 
         lowerIndent();
@@ -560,9 +554,8 @@ public class XMLPrinter extends Printer {
         indent().append("<local-variable-table-attribute>").eol();
         raiseIndent();
 
-        Iterator i = attribute.getLocalVariables().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (LocalVariable localVariable : attribute.getLocalVariables()) {
+            localVariable.accept(this);
         }
 
         lowerIndent();

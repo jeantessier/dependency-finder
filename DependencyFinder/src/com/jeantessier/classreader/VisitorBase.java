@@ -43,7 +43,7 @@ public abstract class VisitorBase implements Visitor {
         currentCount = 0;
     }
 
-    protected void raiseCount() {
+    protected void incrementCount() {
         currentCount++;
     }
 
@@ -52,40 +52,32 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitConstantPool(ConstantPool constantPool) {
-        Iterator i = constantPool.iterator();
-        while (i.hasNext()) {
-            Visitable entry = (Visitable) i.next();
+        for (ConstantPoolEntry entry : constantPool) {
             if (entry != null) {
                 entry.accept(this);
             }
-            raiseCount();
+            incrementCount();
         }
     }
 
     // Classfile
-    public void visitClassfiles(Collection classfiles) {
-        Iterator i = classfiles.iterator();
-        while (i.hasNext()) {
-            ((Classfile) i.next()).accept(this);
+    public void visitClassfiles(Collection<Classfile> classfiles) {
+        for (Classfile classfile : classfiles) {
+            classfile.accept(this);
         }
     }
 
     public void visitClassfile(Classfile classfile) {
-        Iterator i;
-
-        i = classfile.getAttributes().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Attribute_info attribute : classfile.getAttributes()) {
+            attribute.accept(this);
         }
 
-        i = classfile.getAllFields().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Field_info field : classfile.getAllFields()) {
+            field.accept(this);
         }
 
-        i = classfile.getAllMethods().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Method_info method : classfile.getAllMethods()) {
+            method.accept(this);
         }
     }
 
@@ -104,16 +96,14 @@ public abstract class VisitorBase implements Visitor {
 
     // Features
     public void visitField_info(Field_info entry) {
-        Iterator i = entry.getAttributes().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Attribute_info attribute : entry.getAttributes()) {
+            attribute.accept(this);
         }
     }
 
     public void visitMethod_info(Method_info entry) {
-        Iterator i = entry.getAttributes().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Attribute_info attribute : entry.getAttributes()) {
+            attribute.accept(this);
         }
     }
 
@@ -123,36 +113,30 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
-        Iterator i;
-
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptionHandlers().size() + " exception handler(s) ...");
-        i = attribute.getExceptionHandlers().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (ExceptionHandler exceptionHandler : attribute.getExceptionHandlers()) {
+            exceptionHandler.accept(this);
         }
         
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getAttributes().size() + " code attribute(s) ...");
-        i = attribute.getAttributes().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Attribute_info attribute_info : attribute.getAttributes()) {
+            attribute_info.accept(this);
         }
     }
 
     public void visitExceptions_attribute(Exceptions_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptions().size() + " exception class(es) ...");
 
-        Iterator i = attribute.getExceptions().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Class_info exception : attribute.getExceptions()) {
+            exception.accept(this);
         }
     }
     
     public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getClasses().size() + " inner class(es) ...");
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getInnerClasses().size() + " inner class(es) ...");
 
-        Iterator i = attribute.getClasses().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (InnerClass innerClass : attribute.getInnerClasses()) {
+            innerClass.accept(this);
         }
     }
     
@@ -167,18 +151,16 @@ public abstract class VisitorBase implements Visitor {
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getLineNumbers().size() + " line number(s) ...");
 
-        Iterator i = attribute.getLineNumbers().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (LineNumber lineNumber : attribute.getLineNumbers()) {
+            lineNumber.accept(this);
         }
     }
     
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariables().size() + " local variable(s) ...");
 
-        Iterator i = attribute.getLocalVariables().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (LocalVariable localVariable : attribute.getLocalVariables()) {
+            localVariable.accept(this);
         }
     }
     

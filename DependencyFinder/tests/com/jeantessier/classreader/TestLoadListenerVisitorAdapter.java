@@ -42,11 +42,11 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
     public static final String TEST_CLASS    = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 
-    private LinkedList      classfiles;
+    private LinkedList<Classfile> classfiles;
     private ClassfileLoader loader;
 
     protected void setUp() throws Exception {
-        classfiles = new LinkedList();
+        classfiles = new LinkedList<Classfile>();
 
         LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(this);
         loader = new AggregatingClassfileLoader();
@@ -66,7 +66,7 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
         assertEquals("Nb visited classes", 156, classfiles.size());
     }
 
-    public void visitClassfiles(Collection classfiles) {
+    public void visitClassfiles(Collection<Classfile> classfiles) {
         this.classfiles.addAll(classfiles);
     }
     

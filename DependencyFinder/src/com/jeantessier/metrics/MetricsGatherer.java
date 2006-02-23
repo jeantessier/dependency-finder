@@ -59,7 +59,7 @@ public class MetricsGatherer extends VisitorBase {
     private int     sloc;
     private boolean isSynthetic;
     
-    private HashSet metricsListeners = new HashSet();
+    private HashSet<MetricsListener> metricsListeners = new HashSet<MetricsListener>();
 
     public MetricsGatherer(String projectName, MetricsFactory factory) {
         this.projectName = projectName;
@@ -116,12 +116,11 @@ public class MetricsGatherer extends VisitorBase {
         this.currentMethod = currentMethod;
     }
 
-    public void visitClassfiles(Collection classfiles) {
+    public void visitClassfiles(Collection<Classfile> classfiles) {
         fireBeginSession(classfiles.size());
-        
-        Iterator i = classfiles.iterator();
-        while (i.hasNext()) {
-            ((Classfile) i.next()).accept(this);
+
+        for (Classfile classfile : classfiles) {
+            classfile.accept(this);
         }
         
         fireEndSession();
@@ -391,7 +390,7 @@ public class MetricsGatherer extends VisitorBase {
                 case 0xc5: // multianewarray
                     int start = instr.getStart();
                     int index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-                    ((Visitable) attribute.getClassfile().getConstantPool().get(index)).accept(this);
+                    attribute.getClassfile().getConstantPool().get(index).accept(this);
                     break;
                 default:
                     // Do nothing
@@ -507,8 +506,8 @@ public class MetricsGatherer extends VisitorBase {
         return result;
     }
     
-    private Collection processDescriptor(String str) {
-        Collection result = new LinkedList();
+    private Collection<String> processDescriptor(String str) {
+        Collection<String> result = new LinkedList<String>();
         
         Logger.getLogger(getClass()).debug("ProcessDescriptor: " + str);
 
@@ -531,10 +530,9 @@ public class MetricsGatherer extends VisitorBase {
         return result;
     }
 
-    private void addClassDependencies(Collection classnames) {
-        Iterator i = classnames.iterator();
-        while (i.hasNext()) {
-            addClassDependency((String) i.next());
+    private void addClassDependencies(Collection<String> classnames) {
+        for (String classname : classnames) {
+            addClassDependency(classname);
         }
     }
     
@@ -629,84 +627,78 @@ public class MetricsGatherer extends VisitorBase {
     protected void fireBeginSession(int size) {
         MetricsEvent event = new MetricsEvent(this, size);
 
-        HashSet listeners;
+        HashSet<MetricsListener> listeners;
         synchronized(metricsListeners) {
-            listeners = (HashSet) metricsListeners.clone();
+            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((MetricsListener) i.next()).beginSession(event);
+        for (MetricsListener listener : listeners) {
+            listener.beginSession(event);
         }
     }
 
     protected void fireBeginClass(Classfile classfile) {
         MetricsEvent event = new MetricsEvent(this, classfile);
 
-        HashSet listeners;
+        HashSet<MetricsListener> listeners;
         synchronized(metricsListeners) {
-            listeners = (HashSet) metricsListeners.clone();
+            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((MetricsListener) i.next()).beginClass(event);
+        for (MetricsListener listener : listeners) {
+            listener.beginClass(event);
         }
     }
 
     protected void fireBeginMethod(Method_info method) {
         MetricsEvent event = new MetricsEvent(this, method);
 
-        HashSet listeners;
+        HashSet<MetricsListener> listeners;
         synchronized(metricsListeners) {
-            listeners = (HashSet) metricsListeners.clone();
+            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((MetricsListener) i.next()).beginMethod(event);
+        for (MetricsListener listener : listeners) {
+            listener.beginMethod(event);
         }
     }
 
     protected void fireEndMethod(Method_info method, Metrics metrics) {
         MetricsEvent event = new MetricsEvent(this, method, metrics);
 
-        HashSet listeners;
+        HashSet<MetricsListener> listeners;
         synchronized(metricsListeners) {
-            listeners = (HashSet) metricsListeners.clone();
+            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((MetricsListener) i.next()).endMethod(event);
+        for (MetricsListener listener : listeners) {
+            listener.endMethod(event);
         }
     }
 
     protected void fireEndClass(Classfile classfile, Metrics metrics) {
         MetricsEvent event = new MetricsEvent(this, classfile, metrics);
 
-        HashSet listeners;
+        HashSet<MetricsListener> listeners;
         synchronized(metricsListeners) {
-            listeners = (HashSet) metricsListeners.clone();
+            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((MetricsListener) i.next()).endClass(event);
+        for (MetricsListener listener : listeners) {
+            listener.endClass(event);
         }
     }
 
     protected void fireEndSession() {
         MetricsEvent event = new MetricsEvent(this);
 
-        HashSet listeners;
+        HashSet<MetricsListener> listeners;
         synchronized(metricsListeners) {
-            listeners = (HashSet) metricsListeners.clone();
+            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((MetricsListener) i.next()).endSession(event);
+        for (MetricsListener listener : listeners) {
+            listener.endSession(event);
         }
     }
 }

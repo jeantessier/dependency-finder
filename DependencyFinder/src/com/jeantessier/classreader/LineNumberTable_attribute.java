@@ -38,7 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class LineNumberTable_attribute extends Attribute_info {
-    private Collection lineNumbers = new LinkedList();
+    private Collection<LineNumber> lineNumbers = new LinkedList<LineNumber>();
 
     public LineNumberTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
         super(classfile, owner);
@@ -54,7 +54,7 @@ public class LineNumberTable_attribute extends Attribute_info {
         }
     }
 
-    public Collection getLineNumbers() {
+    public Collection<LineNumber> getLineNumbers() {
         return lineNumbers;
     }
 

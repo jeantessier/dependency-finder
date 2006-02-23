@@ -89,7 +89,7 @@ public class FeatureDependencyCollector extends CollectorBase {
                 case 0xb9: // invokeinterface
                     int start = instr.getStart();
                     int index = (code[start+1] << 8) | code[start+2];
-                    ((Visitable) attribute.getClassfile().getConstantPool().get(index)).accept(this);
+                    attribute.getClassfile().getConstantPool().get(index).accept(this);
                     break;
                 default:
                     // Do nothing
@@ -97,9 +97,8 @@ public class FeatureDependencyCollector extends CollectorBase {
             }
         }
 
-        Iterator i = attribute.getAttributes().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Attribute_info attribute_info : attribute.getAttributes()) {
+            attribute_info.accept(this);
         }
     }
 

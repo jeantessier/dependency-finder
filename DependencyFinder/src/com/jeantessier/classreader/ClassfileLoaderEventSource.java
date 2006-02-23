@@ -46,10 +46,10 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     private ClassfileLoader jarLoader = new JarClassfileLoader(this);
     private ClassfileLoader zipLoader = new ZipClassfileLoader(this);
 
-    private HashSet loadListeners = new HashSet();
+    private HashSet<LoadListener> loadListeners = new HashSet<LoadListener>();
 
-    private LinkedList groupNames = new LinkedList();
-    private LinkedList groupSizes = new LinkedList();
+    private LinkedList<String> groupNames = new LinkedList<String>();
+    private LinkedList<Integer> groupSizes = new LinkedList<Integer>();
 
     private int    previousDispatch;
     
@@ -154,14 +154,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         
         LoadEvent event = new LoadEvent(this, null, null, null);
 
-        HashSet listeners;
+        HashSet<LoadListener> listeners;
         synchronized(loadListeners) {
-            listeners = (HashSet) loadListeners.clone();
+            listeners = (HashSet<LoadListener>) loadListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((LoadListener) i.next()).beginSession(event);
+        for (LoadListener listener : listeners) {
+            listener.beginSession(event);
         }
     }
 
@@ -170,14 +169,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
         LoadEvent event = new LoadEvent(this, groupName, size);
 
-        HashSet listeners;
+        HashSet<LoadListener> listeners;
         synchronized(loadListeners) {
-            listeners = (HashSet) loadListeners.clone();
+            listeners = (HashSet<LoadListener>) loadListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((LoadListener) i.next()).beginGroup(event);
+        for (LoadListener listener : listeners) {
+            listener.beginGroup(event);
         }
 
         pushGroupName(groupName);
@@ -189,14 +187,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
-        HashSet listeners;
+        HashSet<LoadListener> listeners;
         synchronized(loadListeners) {
-            listeners = (HashSet) loadListeners.clone();
+            listeners = (HashSet<LoadListener>) loadListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((LoadListener) i.next()).beginFile(event);
+        for (LoadListener listener : listeners) {
+            listener.beginFile(event);
         }
     }
     
@@ -205,14 +202,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
-        HashSet listeners;
+        HashSet<LoadListener> listeners;
         synchronized(loadListeners) {
-            listeners = (HashSet) loadListeners.clone();
+            listeners = (HashSet<LoadListener>) loadListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((LoadListener) i.next()).beginClassfile(event);
+        for (LoadListener listener : listeners) {
+            listener.beginClassfile(event);
         }
     }
 
@@ -221,14 +217,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, classfile);
 
-        HashSet listeners;
+        HashSet<LoadListener> listeners;
         synchronized(loadListeners) {
-            listeners = (HashSet) loadListeners.clone();
+            listeners = (HashSet<LoadListener>) loadListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((LoadListener) i.next()).endClassfile(event);
+        for (LoadListener listener : listeners) {
+            listener.endClassfile(event);
         }
     }
 
@@ -237,14 +232,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
 
-        HashSet listeners;
+        HashSet<LoadListener> listeners;
         synchronized(loadListeners) {
-            listeners = (HashSet) loadListeners.clone();
+            listeners = (HashSet<LoadListener>) loadListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((LoadListener) i.next()).endFile(event);
+        for (LoadListener listener : listeners) {
+            listener.endFile(event);
         }
     }
 
@@ -253,14 +247,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         
         LoadEvent event = new LoadEvent(this, groupName, null, null);
 
-        HashSet listeners;
+        HashSet<LoadListener> listeners;
         synchronized(loadListeners) {
-            listeners = (HashSet) loadListeners.clone();
+            listeners = (HashSet<LoadListener>) loadListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((LoadListener) i.next()).endGroup(event);
+        for (LoadListener listener : listeners) {
+            listener.endGroup(event);
         }
 
         popGroupName();
@@ -272,14 +265,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         
         LoadEvent event = new LoadEvent(this, null, null, null);
 
-        HashSet listeners;
+        HashSet<LoadListener> listeners;
         synchronized(loadListeners) {
-            listeners = (HashSet) loadListeners.clone();
+            listeners = (HashSet<LoadListener>) loadListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((LoadListener) i.next()).endSession(event);
+        for (LoadListener listener : listeners) {
+            listener.endSession(event);
         }
     }
 
@@ -287,7 +279,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         String result = null;
 
         if (!groupNames.isEmpty()) {
-            result = (String) groupNames.getLast();
+            result = groupNames.getLast();
         }
 
         return result;
@@ -298,24 +290,24 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     private String popGroupName() {
-        return (String) groupNames.removeLast();
+        return groupNames.removeLast();
     }
 
     private int getTopGroupSize() {
-        Integer result = null;
+        int result = 0;
 
         if (!groupSizes.isEmpty()) {
-            result = (Integer) groupSizes.getLast();
+            result = groupSizes.getLast();
         }
 
-        return result.intValue();
+        return result;
     }
 
     private void pushGroupSize(int size) {
-        groupSizes.addLast(new Integer(size));
+        groupSizes.addLast(size);
     }
 
     private int popGroupSize() {
-        return ((Integer) groupSizes.removeLast()).intValue();
+        return groupSizes.removeLast();
     }
 }

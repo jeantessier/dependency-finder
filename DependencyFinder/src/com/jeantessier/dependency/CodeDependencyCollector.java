@@ -45,8 +45,8 @@ import com.jeantessier.classreader.*;
  */
 public class CodeDependencyCollector extends CollectorBase {
     private NodeFactory factory;
-    private Node        current;
-    private HashSet     dependencyListeners = new HashSet();
+    private Node current;
+    private HashSet<DependencyListener> dependencyListeners = new HashSet<DependencyListener>();
 
     public CodeDependencyCollector() {
         this(new NodeFactory());
@@ -73,21 +73,16 @@ public class CodeDependencyCollector extends CollectorBase {
             classfile.getRawSuperclass().accept(this);
         }
 
-        Iterator i;
-
-        i = classfile.getAllInterfaces().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Class_info class_info : classfile.getAllInterfaces()) {
+            class_info.accept(this);
         }
 
-        i = classfile.getAllFields().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Field_info field : classfile.getAllFields()) {
+            field.accept(this);
         }
 
-        i = classfile.getAllMethods().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Method_info method : classfile.getAllMethods()) {
+            method.accept(this);
         }
 
         fireEndClass(classfile.toString());
@@ -224,7 +219,7 @@ public class CodeDependencyCollector extends CollectorBase {
                 case 0xc5: // multianewarray
                     int start = instr.getStart();
                     int index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-                    ((Visitable) attribute.getClassfile().getConstantPool().get(index)).accept(this);
+                    attribute.getClassfile().getConstantPool().get(index).accept(this);
                     break;
                 default:
                     // Do nothing
@@ -284,65 +279,65 @@ public class CodeDependencyCollector extends CollectorBase {
     protected void fireBeginSession() {
         DependencyEvent event = new DependencyEvent(this);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        for (Object listener : listeners) {
-            ((DependencyListener) listener).beginSession(event);
+        for (DependencyListener listener : listeners) {
+            listener.beginSession(event);
         }
     }
     
     protected void fireBeginClass(String classname) {
         DependencyEvent event = new DependencyEvent(this, classname);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        for (Object listener : listeners) {
-            ((DependencyListener) listener).beginClass(event);
+        for (DependencyListener listener : listeners) {
+            listener.beginClass(event);
         }
     }
 
     protected void fireDependency(Node dependent, Node dependable) {
         DependencyEvent event = new DependencyEvent(this, dependent, dependable);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        for (Object listener : listeners) {
-            ((DependencyListener) listener).dependency(event);
+        for (DependencyListener listener : listeners) {
+            listener.dependency(event);
         }
     }
 
     protected void fireEndClass(String classname) {
         DependencyEvent event = new DependencyEvent(this, classname);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        for (Object listener : listeners) {
-            ((DependencyListener) listener).endClass(event);
+        for (DependencyListener listener : listeners) {
+            listener.endClass(event);
         }
     }
 
     protected void fireEndSession() {
         DependencyEvent event = new DependencyEvent(this);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        for (Object listener : listeners) {
-            ((DependencyListener) listener).endSession(event);
+        for (DependencyListener listener : listeners) {
+            listener.endSession(event);
         }
     }
 }
