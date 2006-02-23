@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2006, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -34,34 +34,37 @@ package com.jeantessier.classreader;
 
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite();
+public class TestInstruction extends TestCase {
+    private Instruction instruction1;
+    private Instruction instruction2;
+    private Instruction instruction3;
+    private Instruction instruction4;
+    private Instruction instruction5;
+    private Instruction instruction6;
 
-        result.addTestSuite(TestBitFormat.class);
-        result.addTestSuite(TestInstruction.class);
-        result.addTestSuite(TestSignatureHelper.class);
-        result.addTestSuite(TestDirectoryExplorer.class);
-        result.addTestSuite(TestAggregatingClassfileLoader.class);
-        result.addTestSuite(TestTransientClassfileLoader.class);
-        result.addTestSuite(TestDirectoryClassfileLoader.class);
-        result.addTestSuite(TestClassfile.class);
-        result.addTestSuite(TestPermissiveDispatcher.class);
-        result.addTestSuite(TestStrictDispatcher.class);
-        result.addTestSuite(TestModifiedOnlyDispatcher.class);
-        result.addTestSuite(TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher.class);
-        result.addTestSuite(TestZipClassfileLoader.class);
-        result.addTestSuite(TestJarClassfileLoader.class);
-        result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-        result.addTestSuite(TestClassfileLoaderStrictDispatcher.class);
-        result.addTestSuite(TestPackageMapper.class);
-        result.addTestSuite(TestClassfileScanner.class);
-        result.addTestSuite(TestXMLPrinter.class);
-        result.addTestSuite(TestDeprecationPrinter.class);
-        result.addTestSuite(TestLoadListenerVisitorAdapter.class);
-        result.addTestSuite(TestMonitor.class);
-        result.addTestSuite(TestSymbolGatherer.class);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        return result;
+        byte[] code1 = new byte[] {(byte) 0xb6, (byte) 0x00, (byte) 0xFF};
+        byte[] code2 = new byte[] {(byte) 0x13, (byte) 0x01, (byte) 0xCA};
+        byte[] code3 = new byte[] {(byte) 0xb6, (byte) 0x00, (byte) 0xFF, (byte) 0x13, (byte) 0x01, (byte) 0xCA};
+        byte[] code4 = new byte[] {(byte) 0x13, (byte) 0x01, (byte) 0x74};
+        byte[] code5 = new byte[] {(byte) 0xB1};
+
+        instruction1 = new Instruction(code1, 0);
+        instruction2 = new Instruction(code2, 0);
+        instruction3 = new Instruction(code3, 3);
+        instruction4 = new Instruction(code3, 0);
+        instruction5 = new Instruction(code4, 0);
+        instruction6 = new Instruction(code5, 0);
+    }
+
+    public void testEquals() {
+        assertEquals("same", instruction1, instruction1);
+        assertEquals("identical", instruction1, instruction4);
+        assertFalse("different opcode", instruction1.equals(instruction2));
+        assertEquals("offset", instruction2, instruction3);
+        assertFalse("different index", instruction2.equals(instruction5));
+        assertFalse("different size", instruction1.equals(instruction6));
     }
 }
