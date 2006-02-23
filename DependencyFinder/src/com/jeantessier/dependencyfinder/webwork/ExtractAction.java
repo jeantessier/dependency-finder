@@ -84,7 +84,7 @@ public class ExtractAction extends ActionBase implements ServletResponseAware {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         application.put("updateStart",    formatter.format(start));
-        application.put("updateDuration", new Double(duration));
+        application.put("updateDuration", duration);
 
         application.remove("loadStart");
         application.remove("loadDuration");
@@ -114,7 +114,7 @@ public class ExtractAction extends ActionBase implements ServletResponseAware {
         application.put("monitor",    monitor);
 
         application.put("extractStart",    formatter.format(start));
-        application.put("extractDuration", new Double(duration));
+        application.put("extractDuration", duration);
         application.remove("updateStart");
         application.remove("updateDuration");
 
