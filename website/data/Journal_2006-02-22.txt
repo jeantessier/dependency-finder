@@ -1,0 +1,25 @@
+A user complained that =JarJarDiff= flagged all methods as having code changes
+when only one methods had changed.  They sent me the classes so I could
+investigate.
+
+I took a quick look.  The constant pool is different for the two classes.  The
+compiler didn't put the entries at the same offset in each case.  The bytecode
+makes heavy use of references to the constant pool, so the indices in the
+bytecode are different because the offsets in the constant pool are different.
+The way =JarJarDiff= looks for differences in the bytecode is a simple
+byte-to-byte comparison; it doesn't interpret the bytecode to see if they are
+the same instructions with the same parameters.  It just compares the byte
+arrays for each corresponding method together and makes the method as having
+changed if any single byte is different.
+
+I could probably make it a lot smarter, but that would mean it would have to
+analyze the bytecode and understand each instruction and its parameters and
+compare entries in the constant pool to see that they are the same even though
+they have different offsets.  That could take a while, as there are many
+instructions.  I have other tasks that I must finish first before I can think
+of tackling this one.
+
+If this is critical for you, I might reconsider...  Code-level differences is a
+new feature and I wouldn't want it to start in a useless state.  At the same
+time, I'd like to ship at some point, so if this is not critical, maybe it can
+wait a future point release.  I guess I'll sleep on it for a while...
