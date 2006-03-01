@@ -333,17 +333,6 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     // Attributes
-    public void visitCode_attribute(Code_attribute attribute) {
-        Iterator i = attribute.iterator();
-        while (i.hasNext()) {
-            Instruction instr = (Instruction) i.next();
-
-            getInstructionCounts()[instr.getOpcode()]++;
-        }
-
-        super.visitCode_attribute(attribute);
-    }
-
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         Object owner = attribute.getOwner();
     
@@ -377,6 +366,12 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     // Attribute helpers
+    public void visitInstruction(Instruction helper) {
+        getInstructionCounts()[helper.getOpcode()]++;
+
+        super.visitInstruction(helper);
+    }
+
     public void visitInnerClass(InnerClass helper) {
         if ((helper.getAccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
             publicInnerClasses.add(helper);

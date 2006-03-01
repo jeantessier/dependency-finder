@@ -442,8 +442,8 @@ public class XMLPrinter extends Printer {
             Instruction instr = (Instruction) i.next();
             indent();
             append("<instruction pc=\"").append(instr.getStart()).append("\" length=\"").append(instr.getLength()).append("\">");
-            int index;
             switch (instr.getOpcode()) {
+                case 0x12: // ldc
                 case 0x13: // ldc_w
                 case 0x14: // ldc2_w
                 case 0xb2: // getstatic
@@ -459,16 +459,9 @@ public class XMLPrinter extends Printer {
                 case 0xc0: // checkcast
                 case 0xc1: // instanceof
                 case 0xc5: // multianewarray
-                    index = ((instr.getCode()[instr.getStart()+1] & 0xff) << 8) | (instr.getCode()[instr.getStart()+2] & 0xff);
                     append(instr);
                     append(" ");
-                    attribute.getClassfile().getConstantPool().get(index).accept(this);
-                    break;
-                case 0x12: // ldc
-                    index = instr.getCode()[instr.getStart()+1] & 0xff;
-                    append(instr);
-                    append(" ");
-                    attribute.getClassfile().getConstantPool().get(index).accept(this);
+                    instr.getIndexedConstantPoolEntry().accept(this);
                     break;
                 default:
                     append(instr);

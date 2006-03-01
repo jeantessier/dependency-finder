@@ -35,8 +35,6 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import junit.framework.*;
 
 public class TestMonitor extends TestCase {
@@ -207,8 +205,8 @@ public class TestMonitor extends TestCase {
         monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
 
-        assertEquals("added", 1, addVisitor.getVisitedClasses().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClasses().contains(testClassfile));
+        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
+        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
         assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
     }
 
@@ -223,8 +221,8 @@ public class TestMonitor extends TestCase {
         monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
 
-        assertEquals("added", 2, addVisitor.getVisitedClasses().size());
-        Iterator i = addVisitor.getVisitedClasses().iterator();
+        assertEquals("added", 2, addVisitor.getVisitedClassfiles().size());
+        Iterator i = addVisitor.getVisitedClassfiles().iterator();
         assertEquals("added 1", testClassfile, i.next());
         assertEquals("added 2", testClassfile, i.next());
         assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
@@ -246,8 +244,8 @@ public class TestMonitor extends TestCase {
         monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
 
-        assertEquals("added", 2, addVisitor.getVisitedClasses().size());
-        Iterator i = addVisitor.getVisitedClasses().iterator();
+        assertEquals("added", 2, addVisitor.getVisitedClassfiles().size());
+        Iterator i = addVisitor.getVisitedClassfiles().iterator();
         assertEquals("added 1", testClassfile, i.next());
         assertEquals("added 2", testClassfile, i.next());
         assertEquals("removed", 1, removeVisitor.getVisitedClasses().size());
@@ -269,8 +267,8 @@ public class TestMonitor extends TestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClasses().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClasses().contains(testClassfile));
+        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
+        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
         assertEquals("removed", 1, removeVisitor.getVisitedClasses().size());
         assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(TEST_CLASS));
     }
@@ -292,8 +290,8 @@ public class TestMonitor extends TestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClasses().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClasses().contains(testClassfile));
+        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
+        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
         assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
     }
 
@@ -314,8 +312,8 @@ public class TestMonitor extends TestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClasses().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClasses().contains(testClassfile));
+        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
+        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
         assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
     }
 
@@ -343,8 +341,8 @@ public class TestMonitor extends TestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClasses().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClasses().contains(testClassfile));
+        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
+        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
         assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
     }
 
@@ -374,8 +372,8 @@ public class TestMonitor extends TestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClasses().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClasses().contains(testClassfile));
+        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
+        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
         assertEquals("removed", 1, removeVisitor.getVisitedClasses().size());
         assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(TEST_CLASS));
     }

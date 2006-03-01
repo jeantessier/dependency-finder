@@ -113,6 +113,12 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting instruction(s) ...");
+        Iterator i = attribute.iterator();
+        while (i.hasNext()) {
+            ((Instruction) i.next()).accept(this);
+        }
+
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptionHandlers().size() + " exception handler(s) ...");
         for (ExceptionHandler exceptionHandler : attribute.getExceptionHandlers()) {
             exceptionHandler.accept(this);
@@ -173,6 +179,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     // Attribute helpers
+    public void visitInstruction(Instruction helper) {}
     public void visitExceptionHandler(ExceptionHandler helper) {}
     public void visitInnerClass(InnerClass helper) {}
     public void visitLineNumber(LineNumber helper) {}

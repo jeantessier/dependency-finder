@@ -32,8 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
-
 import org.apache.oro.text.perl.*;
 
 public class FeatureDependencyCollector extends CollectorBase {
@@ -71,32 +69,24 @@ public class FeatureDependencyCollector extends CollectorBase {
         super.visitMethod_info(entry);
     }
 
-    public void visitCode_attribute(Code_attribute attribute) {
-        byte[] code = attribute.getCode();
-
-        Iterator ci = attribute.iterator();
-        while (ci.hasNext()) {
-            Instruction instr = (Instruction) ci.next();
-            switch (instr.getOpcode()) {
-                case 0xb2: // getstatic
-                case 0xb3: // putstatic
-                case 0xb4: // getfield
-                case 0xb5: // putfield
-                case 0xb6: // invokevirtual
-                case 0xb7: // invokespecial
-                case 0xb8: // invokestatic
-                case 0xb9: // invokeinterface
-                    int start = instr.getStart();
-                    int index = (code[start+1] << 8) | code[start+2];
-                    attribute.getClassfile().getConstantPool().get(index).accept(this);
-                    break;
-                default:
-                    // Do nothing
-                    break;
-            }
+    public void visitInstruction(Instruction helper) {
+        switch (helper.getOpcode()) {
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+                helper.getIndexedConstantPoolEntry().accept(this);
+                break;
+            default:
+                // Do nothing
+                break;
         }
 
-        super.visitCode_attribute(attribute);
+        super.visitInstruction(helper);
     }
 
     private void processSignature(String str) {

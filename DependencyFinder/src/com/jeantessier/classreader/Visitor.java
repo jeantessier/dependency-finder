@@ -70,6 +70,7 @@ public interface Visitor {
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers
+    public void visitInstruction(Instruction instruction);
     public void visitExceptionHandler(ExceptionHandler helper);
     public void visitInnerClass(InnerClass helper);
     public void visitLineNumber(LineNumber helper);

@@ -169,7 +169,11 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
-    
+
+    public void visitInstruction(Instruction instruction) {
+        // Do nothing
+    }
+
     public void visitExceptionHandler(ExceptionHandler helper) {
         // Do nothing
     }

@@ -359,46 +359,6 @@ public class MetricsGatherer extends VisitorBase {
     // Attributes
     //
 
-    public void visitCode_attribute(Code_attribute attribute) {
-        super.visitCode_attribute(attribute);
-
-        Logger.getLogger(getClass()).debug("Walking bytecode ...");
-
-        byte[] code = attribute.getCode();
-
-        /*
-         *  We can skip the "new" (0xbb) instruction as it is always
-         *  followed by a call to the constructor method.
-         */
-        
-        Iterator ci = attribute.iterator();
-        while (ci.hasNext()) {
-            Instruction instr = (Instruction) ci.next();
-            switch (instr.getOpcode()) {
-                case 0xb2: // getstatic
-                case 0xb3: // putstatic
-                case 0xb4: // getfield
-                case 0xb5: // putfield
-                case 0xb6: // invokevirtual
-                case 0xb7: // invokespecial
-                case 0xb8: // invokestatic
-                case 0xb9: // invokeinterface
-                // case 0xbb: // new
-                case 0xbd: // anewarray
-                case 0xc0: // checkcast
-                case 0xc1: // instanceof
-                case 0xc5: // multianewarray
-                    int start = instr.getStart();
-                    int index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-                    attribute.getClassfile().getConstantPool().get(index).accept(this);
-                    break;
-                default:
-                    // Do nothing
-                    break;
-            }
-        }
-    }
-
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         Object owner = attribute.getOwner();
 
@@ -434,7 +394,37 @@ public class MetricsGatherer extends VisitorBase {
     // 
     // Attribute helpers
     //
-    
+
+    public void visitInstruction(Instruction helper) {
+        super.visitInstruction(helper);
+
+        /*
+         *  We can skip the "new" (0xbb) instruction as it is always
+         *  followed by a call to the constructor method.
+         */
+
+        switch (helper.getOpcode()) {
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            // case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+                helper.getIndexedConstantPoolEntry().accept(this);
+                break;
+            default:
+                // Do nothing
+                break;
+        }
+    }
+
     public void visitExceptionHandler(ExceptionHandler helper) {
         if (helper.getCatchTypeIndex() != 0) {
             helper.getRawCatchType().accept(this);

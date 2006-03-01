@@ -35,23 +35,25 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class CodeIterator implements Iterator {
-    private byte[] code;
+    private Code_attribute code;
+    private byte[] bytecode;
     private int    pc;
 
-    public CodeIterator(byte[] code) {
+    public CodeIterator(Code_attribute code, byte[] bytecode) {
         this.code = code;
+        this.bytecode = bytecode;
         this.pc   = 0;
     }
 
     public boolean hasNext() {
-        return pc < code.length;
+        return pc < bytecode.length;
     }
 
     public Object next() {
-        Instruction result = null;
+        Instruction result;
 
         if (hasNext()) {
-            result = new Instruction(code, pc);
+            result = new Instruction(code, bytecode, pc);
             pc += result.getLength();
         } else {
             throw new NoSuchElementException();

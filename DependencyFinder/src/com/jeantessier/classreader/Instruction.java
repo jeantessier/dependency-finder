@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-public class Instruction {
+public class Instruction implements Visitable {
     private static String[] opcode = new String[256];
     private static int[]    length = new int[256];
 
@@ -566,16 +566,22 @@ public class Instruction {
         length[0xff] = 1;
     }
 
-    private byte[] code;
+    private Code_attribute code;
+    private byte[] bytecode;
     private int    start;
 
-    public Instruction(byte[] code, int start) {
-        this.code  = code;
+    public Instruction(Code_attribute code, byte[] bytecode, int start) {
+        this.code = code;
+        this.bytecode  = bytecode;
         this.start = start;
     }
 
-    public byte[] getCode() {
+    public Code_attribute getCode() {
         return code;
+    }
+
+    public byte[] getBytecode() {
+        return bytecode;
     }
 
     public int getStart() {
@@ -583,7 +589,7 @@ public class Instruction {
     }
     
     public int getOpcode() {
-        return (code[start] & 0xff);
+        return (bytecode[start] & 0xff);
     }
     
     public static String getMnemonic(int instruction) {
@@ -594,7 +600,7 @@ public class Instruction {
         String result = getMnemonic(getOpcode());
 
         if (getOpcode() == 0xc4 /* wide */) {
-            result += " " + getMnemonic(code[start+1] & 0xff);
+            result += " " + getMnemonic(bytecode[start+1] & 0xff);
         }
 
         return result;
@@ -610,15 +616,15 @@ public class Instruction {
                 // tableswitch
                 padding = 3 - (start % 4);
                 low =
-                    ((code[start+padding+5] & 0xff) << 24) |
-                    ((code[start+padding+6] & 0xff) << 16) |
-                    ((code[start+padding+7] & 0xff) << 8)  |
-                    ((code[start+padding+8] & 0xff));
+                    ((bytecode[start+padding+5] & 0xff) << 24) |
+                    ((bytecode[start+padding+6] & 0xff) << 16) |
+                    ((bytecode[start+padding+7] & 0xff) << 8)  |
+                    ((bytecode[start+padding+8] & 0xff));
                 high =
-                    ((code[start+padding+9] & 0xff)  << 24) |
-                    ((code[start+padding+10] & 0xff) << 16) |
-                    ((code[start+padding+11] & 0xff) << 8)  |
-                    ((code[start+padding+12] & 0xff));
+                    ((bytecode[start+padding+9] & 0xff)  << 24) |
+                    ((bytecode[start+padding+10] & 0xff) << 16) |
+                    ((bytecode[start+padding+11] & 0xff) << 8)  |
+                    ((bytecode[start+padding+12] & 0xff));
                 result =
                     1 +                   // opcode
                     padding +             // padding
@@ -630,10 +636,10 @@ public class Instruction {
                 // lookupswitch
                 padding = 3 - (start % 4);
                 npairs =
-                    ((code[start+padding+5] & 0xff) << 24) |
-                    ((code[start+padding+6] & 0xff) << 16) |
-                    ((code[start+padding+7] & 0xff) << 8)  |
-                    ((code[start+padding+8] & 0xff));
+                    ((bytecode[start+padding+5] & 0xff) << 24) |
+                    ((bytecode[start+padding+6] & 0xff) << 16) |
+                    ((bytecode[start+padding+7] & 0xff) << 8)  |
+                    ((bytecode[start+padding+8] & 0xff));
                 result =
                     1 +            // opcode
                     padding +      // padding
@@ -643,7 +649,7 @@ public class Instruction {
 
             case 0xc4:
                 // wide
-                if ((code[start+1] & 0xff) == 0x84 /* iinc */) {
+                if ((bytecode[start+1] & 0xff) == 0x84 /* iinc */) {
                     result = 6;
                 } else {
                     result = 4;
@@ -658,11 +664,54 @@ public class Instruction {
         return result;
     }
 
+    public int getIndex() {
+        int result;
+
+        switch (getOpcode()) {
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+                result = ((getBytecode()[getStart()+1] & 0xff) << 8) | (getBytecode()[getStart()+2] & 0xff);
+                break;
+            case 0x12: // ldc
+                result = getBytecode()[getStart()+1] & 0xff;
+                break;
+            default:
+                result = -1;
+                break;
+        }
+
+        return result;
+    }
+
+    public ConstantPoolEntry getIndexedConstantPoolEntry() {
+        ConstantPoolEntry result = null;
+
+        int index = getIndex();
+        if (index > 0) {
+            result = getCode().getClassfile().getConstantPool().get(index);
+        }
+
+        return result;
+    }
+
     public int hashCode() {
         int result = getOpcode();
 
         for (int i=1; i<getLength(); i++) {
-            result ^= code[start+i];
+            result ^= bytecode[start+i];
         }
 
         return result;
@@ -679,7 +728,7 @@ public class Instruction {
             Instruction other = (Instruction) object;
             result = getOpcode() == other.getOpcode();
             for (int i=1; result && i<getLength(); i++) {
-                result = code[start+i] == other.code[other.start+i];
+                result = bytecode[start+i] == other.bytecode[other.start+i];
             }
         }
 
@@ -689,4 +738,9 @@ public class Instruction {
     public String toString() {
         return getMnemonic();
     }
+
+    public void accept(Visitor visitor) {
+        visitor.visitInstruction(this);
+    }
+
 }

@@ -41,22 +41,26 @@ public class TestInstruction extends TestCase {
     private Instruction instruction4;
     private Instruction instruction5;
     private Instruction instruction6;
+    private Instruction instruction7;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        byte[] code1 = new byte[] {(byte) 0xb6, (byte) 0x00, (byte) 0xFF};
+        byte[] code1 = new byte[] {(byte) 0xB6, (byte) 0x00, (byte) 0xFF};
         byte[] code2 = new byte[] {(byte) 0x13, (byte) 0x01, (byte) 0xCA};
-        byte[] code3 = new byte[] {(byte) 0xb6, (byte) 0x00, (byte) 0xFF, (byte) 0x13, (byte) 0x01, (byte) 0xCA};
-        byte[] code4 = new byte[] {(byte) 0x13, (byte) 0x01, (byte) 0x74};
-        byte[] code5 = new byte[] {(byte) 0xB1};
+        byte[] code3 = new byte[] {(byte) 0xB6, (byte) 0x00, (byte) 0xFF, (byte) 0x13, (byte) 0x01, (byte) 0xCA};
+        byte[] code4 = new byte[] {(byte) 0xB6, (byte) 0x00, (byte) 0xFF, (byte) 0x13, (byte) 0x01, (byte) 0xCA};
+        byte[] code5 = new byte[] {(byte) 0x13, (byte) 0x01, (byte) 0x74};
+        byte[] code6 = new byte[] {(byte) 0xB1};
+        byte[] code7 = new byte[] {(byte) 0x12, (byte) 0x74};
 
-        instruction1 = new Instruction(code1, 0);
-        instruction2 = new Instruction(code2, 0);
-        instruction3 = new Instruction(code3, 3);
-        instruction4 = new Instruction(code3, 0);
-        instruction5 = new Instruction(code4, 0);
-        instruction6 = new Instruction(code5, 0);
+        instruction1 = new Instruction(null ,code1, 0);
+        instruction2 = new Instruction(null, code2, 0);
+        instruction3 = new Instruction(null, code3, 3);
+        instruction4 = new Instruction(null, code4, 0);
+        instruction5 = new Instruction(null, code5, 0);
+        instruction6 = new Instruction(null, code6, 0);
+        instruction7 = new Instruction(null, code7, 0);
     }
 
     public void testEquals() {
@@ -66,5 +70,15 @@ public class TestInstruction extends TestCase {
         assertEquals("offset", instruction2, instruction3);
         assertFalse("different index", instruction2.equals(instruction5));
         assertFalse("different size", instruction1.equals(instruction6));
+    }
+
+    public void testGetIndex() {
+        assertEquals("Two-byte index", 255, instruction1.getIndex());
+        assertEquals("Two-byte index", 458, instruction2.getIndex());
+        assertEquals("Two-byte index", 458, instruction3.getIndex());
+        assertEquals("Two-byte index", 255, instruction4.getIndex());
+        assertEquals("Two-byte index", 372, instruction5.getIndex());
+        assertEquals("Non-index opcode", -1, instruction6.getIndex());
+        assertEquals("Single byte index", 116, instruction7.getIndex());
     }
 }

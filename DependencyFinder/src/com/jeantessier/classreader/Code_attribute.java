@@ -71,9 +71,10 @@ public class Code_attribute extends Attribute_info {
             while (ci.hasNext()) {
                 Instruction instr = (Instruction) ci.next();
                 int         start = instr.getStart();
+                int         index = instr.getIndex();
 
-                int index;
                 switch (instr.getOpcode()) {
+                    case 0x12: // ldc
                     case 0x13: // ldc_w
                     case 0x14: // ldc2_w
                     case 0xb2: // getstatic
@@ -89,12 +90,7 @@ public class Code_attribute extends Attribute_info {
                     case 0xc0: // checkcast
                     case 0xc1: // instanceof
                     case 0xc5: // multianewarray
-                        index = ((code[start+1] & 0xff) << 8) | (code[start+2] & 0xff);
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getClassfile().getConstantPool().get(index) + ")");
-                        break;
-                    case 0x12: // ldc
-                        index = code[start+1] & 0xff;
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getClassfile().getConstantPool().get(index) + ")");
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedConstantPoolEntry() + ")");
                         break;
                     default:
                         Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getLength() + " byte(s))");
@@ -131,7 +127,7 @@ public class Code_attribute extends Attribute_info {
     }
 
     public Iterator iterator() {
-        return new CodeIterator(code);
+        return new CodeIterator(this, code);
     }
 
     public Collection<ExceptionHandler> getExceptionHandlers() {
