@@ -742,5 +742,4 @@ public class Instruction implements Visitable {
     public void accept(Visitor visitor) {
         visitor.visitInstruction(this);
     }
-
 }
