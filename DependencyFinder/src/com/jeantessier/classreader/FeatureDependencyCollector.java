@@ -72,7 +72,6 @@ public class FeatureDependencyCollector extends CollectorBase {
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
-
         byte[] code = attribute.getCode();
 
         Iterator ci = attribute.iterator();
@@ -97,9 +96,7 @@ public class FeatureDependencyCollector extends CollectorBase {
             }
         }
 
-        for (Attribute_info attribute_info : attribute.getAttributes()) {
-            attribute_info.accept(this);
-        }
+        super.visitCode_attribute(attribute);
     }
 
     private void processSignature(String str) {

@@ -136,38 +136,10 @@ public class ClassDependencyCollector extends CollectorBase {
         super.visitMethod_info(entry);
     }
 
-    public void visitCode_attribute(Code_attribute attribute) {
-        for (Attribute_info attribute_info : attribute.getAttributes()) {
-            attribute_info.accept(this);
-        }
-    }
-
-    public void visitExceptions_attribute(Exceptions_attribute attribute) {
-        for (Class_info exception : attribute.getExceptions()) {
-            exception.accept(this);
-        }
-    }
-
-    public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
-        for (InnerClass innerClass : attribute.getInnerClasses()) {
-            innerClass.accept(this);
-        }
-    }
-
-    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-        for (LineNumber lineNumber : attribute.getLineNumbers()) {
-            lineNumber.accept(this);
-        }
-    }
-
-    public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-        for (LocalVariable localVariable : attribute.getLocalVariables()) {
-            localVariable.accept(this);
-        }
-    }
-
     public void visitLocalVariable(LocalVariable helper) {
         processSignature(helper.getDescriptor());
+
+        super.visitLocalVariable(helper);
     }
 
     private void processSignature(String str) {

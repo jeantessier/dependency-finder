@@ -33,7 +33,6 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 
 public class DeprecationPrinter extends Printer {
     public DeprecationPrinter(PrintWriter out) {
@@ -52,8 +51,6 @@ public class DeprecationPrinter extends Printer {
             
             if (owner instanceof Classfile) {
                 Classfile classfile = (Classfile) owner;
-
-                Iterator i;
 
                 for (Field_info field : classfile.getAllFields()) {
                     append(field.getFullSignature()).eol();

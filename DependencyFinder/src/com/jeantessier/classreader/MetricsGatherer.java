@@ -334,14 +334,14 @@ public class MetricsGatherer extends VisitorBase {
 
     // Attributes
     public void visitCode_attribute(Code_attribute attribute) {
-        super.visitCode_attribute(attribute);
-
         Iterator i = attribute.iterator();
         while (i.hasNext()) {
             Instruction instr = (Instruction) i.next();
-            
+
             getInstructionCounts()[instr.getOpcode()]++;
         }
+
+        super.visitCode_attribute(attribute);
     }
 
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {

@@ -56,7 +56,7 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
     public void testOneFile() {
         loader.load(TEST_FILENAME);
 
-        assertEquals("First class", TEST_CLASS, ((Classfile) classfiles.getFirst()).getClassName());
+        assertEquals("First class", TEST_CLASS, classfiles.getFirst().getClassName());
         assertEquals("Nb visited classes", 1, classfiles.size());
     }
 
