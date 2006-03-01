@@ -1,0 +1,17 @@
+Tied =Instruction= more closely to =Code_attribute= so that some of the
+instruction processing could be centralized there.  =Instruction= is now a
+=Visitable= and =VisitorBase= automatically traverses them when processing a
+=Code_attribute=.  So I was able to pull the code for iterating over bytecode
+from the various visitors into the abstract base class.  Also, now that
+individual =Instruction= instances know about their corresponding
+=Code_attribute= and its =Classfile= and its =ConstantPool=, those that
+represent opcodes with indices into the constant pool can retrieve the correct
+=ConstantPoolEntry= themselves, instead of relying on client code to do it.
+These two changes together simplified greatly the various operations that walk
+the bytecode.
+
+=Instruction= knows whether or not it holds an index into the constant pool.
+For now, I simply used the list from =CodeDependencyCollector=, but I will need
+to take a close look at the entire instruction set to make sure I have a
+complete solution.  I also need to take this knowledge into account when
+comparing instructions in =Instruction.equals()=.
