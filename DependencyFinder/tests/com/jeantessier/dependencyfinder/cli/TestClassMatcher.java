@@ -81,7 +81,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(filename));
 
-        assertEquals("Number of results", 13, matcher.getResults().size());
+        assertEquals("Number of results", 14, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();
@@ -100,7 +100,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(filename));
 
-        assertEquals("Number of results", 13, matcher.getResults().size());
+        assertEquals("Number of results", 14, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();
@@ -119,7 +119,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dirname));
 
-        assertEquals("Number of results", 13, matcher.getResults().size());
+        assertEquals("Number of results", 14, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();
@@ -138,7 +138,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dirname));
 
-        assertEquals("Number of results", 12, matcher.getResults().size());
+        assertEquals("Number of results", 13, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();
@@ -182,7 +182,7 @@ public class TestClassMatcher extends TestCase {
         loader.addLoadListener(matcher);
         loader.load(filenames);
 
-        assertEquals("Number of results", 13, matcher.getResults().size());
+        assertEquals("Number of results", 14, matcher.getResults().size());
         Iterator i = matcher.getResults().values().iterator();
         while (i.hasNext()) {
             List results = (List) i.next();

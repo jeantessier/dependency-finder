@@ -163,7 +163,7 @@ public class TestReport extends TestCase implements ErrorHandler {
 
         assertNotNull("//differences", XPathAPI.selectSingleNode(doc, "//differences"));
         assertNotNull("*/old[text()='old']", XPathAPI.selectSingleNode(doc, "*/old[text()='old']"));
-        assertEquals("*/modified-classes/class", 2, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
+        assertEquals("*/modified-classes/class", 3, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
     }
 
     public void testIncompatibleContent() throws IOException, ParserConfigurationException, SAXException, TransformerException {

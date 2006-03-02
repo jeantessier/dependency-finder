@@ -62,10 +62,10 @@ public class TestDifferencesFactoryWithStrategy extends TestDifferencesFactoryBa
         factory.createProjectDifferences("test", "old", getOldPackages(), "new", getNewPackages());
 
         assertEquals("package count",   4, strategy.getPackageDifferentCount());
-        assertEquals("class count",    12, strategy.getClassDifferentCount());
+        assertEquals("class count",    13, strategy.getClassDifferentCount());
         assertEquals("field count",    15, strategy.getFieldDifferentCount());
         assertEquals("constant count",  7, strategy.getConstantValueDifferentCount());
-        assertEquals("method count",   26, strategy.getMethodDifferentCount());
-        assertEquals("code count",     11, strategy.getCodeDifferentCount());
+        assertEquals("method count",   31, strategy.getMethodDifferentCount());
+        assertEquals("code count",     12, strategy.getCodeDifferentCount());
     }
 }

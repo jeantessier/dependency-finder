@@ -73,14 +73,14 @@ public class TestClassfileLoaderStrictDispatcher extends TestClassfileLoader {
 
         assertEquals("Begin Session",    1, getBeginSessionEvents().size());
         assertEquals("Begin Group",      1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      29, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 13, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   13, getEndClassfileEvents().size());
-        assertEquals("End File",        29, getEndFileEvents().size());
+        assertEquals("Begin File",      31, getBeginFileEvents().size());
+        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
+        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
+        assertEquals("End File",        31, getEndFileEvents().size());
         assertEquals("End Group",        1, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
 
-        assertEquals("Group size", 29, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", 31, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
     }
 
     public void testOneLevelJar() {
@@ -91,14 +91,14 @@ public class TestClassfileLoaderStrictDispatcher extends TestClassfileLoader {
 
         assertEquals("Begin Session",    1, getBeginSessionEvents().size());
         assertEquals("Begin Group",      1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      31, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 13, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   13, getEndClassfileEvents().size());
-        assertEquals("End File",        31, getEndFileEvents().size());
+        assertEquals("Begin File",      33, getBeginFileEvents().size());
+        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
+        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
+        assertEquals("End File",        33, getEndFileEvents().size());
         assertEquals("End Group",        1, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
 
-        assertEquals("Group size", 31, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", 33, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
     }
     
     public void testOneLevelMiscellaneous() {
@@ -125,10 +125,10 @@ public class TestClassfileLoaderStrictDispatcher extends TestClassfileLoader {
 
         assertEquals("Begin Session",    1, getBeginSessionEvents().size());
         assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      30, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 13, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   13, getEndClassfileEvents().size());
-        assertEquals("End File",        30, getEndFileEvents().size());
+        assertEquals("Begin File",      32, getBeginFileEvents().size());
+        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
+        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
+        assertEquals("End File",        32, getEndFileEvents().size());
         assertEquals("End Group",        2, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
     }
@@ -141,10 +141,10 @@ public class TestClassfileLoaderStrictDispatcher extends TestClassfileLoader {
 
         assertEquals("Begin Session",    1, getBeginSessionEvents().size());
         assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      32, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 13, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   13, getEndClassfileEvents().size());
-        assertEquals("End File",        32, getEndFileEvents().size());
+        assertEquals("Begin File",      34, getBeginFileEvents().size());
+        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
+        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
+        assertEquals("End File",        34, getEndFileEvents().size());
         assertEquals("End Group",        2, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
     }

@@ -65,8 +65,8 @@ public class TestClassfileScanner extends TestCase {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   29, scanner.getNbFiles());
-        assertEquals("Number of classes", 13, scanner.getNbClasses());
+        assertEquals("Number of files",   31, scanner.getNbFiles());
+        assertEquals("Number of classes", 14, scanner.getNbClasses());
     }
 
     public void testOneLevelJar() {
@@ -75,8 +75,8 @@ public class TestClassfileScanner extends TestCase {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   31, scanner.getNbFiles());
-        assertEquals("Number of classes", 13, scanner.getNbClasses());
+        assertEquals("Number of files",   33, scanner.getNbFiles());
+        assertEquals("Number of classes", 14, scanner.getNbClasses());
     }
     
     public void testOneLevelMiscellaneous() {
@@ -85,8 +85,8 @@ public class TestClassfileScanner extends TestCase {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   29, scanner.getNbFiles());
-        assertEquals("Number of classes", 13, scanner.getNbClasses());
+        assertEquals("Number of files",   31, scanner.getNbFiles());
+        assertEquals("Number of classes", 14, scanner.getNbClasses());
     }
 
     public void testTwoLevelZip() {
@@ -95,8 +95,8 @@ public class TestClassfileScanner extends TestCase {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   30, scanner.getNbFiles());
-        assertEquals("Number of classes", 13, scanner.getNbClasses());
+        assertEquals("Number of files",   32, scanner.getNbFiles());
+        assertEquals("Number of classes", 14, scanner.getNbClasses());
     }
 
     public void testTwoLevelJar() {
@@ -105,8 +105,8 @@ public class TestClassfileScanner extends TestCase {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   32, scanner.getNbFiles());
-        assertEquals("Number of classes", 13, scanner.getNbClasses());
+        assertEquals("Number of files",   34, scanner.getNbFiles());
+        assertEquals("Number of classes", 14, scanner.getNbClasses());
     }
     
     public void testTwoLevelMiscellaneous() {
@@ -115,7 +115,7 @@ public class TestClassfileScanner extends TestCase {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   30, scanner.getNbFiles());
-        assertEquals("Number of classes", 13, scanner.getNbClasses());
+        assertEquals("Number of files",   32, scanner.getNbFiles());
+        assertEquals("Number of classes", 14, scanner.getNbClasses());
     }
 }
