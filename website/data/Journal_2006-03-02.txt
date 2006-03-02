@@ -1,0 +1,2 @@
+Updated =dependencies.dtd= on the website.  It appears I had forgotten to do so
+when I released 1.1.1.
