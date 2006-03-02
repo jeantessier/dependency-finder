@@ -13,5 +13,11 @@ the bytecode.
 =Instruction= knows whether or not it holds an index into the constant pool.
 For now, I simply used the list from =CodeDependencyCollector=, but I will need
 to take a close look at the entire instruction set to make sure I have a
-complete solution.  I also need to take this knowledge into account when
-comparing instructions in =Instruction.equals()=.
+complete solution.
+
+I also take this knowledge into account when comparing instructions in
+=Instruction.equals()= and in computing =Instruction.hashCode()=.  If the
+instruction actually refers to a =ConstantPoolEntry=, =equals()= and
+=hashCode()= will use the entry's =equals()= and =hashCode()= as part of their
+computation.  Otherwise, they just do a byte-to-byte comparision of the
+instruction's data.

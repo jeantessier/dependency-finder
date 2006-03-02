@@ -32,10 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.oro.text.perl.*;
-
 public abstract class ConstantPoolEntry implements Visitable {
     public static final byte CONSTANT_Class = 7;
     public static final byte CONSTANT_Fieldref = 9;

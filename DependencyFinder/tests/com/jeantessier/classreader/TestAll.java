@@ -40,6 +40,7 @@ public class TestAll extends TestCase {
 
         result.addTestSuite(TestBitFormat.class);
         result.addTestSuite(TestInstruction.class);
+        result.addTestSuite(TestInstructionWithDifferentConstantPool.class);
         result.addTestSuite(TestSignatureHelper.class);
         result.addTestSuite(TestVisitorBase.class);
         result.addTestSuite(TestDirectoryExplorer.class);

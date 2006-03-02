@@ -700,7 +700,7 @@ public class Instruction implements Visitable {
         ConstantPoolEntry result = null;
 
         int index = getIndex();
-        if (index > 0) {
+        if (index > 0 && getCode() != null) {
             result = getCode().getClassfile().getConstantPool().get(index);
         }
 
@@ -710,8 +710,12 @@ public class Instruction implements Visitable {
     public int hashCode() {
         int result = getOpcode();
 
-        for (int i=1; i<getLength(); i++) {
-            result ^= bytecode[start+i];
+        if (getIndexedConstantPoolEntry() != null) {
+            result ^= getIndexedConstantPoolEntry().hashCode();
+        } else {
+            for (int i=1; i<getLength(); i++) {
+                result ^= bytecode[start+i];
+            }
         }
 
         return result;
@@ -727,8 +731,16 @@ public class Instruction implements Visitable {
         } else {
             Instruction other = (Instruction) object;
             result = getOpcode() == other.getOpcode();
-            for (int i=1; result && i<getLength(); i++) {
-                result = bytecode[start+i] == other.bytecode[other.start+i];
+
+            ConstantPoolEntry thisEntry = getIndexedConstantPoolEntry();
+            ConstantPoolEntry otherEntry = other.getIndexedConstantPoolEntry();
+
+            if (result && thisEntry != null && otherEntry != null) {
+                result = thisEntry.equals(otherEntry);
+            } else {
+                for (int i=1; result && i<getLength(); i++) {
+                    result = bytecode[start+i] == other.bytecode[other.start+i];
+                }
             }
         }
 
