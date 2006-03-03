@@ -224,7 +224,7 @@ public class Instruction implements Visitable {
         length[0x59] = 1;
         opcode[0x5a] = "dup_x1";
         length[0x5a] = 1;
-        opcode[0x5b] = "dub_x2";
+        opcode[0x5b] = "dup_x2";
         length[0x5b] = 1;
         opcode[0x5c] = "dup2";
         length[0x5c] = 1;
