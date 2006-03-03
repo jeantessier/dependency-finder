@@ -30,39 +30,47 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.fit;
+package com.jeantessier.classreader;
 
-import java.io.*;
+import java.util.*;
 
-import org.apache.oro.io.*;
+import fit.*;
 
-import junit.framework.*;
+public class InstructionFixture extends ColumnFixture {
+    public String opCode;
+    public String data;
 
-public class FitTestSuite extends TestSuite {
-    protected static final String SOURCE_PATHNAME = "fit" + File.separator + "tests";
-    protected static final String OUTPUT_PATHNAME = "fit" + File.separator + "reports";
-
-    private static final File SOURCE_DIR = new File(SOURCE_PATHNAME);
-    private static final File OUTPUT_DIR = new File(OUTPUT_PATHNAME);
-
-    public FitTestSuite(String path) {
-        super(path);
-
-        File inDir = new File(SOURCE_DIR, path);
-        File outDir = new File(OUTPUT_DIR, path);
-        outDir.mkdirs();
-
-        for (String filename : inDir.list(new Perl5FilenameFilter(".*\\.html"))) {
-            addTest(new FitTest(filename, inDir, outDir));
-        }
+    public String mnemonic() {
+        return new Instruction(null, buildDataBytes(), 0).getMnemonic();
     }
 
-    public static TestSuite suite() {
-        TestSuite suite = new TestSuite(SOURCE_PATHNAME);
+    public int length() {
+        return new Instruction(null, buildDataBytes(), 0).getLength();
+    }
 
-        suite.addTest(new FitTestSuite("classreader"));
-        suite.addTest(new FitTestSuite("dependency"));
+    public int index() {
+        return new Instruction(null, buildDataBytes(), 0).getIndex();
+    }
 
-        return suite;
+    private byte[] buildDataBytes() {
+        byte[] result;
+
+        List<Integer> bytes = new ArrayList<Integer>();
+        bytes.add(Integer.parseInt(opCode, 16));
+
+        if (data != null) {
+            StringTokenizer tokens = new StringTokenizer(data);
+            while (tokens.hasMoreTokens()) {
+                bytes.add(Integer.parseInt(tokens.nextToken(), 16));
+            }
+        }
+
+        result = new byte[bytes.size()];
+        int i = 0;
+        for (int b : bytes) {
+            result[i++] = (byte) b;
+        }
+
+        return result;
     }
 }

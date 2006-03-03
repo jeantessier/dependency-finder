@@ -1,0 +1,2 @@
+Started a long Fit test to check name, length, and index calculation for every
+instrunction in the VM's instruction set.

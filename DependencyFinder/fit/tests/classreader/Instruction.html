@@ -1,0 +1,313 @@
+<html>
+
+<head>
+<title>Instruction Tests</title>
+<style type="text/css">
+.bytes {
+    font-family: monospace;
+    text-align:  center;
+    white-space: nowrap;
+}
+.code {
+    font-family: monospace;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Instruction Tests</h1>
+
+<p>Check proper instruction length and correct index value, when appropriate.</p>
+
+<table border="1">
+    <tr>
+        <td colspan="4">com.jeantessier.classreader.InstructionFixture</td>
+    </tr>
+    <tr>
+        <td>op code</td><td>data</td><td>mnemonic()</td><td>length()</td><td>index()</td>
+    </tr>
+    <tr><td class="bytes">00</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">01</td><td class="bytes"></td><td class="code">aconst_null</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">02</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">03</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">04</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">05</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">06</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">07</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">08</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">09</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">0a</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">0b</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">0c</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">0d</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">0e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">0f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">10</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">11</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">12</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">13</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">14</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">15</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">16</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">17</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">18</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">19</td><td class="bytes">11</td><td class="code">aload</td><td>2</td><td>17</td></tr>
+    <tr><td class="bytes">1a</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">1b</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">1c</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">1d</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">1e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">1f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">20</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">21</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">22</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">23</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">24</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">25</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">26</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">27</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">28</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">29</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">2a</td><td class="bytes"></td><td class="code">aload_0</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">2b</td><td class="bytes"></td><td class="code">aload_1</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">2c</td><td class="bytes"></td><td class="code">aload_2</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">2d</td><td class="bytes"></td><td class="code">aload_3</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">2e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">2f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">30</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">31</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">32</td><td class="bytes"></td><td class="code">aaload</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">33</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">34</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">35</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">36</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">37</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">38</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">39</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">3a</td><td class="bytes">11</td><td class="code">astore</td><td>2</td><td>17</td></tr>
+    <tr><td class="bytes">3b</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">3c</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">3d</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">3e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">3f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">40</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">41</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">42</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">43</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">44</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">45</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">46</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">47</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">48</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">49</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">4a</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">4b</td><td class="bytes"></td><td class="code">astore_0</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">4c</td><td class="bytes"></td><td class="code">astore_1</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">4d</td><td class="bytes"></td><td class="code">astore_2</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">4e</td><td class="bytes"></td><td class="code">astore_3</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">4f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">50</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">51</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">52</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">53</td><td class="bytes"></td><td class="code">aastore</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">54</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">55</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">56</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">57</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">58</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">59</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">5a</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">5b</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">5c</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">5d</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">5e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">5f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">60</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">61</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">62</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">63</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">64</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">65</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">66</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">67</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">68</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">69</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">6a</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">6b</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">6c</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">6d</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">6e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">6f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">70</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">71</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">72</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">73</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">74</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">75</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">76</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">77</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">78</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">79</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">7a</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">7b</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">7c</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">7d</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">7e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">7f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">80</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">81</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">82</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">83</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">84</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">85</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">86</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">87</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">88</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">89</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">8a</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">8b</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">8c</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">8d</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">8e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">8f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">90</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">91</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">92</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">93</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">94</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">95</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">96</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">97</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">98</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">99</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">9a</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">9b</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">9c</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">9d</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">9e</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">9f</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">a0</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a1</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a2</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a3</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a4</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a5</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a6</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a7</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a8</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">a9</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">aa</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ab</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ac</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ad</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ae</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">af</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">b0</td><td class="bytes"></td><td class="code">areturn</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">b1</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">b2</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">b3</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">b4</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">b5</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">b6</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">b7</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">b8</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">b9</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ba</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">bb</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">bc</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">bd</td><td class="bytes">01 23</td><td class="code">anewarray</td><td>3</td><td>291</td></tr>
+    <tr><td class="bytes">be</td><td class="bytes"></td><td class="code">arraylength</td><td>1</td><td>-1</td></tr>
+    <tr><td class="bytes">bf</td><td class="bytes"></td><td class="code">athrow</td><td>1</td><td>-1</td></tr>
+
+    <tr><td class="bytes">c0</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c1</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c2</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c3</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c4</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c5</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c6</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c7</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c8</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">c9</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ca</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">cb</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">cc</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">cd</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ce</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">cf</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">d0</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d1</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d2</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d3</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d4</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d5</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d6</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d7</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d8</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">d9</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">da</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">db</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">dc</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">dd</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">de</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">df</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">e0</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e1</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e2</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e3</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e4</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e5</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e6</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e7</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e8</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">e9</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ea</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">eb</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ec</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ed</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ee</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ef</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+
+    <tr><td class="bytes">f0</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f1</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f2</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f3</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f4</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f5</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f6</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f7</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f8</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">f9</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">fa</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">fb</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">fc</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">fd</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">fe</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+    <tr><td class="bytes">ff</td><td class="bytes"></td><td class="code"></td><td>-1</td><td>-2</td></tr>
+</table>
+
+<hr/>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.Summary</td>
+    </tr>
+</table>
+
+</body>
+
+</html>
