@@ -420,8 +420,8 @@ public class Instruction implements Visitable {
         length[0xb8] = 3;
         opcode[0xb9] = "invokeinterface";
         length[0xb9] = 5;
-        opcode[0xba] = "xxxunusedxxx";
-        length[0xba] = 1;
+        opcode[0xba] = "invokedynamic";
+        length[0xba] = 3;
         opcode[0xbb] = "new";
         length[0xbb] = 3;
         opcode[0xbc] = "newarray";
@@ -453,7 +453,7 @@ public class Instruction implements Visitable {
         length[0xc8] = 5;
         opcode[0xc9] = "jsr_w";
         length[0xc9] = 5;
-        opcode[0xca] = "wide";
+        opcode[0xca] = "breakpoint";
         length[0xca] = 1;
         opcode[0xcb] = "xxxundefinedxxx";
         length[0xcb] = 1;
@@ -678,6 +678,7 @@ public class Instruction implements Visitable {
             case 0xb7: // invokespecial
             case 0xb8: // invokestatic
             case 0xb9: // invokeinterface
+            case 0xba: // invokedynamic
             case 0xbb: // new
             case 0xbd: // anewarray
             case 0xc0: // checkcast
@@ -686,7 +687,22 @@ public class Instruction implements Visitable {
                 result = ((getBytecode()[getStart()+1] & 0xff) << 8) | (getBytecode()[getStart()+2] & 0xff);
                 break;
             case 0x12: // ldc
+            case 0x15: // iload
+            case 0x16: // llload
+            case 0x17: // fload
+            case 0x18: // dload
+            case 0x19: // aload
+            case 0x36: // istore
+            case 0x37: // lstore
+            case 0x38: // fstore
+            case 0x39: // dstore
+            case 0x3a: // astore
+            case 0x84: // iinc
+            case 0xa9: // ret
                 result = getBytecode()[getStart()+1] & 0xff;
+                break;
+            case 0xc4: // wide
+                result = ((getBytecode()[getStart()+2] & 0xff) << 8) | (getBytecode()[getStart()+3] & 0xff);
                 break;
             default:
                 result = -1;
@@ -697,11 +713,31 @@ public class Instruction implements Visitable {
     }
 
     public ConstantPoolEntry getIndexedConstantPoolEntry() {
-        ConstantPoolEntry result = null;
+        ConstantPoolEntry result;
 
-        int index = getIndex();
-        if (index > 0 && getCode() != null) {
-            result = getCode().getClassfile().getConstantPool().get(index);
+        switch (getOpcode()) {
+            case 0x12: // ldc
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xba: // invokedynamic
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+                result = getCode().getClassfile().getConstantPool().get(getIndex());
+                break;
+            default:
+                result = null;
+                break;
         }
 
         return result;
