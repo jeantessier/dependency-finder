@@ -768,8 +768,8 @@ public class Instruction implements Visitable {
             Instruction other = (Instruction) object;
             result = getOpcode() == other.getOpcode();
 
-            ConstantPoolEntry thisEntry = getIndexedConstantPoolEntry();
-            ConstantPoolEntry otherEntry = other.getIndexedConstantPoolEntry();
+            ConstantPoolEntry thisEntry = (getCode() != null) ? getIndexedConstantPoolEntry() : null;
+            ConstantPoolEntry otherEntry = (other.getCode() != null) ? other.getIndexedConstantPoolEntry() : null;
 
             if (result && thisEntry != null && otherEntry != null) {
                 result = thisEntry.equals(otherEntry);
