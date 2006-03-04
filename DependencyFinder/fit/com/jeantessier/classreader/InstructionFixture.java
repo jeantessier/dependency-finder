@@ -58,11 +58,13 @@ public class InstructionFixture extends ColumnFixture {
         List<Integer> bytes = new ArrayList<Integer>();
         bytes.add(Integer.parseInt(opCode, 16));
 
-        if (data != null) {
+        try {
             StringTokenizer tokens = new StringTokenizer(data);
             while (tokens.hasMoreTokens()) {
                 bytes.add(Integer.parseInt(tokens.nextToken(), 16));
             }
+        } catch (NumberFormatException e) {
+            // Ignore
         }
 
         result = new byte[bytes.size()];
