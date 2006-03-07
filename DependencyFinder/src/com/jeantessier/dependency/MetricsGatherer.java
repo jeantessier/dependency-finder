@@ -35,9 +35,17 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class MetricsGatherer extends VisitorBase {
-    private Collection packages = new LinkedList();
-    private Collection classes  = new LinkedList();
-    private Collection features = new LinkedList();
+    private Collection<PackageNode> packages = new LinkedList<PackageNode>();
+    private Collection<ClassNode> classes  = new LinkedList<ClassNode>();
+    private Collection<FeatureNode> features = new LinkedList<FeatureNode>();
+
+    private Collection<PackageNode> confirmedPackages = new LinkedList<PackageNode>();
+    private Collection<ClassNode> confirmedClasses  = new LinkedList<ClassNode>();
+    private Collection<FeatureNode> confirmedFeatures = new LinkedList<FeatureNode>();
+
+    private Collection<PackageNode> unconfirmedPackages = new LinkedList<PackageNode>();
+    private Collection<ClassNode> unconfirmedClasses  = new LinkedList<ClassNode>();
+    private Collection<FeatureNode> unconfirmedFeatures = new LinkedList<FeatureNode>();
 
     private long nbOutbound = 0;
     private long nbInbound = 0;
@@ -110,16 +118,40 @@ public class MetricsGatherer extends VisitorBase {
         return chartMaximum;
     }
     
-    public Collection getPackages() {
+    public Collection<PackageNode> getPackages() {
         return packages;
     }
 
-    public Collection getClasses() {
+    public Collection<ClassNode> getClasses() {
         return classes;
     }
 
-    public Collection getFeatures() {
+    public Collection<FeatureNode> getFeatures() {
         return features;
+    }
+
+    public Collection<PackageNode> getConfirmedPackages() {
+        return confirmedPackages;
+    }
+
+    public Collection<ClassNode> getConfirmedClasses() {
+        return confirmedClasses;
+    }
+
+    public Collection<FeatureNode> getConfirmedFeatures() {
+        return confirmedFeatures;
+    }
+
+    public Collection<PackageNode> getUnconfirmedPackages() {
+        return unconfirmedPackages;
+    }
+
+    public Collection<ClassNode> getUnconfirmedClasses() {
+        return unconfirmedClasses;
+    }
+
+    public Collection<FeatureNode> getUnconfirmedFeatures() {
+        return unconfirmedFeatures;
     }
 
     public long getNbOutbound() {
@@ -158,6 +190,11 @@ public class MetricsGatherer extends VisitorBase {
         super.preprocessPackageNode(node);
 
         packages.add(node);
+        if (node.isConfirmed()) {
+            confirmedPackages.add(node);
+        } else {
+            unconfirmedPackages.add(node);
+        }
         
         getChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;
         getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;
@@ -188,7 +225,12 @@ public class MetricsGatherer extends VisitorBase {
         super.preprocessClassNode(node);
 
         classes.add(node);
-        
+        if (node.isConfirmed()) {
+            confirmedClasses.add(node);
+        } else {
+            unconfirmedClasses.add(node);
+        }
+
         getChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;
         getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;
         getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;
@@ -218,7 +260,12 @@ public class MetricsGatherer extends VisitorBase {
         super.preprocessFeatureNode(node);
 
         features.add(node);
-        
+        if (node.isConfirmed()) {
+            confirmedFeatures.add(node);
+        } else {
+            unconfirmedFeatures.add(node);
+        }
+
         getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;
         getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;
     }

@@ -33,7 +33,6 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
-import java.util.*;
 
 public class MetricsReport {
     private PrintWriter out;
@@ -125,29 +124,24 @@ public class MetricsReport {
     }
     
     public void process(MetricsGatherer metrics) {
-        Iterator j;
-        
-        out.println(metrics.getPackages().size() + " package(s)");
+        out.println(metrics.getPackages().size() + " package(s) (" + metrics.getConfirmedPackages().size() + " confirmed, " + (metrics.getConfirmedPackages().size() / (double) metrics.getPackages().size()) + ")");
         if (isListingElements()) {
-            j = metrics.getPackages().iterator();
-            while (j.hasNext()) {
-                out.println("    " + j.next());
+            for (PackageNode packageNode : metrics.getPackages()) {
+                out.println("    " + packageNode);
             }
         }
         
-        out.println(metrics.getClasses().size() + " class(es)");
+        out.println(metrics.getClasses().size() + " class(es) (" + metrics.getConfirmedClasses().size() + " confirmed, " + (metrics.getConfirmedClasses().size() / (double) metrics.getClasses().size()) + ")");
         if (isListingElements()) {
-            j = metrics.getClasses().iterator();
-            while (j.hasNext()) {
-                out.println("    " + j.next());
+            for (ClassNode classNode : metrics.getClasses()) {
+                out.println("    " + classNode);
             }
         }
 
-        out.println(metrics.getFeatures().size() + " feature(s)");
+        out.println(metrics.getFeatures().size() + " feature(s) (" + metrics.getConfirmedFeatures().size() + " confirmed, " + (metrics.getConfirmedFeatures().size() / (double) metrics.getFeatures().size()) + ")");
         if (isListingElements()) {
-            j = metrics.getFeatures().iterator();
-            while (j.hasNext()) {
-                out.println("    " + j.next());
+            for (FeatureNode featureNode : metrics.getFeatures()) {
+                out.println("    " + featureNode);
             }
         }
 

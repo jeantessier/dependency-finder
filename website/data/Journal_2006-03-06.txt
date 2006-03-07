@@ -1,0 +1,2 @@
+Augmented =DependencyMetrics= to report the number of confirmed packages,
+classes, and features in the graph.
