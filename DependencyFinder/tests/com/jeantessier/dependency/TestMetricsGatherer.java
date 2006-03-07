@@ -98,14 +98,6 @@ public class TestMetricsGatherer extends TestCase {
         assertEquals("Number of classes",  6, metrics.getClasses().size());
         assertEquals("Number of features", 5, metrics.getFeatures().size());
 
-        assertEquals("Number of confirmed packages", 1, metrics.getConfirmedPackages().size());
-        assertEquals("Number of confirmed classes",  1, metrics.getConfirmedClasses().size());
-        assertEquals("Number of confirmed features", 2, metrics.getConfirmedFeatures().size());
-
-        assertEquals("Number of unconfirmed packages", 3, metrics.getUnconfirmedPackages().size());
-        assertEquals("Number of unconfirmed classes",  5, metrics.getUnconfirmedClasses().size());
-        assertEquals("Number of unconfirmed features", 3, metrics.getUnconfirmedFeatures().size());
-
         assertEquals("Number of inbounds",             7, metrics.getNbInbound());
         assertEquals("Number of inbounds to packages", 0, metrics.getNbInboundPackages());
         assertEquals("Number of inbounds to classes",  4, metrics.getNbInboundClasses());

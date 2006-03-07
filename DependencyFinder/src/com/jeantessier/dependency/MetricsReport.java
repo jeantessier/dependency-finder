@@ -33,6 +33,7 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
+import java.util.*;
 
 public class MetricsReport {
     private PrintWriter out;
@@ -50,7 +51,7 @@ public class MetricsReport {
     public MetricsReport(PrintWriter out) {
         this.out = out;
     }
-    
+
     public boolean isListingElements() {
         return listingElements;
     }
@@ -58,7 +59,7 @@ public class MetricsReport {
     public void setListingElements(boolean listingElements) {
         this.listingElements = listingElements;
     }
-    
+
     public boolean isChartingClassesPerPackage() {
         return chartingClassesPerPackage;
     }
@@ -66,7 +67,7 @@ public class MetricsReport {
     public void setChartingClassesPerPackage(boolean chartingClassesPerPackage) {
         this.chartingClassesPerPackage = chartingClassesPerPackage;
     }
-    
+
     public boolean isChartingFeaturesPerClass() {
         return chartingFeaturesPerClass;
     }
@@ -74,7 +75,7 @@ public class MetricsReport {
     public void setChartingFeaturesPerClass(boolean chartingFeaturesPerClass) {
         this.chartingFeaturesPerClass = chartingFeaturesPerClass;
     }
-    
+
     public boolean isChartingInboundsPerPackage() {
         return chartingInboundsPerPackage;
     }
@@ -82,7 +83,7 @@ public class MetricsReport {
     public void setChartingInboundsPerPackage(boolean chartingInboundsPerPackage) {
         this.chartingInboundsPerPackage = chartingInboundsPerPackage;
     }
-    
+
     public boolean isChartingOutboundsPerPackage() {
         return chartingOutboundsPerPackage;
     }
@@ -90,7 +91,7 @@ public class MetricsReport {
     public void setChartingOutboundsPerPackage(boolean chartingOutboundsPerPackage) {
         this.chartingOutboundsPerPackage = chartingOutboundsPerPackage;
     }
-    
+
     public boolean isChartingInboundsPerClass() {
         return chartingInboundsPerClass;
     }
@@ -98,7 +99,7 @@ public class MetricsReport {
     public void setChartingInboundsPerClass(boolean chartingInboundsPerClass) {
         this.chartingInboundsPerClass = chartingInboundsPerClass;
     }
-    
+
     public boolean isChartingOutboundsPerClass() {
         return chartingOutboundsPerClass;
     }
@@ -106,7 +107,7 @@ public class MetricsReport {
     public void setChartingOutboundsPerClass(boolean chartingOutboundsPerClass) {
         this.chartingOutboundsPerClass = chartingOutboundsPerClass;
     }
-    
+
     public boolean isChartingInboundsPerFeature() {
         return chartingInboundsPerFeature;
     }
@@ -114,7 +115,7 @@ public class MetricsReport {
     public void setChartingInboundsPerFeature(boolean chartingInboundsPerFeature) {
         this.chartingInboundsPerFeature = chartingInboundsPerFeature;
     }
-    
+
     public boolean isChartingOutboundsPerFeature() {
         return chartingOutboundsPerFeature;
     }
@@ -122,23 +123,23 @@ public class MetricsReport {
     public void setChartingOutboundsPerFeature(boolean chartingOutboundsPerFeature) {
         this.chartingOutboundsPerFeature = chartingOutboundsPerFeature;
     }
-    
+
     public void process(MetricsGatherer metrics) {
-        out.println(metrics.getPackages().size() + " package(s) (" + metrics.getConfirmedPackages().size() + " confirmed, " + (metrics.getConfirmedPackages().size() / (double) metrics.getPackages().size()) + ")");
+        out.println(metrics.getPackages().size() + " package(s) (" + countConfirmedNodes(metrics.getPackages()) + " confirmed, " + (countConfirmedNodes(metrics.getPackages()) / (double) metrics.getPackages().size()) + ")");
         if (isListingElements()) {
             for (PackageNode packageNode : metrics.getPackages()) {
                 out.println("    " + packageNode);
             }
         }
-        
-        out.println(metrics.getClasses().size() + " class(es) (" + metrics.getConfirmedClasses().size() + " confirmed, " + (metrics.getConfirmedClasses().size() / (double) metrics.getClasses().size()) + ")");
+
+        out.println(metrics.getClasses().size() + " class(es) (" + countConfirmedNodes(metrics.getClasses()) + " confirmed, " + (countConfirmedNodes(metrics.getClasses()) / (double) metrics.getClasses().size()) + ")");
         if (isListingElements()) {
             for (ClassNode classNode : metrics.getClasses()) {
                 out.println("    " + classNode);
             }
         }
 
-        out.println(metrics.getFeatures().size() + " feature(s) (" + metrics.getConfirmedFeatures().size() + " confirmed, " + (metrics.getConfirmedFeatures().size() / (double) metrics.getFeatures().size()) + ")");
+        out.println(metrics.getFeatures().size() + " feature(s) (" + countConfirmedNodes(metrics.getFeatures()) + " confirmed, " + (countConfirmedNodes(metrics.getFeatures()) / (double) metrics.getFeatures().size()) + ")");
         if (isListingElements()) {
             for (FeatureNode featureNode : metrics.getFeatures()) {
                 out.println("    " + featureNode);
@@ -197,7 +198,7 @@ public class MetricsReport {
 
             for (int k=0; k<=metrics.getChartMaximum(); k++) {
                 long[] dataPoint = metrics.getChartData(k);
-                
+
                 out.print(k);
                 if (isChartingClassesPerPackage()) {
                     out.print(", " + dataPoint[MetricsGatherer.CLASSES_PER_PACKAGE]);
@@ -226,5 +227,17 @@ public class MetricsReport {
                 out.println();
             }
         }
+    }
+
+    private int countConfirmedNodes(Collection<? extends Node> nodes) {
+        int result = 0;
+
+        for (Node node : nodes) {
+            if (node.isConfirmed()) {
+                result++;
+            }
+        }
+
+        return result;
     }
 }
