@@ -40,7 +40,7 @@ import org.apache.log4j.*;
 public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
     private ClassfileLoaderDispatcher delegate;
 
-    private Map timestamps = new HashMap();
+    private Map<String, Long> timestamps = new HashMap<String, Long>();
 
     public ModifiedOnlyDispatcher(ClassfileLoaderDispatcher delegate) {
         this.delegate = delegate;
@@ -49,17 +49,15 @@ public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
     public int dispatch(String filename) {
         int result = ACTION_IGNORE;
 
-        File file = new File(filename);
-
-        Long timestamp = (Long) timestamps.get(filename);
-
+        Long timestamp = timestamps.get(filename);
         Logger.getLogger(getClass()).debug(filename + " has timestamp " + timestamp);
         
+        File file = new File(filename);
         if (file.isDirectory()) {
             Logger.getLogger(getClass()).debug("Delegating ...");
             result = delegate.dispatch(filename);
-        } else if (timestamp == null || timestamp.longValue() < file.lastModified()) {
-            timestamp = new Long(file.lastModified());
+        } else if (timestamp == null || timestamp < file.lastModified()) {
+            timestamp = file.lastModified();
             timestamps.put(filename, timestamp);
 
             Logger.getLogger(getClass()).debug("Delegating ...");

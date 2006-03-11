@@ -33,7 +33,6 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 
 import junit.framework.*;
 
