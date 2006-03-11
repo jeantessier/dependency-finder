@@ -42,7 +42,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
 
     private String testDirname;
     private String testFilename;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         
@@ -61,39 +61,31 @@ public class TestModifiedOnlyDispatcher extends TestCase {
     }
     
     public void testDispatchNonExistingFile() {
-        assertEquals("dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
     }
 
     public void testDispatchNewFile() throws IOException {
         writeFile();
         
-        assertEquals("dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
     }
     
     public void testDispatchIdenticalFile() throws IOException {
         writeFile();
         
-        assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
 
         assertEquals("repeat dispatch action", ClassfileLoaderDispatcher.ACTION_IGNORE, dispatcher.dispatch(testFilename));
         assertEquals("repeat delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
     }
-    
-    public void testDispatchDirectory() {
-        assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
-        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
 
-        assertEquals("repeat dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testDirname));
-        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testDirname));
-    }
-    
     public void testDispatchModifiedFile() throws IOException {
         writeFile();
         
-        assertEquals("first dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
 
         try {
@@ -103,7 +95,26 @@ public class TestModifiedOnlyDispatcher extends TestCase {
         }
         writeFile();
         
-        assertEquals("repeat dispatch action", MockDispatcher.ACTION, dispatcher.dispatch(testFilename));
+        assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
+        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
+    }
+
+    public void testDispatchDirectory() {
+        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testDirname));
+        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
+
+        assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testDirname));
+        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testDirname));
+    }
+
+    public void testDispatchIdenticalZipFile() throws IOException {
+        writeFile();
+        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.ACTION_ZIP);
+
+        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
+        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+
+        assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
     }
 

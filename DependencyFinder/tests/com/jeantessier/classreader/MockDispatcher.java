@@ -35,29 +35,37 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class MockDispatcher implements ClassfileLoaderDispatcher {
-    public static final int ACTION = -1;
+    private Map<String, Integer> counts = new HashMap<String, Integer>();
 
-    private Map counts = new HashMap();
+    private int returnedAction = -1;
+
+    public int getReturnedAction() {
+        return returnedAction;
+    }
+
+    public void setReturnedAction(int returnedAction) {
+        this.returnedAction = returnedAction;
+    }
 
     public int dispatch(String filename) {
-        Integer count = (Integer) counts.get(filename);
+        Integer count = counts.get(filename);
 
         if (count != null) {
-            count = new Integer(count.intValue() + 1);
+            count++;
         } else {
-            count = new Integer(1);
+            count = 1;
         }
         counts.put(filename, count);
         
-        return ACTION;
+        return getReturnedAction();
     }
 
     public int getDispatchCount(String filename) {
         int result = 0;
 
-        Integer count = (Integer) counts.get(filename);
+        Integer count = counts.get(filename);
         if (count != null) {
-            result = count.intValue();
+            result = count;
         }
 
         return result;
