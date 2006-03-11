@@ -446,10 +446,10 @@ have changed and adjust the graph accordingly.
 
 ---+++ =extract.jsp=
 
-Let's take a look at =DependencyExtractor= and see how it uses what we've seen
-so far to generate a dependency graph.  Here is the core part of the =main()=
-method from =com.jeantessier.dependencyfinder.cli.DependencyExtractor=.  The
-Ant equivalent is very similar.
+Let's take a look at =extract.jsp= and see how it generates a dependency graph
+and how it differs from what we saw for =DependencyExtractor=.  Here is the
+core part of the JSP.  The GUI equivalent is very similar, if spread across
+multiple classes in the =com.jeantessier.dependencyfinder.gui= package.
 
 <div class="highlight">
 
@@ -514,6 +514,53 @@ reusing the one in the session.
 Lines 25 through 28 serve the same purpose as before in =DependencyExtractor=.
 Notice that =Monitor= extends =LoadListenerVisitorAdapter= and does not need
 any special treatment before we register it with the _loader_.
+
+---+++ Sample Standalone Application with Refresh
+
+If you are writing your own long-lived application that needs to pick up
+changes to the =.class= files, you would setup the =ClassfileLoader= and
+dispatcher and visitors once at initialization and hold on to the resulting
+loader.
+
+<div class="highlight">
+
+    01:    NodeFactory             factory         = new NodeFactory();
+    02:    CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
+    03:    DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
+    04:
+    05:    ClassfileLoaderDispatcher *dispatcher* = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+    06:    Monitor                   *monitor*    = new Monitor(collector, deletingVisitor);
+    07:    monitor.setClosedSession(true);
+    08:
+    09:    *loader* = new TransientClassfileLoader(*dispatcher*);
+    10:    loader.addLoadListener(*monitor*);
+
+</div>
+
+Lines 1 through 6 set up the machinery for the _loader_.  We have already
+covered the purpose of _dispatcher_, and _monitor_.
+
+Line 7 instructs the _monitor_ to use a _closed session_.  This means that when
+the _loader_ sends a =endSession= event, the monitor will remove from the graph
+any classes that were not looked at during the session that just ended.  By
+default, the _monitor_ uses open sessions and does not remove any classes
+(except as part of revising a modified class).
+
+Lines 9 and 10 setup the _loader_ instance for use by the application.
+
+When you want to pickup changes in the classes, all you need to do is call
+=load()= on the loader with the location of the =.class= files.
+
+<div class="highlight">
+
+    01:    *loader*.load(sources);
+
+</div>
+
+Here, _sources_ would point to the code that you want to analyze.  The
+application would have to execure this line everytime it wants to refresh the
+graph, either because it detected a change in the =.class= files or in response
+to a user action.
 
 ---+++ =Visitor=
 
