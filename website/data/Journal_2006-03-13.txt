@@ -1,0 +1,9 @@
+Added new experimental "Related links" banner from Google to selected pages on
+the website.  It does not pay like Google's AdSense, but it might provide
+useful links to people who visit the site.  I added it to the following pages
+to start with:
+
+    * Introduction (between main text and quotes)
+    * Resources (at the top)
+    * Journal (at the top)
+    
