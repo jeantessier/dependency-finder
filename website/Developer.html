@@ -63,6 +63,7 @@ by Jean Tessier
 <li><a href="#DependencyExtractor"><code>DependencyExtractor</code></a></li>
 <li><a href="#UpdatingtheGraphforChangedFiles">Updating the Graph for Changed Files</a></li>
 <li><a href="#extract.jsp"><code>extract.jsp</code></a></li>
+<li><a href="#SampleStandaloneApplicationwithRefresh">Sample Standalone Application with Refresh</a></li>
 <li><a href="#VisitorX"><code>Visitor</code></a></li>
 <ul>
 <li><a href="#VisitorandTraversalStrategy"><code>Visitor</code> and <code>TraversalStrategy</code></a></li>
@@ -746,6 +747,70 @@ reusing the one in the session.
 Lines 25 through 28 serve the same purpose as before in <code>DependencyExtractor</code>.
 Notice that <code>Monitor</code> extends <code>LoadListenerVisitorAdapter</code> and does not need
 any special treatment before we register it with the <i>loader</i>.
+</p>
+
+<a name="SampleStandaloneApplicationwithRefresh"></a>
+<h3>Sample Standalone Application with Refresh</h3>
+
+<p>
+If you are writing your own long-lived application that needs to pick up
+changes to the <code>.class</code> files, you would setup the <code>ClassfileLoader</code> and
+dispatcher and visitors once at initialization and hold on to the resulting
+loader.
+</p>
+
+<div class="highlight">
+
+<pre>
+    01:    NodeFactory             factory         = new NodeFactory();
+    02:    CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
+    03:    DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
+    04:
+    05:    ClassfileLoaderDispatcher <b>dispatcher</b> = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+    06:    Monitor                   <b>monitor</b>    = new Monitor(collector, deletingVisitor);
+    07:    monitor.setClosedSession(true);
+    08:
+    09:    <b>loader</b> = new TransientClassfileLoader(<b>dispatcher</b>);
+    10:    loader.addLoadListener(<b>monitor</b>);
+</pre>
+
+</div>
+
+<p>
+Lines 1 through 6 set up the machinery for the <i>loader</i>.  We have already
+covered the purpose of <i>dispatcher</i>, and <i>monitor</i>.
+</p>
+
+<p>
+Line 7 instructs the <i>monitor</i> to use a <i>closed session</i>.  This means that when
+the <i>loader</i> sends a <code>endSession</code> event, the monitor will remove from the graph
+any classes that were not looked at during the session that just ended.  By
+default, the <i>monitor</i> uses open sessions and does not remove any classes
+(except as part of revising a modified class).
+</p>
+
+<p>
+Lines 9 and 10 setup the <i>loader</i> instance for use by the application.
+</p>
+
+<p>
+When you want to pickup changes in the classes, all you need to do is call
+<code>load()</code> on the loader with the location of the <code>.class</code> files.
+</p>
+
+<div class="highlight">
+
+<pre>
+    01:    <b>loader</b>.load(sources);
+</pre>
+
+</div>
+
+<p>
+Here, <i>sources</i> would point to the code that you want to analyze.  The
+application would have to execure this line everytime it wants to refresh the
+graph, either because it detected a change in the <code>.class</code> files or in response
+to a user action.
 </p>
 
 <a name="VisitorX"></a>

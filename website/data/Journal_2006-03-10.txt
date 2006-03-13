@@ -1,0 +1,16 @@
+A user was asking questions about =Monitor= and how to reload a graph and pick
+up new classes.  I augmented the Developer Guide to describe how you would use
+a =Monitor= and a =ModifiedOnlyDispatcher= with a =ClassfileLoader= to support
+reloading the graph and picking up changes.
+
+As I was writting this, I realized that the monitor and the dispatcher are not
+linked to one another.  This means that if the dispatcher decides to ignore a
+JAR file that hasn't changed, the monitor will not know about the classes in it
+and will remove them from the graph if it uses closed sessions.
+
+I had experienced this behavior before, when using the webpp with a collection
+of JAR files instead of the loose =.class= files I was used to.  I'm thinking
+that if I let the dispatcher travers collections of classes, like JAR or ZIP
+files, it would let the monitor know about all the =.class= files and the
+monitor would not remove them from the graph.  That's already what
+=ModifiedOnlyDispather= does with directories.
