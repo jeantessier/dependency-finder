@@ -65,26 +65,29 @@ public class TestModifiedOnlyDispatcher extends TestCase {
         assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
     }
 
-    public void testDispatchNewFile() throws IOException {
-        writeFile();
-        
+    public void testDispatchNewClassFile() throws IOException {
+        createFile();
+        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.ACTION_CLASS);
+
         assertEquals("dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
     }
     
-    public void testDispatchIdenticalFile() throws IOException {
-        writeFile();
-        
+    public void testDispatchIdenticalClassFile() throws IOException {
+        createFile();
+        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.ACTION_CLASS);
+
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
 
         assertEquals("repeat dispatch action", ClassfileLoaderDispatcher.ACTION_IGNORE, dispatcher.dispatch(testFilename));
-        assertEquals("repeat delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
     }
 
-    public void testDispatchModifiedFile() throws IOException {
-        writeFile();
-        
+    public void testDispatchModifiedClassFile() throws IOException {
+        createFile();
+        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.ACTION_CLASS);
+
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
 
@@ -93,13 +96,15 @@ public class TestModifiedOnlyDispatcher extends TestCase {
         } catch (InterruptedException ex) {
             // Ignore
         }
-        writeFile();
+        createFile();
         
         assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
     }
 
     public void testDispatchDirectory() {
+        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.ACTION_DIRECTORY);
+
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testDirname));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
 
@@ -108,7 +113,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
     }
 
     public void testDispatchIdenticalZipFile() throws IOException {
-        writeFile();
+        createFile();
         mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.ACTION_ZIP);
 
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
@@ -118,7 +123,18 @@ public class TestModifiedOnlyDispatcher extends TestCase {
         assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
     }
 
-    private void writeFile() throws IOException {
+    public void testDispatchIdenticalJarFile() throws IOException {
+        createFile();
+        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.ACTION_JAR);
+
+        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
+        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+
+        assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
+        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
+    }
+
+    private void createFile() throws IOException {
         PrintWriter out = new PrintWriter(new FileWriter(testFilename));
         out.println("foobar");
         out.close();

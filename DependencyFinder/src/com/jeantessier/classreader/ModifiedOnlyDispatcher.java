@@ -45,25 +45,25 @@ public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
     public ModifiedOnlyDispatcher(ClassfileLoaderDispatcher delegate) {
         this.delegate = delegate;
     }
-    
+
     public int dispatch(String filename) {
-        int result = ACTION_IGNORE;
+        int result = delegate.dispatch(filename);
 
-        Long timestamp = timestamps.get(filename);
-        Logger.getLogger(getClass()).debug(filename + " has timestamp " + timestamp);
-        
-        File file = new File(filename);
-        if (file.isDirectory()) {
-            Logger.getLogger(getClass()).debug("Delegating ...");
-            result = delegate.dispatch(filename);
-        } else if (timestamp == null || timestamp < file.lastModified()) {
-            timestamp = file.lastModified();
-            timestamps.put(filename, timestamp);
+        if (result == ACTION_CLASS) {
+            Long timestamp = timestamps.get(filename);
+            Logger.getLogger(getClass()).debug(filename + " has timestamp " + timestamp);
 
-            Logger.getLogger(getClass()).debug("Delegating ...");
-            result = delegate.dispatch(filename);
+            File file = new File(filename);
+            if (timestamp != null && timestamp >= file.lastModified()) {
+                Logger.getLogger(getClass()).debug("Already dispatched \"" + filename + "\": IGNORE");
+                result = ACTION_IGNORE;
+            } else {
+                Logger.getLogger(getClass()).debug("Delegating ...");
+                timestamp = file.lastModified();
+                timestamps.put(filename, timestamp);
+            }
         } else {
-            Logger.getLogger(getClass()).debug("Already dispatched \"" + filename + "\": IGNORE");
+            Logger.getLogger(getClass()).debug("Delegating ...");
         }
 
         return result;

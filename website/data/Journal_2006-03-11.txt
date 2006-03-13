@@ -1,0 +1,4 @@
+Fixed =ModifiedOnlyDispatcher= to only ignore =.class= files and delegate
+everything else, including JAR and ZIP files.  This fixes the problem I had
+been having when pointing the webapp to a collection of JARs instead of
+unbundled =.class= files.
