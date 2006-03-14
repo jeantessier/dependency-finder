@@ -11,3 +11,17 @@ I also added a copy of the open source license for Dependency Finder on the
 website.  Someone was inquiring and they couldn't find it on the web.  It has
 always been included in the distributions, but it can't hurt to have it posted
 visibly too.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>JUnit</td>
+        <td>:</td>
+        <td>3.8.1</td>
+        <td>-></td>
+        <td>3.8.2</td>
+    </tr>
+</table>
+</blockquote>
