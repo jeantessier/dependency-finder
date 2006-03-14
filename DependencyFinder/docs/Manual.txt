@@ -2147,15 +2147,36 @@ switches.
 
 ---++++ Perl Regular Expressions
 
-The selective graph copier uses Perl regular expressions to select scope
-nodes and filtered dependencies.
+The selective graph copier uses Perl regular expressions to select scoped nodes
+and filtered dependencies.
 
-Here are links to pages explaining Perl regular expressions:
+I will give here a brief introduction to regular expression syntax here.  Here
+are links to pages that explain Perl regular expressions in more details:
 
-   * [[http://jakarta.apache.org/oro/api/org/apache/oro/text/regex/package-summary.html#package_description][Jakarta ORO]]
-     (_what Dependency Finder is using_)
+   * [[http://jakarta.apache.org/oro/api/org/apache/oro/text/regex/package-summary.html#package%5Fdescription][Jakarta ORO]] (_Dependency Finder uses this one_)
    * [[http://java.sun.com/j2se/1.4/docs/api/java/util/regex/Pattern.html#sum][JDK 1.4]]
    * [[http://www.perldoc.com/perl5.6/pod/perlre.html][Perldoc.com]]
+
+Regular expressions are strings that get matched against package, class, and
+feature names.  They must be surrounded by a "=/=" on each side.  This is in
+part because the package that implements them demands it.  But it is also a way
+to remind you that these strings are Perl regular expressions: you have access
+to the full expressiveness of Perl pattern-matching.
+
+Most characters in the regular expression match themselves.  =/foobar/= matches
+the string "foobar" anywhere in the node's name.
+
+Some characters, however, have special meaning.  "=.=" will match any character
+at that position.  =/foo.bar/= will match "fooabar" and "foo/bar" and even
+"foo.bar", but not "foobar" since there is no character between the second "o"
+and the "b".
+
+Another special character is "=\=".  It is used to escape special characters
+and to turn regular characters into special ones.  For instance, "=(=" and
+"=)=" are special characters;  to match them in a method name, you have to
+escape each one with a "=\=", as in =/foobar\(\)/=.  "=s=" usually matches the
+letter "s" but "=\s=" will match any whitespace character, such as a space or a
+tab.
 
 Special characters in regular expressions:
 
