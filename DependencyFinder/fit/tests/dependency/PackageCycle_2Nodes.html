@@ -1,12 +1,12 @@
 <html>
 
 <head>
-<title>Simple Package Cycle</title>
+<title>Package Cycle - 2-Node</title>
 </head>
 
 <body>
 
-<h1>Simple Package Cycle</h1>
+<h1>Package Cycle - 2-Node</h1>
 
 <table border="1">
     <tr>
@@ -21,7 +21,7 @@
 <table border="1">
     <tr>
         <td>create</td>
-        <td>foo</td>
+        <td>a</td>
         <td>package</td>
     </tr>
 </table>
@@ -29,7 +29,7 @@
 <table border="1">
     <tr>
         <td>create</td>
-        <td>bar</td>
+        <td>b</td>
         <td>package</td>
     </tr>
 </table>
@@ -39,18 +39,18 @@
 <table border="1">
     <tr>
         <td>source</td>
-        <td>foo</td>
+        <td>a</td>
         <td>depends on</td>
-        <td>bar</td>
+        <td>b</td>
     </tr>
 </table>
 
 <table border="1">
     <tr>
         <td>source</td>
-        <td>bar</td>
+        <td>b</td>
         <td>depends on</td>
-        <td>foo</td>
+        <td>a</td>
     </tr>
 </table>
 
@@ -64,6 +64,8 @@
 
 <h2>Verify results.</h2>
 
+<p>Check number of cycles and their length</p>
+
 <table border="1">
     <tr>
         <td>cycles</td>
@@ -73,6 +75,24 @@
     </tr>
     <tr>
         <td>2</td>
+    </tr>
+</table>
+
+<p>Check individual cycles</p>
+
+<table border="1">
+    <tr>
+        <td>path for cycle</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td colspan="2"><i>name</i></td>
+    </tr>
+    <tr>
+        <td colspan="2">a</td>
+    </tr>
+    <tr>
+        <td colspan="2">b</td>
     </tr>
 </table>
 

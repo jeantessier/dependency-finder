@@ -32,6 +32,8 @@
 
 package com.jeantessier.dependency;
 
+import java.util.*;
+
 import fit.*;
 
 public class CycleDetectorFixture extends NodeFactoryFixture {
@@ -39,5 +41,12 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
         Visitor visitor = new CycleDetector();
         visitor.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
         setSystemUnderTest(visitor);
+    }
+
+    public SetFixture pathForCycle(int pos) {
+        CycleDetector detector = (CycleDetector) systemUnderTest;
+        ArrayList cycles = new ArrayList(detector.getCycles());
+        Cycle cycle = (Cycle) cycles.get(pos);
+        return new SetFixture(cycle.getPath());
     }
 }
