@@ -1,0 +1,89 @@
+<html>
+
+<head>
+<title>Simple Package Cycle</title>
+</head>
+
+<body>
+
+<h1>Simple Package Cycle</h1>
+
+<table border="1">
+    <tr>
+        <td>com.jeantessier.dependency.CycleDetectorFixture</td>
+    </tr>
+</table>
+
+<h2>Set up.</h2>
+
+<p>Create some nodes</p>
+
+<table border="1">
+    <tr>
+        <td>create</td>
+        <td>foo</td>
+        <td>package</td>
+    </tr>
+</table>
+
+<table border="1">
+    <tr>
+        <td>create</td>
+        <td>bar</td>
+        <td>package</td>
+    </tr>
+</table>
+
+<p>Create some dependencies.</p>
+
+<table border="1">
+    <tr>
+        <td>source</td>
+        <td>foo</td>
+        <td>depends on</td>
+        <td>bar</td>
+    </tr>
+</table>
+
+<table border="1">
+    <tr>
+        <td>source</td>
+        <td>bar</td>
+        <td>depends on</td>
+        <td>foo</td>
+    </tr>
+</table>
+
+<h2>Detect cycles.</h2>
+
+<table border="1">
+    <tr>
+        <td>detect cycles</td>
+    </tr>
+</table>
+
+<h2>Verify results.</h2>
+
+<table border="1">
+    <tr>
+        <td>cycles</td>
+    </tr>
+    <tr>
+        <td><i>length</i></td>
+    </tr>
+    <tr>
+        <td>2</td>
+    </tr>
+</table>
+
+<hr/>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.Summary</td>
+    </tr>
+</table>
+
+</body>
+
+</html>
