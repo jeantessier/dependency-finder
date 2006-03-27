@@ -1,0 +1,35 @@
+Augmented =CycleDetector= to detect cycles at the class level.
+
+Added Fit tests for cycles at the class or feature levels.  Next, I will need
+to look for cycles that span levels, like in the Visitor pattern.
+
+[[../images/VisitorPattern.gif]]
+
+    BaseClass
+        accept(Visitor)
+            --&gt; Visitor
+    ClassA
+        --&gt; BaseClass
+        accept(Visitor)
+            --&gt; Visitor
+            --&gt; Visitor.visitClassA(ClassA)
+    ClassB
+        --&gt; BaseClass
+        accept(Visitor)
+            --&gt; Visitor
+            --&gt; Visitor.visitClassB(ClassB)
+    Visitor
+        visitClassA(ClassA)
+            --&gt; ClassA
+        visitClassB(ClassB)
+            --&gt; ClassB
+
+These cycles go from some feature to a class and continues through the features
+of that class.  For this to work, =CycleDetector= would have to look at lower
+levels when seeking cycles from a node.  It would have to drill down from
+=PackageNode= to =ClassNode= and from =ClassNode= to =FeatureNode= as
+appropriate.
+
+I also fixed the image links in the Journal.  Since I switched to a CGI script,
+the URL is no longer a prefix of the =images/= folder where the images are.
+Links to images must now be prefixed with =../=.

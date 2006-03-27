@@ -49,6 +49,33 @@ public class CycleDetector extends VisitorBase {
         }
     }
 
+    protected void preprocessClassNode(ClassNode node) {
+        super.preprocessClassNode(node);
+
+        currentPath.addLast(node);
+    }
+
+    protected void preprocessAfterDependenciesClassNode(ClassNode node) {
+        super.preprocessAfterDependenciesClassNode(node);
+
+        currentPath.removeLast();
+    }
+
+    public void visitOutboundClassNode(ClassNode node) {
+        super.visitOutboundClassNode(node);
+
+        if (getStrategy().isInFilter(node)) {
+            if (currentPath.getFirst().equals(node) && currentPath.size() <= getMaximumCycleLength()) {
+                Cycle cycle = new Cycle(currentPath);
+                cycles.add(cycle);
+            } else if (!currentPath.contains(node)){
+                currentPath.addLast(node);
+                traverseOutbound(node.getOutboundDependencies());
+                currentPath.removeLast();
+            }
+        }
+    }
+
     protected void preprocessFeatureNode(FeatureNode node) {
         super.preprocessFeatureNode(node);
 

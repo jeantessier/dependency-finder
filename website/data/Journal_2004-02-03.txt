@@ -25,7 +25,7 @@ First, suppose you have the following classes =A= and
 </td>
 <td width="150"
     align="right">
-[[images/AandB.gif]]
+[[../images/AandB.gif]]
 </td>
 </tr></table>
 
@@ -45,7 +45,7 @@ Now, imagine for a second that we have the following class
 </td>
 <td width="500"
     align="right">
-[[images/AandBandC.gif]]
+[[../images/AandBandC.gif]]
 </td>
 </tr></table>
 
@@ -85,7 +85,7 @@ try to call method =b()= in class =B=.  If you
 compile it with JDK 1.4, it will try to call method =b()=
 in class =A=.
 
-[[images/A.this.gif]]
+[[../images/A.this.gif]]
 
 Dependency Finder gets its information from the bytecode in the
 compiled Java class.  It provides you with an exact rendition of what
