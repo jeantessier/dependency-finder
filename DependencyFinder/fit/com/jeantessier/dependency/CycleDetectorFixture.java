@@ -46,7 +46,6 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
     public SetFixture pathForCycle(int pos) {
         CycleDetector detector = (CycleDetector) systemUnderTest;
         ArrayList<Cycle> cycles = new ArrayList<Cycle>(detector.getCycles());
-        Collections.sort(cycles, new CycleComparator());
         Cycle cycle = cycles.get(pos);
         return new SetFixture(cycle.getPath());
     }
