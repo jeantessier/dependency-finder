@@ -28,7 +28,7 @@ public class Cycle implements Comparable {
     }
 
     public int getLength() {
-        return nodes.size();
+        return path.size();
     }
 
     public boolean equals(Object object) {

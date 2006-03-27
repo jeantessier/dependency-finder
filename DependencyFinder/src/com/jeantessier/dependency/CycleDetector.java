@@ -6,11 +6,11 @@ import java.util.*;
  * TODO Class comment
  */
 public class CycleDetector extends VisitorBase {
-    private LinkedList currentPath = new LinkedList();
-    private Collection cycles = new HashSet();
+    private LinkedList<Node> currentPath = new LinkedList<Node>();
+    private Collection<Cycle> cycles = new TreeSet<Cycle>(new CycleComparator());
     private int maximumCycleLength = Integer.MAX_VALUE;
 
-    public Collection getCycles() {
+    public Collection<Cycle> getCycles() {
         return cycles;
     }
 
@@ -44,6 +44,7 @@ public class CycleDetector extends VisitorBase {
             } else if (!currentPath.contains(node)){
                 currentPath.addLast(node);
                 traverseOutbound(node.getOutboundDependencies());
+                traverseOutbound(node.getClasses());
                 currentPath.removeLast();
             }
         }
@@ -71,6 +72,7 @@ public class CycleDetector extends VisitorBase {
             } else if (!currentPath.contains(node)){
                 currentPath.addLast(node);
                 traverseOutbound(node.getOutboundDependencies());
+                traverseOutbound(node.getFeatures());
                 currentPath.removeLast();
             }
         }

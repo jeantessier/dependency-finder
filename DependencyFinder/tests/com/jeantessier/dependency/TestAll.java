@@ -70,6 +70,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestGraphSummarizerWithFiltering.class);
         result.addTestSuite(TestGraphSummarizerWithConfirmed.class);
         result.addTestSuite(TestCycle.class);
+        result.addTestSuite(TestCycleComparator.class);
         result.addTestSuite(TestCycleDetector.class);
         result.addTestSuite(TestTransitiveClosure.class);
         result.addTestSuite(TestTransitiveClosureWithTestClass.class);
