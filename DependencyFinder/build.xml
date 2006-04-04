@@ -39,8 +39,7 @@
         <fileset dir="${env.WEBWORK_HOME}/lib/default">
             <include name="**/*.jar"/>
         </fileset>
-        <pathelement location="${env.FIT_HOME}/fit.jar"/>
-        <pathelement location="${env.FITLIBRARY_HOME}/dist/fitLibraryForFit.jar"/>
+        <pathelement location="${env.FITLIBRARY_HOME}/fitLibraryRunner.jar"/>
     </path>
 
     <target name="init">

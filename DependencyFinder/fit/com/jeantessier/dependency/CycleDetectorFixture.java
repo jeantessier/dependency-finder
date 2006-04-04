@@ -34,7 +34,7 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-import fit.*;
+import fitlibrary.*;
 
 public class CycleDetectorFixture extends NodeFactoryFixture {
     public void detectCycles() {

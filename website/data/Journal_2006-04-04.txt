@@ -1,0 +1,20 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Fit</td>
+        <td>:</td>
+        <td>1.1</td>
+        <td>-></td>
+        <td>_none_</td>
+    </tr>
+    <tr>
+        <td>FitLibrary</td>
+        <td>:</td>
+        <td>15Feb2005</td>
+        <td>-></td>
+        <td>20060116</td>
+    </tr>
+</table>
+</blockquote>

@@ -2,7 +2,7 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-import fit.*;
+import fitlibrary.*;
 
 public class NodeFactoryFixture extends DoFixture {
     public NodeFactoryFixture() {
@@ -39,19 +39,15 @@ public class NodeFactoryFixture extends DoFixture {
         return new SetFixture(dependencies);
     }
 
-    public Object parse(String s, Class type) throws Exception {
-        Object result = ((NodeFactory) systemUnderTest).getPackages().get(s);
+    public Node findNode(String s) {
+        Node result = (Node) ((NodeFactory) systemUnderTest).getPackages().get(s);
 
         if (result == null) {
-            result = ((NodeFactory) systemUnderTest).getClasses().get(s);
+            result = (Node) ((NodeFactory) systemUnderTest).getClasses().get(s);
         }
 
         if (result == null) {
-            result = ((NodeFactory) systemUnderTest).getFeatures().get(s);
-        }
-
-        if (result == null) {
-            result = super.parse(s, type);
+            result = (Node) ((NodeFactory) systemUnderTest).getFeatures().get(s);
         }
 
         return result;
