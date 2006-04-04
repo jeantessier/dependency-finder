@@ -77,10 +77,9 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getProjectMeasurements());
-            
-            Iterator i = metrics.getSubMetrics().iterator();
-            while (i.hasNext()) {
-                visitGroupMetrics((Metrics) i.next());
+
+            for (Metrics subMetrics : metrics.getSubMetrics()) {
+                visitGroupMetrics(subMetrics);
             }
             
             lowerIndent();
@@ -95,10 +94,9 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getGroupMeasurements());
-            
-            Iterator i = metrics.getSubMetrics().iterator();
-            while (i.hasNext()) {
-                visitClassMetrics((Metrics) i.next());
+
+            for (Metrics subMetrics : metrics.getSubMetrics()) {
+                visitClassMetrics(subMetrics);
             }
             
             lowerIndent();
@@ -113,10 +111,9 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getClassMeasurements());
-            
-            Iterator i = metrics.getSubMetrics().iterator();
-            while (i.hasNext()) {
-                visitMethodMetrics((Metrics) i.next());
+
+            for (Metrics subMetrics : metrics.getSubMetrics()) {
+                visitMethodMetrics(subMetrics);
             }
             
             lowerIndent();
@@ -137,11 +134,8 @@ public class XMLPrinter extends Printer {
         }
     }
 
-    private void visitMeasurements(Metrics metrics, List descriptors) {
-        Iterator i = descriptors.iterator();
-        while (i.hasNext()) {
-            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
-
+    private void visitMeasurements(Metrics metrics, List<MeasurementDescriptor> descriptors) {
+        for (MeasurementDescriptor descriptor : descriptors) {
             if (isShowHiddenMeasurements() || descriptor.isVisible()) {
                 metrics.getMeasurement(descriptor.getShortName()).accept(this);
             }
@@ -185,9 +179,8 @@ public class XMLPrinter extends Printer {
         indent().append("<value>").append(measurement.getValue()).append("</value>").eol();
         indent().append("<members>").eol();
         raiseIndent();
-        Iterator i = measurement.getValues().iterator();
-        while (i.hasNext()) {
-            indent().append("<member>").append(i.next()).append("</member>").eol();
+        for (Object member : measurement.getValues()) {
+            indent().append("<member>").append(member).append("</member>").eol();
         }
         lowerIndent();
         indent().append("</members>").eol();

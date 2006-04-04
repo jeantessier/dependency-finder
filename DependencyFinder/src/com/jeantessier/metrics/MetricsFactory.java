@@ -44,15 +44,15 @@ public class MetricsFactory {
     private String               projectName;
     private MetricsConfiguration configuration;
 
-    private Map projects = new HashMap();
-    private Map groups   = new HashMap();
-    private Map classes  = new HashMap();
-    private Map methods  = new HashMap();
+    private Map<String, Metrics> projects = new HashMap<String, Metrics>();
+    private Map<String, Metrics> groups   = new HashMap<String, Metrics>();
+    private Map<String, Metrics> classes  = new HashMap<String, Metrics>();
+    private Map<String, Metrics> methods  = new HashMap<String, Metrics>();
 
-    private Map includedProjects = new HashMap();
-    private Map includedGroups   = new HashMap();
-    private Map includedClasses  = new HashMap();
-    private Map includedMethods  = new HashMap();
+    private Map<String, Metrics> includedProjects = new HashMap<String, Metrics>();
+    private Map<String, Metrics> includedGroups   = new HashMap<String, Metrics>();
+    private Map<String, Metrics> includedClasses  = new HashMap<String, Metrics>();
+    private Map<String, Metrics> includedMethods  = new HashMap<String, Metrics>();
     
     public MetricsFactory(String projectName, MetricsConfiguration configuration) {
         this.projectName   = projectName;
@@ -72,7 +72,7 @@ public class MetricsFactory {
     }
     
     public Metrics createProjectMetrics(String name) {
-        Metrics result = (Metrics) projects.get(name);
+        Metrics result = projects.get(name);
 
         if (result == null) {
             result = buildProjectMetrics(name);
@@ -94,24 +94,24 @@ public class MetricsFactory {
         includedProjects.put(metrics.getName(), metrics);
     }
 
-    public Collection getProjectNames() {
+    public Collection<String> getProjectNames() {
         return Collections.unmodifiableCollection(includedProjects.keySet());
     }
     
-    public Collection getProjectMetrics() {
+    public Collection<Metrics> getProjectMetrics() {
         return Collections.unmodifiableCollection(includedProjects.values());
     }
     
-    public Collection getAllProjectNames() {
+    public Collection<String> getAllProjectNames() {
         return Collections.unmodifiableCollection(projects.keySet());
     }
     
-    public Collection getAllProjectMetrics() {
+    public Collection<Metrics> getAllProjectMetrics() {
         return Collections.unmodifiableCollection(projects.values());
     }
 
     public Metrics createGroupMetrics(String name) {
-        Metrics result = (Metrics) groups.get(name);
+        Metrics result = groups.get(name);
 
         if (result == null) {
             result = buildGroupMetrics(name);
@@ -136,24 +136,24 @@ public class MetricsFactory {
         includeProjectMetrics(metrics.getParent());
     }
 
-    public Collection getGroupNames() {
+    public Collection<String> getGroupNames() {
         return Collections.unmodifiableCollection(includedGroups.keySet());
     }
 
-    public Collection getGroupMetrics() {
+    public Collection<Metrics> getGroupMetrics() {
         return Collections.unmodifiableCollection(includedGroups.values());
     }
 
-    public Collection getAllGroupNames() {
+    public Collection<String> getAllGroupNames() {
         return Collections.unmodifiableCollection(groups.keySet());
     }
 
-    public Collection getAllGroupMetrics() {
+    public Collection<Metrics> getAllGroupMetrics() {
         return Collections.unmodifiableCollection(groups.values());
     }
 
     public Metrics createClassMetrics(String name) {
-        Metrics result = (Metrics) classes.get(name);
+        Metrics result = classes.get(name);
 
         if (result == null) {
             result = buildClassMetrics(name);
@@ -182,32 +182,31 @@ public class MetricsFactory {
         metrics.getParent().addSubMetrics(metrics);
         includeGroupMetrics(metrics.getParent());
 
-        Iterator i = getConfiguration().getGroups(metrics.getName()).iterator();
-        while (i.hasNext()) {
-            Metrics groupMetrics = createGroupMetrics((String) i.next());
+        for (String name : getConfiguration().getGroups(metrics.getName())) {
+            Metrics groupMetrics = createGroupMetrics(name);
             groupMetrics.addSubMetrics(metrics);
             includeGroupMetrics(groupMetrics);
         }
     }
 
-    public Collection getClassNames() {
+    public Collection<String> getClassNames() {
         return Collections.unmodifiableCollection(includedClasses.keySet());
     }
 
-    public Collection getClassMetrics() {
+    public Collection<Metrics> getClassMetrics() {
         return Collections.unmodifiableCollection(includedClasses.values());
     }
 
-    public Collection getAllClassNames() {
+    public Collection<String> getAllClassNames() {
         return Collections.unmodifiableCollection(classes.keySet());
     }
     
-    public Collection getAllClassMetrics() {
+    public Collection<Metrics> getAllClassMetrics() {
         return Collections.unmodifiableCollection(classes.values());
     }
 
     public Metrics createMethodMetrics(String name) {
-        Metrics result = (Metrics) methods.get(name);
+        Metrics result = methods.get(name);
 
         if (result == null) {
             result = buildMethodMetrics(name);
@@ -241,19 +240,19 @@ public class MetricsFactory {
         includeClassMetrics(metrics.getParent());
     }
     
-    public Collection getMethodNames() {
+    public Collection<String> getMethodNames() {
         return Collections.unmodifiableCollection(includedMethods.keySet());
     }
 
-    public Collection getMethodMetrics() {
+    public Collection<Metrics> getMethodMetrics() {
         return Collections.unmodifiableCollection(includedMethods.values());
     }
     
-    public Collection getAllMethodNames() {
+    public Collection<String> getAllMethodNames() {
         return Collections.unmodifiableCollection(methods.keySet());
     }
 
-    public Collection getAllMethodMetrics() {
+    public Collection<Metrics> getAllMethodMetrics() {
         return Collections.unmodifiableCollection(methods.values());
     }
 
@@ -269,10 +268,8 @@ public class MetricsFactory {
         includedMethods.clear();
     }
     
-    private void populateMetrics(Metrics metrics, Collection descriptors) {
-        Iterator i = descriptors.iterator();
-        while (i.hasNext()) {
-            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+    private void populateMetrics(Metrics metrics, Collection<MeasurementDescriptor> descriptors) {
+        for (MeasurementDescriptor descriptor : descriptors) {
             try {
                 metrics.track(descriptor.createMeasurement(metrics));
             } catch (InstantiationException ex) {
@@ -292,34 +289,24 @@ public class MetricsFactory {
 
         result.append("Factory for project \"").append(getProjectName()).append("\"").append(System.getProperty("line.separator", "\n"));
 
-        Iterator i;
-        
         result.append("projects:").append(System.getProperty("line.separator", "\n"));
-        i = projects.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
-            result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).getName()).append("").append(System.getProperty("line.separator", "\n"));
+        for (Map.Entry<String, Metrics> entry : projects.entrySet()) {
+            result.append("    ").append(entry.getKey()).append(" -> ").append(entry.getValue().getName()).append("").append(System.getProperty("line.separator", "\n"));
         }
         
         result.append("groups:").append(System.getProperty("line.separator", "\n"));
-        i = groups.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
-            result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).getName()).append("").append(System.getProperty("line.separator", "\n"));
+        for (Map.Entry<String, Metrics> entry : groups.entrySet()) {
+            result.append("    ").append(entry.getKey()).append(" -> ").append(entry.getValue().getName()).append("").append(System.getProperty("line.separator", "\n"));
         }
         
         result.append("classes:").append(System.getProperty("line.separator", "\n"));
-        i = classes.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
-            result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).getName()).append("").append(System.getProperty("line.separator", "\n"));
+        for (Map.Entry<String, Metrics> entry : classes.entrySet()) {
+            result.append("    ").append(entry.getKey()).append(" -> ").append(entry.getValue().getName()).append("").append(System.getProperty("line.separator", "\n"));
         }
         
         result.append("methods:").append(System.getProperty("line.separator", "\n"));
-        i = methods.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
-            result.append("    ").append(entry.getKey()).append(" -> ").append(((Metrics) entry.getValue()).getName()).append("").append(System.getProperty("line.separator", "\n"));
+        for (Map.Entry<String, Metrics> entry : methods.entrySet()) {
+            result.append("    ").append(entry.getKey()).append(" -> ").append(entry.getValue().getName()).append("").append(System.getProperty("line.separator", "\n"));
         }
         
         return result.toString();

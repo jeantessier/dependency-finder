@@ -53,28 +53,30 @@ import org.apache.log4j.*;
  *  <p>Defaults to SET (i.e., does not count duplicates).</p>
  */
 public class NameListMeasurement extends MeasurementBase implements CollectionMeasurement {
-    private Collection values;
+    private Collection<String> values;
 
     public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
 
         if (initText != null) {
             if (initText.trim().equalsIgnoreCase("list")) {
-                values = new LinkedList();
+                values = new LinkedList<String>();
             } else if (initText.trim().equalsIgnoreCase("set")) {
-                values = new HashSet();
+                values = new HashSet<String>();
             } else {
                 Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\", using default value of SET instead");
-                values = new HashSet();
+                values = new HashSet<String>();
             }
         } else {
             Logger.getLogger(getClass()).debug("Cannot initialize with null text, using default value of SET instead");
-            values = new HashSet();
+            values = new HashSet<String>();
         }
     }
 
     public void add(Object object) {
-        values.add(object);
+        if (object instanceof String) {
+            values.add((String) object);
+        }
     }
 
     public void accept(MeasurementVisitor visitor) {
@@ -82,7 +84,7 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
     }
 
     public Number getValue() {
-        return new Integer(values.size());
+        return values.size();
     }
 
     public boolean isEmpty() {
@@ -93,7 +95,7 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
         return values.size();
     }
 
-    public Collection getValues() {
+    public Collection<String> getValues() {
         return Collections.unmodifiableCollection(values);
     }
 }

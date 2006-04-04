@@ -1030,6 +1030,7 @@ or
 
     C:\>ant tests
     C:\>textjunit TestAll
+    C:\>textjunit com.jeantessier.fit.FitTestSuite
 
 ---+++ Making a Release
 

@@ -173,29 +173,23 @@ public class MetricsGatherer extends VisitorBase {
             getCurrentClass().addToMeasurement(Metrics.DEPTH_OF_INHERITANCE, computeDepthOfInheritance(superclass));
         }
 
-        Iterator i;
-
-        i = classfile.getAllInterfaces().iterator();
-        while (i.hasNext()) {
-            ((Class_info) i.next()).accept(this);
+        for (Class_info class_info : classfile.getAllInterfaces()) {
+            class_info.accept(this);
         }
 
-        i = classfile.getAllFields().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Field_info field : classfile.getAllFields()) {
+            field.accept(this);
         }
 
-        i = classfile.getAllMethods().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Method_info method : classfile.getAllMethods()) {
+            method.accept(this);
         }
 
         sloc = 1;
         isSynthetic = false;
 
-        i = classfile.getAttributes().iterator();
-        while (i.hasNext()) {
-            ((Visitable) i.next()).accept(this);
+        for (Attribute_info attribute : classfile.getAttributes()) {
+            attribute.accept(this);
         }
         
         if (!isSynthetic) {

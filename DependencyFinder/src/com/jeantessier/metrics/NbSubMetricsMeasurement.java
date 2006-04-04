@@ -68,7 +68,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
     private static final double DELTA = 0.1;
 
-    private List terms = new LinkedList();
+    private List<String> terms = new LinkedList<String>();
     private int  value = 0;
 
     public NbSubMetricsMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
@@ -89,7 +89,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
         }
     }
 
-    public List getTerms() {
+    public List<String> getTerms() {
         return terms;
     }
     
@@ -114,10 +114,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
                     if (getTerms().isEmpty()) {
                         value = getContext().getSubMetrics().size();
                     } else {
-                        Iterator i = getContext().getSubMetrics().iterator();
-                        while (i.hasNext()) {
-                            Metrics metrics = (Metrics) i.next();
-                            
+                        for (Metrics metrics : getContext().getSubMetrics()) {
                             if (getSelectMetrics(metrics)) {
                                 value++;
                             }
@@ -137,9 +134,9 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
     private boolean getSelectMetrics(Metrics metrics) {
         boolean result = getTerms().isEmpty();
         
-        Iterator i = getTerms().iterator();
+        Iterator<String> i = getTerms().iterator();
         while (!result && i.hasNext()) {
-            result = evaluateTerm((String) i.next(), metrics);
+            result = evaluateTerm(i.next(), metrics);
         }
 
         return result;
@@ -150,18 +147,18 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
         Logger.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + ")");
         
-        List elements = new ArrayList();
+        List<String> elements = new ArrayList<String>();
         perl().split(elements, OPERATORS, term);
 
         result = (elements.size() > 0) && ((elements.size() % 2) == 1);
         
         if (elements.size() == 1) {
-            result = metrics.hasMeasurement((String) elements.remove(0));
+            result = metrics.hasMeasurement(elements.remove(0));
         } else {
             while (result && (elements.size() > 2) && ((elements.size() % 2) == 1)) {
-                String leftString  = (String) elements.remove(0);
-                String operator     = (String) elements.remove(0);
-                String rightString = (String) elements.get(0);
+                String leftString  = elements.remove(0);
+                String operator    = elements.remove(0);
+                String rightString = elements.get(0);
 
                 double leftOperand = 0;
                 try {

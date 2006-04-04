@@ -137,10 +137,9 @@ public abstract class Printer implements MeasurementVisitor {
         indentLevel--;
     }
 
-    public void visitMetrics(Collection metrics) {
-        Iterator i = metrics.iterator();
-        while(i.hasNext()) {
-            visitMetrics((Metrics) i.next());
+    public void visitMetrics(Collection<Metrics> metrics) {
+        for (Metrics metric : metrics) {
+            visitMetrics(metric);
         }
     }
     

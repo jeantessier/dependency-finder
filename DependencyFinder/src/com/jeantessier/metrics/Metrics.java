@@ -109,8 +109,8 @@ public class Metrics {
     private Metrics parent;
     private String  name;
 
-    private Map measurements = new TreeMap();
-    private Map submetrics   = new TreeMap();
+    private Map<String, Measurement> measurements = new TreeMap<String, Measurement>();
+    private Map<String, Metrics> submetrics = new TreeMap<String, Metrics>();
 
     public Metrics(String name) {
         this(null, name);
@@ -176,7 +176,7 @@ public class Metrics {
     }
 
     public Measurement getMeasurement(String name) {
-        Measurement result = (Measurement) measurements.get(name);
+        Measurement result = measurements.get(name);
         
         if (result == null) {
             result = NULL_MEASUREMENT;
@@ -190,34 +190,32 @@ public class Metrics {
         return measurements.get(name) != null;
     }
     
-    public Collection getMeasurementNames() {
-        return Collections.unmodifiableCollection(new TreeSet(measurements.keySet()));
+    public Collection<String> getMeasurementNames() {
+        return Collections.unmodifiableCollection(measurements.keySet());
     }
     
     public Metrics addSubMetrics(Metrics metrics) {
-        return (Metrics) submetrics.put(metrics.getName(), metrics);
+        return submetrics.put(metrics.getName(), metrics);
     }
     
-    public Collection getSubMetrics() {
+    public Collection<Metrics> getSubMetrics() {
         return Collections.unmodifiableCollection(submetrics.values());
     }
 
     public boolean isEmpty() {
         boolean result = true;
 
-        Iterator i;
-
-        i = measurements.values().iterator();
+        Iterator<Measurement> i = measurements.values().iterator();
         while (result && i.hasNext()) {
-            Measurement measurement = (Measurement) i.next();
+            Measurement measurement = i.next();
             if (measurement.getDescriptor().isVisible()) {
                 result = measurement.isEmpty();
             }
         }
 
-        i = submetrics.values().iterator();
-        while (result && i.hasNext()) {
-            result = ((Metrics) i.next()).isEmpty();
+        Iterator<Metrics> j = submetrics.values().iterator();
+        while (result && j.hasNext()) {
+            result = j.next().isEmpty();
         }
         
         return result;
@@ -226,9 +224,9 @@ public class Metrics {
     public boolean isInRange() {
         boolean result = true;
 
-        Iterator i = measurements.values().iterator();
+        Iterator<Measurement> i = measurements.values().iterator();
         while (result && i.hasNext()) {
-            result = ((Measurement) i.next()).isInRange();
+            result = i.next().isInRange();
         }
         
         return result;
@@ -239,9 +237,9 @@ public class Metrics {
 
         result.append(getClass().getName()).append(" ").append(getName()).append(" with [");
 
-        Iterator i = getMeasurementNames().iterator();
-        while(i.hasNext()) {
-            String name = (String) i.next();
+        Iterator<String> i = getMeasurementNames().iterator();
+        while (i.hasNext()) {
+            String name = i.next();
             Measurement measure = getMeasurement(name);
 
             result.append("\"").append(name).append("\"(").append(measure.getClass().getName()).append(")");

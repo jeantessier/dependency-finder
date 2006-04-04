@@ -97,7 +97,7 @@ public abstract class MeasurementBase implements Measurement {
     }
     
     public Number getValue() {
-        return new Double(compute());
+        return compute();
     }
 
     public int intValue() {

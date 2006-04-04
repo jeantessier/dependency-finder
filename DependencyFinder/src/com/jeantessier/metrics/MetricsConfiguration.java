@@ -41,13 +41,13 @@ import com.jeantessier.text.*;
 public class MetricsConfiguration {
     private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
     
-    private List projectMeasurements = new LinkedList();
-    private List groupMeasurements   = new LinkedList();
-    private List classMeasurements   = new LinkedList();
-    private List methodMeasurements  = new LinkedList();
-    private Map  groupDefinitions    = new HashMap();
+    private List<MeasurementDescriptor> projectMeasurements = new LinkedList<MeasurementDescriptor>();
+    private List<MeasurementDescriptor> groupMeasurements = new LinkedList<MeasurementDescriptor>();
+    private List<MeasurementDescriptor> classMeasurements = new LinkedList<MeasurementDescriptor>();
+    private List<MeasurementDescriptor> methodMeasurements = new LinkedList<MeasurementDescriptor>();
+    private Map<String, Collection<String>> groupDefinitions = new HashMap<String, Collection<String>>();
     
-    public List getProjectMeasurements() {
+    public List<MeasurementDescriptor> getProjectMeasurements() {
         return Collections.unmodifiableList(projectMeasurements);
     }
 
@@ -55,7 +55,7 @@ public class MetricsConfiguration {
         projectMeasurements.add(descriptor);
     }
     
-    public List getGroupMeasurements() {
+    public List<MeasurementDescriptor> getGroupMeasurements() {
         return Collections.unmodifiableList(groupMeasurements);
     }
 
@@ -63,7 +63,7 @@ public class MetricsConfiguration {
         groupMeasurements.add(descriptor);
     }
     
-    public List getClassMeasurements() {
+    public List<MeasurementDescriptor> getClassMeasurements() {
         return Collections.unmodifiableList(classMeasurements);
     }
 
@@ -71,7 +71,7 @@ public class MetricsConfiguration {
         classMeasurements.add(descriptor);
     }
     
-    public List getMethodMeasurements() {
+    public List<MeasurementDescriptor> getMethodMeasurements() {
         return Collections.unmodifiableList(methodMeasurements);
     }
 
@@ -80,27 +80,23 @@ public class MetricsConfiguration {
     }
 
     public void addGroupDefinition(String name, String pattern) {
-        Collection bucket = (Collection) groupDefinitions.get(name);
+        Collection<String> bucket = groupDefinitions.get(name);
 
         if (bucket == null) {
-            bucket = new LinkedList();
+            bucket = new LinkedList<String>();
             groupDefinitions.put(name, bucket);
         }
 
         bucket.add(pattern);
     }
 
-    public Collection getGroups(String name) {
-        Collection result = new HashSet();
+    public Collection<String> getGroups(String name) {
+        Collection<String> result = new HashSet<String>();
 
-        Iterator i = groupDefinitions.keySet().iterator();
-        while (i.hasNext()) {
-            String key = (String) i.next();
-
+        for (String key : groupDefinitions.keySet()) {
             if (groupDefinitions.get(key) != null) {
-                Iterator j = ((Collection) groupDefinitions.get(key)).iterator();
-                while (j.hasNext()) {
-                    if (perl.match((String) j.next(), name)) {
+                for (String pattern : groupDefinitions.get(key)) {
+                    if (perl.match(pattern, name)) {
                         result.add(key);
                     }
                 }

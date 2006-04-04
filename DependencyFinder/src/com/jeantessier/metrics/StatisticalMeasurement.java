@@ -186,7 +186,7 @@ public class StatisticalMeasurement extends MeasurementBase {
     private int    dispose;
     private int    selfDispose;
     
-    private List data = new LinkedList();
+    private List<Double> data = new LinkedList<Double>();
 
     private double minimum           = 0.0;
     private double median            = 0.0;
@@ -312,31 +312,29 @@ public class StatisticalMeasurement extends MeasurementBase {
         if (getContext().getSubMetrics().size() != nbSubmetrics) {
             synchronized (this) {
                 if (getContext().getSubMetrics().size() != nbSubmetrics) {
-                    data = new LinkedList();
+                    data = new LinkedList<Double>();
                     setEmpty(true);
-                    
-                    Iterator i = getContext().getSubMetrics().iterator();
-                    while (i.hasNext()) {
-                        visitMetrics((Metrics) i.next());
+
+                    for (Metrics metrics : getContext().getSubMetrics()) {
+                        visitMetrics(metrics);
                     }
                     
                     if (!data.isEmpty()) {
                         Collections.sort(data);
                         
-                        minimum        = ((Number) data.get(0)).doubleValue();
-                        median         = ((Number) data.get(data.size() / 2)).doubleValue();
-                        maximum        = ((Number) data.get(data.size() - 1)).doubleValue();
+                        minimum      = data.get(0);
+                        median       = data.get(data.size() / 2);
+                        maximum      = data.get(data.size() - 1);
                         nbDataPoints = data.size();
                         
                         sum = 0.0;
-                        Iterator j = data.iterator();
-                        while (j.hasNext()) {
-                            sum += ((Number) j.next()).doubleValue();
+                        for (Double number : data) {
+                            sum += number;
                         }
                     } else {
-                        minimum        = Double.NaN;
-                        median         = Double.NaN;
-                        maximum        = Double.NaN;
+                        minimum      = Double.NaN;
+                        median       = Double.NaN;
+                        maximum      = Double.NaN;
                         nbDataPoints = 0;
                         sum            = 0.0;
                     }
@@ -345,10 +343,9 @@ public class StatisticalMeasurement extends MeasurementBase {
                     
                     if (!data.isEmpty()) {
                         double temp = 0.0;
-                        
-                        Iterator j = data.iterator();
-                        while (j.hasNext()) {
-                            temp += Math.pow(((Number) j.next()).doubleValue() - average, 2);
+
+                        for (Double number : data) {
+                            temp += Math.pow(number - average, 2);
                         }
                         
                         standardDeviation = Math.sqrt(temp / nbDataPoints);
@@ -377,53 +374,51 @@ public class StatisticalMeasurement extends MeasurementBase {
             switch (dispose) {
                 case DISPOSE_MINIMUM:
                     Logger.getLogger(getClass()).debug("using Minimum(): " + stats.getMinimum());
-                    data.add(new Double(stats.getMinimum()));
+                    data.add(stats.getMinimum());
                     break;
                     
                 case DISPOSE_MEDIAN:
                     Logger.getLogger(getClass()).debug("using Median(): " + stats.getMedian());
-                    data.add(new Double(stats.getMedian()));
+                    data.add(stats.getMedian());
                     break;
                     
                 case DISPOSE_AVERAGE:
                     Logger.getLogger(getClass()).debug("using Average(): " + stats.getAverage());
-                    data.add(new Double(stats.getAverage()));
+                    data.add(stats.getAverage());
                     break;
                             
                 case DISPOSE_STANDARD_DEVIATION:
                     Logger.getLogger(getClass()).debug("using StandardDeviation(): " + stats.getStandardDeviation());
-                    data.add(new Double(stats.getStandardDeviation()));
+                    data.add(stats.getStandardDeviation());
                     break;
             
                 case DISPOSE_MAXIMUM:
                     Logger.getLogger(getClass()).debug("using Maximum(): " + stats.getMaximum());
-                    data.add(new Double(stats.getMaximum()));
+                    data.add(stats.getMaximum());
                     break;
                     
                 case DISPOSE_SUM:
                     Logger.getLogger(getClass()).debug("using Sum(): " + stats.getSum());
-                    data.add(new Double(stats.getSum()));
+                    data.add(stats.getSum());
                     break;
                     
                 case DISPOSE_NB_DATA_POINTS:
                     Logger.getLogger(getClass()).debug("using NbDataPoints(): " + stats.getNbDataPoints());
-                    data.add(new Integer(stats.getNbDataPoints()));
+                    data.add((double) stats.getNbDataPoints());
                     break;
 
                 case DISPOSE_IGNORE:
                 default:
                     Logger.getLogger(getClass()).debug("Skipping to next level ...");
-                    Iterator i = metrics.getSubMetrics().iterator();
-                    while (i.hasNext()) {
-                        visitMetrics((Metrics) i.next());
+                    for (Metrics subMetrics : metrics.getSubMetrics()) {
+                        visitMetrics(subMetrics);
                     }
                     break;
             }
         } else if (measurement instanceof NullMeasurement) {
             Logger.getLogger(getClass()).debug("Skipping to next level ...");
-            Iterator i = metrics.getSubMetrics().iterator();
-            while (i.hasNext()) {
-                visitMetrics((Metrics) i.next());
+            for (Metrics subMetrics : metrics.getSubMetrics()) {
+                visitMetrics(subMetrics);
             }
         } else {
             Number value = measurement.getValue();
@@ -431,7 +426,7 @@ public class StatisticalMeasurement extends MeasurementBase {
             Logger.getLogger(getClass()).debug(monitoredMeasurement + " on " + metrics.getName() + " is " + value);
 
             if (value != null) {
-                data.add(value);
+                data.add(value.doubleValue());
             }
         }
 

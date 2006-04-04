@@ -36,9 +36,9 @@ import java.io.*;
 import java.util.*;
 
 public class CSVPrinter extends Printer {
-    private List descriptors;
+    private List<MeasurementDescriptor> descriptors;
     
-    public CSVPrinter(PrintWriter out, List descriptors) {
+    public CSVPrinter(PrintWriter out, List<MeasurementDescriptor> descriptors) {
         super(out);
         
         this.descriptors = descriptors;
@@ -55,9 +55,9 @@ public class CSVPrinter extends Printer {
     private void appendLongNames() {
         append("\"name\", ");
         
-        Iterator i = descriptors.iterator();
+        Iterator<MeasurementDescriptor> i = descriptors.iterator();
         while (i.hasNext()) {
-            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+            MeasurementDescriptor descriptor = i.next();
 
             if (descriptor.isVisible()) {
                 if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
@@ -84,9 +84,9 @@ public class CSVPrinter extends Printer {
     private void appendShortNames() {
         append(", ");
         
-        Iterator i = descriptors.iterator();
+        Iterator<MeasurementDescriptor> i = descriptors.iterator();
         while (i.hasNext()) {
-            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+            MeasurementDescriptor descriptor = i.next();
 
             if (descriptor.isVisible()) {
                 if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
@@ -113,9 +113,9 @@ public class CSVPrinter extends Printer {
     private void appendStatSubNames() {
         append(", ");
         
-        Iterator i = descriptors.iterator();
+        Iterator<MeasurementDescriptor> i = descriptors.iterator();
         while (i.hasNext()) {
-            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+            MeasurementDescriptor descriptor = i.next();
 
             if (descriptor.isVisible()) {
                 if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
@@ -141,9 +141,9 @@ public class CSVPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             append("\"").append(metrics.getName()).append("\", ");
             
-            Iterator i = descriptors.iterator();
+            Iterator<MeasurementDescriptor> i = descriptors.iterator();
             while (i.hasNext()) {
-                MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
+                MeasurementDescriptor descriptor = i.next();
                 
                 if (isShowHiddenMeasurements() || descriptor.isVisible()) {
                     Measurement measurement = metrics.getMeasurement(descriptor.getShortName());

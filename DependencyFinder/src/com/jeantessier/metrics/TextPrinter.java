@@ -40,13 +40,13 @@ public class TextPrinter extends Printer {
     private static final NumberFormat valueFormat = new DecimalFormat("#.##");
     private static final NumberFormat ratioFormat = new DecimalFormat("#%");
 
-    private List descriptors;
+    private List<MeasurementDescriptor> descriptors;
 
     private boolean expandCollectionMeasurements;
     
     private Metrics currentMetrics = null;
     
-    public TextPrinter(PrintWriter out, List descriptors) {
+    public TextPrinter(PrintWriter out, List<MeasurementDescriptor> descriptors) {
         super(out);
         
         this.descriptors = descriptors;
@@ -66,11 +66,8 @@ public class TextPrinter extends Printer {
             
             indent().append(metrics.getName()).eol();
             raiseIndent();
-            
-            Iterator i = descriptors.iterator();
-            while (i.hasNext()) {
-                MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
-                
+
+            for (MeasurementDescriptor descriptor : descriptors) {
                 if (isShowHiddenMeasurements() || descriptor.isVisible()) {
                     metrics.getMeasurement(descriptor.getShortName()).accept(this);
                 }
@@ -124,9 +121,8 @@ public class TextPrinter extends Printer {
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
         if (isExpandCollectionMeasurements()) {
             raiseIndent();
-            Iterator i = measurement.getValues().iterator();
-            while (i.hasNext()) {
-                indent().append(i.next()).eol();
+            for (String value : measurement.getValues()) {
+                indent().append(value).eol();
             }
             lowerIndent();
         }

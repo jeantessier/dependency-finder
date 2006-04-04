@@ -52,7 +52,7 @@ import org.apache.log4j.*;
  *  </pre>
  */
 public class SumMeasurement extends MeasurementBase {
-    private List terms = new LinkedList();
+    private List<String> terms = new LinkedList<String>();
 
     private double value = 0.0;
 
@@ -74,7 +74,7 @@ public class SumMeasurement extends MeasurementBase {
         }
     }
 
-    public List getTerms() {
+    public List<String> getTerms() {
         return terms;
     }
 
@@ -100,15 +100,12 @@ public class SumMeasurement extends MeasurementBase {
                     } else {
                         Logger.getLogger(getClass()).debug("Start computing \"" + getShortName() + "\" on null: value=" + value);
                     }
-                    
-                    Iterator i = getTerms().iterator();
-                    while (i.hasNext()) {
-                        String term = (String) i.next();
-                        
+
+                    for (String term : getTerms()) {
                         Logger.getLogger(getClass()).debug("Evaluating term \"" + term + "\"");
-                        
+
                         double termValue = Double.NaN;
-                        
+
                         try {
                             termValue = Double.parseDouble(term);
                         } catch (NumberFormatException ex) {
@@ -118,11 +115,11 @@ public class SumMeasurement extends MeasurementBase {
                                 termValue = evaluateMeasurement(term);
                             }
                         }
-                        
+
                         Logger.getLogger(getClass()).debug("term \"" + term + "\" is " + termValue);
-                        
+
                         value += termValue;
-                        
+
                         Logger.getLogger(getClass()).debug("value=" + value);
                     }
                     

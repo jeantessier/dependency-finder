@@ -98,42 +98,60 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
     }
 
     public void testAddObject() {
-        Object o1 = new Object();
-        Object o2 = new Object();
+        Object o = new Object();
+
+        assertEquals("zero", 0, measurement.intValue());
+        assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("zero", 0, measurement.getValue().intValue());
+        assertEquals("zero", 0, measurement.getValues().size());
+        assertTrue("zero", measurement.isEmpty());
+
+        measurement.add(o);
+
+        assertEquals("one", 0, measurement.intValue());
+        assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("one", 0, measurement.getValue().intValue());
+        assertEquals("zero", 0, measurement.getValues().size());
+        assertTrue("zero", measurement.isEmpty());
+    }
+
+    public void testAddString() {
+        String s1 = "foo";
+        String s2 = "bar";
 
         assertEquals("zero", 0, measurement.intValue());
         assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
         assertEquals("zero", 0, measurement.getValue().intValue());
 
-        measurement.add(o1);
+        measurement.add(s1);
         assertEquals("one", 1, measurement.intValue());
         assertEquals("one", 1.0, measurement.doubleValue(), 0.01);
         assertEquals("one", 1, measurement.getValue().intValue());
 
-        measurement.add(o2);
+        measurement.add(s2);
         assertEquals("two", 2, measurement.intValue());
         assertEquals("two", 2.0, measurement.doubleValue(), 0.01);
         assertEquals("two", 2, measurement.getValue().intValue());
 
-        measurement.add(o1);
+        measurement.add(s1);
         assertEquals("three", 2, measurement.intValue());
         assertEquals("three", 2.0, measurement.doubleValue(), 0.01);
         assertEquals("three", 2, measurement.getValue().intValue());
     }
 
     public void testValues() {
-        Object o1 = new Object();
-        Object o2 = new Object();
+        String s1 = "foo";
+        String s2 = "bar";
 
-        measurement.add(o1);
-        measurement.add(o2);
+        measurement.add(s1);
+        measurement.add(s2);
 
         assertEquals("size", 2, measurement.getValues().size());
-        assertTrue("Missing o1", measurement.getValues().contains(o1));
-        assertTrue("Missing o2", measurement.getValues().contains(o2));
+        assertTrue("Missing s1", measurement.getValues().contains(s1));
+        assertTrue("Missing s2", measurement.getValues().contains(s2));
 
         try {
-            measurement.getValues().add(o2);
+            measurement.getValues().add(s2);
             fail("Was allowed to modify the Values() collection");
         } catch (UnsupportedOperationException ex) {
             // Ignore
@@ -175,12 +193,12 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
     public void testInUndefinedRange() {
         assertTrue(measurement.isInRange());
 
-        measurement.add(new Object());
+        measurement.add("foo");
         
         assertTrue(measurement.isInRange());
 
-        measurement.add(new Object());
-        measurement.add(new Object());
+        measurement.add("bar");
+        measurement.add("baz");
 
         assertTrue(measurement.isInRange());
     }
@@ -195,12 +213,12 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         
         assertTrue(measurement.isInRange());
 
-        measurement.add(new Object());
+        measurement.add("foo");
         
         assertTrue(measurement.isInRange());
 
-        measurement.add(new Object());
-        measurement.add(new Object());
+        measurement.add("bar");
+        measurement.add("baz");
 
         assertTrue(measurement.isInRange());
     }
@@ -210,18 +228,18 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(NameListMeasurement.class);
-        descriptor.setLowerThreshold(new Integer(1));
+        descriptor.setLowerThreshold(1);
 
         measurement = (NameListMeasurement) descriptor.createMeasurement();
         
         assertTrue(!measurement.isInRange());
 
-        measurement.add(new Object());
+        measurement.add("foo");
         
         assertTrue(measurement.isInRange());
 
-        measurement.add(new Object());
-        measurement.add(new Object());
+        measurement.add("bar");
+        measurement.add("baz");
         
         assertTrue(measurement.isInRange());
     }
@@ -237,12 +255,12 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         
         assertTrue(measurement.isInRange());
 
-        measurement.add(new Object());
+        measurement.add("foo");
         
         assertTrue(measurement.isInRange());
 
-        measurement.add(new Object());
-        measurement.add(new Object());
+        measurement.add("bar");
+        measurement.add("baz");
         
         assertTrue(!measurement.isInRange());
     }
@@ -252,19 +270,19 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(NameListMeasurement.class);
-        descriptor.setLowerThreshold(new Integer(1));
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setLowerThreshold(1);
+        descriptor.setUpperThreshold(1.5);
 
         measurement = (NameListMeasurement) descriptor.createMeasurement();
         
         assertTrue(!measurement.isInRange());
 
-        measurement.add(new Object());
+        measurement.add("foo");
         
         assertTrue(measurement.isInRange());
 
-        measurement.add(new Object());
-        measurement.add(new Object());
+        measurement.add("bar");
+        measurement.add("baz");
         
         assertTrue(!measurement.isInRange());
     }

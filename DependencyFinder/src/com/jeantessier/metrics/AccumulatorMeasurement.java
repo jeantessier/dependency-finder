@@ -58,8 +58,8 @@ import org.apache.log4j.*;
  *  </pre>
  */
 public abstract class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {
-    private Map        terms  = new HashMap();
-    private Collection values = new TreeSet();
+    private Map<String, Collection<String>> terms  = new HashMap<String, Collection<String>>();
+    private Collection<String> values = new TreeSet<String>();
 
     public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
@@ -75,9 +75,9 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
                             String name = perl().group(1);
                             String re   = perl().group(2);
 
-                            Collection res = (Collection) terms.get(name);
+                            Collection<String> res = terms.get(name);
                             if (res == null) {
-                                res = new ArrayList();
+                                res = new ArrayList<String>();
                                 terms.put(name, res);
                             }
 
@@ -102,20 +102,17 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
         Logger.getLogger(getClass()).debug("Initialize with\n" + initText);
         Logger.getLogger(getClass()).debug("Terms:");
 
-        Iterator i = terms.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
+        for (Map.Entry<String, Collection<String>> entry : terms.entrySet()) {
             Logger.getLogger(getClass()).debug("\t" + entry.getKey());
 
-            Iterator j = ((Collection) entry.getValue()).iterator();
-            while (j.hasNext()) {
-                Logger.getLogger(getClass()).debug("\t\t" + j.next());
+            for (String s : entry.getValue()) {
+                Logger.getLogger(getClass()).debug("\t\t" + s);
             }
         }
     }
 
     public Number getValue() {
-        return new Integer(getValues().size());
+        return getValues().size();
     }
 
     public boolean isEmpty() {
@@ -126,7 +123,7 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
         return getValues().size();
     }
 
-    public Collection getValues() {
+    public Collection<String> getValues() {
         if (!isCached()) {
             values.clear();
             
@@ -141,12 +138,10 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
     protected abstract void populateValues();
 
     protected void filterMetrics(Metrics metrics) {
-        Iterator i = terms.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry  entry = (Map.Entry)  i.next();
-            String     name  = (String)     entry.getKey();
-            Collection res   = (Collection) entry.getValue();
-        
+        for (Map.Entry<String, Collection<String>> entry : terms.entrySet()) {
+            String name = entry.getKey();
+            Collection<String> res = entry.getValue();
+
             Measurement measurement = metrics.getMeasurement(name);
             if (measurement instanceof CollectionMeasurement) {
                 filterMeasurement((CollectionMeasurement) measurement, res);
@@ -154,22 +149,21 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
         }
     }
     
-    private void filterMeasurement(CollectionMeasurement measurement, Collection res) {
+    private void filterMeasurement(CollectionMeasurement measurement, Collection<String> res) {
         if (res.isEmpty()) {
             values.addAll(measurement.getValues());
         } else {
-            Iterator i = measurement.getValues().iterator();
-            while (i.hasNext()) {
-                filterElement((String) i.next(), res);
+            for (String member : measurement.getValues()) {
+                filterElement(member, res);
             }
         }
     }
     
-    private void filterElement(String element, Collection res) {
+    private void filterElement(String element, Collection<String> res) {
         boolean found = false;
-        Iterator i = res.iterator();
+        Iterator<String> i = res.iterator();
         while (!found && i.hasNext()) {
-            found = evaluateRE((String) i.next(), element);
+            found = evaluateRE(i.next(), element);
         }
     }
     
