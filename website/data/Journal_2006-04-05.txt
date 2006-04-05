@@ -5,3 +5,6 @@ plug-in, I can checkout the project just fine.  With the official, command-line
 client, it kept dropping the connection.  I tried the integration in IntelliJ
 and SmartSVN, but they were having difficulties too.  Strange, and annoying.
 Now, I wonder if I wouldn't be better staying with CVS.
+
+Moved Fit test images to =files= folder so =FolderRunner= can copy it to the
+=reports= folder.
