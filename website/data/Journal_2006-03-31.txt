@@ -11,3 +11,7 @@ Maybe if I have them migrate it again, after CVS is operational again, it will
 work better.  Subversion would be nice: it has atomic checkins and it knows
 about folders, so you can move or rename parts of the filesystem and retain the
 history.
+
+Started working on Fit tests for metrics for identifier length.  I want to
+compute the length of package names, class names, and method names, both in
+number of characters and number of words.

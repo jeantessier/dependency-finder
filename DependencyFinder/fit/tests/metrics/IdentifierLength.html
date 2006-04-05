@@ -1,0 +1,123 @@
+<html>
+
+<head>
+<title>Identifier Length Tests</title>
+<link rel="stylesheet" type="text/css" href="../files/css/fitnesse.css" />
+</head>
+
+<body>
+
+<h1>Identifier Length Tests</h1>
+
+<table border="1">
+    <tr>
+        <td>com.jeantessier.metrics.MetricsGathererFixture</td>
+    </tr>
+</table>
+
+<h2>Set up</h2>
+
+<table border="1">
+    <tr>
+        <td>load configuration from</td>
+        <td>fit/tests/metrics/IdentifierLengthConfig.xml</td>
+    </tr>
+</table>
+
+<table border="1">
+    <tr>
+        <td>load classes from</td>
+        <td>tests/metrics/identifiers</td>
+    </tr>
+</table>
+
+<table border="1">
+    <tr>
+        <td>load classes from</td>
+        <td>classes/sloc</td>
+    </tr>
+</table>
+
+<h2>Analysis</h2>
+
+<table border="1">
+    <tr>
+        <td>compute metrics</td>
+    </tr>
+</table>
+
+<h2>Verify Results</h2>
+
+<table border="1">
+    <tr>
+        <td>class metrics</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>character count</i></td>
+        <td><i>word count</i></td>
+    </tr>
+    <tr>
+        <td>Onewordclassname</td>
+        <td>16</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>TwowordsClassname</td>
+        <td>17</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>FourWordsClassName</td>
+        <td>18</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>ClassNameWithEndingTLA</td>
+        <td>22</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>TLAAtTheBeginingOfClassName</td>
+        <td>27</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>ClassNameWithTLAInTheMiddle</td>
+        <td>27</td>
+        <td>7</td>
+    </tr>
+</table>
+
+<p></p>
+
+<table border="1">
+    <tr>
+        <td>get metrics for class</td>
+        <td>Onewordclassname</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>value</i></td>
+    </tr>
+    <tr>
+        <td>cc</td>
+        <td>16</td>
+    </tr>
+    <tr>
+        <td>wc</td>
+        <td>1</td>
+    </tr>
+</table>
+
+<hr/>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.Summary</td>
+    </tr>
+</table>
+
+</body>
+
+</html>

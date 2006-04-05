@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2006, Jean Tessier
  *  All rights reserved.
- *
+ *  
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *
+ *  
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *
+ *  
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *
+ *  
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *
+ *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -30,58 +30,55 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.dependency;
+package com.jeantessier.metrics;
 
+import java.io.*;
 import java.util.*;
+import javax.xml.parsers.*;
 
 import fitlibrary.*;
+import org.xml.sax.*;
 
-public class NodeFactoryFixture extends DoFixture {
-    public NodeFactoryFixture() {
-        setSystemUnderTest(new NodeFactory());
+import com.jeantessier.classreader.*;
+
+public class MetricsGathererFixture extends DoFixture {
+    private MetricsConfiguration configuration;
+    private ClassfileLoader loader;
+    private MetricsFactory factory;
+
+    public void loadConfigurationFrom(String configFilename) throws IOException, ParserConfigurationException, SAXException {
+        MetricsConfigurationLoader configurationLoader = new MetricsConfigurationLoader();
+        configuration = configurationLoader.load(configFilename);
     }
 
-    public void sourceDependsOn(Node source, Node target) {
-        source.addDependency(target);
+    public void loadClassesFrom(String classpath) {
+        loader = new AggregatingClassfileLoader();
+        loader.load(Collections.singleton(classpath));
     }
 
-    public SetFixture inboundDependenciesTo(Node node) {
-        return new SetFixture(node.getInboundDependencies());
+    public void computeMetrics() {
+        factory = new MetricsFactory("test", configuration);
+        MetricsGatherer gatherer = new MetricsGatherer("test", factory);
+        gatherer.visitClassfiles(loader.getAllClassfiles());
     }
 
-    public SetFixture outboundDependenciesFrom(Node node) {
-        return new SetFixture(node.getOutboundDependencies());
+    public Collection getClassMetrics() {
+        Collection results = Collections.EMPTY_LIST;
+
+        results = factory.getClassMetrics();
+
+        return results;
     }
 
-    public SetFixture dependenciesFor(Node node) {
-        Collection<Dependency> dependencies = new LinkedList<Dependency>();
+    public Collection<SingleMeasurement> getMetricsForClass(String classname) {
+        Collection<SingleMeasurement> results = new LinkedList<SingleMeasurement>();
 
-        Iterator i;
-
-        i = node.getInboundDependencies().iterator();
-        while (i.hasNext()) {
-            dependencies.add(new Dependency(node.getName(), Dependency.INBOUND, ((Node) i.next()).getName()));
+        Metrics metrics = factory.createClassMetrics(classname);
+        for (Object o : metrics.getMeasurementNames()) {
+            String name = (String) o;
+            results.add(new SingleMeasurement(name, metrics.getMeasurement(name).getValue()));
         }
 
-        i = node.getOutboundDependencies().iterator();
-        while (i.hasNext()) {
-            dependencies.add(new Dependency(node.getName(), Dependency.OUTBOUND, ((Node) i.next()).getName()));
-        }
-
-        return new SetFixture(dependencies);
-    }
-
-    public Node findNode(String s) {
-        Node result = (Node) ((NodeFactory) systemUnderTest).getPackages().get(s);
-
-        if (result == null) {
-            result = (Node) ((NodeFactory) systemUnderTest).getClasses().get(s);
-        }
-
-        if (result == null) {
-            result = (Node) ((NodeFactory) systemUnderTest).getFeatures().get(s);
-        }
-
-        return result;
+        return results;
     }
 }

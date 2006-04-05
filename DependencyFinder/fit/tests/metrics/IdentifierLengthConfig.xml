@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+    Copyright (c) 2001-2006, Jean Tessier
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
+
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
+
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+    A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+    CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!DOCTYPE metrics-configuration SYSTEM "http://depfind.sourceforge.net/dtd/metrics-configuration.dtd">
+
+<!--
+        <measurement>
+            <short-name></short-name>
+            <long-name></long-name>
+            <class>com.jeantessier.metrics.</class>
+            <init>
+            </init>
+            <lower-threshold></lower-threshold>
+            <upper-threshold></upper-threshold>
+        </measurement>
+-->
+
+<metrics-configuration>
+    <project-measurements>
+        <measurement>
+            <short-name>G</short-name>
+            <long-name>Groups</long-name>
+            <class>com.jeantessier.metrics.NbSubMetricsMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>P</short-name>
+            <long-name>Packages</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>C</short-name>
+            <long-name>Classes</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                C DISPOSE_SUM
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>M</short-name>
+            <long-name>Methods</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                M DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>A</short-name>
+            <long-name>Attributes</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                A DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>PuC</short-name>
+            <long-name>Public Classes per group</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                PuC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>FC</short-name>
+            <long-name>Final Classes per group</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                FC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AC</short-name>
+            <long-name>Abstract Classes per group</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                AC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>I</short-name>
+            <long-name>Interfaces per group</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                I
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>IC</short-name>
+            <long-name>Inner Classes per group</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SC</short-name>
+            <long-name>Static Classes per group</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SLOC</short-name>
+            <long-name>Single Lines of Code</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SLOC DISPOSE_SUM
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SUB</short-name>
+            <long-name>Subclasses per class</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SUB
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DOI</short-name>
+            <long-name>Depth of Inheritance per class</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                DOI
+            </init>
+        </measurement>
+    </project-measurements>
+    <group-measurements>
+        <measurement>
+            <short-name>C</short-name>
+            <long-name>Classes</long-name>
+            <class>com.jeantessier.metrics.NbSubMetricsMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PuC</short-name>
+            <long-name>Public Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>FC</short-name>
+            <long-name>Final Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>AC</short-name>
+            <long-name>Abstract Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SynthC</short-name>
+            <long-name>Synthetic Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>I</short-name>
+            <long-name>Interfaces</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>IC</short-name>
+            <long-name>Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>DC</short-name>
+            <long-name>Deprecated Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SC</short-name>
+            <long-name>Static Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PuCR</short-name>
+            <long-name>Ratio of Public Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PuC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>FCR</short-name>
+            <long-name>Ratio of Final Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                FC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>ACR</short-name>
+            <long-name>Ratio of Abstract Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SynthCR</short-name>
+            <long-name>Ratio of Synthetic Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SynthC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>IR</short-name>
+            <long-name>Ratio of Interfaces</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                I
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>ICR</short-name>
+            <long-name>Ratio of Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                IC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DCR</short-name>
+            <long-name>Ratio of Deprecated Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                DC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SCR</short-name>
+            <long-name>Ratio of Static Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SLOC</short-name>
+            <long-name>Single Lines of Code</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SLOC DISPOSE_SUM
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>M</short-name>
+            <long-name>Methods per class</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>A</short-name>
+            <long-name>Attributes per class</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SUB</short-name>
+            <long-name>Subclasses per class</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SUB
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DOI</short-name>
+            <long-name>Depth of Inheritance per class</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                DOI
+            </init>
+        </measurement>
+    </group-measurements>
+    <class-measurements>
+        <measurement>
+            <short-name>SLOC</short-name>
+            <long-name>Single Lines of Code</long-name>
+            <class>com.jeantessier.metrics.SumMeasurement</class>
+            <init>
+                SLOC dist DISPOSE_SUM
+                class SLOC
+            </init>
+        </measurement>
+        <measurement visible="no">
+            <short-name>SLOC dist</short-name>
+            <long-name>Distribution for Single Lines of Code</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SLOC DISPOSE_SUM
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement visible="no">
+            <short-name>class SLOC</short-name>
+            <long-name>Single Lines of Code for the class</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>M</short-name>
+            <long-name>Methods</long-name>
+            <class>com.jeantessier.metrics.NbSubMetricsMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PuM</short-name>
+            <long-name>Public Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>ProM</short-name>
+            <long-name>Protected Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PriM</short-name>
+            <long-name>Private Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PaM</short-name>
+            <long-name>Package Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>FM</short-name>
+            <long-name>Final Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>AM</short-name>
+            <long-name>Abstract Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>DM</short-name>
+            <long-name>Deprecated Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SynthM</short-name>
+            <long-name>Synthetic Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SM</short-name>
+            <long-name>Static Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SynchM</short-name>
+            <long-name>Synchronized Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>NM</short-name>
+            <long-name>Native Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>TM</short-name>
+            <long-name>Trivial Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PuMR</short-name>
+            <long-name>Ratio of Public Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PuM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>ProMR</short-name>
+            <long-name>Ratio of Protected Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                ProM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>PriMR</short-name>
+            <long-name>Ratio of Private Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PriM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>PaMR</short-name>
+            <long-name>Ratio of Package Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PaM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>FMR</short-name>
+            <long-name>Ratio of Final Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                FM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AMR</short-name>
+            <long-name>Ratio of Abstract Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DMR</short-name>
+            <long-name>Ratio of Deprecated Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                DM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SynthMR</short-name>
+            <long-name>Ratio of Synthetic Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SynthM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SMR</short-name>
+            <long-name>Ratio of Static Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SynchMR</short-name>
+            <long-name>Ratio of Synchronized Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SynchM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>NMR</short-name>
+            <long-name>Ratio of Native Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                NM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>TMR</short-name>
+            <long-name>Ratio of Trivial Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                TM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>A</short-name>
+            <long-name>Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PuA</short-name>
+            <long-name>Public Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>ProA</short-name>
+            <long-name>Protected Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PriA</short-name>
+            <long-name>Private Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PaA</short-name>
+            <long-name>Package Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>FA</short-name>
+            <long-name>Final Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>DA</short-name>
+            <long-name>Deprecated Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SynthA</short-name>
+            <long-name>Synthetic Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SA</short-name>
+            <long-name>Static Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>TA</short-name>
+            <long-name>Transient Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>VA</short-name>
+            <long-name>Volatile Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PuAR</short-name>
+            <long-name>Ratio of Public Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PuA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>ProAR</short-name>
+            <long-name>Ratio of Protected Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                ProA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>PriAR</short-name>
+            <long-name>Ratio of Private Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PriA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>PaAR</short-name>
+            <long-name>Ratio of Package Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PaA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>FAR</short-name>
+            <long-name>Ratio of Final Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                FA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>DAR</short-name>
+            <long-name>Ratio of Deprecated Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                DA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SynthAR</short-name>
+            <long-name>Ratio of Synthetic Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SynthA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SAR</short-name>
+            <long-name>Ratio of Static Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>TAR</short-name>
+            <long-name>Ratio of Transient Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                TA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>VAR</short-name>
+            <long-name>Ratio of Volatile Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                VA
+                A
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>IC</short-name>
+            <long-name>Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PuIC</short-name>
+            <long-name>Public Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>ProIC</short-name>
+            <long-name>Protected Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PriIC</short-name>
+            <long-name>Private Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PaIC</short-name>
+            <long-name>Package Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>AIC</short-name>
+            <long-name>Abstract Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>FIC</short-name>
+            <long-name>Final Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SIC</short-name>
+            <long-name>Static Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>PuICR</short-name>
+            <long-name>Ratio of Public Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PuIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>ProICR</short-name>
+            <long-name>Ratio of Protected Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                ProIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>PriICR</short-name>
+            <long-name>Ratio of Private Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PriIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>PaICR</short-name>
+            <long-name>Ratio of Package Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                PaIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AICR</short-name>
+            <long-name>Ratio of Abstract Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>FICR</short-name>
+            <long-name>Ratio of Final Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                FIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SICR</short-name>
+            <long-name>Ratio of Static Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SUB</short-name>
+            <long-name>Subclasses</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>DOI</short-name>
+            <long-name>Depth of Inheritance</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+            <upper-threshold>7</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>PARAM</short-name>
+            <long-name>Parameters per Method</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                PARAM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>LVAR</short-name>
+            <long-name>Local Variables per Method</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                LVAR
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>IIP</short-name>
+            <long-name>Inbound Intra-Package Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>IEP</short-name>
+            <long-name>Inbound Extra-Package Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>OIP</short-name>
+            <long-name>Outbound Intra-Package Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>OEP</short-name>
+            <long-name>Outbound Extra-Package Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>IIPM</short-name>
+            <long-name>Inbound Intra-Package Method Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>IEPM</short-name>
+            <long-name>Inbound Extra-Package Method Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+    </class-measurements>
+    <method-measurements>
+        <measurement>
+            <short-name>SLOC</short-name>
+            <long-name>Single Lines of Code</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+            <upper-threshold>50</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>PARAM</short-name>
+            <long-name>Parameters</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+            <upper-threshold>6</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>LVAR</short-name>
+            <long-name>Local Variables</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>IICM</short-name>
+            <long-name>Inbound Intra-Class Method Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>IIPM</short-name>
+            <long-name>Inbound Intra-Package Method Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>IEPM</short-name>
+            <long-name>Inbound Extra-Package Method Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>OICF</short-name>
+            <long-name>Outbound Intra-Class Feature Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>OIPF</short-name>
+            <long-name>Outbound Intra-Package Feature Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>OIPC</short-name>
+            <long-name>Outbound Intra-Package Class Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>OEPF</short-name>
+            <long-name>Outbound Extra-Package Feature Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>OEPC</short-name>
+            <long-name>Outbound Extra-Package Class Dependencies</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+            <upper-threshold>10</upper-threshold>
+        </measurement>
+    </method-measurements>
+</metrics-configuration>

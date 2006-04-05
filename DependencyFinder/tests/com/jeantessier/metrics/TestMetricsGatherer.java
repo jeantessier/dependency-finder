@@ -32,12 +32,10 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
-
 import java.io.*;
 import java.util.*;
 
-import org.xml.sax.*;
+import junit.framework.*;
 
 import com.jeantessier.classreader.*;
 

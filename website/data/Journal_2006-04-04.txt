@@ -1,3 +1,6 @@
+SourceForge's CVS is back online.  Time to merge the development lines I've
+been taking on three different computers. 
+
 Upgraded the following development components:
 
 <blockquote>
