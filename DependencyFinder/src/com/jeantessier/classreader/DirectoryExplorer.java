@@ -36,18 +36,17 @@ import java.io.*;
 import java.util.*;
 
 public class DirectoryExplorer {
-    private Collection collection = new LinkedList();
+    private Collection<File> files = new LinkedList<File>();
 
     public DirectoryExplorer(String[] filenames) throws IOException {
-        for (int i=0; i<filenames.length; i++) {
-            explore(new File(filenames[i]));
+        for (String filename : filenames) {
+            explore(new File(filename));
         }
     }
 
-    public DirectoryExplorer(Collection filenames) throws IOException {
-        Iterator i = filenames.iterator();
-        while (i.hasNext()) {
-            explore(new File(i.next().toString()));
+    public DirectoryExplorer(Collection<String> filenames) throws IOException {
+        for (String filename : filenames) {
+            explore(new File(filename));
         }
     }
 
@@ -61,7 +60,7 @@ public class DirectoryExplorer {
 
     private void explore(File file) throws IOException {
         if (file.exists()) {
-            collection.add(file);
+            files.add(file);
             
             if (file.isDirectory()) {
                 exploreDirectory(file);
@@ -76,7 +75,7 @@ public class DirectoryExplorer {
         }
     }
 
-    public Collection getCollection() {
-        return collection;
+    public Collection<File> getFiles() {
+        return files;
     }
 }

@@ -48,8 +48,8 @@ public class MetricsGatherer extends VisitorBase {
     private String         projectName;
     private MetricsFactory factory;
 
-    private Collection scope  = null;
-    private Collection filter = null;
+    private Collection<String> scope  = null;
+    private Collection<String> filter = null;
     
     private Metrics currentProject;
     private Metrics currentGroup;
@@ -76,11 +76,11 @@ public class MetricsGatherer extends VisitorBase {
         return factory;
     }
 
-    public void setScopeIncludes(Collection scope) {
+    public void setScopeIncludes(Collection<String> scope) {
         this.scope = scope;
     }
     
-    public void setFilterIncludes(Collection filter) {
+    public void setFilterIncludes(Collection<String> filter) {
         this.filter = filter;
     }
     

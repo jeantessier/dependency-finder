@@ -127,7 +127,7 @@ public class ListSymbols {
 
         Date start = new Date();
 
-        List parameters = commandLine.getParameters();
+        List<String> parameters = commandLine.getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }

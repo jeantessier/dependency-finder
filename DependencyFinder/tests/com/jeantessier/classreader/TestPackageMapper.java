@@ -58,7 +58,7 @@ public class TestPackageMapper extends TestCase {
         mapper = new PackageMapper();
 
         loader = new AggregatingClassfileLoader();
-        Collection filenames = new ArrayList();
+        Collection<String> filenames = new ArrayList<String>();
         filenames.add(TEST_FILENAME1);
         filenames.add(TEST_FILENAME2);
         filenames.add(TEST_FILENAME3);

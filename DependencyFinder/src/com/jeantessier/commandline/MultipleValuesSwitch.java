@@ -41,7 +41,7 @@ import java.util.*;
  */
 public class MultipleValuesSwitch extends CommandLineSwitchBase {
     public MultipleValuesSwitch() {
-        this(new LinkedList(), false);
+        this(new LinkedList<String>(), false);
     }
 
     public MultipleValuesSwitch(String defaultValue) {
@@ -52,12 +52,12 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
         this(Arrays.asList(defaultValue), false);
     }
 
-    public MultipleValuesSwitch(List defaultValue) {
+    public MultipleValuesSwitch(List<String> defaultValue) {
         this(defaultValue, false);
     }
 
     public MultipleValuesSwitch(boolean mandatory) {
-        this(new LinkedList(), mandatory);
+        this(new LinkedList<String>(), mandatory);
     }
 
     public MultipleValuesSwitch(String defaultValue, boolean mandatory) {
@@ -68,8 +68,8 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
         this(Arrays.asList(defaultValue), mandatory);
     }
 
-    public MultipleValuesSwitch(List defaultValue, boolean mandatory) {
-        super(new LinkedList(defaultValue), mandatory);
+    public MultipleValuesSwitch(List<String> defaultValue, boolean mandatory) {
+        super(new LinkedList<String>(defaultValue), mandatory);
 
         this.value = new LinkedList();
     }
@@ -77,7 +77,7 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
     public Object getValue() {
         Object result = getDefaultValue();
 
-        if (!((List) value).isEmpty()) {
+        if (!((List<String>) value).isEmpty()) {
             result = value;
         }
 
@@ -85,7 +85,7 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
     }
 
     public void setValue(Object value) {
-        ((List) this.value).add(value);
+        ((List<String>) this.value).add((String) value);
         super.setValue(this.value);
     }
 

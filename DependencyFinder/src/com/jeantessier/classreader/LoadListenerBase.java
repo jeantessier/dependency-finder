@@ -35,20 +35,20 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class LoadListenerBase implements LoadListener {
-    private LinkedList groups         = new LinkedList();
-    private Collection visitedFiles   = new HashSet();
+    private LinkedList<GroupData> groups = new LinkedList<GroupData>();
+    private Collection<String> visitedFiles = new HashSet<String>();
     
     protected GroupData getCurrentGroup() {
         GroupData result = null;
 
         if (!groups.isEmpty()) {
-            result = (GroupData) groups.getLast();
+            result = groups.getLast();
         }
         
         return result;
     }
 
-    protected Collection getVisitedFiles() {
+    protected Collection<String> getVisitedFiles() {
         return visitedFiles;
     }
     

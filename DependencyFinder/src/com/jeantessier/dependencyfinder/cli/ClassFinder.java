@@ -35,8 +35,6 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependencyfinder.*;
@@ -135,7 +133,7 @@ public class ClassFinder {
             out = new PrintWriter(new OutputStreamWriter(System.out));
         }
 
-        List parameters = commandLine.getParameters();
+        List<String> parameters = commandLine.getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }
@@ -147,20 +145,19 @@ public class ClassFinder {
         loader.addLoadListener(verboseListener);
         loader.load(parameters);
 
-        Iterator i = matcher.getResults().entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
+        for (Map.Entry<String, List<String>> entry : matcher.getResults().entrySet())
+        {
             out.print(entry.getKey());
             out.print(": ");
 
-            Iterator j = ((List) entry.getValue()).iterator();
-            while (j.hasNext()) {
-                out.print(j.next());
-                if (j.hasNext()) {
+            Iterator i = entry.getValue().iterator();
+            while (i.hasNext()) {
+                out.print(i.next());
+                if (i.hasNext()) {
                     out.print(", ");
                 }
             }
-            
+
             out.println();
         }
         

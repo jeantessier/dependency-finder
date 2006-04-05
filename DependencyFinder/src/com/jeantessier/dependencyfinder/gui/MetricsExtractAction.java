@@ -35,17 +35,13 @@ package com.jeantessier.dependencyfinder.gui;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.metrics.*;
 
 public class MetricsExtractAction extends AbstractAction implements Runnable {
     private OOMetrics model;
-    private File[]    files;
-
-    private ClassfileLoader loader;
+    private Collection<String> filenames;
 
     public MetricsExtractAction(OOMetrics model) {
         this.model = model;
@@ -62,8 +58,12 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
         chooser.setMultiSelectionEnabled(true);
         int returnValue = chooser.showDialog(model, "Extract");
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            files = chooser.getSelectedFiles();
-            model.setInputFile(files[0]);
+            File[] selectedFiles = chooser.getSelectedFiles();
+            filenames = new LinkedList<String>();
+            for (File file : selectedFiles) {
+                filenames.add(file.toString());
+            }
+            model.setInputFile(selectedFiles[0]);
             new Thread(this).start();
         }
     }
@@ -73,15 +73,15 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 
         model.getStatusLine().showInfo("Scanning ...");
         ClassfileScanner scanner = new ClassfileScanner();
-        scanner.load(Arrays.asList(files));
+        scanner.load(filenames);
 
         model.getProgressBar().setMaximum(scanner.getNbFiles() + scanner.getNbClasses());
 
         MetricsVerboseListener verboseListener = new MetricsVerboseListener(model.getStatusLine(), model.getProgressBar());
         
-        loader = new AggregatingClassfileLoader();
+        ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.addLoadListener(verboseListener);
-        loader.load(Arrays.asList(files));
+        loader.load(filenames);
         
         com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.getMetricsFactory());
         gatherer.addMetricsListener(verboseListener);

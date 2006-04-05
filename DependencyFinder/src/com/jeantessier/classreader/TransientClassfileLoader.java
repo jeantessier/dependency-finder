@@ -48,11 +48,11 @@ public class TransientClassfileLoader extends ClassfileLoaderEventSource {
         return null;
     }
 
-    public Collection getAllClassfiles() {
+    public Collection<Classfile> getAllClassfiles() {
         return Collections.EMPTY_LIST;
     }
 
-    public Collection getAllClassNames() {
+    public Collection<String> getAllClassNames() {
         return Collections.EMPTY_LIST;
     }
 

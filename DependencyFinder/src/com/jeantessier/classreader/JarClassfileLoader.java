@@ -33,7 +33,6 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 import java.util.jar.*;
 
 import org.apache.log4j.*;

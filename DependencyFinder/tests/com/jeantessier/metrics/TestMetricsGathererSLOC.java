@@ -39,8 +39,6 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
-import org.xml.sax.*;
-
 import com.jeantessier.classreader.*;
 
 public class TestMetricsGathererSLOC extends TestCase {
@@ -53,14 +51,13 @@ public class TestMetricsGathererSLOC extends TestCase {
         
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
 
-        ClassfileLoader loader =new AggregatingClassfileLoader();
+        ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_DIRNAME));
 
         MetricsGatherer gatherer = new MetricsGatherer("test", factory);
-        
-        Iterator i = loader.getAllClassfiles().iterator();
-        while (i.hasNext()) {
-            ((Classfile) i.next()).accept(gatherer);
+
+        for (Classfile classfile : loader.getAllClassfiles()) {
+            classfile.accept(gatherer);
         }
     }
 

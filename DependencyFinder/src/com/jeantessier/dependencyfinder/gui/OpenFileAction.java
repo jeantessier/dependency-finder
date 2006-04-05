@@ -35,13 +35,11 @@ package com.jeantessier.dependencyfinder.gui;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
 import javax.xml.parsers.*;
 
 import org.xml.sax.*;
 
-import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 
 public class OpenFileAction extends AbstractAction implements Runnable, DependencyListener {
@@ -68,7 +66,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 
     public void run() {
         model.setNewDependencyGraph();
-        model.addInputFiles(Collections.singleton(file));
+        model.addInputFile(file);
         
         try {
             Date start = new Date();

@@ -181,7 +181,7 @@ public class OOMetrics {
 
         Logger.getLogger(OOMetrics.class).debug("Reading sources ...");
 
-        List parameters = commandLine.getParameters();
+        List<String> parameters = commandLine.getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }
@@ -250,23 +250,20 @@ public class OOMetrics {
         verboseListener.close();
     }
 
-    private static Collection createCollection(Collection includes, Collection excludes) throws IOException {
-        Collection result = new HashSet();
-        Iterator   i;
-            
-        i = includes.iterator();
-        while (i.hasNext()) {
-            BufferedReader reader = new BufferedReader(new FileReader(i.next().toString()));
+    private static Collection<String> createCollection(Collection<String> includes, Collection<String> excludes) throws IOException {
+        Collection<String> result = new HashSet<String>();
+
+        for (String include : includes) {
+            BufferedReader reader = new BufferedReader(new FileReader(include));
             String line;
             while ((line = reader.readLine()) != null) {
                 result.add(line);
             }
             reader.close();
         }
-        
-        i = excludes.iterator();
-        while (i.hasNext()) {
-            BufferedReader reader = new BufferedReader(new FileReader(i.next().toString()));
+
+        for (String exclude : excludes) {
+            BufferedReader reader = new BufferedReader(new FileReader(exclude));
             String line;
             while ((line = reader.readLine()) != null) {
                 result.remove(line);

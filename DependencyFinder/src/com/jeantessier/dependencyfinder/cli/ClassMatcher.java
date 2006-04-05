@@ -42,17 +42,17 @@ import com.jeantessier.text.*;
 public class ClassMatcher extends LoadListenerBase {
     private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-    private List includes;
-    private List excludes;
+    private List<String> includes;
+    private List<String> excludes;
 
-    private Map results = new TreeMap();
+    private Map<String, List<String>> results = new TreeMap<String, List<String>>();
     
-    public ClassMatcher(List includes, List excludes) {
+    public ClassMatcher(List<String> includes, List<String> excludes) {
         this.includes = includes;
         this.excludes = excludes;
     }
 
-    public Map getResults() {
+    public Map<String, List<String>> getResults() {
         return results;
     }
     
@@ -63,9 +63,9 @@ public class ClassMatcher extends LoadListenerBase {
         String groupName = getCurrentGroup().getName();
         
         if (matches(className)) {
-            List groups = (List) results.get(className);
+            List<String> groups = results.get(className);
             if (groups == null) {
-                groups = new LinkedList();
+                groups = new LinkedList<String>();
                 results.put(className, groups);
             }
             groups.add(groupName);
@@ -76,12 +76,12 @@ public class ClassMatcher extends LoadListenerBase {
         return matches(includes, name) && !matches(excludes, name);
     }
 
-    private boolean matches(List regularExpressions, String name) {
+    private boolean matches(List<String> regularExpressions, String name) {
         boolean found = false;
 
-        Iterator i = regularExpressions.iterator();
+        Iterator<String> i = regularExpressions.iterator();
         while (!found && i.hasNext()) {
-            String condition = (String) i.next();
+            String condition = i.next();
             found = perl.match(condition, name);
         }
 

@@ -35,8 +35,6 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
@@ -137,7 +135,7 @@ public class DependencyExtractor {
 
         Date start = new Date();
 
-        List parameters = commandLine.getParameters();
+        List<String> parameters = commandLine.getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }

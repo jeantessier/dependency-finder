@@ -51,7 +51,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     private LinkedList<String> groupNames = new LinkedList<String>();
     private LinkedList<Integer> groupSizes = new LinkedList<Integer>();
 
-    private int    previousDispatch;
+    private int previousDispatch;
     
     public ClassfileLoaderEventSource() {
         this(DEFAULT_DISPATCHER);

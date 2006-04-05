@@ -247,10 +247,8 @@ public class DependencyMetrics {
         Date start = new Date();
 
         NodeFactory factory = new NodeFactory();
-        
-        Iterator i = commandLine.getParameters().iterator();
-        while (i.hasNext()) {
-            String filename = (String) i.next();
+
+        for (String filename : commandLine.getParameters()) {
             Logger.getLogger(DependencyMetrics.class).info("Reading " + filename);
             verboseListener.print("Reading " + filename);
 

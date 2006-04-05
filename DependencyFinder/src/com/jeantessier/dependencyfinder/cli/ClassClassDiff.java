@@ -204,8 +204,8 @@ public class ClassClassDiff {
         verboseListener.print("Comparing ...");
 
         String name = commandLine.getSingleSwitch("name");
-        Classfile oldClass = (Classfile) oldJar.getAllClassfiles().iterator().next();
-        Classfile newClass = (Classfile) newJar.getAllClassfiles().iterator().next();
+        Classfile oldClass = oldJar.getAllClassfiles().iterator().next();
+        Classfile newClass = newJar.getAllClassfiles().iterator().next();
 
         DifferencesFactory factory = new DifferencesFactory(strategy);
         Differences differences = factory.createClassDifferences(name, oldClass, newClass);

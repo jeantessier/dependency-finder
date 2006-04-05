@@ -48,12 +48,12 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
     private ClassfileLoader loader;
     private MetricsGatherer gatherer;
 
-    private LinkedList beginSessionEvents;
-    private LinkedList beginClassEvents;
-    private LinkedList beginMethodEvents;
-    private LinkedList endMethodEvents;
-    private LinkedList endClassEvents;
-    private LinkedList endSessionEvents;
+    private LinkedList<MetricsEvent> beginSessionEvents;
+    private LinkedList<MetricsEvent> beginClassEvents;
+    private LinkedList<MetricsEvent> beginMethodEvents;
+    private LinkedList<MetricsEvent> endMethodEvents;
+    private LinkedList<MetricsEvent> endClassEvents;
+    private LinkedList<MetricsEvent> endSessionEvents;
 
     protected void setUp() throws Exception {
         loader  = new AggregatingClassfileLoader();
@@ -62,12 +62,12 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         gatherer = new MetricsGatherer("test", factory);
         gatherer.addMetricsListener(this);
 
-        beginSessionEvents = new LinkedList();
-        beginClassEvents   = new LinkedList();
-        beginMethodEvents  = new LinkedList();
-        endMethodEvents    = new LinkedList();
-        endClassEvents     = new LinkedList();
-        endSessionEvents   = new LinkedList();
+        beginSessionEvents = new LinkedList<MetricsEvent>();
+        beginClassEvents   = new LinkedList<MetricsEvent>();
+        beginMethodEvents  = new LinkedList<MetricsEvent>();
+        endMethodEvents    = new LinkedList<MetricsEvent>();
+        endClassEvents     = new LinkedList<MetricsEvent>();
+        endSessionEvents   = new LinkedList<MetricsEvent>();
     }
     
     public void testEvents() {
@@ -82,12 +82,12 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         assertEquals("End Class",      1, endClassEvents.size());
         assertEquals("End Session",    1, endSessionEvents.size());
 
-        assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) beginClassEvents.getLast()).getClassfile());
-        assertEquals(loader.getClassfile(TEST_CLASS), ((MetricsEvent) endClassEvents.getLast()).getClassfile());
+        assertEquals(loader.getClassfile(TEST_CLASS), beginClassEvents.getLast().getClassfile());
+        assertEquals(loader.getClassfile(TEST_CLASS), endClassEvents.getLast().getClassfile());
     }
     
     public void testMultipleEvents() {
-        Collection dirs = new ArrayList(2);
+        Collection<String> dirs = new ArrayList<String>();
         dirs.add(TEST_DIRNAME);
         dirs.add(OTHER_DIRNAME);
         loader.load(dirs);

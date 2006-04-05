@@ -50,11 +50,11 @@ public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
         return getLoader().getClassfile(name);
     }
 
-    public Collection getAllClassfiles() {
+    public Collection<Classfile> getAllClassfiles() {
         return getLoader().getAllClassfiles();
     }
 
-    public Collection getAllClassNames() {
+    public Collection<String> getAllClassNames() {
         return getLoader().getAllClassNames();
     }
 

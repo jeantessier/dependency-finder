@@ -44,25 +44,24 @@ import java.util.*;
  */
 public abstract class ClassfileLoader {
     // Main methods
-    public abstract Classfile  getClassfile(String name);
-    public abstract Collection getAllClassfiles();
-    public abstract Collection getAllClassNames();
+    public abstract Classfile getClassfile(String name);
+    public abstract Collection<Classfile> getAllClassfiles();
+    public abstract Collection<String> getAllClassNames();
 
-    public void load(Collection filenames) {
+    public void load(Collection<String> filenames) {
         fireBeginSession();
-        
-        Iterator i = filenames.iterator();
-        while (i.hasNext()) {
-            load(i.next().toString());
+
+        for (String filename : filenames) {
+            load(filename);
         }
 
         fireEndSession();
     }
 
     // Protected contract for Decorator Pattern
-    protected abstract void      load(String filename);
-    protected abstract void      load(String filename, InputStream in);
-    protected abstract Classfile load(DataInputStream in)              throws IOException;
+    protected abstract void load(String filename);
+    protected abstract void load(String filename, InputStream in);
+    protected abstract Classfile load(DataInputStream in) throws IOException;
 
     // Event stuff
     public abstract void addLoadListener(LoadListener listener);

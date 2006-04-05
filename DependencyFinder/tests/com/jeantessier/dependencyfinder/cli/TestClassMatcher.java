@@ -172,7 +172,7 @@ public class TestClassMatcher extends TestCase {
         assertTrue(filename1 + " missing", new File(filename1).exists());
         assertTrue(filename2 + " missing", new File(filename2).exists());
 
-        Collection filenames = new ArrayList();
+        Collection<String> filenames = new ArrayList<String>();
         filenames.add(filename1);
         filenames.add(filename2);
         

@@ -38,14 +38,14 @@ import java.util.*;
  *  Command-line parser.
  */
 public class CommandLine implements Visitable {
-    private static final boolean           DEFAULT_STRICT             = true;
+    private static final boolean DEFAULT_STRICT = true;
     private static final ParameterStrategy DEFAULT_PARAMETER_STRATEGY = new AnyParameterStrategy();
 
-    private boolean           strict;
+    private boolean strict;
     private ParameterStrategy parameterStrategy;
 
-    private List              parameters = new LinkedList();
-    private Map               map        = new TreeMap();
+    private List<String> parameters = new LinkedList<String>();
+    private Map<String, CommandLineSwitch> map = new TreeMap<String, CommandLineSwitch>();
 
     public CommandLine() {
         this(DEFAULT_STRICT, DEFAULT_PARAMETER_STRATEGY);
@@ -141,13 +141,13 @@ public class CommandLine implements Visitable {
     }
 
     public CommandLineSwitch getSwitch(String name) {
-        return (CommandLineSwitch) map.get(name);
+        return map.get(name);
     }
 
     public boolean getToggleSwitch(String name) {
         boolean result = false;
 
-        CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+        CommandLineSwitch cls = map.get(name);
         if (cls != null) {
             result = ((Boolean) cls.getValue()).booleanValue();
         }
@@ -163,14 +163,14 @@ public class CommandLine implements Visitable {
         return getStringSwitch(name);
     }
 
-    public List getMultipleSwitch(String name) {
+    public List<String> getMultipleSwitch(String name) {
         return getListSwitch(name);
     }
 
     private String getStringSwitch(String name) {
         String result = null;
 
-        CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+        CommandLineSwitch cls = map.get(name);
         if (cls != null) {
             result =  cls.getValue().toString();
         }
@@ -178,12 +178,12 @@ public class CommandLine implements Visitable {
         return result;
     }
 
-    private List getListSwitch(String name) {
-        List result = null;
+    private List<String> getListSwitch(String name) {
+        List<String> result = null;
 
-        CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+        CommandLineSwitch cls = map.get(name);
         if (cls != null && cls.getValue() instanceof List) {
-            result =  (List) cls.getValue();
+            result =  (List<String>) cls.getValue();
         }
 
         return result;
@@ -192,7 +192,7 @@ public class CommandLine implements Visitable {
     public boolean isPresent(String name) {
         boolean result = false;
 
-        CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+        CommandLineSwitch cls = map.get(name);
         if (cls != null) {
             result = cls.isPresent();
         }
@@ -200,17 +200,15 @@ public class CommandLine implements Visitable {
         return result;
     }
 
-    public Set getKnownSwitches() {
+    public Set<String> getKnownSwitches() {
         return map.keySet();
     }
 
-    public Set getPresentSwitches() {
-        Set result = new TreeSet();
+    public Set<String> getPresentSwitches() {
+        Set<String> result = new TreeSet<String>();
 
-        Iterator i = getKnownSwitches().iterator();
-        while (i.hasNext()) {
-            String            name = (String) i.next();
-            CommandLineSwitch cls  = (CommandLineSwitch) map.get(name);
+        for (String name : getKnownSwitches()) {
+            CommandLineSwitch cls = map.get(name);
 
             if (cls.isPresent()) {
                 result.add(name);
@@ -220,12 +218,12 @@ public class CommandLine implements Visitable {
         return result;
     }
 
-    public List getParameters() {
+    public List<String> getParameters() {
         return parameters;
     }
 
     public void parse(String args[]) throws CommandLineException {
-        parameters = new LinkedList();
+        parameters.clear();
 
         int i=0;
         while (i < args.length) {
@@ -237,7 +235,7 @@ public class CommandLine implements Visitable {
                     value = args[i+1];
                 }
 
-                CommandLineSwitch cls = (CommandLineSwitch) map.get(name);
+                CommandLineSwitch cls = map.get(name);
 
                 if (cls == null) {
                     if (isStrict()) {
@@ -258,10 +256,8 @@ public class CommandLine implements Visitable {
         }
 
         // Checking that all manadatory switches are present
-        Iterator j = map.keySet().iterator();
-        while (j.hasNext()) {
-            String            name = (String) j.next();
-            CommandLineSwitch cls  = (CommandLineSwitch) map.get(name);
+        for (String name : map.keySet()) {
+            CommandLineSwitch cls = map.get(name);
 
             if (cls.isMandatory() && !cls.isPresent()) {
                 throw new CommandLineException("Missing mandatory switch \"" + name + "\"");

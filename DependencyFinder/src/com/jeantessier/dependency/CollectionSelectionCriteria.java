@@ -39,10 +39,10 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
     private boolean matchingClasses  = true;
     private boolean matchingFeatures = true;
 
-    Collection include;
-    Collection exclude;
+    Collection<String> include;
+    Collection<String> exclude;
 
-    public CollectionSelectionCriteria(Collection include, Collection exclude) {
+    public CollectionSelectionCriteria(Collection<String> include, Collection<String> exclude) {
         this.include = include;
         this.exclude = exclude;
     }

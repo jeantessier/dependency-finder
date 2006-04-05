@@ -134,7 +134,7 @@ public class ClassMetrics {
         boolean list              = commandLine.getToggleSwitch("list");
         boolean instructionCounts = commandLine.getToggleSwitch("instruction-counts");
 
-        List parameters = commandLine.getParameters();
+        List<String> parameters = commandLine.getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }

@@ -32,17 +32,15 @@
 
 package com.jeantessier.commandline;
 
-import java.util.*;
-
 /**
  *  Generates summary information about the command-line specification.
  */
 public class CommandLineUsage implements Visitor {
     private final static String EOL = System.getProperty("line.separator", "\n");
-    
-    private String       command;
-    private StringBuffer usage      = new StringBuffer();
-    private String       switchName;
+
+    private String command;
+    private StringBuffer usage = new StringBuffer();
+    private String switchName;
 
     public CommandLineUsage(String command) {
         this.command = command;
@@ -51,10 +49,8 @@ public class CommandLineUsage implements Visitor {
     public void visitCommandLine(CommandLine commandLine) {
         usage.append("USAGE: ").append(command).append(EOL);
 
-        Iterator i = commandLine.getKnownSwitches().iterator();
-        while (i.hasNext()) {
-            switchName = (String) i.next();
-
+        for (String name : commandLine.getKnownSwitches()) {
+            switchName = name;
             commandLine.getSwitch(switchName).accept(this);
         }
 

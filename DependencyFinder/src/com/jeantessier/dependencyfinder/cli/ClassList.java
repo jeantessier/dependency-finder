@@ -35,8 +35,6 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependencyfinder.*;
@@ -132,24 +130,20 @@ public class ClassList {
             out = new PrintWriter(new OutputStreamWriter(System.out));
         }
 
-        List parameters = commandLine.getParameters();
+        List<String> parameters = commandLine.getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }
 
-        Iterator i = parameters.iterator();
-        while (i.hasNext()) {
-            String filename = (String) i.next();
-
+        for (String filename : parameters) {
             out.println(filename + ":");
-            
+
             ClassfileLoader loader = new AggregatingClassfileLoader();
             loader.addLoadListener(verboseListener);
             loader.load(Collections.singleton(filename));
 
-            Iterator j = loader.getAllClassfiles().iterator();
-            while (j.hasNext()) {
-                out.println(j.next());
+            for (Classfile classfile : loader.getAllClassfiles()) {
+                out.println(classfile);
             }
 
             out.println();

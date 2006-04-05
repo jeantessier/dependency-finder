@@ -357,10 +357,8 @@ public class DependencyReporter {
         } else {
             copier = new GraphSummarizer(scopeCriteria, filterCriteria);
         }
-        
-        Iterator i = commandLine.getParameters().iterator();
-        while (i.hasNext()) {
-            String filename = (String) i.next();
+
+        for (String filename : commandLine.getParameters()) {
             Logger.getLogger(DependencyReporter.class).info("Reading " + filename);
             verboseListener.print("Reading " + filename);
 
@@ -423,7 +421,7 @@ public class DependencyReporter {
     }
 
     private static boolean hasScopeRegularExpressionSwitches(CommandLine commandLine) {
-        Collection switches = commandLine.getPresentSwitches();
+        Collection<String> switches = commandLine.getPresentSwitches();
 
         return
             switches.contains("scope-includes") ||
@@ -447,7 +445,7 @@ public class DependencyReporter {
     }
 
     private static boolean hasScopeListSwitches(CommandLine commandLine) {
-        Collection switches = commandLine.getPresentSwitches();
+        Collection<String> switches = commandLine.getPresentSwitches();
 
         return
             switches.contains("scope-includes-list") ||
@@ -455,7 +453,7 @@ public class DependencyReporter {
     }
 
     private static boolean hasFilterRegularExpressionSwitches(CommandLine commandLine) {
-        Collection switches = commandLine.getPresentSwitches();
+        Collection<String> switches = commandLine.getPresentSwitches();
 
         return
             switches.contains("filter-includes") ||
@@ -479,32 +477,29 @@ public class DependencyReporter {
     }
 
     private static boolean hasFilterListSwitches(CommandLine commandLine) {
-        Collection switches = commandLine.getPresentSwitches();
+        Collection<String> switches = commandLine.getPresentSwitches();
 
         return
             switches.contains("filter-includes-list") ||
             switches.contains("filter-excludes-list");
     }
 
-    private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection includes, Collection excludes) {
+    private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection<String> includes, Collection<String> excludes) {
         return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
     }
 
-    private static Collection loadCollection(Collection filenames) {
-        Collection result = null;
+    private static Collection<String> loadCollection(Collection<String> filenames) {
+        Collection<String> result = null;
 
         if (!filenames.isEmpty()) {
-            result = new HashSet();
-            
-            Iterator i = filenames.iterator();
-            while (i.hasNext()) {
-                String filename = i.next().toString();
-                
+            result = new HashSet<String>();
+
+            for (String filename : filenames) {
                 BufferedReader reader = null;
-                String line;
-                
                 try {
                     reader = new BufferedReader(new FileReader(filename));
+
+                    String line;
                     while ((line = reader.readLine()) != null) {
                         result.add(line);
                     }

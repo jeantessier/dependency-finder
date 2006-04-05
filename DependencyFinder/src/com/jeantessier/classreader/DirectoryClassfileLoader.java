@@ -32,10 +32,9 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+ import java.io.*;
 
-import org.apache.log4j.*;
+ import org.apache.log4j.*;
 
 public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
     public DirectoryClassfileLoader(ClassfileLoader loader) {
@@ -48,12 +47,9 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
         try {
             DirectoryExplorer explorer = new DirectoryExplorer(filename);
 
-            fireBeginGroup(filename, explorer.getCollection().size());
+            fireBeginGroup(filename, explorer.getFiles().size());
 
-            Iterator i = explorer.getCollection().iterator();
-            while (i.hasNext()) {
-                File file = (File) i.next();
-                
+            for (File file : explorer.getFiles()) {
                 fireBeginFile(file.getPath());
 
                 Logger.getLogger(getClass()).debug("Starting file \"" + file.getPath() + "\" (" + file.length() + " bytes)");

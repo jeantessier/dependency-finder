@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 
 public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
-    private Map classfiles = new TreeMap();
+    private Map<String, Classfile> classfiles = new TreeMap<String, Classfile>();
 
     public AggregatingClassfileLoader() {
         super();
@@ -47,14 +47,14 @@ public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
     }
 
     public Classfile getClassfile(String name) {
-        return (Classfile) classfiles.get(name);
+        return classfiles.get(name);
     }
 
-    public Collection getAllClassfiles() {
+    public Collection<Classfile> getAllClassfiles() {
         return Collections.unmodifiableCollection(classfiles.values());
     }
 
-    public Collection getAllClassNames() {
+    public Collection<String> getAllClassNames() {
         return Collections.unmodifiableCollection(classfiles.keySet());
     }
 

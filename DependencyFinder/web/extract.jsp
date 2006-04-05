@@ -140,7 +140,7 @@
 
 <%
     Perl5Util perl = new Perl5Util();
-    Collection sources = new LinkedList();
+    Collection<String> sources = new LinkedList<String>();
     perl.split(sources, "/,\\s*/", application.getInitParameter("source"));
 
     if (request.getParameter("launch") == null) {
@@ -155,9 +155,7 @@
             <ul>
 
 <%
-            Iterator i = sources.iterator();
-            while (i.hasNext()) {
-                String filename = (String) i.next();
+            for (String filename : sources) {
                 if (new File(filename).exists()) {
 %>
                     <li><tt><%= filename %></tt></li>

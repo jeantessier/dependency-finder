@@ -102,7 +102,7 @@
 
 <%
     Perl5Util perl = new Perl5Util();
-    Collection files = new LinkedList();
+    Collection<String> files = new LinkedList<String>();
     perl.split(files, "/,\\s*/", application.getInitParameter("file"));
 
     if (request.getParameter("launch") == null) {
@@ -117,9 +117,7 @@
             <ul>
 
 <%
-            Iterator i = files.iterator();
-            while (i.hasNext()) {
-                String filename = (String) i.next();
+            for (String filename : files) {
                 if (new File(filename).exists()) {
 %>
                     <li><tt><%= filename %></tt></li>
@@ -204,9 +202,7 @@
         NodeLoader loader = new NodeLoader(factory);
         loader.addDependencyListener(listener);
 
-        Iterator i = files.iterator();
-        while (i.hasNext()) {
-            String filename = (String) i.next();
+        for (String filename : files) {
             try {
                 loader.load(filename);
             } catch (SAXException ex) {

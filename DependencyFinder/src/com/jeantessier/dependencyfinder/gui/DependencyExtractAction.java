@@ -57,14 +57,16 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
         if (model.getInputFiles().isEmpty()) {
             chooser = new JFileChooser(new File("."));
         } else {
-            chooser = new JFileChooser((File) model.getInputFiles().iterator().next());
+            chooser = new JFileChooser(model.getInputFiles().iterator().next());
         }
         chooser.addChoosableFileFilter(new JavaBytecodeFileFilter());
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         chooser.setMultiSelectionEnabled(true);
         int returnValue = chooser.showDialog(model, "Extract");
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            model.addInputFiles(Arrays.asList(chooser.getSelectedFiles()));
+            for (File file : chooser.getSelectedFiles()) {
+                model.addInputFile(file);
+            }
             new Thread(this).start();
         }
     }

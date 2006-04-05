@@ -36,13 +36,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
 import javax.swing.border.*;
 
 import org.apache.log4j.*;
-
-import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
@@ -67,7 +64,7 @@ public class DependencyFinder extends JFrame {
     private StatusLine        statusLine             = new StatusLine(420);
     private JProgressBar      progressBar            = new JProgressBar();
 
-    private Collection                inputFiles  = null;
+    private Collection<String>        inputFiles  = null;
     private ClassfileLoaderDispatcher dispatcher  = null;
     private NodeFactory               nodeFactory = null;
     private Monitor                   monitor     = null;
@@ -220,16 +217,16 @@ public class DependencyFinder extends JFrame {
         this.monitor = monitor;
     }
     
-    public Collection getInputFiles() {
+    public Collection<String> getInputFiles() {
         return inputFiles;
     }
 
-    private void setInputFiles(Collection inputFiles) {
+    private void setInputFiles(Collection<String> inputFiles) {
         this.inputFiles = inputFiles;
     }
     
-    public void addInputFiles(Collection files) {
-        inputFiles.addAll(files);
+    public void addInputFile(File file) {
+        inputFiles.add(file.toString());
     }
 
     public Collection getPackages() {
@@ -1270,7 +1267,7 @@ public class DependencyFinder extends JFrame {
     }
 
     void setNewDependencyGraph() {
-        setInputFiles(new LinkedList());
+        setInputFiles(new LinkedList<String>());
         setClassfileLoaderDispatcher(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));
 
         NodeFactory factory = new NodeFactory();

@@ -126,7 +126,7 @@ public class ExtractAction extends ActionBase implements ServletResponseAware {
 
     private void extractGraph() {
         Perl5Util perl = new Perl5Util();
-        Collection sources = new LinkedList();
+        Collection<String> sources = new LinkedList<String>();
         perl.split(sources, "/,\\s*/", source);
 
         VerboseListener listener = new VerboseListener(out);
