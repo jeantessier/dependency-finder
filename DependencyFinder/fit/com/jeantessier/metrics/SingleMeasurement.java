@@ -33,11 +33,13 @@
 package com.jeantessier.metrics;
 
 public class SingleMeasurement extends Object {
-    public final String name;
-    public final Number value;
+    public final String shortName;
+    public final String longName;
+    public final double value;
 
-    public SingleMeasurement(String name, Number value) {
-        this.name = name;
+    public SingleMeasurement(String shortName, String longName, double value) {
+        this.shortName = shortName;
+        this.longName = longName;
         this.value = value;
     }
 }

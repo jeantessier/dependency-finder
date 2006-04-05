@@ -1,5 +1,7 @@
 SourceForge's CVS is back online.  Time to merge the development lines I've
-been taking on three different computers. 
+been taking on three different computers.
+
+Worked on the name character count and word count for packages and classes.
 
 Upgraded the following development components:
 

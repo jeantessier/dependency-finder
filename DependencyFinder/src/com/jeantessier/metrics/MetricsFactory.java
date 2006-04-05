@@ -126,10 +126,25 @@ public class MetricsFactory {
         Metrics result         = new Metrics(projectMetrics, name);
 
         populateMetrics(result, getConfiguration().getGroupMeasurements());
+        initializeGroupMetrics(result);
 
         return result;
     }
-    
+
+    private void initializeGroupMetrics(Metrics metrics) {
+        computePackageNameCharacterCount(metrics);
+        computePackageNameWordCount(metrics);
+    }
+
+    private void computePackageNameCharacterCount(Metrics metrics) {
+        metrics.addToMeasurement(Metrics.CHARACTER_COUNT, metrics.getName().length());
+    }
+
+    private void computePackageNameWordCount(Metrics metrics) {
+        StringTokenizer tokenizer = new StringTokenizer(metrics.getName(), ".");
+        metrics.addToMeasurement(Metrics.WORD_COUNT, tokenizer.countTokens());
+    }
+
     public void includeGroupMetrics(Metrics metrics) {
         includedGroups.put(metrics.getName(), metrics);
         metrics.getParent().addSubMetrics(metrics);
@@ -173,10 +188,25 @@ public class MetricsFactory {
         Metrics result         = new Metrics(packageMetrics, name);
         
         populateMetrics(result, getConfiguration().getClassMeasurements());
+        initializeClassMetrics(result);
 
         return result;
     }
-    
+
+    private void initializeClassMetrics(Metrics metrics) {
+        computeClassNameCharacterCount(metrics);
+    }
+
+    private void computeClassNameCharacterCount(Metrics metrics) {
+        metrics.addToMeasurement(Metrics.CHARACTER_COUNT, computeClassName(metrics).length());
+    }
+
+    private String computeClassName(Metrics metrics) {
+        String fullClassName = metrics.getName();
+        int pos = fullClassName.lastIndexOf(".") + 1;
+        return fullClassName.substring(pos);
+    }
+
     public void includeClassMetrics(Metrics metrics) {
         includedClasses.put(metrics.getName(), metrics);
         metrics.getParent().addSubMetrics(metrics);

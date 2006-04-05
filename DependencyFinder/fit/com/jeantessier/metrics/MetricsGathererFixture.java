@@ -62,21 +62,32 @@ public class MetricsGathererFixture extends DoFixture {
         gatherer.visitClassfiles(loader.getAllClassfiles());
     }
 
-    public Collection getClassMetrics() {
-        Collection results = Collections.EMPTY_LIST;
+    public Collection<SingleMeasurement> getMetricsForGroup(String groupname) {
+        return getMetrics(groupname, factory.getGroupMetrics());
+    }
 
-        results = factory.getClassMetrics();
+    public Collection<SingleMeasurement> getMetricsForClass(String classname) {
+        return getMetrics(classname, factory.getClassMetrics());
+    }
+
+    private Collection<SingleMeasurement> getMetrics(String name, Collection<Metrics> metricsCollection) {
+        Collection<SingleMeasurement> results = new LinkedList<SingleMeasurement>();
+
+        for (Metrics metrics : metricsCollection) {
+            if (metrics.getName().equals(name)) {
+                results = convertMetricsToMeasurements(metrics);
+            }
+        }
 
         return results;
     }
 
-    public Collection<SingleMeasurement> getMetricsForClass(String classname) {
+    private Collection<SingleMeasurement> convertMetricsToMeasurements(Metrics metrics) {
         Collection<SingleMeasurement> results = new LinkedList<SingleMeasurement>();
 
-        Metrics metrics = factory.createClassMetrics(classname);
-        for (Object o : metrics.getMeasurementNames()) {
-            String name = (String) o;
-            results.add(new SingleMeasurement(name, metrics.getMeasurement(name).getValue()));
+        for (String name : metrics.getMeasurementNames()) {
+            Measurement measurement = metrics.getMeasurement(name);
+            results.add(new SingleMeasurement(measurement.getShortName(), measurement.getLongName(), measurement.getValue().doubleValue()));
         }
 
         return results;

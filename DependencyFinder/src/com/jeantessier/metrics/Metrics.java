@@ -104,6 +104,9 @@ public class Metrics {
     public static final String OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES = "OEPF";
     public static final String OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES   = "OEPC";
 
+    public static final String CHARACTER_COUNT = "CC";
+    public static final String WORD_COUNT = "WC";
+
     private static final Measurement NULL_MEASUREMENT = new NullMeasurement();
     
     private Metrics parent;

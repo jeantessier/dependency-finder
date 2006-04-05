@@ -141,7 +141,7 @@ public class MetricsGatherer extends VisitorBase {
         getMetricsFactory().includeClassMetrics(getCurrentClass());
 
         getCurrentProject().addToMeasurement(Metrics.PACKAGES, getCurrentGroup().getName());
-        
+
         if ((classfile.getAccessFlag() & Classfile.ACC_PUBLIC) != 0) {
             getCurrentProject().addToMeasurement(Metrics.PUBLIC_CLASSES);
             getCurrentGroup().addToMeasurement(Metrics.PUBLIC_CLASSES);

@@ -100,10 +100,12 @@
 
     <target name="compiletests" depends="compile"
             description="Compiles all classes and JUnit tests with debug flags (default)">
-        <javac destdir="${classesDir}" excludes="JarJarDiff/**" debug="on">
+        <javac destdir="${classesDir}" debug="on">
             <src path="${testsDir}"/>
             <classpath refid="libs"/>
             <patternset refid="all.sources"/>
+	    <exclude name="JarJarDiff/**"/>
+	    <exclude name="Metrics/**"/>
         </javac>
         <javac destdir="${classesDir}" debug="on">
             <src path="${fitDir}"/>
@@ -135,18 +137,21 @@
     <target name="tests" depends="compiletests, log4j.config"
             description="Compiles everything required to run all the tests">
         <ant dir="tests/JarJarDiff" inheritAll="false"/>
+        <ant dir="tests/Metrics" inheritAll="false"/>
     </target>
 
     <target name="deprecation" depends="init">
-        <javac destdir="${classesDir}" deprecation="yes" source="1.4" target="1.4">
+        <javac destdir="${classesDir}" deprecation="yes">
             <src path="${srcDir}"/>
             <classpath refid="libs"/>
             <patternset refid="all.sources"/>
         </javac>
-        <javac destdir="${classesDir}" excludes="JarJarDiff/**" deprecation="yes" source="1.4" target="1.4">
+        <javac destdir="${classesDir}" deprecation="yes">
             <src path="${testsDir}"/>
             <classpath refid="libs"/>
             <patternset refid="all.sources"/>
+	    <exclude name="JarJarDiff/**"/>
+	    <exclude name="Metrics/**"/>
         </javac>
     </target>
 
@@ -674,6 +679,7 @@
             </fileset>
         </delete>
         <ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
+        <ant dir="tests/Metrics" target="clean" inheritAll="false"/>
     </target>
 
     <target name="cleandocs" depends="init">

@@ -26,14 +26,7 @@
 <table border="1">
     <tr>
         <td>load classes from</td>
-        <td>tests/metrics/identifiers</td>
-    </tr>
-</table>
-
-<table border="1">
-    <tr>
-        <td>load classes from</td>
-        <td>classes/sloc</td>
+        <td>tests/Metrics</td>
     </tr>
 </table>
 
@@ -47,43 +40,194 @@
 
 <h2>Verify Results</h2>
 
+<p>Packages</p>
+
 <table border="1">
     <tr>
-        <td>class metrics</td>
+        <td colspan="2">get metrics for group</td>
+        <td>onewordpackagename</td>
     </tr>
     <tr>
-        <td><i>name</i></td>
-        <td><i>character count</i></td>
-        <td><i>word count</i></td>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
+        <td><i>value</i></td>
     </tr>
     <tr>
-        <td>Onewordclassname</td>
-        <td>16</td>
+        <td>CC</td>
+        <td>Character Count</td>
+        <td>18</td>
+    </tr>
+    <tr>
+        <td>WC</td>
+        <td>Word Count</td>
         <td>1</td>
     </tr>
+</table>
+
+<p></p>
+
+<table border="1">
     <tr>
-        <td>TwowordsClassname</td>
-        <td>17</td>
+        <td colspan="2">get metrics for group</td>
+        <td>twowords.packagename</td>
+    </tr>
+    <tr>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
+        <td><i>value</i></td>
+    </tr>
+    <tr>
+        <td>CC</td>
+        <td>Character Count</td>
+        <td>20</td>
+    </tr>
+    <tr>
+        <td>WC</td>
+        <td>Word Count</td>
         <td>2</td>
     </tr>
+</table>
+
+<p></p>
+
+<table border="1">
     <tr>
-        <td>FourWordsClassName</td>
-        <td>18</td>
-        <td>4</td>
+        <td colspan="2">get metrics for group</td>
+        <td>three.words.packagename</td>
     </tr>
     <tr>
-        <td>ClassNameWithEndingTLA</td>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
+        <td><i>value</i></td>
+    </tr>
+    <tr>
+        <td>CC</td>
+        <td>Character Count</td>
+        <td>23</td>
+    </tr>
+    <tr>
+        <td>WC</td>
+        <td>Word Count</td>
+        <td>3</td>
+    </tr>
+</table>
+
+<p>Classes</p>
+
+<table border="1">
+    <tr>
+        <td colspan="2">get metrics for class</td>
+        <td>onewordpackagename.Onewordclassname</td>
+    </tr>
+    <tr>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
+        <td><i>value</i></td>
+    </tr>
+    <tr>
+        <td>CC</td>
+        <td>Character Count</td>
+        <td>16</td>
+    </tr>
+    <tr>
+        <td>WC</td>
+        <td>Word Count</td>
+        <td>1</td>
+    </tr>
+</table>
+
+<p></p>
+
+<table border="1">
+    <tr>
+        <td colspan="2">get metrics for class</td>
+        <td>twowords.packagename.TwowordsClassname</td>
+    </tr>
+    <tr>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
+        <td><i>value</i></td>
+    </tr>
+    <tr>
+        <td>CC</td>
+        <td>Character Count</td>
+        <td>17</td>
+    </tr>
+    <tr>
+        <td>WC</td>
+        <td>Word Count</td>
+        <td>2</td>
+    </tr>
+</table>
+
+<p></p>
+
+<table border="1">
+    <tr>
+        <td colspan="2">get metrics for class</td>
+        <td>three.words.packagename.ThreeWordsClassname</td>
+    </tr>
+    <tr>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
+        <td><i>value</i></td>
+    </tr>
+    <tr>
+        <td>CC</td>
+        <td>Character Count</td>
+        <td>19</td>
+    </tr>
+    <tr>
+        <td>WC</td>
+        <td>Word Count</td>
+        <td>3</td>
+    </tr>
+</table>
+
+<p></p>
+
+<table border="1">
+    <tr>
+        <td colspan="2">get metrics for class</td>
+        <td>tla.ClassNameWithEndingTLA</td>
+    </tr>
+    <tr>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
+        <td><i>value</i></td>
+    </tr>
+    <tr>
+        <td>CC</td>
+        <td>Character Count</td>
         <td>22</td>
+    </tr>
+    <tr>
+        <td>WC</td>
+        <td>Word Count</td>
         <td>5</td>
     </tr>
+</table>
+
+<p></p>
+
+<table border="1">
     <tr>
-        <td>TLAAtTheBeginingOfClassName</td>
-        <td>27</td>
-        <td>7</td>
+        <td colspan="2">get metrics for class</td>
+        <td>tla.TLAAtTheBeginingOfClassName</td>
     </tr>
     <tr>
-        <td>ClassNameWithTLAInTheMiddle</td>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
+        <td><i>value</i></td>
+    </tr>
+    <tr>
+        <td>CC</td>
+        <td>Character Count</td>
         <td>27</td>
+    </tr>
+    <tr>
+        <td>WC</td>
+        <td>Word Count</td>
         <td>7</td>
     </tr>
 </table>
@@ -92,20 +236,23 @@
 
 <table border="1">
     <tr>
-        <td>get metrics for class</td>
-        <td>Onewordclassname</td>
+        <td colspan="2">get metrics for class</td>
+        <td>tla.ClassNameWithTLAInTheMiddle</td>
     </tr>
     <tr>
-        <td><i>name</i></td>
+        <td><i>short name</i></td>
+        <td><i>long name</i></td>
         <td><i>value</i></td>
     </tr>
     <tr>
-        <td>cc</td>
-        <td>16</td>
+        <td>CC</td>
+        <td>Character Count</td>
+        <td>27</td>
     </tr>
     <tr>
-        <td>wc</td>
-        <td>1</td>
+        <td>WC</td>
+        <td>Word Count</td>
+        <td>7</td>
     </tr>
 </table>
 
