@@ -37,7 +37,7 @@ import java.io.*;
 import fitlibrary.runner.*;
 import junit.framework.*;
 
-public class AllTests extends TestCase {
+public class TestAll extends TestCase {
     public static final String[] FIT_TESTS = {"fit" + File.separator + "tests"};
     private static final String RIGHT_MARKER = "right, ";
 
