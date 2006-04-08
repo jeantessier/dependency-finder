@@ -38,67 +38,107 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestDirectoryExplorer extends TestCase {
-    public static final String TEST_FILENAME    = "classes" + File.separator + "test.class";
-    public static final String OTHER_FILENAME   = "tests" + File.separator + "JarJarDiff" + File.separator + "build.xml";
-    public static final String MISSING_FILENAME = "tests" + File.separator + "JarJarDiff" + File.separator + "missing";
-    public static final String TEST_DIRNAME     = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
-    public static final String OTHER_DIRNAME    = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
-    
+    private File testFile;
+    private File otherFile;
+    private File missingFile;
+    private File testDir;
+    private File otherDir;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        testFile = File.createTempFile(getName(), null);
+
+        otherFile = File.createTempFile(getName(), null);
+
+        missingFile = File.createTempFile(getName(), null);
+        missingFile.delete();
+
+        testDir = File.createTempFile(getName(), null);
+        testDir.delete();
+        testDir.mkdir();
+        File.createTempFile(getName(), null, testDir);
+        File.createTempFile(getName(), null, testDir);
+
+        otherDir = File.createTempFile(getName(), null);
+        otherDir.delete();
+        otherDir.mkdir();
+        File.createTempFile(getName(), null, otherDir);
+    }
+
+    protected void tearDown() throws Exception {
+        testFile.delete();
+
+        otherFile.delete();
+
+        for (File file : testDir.listFiles()) {
+            file.delete();
+        }
+        testDir.delete();
+
+        for (File file : otherDir.listFiles()) {
+            file.delete();
+        }
+        otherDir.delete();
+
+        super.tearDown();
+    }
+
     public void testExploreFilename() throws IOException {
-        DirectoryExplorer explorer = new DirectoryExplorer(TEST_FILENAME);
+        DirectoryExplorer explorer = new DirectoryExplorer(testFile.getPath());
 
         List<File> list = new ArrayList<File>(explorer.getFiles());
         
         assertEquals("size", 1, list.size());
-        assertEquals(TEST_FILENAME, list.get(0).getPath());
+        assertEquals(testFile, list.get(0));
     }
 
     public void testExploreOtherFilename() throws IOException {
-        DirectoryExplorer explorer = new DirectoryExplorer(OTHER_FILENAME);
+        DirectoryExplorer explorer = new DirectoryExplorer(otherFile.getPath());
 
         List<File> list = new ArrayList<File>(explorer.getFiles());
         
         assertEquals("size", 1, list.size());
-        assertEquals(OTHER_FILENAME, list.get(0).getPath());
+        assertEquals(otherFile, list.get(0));
     }
 
     public void testExploreMissingFilename() throws IOException {
-        DirectoryExplorer explorer = new DirectoryExplorer(MISSING_FILENAME);
+        DirectoryExplorer explorer = new DirectoryExplorer(missingFile.getPath());
         
         assertEquals("size", 0, explorer.getFiles().size());
     }
 
     public void testExploreDirectory() throws IOException {
-        DirectoryExplorer explorer = new DirectoryExplorer(TEST_DIRNAME);
+        DirectoryExplorer explorer = new DirectoryExplorer(testDir.getPath());
 
         List<File> list = new ArrayList<File>(explorer.getFiles());
         
-        assertEquals("size", 48, list.size());
-        assertEquals(TEST_DIRNAME, list.get(0).getPath());
+        assertEquals("size", 3, list.size());
+        assertEquals(testDir, list.get(0));
     }
     
     public void testExploreMultipleDirectories() throws IOException {
         Collection<String> directories = new ArrayList<String>();
-        directories.add(TEST_DIRNAME);
-        directories.add(OTHER_DIRNAME);
+        directories.add(testDir.getPath());
+        directories.add(otherDir.getPath());
         
         DirectoryExplorer explorer = new DirectoryExplorer(directories);
 
         List<File> list = new ArrayList<File>(explorer.getFiles());
         
-        assertEquals("size", 96, list.size());
-        assertEquals(TEST_DIRNAME, list.get(0).getPath());
+        assertEquals("size", 5, list.size());
+        assertEquals(testDir, list.get(0));
     }
     
     public void testExploreSingletonFile() throws IOException {
         Collection<String> files = new ArrayList<String>();
-        files.add(TEST_FILENAME);
+        files.add(testFile.getPath());
         
         DirectoryExplorer explorer = new DirectoryExplorer(files);
 
         List<File> list = new ArrayList<File>(explorer.getFiles());
         
         assertEquals("size", 1, list.size());
-        assertEquals(TEST_FILENAME, list.get(0).getPath());
+        assertEquals(testFile, list.get(0));
     }
 }
