@@ -1,0 +1,1 @@
+Fixed JUnit run scripts to have correct FitLibrary in their =CLASSPATH=.
