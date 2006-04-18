@@ -40,7 +40,7 @@ import org.apache.oro.text.regex.*;
 public class MaximumCapacityPatternCache implements PatternCache {
     PatternCompiler compiler;
 
-    Map map = new HashMap();
+    Map<String, Pattern> map = new HashMap<String, Pattern>();
     
     public MaximumCapacityPatternCache() {
         this(new Perl5Compiler());
@@ -51,7 +51,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
     }
     
     public Pattern addPattern(String expression) throws MalformedPatternException {
-        Pattern result = (Pattern) map.get(expression);
+        Pattern result = map.get(expression);
 
         if (result == null) {
             result = compiler.compile(expression);
@@ -62,7 +62,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
     }
 
     public Pattern addPattern(String expression, int options) throws MalformedPatternException {
-        Pattern result = (Pattern) map.get(expression);
+        Pattern result = map.get(expression);
 
         if (result == null) {
             result = compiler.compile(expression, options);
@@ -73,7 +73,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
     }
 
     public Pattern getPattern(String expression) throws MalformedCachePatternException {
-        Pattern result = (Pattern) map.get(expression);
+        Pattern result = map.get(expression);
 
         if (result == null) {
             try {
@@ -88,7 +88,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
     }
 
     public Pattern getPattern(String expression, int options) throws MalformedCachePatternException {
-        Pattern result = (Pattern) map.get(expression);
+        Pattern result = map.get(expression);
 
         if (result == null) {
             try {

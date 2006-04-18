@@ -32,9 +32,6 @@
 
 package com.jeantessier.text;
 
-import java.io.*;
-import java.util.*;
-
 import junit.framework.*;
 
 import org.apache.oro.text.*;
