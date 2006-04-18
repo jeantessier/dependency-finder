@@ -1,0 +1,2 @@
+Reduced the scope for version 1.1.2 so I can get it out the door sooner, and
+maybe even soon.
