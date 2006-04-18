@@ -38,6 +38,7 @@ public class TestAll extends TestCase {
     public static Test suite() {
         TestSuite result = new TestSuite();
 
+        result.addTestSuite(TestWordCounter.class);
         result.addTestSuite(TestMetrics.class);
         result.addTestSuite(TestMetricsFactory.class);
         result.addTestSuite(TestMeasurementDescriptor.class);

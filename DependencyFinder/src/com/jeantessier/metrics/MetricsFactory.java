@@ -53,6 +53,8 @@ public class MetricsFactory {
     private Map<String, Metrics> includedGroups   = new HashMap<String, Metrics>();
     private Map<String, Metrics> includedClasses  = new HashMap<String, Metrics>();
     private Map<String, Metrics> includedMethods  = new HashMap<String, Metrics>();
+
+    private WordCounter counter = new WordCounter();
     
     public MetricsFactory(String projectName, MetricsConfiguration configuration) {
         this.projectName   = projectName;
@@ -141,8 +143,7 @@ public class MetricsFactory {
     }
 
     private void computePackageNameWordCount(Metrics metrics) {
-        StringTokenizer tokenizer = new StringTokenizer(metrics.getName(), ".");
-        metrics.addToMeasurement(Metrics.WORD_COUNT, tokenizer.countTokens());
+        metrics.addToMeasurement(Metrics.WORD_COUNT, counter.countPackageName(metrics.getName()));
     }
 
     public void includeGroupMetrics(Metrics metrics) {
@@ -195,10 +196,15 @@ public class MetricsFactory {
 
     private void initializeClassMetrics(Metrics metrics) {
         computeClassNameCharacterCount(metrics);
+        computeClassNameWordCount(metrics);
     }
 
     private void computeClassNameCharacterCount(Metrics metrics) {
         metrics.addToMeasurement(Metrics.CHARACTER_COUNT, computeClassName(metrics).length());
+    }
+
+    private void computeClassNameWordCount(Metrics metrics) {
+        metrics.addToMeasurement(Metrics.WORD_COUNT, counter.countIdentifier(computeClassName(metrics)));
     }
 
     private String computeClassName(Metrics metrics) {
