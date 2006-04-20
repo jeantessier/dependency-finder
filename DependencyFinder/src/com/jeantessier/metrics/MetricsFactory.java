@@ -286,9 +286,9 @@ public class MetricsFactory {
 
     private String computeMethodName(Metrics metrics) {
         String fullMethodName = metrics.getName();
-        int pos1 = fullMethodName.lastIndexOf(".") + 1;
-        int pos2 = fullMethodName.indexOf("(") - 1;
-        return fullMethodName.substring(pos1, pos2);
+        int pos2 = fullMethodName.indexOf("(");
+        int pos1 = fullMethodName.lastIndexOf(".", pos2);
+        return fullMethodName.substring(pos1 + 1, pos2);
     }
 
     public void includeMethodMetrics(Metrics metrics) {

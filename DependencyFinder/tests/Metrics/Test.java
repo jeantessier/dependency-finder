@@ -5,4 +5,6 @@ public class Test {
     public void methodNameWithEndingTLA() {}
     public void tlaAtTheBeginingOfMethodName() {}
     public void methodNameWithTLAInTheMiddle() {}
+    public void methodWithParameter(String s) {}
+    public void methodWithParameters(String s1, int i, String s2) {}
 }
