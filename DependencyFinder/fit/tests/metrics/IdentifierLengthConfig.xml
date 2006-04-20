@@ -74,5 +74,15 @@
         </measurement>
     </class-measurements>
     <method-measurements>
+        <measurement>
+            <short-name>CC</short-name>
+            <long-name>Character Count</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>WC</short-name>
+            <long-name>Word Count</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
     </method-measurements>
 </metrics-configuration>

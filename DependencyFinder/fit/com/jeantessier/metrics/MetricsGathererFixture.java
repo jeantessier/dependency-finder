@@ -70,6 +70,10 @@ public class MetricsGathererFixture extends DoFixture {
         return getMetrics(classname, factory.getClassMetrics());
     }
 
+    public Collection<SingleMeasurement> getMetricsForMethod(String methodname) {
+        return getMetrics(methodname, factory.getMethodMetrics());
+    }
+
     private Collection<SingleMeasurement> getMetrics(String name, Collection<Metrics> metricsCollection) {
         Collection<SingleMeasurement> results = new LinkedList<SingleMeasurement>();
 
