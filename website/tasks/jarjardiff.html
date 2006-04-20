@@ -72,17 +72,18 @@ DTD.</p>
     <td align="center" valign="top">No</td>
   </tr>
   <tr>
-    <td valign="top">olddocumentation</td>
-    <td valign="top">location of the file with the list of <em>published</em>
-    programming elements in the <i>old</i> version of the codebase.  If omitted,
-    the tool reports on all programming elements.</td>
+    <td valign="top">filter</td>
+    <td valign="top">location of the file with the list of programming elements
+    that the tool should limit itself to.  If omitted, the tool reports on all
+    programming elements.</td>
     <td align="center" valign="top">No</td>
   </tr>
   <tr>
-    <td valign="top">newdocumentation</td>
-    <td valign="top">location of the file with the list of <em>published</em>
-    programming elements in the <i>new</i> version of the codebase.  If omitted,
-    the tool reports on all programming elements.</td>
+    <td valign="top">level</td>
+    <td valign="top">one of: <em>api</em> for declaration-only differencs,
+    <em>code</em> for differences involving code too, or the name of the
+    <code>DifferenceStrategy</code> implementation to instantiate.  If omitted,
+    defaults to <em>api</em>.</td>
     <td align="center" valign="top">No</td>
   </tr>
 </table>
@@ -113,8 +114,8 @@ Dependency Finder and save the resulting report in
 
 <pre>  &lt;jarjardiff destfile=&quot;20020127-20020711.xml&quot;
               name=&quot;Dependency Finder&quot;
-	      oldlabel=&quot;20020127&quot;
-	      newlabel=&quot;20020711&quot;&gt;
+              oldlabel=&quot;20020127&quot;
+              newlabel=&quot;20020711&quot;&gt;
     &lt;old&gt;
       &lt;pathelement location=&quot;20020127\lib\DependencyFinder.jar&quot;/&gt;
     &lt;/old&gt;
@@ -129,8 +130,8 @@ lastest compilation and save the resulting report in
 
 <pre>  &lt;jarjardiff destfile=&quot;20030101-now.xml&quot;
               name=&quot;Dependency Finder&quot;
-	      oldlabel=&quot;20030101&quot;
-	      newlabel=&quot;latest&quot;&gt;
+              oldlabel=&quot;20030101&quot;
+              newlabel=&quot;latest&quot;&gt;
     &lt;old&gt;
       &lt;pathelement location=&quot;20030101\lib\DependencyFinder.jar&quot;/&gt;
     &lt;/old&gt;
@@ -144,8 +145,8 @@ save the resulting report in <code>xerces.xml</code>:</p>
 
 <pre>  &lt;jarjardiff destfile=&quot;xerces.xml&quot;
               name=&quot;Xerces&quot;
-	      oldlabel=&quot;2.2.1&quot;
-	      newlabel=&quot;2.3.0&quot;&gt;
+              oldlabel=&quot;2.2.1&quot;
+              newlabel=&quot;2.3.0&quot;&gt;
     &lt;old&gt;
       &lt;pathelement location=&quot;xerces-2_2_1\xmlParserAPIs.jar&quot;/&gt;
       &lt;pathelement location=&quot;xerces-2_2_1\xercesImpl.jar&quot;/&gt;
@@ -162,8 +163,8 @@ report to HTML:</p>
 
 <pre>  &lt;jarjardiff destfile=&quot;xerces.xml&quot;
               name=&quot;Xerces&quot;
-	      oldlabel=&quot;2.2.1&quot;
-	      newlabel=&quot;2.3.0&quot;&gt;
+              oldlabel=&quot;2.2.1&quot;
+              newlabel=&quot;2.3.0&quot;&gt;
     &lt;old&gt;
       &lt;pathelement location=&quot;xerces-2_2_1\xmlParserAPIs.jar&quot;/&gt;
       &lt;pathelement location=&quot;xerces-2_2_1\xercesImpl.jar&quot;/&gt;
@@ -183,8 +184,8 @@ report to HTML, keeping only modifications to the public API:</p>
 
 <pre>  &lt;jarjardiff destfile=&quot;xerces.xml&quot;
               name=&quot;Xerces&quot;
-	      oldlabel=&quot;2.2.1&quot;
-	      newlabel=&quot;2.3.0&quot;&gt;
+              oldlabel=&quot;2.2.1&quot;
+              newlabel=&quot;2.3.0&quot;&gt;
     &lt;old&gt;
       &lt;pathelement location=&quot;xerces-2_2_1\xmlParserAPIs.jar&quot;/&gt;
       &lt;pathelement location=&quot;xerces-2_2_1\xercesImpl.jar&quot;/&gt;
@@ -200,7 +201,7 @@ report to HTML, keeping only modifications to the public API:</p>
 
 <hr>
 
-<p align="center">Copyright &copy; 2001-2004 Jean Tessier.  All rights reserved.</p>
+<p align="center">Copyright &copy; 2001-2006 Jean Tessier.  All rights reserved.</p>
 
 </body>
 

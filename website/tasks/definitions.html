@@ -24,9 +24,9 @@ support classes.  The tasks need the following elements on the
 <li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/log4j.jar</code></li>
 </ul>
 
-<p>It is better if you put <code>classes</code> first.  This way, patch
-files that come as loose classes will take precedence over the older
-definitions in <code>DependencyFinder.jar</code>.</p>
+<p>It is better if you put <code>classes</code> first.  This way, patch files
+that come as loose classes will take precedence over the older definitions in
+<code>DependencyFinder.jar</code>.</p>
 
 <h3>In your buildfile</h3>
 
@@ -49,7 +49,7 @@ part of the Ant project.</p>
 installation.  This way, they do not have to deal with the
 <code>CLASSPATH</code> and extra property.  I don't recommend you do this
 because it makes upgrading Ant that much more difficult.  Every time, you must
-remember to copy the file again.  Also, you cannot deal with the
+remember to copy the files again.  Also, you cannot deal with the
 <code>classes</code> directory in the same fashion and this could mean missing
 out on Dependency Finder patches.</p>
 
@@ -58,52 +58,18 @@ to initialize Log4J properly.  If you don't, the default Log4J configuration
 will log everything to a dummy appender and the tasks will take much longer to
 execute.</p>
 
-<p>Once Ant knows where to find the Dependency Finder classes, you can then use this
+<p>Once Ant knows where to find the Dependency Finder classes, you can use the
 <a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>
-to define the tasks, based on the classes supplied by Dependency Finder.</p>
+to import the predefined tasks supplied by Dependency Finder.</p>
 
 <pre>
-    &lt;taskdef name="classmetrics" classname="com.jeantessier.dependencyfinder.ant.ClassMetrics"&gt;
-        &lt;classpath refid="dependencyfinder"/&gt;
-    &lt;/taskdef&gt;
-    
-    &lt;taskdef name="dependencyextractor" classname="com.jeantessier.dependencyfinder.ant.DependencyExtractor"&gt;
-        &lt;classpath refid="dependencyfinder"/&gt;
-    &lt;/taskdef&gt;
-    
-    &lt;taskdef name="dependencyreporter" classname="com.jeantessier.dependencyfinder.ant.DependencyReporter"&gt;
-        &lt;classpath refid="dependencyfinder"/&gt;
-    &lt;/taskdef&gt;
-    
-    &lt;taskdef name="dependencyclosure" classname="com.jeantessier.dependencyfinder.ant.DependencyClosure"&gt;
-        &lt;classpath refid="dependencyfinder"/&gt;
-    &lt;/taskdef&gt;
-    
-    &lt;taskdef name="dependencymetrics" classname="com.jeantessier.dependencyfinder.ant.DependencyMetrics"&gt;
-        &lt;classpath refid="dependencyfinder"/&gt;
-    &lt;/taskdef&gt;
-    
-    &lt;taskdef name="oometrics" classname="com.jeantessier.dependencyfinder.ant.OOMetrics"&gt;
-        &lt;classpath refid="dependencyfinder"/&gt;
-    &lt;/taskdef&gt;
-    
-    &lt;taskdef name="jarjardiff" classname="com.jeantessier.dependencyfinder.ant.JarJarDiff"&gt;
-        &lt;classpath refid="dependencyfinder"/&gt;
-    &lt;/taskdef&gt;
-    
-    &lt;taskdef name="listdiff" classname="com.jeantessier.dependencyfinder.ant.ListDiff"&gt;
+    &lt;taskdef resource="dependencyfindertasks.properties"&gt;
         &lt;classpath refid="dependencyfinder"/&gt;
     &lt;/taskdef&gt;
 </pre>
-	
-<h3>With properties file</h3>
 
-<p>Another way is to put the path elements on your <code>CLASSPATH</code> and
-add the task definitions to a properties file.  Ant can read the file and do
-the <code>&lt;taskdef&gt;</code> tags implicitly.</p>
-
-<p>For example, given the following
-<code>DependencyFinderTasks.properties</code> file:</p>
+<p>The resource file <code>DependencyFinderTasks.properties</code> is already
+part of <code>DependencyFinder.jar</code>.  It looks like the following:</p>
 
 <pre>
     classmetrics=com.jeantessier.dependencyfinder.ant.ClassMetrics
@@ -111,20 +77,79 @@ the <code>&lt;taskdef&gt;</code> tags implicitly.</p>
     dependencyreporter=com.jeantessier.dependencyfinder.ant.DependencyReporter
     dependencyclosure=com.jeantessier.dependencyfinder.ant.DependencyClosure
     dependencymetrics=com.jeantessier.dependencyfinder.ant.DependencyMetrics
+    listdeprecatedelements=com.jeantessier.dependencyfinder.ant.ListDeprecatedElements
     oometrics=com.jeantessier.dependencyfinder.ant.OOMetrics
     jarjardiff=com.jeantessier.dependencyfinder.ant.JarJarDiff
     listdiff=com.jeantessier.dependencyfinder.ant.ListDiff
 </pre>
+        
+<h3>Renaming the tasks</h3>
 
-<p>You can use the following in your buildfile:</p>
+<p>If you don't like the tasks' predefined names, you can define your own with
+Ant's <code>&lt;taskdef&gt;</code> task.
 
 <pre>
-    &lt;taskdef file="DependencyFinderTasks.properties"/&gt;
+    &lt;taskdef name="metrics.class" classname="com.jeantessier.dependencyfinder.ant.ClassMetrics"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="extractor" classname="com.jeantessier.dependencyfinder.ant.DependencyExtractor"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="reporter" classname="com.jeantessier.dependencyfinder.ant.DependencyReporter"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="closure" classname="com.jeantessier.dependencyfinder.ant.DependencyClosure"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="metrics.dependency" classname="com.jeantessier.dependencyfinder.ant.DependencyMetrics"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="list.deprecated.elements" classname="com.jeantessier.dependencyfinder.ant.ListDeprecatedElements"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="metrics.oo" classname="com.jeantessier.dependencyfinder.ant.OOMetrics"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="diff" classname="com.jeantessier.dependencyfinder.ant.JarJarDiff"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+    
+    &lt;taskdef name="list.diff" classname="com.jeantessier.dependencyfinder.ant.ListDiff"&gt;
+        &lt;classpath refid="dependencyfinder"/&gt;
+    &lt;/taskdef&gt;
+</pre>
+        
+<p>Or use your own properties file.  For example, given the following
+<code>mytasks.properties</code> file:</p>
+
+<pre>
+    metrics.class=com.jeantessier.dependencyfinder.ant.ClassMetrics
+    extractor=com.jeantessier.dependencyfinder.ant.DependencyExtractor
+    reporter=com.jeantessier.dependencyfinder.ant.DependencyReporter
+    closure=com.jeantessier.dependencyfinder.ant.DependencyClosure
+    metrics.dependency=com.jeantessier.dependencyfinder.ant.DependencyMetrics
+    list.deprecated.elements=com.jeantessier.dependencyfinder.ant.ListDeprecatedElements
+    metrics.oo=com.jeantessier.dependencyfinder.ant.OOMetrics
+    diff=com.jeantessier.dependencyfinder.ant.JarJarDiff
+    list.diff=com.jeantessier.dependencyfinder.ant.ListDiff
+</pre>
+
+<p>Which you can use in your buildfile:</p>
+
+<pre>
+    &lt;taskdef file="mytasks.properties"/&gt;
 </pre>
 
 <hr>
 
-<p align="center">Copyright &copy; 2001-2004 Jean Tessier.  All rights reserved.</p>
+<p align="center">Copyright &copy; 2001-2006 Jean Tessier.  All rights reserved.</p>
 
 </body>
 
