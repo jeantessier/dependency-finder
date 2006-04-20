@@ -51,36 +51,36 @@
     </project-measurements>
     <group-measurements>
         <measurement>
-            <short-name>CC</short-name>
+            <short-name>GNCC</short-name>
             <long-name>Character Count</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
-            <short-name>WC</short-name>
+            <short-name>GNWC</short-name>
             <long-name>Word Count</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
     </group-measurements>
     <class-measurements>
         <measurement>
-            <short-name>CC</short-name>
+            <short-name>CNCC</short-name>
             <long-name>Character Count</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
-            <short-name>WC</short-name>
+            <short-name>CNWC</short-name>
             <long-name>Word Count</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
     </class-measurements>
     <method-measurements>
         <measurement>
-            <short-name>CC</short-name>
+            <short-name>MNCC</short-name>
             <long-name>Character Count</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
-            <short-name>WC</short-name>
+            <short-name>MNWC</short-name>
             <long-name>Word Count</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>

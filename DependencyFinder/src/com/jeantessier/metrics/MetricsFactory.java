@@ -139,11 +139,11 @@ public class MetricsFactory {
     }
 
     private void computePackageNameCharacterCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.CHARACTER_COUNT, metrics.getName().length());
+        metrics.addToMeasurement(Metrics.GROUP_NAME_CHARACTER_COUNT, metrics.getName().length());
     }
 
     private void computePackageNameWordCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.WORD_COUNT, counter.countPackageName(metrics.getName()));
+        metrics.addToMeasurement(Metrics.GROUP_NAME_WORD_COUNT, counter.countPackageName(metrics.getName()));
     }
 
     public void includeGroupMetrics(Metrics metrics) {
@@ -200,11 +200,11 @@ public class MetricsFactory {
     }
 
     private void computeClassNameCharacterCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.CHARACTER_COUNT, computeClassName(metrics).length());
+        metrics.addToMeasurement(Metrics.CLASS_NAME_CHARACTER_COUNT, computeClassName(metrics).length());
     }
 
     private void computeClassNameWordCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.WORD_COUNT, counter.countIdentifier(computeClassName(metrics)));
+        metrics.addToMeasurement(Metrics.CLASS_NAME_WORD_COUNT, counter.countIdentifier(computeClassName(metrics)));
     }
 
     private String computeClassName(Metrics metrics) {
@@ -266,8 +266,29 @@ public class MetricsFactory {
         classMetrics.addSubMetrics(result);
 
         populateMetrics(result, getConfiguration().getMethodMeasurements());
+        initializeMethodMetrics(result);
 
         return result;
+    }
+
+    private void initializeMethodMetrics(Metrics metrics) {
+        computeMethodNameCharacterCount(metrics);
+        computeMethodNameWordCount(metrics);
+    }
+
+    private void computeMethodNameCharacterCount(Metrics metrics) {
+        metrics.addToMeasurement(Metrics.METHOD_NAME_CHARACTER_COUNT, computeMethodName(metrics).length());
+    }
+
+    private void computeMethodNameWordCount(Metrics metrics) {
+        metrics.addToMeasurement(Metrics.METHOD_NAME_WORD_COUNT, counter.countIdentifier(computeMethodName(metrics)));
+    }
+
+    private String computeMethodName(Metrics metrics) {
+        String fullMethodName = metrics.getName();
+        int pos1 = fullMethodName.lastIndexOf(".") + 1;
+        int pos2 = fullMethodName.indexOf("(") - 1;
+        return fullMethodName.substring(pos1, pos2);
     }
 
     public void includeMethodMetrics(Metrics metrics) {

@@ -104,8 +104,12 @@ public class Metrics {
     public static final String OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES = "OEPF";
     public static final String OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES   = "OEPC";
 
-    public static final String CHARACTER_COUNT = "CC";
-    public static final String WORD_COUNT = "WC";
+    public static final String GROUP_NAME_CHARACTER_COUNT = "GNCC";
+    public static final String GROUP_NAME_WORD_COUNT = "GNWC";
+    public static final String CLASS_NAME_CHARACTER_COUNT = "CNCC";
+    public static final String CLASS_NAME_WORD_COUNT = "CNWC";
+    public static final String METHOD_NAME_CHARACTER_COUNT = "MNCC";
+    public static final String METHOD_NAME_WORD_COUNT = "MNWC";
 
     private static final Measurement NULL_MEASUREMENT = new NullMeasurement();
     
