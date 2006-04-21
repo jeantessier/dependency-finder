@@ -3558,6 +3558,10 @@ The following are simple numerical measurements taken against the method.
 
 <blockquote>
 <dl>
+    <dt>Name Character Count (MNCC)</dt>
+    <dd>Number of characters in the method's name.</dd>
+    <dt>Name Word Count (MNWC)</dt>
+    <dd>Number of words that make up the method's name.</dd>
     <dt>Parameters (PARAM)</dt>
     <dd>Number of parameters for the method.  Very long signatures are often
     seen as a sign of poor design.</dd>
@@ -3604,6 +3608,10 @@ The following are simple numerical measurements taken against the class.
 
 <blockquote>
 <dl>
+    <dt>Name Character Count (CNCC)</dt>
+    <dd>Number of characters in the class's name.</dd>
+    <dt>Name Word Count (CNWC)</dt>
+    <dd>Number of words that make up the class's name.</dd>
     <dt>Single Line of Code (SLOC)</dt>
     <dd>Number of code lines in the class.  Comments and empty lines are not
     counted.  Large classes are usually a sign of poor design.</dd>
@@ -3653,6 +3661,10 @@ package-related groups.
 
 <blockquote>
 <dl>
+    <dt>Name Character Count (GNCC)</dt>
+    <dd>Number of characters in the group's name.</dd>
+    <dt>Name Word Count (GNWC)</dt>
+    <dd>Number of words that make up the group's name.</dd>
     <dt>Classes (C)</dt>
     <dd>Number of classes in this group.</dd>
     <dt>Interfaces (I)</dt>
