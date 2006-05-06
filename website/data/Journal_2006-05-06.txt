@@ -1,0 +1,4 @@
+Created initial acceptance tests for dependency closures.
+
+My license for InteliJ IDEA will expire soon.  I must renew it.  I hope they
+still give out free licenses to open source projects.
