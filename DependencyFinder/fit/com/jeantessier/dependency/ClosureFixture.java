@@ -53,6 +53,20 @@ public class ClosureFixture extends DoFixture {
         computeClosureStartingAtWithMaximumInboundDepthWithMaximumOutboundDepth(startIncludes, 0, maximumOutboundDepth);
     }
 
+    public void computeClosureStartingAtStopingAt(String startIncludes, String stopIncludes) {
+        RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
+        startCriteria.setGlobalIncludes(startIncludes);
+
+        RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
+        stopCriteria.setGlobalIncludes(stopIncludes);
+
+        TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);
+
+        selector.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
+
+        setSystemUnderTest(selector.getFactory());
+    }
+
     private void computeClosureStartingAtWithMaximumInboundDepthWithMaximumOutboundDepth(String startIncludes, int maximumInboundDepth, int maximumOutboundDepth) {
         RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
         startCriteria.setGlobalIncludes(startIncludes);
