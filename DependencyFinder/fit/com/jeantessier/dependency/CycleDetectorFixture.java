@@ -38,7 +38,22 @@ import fitlibrary.*;
 
 public class CycleDetectorFixture extends NodeFactoryFixture {
     public void detectCycles() {
-        Visitor visitor = new CycleDetector();
+        doDetectCycles(new CycleDetector());
+    }
+
+    public void detectCyclesScopeIncludes(String scopeIncludes) {
+        doDetectCycles(new CycleDetector(new RegularExpressionSelectionCriteria(scopeIncludes)));
+    }
+
+    public void detectCyclesScopeIncludesList(String scopeIncludesList) {
+        Collection<String> includes = new ArrayList<String>();
+        includes.add(scopeIncludesList);
+        Collection<String> excludes = new ArrayList<String>();
+
+        doDetectCycles(new CycleDetector(new CollectionSelectionCriteria(includes, excludes)));
+    }
+
+    private void doDetectCycles(Visitor visitor) {
         visitor.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
         setSystemUnderTest(visitor);
     }

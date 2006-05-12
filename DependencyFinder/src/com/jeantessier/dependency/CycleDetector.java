@@ -10,6 +10,13 @@ public class CycleDetector extends VisitorBase {
     private Collection<Cycle> cycles = new TreeSet<Cycle>(new CycleComparator());
     private int maximumCycleLength = Integer.MAX_VALUE;
 
+    public CycleDetector() {
+    }
+
+    public CycleDetector(SelectionCriteria criteria) {
+        super(new SelectiveTraversalStrategy(criteria, new ComprehensiveSelectionCriteria()));
+    }
+
     public Collection<Cycle> getCycles() {
         return cycles;
     }
