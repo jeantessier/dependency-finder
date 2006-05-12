@@ -1,0 +1,2 @@
+Use specialized collections in =com.jeantessier.dependency.Cycle= and related
+classes.

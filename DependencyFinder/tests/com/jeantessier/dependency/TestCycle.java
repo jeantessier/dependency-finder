@@ -55,7 +55,7 @@ public class TestCycle extends TestCase {
 
     public void testConstructEmptyCycle() {
         try {
-            new Cycle(Collections.EMPTY_LIST);
+            new Cycle(new ArrayList<Node>());
             fail("Constructed empty cycle");
         } catch (Exception ex) {
             // expected
@@ -63,7 +63,7 @@ public class TestCycle extends TestCase {
     }
 
     public void testConstructLength1Cycle() {
-        List path = new ArrayList();
+        List<Node> path = new ArrayList<Node>();
         path.add(a);
         Cycle cycle = new Cycle(path);
 
@@ -72,12 +72,12 @@ public class TestCycle extends TestCase {
     }
 
     public void testEquals_Identical() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(a);
         path2.add(b);
         Cycle cycle2 = new Cycle(path2);
@@ -87,12 +87,12 @@ public class TestCycle extends TestCase {
     }
 
     public void testEquals_Reversed() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(b);
         path2.add(a);
         Cycle cycle2 = new Cycle(path2);
@@ -102,12 +102,12 @@ public class TestCycle extends TestCase {
     }
 
     public void testEquals_SameLength() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(c);
         path2.add(d);
         Cycle cycle2 = new Cycle(path2);
@@ -117,12 +117,12 @@ public class TestCycle extends TestCase {
     }
 
     public void testEquals_DifferentLength() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(c);
         path2.add(d);
         path2.add(e);
@@ -133,13 +133,13 @@ public class TestCycle extends TestCase {
     }
 
     public void testEquals_LengthTrumpsContent() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         path1.add(c);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(d);
         path2.add(e);
         Cycle cycle2 = new Cycle(path2);
@@ -149,12 +149,12 @@ public class TestCycle extends TestCase {
     }
 
     public void testCompareTo_Identical() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(a);
         path2.add(b);
         Cycle cycle2 = new Cycle(path2);
@@ -164,12 +164,12 @@ public class TestCycle extends TestCase {
     }
 
     public void testCompareTo_Reversed() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(b);
         path2.add(a);
         Cycle cycle2 = new Cycle(path2);
@@ -179,12 +179,12 @@ public class TestCycle extends TestCase {
     }
 
     public void testCompareTo_SameLength() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(c);
         path2.add(d);
         Cycle cycle2 = new Cycle(path2);
@@ -194,12 +194,12 @@ public class TestCycle extends TestCase {
     }
 
     public void testCompareTo_DifferentLength() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(c);
         path2.add(d);
         path2.add(e);
@@ -210,13 +210,13 @@ public class TestCycle extends TestCase {
     }
 
     public void testCompareTo_LengthTrumpsContent() {
-        List path1 = new ArrayList();
+        List<Node> path1 = new ArrayList<Node>();
         path1.add(a);
         path1.add(b);
         path1.add(c);
         Cycle cycle1 = new Cycle(path1);
 
-        List path2 = new ArrayList();
+        List<Node> path2 = new ArrayList<Node>();
         path2.add(d);
         path2.add(e);
         Cycle cycle2 = new Cycle(path2);

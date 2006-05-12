@@ -52,7 +52,7 @@ public class TestCycleComparator extends TestCase {
         Cycle shortCycle = new Cycle(shortPath);
         Cycle longCycle = new Cycle(longPath);
 
-        Comparator comparator = new CycleComparator();
+        Comparator<Cycle> comparator = new CycleComparator();
 
         assertTrue("2 < 3", comparator.compare(shortCycle, longCycle) < 0);
         assertTrue("2 == 2", comparator.compare(shortCycle, shortCycle) == 0);
@@ -75,7 +75,7 @@ public class TestCycleComparator extends TestCase {
         Cycle cycle1 = new Cycle(path1);
         Cycle cycle2 = new Cycle(path2);
 
-        Comparator comparator = new CycleComparator();
+        Comparator<Cycle> comparator = new CycleComparator();
 
         assertTrue("1 < 2", comparator.compare(cycle1, cycle2) < 0);
         assertTrue("1 == 1", comparator.compare(cycle1, cycle1) == 0);

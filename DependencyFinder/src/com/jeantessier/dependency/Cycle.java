@@ -2,20 +2,18 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-import com.sun.corba.se.impl.ior.*;
-
 /**
  * TODO Class comment
  */
 public class Cycle implements Comparable {
-    private Set  nodes;
-    private List path;
+    private Set<Node> nodes;
+    private List<Node> path;
 
-    public Cycle(List path) {
-        this.nodes = new TreeSet(path);
+    public Cycle(List<Node> path) {
+        this.nodes = new TreeSet<Node>(path);
 
-        Object first = nodes.iterator().next();
-        LinkedList rawPath = new LinkedList(path);
+        Node first = nodes.iterator().next();
+        LinkedList<Node> rawPath = new LinkedList<Node>(path);
         while (!rawPath.getFirst().equals(first)) {
             rawPath.addLast(rawPath.removeFirst());
         }
@@ -23,7 +21,7 @@ public class Cycle implements Comparable {
         this.path = rawPath;
     }
 
-    public List getPath() {
+    public List<Node> getPath() {
         return Collections.unmodifiableList(path);
     }
 
@@ -63,10 +61,10 @@ public class Cycle implements Comparable {
             Cycle other = (Cycle) object;
 
             result = getLength() - other.getLength();
-            Iterator theseNodes = getPath().iterator();
-            Iterator otherNodes = other.getPath().iterator();
+            Iterator<Node> theseNodes = getPath().iterator();
+            Iterator<Node> otherNodes = other.getPath().iterator();
             while (result == 0 && theseNodes.hasNext() && otherNodes.hasNext()) {
-                result = ((Node) theseNodes.next()).compareTo(otherNodes.next());
+                result = theseNodes.next().compareTo(otherNodes.next());
             }
         }
 

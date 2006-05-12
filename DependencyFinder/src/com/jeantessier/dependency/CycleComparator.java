@@ -37,19 +37,14 @@ import java.util.*;
 /**
  * TODO Class comment
  */
-public class CycleComparator implements Comparator {
-    public int compare(Object o1, Object o2) {
-        int result;
+public class CycleComparator implements Comparator<Cycle> {
+    public int compare(Cycle cycle1, Cycle cycle2) {
+        int result = cycle1.getLength() - cycle2.getLength();
 
-        Cycle cycle1 = (Cycle) o1;
-        Cycle cycle2 = (Cycle) o2;
-
-        result = cycle1.getLength() - cycle2.getLength();
-
-        Iterator i1 = cycle1.getPath().iterator();
-        Iterator i2 = cycle2.getPath().iterator();
+        Iterator<Node> i1 = cycle1.getPath().iterator();
+        Iterator<Node> i2 = cycle2.getPath().iterator();
         while (result == 0 && i1.hasNext() && i2.hasNext()) {
-            result = ((Node) i1.next()).compareTo((Node) i2.next());
+            result = (i1.next()).compareTo(i2.next());
         }
 
         return result;
