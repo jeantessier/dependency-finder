@@ -1,0 +1,3 @@
+Added [[http://headwaysoftware.com/products/structure101/][Structure 101]] to
+the Resources page.  I think this might be the latest incarnation of reView.
+Both come from the same company and reView is no longer on their website.
