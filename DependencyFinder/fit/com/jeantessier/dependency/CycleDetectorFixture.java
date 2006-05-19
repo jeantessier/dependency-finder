@@ -33,8 +33,10 @@
 package com.jeantessier.dependency;
 
 import java.util.*;
+import java.io.*;
 
 import fitlibrary.*;
+import fit.*;
 
 public class CycleDetectorFixture extends NodeFactoryFixture {
     public void detectCycles() {
@@ -58,10 +60,36 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
         setSystemUnderTest(visitor);
     }
 
-    public SetFixture pathForCycle(int pos) {
+    public Fixture pathForCycle(int pos) {
+        return new ArrayFixture(getCycle(pos).getPath());
+    }
+
+    public Fixture textForCycle(int pos) throws IOException {
+        CyclePrinter printer = new TextCyclePrinter();
+        printer.visitCycle(getCycle(pos));
+
+        List<Line> lines = new ArrayList<Line>();
+
+        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
+        String line;
+        while ((line = in.readLine()) != null) {
+            lines.add(new Line(line.trim()));
+        }
+        in.close();
+
+        return new ArrayFixture(lines);
+    }
+
+    private Cycle getCycle(int pos) {
         CycleDetector detector = (CycleDetector) systemUnderTest;
         ArrayList<Cycle> cycles = new ArrayList<Cycle>(detector.getCycles());
-        Cycle cycle = cycles.get(pos);
-        return new SetFixture(cycle.getPath());
+        return cycles.get(pos);
+    }
+
+    public static class Line {
+        public String line;
+        public Line(String line) {
+            this.line = line;
+        }
     }
 }

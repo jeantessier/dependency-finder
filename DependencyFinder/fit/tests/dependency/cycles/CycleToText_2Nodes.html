@@ -1,0 +1,96 @@
+<html>
+
+<head>
+<title>Cycle To Text - 2-Node</title>
+</head>
+
+<body>
+
+<h1>Cycle To Text - 2-Node</h1>
+
+<table border="1">
+    <tr>
+        <td>com.jeantessier.dependency.CycleDetectorFixture</td>
+    </tr>
+</table>
+
+<h2>Set up.</h2>
+
+<p>Create some nodes</p>
+
+<table border="1">
+    <tr>
+        <td>create</td>
+        <td>a.A</td>
+        <td>class</td>
+    </tr>
+</table>
+
+<table border="1">
+    <tr>
+        <td>create</td>
+        <td>b.B</td>
+        <td>class</td>
+    </tr>
+</table>
+
+<p>Create some dependencies.</p>
+
+<table border="1">
+    <tr>
+        <td>source</td>
+        <td>a.A</td>
+        <td>depends on</td>
+        <td>b.B</td>
+    </tr>
+</table>
+
+<table border="1">
+    <tr>
+        <td>source</td>
+        <td>b.B</td>
+        <td>depends on</td>
+        <td>a.A</td>
+    </tr>
+</table>
+
+<h2>Detect cycles.</h2>
+
+<table border="1">
+    <tr>
+        <td>detect cycles</td>
+    </tr>
+</table>
+
+<h2>Verify results.</h2>
+
+<table border="1">
+    <tr>
+        <td>text for cycle</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td colspan="2"><i>line</i></td>
+    </tr>
+    <tr>
+        <td colspan="2">a.A</td>
+    </tr>
+    <tr>
+        <td colspan="2">    --> b.B</td>
+    </tr>
+    <tr>
+        <td colspan="2">        --> a.A</td>
+    </tr>
+</table>
+
+<hr/>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.Summary</td>
+    </tr>
+</table>
+
+</body>
+
+</html>
