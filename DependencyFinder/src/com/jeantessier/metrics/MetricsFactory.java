@@ -128,22 +128,22 @@ public class MetricsFactory {
         Metrics result         = new Metrics(projectMetrics, name);
 
         populateMetrics(result, getConfiguration().getGroupMeasurements());
-        initializeGroupMetrics(result);
+        initializeGroupMetrics(name, result);
 
         return result;
     }
 
-    private void initializeGroupMetrics(Metrics metrics) {
-        computePackageNameCharacterCount(metrics);
-        computePackageNameWordCount(metrics);
+    private void initializeGroupMetrics(String packageName, Metrics metrics) {
+        computePackageNameCharacterCount(packageName, metrics);
+        computePackageNameWordCount(packageName, metrics);
     }
 
-    private void computePackageNameCharacterCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.GROUP_NAME_CHARACTER_COUNT, metrics.getName().length());
+    private void computePackageNameCharacterCount(String packageName, Metrics metrics) {
+        metrics.addToMeasurement(Metrics.GROUP_NAME_CHARACTER_COUNT, packageName.length());
     }
 
-    private void computePackageNameWordCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.GROUP_NAME_WORD_COUNT, counter.countPackageName(metrics.getName()));
+    private void computePackageNameWordCount(String packageName, Metrics metrics) {
+        metrics.addToMeasurement(Metrics.GROUP_NAME_WORD_COUNT, counter.countPackageName(packageName));
     }
 
     public void includeGroupMetrics(Metrics metrics) {
@@ -181,36 +181,32 @@ public class MetricsFactory {
 
     private Metrics buildClassMetrics(String name) {
         String packageName = "";
+        String className = "";
         int pos = name.lastIndexOf('.');
         if (pos != -1) {
             packageName = name.substring(0, pos);
         }
+        className = name.substring(pos + 1);
         Metrics packageMetrics = createGroupMetrics(packageName);
         Metrics result         = new Metrics(packageMetrics, name);
         
         populateMetrics(result, getConfiguration().getClassMeasurements());
-        initializeClassMetrics(result);
+        initializeClassMetrics(className, result);
 
         return result;
     }
 
-    private void initializeClassMetrics(Metrics metrics) {
-        computeClassNameCharacterCount(metrics);
-        computeClassNameWordCount(metrics);
+    private void initializeClassMetrics(String className, Metrics metrics) {
+        computeClassNameCharacterCount(className, metrics);
+        computeClassNameWordCount(className, metrics);
     }
 
-    private void computeClassNameCharacterCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.CLASS_NAME_CHARACTER_COUNT, computeClassName(metrics).length());
+    private void computeClassNameCharacterCount(String className, Metrics metrics) {
+        metrics.addToMeasurement(Metrics.CLASS_NAME_CHARACTER_COUNT, className.length());
     }
 
-    private void computeClassNameWordCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.CLASS_NAME_WORD_COUNT, counter.countIdentifier(computeClassName(metrics)));
-    }
-
-    private String computeClassName(Metrics metrics) {
-        String fullClassName = metrics.getName();
-        int pos = fullClassName.lastIndexOf(".") + 1;
-        return fullClassName.substring(pos);
+    private void computeClassNameWordCount(String className, Metrics metrics) {
+        metrics.addToMeasurement(Metrics.CLASS_NAME_WORD_COUNT, counter.countIdentifier(className));
     }
 
     public void includeClassMetrics(Metrics metrics) {
@@ -254,41 +250,38 @@ public class MetricsFactory {
 
     private Metrics buildMethodMetrics(String name) {
         String className = "";
-        if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)$/", name)) {
+        String featureName = "";
+        if (perl.match("/^(.*)\\.([^\\.]*)\\(.*\\)$/", name)) {
             className = perl.group(1);
-        } else if (perl.match("/^(.*)\\.static {}$/", name)) {
+            featureName = perl.group(2);
+        } else if (perl.match("/^(.*)\\.(static) {}$/", name)) {
             className = perl.group(1);
-        } else if (perl.match("/^(.*)\\.[\\^.]*$/", name)) {
+            featureName = perl.group(2);
+        } else if (perl.match("/^(.*)\\.([\\^.]*)$/", name)) {
             className = perl.group(1);
+            featureName = perl.group(2);
         }
         Metrics classMetrics = createClassMetrics(className);
         Metrics result       = new Metrics(classMetrics, name);
         classMetrics.addSubMetrics(result);
 
         populateMetrics(result, getConfiguration().getMethodMeasurements());
-        initializeMethodMetrics(result);
+        initializeMethodMetrics(featureName, result);
 
         return result;
     }
 
-    private void initializeMethodMetrics(Metrics metrics) {
-        computeMethodNameCharacterCount(metrics);
-        computeMethodNameWordCount(metrics);
+    private void initializeMethodMetrics(String featureName, Metrics metrics) {
+        computeMethodNameCharacterCount(featureName, metrics);
+        computeMethodNameWordCount(featureName, metrics);
     }
 
-    private void computeMethodNameCharacterCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.METHOD_NAME_CHARACTER_COUNT, computeMethodName(metrics).length());
+    private void computeMethodNameCharacterCount(String featureName, Metrics metrics) {
+        metrics.addToMeasurement(Metrics.METHOD_NAME_CHARACTER_COUNT, featureName.length());
     }
 
-    private void computeMethodNameWordCount(Metrics metrics) {
-        metrics.addToMeasurement(Metrics.METHOD_NAME_WORD_COUNT, counter.countIdentifier(computeMethodName(metrics)));
-    }
-
-    private String computeMethodName(Metrics metrics) {
-        String fullMethodName = metrics.getName();
-        int pos2 = fullMethodName.indexOf("(");
-        int pos1 = fullMethodName.lastIndexOf(".", pos2);
-        return fullMethodName.substring(pos1 + 1, pos2);
+    private void computeMethodNameWordCount(String featureName, Metrics metrics) {
+        metrics.addToMeasurement(Metrics.METHOD_NAME_WORD_COUNT, counter.countIdentifier(featureName));
     }
 
     public void includeMethodMetrics(Metrics metrics) {
