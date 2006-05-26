@@ -40,9 +40,9 @@ import org.apache.oro.text.perl.*;
 public class NodeFactory {
     private static final Perl5Util perl = new Perl5Util();
 
-    private Map packages = new HashMap();
-    private Map classes  = new HashMap();
-    private Map features = new HashMap();
+    private Map<String, PackageNode> packages = new HashMap<String, PackageNode>();
+    private Map<String, ClassNode> classes = new HashMap<String, ClassNode>();
+    private Map<String, FeatureNode> features = new HashMap<String, FeatureNode>();
 
     public PackageNode createPackage(String packageName) {
         return createPackage(packageName, false);
@@ -51,7 +51,7 @@ public class NodeFactory {
     public PackageNode createPackage(String packageName, boolean confirmed) {
         Logger.getLogger(getClass()).debug("Create package \"" + packageName + "\"");
 
-        PackageNode result = (PackageNode) packages.get(packageName);
+        PackageNode result = packages.get(packageName);
 
         if (result == null) {
             result = new PackageNode(packageName, confirmed);
@@ -74,7 +74,7 @@ public class NodeFactory {
         packages.remove(node.getName());
     }
 
-    public Map getPackages() {
+    public Map<String, PackageNode> getPackages() {
         return Collections.unmodifiableMap(packages);
     }
 
@@ -85,7 +85,7 @@ public class NodeFactory {
     public ClassNode createClass(String className, boolean confirmed) {
         Logger.getLogger(getClass()).debug("Create class \"" + className + "\"");
 
-        ClassNode result = (ClassNode) classes.get(className);
+        ClassNode result = classes.get(className);
 
         if (result == null) {
             String packageName = "";
@@ -116,7 +116,7 @@ public class NodeFactory {
         classes.remove(node.getName());
     }
 
-    public Map getClasses() {
+    public Map<String, ClassNode> getClasses() {
         return Collections.unmodifiableMap(classes);
     }
 
@@ -127,7 +127,7 @@ public class NodeFactory {
     public FeatureNode createFeature(String featureName, boolean confirmed) {
         Logger.getLogger(getClass()).debug("Create feature \"" + featureName + "\"");
 
-        FeatureNode result = (FeatureNode) features.get(featureName);
+        FeatureNode result = features.get(featureName);
 
         if (result == null) {
             String parentName;
@@ -163,7 +163,7 @@ public class NodeFactory {
         features.remove(node.getName());
     }
     
-    public Map getFeatures() {
+    public Map<String, FeatureNode> getFeatures() {
         return Collections.unmodifiableMap(features);
     }
 }
