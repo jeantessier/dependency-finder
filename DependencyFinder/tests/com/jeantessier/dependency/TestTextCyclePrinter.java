@@ -38,8 +38,6 @@ import java.io.*;
 import junit.framework.*;
 
 public class TestTextCyclePrinter extends TestCase {
-    private NodeFactory factory;
-
     private Node a_package;
     private Node b_package;
     private Node c_package;
@@ -47,7 +45,7 @@ public class TestTextCyclePrinter extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        factory = new NodeFactory();
+        NodeFactory factory = new NodeFactory();
 
         a_package = factory.createPackage("a");
         b_package = factory.createPackage("b");
@@ -89,6 +87,74 @@ public class TestTextCyclePrinter extends TestCase {
 
         TextCyclePrinter printer = new TextCyclePrinter();
         printer.visitCycle(cycle);
+        assertEquals(expected.toString(), printer.toString());
+    }
+
+    public void testVisitCyclesWith2NodeCycle() {
+        List<Node> nodes = new ArrayList<Node>();
+        nodes.add(a_package);
+        nodes.add(b_package);
+        Cycle cycle = new Cycle(nodes);
+
+        StringWriter expected = new StringWriter();
+        PrintWriter pw = new PrintWriter(expected);
+        pw.println(a_package);
+        pw.println("    --> " + b_package);
+        pw.println("        --> " + a_package);
+        pw.close();
+
+        TextCyclePrinter printer = new TextCyclePrinter();
+        printer.visitCycles(Collections.singletonList(cycle));
+        assertEquals(expected.toString(), printer.toString());
+    }
+
+    public void testVisitCyclesWith3NodeCycle() {
+        List<Node> nodes = new ArrayList<Node>();
+        nodes.add(a_package);
+        nodes.add(b_package);
+        nodes.add(c_package);
+        Cycle cycle = new Cycle(nodes);
+
+        StringWriter expected = new StringWriter();
+        PrintWriter pw = new PrintWriter(expected);
+        pw.println(a_package);
+        pw.println("    --> " + b_package);
+        pw.println("        --> " + c_package);
+        pw.println("            --> " + a_package);
+        pw.close();
+
+        TextCyclePrinter printer = new TextCyclePrinter();
+        printer.visitCycles(Collections.singletonList(cycle));
+        assertEquals(expected.toString(), printer.toString());
+    }
+
+    public void testVisitCyclesWith2Cycles() throws IOException {
+        List<Cycle> cycles = new ArrayList<Cycle>();
+
+        List<Node> nodes1 = new ArrayList<Node>();
+        nodes1.add(a_package);
+        nodes1.add(b_package);
+        cycles.add(new Cycle(nodes1));
+
+        List<Node> nodes2 = new ArrayList<Node>();
+        nodes2.add(a_package);
+        nodes2.add(b_package);
+        nodes2.add(c_package);
+        cycles.add(new Cycle(nodes2));
+
+        StringWriter expected = new StringWriter();
+        PrintWriter pw = new PrintWriter(expected);
+        pw.println(a_package);
+        pw.println("    --> " + b_package);
+        pw.println("        --> " + a_package);
+        pw.println(a_package);
+        pw.println("    --> " + b_package);
+        pw.println("        --> " + c_package);
+        pw.println("            --> " + a_package);
+        pw.close();
+
+        TextCyclePrinter printer = new TextCyclePrinter();
+        printer.visitCycles(cycles);
         assertEquals(expected.toString(), printer.toString());
     }
 }

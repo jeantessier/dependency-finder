@@ -33,11 +33,19 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
+import java.util.*;
 
 public class TextCyclePrinter implements CyclePrinter {
     private int indentLevel;
     private StringWriter buffer = new StringWriter();
     private PrintWriter out = new PrintWriter(buffer);
+
+    public void visitCycles(List<Cycle> cycles) {
+        for (Cycle cycle : cycles) {
+            indentLevel = 0;
+            visitCycle(cycle);
+        }
+    }
 
     public void visitCycle(Cycle cycle) {
         for (Node node : cycle.getPath()) {

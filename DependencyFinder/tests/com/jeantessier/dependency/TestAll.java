@@ -73,6 +73,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestCycleComparator.class);
         result.addTestSuite(TestCycleDetector.class);
         result.addTestSuite(TestTextCyclePrinter.class);
+        result.addTestSuite(TestXMLCyclePrinter.class);
         result.addTestSuite(TestTransitiveClosure.class);
         result.addTestSuite(TestTransitiveClosureWithTestClass.class);
         result.addTestSuite(TestTransitiveClosureSlice.class);

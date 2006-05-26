@@ -32,6 +32,9 @@
 
 package com.jeantessier.dependency;
 
+import java.util.*;
+
 public interface CyclePrinter {
+    public void visitCycles(List<Cycle> cycles);
     public void visitCycle(Cycle cycle);
 }
