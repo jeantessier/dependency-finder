@@ -36,11 +36,20 @@ import java.io.*;
 import java.util.*;
 
 public class TextCyclePrinter implements CyclePrinter {
-    private int indentLevel;
-    private StringWriter buffer = new StringWriter();
-    private PrintWriter out = new PrintWriter(buffer);
+    private PrintWriter out;
 
-    public void visitCycles(List<Cycle> cycles) {
+    private String indentText = "    ";
+    private int indentLevel;
+
+    public TextCyclePrinter(PrintWriter out) {
+        this.out = out;
+    }
+
+    public void setIndentText(String indentText) {
+        this.indentText = indentText;
+    }
+
+    public void visitCycles(Collection<Cycle> cycles) {
         for (Cycle cycle : cycles) {
             indentLevel = 0;
             visitCycle(cycle);
@@ -56,16 +65,16 @@ public class TextCyclePrinter implements CyclePrinter {
 
     private void visitNode(Node node) {
         if (indentLevel > 0) {
-            for (int i = 0; i < indentLevel; i++) {
-                out.print("    ");
-            }
+            indent();
             out.print("--> ");
         }
         indentLevel++;
         out.println(node);
     }
 
-    public String toString() {
-        return buffer.toString();
+    private void indent() {
+        for (int i = 0; i < indentLevel; i++) {
+            out.print(indentText);
+        }
     }
 }

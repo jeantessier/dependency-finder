@@ -65,12 +65,15 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
     }
 
     public Fixture textForCycle(int pos) throws IOException {
-        CyclePrinter printer = new TextCyclePrinter();
+        StringWriter buffer = new StringWriter();
+        PrintWriter out = new PrintWriter(buffer);
+        CyclePrinter printer = new TextCyclePrinter(out);
         printer.visitCycle(getCycle(pos));
-
+        out.close();
+        
         List<Line> lines = new ArrayList<Line>();
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
+        BufferedReader in = new BufferedReader(new StringReader(buffer.toString()));
         String line;
         while ((line = in.readLine()) != null) {
             lines.add(new Line(line.trim()));

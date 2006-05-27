@@ -41,6 +41,8 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
 
     private PrintWriter out;
 
+    private String indentText = "    ";
+
     public XMLCyclePrinter(PrintWriter out) {
         this(out, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
     }
@@ -58,7 +60,11 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
         out.println();
     }
 
-    public void visitCycles(List<Cycle> cycles) {
+    public void setIndentText(String indentText) {
+        this.indentText = indentText;
+    }
+
+    public void visitCycles(Collection<Cycle> cycles) {
         out.append("<cycles>").println();
 
         for (Cycle cycle : cycles) {
@@ -69,9 +75,9 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
     }
 
     public void visitCycle(Cycle cycle) {
-        out.append("    <cycle>").println();
+        out.append(indentText).append("<cycle>").println();
         traverseNodes(cycle.getPath());
-        out.append("    </cycle>").println();
+        out.append(indentText).append("</cycle>").println();
     }
 
     public void traverseNodes(Collection nodes) {
@@ -118,6 +124,6 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
     }
 
     private void visitNode(Node node, String type) {
-        out.append("        <node type=\"").append(type).append("\">").append(node.toString()).append("</node>").println();
+        out.append(indentText).append(indentText).append("<node type=\"").append(type).append("\">").append(node.toString()).append("</node>").println();
     }
 }

@@ -163,6 +163,32 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
         assertEquals("End of file", null, in.readLine());
     }
 
+    public void testVisitCyclesWith2NodeCycleWithIndentText() throws IOException {
+        List<Node> nodes = new ArrayList<Node>();
+        nodes.add(a_package);
+        nodes.add(b_package);
+        Cycle cycle = new Cycle(nodes);
+
+        CyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        printer.setIndentText("*");
+        printer.visitCycles(Collections.singletonList(cycle));
+        int            lineNumber = 0;
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
+        assertEquals("line " + ++lineNumber, "", in.readLine());
+        assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">", in.readLine());
+        assertEquals("line " + ++lineNumber, "", in.readLine());
+        assertEquals("line " + ++lineNumber, "<cycles>", in.readLine());
+        assertEquals("line " + ++lineNumber, "*<cycle>", in.readLine());
+        assertEquals("line " + ++lineNumber, "**<node type=\"package\">a</node>", in.readLine());
+        assertEquals("line " + ++lineNumber, "**<node type=\"package\">b</node>", in.readLine());
+        assertEquals("line " + ++lineNumber, "*</cycle>", in.readLine());
+        assertEquals("line " + ++lineNumber, "</cycles>", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
     public void testVisitCycleWith3NodeCycle() throws IOException {
         List<Node> nodes = new ArrayList<Node>();
         nodes.add(a_package);

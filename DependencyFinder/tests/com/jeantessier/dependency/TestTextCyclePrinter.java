@@ -65,9 +65,36 @@ public class TestTextCyclePrinter extends TestCase {
         pw.println("        --> " + a_package);
         pw.close();
 
-        TextCyclePrinter printer = new TextCyclePrinter();
+        StringWriter buffer = new StringWriter();
+        PrintWriter out = new PrintWriter(buffer);
+        CyclePrinter printer = new TextCyclePrinter(out);
         printer.visitCycle(cycle);
-        assertEquals(expected.toString(), printer.toString());
+        out.close();
+
+        assertEquals(expected.toString(), buffer.toString());
+    }
+
+    public void testVisitCycleWith2NodeCycleWithIndentText() {
+        List<Node> nodes = new ArrayList<Node>();
+        nodes.add(a_package);
+        nodes.add(b_package);
+        Cycle cycle = new Cycle(nodes);
+
+        StringWriter expected = new StringWriter();
+        PrintWriter pw = new PrintWriter(expected);
+        pw.println(a_package);
+        pw.println("*--> " + b_package);
+        pw.println("**--> " + a_package);
+        pw.close();
+
+        StringWriter buffer = new StringWriter();
+        PrintWriter out = new PrintWriter(buffer);
+        CyclePrinter printer = new TextCyclePrinter(out);
+        printer.setIndentText("*");
+        printer.visitCycle(cycle);
+        out.close();
+
+        assertEquals(expected.toString(), buffer.toString());
     }
 
     public void testVisitCycleWith3NodeCycle() {
@@ -85,9 +112,13 @@ public class TestTextCyclePrinter extends TestCase {
         pw.println("            --> " + a_package);
         pw.close();
 
-        TextCyclePrinter printer = new TextCyclePrinter();
+        StringWriter buffer = new StringWriter();
+        PrintWriter out = new PrintWriter(buffer);
+        CyclePrinter printer = new TextCyclePrinter(out);
         printer.visitCycle(cycle);
-        assertEquals(expected.toString(), printer.toString());
+        out.close();
+
+        assertEquals(expected.toString(), buffer.toString());
     }
 
     public void testVisitCyclesWith2NodeCycle() {
@@ -103,9 +134,13 @@ public class TestTextCyclePrinter extends TestCase {
         pw.println("        --> " + a_package);
         pw.close();
 
-        TextCyclePrinter printer = new TextCyclePrinter();
+        StringWriter buffer = new StringWriter();
+        PrintWriter out = new PrintWriter(buffer);
+        CyclePrinter printer = new TextCyclePrinter(out);
         printer.visitCycles(Collections.singletonList(cycle));
-        assertEquals(expected.toString(), printer.toString());
+        out.close();
+
+        assertEquals(expected.toString(), buffer.toString());
     }
 
     public void testVisitCyclesWith3NodeCycle() {
@@ -123,9 +158,13 @@ public class TestTextCyclePrinter extends TestCase {
         pw.println("            --> " + a_package);
         pw.close();
 
-        TextCyclePrinter printer = new TextCyclePrinter();
+        StringWriter buffer = new StringWriter();
+        PrintWriter out = new PrintWriter(buffer);
+        CyclePrinter printer = new TextCyclePrinter(out);
         printer.visitCycles(Collections.singletonList(cycle));
-        assertEquals(expected.toString(), printer.toString());
+        out.close();
+
+        assertEquals(expected.toString(), buffer.toString());
     }
 
     public void testVisitCyclesWith2Cycles() throws IOException {
@@ -153,8 +192,12 @@ public class TestTextCyclePrinter extends TestCase {
         pw.println("            --> " + a_package);
         pw.close();
 
-        TextCyclePrinter printer = new TextCyclePrinter();
+        StringWriter buffer = new StringWriter();
+        PrintWriter out = new PrintWriter(buffer);
+        CyclePrinter printer = new TextCyclePrinter(out);
         printer.visitCycles(cycles);
-        assertEquals(expected.toString(), printer.toString());
+        out.close();
+
+        assertEquals(expected.toString(), buffer.toString());
     }
 }
