@@ -49,6 +49,7 @@ require "getopts.pl";
               "DependablesToHTML" => ".xsl.template.txt",
               "DependablesToText" => ".xsl.template.txt",
               "DependencyClosure" => ".cli.template.txt",
+              "DependencyCycles" => ".cli.template.txt",
               "DependencyExtractor" => ".cli.template.txt",
               "DependencyGraphToFullyQualifiedNames" => ".xsl.template.txt",
               "DependencyGraphToHTML" => ".xsl.template.txt",
