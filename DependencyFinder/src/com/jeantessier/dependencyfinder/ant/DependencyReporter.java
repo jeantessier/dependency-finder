@@ -627,11 +627,11 @@ public class DependencyReporter extends GraphTask {
         return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());
     }
 
-    private Collection loadCollection(Path path) {
-        Collection result = null;
+    private Collection<String> loadCollection(Path path) {
+        Collection<String> result = null;
 
         if (path != null) {
-            result = new HashSet();
+            result = new HashSet<String>();
 
             String[] filenames = path.list();
             for (int i = 0; i < filenames.length; i++) {
