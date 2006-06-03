@@ -8,6 +8,13 @@ different error messages.
 
 Fixed my issue with table width in the new webapp pages for dependency cycles.
 
+I tried to load the webapp with the dependency graph for Dependency Finder and
+find class-level cycles starting at =com.jeantessier.classreader.Visitor=,
+specifying it a maximum cycle length of 5.  The CPU went to 100% for over two
+hours and never came back.  In the end, I had to kill Tomcat.  I'll have to
+investigate why this happened and if it is a bug or just that =CycleDetector=
+is not really useful in real life.
+
 Found out SourceForge added a new permission on user accounts for Subversion
 access.  I granted myself permission but it didn't work right away.  I guess
 there is a propagation delay between the user management system and the
