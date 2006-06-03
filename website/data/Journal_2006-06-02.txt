@@ -19,3 +19,17 @@ Found out SourceForge added a new permission on user accounts for Subversion
 access.  I granted myself permission but it didn't work right away.  I guess
 there is a propagation delay between the user management system and the
 permission system.  It's all better now.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Tomcat</td>
+        <td>:</td>
+        <td>5.5.15</td>
+        <td>-></td>
+        <td>5.5.17</td>
+    </tr>
+</table>
+</blockquote>
