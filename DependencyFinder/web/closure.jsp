@@ -101,6 +101,7 @@
 
 <th><fieldset class="navigation"><a href="query.jsp">Dependency graph</a></fieldset></th>
 <th><fieldset class="currentnavigation">Transitive closure</fieldset></th>
+<th><fieldset class="navigation"><a href="cycles.jsp">Dependency cycles</a></fieldset></th>
 <th><fieldset class="navigation"><a href="metrics.jsp">Dependency metrics</a></fieldset></th>
 
 </tr></table>
