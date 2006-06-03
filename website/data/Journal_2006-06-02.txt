@@ -7,3 +7,8 @@ with the same problem and others are also having trouble commiting but get
 different error messages.
 
 Fixed my issue with table width in the new webapp pages for dependency cycles.
+
+Found out SourceForge added a new permission on user accounts for Subversion
+access.  I granted myself permission but it didn't work right away.  I guess
+there is a propagation delay between the user management system and the
+permission system.  It's all better now.
