@@ -1,8 +1,8 @@
 Opened a ticket
-([[http://sourceforge.net/tracker/index.php?func=detail&aid=1499643&group_id=1&atid=200001][1499643]])
+([[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1499643&group_id%3D1&atid%3D200001][1499643]])
 with SourceForge about my commit problem.  Apparently, I am not the only one.
 I found at least one other ticket
-([[http://sourceforge.net/tracker/index.php?func=detail&aid=1499575&group_id=1&atid=200001][1499575]])
+([[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1499575&group_id%3D1&atid%3D200001][1499575]])
 with the same problem and others are also having trouble commiting but get
 different error messages.
 
