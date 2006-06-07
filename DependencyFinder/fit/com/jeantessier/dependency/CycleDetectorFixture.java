@@ -55,6 +55,15 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
         doDetectCycles(new CycleDetector(new CollectionSelectionCriteria(includes, excludes)));
     }
 
+    public void detectCyclesPackagesClassesFeaturesIncludes(boolean packageScope, boolean classScope, boolean featureScope, String scopeIncludes) {
+        RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria(scopeIncludes);
+        criteria.setMatchingPackages(packageScope);
+        criteria.setMatchingClasses(classScope);
+        criteria.setMatchingFeatures(featureScope);
+        
+        doDetectCycles(new CycleDetector(criteria));
+    }
+
     private void doDetectCycles(Visitor visitor) {
         visitor.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
         setSystemUnderTest(visitor);
