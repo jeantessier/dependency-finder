@@ -55,18 +55,28 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
         doDetectCycles(new CycleDetector(new CollectionSelectionCriteria(includes, excludes)));
     }
 
-    public void detectCyclesPackagesClassesFeaturesIncludes(boolean packageScope, boolean classScope, boolean featureScope, String scopeIncludes) {
-        RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria(scopeIncludes);
-        criteria.setMatchingPackages(packageScope);
-        criteria.setMatchingClasses(classScope);
-        criteria.setMatchingFeatures(featureScope);
-        
-        doDetectCycles(new CycleDetector(criteria));
+    public void detectClassToClassCyclesScopeIncludes(String scopeIncludes) {
+        doReduceGraphToClasses();
+        doDetectCycles(new CycleDetector(new RegularExpressionSelectionCriteria(scopeIncludes)));
     }
 
     private void doDetectCycles(Visitor visitor) {
         visitor.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
         setSystemUnderTest(visitor);
+    }
+
+    private void doReduceGraphToClasses() {
+        RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("//");
+        scopeCriteria.setMatchingPackages(false);
+        scopeCriteria.setMatchingClasses(true);
+        scopeCriteria.setMatchingFeatures(false);
+        RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("//");
+        filterCriteria.setMatchingPackages(false);
+        filterCriteria.setMatchingClasses(true);
+        filterCriteria.setMatchingFeatures(false);
+        GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
+        summarizer.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
+        setSystemUnderTest(summarizer.getScopeFactory());
     }
 
     public Fixture pathForCycle(int pos) {

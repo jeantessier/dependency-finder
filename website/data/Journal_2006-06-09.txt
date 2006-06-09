@@ -1,0 +1,6 @@
+I decided against having =CycleDetector= summarize the graph to do
+class-to-class cycle determinations.  For the CLI and Ant users, they can use
+=DependencyReporter= to reduce the graph explicitly.  For the GUI and web app
+versions, I will hard-code the reduction in the commands themselves.  I'll have
+to see if it takes too long, maybe I can cache the reduced graph instead of
+recomputing it for every call.
