@@ -141,7 +141,7 @@ public class TestNode extends TestCase {
         assertTrue("Missing a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
         assertTrue("Missing b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
 
-        Collection dependencies = new ArrayList(2);
+        Collection<Node> dependencies = new ArrayList<Node>(2);
         dependencies.add(a_A_b);
         dependencies.add(b_B_b);
         

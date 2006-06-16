@@ -68,7 +68,7 @@ public class XMLPrinter extends Printer {
         eol();
     }
 
-    public void traverseNodes(Collection nodes) {
+    public void traverseNodes(Collection<? extends Node> nodes) {
         if (atTopLevel) {
             super.traverseNodes(nodes);
         } else {

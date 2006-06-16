@@ -35,7 +35,7 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class PackageNode extends Node {
-    private Collection classes = new HashSet();
+    private Collection<ClassNode> classes = new HashSet<ClassNode>();
 
     public PackageNode(String name, boolean concrete) {
         super(name, concrete);
@@ -43,9 +43,9 @@ public class PackageNode extends Node {
 
     // Only to be used by NodeFactory and DeletingVisitor
     void setConfirmed(boolean confirmed) {
-        Iterator i = getClasses().iterator();
+        Iterator<ClassNode> i = getClasses().iterator();
         while (!confirmed && i.hasNext()) {
-            confirmed = ((Node) i.next()).isConfirmed();
+            confirmed = i.next().isConfirmed();
         }
         
         super.setConfirmed(confirmed);
@@ -59,7 +59,7 @@ public class PackageNode extends Node {
         classes.remove(node);
     }
     
-    public Collection getClasses() {
+    public Collection<ClassNode> getClasses() {
         return Collections.unmodifiableCollection(classes);
     }
 

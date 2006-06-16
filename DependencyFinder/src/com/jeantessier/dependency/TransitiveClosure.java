@@ -42,10 +42,10 @@ import java.util.*;
  *  of the explicit dependencies.
  */
 public class TransitiveClosure {
-    public static long DO_NOT_FOLLOW   = -1;
+    public static long DO_NOT_FOLLOW = -1;
     public static long UNBOUNDED_DEPTH = Long.MAX_VALUE;
     
-    private long maximumInboundDepth  = DO_NOT_FOLLOW;
+    private long maximumInboundDepth = DO_NOT_FOLLOW;
     private long maximumOutboundDepth = UNBOUNDED_DEPTH;
 
     private SelectionCriteria startCriteria;
@@ -70,7 +70,7 @@ public class TransitiveClosure {
         this.maximumOutboundDepth = maximumOutboundDepth;
     }
 
-    public void traverseNodes(Collection nodes) {
+    public void traverseNodes(Collection<? extends Node> nodes) {
         if (maximumInboundDepth != DO_NOT_FOLLOW) {
             compute(nodes, maximumInboundDepth, new ClosureInboundSelector());
         }
@@ -80,7 +80,7 @@ public class TransitiveClosure {
         }
     }
 
-    private void compute(Collection nodes, long depth, ClosureLayerSelector layerSelector) {
+    private void compute(Collection<? extends Node> nodes, long depth, ClosureLayerSelector layerSelector) {
         TransitiveClosureEngine engine = new TransitiveClosureEngine(factory, nodes, startCriteria, stopCriteria, layerSelector);
 
         if (depth == UNBOUNDED_DEPTH) {

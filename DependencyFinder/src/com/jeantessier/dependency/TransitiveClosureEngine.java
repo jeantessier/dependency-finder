@@ -35,19 +35,19 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class TransitiveClosureEngine {
-    private NodeFactory          factory;
+    private NodeFactory factory;
     private ClosureLayerSelector layerSelector;
-    private ClosureStopSelector  stopSelector;
+    private ClosureStopSelector stopSelector;
     
-    private Collection  coverage   = new HashSet();
-    private LinkedList  selections = new LinkedList();
-    private LinkedList  layers     = new LinkedList();
+    private Collection<Node> coverage = new HashSet<Node>();
+    private LinkedList<Collection<? extends Node>> selections = new LinkedList<Collection<? extends Node>>();
+    private LinkedList<Collection<? extends Node>> layers = new LinkedList<Collection<? extends Node>>();
     
-    public TransitiveClosureEngine(Collection packages, SelectionCriteria startCriteria, SelectionCriteria stopCriteria, ClosureLayerSelector layerSelector) {
+    public TransitiveClosureEngine(Collection<? extends Node> packages, SelectionCriteria startCriteria, SelectionCriteria stopCriteria, ClosureLayerSelector layerSelector) {
         this(new NodeFactory(), packages, startCriteria, stopCriteria, layerSelector);
     }
     
-    public TransitiveClosureEngine(NodeFactory factory, Collection packages, SelectionCriteria startCriteria, SelectionCriteria stopCriteria, ClosureLayerSelector layerSelector) {
+    public TransitiveClosureEngine(NodeFactory factory, Collection<? extends Node> packages, SelectionCriteria startCriteria, SelectionCriteria stopCriteria, ClosureLayerSelector layerSelector) {
         this.factory = factory;
         
         this.layerSelector = layerSelector;
@@ -59,7 +59,7 @@ public class TransitiveClosureEngine {
         init(packages, startCriteria);
     }
 
-    private void init(Collection packages, SelectionCriteria startCriteria) {
+    private void init(Collection<? extends Node> packages, SelectionCriteria startCriteria) {
         ClosureStartSelector startSelector = new ClosureStartSelector(factory, startCriteria);
         startSelector.traverseNodes(packages);
         stopSelector.traverseNodes(startSelector.getCopiedNodes());
@@ -93,7 +93,7 @@ public class TransitiveClosureEngine {
     public void computeNextLayer() {
         if (!stopSelector.isDone()) {
             layerSelector.reset();
-            layerSelector.traverseNodes((Collection) selections.getLast());
+            layerSelector.traverseNodes(selections.getLast());
 
             stopSelector.traverseNodes(layerSelector.getCopiedNodes());
             if (!layerSelector.getCopiedNodes().isEmpty()) {

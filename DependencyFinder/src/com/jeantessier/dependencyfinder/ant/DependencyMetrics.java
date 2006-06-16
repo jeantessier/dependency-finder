@@ -33,12 +33,10 @@
 package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
-import java.util.*;
 
 import javax.xml.parsers.*;
 
 import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
 
 import org.xml.sax.*;
 
@@ -417,8 +415,6 @@ public class DependencyMetrics extends GraphTask {
             String[] filenames = getSrc().list();
             for (int i=0; i<filenames.length; i++) {
                 log("Reading graph from " + filenames[i]);
-
-                Collection packages = Collections.EMPTY_LIST;
 
                 if (filenames[i].endsWith(".xml")) {
                     NodeLoader loader = new NodeLoader(factory, getValidate());

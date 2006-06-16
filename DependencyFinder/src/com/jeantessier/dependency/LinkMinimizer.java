@@ -32,8 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
-
 public class LinkMinimizer extends VisitorBase {
     public LinkMinimizer() {
         super();
@@ -60,16 +58,13 @@ public class LinkMinimizer extends VisitorBase {
     }
     
     protected void postprocessClassNode(ClassNode node) {
-        Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
-        while (i.hasNext()) {
-            Node outbound = (Node) i.next();
+        for (Node target : getStrategy().order(node.getOutboundDependencies())) {
+            node.getPackageNode().removeDependency(target);
 
-            node.getPackageNode().removeDependency(outbound);
+            target.acceptOutbound(this);
 
-            outbound.acceptOutbound(this);
-            
             pushNode(node.getPackageNode());
-            outbound.acceptOutbound(this);
+            target.acceptOutbound(this);
             popNode();
         }
 
@@ -81,21 +76,18 @@ public class LinkMinimizer extends VisitorBase {
     }
     
     protected void postprocessFeatureNode(FeatureNode node) {
-        Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
-        while (i.hasNext()) {
-            Node outbound = (Node) i.next();
+        for (Node target : getStrategy().order(node.getOutboundDependencies())) {
+            node.getClassNode().removeDependency(target);
+            node.getClassNode().getPackageNode().removeDependency(target);
 
-            node.getClassNode().removeDependency(outbound);
-            node.getClassNode().getPackageNode().removeDependency(outbound);
+            target.acceptOutbound(this);
 
-            outbound.acceptOutbound(this);
-    
             pushNode(node.getClassNode());
-            outbound.acceptOutbound(this);
+            target.acceptOutbound(this);
             popNode();
-    
+
             pushNode(node.getClassNode().getPackageNode());
-            outbound.acceptOutbound(this);
+            target.acceptOutbound(this);
             popNode();
         }
 

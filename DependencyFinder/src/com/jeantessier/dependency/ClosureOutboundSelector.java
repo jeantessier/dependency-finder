@@ -39,7 +39,7 @@ public class ClosureOutboundSelector extends ClosureLayerSelector {
         super();
     }
     
-    public ClosureOutboundSelector(NodeFactory factory, Collection coverage) {
+    public ClosureOutboundSelector(NodeFactory factory, Collection<? extends Node> coverage) {
         super(factory, coverage);
     }
 

@@ -13,7 +13,7 @@ public class NodeNamePrinter implements Visitor {
         this.out = out;
     }
 
-    public void traverseNodes(Collection nodes) {
+    public void traverseNodes(Collection<? extends Node> nodes) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

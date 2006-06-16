@@ -35,16 +35,16 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
-    public OrCompositeSelectionCriteria(Collection subcriteria) {
+    public OrCompositeSelectionCriteria(Collection<? extends SelectionCriteria> subcriteria) {
         super(subcriteria);
     }
     
     public boolean isMatchingPackages() {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).isMatchingPackages();
+            result = i.next().isMatchingPackages();
         }
         
         return result;
@@ -53,9 +53,9 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public boolean isMatchingClasses() {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).isMatchingClasses();
+            result = i.next().isMatchingClasses();
         }
         
         return result;
@@ -64,9 +64,9 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public boolean isMatchingFeatures() {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).isMatchingFeatures();
+            result = i.next().isMatchingFeatures();
         }
         
         return result;
@@ -75,9 +75,9 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public boolean matches(PackageNode node) {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).matches(node);
+            result = i.next().matches(node);
         }
         
         return result;
@@ -86,9 +86,9 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public boolean matches(ClassNode node) {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).matches(node);
+            result = i.next().matches(node);
         }
         
         return result;
@@ -97,9 +97,9 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public boolean matches(FeatureNode node) {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).matches(node);
+            result = i.next().matches(node);
         }
         
         return result;
@@ -108,9 +108,9 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public boolean matchesPackageName(String name) {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).matchesPackageName(name);
+            result = i.next().matchesPackageName(name);
         }
         
         return result;
@@ -119,9 +119,9 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public boolean matchesClassName(String name) {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).matchesClassName(name);
+            result = i.next().matchesClassName(name);
         }
         
         return result;
@@ -130,9 +130,9 @@ public class OrCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public boolean matchesFeatureName(String name) {
         boolean result = getSubcriteria().isEmpty();
 
-        Iterator i = getSubcriteria().iterator();
+        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
         while (!result && i.hasNext()) {
-            result = ((SelectionCriteria) i.next()).matchesFeatureName(name);
+            result = i.next().matchesFeatureName(name);
         }
         
         return result;

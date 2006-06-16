@@ -51,23 +51,20 @@ public class HTMLPrinter extends TextPrinter {
         this.urlFormat = format;
     }
 
-    protected void printDependencies(Map dependencies) {
+    protected void printDependencies(Map<Node, Integer> dependencies) {
         Object[] urlArgument = new Object[1];
 
-        Iterator i = dependencies.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
-            Node node = (Node) entry.getKey();
-            String name = node.getName();
+        for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
+            String name = entry.getKey().getName();
             name = perl().substitute("s/\\(/\\\\(/g", name);
             name = perl().substitute("s/\\)/\\\\)/g", name);
             urlArgument[0] = name;
-            if (((Integer) entry.getValue()).intValue() < 0) {
-                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName((Node) entry.getKey()).append("</a>").eol();
-            } else if (((Integer) entry.getValue()).intValue() > 0) {
-                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName((Node) entry.getKey()).append("</a>").eol();
+            if (entry.getValue() < 0) {
+                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+            } else if (entry.getValue() > 0) {
+                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
             } else {
-                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName((Node) entry.getKey()).append("</a>").eol();
+                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
             }
         }
     }

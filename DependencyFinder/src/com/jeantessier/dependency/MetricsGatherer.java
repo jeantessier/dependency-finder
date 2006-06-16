@@ -48,7 +48,7 @@ public class MetricsGatherer extends VisitorBase {
     private long nbOutboundFeatures = 0;
     private long nbInboundFeatures = 0;
 
-    private Map chartData = new TreeMap();
+    private Map<Integer, long[]> chartData = new TreeMap<Integer, long[]>();
     private int chartMaximum = 0;
     public static final int CHART_INDEX           = 0;
     public static final int CLASSES_PER_PACKAGE   = 1;
@@ -88,15 +88,12 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public long[] getChartData(int i) {
-        long[] result = null;
-
-        Integer key = new Integer(i);
-        result = (long[]) chartData.get(key);
+        long[] result = chartData.get(i);
 
         if (result == null) {
             result = new long[NB_CHARTS];
             result[CHART_INDEX] = i;
-            chartData.put(key, result);
+            chartData.put(i, result);
 
             if (chartMaximum < i) {
                 chartMaximum = i;

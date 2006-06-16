@@ -32,14 +32,12 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
-
 public class ClosureStartSelector extends ClosureSelector {
     private SelectionCriteria criteria;
-    
+
     public ClosureStartSelector(NodeFactory factory, SelectionCriteria criteria) {
         super(factory);
-        
+
         this.criteria = criteria;
     }
 
@@ -51,11 +49,11 @@ public class ClosureStartSelector extends ClosureSelector {
 
         traverseNodes(node.getClasses());
     }
-    
+
     public void visitInboundPackageNode(PackageNode node) {
         // Do nothing
     }
-    
+
     public void visitOutboundPackageNode(PackageNode node) {
         // Do nothing
     }
@@ -68,11 +66,11 @@ public class ClosureStartSelector extends ClosureSelector {
 
         traverseNodes(node.getFeatures());
     }
-    
+
     public void visitInboundClassNode(ClassNode node) {
         // Do nothing
     }
-    
+
     public void visitOutboundClassNode(ClassNode node) {
         // Do nothing
     }
@@ -83,11 +81,11 @@ public class ClosureStartSelector extends ClosureSelector {
             getCopiedNodes().add(getFactory().createFeature(node.getName(), node.isConfirmed()));
         }
     }
-    
+
     public void visitInboundFeatureNode(FeatureNode node) {
         // Do nothing
     }
-    
+
     public void visitOutboundFeatureNode(FeatureNode node) {
         // Do nothing
     }

@@ -80,7 +80,7 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
         out.append(indentText).append("</cycle>").println();
     }
 
-    public void traverseNodes(Collection nodes) {
+    public void traverseNodes(Collection<? extends Node> nodes) {
         Iterator i = nodes.iterator();
         while (i.hasNext()) {
             ((Node) i.next()).accept(this);

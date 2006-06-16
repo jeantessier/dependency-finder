@@ -46,7 +46,7 @@ public class TextPrinter extends Printer {
     }
 
     private boolean showInferred = true;
-    private Map     dependencies = new TreeMap();
+    private Map<Node, Integer> dependencies = new TreeMap<Node, Integer>();
 
     public TextPrinter(PrintWriter out) {
         super(out);
@@ -96,11 +96,11 @@ public class TextPrinter extends Printer {
         if (isShowInbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         
-            Integer i = (Integer) dependencies.get(node);
+            Integer i = dependencies.get(node);
             if (i != null) {
-                dependencies.put(node, new Integer(i.intValue() - 1));
+                dependencies.put(node, i - 1);
             } else {
-                dependencies.put(node, new Integer(-1));
+                dependencies.put(node, -1);
             }
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
@@ -111,11 +111,11 @@ public class TextPrinter extends Printer {
         if (isShowOutbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         
-            Integer i = (Integer) dependencies.get(node);
+            Integer i = dependencies.get(node);
             if (i != null) {
-                dependencies.put(node, new Integer(i.intValue() + 1));
+                dependencies.put(node, i + 1);
             } else {
-                dependencies.put(node, new Integer(1));
+                dependencies.put(node, 1);
             }
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
@@ -154,12 +154,11 @@ public class TextPrinter extends Printer {
         if (isShowInbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         
-            Integer i = (Integer) dependencies.get(node);
-            
+            Integer i = dependencies.get(node);
             if (i != null) {
-                dependencies.put(node, new Integer(i.intValue() - 1));
+                dependencies.put(node, i - 1);
             } else {
-                dependencies.put(node, new Integer(-1));
+                dependencies.put(node, -1);
             }
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
@@ -170,12 +169,11 @@ public class TextPrinter extends Printer {
         if (isShowOutbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         
-            Integer i = (Integer) dependencies.get(node);
-            
+            Integer i = dependencies.get(node);
             if (i != null) {
-                dependencies.put(node, new Integer(i.intValue() + 1));
+                dependencies.put(node, i + 1);
             } else {
-                dependencies.put(node, new Integer(1));
+                dependencies.put(node, 1);
             }
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
@@ -218,11 +216,11 @@ public class TextPrinter extends Printer {
         if (isShowInbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         
-            Integer i = (Integer) dependencies.get(node);
+            Integer i = dependencies.get(node);
             if (i != null) {
-                dependencies.put(node, new Integer(i.intValue() - 1));
+                dependencies.put(node, i - 1);
             } else {
-                dependencies.put(node, new Integer(-1));
+                dependencies.put(node, -1);
             }
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
@@ -233,11 +231,11 @@ public class TextPrinter extends Printer {
         if (isShowOutbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         
-            Integer i = (Integer) dependencies.get(node);
+            Integer i = dependencies.get(node);
             if (i != null) {
-                dependencies.put(node, new Integer(i.intValue() + 1));
+                dependencies.put(node, i + 1);
             } else {
-                dependencies.put(node, new Integer(1));
+                dependencies.put(node, 1);
             }
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
@@ -254,16 +252,14 @@ public class TextPrinter extends Printer {
         return this;
     }
     
-    protected void printDependencies(Map dependencies) {
-        Iterator i = dependencies.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry entry = (Map.Entry) i.next();
-            if (((Integer) entry.getValue()).intValue() < 0) {
-                indent().append("<-- ").printNodeName((Node) entry.getKey()).eol();
-            } else if (((Integer) entry.getValue()).intValue() > 0) {
-                indent().append("--> ").printNodeName((Node) entry.getKey()).eol();
+    protected void printDependencies(Map<Node, Integer> dependencies) {
+        for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
+            if (entry.getValue() < 0) {
+                indent().append("<-- ").printNodeName(entry.getKey()).eol();
+            } else if (entry.getValue() > 0) {
+                indent().append("--> ").printNodeName(entry.getKey()).eol();
             } else {
-                indent().append("<-> ").printNodeName((Node) entry.getKey()).eol();
+                indent().append("<-> ").printNodeName(entry.getKey()).eol();
             }
         }
     }

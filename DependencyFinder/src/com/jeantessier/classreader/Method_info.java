@@ -74,13 +74,11 @@ public class Method_info extends Feature_info {
     }
 
     public Collection getExceptions() {
-        Collection result = Collections.EMPTY_LIST;
+        Collection result = Collections.emptyList();
 
-        Iterator i = getAttributes().iterator();
-        while (i.hasNext()) {
-            Object obj = i.next();
-            if (obj instanceof Exceptions_attribute) {
-                result = ((Exceptions_attribute) obj).getExceptions();
+        for (Attribute_info attribute : getAttributes()) {
+            if (attribute instanceof Exceptions_attribute) {
+                result = ((Exceptions_attribute) attribute).getExceptions();
             }
         }
 

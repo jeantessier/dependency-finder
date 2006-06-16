@@ -47,13 +47,12 @@ public class ClosureStopSelector implements Visitor {
         return done;
     }
     
-    public void traverseNodes(Collection nodes) {
+    public void traverseNodes(Collection<? extends Node> nodes) {
         if (nodes.isEmpty()) {
             done = true;
         } else {
-            Iterator i = nodes.iterator();
-            while (i.hasNext()) {
-                ((Node) i.next()).accept(this);
+            for (Node node : nodes) {
+                node.accept(this);
             }
         }
     }

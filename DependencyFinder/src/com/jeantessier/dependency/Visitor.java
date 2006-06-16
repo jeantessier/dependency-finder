@@ -35,7 +35,7 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public interface Visitor {
-    public void traverseNodes(Collection nodes);
+    public void traverseNodes(Collection<? extends Node> nodes);
 
     public void visitPackageNode(PackageNode node);
     public void visitInboundPackageNode(PackageNode node);

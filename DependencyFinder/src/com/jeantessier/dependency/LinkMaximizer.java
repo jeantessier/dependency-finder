@@ -32,8 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
-
 public class LinkMaximizer extends VisitorBase {
     public LinkMaximizer() {
         super();
@@ -44,9 +42,8 @@ public class LinkMaximizer extends VisitorBase {
     }
 
     protected void postprocessClassNode(ClassNode node) {
-        Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
-        while (i.hasNext()) {
-            node.getPackageNode().addDependency((Node) i.next());
+        for (Node target : getStrategy().order(node.getOutboundDependencies())) {
+            node.getPackageNode().addDependency(target);
         }
 
         super.postprocessClassNode(node);
@@ -61,11 +58,9 @@ public class LinkMaximizer extends VisitorBase {
     }
 
     protected void postprocessFeatureNode(FeatureNode node) {
-        Iterator i = getStrategy().order(node.getOutboundDependencies()).iterator();
-        while (i.hasNext()) {
-            Node outboundNode = (Node) i.next();
-            node.getClassNode().addDependency(outboundNode);
-            node.getClassNode().getPackageNode().addDependency(outboundNode);
+        for (Node target : getStrategy().order(node.getOutboundDependencies())) {
+            node.getClassNode().addDependency(target);
+            node.getClassNode().getPackageNode().addDependency(target);
         }
 
         super.postprocessFeatureNode(node);

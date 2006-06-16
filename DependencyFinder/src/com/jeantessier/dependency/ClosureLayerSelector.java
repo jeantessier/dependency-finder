@@ -37,13 +37,13 @@ import java.util.*;
 public abstract class ClosureLayerSelector extends ClosureSelector {
     private Node currentNode;
     
-    private Collection coverage;
+    private Collection<? extends Node> coverage;
     
     public ClosureLayerSelector() {
         super();
     }
     
-    public ClosureLayerSelector(NodeFactory factory, Collection coverage) {
+    public ClosureLayerSelector(NodeFactory factory, Collection<? extends Node> coverage) {
         super(factory);
         
         setCoverage(coverage);
@@ -55,11 +55,11 @@ public abstract class ClosureLayerSelector extends ClosureSelector {
         currentNode = null;
     }
 
-    public Collection getCoverage() {
+    public Collection<? extends Node> getCoverage() {
         return coverage;
     }
 
-    public void setCoverage(Collection coverage) {
+    public void setCoverage(Collection<? extends Node> coverage) {
         this.coverage = coverage;
     }
     

@@ -35,8 +35,8 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class ClosureSelector implements Visitor {
-    private Collection selectedNodes;
-    private Collection copiedNodes;
+    private Collection<Node> selectedNodes;
+    private Collection<Node> copiedNodes;
 
     private NodeFactory factory;
     
@@ -50,8 +50,8 @@ public abstract class ClosureSelector implements Visitor {
     }
 
     public void reset() {
-        selectedNodes = new HashSet();
-        copiedNodes   = new HashSet();
+        selectedNodes = new HashSet<Node>();
+        copiedNodes = new HashSet<Node>();
     }
 
     public NodeFactory getFactory() {
@@ -62,32 +62,29 @@ public abstract class ClosureSelector implements Visitor {
         this.factory = factory;
     }
     
-    public Collection getSelectedNodes() {
+    public Collection<Node> getSelectedNodes() {
         return selectedNodes;
     }
 
-    public Collection getCopiedNodes() {
+    public Collection<Node> getCopiedNodes() {
         return copiedNodes;
     }
     
-    public void traverseNodes(Collection nodes) {
-        Iterator i = nodes.iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).accept(this);
+    public void traverseNodes(Collection<? extends Node> nodes) {
+        for (Node node : nodes) {
+            node.accept(this);
         }
     }
 
-    protected void traverseInbound(Collection nodes) {
-        Iterator i = nodes.iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).acceptInbound(this);
+    protected void traverseInbound(Collection<? extends Node> nodes) {
+        for (Node node : nodes) {
+            node.acceptInbound(this);
         }
     }
 
-    protected void traverseOutbound(Collection nodes) {
-        Iterator i = nodes.iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).acceptOutbound(this);
+    protected void traverseOutbound(Collection<? extends Node> nodes) {
+        for (Node node : nodes) {
+            node.acceptOutbound(this);
         }
     }
 }

@@ -97,7 +97,7 @@ public abstract class DecoratorTraversalStrategy implements TraversalStrategy {
         return strategy.isInFilter(node);
     }
 
-    public Collection order(Collection collection) {
+    public Collection<? extends Node> order(Collection<? extends Node> collection) {
         return strategy.order(collection);
     }
 }

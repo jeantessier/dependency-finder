@@ -49,7 +49,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
         return factory;
     }
     
-    public void traverseNodes(Collection nodes) {
+    public void traverseNodes(Collection<? extends Node> nodes) {
 //         Iterator i = nodes.iterator();
 //         while (i.hasNext()) {
 //             ((Node) i.next()).accept(this);
@@ -62,10 +62,9 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     
     public void visitPackageNode(PackageNode node) {
         Logger.getLogger(getClass()).debug("visitPackageNode(" + node + ")");
-        
-        Iterator i = new ArrayList(node.getClasses()).iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).accept(this);
+
+        for (ClassNode classNode : new ArrayList<ClassNode>(node.getClasses())) {
+            classNode.accept(this);
         }
 
         visitNode(node);
@@ -73,10 +72,9 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
 
     public void visitClassNode(ClassNode node) {
         Logger.getLogger(getClass()).debug("visitClassNode(" + node + ")");
-        
-        Iterator i = new ArrayList(node.getFeatures()).iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).accept(this);
+
+        for (FeatureNode featureNode : new ArrayList<FeatureNode>(node.getFeatures())) {
+            featureNode.accept(this);
         }
 
         visitNode(node);
@@ -91,9 +89,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     private void visitNode(Node node) {
         node.setConfirmed(false);
 
-        Iterator i = new ArrayList(node.getOutboundDependencies()).iterator();
-        while (i.hasNext()) {
-            Node outbound = (Node) i.next();
+        for (Node outbound : new ArrayList<Node>(node.getOutboundDependencies())) {
             node.removeDependency(outbound);
             outbound.acceptOutbound(this);
         }
@@ -170,7 +166,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
      */
     
     public void removeClass(String classname) {
-        Node node = (Node) factory.getClasses().get(classname);
+        Node node = factory.getClasses().get(classname);
         if (node != null) {
             node.accept(this);
         }

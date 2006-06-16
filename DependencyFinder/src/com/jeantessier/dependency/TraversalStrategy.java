@@ -52,5 +52,5 @@ public interface TraversalStrategy {
     public boolean isInFilter(ClassNode node);
     public boolean isInFilter(FeatureNode node);
 
-    public Collection order(Collection collection);
+    public Collection<? extends Node> order(Collection<? extends Node> collection);
 }

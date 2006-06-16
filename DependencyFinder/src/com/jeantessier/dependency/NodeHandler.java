@@ -49,15 +49,12 @@ public class NodeHandler extends DefaultHandler {
     private int          currentDependencyType;
     private Attributes   currentDependencyAttributes;
     private Node         currentNode;
-    private PackageNode  currentPackage;
     private Attributes   currentPackageAttributes;
-    private ClassNode    currentClass;
     private Attributes   currentClassAttributes;
-    private FeatureNode  currentFeature;
     private Attributes   currentFeatureAttributes;
     private StringBuffer currentName = new StringBuffer();
 
-    private HashSet      dependencyListeners = new HashSet();
+    private HashSet<DependencyListener> dependencyListeners = new HashSet<DependencyListener>();
 
     public NodeHandler() {
         this(new NodeFactory());
@@ -118,17 +115,14 @@ public class NodeHandler extends DefaultHandler {
 
             switch (currentNodeType) {
                 case PACKAGE:
-                    currentPackage = getFactory().createPackage(currentName.toString(), isConfirmed(currentPackageAttributes));
-                    currentNode    = currentPackage;
+                    currentNode = getFactory().createPackage(currentName.toString(), isConfirmed(currentPackageAttributes));
                     break;
                 case CLASS:
-                    currentClass = getFactory().createClass(currentName.toString(), isConfirmed(currentClassAttributes));
-                    currentNode  = currentClass;
-                    fireBeginClass(currentClass.toString());
+                    currentNode = getFactory().createClass(currentName.toString(), isConfirmed(currentClassAttributes));
+                    fireBeginClass(currentNode.toString());
                     break;
                 case FEATURE:
-                    currentFeature = getFactory().createFeature(currentName.toString(), isConfirmed(currentFeatureAttributes));
-                    currentNode    = currentFeature;
+                    currentNode = getFactory().createFeature(currentName.toString(), isConfirmed(currentFeatureAttributes));
                     break;
             }
         } else if ("outbound".equals(qName)) {
@@ -192,70 +186,65 @@ public class NodeHandler extends DefaultHandler {
     protected void fireBeginSession() {
         DependencyEvent event = new DependencyEvent(this);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).beginSession(event);
+        for (DependencyListener listener : listeners) {
+            listener.beginSession(event);
         }
     }
     
     protected void fireBeginClass(String classname) {
         DependencyEvent event = new DependencyEvent(this, classname);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).beginClass(event);
+        for (DependencyListener listener : listeners) {
+            listener.beginClass(event);
         }
     }
 
     protected void fireDependency(Node dependent, Node dependable) {
         DependencyEvent event = new DependencyEvent(this, dependent, dependable);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).dependency(event);
+        for (DependencyListener listener : listeners) {
+            listener.dependency(event);
         }
     }
 
     protected void fireEndClass(String classname) {
         DependencyEvent event = new DependencyEvent(this, classname);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).endClass(event);
+        for (DependencyListener listener : listeners) {
+            listener.endClass(event);
         }
     }
 
     protected void fireEndSession() {
         DependencyEvent event = new DependencyEvent(this);
 
-        HashSet listeners;
+        HashSet<DependencyListener> listeners;
         synchronized(dependencyListeners) {
-            listeners = (HashSet) dependencyListeners.clone();
+            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
         }
 
-        Iterator i = listeners.iterator();
-        while(i.hasNext()) {
-            ((DependencyListener) i.next()).endSession(event);
+        for (DependencyListener listener : listeners) {
+            listener.endSession(event);
         }
     }
 

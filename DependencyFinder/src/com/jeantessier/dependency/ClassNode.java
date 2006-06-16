@@ -36,7 +36,7 @@ import java.util.*;
 
 public class ClassNode extends Node {
     private PackageNode parent;
-    private Collection  features = new HashSet();
+    private Collection<FeatureNode> features = new HashSet<FeatureNode>();
 
     public ClassNode(PackageNode parent, String name, boolean concrete) {
         super(name, concrete);
@@ -46,9 +46,8 @@ public class ClassNode extends Node {
     // Only to be used by NodeFactory and DeletingVisitor
     void setConfirmed(boolean confirmed) {
         if (!confirmed) {
-            Iterator i = getFeatures().iterator();
-            while (i.hasNext()) {
-                ((Node) i.next()).setConfirmed(false);
+            for (FeatureNode featureNode : getFeatures()) {
+                featureNode.setConfirmed(false);
             }
         }
         
@@ -68,7 +67,7 @@ public class ClassNode extends Node {
         features.remove(node);
     }
 
-    public Collection getFeatures() {
+    public Collection<FeatureNode> getFeatures() {
         return Collections.unmodifiableCollection(features);
     }
 

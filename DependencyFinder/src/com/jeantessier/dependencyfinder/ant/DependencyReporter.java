@@ -465,7 +465,7 @@ public class DependencyReporter extends GraphTask {
             for (int i = 0; i < filenames.length; i++) {
                 log("Reading graph from " + filenames[i]);
 
-                Collection packages = Collections.EMPTY_LIST;
+                Collection<PackageNode> packages = Collections.emptyList();
 
                 if (filenames[i].endsWith(".xml")) {
                     NodeLoader loader = new NodeLoader(getValidate());

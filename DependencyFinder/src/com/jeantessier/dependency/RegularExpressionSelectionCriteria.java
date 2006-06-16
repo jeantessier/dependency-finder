@@ -42,17 +42,17 @@ import com.jeantessier.text.*;
 public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-    private List    globalIncludes   = new LinkedList();
-    private List    globalExcludes   = new LinkedList();
+    private List<String> globalIncludes = new LinkedList<String>();
+    private List<String> globalExcludes = new LinkedList<String>();
     private boolean matchingPackages = true;
-    private List    packageIncludes  = new LinkedList();
-    private List    packageExcludes  = new LinkedList();
+    private List<String> packageIncludes = new LinkedList<String>();
+    private List<String> packageExcludes = new LinkedList<String>();
     private boolean matchingClasses  = true;
-    private List    classIncludes    = new LinkedList();
-    private List    classExcludes    = new LinkedList();
+    private List<String> classIncludes = new LinkedList<String>();
+    private List<String> classExcludes = new LinkedList<String>();
     private boolean matchingFeatures = true;
-    private List    featureIncludes  = new LinkedList();
-    private List    featureExcludes  = new LinkedList();
+    private List<String> featureIncludes = new LinkedList<String>();
+    private List<String> featureExcludes = new LinkedList<String>();
     
     public RegularExpressionSelectionCriteria() {
         // Do nothing
@@ -62,7 +62,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setGlobalIncludes(initialGlobalIncludes);
     }
 
-    public List getGlobalIncludes() {
+    public List<String> getGlobalIncludes() {
         return globalIncludes;
     }
 
@@ -70,11 +70,11 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setGlobalIncludes(parseRE(globalIncludes));
     }
     
-    public void setGlobalIncludes(List globalIncludes) {
+    public void setGlobalIncludes(List<String> globalIncludes) {
         this.globalIncludes = globalIncludes;
     }
 
-    public List getGlobalExcludes() {
+    public List<String> getGlobalExcludes() {
         return globalExcludes;
     }
 
@@ -82,7 +82,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setGlobalExcludes(parseRE(globalExcludes));
     }
 
-    public void setGlobalExcludes(List globalExcludes) {
+    public void setGlobalExcludes(List<String> globalExcludes) {
         this.globalExcludes = globalExcludes;
     }
 
@@ -94,7 +94,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         this.matchingPackages = matchingPackages;
     }
 
-    public List getPackageIncludes() {
+    public List<String> getPackageIncludes() {
         return packageIncludes;
     }
 
@@ -102,11 +102,11 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setPackageIncludes(parseRE(packageIncludes));
     }
 
-    public void setPackageIncludes(List packageIncludes) {
+    public void setPackageIncludes(List<String> packageIncludes) {
         this.packageIncludes = packageIncludes;
     }
 
-    public List getPackageExcludes() {
+    public List<String> getPackageExcludes() {
         return packageExcludes;
     }
 
@@ -114,7 +114,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setPackageExcludes(parseRE(packageExcludes));
     }
 
-    public void setPackageExcludes(List packageExcludes) {
+    public void setPackageExcludes(List<String> packageExcludes) {
         this.packageExcludes = packageExcludes;
     }
 
@@ -126,7 +126,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         this.matchingClasses = matchingClasses;
     }
 
-    public List getClassIncludes() {
+    public List<String> getClassIncludes() {
         return classIncludes;
     }
 
@@ -134,11 +134,11 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setClassIncludes(parseRE(classIncludes));
     }
 
-    public void setClassIncludes(List classIncludes) {
+    public void setClassIncludes(List<String> classIncludes) {
         this.classIncludes = classIncludes;
     }
 
-    public List getClassExcludes() {
+    public List<String> getClassExcludes() {
         return classExcludes;
     }
 
@@ -146,7 +146,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setClassExcludes(parseRE(classExcludes));
     }
 
-    public void setClassExcludes(List classExcludes) {
+    public void setClassExcludes(List<String> classExcludes) {
         this.classExcludes = classExcludes;
     }
 
@@ -158,7 +158,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         this.matchingFeatures = matchingFeatures;
     }
 
-    public List getFeatureIncludes() {
+    public List<String> getFeatureIncludes() {
         return featureIncludes;
     }
 
@@ -166,11 +166,11 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setFeatureIncludes(parseRE(featureIncludes));
     }
 
-    public void setFeatureIncludes(List featureIncludes) {
+    public void setFeatureIncludes(List<String> featureIncludes) {
         this.featureIncludes = featureIncludes;
     }
 
-    public List getFeatureExcludes() {
+    public List<String> getFeatureExcludes() {
         return featureExcludes;
     }
 
@@ -178,7 +178,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         setFeatureExcludes(parseRE(featureExcludes));
     }
 
-    public void setFeatureExcludes(List featureExcludes) {
+    public void setFeatureExcludes(List<String> featureExcludes) {
         this.featureExcludes = featureExcludes;
     }
 
@@ -209,28 +209,26 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
             !matches(getGlobalExcludes(), getFeatureExcludes(), name);
     }
 
-    private boolean matches(List globalRegularExpressions, List regularExpressions, String name) {
+    private boolean matches(List<String> globalRegularExpressions, List<String> regularExpressions, String name) {
         boolean  found = false;
-        Iterator i;
+        Iterator<String> i;
 
         i = globalRegularExpressions.iterator();
         while (!found && i.hasNext()) {
-            String condition = (String) i.next();
-            found = perl.match(condition, name);
+            found = perl.match(i.next(), name);
         }
 
         i = regularExpressions.iterator();
         while (!found && i.hasNext()) {
-            String condition = (String) i.next();
-            found = perl.match(condition, name);
+            found = perl.match(i.next(), name);
         }
 
         return found;
     }
 
     // Should be private, but left at package-level for the unit tests.
-    static List parseRE(String re) {
-        List result = new LinkedList();
+    static List<String> parseRE(String re) {
+        List<String> result = new LinkedList<String>();
 
         Logger logger = Logger.getLogger(RegularExpressionSelectionCriteria.class);
         logger.debug("ParseRE \"" + re + "\"");

@@ -38,8 +38,8 @@ public abstract class Node implements Comparable {
     private String  name      = "";
     private boolean confirmed = false;
     
-    private Collection inbound  = new HashSet();
-    private Collection outbound = new HashSet();
+    private Collection<Node> inbound  = new HashSet<Node>();
+    private Collection<Node> outbound = new HashSet<Node>();
 
     public Node(String name, boolean confirmed) {
         this.name      = name;
@@ -70,10 +70,9 @@ public abstract class Node implements Comparable {
         }
     }
 
-    public void addDependencies(Collection nodes) {
-        Iterator i = nodes.iterator();
-        while (i.hasNext()) {
-            addDependency((Node) i.next());
+    public void addDependencies(Collection<Node> nodes) {
+        for (Node node : nodes) {
+            addDependency(node);
         }
     }
 
@@ -82,18 +81,17 @@ public abstract class Node implements Comparable {
         node.inbound.remove(this);
     }
 
-    public void removeDependencies(Collection nodes) {
-        Iterator i = nodes.iterator();
-        while (i.hasNext()) {
-            removeDependency((Node) i.next());
+    public void removeDependencies(Collection<? extends Node> nodes) {
+        for (Node node : nodes) {
+            removeDependency(node);
         }
     }
 
-    public Collection getInboundDependencies() {
+    public Collection<Node> getInboundDependencies() {
         return Collections.unmodifiableCollection(inbound);
     }
 
-    public Collection getOutboundDependencies() {
+    public Collection<Node> getOutboundDependencies() {
         return Collections.unmodifiableCollection(outbound);
     }
 

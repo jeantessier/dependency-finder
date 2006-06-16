@@ -49,11 +49,11 @@ public class TransientClassfileLoader extends ClassfileLoaderEventSource {
     }
 
     public Collection<Classfile> getAllClassfiles() {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public Collection<String> getAllClassNames() {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     protected Classfile load(DataInputStream in) throws IOException {

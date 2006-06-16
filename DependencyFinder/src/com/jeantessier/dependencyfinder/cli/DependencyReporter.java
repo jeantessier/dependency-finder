@@ -362,7 +362,7 @@ public class DependencyReporter {
             Logger.getLogger(DependencyReporter.class).info("Reading " + filename);
             verboseListener.print("Reading " + filename);
 
-            Collection packages = Collections.EMPTY_LIST;
+            Collection<PackageNode> packages = Collections.emptyList();
 
             if (filename.endsWith(".xml")) {
                 NodeLoader loader = new NodeLoader(commandLine.getToggleSwitch("validate"));

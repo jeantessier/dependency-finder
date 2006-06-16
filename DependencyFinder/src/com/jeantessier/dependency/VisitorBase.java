@@ -45,7 +45,7 @@ import org.apache.log4j.*;
 public abstract class VisitorBase implements Visitor {
     private TraversalStrategy strategy;
 
-    private LinkedList currentNodes = new LinkedList();
+    private LinkedList<Node> currentNodes = new LinkedList<Node>();
 
     public VisitorBase() {
         this(new SelectiveTraversalStrategy());
@@ -59,25 +59,25 @@ public abstract class VisitorBase implements Visitor {
         return strategy;
     }
 
-    public void traverseNodes(Collection nodes) {
+    public void traverseNodes(Collection<? extends Node> nodes) {
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug("nodes = " + nodes);
         }
 
-        for (Object node : getStrategy().order(nodes)) {
-            ((Node) node).accept(this);
+        for (Node node : getStrategy().order(nodes)) {
+            node.accept(this);
         }
     }
 
-    protected void traverseInbound(Collection nodes) {
-        for (Object node : getStrategy().order(nodes)) {
-            ((Node) node).acceptInbound(this);
+    protected void traverseInbound(Collection<? extends Node> nodes) {
+        for (Node node : getStrategy().order(nodes)) {
+            node.acceptInbound(this);
         }
     }
 
-    protected void traverseOutbound(Collection nodes) {
-        for (Object node : getStrategy().order(nodes)) {
-            ((Node) node).acceptOutbound(this);
+    protected void traverseOutbound(Collection<? extends Node> nodes) {
+        for (Node node : getStrategy().order(nodes)) {
+            node.acceptOutbound(this);
         }
     }
 
@@ -85,7 +85,7 @@ public abstract class VisitorBase implements Visitor {
         Node result = null;
 
         if (!currentNodes.isEmpty()) {
-            result = (Node) currentNodes.getLast();
+            result = currentNodes.getLast();
         }
 
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
@@ -104,7 +104,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     protected Node popNode() {
-        Node result = (Node) currentNodes.removeLast();
+        Node result = currentNodes.removeLast();
 
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug(currentNodes + " -> " + result);

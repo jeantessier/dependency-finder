@@ -35,13 +35,13 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class CompositeSelectionCriteria implements SelectionCriteria {
-    private Collection subcriteria;
+    private Collection<? extends SelectionCriteria> subcriteria;
     
-    public CompositeSelectionCriteria(Collection subcriteria) {
+    public CompositeSelectionCriteria(Collection<? extends SelectionCriteria> subcriteria) {
         this.subcriteria = subcriteria;
     }
 
-    protected Collection getSubcriteria() {
+    protected Collection<? extends SelectionCriteria> getSubcriteria() {
         return subcriteria;
     }
 }
