@@ -1,0 +1,4 @@
+Looked at fixing =closure.jsp= so that it always match packages and also match
+classes when looking for features.  It's not quite there yet; I will need to
+think harder about this problem and why =closure.jsp= is sometimes unresponsive
+or plain wrong.
