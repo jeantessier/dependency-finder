@@ -58,6 +58,7 @@ public class HTMLPrinter extends TextPrinter {
             String name = entry.getKey().getName();
             name = perl().substitute("s/\\(/\\\\(/g", name);
             name = perl().substitute("s/\\)/\\\\)/g", name);
+            name = perl().substitute("s/\\$/\\\\\\$/g", name);
             urlArgument[0] = name;
             if (entry.getValue() < 0) {
                 indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName(entry.getKey()).append("</a>").eol();

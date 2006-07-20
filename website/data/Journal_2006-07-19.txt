@@ -1,0 +1,4 @@
+Fixed =HTMLPrinter= to properly escape the '$' in inner class names.  Since '$'
+has special meaning in Perl regular expressions, it must be escaped otherwise
+the regular expression does not match anything and you get empty results.
+ 

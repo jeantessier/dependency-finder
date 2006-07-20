@@ -220,6 +220,29 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
+    public void testShowInboundsInnerClass() throws IOException {
+        factory.createClass("outbound.Outbound$Outbound", true).addDependency(factory.createClass("inbound.Inbound$Inbound", true));
+        factory.createClass("empty.Empty$Empty", true);
+
+        visitor.setShowInbounds(true);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty$Empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\">outbound.Outbound$Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
     public void testShowInboundsFeatureTrueWithInferred() throws IOException {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
@@ -317,6 +340,32 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowInboundsInnerClassFeature() throws IOException {
+        factory.createFeature("outbound.Outbound$Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound$Inbound.inbound()", true));
+        factory.createFeature("empty.Empty$Empty.empty()", true);
+
+        visitor.setShowInbounds(true);
+        visitor.setShowOutbounds(false);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty$Empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound$Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
@@ -490,6 +539,29 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("End of file", null, in.readLine());
     }
 
+    public void testShowOutboundsInnerClass() throws IOException {
+        factory.createClass("outbound.Outbound$Outbound", true).addDependency(factory.createClass("inbound.Inbound$Inbound", true));
+        factory.createClass("empty.Empty$Empty", true);
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty$Empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\">inbound.Inbound$Inbound</a>", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
     public void testShowOutboundsFeatureTrueWithInferred() throws IOException {
         factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
         factory.createFeature("empty.Empty.empty()");
@@ -588,6 +660,32 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowOutboundsInnerClassFeature() throws IOException {
+        factory.createFeature("outbound.Outbound$Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound$Inbound.inbound()", true));
+        factory.createFeature("empty.Empty$Empty.empty()", true);
+
+        visitor.setShowInbounds(false);
+        visitor.setShowOutbounds(true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty$Empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound$Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -942,6 +1040,36 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
         assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowInnerClass() throws IOException {
+        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
+        factory.createClass("outbound.Outbound$Outbound", true).addDependency(factory.createClass("inbound.Inbound$Inbound", true));
+        factory.createFeature("outbound.Outbound$Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound$Inbound.inbound()", true));
+        factory.createFeature("empty.Empty$Empty.empty()", true);
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Empty$Empty", in.readLine());
+        assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
+        assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\">outbound.Outbound$Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound$Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\">inbound.Inbound$Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound$Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
