@@ -1,0 +1,6 @@
+Played a bit with [[http://www.jetbrains.com/teamcity/][TeamCity]], by the
+makers of IntelliJ IDEA.  While I was trying to set it up for Dependency
+Finder, I was confronted with the fact that I create the distribution files in
+the same folder as the =build.xml= file.  I should really put them in their
+own folder, like =dist/=, so TeamCity can recognize them as build artifacts.
+It would also align my build better with the best practices out there.

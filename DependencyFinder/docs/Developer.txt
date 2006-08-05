@@ -1016,15 +1016,7 @@ retrieve parameters, if any, with the =Parameters()= method.
 
 ---+++ Compiling a Build
 
-    C:\>ant realclean
-    C:\>ant src
-    C:\>ant docs
-    C:\>ant dist
-    C:\>ant war
-
-or
-
-    C:\>ant realclean src docs dist war
+    C:\>ant realclean dist
 
 ---+++ Testing the Build
 
@@ -1032,10 +1024,14 @@ or
     C:\>textjunit TestAll
     C:\>textjunit com.jeantessier.fit.FitTestSuite
 
+or
+
+    C:\>ant alltests
+
 ---+++ Making a Release
 
     1 =cvs tag release-20030101=
-    1 =ant realclean docs dist war realclean src=
+    1 =ant realclean dist=
     1 =ant ftp=
     1 =cvs log -rrelease-20020711:release-20030101=
     1 Create new release on SourceForge.net

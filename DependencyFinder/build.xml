@@ -66,6 +66,7 @@
         <property name="reportsDir"    value="reports"/>
         <property name="fitDir"        value="fit"/>
         <property name="fitReportsDir" value="${fitDir}/reports"/>
+        <property name="distDir"       value="dist"/>
 
         <property name="srcFiles"      value="${srcDir}/**"/>
         <property name="testsFiles"    value="${testsDir}/**"/>
@@ -77,9 +78,9 @@
         <property name="docsFiles"     value="${docsDir}/**"/>
 
         <property name="jarFile"       value="${libDir}/${ant.project.name}.jar"/>
-        <property name="warFile"       value="${ant.project.name}-${release}.war"/>
-        <property name="srcArchive"    value="${ant.project.name}-${release}.src"/>
-        <property name="binArchive"    value="${ant.project.name}-${release}.bin"/>
+        <property name="warFile"       value="${distDir}/${ant.project.name}-${release}.war"/>
+        <property name="srcArchive"    value="${distDir}/${ant.project.name}-${release}.src"/>
+        <property name="binArchive"    value="${distDir}/${ant.project.name}-${release}.bin"/>
 
         <property name="webworkWarFile" value="${ant.project.name}-${release}.webwork.war"/>
         <property name="webworkDir"     value="webwork"/>
@@ -104,8 +105,8 @@
             <src path="${testsDir}"/>
             <classpath refid="libs"/>
             <patternset refid="all.sources"/>
-	    <exclude name="JarJarDiff/**"/>
-	    <exclude name="Metrics/**"/>
+	        <exclude name="JarJarDiff/**"/>
+	        <exclude name="Metrics/**"/>
         </javac>
         <javac destdir="${classesDir}" debug="on">
             <src path="${fitDir}"/>
@@ -190,20 +191,27 @@
         </jar>
     </target>
 
-    <target name="war" depends="jar"
-            description="Compiles and builds the web application archive">
-        <war destfile="${warFile}"
-             webxml="${webDir}/WEB-INF/web.xml">
-            <zipfileset dir="${webDir}">
-                <exclude name="**/CSV"/>
-                <exclude name="**/WEB-INF/*"/>
-            </zipfileset>
-            <classes dir="${srcDir}"
-                     includes="**/*.properties"/>
-            <lib dir="${libDir}"
-                 includes="**/*.jar"
-                 excludes="**/xalan.jar"/>
-        </war>
+    <!--
+        Distribution
+    -->
+
+    <target name="dist.init" depends="init">
+        <mkdir dir="${distDir}"/>
+    </target>
+
+    <target name="dist" depends="dist.init, src, docs, bin, war"
+            description="Compiles and builds the binary distributions"/>
+
+    <target name="ftp" depends="init"
+            description="Uploads the distribution files to SourceForge">
+        <ftp server="upload.sourceforge.net"
+             userid="anonymous"
+             password="jeantessier@hotmail.com"
+             remotedir="incoming"
+             action="put"
+             verbose="yes">
+            <fileset dir="${distDir}"/>
+        </ftp>
     </target>
 
     <!--
@@ -355,8 +363,7 @@
         Packaged files
     -->
 
-    <target name="src" depends="src.zip, src.tar.gz, src.tar.bz2"
-            description="Builds the source code archives"/>
+    <target name="src" depends="src.zip, src.tar.gz, src.tar.bz2"/>
 
     <target name="src.zip" depends="init">
         <zip zipfile="${srcArchive}.zip">
@@ -418,10 +425,9 @@
         </tar>
     </target>
 
-    <target name="dist" depends="generatebin, dist.zip, dist.tar.gz, dist.tar.bz2"
-            description="Compiles and builds the binary distributions"/>
+    <target name="bin" depends="generatebin, bin.zip, bin.tar.gz, bin.tar.bz2"/>
 
-    <target name="dist.zip" depends="jar">
+    <target name="bin.zip" depends="jar">
         <zip zipfile="${binArchive}.zip">
             <zipfileset dir="." prefix="${ant.project.name}">
                 <patternset>
@@ -443,7 +449,7 @@
         </zip>
     </target>
 
-    <target name="dist.tar.gz" depends="jar">
+    <target name="bin.tar.gz" depends="jar">
         <tar destfile="${binArchive}.tar.gz" compression="gzip">
             <tarfileset dir="." prefix="${ant.project.name}">
                 <patternset>
@@ -470,7 +476,7 @@
         </tar>
     </target>
 
-    <target name="dist.tar.bz2" depends="jar">
+    <target name="bin.tar.bz2" depends="jar">
         <tar destfile="${binArchive}.tar.bz2" compression="bzip2">
             <tarfileset dir="." prefix="${ant.project.name}">
                 <patternset>
@@ -497,27 +503,27 @@
         </tar>
     </target>
 
-    <target name="ftp" depends="init"
-            description="Uploads the distribution files to SourceForge">
-        <ftp server="upload.sourceforge.net"
-             userid="anonymous"
-             password="jeantessier@hotmail.com"
-             remotedir="incoming"
-             action="put"
-             verbose="yes">
-            <fileset dir=".">
-                <patternset>
-                    <include name="${srcArchive}.*"/>
-                    <include name="${binArchive}.*"/>
-                    <include name="${warFile}"/>
-                </patternset>
-            </fileset>
-        </ftp>
+    <target name="war" depends="jar">
+        <war destfile="${warFile}"
+             webxml="${webDir}/WEB-INF/web.xml">
+            <zipfileset dir="${webDir}">
+                <exclude name="**/CSV"/>
+                <exclude name="**/WEB-INF/*"/>
+            </zipfileset>
+            <classes dir="${srcDir}"
+                     includes="**/*.properties"/>
+            <lib dir="${libDir}"
+                 includes="**/*.jar"
+                 excludes="**/xalan.jar"/>
+        </war>
     </target>
 
     <!--
         Docs
     -->
+
+    <target name="docs" depends="textdocs, javadocs"
+            description="Builds the API documentation"/>
 
     <target name="textdocs" depends="init">
         <echo message="Processing Manual.txt ..."/>
@@ -560,9 +566,6 @@
             <bottom><![CDATA[<i>Dependency Finder ${release} &#169; 2001-2006 Jean Tessier.</i>]]></bottom>
         </javadoc>
     </target>
-
-    <target name="docs" depends="textdocs, javadocs"
-            description="Builds the API documentation"/>
 
     <!-- "docletPath" does not work in this version of Ant. -->
     <target name="doclint">
@@ -718,6 +721,13 @@
     <target name="realclean" depends="clearlogs, cleandocs, cleanbin, clean"
             description="Removes all produced files">
         <delete file="${jarFile}"/>
+    </target>
+
+    <target name="distclean" depends="realclean"
+            description="Removes all produced files, including distribution files">
+        <delete dir="${distDir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
     </target>
 
     <!--
