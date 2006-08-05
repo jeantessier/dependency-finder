@@ -223,7 +223,7 @@
         <deploy url="${tomcat.manager.url}"
                 username="${tomcat.manager.username}"
                 password="${tomcat.manager.password}"
-                path="${tomcat.webapp,path}"
+                path="${tomcat.webapp.path}"
                 war="${warFile}"/>
     </target>
 
@@ -232,7 +232,7 @@
         <undeploy url="${tomcat.manager.url}"
                   username="${tomcat.manager.username}"
                   password="${tomcat.manager.password}"
-                  path="${tomcat.webapp,path}"/>
+                  path="${tomcat.webapp.path}"/>
     </target>
 
     <target name="webapp.reload" depends="init"
@@ -240,7 +240,7 @@
         <reload url="${tomcat.manager.url}"
                 username="${tomcat.manager.username}"
                 password="${tomcat.manager.password}"
-                path="${tomcat.webapp,path}"/>
+                path="${tomcat.webapp.path}"/>
     </target>
 
     <target name="webapp.start" depends="init"
@@ -248,7 +248,7 @@
         <start url="${tomcat.manager.url}"
                username="${tomcat.manager.username}"
                password="${tomcat.manager.password}"
-               path="${tomcat.webapp,path}"/>
+               path="${tomcat.webapp.path}"/>
     </target>
 
     <target name="webapp.stop" depends="init"
@@ -256,7 +256,7 @@
         <stop url="${tomcat.manager.url}"
               username="${tomcat.manager.username}"
               password="${tomcat.manager.password}"
-              path="${tomcat.webapp,path}"/>
+              path="${tomcat.webapp.path}"/>
     </target>
 
     <target name="webapp.redeploy" depends="webapp.undeploy, webapp.deploy"
