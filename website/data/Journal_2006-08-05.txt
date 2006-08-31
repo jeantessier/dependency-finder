@@ -1,0 +1,4 @@
+Investigated a little more the problems with =closure.jsp=, but I cannot seem
+to reproduce the original problem.  I tried simple graphs, I tried working from
+=com.jeantessier.dependency.NodeFactory.createClass()=, they all seem to work
+just fine.
