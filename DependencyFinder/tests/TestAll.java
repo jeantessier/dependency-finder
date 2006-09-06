@@ -42,6 +42,7 @@ public class TestAll extends TestCase {
         result.addTest(com.jeantessier.diff.TestAll.suite());
         result.addTest(com.jeantessier.metrics.TestAll.suite());
         result.addTest(com.jeantessier.dependencyfinder.cli.TestAll.suite());
+        result.addTest(com.jeantessier.dependencyfinder.web.TestAll.suite());
         result.addTest(com.jeantessier.dependencyfinder.webwork.TestAll.suite());
 
         return result;

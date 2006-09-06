@@ -40,6 +40,12 @@
             <include name="**/*.jar"/>
         </fileset>
         <pathelement location="${env.FITLIBRARY_HOME}/fitlibraryRunner.jar"/>
+        <fileset dir="${env.HTTPUNIT_HOME}/jars">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${env.HTTPUNIT_HOME}/lib">
+            <include name="**/*.jar"/>
+        </fileset>
     </path>
 
     <target name="init">

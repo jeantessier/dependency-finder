@@ -1,0 +1,4 @@
+Got my first =ServletUnit= tests to pass.  As long as I just request a single
+page, it works fine.  But when I use the controls on a page (submit button) to
+navigate to another page, I get a strange =NullPointerException= from deep
+within the framework.  Sigh.
