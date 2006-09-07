@@ -17,6 +17,8 @@ public class TestQuery extends TestCase {
     FeatureNode c_C_c;
 
     private ServletUnitClient client;
+    private WebRequest request;
+    private InvocationContext context;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -30,11 +32,11 @@ public class TestQuery extends TestCase {
 
         ServletRunner runner = new ServletRunner(new File("web/WEB-INF/web.xml"), "/web");
         client = runner.newClient();
+        request = new GetMethodWebRequest("http://localhost/web/query.jsp");
+        context = client.newInvocation(request);
     }
 
     public void testNoDependencyGraph() throws Exception {
-        WebRequest request = new PostMethodWebRequest("http://localhost/web/query.jsp");
-        InvocationContext context = client.newInvocation(request);
         context.service();
         WebResponse response = context.getServletResponse();
         assertTrue("Missing text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
@@ -42,8 +44,7 @@ public class TestQuery extends TestCase {
 
     public void testEmptyDependencyGraph() throws Exception {
         client.getSession(true).getServletContext().setAttribute("factory", factory);
-        WebRequest request = new PostMethodWebRequest("http://localhost/web/query.jsp");
-        InvocationContext context = client.newInvocation(request);
+
         context.service();
         WebResponse response = context.getServletResponse();
         assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
@@ -54,8 +55,7 @@ public class TestQuery extends TestCase {
         b_B_b.addDependency(c_C_c);
 
         client.getSession(true).getServletContext().setAttribute("factory", factory);
-        WebRequest request = new PostMethodWebRequest("http://localhost/web/query.jsp");
-        InvocationContext context = client.newInvocation(request);
+
         context.service();
         WebResponse response = context.getServletResponse();
         assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
@@ -66,10 +66,10 @@ public class TestQuery extends TestCase {
         b_B_b.addDependency(c_C_c);
 
         client.getSession(true).getServletContext().setAttribute("factory", factory);
-        WebRequest request = new PostMethodWebRequest("http://localhost/web/query.jsp");
-        InvocationContext context = client.newInvocation(request);
+
         context.service();
         WebResponse response = context.getServletResponse();
+        Logger.getLogger(getClass()).debug(response.getText());
         assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
 
         response.getForms()[0].getSubmitButton("submit").click();
