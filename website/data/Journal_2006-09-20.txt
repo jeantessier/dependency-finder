@@ -1,0 +1,5 @@
+Made some progress with =ServletUnit=.  It really helped to read through the
+[[http://httpunit.sourceforge.net/doc/tutorial][tutorial]].
+[[http://httpunit.sourceforge.net/doc/tutorial/task1editor-entry.html][Step 3]]
+had the piece I was missing to correctly submit forms and navigate between
+pages.
