@@ -1,0 +1,5 @@
+I tried to fix the broken test with =ServletUnit=, but to no avail.  Instead of
+navigating to the page I want by following links, I tried setting the request
+parameters directly from the test, but that doesn't seem to work either.  I log
+the HTML that comes back in the response, and it is as if I hadn't set any
+parameters.  Something still escapes me when it comes to using =ServletUnit=.
