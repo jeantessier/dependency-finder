@@ -57,17 +57,18 @@ public class HTMLPrinter extends TextPrinter {
         String sourceName = node.getName();
 
         for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
-            String name = entry.getKey().getName();
+            String rawName = entry.getKey().getName();
+            String name = rawName;
             name = perl().substitute("s/\\(/\\\\(/g", name);
             name = perl().substitute("s/\\)/\\\\)/g", name);
             name = perl().substitute("s/\\$/\\\\\\$/g", name);
             urlArgument[0] = name;
             if (entry.getValue() < 0) {
-                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_from_").append(entry.getKey().getName()).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_from_").append(rawName).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
             } else if (entry.getValue() > 0) {
-                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_to_").append(entry.getKey().getName()).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_to_").append(rawName).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
             } else {
-                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_bidirectional_").append(entry.getKey().getName()).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_bidirectional_").append(rawName).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
             }
         }
     }
