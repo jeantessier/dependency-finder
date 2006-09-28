@@ -1,0 +1,2 @@
+Added an =id= attribute to =&lt;a&gt;= tags from =HTMLPrinter= to help with
+testing.

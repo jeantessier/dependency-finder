@@ -66,7 +66,7 @@ public class TestHTMLPrinter extends TestCase {
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
@@ -86,7 +86,7 @@ public class TestHTMLPrinter extends TestCase {
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
@@ -146,7 +146,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
 
@@ -169,7 +169,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
 
@@ -236,7 +236,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Empty$Empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\">outbound.Outbound$Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound_from_outbound.Outbound$Outbound\">outbound.Outbound$Outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
 
@@ -261,7 +261,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound() *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
@@ -287,7 +287,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
@@ -363,7 +363,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound$Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound$Inbound.inbound()_from_outbound.Outbound$Outbound.outbound()\">outbound.Outbound$Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
@@ -386,7 +386,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -406,7 +406,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -467,7 +467,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -490,7 +490,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -557,7 +557,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\">inbound.Inbound$Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound_to_inbound.Inbound$Inbound\">inbound.Inbound$Inbound</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -583,7 +583,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound() *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -609,7 +609,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -685,7 +685,7 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound$Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound$Outbound.outbound()_to_inbound.Inbound$Inbound.inbound()\">inbound.Inbound$Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -705,17 +705,17 @@ public class TestHTMLPrinter extends TestCase {
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound() *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound() *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -735,17 +735,17 @@ public class TestHTMLPrinter extends TestCase {
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -765,17 +765,17 @@ public class TestHTMLPrinter extends TestCase {
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -794,17 +794,17 @@ public class TestHTMLPrinter extends TestCase {
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound() *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound() *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -823,17 +823,17 @@ public class TestHTMLPrinter extends TestCase {
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -854,14 +854,14 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound() *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound() *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -882,14 +882,14 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -908,14 +908,14 @@ public class TestHTMLPrinter extends TestCase {
 
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound() *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound() *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -934,14 +934,14 @@ public class TestHTMLPrinter extends TestCase {
 
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\">outbound.Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\">inbound.Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -963,11 +963,11 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound() *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound() *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -989,11 +989,11 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -1012,11 +1012,11 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound() *</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound() *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound() *</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound() *</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -1035,11 +1035,11 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -1059,17 +1059,46 @@ public class TestHTMLPrinter extends TestCase {
         assertEquals("line " + ++lineNumber, "    Empty$Empty", in.readLine());
         assertEquals("line " + ++lineNumber, "        empty()", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\">outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound$Inbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\">outbound.Outbound$Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound_from_outbound.Outbound$Outbound\">outbound.Outbound$Outbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\">outbound.Outbound$Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound$Inbound.inbound()_from_outbound.Outbound$Outbound.outbound()\">outbound.Outbound$Outbound.outbound()</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\">inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    Outbound$Outbound", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\">inbound.Inbound$Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound_to_inbound.Inbound$Inbound\">inbound.Inbound$Inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\">inbound.Inbound$Inbound.inbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound$Outbound.outbound()_to_inbound.Inbound$Inbound.inbound()\">inbound.Inbound$Inbound.inbound()</a>", in.readLine());
+
+        assertEquals("End of file", null, in.readLine());
+    }
+
+    public void testShowBidirectionalDependencies() throws IOException {
+        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
+        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
+        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
+        factory.createPackage("inbound", true).addDependency(factory.createPackage("outbound", true));
+        factory.createClass("inbound.Inbound", true).addDependency(factory.createClass("outbound.Outbound", true));
+        factory.createFeature("inbound.Inbound.inbound()", true).addDependency(factory.createFeature("outbound.Outbound.outbound()", true));
+
+        visitor.traverseNodes(factory.getPackages().values());
+
+        int            lineNumber = 0;
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        assertEquals("line " + ++lineNumber, "inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-&gt; <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_bidirectional_outbound\">outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-&gt; <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_bidirectional_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        inbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-&gt; <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_bidirectional_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "    &lt;-&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_bidirectional_inbound\">inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    Outbound", in.readLine());
+        assertEquals("line " + ++lineNumber, "        &lt;-&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_bidirectional_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        outbound()", in.readLine());
+        assertEquals("line " + ++lineNumber, "            &lt;-&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_bidirectional_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }

@@ -83,7 +83,7 @@ public class TextPrinter extends Printer {
             raiseIndent();
         }
         
-        printDependencies(dependencies);
+        printDependencies(node, dependencies);
     }
     
     protected void postprocessPackageNode(PackageNode node) {
@@ -141,7 +141,7 @@ public class TextPrinter extends Printer {
             raiseIndent();
         }
 
-        printDependencies(dependencies);
+        printDependencies(node, dependencies);
     }
 
     protected void postprocessClassNode(ClassNode node) {
@@ -205,7 +205,7 @@ public class TextPrinter extends Printer {
             raiseIndent();
         }
         
-        printDependencies(dependencies);
+        printDependencies(node, dependencies);
 
         lowerIndent();
 
@@ -252,7 +252,7 @@ public class TextPrinter extends Printer {
         return this;
     }
     
-    protected void printDependencies(Map<Node, Integer> dependencies) {
+    protected void printDependencies(Node node, Map<Node, Integer> dependencies) {
         for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
             if (entry.getValue() < 0) {
                 indent().append("<-- ").printNodeName(entry.getKey()).eol();

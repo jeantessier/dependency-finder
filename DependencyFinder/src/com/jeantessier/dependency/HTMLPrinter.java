@@ -51,8 +51,10 @@ public class HTMLPrinter extends TextPrinter {
         this.urlFormat = format;
     }
 
-    protected void printDependencies(Map<Node, Integer> dependencies) {
+    protected void printDependencies(Node node, Map<Node, Integer> dependencies) {
         Object[] urlArgument = new Object[1];
+
+        String sourceName = node.getName();
 
         for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
             String name = entry.getKey().getName();
@@ -61,11 +63,11 @@ public class HTMLPrinter extends TextPrinter {
             name = perl().substitute("s/\\$/\\\\\\$/g", name);
             urlArgument[0] = name;
             if (entry.getValue() < 0) {
-                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_from_").append(entry.getKey().getName()).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
             } else if (entry.getValue() > 0) {
-                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_to_").append(entry.getKey().getName()).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
             } else {
-                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_bidirectional_").append(entry.getKey().getName()).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
             }
         }
     }
