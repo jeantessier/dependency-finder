@@ -88,7 +88,7 @@ public class XMLPrinter extends Printer {
         if (shouldShowPackageNode(node)) {
             indent().append("<package confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").eol();
             raiseIndent();
-            indent().printNodeName(node).eol();
+            indent().printScopeNodeName(node).eol();
         }
     }
 
@@ -113,7 +113,7 @@ public class XMLPrinter extends Printer {
         if (shouldShowClassNode(node)) {
             indent().append("<class confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").eol();
             raiseIndent();
-            indent().printNodeName(node).eol();
+            indent().printScopeNodeName(node).eol();
         }
     }
 
@@ -138,7 +138,7 @@ public class XMLPrinter extends Printer {
         if (shouldShowFeatureNode(node)) {
             indent().append("<feature confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").eol();
             raiseIndent();
-            indent().printNodeName(node).eol();
+            indent().printScopeNodeName(node).eol();
         }
     }
 
@@ -159,19 +159,19 @@ public class XMLPrinter extends Printer {
 
     public void printInboundNode(Node node, String type) {
         if (isShowInbounds()) {
-            indent().append("<inbound type=\"").append(type).append("\" confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").append(node.getName()).append("</inbound>").eol();
+            indent().append("<inbound type=\"").append(type).append("\" confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").printDependencyNodeName(node).append("</inbound>").eol();
         }
     }
 
     public void printOutboundNode(Node node, String type) {
         if (isShowOutbounds()) {
-            indent().append("<outbound type=\"").append(type).append("\" confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").append(node.getName()).append("</outbound>").eol();
+            indent().append("<outbound type=\"").append(type).append("\" confirmed=\"").append(node.isConfirmed() ? "yes" : "no").append("\">").printDependencyNodeName(node).append("</outbound>").eol();
         }
     }
 
-    protected Printer printNodeName(Node node, String name) {
+    protected Printer printScopeNodeName(Node node, String name) {
         append("<name>");
-        super.printNodeName(node, name);
+        super.printScopeNodeName(node, name);
         append("</name>");
 
         return this;

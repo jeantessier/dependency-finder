@@ -144,8 +144,20 @@ public abstract class Printer extends VisitorBase {
         return this;
     }
 
-    protected Printer printNodeName(Node node) {
-        return printNodeName(node, node.getName());
+    protected final Printer printScopeNodeName(Node node) {
+        return printScopeNodeName(node, node.getName());
+    }
+
+    protected Printer printScopeNodeName(Node node, String name) {
+        return printNodeName(node, name);
+    }
+
+    protected final Printer printDependencyNodeName(Node node) {
+        return printDependencyNodeName(node, node.getName());
+    }
+
+    protected Printer printDependencyNodeName(Node node, String name) {
+        return printNodeName(node, name);
     }
 
     protected Printer printNodeName(Node node, String name) {

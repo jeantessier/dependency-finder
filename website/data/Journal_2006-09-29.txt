@@ -1,0 +1,5 @@
+Changed classes in the =com.jeantessier.dependency.Printer= hierarchy to use
+separate methods for printing scoped node names from dependency node names.
+This lets me put scoped nodes in bold in the HTML output and leave dependency
+names in regular font.  I should probably use CSS instead of hard-coding the
+bold using =&lt;b&gt;= tags, though.

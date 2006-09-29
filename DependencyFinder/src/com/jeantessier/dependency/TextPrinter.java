@@ -79,7 +79,7 @@ public class TextPrinter extends Printer {
         
         if (shouldShowPackageNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
-            indent().printNodeName(node).eol();
+            indent().printScopeNodeName(node).eol();
             raiseIndent();
         }
         
@@ -137,7 +137,7 @@ public class TextPrinter extends Printer {
         
         if (shouldShowClassNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
-            indent().printNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
+            indent().printScopeNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
             raiseIndent();
         }
 
@@ -196,11 +196,11 @@ public class TextPrinter extends Printer {
         if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
             if (perl().match("/([^\\.]*\\(.*\\))$/", node.getName())) {
-                indent().printNodeName(node, perl().group(1)).eol();
+                indent().printScopeNodeName(node, perl().group(1)).eol();
             } else if (perl().match("/([^\\.]*)$/", node.getName())) {
-                indent().printNodeName(node, perl().group(1)).eol();
+                indent().printScopeNodeName(node, perl().group(1)).eol();
             } else {
-                indent().printNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
+                indent().printScopeNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
             }
             raiseIndent();
         }
@@ -255,11 +255,11 @@ public class TextPrinter extends Printer {
     protected void printDependencies(Node node, Map<Node, Integer> dependencies) {
         for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
             if (entry.getValue() < 0) {
-                indent().append("<-- ").printNodeName(entry.getKey()).eol();
+                indent().append("<-- ").printDependencyNodeName(entry.getKey()).eol();
             } else if (entry.getValue() > 0) {
-                indent().append("--> ").printNodeName(entry.getKey()).eol();
+                indent().append("--> ").printDependencyNodeName(entry.getKey()).eol();
             } else {
-                indent().append("<-> ").printNodeName(entry.getKey()).eol();
+                indent().append("<-> ").printDependencyNodeName(entry.getKey()).eol();
             }
         }
     }

@@ -51,10 +51,14 @@ public class HTMLPrinter extends TextPrinter {
         this.urlFormat = format;
     }
 
+    protected Printer printScopeNodeName(Node node, String name) {
+        return super.printNodeName(node, "<b>" + name + "</b>");
+    }
+
     protected void printDependencies(Node node, Map<Node, Integer> dependencies) {
         Object[] urlArgument = new Object[1];
 
-        String sourceName = node.getName();
+        String scopeNodeName = node.getName();
 
         for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
             String rawName = entry.getKey().getName();
@@ -64,11 +68,11 @@ public class HTMLPrinter extends TextPrinter {
             name = perl().substitute("s/\\$/\\\\\\$/g", name);
             urlArgument[0] = name;
             if (entry.getValue() < 0) {
-                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_from_").append(rawName).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(scopeNodeName).append("_from_").append(rawName).append("\">").printDependencyNodeName(entry.getKey()).append("</a>").eol();
             } else if (entry.getValue() > 0) {
-                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_to_").append(rawName).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(scopeNodeName).append("_to_").append(rawName).append("\">").printDependencyNodeName(entry.getKey()).append("</a>").eol();
             } else {
-                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(sourceName).append("_bidirectional_").append(rawName).append("\">").printNodeName(entry.getKey()).append("</a>").eol();
+                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(scopeNodeName).append("_bidirectional_").append(rawName).append("\">").printDependencyNodeName(entry.getKey()).append("</a>").eol();
             }
         }
     }
