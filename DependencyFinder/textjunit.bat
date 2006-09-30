@@ -65,7 +65,50 @@ goto setupArgs
 rem This label provides a place for the argument list loop to break out 
 rem and for NT handling to skip to.
 
-"%JAVA_HOME%\bin\java" %DEPENDENCYFINDER_OPTS% -DDEPENDENCYFINDER_TESTS_VALIDATE=%DF_VALIDATE% -classpath %DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\src;%DEPENDENCYFINDER_HOME%\lib\log4j.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%JUNIT_HOME%\junit.jar;%FITLIBRARY_HOME%\fitlibraryRunner.jar junit.textui.TestRunner %DEPENDENCYFINDER_CMD_LINE_ARGS%
+set LOCAL_CLASSPATH=%DEPENDENCYFINDER_HOME%\classes
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%DEPENDENCYFINDER_HOME%\src
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%DEPENDENCYFINDER_HOME%\tests
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%DEPENDENCYFINDER_HOME%\lib\log4j.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%JUNIT_HOME%\junit.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%FITLIBRARY_HOME%\fitlibraryRunner.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%HTTPUNIT_HOME%\lib\httpunit.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%HTTPUNIT_HOME%\jars\js.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%HTTPUNIT_HOME%\jars\jsunit.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%HTTPUNIT_HOME%\jars\nekohtml.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%HTTPUNIT_HOME%\jars\servlet.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%HTTPUNIT_HOME%\jars\Tidy.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%HTTPUNIT_HOME%\jars\xercesImpl.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%HTTPUNIT_HOME%\jars\xmlParserAPIs.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\bin\commons-daemon.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\bin\commons-logging-api.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\commons-el.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\jasper-compiler-jdt.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\jasper-compiler.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\jasper-runtime.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\jsp-api.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\naming-factory-dbcp.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\naming-factory.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\naming-resources.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\common\lib\servlet-api.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\catalina-ant-jmx.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\catalina-ant.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\catalina-cluster.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\catalina-optional.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\catalina-storeconfig.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\catalina.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\commons-modeler.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\servlets-default.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\servlets-invoker.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\servlets-webdav.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\tomcat-ajp.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\tomcat-apr.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\tomcat-coyote.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\tomcat-http.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\tomcat-jkstatus-ant.jar
+set LOCAL_CLASSPATH=%LOCAL_CLASSPATH%;%CATALINA_HOME%\server\lib\tomcat-util.jar
+
+"%JAVA_HOME%\bin\java" %DEPENDENCYFINDER_OPTS% -DDEPENDENCYFINDER_TESTS_VALIDATE=%DF_VALIDATE% -classpath %LOCAL_CLASSPATH% junit.textui.TestRunner %DEPENDENCYFINDER_CMD_LINE_ARGS%
 
 if not "%OS%"=="Windows_NT" goto mainEnd
 :winNTend

@@ -48,7 +48,7 @@ for f in $HTTPUNIT_HOME/lib/*.jar $HTTPUNIT_HOME/jars/*.jar
 do
     LOCAL_CLASSPATH=$LOCAL_CLASSPATH:$f
 done
-for f in $CATALINA_HOME/bin/*.jar $CATALINA_HOME/common/lib/*.jar $CATALINA_HOME/server/lib/*.jar
+for f in $CATALINA_HOME/bin/commons-*.jar $CATALINA_HOME/common/lib/*.jar $CATALINA_HOME/server/lib/*.jar
 do
     LOCAL_CLASSPATH=$LOCAL_CLASSPATH:$f
 done
